@@ -36,10 +36,10 @@ const SignUp: NextPage<UserProps> = ({ user }) => {
 
             <SignUpForm />
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
-              Already have an account?{" "}
+              ¿Ya tienes una cuenta?
               <Link className="cursor-pointer font-bold" href={"/signin"}>
                 <span className="mx-1 text-blue-600 hover:underline">
-                  Sign in
+                  Acceso de usuarios
                 </span>
               </Link>
             </p>
@@ -48,7 +48,7 @@ const SignUp: NextPage<UserProps> = ({ user }) => {
         <div className="relative hidden w-0 flex-1 lg:block">
           <Image
             className="absolute inset-0 h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+            src="/barriles.jpg"
             alt=""
             layout="fill"
           />

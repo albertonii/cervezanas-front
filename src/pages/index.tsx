@@ -48,7 +48,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
       <Header />
 
       <Head>
-        <title>New Job Posting</title>
+        <title>Crear Cerveza - Cervezanas</title>
       </Head>
 
       <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
@@ -61,7 +61,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
               <div>
                 <div>
                   <h2 className="text-xl font-medium leading-6 text-gray-900">
-                    Submit a job posting
+                    Crear una cerveza nueva
                   </h2>
                 </div>
 
@@ -71,7 +71,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
                       htmlFor="company"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Company
+                      Nombre de la cerveza
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <input
@@ -88,7 +88,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
                       htmlFor="position"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Position
+                      Descripción
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <input
@@ -109,7 +109,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
                   type="submit"
                   className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  Submit
+                  Dar de alta
                 </button>
               </div>
             </div>

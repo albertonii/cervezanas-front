@@ -10,7 +10,6 @@ export const SignInForm = () => {
     const { user, error } = await supabase.auth.signIn({ email, password });
     if (error) alert(error.message);
     else {
-      alert(`Success Login in ${user?.email}`);
       setEmail("");
       setPassword("");
     }
@@ -26,12 +25,12 @@ export const SignInForm = () => {
     >
       <div className="flex w-full flex-col space-y-3">
         <label htmlFor="email-address" className="text-sm text-gray-600">
-          Email address
+          Correo electrónico
         </label>
         <input
           type="email"
           id="email-address"
-          placeholder="example@gmail.com"
+          placeholder="ejemplo@gmail.com"
           required
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           value={email}
@@ -40,7 +39,7 @@ export const SignInForm = () => {
       </div>
       <div className="flex w-full flex-col space-y-2 ">
         <label htmlFor="password" className="text-sm text-gray-600">
-          password
+          contraseña
         </label>
         <input
           type="password"
@@ -81,7 +80,7 @@ export const SignInForm = () => {
         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
           <FaLock className="text-base text-indigo-500 group-hover:text-indigo-400" />
         </span>
-        Sign in
+        Acceder
       </button>
     </form>
   );

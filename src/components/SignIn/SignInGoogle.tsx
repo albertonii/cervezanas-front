@@ -52,7 +52,7 @@ export const SignInGoogle = () => {
                 />
               </g>
             </svg>
-            <span className="ml-2 text-lg">Acceder con cuenta de Google</span>
+            <span className="ml-2 text-lg">Continuar con Google</span>
           </button>
         </>
       }

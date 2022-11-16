@@ -5,7 +5,7 @@ import { supabase } from "../utils/supabaseClient";
 import { useUser } from "./Auth/UserContext";
 
 export default function Header() {
-  const { user, session } = useUser();
+  const { user } = useUser();
 
   return (
     <div className="header ">
@@ -20,12 +20,6 @@ export default function Header() {
               height={100}
               sizes={"xl"}
             />
-            <span
-              className="header-title self-center text-5xl font-semibold whitespace-nowrap 
-              text-yellow-900 dark:text-white"
-            >
-              Cervezanas
-            </span>
           </Link>
 
           <button

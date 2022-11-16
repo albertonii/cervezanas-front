@@ -12,7 +12,7 @@ export const SignUpGoogle = () => {
 
   return (
     <>
-      {
+      {!user && (
         <>
           <button
             className="flex flex-row items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 
@@ -56,15 +56,8 @@ export const SignUpGoogle = () => {
                 />
               </g>
             </svg>
-            <span className="ml-2 text-lg">Sign up with Google</span>
+            <span className="ml-2 text-lg">Registrarme con Google</span>
           </button>
-        </>
-      }
-      {user && (
-        <>
-          Now you are signed in, only signed in user can see the following
-          button
-          <button onClick={() => signOut()}>Sign out</button>
         </>
       )}
     </>
