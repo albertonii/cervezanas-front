@@ -3,17 +3,13 @@ import { type UserProps } from "../lib/types";
 import Router from "next/router";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import Header from "../components/Header";
 
 const Submit: NextPage<UserProps> = ({ session }) => {
-  const { data: googleSession } = useSession();
-
   // If the user is not logged in, redirect them to the signup page
   if (
     typeof localStorage !== "undefined" &&
-    !localStorage["supabase.auth.token"] &&
-    !googleSession
+    !localStorage["supabase.auth.token"]
   ) {
     Router.push("/signin");
   }

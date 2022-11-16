@@ -6,13 +6,9 @@ import { SignUpForm } from "../components/SignUp/Form";
 import { type UserProps } from "../lib/types";
 import { useEffect } from "react";
 import Router from "next/router";
-import SocialSign from "../components/SocialSign";
 import { SignUpGoogle } from "../components/SignUp/SignUpGoogle";
-import { useSession } from "next-auth/react";
 
 const SignUp: NextPage<UserProps> = ({ user }) => {
-  const { data: session } = useSession();
-
   // If the user is already logged in, then
   // redirect them to home.
   useEffect(() => {
@@ -25,6 +21,7 @@ const SignUp: NextPage<UserProps> = ({ user }) => {
     <>
       <Head>
         <title>Cervezanas · Registro 🍺</title>
+        <meta name="signup" content="Signup user Cervezanas" />
       </Head>
       <main className="flex h-full min-h-screen bg-white">
         <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">

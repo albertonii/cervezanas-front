@@ -7,15 +7,12 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { type UserProps } from "../lib/types";
 import { SignInGoogle } from "../components/SignIn/SignInGoogle";
-import { useSession } from "next-auth/react";
 
 const SignIn: NextPage<UserProps> = ({ user }) => {
-  const { data: session } = useSession();
-
   // If the user is already logged in, then
   // redirect them to home.
   useEffect(() => {
-    if (user || session) {
+    if (user) {
       Router.push("/");
     }
   });
@@ -24,6 +21,7 @@ const SignIn: NextPage<UserProps> = ({ user }) => {
     <>
       <Head>
         <title>Cervezanas · Acceso 🍺</title>
+        <meta name="signin" content="Access login Cervezanas" />
       </Head>
       <main className="flex h-full min-h-screen bg-white">
         <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">

@@ -3,44 +3,44 @@ import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { type Session } from "@supabase/gotrue-js/src/lib/types";
-import { SessionProvider } from "next-auth/react";
+import { UserContextProvider } from "../components/Auth/UserContext";
 
 // reference: https://supabase.com/docs/guides/with-nextjs
 function MyApp({ Component, pageProps }: AppProps) {
-  const [session, setSession] = useState<Session | null>(null);
+  // const [session, setSession] = useState<Session | null>(null);
 
-  useEffect(() => {
-    // for testing - log out the user.
-    // supabase.auth.signOut();
+  // useEffect(() => {
+  //   // for testing - log out the user.
+  //   // supabase.auth.signOut();
 
-    let mounted = true;
+  //   let mounted = true;
 
-    async function getInitialSession() {
-      const supabaseSession = await supabase.auth.session();
+  //   async function getInitialSession() {
+  //     const supabaseSession = await supabase.auth.session();
 
-      // only update the react state if the component is still mounted
-      if (mounted && supabaseSession) {
-        setSession(supabaseSession);
-      }
-    }
+  //     // only update the react state if the component is still mounted
+  //     if (mounted && supabaseSession) {
+  //       setSession(supabaseSession);
+  //     }
+  //   }
 
-    getInitialSession();
+  //   getInitialSession();
 
-    const data = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    }).data;
+  //   const data = supabase.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session);
+  //   }).data;
 
-    return () => {
-      mounted = false;
+  //   return () => {
+  //     mounted = false;
 
-      data?.unsubscribe();
-    };
-  }, []);
+  //     data?.unsubscribe();
+  //   };
+  // }, []);
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} session={session} user={session?.user} />
-    </SessionProvider>
+    <UserContextProvider supabaseClient={supabase}>
+      <Component {...pageProps} />
+    </UserContextProvider>
   );
 }
 

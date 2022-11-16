@@ -1,19 +1,12 @@
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import { Button } from "@supabase/ui";
+import { supabase } from "../utils/supabaseClient";
+import { useUser } from "./Auth/UserContext";
 
 export default function Header() {
-  const { data: session } = useSession();
+  const { user, session } = useUser();
 
-  const handleSignin = (e: any) => {
-    e.preventDefault();
-    signIn();
-  };
-
-  const handleSignout = (e: any) => {
-    e.preventDefault();
-    signOut();
-  };
   return (
     <div className="header ">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
@@ -73,25 +66,27 @@ export default function Header() {
               <li>
                 <Link href="/">
                   <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    NextAuth.js
+                    Prueba
                   </span>
                 </Link>
               </li>
+
+              <li>
+                <Link href="/">
+                  <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    {user?.email}
+                  </span>
+                </Link>
+              </li>
+
               <li>
                 <Link
                   href="#"
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
-                  {session && (
-                    <span onClick={handleSignout} className="btn-signin">
-                      Sign out
-                    </span>
-                  )}
-                  {!session && (
-                    <span onClick={handleSignin} className="btn-signin">
-                      Sign in
-                    </span>
-                  )}
+                  <Button onClick={() => supabase.auth.signOut()}>
+                    Cerrar sesión
+                  </Button>
                 </Link>
               </li>
             </ul>

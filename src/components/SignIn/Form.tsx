@@ -5,6 +5,7 @@ import { FaLock } from "react-icons/fa";
 export const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSignIn = async () => {
     const { user, error } = await supabase.auth.signIn({ email, password });
     if (error) alert(error.message);
@@ -14,6 +15,7 @@ export const SignInForm = () => {
       setPassword("");
     }
   };
+
   return (
     <form
       className="mt-4 space-y-4"

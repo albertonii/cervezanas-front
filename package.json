@@ -13,9 +13,9 @@
 	"dependencies": {
 		"@stitches/core": "^1.2.8",
 		"@supabase/supabase-js": "^1.35.6",
+		"@supabase/ui": "^0.36.5",
 		"@tailwindcss/forms": "^0.5.2",
 		"next": "^13.0.3",
-		"next-auth": "^4.16.4",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.34.2",
