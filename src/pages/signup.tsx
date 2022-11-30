@@ -35,6 +35,7 @@ const SignUp: NextPage<UserProps> = ({ user }) => {
             <SignUpGoogle />
 
             <SignUpForm />
+            
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
               ¿Ya tienes una cuenta?
               <Link className="cursor-pointer font-bold" href={"/signin"}>
