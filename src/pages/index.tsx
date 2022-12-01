@@ -45,8 +45,6 @@ const Submit: NextPage<UserProps> = ({ session }) => {
 
   return (
     <>
-      <Header />
-
       <Head>
         <title>Crear Cerveza - Cervezanas</title>
       </Head>

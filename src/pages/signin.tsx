@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { type UserProps } from "../lib/types";
 import { SignInGoogle } from "../components/SignIn/SignInGoogle";
+import Modal from "../components/Modals/Modal";
 
 const SignIn: NextPage<UserProps> = ({ user }) => {
   // If the user is already logged in, then
@@ -35,6 +36,8 @@ const SignIn: NextPage<UserProps> = ({ user }) => {
             <SignInGoogle />
 
             <SignInForm />
+
+            <Modal isVisible={false}></Modal>
 
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
               ¿No estás registrado?

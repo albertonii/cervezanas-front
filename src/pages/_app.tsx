@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { supabase } from "../utils/supabaseClient";
 import { UserContextProvider } from "../components/Auth/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Header from "../components/Header";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,11 +15,15 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider supabaseClient={supabase}>
-        <Component {...pageProps} />
-      </UserContextProvider>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <UserContextProvider supabaseClient={supabase}>
+          <Header />
+
+          <Component {...pageProps} />
+        </UserContextProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

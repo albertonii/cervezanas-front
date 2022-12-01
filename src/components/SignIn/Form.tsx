@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
+import { useRouter } from "next/router";
 import { FaLock } from "react-icons/fa";
 
 export const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
 
   const handleSignIn = async () => {
     const { user, error } = await supabase.auth.signIn({ email, password });
@@ -12,6 +15,7 @@ export const SignInForm = () => {
     else {
       setEmail("");
       setPassword("");
+      router.push("/");
     }
   };
 
