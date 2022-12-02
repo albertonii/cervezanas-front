@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@supabase/ui";
+import { Button, Select } from "@supabase/ui";
 import { supabase } from "../utils/supabaseClient";
 import { useUser } from "./Auth/UserContext";
 import i18n from "../pages/i18n";
+import { useTranslation } from "react-i18next";
 
 export default function Header() {
+  const { t } = useTranslation();
+
   const { user } = useUser();
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,7 +60,7 @@ export default function Header() {
                     className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                     aria-current="page"
                   >
-                    Home
+                    {t("home")}
                   </span>
                 </Link>
               </li>
@@ -83,10 +86,10 @@ export default function Header() {
                   href="#"
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
-                  <select name="language" onChange={onChangeLanguage}>
-                    <option value="es">Español</option>
-                    <option value="en">English</option>
-                  </select>
+                  <Select name="language" onChange={onChangeLanguage}>
+                    <Select.Option value="es">Español</Select.Option>
+                    <Select.Option value="en">English</Select.Option>
+                  </Select>
                 </Link>
               </li>
 
@@ -96,7 +99,7 @@ export default function Header() {
                   className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   <Button onClick={() => supabase.auth.signOut()}>
-                    Cerrar sesión
+                    {t("logout")}
                   </Button>
                 </Link>
               </li>

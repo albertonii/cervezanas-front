@@ -2,6 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 const translationsEn = {
+  home: "Home",
+  logout: "Logout",
   profile: "Profile",
   products: "Products",
   campaigns: "Campaigns",
@@ -38,6 +40,8 @@ const translationsEn = {
 };
 
 const translationsEs = {
+  home: "Inicio",
+  logout: "Cerrar Sesión",
   profile: "Perfil",
   products: "Productos",
   campaigns: "Campañas",
