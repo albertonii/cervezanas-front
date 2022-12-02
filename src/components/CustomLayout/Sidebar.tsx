@@ -1,7 +1,17 @@
 import { useTranslation } from "react-i18next";
 
-export const Sidebar = () => {
+type Props = {
+  parentCallback: (menuOption: string) => void;
+};
+
+export const Sidebar = (props: Props) => {
+  const { parentCallback } = props;
+
   const { t } = useTranslation();
+
+  const handleCallback = (option: string) => {
+    parentCallback(option);
+  };
 
   return (
     <>
@@ -10,6 +20,7 @@ export const Sidebar = () => {
           <ul className="space-y-2">
             <li>
               <a
+                onClick={() => handleCallback("profile")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -26,8 +37,10 @@ export const Sidebar = () => {
                 <span className="ml-3">{t("profile")}</span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("products")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -45,8 +58,10 @@ export const Sidebar = () => {
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("campaigns")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -65,8 +80,10 @@ export const Sidebar = () => {
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("factories")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -88,8 +105,10 @@ export const Sidebar = () => {
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("orders")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -107,12 +126,14 @@ export const Sidebar = () => {
                   ></path>
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("orderrs")}
+                  {t("orders")}
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("community")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -134,8 +155,10 @@ export const Sidebar = () => {
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("stats")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
@@ -157,8 +180,10 @@ export const Sidebar = () => {
                 </span>
               </a>
             </li>
+
             <li>
               <a
+                onClick={() => handleCallback("ledger")}
                 href="#"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >

@@ -1,7 +1,10 @@
 import Image from "next/image";
-import { Profile } from "./Profile/Profile";
 
-export const ClientContainerLayout = () => {
+type Props = {
+  children: JSX.Element;
+};
+
+export const ClientContainerLayout = ({ children }: Props) => {
   return (
     <>
       <div className="container ">
@@ -20,7 +23,7 @@ export const ClientContainerLayout = () => {
           </div>
         </div>
         <div className="bg-blue-200 " aria-label="Container Client Information">
-          <Profile />
+          {children}
         </div>
       </div>
     </>
