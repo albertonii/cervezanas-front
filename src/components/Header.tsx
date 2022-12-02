@@ -7,9 +7,8 @@ import { useUser } from "./Auth/UserContext";
 export default function Header() {
   const { user } = useUser();
 
-
   return (
-    <div className="header ">
+    <div className="header h-[12vh]">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <Link href="https://cervezanas.org/" className="flex items-center">

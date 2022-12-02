@@ -1,8 +1,8 @@
 export const Sidebar = () => {
   return (
     <>
-      <aside className="w-64 h-[90vh]" aria-label="Sidebar">
-        <div className="overflow-y-auto py-4 px-3 h-full bg-gray-50 rounded dark:bg-gray-800">
+      <aside className="w-64 " aria-label="Sidebar">
+        <div className="overflow-y-auto py-4 px-3 h-[88vh] bg-gray-50 rounded dark:bg-gray-800">
           <ul className="space-y-2">
             <li>
               <a

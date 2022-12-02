@@ -2,6 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: [],
+    domains: ["randomuser.me"],
+    formats: ["image/webp", "image/avif"],
   },
 };

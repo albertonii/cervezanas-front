@@ -22,6 +22,7 @@ specifiers:
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
   react: 18.2.0
+  react-country-region-selector: ^3.6.1
   react-dom: 18.2.0
   react-hook-form: ^7.34.2
   react-icons: ^4.4.0
@@ -36,6 +37,7 @@ dependencies:
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   next: 13.0.3_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
+  react-country-region-selector: 3.6.1_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.39.3_react@18.2.0
   react-icons: 4.6.0_react@18.2.0
@@ -2951,6 +2953,18 @@ packages:
   /quick-lru/5.1.1:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
+
+  /react-country-region-selector/3.6.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-/hKRVFVxhsQKV6/csajd9uX4Lz6XHMVNtpKhMn/xGQtZDZrnsr+VeeeeXDooSn5cV0DFAk2eKk9c+otj7Hop9w==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      prop-types: ^15.5.4
+      react: '>=15'
+      react-dom: '>=15'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
