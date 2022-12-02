@@ -4,6 +4,8 @@ import { supabase } from "../utils/supabaseClient";
 import { UserContextProvider } from "../components/Auth/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "../components/Header";
+import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,15 +16,18 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { t } = useTranslation();
+
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <UserContextProvider supabaseClient={supabase}>
-          <Header />
-
-          <Component {...pageProps} />
-        </UserContextProvider>
-      </QueryClientProvider>
+      <Suspense fallback="Loading...">
+        <QueryClientProvider client={queryClient}>
+          <UserContextProvider supabaseClient={supabase}>
+            <Header />
+            <Component {...pageProps} />
+          </UserContextProvider>
+        </QueryClientProvider>
+      </Suspense>
     </>
   );
 }

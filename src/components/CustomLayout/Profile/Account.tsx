@@ -1,12 +1,11 @@
 import { Button } from "@supabase/ui";
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Account = () => {
+  const { t } = useTranslation();
+
   const data = {
     username_: "Alberto",
     birthdate_: "15-03-1994",
@@ -50,10 +49,10 @@ export const Account = () => {
       <div className="py-6 px-4" id="account-container">
         <div className="flex justify-between py-4" id="header">
           <div id="title" className="text-4xl">
-            Mis datos
+            {t("profile_title_my_data")}
           </div>
           <div id="rrss" className="text-4xl">
-            Redes sociales
+            {t("profile_title_ssnn")}
           </div>
         </div>
 
@@ -62,13 +61,13 @@ export const Account = () => {
           className="container px-6 py-4 bg-white space-y-3 mb-4"
         >
           <div id="account-data" className="text-2xl">
-            Datos de mi cuenta
+            {t("profile_title_acc_data")}
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="username" className="text-sm text-gray-600">
-                Usuario
+                {t("profile_acc_username")}
               </label>
               <input
                 type="text"
@@ -83,7 +82,7 @@ export const Account = () => {
 
             <div className="w-full ">
               <label htmlFor="birthdate" className="text-sm text-gray-600">
-                Fecha de nacimiento
+                {t("profile_acc_birthdate")}
               </label>
               <input
                 type="date"
@@ -99,7 +98,7 @@ export const Account = () => {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full space-y">
               <label htmlFor="username" className="text-sm text-gray-600">
-                Nombre
+                {t("profile_acc_name")}
               </label>
               <input
                 type="text"
@@ -114,7 +113,7 @@ export const Account = () => {
 
             <div className="w-full ">
               <label htmlFor="lastname" className="text-sm text-gray-600">
-                Apellidos
+                {t("profile_acc_lastname")}
               </label>
               <input
                 type="text"
@@ -131,7 +130,7 @@ export const Account = () => {
           <div className="flex flex-row items-end">
             <div className="w-full">
               <label htmlFor="email" className="text-sm text-gray-600">
-                Correo electrónico
+                {t("profile_acc_email")}
               </label>
               <input
                 type="email"
@@ -145,7 +144,7 @@ export const Account = () => {
             </div>
 
             <div className="pl-12 ">
-              <Button size="medium">Guardar</Button>
+              <Button size="medium"> {t("save")}</Button>
             </div>
           </div>
         </div>
@@ -155,7 +154,7 @@ export const Account = () => {
           className="container px-6 py-4  bg-white space-y-3 mb-4"
         >
           <div id="password" className="text-2xl">
-            Contraseña
+            {t("password")}
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
@@ -164,7 +163,7 @@ export const Account = () => {
                 htmlFor="actual_password"
                 className="text-sm text-gray-600"
               >
-                Contraseña Actual
+                {t("actual_password")}
               </label>
               <input
                 type="password"
@@ -181,7 +180,7 @@ export const Account = () => {
           <div className="flex w-full flex-row space-x-3 mb-4">
             <div className="w-full ">
               <label htmlFor="newPassword" className="text-sm text-gray-600">
-                Contraseña nueva
+                {t("new_password")}
               </label>
               <input
                 type="password"
@@ -196,7 +195,7 @@ export const Account = () => {
 
             <div className="w-full space-y">
               <label htmlFor="newPassword2" className="text-sm text-gray-600">
-                Confirmar contraseña
+                {t("confirm_password")}
               </label>
               <input
                 type="password"
@@ -212,7 +211,7 @@ export const Account = () => {
 
           <div className="flex flex-row items-end">
             <div className="pl-0">
-              <Button size="medium">Guardar</Button>
+              <Button size="medium"> {t("save")}</Button>
             </div>
           </div>
         </div>
@@ -222,18 +221,18 @@ export const Account = () => {
           className="container px-6 py-4 bg-white space-y-3 mb-4"
         >
           <div id="location-data-title" className="text-2xl">
-            Dirección
+            {t("location")}
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="address_name" className="text-sm text-gray-600">
-                Nombre
+                {t("loc_name")}
               </label>
               <input
                 type="text"
                 id="address_name"
-                placeholder="Calle España 123"
+                placeholder="Alberto"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 value={addressName}
                 onChange={(e) => setAddressName(e.target.value)}
@@ -245,7 +244,7 @@ export const Account = () => {
                 htmlFor="address_lastname"
                 className="text-sm text-gray-600"
               >
-                Apellido
+                {t("loc_lastname")}
               </label>
               <input
                 type="text"
@@ -260,7 +259,7 @@ export const Account = () => {
           <div className="flex w-full flex-row space-x-3">
             <div className="w-full space-y">
               <label htmlFor="address_doc" className="text-sm text-gray-600">
-                Documento identidad
+                {t("loc_doc")}
               </label>
               <input
                 type="text"
@@ -274,7 +273,7 @@ export const Account = () => {
 
             <div className="w-full">
               <label htmlFor="lastname" className="text-sm text-gray-600">
-                Empresa
+                {t("loc_company")}
               </label>
               <input
                 type="text"
@@ -288,7 +287,7 @@ export const Account = () => {
 
             <div className="w-full">
               <label htmlFor="address_phone" className="text-sm text-gray-600">
-                Teléfono
+                {t("loc_phone")}
               </label>
               <input
                 type="text"
@@ -301,10 +300,30 @@ export const Account = () => {
             </div>
           </div>
 
+          <div className="flex">
+            <div className="w-full">
+              <label
+                htmlFor="addressLocation"
+                className="text-sm text-gray-600"
+              >
+                {t("loc_location")}
+              </label>
+              <input
+                type="text"
+                id="addressLocation"
+                placeholder="Calle España 123"
+                required
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={addressLocation}
+                onChange={(e) => setAddressLocation(e.target.value)}
+              />
+            </div>
+          </div>
+
           <div className="flex flex-row space-x-3">
             <div className="w-full">
               <label htmlFor="addressPC" className="text-sm text-gray-600">
-                Código Postal
+                {t("loc_pc")}
               </label>
               <input
                 type="text"
@@ -319,7 +338,7 @@ export const Account = () => {
 
             <div className="w-full">
               <label htmlFor="addressTown" className="text-sm text-gray-600">
-                Población
+                {t("loc_town")}
               </label>
               <input
                 type="text"
@@ -336,7 +355,7 @@ export const Account = () => {
           <div className="flex flex-row items-end space-x-3">
             <div className="w-full">
               <label htmlFor="addressCountry" className="text-sm text-gray-600">
-                Seleccionar País
+                {t("loc_country")}
               </label>
 
               <CountryDropdown
@@ -351,7 +370,7 @@ export const Account = () => {
                 htmlFor="addressProvince"
                 className="text-sm text-gray-600"
               >
-                Seleccionar Provincia
+                {t("loc_province")}
               </label>
 
               <RegionDropdown

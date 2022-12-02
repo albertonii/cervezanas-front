@@ -4,6 +4,7 @@ import Router from "next/router";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import Header from "../components/Header";
+import "./i18n";
 
 const Submit: NextPage<UserProps> = ({ session }) => {
   // If the user is not logged in, redirect them to the signup page

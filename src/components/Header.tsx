@@ -3,9 +3,14 @@ import Image from "next/image";
 import { Button } from "@supabase/ui";
 import { supabase } from "../utils/supabaseClient";
 import { useUser } from "./Auth/UserContext";
+import i18n from "../pages/i18n";
 
 export default function Header() {
   const { user } = useUser();
+
+  const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(event.target.value);
+  };
 
   return (
     <div className="header h-[12vh]">
@@ -70,6 +75,18 @@ export default function Header() {
                   <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                     {user?.email}
                   </span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="#"
+                  className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  <select name="language" onChange={onChangeLanguage}>
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                  </select>
                 </Link>
               </li>
 
