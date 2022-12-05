@@ -5,6 +5,13 @@ import { ClientContainerLayout } from "../components/CustomLayout/ClientContaine
 import { useEffect, useState } from "react";
 import { Account } from "../components/CustomLayout/Profile/Account";
 import { Products } from "../components/CustomLayout/Products/Products";
+import { Campaigns } from "../components/CustomLayout/Campaigns/Campaigns";
+import { Factories } from "../components/CustomLayout/Factories/Factories";
+import { Orders } from "../components/CustomLayout/Orders/Orders";
+import { Community } from "../components/CustomLayout/Community/Community";
+import { Stats } from "../components/CustomLayout/Stats/Stats";
+import { Ledger } from "../components/CustomLayout/Ledger/Ledger";
+import { Profile } from "../components/CustomLayout/Profile/Profile";
 
 const CustomLayout: NextPage<UserProps> = ({ user }) => {
   const [menuOption, setMenuOption] = useState<string>("profile");
@@ -12,21 +19,21 @@ const CustomLayout: NextPage<UserProps> = ({ user }) => {
   const renderSwitch = (): JSX.Element => {
     switch (menuOption) {
       case "profile":
-        return <Account />;
+        return <Profile />;
       case "products":
         return <Products />;
       case "campaigns":
-        return <Account />;
+        return <Campaigns />;
       case "factories":
-        return <Account />;
+        return <Factories />;
       case "orders":
-        return <Account />;
+        return <Orders />;
       case "community":
-        return <Account />;
+        return <Community />;
       case "stats":
-        return <Account />;
+        return <Stats />;
       case "ledger":
-        return <Account />;
+        return <Ledger />;
     }
 
     return <Account />;

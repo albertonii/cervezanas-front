@@ -5,6 +5,7 @@ import {
   User,
   UserCredentials,
 } from "@supabase/supabase-js";
+import axios from "axios";
 
 export interface AuthSession {
   user: User | null;
@@ -45,6 +46,27 @@ export const UserContextProvider = (props: Props) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  /*
+  useEffect(() => {
+    if (session != null) {
+      const handleAuth = async () => {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/set-supabase-cookie`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authentication: `${session.access_token}`,
+            },
+            event: user ? "SIGN_IN" : "SIGN_OUT",
+            session: session,
+          }
+        );
+      };
+
+      handleAuth();
+    }
+  }, [user, session]);
+  */
 
   const value = {
     session,

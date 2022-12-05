@@ -2,6 +2,7 @@ import { Button } from "@supabase/ui";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BasicDataForm } from "./BasicDataForm";
 
 export const Account = () => {
   const { t } = useTranslation();
@@ -56,7 +57,16 @@ export const Account = () => {
           </div>
         </div>
 
-        <div
+        <BasicDataForm
+          username={username}
+          birthdate={birthdate}
+          given_name={name}
+          lastname={lastname}
+          email={email}
+        />
+
+        {/*
+ <div
           id="account_basic_data"
           className="container px-6 py-4 bg-white space-y-3 mb-4"
         >
@@ -144,10 +154,14 @@ export const Account = () => {
             </div>
 
             <div className="pl-12 ">
-              <Button size="medium"> {t("save")}</Button>
+              <Button size="medium" onClick={() => handleSaveBasicData()}>
+                {" "}
+                {t("save")}
+              </Button>
             </div>
           </div>
         </div>
+        */}
 
         <div
           id="account_secret_data"

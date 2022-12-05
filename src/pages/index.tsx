@@ -3,7 +3,6 @@ import { type UserProps } from "../lib/types";
 import Router from "next/router";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import Header from "../components/Header";
 import "./i18n";
 
 const Submit: NextPage<UserProps> = ({ session }) => {
@@ -24,8 +23,6 @@ const Submit: NextPage<UserProps> = ({ session }) => {
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-
     let result;
     try {
       result = await fetch("/api/submit_job_posting", {

@@ -9,12 +9,15 @@
 It is essentially a managed Postgres environment with additional functionalities such as auth, storage, and real-time capabilities.
 
 ### What you will learn
+
 In this README, I will show you how to set up Supabase auth on both the front end and back end. We're going to use Next.js as an example here. We're going to use this example repo for demonstration purposes.
 
 ### What you need to know before reading this README
+
 I'm going to assume that you have at least some familiarity with Supabase. Prior knowledge of Next.js will be helpful, but it won't be necessary to understand this readme.
 
 ### Pre-requisites
+
 We're going to use npm, so make sure it's installed in your system. Make sure to sign up for a Supabase account, as well.
 
 ---
@@ -51,11 +54,11 @@ Then, you should be able to see something like this:
 
 The following paths are available in this app:
 
-```/ (index)```: it has the main form for sending data to the database. Redirects to /signup if the user is not signed in.
+`/ (index)`: it has the main form for sending data to the database. Redirects to /signup if the user is not signed in.
 
-```/signup, /signin```: the signup and sign in forms. Redirects to index if the user is signed in.
+`/signup, /signin`: the signup and sign in forms. Redirects to index if the user is signed in.
 
-```/logout```: it logs out the user.
+`/logout`: it logs out the user.
 
 You should now be able to sign up, sign in, and sign out using these paths.
 
@@ -102,15 +105,15 @@ const onSubmit = async (data: any) => {
   console.log(data);
   let result;
   try {
-   result = await fetch('/api/submit_job_posting', {
-    headers: {
-     Authentication: session.access_token,
-    },
-    method: 'POST',
-    body: JSON.stringify(data),
-   });
+    result = await fetch("/api/submit_job_posting", {
+      headers: {
+        Authentication: session.access_token,
+      },
+      method: "POST",
+      body: JSON.stringify(data),
+    });
   } catch (err) {
-   console.log(err);
+    console.log(err);
   }
   console.log(result);
   reset();
@@ -166,13 +169,13 @@ const jwt = req.headers.authentication;
 ```typescript
 const { data: user, userError } = await supabase.auth.api.getUser(jwt);
 
-const id = user.identities[0]['id'];
+const id = user.identities[0]["id"];
 ```
 
 ^Then, these two lines retrieve the logged-in user, and we get their ID.
 
 ```typescript
-const { data, error } = await supabaseSecret.from('jobs').insert([input_data]);
+const { data, error } = await supabaseSecret.from("jobs").insert([input_data]);
 ```
 
 ^Finally, this line inserts the data in our table using admin-level access.

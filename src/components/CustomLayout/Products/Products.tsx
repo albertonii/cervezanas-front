@@ -23,7 +23,7 @@ export const Products = () => {
 
   return (
     <>
-      <div className="" aria-label="Profile Submenu">
+      <div className="" aria-label="Products Submenu">
         <ul className="pl-72 h-12 flex items-center ">
           <li className="flex-1">
             <Button onClick={() => handleMenuClick("account")}>Cuenta</Button>
