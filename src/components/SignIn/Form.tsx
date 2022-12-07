@@ -2,36 +2,39 @@ import { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { useRouter } from "next/router";
 import { FaLock } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import useLogin from "../../hooks/useLogin";
+
+interface FormData {
+  email: string;
+  password: string;
+}
 
 export const SignInForm = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<FormData>();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
+  const createLoginMutation = useLogin({ email, password });
 
-  const handleSignIn = async () => {
-    const { user, error } = await supabase.auth.signIn({ email, password });
-    if (error) alert(error.message);
-    else {
-      setEmail("");
-      setPassword("");
-      router.push("/");
-    }
+  if (createLoginMutation.isSuccess) {
+    router.push("/");
+  }
+
+  const onSubmit = async () => {
+    createLoginMutation.mutate();
   };
 
   return (
-    <form
-      className="mt-4 space-y-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSignIn();
-      }}
-    >
+    <form className="mt-4 space-y-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex w-full flex-col space-y-3">
         <label htmlFor="email-address" className="text-sm text-gray-600">
           Correo electrónico
         </label>
         <input
+          {...register("email")}
           type="email"
           id="email-address"
           placeholder="ejemplo@gmail.com"
@@ -46,6 +49,7 @@ export const SignInForm = () => {
           contraseña
         </label>
         <input
+          {...register("password")}
           type="password"
           id="password"
           required

@@ -64,37 +64,12 @@ export const SignUpForm = () => {
     router.push("/confirm-email");
   }
 
-  /*
-  const handleSignUp = async () => {
-    const data = {
-      access_level: role,
-      username: username,
-      given_name: "",
-      lastname: "",
-    };
-
-    const options = {
-      data,
-    };
-
-    const { user, error } = await supabase.auth.signUp(
-      { email, password },
-      options
-    );
-
-    if (error) alert(error.message);
-    else {
-      router.push("/confirm-email");
-    }
-  };
-  */
-
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
     setRole(value);
   };
 
-  const onSubmit = async (values: FormData) => {
+  const onSubmit = async () => {
     createUserMutation.mutate();
   };
 

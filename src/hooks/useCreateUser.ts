@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-import React from "react";
 import { useMutation } from "react-query";
 import { supabase } from "../utils/supabaseClient";
 
@@ -46,7 +44,7 @@ const createUser = async (user: User, data: Options) => {
 };
 
 export default function useCreateUser(user: User, data: Options) {
-  return useMutation(() => createUser(user, data), {
+  return useMutation("register", () => createUser(user, data), {
     /*
     onSuccess: async (u) => {
       const { data: insertData, error: insertError } = await supabase
