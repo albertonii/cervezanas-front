@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useUser } from "../../Auth/UserContext";
 import { supabase } from "../../../utils/supabaseClient";
+import { Spinner } from "../../Spinner";
 
 interface IBasicData {
   username: string;
@@ -26,7 +27,7 @@ export const BasicDataForm = (data: IBasicData) => {
     email: email_,
   } = data;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [username, setUsername] = useState(username_);
   const [name, setName] = useState(given_name_);
@@ -60,10 +61,13 @@ export const BasicDataForm = (data: IBasicData) => {
       };
 
       let { error } = await supabase.from("producer_profile").upsert(updates);
+      setLoading(false);
+
       if (error) throw error;
     } catch (error) {
       alert("Error updating the data!");
       console.log(error);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -77,119 +81,122 @@ export const BasicDataForm = (data: IBasicData) => {
       <div id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}
       </div>
+      {!loading ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex w-full flex-row space-x-3 ">
+            <div className="w-full ">
+              <label htmlFor="username" className="text-sm text-gray-600">
+                {t("profile_acc_username")}
+              </label>
+              <input
+                type="text"
+                id="username"
+                placeholder="user123"
+                readOnly
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={username}
+                {...register("username")}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="username" className="text-sm text-gray-600">
-              {t("profile_acc_username")}
-            </label>
-            <input
-              type="text"
-              id="username"
-              placeholder="user123"
-              readOnly
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              value={username}
-              {...register("username")}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <div className="w-full ">
+              <label htmlFor="birthdate" className="text-sm text-gray-600">
+                {t("profile_acc_birthdate")}
+              </label>
+              <input
+                type="date"
+                id="birthdate"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={birthdate}
+                {...register("birthdate")}
+                onChange={(e) => setBirthdate(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="w-full ">
-            <label htmlFor="birthdate" className="text-sm text-gray-600">
-              {t("profile_acc_birthdate")}
-            </label>
-            <input
-              type="date"
-              id="birthdate"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              value={birthdate}
-              {...register("birthdate")}
-              onChange={(e) => setBirthdate(e.target.value)}
-            />
-          </div>
-        </div>
+          <div className="flex w-full flex-row space-x-3 ">
+            <div className="w-full space-y">
+              <label htmlFor="username" className="text-sm text-gray-600">
+                {t("profile_acc_name")}
+              </label>
+              <input
+                type="text"
+                id="name"
+                placeholder="Alberto"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={name}
+                {...register("given_name", {
+                  required: true,
+                  maxLength: 15,
+                })}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {errors.given_name?.type === "required" && (
+                <p>Campo nombre es requerido</p>
+              )}
+              {errors.given_name?.type === "maxLength" && (
+                <p>Nombre debe tener menos de 15 caracteres</p>
+              )}
+            </div>
 
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full space-y">
-            <label htmlFor="username" className="text-sm text-gray-600">
-              {t("profile_acc_name")}
-            </label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Alberto"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              value={name}
-              {...register("given_name", {
-                required: true,
-                maxLength: 15,
-              })}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors.given_name?.type === "required" && (
-              <p>Campo nombre es requerido</p>
+            <div className="w-full ">
+              <label htmlFor="lastname" className="text-sm text-gray-600">
+                {t("profile_acc_lastname")}
+              </label>
+              <input
+                type="text"
+                id="lastname"
+                placeholder="Niironen"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={lastname}
+                {...register("lastname", {
+                  required: true,
+                  maxLength: 25,
+                })}
+                onChange={(e) => setLastname(e.target.value)}
+              />
+            </div>
+
+            {errors.lastname?.type === "required" && (
+              <p>Campo apellido es requerido</p>
             )}
-            {errors.given_name?.type === "maxLength" && (
-              <p>Nombre debe tener menos de 15 caracteres</p>
-            )}
-          </div>
-
-          <div className="w-full ">
-            <label htmlFor="lastname" className="text-sm text-gray-600">
-              {t("profile_acc_lastname")}
-            </label>
-            <input
-              type="text"
-              id="lastname"
-              placeholder="Niironen"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              value={lastname}
-              {...register("lastname", {
-                required: true,
-                maxLength: 25,
-              })}
-              onChange={(e) => setLastname(e.target.value)}
-            />
-          </div>
-
-          {errors.lastname?.type === "required" && (
-            <p>Campo apellido es requerido</p>
-          )}
-          {errors.lastname?.type === "maxLength" && (
-            <p>Apellido debe tener menos de 25 caracteres</p>
-          )}
-        </div>
-
-        <div className="flex flex-row items-end">
-          <div className="w-full">
-            <label htmlFor="email" className="text-sm text-gray-600">
-              {t("profile_acc_email")}
-            </label>
-            <input
-              placeholder="ejemplo@gmail.com"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              value={email}
-              {...register("email", {
-                required: true,
-                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
-              })}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            {errors.email?.type === "pattern" && (
-              <p>El formato del email es incorrecto</p>
+            {errors.lastname?.type === "maxLength" && (
+              <p>Apellido debe tener menos de 25 caracteres</p>
             )}
           </div>
 
-          <div className="pl-12 ">
-            <Button type="primary" size="medium">
-              {t("save")}
-            </Button>
+          <div className="flex flex-row items-end">
+            <div className="w-full">
+              <label htmlFor="email" className="text-sm text-gray-600">
+                {t("profile_acc_email")}
+              </label>
+              <input
+                placeholder="ejemplo@gmail.com"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                value={email}
+                {...register("email", {
+                  required: true,
+                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+                })}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              {errors.email?.type === "pattern" && (
+                <p>El formato del email es incorrecto</p>
+              )}
+            </div>
+
+            <div className="pl-12 ">
+              <Button type="primary" size="medium">
+                {t("save")}
+              </Button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 };

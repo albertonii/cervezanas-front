@@ -37,6 +37,8 @@ const translationsEn = {
   loc_town: "Town",
   loc_country: "Select Country",
   loc_province: "Select Province",
+  sign_in: "Sign In",
+  sign_up: "Sign Up",
 };
 
 const translationsEs = {
@@ -75,6 +77,8 @@ const translationsEs = {
   loc_town: "Población",
   loc_country: "Seleccionar País",
   loc_province: "Seleccionar Provincia",
+  sign_in: "Acceder",
+  sign_up: "Registrar",
 };
 
 // the translations

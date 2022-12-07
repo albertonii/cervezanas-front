@@ -5,7 +5,6 @@ import {
   User,
   UserCredentials,
 } from "@supabase/supabase-js";
-import axios from "axios";
 
 export interface AuthSession {
   user: User | null;

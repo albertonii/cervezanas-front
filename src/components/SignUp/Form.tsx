@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "../../utils/supabaseClient";
+import useCreateUser from "../../hooks/useCreateUser";
+import { Spinner } from "../Spinner";
+import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
 
 enum role_enum {
   Cervezano = "consumer",
@@ -18,14 +21,50 @@ const role_options = [
   },
 ];
 
+interface FormData {
+  access_level: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 export const SignUpForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsetname] = useState("");
-  const [role, setRole] = useState(role_enum.Cervezano);
+  const { t } = useTranslation();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormData>({
+    defaultValues: {
+      access_level: role_enum.Cervezano,
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
 
   const router = useRouter();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [role, setRole] = useState(role_enum.Cervezano);
+
+  const data = {
+    access_level: role,
+    given_name: "",
+    lastname: "",
+    username: username,
+  };
+
+  const createUserMutation = useCreateUser({ email, password }, data);
+
+  if (createUserMutation.isSuccess) {
+    router.push("/confirm-email");
+  }
+
+  /*
   const handleSignUp = async () => {
     const data = {
       access_level: role,
@@ -42,27 +81,31 @@ export const SignUpForm = () => {
       { email, password },
       options
     );
+
     if (error) alert(error.message);
     else {
       router.push("/confirm-email");
     }
   };
+  */
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
     setRole(value);
   };
 
+  const onSubmit = async (values: FormData) => {
+    createUserMutation.mutate();
+  };
+
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSignUp();
-      }}
+      onSubmit={handleSubmit(onSubmit)}
       className="mt-4 flex flex-col space-y-4"
     >
       <div className="flex w-full flex-col space-y-2">
         <select
+          {...register("access_level")}
           value={role}
           onChange={handleChangeRole}
           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -80,14 +123,15 @@ export const SignUpForm = () => {
           Nombre de usuario
         </label>
         <input
-          type="username"
+          {...register("username")}
+          type="text"
           id="username"
           autoComplete="username"
           placeholder="user_123"
           required
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           value={username}
-          onChange={(e) => setUsetname(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
 
@@ -96,6 +140,7 @@ export const SignUpForm = () => {
           Correo electrónico
         </label>
         <input
+          {...register("email")}
           type="email"
           id="email-address"
           autoComplete="username"
@@ -112,6 +157,7 @@ export const SignUpForm = () => {
           Contraseña
         </label>
         <input
+          {...register("password")}
           type="password"
           id="password"
           autoComplete="new-password"
@@ -122,12 +168,19 @@ export const SignUpForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button
-        type="submit"
-        className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Regístrame
-      </button>
+
+      {createUserMutation.isLoading ? (
+        <span>
+          <Spinner />
+        </span>
+      ) : (
+        <button
+          type="submit"
+          className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          {t("sign_up")}
+        </button>
+      )}
     </form>
   );
 };
