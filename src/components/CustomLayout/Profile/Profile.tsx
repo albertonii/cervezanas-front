@@ -1,14 +1,22 @@
 import { User } from "@supabase/supabase-js";
 import { Button } from "@supabase/ui";
 import { useEffect, useState } from "react";
+import { supabase } from "../../../utils/supabaseClient";
 import { Account } from "./Account";
+import Details from "./Details";
+import { History } from "./History";
+import Values from "./Values";
 
 interface Props {
   user: User | null;
 }
 
 export const Profile = (props: Props) => {
-  const {user} = props;
+  const { user } = props;
+
+  const [profileData, setProfileData] = useState<any>();
+  const [historyData, setHistoryData] = useState<any>();
+  const [loading, setLoading] = useState(true);
 
   const [menuOption, setMenuOption] = useState<string>();
 
@@ -19,19 +27,45 @@ export const Profile = (props: Props) => {
   const renderSwitch = () => {
     switch (menuOption) {
       case "account":
-        return <Account user={user} />;
+        return <Account user={user} profileData={profileData} />;
       case "details":
-        return "details";
+        return <Details />;
       case "values":
-        return "values";
+        return <Values />;
       case "origin":
-        return "origin";
+        return <History user={user} historyData={historyData} />;
     }
   };
 
   useEffect(() => {
-    setMenuOption("account");
-  }, []);
+    if (user != null && user != undefined) {
+      const getProfileData = async () => {
+        let { data, error } = await supabase
+          .from("users")
+          .select("id, username, given_name, lastname, birthdate")
+          .eq("id", user?.id);
+
+        let { data: historyData, error: historyError } = await supabase
+          .from("users")
+          .select("id, historyId")
+          .eq("id", user?.id);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setProfileData(data);
+          setMenuOption("account");
+          setLoading(false);
+        }
+
+        return data;
+      };
+
+      getProfileData();
+    }
+  }, [user]);
 
   return (
     <>
@@ -51,8 +85,11 @@ export const Profile = (props: Props) => {
           </li>
         </ul>
       </div>
-
-      <div className="container">{renderSwitch()}</div>
+      {loading ? (
+        <div>Loading ...</div>
+      ) : (
+        <div className="container">{renderSwitch()}</div>
+      )}
     </>
   );
 };

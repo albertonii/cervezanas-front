@@ -39,6 +39,12 @@ const translationsEn = {
   loc_province: "Select Province",
   sign_in: "Sign In",
   sign_up: "Sign Up",
+  history_title: "Origin",
+  history_description_producer:
+    "All information written in this section will be public for those Cervezanos who visit your profile.",
+  history_business_title: "Company history",
+  history_business_description: "Tell your origin",
+  history_business_year: "Foundation year",
 };
 
 const translationsEs = {
@@ -79,6 +85,12 @@ const translationsEs = {
   loc_province: "Seleccionar Provincia",
   sign_in: "Acceder",
   sign_up: "Registrar",
+  history_title: "Historia",
+  history_description_producer:
+    "Toda la información escrita en esta sección será pública para aquellos Cervezanos que visiten tu perfil.",
+  history_business_title: "Historia de la compaña",
+  history_business_description: "Cuenta acerca de tu origen",
+  history_business_year: "Año de fundación",
 };
 
 // the translations
