@@ -12,8 +12,6 @@ const grantAccessUser = async (user: User) => {
     password: user.password,
   });
 
-  
-
   if (signInError) {
     alert(signInError.message);
     throw signInError;

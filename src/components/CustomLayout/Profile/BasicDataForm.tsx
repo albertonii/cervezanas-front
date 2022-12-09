@@ -1,34 +1,34 @@
 import { Button } from "@supabase/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { useUser } from "../../Auth/UserContext";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../Spinner";
 
-interface IBasicData {
-  username: string;
-  birthdate: string;
-  given_name: string;
-  lastname: string;
-  email: string;
-}
+// interface IBasicData {
+//   id: string;
+//   username: string;
+//   birthdate: string;
+//   given_name: string;
+//   lastname: string;
+//   email: string;
+// }
 
-export const BasicDataForm = (data: IBasicData) => {
+export const BasicDataForm = (props: any) => {
   const { t } = useTranslation();
 
-  const { user } = useUser();
-
   const {
+    id: id_,
     username: username_,
     birthdate: birthdate_,
     given_name: given_name_,
     lastname: lastname_,
     email: email_,
-  } = data;
+  } = props.profileData[0];
 
   const [loading, setLoading] = useState(false);
 
+  const [id, setId] = useState(id_);
   const [username, setUsername] = useState(username_);
   const [name, setName] = useState(given_name_);
   const [lastname, setLastname] = useState(lastname_);
@@ -41,26 +41,30 @@ export const BasicDataForm = (data: IBasicData) => {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      username: "aniironen",
-      given_name: "Alberto",
-      lastname: "Niironen",
-      birthdate: "15/03/1994",
-      email: "alberto.niironen@gmail.com",
+      username: username,
+      given_name: name,
+      lastname: lastname,
+      birthdate: birthdate,
+      email: email,
     },
   });
+
+  useEffect(() => {
+    setId(id_);
+  }, [id_]);
 
   const onSubmit = async () => {
     try {
       setLoading(true);
 
       const updates = {
-        id: user!.id,
+        id,
         given_name: name,
         lastname,
         birthdate,
       };
 
-      let { error } = await supabase.from("producer_profile").upsert(updates);
+      let { error } = await supabase.from("users").update(updates).eq("id", id);
       setLoading(false);
 
       if (error) throw error;

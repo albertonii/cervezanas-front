@@ -5,6 +5,7 @@ import { supabase } from "../utils/supabaseClient";
 import { useUser } from "./Auth/UserContext";
 import i18n from "../pages/i18n";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export default function Header() {
   const { t } = useTranslation();

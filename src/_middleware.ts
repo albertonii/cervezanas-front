@@ -4,8 +4,6 @@ import { supabase } from "./utils/supabaseClient";
 const PUBLIC_FILE = /\.(.*)$/;
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  alert("hola");
-
   if (
     req.nextUrl.pathname.startsWith("/_next") ||
     req.nextUrl.pathname.includes("/api/") ||
@@ -48,7 +46,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
 async function getUser(req: NextRequest): Promise<any> {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  alert(user);
 
   if (!user) {
     return {

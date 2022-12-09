@@ -16,8 +16,6 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { t } = useTranslation();
-
   return (
     <>
       <Suspense fallback="Loading...">

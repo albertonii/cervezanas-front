@@ -12,14 +12,23 @@ import { Community } from "../components/CustomLayout/Community/Community";
 import { Stats } from "../components/CustomLayout/Stats/Stats";
 import { Ledger } from "../components/CustomLayout/Ledger/Ledger";
 import { Profile } from "../components/CustomLayout/Profile/Profile";
+import { useUser } from "../components/Auth/UserContext";
 
-const CustomLayout: NextPage<UserProps> = ({ user }) => {
-  const [menuOption, setMenuOption] = useState<string>("profile");
+const CustomLayout: NextPage<UserProps> = () => {
+  const [menuOption, setMenuOption] = useState<string>();
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!!user) {
+      setMenuOption("profile");
+    }
+  }, [user]);
 
   const renderSwitch = (): JSX.Element => {
     switch (menuOption) {
       case "profile":
-        return <Profile />;
+        return <Profile user={user} />;
       case "products":
         return <Products />;
       case "campaigns":

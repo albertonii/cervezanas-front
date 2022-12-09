@@ -1,9 +1,16 @@
+import { User } from "@supabase/supabase-js";
 import { Button } from "@supabase/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Account } from "./Account";
 
-export const Profile = () => {
-  const [menuOption, setMenuOption] = useState<string>("account");
+interface Props {
+  user: User | null;
+}
+
+export const Profile = (props: Props) => {
+  const {user} = props;
+
+  const [menuOption, setMenuOption] = useState<string>();
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
@@ -12,7 +19,7 @@ export const Profile = () => {
   const renderSwitch = () => {
     switch (menuOption) {
       case "account":
-        return <Account />;
+        return <Account user={user} />;
       case "details":
         return "details";
       case "values":
@@ -21,6 +28,10 @@ export const Profile = () => {
         return "origin";
     }
   };
+
+  useEffect(() => {
+    setMenuOption("account");
+  }, []);
 
   return (
     <>
