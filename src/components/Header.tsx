@@ -3,9 +3,8 @@ import Image from "next/image";
 import { Button, Select } from "@supabase/ui";
 import { supabase } from "../utils/supabaseClient";
 import { useUser } from "./Auth/UserContext";
-import i18n from "../pages/i18n";
+import i18n from "../i18n";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 
 export default function Header() {
   const { t } = useTranslation();

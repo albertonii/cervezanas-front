@@ -37,8 +37,6 @@ const SignIn: NextPage<UserProps> = ({ user }) => {
 
             <SignInForm />
 
-            <Modal isVisible={false}></Modal>
-
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
               ¿No estás registrado?
               <Link className="cursor-pointer font-bold" href={"/signup"}>
