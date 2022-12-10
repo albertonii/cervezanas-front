@@ -111,6 +111,10 @@ const translationsEn = {
   product_type: "Product Type",
   format: "Format",
   isGluten: "Has Gluten?",
+  modal_product_title: "Product",
+  modal_product_description:
+    "All information described in this section is public.",
+  modal_product_add: "Add Product",
 };
 
 const translationsEs = {
@@ -223,6 +227,10 @@ const translationsEs = {
   product_type: "Tipo de Producto",
   format: "Formato",
   isGluten: "¿Contiene Gluten?",
+  modal_product_title: "Producto",
+  modal_product_description:
+    "Toda la información descrita en esta sección es pública.",
+  modal_product_add: "Añadir Producto",
 };
 
 // the translations

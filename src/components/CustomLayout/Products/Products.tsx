@@ -120,13 +120,7 @@ export const Products = () => {
             </div>
         </div> */}
 
-          <ProductModal
-            name="prueba"
-            title=""
-            description=""
-            isVisible={true}
-            setName={setName}
-          />
+          <ProductModal isVisible={false} />
         </div>
 
         <div>

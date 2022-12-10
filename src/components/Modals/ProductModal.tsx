@@ -10,23 +10,12 @@ import {
   format_options,
   intensity_options,
   origin_options,
+  BeerEnum,
 } from "../../lib/beerEnum";
+import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   isVisible: boolean;
-  title: string;
-  description: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  name: string;
-  intensity: string;
-  fermentation: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  aroma: string;
-  format: string;
-  isGluten: boolean;
 }
 
 enum product_type_enum {
@@ -64,20 +53,7 @@ type FormValues = { name: string };
 
 const ProductModal = (props: Props) => {
   const { t } = useTranslation();
-  const {
-    isVisible,
-    name,
-    intensity,
-    fermentation,
-    color,
-    origin,
-    family,
-    era,
-    aroma,
-    format,
-    isGluten,
-    setName,
-  } = props;
+  const { isVisible } = props;
 
   const [showModal, setShowModal] = React.useState(isVisible);
 
@@ -106,7 +82,20 @@ const ProductModal = (props: Props) => {
   });
 
   const onSubmit = (data: FormValues) => {
-    setName(data.name);
+    const handleInsert = async () => {
+      const { data, error } = await supabase.from("products").insert([
+        {
+          name: "Prueba",
+          description: "Descripción de prueba",
+          // intensity: BeerEnum.Intensity.i_session,
+          // fermentation: BeerEnum.Fermentation.lagered,
+        },
+      ]);
+
+      alert(data);
+    };
+
+    handleInsert();
     setShowModal(false);
   };
 
@@ -117,18 +106,20 @@ const ProductModal = (props: Props) => {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Añadir producto
+        {t("modal_product_add")}
       </button>
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none drop-shadow-md focus:outline-none">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                    <h3 className="text-3xl font-semibold">{t("title")}</h3>
+                    <h3 className="text-3xl font-semibold">
+                      {t("modal_product_title")}
+                    </h3>
                     <button
                       className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                       onClick={() => setShowModal(false)}
@@ -142,7 +133,7 @@ const ProductModal = (props: Props) => {
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                      {t("product_description")}
+                      {t("modal_product_description")}
                     </p>
 
                     <div className="w-full">
@@ -179,7 +170,6 @@ const ProductModal = (props: Props) => {
                           id="name"
                           placeholder="IPA Jaira"
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                          value={name}
                           {...register("name", {
                             required: true,
                           })}
