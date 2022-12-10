@@ -1,9 +1,9 @@
 export namespace BeerEnum {
   export enum Intensity {
-    session, // <4% ABC
-    standard, // 4-6% ABC
-    high, // 6-9% ABC
-    very_high, // >9% ABC
+    i_session, // <4% ABC
+    i_standard, // 4-6% ABC
+    i_high, // 6-9% ABC
+    i_very_high, // >9% ABC
   }
 
   export enum Color {
@@ -53,6 +53,12 @@ export namespace BeerEnum {
     historic, // no elaborada actualmente o con producción muy  limitada
   }
 
+  export enum Format {
+    can, // lata
+    glass, // cristal
+    draft, // barril
+  }
+
   export enum Aroma {
     maltose, // pronunciado aroma/sabor a malta
     bitter, // pronunciado amargor a lúpulo
@@ -69,10 +75,10 @@ export namespace BeerEnum {
 }
 
 export const intensity_options = [
-  { label: "session", value: BeerEnum.Intensity.session },
-  { label: "standard", value: BeerEnum.Intensity.standard },
-  { label: "high", value: BeerEnum.Intensity.high },
-  { label: "very_high", value: BeerEnum.Intensity.very_high },
+  { label: "i_session", value: BeerEnum.Intensity.i_session },
+  { label: "i_standard", value: BeerEnum.Intensity.i_standard },
+  { label: "i_high", value: BeerEnum.Intensity.i_high },
+  { label: "i_very_high", value: BeerEnum.Intensity.i_very_high },
 ];
 
 export const color_options = [
@@ -253,5 +259,20 @@ export const aroma_options = [
   {
     label: "spicy",
     value: BeerEnum.Aroma.spicy,
+  },
+];
+
+export const format_options = [
+  {
+    label: "can",
+    value: BeerEnum.Format.can,
+  },
+  {
+    label: "glass",
+    value: BeerEnum.Format.glass,
+  },
+  {
+    label: "draft",
+    value: BeerEnum.Format.draft,
   },
 ];

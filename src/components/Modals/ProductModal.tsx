@@ -1,7 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { aroma_options, intensity_options } from "../../lib/beerEnum";
+import {
+  aroma_options,
+  color_options,
+  era_options,
+  family_options,
+  fermentation_options,
+  format_options,
+  intensity_options,
+  origin_options,
+} from "../../lib/beerEnum";
 
 interface Props {
   isVisible: boolean;
@@ -87,6 +96,11 @@ const ProductModal = (props: Props) => {
       intensity: "",
       aroma: "",
       family: "",
+      fermentation: "",
+      origin: "",
+      era: "",
+      format: "",
+      isGluten: "",
       type: product_type_enum.Beer,
     },
   });
@@ -132,6 +146,13 @@ const ProductModal = (props: Props) => {
                     </p>
 
                     <div className="w-full">
+                      <label
+                        htmlFor="product_type"
+                        className="text-sm text-gray-600"
+                      >
+                        {t("product_type")}
+                      </label>
+
                       <select
                         {...register("type")}
                         value={product_type_enum.Beer}
@@ -139,7 +160,7 @@ const ProductModal = (props: Props) => {
                       >
                         {product_type_options.map((option) => (
                           <option key={option.value} value={option.value}>
-                            {option.label}
+                            {t(option.label)}
                           </option>
                         ))}
                       </select>
@@ -172,6 +193,13 @@ const ProductModal = (props: Props) => {
                       </div>
 
                       <div className="w-full ">
+                        <label
+                          htmlFor="campaign"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("select_campaign")}
+                        </label>
+
                         <select
                           {...register("campaign")}
                           value={""}
@@ -188,12 +216,24 @@ const ProductModal = (props: Props) => {
 
                     <div className="flex w-full flex-row space-x-3 ">
                       <div className="w-full ">
+                        <label
+                          htmlFor="intensity"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("intensity")}
+                        </label>
+
                         <select
                           {...register("intensity")}
+                          defaultValue={intensity_options[0].label}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {intensity_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option
+                              key={option.value}
+                              value={option.value}
+                              selected
+                            >
                               {t(option.label)}
                             </option>
                           ))}
@@ -205,18 +245,214 @@ const ProductModal = (props: Props) => {
                       </div>
 
                       <div className="w-full ">
+                        <label
+                          htmlFor="fermentation"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("fermentation")}
+                        </label>
+
                         <select
-                          {...register("aroma")}
+                          {...register("fermentation")}
+                          defaultValue={fermentation_options[0].label}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
-                          {aroma_options.map((option) => (
+                          {fermentation_options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.fermentation?.type === "required" && (
+                          <p>Campo fementación requerido</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex w-full flex-row space-x-3 ">
+                      <div className="w-full ">
+                        <label
+                          htmlFor="color"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("color")}
+                        </label>
+
+                        <select
+                          {...register("color")}
+                          defaultValue={color_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {color_options.map((option) => (
+                            <option
+                              key={option.value}
+                              value={option.value}
+                              selected
+                            >
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.color?.type === "required" && (
+                          <p>Campo color requerido</p>
+                        )}
+                      </div>
+
+                      <div className="w-full ">
+                        <label
+                          htmlFor="origin"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("origin")}
+                        </label>
+
+                        <select
+                          {...register("origin")}
+                          defaultValue={origin_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {origin_options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.origin?.type === "required" && (
+                          <p>Campo origen requerido</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex w-full flex-row space-x-3 ">
+                      <div className="w-full ">
+                        <label
+                          htmlFor="family"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("family")}
+                        </label>
+
+                        <select
+                          {...register("family")}
+                          defaultValue={family_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {family_options.map((option) => (
+                            <option
+                              key={option.value}
+                              value={option.value}
+                              selected
+                            >
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.family?.type === "required" && (
+                          <p>Campo familia de estilo requerido</p>
+                        )}
+                      </div>
+
+                      <div className="w-full ">
+                        <label htmlFor="era" className="text-sm text-gray-600">
+                          {t("era")}
+                        </label>
+
+                        <select
+                          {...register("era")}
+                          defaultValue={era_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {era_options.map((option) => (
                             <option key={option.value} value={option.value}>
                               {t(option.label)}
                             </option>
                           ))}
                         </select>
                         {errors.intensity?.type === "required" && (
+                          <p>Campo era requerido</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex w-full flex-row space-x-3 ">
+                      <div className="w-full ">
+                        <label
+                          htmlFor="aroma"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("aroma")}
+                        </label>
+
+                        <select
+                          {...register("aroma")}
+                          defaultValue={aroma_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {aroma_options.map((option) => (
+                            <option
+                              key={option.value}
+                              value={option.value}
+                              selected
+                            >
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.aroma?.type === "required" && (
                           <p>Campo aroma requerido</p>
+                        )}
+                      </div>
+
+                      <div className="w-full ">
+                        <label
+                          htmlFor="format"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("format")}
+                        </label>
+
+                        <select
+                          {...register("format")}
+                          defaultValue={format_options[0].label}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          {format_options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {t(option.label)}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.format?.type === "required" && (
+                          <p>Campo formato requerido</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex w-full flex-row space-x-3 ">
+                      <div className="w-full ">
+                        <label
+                          htmlFor="isGluten"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("isGluten")}
+                        </label>
+
+                        <select
+                          {...register("isGluten")}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        >
+                          <option key={0} value={"no"}>
+                            NO
+                          </option>
+                          <option key={1} value={"si"}>
+                            SI
+                          </option>
+                        </select>
+                        {errors.format?.type === "required" && (
+                          <p>Campo formato requerido</p>
                         )}
                       </div>
                     </div>
