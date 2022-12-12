@@ -11,6 +11,7 @@ import {
   intensity_options,
   origin_options,
   product_type_options,
+  BeerEnum,
 } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 
@@ -94,24 +95,24 @@ const ProductModal = (props: Props) => {
         type,
       } = formValues;
 
-      console.log(formValues);
-
-      const { data, error } = await supabase.from("beers").insert({
-        name: "Prueba",
-        description: "Descripción de prueba",
-        intensity: intensity_options[intensity].label,
-        fermentation: fermentation_options[fermentation].label,
-        color: color_options[color].label,
-        aroma: aroma_options[aroma].label,
-        family: family_options[family].label,
-        origin: origin_options[origin].label,
-        era: era_options[era].label,
-        format: format_options[format].label,
-        is_gluten: isGluten === "true",
-        type,
-        campaign_id: campaign,
-        awards_id: "",
-      });
+      if (product_type_options[type].value == BeerEnum.Product_type.beer) {
+        const { data, error } = await supabase.from("beers").insert({
+          name: "Prueba",
+          description: "Descripción de prueba",
+          intensity: intensity_options[intensity].label,
+          fermentation: fermentation_options[fermentation].label,
+          color: color_options[color].label,
+          aroma: aroma_options[aroma].label,
+          family: family_options[family].label,
+          origin: origin_options[origin].label,
+          era: era_options[era].label,
+          format: format_options[format].label,
+          is_gluten: isGluten === "true",
+          type,
+          campaign_id: campaign,
+          awards_id: "",
+        });
+      }
     };
 
     handleInsert();
@@ -169,7 +170,7 @@ const ProductModal = (props: Props) => {
                         className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       >
                         {product_type_options.map((option) => (
-                          <option key={option.value} value={option.value}>
+                          <option key={option.label} value={option.label}>
                             {t(option.value)}
                           </option>
                         ))}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import Modal from "../../Modals/Modal";
+import { supabase } from "../../../utils/supabaseClient";
+import { useUser } from "../../Auth/UserContext";
 import ProductModal from "../../Modals/ProductModal";
 
 enum product_type_enum {
@@ -20,14 +21,42 @@ const product_type_options = [
   },
 ];
 
+interface IBeer {
+  id: string;
+  name: string;
+  description: string;
+  created_at: Date;
+  social_cause_id: number;
+  lot_id: number;
+  type: number;
+  feedback_id: number;
+  category: number;
+  intensity: string;
+  fermentation: string;
+  color: string;
+  origin: string;
+  family: string;
+  era: string;
+  aroma: string;
+  format: string;
+  awards_id: string;
+  campaign_id: string;
+  is_gluten: boolean;
+  owner_id: string;
+}
+
 export const Products = () => {
   const { t } = useTranslation();
+
+  const { user } = useUser();
 
   const [productType, setProductType] = useState(product_type_enum.Beer);
   const [name, setName] = useState("Jaira IPA");
   const [intensity, setIntensity] = useState("");
   const [color, setColor] = useState("Red");
   const [family, setFamily] = useState("");
+
+  const [beers, setBeers] = useState<IBeer[]>();
 
   const [modalFormData, setModalFormData] = useState("");
 
@@ -56,6 +85,23 @@ export const Products = () => {
   useEffect(() => {
     setValue("name", modalFormData);
   }, [setValue, modalFormData]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      let { data, error } = await supabase
+        .from("beers")
+        .select("*")
+        .eq("owner_id", user?.id);
+
+      if (error) throw error;
+
+      console.log(data);
+
+      return data;
+    };
+
+    getProducts();
+  }, [user]);
 
   return (
     <>

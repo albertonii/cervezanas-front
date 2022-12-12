@@ -72,6 +72,11 @@ export namespace BeerEnum {
     fruity, // notable sabor y/o aroma a frutas
     spicy, // notable sabor y/o aroma a especias
   }
+
+  export enum Product_type {
+    beer = "beer",
+    merchandising = "merchandising",
+  }
 }
 
 export const intensity_options = [
@@ -277,18 +282,13 @@ export const format_options = [
   },
 ];
 
-enum product_type_enum {
-  beer = "beer",
-  merchandising = "merchandising",
-}
-
 export const product_type_options = [
   {
-    label: 1,
-    value: product_type_enum.beer,
+    label: 0,
+    value: BeerEnum.Product_type.beer,
   },
   {
     label: 1,
-    value: product_type_enum.merchandising,
+    value: BeerEnum.Product_type.merchandising,
   },
 ];
