@@ -10,29 +10,13 @@ import {
   format_options,
   intensity_options,
   origin_options,
-  BeerEnum,
+  product_type_options,
 } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   isVisible: boolean;
 }
-
-enum product_type_enum {
-  Beer = "beer",
-  Merchandising = "merchandising",
-}
-
-const product_type_options = [
-  {
-    label: "Beer",
-    value: product_type_enum.Beer,
-  },
-  {
-    label: "Merchandising",
-    value: product_type_enum.Merchandising,
-  },
-];
 
 const campaigns = [
   {
@@ -49,7 +33,20 @@ const campaigns = [
   },
 ];
 
-type FormValues = { name: string };
+type FormValues = {
+  name: string;
+  campaign: string;
+  type: number;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  fermentation: number;
+  origin: number;
+  era: number;
+  format: number;
+  isGluten: string;
+};
 
 const ProductModal = (props: Props) => {
   const { t } = useTranslation();
@@ -68,31 +65,53 @@ const ProductModal = (props: Props) => {
     defaultValues: {
       campaign: "-",
       name: "Jaira IPA",
-      color: "red",
-      intensity: "",
-      aroma: "",
-      family: "",
-      fermentation: "",
-      origin: "",
-      era: "",
-      format: "",
+      color: 0,
+      intensity: 0,
+      aroma: 0,
+      family: 0,
+      fermentation: 0,
+      origin: 0,
+      era: 0,
+      format: 0,
       isGluten: "",
-      type: product_type_enum.Beer,
+      type: 0,
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (formValues: FormValues) => {
     const handleInsert = async () => {
-      const { data, error } = await supabase.from("products").insert([
-        {
-          name: "Prueba",
-          description: "Descripción de prueba",
-          // intensity: BeerEnum.Intensity.i_session,
-          // fermentation: BeerEnum.Fermentation.lagered,
-        },
-      ]);
+      const {
+        campaign,
+        fermentation,
+        color,
+        intensity,
+        aroma,
+        family,
+        origin,
+        era,
+        format,
+        isGluten,
+        type,
+      } = formValues;
 
-      alert(data);
+      console.log(formValues);
+
+      const { data, error } = await supabase.from("beers").insert({
+        name: "Prueba",
+        description: "Descripción de prueba",
+        intensity: intensity_options[intensity].label,
+        fermentation: fermentation_options[fermentation].label,
+        color: color_options[color].label,
+        aroma: aroma_options[aroma].label,
+        family: family_options[family].label,
+        origin: origin_options[origin].label,
+        era: era_options[era].label,
+        format: format_options[format].label,
+        is_gluten: isGluten === "true",
+        type,
+        campaign_id: campaign,
+        awards_id: "",
+      });
     };
 
     handleInsert();
@@ -146,12 +165,12 @@ const ProductModal = (props: Props) => {
 
                       <select
                         {...register("type")}
-                        value={product_type_enum.Beer}
+                        defaultValue={product_type_options[0].label}
                         className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       >
                         {product_type_options.map((option) => (
                           <option key={option.value} value={option.value}>
-                            {t(option.label)}
+                            {t(option.value)}
                           </option>
                         ))}
                       </select>
@@ -434,10 +453,10 @@ const ProductModal = (props: Props) => {
                           {...register("isGluten")}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
-                          <option key={0} value={"no"}>
+                          <option key={0} value={"false"}>
                             NO
                           </option>
-                          <option key={1} value={"si"}>
+                          <option key={1} value={"true"}>
                             SI
                           </option>
                         </select>

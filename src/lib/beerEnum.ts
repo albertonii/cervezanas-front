@@ -276,3 +276,19 @@ export const format_options = [
     value: BeerEnum.Format.draft,
   },
 ];
+
+enum product_type_enum {
+  beer = "beer",
+  merchandising = "merchandising",
+}
+
+export const product_type_options = [
+  {
+    label: 1,
+    value: product_type_enum.beer,
+  },
+  {
+    label: 1,
+    value: product_type_enum.merchandising,
+  },
+];
