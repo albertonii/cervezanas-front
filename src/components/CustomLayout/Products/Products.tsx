@@ -1,27 +1,14 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { BeerEnum } from "../../../lib/beerEnum";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "../../Auth/UserContext";
-import ProductModal from "../../Modals/ProductModal";
+import ProductModal from "../../Modals/ProductModalAdd";
+import ProductModalUpd from "../../Modals/ProductModalUpd";
+import ProductList from "./ProductList";
 
-enum product_type_enum {
-  Beer = "beer",
-  Merchandising = "merchandising",
-}
-
-const product_type_options = [
-  {
-    label: "Beer",
-    value: product_type_enum.Beer,
-  },
-  {
-    label: "Merchandising",
-    value: product_type_enum.Merchandising,
-  },
-];
-
-interface IBeer {
+interface Beer {
   id: string;
   name: string;
   description: string;
@@ -40,7 +27,7 @@ interface IBeer {
   aroma: string;
   format: string;
   awards_id: string;
-  campaign_id: string;
+  campaign: string;
   is_gluten: boolean;
   owner_id: string;
 }
@@ -50,13 +37,16 @@ export const Products = () => {
 
   const { user } = useUser();
 
-  const [productType, setProductType] = useState(product_type_enum.Beer);
+  const [productType, setProductType] = useState(BeerEnum.Product_type.beer);
   const [name, setName] = useState("Jaira IPA");
   const [intensity, setIntensity] = useState("");
   const [color, setColor] = useState("Red");
   const [family, setFamily] = useState("");
 
-  const [beers, setBeers] = useState<IBeer[]>();
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [beerModal, setBeerModal] = useState<any>(null);
+
+  const [beers, setBeers] = useState<Beer[]>();
 
   const [modalFormData, setModalFormData] = useState("");
 
@@ -73,7 +63,7 @@ export const Products = () => {
       color: "red",
       intensity: "",
       family: "",
-      type: product_type_enum.Beer,
+      type: BeerEnum.Product_type.beer,
     },
   });
 
@@ -95,88 +85,43 @@ export const Products = () => {
 
       if (error) throw error;
 
-      console.log(data);
-
+      setBeers(data!);
       return data;
     };
 
     getProducts();
   }, [user]);
 
+  const handleShowModal = (value: boolean) => {
+    setIsShowModal(value);
+  };
+
+  const handleBeerModal = (beer: Beer) => {
+    setBeerModal(beer);
+  };
+
   return (
     <>
       <div className="py-6 px-4 pt-12" aria-label="Products">
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
-          {/* <Modal
-            isVisible={false}
-            btnTitle={"Añadir producto"}
-            title={"Añadir un nuevo producto"}
-            description={"Describa con exactitud las propiedades del producto"}
-          >
-            <div>
-              <div className="w-full">
-                <select
-                  {...register("type")}
-                  value={product_type_enum.Beer}
-                  onChange={handleChangeType}
-                  className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                >
-                  {product_type_options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex w-full flex-row space-x-3 ">
-                <div className="w-full ">
-                  <label
-                    htmlFor="productName"
-                    className="text-sm text-gray-600"
-                  >
-                    {t("product_name")}
-                  </label>
-                  <input
-                    type="text"
-                    id="productName"
-                    placeholder="Jaira IPA"
-                    readOnly
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    {...register("name")}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-
-                <div className="w-full ">
-                  <label htmlFor="color" className="text-sm text-gray-600">
-                    {t("product_color")}
-                  </label>
-                  <input
-                    type="text"
-                    id="color"
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    value={color}
-                    {...register("color")}
-                    onChange={(e) => setColor(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-        </div> */}
 
           <ProductModal isVisible={false} />
         </div>
 
         <div>
-          <ul>
-            <li>{name}</li>
-            <li>Producto 2</li>
-            <li>Producto 3</li>
-            <li>Producto 4</li>
-          </ul>
+          <ProductList
+            beers={beers!}
+            handleShowModal={handleShowModal}
+            handleBeerModal={handleBeerModal}
+          />
         </div>
+
+        {isShowModal ? (
+          <ProductModalUpd isVisible={true} beer={beerModal} />
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );

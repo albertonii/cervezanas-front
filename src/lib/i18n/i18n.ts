@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { translationsFormErrorsEn } from "./i18nErrors";
 
 const translationsEn = {
   home: "Home",
@@ -115,6 +116,8 @@ const translationsEn = {
   modal_product_description:
     "All information described in this section is public.",
   modal_product_add: "Add Product",
+  beer: "Beer",
+  merchandising: "Merchandising",
 };
 
 const translationsEs = {
@@ -165,8 +168,7 @@ const translationsEs = {
   history_business_year: "Año de fundación",
   product_name: "Nombre del producto",
   title: "Título",
-  product_description:
-    "Asegúrese de rellenar todos los campos obligatorios para introducir con éxito el producto",
+  product_description: "Descripción",
   maltose: "Maltosa",
   bitter: "Amarga",
   balanced: "Balanceada",
@@ -229,8 +231,11 @@ const translationsEs = {
   isGluten: "¿Contiene Gluten?",
   modal_product_title: "Producto",
   modal_product_description:
-    "Toda la información descrita en esta sección es pública.",
+    "Asegúrese de rellenar todos los campos obligatorios para introducir con éxito el producto. Toda la información descrita en esta sección es pública.",
   modal_product_add: "Añadir Producto",
+  beer: "Cerveza",
+  merchandising: "Merchandising",
+  form_errors: translationsFormErrorsEn,
 };
 
 // the translations

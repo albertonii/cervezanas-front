@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,17 +11,33 @@ import {
   intensity_options,
   origin_options,
   product_type_options,
-  BeerEnum,
 } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   isVisible: boolean;
+  beer: {
+    id: string;
+    name: string;
+    description: string;
+    campaign: string;
+    type: number;
+    color: string;
+    intensity: string;
+    aroma: string;
+    family: string;
+    fermentation: string;
+    origin: string;
+    era: string;
+    format: string;
+    is_gluten: string;
+    owner_id: string;
+  };
 }
 
 const campaigns = [
   {
-    label: "None",
+    label: "-",
     value: "-",
   },
   {
@@ -36,22 +52,42 @@ const campaigns = [
 
 type FormValues = {
   name: string;
+  description: string;
   campaign: string;
   type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  format: number;
-  isGluten: string;
+  color: string;
+  intensity: string;
+  aroma: string;
+  family: string;
+  fermentation: string;
+  origin: string;
+  era: string;
+  format: string;
+  is_gluten: string;
+  owner_id: string;
 };
 
-const ProductModal = (props: Props) => {
+const ProductModalUpd = (props: Props) => {
   const { t } = useTranslation();
-  const { isVisible } = props;
+  const { isVisible, beer } = props;
+
+  const {
+    id,
+    name,
+    description,
+    campaign,
+    type,
+    color,
+    intensity,
+    aroma,
+    family,
+    fermentation,
+    origin,
+    era,
+    format,
+    is_gluten,
+    owner_id,
+  } = beer;
 
   const [showModal, setShowModal] = React.useState(isVisible);
 
@@ -64,23 +100,25 @@ const ProductModal = (props: Props) => {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      campaign: "-",
-      name: "Jaira IPA",
-      color: 0,
-      intensity: 0,
-      aroma: 0,
-      family: 0,
-      fermentation: 0,
-      origin: 0,
-      era: 0,
-      format: 0,
-      isGluten: "",
-      type: 0,
+      name,
+      description,
+      campaign,
+      color,
+      intensity,
+      aroma,
+      family,
+      fermentation,
+      origin,
+      era,
+      format,
+      is_gluten,
+      type,
+      owner_id,
     },
   });
 
   const onSubmit = (formValues: FormValues) => {
-    const handleInsert = async () => {
+    const handleUpdate = async () => {
       const {
         campaign,
         fermentation,
@@ -91,47 +129,46 @@ const ProductModal = (props: Props) => {
         origin,
         era,
         format,
-        isGluten,
+        is_gluten,
         type,
       } = formValues;
 
-      if (product_type_options[type].value == BeerEnum.Product_type.beer) {
-        const { data, error } = await supabase.from("beers").insert({
-          name: "Prueba",
-          description: "Descripción de prueba",
-          intensity: intensity_options[intensity].label,
-          fermentation: fermentation_options[fermentation].label,
-          color: color_options[color].label,
-          aroma: aroma_options[aroma].label,
-          family: family_options[family].label,
-          origin: origin_options[origin].label,
-          era: era_options[era].label,
-          format: format_options[format].label,
-          is_gluten: isGluten === "true",
+      const { data, error } = await supabase
+        .from("beers")
+        .update({
+          name: getValues("name"),
+          description: getValues("description"),
+          intensity: getValues("intensity"),
+          fermentation: getValues("fermentation"),
+          color: getValues("color"),
+          aroma: getValues("aroma"),
+          family: getValues("family"),
+          origin: getValues("origin"),
+          era: getValues("era"),
+          format: getValues("format"),
+          is_gluten: is_gluten === "true",
           type,
           campaign_id: campaign,
           awards_id: "",
-        });
-      }
+          owner_id,
+        })
+        .eq("id", id);
+
+      if (error) throw error;
+
+      return data;
     };
 
-    handleInsert();
+    handleUpdate();
     setShowModal(false);
   };
 
   return (
     <>
-      <button
-        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button"
-        onClick={() => setShowModal(true)}
-      >
-        {t("modal_product_add")}
-      </button>
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none drop-shadow-md focus:outline-none">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -165,15 +202,14 @@ const ProductModal = (props: Props) => {
                       </label>
 
                       <select
+                        disabled
                         {...register("type")}
-                        defaultValue={product_type_options[0].label}
+                        defaultValue={type}
                         className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       >
-                        {product_type_options.map((option) => (
-                          <option key={option.label} value={option.label}>
-                            {t(option.value)}
-                          </option>
-                        ))}
+                        <option key={type} value={type}>
+                          {t(product_type_options[type].value)}
+                        </option>
                       </select>
                     </div>
 
@@ -195,10 +231,10 @@ const ProductModal = (props: Props) => {
                           })}
                         />
                         {errors.name?.type === "required" && (
-                          <p>Campo nombre es requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                         {errors.name?.type === "maxLength" && (
-                          <p>Nombre debe tener menos de 20 caracteres</p>
+                          <p>{t("form_errors.product_modal_max_length")}</p>
                         )}
                       </div>
 
@@ -216,11 +252,33 @@ const ProductModal = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {campaigns.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.label}>
                               {option.label}
                             </option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+
+                    <div className="flex w-full flex-row space-x-3 ">
+                      <div className="w-full space-y">
+                        <label
+                          htmlFor="description"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("product_description")}
+                        </label>
+                        <textarea
+                          id="description"
+                          placeholder=""
+                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          {...register("description", {
+                            required: true,
+                          })}
+                        />
+                        {errors.description?.type === "required" && (
+                          <p>{t("form_errors.product_modal_required")}</p>
+                        )}
                       </div>
                     </div>
 
@@ -241,7 +299,7 @@ const ProductModal = (props: Props) => {
                           {intensity_options.map((option) => (
                             <option
                               key={option.value}
-                              value={option.value}
+                              value={option.label}
                               selected
                             >
                               {t(option.label)}
@@ -250,7 +308,7 @@ const ProductModal = (props: Props) => {
                         </select>
 
                         {errors.intensity?.type === "required" && (
-                          <p>Campo intensidad requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
 
@@ -268,13 +326,13 @@ const ProductModal = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {fermentation_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
                         </select>
                         {errors.fermentation?.type === "required" && (
-                          <p>Campo fementación requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
                     </div>
@@ -290,13 +348,12 @@ const ProductModal = (props: Props) => {
 
                         <select
                           {...register("color")}
-                          defaultValue={color_options[0].label}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {color_options.map((option) => (
                             <option
                               key={option.value}
-                              value={option.value}
+                              value={option.label}
                               selected
                             >
                               {t(option.label)}
@@ -305,7 +362,7 @@ const ProductModal = (props: Props) => {
                         </select>
 
                         {errors.color?.type === "required" && (
-                          <p>Campo color requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
 
@@ -323,13 +380,13 @@ const ProductModal = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {origin_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
                         </select>
                         {errors.origin?.type === "required" && (
-                          <p>Campo origen requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
                     </div>
@@ -351,7 +408,7 @@ const ProductModal = (props: Props) => {
                           {family_options.map((option) => (
                             <option
                               key={option.value}
-                              value={option.value}
+                              value={option.label}
                               selected
                             >
                               {t(option.label)}
@@ -360,7 +417,7 @@ const ProductModal = (props: Props) => {
                         </select>
 
                         {errors.family?.type === "required" && (
-                          <p>Campo familia de estilo requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
 
@@ -375,13 +432,13 @@ const ProductModal = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {era_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
                         </select>
                         {errors.intensity?.type === "required" && (
-                          <p>Campo era requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
                     </div>
@@ -403,7 +460,7 @@ const ProductModal = (props: Props) => {
                           {aroma_options.map((option) => (
                             <option
                               key={option.value}
-                              value={option.value}
+                              value={option.label}
                               selected
                             >
                               {t(option.label)}
@@ -412,7 +469,7 @@ const ProductModal = (props: Props) => {
                         </select>
 
                         {errors.aroma?.type === "required" && (
-                          <p>Campo aroma requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
 
@@ -430,13 +487,13 @@ const ProductModal = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {format_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
                         </select>
                         {errors.format?.type === "required" && (
-                          <p>Campo formato requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
                     </div>
@@ -451,7 +508,7 @@ const ProductModal = (props: Props) => {
                         </label>
 
                         <select
-                          {...register("isGluten")}
+                          {...register("is_gluten")}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           <option key={0} value={"false"}>
@@ -462,7 +519,7 @@ const ProductModal = (props: Props) => {
                           </option>
                         </select>
                         {errors.format?.type === "required" && (
-                          <p>Campo formato requerido</p>
+                          <p>{t("form_errors.product_modal_required")}</p>
                         )}
                       </div>
                     </div>
@@ -494,4 +551,4 @@ const ProductModal = (props: Props) => {
   );
 };
 
-export default ProductModal;
+export default ProductModalUpd;
