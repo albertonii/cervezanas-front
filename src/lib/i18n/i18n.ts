@@ -22,8 +22,10 @@ const translationsEn = {
   profile_acc_username: "Username",
   profile_acc_birthdate: "Date of birth",
   profile_acc_email: "Email",
+  accept: "Aceptar",
   save: "Save",
   close: "Close",
+  edit: "Edit",
   delete: "Delete",
   password: "Password",
   actual_password: "Actual Password",
@@ -116,6 +118,8 @@ const translationsEn = {
   modal_product_description:
     "All information described in this section is public.",
   modal_product_add: "Add Product",
+  modal_delete_product_description:
+    "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
   beer: "Beer",
   merchandising: "Merchandising",
 };
@@ -140,8 +144,10 @@ const translationsEs = {
   profile_acc_username: "Usuario",
   profile_acc_birthdate: "Fecha de Nacimiento",
   profile_acc_email: "Correo Electrónico",
+  accept: "Aceptar",
   save: "Guardar",
   close: "Cerrar",
+  edit: "Editar",
   delete: "Eliminar",
   password: "Contraseña",
   actual_password: "Contraseña Actual",
@@ -233,6 +239,8 @@ const translationsEs = {
   modal_product_description:
     "Asegúrese de rellenar todos los campos obligatorios para introducir con éxito el producto. Toda la información descrita en esta sección es pública.",
   modal_product_add: "Añadir Producto",
+  modal_delete_product_description:
+    "¡Cuidado! Vas a eliminar un producto. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el producto?",
   beer: "Cerveza",
   merchandising: "Merchandising",
   form_errors: translationsFormErrorsEn,

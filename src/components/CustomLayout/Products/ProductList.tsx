@@ -1,10 +1,12 @@
 import { Button } from "@supabase/ui";
+import { t } from "i18next";
 import Image from "next/image";
 import React, { useState } from "react";
 
 interface Props {
   beers: Beer[];
-  handleShowModal: React.Dispatch<React.SetStateAction<any>>;
+  handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
+  handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleBeerModal: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -46,10 +48,18 @@ const COLUMNS = [
 ];
 
 export default function ProductList(props: Props) {
-  const { beers, handleShowModal, handleBeerModal } = props;
+  const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
+    props;
 
   const handleClickEdit = (beer: Beer) => {
-    handleShowModal(true);
+    handleEditShowModal(true);
+    handleDeleteShowModal(false);
+    handleBeerModal(beer);
+  };
+
+  const handleClickDelete = (beer: Beer) => {
+    handleEditShowModal(false);
+    handleDeleteShowModal(true);
     handleBeerModal(beer);
   };
 
@@ -92,12 +102,20 @@ export default function ProductList(props: Props) {
                   <td className="py-4 px-6">{beer.color}</td>
                   <td className="py-4 px-6">{beer.color}</td>
                   <td className="py-4 px-6">
-                    <Button
-                      onClick={() => handleClickEdit(beer)}
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit
-                    </Button>
+                    <div className="flex">
+                      <Button
+                        onClick={() => handleClickEdit(beer)}
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2"
+                      >
+                        {t("edit")}
+                      </Button>
+                      <Button
+                        onClick={() => handleClickDelete(beer)}
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                        {t("delete")}
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               );

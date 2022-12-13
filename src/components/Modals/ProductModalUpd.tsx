@@ -16,6 +16,7 @@ import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   isVisible: boolean;
+  handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   beer: {
     id: string;
     name: string;
@@ -69,7 +70,7 @@ type FormValues = {
 
 const ProductModalUpd = (props: Props) => {
   const { t } = useTranslation();
-  const { isVisible, beer } = props;
+  const { isVisible, beer, handleEditShowModal } = props;
 
   const {
     id,

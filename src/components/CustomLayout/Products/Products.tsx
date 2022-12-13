@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { BeerEnum } from "../../../lib/beerEnum";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "../../Auth/UserContext";
 import ProductModal from "../../Modals/ProductModalAdd";
+import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
 
@@ -37,44 +36,11 @@ export const Products = () => {
 
   const { user } = useUser();
 
-  const [productType, setProductType] = useState(BeerEnum.Product_type.beer);
-  const [name, setName] = useState("Jaira IPA");
-  const [intensity, setIntensity] = useState("");
-  const [color, setColor] = useState("Red");
-  const [family, setFamily] = useState("");
-
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [isEditShowModal, setIsEditShowModal] = useState(false);
+  const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [beerModal, setBeerModal] = useState<any>(null);
 
   const [beers, setBeers] = useState<Beer[]>();
-
-  const [modalFormData, setModalFormData] = useState("");
-
-  const {
-    register,
-    formState: { errors },
-    watch,
-    setValue,
-    getValues,
-    handleSubmit,
-  } = useForm({
-    defaultValues: {
-      name: "Jaira IPA",
-      color: "red",
-      intensity: "",
-      family: "",
-      type: BeerEnum.Product_type.beer,
-    },
-  });
-
-  const handleChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value: any = event?.target.value;
-    setProductType(value);
-  };
-
-  useEffect(() => {
-    setValue("name", modalFormData);
-  }, [setValue, modalFormData]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -92,8 +58,12 @@ export const Products = () => {
     getProducts();
   }, [user]);
 
-  const handleShowModal = (value: boolean) => {
-    setIsShowModal(value);
+  const handleEditShowModal = (value: boolean) => {
+    setIsEditShowModal(value);
+  };
+
+  const handleDeleteShowModal = (value: boolean) => {
+    setIsDeleteShowModal(value);
   };
 
   const handleBeerModal = (beer: Beer) => {
@@ -112,13 +82,28 @@ export const Products = () => {
         <div>
           <ProductList
             beers={beers!}
-            handleShowModal={handleShowModal}
+            handleEditShowModal={handleEditShowModal}
+            handleDeleteShowModal={handleDeleteShowModal}
             handleBeerModal={handleBeerModal}
           />
         </div>
 
-        {isShowModal ? (
-          <ProductModalUpd isVisible={true} beer={beerModal} />
+        {isEditShowModal ? (
+          <ProductModalUpd
+            isVisible={true}
+            beer={beerModal}
+            handleEditShowModal={handleEditShowModal}
+          />
+        ) : (
+          <div></div>
+        )}
+
+        {isDeleteShowModal ? (
+          <ProductModalDelete
+            beerId={beerModal.id}
+            isDeleteShowModal={isDeleteShowModal}
+            handleDeleteShowModal={handleDeleteShowModal}
+          />
         ) : (
           <div></div>
         )}
