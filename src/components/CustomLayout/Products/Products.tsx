@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Beer } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "../../Auth/UserContext";
 import ProductModal from "../../Modals/ProductModalAdd";
@@ -7,33 +7,7 @@ import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
 
-interface Beer {
-  id: string;
-  name: string;
-  description: string;
-  created_at: Date;
-  social_cause_id: number;
-  lot_id: number;
-  type: number;
-  feedback_id: number;
-  category: number;
-  intensity: string;
-  fermentation: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  aroma: string;
-  format: string;
-  awards_id: string;
-  campaign: string;
-  is_gluten: boolean;
-  owner_id: string;
-}
-
 export const Products = () => {
-  const { t } = useTranslation();
-
   const { user } = useUser();
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);

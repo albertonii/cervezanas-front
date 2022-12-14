@@ -2,36 +2,13 @@ import { Button } from "@supabase/ui";
 import { t } from "i18next";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Beer } from "../../../types";
 
 interface Props {
   beers: Beer[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleBeerModal: React.Dispatch<React.SetStateAction<any>>;
-}
-
-interface Beer {
-  id: string;
-  name: string;
-  description: string;
-  created_at: Date;
-  social_cause_id: number;
-  lot_id: number;
-  type: number;
-  feedback_id: number;
-  category: number;
-  intensity: string;
-  fermentation: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  aroma: string;
-  format: string;
-  awards_id: string;
-  campaign: string;
-  is_gluten: boolean;
-  owner_id: string;
 }
 
 interface ColumnsProps {
