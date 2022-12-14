@@ -122,6 +122,10 @@ const translationsEn = {
     "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
   beer: "Beer",
   merchandising: "Merchandising",
+  name: "Name",
+  description: "Description",
+  year: "Year",
+  upload_img_url: "Upload Image",
 };
 
 const translationsEs = {
@@ -244,6 +248,10 @@ const translationsEs = {
   beer: "Cerveza",
   merchandising: "Merchandising",
   form_errors: translationsFormErrorsEn,
+  name: "Nombre",
+  description: "Descripción",
+  year: "Año",
+  upload_img_url: "Subir Imagen",
 };
 
 // the translations

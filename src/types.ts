@@ -171,11 +171,11 @@ export interface Beer extends Product {
   awards_id: string[];
 }
 
-export interface Awards {
+export interface Award {
   id: string;
   name: string;
   description: string;
-  award_url: string;
+  img_url: string;
   year: number;
 }
 
