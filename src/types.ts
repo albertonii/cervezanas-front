@@ -169,6 +169,7 @@ export interface Beer extends Product {
   beer_format_id: string;
   is_gluten: boolean;
   awards_id: string[];
+  awards: Award[];
 }
 
 export interface Award {

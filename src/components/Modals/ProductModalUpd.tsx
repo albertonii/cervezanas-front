@@ -150,7 +150,7 @@ const ProductModalUpd = (props: Props) => {
           is_gluten: is_gluten === "true",
           type,
           campaign_id: campaign,
-          awards_id: "",
+          awards: [],
           owner_id,
         })
         .eq("id", id);

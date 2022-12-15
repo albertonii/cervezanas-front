@@ -13,7 +13,7 @@ import {
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Award } from "../../types";
+import { Award, Beer } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import ProductStepper from "./ProductStepper";
@@ -98,7 +98,7 @@ const ProductModalAdd = (props: Props) => {
       format: 0,
       isGluten: "",
       type: 0,
-      awards: [{ id: "", name: "", description: "", year: 0, img_url: "" }],
+      awards: [{ name: "", description: "", year: 0, img_url: "" }],
     },
   });
 
@@ -125,25 +125,51 @@ const ProductModalAdd = (props: Props) => {
         format,
         isGluten,
         type,
+        awards,
       } = formValues;
 
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
-        const { data, error } = await supabase.from("beers").insert({
-          name: getValues("name"),
-          description: getValues("description"),
-          intensity: intensity_options[intensity].label,
-          fermentation: fermentation_options[fermentation].label,
-          color: color_options[color].label,
-          aroma: aroma_options[aroma].label,
-          family: family_options[family].label,
-          origin: origin_options[origin].label,
-          era: era_options[era].label,
-          format: format_options[format].label,
-          is_gluten: isGluten === "true",
-          type,
-          campaign_id: campaign,
-          awards_id: "",
-        });
+        let beerId = "";
+        const { data: beerData, error: beerError } = await supabase
+          .from("beers")
+          .insert({
+            name: getValues("name"),
+            description: getValues("description"),
+            intensity: intensity_options[intensity].label,
+            fermentation: fermentation_options[fermentation].label,
+            color: color_options[color].label,
+            aroma: aroma_options[aroma].label,
+            family: family_options[family].label,
+            origin: origin_options[origin].label,
+            era: era_options[era].label,
+            format: format_options[format].label,
+            is_gluten: isGluten === "true",
+            type,
+            campaign_id: campaign,
+          })
+          .select();
+
+        if (beerError) throw beerError;
+
+        if (awards.length > 0) {
+          beerId = beerData[0].id;
+
+          awards.map(async (award) => {
+            const { error: awardsError } = await supabase
+              .from("awards")
+              .insert({
+                beer_id: beerId,
+                name: award.name,
+                description: award.description,
+                year: award.year,
+                img_url: "asdf",
+              });
+
+            if (awardsError) throw awardsError;
+          });
+        }
+
+        return beerData;
       }
     };
 

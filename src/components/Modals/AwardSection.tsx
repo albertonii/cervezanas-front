@@ -3,7 +3,7 @@ import { Button, Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { Award } from "../../types";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormProps {
   name: string;
@@ -68,6 +68,8 @@ export const AwardsSection = ({
     }
   };
 
+  useEffect(() => {}, []);
+
   return (
     <section id="Award">
       {fields.map((field, index) => (
@@ -131,6 +133,7 @@ export const AwardsSection = ({
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.year`, {
                 required: true,
+                valueAsNumber: true,
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
