@@ -16,6 +16,7 @@ import {
 import { Award, Beer } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
+import { MultimediaSection } from "./MultimediaSection";
 import ProductStepper from "./ProductStepper";
 
 interface Props {
@@ -566,13 +567,21 @@ const ProductModalAdd = (props: Props) => {
                           </div>
                         </div>
                       </div>
-                    ) : (
+                    ) : activeStep === 1 ? (
                       <>
                         <p className="my-4 text-slate-500 text-lg leading-relaxed">
                           {t("modal_product_description")}
                         </p>
 
                         <AwardsSection form={form} />
+                      </>
+                    ) : (
+                      <>
+                        <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                          {t("modal_product_description")}
+                        </p>
+
+                        <MultimediaSection form={form} />
                       </>
                     )}
                   </ProductStepper>

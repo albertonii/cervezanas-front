@@ -32,6 +32,10 @@ export const Products = () => {
     getProducts();
   }, [user]);
 
+  const handleSetBeers = (value: Beer[]) => {
+    setBeers(value);
+  };
+
   const handleEditShowModal = (value: boolean) => {
     setIsEditShowModal(value);
   };
@@ -74,9 +78,11 @@ export const Products = () => {
 
         {isDeleteShowModal ? (
           <ProductModalDelete
+            beers={beers!}
             beerId={beerModal.id}
             isDeleteShowModal={isDeleteShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
+            handleSetBeers={handleSetBeers}
           />
         ) : (
           <div></div>

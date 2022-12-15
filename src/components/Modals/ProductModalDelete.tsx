@@ -1,17 +1,26 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Beer } from "../../types";
 
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
+  beers: Beer[];
   beerId: string;
   isDeleteShowModal: boolean;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
+  handleSetBeers: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const ProductModalDelete = (props: Props) => {
   const { t } = useTranslation();
-  const { beerId, isDeleteShowModal, handleDeleteShowModal } = props;
+  const {
+    beers,
+    beerId,
+    isDeleteShowModal,
+    handleDeleteShowModal,
+    handleSetBeers,
+  } = props;
 
   const handleClick = () => {
     const handleDelete = async () => {
@@ -23,6 +32,12 @@ const ProductModalDelete = (props: Props) => {
       if (error) throw error;
 
       handleDeleteShowModal(false);
+
+      handleSetBeers(
+        beers.filter((b) => {
+          return b.id !== beerId;
+        })
+      );
 
       return data;
     };

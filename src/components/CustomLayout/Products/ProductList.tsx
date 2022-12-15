@@ -54,6 +54,7 @@ export default function ProductList(props: Props) {
             })}
           </tr>
         </thead>
+
         <tbody>
           {beers &&
             beers.map((beer) => {
