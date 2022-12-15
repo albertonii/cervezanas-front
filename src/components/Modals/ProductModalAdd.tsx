@@ -162,10 +162,18 @@ const ProductModalAdd = (props: Props) => {
                 name: award.name,
                 description: award.description,
                 year: award.year,
-                img_url: "asdf",
               });
 
             if (awardsError) throw awardsError;
+
+            // const productFileUrl = award.img_url;
+
+            // const { data, error } = await supabase.storage
+            //   .from("products")
+            //   .upload(`public/${productFileUrl}`, productFileUrl, {
+            //     cacheControl: "3600",
+            //     upsert: false,
+            //   });
           });
         }
 

@@ -75,6 +75,16 @@ export const AwardsSection = ({
       {fields.map((field, index) => (
         <div key={field.id}>
           <div className="w-full space-y">
+            {fields.length > 1 ? (
+              <div>
+                <Button danger onClick={() => remove(index)}>
+                  Remove
+                </Button>
+              </div>
+            ) : (
+              <></>
+            )}
+
             <label htmlFor="award_name" className="text-sm text-gray-600">
               <b>{index + 1} </b> {t("name")}
             </label>
