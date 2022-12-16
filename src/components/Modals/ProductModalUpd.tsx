@@ -301,7 +301,6 @@ const ProductModalUpd = (props: Props) => {
                             <option
                               key={option.value}
                               value={option.label}
-                              selected
                             >
                               {t(option.label)}
                             </option>
@@ -355,7 +354,6 @@ const ProductModalUpd = (props: Props) => {
                             <option
                               key={option.value}
                               value={option.label}
-                              selected
                             >
                               {t(option.label)}
                             </option>
@@ -410,7 +408,6 @@ const ProductModalUpd = (props: Props) => {
                             <option
                               key={option.value}
                               value={option.label}
-                              selected
                             >
                               {t(option.label)}
                             </option>
@@ -462,7 +459,6 @@ const ProductModalUpd = (props: Props) => {
                             <option
                               key={option.value}
                               value={option.label}
-                              selected
                             >
                               {t(option.label)}
                             </option>

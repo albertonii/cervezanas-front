@@ -28,6 +28,7 @@ const emptyAward: Award = {
   description: "",
   img_url: "",
   year: 0,
+  beer_id: ""
 };
 
 export interface Props {
@@ -53,6 +54,7 @@ export const MultimediaSection = ({
   const showPreview = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     if (e.target.files!.length > 0) {
       let src = URL.createObjectURL(e.target.files![0]!);
+      console.log(src);
 
       let preview = document.getElementById(
         `prev-img-${index}`
@@ -180,8 +182,8 @@ export const MultimediaSection = ({
                 id={`prev-img-${index}`}
                 width="128"
                 height="128"
-                alt="Preview uploaded image"
-                src={""}
+                alt="Preview upload multimedia file"
+                src="/"
               />
             </div>
           </div>

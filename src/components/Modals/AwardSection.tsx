@@ -28,10 +28,16 @@ const emptyAward: Award = {
   description: "",
   img_url: "",
   year: 0,
+  beer_id: "",
 };
 
 export interface Props {
   form: UseFormReturn<FormProps, any>;
+}
+
+interface FileProps {
+  index: number;
+  file: File;
 }
 
 export const AwardsSection = ({
@@ -50,12 +56,14 @@ export const AwardsSection = ({
     control,
   });
 
-  const showPreview = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    if (e.target.files!.length > 0) {
-      let src = URL.createObjectURL(e.target.files![0]!);
+  const [selectedFiles, setSelectedFiles] = useState<FileProps[]>([]);
+
+  useEffect(() => {
+    selectedFiles.map((file) => {
+      let src = URL.createObjectURL(file.file);
 
       let preview = document.getElementById(
-        `prev-img-${index}`
+        `prev-img-${file.index}`
       ) as HTMLImageElement | null;
 
       if (preview !== null) {
@@ -65,10 +73,24 @@ export const AwardsSection = ({
       } else {
         setIsPrevVisible(false);
       }
+    });
+  }, [selectedFiles]);
+
+  const showPreview = async (
+    e: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.target.files!.length > 0) {
+      setSelectedFiles([...selectedFiles, { index, file: e.target.files![0] }]);
     }
   };
 
-  useEffect(() => {}, []);
+  const handleRemoveAward = (index: number) => {
+    setSelectedFiles((current) =>
+      current.filter((selectedFile) => selectedFile.index !== index)
+    );
+    remove(index);
+  };
 
   return (
     <section id="Award">
@@ -77,7 +99,7 @@ export const AwardsSection = ({
           <div className="w-full space-y">
             {fields.length > 1 ? (
               <div>
-                <Button danger onClick={() => remove(index)}>
+                <Button danger onClick={() => handleRemoveAward(index)}>
                   Remove
                 </Button>
               </div>
@@ -171,19 +193,18 @@ export const AwardsSection = ({
               <p>Campo imagen es requerido</p>
             )}
 
-            <div
+            {/* <div
               aria-label="Preview Uploaded Image"
-              className={`${isPrevVisible ? "block" : "hidden"}
-              }`}
+              className={`${isPrevVisible ? "block" : "hidden"}`}
             >
               <Image
                 id={`prev-img-${index}`}
                 width="128"
                 height="128"
                 alt="Preview uploaded image"
-                src={""}
+                src={"/award_icon.png"}
               />
-            </div>
+            </div> */}
           </div>
 
           <Divider className="my-6" />

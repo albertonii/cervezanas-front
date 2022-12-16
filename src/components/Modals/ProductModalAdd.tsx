@@ -156,6 +156,9 @@ const ProductModalAdd = (props: Props) => {
           beerId = beerData[0].id;
 
           awards.map(async (award) => {
+            const file = award.img_url[0];
+            const productFileUrl = file.name;
+
             const { error: awardsError } = await supabase
               .from("awards")
               .insert({
@@ -163,18 +166,18 @@ const ProductModalAdd = (props: Props) => {
                 name: award.name,
                 description: award.description,
                 year: award.year,
+                img_url: productFileUrl,
               });
 
             if (awardsError) throw awardsError;
-
-            // const productFileUrl = award.img_url;
-
-            // const { data, error } = await supabase.storage
-            //   .from("products")
-            //   .upload(`public/${productFileUrl}`, productFileUrl, {
-            //     cacheControl: "3600",
-            //     upsert: false,
-            //   });
+            console.log(award.img_url[0]);
+            console.log(award);
+            const { data, error } = await supabase.storage
+              .from("products")
+              .upload(`awards/${productFileUrl}`, file, {
+                cacheControl: "3600",
+                upsert: false,
+              });
           });
         }
 
@@ -336,11 +339,7 @@ const ProductModalAdd = (props: Props) => {
                               className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {intensity_options.map((option) => (
-                                <option
-                                  key={option.value}
-                                  value={option.value}
-                                  selected
-                                >
+                                <option key={option.value} value={option.value}>
                                   {t(option.label)}
                                 </option>
                               ))}
@@ -391,11 +390,7 @@ const ProductModalAdd = (props: Props) => {
                               className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {color_options.map((option) => (
-                                <option
-                                  key={option.value}
-                                  value={option.value}
-                                  selected
-                                >
+                                <option key={option.value} value={option.value}>
                                   {t(option.label)}
                                 </option>
                               ))}
@@ -446,11 +441,7 @@ const ProductModalAdd = (props: Props) => {
                               className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {family_options.map((option) => (
-                                <option
-                                  key={option.value}
-                                  value={option.value}
-                                  selected
-                                >
+                                <option key={option.value} value={option.value}>
                                   {t(option.label)}
                                 </option>
                               ))}
@@ -501,11 +492,7 @@ const ProductModalAdd = (props: Props) => {
                               className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {aroma_options.map((option) => (
-                                <option
-                                  key={option.value}
-                                  value={option.value}
-                                  selected
-                                >
+                                <option key={option.value} value={option.value}>
                                   {t(option.label)}
                                 </option>
                               ))}
@@ -594,6 +581,7 @@ const ProductModalAdd = (props: Props) => {
                     >
                       {t("save")}
                     </button>
+
                     <button
                       className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"

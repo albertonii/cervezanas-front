@@ -176,8 +176,9 @@ export interface Award {
   id: string;
   name: string;
   description: string;
-  img_url: string;
+  img_url: any;
   year: number;
+  beer_id: string;
 }
 
 export interface BeerFormat {
