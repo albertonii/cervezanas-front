@@ -2,7 +2,6 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button, Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { Award } from "../../types";
-import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormProps {

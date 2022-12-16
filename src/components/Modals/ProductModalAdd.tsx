@@ -1,4 +1,6 @@
+import { Modal } from "@supabase/ui";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -64,6 +66,10 @@ const ProductModalAdd = (props: Props) => {
 
   const [showModal, setShowModal] = useState(isVisible);
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    console.log(activeStep);
+  }, [activeStep]);
 
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
@@ -138,7 +144,7 @@ const ProductModalAdd = (props: Props) => {
 
         if (beerError) throw beerError;
 
-        if (awards.length > 0) {
+        if (awards.length > 0 && awards[0].img_url != "") {
           beerId = beerData[0].id;
 
           awards.map(async (award) => {
@@ -156,8 +162,7 @@ const ProductModalAdd = (props: Props) => {
               });
 
             if (awardsError) throw awardsError;
-            console.log(award.img_url[0]);
-            console.log(award);
+
             const { data, error } = await supabase.storage
               .from("products")
               .upload(`awards/${productFileUrl}`, file, {
@@ -165,6 +170,8 @@ const ProductModalAdd = (props: Props) => {
                 upsert: false,
               });
           });
+
+          setActiveStep(0);
         }
 
         return beerData;
@@ -188,7 +195,7 @@ const ProductModalAdd = (props: Props) => {
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none drop-shadow-md focus:outline-none">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="relative w-auto my-6 mx-auto max-w-5xl">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
@@ -225,15 +232,17 @@ const ProductModalAdd = (props: Props) => {
                         </p>
 
                         <AwardsSection form={form} />
+
+                        <MultimediaSection form={form} />
                       </>
-                    ) : (
+                    ) : activeStep === 2 ? (
                       <>
                         <p className="my-4 text-slate-500 text-lg leading-relaxed">
                           {t("modal_product_description")}
                         </p>
-
-                        <MultimediaSection form={form} />
                       </>
+                    ) : (
+                      <>Hello from the other side</>
                     )}
                   </ProductStepper>
 

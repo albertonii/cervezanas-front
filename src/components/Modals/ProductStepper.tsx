@@ -227,8 +227,9 @@ export default function Stepper(props: Props) {
             >
               Next
             </button>
+
             <button
-              onClick={() => () => handleStepper(-1)}
+              onClick={() => () => handleStepper(activeStep + 1)}
               className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
         hover:bg-teal-200  
         bg-teal-100 

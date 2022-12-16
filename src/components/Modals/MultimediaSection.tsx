@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Award } from "../../types";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
+import FilePreview from "../FilePreviews";
 
 interface FormProps {
   name: string;
@@ -28,7 +29,7 @@ const emptyAward: Award = {
   description: "",
   img_url: "",
   year: 0,
-  beer_id: ""
+  beer_id: "",
 };
 
 export interface Props {
@@ -74,128 +75,26 @@ export const MultimediaSection = ({
 
   return (
     <section id="Multimedia">
-      {fields.map((field, index) => (
-        <div key={field.id}>
-          <div className="w-full space-y">
-            {fields.length > 1 ? (
-              <div>
-                <Button danger onClick={() => remove(index)}>
-                  Remove
-                </Button>
-              </div>
-            ) : (
-              <></>
-            )}
-
-            <label htmlFor="award_name" className="text-sm text-gray-600">
-              <b>{index + 1} </b> {t("name")}
-            </label>
-
-            <input
-              type="text"
-              id="award_name"
-              placeholder="Award name"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              {...register(`awards.${index}.name`, {
-                required: true,
-              })}
-            />
-            {`errors.awards.${index}.name.type` === "required" && (
-              <p>Campo nombre es requerido</p>
-            )}
-            {`errors.awards.${index}.name.type` === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
-            )}
-          </div>
-
-          <div className="w-full space-y">
-            <label
-              htmlFor="award_description"
-              className="text-sm text-gray-600"
-            >
-              {t("description")}
-            </label>
-
-            <input
-              type="text"
-              id="award_description"
-              placeholder="Description of the award"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              {...register(`awards.${index}.description`, {
-                required: true,
-              })}
-            />
-            {`errors.awards.${index}.description.type` === "required" && (
-              <p>Campo nombre es requerido</p>
-            )}
-            {`errors.awards.${index}.description.type` === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
-            )}
-          </div>
-
-          <div className="w-full space-y">
-            <label htmlFor="award_year" className="text-sm text-gray-600">
-              {t("year")}
-            </label>
-
-            <input
-              type="number"
-              id="award_year"
-              placeholder="When did the product get the award"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              {...register(`awards.${index}.year`, {
-                required: true,
-                valueAsNumber: true,
-              })}
-            />
-            {`errors.awards.${index}.year.type` === "required" && (
-              <p>Campo año es requerido</p>
-            )}
-          </div>
-
-          <div className="w-full space-y">
-            <label htmlFor="award_img_url" className="text-sm text-gray-600">
-              {t("upload_img_url")}
-            </label>
-
-            <input
-              type="file"
-              {...register(`awards.${index}.img_url`, {
-                required: true,
-              })}
-              onChange={(e) => showPreview(e, index)}
-              accept="image/png, image/jpeg"
-              id="award_img_url"
-              placeholder="When did the product get the award"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            />
-            {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>Campo imagen es requerido</p>
-            )}
-
-            <div
-              aria-label="Preview Uploaded Image"
-              className={`${isPrevVisible ? "block" : "hidden"}
-              }`}
-            >
-              <Image
-                id={`prev-img-${index}`}
-                width="128"
-                height="128"
-                alt="Preview upload multimedia file"
-                src="/"
-              />
-            </div>
-          </div>
-
-          <Divider className="my-6" />
+      <div className="photo_gallery flex w-full">
+        <div className="principal w-full">
+          <FilePreview />
         </div>
-      ))}
-
-      <div>
-        <Button className="" onClick={() => append(emptyAward)}>
-          Add award
-        </Button>
+        <div className="back w-full">
+          <FilePreview />
+        </div>
+        <div className="extra_1 w-full">
+          <FilePreview />
+        </div>
+        <div className="extra_2 w-full">
+          <FilePreview />
+        </div>
+        <div className="extra_3 w-full">
+          <FilePreview />
+        </div>
+      </div>
+      <div className="video_gallery">
+        <div className="principal"></div>
+        <div className="extra_1"></div>
       </div>
     </section>
   );
