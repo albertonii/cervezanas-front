@@ -6,14 +6,10 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../Spinner";
 
-interface ProfileFormProps {
-  bg_url: FileList;
-  avatar_url: string;
-}
-
 type FormValues = {
   bg_url: any;
-  avatar_url: string;
+  avatar_url: any;
+  profile_photo_url: any;
 };
 
 interface Props {
@@ -27,7 +23,6 @@ export default function CustomizeProfileForm(props: Props) {
   const [loading, setLoading] = useState(false);
 
   const mockPng = new File([""], "", { type: "image/png" });
-
   const mockFileList = [mockPng];
 
   const {
@@ -37,7 +32,8 @@ export default function CustomizeProfileForm(props: Props) {
   } = useForm({
     defaultValues: {
       bg_url: mockFileList,
-      avatar_url: "",
+      avatar_url: mockFileList,
+      profile_photo_url: mockFileList,
     },
   });
 
@@ -45,12 +41,13 @@ export default function CustomizeProfileForm(props: Props) {
     try {
       setLoading(true);
 
-      const { bg_url } = formValues;
+      const { bg_url, profile_photo_url } = formValues;
 
       const { error: profileError } = await supabase
         .from("users")
         .update({
           bg_url: bg_url[0].name,
+          profile_photo_url: profile_photo_url[0].name,
         })
         .eq("id", user?.id);
 
@@ -59,19 +56,41 @@ export default function CustomizeProfileForm(props: Props) {
         throw profileError;
       }
 
-      const encodeUriImg = encodeURIComponent(`custom_bg/${bg_url[0].name}`);
+      if (bg_url[0].size > 0) {
+        const encodeUriImg = encodeURIComponent(`custom_bg/${user?.id}/img`);
 
-      const { data, error: storageError } = await supabase.storage
-        .from("avatars")
-        .upload(encodeUriImg, bg_url[0], {
-          cacheControl: "3600",
-          upsert: false,
-        });
+        const { error: storageError } = await supabase.storage
+          .from("avatars")
+          .upload(encodeUriImg, bg_url[0], {
+            cacheControl: "3600",
+            upsert: true,
+          });
 
-      if (profileError) {
-        setLoading(false);
-        throw storageError;
+        if (storageError) {
+          setLoading(false);
+          throw storageError;
+        }
       }
+
+      if (profile_photo_url[0].size > 0) {
+        const encodeUriImg = encodeURIComponent(
+          `profile_photo/${user?.id}/img`
+        );
+
+        const { error: storageError } = await supabase.storage
+          .from("avatars")
+          .upload(encodeUriImg, profile_photo_url[0], {
+            cacheControl: "3600",
+            upsert: true,
+          });
+
+        if (storageError) {
+          setLoading(false);
+          throw storageError;
+        }
+      }
+
+      setLoading(false);
     } catch (error) {
       alert("Error updating the data!");
       setLoading(false);
@@ -97,15 +116,29 @@ export default function CustomizeProfileForm(props: Props) {
               <input
                 type="file"
                 {...register("bg_url", {
-                  required: true,
+                  required: false,
                 })}
                 accept="image/png, image/jpeg"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               />
+            </div>
 
-              {errors.bg_url?.type === "pattern" && (
-                <p>El formato del email es incorrecto</p>
-              )}
+            <div className="w-full">
+              <label
+                htmlFor="profile_photo_img"
+                className="text-sm text-gray-600"
+              >
+                {t("profile_custom_profile_photo_img")}
+              </label>
+
+              <input
+                type="file"
+                {...register("profile_photo_url", {
+                  required: false,
+                })}
+                accept="image/png, image/jpeg"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              />
             </div>
 
             <div className="pl-12 ">

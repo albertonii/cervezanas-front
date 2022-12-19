@@ -12,13 +12,14 @@ export const ClientContainerLayout = ({ children }: Props) => {
 
   const [userProfile, setUserProfile] = useState<any[]>();
   const [bgImg, setBgImg] = useState({ publicURL: "" });
+  const [profilePhoto, setProfilePhoto] = useState({ publicURL: "" });
 
   useEffect(() => {
     if (user != null) {
       const getUserProfile = async () => {
         const { data, error } = await supabase
           .from("users")
-          .select("bg_url")
+          .select("bg_url, profile_photo_url")
           .eq("id", user!.id);
         if (error) throw error;
         setUserProfile(data);
@@ -32,7 +33,7 @@ export const ClientContainerLayout = ({ children }: Props) => {
     if (userProfile) {
       const getBg = async () => {
         if (userProfile![0].bg_url != null) {
-          const decodeUriImg = `custom_bg/${userProfile![0].bg_url}`;
+          const decodeUriImg = `custom_bg/${user?.id}/img`;
 
           const { data: bgImgData, error } = await supabase.storage
             .from("avatars")
@@ -44,9 +45,25 @@ export const ClientContainerLayout = ({ children }: Props) => {
         }
       };
 
+      const getProfilePhoto = async () => {
+        if (userProfile![0].profile_photo_url != null) {
+          const decodeUriImg = `profile_photo/${user?.id}/img`;
+          console.log(decodeUriImg);
+
+          const { data: profilePhotoData, error } = await supabase.storage
+            .from("avatars")
+            .getPublicUrl(decodeUriImg);
+
+          if (error) throw error;
+
+          setProfilePhoto(profilePhotoData!);
+        }
+      };
+
       getBg();
+      getProfilePhoto();
     }
-  }, [userProfile]);
+  }, [userProfile, user]);
 
   return (
     <>
@@ -69,8 +86,8 @@ export const ClientContainerLayout = ({ children }: Props) => {
                 height={150}
                 className="rounded-full h-36 w-36 border  bg-indigo-100 mx-auto 
                   shadow-2xl inset-x-0 top-0 flex items-center justify-center text-indigo-500"
-                src="https://randomuser.me/api/portraits/women/32.jpg"
-                alt="profile rimage"
+                src={profilePhoto.publicURL}
+                alt="profile image"
               />
             </div>
           </div>
