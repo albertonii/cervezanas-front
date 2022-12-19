@@ -45,7 +45,7 @@ const CustomLayout: NextPage<UserProps> = () => {
         return <Ledger />;
     }
 
-    return <Account />;
+    return <Account user={user} />;
   };
 
   const handleMenuOptions = (childData: string) => {

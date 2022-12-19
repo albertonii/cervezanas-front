@@ -5,15 +5,6 @@ import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../Spinner";
 
-// interface IBasicData {
-//   id: string;
-//   username: string;
-//   birthdate: string;
-//   given_name: string;
-//   lastname: string;
-//   email: string;
-// }
-
 export const BasicDataForm = (props: any) => {
   const { t } = useTranslation();
 
@@ -85,6 +76,7 @@ export const BasicDataForm = (props: any) => {
       <div id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}
       </div>
+
       {!loading ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-full flex-row space-x-3 ">

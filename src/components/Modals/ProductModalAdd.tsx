@@ -96,7 +96,6 @@ const ProductModalAdd = (props: Props) => {
   });
 
   const {
-    register,
     formState: { errors },
     watch,
     setValue,
@@ -218,32 +217,29 @@ const ProductModalAdd = (props: Props) => {
                     activeStep={activeStep}
                     handleSetActiveStep={handleSetActiveStep}
                   >
-                    {activeStep === 0 ? (
-                      <>
-                        <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                          {t("modal_product_description")}
-                        </p>
-                        <ProductInfoSection form={form} />
-                      </>
-                    ) : activeStep === 1 ? (
-                      <>
-                        <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                          {t("modal_product_description")}
-                        </p>
+                    <>
+                      <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                        {t("modal_product_description")}
+                      </p>
 
-                        <AwardsSection form={form} />
+                      {activeStep === 0 ? (
+                        <>
+                          <ProductInfoSection form={form} />
+                        </>
+                      ) : activeStep === 1 ? (
+                        <>
+                          <AwardsSection form={form} />
 
-                        <MultimediaSection form={form} />
-                      </>
-                    ) : activeStep === 2 ? (
-                      <>
-                        <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                          {t("modal_product_description")}
-                        </p>
-                      </>
-                    ) : (
-                      <>Hello from the other side</>
-                    )}
+                          <MultimediaSection form={form} />
+                        </>
+                      ) : activeStep === 2 ? (
+                        <>
+                          <MultimediaSection form={form} />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
                   </ProductStepper>
 
                   {/*footer*/}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BasicDataForm } from "./BasicDataForm";
-import { supabase } from "../../../utils/supabaseClient";
 import SecretDataForm from "./SecretDataForm";
 import LocationForm from "./LocationForm";
 import { User } from "@supabase/supabase-js";
+import CustomizeProfileForm from "./CustomizeProfileForm";
 
 interface Props {
   user: User | null;
@@ -41,6 +41,7 @@ export const Account = (props: Props) => {
             <BasicDataForm profileData={profileData} />
             <SecretDataForm />
             <LocationForm />
+            <CustomizeProfileForm user={user} />
           </div>
         )}
       </div>

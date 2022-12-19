@@ -45,13 +45,6 @@ export const Profile = (props: Props) => {
           .select("id, username, given_name, lastname, birthdate")
           .eq("id", user?.id);
 
-        /*
-        let { data: historyData, error: historyError } = await supabase
-          .from("users")
-          .select("id, history_id")
-          .eq("id", user?.id);
-        */
-
         if (error) {
           throw error;
         }

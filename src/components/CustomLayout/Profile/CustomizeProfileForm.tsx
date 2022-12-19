@@ -1,0 +1,123 @@
+import { User } from "@supabase/supabase-js";
+import { Button } from "@supabase/ui";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { supabase } from "../../../utils/supabaseClient";
+import { Spinner } from "../../Spinner";
+
+interface ProfileFormProps {
+  bg_url: FileList;
+  avatar_url: string;
+}
+
+type FormValues = {
+  bg_url: any;
+  avatar_url: string;
+};
+
+interface Props {
+  user: User | null;
+}
+
+export default function CustomizeProfileForm(props: Props) {
+  const { t } = useTranslation();
+
+  const { user } = props;
+  const [loading, setLoading] = useState(false);
+
+  const mockPng = new File([""], "", { type: "image/png" });
+
+  const mockFileList = [mockPng];
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      bg_url: mockFileList,
+      avatar_url: "",
+    },
+  });
+
+  const onSubmit = async (formValues: FormValues) => {
+    try {
+      setLoading(true);
+
+      const { bg_url } = formValues;
+
+      const { error: profileError } = await supabase
+        .from("users")
+        .update({
+          bg_url: bg_url[0].name,
+        })
+        .eq("id", user?.id);
+
+      if (profileError) {
+        setLoading(false);
+        throw profileError;
+      }
+
+      const encodeUriImg = encodeURIComponent(`custom_bg/${bg_url[0].name}`);
+
+      const { data, error: storageError } = await supabase.storage
+        .from("avatars")
+        .upload(encodeUriImg, bg_url[0], {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (profileError) {
+        setLoading(false);
+        throw storageError;
+      }
+    } catch (error) {
+      alert("Error updating the data!");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="container px-6 py-4 bg-white space-y-3 mb-4">
+      <div id="account-data" className="text-2xl">
+        {t("profile_custom")}
+      </div>
+
+      {!loading ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-row items-end">
+            <div className="w-full">
+              <label htmlFor="bg_img" className="text-sm text-gray-600">
+                {t("profile_custom_bg_img")}
+              </label>
+
+              <input
+                type="file"
+                {...register("bg_url", {
+                  required: true,
+                })}
+                accept="image/png, image/jpeg"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              />
+
+              {errors.bg_url?.type === "pattern" && (
+                <p>El formato del email es incorrecto</p>
+              )}
+            </div>
+
+            <div className="pl-12 ">
+              <Button type="primary" size="medium">
+                {t("save")}
+              </Button>
+            </div>
+          </div>
+        </form>
+      ) : (
+        <Spinner />
+      )}
+    </section>
+  );
+}

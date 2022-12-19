@@ -1,12 +1,36 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import styles from "../styles/FilePreview.module.css";
+import { UseFormReturn } from "react-hook-form";
+import { Award, ProductMultimedia } from "../types";
 
-interface Props {
-  fileData: File;
+interface FormProps {
+  name: string;
+  description: string;
+  campaign: string;
+  type: number;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  fermentation: number;
+  origin: number;
+  era: number;
+  format: number;
+  isGluten: string;
+  awards: Award[];
+  product_multimedia: ProductMultimedia;
 }
 
-const FilePreview = () => {
+interface Props {
+  form: UseFormReturn<FormProps, any>;
+  registerName: string;
+}
+
+const FilePreview = (props: Props) => {
+  const { form, registerName } = props;
+
+  const { register } = form;
+
   const [file, setFile] = useState<File>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
@@ -36,6 +60,7 @@ const FilePreview = () => {
         {!hideDrop ? (
           <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
             <input
+              {...register("name", { required: "false" })}
               type="file"
               onChange={handleFile}
               accept="image/png, image/jpeg"

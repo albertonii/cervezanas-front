@@ -181,6 +181,31 @@ export interface Award {
   beer_id: string;
 }
 
+export interface ProductMultimedia {
+  id: string;
+  p_principal: ProductMultimediaItem;
+  p_back: ProductMultimediaItem;
+  p_extra_1: ProductMultimediaItem;
+  p_extra_2: ProductMultimediaItem;
+  p_extra_3: ProductMultimediaItem;
+  p_extra_4: ProductMultimediaItem;
+  v_principal: ProductMultimediaItem;
+  v_extra_1: ProductMultimediaItem;
+  v_extra_2: ProductMultimediaItem;
+}
+
+interface ProductMultimediaItem {
+  id: string;
+  created_at: Date;
+  name: string;
+  bucket_url: string;
+}
+
+export interface ProductImg {
+  name: string;
+  img_url: any;
+}
+
 export interface BeerFormat {
   id: string;
   beer_id: string;
