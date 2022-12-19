@@ -19,6 +19,11 @@ interface FormProps {
   format: number;
   isGluten: string;
   awards: Award[];
+  p_principal: FileList;
+  p_back: FileList;
+  p_extra_1: FileList;
+  p_extra_2: FileList;
+  p_extra_3: FileList;
 }
 
 const emptyAward: Award = {
@@ -116,7 +121,7 @@ export const AwardsSection = ({
               placeholder="Award name"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.name`, {
-                required: true,
+                required: false,
               })}
             />
             {`errors.awards.${index}.name.type` === "required" && (
@@ -141,7 +146,7 @@ export const AwardsSection = ({
               placeholder="Description of the award"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.description`, {
-                required: true,
+                required: false,
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
@@ -163,7 +168,7 @@ export const AwardsSection = ({
               placeholder="When did the product get the award"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.year`, {
-                required: true,
+                required: false,
                 valueAsNumber: true,
               })}
             />
@@ -185,7 +190,6 @@ export const AwardsSection = ({
               onChange={(e) => showPreview(e, index)}
               accept="image/png, image/jpeg"
               id="award_img_url"
-              placeholder="When did the product get the award"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
             {`errors.awards.${index}.img_url.type` === "required" && (

@@ -12,7 +12,6 @@ import {
   intensity_options,
   origin_options,
   product_type_options,
-  BeerEnum,
 } from "../../lib/beerEnum";
 import { Award } from "../../types";
 
@@ -31,6 +30,11 @@ interface FormProps {
   format: number;
   isGluten: string;
   awards: Award[];
+  p_principal: any;
+  p_back: any;
+  p_extra_1: any;
+  p_extra_2: any;
+  p_extra_3: any;
 }
 
 interface Props {

@@ -1,6 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { Award, ProductMultimedia } from "../../types";
-import { useEffect } from "react";
+import { Award } from "../../types";
 import FilePreview from "../FilePreviews";
 
 interface FormProps {
@@ -18,7 +17,11 @@ interface FormProps {
   format: number;
   isGluten: string;
   awards: Award[];
-  product_multimedia: ProductMultimedia;
+  p_principal: FileList;
+  p_back: FileList;
+  p_extra_1: FileList;
+  p_extra_2: FileList;
+  p_extra_3: FileList;
 }
 
 export interface Props {
@@ -28,13 +31,11 @@ export interface Props {
 export const MultimediaSection = (props: Props) => {
   const { form } = props;
 
-  useEffect(() => {}, []);
-
   return (
     <section id="Multimedia">
       <div className="photo_gallery flex w-full">
         <div className="principal w-full">
-          <FilePreview form={form} registerName="p_princiapl" />
+          <FilePreview form={form} registerName="p_principal" />
         </div>
         <div className="back w-full">
           <FilePreview form={form} registerName="p_back" />
@@ -49,6 +50,7 @@ export const MultimediaSection = (props: Props) => {
           <FilePreview form={form} registerName="p_extra_3" />
         </div>
       </div>
+
       <div className="video_gallery">
         <div className="principal"></div>
         <div className="extra_1"></div>

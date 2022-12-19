@@ -41,6 +41,11 @@ type FormValues = {
   format: number;
   isGluten: string;
   awards: Award[];
+  p_principal: any;
+  p_back: any;
+  p_extra_1: any;
+  p_extra_2: any;
+  p_extra_3: any;
 };
 
 interface FormProps {
@@ -58,6 +63,11 @@ interface FormProps {
   format: number;
   isGluten: string;
   awards: Award[];
+  p_principal: any;
+  p_back: any;
+  p_extra_1: any;
+  p_extra_2: any;
+  p_extra_3: any;
 }
 
 const ProductModalAdd = (props: Props) => {
@@ -66,10 +76,6 @@ const ProductModalAdd = (props: Props) => {
 
   const [showModal, setShowModal] = useState(isVisible);
   const [activeStep, setActiveStep] = useState(0);
-
-  useEffect(() => {
-    console.log(activeStep);
-  }, [activeStep]);
 
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
@@ -118,6 +124,11 @@ const ProductModalAdd = (props: Props) => {
         isGluten,
         type,
         awards,
+        p_principal,
+        p_back,
+        p_extra_1,
+        p_extra_2,
+        p_extra_3,
       } = formValues;
 
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
@@ -143,35 +154,120 @@ const ProductModalAdd = (props: Props) => {
 
         if (beerError) throw beerError;
 
+        beerId = beerData[0].id;
+
         if (awards.length > 0 && awards[0].img_url != "") {
-          beerId = beerData[0].id;
-
           awards.map(async (award) => {
-            const file = award.img_url[0];
-            const productFileUrl = file.name;
+            if (award.img_url.length > 0) {
+              const file = award.img_url[0];
+              const productFileUrl = encodeURIComponent(file.name);
 
-            const { error: awardsError } = await supabase
-              .from("awards")
-              .insert({
-                beer_id: beerId,
-                name: award.name,
-                description: award.description,
-                year: award.year,
-                img_url: productFileUrl,
-              });
+              const { error: awardsError } = await supabase
+                .from("awards")
+                .insert({
+                  beer_id: beerId,
+                  name: award.name,
+                  description: award.description,
+                  year: award.year,
+                  img_url: productFileUrl,
+                });
 
-            if (awardsError) throw awardsError;
+              if (awardsError) throw awardsError;
 
-            const { data, error } = await supabase.storage
-              .from("products")
-              .upload(`awards/${productFileUrl}`, file, {
-                cacheControl: "3600",
-                upsert: false,
-              });
+              const { error: storageAwardsError } = await supabase.storage
+                .from("products")
+                .upload(`awards/${productFileUrl}`, file, {
+                  cacheControl: "3600",
+                  upsert: false,
+                });
+
+              if (storageAwardsError) throw storageAwardsError;
+            }
+          });
+        }
+
+        const p_principal_url =
+          p_principal.name != undefined
+            ? encodeURIComponent(p_principal.name)
+            : null;
+        const p_back_url =
+          p_back != undefined ? encodeURIComponent(p_back.name) : null;
+        const p_extra_1_url =
+          p_extra_1 != undefined ? encodeURIComponent(p_extra_1.name) : null;
+        const p_extra_2_url =
+          p_extra_2 != undefined ? encodeURIComponent(p_extra_2.name) : null;
+        const p_extra_3_url =
+          p_extra_3 != undefined ? encodeURIComponent(p_extra_3.name) : null;
+
+        const { error: multError } = await supabase
+          .from("product_multimedia")
+          .insert({
+            beer_id: beerId,
+            p_principal: p_principal_url,
+            p_back: p_back_url,
+            p_extra_1: p_extra_1_url,
+            p_extra_2: p_extra_2_url,
+            p_extra_3: p_extra_3_url,
           });
 
-          setActiveStep(0);
+        if (multError) throw multError;
+
+        if (p_principal_url) {
+          const { error: pPrincipalError } = await supabase.storage
+            .from("products")
+            .upload(`p_principal/${p_principal_url}`, p_principal, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (pPrincipalError) throw pPrincipalError;
         }
+
+        if (p_back_url) {
+          const { error: pBackError } = await supabase.storage
+            .from("products")
+            .upload(`p_back/${p_back_url}`, p_back, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (pBackError) throw pBackError;
+        }
+
+        if (p_extra_1_url) {
+          const { error: pExtra1Error } = await supabase.storage
+            .from("products")
+            .upload(`p_extra_1/${p_extra_1_url}`, p_extra_1, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (pExtra1Error) throw pExtra1Error;
+        }
+
+        if (p_extra_2_url) {
+          const { error: pExtra2Error } = await supabase.storage
+            .from("products")
+            .upload(`p_extra_2/${p_extra_2_url}`, p_extra_2, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (pExtra2Error) throw pExtra2Error;
+        }
+
+        if (p_extra_3_url) {
+          const { error: pExtra3Error } = await supabase.storage
+            .from("products")
+            .upload(`p_extra_3/${p_extra_3_url}`, p_extra_3, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (pExtra3Error) throw pExtra3Error;
+        }
+
+        setActiveStep(0);
 
         return beerData;
       }
@@ -229,8 +325,6 @@ const ProductModalAdd = (props: Props) => {
                       ) : activeStep === 1 ? (
                         <>
                           <AwardsSection form={form} />
-
-                          <MultimediaSection form={form} />
                         </>
                       ) : activeStep === 2 ? (
                         <>

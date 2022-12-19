@@ -31,7 +31,6 @@ export const ClientContainerLayout = ({ children }: Props) => {
   useEffect(() => {
     if (userProfile) {
       const getBg = async () => {
-        console.log(userProfile![0].bg_url);
         if (userProfile![0].bg_url != null) {
           const decodeUriImg = `custom_bg/${userProfile![0].bg_url}`;
 

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Award, ProductMultimedia } from "../types";
+import { Award } from "../types";
 
-interface FormProps {
+interface FormPropsFP {
   name: string;
   description: string;
   campaign: string;
@@ -18,19 +18,27 @@ interface FormProps {
   format: number;
   isGluten: string;
   awards: Award[];
-  product_multimedia: ProductMultimedia;
+  p_principal: any;
+  p_back: any;
+  p_extra_1: any;
+  p_extra_2: any;
+  p_extra_3: any;
 }
 
 interface Props {
-  form: UseFormReturn<FormProps, any>;
+  form: UseFormReturn<FormPropsFP, any>;
   registerName: string;
 }
 
-const FilePreview = (props: Props) => {
-  const { form, registerName } = props;
-
-  const { register } = form;
-
+const FilePreview = ({
+  form: {
+    control,
+    register,
+    setValue,
+    formState: { errors },
+  },
+  registerName,
+}: Props) => {
   const [file, setFile] = useState<File>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
@@ -42,9 +50,30 @@ const FilePreview = (props: Props) => {
   };
 
   useEffect(() => {
-    if (file.size !== 0) setHideDrop(true);
-    else setHideDrop(false);
-  }, [file]);
+    if (file.size !== 0) {
+      setHideDrop(true);
+
+      switch (registerName) {
+        case "p_principal":
+          setValue("p_principal", file);
+          break;
+        case "p_back":
+          setValue("p_back", file);
+          break;
+        case "p_extra_1":
+          setValue("p_extra_1", file);
+          break;
+        case "p_extra_2":
+          setValue("p_extra_2", file);
+          break;
+        case "p_extra_3":
+          setValue("p_extra_3", file);
+          break;
+        default:
+          break;
+      }
+    } else setHideDrop(false);
+  }, [file, registerName, setValue]);
 
   const removeImage = () => {
     setFile(new File([], ""));
@@ -60,13 +89,44 @@ const FilePreview = (props: Props) => {
         {!hideDrop ? (
           <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
             <input
-              {...register("name", { required: "false" })}
               type="file"
               onChange={handleFile}
               accept="image/png, image/jpeg"
               className="h-full w-full opacity-0 z-10 absolute"
-              name="files[]"
             />
+
+            <input
+              {...register("p_back", { required: "false" })}
+              type="file"
+              onChange={handleFile}
+              accept="image/png, image/jpeg"
+              className="h-full w-full opacity-0 z-10 absolute"
+            />
+
+            <input
+              {...register("p_extra_1", { required: "false" })}
+              type="file"
+              onChange={handleFile}
+              accept="image/png, image/jpeg"
+              className="h-full w-full opacity-0 z-10 absolute"
+            />
+
+            <input
+              {...register("p_extra_2", { required: "false" })}
+              type="file"
+              onChange={handleFile}
+              accept="image/png, image/jpeg"
+              className="h-full w-full opacity-0 z-10 absolute"
+            />
+
+            <input
+              {...register("p_extra_3", { required: "false" })}
+              type="file"
+              onChange={handleFile}
+              accept="image/png, image/jpeg"
+              className="h-full w-full opacity-0 z-10 absolute"
+            />
+
             <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
               <div className="flex flex-col">
                 <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
