@@ -15,7 +15,6 @@ const Modal = (props: Props) => {
 
   const handleAccept = () => {
     setShowModal(false);
-    console.log(children);
   };
 
   return (

@@ -13,6 +13,7 @@ import { Stats } from "../components/CustomLayout/Stats/Stats";
 import { Ledger } from "../components/CustomLayout/Ledger/Ledger";
 import { Profile } from "../components/CustomLayout/Profile/Profile";
 import { useUser } from "../components/Auth/UserContext";
+import ProfileContexProvider from "../components/Context/ProfileContext";
 
 const CustomLayout: NextPage<UserProps> = () => {
   const [menuOption, setMenuOption] = useState<string>();
@@ -55,7 +56,9 @@ const CustomLayout: NextPage<UserProps> = () => {
   return (
     <div className="flex flex-row">
       <Sidebar parentCallback={handleMenuOptions} />
-      <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
+      <ProfileContexProvider>
+        <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
+      </ProfileContexProvider>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { useUser } from "../components/Auth/UserContext";
 import { supabase } from "../utils/supabaseClient";

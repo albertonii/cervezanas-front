@@ -3,7 +3,9 @@ import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { SupabaseProps } from "../../../lib/const";
 import { supabase } from "../../../utils/supabaseClient";
+import { useProfile } from "../../Context/ProfileContext";
 import { Spinner } from "../../Spinner";
 
 type FormValues = {
@@ -22,6 +24,8 @@ export default function CustomizeProfileForm(props: Props) {
   const { user } = props;
   const [loading, setLoading] = useState(false);
 
+  const { setBgImg, setProfileImg } = useProfile();
+
   const mockPng = new File([""], "", { type: "image/png" });
   const mockFileList = [mockPng];
 
@@ -36,6 +40,11 @@ export default function CustomizeProfileForm(props: Props) {
       profile_photo_url: mockFileList,
     },
   });
+
+  const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
+  const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
+  const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
+  const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
   const onSubmit = async (formValues: FormValues) => {
     try {
@@ -57,37 +66,43 @@ export default function CustomizeProfileForm(props: Props) {
       }
 
       if (bg_url[0].size > 0) {
-        const encodeUriImg = encodeURIComponent(`custom_bg/${user?.id}/img`);
-
-        const { error: storageError } = await supabase.storage
-          .from("avatars")
-          .upload(encodeUriImg, bg_url[0], {
-            cacheControl: "3600",
-            upsert: true,
-          });
-
-        if (storageError) {
-          setLoading(false);
-          throw storageError;
-        }
-      }
-
-      if (profile_photo_url[0].size > 0) {
-        const encodeUriImg = encodeURIComponent(
-          `profile_photo/${user?.id}/img`
+        const encodeUriCustomImg = encodeURIComponent(
+          `${customUrl}${user?.id}/img`
         );
 
         const { error: storageError } = await supabase.storage
           .from("avatars")
-          .upload(encodeUriImg, profile_photo_url[0], {
-            cacheControl: "3600",
+          .upload(encodeUriCustomImg, bg_url[0], {
             upsert: true,
+            cacheControl: "0",
           });
 
         if (storageError) {
           setLoading(false);
           throw storageError;
         }
+
+        setBgImg(`${fullCustomUrl}${user?.id}/img`);
+      }
+
+      if (profile_photo_url[0].size > 0) {
+        const encodeUriProfileImg = encodeURIComponent(
+          `${profilePhotoUrl}${user?.id}/img`
+        );
+
+        const { error: storageError } = await supabase.storage
+          .from("avatars")
+          .upload(encodeUriProfileImg, profile_photo_url[0], {
+            upsert: true,
+            cacheControl: "0",
+          });
+
+        if (storageError) {
+          setLoading(false);
+          throw storageError;
+        }
+
+        setProfileImg(`${fullProfilePhotoUrl}${user?.id}/img`);
       }
 
       setLoading(false);
