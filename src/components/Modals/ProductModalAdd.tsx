@@ -106,13 +106,14 @@ const ProductModalAdd = (props: Props) => {
 
   const {
     formState: { errors },
-    watch,
-    setValue,
     getValues,
     handleSubmit,
+    reset,
   } = form;
 
   const onSubmit = (formValues: FormValues) => {
+    reset();
+
     const handleInsert = async () => {
       const {
         campaign,
