@@ -129,6 +129,9 @@ const translationsEn = {
   description: "Description",
   year: "Year",
   upload_img_url: "Upload Image",
+  true: "True",
+  false: "False",
+  is_public: "Publish the product",
 };
 
 const translationsEs = {
@@ -258,6 +261,9 @@ const translationsEs = {
   description: "Descripción",
   year: "Año",
   upload_img_url: "Subir Imagen",
+  true: "Verdadero",
+  false: "Falso",
+  is_public: "Publicar Producto",
 };
 
 // the translations

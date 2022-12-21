@@ -3,6 +3,7 @@ import { Award } from "../../types";
 import FilePreview from "../FilePreviews";
 
 interface FormProps {
+  is_public: boolean;
   name: string;
   description: string;
   campaign: string;

@@ -27,6 +27,7 @@ interface Props {
 }
 
 type FormValues = {
+  is_public: boolean;
   name: string;
   description: string;
   campaign: string;
@@ -49,6 +50,7 @@ type FormValues = {
 };
 
 interface FormProps {
+  is_public: boolean;
   name: string;
   description: string;
   campaign: string;
@@ -98,6 +100,7 @@ const ProductModalAdd = (props: Props) => {
       isGluten: "",
       type: 0,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
+      is_public: false,
     },
   });
 
@@ -129,13 +132,14 @@ const ProductModalAdd = (props: Props) => {
         p_extra_1,
         p_extra_2,
         p_extra_3,
+        is_public,
       } = formValues;
-
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         let beerId = "";
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
+            is_public: getValues("is_public"),
             name: getValues("name"),
             description: getValues("description"),
             intensity: intensity_options[intensity].label,
@@ -187,7 +191,7 @@ const ProductModalAdd = (props: Props) => {
         }
 
         const p_principal_url =
-          p_principal.name != undefined
+          p_principal?.name != undefined
             ? encodeURIComponent(p_principal.name)
             : null;
         const p_back_url =

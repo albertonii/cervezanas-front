@@ -5,6 +5,7 @@ import { Award } from "../../types";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormProps {
+  is_public: boolean;
   name: string;
   description: string;
   campaign: string;
