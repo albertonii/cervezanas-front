@@ -1,6 +1,4 @@
-import { Modal } from "@supabase/ui";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -134,15 +132,17 @@ const ProductModalAdd = (props: Props) => {
         p_extra_2,
         p_extra_3,
         is_public,
+        name,
+        description,
       } = formValues;
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         let beerId = "";
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
-            is_public: getValues("is_public"),
-            name: getValues("name"),
-            description: getValues("description"),
+            is_public: is_public,
+            name: name,
+            description: description,
             intensity: intensity_options[intensity].label,
             fermentation: fermentation_options[fermentation].label,
             color: color_options[color].label,
@@ -291,6 +291,7 @@ const ProductModalAdd = (props: Props) => {
       >
         {t("modal_product_add")}
       </button>
+
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none drop-shadow-md focus:outline-none">

@@ -132,6 +132,8 @@ const translationsEn = {
   true: "True",
   false: "False",
   is_public: "Publish the product",
+  modal_lot_add: "Add Lot",
+  modal_lot_title: "Lot",
 };
 
 const translationsEs = {
@@ -264,6 +266,8 @@ const translationsEs = {
   true: "Verdadero",
   false: "Falso",
   is_public: "Publicar Producto",
+  modal_lot_add: "Añadir Lote",
+  modal_lot_title: "Lote",
 };
 
 // the translations

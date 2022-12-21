@@ -2,7 +2,11 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["randomuser.me", "kvdearmedajqvexxhmrk.supabase.co"],
+    domains: [
+      "randomuser.me",
+      "kvdearmedajqvexxhmrk.supabase.co",
+      "images.unsplash.com",
+    ],
     formats: ["image/webp", "image/avif"],
   },
   i18n: {

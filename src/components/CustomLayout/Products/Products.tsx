@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Beer } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "../../Auth/UserContext";
-import ProductModal from "../../Modals/ProductModalAdd";
+import LotModalAdd from "../../Modals/LotModalAdd";
+import ProductModalAdd from "../../Modals/ProductModalAdd";
 import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
@@ -54,7 +55,8 @@ export const Products = () => {
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 
-          <ProductModal isVisible={false} />
+          <ProductModalAdd isVisible={false} />
+          <LotModalAdd isVisible={false} />
         </div>
 
         <div>
