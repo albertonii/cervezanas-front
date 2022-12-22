@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SupabaseProps } from "../../lib/const";
+import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useUser } from "../Auth/UserContext";
 

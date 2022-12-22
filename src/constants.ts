@@ -1,14 +1,14 @@
-import { ViewsMap } from './types'
+import { ViewsMap } from "./types";
 
 export const VIEWS: ViewsMap = {
-  SIGN_IN: 'sign_in',
-  SIGN_UP: 'sign_up',
-  FORGOTTEN_PASSWORD: 'forgotten_password',
-  MAGIC_LINK: 'magic_link',
-  UPDATE_PASSWORD: 'update_password',
-}
+  SIGN_IN: "sign_in",
+  SIGN_UP: "sign_up",
+  FORGOTTEN_PASSWORD: "forgotten_password",
+  MAGIC_LINK: "magic_link",
+  UPDATE_PASSWORD: "update_password",
+};
 
-export const PREPENDED_CLASS_NAMES = 'supabase-ui-auth'
+export const PREPENDED_CLASS_NAMES = "supabase-ui-auth";
 
 /**
  * CSS class names
@@ -16,19 +16,29 @@ export const PREPENDED_CLASS_NAMES = 'supabase-ui-auth'
  */
 export const CLASS_NAMES = {
   // interfaces
-  ROOT: 'root',
+  ROOT: "root",
   SIGN_IN: VIEWS.SIGN_IN,
   SIGN_UP: VIEWS.SIGN_UP,
   FORGOTTEN_PASSWORD: VIEWS.FORGOTTEN_PASSWORD,
   MAGIC_LINK: VIEWS.MAGIC_LINK,
   UPDATE_PASSWORD: VIEWS.UPDATE_PASSWORD,
   // ui
-  anchor: 'ui-anchor',
-  button: 'ui-button',
-  container: 'ui-container',
-  divider: 'ui-divider',
-  input: 'ui-input',
-  label: 'ui-label',
-  loader: 'ui-loader',
-  message: 'ui-message',
-}
+  anchor: "ui-anchor",
+  button: "ui-button",
+  container: "ui-container",
+  divider: "ui-divider",
+  input: "ui-input",
+  label: "ui-label",
+  loader: "ui-loader",
+  message: "ui-message",
+};
+
+export const SupabaseProps = {
+  BASE_URL: "https://kvdearmedajqvexxhmrk.supabase.co/",
+  STORAGE_PRODUCTS_IMG_URL: "storage/v1/object/public/products/",
+  P_PRINCIPAL_URL: "p_principal/",
+  BASE_AVATARS_URL:
+    "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/avatars/",
+  CUSTOM_BG_URL: "custom_bg/",
+  PROFILE_PHOTO_URL: "profile_photo/",
+};

@@ -1,18 +1,40 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 
+const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
+const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
+
 const MarketPlace: NextPage = () => {
-  const [beers, setBeers] = useState<any[]>([]);
+  const [beers, setBeers] = useState<any[]>();
 
   useEffect(() => {
     const fetchPublicProducts = async () => {
-      let { data, error } = await supabase.from("beers").select("*");
+      let { data: beersData, error: beersError } = await supabase
+        .from("beers")
+        .select("*");
 
-      if (error) throw error;
-      console.log(data);
-      setBeers(data || []);
+      if (beersError) throw beersError;
+
+      beersData?.map(async (beer, index) => {
+        let { data: mData, error: mDataError } = await supabase
+          .from("product_multimedia")
+          .select("p_principal")
+          .eq("beer_id", beer.id);
+
+        if (mDataError) throw mDataError;
+
+        beer.p_principal =
+          mData![0].p_principal == undefined || null
+            ? productsUrl + "default_principal.png"
+            : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
+              mData![0].p_principal;
+
+        beersData![index] = beer;
+      });
+      setBeers(beersData!);
     };
 
     fetchPublicProducts();
@@ -20,13 +42,13 @@ const MarketPlace: NextPage = () => {
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mx-6 mt-12 justify-center">
-      {beers.map((beer) => {
-        return (
-          <>
-            <div className="container px-3 mb-6">
-              <div className="max-w-sm w-full bg-gray-900 shadow-lg rounded-xl p-6">
-                <div className="flex flex-col ">
-                  <div className="">
+      {beers &&
+        beers!.map((beer) => {
+          return (
+            <>
+              <div key={beer.id} className="container px-3 mb-6">
+                <div className="max-w-sm w-full bg-gray-900 shadow-lg rounded-xl p-6">
+                  <div className="flex flex-col ">
                     <div className="relative h-62 w-full mb-3">
                       <div className="absolute flex flex-col top-0 right-0 p-3">
                         <button className="transition ease-in duration-300 bg-gray-800  hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1">
@@ -49,9 +71,13 @@ const MarketPlace: NextPage = () => {
                       <Image
                         width={128}
                         height={128}
-                        src="https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2059&q=80"
-                        alt="Just a flower"
-                        className=" w-full object-fill rounded-2xl"
+                        src={
+                          beer.p_principal == null || undefined
+                            ? "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/default_principal.png"
+                            : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/iconmonstr-beer-5-240.png"
+                        }
+                        alt="Principal Product Image"
+                        className="w-full object-fill rounded-2xl"
                       />
                     </div>
                     <div className="flex-auto justify-evenly">
@@ -99,37 +125,6 @@ const MarketPlace: NextPage = () => {
                               Draft
                             </span>
                           </div>
-
-                          {/**
-                          <div className="w-full flex-none text-sm flex items-center text-gray-600">
-                              <ul className="flex flex-row justify-center items-center space-x-2">
-                              <li className="">
-                                <span className="block p-1 border-2 border-gray-900 hover:border-yellow-400 rounded-full transition ease-in duration-300">
-                                  <a
-                                    href="#yellow"
-                                    className="block w-3 h-3 glass-green-color"
-                                  ></a>
-                                </span>
-                              </li>
-                              <li className="">
-                                <span className="block p-1 border-2 border-gray-900 hover:border-red-500 rounded-full transition ease-in duration-300">
-                                  <a
-                                    href="#red"
-                                    className="block w-3 h-3  bg-red-500 rounded-full"
-                                  ></a>
-                                </span>
-                              </li>
-                              <li className="">
-                                <span className="block p-1 border-2 border-gray-900 hover:border-green-500 rounded-full transition ease-in duration-300">
-                                  <a
-                                    href="#green"
-                                    className="block w-3 h-3  bg-green-500 rounded-full"
-                                  ></a>
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                             */}
                         </div>
 
                         <div className="flex-1 inline-flex items-center mb-3">
@@ -184,10 +179,9 @@ const MarketPlace: NextPage = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        );
-      })}
+            </>
+          );
+        })}
     </div>
   );
 };
