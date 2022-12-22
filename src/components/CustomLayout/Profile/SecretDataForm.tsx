@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
-import { useUser } from "../../Auth/UserContext";
 
 interface FormProps {
   oldPassword: string;

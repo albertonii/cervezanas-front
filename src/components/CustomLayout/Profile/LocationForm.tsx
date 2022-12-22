@@ -1,19 +1,45 @@
 import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+
+interface FormProps {
+  addressName: string;
+  addressLastname: string;
+  addressDoc: string;
+  addressCompany: string;
+  addressPhone: string;
+  addressLocation: string;
+  addressPC: string;
+  addressTown: string;
+  addressCountry: string;
+  addressProvince: string;
+}
 
 export default function LocationForm() {
   const { t } = useTranslation();
 
-  const [addressName, setAddressName] = useState("");
-  const [addressLastname, setAddressLastname] = useState("");
-  const [addressDoc, setAddressDoc] = useState("");
-  const [addressCompany, setAddressCompany] = useState("");
-  const [addressPhone, setAddressPhone] = useState("");
-  const [addressLocation, setAddressLocation] = useState("");
-  const [addressPC, setAddressPC] = useState(0);
-  const [addressTown, setAddressTown] = useState("");
+  const {
+    formState: { errors },
+    watch,
+    handleSubmit,
+    register,
+    reset,
+  } = useForm<FormProps>({
+    mode: "onSubmit",
+    defaultValues: {
+      addressName: "",
+      addressLastname: "",
+      addressDoc: "",
+      addressCompany: "",
+      addressPhone: "",
+      addressLocation: "",
+      addressPC: "",
+      addressTown: "",
+    },
+  });
+
   const [addressCountry, setAddressCountry] = useState("");
   const [addressProvince, setAddressProvince] = useState("");
 
@@ -25,6 +51,25 @@ export default function LocationForm() {
     setAddressProvince(val);
   };
 
+  const onSubmit = async (formValues: FormProps) => {
+    try {
+      const {
+        addressName,
+        addressLastname,
+        addressDoc,
+        addressCompany,
+        addressPhone,
+        addressLocation,
+        addressPC,
+        addressTown,
+      } = formValues;
+
+      reset();
+    } catch (error) {
+    } finally {
+    }
+  };
+
   return (
     <div
       id="location_data"
@@ -34,6 +79,7 @@ export default function LocationForm() {
         {t("location")}
       </div>
 
+      <form onSubmit={handleSubmit(onSubmit)}></form>
       <div className="flex w-full flex-row space-x-3 ">
         <div className="w-full ">
           <label htmlFor="address_name" className="text-sm text-gray-600">
@@ -44,8 +90,7 @@ export default function LocationForm() {
             id="address_name"
             placeholder="Alberto"
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressName}
-            onChange={(e) => setAddressName(e.target.value)}
+            {...register("addressName")}
           />
         </div>
 
@@ -57,8 +102,7 @@ export default function LocationForm() {
             type="text"
             id="address_lastname"
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressLastname}
-            onChange={(e) => setAddressLastname(e.target.value)}
+            {...register("addressLastname")}
           />
         </div>
       </div>
@@ -73,8 +117,7 @@ export default function LocationForm() {
             id="address_doc"
             placeholder="00112233-R"
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressDoc}
-            onChange={(e) => setAddressDoc(e.target.value)}
+            {...register("addressDoc")}
           />
         </div>
 
@@ -87,8 +130,7 @@ export default function LocationForm() {
             id="addressCompany"
             placeholder="Empresa 2000 SL"
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressCompany}
-            onChange={(e) => setAddressCompany(e.target.value)}
+            {...register("addressCompany")}
           />
         </div>
 
@@ -101,8 +143,7 @@ export default function LocationForm() {
             id="addressPhone"
             placeholder="+34 685 222 222"
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressPhone}
-            onChange={(e) => setAddressPhone(e.target.value)}
+            {...register("addressPhone")}
           />
         </div>
       </div>
@@ -118,8 +159,7 @@ export default function LocationForm() {
             placeholder="Calle España 123"
             required
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressLocation}
-            onChange={(e) => setAddressLocation(e.target.value)}
+            {...register("addressLocation")}
           />
         </div>
       </div>
@@ -135,8 +175,7 @@ export default function LocationForm() {
             placeholder="27018"
             required
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressPC}
-            onChange={(e) => setAddressPC(Number(e.target.value))}
+            {...register("addressPC")}
           />
         </div>
 
@@ -150,8 +189,7 @@ export default function LocationForm() {
             placeholder="Madrid"
             required
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value={addressTown}
-            onChange={(e) => setAddressTown(e.target.value)}
+            {...register("addressTown")}
           />
         </div>
       </div>
