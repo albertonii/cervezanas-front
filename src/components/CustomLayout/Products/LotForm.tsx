@@ -1,14 +1,14 @@
 import React from "react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useFetchProducts from "../../../hooks/useFetchProducts";
+import { Product } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 
 type FormValues = {
   lot_number: string;
   lot_quantity: number;
-  product: any;
+  products: any;
 };
 
 export default function LotForm() {
@@ -21,20 +21,18 @@ export default function LotForm() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({
+  } = useForm<FormValues>({
     mode: "onSubmit",
     defaultValues: {
       lot_number: "",
       lot_quantity: 0,
-      product: undefined,
+      products: [],
     },
   });
 
   const onSubmit = (formValues: FormValues) => {
-    reset();
-
-    const { lot_number, lot_quantity, product } = formValues;
-    alert(product);
+    const { lot_number, lot_quantity, products } = formValues;
+    console.log(products);
 
     const handleLotInsert = async () => {
       const { data, error } = await supabase
@@ -47,6 +45,7 @@ export default function LotForm() {
     };
 
     // handleLotInsert();
+    reset();
   };
 
   if (!isSuccess) return <></>;
@@ -98,7 +97,7 @@ export default function LotForm() {
 
           <div className="w-full space-y my-6">
             <div>
-              <div className=" z-10 w-60 bg-white rounded shadow dark:bg-gray-700">
+              <div className=" z-10 w-full bg-white rounded shadow dark:bg-gray-700">
                 <div className="p-3">
                   <label className="sr-only">Search</label>
                   <div className="relative">
@@ -131,14 +130,15 @@ export default function LotForm() {
                   className="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownSearchButton"
                 >
-                  {data!.map((product) => {
+                  {data.map((product) => {
                     return (
                       <li key={product.id}>
                         <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                           <input
                             id="checkbox-item-11"
                             type="checkbox"
-                            {...register("product", product)}
+                            {...register("products")}
+                            value={product.id}
                             className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                           />
                           <label className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">

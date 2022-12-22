@@ -34,6 +34,7 @@ const translationsEn = {
   actual_password: "Actual Password",
   new_password: "New Password",
   confirm_password: "Confirm Password",
+  confirm_match: "Confirm new password",
   location: "Address",
   loc_location: "Shipping Address",
   loc_name: "Name",
@@ -134,6 +135,8 @@ const translationsEn = {
   is_public: "Publish the product",
   modal_lot_add: "Add Lot",
   modal_lot_title: "Lot",
+  lot_number: "Lot Number",
+  lot_quantity: "Quantity",
 };
 
 const translationsEs = {
@@ -168,6 +171,7 @@ const translationsEs = {
   actual_password: "Contraseña Actual",
   new_password: "Contraseña Nueva",
   confirm_password: "Confirmar Contraseña",
+  confirm_match: "Debe de confirmar la nueva contraseña",
   location: "Dirección",
   loc_location: "Dirección de envío",
   loc_name: "Nombre",
@@ -268,6 +272,8 @@ const translationsEs = {
   is_public: "Publicar Producto",
   modal_lot_add: "Añadir Lote",
   modal_lot_title: "Lote",
+  lot_number: "Número de Lote",
+  lot_quantity: "Cantidad",
 };
 
 // the translations
