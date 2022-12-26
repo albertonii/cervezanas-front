@@ -14,6 +14,8 @@ export default function ProductId(props: Props) {
 
   return (
     <div>
+      <span>{p.id}</span>
+      <br />
       <span>{p.name}</span>
       <br />
       <span>{p.price}</span>

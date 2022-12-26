@@ -3,43 +3,46 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
+import { Award } from "../types";
 import { supabase } from "../utils/supabaseClient";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 
-const MarketPlace: NextPage = () => {
-  const [beers, setBeers] = useState<any[]>();
+interface Props {
+  beers: any[];
+}
 
-  useEffect(() => {
-    const fetchPublicProducts = async () => {
-      let { data: beersData, error: beersError } = await supabase
-        .from("beers")
-        .select("*");
+interface FormProps {
+  beers: [
+    is_public: boolean,
+    name: string,
+    description: string,
+    campaign: string,
+    type: number,
+    color: number,
+    intensity: number,
+    aroma: number,
+    family: number,
+    fermentation: number,
+    origin: number,
+    era: number,
+    format: number,
+    isGluten: string,
+    awards: Award[],
+    p_principal: any,
+    p_back: any,
+    p_extra_1: any,
+    p_extra_2: any,
+    p_extra_3: any,
+    volume: number,
+    price: number,
+    pack: string
+  ];
+}
 
-      if (beersError) throw beersError;
-
-      beersData?.map(async (beer, index) => {
-        let { data: mData, error: mDataError } = await supabase
-          .from("product_multimedia")
-          .select("p_principal")
-          .eq("beer_id", beer.id);
-
-        if (mDataError) throw mDataError;
-
-        beer.p_principal =
-          mData![0].p_principal == undefined || null
-            ? productsUrl + "default_principal.png"
-            : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
-              mData![0].p_principal;
-
-        beersData![index] = beer;
-      });
-      setBeers(beersData!);
-    };
-
-    fetchPublicProducts();
-  }, []);
+export default function MarketPlace(props: Props) {
+  const { beers } = props;
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mx-6 mt-12 justify-center">
@@ -69,6 +72,7 @@ const MarketPlace: NextPage = () => {
                           </svg>
                         </button>
                       </div>
+
                       <Image
                         width={128}
                         height={128}
@@ -187,6 +191,35 @@ const MarketPlace: NextPage = () => {
         })}
     </div>
   );
-};
+}
 
-export default MarketPlace;
+export async function getServerSideProps(context: { params: any }) {
+  let { data: beersData, error: beersError } = await supabase
+    .from("beers")
+    .select("*");
+
+  if (beersError) throw beersError;
+
+  beersData?.map(async (beer, index) => {
+    let { data: mData, error: mDataError } = await supabase
+      .from("product_multimedia")
+      .select("p_principal")
+      .eq("beer_id", beer.id);
+
+    if (mDataError) throw mDataError;
+
+    beer.p_principal =
+      mData![0].p_principal == undefined || null
+        ? productsUrl + "default_principal.png"
+        : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
+          mData![0].p_principal;
+
+    beersData![index] = beer;
+  });
+
+  return {
+    props: {
+      beers: beersData,
+    },
+  };
+}
