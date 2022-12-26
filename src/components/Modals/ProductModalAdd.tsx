@@ -17,7 +17,7 @@ import { Award } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
-import ProductInfoSection from "./ProductInfoSection";
+import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
 
 interface Props {
@@ -45,6 +45,9 @@ type FormValues = {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
+  volume: number;
+  price: number;
+  pack: string;
 };
 
 interface FormProps {
@@ -68,6 +71,9 @@ interface FormProps {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
+  volume: number;
+  price: number;
+  pack: string;
 }
 
 const ProductModalAdd = (props: Props) => {
@@ -134,6 +140,9 @@ const ProductModalAdd = (props: Props) => {
         is_public,
         name,
         description,
+        volume,
+        price,
+        pack,
       } = formValues;
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         let beerId = "";
@@ -154,6 +163,9 @@ const ProductModalAdd = (props: Props) => {
             is_gluten: isGluten === "true",
             type,
             campaign_id: campaign,
+            volume,
+            price,
+            pack,
           })
           .select();
 

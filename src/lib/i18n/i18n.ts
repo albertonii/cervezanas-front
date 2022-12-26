@@ -55,6 +55,11 @@ const translationsEn = {
   history_business_description: "Tell your origin",
   history_business_year: "Foundation year",
   product_name: "Product name",
+  price_label: "Price",
+  pack_label: "Pack",
+  format_label: "Format",
+  container_label: "Container",
+  volume_label: "Volume",
   title: "Title",
   produtc_description:
     "Be sure to fill in all required fields to successfully enter the product.",
@@ -124,6 +129,8 @@ const translationsEn = {
   modal_product_add: "Add Product",
   modal_delete_product_description:
     "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
+  modal_product_add_details_title: "Details",
+  modal_product_add_price_title: "Stock information",
   beer: "Beer",
   merchandising: "Merchandising",
   name: "Name",
@@ -137,6 +144,8 @@ const translationsEn = {
   modal_lot_title: "Lot",
   lot_number: "Lot Number",
   lot_quantity: "Quantity",
+  yes: "Yes",
+  no: "No",
 };
 
 const translationsEs = {
@@ -192,6 +201,11 @@ const translationsEs = {
   history_business_description: "Cuenta acerca de tu origen",
   history_business_year: "Año de fundación",
   product_name: "Nombre del producto",
+  price_label: "Precio",
+  pack_label: "Pack",
+  format_label: "Formato",
+  container_label: "Envase",
+  volume_label: "Volumen",
   title: "Título",
   product_description: "Descripción",
   maltose: "Maltosa",
@@ -260,6 +274,8 @@ const translationsEs = {
   modal_product_add: "Añadir Producto",
   modal_delete_product_description:
     "¡Cuidado! Vas a eliminar un producto. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el producto?",
+  modal_product_add_details_title: "Detalles",
+  modal_product_add_price_title: "Información de stock",
   beer: "Cerveza",
   merchandising: "Merchandising",
   form_errors: translationsFormErrorsEn,
@@ -274,6 +290,8 @@ const translationsEs = {
   modal_lot_title: "Lote",
   lot_number: "Número de Lote",
   lot_quantity: "Cantidad",
+  yes: "Si",
+  no: "No",
 };
 
 // the translations

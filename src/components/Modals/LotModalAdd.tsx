@@ -18,7 +18,7 @@ import { supabase } from "../../utils/supabaseClient";
 import LotForm from "../CustomLayout/Products/LotForm";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
-import ProductInfoSection from "./ProductInfoSection";
+import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
 
 interface Props {

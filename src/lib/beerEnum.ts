@@ -77,6 +77,93 @@ export namespace BeerEnum {
     beer = "beer",
     merchandising = "merchandising",
   }
+
+  export enum Volume_can {
+    _150 = 150,
+    _200 = 200,
+    _207 = 207,
+    _222 = 222,
+    _237 = 237,
+    _248 = 248,
+    _250 = 250,
+    _300 = 300,
+    _320 = 320,
+    _330 = 330,
+    _341 = 341,
+    _350 = 350,
+    _355 = 355,
+    _375 = 375,
+    _440 = 440,
+    _473 = 473,
+    _500 = 500,
+    _550 = 550,
+    _568 = 568,
+    _650 = 650,
+    _750 = 750,
+    _940 = 940,
+    _1000 = 1000,
+    _1500 = 1500,
+  }
+
+  export enum Volume_glass {
+    _150 = 150,
+    _200 = 200,
+    _207 = 207,
+    _222 = 222,
+    _237 = 237,
+    _248 = 248,
+    _250 = 250,
+    _300 = 300,
+    _320 = 320,
+    _330 = 330,
+    _341 = 341,
+    _350 = 350,
+    _355 = 355,
+    _375 = 375,
+    _440 = 440,
+    _473 = 473,
+    _500 = 500,
+    _550 = 550,
+    _568 = 568,
+    _650 = 650,
+    _750 = 750,
+    _940 = 940,
+    _1000 = 1000,
+    _1500 = 1500,
+  }
+
+  export enum Volume_draft {
+    _3 = 3,
+    _4 = 4,
+    _5 = 5,
+    _10 = 10,
+    _14_67 = 14.67,
+    _18_9 = 18.9,
+    _19_8 = 19.8,
+    _25 = 25,
+    _29_3 = 29.3,
+    _50 = 50,
+    _58_66 = 58.66,
+  }
+
+  export enum Pack_format {
+    _1 = "Individual",
+    _2 = 2,
+    _3 = 3,
+    _4 = 4,
+    _6 = 6,
+    _8 = 8,
+    _10 = 10,
+    _12 = 12,
+    _16 = 16,
+    _18 = 18,
+    _20 = 20,
+    _22 = 22,
+    _24 = 24,
+    _28 = 28,
+    _30 = 30,
+    _36 = 36,
+  }
 }
 
 export const intensity_options = [
@@ -290,5 +377,309 @@ export const product_type_options = [
   {
     label: 1,
     value: BeerEnum.Product_type.merchandising,
+  },
+];
+
+export const volume_can_type_options = [
+  {
+    label: 0,
+    value: BeerEnum.Volume_can._150,
+  },
+  {
+    label: 1,
+    value: BeerEnum.Volume_can._200,
+  },
+  {
+    label: 2,
+    value: BeerEnum.Volume_can._207,
+  },
+  {
+    label: 3,
+    value: BeerEnum.Volume_can._222,
+  },
+  {
+    label: 4,
+    value: BeerEnum.Volume_can._237,
+  },
+  {
+    label: 5,
+    value: BeerEnum.Volume_can._248,
+  },
+  {
+    label: 6,
+    value: BeerEnum.Volume_can._250,
+  },
+  {
+    label: 7,
+    value: BeerEnum.Volume_can._300,
+  },
+  {
+    label: 8,
+    value: BeerEnum.Volume_can._320,
+  },
+  {
+    label: 9,
+    value: BeerEnum.Volume_can._341,
+  },
+  {
+    label: 10,
+    value: BeerEnum.Volume_can._350,
+  },
+  {
+    label: 11,
+    value: BeerEnum.Volume_can._355,
+  },
+  {
+    label: 12,
+    value: BeerEnum.Volume_can._375,
+  },
+  {
+    label: 13,
+    value: BeerEnum.Volume_can._440,
+  },
+  {
+    label: 14,
+    value: BeerEnum.Volume_can._473,
+  },
+  {
+    label: 15,
+    value: BeerEnum.Volume_can._500,
+  },
+  {
+    label: 16,
+    value: BeerEnum.Volume_can._550,
+  },
+  {
+    label: 17,
+    value: BeerEnum.Volume_can._568,
+  },
+  {
+    label: 18,
+    value: BeerEnum.Volume_can._650,
+  },
+  {
+    label: 19,
+    value: BeerEnum.Volume_can._750,
+  },
+  {
+    label: 20,
+    value: BeerEnum.Volume_can._940,
+  },
+  {
+    label: 21,
+    value: BeerEnum.Volume_can._1000,
+  },
+  {
+    label: 22,
+    value: BeerEnum.Volume_can._1500,
+  },
+];
+
+export const volume_glass_type_options = [
+  {
+    label: 0,
+    value: BeerEnum.Volume_glass._150,
+  },
+  {
+    label: 1,
+    value: BeerEnum.Volume_glass._200,
+  },
+  {
+    label: 2,
+    value: BeerEnum.Volume_glass._207,
+  },
+  {
+    label: 3,
+    value: BeerEnum.Volume_glass._222,
+  },
+  {
+    label: 4,
+    value: BeerEnum.Volume_glass._237,
+  },
+  {
+    label: 5,
+    value: BeerEnum.Volume_glass._248,
+  },
+  {
+    label: 6,
+    value: BeerEnum.Volume_glass._250,
+  },
+  {
+    label: 7,
+    value: BeerEnum.Volume_glass._300,
+  },
+  {
+    label: 8,
+    value: BeerEnum.Volume_glass._320,
+  },
+  {
+    label: 9,
+    value: BeerEnum.Volume_glass._341,
+  },
+  {
+    label: 10,
+    value: BeerEnum.Volume_glass._350,
+  },
+  {
+    label: 11,
+    value: BeerEnum.Volume_glass._355,
+  },
+  {
+    label: 12,
+    value: BeerEnum.Volume_glass._375,
+  },
+  {
+    label: 13,
+    value: BeerEnum.Volume_glass._440,
+  },
+  {
+    label: 14,
+    value: BeerEnum.Volume_glass._473,
+  },
+  {
+    label: 15,
+    value: BeerEnum.Volume_glass._500,
+  },
+  {
+    label: 16,
+    value: BeerEnum.Volume_glass._550,
+  },
+  {
+    label: 17,
+    value: BeerEnum.Volume_glass._568,
+  },
+  {
+    label: 18,
+    value: BeerEnum.Volume_glass._650,
+  },
+  {
+    label: 19,
+    value: BeerEnum.Volume_glass._750,
+  },
+  {
+    label: 20,
+    value: BeerEnum.Volume_glass._940,
+  },
+  {
+    label: 21,
+    value: BeerEnum.Volume_glass._1000,
+  },
+  {
+    label: 22,
+    value: BeerEnum.Volume_glass._1500,
+  },
+];
+
+export const volume_draft_type_options = [
+  {
+    label: 0,
+    value: BeerEnum.Volume_draft._3,
+  },
+  {
+    label: 1,
+    value: BeerEnum.Volume_draft._4,
+  },
+  {
+    label: 2,
+    value: BeerEnum.Volume_draft._5,
+  },
+  {
+    label: 3,
+    value: BeerEnum.Volume_draft._10,
+  },
+  {
+    label: 4,
+    value: BeerEnum.Volume_draft._14_67,
+  },
+  {
+    label: 5,
+    value: BeerEnum.Volume_draft._18_9,
+  },
+  {
+    label: 6,
+    value: BeerEnum.Volume_draft._19_8,
+  },
+  {
+    label: 7,
+    value: BeerEnum.Volume_draft._25,
+  },
+  {
+    label: 8,
+    value: BeerEnum.Volume_draft._29_3,
+  },
+  {
+    label: 9,
+    value: BeerEnum.Volume_draft._50,
+  },
+  {
+    label: 10,
+    value: BeerEnum.Volume_draft._58_66,
+  },
+];
+
+export const pack_type_options = [
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._1,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._2,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._3,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._4,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._6,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._8,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._10,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._12,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._16,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._18,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._20,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._22,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._24,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._28,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._30,
+  },
+  {
+    label: 0,
+    value: BeerEnum.Pack_format._36,
   },
 ];

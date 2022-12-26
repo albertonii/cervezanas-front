@@ -22,7 +22,7 @@ export default function Header() {
   };
 
   return (
-    <div className="header h-[12vh]">
+    <div className="header ">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
           <Link href={{ pathname: "/" }} className="flex items-center">

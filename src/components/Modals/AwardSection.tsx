@@ -25,6 +25,9 @@ interface FormProps {
   p_extra_1: FileList;
   p_extra_2: FileList;
   p_extra_3: FileList;
+  volume: number;
+  price: number;
+  pack: string;
 }
 
 const emptyAward: Award = {
