@@ -218,6 +218,7 @@ export default function ProductInfoSection({
             <textarea
               id="description"
               placeholder=""
+              value="Product description"
               className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register("description", {
                 required: true,

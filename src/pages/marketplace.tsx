@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
@@ -98,7 +99,9 @@ const MarketPlace: NextPage = () => {
                         </div>
                         <div className="flex items-center w-full justify-between min-w-0 ">
                           <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate ">
-                            {beer.name}
+                            <Link href={`/products/${beer.id}`}>
+                              {beer.name}
+                            </Link>
                           </h2>
                           <div className="flex items-center bg-green-400 text-white text-xs px-2 py-1 ml-3 rounded-lg">
                             INSTOCK

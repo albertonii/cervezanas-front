@@ -147,7 +147,7 @@ export namespace BeerEnum {
   }
 
   export enum Pack_format {
-    _1 = "Individual",
+    _1 = 1,
     _2 = 2,
     _3 = 3,
     _4 = 4,
