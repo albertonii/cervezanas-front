@@ -55,7 +55,7 @@ export namespace BeerEnum {
 
   export enum Format {
     can, // lata
-    glass, // cristal
+    bottle, // cristal
     draft, // barril
   }
 
@@ -105,7 +105,7 @@ export namespace BeerEnum {
     _1500 = 1500,
   }
 
-  export enum Volume_glass {
+  export enum Volume_bottle {
     _150 = 150,
     _200 = 200,
     _207 = 207,
@@ -360,8 +360,8 @@ export const format_options = [
     value: BeerEnum.Format.can,
   },
   {
-    label: "glass",
-    value: BeerEnum.Format.glass,
+    label: "bottle",
+    value: BeerEnum.Format.bottle,
   },
   {
     label: "draft",
@@ -475,98 +475,98 @@ export const volume_can_type_options = [
   },
 ];
 
-export const volume_glass_type_options = [
+export const volume_bottle_type_options = [
   {
     label: 0,
-    value: BeerEnum.Volume_glass._150,
+    value: BeerEnum.Volume_bottle._150,
   },
   {
     label: 1,
-    value: BeerEnum.Volume_glass._200,
+    value: BeerEnum.Volume_bottle._200,
   },
   {
     label: 2,
-    value: BeerEnum.Volume_glass._207,
+    value: BeerEnum.Volume_bottle._207,
   },
   {
     label: 3,
-    value: BeerEnum.Volume_glass._222,
+    value: BeerEnum.Volume_bottle._222,
   },
   {
     label: 4,
-    value: BeerEnum.Volume_glass._237,
+    value: BeerEnum.Volume_bottle._237,
   },
   {
     label: 5,
-    value: BeerEnum.Volume_glass._248,
+    value: BeerEnum.Volume_bottle._248,
   },
   {
     label: 6,
-    value: BeerEnum.Volume_glass._250,
+    value: BeerEnum.Volume_bottle._250,
   },
   {
     label: 7,
-    value: BeerEnum.Volume_glass._300,
+    value: BeerEnum.Volume_bottle._300,
   },
   {
     label: 8,
-    value: BeerEnum.Volume_glass._320,
+    value: BeerEnum.Volume_bottle._320,
   },
   {
     label: 9,
-    value: BeerEnum.Volume_glass._341,
+    value: BeerEnum.Volume_bottle._341,
   },
   {
     label: 10,
-    value: BeerEnum.Volume_glass._350,
+    value: BeerEnum.Volume_bottle._350,
   },
   {
     label: 11,
-    value: BeerEnum.Volume_glass._355,
+    value: BeerEnum.Volume_bottle._355,
   },
   {
     label: 12,
-    value: BeerEnum.Volume_glass._375,
+    value: BeerEnum.Volume_bottle._375,
   },
   {
     label: 13,
-    value: BeerEnum.Volume_glass._440,
+    value: BeerEnum.Volume_bottle._440,
   },
   {
     label: 14,
-    value: BeerEnum.Volume_glass._473,
+    value: BeerEnum.Volume_bottle._473,
   },
   {
     label: 15,
-    value: BeerEnum.Volume_glass._500,
+    value: BeerEnum.Volume_bottle._500,
   },
   {
     label: 16,
-    value: BeerEnum.Volume_glass._550,
+    value: BeerEnum.Volume_bottle._550,
   },
   {
     label: 17,
-    value: BeerEnum.Volume_glass._568,
+    value: BeerEnum.Volume_bottle._568,
   },
   {
     label: 18,
-    value: BeerEnum.Volume_glass._650,
+    value: BeerEnum.Volume_bottle._650,
   },
   {
     label: 19,
-    value: BeerEnum.Volume_glass._750,
+    value: BeerEnum.Volume_bottle._750,
   },
   {
     label: 20,
-    value: BeerEnum.Volume_glass._940,
+    value: BeerEnum.Volume_bottle._940,
   },
   {
     label: 21,
-    value: BeerEnum.Volume_glass._1000,
+    value: BeerEnum.Volume_bottle._1000,
   },
   {
     label: 22,
-    value: BeerEnum.Volume_glass._1500,
+    value: BeerEnum.Volume_bottle._1500,
   },
 ];
 

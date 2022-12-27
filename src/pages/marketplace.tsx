@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../constants";
 import { Award } from "../types";
 import { supabase } from "../utils/supabaseClient";
@@ -42,10 +43,11 @@ interface FormProps {
 }
 
 export default function MarketPlace(props: Props) {
+  const { t } = useTranslation();
   const { beers } = props;
 
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mx-6 mt-12 justify-center">
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 mx-6 mt-12 justify-center">
       {beers &&
         beers!.map((beer) => {
           return (
@@ -118,25 +120,25 @@ export default function MarketPlace(props: Props) {
                       <div className="lg:flex flex-col py-4 text-sm text-gray-600">
                         <div className="flex-1 inline-flex items-center  mb-3">
                           <span className="text-secondary whitespace-nowrap mr-3">
-                            Formato
+                            {t("format")}
                           </span>
 
                           <div className="cursor-pointer text-gray-400 ">
                             <span className="hover:text-purple-500 p-1 py-0">
-                              Glass
+                              {t("bottle")}
                             </span>
                             <span className="hover:text-purple-500 p-1 py-0">
-                              Can
+                              {t("can")}
                             </span>
                             <span className="hover:text-purple-500 p-1 py-0">
-                              Draft
+                              {t("draft")}
                             </span>
                           </div>
                         </div>
 
                         <div className="flex-1 inline-flex items-center mb-3">
                           <span className="text-secondary whitespace-nowrap mr-3">
-                            Volumen
+                            {t("volume")}
                           </span>
 
                           <div className="cursor-pointer text-gray-400 ">
