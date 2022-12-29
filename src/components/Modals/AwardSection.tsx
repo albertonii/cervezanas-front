@@ -1,7 +1,7 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button, Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
-import { Award, ProductFormat } from "../../types";
+import { Award } from "../../types";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormProps {
@@ -24,7 +24,10 @@ interface FormProps {
   p_extra_1: FileList;
   p_extra_2: FileList;
   p_extra_3: FileList;
-  formats: ProductFormat[];
+  volume: string;
+  price: string;
+  pack: string;
+  format: string;
 }
 
 const emptyAward: Award = {

@@ -3,19 +3,19 @@ import { useTranslation } from "react-i18next";
 import { BasicDataForm } from "./BasicDataForm";
 import SecretDataForm from "./SecretDataForm";
 import LocationForm from "./LocationForm";
-import { User } from "@supabase/supabase-js";
 import CustomizeProfileForm from "./CustomizeProfileForm";
+import { useUser } from "../../Auth/UserContext";
 
 interface Props {
-  user: User | null;
   profileData: any;
-  profile: any[];
 }
 
 export const Account = (props: Props) => {
-  const { user, profileData, profile } = props;
+  const { profileData } = props;
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
+
+  const { user } = useUser();
 
   useEffect(() => {
     if (user != null && user != undefined) {
@@ -49,5 +49,3 @@ export const Account = (props: Props) => {
     </>
   );
 };
-
-export async function getServerSideProps() {}

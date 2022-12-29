@@ -170,6 +170,11 @@ export interface Beer extends Product {
   is_gluten: boolean;
   awards_id: string[];
   awards: Award[];
+  is_public: boolean;
+  price: number;
+  volume: number;
+  format: string;
+  pack: number;
 }
 
 export interface Award {
@@ -179,13 +184,6 @@ export interface Award {
   img_url: any;
   year: number;
   beer_id: string;
-}
-
-export interface ProductFormat {
-  volume: number;
-  price: number;
-  pack: number;
-  format: number;
 }
 
 export interface ProductMultimedia {

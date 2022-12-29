@@ -8,9 +8,10 @@ import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
 
+interface Props {}
+
 export const Products = () => {
   const { user } = useUser();
-
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [beerModal, setBeerModal] = useState<any>(null);
@@ -19,17 +20,14 @@ export const Products = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      let { data, error } = await supabase
+      const { data: beers, error } = await supabase
         .from("beers")
         .select("*")
         .eq("owner_id", user?.id);
-
       if (error) throw error;
-
-      setBeers(data!);
-      return data;
+      setBeers(beers);
+      return beers;
     };
-
     getProducts();
   }, [user]);
 
@@ -55,7 +53,11 @@ export const Products = () => {
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 
-          <ProductModalAdd isVisible={false} />
+          <ProductModalAdd
+            isVisible={false}
+            beers={beers!}
+            handleSetBeers={handleSetBeers}
+          />
           <LotModalAdd isVisible={false} />
         </div>
 
@@ -93,3 +95,21 @@ export const Products = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const user = supabase.auth.user();
+  alert(user);
+
+  let { data: beers, error } = await supabase
+    .from("beers")
+    .select("*")
+    .eq("owner_id", user?.id);
+
+  if (error) throw error;
+
+  return {
+    props: {
+      beers,
+    },
+  };
+}

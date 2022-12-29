@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   aroma_options,
@@ -12,7 +12,7 @@ import {
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Award, ProductFormat } from "../../types";
+import { Award, Beer } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
@@ -21,6 +21,8 @@ import ProductStepper from "./ProductStepper";
 
 interface Props {
   isVisible: boolean;
+  beers: Beer[];
+  handleSetBeers: React.Dispatch<React.SetStateAction<any>>;
 }
 
 type FormValues = {
@@ -43,7 +45,10 @@ type FormValues = {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  formats: ProductFormat[];
+  volume: any;
+  price: any;
+  pack: any;
+  format: any;
 };
 
 interface FormProps {
@@ -66,12 +71,15 @@ interface FormProps {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  formats: ProductFormat[];
+  volume: any;
+  price: any;
+  pack: any;
+  format: any;
 }
 
 const ProductModalAdd = (props: Props) => {
   const { t } = useTranslation();
-  const { isVisible } = props;
+  const { isVisible, beers, handleSetBeers } = props;
 
   const [showModal, setShowModal] = useState(isVisible);
   const [activeStep, setActiveStep] = useState(0);
@@ -85,7 +93,7 @@ const ProductModalAdd = (props: Props) => {
     defaultValues: {
       campaign: "-",
       name: "Jaira IPA",
-      description: " ",
+      description: "-",
       color: 0,
       intensity: 0,
       aroma: 0,
@@ -96,15 +104,11 @@ const ProductModalAdd = (props: Props) => {
       isGluten: "",
       type: 0,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
-      formats: [
-        {
-          price: 0,
-          pack: BeerEnum.Pack_format._6,
-          volume: BeerEnum.Volume_can._330,
-          format: BeerEnum.Format.can,
-        },
-      ],
       is_public: false,
+      volume: "",
+      price: "",
+      pack: "",
+      format: "",
     },
   });
 
@@ -138,11 +142,15 @@ const ProductModalAdd = (props: Props) => {
         is_public,
         name,
         description,
-        formats,
+        price,
+        volume,
+        pack,
+        format,
       } = formValues;
 
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         let beerId = "";
+
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
@@ -159,10 +167,18 @@ const ProductModalAdd = (props: Props) => {
             is_gluten: isGluten === "true",
             type,
             campaign_id: campaign,
+            volume,
+            price,
+            pack,
+            format,
           })
           .select();
 
         if (beerError) throw beerError;
+
+        // Upd product list
+        beers.push(beerData[0]);
+        handleSetBeers(beers);
 
         beerId = beerData[0].id;
 
@@ -193,24 +209,6 @@ const ProductModalAdd = (props: Props) => {
 
               if (storageAwardsError) throw storageAwardsError;
             }
-          });
-        }
-
-        if (formats.length > 0) {
-          formats.map(async (productFormat) => {
-            const { volume, price, pack, format } = productFormat;
-
-            const { error: productFormatsError } = await supabase
-              .from("product_formats")
-              .insert({
-                beer_id: beerId,
-                volume,
-                price,
-                pack,
-                format,
-              });
-
-            if (productFormatsError) throw productFormatsError;
           });
         }
 
@@ -302,6 +300,7 @@ const ProductModalAdd = (props: Props) => {
     };
 
     handleInsert();
+
     setShowModal(false);
   };
 

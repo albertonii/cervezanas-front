@@ -194,7 +194,7 @@ export default function MarketPlace(props: Props) {
   );
 }
 
-export async function getServerSideProps(context: { params: any }) {
+export async function getServerSideProps() {
   let { data: beersData, error: beersError } = await supabase
     .from("beers")
     .select("*");

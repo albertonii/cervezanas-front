@@ -14,6 +14,7 @@ import { Ledger } from "../components/CustomLayout/Ledger/Ledger";
 import { Profile } from "../components/CustomLayout/Profile/Profile";
 import { useUser } from "../components/Auth/UserContext";
 import ProfileContexProvider from "../components/Context/ProfileContext";
+import { supabase } from "../utils/supabaseClient";
 
 const CustomLayout: NextPage<UserProps> = () => {
   const [menuOption, setMenuOption] = useState<string>();
@@ -64,3 +65,11 @@ const CustomLayout: NextPage<UserProps> = () => {
 };
 
 export default CustomLayout;
+
+export async function getServerSideProps() {
+  const user = supabase.auth.user();
+  console.log(user);
+  return {
+    props: {},
+  };
+}

@@ -1,5 +1,4 @@
 import { Button } from "@supabase/ui";
-import { t } from "i18next";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -80,9 +79,12 @@ export default function ProductList(props: Props) {
                     />
                   </th>
                   <td className="py-4 px-6">{beer.name}</td>
-                  <td className="py-4 px-6">{beer.intensity}</td>
+                  <td className="py-4 px-6">{beer.price}</td>
                   <td className="py-4 px-6">{beer.color}</td>
                   <td className="py-4 px-6">{beer.color}</td>
+                  <td className="py-4 px-6">
+                    {beer.is_public ? t("yes") : t("no")}
+                  </td>
                   <td className="py-4 px-6">
                     <div className="flex">
                       <Button
@@ -119,3 +121,5 @@ export default function ProductList(props: Props) {
     </div>
   );
 }
+
+export async function getServerSideProps() {}

@@ -53,12 +53,6 @@ export namespace BeerEnum {
     historic, // no elaborada actualmente o con producción muy  limitada
   }
 
-  export enum Format {
-    can, // lata
-    bottle, // cristal
-    draft, // barril
-  }
-
   export enum Aroma {
     maltose, // pronunciado aroma/sabor a malta
     bitter, // pronunciado amargor a lúpulo
@@ -163,6 +157,12 @@ export namespace BeerEnum {
     _28 = 28,
     _30 = 30,
     _36 = 36,
+  }
+
+  export enum Format {
+    can, // lata
+    bottle, // cristal
+    draft, // barril
   }
 }
 

@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { Award, ProductFormat } from "../../types";
+import { Award } from "../../types";
 import FilePreview from "../FilePreviews";
 
 interface FormProps {
@@ -22,7 +22,10 @@ interface FormProps {
   p_extra_1: FileList;
   p_extra_2: FileList;
   p_extra_3: FileList;
-  formats: ProductFormat[];
+  volume: string;
+  price: string;
+  pack: string;
+  format: string;
 }
 
 export interface Props {

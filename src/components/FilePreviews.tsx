@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Award, ProductFormat } from "../types";
+import { Award } from "../types";
 
 interface FormPropsFP {
   is_public: boolean;
@@ -23,7 +23,10 @@ interface FormPropsFP {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  formats: ProductFormat[];
+  volume: string;
+  price: string;
+  pack: string;
+  format: string;
 }
 
 interface Props {
