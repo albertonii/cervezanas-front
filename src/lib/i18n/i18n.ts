@@ -147,6 +147,13 @@ const translationsEn = {
   lot_quantity: "Quantity",
   yes: "Yes",
   no: "No",
+  product_type_header: "Product Type",
+  name_header: "Name",
+  price_header: "Price",
+  stock_header: "Stock",
+  lot_header: "Lot",
+  public_header: "Public",
+  action_header: "Action",
 };
 
 const translationsEs = {
@@ -294,6 +301,13 @@ const translationsEs = {
   lot_quantity: "Cantidad",
   yes: "Si",
   no: "No",
+  product_type_header: "Tipo de producto",
+  name_header: "Nombre",
+  price_header: "Precio",
+  stock_header: "Stock",
+  lot_header: "Lote",
+  public_header: "Público",
+  action_header: "Acción",
 };
 
 // the translations

@@ -2,6 +2,7 @@ import { Button } from "@supabase/ui";
 import { t } from "i18next";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Beer } from "../../../types";
 
 interface Props {
@@ -15,18 +16,21 @@ interface ColumnsProps {
   header: string;
 }
 
-const COLUMNS = [
-  { header: "Product Type" },
-  { header: "Name" },
-  { header: "Precio" },
-  { header: "Stock" },
-  { header: "Lote" },
-  { header: "Acción" },
-];
-
 export default function ProductList(props: Props) {
+  const { t } = useTranslation();
+
   const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
     props;
+
+  const COLUMNS = [
+    { header: t("product_type_header") },
+    { header: t("name_header") },
+    { header: t("price_header") },
+    { header: t("stock_header") },
+    { header: t("lot_header") },
+    { header: t("public_header") },
+    { header: t("action_header") },
+  ];
 
   const handleClickEdit = (beer: Beer) => {
     handleEditShowModal(true);
@@ -83,15 +87,27 @@ export default function ProductList(props: Props) {
                     <div className="flex">
                       <Button
                         onClick={() => handleClickEdit(beer)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2"
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
                       >
-                        {t("edit")}
+                        <Image
+                          width={45}
+                          height={45}
+                          alt="Edit"
+                          src="/icons/edit-240.png"
+                        />{" "}
                       </Button>
+
                       <Button
+                        danger
                         onClick={() => handleClickDelete(beer)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline w-[45px]"
                       >
-                        {t("delete")}
+                        <Image
+                          width={45}
+                          height={45}
+                          alt="Delete"
+                          src="/icons/delete-240.png"
+                        />
                       </Button>
                     </div>
                   </td>
