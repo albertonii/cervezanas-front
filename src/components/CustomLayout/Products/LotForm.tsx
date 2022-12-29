@@ -1,8 +1,7 @@
 import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useFetchProducts from "../../../hooks/useFetchProducts";
-import { Product } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 
 type FormValues = {
@@ -14,7 +13,7 @@ type FormValues = {
 export default function LotForm() {
   const { t } = useTranslation();
 
-  const { data, isSuccess, status } = useFetchProducts();
+  const { data, isSuccess } = useFetchProducts();
 
   const {
     register,
@@ -32,7 +31,6 @@ export default function LotForm() {
 
   const onSubmit = (formValues: FormValues) => {
     const { lot_number, lot_quantity, products } = formValues;
-    console.log(products);
 
     const handleLotInsert = async () => {
       const { data, error } = await supabase

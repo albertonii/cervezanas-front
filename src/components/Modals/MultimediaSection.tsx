@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { Award } from "../../types";
+import { Award, ProductFormat } from "../../types";
 import FilePreview from "../FilePreviews";
 
 interface FormProps {
@@ -15,7 +15,6 @@ interface FormProps {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: FileList;
@@ -23,9 +22,7 @@ interface FormProps {
   p_extra_1: FileList;
   p_extra_2: FileList;
   p_extra_3: FileList;
-  volume: number;
-  price: number;
-  pack: string;
+  formats: ProductFormat[];
 }
 
 export interface Props {

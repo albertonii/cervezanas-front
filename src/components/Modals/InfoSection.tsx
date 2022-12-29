@@ -1,6 +1,6 @@
+import { Button } from "@supabase/ui";
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -17,8 +17,9 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
+  BeerEnum,
 } from "../../lib/beerEnum";
-import { Award } from "../../types";
+import { Award, ProductFormat } from "../../types";
 
 interface FormProps {
   is_public: boolean;
@@ -33,7 +34,6 @@ interface FormProps {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: any;
@@ -41,9 +41,7 @@ interface FormProps {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  volume: number;
-  price: number;
-  pack: string;
+  formats: ProductFormat[];
 }
 
 interface Props {
@@ -65,6 +63,13 @@ const campaigns = [
   },
 ];
 
+const emptyStockFormat: ProductFormat = {
+  price: 0,
+  pack: BeerEnum.Pack_format._6,
+  volume: BeerEnum.Volume_can._330,
+  format: BeerEnum.Format.can,
+};
+
 export default function ProductInfoSection({
   form: {
     control,
@@ -74,6 +79,11 @@ export default function ProductInfoSection({
 }: Props) {
   const { t } = useTranslation();
 
+  const { fields, append, remove } = useFieldArray({
+    name: "formats",
+    control,
+  });
+
   const [containerFormat, setContainerFormat] = useState(
     format_options[0].label
   );
@@ -82,13 +92,13 @@ export default function ProductInfoSection({
     setContainerFormat(event.target.value);
   };
 
-  const renderSwitch = () => {
+  const renderSwitch = (index: number) => {
     switch (containerFormat) {
       case "can":
         return (
           <select
-            {...register("volume")}
-            defaultValue={volume_can_type_options[0].label}
+            {...register(`formats.${index}.volume`)}
+            defaultValue={volume_can_type_options[0].value}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
             {volume_can_type_options.map((option) => (
@@ -101,8 +111,8 @@ export default function ProductInfoSection({
       case "bottle":
         return (
           <select
-            {...register("volume")}
-            defaultValue={volume_bottle_type_options[0].label}
+            {...register(`formats.${index}.volume`)}
+            defaultValue={volume_bottle_type_options[0].value}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
             {volume_bottle_type_options.map((option) => (
@@ -115,8 +125,8 @@ export default function ProductInfoSection({
       case "draft":
         return (
           <select
-            {...register("volume")}
-            defaultValue={volume_draft_type_options[0].label}
+            {...register(`formats.${index}.volume`)}
+            defaultValue={volume_draft_type_options[0].value}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
             {volume_draft_type_options.map((option) => (
@@ -127,6 +137,10 @@ export default function ProductInfoSection({
           </select>
         );
     }
+  };
+
+  const handleRemoveProductFormat = (index: number) => {
+    remove(index);
   };
 
   return (
@@ -418,76 +432,101 @@ export default function ProductInfoSection({
           {t("modal_product_add_price_title")}
         </p>
 
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="format" className="text-sm text-gray-600">
-              {t("format")}
-            </label>
-
-            <select
-              {...register("format")}
-              defaultValue={format_options[0].label}
-              onChange={handleChange}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              {format_options.map((option) => (
-                <option key={option.value} value={option.label}>
-                  {t(option.label)}
-                </option>
-              ))}
-            </select>
-            {errors.format?.type === "required" && (
-              <p>Campo formato requerido</p>
+        {fields.map((field: any, index: number) => (
+          <div className="container" key={field.id}>
+            {fields.length > 1 ? (
+              <div className="mt-3">
+                <Button danger onClick={() => handleRemoveProductFormat(index)}>
+                  {t("remove")}
+                </Button>
+              </div>
+            ) : (
+              <></>
             )}
+
+            <div className="flex w-full flex-row space-x-3 ">
+              <div className="w-full ">
+                <label htmlFor="format" className="text-sm text-gray-600">
+                  {t("format")}
+                </label>
+
+                <select
+                  {...(register(`formats.${index}.format`), { required: true })}
+                  defaultValue={format_options[0].label}
+                  onChange={handleChange}
+                  className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                >
+                  {format_options.map((option) => (
+                    <option key={option.value} value={option.label}>
+                      {t(option.label)}
+                    </option>
+                  ))}
+                </select>
+                {`errors.formats.${index}.format?.type` === "required" && (
+                  <p>Campo formato requerido</p>
+                )}
+              </div>
+
+              <div className="w-full space-y">
+                <label htmlFor="volume" className="text-sm text-gray-600">
+                  {t("volume_label")}
+                </label>
+
+                {renderSwitch(index)}
+
+                {errors.name?.type === "required" && (
+                  <p>Campo volumen requerido</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex w-full flex-row space-x-3 ">
+              <div className="w-full ">
+                <label htmlFor="pack" className="text-sm text-gray-600">
+                  {t("pack_label")}
+                </label>
+
+                <select
+                  {...(register(`formats.${index}.pack`), { required: true })}
+                  defaultValue={pack_type_options[0].label}
+                  className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                >
+                  {pack_type_options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.value}
+                    </option>
+                  ))}
+                </select>
+
+                {`errors.formats.${index}.pack?.type` === "required" && (
+                  <p>Campo packs requerido</p>
+                )}
+              </div>
+
+              <div className="w-full ">
+                <label htmlFor="price" className="text-sm text-gray-600">
+                  {t("price_label")}
+                </label>
+
+                <input
+                  type="number"
+                  placeholder="2.5"
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  {...register(`formats.${index}.price`, { required: true })}
+                />
+
+                {`errors.formats.${index}.price?.type` === "required" && (
+                  <p>Campo precio requerido</p>
+                )}
+              </div>
+            </div>
           </div>
+        ))}
 
-          <div className="w-full space-y">
-            <label htmlFor="volume" className="text-sm text-gray-600">
-              {t("volume_label")}
-            </label>
-
-            {renderSwitch()}
-
-            {errors.name?.type === "required" && <p>Campo volumen requerido</p>}
-          </div>
-        </div>
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="pack" className="text-sm text-gray-600">
-              {t("pack_label")}
-            </label>
-
-            <select
-              {...register("pack")}
-              defaultValue={pack_type_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              {pack_type_options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.value}
-                </option>
-              ))}
-            </select>
-
-            {errors.pack?.type === "required" && <p>Campo packs requerido</p>}
-          </div>
-
-          <div className="w-full ">
-            <label htmlFor="price" className="text-sm text-gray-600">
-              {t("price_label")}
-            </label>
-
-            <input
-              type="number"
-              placeholder="2.5"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              {...register("price", {
-                required: true,
-              })}
-            />
-
-            {errors.price?.type === "required" && <p>Campo precio requerido</p>}
-          </div>
+        <div className="container mt-3">
+          <Button onClick={() => append(emptyStockFormat)}>
+            Add another format
+          </Button>
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button, Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
-import { Award } from "../../types";
+import { Award, ProductFormat } from "../../types";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormProps {
@@ -17,7 +17,6 @@ interface FormProps {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: FileList;
@@ -25,9 +24,7 @@ interface FormProps {
   p_extra_1: FileList;
   p_extra_2: FileList;
   p_extra_3: FileList;
-  volume: number;
-  price: number;
-  pack: string;
+  formats: ProductFormat[];
 }
 
 const emptyAward: Award = {

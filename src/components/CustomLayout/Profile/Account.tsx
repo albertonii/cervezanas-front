@@ -9,10 +9,11 @@ import CustomizeProfileForm from "./CustomizeProfileForm";
 interface Props {
   user: User | null;
   profileData: any;
+  profile: any[];
 }
 
 export const Account = (props: Props) => {
-  const { user, profileData } = props;
+  const { user, profileData, profile } = props;
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
@@ -48,3 +49,5 @@ export const Account = (props: Props) => {
     </>
   );
 };
+
+export async function getServerSideProps() {}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   aroma_options,
@@ -7,13 +7,12 @@ import {
   era_options,
   family_options,
   fermentation_options,
-  format_options,
   intensity_options,
   origin_options,
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Award } from "../../types";
+import { Award, ProductFormat } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
@@ -37,7 +36,6 @@ type FormValues = {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: any;
@@ -45,9 +43,7 @@ type FormValues = {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  volume: number;
-  price: number;
-  pack: string;
+  formats: ProductFormat[];
 };
 
 interface FormProps {
@@ -63,7 +59,6 @@ interface FormProps {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: any;
@@ -71,9 +66,7 @@ interface FormProps {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
-  volume: number;
-  price: number;
-  pack: string;
+  formats: ProductFormat[];
 }
 
 const ProductModalAdd = (props: Props) => {
@@ -92,7 +85,7 @@ const ProductModalAdd = (props: Props) => {
     defaultValues: {
       campaign: "-",
       name: "Jaira IPA",
-      description: "",
+      description: " ",
       color: 0,
       intensity: 0,
       aroma: 0,
@@ -100,17 +93,23 @@ const ProductModalAdd = (props: Props) => {
       fermentation: 0,
       origin: 0,
       era: 0,
-      format: 0,
       isGluten: "",
       type: 0,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
+      formats: [
+        {
+          price: 0,
+          pack: BeerEnum.Pack_format._6,
+          volume: BeerEnum.Volume_can._330,
+          format: BeerEnum.Format.can,
+        },
+      ],
       is_public: false,
     },
   });
 
   const {
     formState: { errors },
-    getValues,
     handleSubmit,
     reset,
   } = form;
@@ -128,7 +127,6 @@ const ProductModalAdd = (props: Props) => {
         family,
         origin,
         era,
-        format,
         isGluten,
         type,
         awards,
@@ -140,10 +138,9 @@ const ProductModalAdd = (props: Props) => {
         is_public,
         name,
         description,
-        volume,
-        price,
-        pack,
+        formats,
       } = formValues;
+
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         let beerId = "";
         const { data: beerData, error: beerError } = await supabase
@@ -162,10 +159,6 @@ const ProductModalAdd = (props: Props) => {
             is_gluten: isGluten === "true",
             type,
             campaign_id: campaign,
-            format,
-            volume,
-            price,
-            pack,
           })
           .select();
 
@@ -200,6 +193,24 @@ const ProductModalAdd = (props: Props) => {
 
               if (storageAwardsError) throw storageAwardsError;
             }
+          });
+        }
+
+        if (formats.length > 0) {
+          formats.map(async (productFormat) => {
+            const { volume, price, pack, format } = productFormat;
+
+            const { error: productFormatsError } = await supabase
+              .from("product_formats")
+              .insert({
+                beer_id: beerId,
+                volume,
+                price,
+                pack,
+                format,
+              });
+
+            if (productFormatsError) throw productFormatsError;
           });
         }
 

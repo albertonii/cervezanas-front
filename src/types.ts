@@ -181,6 +181,13 @@ export interface Award {
   beer_id: string;
 }
 
+export interface ProductFormat {
+  volume: number;
+  price: number;
+  pack: number;
+  format: number;
+}
+
 export interface ProductMultimedia {
   id: string;
   p_principal: ProductMultimediaItem;

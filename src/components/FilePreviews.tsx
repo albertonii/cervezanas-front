@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Award } from "../types";
+import { Award, ProductFormat } from "../types";
 
 interface FormPropsFP {
+  is_public: boolean;
   name: string;
   description: string;
   campaign: string;
@@ -15,7 +16,6 @@ interface FormPropsFP {
   fermentation: number;
   origin: number;
   era: number;
-  format: number;
   isGluten: string;
   awards: Award[];
   p_principal: any;
@@ -23,6 +23,7 @@ interface FormPropsFP {
   p_extra_1: any;
   p_extra_2: any;
   p_extra_3: any;
+  formats: ProductFormat[];
 }
 
 interface Props {

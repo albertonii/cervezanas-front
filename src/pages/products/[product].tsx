@@ -388,21 +388,23 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product } = params;
 
-  let { data, error } = await supabase
+  let { data: beers, error: beersError } = await supabase
     .from("beers")
     .select("*")
     .eq("id", product);
 
-  let { data: beer_multimedia, error: error_multimedia } = await supabase
+  let { data: beerMultimedia, error: errorMultimedia } = await supabase
     .from("product_multimedia")
     .select("*")
     .eq("beer_id", product);
 
-  if (error) throw error;
+  if (beersError) throw beersError;
+  if (errorMultimedia) throw errorMultimedia;
+
   return {
     props: {
-      product: data,
-      multimedia: beer_multimedia,
+      product: beers,
+      multimedia: beerMultimedia,
     },
   };
 }
