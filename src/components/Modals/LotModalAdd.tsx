@@ -25,51 +25,9 @@ interface Props {
   isVisible: boolean;
 }
 
-type FormValues = {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  format: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-};
+type FormValues = {};
 
-interface FormProps {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  format: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-}
+interface FormProps {}
 
 const LotModalAdd = (props: Props) => {
   const { t } = useTranslation();
@@ -84,23 +42,7 @@ const LotModalAdd = (props: Props) => {
 
   const form = useForm<FormProps>({
     mode: "onSubmit",
-    defaultValues: {
-      campaign: "-",
-      name: "Jaira IPA",
-      description: "",
-      color: 0,
-      intensity: 0,
-      aroma: 0,
-      family: 0,
-      fermentation: 0,
-      origin: 0,
-      era: 0,
-      format: 0,
-      isGluten: "",
-      type: 0,
-      awards: [{ name: "", description: "", year: 0, img_url: "" }],
-      is_public: false,
-    },
+    defaultValues: {},
   });
 
   const {

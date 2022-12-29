@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useFetchProducts from "../../../hooks/useFetchProducts";
+import { Product } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 
 type FormValues = {
   lot_number: string;
   lot_quantity: number;
-  products: any;
+  products: any[];
 };
 
 export default function LotForm() {
   const { t } = useTranslation();
 
-  const { data, isSuccess } = useFetchProducts();
+  const { data: productsLot, isSuccess } = useFetchProducts();
+  const [productsCheck, setProductsCheck] = useState([]);
 
   const {
     register,
@@ -32,18 +34,28 @@ export default function LotForm() {
   const onSubmit = (formValues: FormValues) => {
     const { lot_number, lot_quantity, products } = formValues;
 
-    const handleLotInsert = async () => {
-      const { data, error } = await supabase
-        .from("lots")
-        .insert({ num_lot: lot_number, quantity: lot_quantity })
-        .select();
+    const handleLotInsert = () => {
+      products.map(async (product: { value: any }) => {
+        if (product.value != false) {
+          console.log(product.value);
+          const product_id = product.value;
+          const { error } = await supabase.from("product_lot").insert({
+            product_id: product_id,
+            num_lot_id: lot_number,
+            created_at: new Date(),
+            quantity: lot_quantity,
+          });
 
-      if (error) throw error;
-      return data;
+          console.log(error);
+
+          if (error) throw error;
+        }
+      });
+
+      reset();
     };
 
-    // handleLotInsert();
-    reset();
+    handleLotInsert();
   };
 
   if (!isSuccess) return <></>;
@@ -128,18 +140,21 @@ export default function LotForm() {
                   className="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownSearchButton"
                 >
-                  {data.map((product) => {
+                  {productsLot.map((product, index) => {
                     return (
                       <li key={product.id}>
                         <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                           <input
                             id="checkbox-item-11"
                             type="checkbox"
-                            {...register("products")}
-                            value={product.id}
+                            {...register(`products.${index}.value`)}
+                            value={productsLot[index].id}
                             className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                           />
-                          <label className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">
+                          <label
+                            htmlFor={`products.${index}.value`}
+                            className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                          >
                             {product.name}
                           </label>
                         </div>

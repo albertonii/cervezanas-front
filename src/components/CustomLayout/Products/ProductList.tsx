@@ -74,7 +74,7 @@ export default function ProductList(props: Props) {
                       width={128}
                       height={128}
                       className="w-8 h-8 rounded-full"
-                      src="/beer-icons-240.png"
+                      src="/icons/beer-icons-240.png"
                       alt="Neil image"
                     />
                   </th>

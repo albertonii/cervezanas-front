@@ -96,20 +96,4 @@ export const Products = () => {
   );
 };
 
-export async function getServerSideProps() {
-  const user = supabase.auth.user();
-  alert(user);
-
-  let { data: beers, error } = await supabase
-    .from("beers")
-    .select("*")
-    .eq("owner_id", user?.id);
-
-  if (error) throw error;
-
-  return {
-    props: {
-      beers,
-    },
-  };
-}
+export async function getServerSideProps() {}
