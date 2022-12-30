@@ -11,7 +11,11 @@ type FormValues = {
   products: any[];
 };
 
-export default function LotForm() {
+interface Props {
+  handleShowModal: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export default function LotForm({ handleShowModal }: Props) {
   const { t } = useTranslation();
 
   const { data: productsLot, isSuccess } = useFetchProducts();
@@ -37,7 +41,6 @@ export default function LotForm() {
     const handleLotInsert = () => {
       products.map(async (product: { value: any }) => {
         if (product.value != false) {
-          console.log(product.value);
           const product_id = product.value;
           const { error } = await supabase.from("product_lot").insert({
             product_id: product_id,
@@ -45,8 +48,6 @@ export default function LotForm() {
             created_at: new Date(),
             quantity: lot_quantity,
           });
-
-          console.log(error);
 
           if (error) throw error;
         }
@@ -179,7 +180,7 @@ export default function LotForm() {
           <button
             className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
             type="button"
-            // onClick={() => setShowModal(false)}
+            onClick={() => handleShowModal(false)}
           >
             {t("close")}
           </button>

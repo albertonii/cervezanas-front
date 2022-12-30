@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { supabase } from "../utils/supabaseClient";
 
 const fetchProducts = async () => {
   const { data, error } = await supabase
-    .from("beers")
+    .from("products")
     .select("id, name, description, type");
 
   if (error) throw error;

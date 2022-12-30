@@ -34,11 +34,6 @@ const LotModalAdd = (props: Props) => {
   const { isVisible } = props;
 
   const [showModal, setShowModal] = useState(isVisible);
-  const [activeStep, setActiveStep] = useState(0);
-
-  const handleSetActiveStep = (value: number) => {
-    setActiveStep(value);
-  };
 
   const form = useForm<FormProps>({
     mode: "onSubmit",
@@ -51,8 +46,8 @@ const LotModalAdd = (props: Props) => {
     reset,
   } = form;
 
-  const onSubmit = (formValues: FormValues) => {
-    reset();
+  const handleShowModal = (value: boolean) => {
+    setShowModal(value);
   };
 
   return (
@@ -87,7 +82,7 @@ const LotModalAdd = (props: Props) => {
                 </div>
 
                 {/*body*/}
-                <LotForm />
+                <LotForm handleShowModal={handleShowModal} />
               </div>
             </div>
           </div>
