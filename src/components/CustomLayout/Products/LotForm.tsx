@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import useFetchProducts from "../../../hooks/useFetchProducts";
+import useFetchProducts from "../../../hooks/useFetchBeers";
 import { Product } from "../../../types";
 import { supabase } from "../../../utils/supabaseClient";
 
@@ -53,6 +53,7 @@ export default function LotForm({ handleShowModal }: Props) {
         }
       });
 
+      handleShowModal(false);
       reset();
     };
 

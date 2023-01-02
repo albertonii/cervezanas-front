@@ -1,6 +1,6 @@
 import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Beer } from "../../../types";
 
@@ -20,6 +20,8 @@ export default function ProductList(props: Props) {
 
   const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
     props;
+
+  console.log(beers);
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -81,7 +83,11 @@ export default function ProductList(props: Props) {
                   <td className="py-4 px-6">{beer.name}</td>
                   <td className="py-4 px-6">{beer.price}</td>
                   <td className="py-4 px-6">{beer.color}</td>
-                  <td className="py-4 px-6">{beer.color}</td>
+                  <td className="py-4 px-6">
+                    {beer.product_lot[0]?.num_lot_id
+                      ? beer.product_lot[0]?.num_lot_id
+                      : "-"}
+                  </td>
                   <td className="py-4 px-6">
                     {beer.is_public ? t("yes") : t("no")}
                   </td>
@@ -121,5 +127,3 @@ export default function ProductList(props: Props) {
     </div>
   );
 }
-
-export async function getServerSideProps() {}

@@ -22,7 +22,14 @@ export const Products = () => {
     const getProducts = async () => {
       const { data: beers, error } = await supabase
         .from("beers")
-        .select("*")
+        .select(
+          `
+          *,
+          product_lot (
+            num_lot_id
+          )
+        `
+        )
         .eq("owner_id", user?.id);
       if (error) throw error;
       setBeers(beers);

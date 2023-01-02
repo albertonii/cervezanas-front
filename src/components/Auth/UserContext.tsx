@@ -5,6 +5,8 @@ import {
   User,
   UserCredentials,
 } from "@supabase/supabase-js";
+import axios from "axios";
+import { supabase } from "../../utils/supabaseClient";
 
 export interface AuthSession {
   user: User | null;
@@ -34,38 +36,28 @@ export const UserContextProvider = (props: Props) => {
 
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+        if (event === "SIGNED_IN") {
+          updateSupabaseCookie();
+        }
       }
     );
+
+    const updateSupabaseCookie = async () => {
+      axios.post("/api/set-supabase-cookie", {
+        event: user ? "SIGNED_IN" : "SIGNED_OUT",
+        session: supabase.auth.session(),
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      });
+    };
 
     return () => {
       authListener?.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  /*
-  useEffect(() => {
-    if (session != null) {
-      const handleAuth = async () => {
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/set-supabase-cookie`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authentication: `${session.access_token}`,
-            },
-            event: user ? "SIGN_IN" : "SIGN_OUT",
-            session: session,
-          }
-        );
-      };
+  }, [user]);
 
-      handleAuth();
-    }
-  }, [user, session]);
-  */
+  useEffect(() => {}, [user]);
 
   const value = {
     session,

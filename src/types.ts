@@ -175,6 +175,15 @@ export interface Beer extends Product {
   volume: number;
   format: string;
   pack: number;
+  product_lot: ProductLot[];
+}
+
+export interface ProductLot {
+  id: string;
+  num_lot_id: string;
+  created_at: Date;
+  quantity: number;
+  product_id: string;
 }
 
 export interface Award {

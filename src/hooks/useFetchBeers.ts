@@ -3,7 +3,7 @@ import { supabase } from "../utils/supabaseClient";
 
 const fetchProducts = async () => {
   const { data, error } = await supabase
-    .from("products")
+    .from("beers")
     .select("id, name, description, type");
 
   if (error) throw error;
