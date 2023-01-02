@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../constants";
 import { Award } from "../types";
@@ -77,7 +78,8 @@ export default function MarketPlace(props: Props) {
                       width={128}
                       height={128}
                       src={
-                        beer.p_principal == null || undefined
+                        beer.product_multimedia[0].p_principal == null ||
+                        undefined
                           ? "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/default_principal.png"
                           : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/iconmonstr-beer-5-240.png"
                       }
@@ -190,26 +192,23 @@ export default function MarketPlace(props: Props) {
   );
 }
 
-export async function getServerSideProps() {
-  let { data: beersData, error: beersError } = await supabase
-    .from("beers")
-    .select("*");
+export async function getServerSideProps(req: NextApiRequest) {
+  let { data: beersData, error: beersError } = await supabase.from("beers")
+    .select(`
+    *,
+    product_multimedia (
+      p_principal
+    )
+  `);
 
   if (beersError) throw beersError;
 
   beersData?.map(async (beer, index) => {
-    let { data: mData, error: mDataError } = await supabase
-      .from("product_multimedia")
-      .select("p_principal")
-      .eq("beer_id", beer.id);
-
-    if (mDataError) throw mDataError;
-
-    beer.p_principal =
-      mData![0].p_principal == undefined || null
+    beer.product_multimedia[0].p_principal =
+      beer.product_multimedia[0].p_principal == undefined || null
         ? "marketplace_product_default.png"
         : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
-          mData![0].p_principal;
+          beer.product_multimedia[0].p_principal;
 
     beersData![index] = beer;
   });
