@@ -61,6 +61,9 @@ const translationsEn = {
   format_label: "Format",
   container_label: "Container",
   volume_label: "Volume",
+  stock_quantity_label: "Stock Quantity",
+  stock_limit_notification_label:
+    "Stock limit notification (when stock quantity is less than)",
   title: "Title",
   produtc_description:
     "Be sure to fill in all required fields to successfully enter the product.",
@@ -215,6 +218,9 @@ const translationsEs = {
   format_label: "Formato",
   container_label: "Envase",
   volume_label: "Volumen",
+  stock_quantity_label: "Cantidad en Stock",
+  stock_limit_notification_label:
+    "Notificar cuando el stock llegue a este valor",
   title: "Título",
   product_description: "Descripción",
   maltose: "Maltosa",

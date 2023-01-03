@@ -12,7 +12,7 @@ import {
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Award, Beer } from "../../types";
+import { Award, Beer, Inventory } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
@@ -49,6 +49,8 @@ type FormValues = {
   price: any;
   pack: any;
   format: any;
+  stockQuantity: number;
+  stockLimitNotification: number;
 };
 
 interface FormProps {
@@ -72,9 +74,11 @@ interface FormProps {
   p_extra_2: any;
   p_extra_3: any;
   volume: any;
-  price: any;
+  price: number;
   pack: any;
   format: any;
+  stockQuantity: number;
+  stockLimitNotification: number;
 }
 
 const ProductModalAdd = (props: Props) => {
@@ -106,9 +110,11 @@ const ProductModalAdd = (props: Props) => {
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
       is_public: false,
       volume: "",
-      price: "",
+      price: 0,
       pack: "",
       format: "",
+      stockQuantity: 0,
+      stockLimitNotification: 0,
     },
   });
 
@@ -146,6 +152,8 @@ const ProductModalAdd = (props: Props) => {
         volume,
         pack,
         format,
+        stockQuantity,
+        stockLimitNotification,
       } = formValues;
 
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
@@ -182,6 +190,20 @@ const ProductModalAdd = (props: Props) => {
 
         beerId = beerData[0].id;
 
+        // Inventory - Stock
+        const stock: Inventory = {
+          product_id: beerId,
+          quantity: stockQuantity,
+          limit_notification: stockLimitNotification,
+        };
+
+        const { error: stockError } = await supabase
+          .from("product_inventory")
+          .insert(stock);
+
+        if (stockError) throw stockError;
+
+        // Awards
         if (awards.length > 0 && awards[0].img_url != "") {
           awards.map(async (award) => {
             if (award.img_url.length > 0) {

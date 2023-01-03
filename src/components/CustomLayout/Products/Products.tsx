@@ -27,6 +27,9 @@ export const Products = () => {
           *,
           product_lot (
             num_lot_id
+          ),
+          product_inventory (
+            quantity
           )
         `
         )

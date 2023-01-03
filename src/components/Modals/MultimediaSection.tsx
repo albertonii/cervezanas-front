@@ -23,9 +23,11 @@ interface FormProps {
   p_extra_2: FileList;
   p_extra_3: FileList;
   volume: string;
-  price: string;
+  price: number;
   pack: string;
   format: string;
+  stockQuantity: number;
+  stockLimitNotification: number;
 }
 
 export interface Props {

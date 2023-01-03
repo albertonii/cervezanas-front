@@ -24,9 +24,11 @@ interface FormPropsFP {
   p_extra_2: any;
   p_extra_3: any;
   volume: string;
-  price: string;
+  price: number;
   pack: string;
   format: string;
+  stockQuantity: number;
+  stockLimitNotification: number;
 }
 
 interface Props {

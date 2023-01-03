@@ -80,9 +80,17 @@ export default function ProductList(props: Props) {
                       alt="Neil image"
                     />
                   </th>
+
                   <td className="py-4 px-6">{beer.name}</td>
+
                   <td className="py-4 px-6">{beer.price}</td>
-                  <td className="py-4 px-6">{beer.color}</td>
+
+                  <td className="py-4 px-6">
+                    {beer.product_inventory[0]?.quantity
+                      ? beer.product_inventory[0].quantity
+                      : "-"}
+                  </td>
+
                   <td className="py-4 px-6">
                     {beer.product_lot[0]?.num_lot_id
                       ? beer.product_lot[0]?.num_lot_id

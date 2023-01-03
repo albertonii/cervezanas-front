@@ -176,6 +176,7 @@ export interface Beer extends Product {
   format: string;
   pack: number;
   product_lot: ProductLot[];
+  product_inventory: Inventory[];
 }
 
 export interface ProductLot {
@@ -184,6 +185,14 @@ export interface ProductLot {
   created_at: Date;
   quantity: number;
   product_id: string;
+}
+
+export interface Inventory {
+  id?: string;
+  product_id: string;
+  quantity: number;
+  limit_notification: number;
+  created_at?: Date;
 }
 
 export interface Award {

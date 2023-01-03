@@ -17,7 +17,6 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
-  BeerEnum,
 } from "../../lib/beerEnum";
 import { Award } from "../../types";
 
@@ -45,6 +44,8 @@ interface FormProps {
   price: number;
   pack: any;
   format: any;
+  stockQuantity: number;
+  stockLimitNotification: number;
 }
 
 interface Props {
@@ -184,10 +185,10 @@ export default function ProductInfoSection({
               })}
             />
             {errors.name?.type === "required" && (
-              <p>Campo nombre es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
             {errors.name?.type === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
+              <p>{t("product_modal_20_max_length")}</p>
             )}
           </div>
 
@@ -226,10 +227,10 @@ export default function ProductInfoSection({
               })}
             />
             {errors.description?.type === "required" && (
-              <p>Campo descripción es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
             {errors.description?.type === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
+              <p>{t("product_modal_20_max_length")}</p>
             )}
           </div>
         </div>
@@ -253,7 +254,7 @@ export default function ProductInfoSection({
             </select>
 
             {errors.intensity?.type === "required" && (
-              <p>Campo intensidad requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
 
@@ -274,7 +275,7 @@ export default function ProductInfoSection({
               ))}
             </select>
             {errors.fermentation?.type === "required" && (
-              <p>Campo fementación requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
         </div>
@@ -317,7 +318,7 @@ export default function ProductInfoSection({
               ))}
             </select>
             {errors.origin?.type === "required" && (
-              <p>Campo origen requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
         </div>
@@ -341,7 +342,7 @@ export default function ProductInfoSection({
             </select>
 
             {errors.family?.type === "required" && (
-              <p>Campo familia de estilo requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
 
@@ -362,7 +363,7 @@ export default function ProductInfoSection({
               ))}
             </select>
             {errors.intensity?.type === "required" && (
-              <p>Campo era requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
         </div>
@@ -408,7 +409,7 @@ export default function ProductInfoSection({
               </option>
             </select>
             {errors.isGluten?.type === "required" && (
-              <p>Campo de gluten requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
         </div>
@@ -439,7 +440,7 @@ export default function ProductInfoSection({
                 ))}
               </select>
               {errors.format?.type === "required" && (
-                <p>Campo formato requerido</p>
+                <p>{t("product_modal_required")}</p>
               )}
             </div>
 
@@ -451,7 +452,7 @@ export default function ProductInfoSection({
               {renderSwitch()}
 
               {errors.volume?.type === "required" && (
-                <p>Campo volumen requerido</p>
+                <p>{t("product_modal_required")}</p>
               )}
             </div>
           </div>
@@ -491,10 +492,58 @@ export default function ProductInfoSection({
               />
 
               {errors.price?.type === "required" && (
-                <p>Campo precio requerido</p>
+                <p>{t("product_modal_required")}</p>
               )}
               {errors.price?.type === "min" && (
-                <p>El número no puede ser negativo</p>
+                <p>{t("product_modal_min_0")}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex w-full flex-row space-x-3 ">
+            <div className="w-full ">
+              <label htmlFor="stockQuantity" className="text-sm text-gray-600">
+                {t("stock_quantity_label")}
+              </label>
+
+              <input
+                type="number"
+                placeholder="500"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                {...register(`stockQuantity`, { required: true, min: 0 })}
+              />
+
+              {errors.stockQuantity?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+              {errors.stockQuantity?.type === "min" && (
+                <p>{t("product_modal_min_0")}</p>
+              )}
+            </div>
+
+            <div className="w-full ">
+              <label
+                htmlFor="stockLimitNotification"
+                className="text-sm text-gray-600"
+              >
+                {t("stock_limit_notification_label")}
+              </label>
+
+              <input
+                type="number"
+                placeholder="20"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                {...register(`stockLimitNotification`, {
+                  required: true,
+                  min: 0,
+                })}
+              />
+
+              {errors.stockLimitNotification?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+              {errors.stockQuantity?.type === "min" && (
+                <p>{t("product_modal_min_0")}</p>
               )}
             </div>
           </div>
