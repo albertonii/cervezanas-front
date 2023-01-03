@@ -157,7 +157,10 @@ const translationsEn = {
   lot_header: "Lot",
   public_header: "Public",
   action_header: "Action",
-  marketplace: "Marketplace",};
+  marketplace: "Marketplace",
+  instock: "In Stock",
+  outstock: "Out of Stock",
+};
 
 const translationsEs = {
   home: "Inicio",
@@ -315,6 +318,8 @@ const translationsEs = {
   public_header: "Público",
   action_header: "Acción",
   marketplace: "Marketplace",
+  instock: "En Stock",
+  outstock: "Agotado",
 };
 
 // the translations

@@ -177,6 +177,7 @@ export interface Beer extends Product {
   pack: number;
   product_lot: ProductLot[];
   product_inventory: Inventory[];
+  product_multimedia: ProductMultimedia[];
 }
 
 export interface ProductLot {

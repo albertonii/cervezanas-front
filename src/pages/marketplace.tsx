@@ -4,14 +4,14 @@ import React, { useEffect } from "react";
 import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../constants";
-import { Award } from "../types";
+import { Award, Beer } from "../types";
 import { supabase } from "../utils/supabaseClient";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 
 interface Props {
-  beers: any[];
+  beers: Beer[];
 }
 
 interface FormProps {
@@ -38,7 +38,8 @@ interface FormProps {
     p_extra_3: any,
     volume: number,
     price: number,
-    pack: string
+    pack: string,
+    product_multimedia: any[]
   ];
 }
 
@@ -47,7 +48,7 @@ export default function MarketPlace(props: Props) {
   const { beers } = props;
 
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 mx-6 mt-12 justify-center">
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:mx-48 mt-12 justify-center">
       {beers &&
         beers!.map((beer) => {
           return (
@@ -107,9 +108,15 @@ export default function MarketPlace(props: Props) {
                         <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate ">
                           <Link href={`/products/${beer.id}`}>{beer.name}</Link>
                         </h2>
-                        <div className="flex items-center bg-green-400 text-white text-xs px-2 py-1 ml-3 rounded-lg">
-                          INSTOCK
-                        </div>
+                        {beer.product_inventory[0]?.quantity > 0 ? (
+                          <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
+                            {t("instock")}
+                          </div>
+                        ) : (
+                          <div className="flex items-center bg-red-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
+                            {t("outstock")}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="text-xl text-white font-semibold mt-1">
@@ -198,6 +205,8 @@ export async function getServerSideProps(req: NextApiRequest) {
     *,
     product_multimedia (
       p_principal
+    ),product_inventory (
+      quantity
     )
   `);
 
@@ -205,7 +214,7 @@ export async function getServerSideProps(req: NextApiRequest) {
 
   beersData?.map(async (beer, index) => {
     beer.product_multimedia[0].p_principal =
-      beer.product_multimedia[0].p_principal == undefined || null
+      beer.product_multimedia[0]?.p_principal == undefined || null
         ? "marketplace_product_default.png"
         : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
           beer.product_multimedia[0].p_principal;
