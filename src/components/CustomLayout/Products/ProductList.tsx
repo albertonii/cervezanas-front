@@ -21,8 +21,6 @@ export default function ProductList(props: Props) {
   const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
     props;
 
-  console.log(beers);
-
   const COLUMNS = [
     { header: t("product_type_header") },
     { header: t("name_header") },

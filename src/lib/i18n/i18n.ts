@@ -157,7 +157,7 @@ const translationsEn = {
   lot_header: "Lot",
   public_header: "Public",
   action_header: "Action",
-};
+  marketplace: "Marketplace",};
 
 const translationsEs = {
   home: "Inicio",
@@ -314,6 +314,7 @@ const translationsEs = {
   lot_header: "Lote",
   public_header: "Público",
   action_header: "Acción",
+  marketplace: "Marketplace",
 };
 
 // the translations
