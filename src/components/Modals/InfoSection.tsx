@@ -1,4 +1,3 @@
-import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,38 +17,10 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { Award } from "../../types";
-
-interface FormProps {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-  volume: any;
-  price: number;
-  pack: any;
-  format: any;
-  stockQuantity: number;
-  stockLimitNotification: number;
-}
+import { ModalAddProductProps } from "../../lib/types";
 
 interface Props {
-  form: UseFormReturn<FormProps, any>;
+  form: UseFormReturn<ModalAddProductProps, any>;
 }
 
 const campaigns = [
@@ -510,13 +481,13 @@ export default function ProductInfoSection({
                 type="number"
                 placeholder="500"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                {...register(`stockQuantity`, { required: true, min: 0 })}
+                {...register(`stock_quantity`, { required: true, min: 0 })}
               />
 
-              {errors.stockQuantity?.type === "required" && (
+              {errors.stock_quantity?.type === "required" && (
                 <p>{t("product_modal_required")}</p>
               )}
-              {errors.stockQuantity?.type === "min" && (
+              {errors.stock_quantity?.type === "min" && (
                 <p>{t("product_modal_min_0")}</p>
               )}
             </div>
@@ -533,17 +504,63 @@ export default function ProductInfoSection({
                 type="number"
                 placeholder="20"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                {...register(`stockLimitNotification`, {
+                {...register(`stock_limit_notification`, {
                   required: true,
                   min: 0,
                 })}
               />
 
-              {errors.stockLimitNotification?.type === "required" && (
+              {errors.stock_limit_notification?.type === "required" && (
                 <p>{t("product_modal_required")}</p>
               )}
-              {errors.stockQuantity?.type === "min" && (
+              {errors.stock_limit_notification?.type === "min" && (
                 <p>{t("product_modal_min_0")}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative p-6 flex-auto">
+        <p className="my-4 text-slate-500 text-lg leading-relaxed">
+          {t("modal_product_add_lot_title")}
+        </p>
+
+        <div className="container">
+          <div className="flex w-full flex-row space-x-3 ">
+            <div className="w-full space-y ">
+              <label htmlFor="lot_number" className="text-sm text-gray-600">
+                {t("lot_number")}
+              </label>
+              <input
+                type="text"
+                id="lot_number"
+                placeholder={t("lot_number")!}
+                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                {...register("lot_id", {
+                  required: true,
+                })}
+              />
+              {errors.lot_id?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+            </div>
+
+            <div className="w-full space-y ">
+              <label htmlFor="lot_quantity" className="text-sm text-gray-600">
+                {t("lot_quantity")}
+              </label>
+              <input
+                id="lot_quantity"
+                placeholder={t("lot_quantity")!}
+                type="number"
+                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                {...register("lot_quantity", {
+                  required: true,
+                })}
+              />
+              {errors.lot_quantity?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
               )}
             </div>
           </div>

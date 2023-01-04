@@ -1,37 +1,9 @@
 import { UseFormReturn } from "react-hook-form";
-import { Award } from "../../types";
 import FilePreview from "../FilePreviews";
-
-interface FormProps {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: FileList;
-  p_back: FileList;
-  p_extra_1: FileList;
-  p_extra_2: FileList;
-  p_extra_3: FileList;
-  volume: string;
-  price: number;
-  pack: string;
-  format: string;
-  stockQuantity: number;
-  stockLimitNotification: number;
-}
+import { ModalAddProductProps } from "../../lib/types";
 
 export interface Props {
-  form: UseFormReturn<FormProps, any>;
+  form: UseFormReturn<ModalAddProductProps, any>;
 }
 
 export const MultimediaSection = (props: Props) => {

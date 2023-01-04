@@ -1,6 +1,6 @@
 import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Beer } from "../../../types";
 
@@ -20,6 +20,10 @@ export default function ProductList(props: Props) {
 
   const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
     props;
+
+  useEffect(() => {
+    console.log(beers);
+  }, [beers]);
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -90,8 +94,8 @@ export default function ProductList(props: Props) {
                   </td>
 
                   <td className="py-4 px-6">
-                    {beer.product_lot[0]?.num_lot_id
-                      ? beer.product_lot[0]?.num_lot_id
+                    {beer.product_lot[0]?.lot_id
+                      ? beer.product_lot[0]?.lot_id
                       : "-"}
                   </td>
                   <td className="py-4 px-6">

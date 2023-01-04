@@ -1,38 +1,10 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Award } from "../types";
-
-interface FormPropsFP {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-  volume: string;
-  price: number;
-  pack: string;
-  format: string;
-  stockQuantity: number;
-  stockLimitNotification: number;
-}
+import { ModalAddProductProps } from "../lib/types";
 
 interface Props {
-  form: UseFormReturn<FormPropsFP, any>;
+  form: UseFormReturn<ModalAddProductProps, any>;
   registerName: string;
 }
 

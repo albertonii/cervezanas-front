@@ -182,7 +182,7 @@ export interface Beer extends Product {
 
 export interface ProductLot {
   id: string;
-  num_lot_id: string;
+  lot_id: string;
   created_at: Date;
   quantity: number;
   product_id: string;

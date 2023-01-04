@@ -1,31 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  aroma_options,
-  color_options,
-  era_options,
-  family_options,
-  fermentation_options,
-  format_options,
-  intensity_options,
-  origin_options,
-  product_type_options,
-  BeerEnum,
-} from "../../lib/beerEnum";
-import { Award } from "../../types";
-import { supabase } from "../../utils/supabaseClient";
+
 import LotForm from "../CustomLayout/Products/LotForm";
-import { AwardsSection } from "./AwardSection";
-import { MultimediaSection } from "./MultimediaSection";
-import ProductInfoSection from "./InfoSection";
-import ProductStepper from "./ProductStepper";
 
 interface Props {
   isVisible: boolean;
 }
-
-type FormValues = {};
 
 interface FormProps {}
 
@@ -42,8 +23,6 @@ const LotModalAdd = (props: Props) => {
 
   const {
     formState: { errors },
-    handleSubmit,
-    reset,
   } = form;
 
   const handleShowModal = (value: boolean) => {

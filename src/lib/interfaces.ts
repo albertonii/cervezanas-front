@@ -1,12 +1,6 @@
-import { type User, Session } from "@supabase/gotrue-js/src/lib/types";
 import { Award } from "../types";
 
-export type UserProps = {
-  user: User;
-  session: Session;
-};
-
-export type ModalAddProductProps = {
+export interface IModalAddProduct {
   is_public: boolean;
   name: string;
   description: string;
@@ -32,6 +26,6 @@ export type ModalAddProductProps = {
   format: any;
   stock_quantity: number;
   stock_limit_notification: number;
-  lot_id: string;
+  lot_id: number;
   lot_quantity: number;
-};
+}

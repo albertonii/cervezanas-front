@@ -85,7 +85,7 @@ export default function LotForm({ handleShowModal }: Props) {
                 })}
               />
               {errors.lot_number?.type === "required" && (
-                <p>Campo lote es requerido</p>
+                <p>{t("product_modal_required")}</p>
               )}
             </div>
 
@@ -103,7 +103,7 @@ export default function LotForm({ handleShowModal }: Props) {
                 })}
               />
               {errors.lot_quantity?.type === "required" && (
-                <p>Campo cantidad de lote es requerido</p>
+                <p>{t("product_modal_required")}</p>
               )}
             </div>
           </div>

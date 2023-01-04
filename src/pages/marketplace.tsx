@@ -104,6 +104,7 @@ export default function MarketPlace(props: Props) {
                         </span>
                         <span className="mr-2 text-gray-400">India</span>
                       </div>
+
                       <div className="flex items-center w-full justify-between min-w-0 ">
                         <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate ">
                           <Link href={`/products/${beer.id}`}>{beer.name}</Link>
@@ -119,9 +120,11 @@ export default function MarketPlace(props: Props) {
                         )}
                       </div>
                     </div>
+
                     <div className="text-xl text-white font-semibold mt-1">
                       {beer.price} €
                     </div>
+
                     <div className="lg:flex flex-col py-4 text-sm text-gray-600">
                       <div className="flex-1 inline-flex items-center  mb-3">
                         <span className="text-secondary whitespace-nowrap mr-3">
@@ -213,11 +216,11 @@ export async function getServerSideProps(req: NextApiRequest) {
   if (beersError) throw beersError;
 
   beersData?.map(async (beer, index) => {
+    console.log(beer.product_multimedia);
     beer.product_multimedia[0].p_principal =
       beer.product_multimedia[0]?.p_principal == undefined || null
-        ? "marketplace_product_default.png"
-        : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/" +
-          beer.product_multimedia[0].p_principal;
+        ? `marketplace_product_default.png`
+        : `https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/${beer.product_multimedia[0].p_principal}`;
 
     beersData![index] = beer;
   });

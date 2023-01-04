@@ -18,67 +18,12 @@ import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
 import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
+import { ModalAddProductProps } from "../../lib/types";
 
 interface Props {
   isVisible: boolean;
   beers: Beer[];
   handleSetBeers: React.Dispatch<React.SetStateAction<any>>;
-}
-
-type FormValues = {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-  volume: any;
-  price: any;
-  pack: any;
-  format: any;
-  stockQuantity: number;
-  stockLimitNotification: number;
-};
-
-interface FormProps {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
-  volume: any;
-  price: number;
-  pack: any;
-  format: any;
-  stockQuantity: number;
-  stockLimitNotification: number;
 }
 
 const ProductModalAdd = (props: Props) => {
@@ -92,7 +37,7 @@ const ProductModalAdd = (props: Props) => {
     setActiveStep(value);
   };
 
-  const form = useForm<FormProps>({
+  const form = useForm<ModalAddProductProps>({
     mode: "onSubmit",
     defaultValues: {
       campaign: "-",
@@ -113,8 +58,10 @@ const ProductModalAdd = (props: Props) => {
       price: 0,
       pack: "",
       format: "",
-      stockQuantity: 0,
-      stockLimitNotification: 0,
+      stock_quantity: 0,
+      stock_limit_notification: 0,
+      lot_id: "",
+      lot_quantity: 0,
     },
   });
 
@@ -124,7 +71,7 @@ const ProductModalAdd = (props: Props) => {
     reset,
   } = form;
 
-  const onSubmit = (formValues: FormValues) => {
+  const onSubmit = (formValues: ModalAddProductProps) => {
     reset();
 
     const handleInsert = async () => {
@@ -152,13 +99,13 @@ const ProductModalAdd = (props: Props) => {
         volume,
         pack,
         format,
-        stockQuantity,
-        stockLimitNotification,
+        stock_quantity,
+        stock_limit_notification,
+        lot_id,
+        lot_quantity,
       } = formValues;
 
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
-        let beerId = "";
-
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
@@ -184,17 +131,17 @@ const ProductModalAdd = (props: Props) => {
 
         if (beerError) throw beerError;
 
+        const beerId = beerData[0].id;
+
         // Upd product list
         beers.push(beerData[0]);
         handleSetBeers(beers);
 
-        beerId = beerData[0].id;
-
         // Inventory - Stock
         const stock: Inventory = {
           product_id: beerId,
-          quantity: stockQuantity,
-          limit_notification: stockLimitNotification,
+          quantity: stock_quantity,
+          limit_notification: stock_limit_notification,
         };
 
         const { error: stockError } = await supabase
@@ -202,6 +149,16 @@ const ProductModalAdd = (props: Props) => {
           .insert(stock);
 
         if (stockError) throw stockError;
+
+        // Lot
+        const { error: lotError } = await supabase.from("product_lot").insert({
+          beer_id: beerId,
+          lot_id,
+          created_at: new Date(),
+          quantity: lot_quantity,
+        });
+
+        if (lotError) throw lotError;
 
         // Awards
         if (awards.length > 0 && awards[0].img_url != "") {
@@ -234,6 +191,7 @@ const ProductModalAdd = (props: Props) => {
           });
         }
 
+        // Multimedia
         const p_principal_url =
           p_principal?.name != undefined
             ? encodeURIComponent(p_principal.name)

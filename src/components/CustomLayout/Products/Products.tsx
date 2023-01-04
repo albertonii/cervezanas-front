@@ -16,7 +16,7 @@ export const Products = () => {
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [beerModal, setBeerModal] = useState<any>(null);
 
-  const [beers, setBeers] = useState<Beer[]>();
+  const [beers, setBeers] = useState<Beer[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -26,7 +26,7 @@ export const Products = () => {
           `
           *,
           product_lot (
-            num_lot_id
+            lot_id
           ),
           product_inventory (
             quantity
@@ -36,6 +36,7 @@ export const Products = () => {
         .eq("owner_id", user?.id);
       if (error) throw error;
       setBeers(beers);
+
       return beers;
     };
     getProducts();
