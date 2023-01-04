@@ -14,35 +14,6 @@ interface Props {
   beers: Beer[];
 }
 
-interface FormProps {
-  beers: [
-    is_public: boolean,
-    name: string,
-    description: string,
-    campaign: string,
-    type: number,
-    color: number,
-    intensity: number,
-    aroma: number,
-    family: number,
-    fermentation: number,
-    origin: number,
-    era: number,
-    format: number,
-    isGluten: string,
-    awards: Award[],
-    p_principal: any,
-    p_back: any,
-    p_extra_1: any,
-    p_extra_2: any,
-    p_extra_3: any,
-    volume: number,
-    price: number,
-    pack: string,
-    product_multimedia: any[]
-  ];
-}
-
 export default function MarketPlace(props: Props) {
   const { t } = useTranslation();
   const { beers } = props;
