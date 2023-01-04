@@ -17,13 +17,6 @@ interface Props {
 export default function MarketPlace(props: Props) {
   const { beers } = props;
 
-  // const { addItem } = useShoppingCart();
-
-  // beers.map((beer) => {
-  //   const item: CartItem = { id: beer.id, quantity: 0 };
-  //   addItem(item);
-  // });
-
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:mx-48 mt-12 justify-center">
       {beers &&

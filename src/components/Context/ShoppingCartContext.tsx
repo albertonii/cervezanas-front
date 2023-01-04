@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { CartItem } from "../../lib/types";
+import { Beer } from "../../types";
+import ShoppingCart from "../ShoppingCart";
 
 type ShoppingCartContextType = {
   items: CartItem[];
@@ -12,6 +14,9 @@ type ShoppingCartContextType = {
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
+  marketplaceItems: Beer[];
+  addMarketplaceItems: (item: Beer) => void;
+  removeMarketplaceItems: (id: string) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -25,6 +30,9 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   removeFromCart: (id: string) => {},
   openCart: () => {},
   closeCart: () => {},
+  marketplaceItems: [],
+  addMarketplaceItems: (item: Beer) => {},
+  removeMarketplaceItems: (id: string) => {},
 });
 
 export function useShoppingCart() {
@@ -38,13 +46,14 @@ export function ShoppingCartProvider({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<CartItem[]>([]);
+  const [marketplaceItems, setMarketplaceItems] = useState<Beer[]>([]);
 
-  const addItem = (item: CartItem) => {
-    setItems((items) => [...items, item]);
+  const addMarketplaceItems = (item: Beer) => {
+    setMarketplaceItems((items) => [...items, item]);
   };
 
-  const removeItem = (id: string) => {
-    setItems((items) => items.filter((item) => item.id !== id));
+  const removeMarketplaceItems = (id: string) => {
+    setMarketplaceItems((items) => items.filter((item) => item.id !== id));
   };
 
   const clear = () => {
@@ -108,6 +117,9 @@ export function ShoppingCartProvider({
     <ShoppingCartContext.Provider
       value={{
         items,
+        marketplaceItems,
+        addMarketplaceItems,
+        removeMarketplaceItems,
         clear,
         isInCart,
         getItemQuantity,
@@ -120,6 +132,7 @@ export function ShoppingCartProvider({
       }}
     >
       {children}
+      <ShoppingCart isOpen={isOpen} />
     </ShoppingCartContext.Provider>
   );
 }
