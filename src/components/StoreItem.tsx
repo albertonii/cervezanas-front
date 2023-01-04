@@ -1,5 +1,5 @@
 import { Button } from "@supabase/ui";
-import React, from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Beer } from "../types";
 import { formatCurrency } from "../utils/formatCurrency";
