@@ -109,14 +109,20 @@ export default function Header() {
 
                   <li>
                     <Link href="/cart">
-                      <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        <Image
-                          src={"/icons/shopping-cart-240.png"}
-                          width={30}
-                          height={30}
-                          alt={"Go to Shopping cart"}
-                        />
-                      </span>
+                      <div className="relative rounded-full">
+                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                          <Image
+                            src={"/icons/shopping-cart-240.png"}
+                            width={30}
+                            height={30}
+                            alt={"Go to Shopping cart"}
+                          />
+                        </span>
+
+                        <div className="rounded-full bg-red-300 flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
+                          3
+                        </div>
+                      </div>
                     </Link>
                   </li>
 
