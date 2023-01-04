@@ -35,3 +35,8 @@ export type ModalAddProductProps = {
   lot_id: string;
   lot_quantity: number;
 };
+
+export type CartItem = {
+  id: string;
+  quantity: number;
+};

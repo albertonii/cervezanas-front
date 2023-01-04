@@ -6,12 +6,14 @@ import { useUser } from "./Auth/UserContext";
 import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import { useShoppingCart } from "./Context/ShoppingCartContext";
 
 export default function Header() {
   const { t } = useTranslation();
 
   const { user } = useUser();
   const router = useRouter();
+  const { cartQuantity } = useShoppingCart();
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -120,7 +122,7 @@ export default function Header() {
                         </span>
 
                         <div className="rounded-full bg-red-300 flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
-                          3
+                          {cartQuantity}
                         </div>
                       </div>
                     </Link>

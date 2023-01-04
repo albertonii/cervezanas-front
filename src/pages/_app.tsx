@@ -5,7 +5,7 @@ import { UserContextProvider } from "../components/Auth/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "../components/Header";
 import { Suspense } from "react";
-import { useTranslation } from "react-i18next";
+import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,10 +20,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Suspense fallback="Loading...">
         <QueryClientProvider client={queryClient}>
-          <UserContextProvider supabaseClient={supabase}>
-            <Header />
-            <Component {...pageProps} />
-          </UserContextProvider>
+          <ShoppingCartProvider>
+            <UserContextProvider supabaseClient={supabase}>
+              <Header />
+              <Component {...pageProps} />
+            </UserContextProvider>
+          </ShoppingCartProvider>
         </QueryClientProvider>
       </Suspense>
     </>
