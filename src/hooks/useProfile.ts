@@ -18,9 +18,6 @@ const getProfile = async (id?: string) => {
 
 export default function useProfile() {
   const { user } = useUser();
-  /*return useQuery(["profile", "123"], () =>
-    axiosPrivate.get("/v1/trainings/" + "123")
-  );*/
 
   return useQuery(["profile", getProfile(user?.id)], {
     enabled: !!user,

@@ -7,6 +7,7 @@ import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
+import axios from "axios";
 
 export default function Header() {
   const { t } = useTranslation();
@@ -21,6 +22,11 @@ export default function Header() {
   };
 
   const handleSignIn = () => {
+    router.push("/signin");
+  };
+
+  const handleSignOut = () => {
+    supabase.auth.signOut();
     router.push("/signin");
   };
 
@@ -134,7 +140,7 @@ export default function Header() {
                       href="#"
                       className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
-                      <Button onClick={() => supabase.auth.signOut()}>
+                      <Button onClick={() => handleSignOut()}>
                         {t("logout")}
                       </Button>
                     </Link>

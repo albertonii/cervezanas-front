@@ -36,8 +36,6 @@ const Submit: NextPage<UserProps> = ({ session }) => {
       console.log(err);
     }
 
-    console.log(result);
-
     reset();
   };
 
