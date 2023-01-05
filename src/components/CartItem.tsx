@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import useFetchProducts from "../hooks/useFetchBeers";
 import { Beer } from "../types";
@@ -54,7 +55,9 @@ export function CartItem({ id, quantity }: CartItemProps) {
                 <h3>{/* <a href={item.href}>{item.name}</a> */}</h3>
                 <p className="ml-4">{formatCurrency(item.price)}</p>
               </div>
-              <p className="mt-1 text-sm text-gray-500">{item.name}</p>
+              <p className="mt-1 text-sm text-gray-500">
+                <Link href={`/products/${item.id}`}>{item.name}</Link>
+              </p>
             </div>
             <div className="flex flex-1 items-end justify-between text-sm">
               <p className="text-gray-500">Qty {quantity}</p>

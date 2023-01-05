@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FaLock } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
+import { useUser } from "../Auth/UserContext";
 
 interface FormData {
   email: string;

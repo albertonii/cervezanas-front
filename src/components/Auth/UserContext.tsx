@@ -28,6 +28,7 @@ export const UserContextProvider = (props: Props) => {
     (async () => {
       const session = supabaseClient.auth.session();
       setSession(session);
+
       setUser(session?.user ?? null);
       setLoading(false);
     })();
@@ -38,6 +39,7 @@ export const UserContextProvider = (props: Props) => {
   const value = {
     session,
     user,
+    setUser: (user: User) => setUser(user),
     signUp: (data: UserCredentials) => supabaseClient.auth.signUp(data),
     signIn: (data: UserCredentials) => supabaseClient.auth.signIn(data),
     signOut: () => supabaseClient.auth.signOut(),

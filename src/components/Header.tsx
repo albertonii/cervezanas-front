@@ -7,13 +7,16 @@ import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
-import axios from "axios";
+import { NextApiRequest } from "next";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const { t } = useTranslation();
 
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const router = useRouter();
+
+  const [isAuth, setIsAuth] = useState(false);
 
   const { cartQuantity, openCart } = useShoppingCart();
 
@@ -26,9 +29,14 @@ export default function Header() {
   };
 
   const handleSignOut = () => {
+    setUser(null);
     supabase.auth.signOut();
     router.push("/signin");
   };
+
+  useEffect(() => {
+    setIsAuth(user ? true : false);
+  }, [user]);
 
   return (
     <div className="header ">
@@ -70,7 +78,7 @@ export default function Header() {
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              {user ? (
+              {isAuth ? (
                 <>
                   <li>
                     <Link href="/">
@@ -119,7 +127,7 @@ export default function Header() {
                   <li>
                     <Button className={""} onClick={() => openCart()}>
                       <div className="relative rounded-full">
-                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                           <Image
                             src={"/icons/shopping-cart-240.png"}
                             width={30}
@@ -141,7 +149,14 @@ export default function Header() {
                       className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
                       <Button onClick={() => handleSignOut()}>
-                        {t("logout")}
+                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                          <Image
+                            src={"/icons/logout-240.png"}
+                            width={30}
+                            height={30}
+                            alt={"Logout user"}
+                          />
+                        </span>
                       </Button>
                     </Link>
                   </li>
@@ -167,3 +182,5 @@ export default function Header() {
     </div>
   );
 }
+
+export async function getServerSideProps(req: NextApiRequest) {}

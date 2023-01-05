@@ -4,8 +4,6 @@ import { SupabaseProps } from "../constants";
 import { Beer } from "../types";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/StoreItem";
-import { CartItem } from "../lib/types";
-import { useShoppingCart } from "../components/Context/ShoppingCartContext";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
