@@ -6,7 +6,8 @@ const fetchProducts = async () => {
     *,
     product_multimedia (
       p_principal
-    ),product_inventory (
+    ), 
+    product_inventory (
       quantity
     )
   `);

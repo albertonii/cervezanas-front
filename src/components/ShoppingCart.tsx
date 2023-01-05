@@ -1,10 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
-import { Beer } from "../types";
-import { supabase } from "../utils/supabaseClient";
-import useFetchProducts from "../hooks/useFetchBeers";
 import { CartItem } from "./CartItem";
 
 const products = [
