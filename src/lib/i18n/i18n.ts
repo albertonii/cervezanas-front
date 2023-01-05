@@ -161,6 +161,7 @@ const translationsEn = {
   marketplace: "Marketplace",
   instock: "In Stock",
   outstock: "Out of Stock",
+  quantity: "Quantity",
 };
 
 const translationsEs = {
@@ -322,6 +323,7 @@ const translationsEs = {
   marketplace: "Marketplace",
   instock: "En Stock",
   outstock: "Agotado",
+  quantity: "Cantidad",
 };
 
 // the translations

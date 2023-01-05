@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { SupabaseProps } from "../../constants";
+import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
@@ -35,21 +36,16 @@ export default function ProductId(props: Props) {
               />
             </div>
 
-            <div className="sm:col-span-8 lg:col-span-7 mx-6">
-              <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                {p.name}
-              </h2>
+            <div className="sm:col-span-8 lg:col-span-7 mx-6 ">
+              <div className="flex flex-column">
+                <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
+                  {p.name}
+                </h2>
 
-              <section aria-labelledby="information-heading" className="mt-2">
-                <h3 id="information-heading" className="sr-only">
-                  Product information
-                </h3>
-
-                <p className="text-2xl text-gray-900">{p.price} €</p>
-
-                <div className="mt-6">
+                <div>
                   <h4 className="sr-only">Reviews</h4>
-                  <div className="flex items-center">
+
+                  <div className="">
                     <div className="flex items-center">
                       <svg
                         className="text-gray-900 h-5 w-5 flex-shrink-0"
@@ -121,6 +117,7 @@ export default function ProductId(props: Props) {
                         />
                       </svg>
                     </div>
+
                     <p className="sr-only">3.9 out of 5 stars</p>
                     <a
                       href="#"
@@ -129,7 +126,19 @@ export default function ProductId(props: Props) {
                       117 reviews
                     </a>
                   </div>
+                </div>
+              </div>
 
+              <section aria-labelledby="information-heading" className="mt-2">
+                <h3 id="information-heading" className="sr-only">
+                  Product information
+                </h3>
+
+                <p className="text-2xl text-gray-900">
+                  {formatCurrency(p.price)}
+                </p>
+
+                <div className="mt-6">
                   <div className="flex items-center pr-6 min-h-[6vh]">
                     <p className="text-lg">{p.description}</p>
                   </div>

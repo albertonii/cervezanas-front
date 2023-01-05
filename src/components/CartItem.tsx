@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import useFetchProducts from "../hooks/useFetchBeers";
 import { Beer } from "../types";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -12,6 +13,7 @@ type CartItemProps = {
 };
 
 export function CartItem({ id, quantity }: CartItemProps) {
+  const { t } = useTranslation();
   const [item, setItem] = useState<Beer | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const { removeFromCart } = useShoppingCart();
@@ -50,17 +52,20 @@ export function CartItem({ id, quantity }: CartItemProps) {
           </div>
 
           <div className="ml-4 flex flex-1 flex-col">
-            <div>
-              <div className="flex justify-between text-base font-medium text-gray-900">
-                <h3>{/* <a href={item.href}>{item.name}</a> */}</h3>
-                <p className="ml-4">{formatCurrency(item.price)}</p>
-              </div>
-              <p className="mt-1 text-sm text-gray-500">
+            <div className="flex justify-between text-base font-medium text-gray-900">
+              <p className="mt-1 text-lg text-gray-500">
                 <Link href={`/products/${item.id}`}>{item.name}</Link>
               </p>
+
+              <h3>
+                <p className="ml-4">{formatCurrency(item.price)}</p>
+              </h3>
             </div>
+
             <div className="flex flex-1 items-end justify-between text-sm">
-              <p className="text-gray-500">Qty {quantity}</p>
+              <p className="text-gray-500">
+                {t("quantity")} {quantity}
+              </p>
 
               <div className="flex">
                 <button
