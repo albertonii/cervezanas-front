@@ -1,6 +1,6 @@
 import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Beer } from "../../../types";
 
@@ -21,9 +21,7 @@ export default function ProductList(props: Props) {
   const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
     props;
 
-  useEffect(() => {
-    console.log(beers);
-  }, [beers]);
+  const [query, setQuery] = React.useState("");
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -47,8 +45,40 @@ export default function ProductList(props: Props) {
     handleBeerModal(beer);
   };
 
+  const filteredItems = useMemo(() => {
+    return beers.filter((beer) => {
+      return beer.name.toLowerCase().includes(query.toLowerCase());
+    });
+  }, [beers, query]);
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
+      <div className="relative w-full">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg
+            aria-hidden="true"
+            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </div>
+
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search products..."
+        />
+      </div>
+
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -64,7 +94,7 @@ export default function ProductList(props: Props) {
 
         <tbody>
           {beers &&
-            beers.map((beer) => {
+            filteredItems.map((beer) => {
               return (
                 <tr
                   key={beer.id}
@@ -79,7 +109,7 @@ export default function ProductList(props: Props) {
                       height={128}
                       className="w-8 h-8 rounded-full"
                       src="/icons/beer-icons-240.png"
-                      alt="Neil image"
+                      alt="Beer Type"
                     />
                   </th>
 
