@@ -50,11 +50,7 @@ export default function StoreItem(props: StoreItemProps) {
           <Image
             width={128}
             height={128}
-            src={
-              beer.product_multimedia[0]?.p_principal == null || undefined
-                ? "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/default_principal.png"
-                : "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/iconmonstr-beer-5-240.png"
-            }
+            src={beer.product_multimedia[0]?.p_principal}
             alt="Principal Product Image"
             className="w-full object-fill rounded-2xl"
           />

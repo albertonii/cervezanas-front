@@ -41,11 +41,10 @@ export async function getServerSideProps(req: NextApiRequest) {
   if (beersError) throw beersError;
 
   beersData?.map(async (beer, index) => {
-    console.log(beer.product_multimedia);
     beer.product_multimedia[0].p_principal =
       beer.product_multimedia[0]?.p_principal == undefined || null
-        ? `marketplace_product_default.png`
-        : `https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/${beer.product_multimedia[0].p_principal}`;
+        ? `/marketplace_product_default.png`
+        : `https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/p_principal/${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
 
     beersData![index] = beer;
   });

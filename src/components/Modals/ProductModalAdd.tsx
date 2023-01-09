@@ -12,7 +12,7 @@ import {
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Award, Beer, Inventory } from "../../types";
+import { Beer, Inventory } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
@@ -132,6 +132,7 @@ const ProductModalAdd = (props: Props) => {
         if (beerError) throw beerError;
 
         const beerId = beerData[0].id;
+        const userId = beerData[0].owner_id;
 
         // Upd product list
         beers.push(beerData[0]);
@@ -221,7 +222,7 @@ const ProductModalAdd = (props: Props) => {
         if (p_principal_url) {
           const { error: pPrincipalError } = await supabase.storage
             .from("products")
-            .upload(`p_principal/${p_principal_url}`, p_principal, {
+            .upload(`p_principal/${userId}/${p_principal_url}`, p_principal, {
               cacheControl: "3600",
               upsert: false,
             });
@@ -232,7 +233,7 @@ const ProductModalAdd = (props: Props) => {
         if (p_back_url) {
           const { error: pBackError } = await supabase.storage
             .from("products")
-            .upload(`p_back/${p_back_url}`, p_back, {
+            .upload(`p_back/${userId}/${p_back_url}`, p_back, {
               cacheControl: "3600",
               upsert: false,
             });
@@ -243,7 +244,7 @@ const ProductModalAdd = (props: Props) => {
         if (p_extra_1_url) {
           const { error: pExtra1Error } = await supabase.storage
             .from("products")
-            .upload(`p_extra_1/${p_extra_1_url}`, p_extra_1, {
+            .upload(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1, {
               cacheControl: "3600",
               upsert: false,
             });
@@ -254,7 +255,7 @@ const ProductModalAdd = (props: Props) => {
         if (p_extra_2_url) {
           const { error: pExtra2Error } = await supabase.storage
             .from("products")
-            .upload(`p_extra_2/${p_extra_2_url}`, p_extra_2, {
+            .upload(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2, {
               cacheControl: "3600",
               upsert: false,
             });
@@ -265,7 +266,7 @@ const ProductModalAdd = (props: Props) => {
         if (p_extra_3_url) {
           const { error: pExtra3Error } = await supabase.storage
             .from("products")
-            .upload(`p_extra_3/${p_extra_3_url}`, p_extra_3, {
+            .upload(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3, {
               cacheControl: "3600",
               upsert: false,
             });

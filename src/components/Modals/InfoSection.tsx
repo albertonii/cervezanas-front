@@ -459,6 +459,7 @@ export default function ProductInfoSection({
                 placeholder="2.5"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 defaultValue={3}
+                min="0"
                 {...register(`price`, { required: true, min: 0 })}
               />
 
@@ -481,6 +482,7 @@ export default function ProductInfoSection({
                 type="number"
                 placeholder="500"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                min="0"
                 {...register(`stock_quantity`, { required: true, min: 0 })}
               />
 
@@ -504,6 +506,7 @@ export default function ProductInfoSection({
                 type="number"
                 placeholder="20"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                min="0"
                 {...register(`stock_limit_notification`, {
                   required: true,
                   min: 0,
@@ -555,8 +558,10 @@ export default function ProductInfoSection({
                 placeholder={t("lot_quantity")!}
                 type="number"
                 className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                min="0"
                 {...register("lot_quantity", {
                   required: true,
+                  min: 0,
                 })}
               />
               {errors.lot_quantity?.type === "required" && (

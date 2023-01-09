@@ -207,15 +207,15 @@ export interface Award {
 
 export interface ProductMultimedia {
   id: string;
-  p_principal: ProductMultimediaItem;
-  p_back: ProductMultimediaItem;
-  p_extra_1: ProductMultimediaItem;
-  p_extra_2: ProductMultimediaItem;
-  p_extra_3: ProductMultimediaItem;
-  p_extra_4: ProductMultimediaItem;
-  v_principal: ProductMultimediaItem;
-  v_extra_1: ProductMultimediaItem;
-  v_extra_2: ProductMultimediaItem;
+  p_principal: string;
+  p_back: string;
+  p_extra_1: string;
+  p_extra_2: string;
+  p_extra_3: string;
+  p_extra_4: string;
+  v_principal: string;
+  v_extra_1: string;
+  v_extra_2: string;
 }
 
 interface ProductMultimediaItem {
