@@ -1,8 +1,9 @@
+import { Button } from "@supabase/ui";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useFetchProducts from "../hooks/useFetchBeers";
+import { SupabaseProps } from "../constants";
 import { Beer } from "../types";
 import { formatCurrency } from "../utils/formatCurrency";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
@@ -10,23 +11,26 @@ import { useShoppingCart } from "./Context/ShoppingCartContext";
 type CartItemProps = {
   id: string;
   quantity: number;
+  beers: Beer[];
 };
 
-export function CartItem({ id, quantity }: CartItemProps) {
+export function CartItem({ id, quantity, beers }: CartItemProps) {
   const { t } = useTranslation();
   const [item, setItem] = useState<Beer | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
-  const { removeFromCart } = useShoppingCart();
-
-  const { data: beers } = useFetchProducts();
+  const { removeFromCart, increaseCartQuantity, decreaseCartQuantity } =
+    useShoppingCart();
 
   useEffect(() => {
     const findBeers = async () => {
-      setItem(beers?.find((i) => i.id === id));
+      setItem(beers?.find((i) => i.id === id)!);
+
       if (item == null) return null;
 
-      if (item.product_multimedia[0] != null) {
-        setItemMultimedia(item.product_multimedia[0].p_principal);
+      if (item.product_multimedia[0] != null || undefined) {
+        setItemMultimedia(
+          `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}${item.owner_id}/${item.product_multimedia[0].p_principal}`
+        );
       } else {
         setItemMultimedia("/marketplace_product_default.png");
       }
@@ -68,6 +72,12 @@ export function CartItem({ id, quantity }: CartItemProps) {
               </p>
 
               <div className="flex">
+                <div className="flex items-center justify-center mr-2">
+                  <Button onClick={() => decreaseCartQuantity(id)}>-</Button>
+                  <span className="text-lg text-white">{quantity}</span>
+                  <Button onClick={() => increaseCartQuantity(id)}>+</Button>
+                </div>
+
                 <button
                   type="button"
                   className="font-medium text-indigo-600 hover:text-indigo-500"

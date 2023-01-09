@@ -3,19 +3,31 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
+import useFetchProducts from "../hooks/useFetchBeers";
+import { formatCurrency } from "../utils/formatCurrency";
 
 type ShoppingCartProps = {
   isOpen: boolean;
 };
 
 export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
-  const { items, marketplaceItems, closeCart } = useShoppingCart();
+  const { items, closeCart } = useShoppingCart();
+  const { data: beers } = useFetchProducts();
 
   const [subTotal, setSubTotal] = React.useState(0);
 
   useEffect(() => {
     let total = 0;
-  }, [items]);
+
+    beers?.find((beer) =>
+      items.find((item) => {
+        if (beer.id === item.id) {
+          total += beer.price * item.quantity;
+        }
+      })
+    );
+    setSubTotal(total);
+  }, [items, beers]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -79,7 +91,11 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                           >
                             {items.map((item) => (
                               <li key={item.id} className="flex py-6">
-                                <CartItem key={item.id} {...item} />
+                                <CartItem
+                                  key={item.id}
+                                  {...item}
+                                  beers={beers!}
+                                />
                               </li>
                             ))}
                           </ul>
@@ -91,7 +107,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
 
-                        <p>$262.00</p>
+                        <p>{formatCurrency(subTotal)}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.

@@ -39,6 +39,9 @@ export const SupabaseProps = {
   P_PRINCIPAL_URL: "p_principal/",
   BASE_AVATARS_URL:
     "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/avatars/",
+  BASE_PRODUCTS_URL:
+    "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/",
+  PRODUCT_P_PRINCIPAL: "p_principal/",
   CUSTOM_BG_URL: "custom_bg/",
   PROFILE_PHOTO_URL: "profile_photo/",
 };

@@ -110,7 +110,7 @@ export function ShoppingCartProvider({
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const cartQuantity = items.reduce(
+  const cartQuantity = items?.reduce(
     (quantity, item) => item.quantity + quantity,
     0
   );
