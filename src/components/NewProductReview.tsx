@@ -1,8 +1,12 @@
+import { Button } from "@supabase/ui";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { supabase } from "../utils/supabaseClient";
+import Rate from "./Rate";
 
 type FormValues = {
-  aroma: string;
+  aroma: number;
   appearance: number;
   taste: number;
   mouthfeel: number;
@@ -11,14 +15,26 @@ type FormValues = {
   comment: string;
 };
 
-export default function NewProductReview() {
+interface Props {
+  beerId: string;
+  ownerId: string;
+}
+
+export default function NewProductReview({ beerId, ownerId }: Props) {
   const [loading, setLoading] = useState(false);
+
+  const [aromaRate, setAromaRate] = useState<number>(0);
+  const [appearanceRate, setAppearanceRate] = useState<number>(0);
+  const [tasteRate, setTasteRate] = useState<number>(0);
+  const [mouthfeelRate, setMouthfeelRate] = useState<number>(0);
+  const [bitternessRate, setBitternessRate] = useState<number>(0);
+  const [overallRate, setOverallRate] = useState<number>(0);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<FormValues>({
     defaultValues: {
       aroma: 0,
       appearance: 0,
@@ -30,15 +46,33 @@ export default function NewProductReview() {
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (formValues: FormValues) => {
     try {
-      setLoading(true);
+      const { comment } = formValues;
+
+      const { error: reviewError } = await supabase.from("review").insert({
+        aroma: aromaRate,
+        appearance: appearanceRate,
+        taste: tasteRate,
+        mouthfeel: mouthfeelRate,
+        bitterness: bitternessRate,
+        overall: overallRate,
+        comment,
+        owner_id: ownerId,
+        beer_id: beerId,
+      });
+
+      if (reviewError) {
+        throw reviewError;
+      }
     } catch (error) {
       console.log("error", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const color = { filled: "#fdc300", unfilled: "#a87a12" };
 
   return (
     <section>
@@ -49,82 +83,65 @@ export default function NewProductReview() {
           <div className="flex w-full flex-row space-x-3">
             <div className="w-full">
               <label htmlFor="aroma">Aroma</label>
-              <input
-                type="number"
-                {...register("aroma", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+
+              <Rate
+                rating={aromaRate}
+                onRating={(rate) => setAromaRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.aroma && <p>{errors.aroma.message}</p>}
             </div>
 
             <div className="w-full">
               <label htmlFor="appearance">Appearance</label>
-              <input
-                type="number"
-                {...register("appearance", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+              <Rate
+                rating={appearanceRate}
+                onRating={(rate) => setAppearanceRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.appearance && <p>{errors.appearance.message}</p>}
             </div>
 
             <div className="w-full">
               <label htmlFor="taste">Taste</label>
-              <input
-                type="number"
-                {...register("taste", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+              <Rate
+                rating={tasteRate}
+                onRating={(rate) => setTasteRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.taste && <p>{errors.taste.message}</p>}
             </div>
           </div>
 
           <div className="flex w-full flex-row space-x-3">
             <div className="w-full">
               <label htmlFor="mouthfeel">Mouthfeel</label>
-              <input
-                type="number"
-                {...register("mouthfeel", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+              <Rate
+                rating={mouthfeelRate}
+                onRating={(rate) => setMouthfeelRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.mouthfeel && <p>{errors.mouthfeel.message}</p>}
             </div>
 
             <div className="w-full">
               <label htmlFor="bitterness">Bitterness</label>
-              <input
-                type="number"
-                {...register("bitterness", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+              <Rate
+                rating={bitternessRate}
+                onRating={(rate) => setBitternessRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.bitterness && <p>{errors.bitterness.message}</p>}
             </div>
 
             <div className="w-full">
               <label htmlFor="overall">Overall</label>
-              <input
-                type="number"
-                {...register("overall", {
-                  required: "Required",
-                  min: { value: 0, message: "Min 0" },
-                  max: { value: 10, message: "Max 10" },
-                })}
+              <Rate
+                rating={overallRate}
+                onRating={(rate) => setOverallRate(rate)}
+                count={5}
+                color={color}
               />
-              {errors.overall && <p>{errors.overall.message}</p>}
             </div>
           </div>
 
@@ -150,9 +167,9 @@ export default function NewProductReview() {
 
           <div className="flex w-full flex-row space-x-12">
             <div className="w-full">
-              <button type="submit" disabled={loading}>
+              <Button disabled={loading}>
                 {loading ? "Loading..." : "Submit"}
-              </button>
+              </Button>
             </div>
           </div>
         </form>

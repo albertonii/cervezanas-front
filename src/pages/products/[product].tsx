@@ -1,6 +1,6 @@
 import { Input } from "@supabase/ui";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import NewProductReview from "../../components/NewProductReview";
 import ProductReview from "../../components/ProductReview";
 import { SupabaseProps } from "../../constants";
@@ -20,7 +20,26 @@ export default function ProductId(props: Props) {
 
   const { product, multimedia } = props;
   const p = product[0];
+
   const m = multimedia[0];
+
+  useEffect(() => {
+    const getReviews = async () => {
+      const { data, error: reviewError } = await supabase
+        .from("review")
+        .select("*")
+        .eq("beer_id", p.id);
+
+      if (reviewError) {
+        throw reviewError;
+      }
+
+      console.log(data);
+
+      return data;
+    };
+    getReviews();
+  }, []);
 
   return (
     <div className=" relative z-10" role="dialog" aria-modal="true">
@@ -395,7 +414,7 @@ export default function ProductId(props: Props) {
 
             {/* New Product Review */}
             <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <NewProductReview />
+              <NewProductReview beerId={p.id} ownerId={p.owner_id} />
             </div>
 
             {/* Related Products */}

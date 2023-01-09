@@ -8,6 +8,11 @@ import { Suspense, useEffect } from "react";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 import axios from "axios";
 import { Session } from "@supabase/supabase-js";
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+// Tell Font Awesome to skip adding the CSS automatically
+// since it's already imported above
+config.autoAddCss = false;
 
 const queryClient = new QueryClient({
   defaultOptions: {
