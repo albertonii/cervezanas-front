@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { use, useEffect } from "react";
 import { useProfile } from "../Context/ProfileContext";
 
 type Props = {

@@ -38,7 +38,7 @@ export default function ProfileContexProvider(props: Props) {
     if (user) {
       const getProfileImg = async () => {
         const decodeUriCustomImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
-        const decodeUriProfileImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
+        const decodeUriProfileImg = `${SupabaseProps.PROFILE_PHOTO_URL}${user?.id}/img`;
 
         const { data: bgImgData, error: bgError } = await supabase.storage
           .from("avatars")

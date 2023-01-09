@@ -26,7 +26,7 @@ export function CartItem({ id, quantity }: CartItemProps) {
       if (item == null) return null;
 
       if (item.product_multimedia[0] != null) {
-        setItemMultimedia(item.product_multimedia[0].p_principal?.bucket_url);
+        setItemMultimedia(item.product_multimedia[0].p_principal);
       } else {
         setItemMultimedia("/marketplace_product_default.png");
       }
