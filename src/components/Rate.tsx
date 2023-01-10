@@ -17,6 +17,7 @@ interface Props {
 
 export default function Rate({ count, rating, color, onRating }: Props) {
   const [hoverRating, setHoverRating] = useState(0);
+  const [effect, setEffect] = useState(false);
 
   const starRating = useMemo(() => {
     const getColor = (index: number) => {
@@ -35,15 +36,29 @@ export default function Rate({ count, rating, color, onRating }: Props) {
       .map((idx) => (
         <FontAwesomeIcon
           key={idx}
-          className="cursor-pointer "
+          className={`cursor-pointer ${
+            effect && "animate-wiggle" ? "animate-wiggle" : ""
+          }`}
           icon={faStar}
-          onClick={() => onRating(idx)}
           style={{ color: getColor(idx) }}
           onMouseEnter={() => setHoverRating(idx)}
           onMouseLeave={() => setHoverRating(0)}
+          onClick={() => {
+            onRating(idx);
+            setEffect(true);
+          }}
+          onAnimationEnd={() => setEffect(false)}
         />
       ));
-  }, [color.filled, color.unfilled, count, hoverRating, onRating, rating]);
+  }, [
+    color.filled,
+    color.unfilled,
+    count,
+    hoverRating,
+    onRating,
+    rating,
+    effect,
+  ]);
 
   return <div className="flex flex-row h-6 my-2">{starRating}</div>;
 }
