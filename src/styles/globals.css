@@ -9,7 +9,7 @@
 }
 
 .input-field {
-  @apply rounded-md border border-black p-2;
+  @apply rounded-md border p-2;
 }
 
 @font-face {

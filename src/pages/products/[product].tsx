@@ -1,8 +1,11 @@
 import { Input } from "@supabase/ui";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import NewProductReview from "../../components/NewProductReview";
-import ProductReview from "../../components/ProductReview";
+import ProductReview from "../../components/ProductOverallReview";
+import ProductReviews from "../../components/ProductReviews";
+import ToastNotification from "../../components/ToastNotification";
 import { SupabaseProps } from "../../constants";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
@@ -13,33 +16,15 @@ const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 interface Props {
   product: any[];
   multimedia: any[];
+  reviews: any[];
 }
 
 export default function ProductId(props: Props) {
-  // const router = useRouter();
+  const { t } = useTranslation();
 
-  const { product, multimedia } = props;
+  const { product, multimedia, reviews } = props;
   const p = product[0];
-
   const m = multimedia[0];
-
-  useEffect(() => {
-    const getReviews = async () => {
-      const { data, error: reviewError } = await supabase
-        .from("review")
-        .select("*")
-        .eq("beer_id", p.id);
-
-      if (reviewError) {
-        throw reviewError;
-      }
-
-      console.log(data);
-
-      return data;
-    };
-    getReviews();
-  }, []);
 
   return (
     <div className=" relative z-10" role="dialog" aria-modal="true">
@@ -191,7 +176,7 @@ export default function ProductId(props: Props) {
                           </span>
                           <span
                             aria-hidden="true"
-                            className="h-8 w-8 bg-white border border-black border-opacity-10 rounded-full"
+                            className="h-8 w-8 bg-white border border-opacity-10 rounded-full"
                           ></span>
                         </label>
 
@@ -209,7 +194,7 @@ export default function ProductId(props: Props) {
                           </span>
                           <span
                             aria-hidden="true"
-                            className="h-8 w-8 bg-gray-200 border border-black border-opacity-10 rounded-full"
+                            className="h-8 w-8 bg-gray-200 border border-opacity-10 rounded-full"
                           ></span>
                         </label>
 
@@ -222,12 +207,11 @@ export default function ProductId(props: Props) {
                             aria-labelledby="color-choice-2-label"
                           />
                           <span id="color-choice-2-label" className="sr-only">
-                            {" "}
-                            Black{" "}
+                            Black
                           </span>
                           <span
                             aria-hidden="true"
-                            className="h-8 w-8 bg-gray-900 border border-black border-opacity-10 rounded-full"
+                            className="h-8 w-8 bg-gray-900 border border-opacity-10 rounded-full"
                           ></span>
                         </label>
                       </span>
@@ -401,7 +385,7 @@ export default function ProductId(props: Props) {
                     type="submit"
                     className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    Add to bag
+                    {t("add_to_cart")}
                   </button>
                 </form>
               </section>
@@ -417,7 +401,10 @@ export default function ProductId(props: Props) {
               <NewProductReview beerId={p.id} ownerId={p.owner_id} />
             </div>
 
-            {/* Related Products */}
+            {/* See user reviews */}
+            <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+              <ProductReviews reviews={reviews} />
+            </div>
           </div>
         </div>
       </div>
@@ -427,25 +414,32 @@ export default function ProductId(props: Props) {
 
 export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
-  const { product } = params;
+  const { product: productId } = params;
 
   let { data: beers, error: beersError } = await supabase
     .from("beers")
     .select("*")
-    .eq("id", product);
+    .eq("id", productId);
 
   let { data: beerMultimedia, error: errorMultimedia } = await supabase
     .from("product_multimedia")
     .select("*")
-    .eq("beer_id", product);
+    .eq("beer_id", productId);
+
+  const { data: reviews, error: reviewError } = await supabase
+    .from("review")
+    .select("*")
+    .eq("beer_id", productId);
 
   if (beersError) throw beersError;
   if (errorMultimedia) throw errorMultimedia;
+  if (reviewError) throw reviewError;
 
   return {
     props: {
       product: beers,
       multimedia: beerMultimedia,
+      reviews,
     },
   };
 }

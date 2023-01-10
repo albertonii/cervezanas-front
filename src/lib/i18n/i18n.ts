@@ -167,6 +167,7 @@ const translationsEn = {
   instock: "In Stock",
   outstock: "Out of Stock",
   quantity: "Quantity",
+  add_to_cart: "Add to shopping cart",
 };
 
 const translationsEs = {
@@ -334,6 +335,7 @@ const translationsEs = {
   instock: "En Stock",
   outstock: "Agotado",
   quantity: "Cantidad",
+  add_to_cart: "Añadir al carrito",
 };
 
 // the translations

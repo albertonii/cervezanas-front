@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
 
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
@@ -21,6 +22,25 @@ module.exports = {
         wiggle: "wiggle 300ms ease-in-out",
       },
     },
+    colors: {
+      beer: {
+        dark: "#432a14",
+        blonde: "#fdc300",
+        draft: "#90470b",
+      },
+      bear: {
+        dark: "#502600",
+        light: "#a87a12",
+      },
+      transparent: "transparent",
+      current: "currentColor",
+      black: colors.black,
+      white: colors.white,
+      gray: colors.trueGray,
+      indigo: colors.indigo,
+      red: colors.rose,
+      yellow: colors.amber,
+    },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
 };

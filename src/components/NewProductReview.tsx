@@ -22,6 +22,7 @@ interface Props {
 
 export default function NewProductReview({ beerId, ownerId }: Props) {
   const [loading, setLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const [aromaRate, setAromaRate] = useState<number>(0);
   const [appearanceRate, setAppearanceRate] = useState<number>(0);
@@ -65,115 +66,145 @@ export default function NewProductReview({ beerId, ownerId }: Props) {
       if (reviewError) {
         throw reviewError;
       }
+
+      alert("Review created!");
     } catch (error) {
       console.log("error", error);
     } finally {
       setLoading(false);
+      setIsReady(false);
     }
   };
 
-  const color = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
   return (
-    <section>
-      <div>Escribir review de cerveza:</div>
+    <>
+      {isReady ? (
+        <section>
+          <div>Escribir review de cerveza:</div>
 
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex w-full flex-row space-x-3">
-            <div className="w-full">
-              <label htmlFor="aroma">Aroma</label>
+          <div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex w-full flex-row space-x-3">
+                <div className="w-full">
+                  <label htmlFor="aroma">Aroma</label>
 
-              <Rate
-                rating={aromaRate}
-                onRating={(rate) => setAromaRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
+                  <Rate
+                    rating={aromaRate}
+                    onRating={(rate) => setAromaRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
 
-            <div className="w-full">
-              <label htmlFor="appearance">Appearance</label>
-              <Rate
-                rating={appearanceRate}
-                onRating={(rate) => setAppearanceRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
+                <div className="w-full">
+                  <label htmlFor="appearance">Appearance</label>
+                  <Rate
+                    rating={appearanceRate}
+                    onRating={(rate) => setAppearanceRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
 
-            <div className="w-full">
-              <label htmlFor="taste">Taste</label>
-              <Rate
-                rating={tasteRate}
-                onRating={(rate) => setTasteRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
+                <div className="w-full">
+                  <label htmlFor="taste">Taste</label>
+                  <Rate
+                    rating={tasteRate}
+                    onRating={(rate) => setTasteRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
+              </div>
+
+              <div className="flex w-full flex-row space-x-3">
+                <div className="w-full">
+                  <label htmlFor="mouthfeel">Mouthfeel</label>
+                  <Rate
+                    rating={mouthfeelRate}
+                    onRating={(rate) => setMouthfeelRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
+
+                <div className="w-full">
+                  <label htmlFor="bitterness">Bitterness</label>
+                  <Rate
+                    rating={bitternessRate}
+                    onRating={(rate) => setBitternessRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
+
+                <div className="w-full">
+                  <label htmlFor="overall">Overall</label>
+                  <Rate
+                    rating={overallRate}
+                    onRating={(rate) => setOverallRate(rate)}
+                    count={5}
+                    color={starColor}
+                    editable={true}
+                  />
+                </div>
+              </div>
+
+              <div className="flex w-full flex-row space-x-12">
+                <div className="w-full mb-6">
+                  <label
+                    htmlFor="comment"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Comment
+                  </label>
+                  <input
+                    id="comment"
+                    className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    type="text"
+                    {...register("comment", {
+                      required: "Required",
+                    })}
+                  />
+                  {errors.comment && <p>{errors.comment.message}</p>}
+                </div>
+              </div>
+
+              <div className="flex w-full flex-row space-x-12">
+                <div className="w-full">
+                  <Button disabled={loading}>
+                    {loading ? "Loading..." : "Submit"}
+                  </Button>
+
+                  <Button
+                    className={"ml-2"}
+                    onClick={() => setIsReady(false)}
+                    disabled={loading}
+                    type="secondary"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </form>
           </div>
-
-          <div className="flex w-full flex-row space-x-3">
-            <div className="w-full">
-              <label htmlFor="mouthfeel">Mouthfeel</label>
-              <Rate
-                rating={mouthfeelRate}
-                onRating={(rate) => setMouthfeelRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
-
-            <div className="w-full">
-              <label htmlFor="bitterness">Bitterness</label>
-              <Rate
-                rating={bitternessRate}
-                onRating={(rate) => setBitternessRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
-
-            <div className="w-full">
-              <label htmlFor="overall">Overall</label>
-              <Rate
-                rating={overallRate}
-                onRating={(rate) => setOverallRate(rate)}
-                count={5}
-                color={color}
-              />
-            </div>
+        </section>
+      ) : (
+        <div className="flex w-full flex-row space-x-12">
+          <div className="w-full">
+            <Button onClick={() => setIsReady(true)} disabled={loading}>
+              {loading ? "Loading..." : "Write a review"}
+            </Button>
           </div>
-
-          <div className="flex w-full flex-row space-x-12">
-            <div className="w-full mb-6">
-              <label
-                htmlFor="comment"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Comment
-              </label>
-              <input
-                id="comment"
-                className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                type="text"
-                {...register("comment", {
-                  required: "Required",
-                })}
-              />
-              {errors.comment && <p>{errors.comment.message}</p>}
-            </div>
-          </div>
-
-          <div className="flex w-full flex-row space-x-12">
-            <div className="w-full">
-              <Button disabled={loading}>
-                {loading ? "Loading..." : "Submit"}
-              </Button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </section>
+        </div>
+      )}
+    </>
   );
 }
