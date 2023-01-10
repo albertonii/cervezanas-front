@@ -4,6 +4,8 @@ import Rate from "./Rate";
 import { Button } from "@supabase/ui";
 import { Review } from "../types";
 import { supabase } from "../utils/supabaseClient";
+import { useUser } from "./Auth/UserContext";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   review: Review;
@@ -11,6 +13,9 @@ interface Props {
 }
 
 export default function IndividualReview(props: Props) {
+  const { t } = useTranslation();
+  const { user } = useUser();
+
   const [readMore, setReadMore] = useState(false);
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
@@ -56,15 +61,17 @@ export default function IndividualReview(props: Props) {
           </h3>
         </div>
 
-        <div className="flex items-center ml-auto space-x-2">
-          <Button
-            type="primary"
-            danger
-            onClick={() => handleDeleteReview(review.id)}
-          >
-            Delete
-          </Button>
-        </div>
+        {user?.id === review.owner_id && (
+          <div className="flex items-center ml-auto space-x-2">
+            <Button
+              type="primary"
+              danger
+              onClick={() => handleDeleteReview(review.id)}
+            >
+              {t("delete")}
+            </Button>
+          </div>
+        )}
       </div>
 
       <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">

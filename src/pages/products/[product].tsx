@@ -1,7 +1,8 @@
-import { Input } from "@supabase/ui";
+import { Button, Input } from "@supabase/ui";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import NewProductReview from "../../components/NewProductReview";
 import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
@@ -28,6 +29,15 @@ export default function ProductId(props: Props) {
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
+
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+  } = useShoppingCart();
+
+  const quantity = getItemQuantity(p.id);
 
   useEffect(() => {
     if (productReviews[0]?.id === "0" || productReviews.length === 0) {
@@ -393,12 +403,49 @@ export default function ProductId(props: Props) {
                     </fieldset>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    {t("add_to_cart")}
-                  </button>
+                  <div>
+                    {quantity === 0 ? (
+                      <Button
+                        onClick={() => increaseCartQuantity(p.id)}
+                        className="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
+                      >
+                        <span>{t("add_to_cart")}</span>
+                      </Button>
+                    ) : (
+                      <div className="flex flex-row align-center mt-6">
+                        <Button
+                          className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          onClick={() => decreaseCartQuantity(p.id)}
+                        >
+                          -
+                        </Button>
+
+                        <div className="ml-6 ">
+                          <span className="text-beer-dark items-center justify-center text-xl">
+                            {quantity}
+                          </span>
+                        </div>
+
+                        <Button
+                          className="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          onClick={() => increaseCartQuantity(p.id)}
+                        >
+                          +
+                        </Button>
+
+                        <Button
+                          type="secondary"
+                          danger
+                          className="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          onClick={() => {
+                            removeFromCart(p.id);
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </form>
               </section>
             </div>
