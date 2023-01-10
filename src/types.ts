@@ -243,3 +243,18 @@ export interface Format {
   volume: number;
   type: string;
 }
+
+export interface Review {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  owner_id: string;
+  beer_id: string;
+  comment: string;
+  aroma: number;
+  appearance: number;
+  taste: number;
+  bitterness: number;
+  mouthfeel: number;
+  overall: number;
+}

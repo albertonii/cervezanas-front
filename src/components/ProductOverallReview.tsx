@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BeerEnum } from "../lib/beerEnum";
+import { Review } from "../types";
 
 interface Props {
-  reviews: any[];
+  reviews: Review[];
+  emptyReviews: boolean;
 }
 
-export default function ProductOverallReview({ reviews }: Props) {
+export default function ProductOverallReview({ reviews, emptyReviews }: Props) {
   const { t } = useTranslation();
 
   const [loading, setLoading] = React.useState(false);
@@ -96,16 +98,17 @@ export default function ProductOverallReview({ reviews }: Props) {
         <section>
           <div className="flex items-center mb-5">
             <p className="bg-blue-100 text-beer-blonde text-lg font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-              {overall.toFixed(1)}
+              {!emptyReviews ? overall.toFixed(1) : 0}
             </p>
             <p
               className={`ml-2 font-medium text-gray-900 dark:text-white ${
-                qualification == BeerEnum.ReviewQualification.superb
+                qualification == BeerEnum.ReviewQualification.superb &&
+                !emptyReviews
                   ? "text-2xl animate-bounce text-transparent bg-gradient-to-r to-beer-blonde from-beer-dark bg-clip-text"
                   : ""
               }`}
             >
-              {t(qualification)}
+              {!emptyReviews ? t(qualification) : t("not_qualified")}
             </p>
             <span className="w-1 h-1 mx-2 bg-gray-900 rounded-full dark:bg-gray-500"></span>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -115,7 +118,7 @@ export default function ProductOverallReview({ reviews }: Props) {
               href="#"
               className="ml-auto text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
             >
-              Read all reviews
+              {t("read_all_reviews")}
             </a>
           </div>
 
@@ -135,7 +138,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {aroma.toFixed(1)}
+                    {!emptyReviews && aroma.toFixed(1)}
                   </span>
                 </dd>
               </dl>
@@ -153,7 +156,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {appearance.toFixed(1)}
+                    {!emptyReviews && appearance.toFixed(1)}
                   </span>
                 </dd>
               </dl>
@@ -171,7 +174,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {taste.toFixed(1)}
+                    {!emptyReviews && taste.toFixed(1)}
                   </span>
                 </dd>
               </dl>
@@ -191,7 +194,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {mouthfeel.toFixed(1)}
+                    {!emptyReviews && mouthfeel.toFixed(1)}
                   </span>
                 </dd>
               </dl>
@@ -210,7 +213,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {bitterness.toFixed(1)}
+                    {!emptyReviews && bitterness.toFixed(1)}
                   </span>
                 </dd>
               </dl>
@@ -229,7 +232,7 @@ export default function ProductOverallReview({ reviews }: Props) {
                     ></div>
                   </div>
                   <span className="text-lg font-medium text-gray-500 dark:text-gray-400 animate-neon_beer">
-                    {overall.toFixed(1)}
+                    {!emptyReviews && overall.toFixed(1)}
                   </span>
                 </dd>
               </dl>

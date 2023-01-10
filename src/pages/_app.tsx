@@ -26,7 +26,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(event);
         if (event === "SIGNED_IN") {
           setSupabaseCookie(session!);
         }

@@ -27,10 +27,6 @@ export default function OwnerInfo({ ownerId }: Props) {
     getReviewOwner(ownerId);
   }, [ownerId]);
 
-  useEffect(() => {
-    console.log("owner", owner);
-  }, [owner]);
-
   return (
     <>
       {owner && (

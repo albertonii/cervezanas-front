@@ -1,16 +1,18 @@
 import { Button } from "@supabase/ui";
-import React from "react";
+import React, { useState } from "react";
+import { Review } from "../types";
 import { supabase } from "../utils/supabaseClient";
 import OwnerInfo from "./OwnerInfo";
 import Rate from "./Rate";
 
 interface Props {
-  reviews: any[];
+  reviews: Review[];
+  handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
 }
 
-export default function ProductReviews({ reviews }: Props) {
+export default function ProductReviews({ reviews, handleSetReviews }: Props) {
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
-  const [readMore, setReadMore] = React.useState(false);
+  const [readMore, setReadMore] = useState(false);
 
   const handleDeleteReview = async (reviewId: string) => {
     try {
@@ -19,6 +21,10 @@ export default function ProductReviews({ reviews }: Props) {
         .delete()
         .match({ id: reviewId });
       if (error) throw error;
+
+      handleSetReviews((prev) =>
+        prev.filter((review) => review.id !== reviewId)
+      );
     } catch (error) {
       alert(error);
     }

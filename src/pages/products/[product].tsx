@@ -7,6 +7,7 @@ import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
 import ToastNotification from "../../components/ToastNotification";
 import { SupabaseProps } from "../../constants";
+import { Review } from "../../types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 
@@ -16,22 +17,28 @@ const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 interface Props {
   product: any[];
   multimedia: any[];
-  reviews: any[];
+  reviews: Review[];
 }
 
 export default function ProductId(props: Props) {
-  const { t } = useTranslation();
-  const [emptyReviews, setEmptyReviews] = useState(false);
-
   const { product, multimedia, reviews } = props;
   const p = product[0];
   const m = multimedia[0];
 
+  const { t } = useTranslation();
+  const [emptyReviews, setEmptyReviews] = useState(false);
+  const [productReviews, setProductReviews] = useState<Review[]>(reviews);
+
   useEffect(() => {
-    if (reviews[0].id === 0) {
+    if (productReviews[0]?.id === "0" || productReviews.length === 0) {
       setEmptyReviews(true);
     }
-  }, [reviews]);
+  }, [productReviews]);
+
+  const handleSetReviews = (value: React.SetStateAction<Review[]>) => {
+    setProductReviews(value);
+    setEmptyReviews(value.length === 0 ? true : false);
+  };
 
   return (
     <div className=" relative z-10" role="dialog" aria-modal="true">
@@ -55,7 +62,7 @@ export default function ProductId(props: Props) {
                 </h2>
 
                 <div>
-                  <h4 className="sr-only">Reviews</h4>
+                  <h4 className="sr-only">{t("reviews")}</h4>
 
                   <div className="">
                     <div className="flex items-center">
@@ -135,7 +142,7 @@ export default function ProductId(props: Props) {
                       href="#"
                       className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
-                      117 reviews
+                      {productReviews.length} {t("reviews")}
                     </a>
                   </div>
                 </div>
@@ -178,8 +185,7 @@ export default function ProductId(props: Props) {
                             aria-labelledby="color-choice-0-label"
                           />
                           <span id="color-choice-0-label" className="sr-only">
-                            {" "}
-                            White{" "}
+                            White
                           </span>
                           <span
                             aria-hidden="true"
@@ -196,8 +202,7 @@ export default function ProductId(props: Props) {
                             aria-labelledby="color-choice-1-label"
                           />
                           <span id="color-choice-1-label" className="sr-only">
-                            {" "}
-                            Gray{" "}
+                            Gray
                           </span>
                           <span
                             aria-hidden="true"
@@ -400,18 +405,28 @@ export default function ProductId(props: Props) {
 
             {/* Reviews */}
             <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <ProductOverallReview reviews={reviews} />
+              <ProductOverallReview
+                reviews={productReviews}
+                emptyReviews={emptyReviews}
+              />
             </div>
 
             {/* New Product Review */}
             <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <NewProductReview beerId={p.id} ownerId={p.owner_id} />
+              <NewProductReview
+                beerId={p.id}
+                ownerId={p.owner_id}
+                handleSetReviews={handleSetReviews}
+              />
             </div>
 
             {/* See user reviews */}
             {!emptyReviews && (
               <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-                <ProductReviews reviews={reviews} />
+                <ProductReviews
+                  reviews={productReviews}
+                  handleSetReviews={handleSetReviews}
+                />
               </div>
             )}
           </div>
@@ -446,7 +461,7 @@ export async function getServerSideProps(context: { params: any }) {
 
   if (reviews.length == 0) {
     reviews.push({
-      id: 0,
+      id: "0",
       created_at: JSON.stringify(new Date()),
       beer_id: 0,
       owner_id: 0,

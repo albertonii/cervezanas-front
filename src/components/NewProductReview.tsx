@@ -2,6 +2,7 @@ import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Review } from "../types";
 import { supabase } from "../utils/supabaseClient";
 import Rate from "./Rate";
 
@@ -18,9 +19,14 @@ type FormValues = {
 interface Props {
   beerId: string;
   ownerId: string;
+  handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
 }
 
-export default function NewProductReview({ beerId, ownerId }: Props) {
+export default function NewProductReview({
+  beerId,
+  ownerId,
+  handleSetReviews,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
@@ -51,21 +57,43 @@ export default function NewProductReview({ beerId, ownerId }: Props) {
     try {
       const { comment } = formValues;
 
-      const { error: reviewError } = await supabase.from("review").insert({
-        aroma: aromaRate,
-        appearance: appearanceRate,
-        taste: tasteRate,
-        mouthfeel: mouthfeelRate,
-        bitterness: bitternessRate,
-        overall: overallRate,
-        comment,
-        owner_id: ownerId,
-        beer_id: beerId,
-      });
+      const { data: review, error: reviewError } = await supabase
+        .from("review")
+        .insert({
+          aroma: aromaRate,
+          appearance: appearanceRate,
+          taste: tasteRate,
+          mouthfeel: mouthfeelRate,
+          bitterness: bitternessRate,
+          overall: overallRate,
+          comment,
+          owner_id: ownerId,
+          beer_id: beerId,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
 
       if (reviewError) {
         throw reviewError;
       }
+
+      handleSetReviews((prev) => [
+        ...prev,
+        {
+          id: review[0].id,
+          aroma: aromaRate,
+          appearance: appearanceRate,
+          taste: tasteRate,
+          mouthfeel: mouthfeelRate,
+          bitterness: bitternessRate,
+          overall: overallRate,
+          comment,
+          owner_id: ownerId,
+          beer_id: beerId,
+          created_at: review[0].created_at,
+          updated_at: review[0].updated_at,
+        },
+      ]);
 
       alert("Review created!");
     } catch (error) {
