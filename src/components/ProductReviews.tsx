@@ -1,4 +1,6 @@
+import { Button } from "@supabase/ui";
 import React from "react";
+import { supabase } from "../utils/supabaseClient";
 import OwnerInfo from "./OwnerInfo";
 import Rate from "./Rate";
 
@@ -10,6 +12,18 @@ export default function ProductReviews({ reviews }: Props) {
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
   const [readMore, setReadMore] = React.useState(false);
 
+  const handleDeleteReview = async (reviewId: string) => {
+    try {
+      const { error } = await supabase
+        .from("review")
+        .delete()
+        .match({ id: reviewId });
+      if (error) throw error;
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <div>
       {reviews.map((review) => (
@@ -18,24 +32,38 @@ export default function ProductReviews({ reviews }: Props) {
             <OwnerInfo ownerId={review.owner_id} />
 
             <div className="flex items-center mb-1">
-              <Rate
-                rating={review.overall}
-                onRating={() => {}}
-                count={5}
-                color={starColor}
-                editable={false}
-              />
+              <div>
+                <Rate
+                  rating={review.overall}
+                  onRating={() => {}}
+                  count={5}
+                  color={starColor}
+                  editable={false}
+                />
 
-              <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
-                Thinking to buy another one!
-              </h3>
+                <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
+                  Thinking to buy another one!
+                </h3>
+              </div>
+
+              <div className="flex items-center ml-auto space-x-2">
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => handleDeleteReview(review.id)}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
+
             <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
               <p>
                 Reviewed in the United Kingdom on{" "}
                 <time dateTime="2017-03-03 19:00">March 3, 2017</time>
               </p>
             </footer>
+
             <p
               className={`mb-2 font-light text-gray-500 dark:text-gray-400 ${
                 readMore ? "line-clamp-none" : "line-clamp-3"

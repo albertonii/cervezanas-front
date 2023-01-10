@@ -174,6 +174,7 @@ const translationsEn = {
   very_good: "Very Good",
   excellent: "Excellent",
   superb: "Superb",
+  not_qualified: "Not reviewed yet",
   reviews: "Reviews",
 };
 
@@ -349,6 +350,7 @@ const translationsEs = {
   very_good: "Muy bueno",
   excellent: "Excelente",
   superb: "Magnífico",
+  not_qualified: "Sin calificaciones",
   reviews: "Opiniones",
 };
 

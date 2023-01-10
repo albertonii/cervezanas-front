@@ -18,7 +18,7 @@ export default function ProductOverallReview({ reviews }: Props) {
   const [bitterness, setBitterness] = React.useState(0);
   const [overall, setOverall] = React.useState(0);
   const [qualification, setQualification] = React.useState(
-    BeerEnum.ReviewQualification.excellent
+    BeerEnum.ReviewQualification.not_qualified
   );
 
   useEffect(() => {
@@ -85,6 +85,7 @@ export default function ProductOverallReview({ reviews }: Props) {
   }
 
   const getPercentage = (number: number) => {
+    if (isNaN(number)) return "0%";
     const percentage = (number / 5) * 100;
     return `${percentage}%`;
   };

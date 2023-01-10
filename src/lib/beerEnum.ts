@@ -172,6 +172,7 @@ export namespace BeerEnum {
     very_good = "very_good",
     excellent = "excellent",
     superb = "superb",
+    not_qualified ="not_qualified"
   }
 }
 

@@ -1,6 +1,6 @@
 import { Input } from "@supabase/ui";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import NewProductReview from "../../components/NewProductReview";
 import ProductOverallReview from "../../components/ProductOverallReview";
@@ -21,10 +21,17 @@ interface Props {
 
 export default function ProductId(props: Props) {
   const { t } = useTranslation();
+  const [emptyReviews, setEmptyReviews] = useState(false);
 
   const { product, multimedia, reviews } = props;
   const p = product[0];
   const m = multimedia[0];
+
+  useEffect(() => {
+    if (reviews[0].id === 0) {
+      setEmptyReviews(true);
+    }
+  }, [reviews]);
 
   return (
     <div className=" relative z-10" role="dialog" aria-modal="true">
@@ -402,9 +409,11 @@ export default function ProductId(props: Props) {
             </div>
 
             {/* See user reviews */}
-            <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <ProductReviews reviews={reviews} />
-            </div>
+            {!emptyReviews && (
+              <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+                <ProductReviews reviews={reviews} />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -434,6 +443,22 @@ export async function getServerSideProps(context: { params: any }) {
   if (beersError) throw beersError;
   if (errorMultimedia) throw errorMultimedia;
   if (reviewError) throw reviewError;
+
+  if (reviews.length == 0) {
+    reviews.push({
+      id: 0,
+      created_at: JSON.stringify(new Date()),
+      beer_id: 0,
+      owner_id: 0,
+      aroma: 0,
+      appearance: 0,
+      taste: 0,
+      mouthfeel: 0,
+      bitterness: 0,
+      overall: 0,
+      comment: "",
+    });
+  }
 
   return {
     props: {
