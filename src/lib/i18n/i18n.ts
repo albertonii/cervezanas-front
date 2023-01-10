@@ -168,6 +168,13 @@ const translationsEn = {
   outstock: "Out of Stock",
   quantity: "Quantity",
   add_to_cart: "Add to shopping cart",
+  need_to_improve: "Need to improve",
+  fair: "Fair",
+  good: "Good",
+  very_good: "Very Good",
+  excellent: "Excellent",
+  superb: "Superb",
+  reviews: "Reviews",
 };
 
 const translationsEs = {
@@ -336,6 +343,13 @@ const translationsEs = {
   outstock: "Agotado",
   quantity: "Cantidad",
   add_to_cart: "Añadir al carrito",
+  need_to_improve: "Necesita mejorar",
+  fair: "Regular",
+  good: "Bueno",
+  very_good: "Muy bueno",
+  excellent: "Excelente",
+  superb: "Magnífico",
+  reviews: "Opiniones",
 };
 
 // the translations

@@ -1,9 +1,9 @@
 import { Input } from "@supabase/ui";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import NewProductReview from "../../components/NewProductReview";
-import ProductReview from "../../components/ProductOverallReview";
+import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
 import ToastNotification from "../../components/ToastNotification";
 import { SupabaseProps } from "../../constants";
@@ -393,7 +393,7 @@ export default function ProductId(props: Props) {
 
             {/* Reviews */}
             <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <ProductReview />
+              <ProductOverallReview reviews={reviews} />
             </div>
 
             {/* New Product Review */}

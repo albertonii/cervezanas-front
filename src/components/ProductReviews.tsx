@@ -1,6 +1,4 @@
-import Image from "next/image";
 import React from "react";
-import { supabase } from "../utils/supabaseClient";
 import OwnerInfo from "./OwnerInfo";
 import Rate from "./Rate";
 

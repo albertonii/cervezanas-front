@@ -164,6 +164,15 @@ export namespace BeerEnum {
     bottle, // cristal
     draft, // barril
   }
+
+  export enum ReviewQualification {
+    need_to_improve = "need_to_improve",
+    fair = "fair",
+    good = "good",
+    very_good = "very_good",
+    excellent = "excellent",
+    superb = "superb",
+  }
 }
 
 export const intensity_options = [
