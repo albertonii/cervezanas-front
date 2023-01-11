@@ -354,6 +354,19 @@ const translationsEs = {
   superb: "Magnífico",
   not_qualified: "Sin calificaciones",
   reviews: "Opiniones",
+  continue_shopping: "Continuar comprando",
+  checkout: "Pagar",
+  cart: "Carrito",
+  cart_empty: "El carrito está vacío",
+  cart_empty_description: "No hay productos en el carrito",
+  cart_total: "Total",
+  cart_total_items: "Total de productos",
+  cart_total_price: "Total de precio",
+  cart_total_shipping: "Total de envío",
+  cart_total_taxes: "Total de impuestos",
+  cart_total_discount: "Total de descuento",
+  or: "o",
+  and: "y",
 };
 
 // the translations

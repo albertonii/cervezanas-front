@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SupabaseProps } from "../constants";
-import { Beer } from "../types";
-import { formatCurrency } from "../utils/formatCurrency";
-import { useShoppingCart } from "./Context/ShoppingCartContext";
+import { SupabaseProps } from "../../constants";
+import { Beer } from "../../types";
+import { formatCurrency } from "../../utils/formatCurrency";
+import { useShoppingCart } from "../Context/ShoppingCartContext";
 
 type CartItemProps = {
   id: string;
@@ -83,7 +83,7 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                   onClick={() => removeFromCart(item.id)}
                 >
-                  Remove
+                  {t("remove")}
                 </button>
               </div>
             </div>

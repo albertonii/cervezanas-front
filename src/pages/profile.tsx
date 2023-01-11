@@ -1,17 +1,17 @@
 import { type NextPage } from "next";
 import { type UserProps } from "../lib/types";
-import { Sidebar } from "../components/CustomLayout/Sidebar";
-import { ClientContainerLayout } from "../components/CustomLayout/ClientContainerLayout";
+import { Sidebar } from "../components/customLayout/Sidebar";
+import { ClientContainerLayout } from "../components/customLayout/ClientContainerLayout";
 import { useEffect, useState } from "react";
-import { Account } from "../components/CustomLayout/Profile/Account";
-import { Products } from "../components/CustomLayout/Products/Products";
-import { Campaigns } from "../components/CustomLayout/Campaigns/Campaigns";
-import { Factories } from "../components/CustomLayout/Factories/Factories";
-import { Orders } from "../components/CustomLayout/Orders/Orders";
-import { Community } from "../components/CustomLayout/Community/Community";
-import { Stats } from "../components/CustomLayout/Stats/Stats";
-import { Ledger } from "../components/CustomLayout/Ledger/Ledger";
-import { Profile } from "../components/CustomLayout/Profile/Profile";
+import { Account } from "../components/customLayout/Profile/Account";
+import { Products } from "../components/customLayout/Products/Products";
+import { Campaigns } from "../components/customLayout/Campaigns/Campaigns";
+import { Factories } from "../components/customLayout/Factories/Factories";
+import { Orders } from "../components/customLayout/Orders/Orders";
+import { Community } from "../components/customLayout/Community/Community";
+import { Stats } from "../components/customLayout/Stats/Stats";
+import { Ledger } from "../components/customLayout/Ledger/Ledger";
+import { Profile } from "../components/customLayout/Profile/Profile";
 import { useUser } from "../components/Auth/UserContext";
 import ProfileContexProvider from "../components/Context/ProfileContext";
 

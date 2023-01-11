@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useShoppingCart } from "./Context/ShoppingCartContext";
+import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
-import useFetchProducts from "../hooks/useFetchBeers";
-import { formatCurrency } from "../utils/formatCurrency";
+import useFetchProducts from "../../hooks/useFetchBeers";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 type ShoppingCartProps = {
   isOpen: boolean;
@@ -122,7 +122,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          or
+                          or &nbsp;
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"

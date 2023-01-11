@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import LotForm from "../CustomLayout/Products/LotForm";
+import LotForm from "../customLayout/Products/LotForm";
 
 interface Props {
   isVisible: boolean;
