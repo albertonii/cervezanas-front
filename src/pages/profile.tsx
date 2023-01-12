@@ -14,6 +14,7 @@ import { Ledger } from "../components/customLayout/Ledger/Ledger";
 import { Profile } from "../components/customLayout/Profile/Profile";
 import { useUser } from "../components/Auth/UserContext";
 import ProfileContexProvider from "../components/Context/ProfileContext";
+import LikesHistory from "../components/customLayout/Likes/LikesHistory";
 
 const CustomLayout: NextPage<UserProps> = () => {
   const [menuOption, setMenuOption] = useState<string>();
@@ -44,6 +45,8 @@ const CustomLayout: NextPage<UserProps> = () => {
         return <Stats />;
       case "ledger":
         return <Ledger />;
+      case "likes_history":
+        return <LikesHistory userId={user!.id} />;
     }
 
     return <Account user={user} />;

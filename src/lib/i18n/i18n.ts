@@ -177,6 +177,7 @@ const translationsEn = {
   superb: "Superb",
   not_qualified: "Not reviewed yet",
   reviews: "Reviews",
+  likes_history: "Favorites",
 };
 
 const translationsEs = {
@@ -367,6 +368,7 @@ const translationsEs = {
   cart_total_discount: "Total de descuento",
   or: "o",
   and: "y",
+  likes_history: "Favoritos",
 };
 
 // the translations
