@@ -58,7 +58,7 @@ export default function NewProductReview({
       const { comment } = formValues;
 
       const { data: review, error: reviewError } = await supabase
-        .from("review")
+        .from("reviews")
         .insert({
           aroma: aromaRate,
           appearance: appearanceRate,

@@ -25,7 +25,7 @@ export default function IndividualReview(props: Props) {
   const handleDeleteReview = async (reviewId: string) => {
     try {
       const { error } = await supabase
-        .from("review")
+        .from("reviews")
         .delete()
         .match({ id: reviewId });
       if (error) throw error;

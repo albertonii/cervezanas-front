@@ -178,6 +178,8 @@ export interface Beer extends Product {
   product_lot: ProductLot[];
   product_inventory: Inventory[];
   product_multimedia: ProductMultimedia[];
+  reviews: Review[];
+  likes: Like[];
 }
 
 export interface ProductLot {
@@ -257,4 +259,12 @@ export interface Review {
   bitterness: number;
   mouthfeel: number;
   overall: number;
+}
+
+export interface Like {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  owner_id: string;
+  beer_id: string;
 }

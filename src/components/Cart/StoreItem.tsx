@@ -1,19 +1,26 @@
 import { Button } from "@supabase/ui";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Beer } from "../types";
-import { formatCurrency } from "../utils/formatCurrency";
-import { useShoppingCart } from "./Context/ShoppingCartContext";
 import Image from "next/image";
 import Link from "next/link";
+import { Beer } from "../../types";
+import { useShoppingCart } from "../Context/ShoppingCartContext";
+import { formatCurrency } from "../../utils/formatCurrency";
+import IconButton from "../common/IconButton";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { supabase } from "../../utils/supabaseClient";
 
 type StoreItemProps = { beer: Beer };
 
 export default function StoreItem(props: StoreItemProps) {
-  const { t } = useTranslation();
-
   const { beer } = props;
   const { id } = beer;
+
+  const { t } = useTranslation();
+
+  const [isLike, setIsLike] = useState<boolean>(
+    beer.likes.length > 0 ? true : false
+  );
 
   const {
     getItemQuantity,
@@ -24,27 +31,44 @@ export default function StoreItem(props: StoreItemProps) {
 
   const quantity = getItemQuantity(id);
 
+  const heartColor = { filled: "#fdc300", unfilled: "grey" };
+
+  async function handleLike() {
+    if (!isLike) {
+      const { error } = await supabase
+        .from("likes")
+        .insert([{ beer_id: beer.id, owner_id: beer.owner_id }]);
+
+      if (error) throw error;
+
+      setIsLike(true);
+    } else {
+      const { error } = await supabase
+        .from("likes")
+        .delete()
+        .match({ beer_id: beer.id, owner_id: beer.owner_id });
+
+      if (error) throw error;
+
+      setIsLike(false);
+    }
+  }
+
   return (
     <div className="max-w-sm w-full bg-gray-900 shadow-lg rounded-xl p-6">
       <div className="flex flex-col ">
         <div className="relative h-62 w-full mb-3">
           <div className="absolute flex flex-col top-0 right-0 p-3">
-            <button className="transition ease-in duration-300 bg-gray-800  hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-            </button>
+            <IconButton
+              icon={faHeart}
+              onClick={() => handleLike()}
+              isActive={isLike}
+              color={heartColor}
+              class={
+                "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 rounded-full w-auto h-10 text-center p-2"
+              }
+              title="Add to favorites"
+            ></IconButton>
           </div>
 
           <Image
