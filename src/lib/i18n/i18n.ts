@@ -178,6 +178,14 @@ const translationsEn = {
   not_qualified: "Not reviewed yet",
   reviews: "Reviews",
   likes_history: "Favorites",
+  shipping_and_taxes_calculated_at_checkout:
+    "Shipping and taxes calculated at checkout",
+  proceed_to_pay: "Proceed to pay",
+  subtotal: "Subtotal",
+  discount: "Discount",
+  shipping: "Shipping",
+  tax: "Taxes",
+  total: "Total",
 };
 
 const translationsEs = {
@@ -369,6 +377,14 @@ const translationsEs = {
   or: "o",
   and: "y",
   likes_history: "Favoritos",
+  shipping_and_taxes_calculated_at_checkout:
+    "El envío y los impuestos se calcularán en el checkout",
+  proceed_to_pay: "Proceder al pago",
+  subtotal: "Subtotal",
+  discount: "Descuento",
+  shipping: "Envío",
+  tax: "Impuestos",
+  total: "Total",
 };
 
 // the translations

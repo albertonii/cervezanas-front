@@ -5,12 +5,15 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
 import useFetchProducts from "../../hooks/useFetchBeers";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 type ShoppingCartProps = {
   isOpen: boolean;
 };
 
 export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
+  const { t } = useTranslation();
   const { items, closeCart } = useShoppingCart();
   const { data: beers } = useFetchProducts();
 
@@ -110,19 +113,25 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                         <p>{formatCurrency(subTotal)}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
-                        Shipping and taxes calculated at checkout.
+                        {t("shipping_and_taxes_calculated_at_checkout")}
                       </p>
                       <div className="mt-6">
-                        <a
-                          href="#"
+                        <Link
+                          href={{
+                            pathname: "/checkout",
+                            query: { items: JSON.stringify(items) },
+                          }}
+                          onClick={() => {
+                            closeCart();
+                          }}
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
-                          Checkout
-                        </a>
+                          {t("checkout")}
+                        </Link>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          or &nbsp;
+                          {t("or")} &nbsp;
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -130,7 +139,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                               closeCart();
                             }}
                           >
-                            Continue Shopping
+                            {t("continue_shopping")}
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </p>
