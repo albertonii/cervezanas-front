@@ -10,12 +10,14 @@ export interface AuthSession {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  setUser: (user: User | null) => void;
 }
 
 const UserContext = createContext<AuthSession>({
   user: null,
   session: null,
   loading: true,
+  setUser: () => {},
 });
 
 export interface Props {
@@ -45,7 +47,7 @@ export const UserContextProvider = (props: Props) => {
     session,
     user,
     loading,
-    setUser: (user: User) => setUser(user),
+    setUser: (user: User | null) => setUser(user),
     signUp: (data: UserCredentials) => supabaseClient.auth.signUp(data),
     signIn: (data: UserCredentials) => supabaseClient.auth.signIn(data),
     signOut: () => supabaseClient.auth.signOut(),

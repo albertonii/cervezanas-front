@@ -45,11 +45,12 @@ export default function Header() {
           <Link href={{ pathname: "/" }} className="flex items-center">
             <Image
               src="/logo_cervezanas.svg"
-              className="mr-2 h-10 sm:min-h-[4rem] md:min-h-[8rem] sm:min-w-[4rem] md:min-w-[6rem]"
+              className="mr-2 sm:min-h-[4rem] md:min-h-[6rem] sm:min-w-[4rem] md:min-w-[6rem] w-auto h-auto"
               alt="Cervezanas Logo"
               width={100}
               height={100}
               sizes={"xl"}
+              priority={true}
             />
           </Link>
 

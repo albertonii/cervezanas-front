@@ -21,18 +21,18 @@ export type ModalAddProductProps = {
   era: number;
   isGluten: string;
   awards: Award[];
-  p_principal: any;
-  p_back: any;
-  p_extra_1: any;
-  p_extra_2: any;
-  p_extra_3: any;
+  p_principal: string;
+  p_back: string;
+  p_extra_1: string;
+  p_extra_2: string;
+  p_extra_3: string;
   volume: any;
   price: number;
   pack: any;
   format: any;
   stock_quantity: number;
   stock_limit_notification: number;
-  lot_id: string;
+  lot_id: number;
   lot_quantity: number;
 };
 

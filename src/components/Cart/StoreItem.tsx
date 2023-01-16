@@ -29,8 +29,6 @@ export default function StoreItem(props: StoreItemProps) {
     removeFromCart,
   } = useShoppingCart();
 
-  const quantity = getItemQuantity(id);
-
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   async function handleLike() {
@@ -151,7 +149,7 @@ export default function StoreItem(props: StoreItemProps) {
 
             <div className="flex space-x-2 text-sm font-medium justify-start">
               <div className="mt-auto">
-                {quantity === 0 ? (
+                {getItemQuantity(id) === 0 ? (
                   <button
                     onClick={() => increaseCartQuantity(id)}
                     className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
@@ -165,7 +163,7 @@ export default function StoreItem(props: StoreItemProps) {
                         -
                       </Button>
                       <span className="px-2 text-3xl text-white">
-                        {quantity}
+                        {getItemQuantity(id)}
                       </span>
                       <Button onClick={() => increaseCartQuantity(id)}>
                         +

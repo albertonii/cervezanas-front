@@ -7,8 +7,11 @@ import { type UserProps } from "../lib/types";
 import { useEffect } from "react";
 import Router from "next/router";
 import { SignUpGoogle } from "../components/SignUp/SignUpGoogle";
+import { useUser } from "../components/Auth/UserContext";
 
-const SignUp: NextPage<UserProps> = ({ user }) => {
+const SignUp: NextPage<UserProps> = () => {
+  const { user } = useUser();
+
   // If the user is already logged in, then
   // redirect them to home.
   useEffect(() => {
@@ -35,7 +38,7 @@ const SignUp: NextPage<UserProps> = ({ user }) => {
             <SignUpGoogle />
 
             <SignUpForm />
-            
+
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
               ¿Ya tienes una cuenta?
               <Link className="cursor-pointer font-bold" href={"/signin"}>

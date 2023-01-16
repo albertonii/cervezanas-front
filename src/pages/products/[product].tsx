@@ -4,16 +4,22 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import NewProductReview from "../../components/NewProductReview";
+import ProductGallery from "../../components/ProductGallery";
 import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
 import ToastNotification from "../../components/ToastNotification";
 import { SupabaseProps } from "../../constants";
-import { Review } from "../../types";
+import { ProductMultimedia, Review } from "../../types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
+const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
+const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
+const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
+const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
+const pExtra4Url = `${productsUrl}${SupabaseProps.P_EXTRA_4_URL}`;
 
 interface Props {
   product: any[];
@@ -24,11 +30,12 @@ interface Props {
 export default function ProductId(props: Props) {
   const { product, multimedia, reviews } = props;
   const p = product[0];
-  const m = multimedia[0];
+  const m: ProductMultimedia = multimedia[0];
 
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
+  const [gallery, setGallery] = useState<string[]>([]);
 
   const {
     getItemQuantity,
@@ -38,6 +45,62 @@ export default function ProductId(props: Props) {
   } = useShoppingCart();
 
   const quantity = getItemQuantity(p.id);
+
+  useEffect(() => {
+    setGallery([]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_principal !== "undefined" && m.p_principal !== null
+        ? pPrincipalUrl + `${p.owner_id}/` + m.p_principal
+        : "",
+    ]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_back !== "undefined" && m.p_back !== null
+        ? pBackUrl + `${p.owner_id}/` + m.p_back
+        : "",
+    ]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_extra_1 !== "undefined" && m.p_extra_1 !== null
+        ? pExtra1Url + `${p.owner_id}/` + m.p_extra_1
+        : "",
+    ]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_extra_2 !== "undefined" && m.p_extra_2 !== null
+        ? pExtra2Url + `${p.owner_id}/` + m.p_extra_2
+        : "",
+    ]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_extra_3 !== "undefined" && m.p_extra_3 !== null
+        ? pExtra3Url + `${p.owner_id}/` + m.p_extra_3
+        : "",
+    ]);
+
+    setGallery((oldGallery) => [
+      ...oldGallery,
+      m.p_extra_4 !== "undefined" && m.p_extra_4 !== null
+        ? pExtra4Url + `${p.owner_id}/` + m.p_extra_4
+        : "",
+    ]);
+
+    setGallery((oldGallery) => oldGallery.filter((item) => item !== ""));
+  }, [
+    m.p_back,
+    m.p_extra_1,
+    m.p_extra_2,
+    m.p_extra_3,
+    m.p_extra_4,
+    m.p_principal,
+    p.owner_id,
+  ]);
 
   useEffect(() => {
     if (productReviews[0]?.id === "0" || productReviews.length === 0) {
@@ -56,13 +119,15 @@ export default function ProductId(props: Props) {
         <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
           <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
             <div className="flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5 h-3/4  mx-6">
-              <Image
+              {/* <Image
                 width={200}
                 height={200}
                 src={`${pPrincipalUrl}${m.p_principal}`}
                 alt="Two each of gray, white, and black shirts arranged on table."
                 className=""
-              />
+              /> */}
+
+              <ProductGallery gallery={gallery} />
             </div>
 
             <div className="sm:col-span-8 lg:col-span-7 mx-6 ">

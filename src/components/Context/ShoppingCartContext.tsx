@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { CartItem } from "../../lib/types";
 import { Beer } from "../../types";
@@ -67,8 +67,14 @@ export function ShoppingCartProvider({
   };
 
   const getItemQuantity = (id: string) => {
-    const item = items.find((item) => item.id === id);
-    return item ? item.quantity : 0;
+    if (items) {
+      const item = items.find((item) => {
+        return item.id === id;
+      });
+
+      return item ? item.quantity : 0;
+    }
+    return 0;
   };
 
   const increaseCartQuantity = (id: string) => {

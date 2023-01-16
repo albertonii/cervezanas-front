@@ -7,9 +7,11 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { type UserProps } from "../lib/types";
 import { SignInGoogle } from "../components/SignIn/SignInGoogle";
-import Modal from "../components/Modals/Modal";
+import { useUser } from "../components/Auth/UserContext";
 
-const SignIn: NextPage<UserProps> = ({ user }) => {
+const SignIn: NextPage<UserProps> = () => {
+  const { user } = useUser();
+
   // If the user is already logged in, then
   // redirect them to home.
   useEffect(() => {
