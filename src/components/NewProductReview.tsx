@@ -2,6 +2,7 @@ import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Review } from "../types";
 import { supabase } from "../utils/supabaseClient";
 import Rate from "./Rate";
@@ -27,6 +28,8 @@ export default function NewProductReview({
   ownerId,
   handleSetReviews,
 }: Props) {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
@@ -228,7 +231,7 @@ export default function NewProductReview({
         <div className="flex w-full flex-row space-x-12">
           <div className="w-full">
             <Button onClick={() => setIsReady(true)} disabled={loading}>
-              {loading ? "Loading..." : "Write a review"}
+              {loading ? t("loading") : t("write_review")}
             </Button>
           </div>
         </div>

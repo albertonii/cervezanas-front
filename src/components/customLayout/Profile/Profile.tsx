@@ -81,7 +81,7 @@ export const Profile = (props: Props) => {
         </ul>
       </div>
       {loading ? (
-        <div>Loading ...</div>
+        <div>{t("loading")}</div>
       ) : (
         <div className="container">{renderSwitch()}</div>
       )}

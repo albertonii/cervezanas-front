@@ -27,7 +27,7 @@ export const History = (props: Props) => {
   return (
     <>
       {loading ? (
-        <div>Loading ... </div>
+        <div>{t("loading")} </div>
       ) : (
         <div className="py-6 px-4" id="account-container">
           <div className="flex flex-col justify-between py-4" id="header">

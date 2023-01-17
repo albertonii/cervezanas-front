@@ -114,12 +114,15 @@ export default function ProductOverallReview({ reviews, emptyReviews }: Props) {
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
               {reviews.length} {t("reviews")}
             </p>
-            <a
-              href="#"
-              className="ml-auto text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
-            >
-              {t("read_all_reviews")}
-            </a>
+
+            {!emptyReviews && (
+              <a
+                href="#"
+                className="ml-auto text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
+              >
+                {t("read_all_reviews")}
+              </a>
+            )}
           </div>
 
           <div className="gap-8 sm:grid sm:grid-cols-2">

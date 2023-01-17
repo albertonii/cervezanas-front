@@ -191,6 +191,11 @@ const translationsEn = {
   input_product_award_name_placeholder: "Award Name",
   input_product_award_description_placeholder: "Award Description",
   modal_product_award_add: "Add Product",
+  product_information: "Product Information",
+  product_options: "Product Options",
+  read_all_reviews: "Read all reviews",
+  write_review: "Write a review",
+  loading: "Loading...",
 };
 
 const translationsEs = {
@@ -395,6 +400,11 @@ const translationsEs = {
   input_prodcut_award_name_placeholder: "Nombre de la medalla",
   input_prodcut_award_description_placeholder: "Descripción",
   modal_product_award_add: "Añadir Premio",
+  product_information: "Información del producto",
+  product_options: "Opciones",
+  read_all_reviews: "Leer todas las opiniones",
+  write_review: "Escribir una opinión",
+  loading: "Cargando...",
 };
 
 // the translations

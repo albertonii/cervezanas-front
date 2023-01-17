@@ -54,7 +54,13 @@ export default function ProductGallery({ gallery }: Props) {
                       }`}
                       href="#"
                     >
-                      <Image width={50} height={50} src={photo} alt="" />
+                      <Image
+                        width={50}
+                        height={50}
+                        src={photo}
+                        alt=""
+                        onClick={() => setGalleryIndex(index)}
+                      />
                     </a>
                   );
                 })}

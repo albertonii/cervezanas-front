@@ -36,7 +36,7 @@ export const Account = (props: Props) => {
         </div>
 
         {loading ? (
-          <div>Loading ...</div>
+          <div>{t("loading")}</div>
         ) : (
           <div>
             <BasicDataForm profileData={profileData} />
