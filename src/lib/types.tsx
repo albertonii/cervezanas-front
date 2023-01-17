@@ -21,11 +21,11 @@ export type ModalAddProductProps = {
   era: number;
   isGluten: string;
   awards: Award[];
-  p_principal: string;
-  p_back: string;
-  p_extra_1: string;
-  p_extra_2: string;
-  p_extra_3: string;
+  p_principal: FileImg;
+  p_back: FileImg;
+  p_extra_1: FileImg;
+  p_extra_2: FileImg;
+  p_extra_3: FileImg;
   volume: any;
   price: number;
   pack: any;
@@ -39,4 +39,13 @@ export type ModalAddProductProps = {
 export type CartItem = {
   id: string;
   quantity: number;
+};
+
+export type FileImg = {
+  lastModified: number;
+  lastModifiedDate: Date;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
 };

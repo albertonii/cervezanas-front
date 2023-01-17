@@ -5,7 +5,6 @@ import { Award } from "../../types";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ModalAddProductProps } from "../../lib/types";
 
-
 const emptyAward: Award = {
   id: "",
   name: "",
@@ -98,17 +97,17 @@ export const AwardsSection = ({
             <input
               type="text"
               id="award_name"
-              placeholder="Award name"
+              placeholder={t("input_prodcut_award_name_placeholder")!}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.name`, {
                 required: false,
               })}
             />
             {`errors.awards.${index}.name.type` === "required" && (
-              <p>Campo nombre es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
             {`errors.awards.${index}.name.type` === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
+              <p>{t("product_modal_20_max_length")}</p>
             )}
           </div>
 
@@ -123,17 +122,17 @@ export const AwardsSection = ({
             <input
               type="text"
               id="award_description"
-              placeholder="Description of the award"
+              placeholder={t("input_product_award_description_placeholder")!}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               {...register(`awards.${index}.description`, {
                 required: false,
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
-              <p>Campo nombre es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
             {`errors.awards.${index}.description.type` === "maxLength" && (
-              <p>Nombre debe tener menos de 20 caracteres</p>
+              <p>{t("product_modal_20_max_length")}</p>
             )}
           </div>
 
@@ -145,15 +144,16 @@ export const AwardsSection = ({
             <input
               type="number"
               id="award_year"
-              placeholder="When did the product get the award"
+              placeholder={t("input_product_award_year_placeholder")!}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              value="2021"
               {...register(`awards.${index}.year`, {
                 required: false,
                 valueAsNumber: true,
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
-              <p>Campo año es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
           </div>
 
@@ -173,7 +173,7 @@ export const AwardsSection = ({
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
             {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>Campo imagen es requerido</p>
+              <p>{t("product_modal_required")}</p>
             )}
 
             {/* <div
@@ -196,7 +196,7 @@ export const AwardsSection = ({
 
       <div>
         <Button className="" onClick={() => append(emptyAward)}>
-          Add award
+          {t("modal_product_award_add")}
         </Button>
       </div>
     </section>

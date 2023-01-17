@@ -1,5 +1,4 @@
 import { Button, Input } from "@supabase/ui";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -7,7 +6,6 @@ import NewProductReview from "../../components/NewProductReview";
 import ProductGallery from "../../components/ProductGallery";
 import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
-import ToastNotification from "../../components/ToastNotification";
 import { SupabaseProps } from "../../constants";
 import { ProductMultimedia, Review } from "../../types";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -118,7 +116,7 @@ export default function ProductId(props: Props) {
       <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
         <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
           <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-            <div className="flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5 h-3/4  mx-6">
+            <div className="flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-4 h-5/6  mx-6">
               {/* <Image
                 width={200}
                 height={200}
@@ -130,7 +128,7 @@ export default function ProductId(props: Props) {
               <ProductGallery gallery={gallery} />
             </div>
 
-            <div className="sm:col-span-8 lg:col-span-7 mx-6 ">
+            <div className="sm:col-span-8 lg:col-span-8 mx-6 ">
               <div className="flex flex-column">
                 <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                   {p.name}
@@ -561,6 +559,8 @@ export async function getServerSideProps(context: { params: any }) {
     .from("product_multimedia")
     .select("*")
     .eq("beer_id", productId);
+
+  console.log(beerMultimedia);
 
   const { data: reviews, error: reviewError } = await supabase
     .from("reviews")

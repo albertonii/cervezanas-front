@@ -187,6 +187,10 @@ const translationsEn = {
   shipping: "Shipping",
   tax: "Taxes",
   total: "Total",
+  input_product_award_year_placeholder: "Award Year",
+  input_product_award_name_placeholder: "Award Name",
+  input_product_award_description_placeholder: "Award Description",
+  modal_product_award_add: "Add Product",
 };
 
 const translationsEs = {
@@ -387,6 +391,10 @@ const translationsEs = {
   shipping: "Envío",
   tax: "Impuestos",
   total: "Total",
+  input_product_award_year_placeholder: "Año de la medalla",
+  input_prodcut_award_name_placeholder: "Nombre de la medalla",
+  input_prodcut_award_description_placeholder: "Descripción",
+  modal_product_award_add: "Añadir Premio",
 };
 
 // the translations
