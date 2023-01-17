@@ -10,6 +10,7 @@ interface Props {
 
 export default function ProductOverallReview({ reviews, emptyReviews }: Props) {
   const { t } = useTranslation();
+  console.log(reviews);
 
   const [loading, setLoading] = React.useState(false);
 

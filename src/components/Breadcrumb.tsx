@@ -5,6 +5,7 @@ import React, { useMemo } from "react";
 
 const _defaultGetDefaultTextGenerator = (path: string) => path;
 
+// https://dev.to/dan_starner/building-dynamic-breadcrumbs-in-nextjs-17oa
 export default function Breadcrumb({
   getDefaultTextGenerator = _defaultGetDefaultTextGenerator,
 }) {
@@ -30,7 +31,6 @@ export default function Breadcrumb({
         const href: string =
           "/" + asPathNestedRoutes.slice(0, idx + 1).join("/");
         // The title will just be the route string for now
-        const title: string = subpath;
         return { href, title: getDefaultTextGenerator(subpath) };
       });
 
@@ -73,8 +73,9 @@ function Crumb({ href, last = false, title }: CrumbProps) {
   return (
     <>
       <Link color="inherit" className="hover:text-beer-blonde" href={href}>
-        {title} {" > "}
+        {title}
       </Link>
+      {" > "}
     </>
   );
 }
