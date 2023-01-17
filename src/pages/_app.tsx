@@ -9,6 +9,7 @@ import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext"
 import axios from "axios";
 import { Session } from "@supabase/supabase-js";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import Breadcrumb from "../components/Breadcrumb";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -61,6 +62,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, []);
 
+  // Capitalize the first letter of each word in a string
+  function titleize(path: string): string {
+    return path
+      .split("/")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+
   return (
     <>
       <Suspense fallback="Loading...">
@@ -68,6 +77,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ShoppingCartProvider>
             <UserContextProvider supabaseClient={supabase}>
               <Header />
+              <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
               <Component {...pageProps} />
             </UserContextProvider>
           </ShoppingCartProvider>

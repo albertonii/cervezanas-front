@@ -112,7 +112,7 @@ export default function ProductId(props: Props) {
   };
 
   return (
-    <div className=" relative z-10" role="dialog" aria-modal="true">
+    <div className="relative z-10" role="dialog" aria-modal="true">
       <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
         <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
           <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
