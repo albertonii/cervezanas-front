@@ -1,13 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { supabase } from "../utils/supabaseClient";
-import { UserContextProvider } from "../components/Auth/UserContext";
+import { UserContextProvider, useUser } from "../components/Auth/UserContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "../components/Header";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 import axios from "axios";
-import { Session } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Breadcrumb from "../components/Breadcrumb";
 

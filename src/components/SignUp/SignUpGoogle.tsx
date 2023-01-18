@@ -1,6 +1,5 @@
 import { supabase } from "../../utils/supabaseClient";
 import { Auth, Button } from "@supabase/ui";
-import signOut from "../Auth/Auth";
 
 export default async function signUpGoogle() {
   const { error } = await supabase.auth.signUp({ provider: "google" });
