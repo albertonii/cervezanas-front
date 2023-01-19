@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { CartItem } from "../../lib/types";
-import { Beer } from "../../types";
+import { Beer, BillingInfo, ShippingInfo } from "../../types";
 import ShoppingCart from "../Cart/ShoppingCart";
 
 type ShoppingCartContextType = {
@@ -18,6 +18,10 @@ type ShoppingCartContextType = {
   marketplaceItems: Beer[];
   addMarketplaceItems: (item: Beer) => void;
   removeMarketplaceItems: (id: string) => void;
+  shippingInfo: ShippingInfo | null;
+  setShippingInfo: (info: ShippingInfo | null) => void;
+  billingInfo: BillingInfo | null;
+  setBillingInfo: (info: BillingInfo | null) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -34,6 +38,10 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   marketplaceItems: [],
   addMarketplaceItems: (item: Beer) => {},
   removeMarketplaceItems: (id: string) => {},
+  shippingInfo: null,
+  setShippingInfo: (info: ShippingInfo | null) => {},
+  billingInfo: null,
+  setBillingInfo: (info: BillingInfo | null) => {},
 });
 
 export function useShoppingCart() {
@@ -47,6 +55,15 @@ export function ShoppingCartProvider({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useLocalStorage<CartItem[]>("shopping-cart", []);
+  const [shippingInfo, setShippingInfo] = useLocalStorage<ShippingInfo | null>(
+    "shipping-info",
+    null
+  );
+
+  const [billingInfo, setBillingInfo] = useLocalStorage<BillingInfo | null>(
+    "billing-info",
+    null
+  );
 
   const [marketplaceItems, setMarketplaceItems] = useState<Beer[]>([]);
 
@@ -137,6 +154,10 @@ export function ShoppingCartProvider({
         openCart,
         closeCart,
         cartQuantity,
+        shippingInfo,
+        setShippingInfo,
+        billingInfo,
+        setBillingInfo,
       }}
     >
       {children}

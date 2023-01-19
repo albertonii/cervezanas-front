@@ -2,12 +2,12 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { type NextPage } from "next";
-import { SignInForm } from "../components/SignIn/Form";
+import { SignInForm } from "../../../components/SignIn/Form";
 import { useEffect } from "react";
 import Router from "next/router";
-import { type UserProps } from "../lib/types";
-import { SignInGoogle } from "../components/SignIn/SignInGoogle";
-import { useUser } from "../components/Auth/UserContext";
+import { type UserProps } from "../../../lib/types";
+import { SignInGoogle } from "../../../components/SignIn/SignInGoogle";
+import { useUser } from "../../../components/Auth/UserContext";
 
 const SignIn: NextPage<UserProps> = () => {
   const { user } = useUser();
