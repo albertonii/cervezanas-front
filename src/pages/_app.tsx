@@ -7,9 +7,10 @@ import Header from "../components/Header";
 import { Suspense, useEffect, useState } from "react";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 import axios from "axios";
-import { Session, User } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Breadcrumb from "../components/Breadcrumb";
+import { SessionProvider } from "next-auth/react";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -73,15 +74,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Suspense fallback="Loading...">
-        <QueryClientProvider client={queryClient}>
-          <ShoppingCartProvider>
-            <UserContextProvider supabaseClient={supabase}>
-              <Header />
-              <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
-              <Component {...pageProps} />
-            </UserContextProvider>
-          </ShoppingCartProvider>
-        </QueryClientProvider>
+        <SessionProvider session={pageProps.session}>
+          <QueryClientProvider client={queryClient}>
+            <ShoppingCartProvider>
+              <UserContextProvider supabaseClient={supabase}>
+                <Header />
+                <Breadcrumb
+                  getDefaultTextGenerator={(path) => titleize(path)}
+                />
+                <Component {...pageProps} />
+              </UserContextProvider>
+            </ShoppingCartProvider>
+          </QueryClientProvider>
+        </SessionProvider>
       </Suspense>
     </>
   );

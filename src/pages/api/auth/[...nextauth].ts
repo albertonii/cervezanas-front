@@ -1,7 +1,15 @@
-import NextAuth, { Session, User } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentailsProvider from "next-auth/providers/credentials";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import jwt from "jsonwebtoken";
+import { JWTDecodeParams, JWTEncodeParams } from "next-auth/jwt/types";
+import { supabase } from "../../../utils/supabaseClient";
+
+interface AuthProps {
+  email: string;
+  password: string;
+}
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -11,6 +19,29 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+    }),
+    CredentailsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "aniironen@example.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials?: AuthProps) {
+        const { user, error: signInError } = await supabase.auth.signIn({
+          email: credentials?.email,
+          password: credentials?.password,
+        });
+
+        if (signInError) {
+          throw signInError;
+        }
+
+        return user;
+      },
     }),
   ],
   adapter: SupabaseAdapter({
@@ -38,12 +69,12 @@ export default NextAuth({
     strategy: "jwt",
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    // maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens
-    // updateAge: 24 * 60 * 60, // 24 hours
+    updateAge: 24 * 60 * 60, // 24 hours
   },
 
   // JSON Web tokens are only used for sessions if the `strategy: 'jwt'` session
@@ -58,6 +89,23 @@ export default NextAuth({
     // if you want to override the default behaviour.
     // encode: async ({ secret, token, maxAge }) => {},
     // decode: async ({ secret, token, maxAge }) => {},
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    // async encode({ secret, token, maxAge }: JWTEncodeParams) {
+    //   const jwtClaims = {
+    //     sub: token?.id,
+    //     name: token?.name,
+    //     email: token?.email,
+    //     picture: token?.image,
+    //     iat: Math.floor(Date.now() / 1000),
+    //     exp: Math.floor(Date.now() / 1000) + maxAge!,
+    //   };
+    //   return jwt.sign(jwtClaims, secret, { algorithm: "HS256" });
+    // },
+
+    // async decode({ secret, token }: JWTDecodeParams) {
+    //   const decoded = jwt.verify(token, secret, { algorithms: ["HS256"] });
+    //   return decoded;
+    // },
   },
 
   // You can define custom pages to override the built-in ones. These will be regular Next.js pages
@@ -66,8 +114,8 @@ export default NextAuth({
   // pages is not specified for that route.
   // https://next-auth.js.org/configuration/pages
   pages: {
-    // signIn: '/auth/signin',  // Displays signin buttons
-    // signOut: '/auth/signout', // Displays form with sign out button
+    signIn: "/signin", // Displays signin buttons
+    signOut: "/signout", // Displays form with sign out button
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // Used for check email page
     // newUser: null // If set, new users will be directed here on first sign in
@@ -77,7 +125,15 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) { return true },
+    async signIn({ account, profile }) {
+      if (account?.provider === "google") {
+        // Google also returns a email_verified boolean property in the OAuth profile.
+        return (
+          profile?.email_verified && profile?.email?.endsWith("@example.com")
+        );
+      }
+      return true; // Do different verification for other providers that don't have `email_verified`
+    },
     // async redirect({ url, baseUrl }) { return baseUrl },
     // async session({ session, token, user }) { return session },
     // async jwt({ token, user, account, profile, isNewUser }) { return token }

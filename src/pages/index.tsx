@@ -4,13 +4,13 @@ import Router from "next/router";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import "../lib/i18n/i18n";
+import { useSession } from "next-auth/react";
 
-const Submit: NextPage<UserProps> = ({ session }) => {
+const Submit: NextPage<UserProps> = () => {
+  const { data } = useSession();
+
   // If the user is not logged in, redirect them to the signup page
-  if (
-    typeof localStorage !== "undefined" &&
-    !localStorage["supabase.auth.token"]
-  ) {
+  if (!data?.user) {
     Router.push("/signin");
   }
 
@@ -22,23 +22,6 @@ const Submit: NextPage<UserProps> = ({ session }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data: any) => {
-    let result;
-    try {
-      result = await fetch("/api/submit_job_posting", {
-        headers: {
-          Authentication: session.access_token,
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    reset();
-  };
-
   return (
     <>
       <Head>
@@ -47,10 +30,7 @@ const Submit: NextPage<UserProps> = ({ session }) => {
 
       <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
         <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
-          <form
-            className="space-y-8 divide-y divide-gray-200"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="space-y-8 divide-y divide-gray-200">
             <div className="space-y-8 divide-y divide-gray-200">
               <div>
                 <div>

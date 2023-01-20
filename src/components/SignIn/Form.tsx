@@ -5,6 +5,7 @@ import { FaLock } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
 import { useUser } from "../Auth/UserContext";
+import { signIn } from "next-auth/react";
 
 interface FormData {
   email: string;
@@ -25,11 +26,17 @@ export const SignInForm = () => {
   }
 
   const onSubmit = async () => {
-    createLoginMutation.mutate();
+    signIn();
+    // createLoginMutation.mutate();
   };
 
   return (
-    <form className="mt-4 space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="mt-4 space-y-4"
+      onSubmit={handleSubmit(onSubmit)}
+      method="post"
+      action="/api/auth/callback/credentials"
+    >
       <div className="flex w-full flex-col space-y-3">
         <label htmlFor="email-address" className="text-sm text-gray-600">
           Correo electrónico
