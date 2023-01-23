@@ -1,7 +1,7 @@
 import React from "react";
 import { NextApiRequest } from "next";
 import { SupabaseProps } from "../constants";
-import { Beer } from "../types";
+import { Beer } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
 
@@ -53,6 +53,7 @@ export async function getServerSideProps(req: NextApiRequest) {
 
   return {
     props: {
+      // beers: beersData,
       beers: beersData,
     },
   };

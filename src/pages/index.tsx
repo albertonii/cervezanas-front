@@ -4,15 +4,11 @@ import Router from "next/router";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import "../lib/i18n/i18n";
+import { useSession } from "next-auth/react";
+import { ISODateString } from "next-auth";
 
-const Submit: NextPage<UserProps> = ({ session }) => {
-  // If the user is not logged in, redirect them to the signup page
-  if (
-    typeof localStorage !== "undefined" &&
-    !localStorage["supabase.auth.token"]
-  ) {
-    Router.push("/signin");
-  }
+const Submit: NextPage<UserProps> = () => {
+  const { data: session } = useSession();
 
   // reference: https://react-hook-form.com/get-started#Quickstart
   const {
@@ -22,92 +18,15 @@ const Submit: NextPage<UserProps> = ({ session }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data: any) => {
-    let result;
-    try {
-      result = await fetch("/api/submit_job_posting", {
-        headers: {
-          Authentication: session.access_token,
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    reset();
-  };
-
   return (
     <>
       <Head>
-        <title>Crear Cerveza - Cervezanas</title>
+        <title>Cervezanas</title>
       </Head>
 
       <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
         <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
-          <form
-            className="space-y-8 divide-y divide-gray-200"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div className="space-y-8 divide-y divide-gray-200">
-              <div>
-                <div>
-                  <h2 className="text-xl font-medium leading-6 text-gray-900">
-                    Crear una cerveza nueva
-                  </h2>
-                </div>
-
-                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                  <div className="sm:col-span-4">
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Nombre de la cerveza
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        id="company"
-                        className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        {...register("company", { required: true })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="sm:col-span-4">
-                    <label
-                      htmlFor="position"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Descripción
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        {...register("position", { required: true })}
-                        id="position"
-                        className="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-5">
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Dar de alta
-                </button>
-              </div>
-            </div>
-          </form>
+          {session ? User(session) : Guest()}
         </div>
       </main>
     </>
@@ -115,3 +34,34 @@ const Submit: NextPage<UserProps> = ({ session }) => {
 };
 
 export default Submit;
+
+interface Session {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  expires: ISODateString;
+}
+
+// Authorize User
+function User(session: Session) {
+  return (
+    <>
+      <h1 className="text-2xl font-bold text-center">
+        Welcome {session.user?.name}
+      </h1>
+      <p className="text-center">You are authorized to access this page</p>
+    </>
+  );
+}
+
+// Guest User
+function Guest() {
+  return (
+    <>
+      <h1 className="text-2xl font-bold text-center">You are not authorized</h1>
+      <p className="text-center">Please login to access this page</p>
+    </>
+  );
+}

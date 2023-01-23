@@ -10,6 +10,7 @@ import { NextApiRequest } from "next";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { useUser } from "./Auth/UserContext";
+import { signOut } from "next-auth/react";
 
 interface Props {}
 
@@ -42,7 +43,7 @@ export default function Header({}: Props) {
 
   const handleSignOut = () => {
     handleSetUser(null);
-    supabase.auth.signOut();
+    signOut();
     router.push("/signin");
   };
 

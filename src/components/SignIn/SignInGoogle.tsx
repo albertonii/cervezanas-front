@@ -1,8 +1,7 @@
-import { supabase } from "../../utils/supabaseClient";
+import { signIn } from "next-auth/react";
 
 export default async function signInGoogle() {
-  const { error } = await supabase.auth.signIn({ provider: "google" });
-  if (error) console.log(error);
+  await signIn("google");
 }
 
 export const SignInGoogle = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CheckoutItem from "../components/checkout/CheckoutItem";
 import { useShoppingCart } from "../components/Context/ShoppingCartContext";
 import { Spinner } from "../components/Spinner";
-import { Beer } from "../types";
+import { Beer } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 
 export default function OrderDetails() {
