@@ -1,43 +1,31 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "@supabase/ui";
 
 interface Props {
   isVisible: boolean;
   title: string;
   btnTitle: string;
   description: string;
-  handleAccept: (isClicked: boolean) => void;
   children: JSX.Element;
 }
 
 const Modal = (props: Props) => {
-  const { isVisible, btnTitle, title, description, children, handleAccept } =
-    props;
-
-  const { t } = useTranslation();
+  const { isVisible, btnTitle, title, description, children } = props;
 
   const [showModal, setShowModal] = React.useState(isVisible);
 
-  const handleModalAccept = () => {
-    setShowModal(false);
-    handleAccept(true);
-  };
-
-  const handleModalCancel = () => {
+  const handleAccept = () => {
     setShowModal(false);
   };
 
   return (
     <>
-      <Button
-        className="bg-beer-draft text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      <button
+        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
         onClick={() => setShowModal(true)}
       >
         {btnTitle}
-      </Button>
+      </button>
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -46,46 +34,38 @@ const Modal = (props: Props) => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold text-bear-dark">
-                    {title}
-                  </h3>
+                  <h3 className="text-3xl font-semibold">{title}</h3>
                   <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-2 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="ml-6 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      <FontAwesomeIcon
-                        className={`cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300`}
-                        icon={faClose}
-                        style={{ color: "#90470B", width: "20px" }}
-                      />
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
                     </span>
                   </button>
                 </div>
-
                 {/*body*/}
-                <div className="relative p-6 flex-auto text-beer-dark">
+                <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
                     {description}
                   </p>
                   <div>{children}</div>
                 </div>
-
                 {/*footer*/}
-                <div className="flex items-center justify-around p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="bg-beer-draft text-beer-blonde active:bg-beer-blonde font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => handleModalAccept()}
+                    onClick={() => setShowModal(false)}
                   >
-                    {t("save")}
+                    Close
                   </button>
                   <button
-                    className="text-bear-dark border-2 font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => handleModalCancel()}
+                    onClick={() => handleAccept()}
                   >
-                    {t("close")}
+                    Save Changes
                   </button>
                 </div>
               </div>
