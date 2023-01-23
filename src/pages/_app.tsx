@@ -78,7 +78,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             {/* <ShoppingCartProvider> */}
             {/* <UserContextProvider supabaseClient={supabase}> */}
             <Header />
-            <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
             <Component {...pageProps} />
             {/* </UserContextProvider> */}
             {/* </ShoppingCartProvider> */}

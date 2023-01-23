@@ -1,9 +1,9 @@
 import React from "react";
 import { NextApiRequest } from "next";
 import { SupabaseProps } from "../constants";
-import { Beer } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
+import { Beer } from "../lib/types";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -27,7 +27,7 @@ export default function MarketPlace(props: Props) {
   );
 }
 
-export async function getServerSideProps(req: NextApiRequest) {
+export async function getServerSideProps() {
   let { data: beersData, error: beersError } = await supabase.from("beers")
     .select(`
     *,
@@ -53,7 +53,6 @@ export async function getServerSideProps(req: NextApiRequest) {
 
   return {
     props: {
-      // beers: beersData,
       beers: beersData,
     },
   };

@@ -1,22 +1,16 @@
 import Head from "next/head";
 import { type UserProps } from "../lib/types";
-import Router from "next/router";
 import { NextPage } from "next";
-import { useForm } from "react-hook-form";
 import "../lib/i18n/i18n";
 import { useSession } from "next-auth/react";
 import { ISODateString } from "next-auth";
+import { useEffect } from "react";
+import Router from "next/router";
 
 const Submit: NextPage<UserProps> = () => {
   const { data: session } = useSession();
 
-  // reference: https://react-hook-form.com/get-started#Quickstart
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { status, data } = useSession();
 
   return (
     <>
@@ -26,7 +20,7 @@ const Submit: NextPage<UserProps> = () => {
 
       <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
         <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
-          {session ? User(session) : Guest()}
+          {session && status === "authenticated" ? User(session) : Guest()}
         </div>
       </main>
     </>

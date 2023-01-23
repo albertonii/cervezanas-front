@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button, Select } from "@supabase/ui";
-import { supabase } from "../utils/supabaseClient";
 import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
@@ -9,19 +8,14 @@ import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
-import { useUser } from "./Auth/UserContext";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface Props {}
 
 export default function Header({}: Props) {
   const { t } = useTranslation();
 
-  const { user, setUser } = useUser();
-
-  const handleSetUser = (user: User | null) => {
-    setUser(user);
-  };
+  const { status } = useSession();
 
   const router = useRouter();
 
@@ -30,8 +24,8 @@ export default function Header({}: Props) {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    setIsAuth(user ? true : false);
-  }, [user]);
+    setIsAuth(status === "authenticated" ? true : false);
+  }, [status]);
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -42,7 +36,6 @@ export default function Header({}: Props) {
   };
 
   const handleSignOut = () => {
-    handleSetUser(null);
     signOut();
     router.push("/signin");
   };
