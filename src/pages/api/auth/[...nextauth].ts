@@ -5,6 +5,11 @@ import GoogleProvider from "next-auth/providers/google";
 import { supabase } from "../../../utils/supabaseClient";
 import jwt from "jsonwebtoken";
 
+interface AuthProps {
+  email: string;
+  password: string;
+}
+
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
@@ -14,39 +19,32 @@ export default NextAuth({
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
   }),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID ?? "",
+      clientSecret: process.env.GOOGLE_SECRET ?? "",
+    }),
     CredentialsProvider({
+      name: "Credentials",
       credentials: {
         email: {
           label: "Email",
-          type: "text ",
+          type: "text",
           placeholder: "aniironen@example.com",
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials?: { email: string; password: string }) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-
-        const { user: data, error: signInError } = await supabase.auth.signIn({
+      async authorize(credentials?: AuthProps) {
+        const { user, error: signInError } = await supabase.auth.signIn({
           email: credentials?.email,
           password: credentials?.password,
         });
 
         if (signInError) {
-          alert(signInError.message);
           throw signInError;
         }
 
-        return data;
+        return user;
       },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID ?? "",
-      clientSecret: process.env.GOOGLE_SECRET ?? "",
     }),
   ],
 
@@ -62,10 +60,11 @@ export default NextAuth({
     // strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
     // maxAge: 30 * 24 * 60 * 60, // 30 days
+
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens
-    // updateAge: 24 * 60 * 60, // 24 hours
+    updateAge: 24 * 60 * 60, // 24 hours
   },
 
   // JSON Web tokens are only used for sessions if the `jwt: true` session
@@ -80,6 +79,23 @@ export default NextAuth({
     // if you want to override the default behaviour.
     // encode: async ({ secret, token, maxAge }) => {},
     // decode: async ({ secret, token, maxAge }) => {},
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    // async encode({ secret, token, maxAge }: JWTEncodeParams) {
+    //   const jwtClaims = {
+    //     sub: token?.id,
+    //     name: token?.name,
+    //     email: token?.email,
+    //     picture: token?.image,
+    //     iat: Math.floor(Date.now() / 1000),
+    //     exp: Math.floor(Date.now() / 1000) + maxAge!,
+    //   };
+    //   return jwt.sign(jwtClaims, secret, { algorithm: "HS256" });
+    // },
+
+    // async decode({ secret, token }: JWTDecodeParams) {
+    //   const decoded = jwt.verify(token, secret, { algorithms: ["HS256"] });
+    //   return decoded;
+    // },
   },
 
   // You can define custom pages to override the built-in ones. These will be regular Next.js pages

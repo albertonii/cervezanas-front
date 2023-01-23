@@ -4,7 +4,6 @@ import Link from "next/link";
 import { type NextPage } from "next";
 import { useEffect, useState } from "react";
 import { type UserProps } from "../lib/types";
-import { SignInGoogle } from "../components/SignIn/SignInGoogle";
 import {
   useSession,
   getProviders,
@@ -12,6 +11,7 @@ import {
   signIn,
   ClientSafeProvider,
   LiteralUnion,
+  getCsrfToken,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 import { FaLock } from "react-icons/fa";
@@ -198,6 +198,7 @@ const SignIn: NextPage<UserProps> = () => {
             )}
           </div>
         </div>
+
         <div className="relative hidden w-0 flex-1 lg:block">
           <Image
             className="absolute inset-0 h-full w-full object-cover"
@@ -212,3 +213,11 @@ const SignIn: NextPage<UserProps> = () => {
 };
 
 export default SignIn;
+
+export async function getServerSideProps(context: any) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  };
+}

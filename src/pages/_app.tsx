@@ -1,15 +1,11 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { supabase } from "../utils/supabaseClient";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "../components/Header";
-import { Suspense, useEffect, useState } from "react";
-import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
-import axios from "axios";
+import { Suspense } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Breadcrumb from "../components/Breadcrumb";
 import { SessionProvider, useSession } from "next-auth/react";
-import { Session } from "@supabase/supabase-js";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above

@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import { supabase } from "../utils/supabaseClient";
+import { signIn } from "next-auth/react";
 
 interface User {
   email: string;

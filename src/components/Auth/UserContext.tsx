@@ -5,6 +5,7 @@ import {
   User,
   UserCredentials,
 } from "@supabase/supabase-js";
+import { signOut } from "next-auth/react";
 
 export interface AuthSession {
   user: User | null;
@@ -50,7 +51,7 @@ export const UserContextProvider = (props: Props) => {
     setUser: (user: User | null) => setUser(user),
     signUp: (data: UserCredentials) => supabaseClient.auth.signUp(data),
     signIn: (data: UserCredentials) => supabaseClient.auth.signIn(data),
-    signOut: () => supabaseClient.auth.signOut(),
+    signOut: () => signOut(),
   };
 
   return <UserContext.Provider value={value} {...props} />;

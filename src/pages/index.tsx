@@ -4,8 +4,6 @@ import { NextPage } from "next";
 import "../lib/i18n/i18n";
 import { useSession } from "next-auth/react";
 import { ISODateString } from "next-auth";
-import { useEffect } from "react";
-import Router from "next/router";
 
 const Submit: NextPage<UserProps> = () => {
   const { data: session } = useSession();
