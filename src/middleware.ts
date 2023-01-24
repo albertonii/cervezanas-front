@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 // const PUBLIC_FILE = /\.(.*)$/;
 
@@ -27,7 +28,14 @@ import type { NextRequest } from "next/server";
 // }
 // }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  const session = await getToken({
+    req: request,
+    secret: process.env.NEXT_AUTH_SECRET,
+  });
+
+  console.log(session);
+
   if (request.nextUrl.pathname.startsWith("/marketplace")) {
     return NextResponse.rewrite(new URL("/marketplace", request.url));
   }
@@ -35,4 +43,11 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/dashboard")) {
     return NextResponse.rewrite(new URL("/dashboard/user", request.url));
   }
+
+  return NextResponse.next();
 }
+
+// El middleware entrará en estos paths
+export const config = {
+  matcher: ["/marketplace", "/dashboard"],
+};

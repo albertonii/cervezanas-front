@@ -7,8 +7,6 @@ import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
 import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
-import { useUser } from "./Auth/UserContext";
 import { signOut, useSession } from "next-auth/react";
 
 interface Props {}

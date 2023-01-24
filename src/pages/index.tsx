@@ -4,11 +4,21 @@ import { NextPage } from "next";
 import "../lib/i18n/i18n";
 import { useSession } from "next-auth/react";
 import { ISODateString } from "next-auth";
+import { useEffect } from "react";
+import { useNextAuth } from "../components/Auth/NextAuthContext";
 
 const Submit: NextPage<UserProps> = () => {
-  const { data: session } = useSession();
+  const { supabaseClient, session } = useNextAuth();
 
-  const { status, data } = useSession();
+  useEffect(() => {
+    // Now you can query with RLS enabled.
+    const getUsers = async () => {
+      const { data, error } = await supabaseClient!.from("users").select("*");
+      console.log(data);
+    };
+
+    getUsers();
+  }, [supabaseClient]);
 
   return (
     <>

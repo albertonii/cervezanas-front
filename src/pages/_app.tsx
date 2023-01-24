@@ -6,6 +6,8 @@ import { Suspense } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Breadcrumb from "../components/Breadcrumb";
 import { SessionProvider, useSession } from "next-auth/react";
+import { NextAuthContextProvider } from "../components/Auth/NextAuthContext";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -18,6 +20,9 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   // useEffect(() => {
@@ -66,19 +71,39 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       .join(" ");
   }
 
+  // const { session } = useSession();
+
+  const supabaseAccessToken: string = session?.accessToken || "";
+
+  const supabaseClientOptions: any = {
+    global: {
+      headers: {
+        Authorization: `Bearer ${supabaseAccessToken}`,
+      },
+    },
+  };
+
+  const supabase: SupabaseClient = createClient(
+    supabaseUrl,
+    supabaseAnonKey,
+    supabaseClientOptions
+  );
+
   return (
     <>
       <Suspense fallback="Loading...">
         <SessionProvider session={pageProps.session}>
-          <QueryClientProvider client={queryClient}>
-            {/* <ShoppingCartProvider> */}
-            {/* <UserContextProvider supabaseClient={supabase}> */}
-            <Header />
-            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-            <Component {...pageProps} />
-            {/* </UserContextProvider> */}
-            {/* </ShoppingCartProvider> */}
-          </QueryClientProvider>
+          <NextAuthContextProvider supabaseClient={supabase}>
+            <QueryClientProvider client={queryClient}>
+              {/* <ShoppingCartProvider> */}
+              {/* <UserContextProvider supabaseClient={supabase}> */}
+              <Header />
+              {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
+              <Component {...pageProps} />
+              {/* </UserContextProvider> */}
+              {/* </ShoppingCartProvider> */}
+            </QueryClientProvider>
+          </NextAuthContextProvider>
         </SessionProvider>
       </Suspense>
     </>

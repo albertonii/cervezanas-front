@@ -2,18 +2,9 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { type NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { type UserProps } from "../lib/types";
-import {
-  useSession,
-  getProviders,
-  signOut,
-  signIn,
-  ClientSafeProvider,
-  LiteralUnion,
-  getCsrfToken,
-} from "next-auth/react";
-import { BuiltInProviderType } from "next-auth/providers";
+import { useSession, getProviders, signOut, signIn } from "next-auth/react";
 import { FaLock } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 
@@ -22,11 +13,11 @@ interface FormData {
   password: string;
 }
 
-const SignIn: NextPage<UserProps> = () => {
-  const [providers, setproviders] = useState<Record<
-    LiteralUnion<BuiltInProviderType, string>,
-    ClientSafeProvider
-  > | null>();
+const SignIn: NextPage<UserProps> = ({ providers }: any) => {
+  // const [providers, setproviders] = useState<Record<
+  //   LiteralUnion<BuiltInProviderType, string>,
+  //   ClientSafeProvider
+  // > | null>();
   const { data: session, status } = useSession();
 
   const { register, handleSubmit } = useForm<FormData>();
@@ -34,13 +25,13 @@ const SignIn: NextPage<UserProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    const setTheProviders = async () => {
-      const setupProviders = await getProviders();
-      setproviders(setupProviders);
-    };
-    setTheProviders();
-  }, []);
+  // useEffect(() => {
+  //   const setTheProviders = async () => {
+  //     const setupProviders = await getProviders();
+  //     setproviders(setupProviders);
+  //   };
+  //   setTheProviders();
+  // }, []);
 
   const onSubmit = async () => {
     signIn("credentials", { email, password });
@@ -53,6 +44,7 @@ const SignIn: NextPage<UserProps> = () => {
   if (status === "loading") {
     return <h1>Loading...</h1>;
   }
+
   if (session) {
     return (
       <>
@@ -141,6 +133,7 @@ const SignIn: NextPage<UserProps> = () => {
                 </p>
               </>
             )}
+
             {providers?.google && (
               <>
                 <br />
@@ -214,10 +207,9 @@ const SignIn: NextPage<UserProps> = () => {
 
 export default SignIn;
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps() {
+  const providers = await getProviders();
   return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-    },
+    props: { providers },
   };
 }
