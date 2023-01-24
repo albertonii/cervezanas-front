@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Beer } from "../../../types";
+import { Beer } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
-import { useUser } from "../../Auth/UserContext";
+import { useAuth } from "../../Auth/useAuth";
 import LotModalAdd from "../../Modals/LotModalAdd";
 import ProductModalAdd from "../../Modals/ProductModalAdd";
 import ProductModalDelete from "../../Modals/ProductModalDelete";
@@ -11,7 +11,7 @@ import ProductList from "./ProductList";
 interface Props {}
 
 export const Products = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [beerModal, setBeerModal] = useState<any>(null);

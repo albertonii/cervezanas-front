@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import OwnerInfo from "./OwnerInfo";
 import Rate from "./Rate";
 import { Button } from "@supabase/ui";
-import { Review } from "../types";
 import { supabase } from "../utils/supabaseClient";
-import { useUser } from "./Auth/UserContext";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "./Auth/useAuth";
+import { Review } from "../lib/types";
 
 interface Props {
   review: Review;
@@ -14,7 +14,7 @@ interface Props {
 
 export default function IndividualReview(props: Props) {
   const { t } = useTranslation();
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const [readMore, setReadMore] = useState(false);
 

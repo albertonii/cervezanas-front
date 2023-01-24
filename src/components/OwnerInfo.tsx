@@ -13,7 +13,7 @@ export default function OwnerInfo({ ownerId }: Props) {
     const getReviewOwner = async (ownerId: string) => {
       const { data: owner, error: ownerError } = await supabase
         .from("users")
-        .select("id, given_name, avatar_url")
+        .select("id, name, avatar_url")
         .eq("id", ownerId)
         .single();
       if (ownerError) {
@@ -40,7 +40,7 @@ export default function OwnerInfo({ ownerId }: Props) {
           />
           <div className="space-y-1 font-medium dark:text-white">
             <p>
-              {owner.given_name}
+              {owner.name}
               <time
                 dateTime="2014-08-16 19:00"
                 className="block text-sm text-gray-500 dark:text-gray-400"

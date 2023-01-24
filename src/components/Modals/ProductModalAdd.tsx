@@ -12,13 +12,13 @@ import {
   product_type_options,
   BeerEnum,
 } from "../../lib/beerEnum";
-import { Beer, Inventory } from "../../types";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
 import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
-import { ModalAddProductProps } from "../../lib/types";
+import { Beer, Inventory, ModalAddProductProps } from "../../lib/types";
+import { useAuth } from "../Auth";
 
 interface Props {
   isVisible: boolean;
@@ -29,6 +29,8 @@ interface Props {
 const ProductModalAdd = (props: Props) => {
   const { t } = useTranslation();
   const { isVisible, beers, handleSetBeers } = props;
+
+  const { user } = useAuth();
 
   const [showModal, setShowModal] = useState(isVisible);
   const [activeStep, setActiveStep] = useState(0);
@@ -126,6 +128,7 @@ const ProductModalAdd = (props: Props) => {
             price,
             pack,
             format,
+            owner_id: user?.id,
           })
           .select();
 

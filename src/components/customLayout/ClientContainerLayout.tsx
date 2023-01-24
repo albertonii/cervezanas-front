@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { use, useEffect } from "react";
 import { useProfile } from "../Context/ProfileContext";
 
 type Props = {
@@ -31,7 +30,7 @@ export const ClientContainerLayout = ({ children }: Props) => {
                   height={150}
                   className="rounded-full h-36 w-36 border  bg-indigo-100 mx-auto 
                   shadow-2xl inset-x-0 top-0 flex items-center justify-center text-indigo-500"
-                  src={profileImg!}
+                  src={profileImg ?? "/logo_cervezanas.png"}
                   alt={"profile image"}
                 />
               </div>

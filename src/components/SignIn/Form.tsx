@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
 import { useRouter } from "next/router";
 import { FaLock } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
-import { useUser } from "../Auth/UserContext";
-import { signIn } from "next-auth/react";
+import { useAuth } from "../Auth/useAuth";
 
 interface FormData {
   email: string;
@@ -19,6 +17,8 @@ export const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signIn } = useAuth();
+
   const createLoginMutation = useLogin({ email, password });
 
   if (createLoginMutation.isSuccess) {
@@ -26,7 +26,7 @@ export const SignInForm = () => {
   }
 
   const onSubmit = async () => {
-    signIn();
+    // signIn();
     // createLoginMutation.mutate();
   };
 

@@ -9,7 +9,7 @@ interface User {
 interface Options {
   username: string;
   access_level: string;
-  given_name: string;
+  name: string;
   lastname: string;
 }
 

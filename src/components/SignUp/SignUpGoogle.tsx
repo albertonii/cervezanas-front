@@ -1,5 +1,6 @@
 import { supabase } from "../../utils/supabaseClient";
 import { Auth, Button } from "@supabase/ui";
+import { useAuth } from "../Auth/useAuth";
 
 export default async function signUpGoogle() {
   const { error } = await supabase.auth.signUp({ provider: "google" });
@@ -7,7 +8,7 @@ export default async function signUpGoogle() {
 }
 
 export const SignUpGoogle = () => {
-  const { user } = Auth.useUser();
+  const { user } = useAuth();
 
   return (
     <>

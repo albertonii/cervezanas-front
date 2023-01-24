@@ -1,18 +1,20 @@
 import { User } from "@supabase/supabase-js";
 import { Button } from "@supabase/ui";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
+import { useAuth } from "../../Auth/useAuth";
 import { Account } from "./Account";
 import Details from "./Details";
 import { History } from "./History";
 import Values from "./Values";
 
-interface Props {
-  user: User | null;
-}
+interface Props {}
 
 export const Profile = (props: Props) => {
-  const { user } = props;
+  const { t } = useTranslation();
+
+  const { user, loggedIn } = useAuth();
 
   const [profileData, setProfileData] = useState<any>();
   const [historyData, setHistoryData] = useState<any>();
@@ -27,7 +29,7 @@ export const Profile = (props: Props) => {
   const renderSwitch = () => {
     switch (menuOption) {
       case "account":
-        return <Account user={user} profileData={profileData} />;
+        return <Account />;
       case "details":
         return <Details />;
       case "values":
@@ -38,29 +40,11 @@ export const Profile = (props: Props) => {
   };
 
   useEffect(() => {
-    if (user != null && user != undefined) {
-      const getProfileData = async () => {
-        let { data, error } = await supabase
-          .from("users")
-          .select("id, username, given_name, lastname, birthdate")
-          .eq("id", user?.id);
-
-        if (error) {
-          throw error;
-        }
-
-        if (data) {
-          setProfileData(data);
-          setMenuOption("account");
-          setLoading(false);
-        }
-
-        return data;
-      };
-
-      getProfileData();
+    if (loggedIn) {
+      setMenuOption("account");
+      setLoading(false);
     }
-  }, [user]);
+  }, [loggedIn, user?.id]);
 
   return (
     <>
@@ -80,6 +64,7 @@ export const Profile = (props: Props) => {
           </li>
         </ul>
       </div>
+
       {loading ? (
         <div>{t("loading")}</div>
       ) : (

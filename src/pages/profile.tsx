@@ -12,14 +12,15 @@ import { Community } from "../components/customLayout/Community/Community";
 import { Stats } from "../components/customLayout/Stats/Stats";
 import { Ledger } from "../components/customLayout/Ledger/Ledger";
 import { Profile } from "../components/customLayout/Profile/Profile";
-import { useUser } from "../components/Auth/UserContext";
 import ProfileContexProvider from "../components/Context/ProfileContext";
 import LikesHistory from "../components/customLayout/Likes/LikesHistory";
+import { useAuth } from "../components/Auth/useAuth";
+import Layout from "../components/Layout";
 
 const CustomLayout: NextPage<UserProps> = () => {
   const [menuOption, setMenuOption] = useState<string>();
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!!user) {
@@ -30,7 +31,7 @@ const CustomLayout: NextPage<UserProps> = () => {
   const renderSwitch = (): JSX.Element => {
     switch (menuOption) {
       case "profile":
-        return <Profile user={user} />;
+        return <Profile />;
       case "products":
         return <Products />;
       case "campaigns":
@@ -49,7 +50,7 @@ const CustomLayout: NextPage<UserProps> = () => {
         return <LikesHistory userId={user!.id} />;
     }
 
-    return <Account user={user} />;
+    return <Account />;
   };
 
   const handleMenuOptions = (childData: string) => {
@@ -57,12 +58,14 @@ const CustomLayout: NextPage<UserProps> = () => {
   };
 
   return (
-    <div className="flex flex-row">
-      <Sidebar parentCallback={handleMenuOptions} />
-      <ProfileContexProvider>
-        <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
-      </ProfileContexProvider>
-    </div>
+    <Layout usePadding={false} useBackdrop={false}>
+      <div className="flex flex-row">
+        <Sidebar parentCallback={handleMenuOptions} />
+        <ProfileContexProvider>
+          <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
+        </ProfileContexProvider>
+      </div>
+    </Layout>
   );
 };
 

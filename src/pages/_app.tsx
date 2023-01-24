@@ -5,9 +5,12 @@ import Header from "../components/Header";
 import { Suspense } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Breadcrumb from "../components/Breadcrumb";
-import { SessionProvider, useSession } from "next-auth/react";
-import { NextAuthContextProvider } from "../components/Auth/NextAuthContext";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { MessageProvider } from "../components/message";
+import { AuthContextProvider } from "../components/Auth";
+import SEO from "../../next-seo.config";
+import Head from "next/head";
+import { DefaultSeo } from "next-seo";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -25,6 +28,9 @@ const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const pageMeta = (Component as any)?.defaultProps?.meta || {};
+  const pageSEO = { ...SEO, ...pageMeta };
+
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange(
   //     async (event, session) => {
@@ -91,34 +97,26 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   return (
     <>
+      <Head>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+      </Head>
+      <DefaultSeo {...pageSEO} />
+
       <Suspense fallback="Loading...">
-        <SessionProvider session={pageProps.session}>
-          <NextAuthContextProvider supabaseClient={supabase}>
+        <MessageProvider>
+          <AuthContextProvider supabaseClient={supabase}>
             <QueryClientProvider client={queryClient}>
               {/* <ShoppingCartProvider> */}
-              {/* <UserContextProvider supabaseClient={supabase}> */}
-              <Header />
+              {/* <Header /> */}
               {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
               <Component {...pageProps} />
-              {/* </UserContextProvider> */}
               {/* </ShoppingCartProvider> */}
             </QueryClientProvider>
-          </NextAuthContextProvider>
-        </SessionProvider>
+          </AuthContextProvider>
+        </MessageProvider>
       </Suspense>
     </>
   );
 }
 
 export default MyApp;
-
-function Auth({ children }: { children: React.ReactNode }) {
-  // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
-  const { status } = useSession({ required: true });
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  return children;
-}

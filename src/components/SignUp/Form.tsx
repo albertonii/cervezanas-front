@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
-import useCreateUser from "../../hooks/useCreateUser";
 import { Spinner } from "../Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
+import { SignUpInterface, useAuth } from "../Auth";
 
 enum role_enum {
   Cervezano = "consumer",
@@ -31,6 +30,8 @@ interface FormData {
 export const SignUpForm = () => {
   const { t } = useTranslation();
 
+  const { signUp, loading } = useAuth();
+
   const {
     register,
     formState: { errors },
@@ -44,8 +45,6 @@ export const SignUpForm = () => {
     },
   });
 
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -53,16 +52,10 @@ export const SignUpForm = () => {
 
   const data = {
     access_level: role,
-    given_name: "",
+    name: "",
     lastname: "",
     username: username,
   };
-
-  const createUserMutation = useCreateUser({ email, password }, data);
-
-  if (createUserMutation.isSuccess) {
-    router.push("/confirm-email");
-  }
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
@@ -70,7 +63,16 @@ export const SignUpForm = () => {
   };
 
   const onSubmit = async () => {
-    createUserMutation.mutate();
+    const userCredentials: SignUpInterface = {
+      userCredentials: { email: email, password: password, phone: "" },
+      options: {
+        redirectTo: "",
+        data: data,
+        captchaToken: "",
+      },
+    };
+
+    signUp(userCredentials);
   };
 
   return (
@@ -95,7 +97,7 @@ export const SignUpForm = () => {
 
       <div className="flex w-full flex-col space-y-2">
         <label htmlFor="username" className="text-sm text-gray-600">
-          Nombre de usuario
+          {t("username")}
         </label>
         <input
           {...register("username")}
@@ -112,7 +114,7 @@ export const SignUpForm = () => {
 
       <div className="flex w-full flex-col space-y-2">
         <label htmlFor="email-address" className="text-sm text-gray-600">
-          Correo electrónico
+          {t("email")}
         </label>
         <input
           {...register("email")}
@@ -129,7 +131,7 @@ export const SignUpForm = () => {
 
       <div className="flex w-full flex-col space-y-2 ">
         <label htmlFor="password" className="text-sm text-gray-600">
-          Contraseña
+          {t("password")}
         </label>
         <input
           {...register("password")}
@@ -144,7 +146,7 @@ export const SignUpForm = () => {
         />
       </div>
 
-      {createUserMutation.isLoading ? (
+      {loading ? (
         <span>
           <Spinner />
         </span>

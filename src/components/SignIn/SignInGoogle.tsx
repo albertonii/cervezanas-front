@@ -1,12 +1,10 @@
-import { signIn } from "next-auth/react";
-
-export default async function signInGoogle() {
-  await signIn("google");
-}
+import { useAuth } from "../Auth/useAuth";
 
 export const SignInGoogle = () => {
+  const { signInWithProvider } = useAuth();
+
   const onSubmit = async () => {
-    await signIn("google");
+    await signInWithProvider("google");
   };
 
   return (

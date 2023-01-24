@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BasicDataForm } from "./BasicDataForm";
-import { supabase } from "../../../utils/supabaseClient";
-import SecretDataForm from "./SecretDataForm";
-import LocationForm from "./LocationForm";
 import { User } from "@supabase/supabase-js";
 import { HistoryForm } from "./HistoryForm";
 

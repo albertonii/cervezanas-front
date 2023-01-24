@@ -7,24 +7,18 @@ import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
 import { useEffect, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useAuth } from "./Auth/useAuth";
 
 interface Props {}
 
 export default function Header({}: Props) {
   const { t } = useTranslation();
 
-  const { status } = useSession();
+  const { loggedIn, signOut } = useAuth();
 
   const router = useRouter();
 
   const { cartQuantity, openCart } = useShoppingCart();
-
-  const [isAuth, setIsAuth] = useState(false);
-
-  useEffect(() => {
-    setIsAuth(status === "authenticated" ? true : false);
-  }, [status]);
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -80,7 +74,7 @@ export default function Header({}: Props) {
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              {isAuth ? (
+              {loggedIn ? (
                 <>
                   <li>
                     <Link href="/">

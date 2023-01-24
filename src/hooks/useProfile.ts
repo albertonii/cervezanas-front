@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
-import { useUser } from "../components/Auth/UserContext";
+import { useAuth } from "../components/Auth/useAuth";
 import { supabase } from "../utils/supabaseClient";
 
 const getProfile = async (id?: string) => {
   const { data, error } = await supabase
     .from("users")
-    .select("username, given_name, lastname, birthdate")
+    .select("username, name, lastname, birthdate")
     .eq("id", id);
 
   if (error) {
@@ -17,7 +17,7 @@ const getProfile = async (id?: string) => {
 };
 
 export default function useProfile() {
-  const { user } = useUser();
+  const { user } = useAuth();
 
   return useQuery(["profile", getProfile(user?.id)], {
     enabled: !!user,

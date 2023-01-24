@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
-import { useUser } from "../Auth/UserContext";
+import { useAuth } from "../Auth/useAuth";
 
 interface IProfile {
   bgImg?: string;
@@ -25,7 +25,7 @@ interface Props {
 export default function ProfileContexProvider(props: Props) {
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const value = {
     bgImg,
