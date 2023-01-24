@@ -1,5 +1,4 @@
 import React from "react";
-import { NextApiRequest } from "next";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
@@ -17,7 +16,7 @@ export default function MarketPlace(props: Props) {
   const { beers } = props;
 
   return (
-    <Layout usePadding={false} useBackdrop={false}>
+    <Layout usePadding={true} useBackdrop={false}>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:mx-48 mt-12 justify-center">
         {beers &&
           beers.map((beer) => (

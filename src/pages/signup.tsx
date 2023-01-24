@@ -2,11 +2,10 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { type NextPage } from "next";
-import { SignUpForm } from "../components/SignUp/Form";
+import { SignUpForm } from "../components/Auth/SignUpForm";
 import { type UserProps } from "../lib/types";
 import { useEffect } from "react";
 import Router from "next/router";
-import { SignUpGoogle } from "../components/SignUp/SignUpGoogle";
 import { useAuth } from "../components/Auth/useAuth";
 
 const SignUp: NextPage<UserProps> = () => {
@@ -34,8 +33,6 @@ const SignUp: NextPage<UserProps> = () => {
                 Create an account
               </h2>
             </div>
-
-            {/* <SignUpGoogle /> */}
 
             <SignUpForm />
 

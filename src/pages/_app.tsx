@@ -11,6 +11,7 @@ import { AuthContextProvider } from "../components/Auth";
 import SEO from "../../next-seo.config";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
+import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -69,14 +70,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   //   };
   // }, []);
 
-  // Capitalize the first letter of each word in a string
-  function titleize(path: string): string {
-    return path
-      .split("/")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
-
   // const { session } = useSession();
 
   const supabaseAccessToken: string = session?.accessToken || "";
@@ -106,11 +99,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <MessageProvider>
           <AuthContextProvider supabaseClient={supabase}>
             <QueryClientProvider client={queryClient}>
-              {/* <ShoppingCartProvider> */}
-              {/* <Header /> */}
-              {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-              <Component {...pageProps} />
-              {/* </ShoppingCartProvider> */}
+              <ShoppingCartProvider>
+                {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
+                <Component {...pageProps} />
+              </ShoppingCartProvider>
             </QueryClientProvider>
           </AuthContextProvider>
         </MessageProvider>

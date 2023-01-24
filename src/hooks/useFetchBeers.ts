@@ -5,9 +5,8 @@ const fetchProducts = async () => {
   const { data, error } = await supabase.from("beers").select(`
     *,
     product_multimedia (
-      p_principal,
-    ), 
-    product_inventory (
+      p_principal
+    ),product_inventory (
       quantity
     )
   `);

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import Header from "./Header";
 import Footer from "./Footer";
 import { MessageList, useMessage } from "./message";
+import Breadcrumb from "./Breadcrumb";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -16,9 +17,21 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
   useBackdrop,
 }) => {
   const { messages } = useMessage();
+
+  // Capitalize the first letter of each word in a string
+  function titleize(path: string): string {
+    return path
+      .split("/")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+
   return (
     <>
       <Header />
+
+      <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+
       <main
         className={classNames(
           "w-full h-screen mx-auto relative",

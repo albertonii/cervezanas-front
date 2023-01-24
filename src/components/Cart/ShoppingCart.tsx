@@ -16,16 +16,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { t } = useTranslation();
   const { items, closeCart } = useShoppingCart();
   //TODO: Get data from API
-  // const { data: beers } = useFetchProducts();
-  const beers = [
-    {
-      id: "1",
-      name: "Budweiser",
-      price: 1.99,
-      image:
-        "https://images.unsplash.com/photo-1593642532972-7d3a3d2d1b5a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVkd2Vpc2VyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
-    },
-  ];
+  const { data: beers } = useFetchProducts();
 
   const [subTotal, setSubTotal] = React.useState(0);
 

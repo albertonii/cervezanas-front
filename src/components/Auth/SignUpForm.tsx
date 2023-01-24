@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Spinner } from "../Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { SignUpInterface, useAuth } from "../Auth";
+import { SignUpInterface, useAuth } from ".";
 
 enum role_enum {
   Cervezano = "consumer",
