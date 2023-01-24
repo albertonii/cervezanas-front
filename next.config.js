@@ -6,6 +6,7 @@ module.exports = {
       "randomuser.me",
       "kvdearmedajqvexxhmrk.supabase.co",
       "images.unsplash.com",
+      "tailwindui.com",
     ],
     formats: ["image/webp", "image/avif"],
   },
