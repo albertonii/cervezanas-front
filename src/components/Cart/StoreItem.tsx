@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
-import { Beer } from "../../types";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import IconButton from "../common/IconButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
+import { Beer } from "../../lib/types";
 
 type StoreItemProps = { beer: Beer };
 

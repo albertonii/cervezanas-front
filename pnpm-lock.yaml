@@ -8,7 +8,6 @@ specifiers:
   '@fortawesome/react-fontawesome': ^0.2.0
   '@headlessui/react': ^1.7.7
   '@heroicons/react': ^2.0.13
-  '@next-auth/supabase-adapter': ^0.2.1
   '@reach/alert': ^0.18.0
   '@stitches/core': ^1.2.8
   '@supabase/supabase-js': ^1.35.7
@@ -57,7 +56,6 @@ dependencies:
   '@fortawesome/react-fontawesome': 0.2.0_z27bm67dtmuyyvss23ckjdrcuy
   '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
-  '@next-auth/supabase-adapter': 0.2.1_cokbxflmshd5kjr6lm6qhkg44i
   '@reach/alert': 0.18.0_biqbaboplfbrettd7655fr4n2y
   '@stitches/core': 1.2.8
   '@supabase/supabase-js': 1.35.7
@@ -419,15 +417,6 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
-
-  /@next-auth/supabase-adapter/0.2.1_cokbxflmshd5kjr6lm6qhkg44i:
-    resolution: {integrity: sha512-BlIbBRd8QjdV84h/XH2QuuleZAFcmfRwT0pyvc9iqrVztxmjWOalNRvSA7xsbqsQq9mK16PMmNPRvsDEUAAgfQ==}
-    peerDependencies:
-      '@supabase/supabase-js': ^2.0.5
-      next-auth: ^4.18.7
-    dependencies:
-      '@supabase/supabase-js': 1.35.7
-    dev: false
 
   /@next/env/13.0.3:
     resolution: {integrity: sha512-/4WzeG61Ot/PxsghXkSqQJ6UohFfwXoZ3dtsypmR9EBP+OIax9JRq0trq8Z/LCT9Aq4JbihVkaazRWguORjTAw==}

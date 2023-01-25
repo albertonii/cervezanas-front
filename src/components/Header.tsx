@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
-import { useEffect, useState } from "react";
 import { useAuth } from "./Auth/useAuth";
+import DropdownButton from "./common/DropdownButton";
 
 interface Props {}
 
@@ -108,19 +108,6 @@ export default function Header({}: Props) {
                   </li>
 
                   <li>
-                    <Link href="/profile">
-                      <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        <Image
-                          src={"/icons/profile-240.png"}
-                          width={30}
-                          height={30}
-                          alt={"Go to Profile"}
-                        />
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li>
                     <Button className={""} onClick={() => openCart()}>
                       <div className="relative rounded-full">
                         <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
@@ -137,6 +124,12 @@ export default function Header({}: Props) {
                         </div>
                       </div>
                     </Button>
+                  </li>
+
+                  <li>
+                    <DropdownButton
+                      options={["profile", "orders", "logout"]}
+                    ></DropdownButton>
                   </li>
 
                   <li>

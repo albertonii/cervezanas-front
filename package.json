@@ -16,7 +16,6 @@
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"@headlessui/react": "^1.7.7",
 		"@heroicons/react": "^2.0.13",
-		"@next-auth/supabase-adapter": "^0.2.1",
 		"@reach/alert": "^0.18.0",
 		"@stitches/core": "^1.2.8",
 		"@supabase/supabase-js": "^1.35.7",

@@ -45,6 +45,7 @@ module.exports = {
         dark: "#432a14",
         blonde: "#fdc300",
         draft: "#90470b",
+        softBlond: "#f9d56e",
       },
       bear: {
         dark: "#502600",
@@ -63,6 +64,7 @@ module.exports = {
       pink: colors.pink,
       emerald: colors.emerald,
       teal: colors.teal,
+      sky: colors.sky,
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],

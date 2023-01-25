@@ -61,6 +61,7 @@ const CustomLayout: NextPage<UserProps> = () => {
     <Layout usePadding={false} useBackdrop={false}>
       <div className="flex flex-row">
         <Sidebar parentCallback={handleMenuOptions} />
+
         <ProfileContexProvider>
           <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
         </ProfileContexProvider>
