@@ -27,6 +27,9 @@ export default function StoreItem(props: StoreItemProps) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    addMarketplaceItems,
+    removeMarketplaceItems,
+    marketplaceItems,
   } = useShoppingCart();
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
@@ -51,6 +54,23 @@ export default function StoreItem(props: StoreItemProps) {
       setIsLike(false);
     }
   }
+
+  const handleIncreaseToCartItem = () => {
+    increaseCartQuantity(id);
+    if (marketplaceItems.find((item) => item.id === id)) return;
+    addMarketplaceItems(beer);
+  };
+
+  const handleDecreaseFromCartItem = () => {
+    decreaseCartQuantity(id);
+    if (getItemQuantity(id) > 1) return;
+    removeMarketplaceItems(id);
+  };
+
+  const handleRemoveFromCart = () => {
+    removeMarketplaceItems(id);
+    removeFromCart(id);
+  };
 
   return (
     <div className="max-w-sm w-full bg-gray-900 shadow-lg rounded-xl p-6">
@@ -151,7 +171,7 @@ export default function StoreItem(props: StoreItemProps) {
               <div className="mt-auto">
                 {getItemQuantity(id) === 0 ? (
                   <button
-                    onClick={() => increaseCartQuantity(id)}
+                    onClick={() => handleIncreaseToCartItem()}
                     className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
                   >
                     <span>Add Cart</span>
@@ -159,13 +179,13 @@ export default function StoreItem(props: StoreItemProps) {
                 ) : (
                   <div>
                     <div className="flex items-center justify-center">
-                      <Button onClick={() => decreaseCartQuantity(id)}>
+                      <Button onClick={() => handleDecreaseFromCartItem()}>
                         -
                       </Button>
                       <span className="px-2 text-3xl text-white">
                         {getItemQuantity(id)}
                       </span>
-                      <Button onClick={() => increaseCartQuantity(id)}>
+                      <Button onClick={() => handleIncreaseToCartItem()}>
                         +
                       </Button>
                     </div>
@@ -173,7 +193,7 @@ export default function StoreItem(props: StoreItemProps) {
                     <Button
                       className={"bg-red-200"}
                       onClick={() => {
-                        removeFromCart(id);
+                        handleRemoveFromCart();
                       }}
                     >
                       Remove

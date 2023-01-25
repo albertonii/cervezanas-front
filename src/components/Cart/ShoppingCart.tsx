@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
-import useFetchProducts from "../../hooks/useFetchBeers";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
@@ -14,16 +13,14 @@ type ShoppingCartProps = {
 
 export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { t } = useTranslation();
-  const { items, closeCart } = useShoppingCart();
-
-  const { data: beers } = useFetchProducts();
+  const { items, closeCart, marketplaceItems } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
     let total = 0;
 
-    beers?.find((beer) =>
+    marketplaceItems?.find((beer) =>
       items.find((item) => {
         if (beer.id === item.id) {
           total += beer.price * item.quantity;
@@ -31,7 +28,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
       })
     );
     setSubTotal(total);
-  }, [items, beers]);
+  }, [items, marketplaceItems]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -98,7 +95,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                                 <CartItem
                                   key={item.id}
                                   {...item}
-                                  beers={beers!}
+                                  beers={marketplaceItems}
                                 />
                               </li>
                             ))}
