@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -15,10 +15,10 @@ type ShoppingCartProps = {
 export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { t } = useTranslation();
   const { items, closeCart } = useShoppingCart();
-  //TODO: Get data from API
+
   const { data: beers } = useFetchProducts();
 
-  const [subTotal, setSubTotal] = React.useState(0);
+  const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
     let total = 0;
