@@ -2,13 +2,14 @@ import { Button, Input } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
+import Layout from "../../components/Layout";
 import NewProductReview from "../../components/NewProductReview";
 import ProductGallery from "../../components/ProductGallery";
 import ProductOverallReview from "../../components/ProductOverallReview";
 import ProductReviews from "../../components/ProductReviews";
 import Rate from "../../components/Rate";
 import { SupabaseProps } from "../../constants";
-import { ProductMultimedia, Review } from "../../types";
+import { ProductMultimedia, Review } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 
@@ -115,367 +116,371 @@ export default function ProductId(props: Props) {
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
   return (
-    <div className="relative z-10" role="dialog" aria-modal="true">
-      <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
-        <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
-          <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-            <div className="flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-4 h-5/6  mx-6">
-              <ProductGallery gallery={gallery} />
-            </div>
-
-            <div className="sm:col-span-8 lg:col-span-8 mx-6 ">
-              <div className="flex flex-column">
-                <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                  {p.name}
-                </h2>
-
-                <div>
-                  <h4 className="sr-only">{t("reviews")}</h4>
-
-                  <div className="flex flex-col justify-end items-end">
-                    <div className="flex items-center">
-                      <Rate
-                        rating={3.9}
-                        onRating={() => {}}
-                        count={5}
-                        color={starColor}
-                        editable={false}
-                      />
-                    </div>
-
-                    <p className="sr-only">3.9 out of 5 stars</p>
-                    <a
-                      href="#"
-                      className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      {productReviews.length} {t("reviews")}
-                    </a>
-                  </div>
-                </div>
+    <Layout usePadding={true} useBackdrop={false}>
+      <div className="relative z-10" role="dialog" aria-modal="true">
+        <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
+          <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
+            <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
+              <div className="flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-4 h-5/6  mx-6">
+                <ProductGallery gallery={gallery} />
               </div>
 
-              <section aria-labelledby="information-heading" className="mt-2">
-                <h3 id="information-heading" className="sr-only">
-                  {t("product_information")}
-                </h3>
+              <div className="sm:col-span-8 lg:col-span-8 mx-6 ">
+                <div className="flex flex-column">
+                  <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
+                    {p.name}
+                  </h2>
 
-                <p className="text-2xl text-gray-900">
-                  {formatCurrency(p.price)}
-                </p>
-
-                <div className="mt-6">
-                  <div className="flex items-center pr-6 min-h-[6vh]">
-                    <p className="text-lg">{p.description}</p>
-                  </div>
-                </div>
-              </section>
-
-              <section aria-labelledby="options-heading" className="mt-10">
-                <h3 id="options-heading" className="sr-only">
-                  {t("product_options")}
-                </h3>
-
-                <form>
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900">Color</h4>
+                    <h4 className="sr-only">{t("reviews")}</h4>
 
-                    <fieldset className="mt-4">
-                      <legend className="sr-only">Choose a color</legend>
-                      <span className="flex items-center space-x-3">
-                        <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
-                          <Input
-                            type="radio"
-                            name="color-choice"
-                            value="White"
-                            className="sr-only"
-                            aria-labelledby="color-choice-0-label"
-                          />
-                          <span id="color-choice-0-label" className="sr-only">
-                            White
-                          </span>
-                          <span
-                            aria-hidden="true"
-                            className="h-8 w-8 bg-white border border-opacity-10 rounded-full"
-                          ></span>
-                        </label>
+                    <div className="flex flex-col justify-end items-end">
+                      <div className="flex items-center">
+                        <Rate
+                          rating={3.9}
+                          onRating={() => {}}
+                          count={5}
+                          color={starColor}
+                          editable={false}
+                        />
+                      </div>
 
-                        <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
-                          <Input
-                            type="radio"
-                            name="color-choice"
-                            value="Gray"
-                            className="sr-only"
-                            aria-labelledby="color-choice-1-label"
-                          />
-                          <span id="color-choice-1-label" className="sr-only">
-                            Gray
-                          </span>
-                          <span
-                            aria-hidden="true"
-                            className="h-8 w-8 bg-gray-200 border border-opacity-10 rounded-full"
-                          ></span>
-                        </label>
-
-                        <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-900">
-                          <Input
-                            type="radio"
-                            name="color-choice"
-                            value="Black"
-                            className="sr-only"
-                            aria-labelledby="color-choice-2-label"
-                          />
-                          <span id="color-choice-2-label" className="sr-only">
-                            Black
-                          </span>
-                          <span
-                            aria-hidden="true"
-                            className="h-8 w-8 bg-gray-900 border border-opacity-10 rounded-full"
-                          ></span>
-                        </label>
-                      </span>
-                    </fieldset>
-                  </div>
-
-                  <div className="mt-10">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-medium text-gray-900">
-                        Size
-                      </h4>
+                      <p className="sr-only">3.9 out of 5 stars</p>
                       <a
                         href="#"
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                        className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                       >
-                        Size guide
+                        {productReviews.length} {t("reviews")}
                       </a>
                     </div>
+                  </div>
+                </div>
 
-                    <fieldset className="mt-4">
-                      <legend className="sr-only">Choose a size</legend>
-                      <div className="grid grid-cols-4 gap-4">
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="XXS"
-                            className="sr-only"
-                            aria-labelledby="size-choice-0-label"
-                          />
-                          <span id="size-choice-0-label">XXS</span>
+                <section aria-labelledby="information-heading" className="mt-2">
+                  <h3 id="information-heading" className="sr-only">
+                    {t("product_information")}
+                  </h3>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                  <p className="text-2xl text-gray-900">
+                    {formatCurrency(p.price)}
+                  </p>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="XS"
-                            className="sr-only"
-                            aria-labelledby="size-choice-1-label"
-                          />
-                          <span id="size-choice-1-label">XS</span>
+                  <div className="mt-6">
+                    <div className="flex items-center pr-6 min-h-[6vh]">
+                      <p className="text-lg">{p.description}</p>
+                    </div>
+                  </div>
+                </section>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                <section aria-labelledby="options-heading" className="mt-10">
+                  <h3 id="options-heading" className="sr-only">
+                    {t("product_options")}
+                  </h3>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="S"
-                            className="sr-only"
-                            aria-labelledby="size-choice-2-label"
-                          />
-                          <span id="size-choice-2-label">S</span>
+                  <form>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900">
+                        Color
+                      </h4>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                      <fieldset className="mt-4">
+                        <legend className="sr-only">Choose a color</legend>
+                        <span className="flex items-center space-x-3">
+                          <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
+                            <Input
+                              type="radio"
+                              name="color-choice"
+                              value="White"
+                              className="sr-only"
+                              aria-labelledby="color-choice-0-label"
+                            />
+                            <span id="color-choice-0-label" className="sr-only">
+                              White
+                            </span>
+                            <span
+                              aria-hidden="true"
+                              className="h-8 w-8 bg-white border border-opacity-10 rounded-full"
+                            ></span>
+                          </label>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="M"
-                            className="sr-only"
-                            aria-labelledby="size-choice-3-label"
-                          />
-                          <span id="size-choice-3-label">M</span>
+                          <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
+                            <Input
+                              type="radio"
+                              name="color-choice"
+                              value="Gray"
+                              className="sr-only"
+                              aria-labelledby="color-choice-1-label"
+                            />
+                            <span id="color-choice-1-label" className="sr-only">
+                              Gray
+                            </span>
+                            <span
+                              aria-hidden="true"
+                              className="h-8 w-8 bg-gray-200 border border-opacity-10 rounded-full"
+                            ></span>
+                          </label>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                          <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-900">
+                            <Input
+                              type="radio"
+                              name="color-choice"
+                              value="Black"
+                              className="sr-only"
+                              aria-labelledby="color-choice-2-label"
+                            />
+                            <span id="color-choice-2-label" className="sr-only">
+                              Black
+                            </span>
+                            <span
+                              aria-hidden="true"
+                              className="h-8 w-8 bg-gray-900 border border-opacity-10 rounded-full"
+                            ></span>
+                          </label>
+                        </span>
+                      </fieldset>
+                    </div>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="L"
-                            className="sr-only"
-                            aria-labelledby="size-choice-4-label"
-                          />
-                          <span id="size-choice-4-label">L</span>
+                    <div className="mt-10">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium text-gray-900">
+                          Size
+                        </h4>
+                        <a
+                          href="#"
+                          className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                        >
+                          Size guide
+                        </a>
+                      </div>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                      <fieldset className="mt-4">
+                        <legend className="sr-only">Choose a size</legend>
+                        <div className="grid grid-cols-4 gap-4">
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="XXS"
+                              className="sr-only"
+                              aria-labelledby="size-choice-0-label"
+                            />
+                            <span id="size-choice-0-label">XXS</span>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="XL"
-                            className="sr-only"
-                            aria-labelledby="size-choice-5-label"
-                          />
-                          <span id="size-choice-5-label">XL</span>
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="XS"
+                              className="sr-only"
+                              aria-labelledby="size-choice-1-label"
+                            />
+                            <span id="size-choice-1-label">XS</span>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="XXL"
-                            className="sr-only"
-                            aria-labelledby="size-choice-6-label"
-                          />
-                          <span id="size-choice-6-label">XXL</span>
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
 
-                          <span
-                            className="pointer-events-none absolute -inset-px rounded-md"
-                            aria-hidden="true"
-                          ></span>
-                        </label>
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="S"
+                              className="sr-only"
+                              aria-labelledby="size-choice-2-label"
+                            />
+                            <span id="size-choice-2-label">S</span>
 
-                        <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-gray-50 text-gray-200 cursor-not-allowed">
-                          <Input
-                            type="radio"
-                            name="size-choice"
-                            value="XXXL"
-                            disabled
-                            className="sr-only"
-                            aria-labelledby="size-choice-7-label"
-                          />
-                          <span id="size-choice-7-label">XXXL</span>
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
 
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                          >
-                            <svg
-                              className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                              viewBox="0 0 100 100"
-                              preserveAspectRatio="none"
-                              stroke="currentColor"
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="M"
+                              className="sr-only"
+                              aria-labelledby="size-choice-3-label"
+                            />
+                            <span id="size-choice-3-label">M</span>
+
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
+
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="L"
+                              className="sr-only"
+                              aria-labelledby="size-choice-4-label"
+                            />
+                            <span id="size-choice-4-label">L</span>
+
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
+
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="XL"
+                              className="sr-only"
+                              aria-labelledby="size-choice-5-label"
+                            />
+                            <span id="size-choice-5-label">XL</span>
+
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
+
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="XXL"
+                              className="sr-only"
+                              aria-labelledby="size-choice-6-label"
+                            />
+                            <span id="size-choice-6-label">XXL</span>
+
+                            <span
+                              className="pointer-events-none absolute -inset-px rounded-md"
+                              aria-hidden="true"
+                            ></span>
+                          </label>
+
+                          <label className="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 bg-gray-50 text-gray-200 cursor-not-allowed">
+                            <Input
+                              type="radio"
+                              name="size-choice"
+                              value="XXXL"
+                              disabled
+                              className="sr-only"
+                              aria-labelledby="size-choice-7-label"
+                            />
+                            <span id="size-choice-7-label">XXXL</span>
+
+                            <span
+                              aria-hidden="true"
+                              className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
                             >
-                              <line
-                                x1="0"
-                                y1="100"
-                                x2="100"
-                                y2="0"
-                                vectorEffect="non-scaling-stroke"
-                              />
-                            </svg>
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-
-                  <div>
-                    {quantity === 0 ? (
-                      <Button
-                        onClick={() => increaseCartQuantity(p.id)}
-                        className="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
-                      >
-                        <span>{t("add_to_cart")}</span>
-                      </Button>
-                    ) : (
-                      <div className="flex flex-row align-center mt-6">
-                        <Button
-                          className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={() => decreaseCartQuantity(p.id)}
-                        >
-                          -
-                        </Button>
-
-                        <div className="ml-6 ">
-                          <span className="text-beer-dark items-center justify-center text-xl">
-                            {quantity}
-                          </span>
+                              <svg
+                                className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
+                                viewBox="0 0 100 100"
+                                preserveAspectRatio="none"
+                                stroke="currentColor"
+                              >
+                                <line
+                                  x1="0"
+                                  y1="100"
+                                  x2="100"
+                                  y2="0"
+                                  vectorEffect="non-scaling-stroke"
+                                />
+                              </svg>
+                            </span>
+                          </label>
                         </div>
+                      </fieldset>
+                    </div>
 
+                    <div>
+                      {quantity === 0 ? (
                         <Button
-                          className="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                           onClick={() => increaseCartQuantity(p.id)}
+                          className="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
                         >
-                          +
+                          <span>{t("add_to_cart")}</span>
                         </Button>
+                      ) : (
+                        <div className="flex flex-row align-center mt-6">
+                          <Button
+                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => decreaseCartQuantity(p.id)}
+                          >
+                            -
+                          </Button>
 
-                        <Button
-                          type="secondary"
-                          danger
-                          className="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={() => {
-                            removeFromCart(p.id);
-                          }}
-                        >
-                          {t("remove")}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </form>
-              </section>
-            </div>
+                          <div className="ml-6 ">
+                            <span className="text-beer-dark items-center justify-center text-xl">
+                              {quantity}
+                            </span>
+                          </div>
 
-            {/* Reviews */}
-            <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <ProductOverallReview
-                reviews={productReviews}
-                emptyReviews={emptyReviews}
-              />
-            </div>
+                          <Button
+                            className="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => increaseCartQuantity(p.id)}
+                          >
+                            +
+                          </Button>
 
-            {/* New Product Review */}
-            <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-              <NewProductReview
-                beerId={p.id}
-                ownerId={p.owner_id}
-                handleSetReviews={handleSetReviews}
-              />
-            </div>
+                          <Button
+                            type="secondary"
+                            danger
+                            className="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => {
+                              removeFromCart(p.id);
+                            }}
+                          >
+                            {t("remove")}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                </section>
+              </div>
 
-            {/* See user reviews */}
-            {!emptyReviews && (
+              {/* Reviews */}
               <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
-                <ProductReviews
+                <ProductOverallReview
                   reviews={productReviews}
+                  emptyReviews={emptyReviews}
+                />
+              </div>
+
+              {/* New Product Review */}
+              <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+                <NewProductReview
+                  beerId={p.id}
+                  ownerId={p.owner_id}
                   handleSetReviews={handleSetReviews}
                 />
               </div>
-            )}
+
+              {/* See user reviews */}
+              {!emptyReviews && (
+                <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+                  <ProductReviews
+                    reviews={productReviews}
+                    handleSetReviews={handleSetReviews}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

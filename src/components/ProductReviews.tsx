@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Review } from "../types";
-import { supabase } from "../utils/supabaseClient";
+import React from "react";
+import { Review } from "../lib/types";
 import IndividualReview from "./IndividualReview";
 
 interface Props {

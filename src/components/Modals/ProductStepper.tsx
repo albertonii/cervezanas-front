@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   activeStep: number;
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export default function Stepper(props: Props) {
+  const { t } = useTranslation();
+
   const { children, handleSetActiveStep, activeStep } = props;
 
   const [detailsClass, setDetailsClass] = useState("");
@@ -106,7 +109,7 @@ export default function Stepper(props: Props) {
               </svg>
             </div>
             <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
-              Detalles
+              {t("details")}
             </div>
           </div>
 
@@ -136,7 +139,7 @@ export default function Stepper(props: Props) {
               </svg>
             </div>
             <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
-              Reconocimientos
+              {t("awards")}
             </div>
           </div>
 
@@ -164,7 +167,7 @@ export default function Stepper(props: Props) {
               </svg>
             </div>
             <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
-              Multimedia
+              {t("multimedia")}
             </div>
           </div>
           <div
@@ -192,7 +195,7 @@ export default function Stepper(props: Props) {
               </svg>
             </div>
             <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
-              Confirm
+              {t("confirm")}
             </div>
           </div>
         </div>
@@ -211,7 +214,7 @@ export default function Stepper(props: Props) {
         border duration-200 ease-in-out 
         border-gray-600 transition"
           >
-            Previous
+            {t("back")}
           </button>
 
           <div className="flex-auto flex flex-row-reverse">
@@ -225,7 +228,7 @@ export default function Stepper(props: Props) {
         border duration-200 ease-in-out 
         border-teal-600 transition"
             >
-              Next
+              {t("next")}
             </button>
 
             <button
@@ -237,7 +240,7 @@ export default function Stepper(props: Props) {
         border duration-200 ease-in-out 
         border-teal-600 transition"
             >
-              Skip
+              {t("skip")}
             </button>
           </div>
         </div>

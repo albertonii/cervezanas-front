@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { ModalAddProductProps } from "../lib/types";
 
 interface Props {
@@ -17,6 +18,8 @@ const FilePreview = ({
   },
   registerName,
 }: Props) => {
+  const { t } = useTranslation();
+
   const [file, setFile] = useState<File>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
@@ -106,9 +109,9 @@ const FilePreview = ({
             />
 
             <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
-              <div className="flex flex-col">
+              <div className="flex flex-col px-2">
                 <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
-                <span className="text-[12px]">{`Drag and Drop a file`}</span>
+                <span className="text-[12px]">{t("drag_and_drop_file")}</span>
               </div>
             </div>
           </div>

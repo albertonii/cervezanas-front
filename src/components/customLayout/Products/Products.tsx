@@ -3,12 +3,12 @@ import { Beer } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
 import LotModalAdd from "../../Modals/LotModalAdd";
+import Modal from "../../Modals/Modal";
 import ProductModalAdd from "../../Modals/ProductModalAdd";
 import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
-
-interface Props {}
+import AddProduct from "../../Modals/AddProduct";
 
 export const Products = () => {
   const { user } = useAuth();
@@ -64,11 +64,21 @@ export const Products = () => {
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 
+          <Modal
+            isVisible={false}
+            title={"add_product"}
+            btnTitle={"add_product"}
+            description={""}
+          >
+            <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
+          </Modal>
+
           <ProductModalAdd
             isVisible={false}
             beers={beers!}
             handleSetBeers={handleSetBeers}
           />
+
           <LotModalAdd isVisible={false} />
         </div>
 

@@ -196,6 +196,17 @@ const translationsEn = {
   read_all_reviews: "Read all reviews",
   write_review: "Write a review",
   loading: "Loading...",
+  add_product: "Add Product",
+  next: "next",
+  back: "Back",
+  skip: "Skip",
+  end: "End",
+  done: "Done",
+  confirm: "Confirm",
+  details: "Details",
+  awards: "Awards",
+  multimedia: "Multimedia",
+  drag_and_drop_file: "Drag and drop files here or click to upload",
 };
 
 const translationsEs = {
@@ -405,6 +416,17 @@ const translationsEs = {
   read_all_reviews: "Leer todas las opiniones",
   write_review: "Escribir una opinión",
   loading: "Cargando...",
+  add_product: "Añadir Producto",
+  next: "Siguiente",
+  back: "Atrás",
+  skip: "Saltar",
+  end: "Finalizar",
+  done: "Hecho",
+  confirm: "Confirmar",
+  details: "Detalles",
+  awards: "Premios",
+  multimedia: "Multimedia",
+  drag_and_drop_file: "Arrastra y suelta el archivo aquí",
 };
 
 // the translations
