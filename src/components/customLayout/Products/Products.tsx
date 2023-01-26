@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Beer } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
-import LotModalAdd from "../../Modals/LotModalAdd";
+import LotModalAdd from "../../Modals/AddLot";
 import Modal from "../../Modals/Modal";
-import ProductModalAdd from "../../Modals/ProductModalAdd";
 import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
@@ -73,7 +72,14 @@ export const Products = () => {
             <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
           </Modal>
 
-          <LotModalAdd isVisible={false} />
+          <Modal
+            isVisible={false}
+            title={"add_lot"}
+            btnTitle={"add_lot"}
+            description={""}
+          >
+            <LotModalAdd isVisible={false} />
+          </Modal>
         </div>
 
         <div>
