@@ -13,7 +13,6 @@ const Submit: NextPage<UserProps> = () => {
     // Now you can query with RLS enabled.
     const getUsers = async () => {
       const { data, error } = await supabaseClient!.from("users").select("*");
-      console.log(data);
     };
 
     getUsers();

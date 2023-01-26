@@ -498,8 +498,6 @@ export async function getServerSideProps(context: { params: any }) {
     .select("*")
     .eq("beer_id", productId);
 
-  console.log(beerMultimedia);
-
   const { data: reviews, error: reviewError } = await supabase
     .from("reviews")
     .select("*")

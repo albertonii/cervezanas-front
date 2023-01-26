@@ -73,12 +73,6 @@ export const Products = () => {
             <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
           </Modal>
 
-          <ProductModalAdd
-            isVisible={false}
-            beers={beers!}
-            handleSetBeers={handleSetBeers}
-          />
-
           <LotModalAdd isVisible={false} />
         </div>
 

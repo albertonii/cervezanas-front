@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
