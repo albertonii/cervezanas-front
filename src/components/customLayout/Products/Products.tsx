@@ -4,10 +4,10 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
 import LotModalAdd from "../../Modals/AddLot";
 import Modal from "../../Modals/Modal";
-import ProductModalDelete from "../../Modals/ProductModalDelete";
 import ProductModalUpd from "../../Modals/ProductModalUpd";
 import ProductList from "./ProductList";
 import AddProduct from "../../Modals/AddProduct";
+import DeleteProduct from "../../Modals/DeleteProduct";
 
 export const Products = () => {
   const { user } = useAuth();
@@ -102,13 +102,20 @@ export const Products = () => {
         )}
 
         {isDeleteShowModal ? (
-          <ProductModalDelete
-            beers={beers!}
-            beerId={beerModal.id}
-            isDeleteShowModal={isDeleteShowModal}
-            handleDeleteShowModal={handleDeleteShowModal}
-            handleSetBeers={handleSetBeers}
-          />
+          <Modal
+            isVisible={false}
+            title={"add_lot"}
+            btnTitle={"add_lot"}
+            description={""}
+          >
+            <DeleteProduct
+              beers={beers!}
+              beerId={beerModal.id}
+              isDeleteShowModal={isDeleteShowModal}
+              handleDeleteShowModal={handleDeleteShowModal}
+              handleSetBeers={handleSetBeers}
+            />
+          </Modal>
         ) : (
           <div></div>
         )}
