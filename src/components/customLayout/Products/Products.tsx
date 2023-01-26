@@ -78,7 +78,7 @@ export const Products = () => {
             btnTitle={"add_lot"}
             description={""}
           >
-            <LotModalAdd isVisible={false} />
+            <LotModalAdd />
           </Modal>
         </div>
 
