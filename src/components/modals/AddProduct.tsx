@@ -19,6 +19,7 @@ import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
 import { Beer, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
+import Modal from "./Modal";
 
 interface Props {
   beers: Beer[];
@@ -73,7 +74,6 @@ const AddProduct = (props: Props) => {
 
   const onSubmit = (formValues: ModalAddProductProps) => {
     reset();
-
     const handleInsert = async () => {
       const {
         campaign,
@@ -104,7 +104,6 @@ const AddProduct = (props: Props) => {
         lot_id,
         lot_quantity,
       } = formValues;
-
       if (product_type_options[type].value == BeerEnum.Product_type.beer) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
@@ -129,29 +128,22 @@ const AddProduct = (props: Props) => {
             owner_id: user?.id,
           })
           .select();
-
         if (beerError) throw beerError;
-
         const beerId = beerData[0].id;
         const userId = beerData[0].owner_id;
-
         // Upd product list
         beers.push(beerData[0]);
         handleSetBeers(beers);
-
         // Inventory - Stock
         const stock: Inventory = {
           product_id: beerId,
           quantity: stock_quantity,
           limit_notification: stock_limit_notification,
         };
-
         const { error: stockError } = await supabase
           .from("product_inventory")
           .insert(stock);
-
         if (stockError) throw stockError;
-
         // Lot
         const { error: lotError } = await supabase.from("product_lot").insert({
           beer_id: beerId,
@@ -159,16 +151,13 @@ const AddProduct = (props: Props) => {
           created_at: new Date(),
           quantity: lot_quantity,
         });
-
         if (lotError) throw lotError;
-
         // Awards
         if (awards.length > 0 && awards[0].img_url != "") {
           awards.map(async (award) => {
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);
-
               const { error: awardsError } = await supabase
                 .from("awards")
                 .insert({
@@ -178,21 +167,17 @@ const AddProduct = (props: Props) => {
                   year: award.year,
                   img_url: productFileUrl,
                 });
-
               if (awardsError) throw awardsError;
-
               const { error: storageAwardsError } = await supabase.storage
                 .from("products")
                 .upload(`awards/${productFileUrl}`, file, {
                   cacheControl: "3600",
                   upsert: false,
                 });
-
               if (storageAwardsError) throw storageAwardsError;
             }
           });
         }
-
         // Multimedia
         const p_principal_url =
           p_principal != undefined
@@ -206,7 +191,6 @@ const AddProduct = (props: Props) => {
           p_extra_2 != undefined ? encodeURIComponent(p_extra_2.name) : null;
         const p_extra_3_url =
           p_extra_3 != undefined ? encodeURIComponent(p_extra_3.name) : null;
-
         const { error: multError } = await supabase
           .from("product_multimedia")
           .insert({
@@ -217,9 +201,7 @@ const AddProduct = (props: Props) => {
             p_extra_2: p_extra_2_url,
             p_extra_3: p_extra_3_url,
           });
-
         if (multError) throw multError;
-
         if (p_principal_url) {
           const { error: pPrincipalError } = await supabase.storage
             .from("products")
@@ -231,10 +213,8 @@ const AddProduct = (props: Props) => {
                 upsert: false,
               }
             );
-
           if (pPrincipalError) throw pPrincipalError;
         }
-
         if (p_back_url) {
           const { error: pBackError } = await supabase.storage
             .from("products")
@@ -242,10 +222,8 @@ const AddProduct = (props: Props) => {
               cacheControl: "3600",
               upsert: false,
             });
-
           if (pBackError) throw pBackError;
         }
-
         if (p_extra_1_url) {
           const { error: pExtra1Error } = await supabase.storage
             .from("products")
@@ -253,10 +231,8 @@ const AddProduct = (props: Props) => {
               cacheControl: "3600",
               upsert: false,
             });
-
           if (pExtra1Error) throw pExtra1Error;
         }
-
         if (p_extra_2_url) {
           const { error: pExtra2Error } = await supabase.storage
             .from("products")
@@ -264,10 +240,8 @@ const AddProduct = (props: Props) => {
               cacheControl: "3600",
               upsert: false,
             });
-
           if (pExtra2Error) throw pExtra2Error;
         }
-
         if (p_extra_3_url) {
           const { error: pExtra3Error } = await supabase.storage
             .from("products")
@@ -275,47 +249,53 @@ const AddProduct = (props: Props) => {
               cacheControl: "3600",
               upsert: false,
             });
-
           if (pExtra3Error) throw pExtra3Error;
         }
-
         setActiveStep(0);
-
         return beerData;
       }
     };
-
     handleInsert();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <ProductStepper
-        activeStep={activeStep}
-        handleSetActiveStep={handleSetActiveStep}
+    <form className="w-full">
+      <Modal
+        isVisible={false}
+        title={"add_product"}
+        btnTitle={"add_product"}
+        description={""}
+        handler={handleSubmit(onSubmit)}
       >
         <>
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
-            {t("modal_product_description")}
-          </p>
+          <ProductStepper
+            activeStep={activeStep}
+            handleSetActiveStep={handleSetActiveStep}
+          >
+            <>
+              <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                {t("modal_product_description")}
+              </p>
 
-          {activeStep === 0 ? (
-            <>
-              <ProductInfoSection form={form} />
+              {activeStep === 0 ? (
+                <>
+                  <ProductInfoSection form={form} />
+                </>
+              ) : activeStep === 1 ? (
+                <>
+                  <AwardsSection form={form} />
+                </>
+              ) : activeStep === 2 ? (
+                <>
+                  <MultimediaSection form={form} />
+                </>
+              ) : (
+                <></>
+              )}
             </>
-          ) : activeStep === 1 ? (
-            <>
-              <AwardsSection form={form} />
-            </>
-          ) : activeStep === 2 ? (
-            <>
-              <MultimediaSection form={form} />
-            </>
-          ) : (
-            <></>
-          )}
+          </ProductStepper>
         </>
-      </ProductStepper>
+      </Modal>
     </form>
   );
 };

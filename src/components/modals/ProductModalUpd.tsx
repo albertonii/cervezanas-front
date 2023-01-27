@@ -95,7 +95,6 @@ const ProductModalUpd = (props: Props) => {
   const {
     register,
     formState: { errors },
-    watch,
     setValue,
     getValues,
     handleSubmit,
@@ -298,10 +297,7 @@ const ProductModalUpd = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {intensity_options.map((option) => (
-                            <option
-                              key={option.value}
-                              value={option.label}
-                            >
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
@@ -351,10 +347,7 @@ const ProductModalUpd = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {color_options.map((option) => (
-                            <option
-                              key={option.value}
-                              value={option.label}
-                            >
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
@@ -405,10 +398,7 @@ const ProductModalUpd = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {family_options.map((option) => (
-                            <option
-                              key={option.value}
-                              value={option.label}
-                            >
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}
@@ -456,10 +446,7 @@ const ProductModalUpd = (props: Props) => {
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           {aroma_options.map((option) => (
-                            <option
-                              key={option.value}
-                              value={option.label}
-                            >
+                            <option key={option.value} value={option.label}>
                               {t(option.label)}
                             </option>
                           ))}

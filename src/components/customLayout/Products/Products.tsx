@@ -6,8 +6,8 @@ import LotModalAdd from "../../modals/AddLot";
 import Modal from "../../modals/Modal";
 import ProductModalUpd from "../../modals/ProductModalUpd";
 import ProductList from "./ProductList";
-import AddProduct from "../../modals/AddProduct";
 import DeleteProduct from "../../modals/DeleteProduct";
+import AddProduct from "../../modals/AddProduct";
 
 export const Products = () => {
   const { user } = useAuth();
@@ -63,23 +63,9 @@ export const Products = () => {
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 
-          <Modal
-            isVisible={false}
-            title={"add_product"}
-            btnTitle={"add_product"}
-            description={""}
-          >
-            <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
-          </Modal>
+          <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
 
-          <Modal
-            isVisible={false}
-            title={"add_lot"}
-            btnTitle={"add_lot"}
-            description={""}
-          >
-            <LotModalAdd />
-          </Modal>
+          {/* <LotModalAdd /> */}
         </div>
 
         <div>
@@ -107,6 +93,7 @@ export const Products = () => {
             title={"add_lot"}
             btnTitle={"add_lot"}
             description={""}
+            handler={() => {}}
           >
             <DeleteProduct
               beers={beers!}
