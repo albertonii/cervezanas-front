@@ -65,7 +65,7 @@ export const Products = () => {
 
           <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
 
-          {/* <LotModalAdd /> */}
+          <LotModalAdd />
         </div>
 
         <div>
