@@ -9,30 +9,29 @@ interface IProfile {
   setBgImg: (newBgImg: string) => void;
   profileImg?: string;
   setProfileImg: (newBgImg: string) => void;
+  sidebar: string;
+  changeSidebarActive: (select: string) => void;
 }
 
-const ProfileContext = createContext<IProfile>({
+const AppContext = createContext<IProfile>({
   bgImg: "",
   setBgImg: () => {},
   profileImg: "",
   setProfileImg: () => {},
+  sidebar: "",
+  changeSidebarActive: () => {},
 });
 
 interface Props {
   [propName: string]: any;
 }
 
-export default function ProfileContexProvider(props: Props) {
+export default function AppContextProvider(props: Props) {
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
-  const { user } = useAuth();
+  const [sidebar, setSidebar] = useState("profile");
 
-  const value = {
-    bgImg,
-    setBgImg,
-    profileImg,
-    setProfileImg,
-  };
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -60,13 +59,26 @@ export default function ProfileContexProvider(props: Props) {
     }
   }, [user]);
 
-  return <ProfileContext.Provider value={value} {...props} />;
+  const changeSidebarActive = (select: string) => {
+    setSidebar(select);
+  };
+
+  const value = {
+    bgImg,
+    setBgImg,
+    profileImg,
+    setProfileImg,
+    sidebar,
+    changeSidebarActive,
+  };
+
+  return <AppContext.Provider value={value} {...props} />;
 }
 
-export const useProfile = () => {
-  const context = useContext(ProfileContext);
+export const useAppContext = () => {
+  const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("useProfile must be used within a ProfileContextProvider.");
+    throw new Error("useProfile must be used within a AppContextProvider.");
   }
 
   return context;

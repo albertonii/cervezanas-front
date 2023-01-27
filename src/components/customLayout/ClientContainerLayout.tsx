@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { useProfile } from "../Context/ProfileContext";
+import { useAppContext } from "../Context/AppContext";
 
 type Props = {
   children: JSX.Element;
 };
 
 export const ClientContainerLayout = ({ children }: Props) => {
-  const { bgImg, profileImg } = useProfile();
+  const { bgImg, profileImg } = useAppContext();
 
   return (
     <>

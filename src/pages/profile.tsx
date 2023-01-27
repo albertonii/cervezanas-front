@@ -12,7 +12,9 @@ import { Community } from "../components/customLayout/Community/Community";
 import { Stats } from "../components/customLayout/Stats/Stats";
 import { Ledger } from "../components/customLayout/Ledger/Ledger";
 import { Profile } from "../components/customLayout/Profile/Profile";
-import ProfileContexProvider from "../components/Context/ProfileContext";
+import ProfileContexProvider, {
+  useAppContext,
+} from "../components/Context/AppContext";
 import LikesHistory from "../components/customLayout/Likes/LikesHistory";
 import { useAuth } from "../components/Auth/useAuth";
 import Layout from "../components/Layout";
@@ -21,6 +23,7 @@ const CustomLayout: NextPage<UserProps> = () => {
   const [menuOption, setMenuOption] = useState<string>();
 
   const { user } = useAuth();
+  const { changeSidebarActive } = useAppContext();
 
   useEffect(() => {
     if (!!user) {
@@ -54,6 +57,7 @@ const CustomLayout: NextPage<UserProps> = () => {
   };
 
   const handleMenuOptions = (childData: string) => {
+    changeSidebarActive(childData);
     setMenuOption(childData);
   };
 

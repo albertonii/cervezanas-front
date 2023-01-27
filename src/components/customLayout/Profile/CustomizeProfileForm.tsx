@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
 import { supabase } from "../../../utils/supabaseClient";
-import { useProfile } from "../../Context/ProfileContext";
+import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 
 type FormValues = {
@@ -24,7 +24,7 @@ export default function CustomizeProfileForm(props: Props) {
   const { user } = props;
   const [loading, setLoading] = useState(false);
 
-  const { setBgImg, setProfileImg } = useProfile();
+  const { setBgImg, setProfileImg } = useAppContext();
 
   const mockPng = new File([""], "", { type: "image/png" });
   const mockFileList = [mockPng];

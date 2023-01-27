@@ -1,10 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Header from "../components/Header";
 import { Suspense } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import Breadcrumb from "../components/Breadcrumb";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
@@ -12,6 +10,7 @@ import SEO from "../../next-seo.config";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
+import AppContextProvider from "../components/Context/AppContext";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -98,12 +97,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <Suspense fallback="Loading...">
         <MessageProvider>
           <AuthContextProvider supabaseClient={supabase}>
-            <QueryClientProvider client={queryClient}>
-              <ShoppingCartProvider>
-                {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-                <Component {...pageProps} />
-              </ShoppingCartProvider>
-            </QueryClientProvider>
+            <AppContextProvider>
+              <QueryClientProvider client={queryClient}>
+                <ShoppingCartProvider>
+                  <Component {...pageProps} />
+                </ShoppingCartProvider>
+              </QueryClientProvider>
+            </AppContextProvider>
           </AuthContextProvider>
         </MessageProvider>
       </Suspense>

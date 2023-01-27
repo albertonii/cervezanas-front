@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { useAuth } from "../components/Auth/useAuth";
 import { supabase } from "../utils/supabaseClient";
 
+// NOT USED NOW
 const getProfile = async (id?: string) => {
   const { data, error } = await supabase
     .from("users")

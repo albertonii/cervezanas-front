@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppContext } from "../Context/AppContext";
 
 type Props = {
   parentCallback: (menuOption: string) => void;
@@ -6,230 +8,74 @@ type Props = {
 
 export const Sidebar = (props: Props) => {
   const { parentCallback } = props;
+  const { sidebar } = useAppContext();
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log(sidebar);
+  }, [sidebar]);
 
   const handleCallback = (option: string) => {
     parentCallback(option);
   };
+
+  const sidebarLinks = [
+    {
+      name: t("profile"),
+      icon: "user",
+      option: "profile",
+    },
+    {
+      name: t("products"),
+      icon: "box",
+      option: "products",
+    },
+    {
+      name: t("campaigns"),
+      icon: "gift",
+      option: "campaigns",
+    },
+    {
+      name: t("factories"),
+      icon: "truck",
+      option: "factories",
+    },
+    {
+      name: t("orders"),
+      icon: "shopping-cart",
+      option: "orders",
+    },
+    {
+      name: t("payments"),
+      icon: "credit-card",
+      option: "payments",
+    },
+    {
+      name: t("settings"),
+      icon: "cog",
+      option: "settings",
+    },
+  ];
 
   return (
     <>
       <aside className="w-64 " aria-label="Sidebar">
         <div className="overflow-y-auto py-4 px-3 h-[88vh] bg-gray-50 rounded dark:bg-gray-800">
           <ul className="space-y-2">
-            <li>
-              <a
-                onClick={() => handleCallback("profile")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            {sidebarLinks.map((link) => (
+              <li
+                className={`${
+                  sidebar === link.option
+                    ? "bg-gray-200 text-gray-700"
+                    : "text-gray-600"
+                } flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700`}
+                key={link.name}
+                onClick={() => handleCallback(link.option)}
               >
-                <svg
-                  aria-hidden="true"
-                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                </svg>
-                <span className="ml-3">{t("profile")}</span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("products")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("products")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("campaigns")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path>
-                  <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("campaigns")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("factories")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("factories")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("orders")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("orders")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("community")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("community")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("stats")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("stats")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("ledger")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("ledger")}
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                onClick={() => handleCallback("likes_history")}
-                href="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {t("likes_history")}
-                </span>
-              </a>
-            </li>
+                <span className="mx-4 font-medium">{t(link.name)}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </aside>
