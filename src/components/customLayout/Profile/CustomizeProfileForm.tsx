@@ -122,7 +122,7 @@ export default function CustomizeProfileForm(props: Props) {
 
       {!loading ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-row items-end">
+          <div className="flex flex-row items-end space-x-3">
             <div className="w-full">
               <label htmlFor="bg_img" className="text-sm text-gray-600">
                 {t("profile_custom_bg_img")}
@@ -138,7 +138,7 @@ export default function CustomizeProfileForm(props: Props) {
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-full ">
               <label
                 htmlFor="profile_photo_img"
                 className="text-sm text-gray-600"

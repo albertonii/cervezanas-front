@@ -39,17 +39,17 @@ export default function AppContextProvider(props: Props) {
         const decodeUriCustomImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
         const decodeUriProfileImg = `${SupabaseProps.PROFILE_PHOTO_URL}${user?.id}/img`;
 
-        const { data: bgImgData, error: bgError } = await supabase.storage
+        const { data: bgImgData, error: bgError } = supabase.storage
           .from("avatars")
           .getPublicUrl(decodeUriCustomImg);
 
-        if (bgError) throw bgError;
-        setBgImg(bgImgData?.publicURL!);
+        if (bgError) {
+          throw bgError;
+        } else setBgImg(bgImgData?.publicURL!);
 
-        const { data: profileImgData, error: profileError } =
-          await supabase.storage
-            .from("avatars")
-            .getPublicUrl(decodeUriProfileImg);
+        const { data: profileImgData, error: profileError } = supabase.storage
+          .from("avatars")
+          .getPublicUrl(decodeUriProfileImg);
 
         if (profileError) throw profileError;
         setProfileImg(profileImgData?.publicURL!);
@@ -58,6 +58,10 @@ export default function AppContextProvider(props: Props) {
       getProfileImg();
     }
   }, [user]);
+
+  useEffect(() => {
+    console.log(profileImg);
+  }, [profileImg]);
 
   const changeSidebarActive = (select: string) => {
     setSidebar(select);

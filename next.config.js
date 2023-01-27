@@ -7,6 +7,7 @@ module.exports = {
       "kvdearmedajqvexxhmrk.supabase.co",
       "images.unsplash.com",
       "tailwindui.com",
+      "images.pexels.com",
     ],
     formats: ["image/webp", "image/avif"],
   },

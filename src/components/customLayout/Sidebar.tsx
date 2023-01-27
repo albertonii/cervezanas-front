@@ -12,10 +12,6 @@ export const Sidebar = (props: Props) => {
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.log(sidebar);
-  }, [sidebar]);
-
   const handleCallback = (option: string) => {
     parentCallback(option);
   };
@@ -67,9 +63,9 @@ export const Sidebar = (props: Props) => {
               <li
                 className={`${
                   sidebar === link.option
-                    ? "bg-gray-200 text-gray-700"
+                    ? "bg-beer-softBlond text-gray-700"
                     : "text-gray-600"
-                } flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700`}
+                } flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-beer-blonde dark:hover:bg-gray-700`}
                 key={link.name}
                 onClick={() => handleCallback(link.option)}
               >

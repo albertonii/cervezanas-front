@@ -41,7 +41,7 @@ export default function Breadcrumb({
   );
 
   return (
-    <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
+    <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full my-6">
       <div className="flex" aria-label="Breadcrumb">
         {breadcrumbs.map((crumb, idx) => {
           return (
