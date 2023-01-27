@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Beer } from "../../lib/types";
 
 import { supabase } from "../../utils/supabaseClient";
+import Modal from "./Modal";
 
 interface Props {
   beers: Beer[];
@@ -46,14 +47,19 @@ const DeleteProduct = (props: Props) => {
   };
 
   return (
-    <>
-      <button
-        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        onClick={handleClick}
-      >
+    <Modal
+      isVisible={false}
+      title={"delete_product"}
+      btnTitle={"delete_product"}
+      description={""}
+      handler={() => {
+        handleClick();
+      }}
+    >
+      <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
         {t("accept")}
       </button>
-    </>
+    </Modal>
   );
 };
 

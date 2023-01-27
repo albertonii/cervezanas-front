@@ -88,21 +88,13 @@ export const Products = () => {
         )}
 
         {isDeleteShowModal ? (
-          <Modal
-            isVisible={false}
-            title={"add_lot"}
-            btnTitle={"add_lot"}
-            description={""}
-            handler={() => {}}
-          >
-            <DeleteProduct
-              beers={beers!}
-              beerId={beerModal.id}
-              isDeleteShowModal={isDeleteShowModal}
-              handleDeleteShowModal={handleDeleteShowModal}
-              handleSetBeers={handleSetBeers}
-            />
-          </Modal>
+          <DeleteProduct
+            beers={beers!}
+            beerId={beerModal.id}
+            isDeleteShowModal={isDeleteShowModal}
+            handleDeleteShowModal={handleDeleteShowModal}
+            handleSetBeers={handleSetBeers}
+          />
         ) : (
           <div></div>
         )}
