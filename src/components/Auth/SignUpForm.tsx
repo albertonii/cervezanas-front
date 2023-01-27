@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Spinner } from "../Spinner";
+import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { SignUpInterface, useAuth } from ".";

@@ -2,7 +2,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useOutsideDOMClick } from "../../hooks/useOuthsideDOMClick";
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import PortalModal from "./PortalModal";
 
 interface Props {
@@ -34,12 +34,12 @@ const Modal = (props: Props) => {
     handleShowModal(false);
   };
 
+  useOnClickOutside(modalRef, () => handleClickOutsideCallback());
+
   // handle what happens on key press
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") setShowModal(false);
+    if (event.key === "Escape") handleShowModal(false);
   }, []);
-
-  useOutsideDOMClick(() => handleClickOutsideCallback(), modalRef);
 
   useEffect(() => {
     if (showModal) {
@@ -65,11 +65,12 @@ const Modal = (props: Props) => {
       {showModal && (
         <>
           <PortalModal wrapperId="modal-portal">
-            <div
-              className="justify-center items-start pt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-              ref={modalRef}
-            >
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="justify-center items-start pt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              {/* The modal  */}
+              <div
+                className="relative w-auto my-6 mx-auto max-w-3xl"
+                ref={modalRef}
+              >
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
@@ -100,7 +101,6 @@ const Modal = (props: Props) => {
                       {description}
                     </p>
                     {children}
-                    {/* {React.cloneElement(children, { trigger })} */}
                   </div>
 
                   {/*footer*/}

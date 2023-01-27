@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import OwnerInfo from "./OwnerInfo";
+import OwnerInfo from "../OwnerInfo";
 import Rate from "./Rate";
 import { Button } from "@supabase/ui";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "./Auth/useAuth";
-import { Review } from "../lib/types";
+import { useAuth } from "../Auth/useAuth";
+import { Review } from "../../lib/types";
 
 interface Props {
   review: Review;

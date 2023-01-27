@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
 import { supabase } from "../../../utils/supabaseClient";
 import { useProfile } from "../../Context/ProfileContext";
-import { Spinner } from "../../Spinner";
+import { Spinner } from "../../common/Spinner";
 
 type FormValues = {
   bg_url: any;

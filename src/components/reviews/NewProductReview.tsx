@@ -1,10 +1,9 @@
 import { Button } from "@supabase/ui";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Review } from "../types";
-import { supabase } from "../utils/supabaseClient";
+import { Review } from "../../lib/types";
+import { supabase } from "../../utils/supabaseClient";
 import Rate from "./Rate";
 
 type FormValues = {

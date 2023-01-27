@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import CheckoutItem from "../components/checkout/CheckoutItem";
 import { useShoppingCart } from "../components/Context/ShoppingCartContext";
-import { Spinner } from "../components/Spinner";
+import { Spinner } from "../components/common/Spinner";
 import { Beer } from "../lib/types";
 import { formatCurrency } from "../utils/formatCurrency";
 import { supabase } from "../utils/supabaseClient";

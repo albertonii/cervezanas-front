@@ -4,7 +4,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useOutsideClick } from "../../hooks/useOuthsideClick";
+import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 
 interface DropdownProps {
   options: string[];

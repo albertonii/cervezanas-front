@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Beer } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
-import LotModalAdd from "../../Modals/AddLot";
-import Modal from "../../Modals/Modal";
-import ProductModalUpd from "../../Modals/ProductModalUpd";
+import LotModalAdd from "../../modals/AddLot";
+import Modal from "../../modals/Modal";
+import ProductModalUpd from "../../modals/ProductModalUpd";
 import ProductList from "./ProductList";
-import AddProduct from "../../Modals/AddProduct";
-import DeleteProduct from "../../Modals/DeleteProduct";
+import AddProduct from "../../modals/AddProduct";
+import DeleteProduct from "../../modals/DeleteProduct";
 
 export const Products = () => {
   const { user } = useAuth();

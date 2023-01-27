@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
-import { Spinner } from "../../Spinner";
+import { Spinner } from "../../common/Spinner";
 
 export const HistoryForm = (props: any) => {
   const { t } = useTranslation();
