@@ -11,6 +11,16 @@ module.exports = {
     ],
     formats: ["image/webp", "image/avif"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/cart",
+        destination: "/cart/shopping_basket",
+        permanent: true,
+      },
+    ];
+  },
+
   i18n: {
     // These are all the locales you want to support in
     // your application
