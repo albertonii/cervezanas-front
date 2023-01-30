@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Beer } from "../../types";
+import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 

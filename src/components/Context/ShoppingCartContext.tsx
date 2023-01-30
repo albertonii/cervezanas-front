@@ -6,7 +6,8 @@ import ShoppingCart from "../Cart/ShoppingCart";
 type ShoppingCartContextType = {
   items: CartItem[];
   cartQuantity: number;
-  clear: () => void;
+  clearMarketplace: () => void;
+  clearItems: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
@@ -22,7 +23,8 @@ type ShoppingCartContextType = {
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
   items: [],
   cartQuantity: 0,
-  clear: () => {},
+  clearMarketplace: () => {},
+  clearItems: () => {},
   isInCart: (id: string) => false,
   getItemQuantity: (id: string) => 0,
   increaseCartQuantity: (id: string) => {},
@@ -47,9 +49,13 @@ export function ShoppingCartProvider({
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useLocalStorage<CartItem[]>("shopping-cart", []);
 
-  const [marketplaceItems, setMarketplaceItems] = useState<Beer[]>([]);
+  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<Beer[]>(
+    "marketplace-selected-items",
+    []
+  );
 
   const addMarketplaceItems = (item: Beer) => {
+    if (marketplaceItems.some((i) => i.id === item.id)) return;
     setMarketplaceItems((items) => [...items, item]);
   };
 
@@ -57,7 +63,11 @@ export function ShoppingCartProvider({
     setMarketplaceItems((items) => items.filter((item) => item.id !== id));
   };
 
-  const clear = () => {
+  const clearMarketplace = () => {
+    setMarketplaceItems([]);
+  };
+
+  const clearItems = () => {
     setItems([]);
   };
 
@@ -127,7 +137,8 @@ export function ShoppingCartProvider({
         marketplaceItems,
         addMarketplaceItems,
         removeMarketplaceItems,
-        clear,
+        clearMarketplace,
+        clearItems,
         isInCart,
         getItemQuantity,
         increaseCartQuantity,

@@ -316,6 +316,7 @@ export default function Checkout() {
                           <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                             {t("payment")}
                           </h3>
+
                           <section>
                             <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
                               <label className="flex border-b border-gray-200 h-12 py-3 items-center">
