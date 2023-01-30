@@ -211,6 +211,7 @@ const translationsEn = {
   multimedia: "Multimedia",
   drag_and_drop_file: "Drag and drop files here or click to upload",
   go_back_home: "Go Back Home",
+  no_reviews: "No Reviews",
 };
 
 const translationsEs = {
@@ -435,6 +436,7 @@ const translationsEs = {
   multimedia: "Multimedia",
   drag_and_drop_file: "Arrastra y suelta el archivo aquí",
   go_back_home: "Volver a la página principal",
+  no_reviews: "No hay opiniones",
 };
 
 // the translations

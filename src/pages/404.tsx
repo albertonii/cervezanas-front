@@ -8,7 +8,7 @@ export default function FourOhFour() {
         <div id="top absolute border-t-0 rounded-bl-3xl min-h-[230px]">
           {/* Foam */}
           <div className="beer-foam bg-beer-foam relative bottom-0 h-[3rem]">
-            <div className="absolute top-[34%] left-[1%] z-20 w-[10vw] h-20 rounded-full bg-beer-foam"></div>
+            <div className="absolute top-[34%] left-[-2%] z-20 w-[10vw] h-20 rounded-full bg-beer-foam"></div>
             <div className="absolute top-[10%] left-[15%] z-20 w-[12vw] h-20 rounded-full bg-beer-foam"></div>
             <div className="absolute top-[34%] left-[33%] z-20 w-[8vw] h-20 rounded-full bg-beer-foam"></div>
             <div className="absolute top-[25%] left-[44%] z-20 w-[14vw] h-20 rounded-full bg-beer-foam"></div>

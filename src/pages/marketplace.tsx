@@ -10,6 +10,7 @@ const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 
 interface Props {
   beers: Beer[];
+  reviews: { overall: number }[];
 }
 
 export default function MarketPlace(props: Props) {
@@ -39,6 +40,8 @@ export async function getServerSideProps() {
       quantity
     ),likes (
       id
+    ), reviews (
+      overall
     )
   `);
 
