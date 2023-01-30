@@ -215,6 +215,16 @@ const translationsEn = {
   buy: "Buy",
   cancel: "Cancel",
   submit: "Submit",
+  shipping_and_billing_info: "Shipping and Billing Information",
+  delivery_24h: "Delivery in 24 hours",
+  view_carrier_details: "View carrier details",
+  customer_s_cart: "Customer's cart",
+  complete_shipping_billing: "Complete shipping and billing information",
+  shipping_address: "Shipping Address",
+  billing_address: "Billing Address",
+  edit_details: "Edit Details",
+  payment: "Payment",
+  summary: "Summary",
 };
 
 const translationsEs = {
@@ -443,6 +453,16 @@ const translationsEs = {
   buy: "Comprar",
   cancel: "Cancelar",
   submit: "Enviar",
+  shipping_and_billing_info: "Información de envío y facturación",
+  delivery_24h: "Entrega en 24h",
+  view_carrier_details: "Ver detalles del transportista",
+  customer_s_cart: "Carrito del cliente",
+  complete_shipping_billing: "Completa la información de envío y facturación",
+  shipping_address: "Dirección de envío",
+  billing_address: "Dirección de facturación",
+  edit_details: "Editar detalles",
+  payment: "Pago",
+  summary: "Resumen",
 };
 
 // the translations
