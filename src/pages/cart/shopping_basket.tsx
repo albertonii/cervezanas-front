@@ -299,7 +299,7 @@ export default function Checkout() {
                               </div>
                             </div>
                             <p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">
-                              $8.00
+                              {formatCurrency(8)}
                             </p>
                           </div>
                           <div className="w-full flex justify-center items-center">

@@ -225,6 +225,13 @@ const translationsEn = {
   edit_details: "Edit Details",
   payment: "Payment",
   summary: "Summary",
+  email: "Email",
+  address: "Address",
+  city: "City",
+  state: "State",
+  zipcode: "Zip Code",
+  country: "Country",
+  customer: "Customer",
 };
 
 const translationsEs = {
@@ -463,6 +470,13 @@ const translationsEs = {
   edit_details: "Editar detalles",
   payment: "Pago",
   summary: "Resumen",
+  email: "Correo electrónico",
+  address: "Dirección",
+  city: "Ciudad",
+  state: "Estado",
+  zipcode: "CP",
+  country: "País",
+  customer: "Cliente",
 };
 
 // the translations

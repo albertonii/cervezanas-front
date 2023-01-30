@@ -36,7 +36,6 @@ export default function CheckoutItem({
         ? true
         : false;
 
-      console.log(hasPrincipal);
       if (hasPrincipal) {
         const pPrincipalUrl = `${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
         const { data: p_principal, error } = supabase.storage
@@ -49,10 +48,6 @@ export default function CheckoutItem({
         const pPrincipalUrl = "/marketplace_product_default.png";
         setPPrincipal(pPrincipalUrl);
       }
-
-      // const pPrincipalUrl = `${beer.product_multimedia[0].p_principal} ?
-      //  ${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}
-      //  : "/marketplace_product_default.png"`;
     };
 
     getPrincipal();
