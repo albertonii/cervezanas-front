@@ -406,77 +406,76 @@ export default function ProductId(props: Props) {
                       </fieldset>
                     </div>
 
-                    <div>
+                    <div className="mt-6 flex space-x-2">
                       {quantity === 0 ? (
-                        <div className="space-x-2">
-                          <IconButton
-                            class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                            onClick={() => increaseCartQuantity(p.id)}
-                            icon={faCartArrowDown}
-                            isActive={false}
-                            color={{
-                              filled: "#fdc300",
-                              unfilled: "grey",
-                            }}
-                            title={"Add item to cart"}
-                          >
-                            <>{t("add_to_cart")}</>
-                          </IconButton>
-
-                          <Button
-                            onClick={() => increaseCartQuantity(p.id)}
-                            class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
-                            isActive={false}
-                            color={{
-                              filled: "",
-                              unfilled: "",
-                            }}
-                            title={""}
-                          >
-                            <>{t("buy")}</>
-                          </Button>
-                        </div>
+                        <IconButton
+                          class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
+                          onClick={() => increaseCartQuantity(p.id)}
+                          icon={faCartArrowDown}
+                          isActive={false}
+                          color={{
+                            filled: "#fdc300",
+                            unfilled: "grey",
+                          }}
+                          title={"Add item to cart"}
+                        >
+                          <>{t("add_to_cart")}</>
+                        </IconButton>
                       ) : (
-                        <div className="flex flex-row align-center mt-6">
+                        <div className="flex flex-row align-center">
                           <Button
-                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
                             onClick={() => decreaseCartQuantity(p.id)}
                             isActive={false}
                             title={""}
+                            box
                           >
                             -
                           </Button>
 
-                          <div className="ml-6 ">
-                            <span className="text-beer-dark items-center justify-center text-xl">
+                          <div className="mx-6 flex items-center justify-center">
+                            <span className="text-beer-dark text-3xl">
                               {quantity}
                             </span>
                           </div>
 
                           <Button
-                            class="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
                             onClick={() => increaseCartQuantity(p.id)}
                             isActive={false}
                             title={""}
-                            // type={undefined}
+                            box
                           >
                             +
                           </Button>
 
                           <Button
-                            // type="secondary"
-                            // danger
-                            class="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="mx-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={() => {
                               removeFromCart(p.id);
                             }}
                             isActive={false}
                             title={""}
+                            danger
+                            small
                           >
                             {t("remove")}
                           </Button>
                         </div>
                       )}
+
+                      <Button
+                        onClick={() => increaseCartQuantity(p.id)}
+                        class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
+                        isActive={false}
+                        color={{
+                          filled: "",
+                          unfilled: "",
+                        }}
+                        title={""}
+                      >
+                        <>{t("buy")}</>
+                      </Button>
                     </div>
                   </form>
                 </section>
