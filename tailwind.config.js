@@ -34,10 +34,96 @@ module.exports = {
               "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300, 0 0 15px #fdc300, 0 0 20px #fdc300, 0 0 25px #fdc300, 0 0 230px #fdc300",
           },
         },
+        bubbles_beer: {
+          "0%": {
+            bottom: 0,
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+          },
+          "50%": {
+            bottom: "50%",
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+            opacity: 0.9,
+          },
+          "100%": {
+            bottom: "100%",
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+            opacity: 0,
+          },
+        },
+        bubble_strech: {
+          "0%": {
+            transform: "scaleY(1) scaleX(1)",
+          },
+          "20%": {
+            transform: "scaleY(1.05) scaleX(0.98)",
+          },
+          "40%": {
+            transform: "scaleY(0.98) scaleX(1.05)",
+          },
+          "60%": {
+            transform: "scaleY(1.04) scaleX(1.02)",
+          },
+          "80%": {
+            transform: "scaleY(1.1) scaleX(0.98)",
+          },
+          "97%": {
+            transform: "scaleY(1) scaleX(1)",
+          },
+        },
+        bubbles: {
+          "0%": {
+            opacity: 0,
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+            transform: `scaleY(1) scaleX(1) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+          },
+          "20%": {
+            transform: `scaleY(1.05) scaleX(0.95) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+          },
+          "40%": {
+            transform: `scaleY(0.93) scaleX(1.05) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+          },
+          "50%": {
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+            opacity: 0.9,
+          },
+          "60%": {
+            transform: `scaleY(1.08) scaleX(0.98) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+          },
+          "80%": {
+            transform: `scaleY(0.98) scaleX(1.04) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+          },
+          "100%": {
+            transform: `scaleY(1) scaleX(1) translateX(${Math.floor(
+              Math.random() * 101
+            )}px)`,
+            bottom: "100%",
+            background: "#fdc300",
+            boxShadow: "0 0 0px #fdc300, 0 0 5px #fdc300, 0 0 10px #fdc300",
+            opacity: 0,
+          },
+        },
       },
       animation: {
         wiggle: "wiggle 300ms ease-in-out",
         neon_beer: "neon_beer 3s infinite ease-in-out",
+        bubbles_beer: "bubbles_beer 9s infinite linear",
+        bubble_strech: "bubble_strech 3s infinite ease-in-out",
+        bubbles: "bubbles 5s infinite linear",
       },
     },
     colors: {
@@ -45,7 +131,9 @@ module.exports = {
         dark: "#432a14",
         blonde: "#fdc300",
         draft: "#90470b",
-        softBlond: "#f9d56e",
+        softBlonde: "#f9d56e",
+        softBlondeBubble: "#f1d273",
+        foam: "#fefefe",
       },
       bear: {
         dark: "#502600",
@@ -55,7 +143,7 @@ module.exports = {
       current: "currentColor",
       black: colors.black,
       white: colors.white,
-      gray: colors.trueGray,
+      gray: colors.neutral,
       indigo: colors.indigo,
       red: colors.rose,
       yellow: colors.amber,
