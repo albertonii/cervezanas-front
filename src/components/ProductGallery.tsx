@@ -50,11 +50,14 @@ export default function ProductGallery({ gallery }: Props) {
                     <a
                       key={index}
                       className={`h-30 block mb-4 mr-2 sm:mr-0 ${
-                        galleryIndex === index ? "border-2 border-blue-500" : ""
+                        galleryIndex === index
+                          ? "border-2 border-beer-softBlonde rounded"
+                          : ""
                       }`}
                       href="#"
                     >
                       <Image
+                        className="m-1"
                         width={50}
                         height={50}
                         src={photo}

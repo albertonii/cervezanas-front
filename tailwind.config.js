@@ -138,6 +138,8 @@ module.exports = {
       bear: {
         dark: "#502600",
         light: "#a87a12",
+        blonde: "#edb640",
+        alvine: "#ffd37c",
       },
       transparent: "transparent",
       current: "currentColor",
