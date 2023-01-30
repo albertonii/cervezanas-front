@@ -8,6 +8,7 @@ module.exports = {
       "images.unsplash.com",
       "tailwindui.com",
       "images.pexels.com",
+      "i.ibb.co",
     ],
     formats: ["image/webp", "image/avif"],
   },

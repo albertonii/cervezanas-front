@@ -8,6 +8,7 @@ import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import Layout from "../../components/Layout";
+import Image from "next/image";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -100,10 +101,8 @@ export default function Checkout() {
             ) : (
               <div className="container px-4 py-6">
                 <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-                  {/* <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ ---> */}
-
                   <div className="flex justify-start item-start space-y-2 flex-col">
-                    <div className="text-2xl">Checkout</div>
+                    <div className="text-2xl">{t("checkout")}</div>
 
                     <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
                       <div className="text-yellow-500">
@@ -275,7 +274,9 @@ export default function Checkout() {
                           <div className="flex justify-between items-start w-full">
                             <div className="flex justify-center items-center space-x-4">
                               <div className="w-8 h-8">
-                                <img
+                                <Image
+                                  width={32}
+                                  height={32}
                                   className="w-full h-full"
                                   alt="logo"
                                   src="https://i.ibb.co/L8KSdNQ/image-3.png"

@@ -59,9 +59,9 @@ export default function AppContextProvider(props: Props) {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log(profileImg);
-  }, [profileImg]);
+  // useEffect(() => {
+  //   console.log(profileImg);
+  // }, [profileImg]);
 
   const changeSidebarActive = (select: string) => {
     setSidebar(select);

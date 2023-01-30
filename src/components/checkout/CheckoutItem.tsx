@@ -2,8 +2,9 @@ import { Button } from "@supabase/ui";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Beer } from "../../types";
+import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 
@@ -22,6 +23,8 @@ export default function CheckoutItem({
   handleRemoveFromCart,
   quantity,
 }: Props) {
+  const { t } = useTranslation();
+
   const [p_principal, setPPrincipal] = useState<string>("");
   const [productSubtotal, setProductSubtotal] = useState<number>(
     beer.price * quantity
@@ -29,14 +32,27 @@ export default function CheckoutItem({
 
   useEffect(() => {
     const getPrincipal = async () => {
-      const pPrincipalUrl = `${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
+      const hasPrincipal = beer.product_multimedia[0].p_principal
+        ? true
+        : false;
 
-      const { data: p_principal, error } = supabase.storage
-        .from("products")
-        .getPublicUrl(pPrincipalUrl);
+      console.log(hasPrincipal);
+      if (hasPrincipal) {
+        const pPrincipalUrl = `${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
+        const { data: p_principal, error } = supabase.storage
+          .from("products")
+          .getPublicUrl(pPrincipalUrl);
 
-      if (error) throw error;
-      setPPrincipal(p_principal?.publicURL!);
+        if (error) throw error;
+        setPPrincipal(p_principal!.publicURL);
+      } else {
+        const pPrincipalUrl = "/marketplace_product_default.png";
+        setPPrincipal(pPrincipalUrl);
+      }
+
+      // const pPrincipalUrl = `${beer.product_multimedia[0].p_principal} ?
+      //  ${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}
+      //  : "/marketplace_product_default.png"`;
     };
 
     getPrincipal();
@@ -115,7 +131,7 @@ export default function CheckoutItem({
                 handleRemoveFromCart(beer.id);
               }}
             >
-              Remove
+              {t("remove")}
             </Button>
           </span>
         </div>
