@@ -212,6 +212,7 @@ const translationsEn = {
   drag_and_drop_file: "Drag and drop files here or click to upload",
   go_back_home: "Go Back Home",
   no_reviews: "No Reviews",
+  buy: "Buy",
 };
 
 const translationsEs = {
@@ -437,6 +438,7 @@ const translationsEs = {
   drag_and_drop_file: "Arrastra y suelta el archivo aquí",
   go_back_home: "Volver a la página principal",
   no_reviews: "No hay opiniones",
+  buy: "Comprar",
 };
 
 // the translations

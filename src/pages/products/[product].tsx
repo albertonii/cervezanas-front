@@ -1,4 +1,4 @@
-import { Button, Input } from "@supabase/ui";
+import { Input } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -12,6 +12,9 @@ import { SupabaseProps } from "../../constants";
 import { ProductMultimedia, Review } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
+import Button from "../../components/common/Button";
+import IconButton from "../../components/common/IconButton";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -405,17 +408,41 @@ export default function ProductId(props: Props) {
 
                     <div>
                       {quantity === 0 ? (
-                        <Button
-                          onClick={() => increaseCartQuantity(p.id)}
-                          className="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
-                        >
-                          <span>{t("add_to_cart")}</span>
-                        </Button>
+                        <div className="space-x-2">
+                          <IconButton
+                            class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
+                            onClick={() => increaseCartQuantity(p.id)}
+                            icon={faCartArrowDown}
+                            isActive={false}
+                            color={{
+                              filled: "#fdc300",
+                              unfilled: "grey",
+                            }}
+                            title={"Add item to cart"}
+                          >
+                            <>{t("add_to_cart")}</>
+                          </IconButton>
+
+                          <Button
+                            onClick={() => increaseCartQuantity(p.id)}
+                            class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
+                            isActive={false}
+                            color={{
+                              filled: "",
+                              unfilled: "",
+                            }}
+                            title={""}
+                          >
+                            <>{t("buy")}</>
+                          </Button>
+                        </div>
                       ) : (
                         <div className="flex flex-row align-center mt-6">
                           <Button
-                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={() => decreaseCartQuantity(p.id)}
+                            isActive={false}
+                            title={""}
                           >
                             -
                           </Button>
@@ -427,19 +454,24 @@ export default function ProductId(props: Props) {
                           </div>
 
                           <Button
-                            className="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            class="ml-6  flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={() => increaseCartQuantity(p.id)}
+                            isActive={false}
+                            title={""}
+                            // type={undefined}
                           >
                             +
                           </Button>
 
                           <Button
-                            type="secondary"
-                            danger
-                            className="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            // type="secondary"
+                            // danger
+                            class="ml-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={() => {
                               removeFromCart(p.id);
                             }}
+                            isActive={false}
+                            title={""}
                           >
                             {t("remove")}
                           </Button>

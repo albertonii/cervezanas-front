@@ -51,7 +51,7 @@ export default function ProductGallery({ gallery }: Props) {
                       key={index}
                       className={`h-30 block mb-4 mr-2 sm:mr-0 ${
                         galleryIndex === index
-                          ? "border-2 border-beer-softBlonde rounded"
+                          ? "border-2 border-beer-foam rounded"
                           : ""
                       }`}
                       href="#"

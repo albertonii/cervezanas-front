@@ -48,11 +48,15 @@ export default function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`btn icon-btn ${className} 
-      flex items-center justify-center
+      flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded-full mt-0
       `}
     >
-      <span className={`${children != null ? "mr-1" : ""} `}>{iconButton}</span>
-      {children}
+      <span
+        className={`${children != null ? "mr-1" : ""} text-bear-dark h-5 w-5`}
+      >
+        {iconButton}
+      </span>
+      <span className="text-bear-dark ">{children}</span>
     </button>
   );
 }
