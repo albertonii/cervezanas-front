@@ -1,4 +1,4 @@
-import { Award } from "../types";
+import { Award } from "./types";
 
 export interface IModalAddProduct {
   is_public: boolean;

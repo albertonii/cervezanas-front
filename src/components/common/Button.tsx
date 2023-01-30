@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 
 export interface ButtonTypes {
-  type: "button" | "submit" | "reset" | "undefined";
+  type?:
+    | "primary"
+    | "default"
+    | "secondary"
+    | "outline"
+    | "dashed"
+    | "link"
+    | "text";
 }
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   isActive: boolean;
   color?: { filled: string; unfilled: string };
   class: string;
@@ -14,7 +21,9 @@ interface ButtonProps {
   box?: boolean;
   danger?: boolean;
   small?: boolean;
-  // type: ButtonTypes;
+  medium?: boolean;
+  disabled?: boolean;
+  primary?: boolean;
 }
 
 export default function Button({
@@ -25,6 +34,9 @@ export default function Button({
   box,
   danger,
   small,
+  medium,
+  disabled,
+  primary,
 }: ButtonProps) {
   const [hoverColor, _] = useState(isActive ? "filled" : "unfilled");
 
@@ -34,15 +46,23 @@ export default function Button({
       onClick={onClick}
       color={hoverColor}
       className={`btn icon-btn ${className} 
-      flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded-full mt-0
+      flex items-center justify-center bg-beer-foam  border-beer-softBlonde border-2 rounded mt-0
       ${box ? "h-auto w-10" : ""}
       ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
-                            // type={undefined}
-      ${small ? "w-auto" : ""}
+      ${small ? "w-auto" : ""} 
+      ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+      ${medium ? "w-32" : ""}
+      ${
+        primary
+          ? " bg-beer-softBlonde hover:bg-beer-blonde"
+          : "hover:bg-beer-softBlonde"
+      }
       `}
     >
       <span
-        className={`text-bear-dark text-xl ${danger ? "text-beer-foam" : ""}`}
+        className={`text-xl 
+        ${danger ? "text-beer-foam" : ""} 
+        ${primary ? "text-beer-dark hover:text-beer-foam" : "text-beer-dark"}}`}
       >
         {children}
       </span>

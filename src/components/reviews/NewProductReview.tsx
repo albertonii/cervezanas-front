@@ -1,9 +1,9 @@
-import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Review } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
+import Button from "../common/Button";
 import Rate from "./Rate";
 
 type FormValues = {
@@ -207,21 +207,28 @@ export default function NewProductReview({
                 </div>
               </div>
 
-              <div className="flex w-full flex-row space-x-12">
-                <div className="w-full">
-                  <Button disabled={loading}>
-                    {loading ? "Loading..." : "Submit"}
-                  </Button>
+              <div className="flex w-full flex-row space-x-2">
+                <Button
+                  disabled={loading}
+                  isActive={false}
+                  class={""}
+                  title={""}
+                  medium
+                  primary
+                >
+                  {loading ? t("loading") : t("submit")}
+                </Button>
 
-                  <Button
-                    className={"ml-2"}
-                    onClick={() => setIsReady(false)}
-                    disabled={loading}
-                    type="secondary"
-                  >
-                    Cancel
-                  </Button>
-                </div>
+                <Button
+                  class={"ml-2"}
+                  onClick={() => setIsReady(false)}
+                  disabled={loading}
+                  isActive={false}
+                  title={""}
+                  medium
+                >
+                  {t("cancel")}
+                </Button>
               </div>
             </form>
           </div>
@@ -229,7 +236,13 @@ export default function NewProductReview({
       ) : (
         <div className="flex w-full flex-row space-x-12">
           <div className="w-full">
-            <Button onClick={() => setIsReady(true)} disabled={loading}>
+            <Button
+              onClick={() => setIsReady(true)}
+              disabled={loading}
+              isActive={false}
+              class={""}
+              title={""}
+            >
               {loading ? t("loading") : t("write_review")}
             </Button>
           </div>

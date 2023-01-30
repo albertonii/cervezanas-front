@@ -473,6 +473,7 @@ export default function ProductId(props: Props) {
                           unfilled: "",
                         }}
                         title={""}
+                        primary
                       >
                         <>{t("buy")}</>
                       </Button>

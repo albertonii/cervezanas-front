@@ -48,7 +48,7 @@ export default function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`btn icon-btn ${className} 
-      flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded-full mt-0
+      flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
       `}
     >
       <span

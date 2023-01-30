@@ -213,6 +213,8 @@ const translationsEn = {
   go_back_home: "Go Back Home",
   no_reviews: "No Reviews",
   buy: "Buy",
+  cancel: "Cancel",
+  submit: "Submit",
 };
 
 const translationsEs = {
@@ -439,6 +441,8 @@ const translationsEs = {
   go_back_home: "Volver a la página principal",
   no_reviews: "No hay opiniones",
   buy: "Comprar",
+  cancel: "Cancelar",
+  submit: "Enviar",
 };
 
 // the translations
