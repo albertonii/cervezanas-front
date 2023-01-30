@@ -13,12 +13,12 @@ import Image from "next/image";
 export default function Checkout() {
   const { t } = useTranslation();
 
-  const [subTotal, setSubTotal] = useState<number>(0);
+  const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
   const [shipping, setShipping] = useState<number>(0);
   const [tax, setTax] = useState<number>(0);
   const [total, setTotal] = useState<number>(
-    subTotal - discount + shipping + tax
+    subtotal - discount + shipping + tax
   );
 
   const {
@@ -26,18 +26,30 @@ export default function Checkout() {
     getItemQuantity,
     increaseCartQuantity,
     decreaseCartQuantity,
+    removeMarketplaceItems,
     removeFromCart,
+    marketplaceItems,
+    addMarketplaceItems,
   } = useShoppingCart();
 
   const handleIncreaseCartQuantity = (beerId: string) => {
     increaseCartQuantity(beerId);
+    if (marketplaceItems.find((item) => item.id === beerId)) return;
+    const beer: Beer | undefined = marketplaceItems.find(
+      (item) => item.id === beerId
+    );
+    if (!beer) return;
+    addMarketplaceItems(beer);
   };
 
   const handleDecreaseCartQuantity = (beerId: string) => {
     decreaseCartQuantity(beerId);
+    if (getItemQuantity(beerId) > 1) return;
+    removeMarketplaceItems(beerId);
   };
 
   const handleRemoveFromCart = (beerId: string) => {
+    removeMarketplaceItems(beerId);
     removeFromCart(beerId);
   };
 
@@ -48,34 +60,38 @@ export default function Checkout() {
     setLoading(true);
     const ac = new AbortController();
 
-    const getBeerItem = async (beerId: string) => {
-      const { error, data: beer } = await supabase
-        .from("beers")
-        .select(
-          `*,
-          product_inventory (
-            quantity
-          ),
-          product_multimedia (
-            p_principal
-          )`
-        )
-        .abortSignal(ac.signal)
-        .eq("id", beerId)
-        .single();
+    // const getBeerItem = async (beerId: string) => {
+    //   const { error, data: beer } = await supabase
+    //     .from("beers")
+    //     .select(
+    //       `*,
+    //       product_inventory (
+    //         quantity
+    //       ),
+    //       product_multimedia (
+    //         p_principal
+    //       )`
+    //     )
+    //     .abortSignal(ac.signal)
+    //     .eq("id", beerId)
+    //     .single();
 
-      if (error) throw error;
+    //   if (error) throw error;
 
-      return beer;
-    };
+    //   return beer;
+    // };
 
     items.map(async (item) => {
-      const beer = await getBeerItem(item.id);
+      // const beer = await getBeerItem(item.id);
+      const beer = marketplaceItems.find((m_item) => m_item.id === item.id);
+      if (!beer) return;
+
       setCart((cart) => [...cart, beer]);
-      setSubTotal((subTotal) => subTotal + beer.price * item.quantity);
+
+      setsubtotal((subtotal) => subtotal + beer.price * item.quantity);
     });
 
-    setTotal(() => subTotal - discount + shipping);
+    setTotal(() => subtotal - discount + shipping);
 
     setLoading(false);
 
@@ -83,13 +99,13 @@ export default function Checkout() {
       setCart([]);
       setLoading(false);
       ac.abort();
-      setSubTotal(0);
+      setsubtotal(0);
       setShipping(0);
       setTax(0);
       setDiscount(0);
       setTotal(0);
     };
-  }, [discount, shipping]);
+  }, [discount, items, marketplaceItems, shipping, subtotal]);
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -151,6 +167,18 @@ export default function Checkout() {
                               />
                             );
                           })}
+
+                        <div className="flex flex-row justify-between items-center w-full mt-4">
+                          <div className="flex flex-col justify-start items-start space-y-2">
+                            <div className="text-2xl text-gray-500">
+                              {t("subtotal")}
+
+                              <span className="ml-6 text-gray-800 font-semibold">
+                                {formatCurrency(subtotal)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       {/* Shipping */}
@@ -354,7 +382,7 @@ export default function Checkout() {
                                     {t("subtotal")}
                                   </p>
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                    {formatCurrency(subTotal)}
+                                    {formatCurrency(subtotal)}
                                   </p>
                                 </div>
                                 {/* discount */}
@@ -367,7 +395,7 @@ export default function Checkout() {
                                   </p>
                                   <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
                                     {formatCurrency(discount)}{" "}
-                                    {discount / subTotal}%
+                                    {discount / subtotal}%
                                   </p>
                                 </div>
                                 <div className="flex justify-between items-center w-full">
