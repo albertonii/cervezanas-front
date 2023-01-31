@@ -5,14 +5,14 @@ import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
 import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { faAdd, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import Button from "../../components/common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Modal from "../../components/modals/Modal";
 import NewShippingAddress from "../../components/checkout/NewShippingAddress";
 import NewBillingAddress from "../../components/checkout/NewBillingAddress";
+import { useAuth } from "../../components/Auth";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -35,6 +35,8 @@ export default function Checkout() {
     marketplaceItems,
     addMarketplaceItems,
   } = useShoppingCart();
+
+  const { user } = useAuth();
 
   const handleIncreaseCartQuantity = (beerId: string) => {
     increaseCartQuantity(beerId);
@@ -229,19 +231,7 @@ export default function Checkout() {
                           <NewShippingAddress />
 
                           {/* Add Billing Information  */}
-                          <Modal
-                            isVisible={false}
-                            title={t("add_billing_address")}
-                            btnTitle={t("add_billing_address")}
-                            description={""}
-                            icon={faAdd}
-                            handler={() => {}}
-                            classIcon={""}
-                            classContainer={"w-80"}
-                            btnSize={"medium"}
-                          >
-                            <NewBillingAddress />
-                          </Modal>
+                          <NewBillingAddress />
 
                           <div className="flex justify-between items-start w-full">
                             <div className="flex justify-center items-center space-x-4">

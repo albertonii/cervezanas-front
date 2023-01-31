@@ -28,7 +28,6 @@ export default function NewShippingAddress() {
 
   const {
     formState: { errors },
-    watch,
     handleSubmit,
     register,
     reset,
@@ -136,7 +135,7 @@ export default function NewShippingAddress() {
                 <input
                   {...register("phone", { required: true })}
                   type="tel"
-                  className="focus:outline-none px-3 w-full mr-6"
+                  className="focus:outline-none px-3 w-full mr-6 border-none"
                   placeholder={`${t("loc_phone")}*`}
                 />
                 {errors.phone?.type === "required" && (
