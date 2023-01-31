@@ -232,6 +232,9 @@ const translationsEn = {
   zipcode: "Zip Code",
   country: "Country",
   customer: "Customer",
+  addresses: "Addresses",
+  your_empty_cart: "Your cart is empty",
+  add_products_to_continue: "Add products to continue shopping",
 };
 
 const translationsEs = {
@@ -477,6 +480,9 @@ const translationsEs = {
   zipcode: "CP",
   country: "País",
   customer: "Cliente",
+  addresses: "Direcciones",
+  your_empty_cart: "Tu carrito está vacío",
+  add_products_to_continue: "Añade productos para continuar con la compra",
 };
 
 // the translations
