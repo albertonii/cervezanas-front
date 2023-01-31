@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button, Select } from "@supabase/ui";
+import { Select } from "@supabase/ui";
 import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
@@ -8,6 +8,7 @@ import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
 import { useAuth } from "./Auth/useAuth";
 import DropdownButton from "./common/DropdownButton";
+import Button from "./common/Button";
 
 interface Props {}
 
@@ -100,7 +101,11 @@ export default function Header({}: Props) {
                       href="#"
                       className="block py-2 pr-4 pl-3 text-beer-dark rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
-                      <Select name="language" onChange={onChangeLanguage}>
+                      <Select
+                        name="language"
+                        style={{ backgroundColor: "transparent" }}
+                        onChange={onChangeLanguage}
+                      >
                         <Select.Option value="es">🇪🇸 Español</Select.Option>
                         <Select.Option value="en">🇬🇧 Inglés</Select.Option>
                       </Select>
@@ -108,7 +113,13 @@ export default function Header({}: Props) {
                   </li>
 
                   <li>
-                    <Button className={""} onClick={() => openCart()}>
+                    <Button
+                      class={
+                        "border-none hover:bg-transparent hover:scale-110 transition-all"
+                      }
+                      onClick={() => openCart()}
+                      title={""}
+                    >
                       <div className="relative rounded-full">
                         <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                           <Image
@@ -119,7 +130,7 @@ export default function Header({}: Props) {
                           />
                         </span>
 
-                        <div className="rounded-full bg-red-300 flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
+                        <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
                           {cartQuantity}
                         </div>
                       </div>
@@ -137,7 +148,13 @@ export default function Header({}: Props) {
                       href="#"
                       className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
-                      <Button onClick={() => handleSignOut()}>
+                      <Button
+                        onClick={() => handleSignOut()}
+                        title={""}
+                        class={
+                          "border-none hover:bg-transparent hover:scale-110 transition-all"
+                        }
+                      >
                         <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                           <Image
                             src={"/icons/logout-240.png"}
@@ -157,7 +174,11 @@ export default function Header({}: Props) {
                       href="#"
                       className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     >
-                      <Button onClick={() => handleSignIn()}>
+                      <Button
+                        onClick={() => handleSignIn()}
+                        title={""}
+                        class={""}
+                      >
                         {t("login")}
                       </Button>
                     </Link>
