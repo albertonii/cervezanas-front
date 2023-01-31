@@ -237,6 +237,7 @@ const translationsEn = {
   add_products_to_continue: "Add products to continue shopping",
   shipping_checkbox: "Default shipping address for future purchases",
   billing_checkbox: "Default billing address for future purchases",
+  with_taxes_included: "With taxes included",
 };
 
 const translationsEs = {
@@ -489,6 +490,7 @@ const translationsEs = {
   add_products_to_continue: "Añade productos para continuar con la compra",
   shipping_checkbox: "Establecer cómo predeterminada (para futuras compras)",
   billing_checkbox: "Establecer cómo predeterminada (para futuras compras)",
+  with_taxes_included: "Con impuestos incluidos",
 };
 
 // the translations

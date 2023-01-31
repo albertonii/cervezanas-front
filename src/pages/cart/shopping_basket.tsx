@@ -64,29 +64,7 @@ export default function Checkout() {
     setLoading(true);
     const ac = new AbortController();
 
-    // const getBeerItem = async (beerId: string) => {
-    //   const { error, data: beer } = await supabase
-    //     .from("beers")
-    //     .select(
-    //       `*,
-    //       product_inventory (
-    //         quantity
-    //       ),
-    //       product_multimedia (
-    //         p_principal
-    //       )`
-    //     )
-    //     .abortSignal(ac.signal)
-    //     .eq("id", beerId)
-    //     .single();
-
-    //   if (error) throw error;
-
-    //   return beer;
-    // };
-
     items.map(async (item) => {
-      // const beer = await getBeerItem(item.id);
       const beer = marketplaceItems.find((m_item) => m_item.id === item.id);
       if (!beer) return;
 
@@ -114,13 +92,13 @@ export default function Checkout() {
   return (
     <Layout usePadding={true} useBackdrop={false}>
       <div className="flex flex-row items-center justify-center">
-        <div className="container my-12 mx-6 ">
+        <div className="container md:my-2 lg:my-12 lg:mx-6 ">
           <div className=" justify-center">
             {loading ? (
               <Spinner />
             ) : (
-              <div className="container px-4 py-6">
-                <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+              <div className="container lg:px-4 lg:py-6">
+                <div className="md:py-4 lg:py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
                   <div className="flex justify-start item-start space-y-2 flex-col">
                     <div className="text-2xl">{t("checkout")}</div>
 
@@ -293,7 +271,7 @@ export default function Checkout() {
                                 </div>
 
                                 {/* Shipping Address */}
-                                <div className="w-full">
+                                <div className="w-full mt-6">
                                   <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
                                     {t("shipping_address")}
                                   </h2>
@@ -587,9 +565,15 @@ export default function Checkout() {
                             </div>
 
                             <div className="flex justify-between items-center w-full">
-                              <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
-                                {t("total")}
-                              </p>
+                              <div className="flex items-center">
+                                <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
+                                  {t("total")}
+                                </p>
+                                <p className="pl-2 text-base dark:text-gray-300 text-gray-600">
+                                  ({t("with_taxes_included")})
+                                </p>
+                              </div>
+
                               <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
                                 {formatCurrency(total)}
                               </p>
