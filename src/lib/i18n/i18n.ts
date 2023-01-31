@@ -240,6 +240,9 @@ const translationsEn = {
   with_taxes_included: "With taxes included",
   add_shipping_address: "Add shipping address",
   add_billing_address: "Add billing address",
+  create_account: "Create Account",
+  already_account: "Already have an account?",
+  access_account: "Access account",
 };
 
 const translationsEs = {
@@ -495,6 +498,9 @@ const translationsEs = {
   with_taxes_included: "Con impuestos incluidos",
   add_shipping_address: "Añadir dirección de envío",
   add_billing_address: "Añadir dirección de facturación",
+  create_account: "Crear cuenta",
+  already_account: "¿Ya tienes una cuenta?",
+  access_account: "Acceder a tu cuenta",
 };
 
 // the translations

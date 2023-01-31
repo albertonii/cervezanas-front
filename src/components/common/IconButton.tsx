@@ -13,11 +13,6 @@ interface IconButtonProps {
   title: string;
   box?: boolean;
   danger?: boolean;
-  small?: boolean;
-  medium?: boolean;
-  large?: boolean;
-  xLarge?: boolean;
-  xxLarge?: boolean;
   disabled?: boolean;
   primary?: boolean;
   accent?: boolean;
@@ -35,11 +30,6 @@ export default function IconButton({
   title,
   box,
   danger,
-  small,
-  medium,
-  large,
-  xLarge,
-  xxLarge,
   disabled,
   primary,
   accent,

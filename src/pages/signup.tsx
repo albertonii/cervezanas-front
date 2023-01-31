@@ -7,9 +7,12 @@ import { type UserProps } from "../lib/types";
 import { useEffect } from "react";
 import Router from "next/router";
 import { useAuth } from "../components/Auth/useAuth";
+import { useTranslation } from "react-i18next";
 
 const SignUp: NextPage<UserProps> = () => {
   const { user } = useAuth();
+
+  const { t } = useTranslation();
 
   // If the user is already logged in, then
   // redirect them to home.
@@ -22,7 +25,7 @@ const SignUp: NextPage<UserProps> = () => {
   return (
     <>
       <Head>
-        <title>Cervezanas · Registro 🍺</title>
+        <title>Cervezanas · {t("register")} 🍺</title>
         <meta name="signup" content="Signup user Cervezanas" />
       </Head>
       <main className="flex h-full min-h-screen bg-white">
@@ -30,17 +33,17 @@ const SignUp: NextPage<UserProps> = () => {
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                Create an account
+                {t("create_account")}
               </h2>
             </div>
 
             <SignUpForm />
 
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
-              ¿Ya tienes una cuenta?
+              {t("already_account")}
               <Link className="cursor-pointer font-bold" href={"/signin"}>
                 <span className="mx-1 text-blue-600 hover:underline">
-                  Acceso de usuarios
+                  {t("access_account")}
                 </span>
               </Link>
             </p>
@@ -48,10 +51,11 @@ const SignUp: NextPage<UserProps> = () => {
         </div>
         <div className="relative hidden w-0 flex-1 lg:block">
           <Image
+            width={1000}
+            height={1000}
             className="absolute inset-0 h-full w-full object-cover"
             src="/barriles.jpg"
             alt=""
-            layout="fill"
           />
         </div>
       </main>

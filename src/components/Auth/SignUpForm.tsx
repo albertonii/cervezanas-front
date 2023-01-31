@@ -3,6 +3,7 @@ import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { SignUpInterface, useAuth } from ".";
+import Button from "../common/Button";
 
 enum role_enum {
   Cervezano = "consumer",
@@ -151,12 +152,19 @@ export const SignUpForm = () => {
           <Spinner />
         </span>
       ) : (
-        <button
-          type="submit"
-          className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          {t("sign_up")}
-        </button>
+        <>
+          <Button
+            onClick={() => {
+              onSubmit();
+            }}
+            class={"w-96"}
+            title={t("sign_up")}
+            xLarge
+            primary
+          >
+            {t("sign_up")}
+          </Button>
+        </>
       )}
     </form>
   );
