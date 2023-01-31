@@ -34,7 +34,7 @@ const DropdownButton = (props: DropdownProps) => {
         className={`absolute bg-beer-blonde w-full p-2 flex items-center justify-between rounded ${"text-gray-700"}`}
         onClick={() => setOpen(!open)}
       >
-        <span className="w-4 h-auto logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-beer-dark md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+        <span className="w-4 h-auto block py-2 pr-4 pl-3 text-beer-dark rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 hover:text-beer-draft md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
           <FontAwesomeIcon
             icon={faUser}
             style={{ color: "bear-dark" }}
@@ -53,7 +53,7 @@ const DropdownButton = (props: DropdownProps) => {
           className={`bg-white mt-2 overflow-y-auto rounded-lg shadow ${
             open ? "max-h-60" : "max-h-0"
           }
-           text-sm text-gray-700 dark:text-gray-200 `}
+            dark:text-gray-200 `}
         >
           {options?.map((option: string, idx: number) => (
             <li
@@ -62,7 +62,7 @@ const DropdownButton = (props: DropdownProps) => {
             >
               <Link href={`/${option}`}>
                 <span
-                  className="block py-2 pr-4 pl-3 text-white rounded md:bg-transparent md:text-beer-dark md:p-0 dark:text-white"
+                  className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
                   aria-current="page"
                 >
                   {t(option)}
