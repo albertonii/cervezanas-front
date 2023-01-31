@@ -94,19 +94,19 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       </Head>
       <DefaultSeo {...pageSEO} />
 
-      <Suspense fallback="Loading...">
-        <MessageProvider>
-          <AuthContextProvider supabaseClient={supabase}>
-            <AppContextProvider>
-              <QueryClientProvider client={queryClient}>
-                <ShoppingCartProvider>
+      <MessageProvider>
+        <AuthContextProvider supabaseClient={supabase}>
+          <AppContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <ShoppingCartProvider>
+                <Suspense fallback="Loading...">
                   <Component {...pageProps} />
-                </ShoppingCartProvider>
-              </QueryClientProvider>
-            </AppContextProvider>
-          </AuthContextProvider>
-        </MessageProvider>
-      </Suspense>
+                </Suspense>
+              </ShoppingCartProvider>
+            </QueryClientProvider>
+          </AppContextProvider>
+        </AuthContextProvider>
+      </MessageProvider>
     </>
   );
 }

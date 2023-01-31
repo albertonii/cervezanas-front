@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import classNames from "classnames";
 import Header from "./Header";
 import Footer from "./Footer";

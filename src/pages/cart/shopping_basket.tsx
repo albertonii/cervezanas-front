@@ -36,7 +36,6 @@ export default function Checkout() {
     addMarketplaceItems,
   } = useShoppingCart();
 
-  const { user } = useAuth();
 
   const handleIncreaseCartQuantity = (beerId: string) => {
     increaseCartQuantity(beerId);

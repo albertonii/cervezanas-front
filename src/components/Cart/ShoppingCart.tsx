@@ -78,7 +78,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                               closeCart();
                             }}
                           >
-                            <span className="sr-only">Close panel</span>
+                            <span className="sr-only">{t("close")}</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
@@ -90,15 +90,16 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {items.map((item) => (
-                              <li key={item.id} className="flex py-6">
-                                <CartItem
-                                  key={item.id}
-                                  {...item}
-                                  beers={marketplaceItems}
-                                />
-                              </li>
-                            ))}
+                            {items &&
+                              items.map((item) => (
+                                <li key={item.id} className="flex py-6">
+                                  <CartItem
+                                    key={item.id}
+                                    {...item}
+                                    beers={marketplaceItems}
+                                  />
+                                </li>
+                              ))}
                           </ul>
                         </div>
                       </div>
