@@ -138,7 +138,7 @@ export const BasicDataForm = (props: any) => {
 
             <div className="w-full ">
               <label htmlFor="lastname" className="text-sm text-gray-600">
-                {t("profile_acc_lastname")}
+                {t("lastname")}
               </label>
               <input
                 type="text"

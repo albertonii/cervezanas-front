@@ -244,122 +244,224 @@ export default function Checkout() {
                       <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                         <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                           <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                            {t("shipping")}
+                            {t("shipping_and_billing_info")}
                           </h3>
 
                           <form id="payment-form" method="POST" action="">
+                            {/* Shipping information */}
                             <section>
-                              <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">
-                                {t("shipping_and_billing_info")}
-                              </h2>
-                              <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
-                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                  <span className="text-left px-2">
-                                    {t("name")}
-                                  </span>
-                                  <input
-                                    name="name"
-                                    className="focus:outline-none px-3 w-full mr-6"
-                                    placeholder="Try Odinsson"
-                                    required
-                                  />
-                                </label>
-                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                  <span className="text-left px-2">
-                                    {t("email")}
-                                  </span>
-                                  <input
-                                    name="email"
-                                    type="email"
-                                    className="focus:outline-none px-3 w-full mr-6"
-                                    placeholder="try@example.com"
-                                    required
-                                  />
-                                </label>
-                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                  <span className="text-left px-2">
-                                    {t("address")}
-                                  </span>
-                                  <input
-                                    name="address"
-                                    className="focus:outline-none px-3 w-full mr-6"
-                                    placeholder="10 Street XYZ 654"
-                                  />
-                                </label>
-                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                  <span className="text-left px-2">
-                                    {t("city")}
-                                  </span>
-                                  <input
-                                    name="city"
-                                    className="focus:outline-none px-3 w-full mr-6"
-                                    placeholder="San Francisco"
-                                  />
-                                </label>
+                              <fieldset className="mb-3 bg-beer-foam rounded">
+                                {/* Shipping Data */}
+                                <div className="w-full">
+                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
+                                    {t("shipping_data")}
+                                  </h2>
 
-                                <div className="w - full">
-                                  <label className="inline-flex w-2/4 border-gray-200 py-3">
-                                    <span className="text-left px-2">
-                                      {t("state")}
-                                    </span>
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
                                     <input
-                                      name="state"
+                                      name="name"
                                       className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder="CA"
+                                      placeholder={`${t("name")}*`}
+                                      required
                                     />
                                   </label>
-                                  <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200">
-                                    <span className="text-left px-2 xl:px-0 xl:text-none">
-                                      {t("zipcode")}
-                                    </span>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
                                     <input
-                                      name="postal_code"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder="98603"
+                                      name="lastname"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("lastname")}*`}
+                                      required
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="documentId"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("document_id")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="phones_number"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("loc_phone")}*`}
                                     />
                                   </label>
                                 </div>
 
-                                <label className="flex border-t border-gray-200 h-12 py-3 items-center select relative">
-                                  <span className="text-left px-2">
-                                    {t("country")}
-                                  </span>
-                                  <div
-                                    id="country"
-                                    className="focus:outline-none px-3 w-full flex items-center"
-                                  >
-                                    <select
+                                {/* Shipping Address */}
+                                <div className="w-full">
+                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
+                                    {t("shipping_address")}
+                                  </h2>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="address_1"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("address")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
                                       name="country"
-                                      className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none w-full mr-6"
-                                    >
-                                      <option value="AU">Australia</option>
-                                      <option value="BE">Belgium</option>
-                                      <option value="BR">Brazil</option>
-                                      <option value="CA">Canada</option>
-                                      <option value="CN">China</option>
-                                      <option value="DK">Denmark</option>
-                                      <option value="FI">Finland</option>
-                                      <option value="FR">France</option>
-                                      <option value="DE">Germany</option>
-                                      <option value="HK">Hong Kong</option>
-                                      <option value="IE">Ireland</option>
-                                      <option value="IT">Italy</option>
-                                      <option value="JP">Japan</option>
-                                      <option value="LU">Luxembourg</option>
-                                      <option value="MX">Mexico</option>
-                                      <option value="NL">Netherlands</option>
-                                      <option value="PL">Poland</option>
-                                      <option value="PT">Portugal</option>
-                                      <option value="SG">Singapore</option>
-                                      <option value="ES">Spain</option>
-                                      <option value="TN">Tunisia</option>
-                                      <option value="GB">United Kingdom</option>
-                                      <option value="US" selected>
-                                        United States
-                                      </option>
-                                    </select>
-                                  </div>
-                                </label>
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("country")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="postal_code"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_pc")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="town"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_town")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="province"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_province")}*`}
+                                    />
+                                  </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                  <input
+                                    id="shipping-checked-checkbox"
+                                    type="checkbox"
+                                    value=""
+                                    className="w-4 h-4 text-beer-blonde bg-beer-softBlonde border-bear-light rounded focus:ring-bear-alvine dark:focus:ring-beer-softBlonde dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <label
+                                    htmlFor="shipping-checked-checkbox"
+                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                  >
+                                    {t("shipping_checkbox")}
+                                  </label>
+                                </div>
+                              </fieldset>
+                            </section>
+
+                            {/* Billing Information */}
+                            <section className="mt-6">
+                              <fieldset className="mb-3 bg-beer-foam rounded">
+                                {/* Billing Data */}
+                                <div className="w-full">
+                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
+                                    {t("billing_data")}
+                                  </h2>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="name"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("name")}*`}
+                                      required
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="lastname"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("lastname")}*`}
+                                      required
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="documentId"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("document_id")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="phones_number"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("loc_phone")}*`}
+                                    />
+                                  </label>
+                                </div>
+
+                                {/* Billing Address */}
+                                <div className="w-full mt-6">
+                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
+                                    {t("billing_address")}
+                                  </h2>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="address_1"
+                                      className="focus:outline-none px-3 w-full mr-6"
+                                      placeholder={`${t("address")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="country"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("country")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="postal_code"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_pc")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="town"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_town")}*`}
+                                    />
+                                  </label>
+
+                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
+                                    <input
+                                      name="province"
+                                      className="focus:outline-none px-3 w-full mx-6"
+                                      placeholder={`${t("loc_province")}*`}
+                                    />
+                                  </label>
+                                </div>
+
+                                {/* Checkbox Billing */}
+                                <div className="flex items-center">
+                                  <input
+                                    id="billing-checked-checkbox"
+                                    type="checkbox"
+                                    value=""
+                                    className="w-4 h-4 text-beer-blonde bg-beer-softBlonde border-bear-light rounded focus:ring-bear-alvine dark:focus:ring-beer-softBlonde dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <label
+                                    htmlFor="billing-checked-checkbox"
+                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                  >
+                                    {t("billing_checkbox")}
+                                  </label>
+                                </div>
                               </fieldset>
                             </section>
                           </form>
@@ -410,7 +512,7 @@ export default function Checkout() {
                           </h3>
 
                           <section>
-                            <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
+                            <fieldset className="mb-3 bg-white rounded text-gray-600">
                               <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                 <span className="text-right px-2">Card</span>
                                 <input

@@ -96,7 +96,7 @@ export default function LocationForm() {
 
         <div className="w-full ">
           <label htmlFor="address_lastname" className="text-sm text-gray-600">
-            {t("loc_lastname")}
+            {t("lastname")}
           </label>
           <input
             type="text"
@@ -110,7 +110,7 @@ export default function LocationForm() {
       <div className="flex w-full flex-row space-x-3">
         <div className="w-full space-y">
           <label htmlFor="address_doc" className="text-sm text-gray-600">
-            {t("loc_doc")}
+            {t("document_id")}
           </label>
           <input
             type="text"
