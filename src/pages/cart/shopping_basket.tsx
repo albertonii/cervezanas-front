@@ -10,18 +10,12 @@ import Layout from "../../components/Layout";
 import Image from "next/image";
 import Button from "../../components/common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import IconButton from "../../components/common/IconButton";
 import Modal from "../../components/modals/Modal";
 import NewShippingAddress from "../../components/checkout/NewShippingAddress";
 import NewBillingAddress from "../../components/checkout/NewBillingAddress";
 
 export default function Checkout() {
   const { t } = useTranslation();
-
-  const [isAddShippingModalVisible, setAddShippingModalVisible] =
-    useState<boolean>(false);
-  const [isAddBillingModalVisible, setAddBillingModalVisible] =
-    useState<boolean>(false);
 
   const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
@@ -94,14 +88,6 @@ export default function Checkout() {
       setTotal(0);
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
-
-  const handleAddShipping = (isVisible: boolean) => {
-    setAddShippingModalVisible(isVisible);
-  };
-
-  const handleAddBilling = (isVisible: boolean) => {
-    setAddBillingModalVisible(isVisible);
-  };
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -240,24 +226,11 @@ export default function Checkout() {
                           </h3>
 
                           {/* Add Shipping Information */}
-
-                          <Modal
-                            isVisible={isAddShippingModalVisible}
-                            title={t("add_shipping_address")}
-                            btnTitle={t("add_shipping_address")}
-                            description={""}
-                            icon={faAdd}
-                            handler={() => {}}
-                            classIcon={""}
-                            classContainer={"w-80"}
-                            btnSize={"medium"}
-                          >
-                            <NewShippingAddress />
-                          </Modal>
+                          <NewShippingAddress />
 
                           {/* Add Billing Information  */}
                           <Modal
-                            isVisible={isAddBillingModalVisible}
+                            isVisible={false}
                             title={t("add_billing_address")}
                             btnTitle={t("add_billing_address")}
                             description={""}

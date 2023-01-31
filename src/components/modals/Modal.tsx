@@ -14,7 +14,7 @@ interface Props {
   description: string;
   children: JSX.Element;
   handler: () => void;
-  icon: IconDefinition;
+  icon?: IconDefinition;
   classIcon: string;
   classContainer: string;
   color?: { filled: string; unfilled: string };

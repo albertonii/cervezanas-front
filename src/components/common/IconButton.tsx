@@ -99,7 +99,9 @@ export default function IconButton({
       `}
     >
       <span
-        className={`${children != null ? "mr-1" : ""} text-bear-dark h-5 w-5`}
+        className={`${
+          children != null ? "mr-1" : ""
+        } text-bear-dark h-5 w-5 ml-3`}
       >
         {iconButton}
       </span>

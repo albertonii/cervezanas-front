@@ -35,7 +35,7 @@ export default function NewBillingAddress() {
 
             <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
               <input
-                name="documentId"
+                name="document_id"
                 className="focus:outline-none px-3 w-full mr-6"
                 placeholder={`${t("document_id")}*`}
               />
