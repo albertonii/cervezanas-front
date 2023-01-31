@@ -5,17 +5,23 @@ import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
 import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
-import {
-  faCartShopping,
-  faShoppingCart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import Button from "../../components/common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import IconButton from "../../components/common/IconButton";
+import Modal from "../../components/modals/Modal";
+import NewShippingAddress from "../../components/checkout/NewShippingAddress";
+import NewBillingAddress from "../../components/checkout/NewBillingAddress";
 
 export default function Checkout() {
   const { t } = useTranslation();
+
+  const [isAddShippingModalVisible, setAddShippingModalVisible] =
+    useState<boolean>(false);
+  const [isAddBillingModalVisible, setAddBillingModalVisible] =
+    useState<boolean>(false);
 
   const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
@@ -88,6 +94,14 @@ export default function Checkout() {
       setTotal(0);
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
+
+  const handleAddShipping = (isVisible: boolean) => {
+    setAddShippingModalVisible(isVisible);
+  };
+
+  const handleAddBilling = (isVisible: boolean) => {
+    setAddBillingModalVisible(isVisible);
+  };
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -225,224 +239,36 @@ export default function Checkout() {
                             {t("shipping_and_billing_info")}
                           </h3>
 
-                          <form id="payment-form" method="POST" action="">
-                            {/* Shipping information */}
-                            <section>
-                              <fieldset className="mb-3 bg-beer-foam rounded">
-                                {/* Shipping Data */}
-                                <div className="w-full">
-                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
-                                    {t("shipping_data")}
-                                  </h2>
+                          {/* Add Shipping Information */}
 
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="name"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("name")}*`}
-                                      required
-                                    />
-                                  </label>
+                          <Modal
+                            isVisible={isAddShippingModalVisible}
+                            title={t("add_shipping_address")}
+                            btnTitle={t("add_shipping_address")}
+                            description={""}
+                            icon={faAdd}
+                            handler={() => {}}
+                            classIcon={""}
+                            classContainer={"w-80"}
+                            btnSize={"medium"}
+                          >
+                            <NewShippingAddress />
+                          </Modal>
 
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="lastname"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("lastname")}*`}
-                                      required
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="documentId"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("document_id")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="phones_number"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("loc_phone")}*`}
-                                    />
-                                  </label>
-                                </div>
-
-                                {/* Shipping Address */}
-                                <div className="w-full mt-6">
-                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
-                                    {t("shipping_address")}
-                                  </h2>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="address_1"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("address")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="country"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("country")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="postal_code"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_pc")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="town"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_town")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="province"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_province")}*`}
-                                    />
-                                  </label>
-                                </div>
-
-                                <div className="flex items-center">
-                                  <input
-                                    id="shipping-checked-checkbox"
-                                    type="checkbox"
-                                    value=""
-                                    className="w-4 h-4 text-beer-blonde bg-beer-softBlonde border-bear-light rounded focus:ring-bear-alvine dark:focus:ring-beer-softBlonde dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                  <label
-                                    htmlFor="shipping-checked-checkbox"
-                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                  >
-                                    {t("shipping_checkbox")}
-                                  </label>
-                                </div>
-                              </fieldset>
-                            </section>
-
-                            {/* Billing Information */}
-                            <section className="mt-6">
-                              <fieldset className="mb-3 bg-beer-foam rounded">
-                                {/* Billing Data */}
-                                <div className="w-full">
-                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
-                                    {t("billing_data")}
-                                  </h2>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="name"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("name")}*`}
-                                      required
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="lastname"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("lastname")}*`}
-                                      required
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="documentId"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("document_id")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="phones_number"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("loc_phone")}*`}
-                                    />
-                                  </label>
-                                </div>
-
-                                {/* Billing Address */}
-                                <div className="w-full mt-6">
-                                  <h2 className="tracking-wide text-lg font-semibold text-gray-700 my-2">
-                                    {t("billing_address")}
-                                  </h2>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="address_1"
-                                      className="focus:outline-none px-3 w-full mr-6"
-                                      placeholder={`${t("address")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="country"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("country")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="postal_code"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_pc")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="town"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_town")}*`}
-                                    />
-                                  </label>
-
-                                  <label className="flex border border-bear-alvine rounded h-12 py-3 my-3 items-center">
-                                    <input
-                                      name="province"
-                                      className="focus:outline-none px-3 w-full mx-6"
-                                      placeholder={`${t("loc_province")}*`}
-                                    />
-                                  </label>
-                                </div>
-
-                                {/* Checkbox Billing */}
-                                <div className="flex items-center">
-                                  <input
-                                    id="billing-checked-checkbox"
-                                    type="checkbox"
-                                    value=""
-                                    className="w-4 h-4 text-beer-blonde bg-beer-softBlonde border-bear-light rounded focus:ring-bear-alvine dark:focus:ring-beer-softBlonde dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                  <label
-                                    htmlFor="billing-checked-checkbox"
-                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                  >
-                                    {t("billing_checkbox")}
-                                  </label>
-                                </div>
-                              </fieldset>
-                            </section>
-                          </form>
+                          {/* Add Billing Information  */}
+                          <Modal
+                            isVisible={isAddBillingModalVisible}
+                            title={t("add_billing_address")}
+                            btnTitle={t("add_billing_address")}
+                            description={""}
+                            icon={faAdd}
+                            handler={() => {}}
+                            classIcon={""}
+                            classContainer={"w-80"}
+                            btnSize={"medium"}
+                          >
+                            <NewBillingAddress />
+                          </Modal>
 
                           <div className="flex justify-between items-start w-full">
                             <div className="flex justify-center items-center space-x-4">
@@ -469,6 +295,7 @@ export default function Checkout() {
                               {formatCurrency(8)}
                             </p>
                           </div>
+
                           <div className="w-full flex justify-center items-center">
                             <Button
                               title={t("view_carrier_details")}

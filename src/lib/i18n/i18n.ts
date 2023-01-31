@@ -238,6 +238,8 @@ const translationsEn = {
   shipping_checkbox: "Default shipping address for future purchases",
   billing_checkbox: "Default billing address for future purchases",
   with_taxes_included: "With taxes included",
+  add_shipping_address: "Add shipping address",
+  add_billing_address: "Add billing address",
 };
 
 const translationsEs = {
@@ -491,6 +493,8 @@ const translationsEs = {
   shipping_checkbox: "Establecer cómo predeterminada (para futuras compras)",
   billing_checkbox: "Establecer cómo predeterminada (para futuras compras)",
   with_taxes_included: "Con impuestos incluidos",
+  add_shipping_address: "Añadir dirección de envío",
+  add_billing_address: "Añadir dirección de facturación",
 };
 
 // the translations

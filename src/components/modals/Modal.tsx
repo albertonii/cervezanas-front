@@ -1,8 +1,10 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
+import Button from "../common/Button";
+import IconButton from "../common/IconButton";
 import PortalModal from "./PortalModal";
 
 interface Props {
@@ -12,10 +14,27 @@ interface Props {
   description: string;
   children: JSX.Element;
   handler: () => void;
+  icon: IconDefinition;
+  classIcon: string;
+  classContainer: string;
+  color?: { filled: string; unfilled: string };
+  btnSize?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
 }
 
 const Modal = (props: Props) => {
-  const { isVisible, btnTitle, title, description, children, handler } = props;
+  const {
+    isVisible,
+    btnTitle,
+    title,
+    description,
+    children,
+    handler,
+    icon,
+    classIcon,
+    classContainer,
+    color,
+    btnSize,
+  } = props;
 
   const { t } = useTranslation();
 
@@ -56,13 +75,28 @@ const Modal = (props: Props) => {
 
   return (
     <>
-      <button
-        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button"
-        onClick={() => handleShowModal(true)}
-      >
-        {t(btnTitle)}
-      </button>
+      {icon ? (
+        <IconButton
+          icon={icon}
+          classIcon={classIcon}
+          classContainer={classContainer}
+          onClick={() => handleShowModal(true)}
+          isActive={false}
+          color={color}
+          title={title}
+          size={btnSize}
+        >
+          {t(btnTitle)}
+        </IconButton>
+      ) : (
+        <Button
+          class={classContainer}
+          onClick={() => handleShowModal(true)}
+          title={title}
+        >
+          {t(btnTitle)}
+        </Button>
+      )}
 
       {showModal && (
         <>

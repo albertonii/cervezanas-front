@@ -6,10 +6,22 @@ interface IconButtonProps {
   icon: IconDefinition;
   onClick: () => void;
   isActive: boolean;
-  color: { filled: string; unfilled: string };
-  class: string;
+  color?: { filled: string; unfilled: string };
+  classContainer: string;
+  classIcon: string;
   children?: React.ReactNode;
   title: string;
+  box?: boolean;
+  danger?: boolean;
+  small?: boolean;
+  medium?: boolean;
+  large?: boolean;
+  xLarge?: boolean;
+  xxLarge?: boolean;
+  disabled?: boolean;
+  primary?: boolean;
+  accent?: boolean;
+  size?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
 }
 
 export default function IconButton({
@@ -18,8 +30,20 @@ export default function IconButton({
   isActive,
   color,
   children,
-  class: className,
+  classContainer: classNameContainer,
+  classIcon: classNameIcon,
   title,
+  box,
+  danger,
+  small,
+  medium,
+  large,
+  xLarge,
+  xxLarge,
+  disabled,
+  primary,
+  accent,
+  size,
 }: IconButtonProps) {
   const [hoverColor, setHoverColor] = useState(
     isActive ? "filled" : "unfilled"
@@ -27,12 +51,12 @@ export default function IconButton({
 
   const iconButton = useMemo(() => {
     const getColor = () => {
-      return isActive ? color.filled : color.unfilled;
+      return isActive ? color?.filled : color?.unfilled;
     };
 
     return (
       <FontAwesomeIcon
-        className={`${className} `}
+        className={`${classNameIcon} `}
         icon={icon}
         style={{ color: getColor() }}
         onMouseEnter={() => setHoverColor("filled")}
@@ -41,14 +65,37 @@ export default function IconButton({
         title={title}
       />
     );
-  }, [className, color.filled, color.unfilled, icon, isActive, onClick, title]);
+  }, [
+    classNameIcon,
+    color?.filled,
+    color?.unfilled,
+    icon,
+    isActive,
+    onClick,
+    title,
+  ]);
 
   return (
     <button
       onClick={onClick}
       color={hoverColor}
-      className={`btn icon-btn ${className} 
-      flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
+      className={`
+        flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
+        ${box ? "h-auto w-10" : ""}
+        ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${size === "small" ? "w-24" : ""} 
+        ${size === "medium" ? "w-32" : ""}
+        ${size === "large" ? "w-52" : ""}
+        ${size === "xLarge" ? "w-64" : ""}
+        ${size === "xxLarge" ? "w-80" : ""}
+        ${
+          primary
+            ? " bg-beer-softBlonde hover:bg-beer-blonde"
+            : "hover:bg-beer-softBlonde"
+        }
+        ${accent ? "bg-beer-foam" : ""}
+        ${classNameContainer} 
       `}
     >
       <span
@@ -56,7 +103,21 @@ export default function IconButton({
       >
         {iconButton}
       </span>
-      <span className="text-bear-dark ">{children}</span>
+
+      <span
+        className={`text-bear-dark
+          ${danger ? "text-beer-foam " : ""} 
+          ${primary ? "text-beer-dark " : "text-beer-dark"}}
+          ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
+          ${size === "small" ? "px-4 py-2 text-md" : ""} 
+          ${size === "medium" ? "px-4 py-2 text-base" : ""}
+          ${size === "large" ? "px-5 py-3 text-lg" : ""}
+          ${size === "xLarge" ? "px-6 py-3 text-xl" : ""}
+          ${size === "xxLarge" ? "px-6 py-3 text-2xl" : ""}
+        `}
+      >
+        {children}
+      </span>
     </button>
   );
 }

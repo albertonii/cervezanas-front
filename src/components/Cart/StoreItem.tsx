@@ -93,9 +93,10 @@ export default function StoreItem(props: StoreItemProps) {
               onClick={() => handleLike()}
               isActive={isLike}
               color={heartColor}
-              class={
+              classContainer={
                 "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 rounded-full w-auto h-10 text-center p-2"
               }
+              classIcon={""}
               title="Add to favorites"
             ></IconButton>
           </div>
