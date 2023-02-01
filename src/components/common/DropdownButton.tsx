@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
-import { BiChevronDown } from "react-icons/bi";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 
 interface DropdownProps {
@@ -44,7 +43,14 @@ const DropdownButton = (props: DropdownProps) => {
             title={"profile"}
           />
         </span>
-        <BiChevronDown size={20} className={`${open && "rotate-180"}`} />
+        <FontAwesomeIcon
+          icon={faChevronCircleDown}
+          style={{ color: "#432a14" }}
+          title={"chevron_circle_down"}
+          width={20}
+          height={20}
+          className={`${open && "rotate-180"}`}
+        />
       </div>
 
       {/* Dropdow */}

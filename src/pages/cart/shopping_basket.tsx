@@ -5,14 +5,17 @@ import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
 import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShoppingCart,
+  faCircleExclamation,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import Button from "../../components/common/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NewShippingAddress from "../../components/checkout/NewShippingAddress";
 import NewBillingAddress from "../../components/checkout/NewBillingAddress";
-import { useAuth } from "../../components/Auth";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -35,7 +38,6 @@ export default function Checkout() {
     marketplaceItems,
     addMarketplaceItems,
   } = useShoppingCart();
-
 
   const handleIncreaseCartQuantity = (beerId: string) => {
     increaseCartQuantity(beerId);
@@ -105,20 +107,13 @@ export default function Checkout() {
 
                     <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
                       <div className="text-yellow-500">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 sm:w-5 h-6 sm:h-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
+                        <FontAwesomeIcon
+                          icon={faInfoCircle}
+                          style={{ color: "#fdc300" }}
+                          title={"circle_warning"}
+                          width={25}
+                          height={25}
+                        />
                       </div>
 
                       <div className="text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-4">
@@ -183,7 +178,6 @@ export default function Checkout() {
                                     </div>
                                   </div>
                                 </div>
-
                                 <FontAwesomeIcon
                                   icon={faShoppingCart}
                                   style={{ color: "#432a14" }}
@@ -191,28 +185,13 @@ export default function Checkout() {
                                   width={120}
                                   height={120}
                                 />
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="w-40 h-40 text-beer-blonde"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"
-                                    clipRule="evenodd"
-                                  />
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M10 6a1 1 0 00-1 1v4a1 1 0 002 0V7a1 1 0 00-1-1z"
-                                    clipRule="evenodd"
-                                  />
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M10 12a1 1 0 100 2 1 1 0 000-2z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
+                                <FontAwesomeIcon
+                                  icon={faCircleExclamation}
+                                  style={{ color: "#fdc300" }}
+                                  title={"circle_warning"}
+                                  width={120}
+                                  height={120}
+                                />
                               </div>
                             </div>
                           </>

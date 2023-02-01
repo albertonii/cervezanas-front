@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { FaLock } from "react-icons/fa";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
 import { useAuth } from "../Auth/useAuth";
@@ -16,8 +17,6 @@ export const SignInForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { signIn } = useAuth();
 
   const createLoginMutation = useLogin({ email, password });
 
@@ -94,7 +93,15 @@ export const SignInForm = () => {
         className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-          <FaLock className="text-base text-indigo-500 group-hover:text-indigo-400" />
+          <FontAwesomeIcon
+            icon={faLock}
+            style={{ color: "bear-dark" }}
+            // onClick={() => setOpen(true)}
+            // onMouseEnter={() => setHoverColor("filled")}
+            // onMouseLeave={() => setHoverColor("unfilled")}
+            title={"profile"}
+            className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+          />
         </span>
         Acceder
       </button>

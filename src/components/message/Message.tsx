@@ -1,7 +1,11 @@
 import { FunctionComponent } from "react";
 import { Alert } from "@reach/alert";
 import classNames from "classnames";
-import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import {
+  faExclamationCircle,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MessageProps } from "./message.types";
 
 const Message: FunctionComponent<MessageProps> = ({ message, type }) => (
@@ -17,9 +21,21 @@ const Message: FunctionComponent<MessageProps> = ({ message, type }) => (
   >
     {" "}
     {type === "success" ? (
-      <FaCheckCircle className="inline-block" />
+      <FontAwesomeIcon
+        icon={faCheckCircle}
+        style={{ color: "#fdc300" }}
+        title={"check_warning"}
+        width={80}
+        height={80}
+      />
     ) : (
-      <FaExclamationCircle className="inline-block" />
+      <FontAwesomeIcon
+        icon={faExclamationCircle}
+        style={{ color: "#fdc300" }}
+        title={"check_warning"}
+        width={80}
+        height={80}
+      />
     )}{" "}
     &nbsp; {message}
   </Alert>

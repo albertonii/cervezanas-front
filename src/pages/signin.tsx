@@ -4,7 +4,8 @@ import Link from "next/link";
 import { type NextPage } from "next";
 import { useState } from "react";
 import { type UserProps } from "../lib/types";
-import { FaLock } from "react-icons/fa";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import Layout from "../components/Layout";
 import { useAuth } from "../components/Auth/useAuth";
@@ -114,7 +115,15 @@ const SignIn: NextPage<UserProps> = () => {
                   className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FaLock className="text-base text-indigo-500 group-hover:text-indigo-400" />
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      style={{ color: "bear-dark" }}
+                      // onClick={() => setOpen(true)}
+                      // onMouseEnter={() => setHoverColor("filled")}
+                      // onMouseLeave={() => setHoverColor("unfilled")}
+                      title={"Lock"}
+                      className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+                    />
                   </span>
                   Acceder
                 </button>
