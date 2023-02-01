@@ -28,17 +28,15 @@ import {
   ShippingAddress,
 } from "../../lib/interfaces";
 
-interface FormData {
-  items: CartItem[];
-  customer_name: string;
-  status: string;
-  tracking_id: string;
-  issue_date: string;
-  estimated_date: string;
-  order_number: string;
-  total: number;
+interface FormShippingData {
   shipping_info: ShippingAddress;
+}
+
+interface FormBillingData {
   billing_info: BillingAddress;
+}
+
+interface FormCardData {
   card_info: PaymentCard;
 }
 
@@ -59,11 +57,28 @@ export default function Checkout() {
   const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
 
   const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-  } = useForm<FormData>();
+    formState: { errors: shippingErrors },
+    handleSubmit: handleShippingSubmit,
+    register: registerShipping,
+    reset: resetShipping,
+    getValues: getShippingValues,
+  } = useForm<FormShippingData>();
+
+  const {
+    formState: { errors: billingErrors },
+    handleSubmit: handleBillingSubmit,
+    register: registerBilling,
+    reset: resetBilling,
+    getValues: getBillingValues,
+  } = useForm<FormBillingData>();
+
+  const {
+    formState: { errors: cardErrors },
+    handleSubmit: handleCardSubmit,
+    register: registerCard,
+    reset: resetCard,
+    getValues: getCardValues,
+  } = useForm<FormCardData>();
 
   const {
     items,
@@ -129,20 +144,9 @@ export default function Checkout() {
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
-  const handleProceedToPay = async (formValues: FormData) => {
-    const {
-      // items,
-      // customer_name,
-      // status,
-      // tracking_id,
-      // issue_date,
-      // estimated_date,
-      // order_number,
-      // total,
-      // shipping_info,
-      // billing_info,
-      card_info,
-    } = formValues;
+  const handleProceedToPay = async () => {
+    const card_info = getCardValues("card_info");
+    console.log(cardErrors);
     // setLoadingPayment(true);
 
     console.log(card_info);
@@ -226,421 +230,428 @@ export default function Checkout() {
                 {loading ? (
                   <Spinner color="beer-blonde" size="medium" />
                 ) : (
-                  <form onSubmit={handleSubmit(handleProceedToPay)}>
-                    <div className="container lg:px-4 lg:py-6">
-                      <div className="md:py-4 lg:py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-                        <div className="flex justify-start item-start space-y-2 flex-col">
-                          <div className="text-2xl">{t("checkout")}</div>
+                  <div className="container lg:px-4 lg:py-6">
+                    <div className="md:py-4 lg:py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+                      <div className="flex justify-start item-start space-y-2 flex-col">
+                        <div className="text-2xl">{t("checkout")}</div>
 
-                          <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
-                            <div className="text-yellow-500">
-                              <FontAwesomeIcon
-                                icon={faInfoCircle}
-                                style={{ color: "#fdc300" }}
-                                title={"circle_warning"}
-                                width={25}
-                                height={25}
-                              />
-                            </div>
+                        <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
+                          <div className="text-yellow-500">
+                            <FontAwesomeIcon
+                              icon={faInfoCircle}
+                              style={{ color: "#fdc300" }}
+                              title={"circle_warning"}
+                              width={25}
+                              height={25}
+                            />
+                          </div>
 
-                            <div className="text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-4">
-                              {t("complete_shipping_billing")}
-                            </div>
+                          <div className="text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-4">
+                            {t("complete_shipping_billing")}
                           </div>
                         </div>
+                      </div>
 
-                        <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-                          <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8 ">
-                            {/* Customer's Car */}
-                            <div className="border border-beer-softBlonde flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-                              <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
-                                {t("customer_s_cart")}
-                              </p>
-                              {cart.length > 0 ? (
-                                <>
-                                  {cart.map((beer) => {
-                                    return (
-                                      <CheckoutItem
-                                        key={beer.id}
-                                        beer={beer}
-                                        handleIncreaseCartQuantity={
-                                          handleIncreaseCartQuantity
-                                        }
-                                        handleDecreaseCartQuantity={
-                                          handleDecreaseCartQuantity
-                                        }
-                                        handleRemoveFromCart={
-                                          handleRemoveFromCart
-                                        }
-                                        quantity={getItemQuantity(beer.id)}
-                                      />
-                                    );
-                                  })}
+                      <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+                        <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8 ">
+                          {/* Customer's Car */}
+                          <div className="border border-beer-softBlonde flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+                            <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
+                              {t("customer_s_cart")}
+                            </p>
+                            {cart.length > 0 ? (
+                              <>
+                                {cart.map((beer) => {
+                                  return (
+                                    <CheckoutItem
+                                      key={beer.id}
+                                      beer={beer}
+                                      handleIncreaseCartQuantity={
+                                        handleIncreaseCartQuantity
+                                      }
+                                      handleDecreaseCartQuantity={
+                                        handleDecreaseCartQuantity
+                                      }
+                                      handleRemoveFromCart={
+                                        handleRemoveFromCart
+                                      }
+                                      quantity={getItemQuantity(beer.id)}
+                                    />
+                                  );
+                                })}
 
-                                  {/* Subtotal */}
-                                  <div className="flex flex-row justify-between items-center w-full mt-4">
-                                    <div className="flex flex-col justify-start items-start space-y-2">
-                                      <div className="text-2xl text-gray-500">
-                                        {t("subtotal")}
+                                {/* Subtotal */}
+                                <div className="flex flex-row justify-between items-center w-full mt-4">
+                                  <div className="flex flex-col justify-start items-start space-y-2">
+                                    <div className="text-2xl text-gray-500">
+                                      {t("subtotal")}
 
-                                        <span className="ml-6 text-gray-800 font-semibold">
-                                          {formatCurrency(subtotal)}
-                                        </span>
-                                      </div>
+                                      <span className="ml-6 text-gray-800 font-semibold">
+                                        {formatCurrency(subtotal)}
+                                      </span>
                                     </div>
                                   </div>
-                                </>
-                              ) : (
-                                <>
-                                  {/* Empty Cart */}
-                                  <div className="container mt-6">
-                                    {/* Cart Empty Icon */}
-                                    <div className="flex flex-row justify-center items-center">
-                                      <div className="flex flex-col justify-between items-start w-1/2 mt-4">
-                                        <h2 className="text-2xl text-gray-500">
-                                          {t("your_empty_cart")}
-                                        </h2>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                {/* Empty Cart */}
+                                <div className="container mt-6">
+                                  {/* Cart Empty Icon */}
+                                  <div className="flex flex-row justify-center items-center">
+                                    <div className="flex flex-col justify-between items-start w-1/2 mt-4">
+                                      <h2 className="text-2xl text-gray-500">
+                                        {t("your_empty_cart")}
+                                      </h2>
 
-                                        <div className="flex flex-col justify-start items-start space-y-2">
-                                          <div className="text-xl text-gray-500">
-                                            {t("add_products_to_continue")}
-                                          </div>
+                                      <div className="flex flex-col justify-start items-start space-y-2">
+                                        <div className="text-xl text-gray-500">
+                                          {t("add_products_to_continue")}
                                         </div>
                                       </div>
-                                      <FontAwesomeIcon
-                                        icon={faShoppingCart}
-                                        style={{ color: "#432a14" }}
-                                        title={"empty_cart"}
-                                        width={120}
-                                        height={120}
-                                      />
-                                      <FontAwesomeIcon
-                                        icon={faCircleExclamation}
-                                        style={{ color: "#fdc300" }}
-                                        title={"circle_warning"}
-                                        width={120}
-                                        height={120}
-                                      />
                                     </div>
+                                    <FontAwesomeIcon
+                                      icon={faShoppingCart}
+                                      style={{ color: "#432a14" }}
+                                      title={"empty_cart"}
+                                      width={120}
+                                      height={120}
+                                    />
+                                    <FontAwesomeIcon
+                                      icon={faCircleExclamation}
+                                      style={{ color: "#fdc300" }}
+                                      title={"circle_warning"}
+                                      width={120}
+                                      height={120}
+                                    />
                                   </div>
-                                </>
-                              )}
-                            </div>
+                                </div>
+                              </>
+                            )}
+                          </div>
 
-                            {/* Shipping */}
-                            <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-                              <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                                <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                                  {t("shipping_and_billing_info")}
-                                </h3>
+                          {/* Shipping */}
+                          <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+                            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+                              <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                                {t("shipping_and_billing_info")}
+                              </h3>
 
-                                {/* Add Shipping Information */}
-                                <NewShippingAddress />
+                              <form></form>
 
-                                {/* Add Billing Information  */}
-                                <NewBillingAddress />
+                              {/* Add Shipping Information */}
+                              <NewShippingAddress />
 
-                                <div className="flex justify-between items-start w-full">
-                                  <div className="flex justify-center items-center space-x-4">
-                                    <div className="w-8 h-8">
-                                      <Image
-                                        width={32}
-                                        height={32}
-                                        className="w-full h-full"
-                                        alt="logo"
-                                        src="https://i.ibb.co/L8KSdNQ/image-3.png"
-                                      />
-                                    </div>
-                                    <div className="flex flex-col justify-start items-center">
-                                      <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">
-                                        DPD Delivery
-                                        <br />
-                                        <span className="font-normal">
-                                          {t("delivery_24h")}
-                                        </span>
-                                      </p>
-                                    </div>
+                              {/* Add Billing Information  */}
+                              {/* <NewBillingAddress /> */}
+
+                              <div className="flex justify-between items-start w-full">
+                                <div className="flex justify-center items-center space-x-4">
+                                  <div className="w-8 h-8">
+                                    <Image
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full"
+                                      alt="logo"
+                                      src="https://i.ibb.co/L8KSdNQ/image-3.png"
+                                    />
                                   </div>
-                                  <p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">
-                                    {formatCurrency(8)}
-                                  </p>
+                                  <div className="flex flex-col justify-start items-center">
+                                    <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">
+                                      DPD Delivery
+                                      <br />
+                                      <span className="font-normal">
+                                        {t("delivery_24h")}
+                                      </span>
+                                    </p>
+                                  </div>
                                 </div>
+                                <p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">
+                                  {formatCurrency(8)}
+                                </p>
+                              </div>
 
-                                <div className="w-full flex justify-center items-center">
-                                  <Button
-                                    title={t("view_carrier_details")!}
-                                    accent
-                                    medium
-                                    class="sm:w-full text-base font-medium "
-                                  >
-                                    {t("view_carrier_details")}
-                                  </Button>
-                                </div>
+                              <div className="w-full flex justify-center items-center">
+                                <Button
+                                  title={t("view_carrier_details")!}
+                                  accent
+                                  medium
+                                  class="sm:w-full text-base font-medium "
+                                >
+                                  {t("view_carrier_details")}
+                                </Button>
                               </div>
                             </div>
+                          </div>
 
-                            {/* Payment */}
-                            <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-                              <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                                <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                                  {t("payment")}
-                                </h3>
+                          {/* Payment */}
+                          <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+                            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+                              <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                                {t("payment")}
+                              </h3>
 
-                                <section>
-                                  <div className="flex flex-col justify-start items-start space-y-2">
-                                    <div className="text-xl text-gray-500">
-                                      {t("payment_method")}
+                              <section>
+                                <div className="flex flex-col justify-start items-start space-y-2">
+                                  <div className="text-xl text-gray-500">
+                                    {t("payment_method")}
+                                  </div>
+                                  <div className="flex flex-row justify-start items-center space-x-2">
+                                    <div className="w-8 h-8">
+                                      <FontAwesomeIcon
+                                        icon={faCreditCard}
+                                        style={{ color: "#fdc300" }}
+                                        title={"payment_method"}
+                                        width={32}
+                                        height={32}
+                                      />
                                     </div>
-                                    <div className="flex flex-row justify-start items-center space-x-2">
-                                      <div className="w-8 h-8">
-                                        <FontAwesomeIcon
-                                          icon={faCreditCard}
-                                          style={{ color: "#fdc300" }}
-                                          title={"payment_method"}
-                                          width={32}
-                                          height={32}
-                                        />
-                                      </div>
-                                      <div className="text-lg text-gray-500">
-                                        {t("credit_card")}
-                                      </div>
+                                    <div className="text-lg text-gray-500">
+                                      {t("credit_card")}
                                     </div>
                                   </div>
-                                </section>
+                                </div>
+                              </section>
 
-                                <section>
-                                  <div className="flex flex-col justify-start items-start space-y-2">
-                                    <div className="text-xl text-gray-500">
-                                      {t("card_details")}
-                                    </div>
+                              <section>
+                                <div className="flex flex-col justify-start items-start space-y-2">
+                                  <div className="text-xl text-gray-500">
+                                    {t("card_details")}
                                   </div>
+                                </div>
 
-                                  <fieldset className="mb-3 mt-4 bg-white rounded text-gray-600 ">
-                                    {/* Card Number */}
-                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center my-3">
-                                      <span className="text-right px-2">
-                                        {t("card_number")}
-                                      </span>
-                                      <input
-                                        {...register("card_info.card_number", {
+                                <fieldset className="mb-3 mt-4 bg-white rounded text-gray-600 ">
+                                  {/* Card Number */}
+                                  <label className="flex border-b border-gray-200 h-12 py-3 items-center my-3">
+                                    <span className="text-right px-2">
+                                      {t("card_number")}
+                                    </span>
+                                    <input
+                                      {...registerCard(
+                                        "card_info.card_number",
+                                        {
                                           required: true,
                                           pattern: {
                                             value: /^[0-9]{16}$/,
                                             message: "Invalid card number",
                                           },
-                                        })}
+                                        }
+                                      )}
+                                      className="focus:outline-none px-3 w-full"
+                                      placeholder={
+                                        t("card_number_placeholder")!
+                                      }
+                                      required
+                                    />
+                                  </label>
+
+                                  {/* Expiry Data and CVC GROUP */}
+                                  <div className="flex justify-between items-center my-3">
+                                    {/* Expiry Data */}
+                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                      <span className="text-right px-2">
+                                        {t("card_expiration")}
+                                      </span>
+                                      <input
+                                        {...registerCard(
+                                          "card_info.card_expiration",
+                                          {
+                                            required: true,
+                                            pattern: {
+                                              value: /^[0-9]{2}\/[0-9]{2}$/,
+                                              message:
+                                                "Invalid card expiration date",
+                                            },
+                                          }
+                                        )}
                                         className="focus:outline-none px-3 w-full"
                                         placeholder={
-                                          t("card_number_placeholder")!
+                                          t("card_expiration_placeholder")!
                                         }
                                         required
                                       />
                                     </label>
 
-                                    {/* Expiry Data and CVC GROUP */}
-                                    <div className="flex justify-between items-center my-3">
-                                      {/* Expiry Data */}
-                                      <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                        <span className="text-right px-2">
-                                          {t("card_expiration")}
-                                        </span>
-                                        <input
-                                          {...register(
-                                            "card_info.card_expiration",
-                                            {
-                                              required: true,
-                                              pattern: {
-                                                value: /^[0-9]{2}\/[0-9]{2}$/,
-                                                message:
-                                                  "Invalid card expiration date",
-                                              },
-                                            }
-                                          )}
-                                          className="focus:outline-none px-3 w-full"
-                                          placeholder={
-                                            t("card_expiration_placeholder")!
-                                          }
-                                          required
-                                        />
-                                      </label>
-
-                                      {/* CVC */}
-                                      <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                        <span className="text-right px-2">
-                                          {t("card_cvv")}
-                                        </span>
-                                        <input
-                                          {...register("card_info.card_cvv", {
-                                            required: true,
-                                            pattern: {
-                                              value: /^[0-9]{3}$/,
-                                              message: "Invalid card cvv",
-                                            },
-                                          })}
-                                          className="focus:outline-none px-3 w-full"
-                                          placeholder={
-                                            t("card_cvv_placeholder")!
-                                          }
-                                          required
-                                        />
-                                      </label>
-                                    </div>
-
-                                    {/* Name on Card */}
-                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center my-3">
+                                    {/* CVC */}
+                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                       <span className="text-right px-2">
-                                        {t("card_holder")}
+                                        {t("card_cvv")}
                                       </span>
                                       <input
-                                        {...register("card_info.card_holder", {
+                                        {...registerCard("card_info.card_cvv", {
+                                          required: true,
+                                          pattern: {
+                                            value: /^[0-9]{3}$/,
+                                            message: "Invalid card cvv",
+                                          },
+                                        })}
+                                        className="focus:outline-none px-3 w-full"
+                                        placeholder={t("card_cvv_placeholder")!}
+                                        required
+                                      />
+                                    </label>
+                                  </div>
+
+                                  {/* Name on Card */}
+                                  <label className="flex border-b border-gray-200 h-12 py-3 items-center my-3">
+                                    <span className="text-right px-2">
+                                      {t("card_holder")}
+                                    </span>
+                                    <input
+                                      {...registerCard(
+                                        "card_info.card_holder",
+                                        {
                                           required: true,
                                           pattern: {
                                             value: /^[a-zA-Z ]{2,30}$/,
                                             message: "Invalid card holder",
                                           },
-                                        })}
-                                        className="focus:outline-none px-3 w-full"
-                                        placeholder={
-                                          t("card_holder_placeholder")!
                                         }
-                                        required
-                                      />
-                                    </label>
-                                  </fieldset>
-                                </section>
-                              </div>
+                                      )}
+                                      className="focus:outline-none px-3 w-full"
+                                      placeholder={
+                                        t("card_holder_placeholder")!
+                                      }
+                                      required
+                                    />
+                                  </label>
+                                </fieldset>
+                              </section>
                             </div>
                           </div>
+                        </div>
 
-                          {/* Order summary  */}
-                          <div className="border border-beer-softBlonde bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
-                            <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                              {t("customer")}
-                            </h3>
+                        {/* Order summary  */}
+                        <div className="border border-beer-softBlonde bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+                          <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                            {t("customer")}
+                          </h3>
 
-                            <div className="flex flex-col md:flex-col xl:flex-col justify-start items-stretch h-full w-full lg:space-x-8 xl:space-x-0">
-                              {/* Summary */}
-                              <div className="flex flex-col justify-start items-start flex-shrink-0">
-                                <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                                  <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                                    {t("summary")}
-                                  </h3>
+                          <div className="flex flex-col md:flex-col xl:flex-col justify-start items-stretch h-full w-full lg:space-x-8 xl:space-x-0">
+                            {/* Summary */}
+                            <div className="flex flex-col justify-start items-start flex-shrink-0">
+                              <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+                                <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                                  {t("summary")}
+                                </h3>
 
-                                  <div className="flex justify-center items-center w-full flex-col border-gray-200 border-b pb-4 space-y-6">
-                                    <div className="flex justify-between w-full">
-                                      <p className="text-base dark:text-white leading-4 text-gray-800">
-                                        {t("subtotal")}
-                                      </p>
-                                      <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                        {formatCurrency(subtotal)}
-                                      </p>
-                                    </div>
-
-                                    {/* discount */}
-                                    <div className="flex justify-between items-center w-full">
-                                      <p className="text-base dark:text-white leading-4 text-gray-800">
-                                        {t("discount")}
-                                        <span className="bg-gray-200 p-1 text-xs font-medium dark:bg-white dark:text-gray-800 leading-3 text-gray-800">
-                                          STUDENT
-                                        </span>
-                                      </p>
-                                      <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                        {formatCurrency(discount)}{" "}
-                                        {discount / subtotal}%
-                                      </p>
-                                    </div>
-
-                                    <div className="flex justify-between items-center w-full">
-                                      <p className="text-base dark:text-white leading-4 text-gray-800">
-                                        {t("shipping")}
-                                      </p>
-                                      <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                        {formatCurrency(shipping)}
-                                      </p>
-                                    </div>
-
-                                    {/* taxes  */}
-                                    <div className="flex justify-between items-center w-full">
-                                      <p className="text-base dark:text-white leading-4 text-gray-800">
-                                        {t("tax")}
-                                      </p>
-                                      <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                                        {formatCurrency(tax)}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex justify-between items-center w-full">
-                                    <div className="flex items-center">
-                                      <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
-                                        {t("total")}
-                                      </p>
-                                      <p className="pl-2 text-base dark:text-gray-300 text-gray-600">
-                                        ({t("with_taxes_included")})
-                                      </p>
-                                    </div>
-
-                                    <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
-                                      {formatCurrency(total)}
+                                <div className="flex justify-center items-center w-full flex-col border-gray-200 border-b pb-4 space-y-6">
+                                  <div className="flex justify-between w-full">
+                                    <p className="text-base dark:text-white leading-4 text-gray-800">
+                                      {t("subtotal")}
+                                    </p>
+                                    <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
+                                      {formatCurrency(subtotal)}
                                     </p>
                                   </div>
 
-                                  {/* Proceed to pay */}
-                                  <div className="flex justify-center items-center md:justify-start md:items-start w-full">
-                                    <Button
-                                      btnType={"submit"}
-                                      large
-                                      primary
-                                      class="font-semibold"
-                                      title={""}
-                                      disabled={cart.length === 0}
-                                    >
-                                      {t("proceed_to_pay")}
-                                    </Button>
+                                  {/* discount */}
+                                  <div className="flex justify-between items-center w-full">
+                                    <p className="text-base dark:text-white leading-4 text-gray-800">
+                                      {t("discount")}
+                                      <span className="bg-gray-200 p-1 text-xs font-medium dark:bg-white dark:text-gray-800 leading-3 text-gray-800">
+                                        STUDENT
+                                      </span>
+                                    </p>
+                                    <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
+                                      {formatCurrency(discount)}{" "}
+                                      {discount / subtotal}%
+                                    </p>
+                                  </div>
+
+                                  <div className="flex justify-between items-center w-full">
+                                    <p className="text-base dark:text-white leading-4 text-gray-800">
+                                      {t("shipping")}
+                                    </p>
+                                    <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
+                                      {formatCurrency(shipping)}
+                                    </p>
+                                  </div>
+
+                                  {/* taxes  */}
+                                  <div className="flex justify-between items-center w-full">
+                                    <p className="text-base dark:text-white leading-4 text-gray-800">
+                                      {t("tax")}
+                                    </p>
+                                    <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
+                                      {formatCurrency(tax)}
+                                    </p>
                                   </div>
                                 </div>
+
+                                <div className="flex justify-between items-center w-full">
+                                  <div className="flex items-center">
+                                    <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
+                                      {t("total")}
+                                    </p>
+                                    <p className="pl-2 text-base dark:text-gray-300 text-gray-600">
+                                      ({t("with_taxes_included")})
+                                    </p>
+                                  </div>
+
+                                  <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
+                                    {formatCurrency(total)}
+                                  </p>
+                                </div>
+
+                                {/* Proceed to pay */}
+                                <div className="flex justify-center items-center md:justify-start md:items-start w-full">
+                                  <Button
+                                    btnType={"submit"}
+                                    large
+                                    primary
+                                    class="font-semibold"
+                                    title={""}
+                                    disabled={cart.length === 0}
+                                    onClick={() => {
+                                      handleProceedToPay();
+                                    }}
+                                  >
+                                    {t("proceed_to_pay")}
+                                  </Button>
+                                </div>
                               </div>
+                            </div>
 
-                              {/* Addresses */}
-                              <div className="flex flex-col justify-start items-start flex-shrink-0 pb-4 mt-6 md:mt-0 space-y-6">
-                                <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                                  <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                                    {t("addresses")}
-                                  </h3>
+                            {/* Addresses */}
+                            <div className="flex flex-col justify-start items-start flex-shrink-0 pb-4 mt-6 md:mt-0 space-y-6">
+                              <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+                                <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                                  {t("addresses")}
+                                </h3>
 
-                                  <div className="flex justify-center md:justify-start xl:flex-col flex-col lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-3 md:flex-col items-center md:items-start">
-                                    <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
-                                      <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
-                                        {t("shipping_address")}
-                                      </p>
+                                <div className="flex justify-center md:justify-start xl:flex-col flex-col lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-3 md:flex-col items-center md:items-start">
+                                  <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
+                                    <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
+                                      {t("shipping_address")}
+                                    </p>
 
-                                      <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                                        180 North King Street, Northhampton MA
-                                        1060
-                                      </p>
-                                    </div>
-
-                                    <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
-                                      <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
-                                        {t("billing_address")}
-                                      </p>
-                                      <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                                        180 North King Street, Northhampton MA
-                                        1060
-                                      </p>
-                                    </div>
+                                    <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                                      180 North King Street, Northhampton MA
+                                      1060
+                                    </p>
                                   </div>
 
-                                  <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-                                    <Button
-                                      xLarge
-                                      accent
-                                      class="font-semibold"
-                                      title={"Edit Details"}
-                                    >
-                                      {t("edit_details")}
-                                    </Button>
+                                  <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
+                                    <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
+                                      {t("billing_address")}
+                                    </p>
+                                    <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                                      180 North King Street, Northhampton MA
+                                      1060
+                                    </p>
                                   </div>
+                                </div>
+
+                                <div className="flex w-full justify-center items-center md:justify-start md:items-start">
+                                  <Button
+                                    xLarge
+                                    accent
+                                    class="font-semibold"
+                                    title={"Edit Details"}
+                                  >
+                                    {t("edit_details")}
+                                  </Button>
                                 </div>
                               </div>
                             </div>
@@ -648,7 +659,7 @@ export default function Checkout() {
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 )}
               </>
             )}

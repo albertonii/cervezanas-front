@@ -21,25 +21,14 @@ export async function middleware(req: NextRequest) {
     const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
   }
+
   if (req.nextUrl.pathname.startsWith("/marketplace")) {
     const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
   }
+
+  if (req.nextUrl.pathname.startsWith("/cart/shopping_basket")) {
+    const authCookie = req.cookies.get("sb-access-token");
+    if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
+  }
 }
-
-// export async function middleware(request: NextRequest) {
-//   if (request.nextUrl.pathname.startsWith("/marketplace")) {
-//     return NextResponse.rewrite(new URL("/marketplace", request.url));
-//   }
-
-//   if (request.nextUrl.pathname.startsWith("/dashboard")) {
-//     return NextResponse.rewrite(new URL("/dashboard/user", request.url));
-//   }
-
-//   return NextResponse.next();
-// }
-
-// // El middleware entrará en estos paths
-// export const config = {
-//   matcher: ["/marketplace", "/dashboard"],
-// };

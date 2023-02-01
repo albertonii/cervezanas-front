@@ -266,6 +266,8 @@ const AddProduct = (props: Props) => {
         btnTitle={"add_product"}
         description={""}
         handler={handleSubmit(onSubmit)}
+        classIcon={""}
+        classContainer={""}
       >
         <>
           <ProductStepper
