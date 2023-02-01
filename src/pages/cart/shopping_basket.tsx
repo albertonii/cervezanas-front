@@ -9,6 +9,8 @@ import {
   faShoppingCart,
   faCircleExclamation,
   faInfoCircle,
+  faMoneyCheckDollar,
+  faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "../../components/Layout";
@@ -91,6 +93,12 @@ export default function Checkout() {
       setTotal(0);
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
+
+  const handleProceedToPay = () => {
+    // items.map((item) => {
+    //   removeFromCart(item.id);
+    // });
+  };
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -258,13 +266,88 @@ export default function Checkout() {
                           </h3>
 
                           <section>
-                            <fieldset className="mb-3 bg-white rounded text-gray-600">
+                            <div className="flex flex-col justify-start items-start space-y-2">
+                              <div className="text-xl text-gray-500">
+                                {t("payment_method")}
+                              </div>
+                              <div className="flex flex-row justify-start items-center space-x-2">
+                                <div className="w-8 h-8">
+                                  <FontAwesomeIcon
+                                    icon={faCreditCard}
+                                    style={{ color: "#fdc300" }}
+                                    title={"payment_method"}
+                                    width={32}
+                                    height={32}
+                                  />
+                                </div>
+                                <div className="text-lg text-gray-500">
+                                  {t("credit_card")}
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+
+                          <section>
+                            <div className="flex flex-col justify-start items-start space-y-2">
+                              <div className="text-xl text-gray-500">
+                                {t("card_details")}
+                              </div>
+                            </div>
+
+                            <fieldset className="mb-3 mt-4 bg-white rounded text-gray-600">
+                              {/* Card Number */}
                               <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                <span className="text-right px-2">Card</span>
+                                <span className="text-right px-2">
+                                  {t("card_number")}
+                                </span>
                                 <input
                                   name="card"
                                   className="focus:outline-none px-3 w-full"
-                                  placeholder="Card number MM/YY CVC"
+                                  placeholder={t("card_number_placeholder")!}
+                                  required
+                                />
+                              </label>
+
+                              {/* Expiry Data and CVC GROUP */}
+                              <div className="flex justify-between items-center">
+                                {/* Expiry Data */}
+                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                  <span className="text-right px-2">
+                                    {t("card_expiration")}
+                                  </span>
+                                  <input
+                                    name="expiry"
+                                    className="focus:outline-none px-3 w-full"
+                                    placeholder={
+                                      t("card_expiration_placeholder")!
+                                    }
+                                    required
+                                  />
+                                </label>
+
+                                {/* CVC */}
+                                <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                  <span className="text-right px-2">
+                                    {t("card_cvv")}
+                                  </span>
+                                  <input
+                                    name="cvc"
+                                    className="focus:outline-none px-3 w-full"
+                                    placeholder={t("card_cvv_placeholder")!}
+                                    required
+                                  />
+                                </label>
+                              </div>
+
+                              {/* Name on Card */}
+                              <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                <span className="text-right px-2">
+                                  {t("card_holder")}
+                                </span>
+                                <input
+                                  name="name"
+                                  className="focus:outline-none px-3 w-full"
+                                  placeholder={t("card_holder_placeholder")!}
                                   required
                                 />
                               </label>
@@ -351,9 +434,7 @@ export default function Checkout() {
                             <div className="flex justify-center items-center md:justify-start md:items-start w-full">
                               <Button
                                 onClick={() => {
-                                  items.map((item) => {
-                                    removeFromCart(item.id);
-                                  });
+                                  handleProceedToPay();
                                 }}
                                 large
                                 primary

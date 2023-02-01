@@ -243,6 +243,17 @@ const translationsEn = {
   create_account: "Create Account",
   already_account: "Already have an account?",
   access_account: "Access account",
+  payment_method: "Payment Method",
+  credit_card: "Credit Card",
+  card_details: "Card Details",
+  card_number: "Card Number",
+  card_holder: "Card Holder",
+  card_expiration: "Expiration Date",
+  card_cvv: "CVV",
+  card_expiration_placeholder: "MM/AA",
+  card_cvv_placeholder: "CVV",
+  card_number_placeholder: "1234 1234 1234 1234",
+  card_holder_placeholder: "Card Holder",
 };
 
 const translationsEs = {
@@ -501,6 +512,17 @@ const translationsEs = {
   create_account: "Crear cuenta",
   already_account: "¿Ya tienes una cuenta?",
   access_account: "Acceder a tu cuenta",
+  payment_method: "Método de pago",
+  credit_card: "Tarjeta",
+  card_details: "Detalles de la tarjeta",
+  card_number: "Número de tarjeta",
+  card_holder: "Titular de la tarjeta",
+  card_expiration: "Fecha de caducidad",
+  card_cvv: "CVV",
+  card_expiration_placeholder: "MM/AA",
+  card_cvv_placeholder: "CVV",
+  card_number_placeholder: "1234 1234 1234 1234",
+  card_holder_placeholder: "Titular de la tarjeta",
 };
 
 // the translations
