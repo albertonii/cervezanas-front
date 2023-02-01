@@ -97,19 +97,14 @@ export default function Header({}: Props) {
                   </li>
 
                   <li>
-                    <Link
-                      href="#"
-                      className="block py-2 pr-4 pl-3 text-beer-dark rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    <Select
+                      name="language"
+                      style={{ backgroundColor: "transparent" }}
+                      onChange={onChangeLanguage}
                     >
-                      <Select
-                        name="language"
-                        style={{ backgroundColor: "transparent" }}
-                        onChange={onChangeLanguage}
-                      >
-                        <Select.Option value="es">🇪🇸 Español</Select.Option>
-                        <Select.Option value="en">🇬🇧 Inglés</Select.Option>
-                      </Select>
-                    </Link>
+                      <Select.Option value="es">🇪🇸 Español</Select.Option>
+                      <Select.Option value="en">🇬🇧 Inglés</Select.Option>
+                    </Select>
                   </li>
 
                   <li>
@@ -144,44 +139,34 @@ export default function Header({}: Props) {
                   </li>
 
                   <li>
-                    <Link
-                      href="#"
-                      className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    <Button
+                      onClick={() => handleSignOut()}
+                      title={""}
+                      class={
+                        "border-none hover:bg-transparent hover:scale-110 transition-all"
+                      }
                     >
-                      <Button
-                        onClick={() => handleSignOut()}
-                        title={""}
-                        class={
-                          "border-none hover:bg-transparent hover:scale-110 transition-all"
-                        }
-                      >
-                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                          <Image
-                            src={"/icons/logout-240.png"}
-                            width={30}
-                            height={30}
-                            alt={"Logout user"}
-                          />
-                        </span>
-                      </Button>
-                    </Link>
+                      <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <Image
+                          src={"/icons/logout-240.png"}
+                          width={30}
+                          height={30}
+                          alt={"Logout user"}
+                        />
+                      </span>
+                    </Button>
                   </li>
                 </>
               ) : (
                 <>
                   <li>
-                    <Link
-                      href="#"
-                      className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    <Button
+                      onClick={() => handleSignIn()}
+                      title={""}
+                      class={""}
                     >
-                      <Button
-                        onClick={() => handleSignIn()}
-                        title={""}
-                        class={""}
-                      >
-                        {t("login")}
-                      </Button>
-                    </Link>
+                      {t("login")}
+                    </Button>
                   </li>
                 </>
               )}

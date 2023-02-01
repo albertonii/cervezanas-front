@@ -27,6 +27,7 @@ import {
   PaymentCard,
   ShippingAddress,
 } from "../../lib/interfaces";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 interface FormShippingData {
   shipping_info: ShippingAddress;
@@ -146,10 +147,7 @@ export default function Checkout() {
 
   const handleProceedToPay = async () => {
     const card_info = getCardValues("card_info");
-    console.log(cardErrors);
     // setLoadingPayment(true);
-
-    console.log(card_info);
 
     /*
     const { data: order, error: orderError } = await supabase
@@ -337,13 +335,25 @@ export default function Checkout() {
                                 {t("shipping_and_billing_info")}
                               </h3>
 
-                              <form></form>
+                              {/* Shipping select list form */}
+                              <div className="flex flex-col justify-start items-start w-full space-y-4">
+                                <div className="flex flex-col justify-start items-start w-full space-y-2">
+                                  <label
+                                    htmlFor="shipping"
+                                    className="text-sm font-medium text-gray-500"
+                                  >
+                                    {t("shipping")}
+                                  </label>
+
+                                  {/* Option box with list user shipping address  */}
+                                </div>
+                              </div>
 
                               {/* Add Shipping Information */}
                               <NewShippingAddress />
 
                               {/* Add Billing Information  */}
-                              {/* <NewBillingAddress /> */}
+                              <NewBillingAddress />
 
                               <div className="flex justify-between items-start w-full">
                                 <div className="flex justify-center items-center space-x-4">

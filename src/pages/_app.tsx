@@ -11,6 +11,7 @@ import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 import AppContextProvider from "../components/Context/AppContext";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above

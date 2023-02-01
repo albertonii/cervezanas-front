@@ -68,7 +68,7 @@ export default function NewShippingAddress() {
 
       if (error) throw error;
 
-      // reset();
+      reset();
     };
 
     handleAddShippingAddress();

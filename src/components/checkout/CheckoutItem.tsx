@@ -105,25 +105,23 @@ export default function CheckoutItem({
             {quantity === 0 ? (
               <></>
             ) : (
-              <div>
-                <div className="flex items-center justify-center">
-                  <Button
-                    box
-                    onClick={() => handleDecreaseCartQuantity(beer.id)}
-                    class={""}
-                  >
-                    -
-                  </Button>
-                  <span className="px-2 text-3xl text-black">{quantity}</span>
-                  <Button
-                    box
-                    onClick={() => handleIncreaseCartQuantity(beer.id)}
-                    class={""}
-                  >
-                    +
-                  </Button>
-                </div>
-              </div>
+              <span className="flex items-center justify-center">
+                <Button
+                  box
+                  onClick={() => handleDecreaseCartQuantity(beer.id)}
+                  class={""}
+                >
+                  -
+                </Button>
+                <span className="px-2 text-3xl text-black">{quantity}</span>
+                <Button
+                  box
+                  onClick={() => handleIncreaseCartQuantity(beer.id)}
+                  class={""}
+                >
+                  +
+                </Button>
+              </span>
             )}
           </p>
           <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">
