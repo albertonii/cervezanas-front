@@ -69,18 +69,18 @@ export default function NewBillingAddress() {
   };
 
   return (
-    <form id="billing-info-form" className="w-full">
-      <Modal
-        isVisible={false}
-        title={t("add_billing_address")}
-        btnTitle={t("add_billing_address")}
-        description={""}
-        icon={faAdd}
-        handler={handleSubmit(onSubmit)}
-        classIcon={"w-6 h-6"}
-        classContainer={"!w-1/2"}
-        btnSize={"large"}
-      >
+    <Modal
+      isVisible={false}
+      title={t("add_billing_address")}
+      btnTitle={t("add_billing_address")}
+      description={""}
+      icon={faAdd}
+      handler={handleSubmit(onSubmit)}
+      classIcon={"w-6 h-6"}
+      classContainer={"!w-1/2"}
+      btnSize={"large"}
+    >
+      <form id="billing-info-form" className="w-full">
         {/* Billing information */}
         <section>
           <fieldset className="mb-3 bg-beer-foam rounded">
@@ -217,7 +217,7 @@ export default function NewBillingAddress() {
             </div>
           </fieldset>
         </section>
-      </Modal>
-    </form>
+      </form>
+    </Modal>
   );
 }

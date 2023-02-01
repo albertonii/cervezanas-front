@@ -31,6 +31,7 @@ export interface IModalAddProduct {
 }
 
 export interface ShippingAddress {
+  id: string;
   name: string;
   lastname: string;
   document_id: string;
@@ -46,6 +47,7 @@ export interface ShippingAddress {
 }
 
 export interface BillingAddress {
+  id: string;
   name: string;
   lastname: string;
   document_id: string;
@@ -59,6 +61,7 @@ export interface BillingAddress {
 }
 
 export interface PaymentCard {
+  id: string;
   card_number: string;
   card_name: string;
   card_expiration: string;

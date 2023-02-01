@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CheckoutItem from "../../components/checkout/CheckoutItem";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
-import { Beer, CartItem } from "../../lib/types";
+import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import {
   faShoppingCart,
@@ -41,12 +41,21 @@ interface FormCardData {
   card_info: PaymentCard;
 }
 
-export default function Checkout() {
+interface Props {
+  shippingAddresses: ShippingAddress[];
+  billingAddresses: BillingAddress[];
+}
+
+export default function Checkout(props: Props) {
   const { t } = useTranslation();
 
-  const router = useRouter();
+  const {
+    shippingAddresses: shippingAddresses_,
+    billingAddresses: billingAddresses_,
+  } = props;
 
   const { user } = useAuth();
+  const router = useRouter();
 
   const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
@@ -56,6 +65,33 @@ export default function Checkout() {
     subtotal - discount + shipping + tax
   );
   const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
+
+  const [shippingAddresses, setShippingAddresses] = useState<ShippingAddress[]>(
+    []
+  );
+
+  useEffect(() => {
+    const getAddresses = async () => {
+      let { data: userData, error: usersError } = await supabase
+        .from("users")
+        .select(`*, shipping_info(*), billing_info(*)`)
+        .eq("id", user?.id);
+
+      if (usersError) {
+        console.log(usersError);
+      }
+
+      if (userData) {
+        setShippingAddresses(userData[0].shipping_info);
+        setBillingAddresses(userData[0].billing_info);
+      }
+    };
+
+    getAddresses();
+  }, [user?.id]);
+
+  const [billingAddresses, setBillingAddresses] =
+    useState<BillingAddress[]>(billingAddresses_);
 
   const {
     formState: { errors: shippingErrors },
@@ -349,6 +385,53 @@ export default function Checkout() {
                                 </div>
                               </div>
 
+                              {/* Radio button for select shipping address */}
+                              <ul className="grid w-full gap-6 md:grid-cols-1">
+                                {shippingAddresses.map((address) => {
+                                  return (
+                                    <li key={address.id}>
+                                      <input
+                                        type="radio"
+                                        id={`shipping-address-${address.id}`}
+                                        {...registerShipping("shipping_info")}
+                                        value={address.id}
+                                        className="hidden peer"
+                                        required
+                                      />
+
+                                      <label
+                                        htmlFor={`shipping-address-${address.id}`}
+                                        className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                      >
+                                        <div className="block">
+                                          <div className="w-full text-lg font-semibold">
+                                            {address.name} {address.lastname}
+                                          </div>
+                                          <div className="w-full">
+                                            {address.address}, {address.city},{" "}
+                                            {address.state}, {address.zipcode},{" "}
+                                            {address.country}
+                                          </div>
+                                        </div>
+                                        <svg
+                                          aria-hidden="true"
+                                          className="w-6 h-6 ml-3"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            fillRule="evenodd"
+                                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                            clipRule="evenodd"
+                                          ></path>
+                                        </svg>
+                                      </label>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+
                               {/* Add Shipping Information */}
                               <NewShippingAddress />
 
@@ -386,7 +469,7 @@ export default function Checkout() {
                                   title={t("view_carrier_details")!}
                                   accent
                                   medium
-                                  class="sm:w-full text-base font-medium "
+                                  class="sm:w-full text-base font-medium"
                                 >
                                   {t("view_carrier_details")}
                                 </Button>
@@ -679,3 +762,22 @@ export default function Checkout() {
     </Layout>
   );
 }
+
+// export async function getServerSideProps({ req }: any) {
+//   const { user } = await supabase.auth.api.getUserByCookie(req);
+
+//   let { data: userData, error: usersError } = await supabase
+//     .from("users")
+//     .select(`*, shipping_info(*), billing_info(*)`)
+//     .eq("id", user?.id);
+//   console.log(userData);
+//   if (usersError) throw usersError;
+//   if (!userData) return { props: {} };
+
+//   return {
+//     props: {
+//       shippingAddresses: userData[0]?.shipping_info ?? [],
+//       billingAddresses: userData[0]?.billing_info ?? [],
+//     },
+//   };
+// }

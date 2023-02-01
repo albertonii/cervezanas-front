@@ -57,7 +57,6 @@ export const ClientContainerLayout = ({ children }: Props) => {
         console.log("error", error);
         return;
       }
-      console.log("data", data);
       setProfileImg(SupabaseProps.BASE_AVATARS_URL + decodeUriProfileImg);
     };
 

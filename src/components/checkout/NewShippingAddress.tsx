@@ -75,18 +75,18 @@ export default function NewShippingAddress() {
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        isVisible={false}
-        title={t("add_shipping_address")}
-        btnTitle={t("add_shipping_address")}
-        description={""}
-        icon={faAdd}
-        handler={handleSubmit(onSubmit)}
-        btnSize={"large"}
-        classIcon={"w-6 h-6"}
-        classContainer={"!w-1/2"}
-      >
+    <Modal
+      isVisible={false}
+      title={t("add_shipping_address")}
+      btnTitle={t("add_shipping_address")}
+      description={""}
+      icon={faAdd}
+      handler={handleSubmit(onSubmit)}
+      btnSize={"large"}
+      classIcon={"w-6 h-6"}
+      classContainer={"!w-1/2"}
+    >
+      <form className="w-full">
         <>
           {/* Shipping information */}
           <section>
@@ -247,7 +247,7 @@ export default function NewShippingAddress() {
             </fieldset>
           </section>
         </>
-      </Modal>
-    </form>
+      </form>
+    </Modal>
   );
 }

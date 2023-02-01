@@ -9,6 +9,7 @@ import { User } from "@supabase/supabase-js";
 const Submit: NextPage<UserProps> = () => {
   const { supabaseClient, loggedIn, user } = useAuth();
 
+  /*
   useEffect(() => {
     // Now you can query with RLS enabled.
     const getUsers = async () => {
@@ -17,6 +18,7 @@ const Submit: NextPage<UserProps> = () => {
 
     getUsers();
   }, [supabaseClient]);
+  */
 
   return (
     <>
