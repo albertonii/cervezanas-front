@@ -3,6 +3,8 @@ import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { type User, Session } from "@supabase/gotrue-js/src/lib/types";
 
+export type ButtonTypes = "button" | "submit" | "reset";
+
 export interface AnimationTailwindClasses {
   enter?: string;
   enterFrom?: string;

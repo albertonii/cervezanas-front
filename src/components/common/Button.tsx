@@ -1,16 +1,5 @@
 import React, { useState } from "react";
 
-export interface ButtonTypes {
-  type?:
-    | "primary"
-    | "default"
-    | "secondary"
-    | "outline"
-    | "dashed"
-    | "link"
-    | "text";
-}
-
 interface ButtonProps {
   onClick?: () => void;
   isActive?: boolean;
@@ -28,6 +17,7 @@ interface ButtonProps {
   disabled?: boolean;
   primary?: boolean;
   accent?: boolean;
+  btnType?: string;
 }
 
 export default function Button({
@@ -45,12 +35,22 @@ export default function Button({
   disabled,
   primary,
   accent,
+  btnType,
 }: ButtonProps) {
   const [hoverColor, _] = useState(isActive ? "filled" : "unfilled");
 
+  const getButtonType = () => {
+    switch (btnType) {
+      case "submit":
+        return "submit";
+      default:
+        return "button";
+    }
+  };
+
   return (
     <button
-      type="button"
+      type={`${getButtonType()}`}
       onClick={onClick}
       color={hoverColor}
       className={`

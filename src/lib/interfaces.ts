@@ -29,3 +29,41 @@ export interface IModalAddProduct {
   lot_id: number;
   lot_quantity: number;
 }
+
+export interface ShippingAddress {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  state: string;
+  city: string;
+  zipcode: string;
+  shipping_checked: boolean;
+}
+
+export interface BillingAddress {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  country: string;
+  state: string;
+  city: string;
+  zipcode: string;
+  billing_checked: boolean;
+}
+
+export interface PaymentCard {
+  card_number: string;
+  card_name: string;
+  card_expiration: string;
+  card_cvv: string;
+  card_checked: boolean;
+  card_holder: string;
+  card_document_id: string;
+}
