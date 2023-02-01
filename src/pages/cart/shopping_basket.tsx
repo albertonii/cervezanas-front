@@ -19,11 +19,15 @@ import NewShippingAddress from "../../components/checkout/NewShippingAddress";
 import NewBillingAddress from "../../components/checkout/NewBillingAddress";
 import CustomLoading from "../../components/checkout/CustomLoading";
 import { useRouter } from "next/router";
+import { supabase } from "../../utils/supabaseClient";
+import { useAuth } from "../../components/Auth/useAuth";
 
 export default function Checkout() {
   const { t } = useTranslation();
 
   const router = useRouter();
+
+  const { user } = useAuth();
 
   const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
@@ -99,12 +103,67 @@ export default function Checkout() {
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
   const handleProceedToPay = async () => {
-    setLoadingPayment(true);
+    // setLoadingPayment(true);
 
-    setTimeout(() => {
-      router.push("/order-details");
-      setLoadingPayment(false);
-    }, 2400);
+    const { data: order, error: orderError } = await supabase
+      .from("order")
+      .insert({
+        owner_id: user?.id,
+        total: total,
+        customer_name: "John Doe",
+        status: "pending",
+        tracking_id: "123456789",
+        issue_date: "2021-09-01",
+        estimated_date: "2021-09-05",
+        payment_method: "credit_card",
+        order_number: "123456789",
+      })
+      .select("id");
+
+    if (orderError) throw orderError;
+
+    const { error: shippingError } = await supabase
+      .from("shipping_info")
+      .insert({
+        updated_at: "2021-09-01",
+        owner_id: user?.id,
+        order_id: order?.[0].id,
+        name: "John",
+        lastname: "Doe",
+        document_id: "123456789",
+        phone: "123456789",
+        address: "123456789",
+        address_extra: "123456789",
+        country: "Spain",
+        zipcode: 35600,
+        city: "Puerto del Rosario",
+        state: "Las Palmas",
+        is_default: true,
+      });
+
+    if (shippingError) throw shippingError;
+
+    const { error: billingError } = await supabase.from("billing_info").insert({
+      updated_at: "2021-09-01",
+      owner_id: user?.id,
+      name: "John",
+      lastname: "Doe",
+      document_id: "123456789",
+      phone: "123456789",
+      address: "123456789",
+      country: "Spain",
+      zipcode: 35600,
+      city: "Puerto del Rosario",
+      state: "Las Palmas",
+      is_default: true,
+    });
+
+    if (billingError) throw billingError;
+
+    // setTimeout(() => {
+    //   router.push("/order-details");
+    //   setLoadingPayment(false);
+    // }, 2400);
 
     // items.map((item) => {
     //   removeFromCart(item.id);
@@ -264,7 +323,7 @@ export default function Checkout() {
 
                               <div className="w-full flex justify-center items-center">
                                 <Button
-                                  title={t("view_carrier_details")}
+                                  title={t("view_carrier_details")!}
                                   accent
                                   medium
                                   class="sm:w-full text-base font-medium "

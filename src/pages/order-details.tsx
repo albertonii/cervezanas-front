@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import { Beer, Order } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 
-export default function OrderDetails({ order }: Order) {
+export default function OrderDetails({}: Order) {
   const { items } = useShoppingCart();
 
   const [cart, setCart] = useState<Beer[]>([]);
@@ -317,4 +317,37 @@ export default function OrderDetails({ order }: Order) {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  let { data: beersData, error: beersError } = await supabase.from("beers")
+    .select(`
+    *,
+    product_multimedia (
+      p_principal
+    ),product_inventory (
+      quantity
+    ),likes (
+      id
+    ), reviews (
+      overall
+    )
+  `);
+
+  if (beersError) throw beersError;
+
+  beersData?.map(async (beer, index) => {
+    beer.product_multimedia[0].p_principal =
+      beer.product_multimedia[0]?.p_principal == undefined || null
+        ? `/marketplace_product_default.png`
+        : `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}/${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
+
+    beersData![index] = beer;
+  });
+
+  return {
+    props: {
+      beers: beersData,
+    },
+  };
 }
