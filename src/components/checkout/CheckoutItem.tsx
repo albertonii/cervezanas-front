@@ -80,16 +80,22 @@ export default function CheckoutItem({
           </h3>
           <div className="flex justify-start items-start flex-col space-y-2">
             <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">Style: </span>{" "}
-              Italic Minimal Design
+              <span className="dark:text-gray-400 text-gray-300">
+                {t("aroma")}:{" "}
+              </span>{" "}
+              {t(`${beer.aroma}`)}
             </p>
             <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">Size: </span>{" "}
-              Small
+              <span className="dark:text-gray-400 text-gray-300">
+                {t("family")}:{" "}
+              </span>{" "}
+              {t(`${beer.family}`)}
             </p>
             <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">Color: </span>{" "}
-              Light Blue
+              <span className="dark:text-gray-400 text-gray-300">
+                {t("fermentation")}:{" "}
+              </span>{" "}
+              {t(`${beer.fermentation}`)}
             </p>
           </div>
         </div>

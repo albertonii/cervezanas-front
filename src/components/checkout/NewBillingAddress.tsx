@@ -78,7 +78,7 @@ export default function NewBillingAddress() {
         icon={faAdd}
         handler={handleSubmit(onSubmit)}
         classIcon={"w-6 h-6"}
-        classContainer={"w-96"}
+        classContainer={"!w-1/2"}
         btnSize={"large"}
       >
         {/* Billing information */}
