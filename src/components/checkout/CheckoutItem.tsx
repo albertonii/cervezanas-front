@@ -1,4 +1,3 @@
-import { Button } from "@supabase/ui";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -7,6 +6,7 @@ import { SupabaseProps } from "../../constants";
 import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
+import Button from "../common/Button";
 
 interface Props {
   beer: Beer;
@@ -25,10 +25,10 @@ export default function CheckoutItem({
 }: Props) {
   const { t } = useTranslation();
 
-  const [p_principal, setPPrincipal] = useState<string>("");
-  const [productSubtotal, setProductSubtotal] = useState<number>(
-    beer.price * quantity
+  const [p_principal, setPPrincipal] = useState<string>(
+    "/marketplace_product_default.png"
   );
+  const [productSubtotal, _] = useState<number>(beer.price * quantity);
 
   useEffect(() => {
     const getPrincipal = async () => {
@@ -36,7 +36,11 @@ export default function CheckoutItem({
         ? true
         : false;
 
-      if (hasPrincipal) {
+      if (
+        hasPrincipal &&
+        beer.product_multimedia[0].p_principal !==
+          "/marketplace_product_default.png"
+      ) {
         const pPrincipalUrl = `${SupabaseProps.P_PRINCIPAL_URL}${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
         const { data: p_principal, error } = supabase.storage
           .from("products")
@@ -44,30 +48,23 @@ export default function CheckoutItem({
 
         if (error) throw error;
         setPPrincipal(p_principal!.publicURL);
-      } else {
-        const pPrincipalUrl = "/marketplace_product_default.png";
-        setPPrincipal(pPrincipalUrl);
       }
     };
 
     getPrincipal();
-    setProductSubtotal(beer.price * quantity);
-  }, [beer.owner_id, beer.price, beer.product_multimedia, quantity]);
+  }, [beer.owner_id, beer.product_multimedia]);
+
+  useEffect(() => {
+    console.log("p_principal: ", p_principal);
+  }, [p_principal]);
 
   return (
     <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
-      <div className="pb-4 md:pb-8 w-full md:w-40">
+      <div className="pb-4 md:pb-8 ">
         <Image
           width={600}
           height={600}
-          className="w-full hidden md:block"
-          src={p_principal}
-          alt={beer.name}
-        />
-        <Image
-          width={300}
-          height={300}
-          className="w-full md:hidden"
+          className="sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
           src={p_principal}
           alt={beer.name}
         />
@@ -110,11 +107,19 @@ export default function CheckoutItem({
             ) : (
               <div>
                 <div className="flex items-center justify-center">
-                  <Button onClick={() => handleDecreaseCartQuantity(beer.id)}>
+                  <Button
+                    box
+                    onClick={() => handleDecreaseCartQuantity(beer.id)}
+                    class={""}
+                  >
                     -
                   </Button>
                   <span className="px-2 text-3xl text-black">{quantity}</span>
-                  <Button onClick={() => handleIncreaseCartQuantity(beer.id)}>
+                  <Button
+                    box
+                    onClick={() => handleIncreaseCartQuantity(beer.id)}
+                    class={""}
+                  >
                     +
                   </Button>
                 </div>
@@ -127,10 +132,13 @@ export default function CheckoutItem({
 
           <span>
             <Button
-              className={"bg-red-200"}
+              box
+              class={""}
               onClick={() => {
                 handleRemoveFromCart(beer.id);
               }}
+              danger
+              small
             >
               {t("remove")}
             </Button>

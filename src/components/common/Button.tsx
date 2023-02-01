@@ -17,7 +17,7 @@ interface ButtonProps {
   color?: { filled: string; unfilled: string };
   class: string;
   children?: React.ReactNode;
-  title: string;
+  title?: string;
   box?: boolean;
   danger?: boolean;
   small?: boolean;
@@ -56,7 +56,7 @@ export default function Button({
       className={`
       flex items-center justify-center bg-beer-foam  border-beer-softBlonde border-2 rounded mt-0
       ${box ? "h-auto w-10" : ""}
-      ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
+      ${danger ? "bg-red-400 hover:bg-red-500 " : ""}
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       ${small ? "w-24" : ""} 
       ${medium ? "w-32" : ""}
@@ -74,7 +74,7 @@ export default function Button({
     >
       <span
         className={` 
-        ${danger ? "text-beer-foam " : ""} 
+        ${danger ? "text-beer-foam font-semibold" : ""} 
         ${primary ? "text-beer-dark " : "text-beer-dark"}}
         ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
         ${small ? "px-4 py-2 text-md" : ""} 

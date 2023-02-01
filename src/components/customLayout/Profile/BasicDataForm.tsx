@@ -191,7 +191,7 @@ export const BasicDataForm = (props: any) => {
           </div>
         </form>
       ) : (
-        <Spinner />
+        <Spinner color="beer-blonde" />
       )}
     </div>
   );

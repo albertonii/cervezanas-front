@@ -164,7 +164,7 @@ export default function CustomizeProfileForm(props: Props) {
           </div>
         </form>
       ) : (
-        <Spinner />
+        <Spinner color="beer-blonde" />
       )}
     </section>
   );
