@@ -74,6 +74,11 @@ export default function Checkout(props: Props) {
     billingAddresses_ ?? []
   );
 
+  const [selectedShippingAddress, setSelectedShippingAddress] =
+    useState<string>("");
+  const [selectedBillingAddress, setSelectedBillingAddress] =
+    useState<string>("");
+
   const {
     formState: { errors: shippingErrors },
     handleSubmit: handleShippingSubmit,
@@ -187,8 +192,8 @@ export default function Checkout(props: Props) {
 
   const handleProceedToPay = async () => {
     const cardInfo = getCardValues("card_info");
-    const shippingInfoId = getShippingValues("shipping_info_id");
-    const billingInfoId = getBillingValues("billing_info_id");
+    const shippingInfoId = selectedShippingAddress;
+    const billingInfoId = selectedBillingAddress;
 
     const resultCardInfo = await triggerCard("card_info", {
       shouldFocus: true,
@@ -220,21 +225,33 @@ export default function Checkout(props: Props) {
     // setLoadingPayment(true);
 
     const { data: order, error: orderError } = await supabase
-      .from("order")
+      .from("orders")
       .insert({
         owner_id: user?.id,
         total: total,
-        customer_name: user?.identities,
+        customer_name: "manolito",
         status: "started",
         tracking_id: "123456789",
-        issue_date: "2021-09-01",
-        estimated_date: "2021-09-05",
+        issue_date: new Date().getTime(),
+        estimated_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 4, // 4 days
         payment_method: "credit_card",
         order_number: "123456789",
       })
       .select("id");
 
     if (orderError) throw orderError;
+
+    items.map(async (item) => {
+      const { error: orderItemError } = await supabase
+        .from("order_item")
+        .insert({
+          order_id: order?.[0].id,
+          product_id: item.id,
+          quantity: item.quantity,
+        });
+
+      if (orderItemError) throw orderItemError;
+    });
 
     const { error: shippingError } = await supabase
       .from("shipping_info")
@@ -282,6 +299,18 @@ export default function Checkout(props: Props) {
     // items.map((item) => {
     //   removeFromCart(item.id);
     // });
+  };
+
+  useEffect(() => {
+    console.log("selectedShippingAddress", selectedShippingAddress);
+  }, [selectedShippingAddress]);
+
+  const handleOnClickShipping = (addressId: string) => {
+    setSelectedShippingAddress(addressId);
+  };
+
+  const handleOnClickBilling = (addressId: string) => {
+    setSelectedBillingAddress(addressId);
   };
 
   return (
@@ -416,7 +445,12 @@ export default function Checkout(props: Props) {
                         <ul className="grid w-full gap-6 md:grid-cols-1">
                           {shippingAddresses.map((address) => {
                             return (
-                              <li key={address.id}>
+                              <li
+                                key={address.id}
+                                onClick={() =>
+                                  handleOnClickShipping(address.id)
+                                }
+                              >
                                 <input
                                   type="radio"
                                   id={`shipping-address-${address.id}`}
@@ -481,7 +515,10 @@ export default function Checkout(props: Props) {
                         <ul className="grid w-full gap-6 md:grid-cols-1">
                           {billingAddresses.map((address) => {
                             return (
-                              <li key={address.id}>
+                              <li
+                                key={address.id}
+                                onClick={() => handleOnClickBilling(address.id)}
+                              >
                                 <input
                                   type="radio"
                                   id={`billing-address-${address.id}`}
@@ -631,6 +668,7 @@ export default function Checkout(props: Props) {
                                 placeholder={t("card_number_placeholder")!}
                                 minLength={16}
                                 maxLength={16}
+                                min={0}
                                 type="number"
                                 required
                               />
@@ -662,7 +700,7 @@ export default function Checkout(props: Props) {
                                       t("card_month_expiration_placeholder")!
                                     }
                                     maxLength={2}
-                                    size={2}
+                                    min={0}
                                     type="number"
                                     required
                                   />
@@ -687,6 +725,7 @@ export default function Checkout(props: Props) {
                                     }
                                     maxLength={2}
                                     size={2}
+                                    min={0}
                                     type="number"
                                     required
                                   />
@@ -710,6 +749,7 @@ export default function Checkout(props: Props) {
                                   placeholder={t("card_cvv_placeholder")!}
                                   maxLength={3}
                                   size={3}
+                                  min={0}
                                   type="number"
                                   required
                                 />
@@ -836,28 +876,70 @@ export default function Checkout(props: Props) {
 
                       {/* Addresses */}
                       <div className="flex flex-col justify-start items-start flex-shrink-0 pb-4 mt-6 md:mt-0 space-y-6">
-                        <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+                        <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 mb-6">
                           <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                             {t("addresses")}
                           </h3>
 
-                          <div className="flex justify-start md:justify-start xl:flex-col flex-col lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-3 md:flex-col items-start sm:items-center md:items-start">
-                            <div className="flex justify-center md:justify-start  items-start sm:items-center flex-col space-y-4 xl:mt-8">
+                          <div className="flex justify-start md:justify-start xl:flex-col flex-col lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-8 md:space-y-3 md:flex-col items-start sm:items-center md:items-start">
+                            <div className="flex justify-center md:justify-start items-start flex-col space-y-4 xl:mt-8">
                               <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
                                 {t("shipping_address")}
                               </p>
 
                               <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                                180 North King Street, Northhampton MA 1060
+                                {shippingAddresses.map((address) => {
+                                  if (address.id !== selectedShippingAddress)
+                                    return <></>;
+                                  return (
+                                    <label
+                                      key={address.id}
+                                      className=" w-full text-beer-dark 
+                                           dark:text-gray-400 dark:bg-gray-800"
+                                    >
+                                      <div className="block">
+                                        <div className="w-full text-lg font-semibold">
+                                          {address.name} {address.lastname}
+                                        </div>
+                                        <div className="w-full text-md">
+                                          {address.address}, {address.city},{" "}
+                                          {address.state}, {address.zipcode},{" "}
+                                          {address.country}
+                                        </div>
+                                      </div>
+                                    </label>
+                                  );
+                                })}
                               </p>
                             </div>
 
-                            <div className="flex justify-center md:justify-start items-start sm:items-center flex-col space-y-4">
+                            <div className="flex justify-center md:justify-start items-start flex-col space-y-4">
                               <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
                                 {t("billing_address")}
                               </p>
+
                               <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                                180 North King Street, Northhampton MA 1060
+                                {billingAddresses.map((address) => {
+                                  if (address.id !== selectedBillingAddress)
+                                    return <></>;
+                                  return (
+                                    <label
+                                      key={address.id}
+                                      className=" w-full text-beer-dark dark:text-gray-400 dark:bg-gray-800"
+                                    >
+                                      <div className="block">
+                                        <div className="w-full text-lg font-semibold">
+                                          {address.name} {address.lastname}
+                                        </div>
+                                        <div className="w-full text-md">
+                                          {address.address}, {address.city},{" "}
+                                          {address.state}, {address.zipcode},{" "}
+                                          {address.country}
+                                        </div>
+                                      </div>
+                                    </label>
+                                  );
+                                })}
                               </p>
                             </div>
                           </div>
