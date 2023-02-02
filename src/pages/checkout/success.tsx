@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { useShoppingCart } from "../components/Context/ShoppingCartContext";
-import Layout from "../components/Layout";
-import { Beer, Order } from "../lib/types";
-import { supabase } from "../utils/supabaseClient";
+import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
+import Layout from "../../components/Layout";
+import { SupabaseProps } from "../../constants";
+import { Beer, Order } from "../../lib/types";
+import { supabase } from "../../utils/supabaseClient";
 
-export default function OrderDetails({}: Order) {
+export default function Success({}: Order) {
   const { items } = useShoppingCart();
 
   const [cart, setCart] = useState<Beer[]>([]);

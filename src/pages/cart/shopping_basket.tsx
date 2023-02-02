@@ -17,7 +17,7 @@ import Image from "next/image";
 import Button from "../../components/common/Button";
 import NewShippingAddress from "../../components/checkout/NewShippingAddress";
 import NewBillingAddress from "../../components/checkout/NewBillingAddress";
-import CustomLoading from "../../components/checkout/CustomLoading";
+import CustomLoading from "../../components/common/CustomLoading";
 import { useRouter } from "next/router";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../../components/Auth/useAuth";
@@ -191,114 +191,79 @@ export default function Checkout(props: Props) {
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
   const handleProceedToPay = async () => {
-    const cardInfo = getCardValues("card_info");
-    const shippingInfoId = selectedShippingAddress;
-    const billingInfoId = selectedBillingAddress;
+    try {
+      const cardInfo = getCardValues("card_info");
+      const shippingInfoId = selectedShippingAddress;
+      const billingInfoId = selectedBillingAddress;
 
-    const resultCardInfo = await triggerCard("card_info", {
-      shouldFocus: true,
-    });
-    const resultBillingInfoId = await triggerBilling("billing_info_id", {
-      shouldFocus: true,
-    });
-    const resultShippingInfoId = await triggerShipping("shipping_info_id", {
-      shouldFocus: true,
-    });
-
-    if (
-      resultCardInfo === false ||
-      resultBillingInfoId === false ||
-      resultShippingInfoId === false
-    )
-      return;
-
-    const shippingInfo = shippingAddresses.find(
-      (address) => address.id === shippingInfoId
-    );
-
-    const billingInfo = billingAddresses.find(
-      (address) => address.id === billingInfoId
-    );
-
-    if (!shippingInfo || !billingInfo) return;
-
-    // setLoadingPayment(true);
-
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .insert({
-        owner_id: user?.id,
-        total: total,
-        customer_name: "manolito",
-        status: "started",
-        tracking_id: "123456789",
-        issue_date: new Date().getTime(),
-        estimated_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 4, // 4 days
-        payment_method: "credit_card",
-        order_number: "123456789",
-      })
-      .select("id");
-
-    if (orderError) throw orderError;
-
-    items.map(async (item) => {
-      const { error: orderItemError } = await supabase
-        .from("order_item")
-        .insert({
-          order_id: order?.[0].id,
-          product_id: item.id,
-          quantity: item.quantity,
-        });
-
-      if (orderItemError) throw orderItemError;
-    });
-
-    const { error: shippingError } = await supabase
-      .from("shipping_info")
-      .insert({
-        updated_at: "2021-09-01",
-        owner_id: user?.id,
-        order_id: order?.[0].id,
-        name: "John",
-        lastname: "Doe",
-        document_id: "123456789",
-        phone: "123456789",
-        address: "123456789",
-        address_extra: "123456789",
-        country: "Spain",
-        zipcode: 35600,
-        city: "Puerto del Rosario",
-        state: "Las Palmas",
-        is_default: true,
+      const resultCardInfo = await triggerCard("card_info", {
+        shouldFocus: true,
+      });
+      const resultBillingInfoId = await triggerBilling("billing_info_id", {
+        shouldFocus: true,
+      });
+      const resultShippingInfoId = await triggerShipping("shipping_info_id", {
+        shouldFocus: true,
       });
 
-    if (shippingError) throw shippingError;
+      if (
+        resultCardInfo === false ||
+        resultBillingInfoId === false ||
+        resultShippingInfoId === false
+      )
+        return;
 
-    const { error: billingError } = await supabase.from("billing_info").insert({
-      updated_at: "2021-09-01",
-      owner_id: user?.id,
-      name: "John",
-      lastname: "Doe",
-      document_id: "123456789",
-      phone: "123456789",
-      address: "123456789",
-      country: "Spain",
-      zipcode: 35600,
-      city: "Puerto del Rosario",
-      state: "Las Palmas",
-      is_default: true,
-    });
+      const shippingInfo = shippingAddresses.find(
+        (address) => address.id === shippingInfoId
+      );
 
-    if (billingError) throw billingError;
+      const billingInfo = billingAddresses.find(
+        (address) => address.id === billingInfoId
+      );
 
-    // setTimeout(() => {
-    //   router.push("/order-details");
-    //   setLoadingPayment(false);
-    // }, 2400);
+      if (!shippingInfo || !billingInfo) return;
 
-    // items.map((item) => {
-    //   removeFromCart(item.id);
-    // });
+      setLoadingPayment(true);
+
+      const { data: order, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          owner_id: user?.id,
+          total: total,
+          customer_name: "manolito",
+          status: "started",
+          tracking_id: "123456789",
+          issue_date: new Date().toISOString(),
+          estimated_date: new Date(
+            new Date().getTime() + 1000 * 60 * 60 * 24 * 3
+          ).toISOString(), // 3 days
+          payment_method: "credit_card",
+          order_number: "123456789",
+          shipping_info_id: shippingInfo.id,
+          billing_info_id: billingInfo.id,
+        })
+        .select("id");
+
+      if (orderError) throw orderError;
+
+      items.map(async (item) => {
+        const { error: orderItemError } = await supabase
+          .from("order_item")
+          .insert({
+            order_id: order?.[0].id,
+            product_id: item.id,
+            quantity: item.quantity,
+          });
+
+        if (orderItemError) throw orderItemError;
+      });
+
+      router.push("/checkout/success");
+      setLoadingPayment(false);
+    } catch (error) {
+      setLoadingPayment(false);
+      console.log("error", error);
+    }
   };
 
   useEffect(() => {
