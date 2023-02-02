@@ -30,11 +30,11 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 interface FormShippingData {
-  shipping_info: ShippingAddress;
+  shipping_info_id: string;
 }
 
 interface FormBillingData {
-  billing_info: BillingAddress;
+  billing_info_id: string;
 }
 
 interface FormCardData {
@@ -67,31 +67,12 @@ export default function Checkout(props: Props) {
   const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
 
   const [shippingAddresses, setShippingAddresses] = useState<ShippingAddress[]>(
-    []
+    shippingAddresses_ ?? []
   );
 
-  useEffect(() => {
-    const getAddresses = async () => {
-      let { data: userData, error: usersError } = await supabase
-        .from("users")
-        .select(`*, shipping_info(*), billing_info(*)`)
-        .eq("id", user?.id);
-
-      if (usersError) {
-        console.log(usersError);
-      }
-
-      if (userData) {
-        setShippingAddresses(userData[0].shipping_info);
-        setBillingAddresses(userData[0].billing_info);
-      }
-    };
-
-    getAddresses();
-  }, [user?.id]);
-
-  const [billingAddresses, setBillingAddresses] =
-    useState<BillingAddress[]>(billingAddresses_);
+  const [billingAddresses, setBillingAddresses] = useState<BillingAddress[]>(
+    billingAddresses_ ?? []
+  );
 
   const {
     formState: { errors: shippingErrors },
@@ -99,6 +80,7 @@ export default function Checkout(props: Props) {
     register: registerShipping,
     reset: resetShipping,
     getValues: getShippingValues,
+    trigger: triggerShipping,
   } = useForm<FormShippingData>();
 
   const {
@@ -107,6 +89,7 @@ export default function Checkout(props: Props) {
     register: registerBilling,
     reset: resetBilling,
     getValues: getBillingValues,
+    trigger: triggerBilling,
   } = useForm<FormBillingData>();
 
   const {
@@ -115,6 +98,7 @@ export default function Checkout(props: Props) {
     register: registerCard,
     reset: resetCard,
     getValues: getCardValues,
+    trigger: triggerCard,
   } = useForm<FormCardData>();
 
   const {
@@ -127,6 +111,26 @@ export default function Checkout(props: Props) {
     marketplaceItems,
     addMarketplaceItems,
   } = useShoppingCart();
+
+  useEffect(() => {
+    const getAddresses = async () => {
+      let { data: userData, error: usersError } = await supabase
+        .from("users")
+        .select(`*, shipping_info(*), billing_info(*)`)
+        .eq("id", user?.id);
+
+      if (usersError) {
+        console.error(usersError);
+      }
+
+      if (userData) {
+        setShippingAddresses(userData[0].shipping_info);
+        setBillingAddresses(userData[0].billing_info);
+      }
+    };
+
+    getAddresses();
+  }, [user?.id]);
 
   const handleIncreaseCartQuantity = (beerId: string) => {
     increaseCartQuantity(beerId);
@@ -182,17 +186,46 @@ export default function Checkout(props: Props) {
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
   const handleProceedToPay = async () => {
-    const card_info = getCardValues("card_info");
+    const cardInfo = getCardValues("card_info");
+    const shippingInfoId = getShippingValues("shipping_info_id");
+    const billingInfoId = getBillingValues("billing_info_id");
+
+    const resultCardInfo = await triggerCard("card_info", {
+      shouldFocus: true,
+    });
+    const resultBillingInfoId = await triggerBilling("billing_info_id", {
+      shouldFocus: true,
+    });
+    const resultShippingInfoId = await triggerShipping("shipping_info_id", {
+      shouldFocus: true,
+    });
+
+    if (
+      resultCardInfo === false ||
+      resultBillingInfoId === false ||
+      resultShippingInfoId === false
+    )
+      return;
+
+    const shippingInfo = shippingAddresses.find(
+      (address) => address.id === shippingInfoId
+    );
+
+    const billingInfo = billingAddresses.find(
+      (address) => address.id === billingInfoId
+    );
+
+    if (!shippingInfo || !billingInfo) return;
+
     // setLoadingPayment(true);
 
-    /*
     const { data: order, error: orderError } = await supabase
       .from("order")
       .insert({
         owner_id: user?.id,
         total: total,
-        customer_name: "John Doe",
-        status: "pending",
+        customer_name: user?.identities,
+        status: "started",
         tracking_id: "123456789",
         issue_date: "2021-09-01",
         estimated_date: "2021-09-05",
@@ -240,7 +273,6 @@ export default function Checkout(props: Props) {
     });
 
     if (billingError) throw billingError;
-    */
 
     // setTimeout(() => {
     //   router.push("/order-details");
@@ -393,7 +425,10 @@ export default function Checkout(props: Props) {
                                       <input
                                         type="radio"
                                         id={`shipping-address-${address.id}`}
-                                        {...registerShipping("shipping_info")}
+                                        {...registerShipping(
+                                          "shipping_info_id",
+                                          { required: true }
+                                        )}
                                         value={address.id}
                                         className="hidden peer"
                                         required
@@ -401,7 +436,8 @@ export default function Checkout(props: Props) {
 
                                       <label
                                         htmlFor={`shipping-address-${address.id}`}
-                                        className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                        className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                                       >
                                         <div className="block">
                                           <div className="w-full text-lg font-semibold">
@@ -430,13 +466,85 @@ export default function Checkout(props: Props) {
                                     </li>
                                   );
                                 })}
+
+                                {/* Error input displaying */}
+                                {shippingErrors.shipping_info_id?.type ===
+                                  "required" && (
+                                  <div className="p-5 text-red-500">
+                                    <p className="text-semibold text-2xl">
+                                      {t("radio_button_required")}
+                                    </p>
+                                  </div>
+                                )}
                               </ul>
 
                               {/* Add Shipping Information */}
-                              <NewShippingAddress />
+                              {shippingAddresses.length <= 5 && (
+                                <NewShippingAddress />
+                              )}
+
+                              {/* Radio button for select billing addresses */}
+                              <ul className="grid w-full gap-6 md:grid-cols-1">
+                                {billingAddresses.map((address) => {
+                                  return (
+                                    <li key={address.id}>
+                                      <input
+                                        type="radio"
+                                        id={`billing-address-${address.id}`}
+                                        {...registerBilling("billing_info_id")}
+                                        value={address.id}
+                                        className="hidden peer"
+                                        required
+                                      />
+
+                                      <label
+                                        htmlFor={`billing-address-${address.id}`}
+                                        className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                      >
+                                        <div className="block">
+                                          <div className="w-full text-lg font-semibold">
+                                            {address.name} {address.lastname}
+                                          </div>
+                                          <div className="w-full">
+                                            {address.address}, {address.city},{" "}
+                                            {address.state}, {address.zipcode},{" "}
+                                            {address.country}
+                                          </div>
+                                        </div>
+                                        <svg
+                                          aria-hidden="true"
+                                          className="w-6 h-6 ml-3"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            fillRule="evenodd"
+                                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                            clipRule="evenodd"
+                                          ></path>
+                                        </svg>
+                                      </label>
+                                    </li>
+                                  );
+                                })}
+
+                                {/* Error input displaying */}
+                                {billingErrors.billing_info_id?.type ===
+                                  "required" && (
+                                  <div className="p-5 text-red-500">
+                                    <p className="text-semibold text-2xl">
+                                      {t("radio_button_required")}
+                                    </p>
+                                  </div>
+                                )}
+                              </ul>
 
                               {/* Add Billing Information  */}
-                              <NewBillingAddress />
+                              {billingAddresses.length <= 5 && (
+                                <NewBillingAddress />
+                              )}
 
                               <div className="flex justify-between items-start w-full">
                                 <div className="flex justify-center items-center space-x-4">
@@ -530,43 +638,75 @@ export default function Checkout(props: Props) {
                                           },
                                         }
                                       )}
-                                      className="focus:outline-none px-3 w-full"
+                                      className="focus:outline-none px-3 py-2 w-1/2 bg-beer-softFoam rounded-sm"
                                       placeholder={
                                         t("card_number_placeholder")!
                                       }
+                                      minLength={16}
+                                      maxLength={16}
+                                      type="number"
                                       required
                                     />
                                   </label>
 
                                   {/* Expiry Data and CVC GROUP */}
-                                  <div className="flex justify-between items-center my-3">
+                                  <div className="flex justify-between sm:flex-col lg:flex-row items-center my-3">
                                     {/* Expiry Data */}
-                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center w-full">
                                       <span className="text-right px-2">
                                         {t("card_expiration")}
                                       </span>
                                       <input
                                         {...registerCard(
-                                          "card_info.card_expiration",
+                                          "card_info.card_month_expiration",
                                           {
                                             required: true,
                                             pattern: {
-                                              value: /^[0-9]{2}\/[0-9]{2}$/,
+                                              value: /^[0-9]{2}$/,
                                               message:
-                                                "Invalid card expiration date",
+                                                "Invalid card expiration month",
                                             },
                                           }
                                         )}
-                                        className="focus:outline-none px-3 w-full"
+                                        className="focus:outline-none px-3 py-2 sm:w-14 md:w-20 bg-beer-softFoam rounded-sm"
                                         placeholder={
-                                          t("card_expiration_placeholder")!
+                                          t(
+                                            "card_month_expiration_placeholder"
+                                          )!
                                         }
+                                        maxLength={2}
+                                        size={2}
+                                        type="number"
+                                        required
+                                      />
+
+                                      <span>/</span>
+
+                                      <input
+                                        {...registerCard(
+                                          "card_info.card_year_expiration",
+                                          {
+                                            required: true,
+                                            pattern: {
+                                              value: /^[0-9]{2}$/,
+                                              message:
+                                                "Invalid card expiration year",
+                                            },
+                                          }
+                                        )}
+                                        className="focus:outline-none px-3 py-2 sm:w-14 md:w-20 bg-beer-softFoam rounded-sm"
+                                        placeholder={
+                                          t("card_year_expiration_placeholder")!
+                                        }
+                                        maxLength={2}
+                                        size={2}
+                                        type="number"
                                         required
                                       />
                                     </label>
 
                                     {/* CVC */}
-                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                    <label className="flex border-b border-gray-200 h-12 py-3 items-center w-full">
                                       <span className="text-right px-2">
                                         {t("card_cvv")}
                                       </span>
@@ -578,8 +718,11 @@ export default function Checkout(props: Props) {
                                             message: "Invalid card cvv",
                                           },
                                         })}
-                                        className="focus:outline-none px-3 w-full"
+                                        className="focus:outline-none px-3 py-2 sm:w-14 md:w-20 bg-beer-softFoam rounded-sm"
                                         placeholder={t("card_cvv_placeholder")!}
+                                        maxLength={3}
+                                        size={3}
+                                        type="number"
                                         required
                                       />
                                     </label>
@@ -601,10 +744,12 @@ export default function Checkout(props: Props) {
                                           },
                                         }
                                       )}
-                                      className="focus:outline-none px-3 w-full"
+                                      className="focus:outline-none px-3 py-2 w-full bg-beer-softFoam rounded-sm"
                                       placeholder={
                                         t("card_holder_placeholder")!
                                       }
+                                      minLength={2}
+                                      maxLength={30}
                                       required
                                     />
                                   </label>

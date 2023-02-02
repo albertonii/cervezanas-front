@@ -18,6 +18,7 @@ interface ButtonProps {
   primary?: boolean;
   accent?: boolean;
   btnType?: string;
+  form?: string;
 }
 
 export default function Button({
@@ -36,6 +37,7 @@ export default function Button({
   primary,
   accent,
   btnType,
+  form,
 }: ButtonProps) {
   const [hoverColor, _] = useState(isActive ? "filled" : "unfilled");
 
@@ -53,6 +55,7 @@ export default function Button({
       type={`${getButtonType()}`}
       onClick={onClick}
       color={hoverColor}
+      form={form}
       className={`
       flex items-center justify-center bg-beer-foam  border-beer-softBlonde border-2 rounded mt-0
       ${box ? "h-auto w-10" : ""}

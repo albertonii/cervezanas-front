@@ -64,7 +64,8 @@ export interface PaymentCard {
   id: string;
   card_number: string;
   card_name: string;
-  card_expiration: string;
+  card_month_expiration: string;
+  card_year_expiration: string;
   card_cvv: string;
   card_checked: boolean;
   card_holder: string;
