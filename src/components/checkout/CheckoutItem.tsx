@@ -60,7 +60,7 @@ export default function CheckoutItem({
         <Image
           width={600}
           height={600}
-          className="sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
+          className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
           src={p_principal}
           alt={beer.name}
         />
