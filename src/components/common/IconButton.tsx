@@ -7,10 +7,10 @@ interface IconButtonProps {
   onClick: () => void;
   isActive: boolean;
   color?: { filled: string; unfilled: string };
-  classContainer: string;
-  classIcon: string;
+  classContainer?: string;
+  classIcon?: string;
   children?: React.ReactNode;
-  title: string;
+  title?: string;
   box?: boolean;
   danger?: boolean;
   disabled?: boolean;
@@ -70,7 +70,7 @@ export default function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`
-        flex items-center justify-center bg-beer-foam hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
+        flex items-center justify-center hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
         ${box ? "h-auto w-10" : ""}
         ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
@@ -89,9 +89,7 @@ export default function IconButton({
       `}
     >
       <span
-        className={`${
-          children != null ? "mr-1" : ""
-        } text-bear-dark h-5 w-5 ml-3`}
+        className={`${children != null ? "mr-1" : ""} text-bear-dark h-5 w-5`}
       >
         {iconButton}
       </span>

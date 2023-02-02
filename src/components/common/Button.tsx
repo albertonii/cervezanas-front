@@ -57,9 +57,8 @@ export default function Button({
       color={hoverColor}
       form={form}
       className={`
-      flex items-center justify-center bg-beer-foam  border-beer-softBlonde border-2 rounded mt-0
+      flex items-center justify-center border-beer-softBlonde border-2 rounded mt-0
       ${box ? "h-auto w-10" : ""}
-      ${danger ? "bg-red-400 hover:bg-red-500 " : ""}
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       ${small ? "w-24" : ""} 
       ${medium ? "w-32" : ""}
@@ -72,6 +71,7 @@ export default function Button({
           : "hover:bg-beer-softBlonde"
       }
       ${accent ? "bg-beer-foam" : ""}
+      ${danger ? "bg-red-400 hover:bg-red-500 " : ""}
       ${className} 
       `}
     >

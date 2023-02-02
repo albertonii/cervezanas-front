@@ -1,4 +1,3 @@
-import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
@@ -6,9 +5,14 @@ import Link from "next/link";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import IconButton from "../common/IconButton";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShoppingCart,
+  faAdd,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { Beer } from "../../lib/types";
+import Button from "../common/Button";
 
 type StoreItemProps = { beer: Beer };
 
@@ -69,6 +73,11 @@ export default function StoreItem(props: StoreItemProps) {
   const handleIncreaseToCartItem = () => {
     increaseCartQuantity(id);
     if (marketplaceItems.find((item) => item.id === id)) return;
+    const beer: Beer | undefined = marketplaceItems.find(
+      (item) => item.id === id
+    );
+
+    if (!beer) return;
     addMarketplaceItems(beer);
   };
 
@@ -84,7 +93,7 @@ export default function StoreItem(props: StoreItemProps) {
   };
 
   return (
-    <div className="max-w-sm w-full bg-gray-900 shadow-lg rounded-xl p-6">
+    <div className="max-w-sm w-full  shadow-lg rounded-xl p-6">
       <div className="flex flex-col ">
         <div className="relative h-62 w-full mb-3">
           <div className="absolute flex flex-col top-0 right-0 p-3">
@@ -94,7 +103,7 @@ export default function StoreItem(props: StoreItemProps) {
               isActive={isLike}
               color={heartColor}
               classContainer={
-                "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 rounded-full w-auto h-10 text-center p-2"
+                "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
               }
               classIcon={""}
               title="Add to favorites"
@@ -127,7 +136,7 @@ export default function StoreItem(props: StoreItemProps) {
               </div>
 
               <div className="flex items-center w-full justify-between min-w-0 ">
-                <h2 className="transition-all text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate hover:text-beer-blonde">
+                <h2 className="font-semibold transition-all text-lg mr-auto cursor-pointer text-beer-draft hover:text-purple-500 truncate hover:text-beer-blonde">
                   <Link href={`/products/${beer.id}`}>{beer.name}</Link>
                 </h2>
                 {beer.product_inventory[0]?.quantity > 0 ? (
@@ -142,10 +151,11 @@ export default function StoreItem(props: StoreItemProps) {
               </div>
             </div>
 
-            <div className="text-xl text-white font-semibold mt-1">
+            <div className="text-xl text-bear-dark font-semibold mt-1">
               {formatCurrency(beer.price)}
             </div>
 
+            {/*
             <div className="lg:flex flex-col py-4 text-sm text-gray-600">
               <div className="flex-1 inline-flex items-center  mb-3">
                 <span className="text-secondary whitespace-nowrap mr-3">
@@ -178,37 +188,58 @@ export default function StoreItem(props: StoreItemProps) {
                 </div>
               </div>
             </div>
+            */}
 
             <div className="flex space-x-2 text-sm font-medium justify-start">
               <div className="mt-auto">
                 {getItemQuantity(id) === 0 ? (
-                  <button
+                  <IconButton
                     onClick={() => handleIncreaseToCartItem()}
-                    className="transition-all ease-in duration-300 border-2 border-bear-light inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-beer-softBlonde hover:text-beer-dark rounded-full hover:bg-beer-blonde "
+                    classContainer="transition-all ease-in duration-300 border-2 border-bear-light inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-beer-softBlonde hover:text-beer-dark rounded-full hover:bg-beer-blonde "
+                    icon={faShoppingCart}
+                    size="small"
+                    isActive={false}
+                    primary
                   >
-                    <span>{t("add_to_cart")}</span>
-                  </button>
+                    {t("add")}
+                  </IconButton>
                 ) : (
                   <div>
-                    <div className="flex items-center justify-center">
-                      <Button onClick={() => handleDecreaseFromCartItem()}>
+                    <span className="flex items-center justify-center">
+                      <Button
+                        box
+                        accent
+                        onClick={() => handleDecreaseFromCartItem()}
+                        class={""}
+                      >
                         -
                       </Button>
-                      <span className="px-2 text-3xl text-white">
+
+                      <span className="px-2 text-3xl text-black">
                         {getItemQuantity(id)}
                       </span>
-                      <Button onClick={() => handleIncreaseToCartItem()}>
+
+                      <Button
+                        box
+                        accent
+                        onClick={() => handleIncreaseToCartItem()}
+                        class={""}
+                      >
                         +
                       </Button>
-                    </div>
+                    </span>
 
                     <Button
-                      className={"bg-red-200"}
+                      box
+                      danger
+                      small
+                      accent
+                      class={""}
                       onClick={() => {
                         handleRemoveFromCart();
                       }}
                     >
-                      Remove
+                      {t("remove")}
                     </Button>
                   </div>
                 )}

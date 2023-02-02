@@ -289,21 +289,27 @@ export default function Checkout(props: Props) {
               <Spinner color="beer-blonde" size="medium" />
             ) : (
               <div className="sm:py-4 lg:py-6 container">
-                <div className="flex justify-start item-start space-y-2 flex-col">
-                  <div className="text-2xl">{t("checkout")}</div>
+                <div className="flex justify-start items-center space-y-2 space-x-2">
+                  <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                    {t("checkout")}
+                  </h1>
 
                   <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
-                    <div className="text-yellow-500">
+                    <div className="text-yellow-500 w-10 h-10">
                       <FontAwesomeIcon
                         icon={faInfoCircle}
-                        style={{ color: "#fdc300" }}
+                        style={{
+                          color: "#fdc300",
+                          width: "100%",
+                          height: "100%",
+                        }}
                         title={"circle_warning"}
                         width={25}
                         height={25}
                       />
                     </div>
 
-                    <div className="text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-4">
+                    <div className="text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2">
                       {t("complete_shipping_billing")}
                     </div>
                   </div>

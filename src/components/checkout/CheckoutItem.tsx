@@ -109,7 +109,9 @@ export default function CheckoutItem({
                 >
                   -
                 </Button>
+
                 <span className="px-2 text-3xl text-black">{quantity}</span>
+
                 <Button
                   box
                   onClick={() => handleIncreaseCartQuantity(beer.id)}

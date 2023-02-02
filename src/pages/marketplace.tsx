@@ -4,6 +4,7 @@ import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
 import { Beer } from "../lib/types";
 import Layout from "../components/Layout";
+import { faShoppingCart, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -18,13 +19,15 @@ export default function MarketPlace(props: Props) {
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:mx-48 mt-12 justify-center">
-        {beers &&
-          beers.map((beer) => (
-            <div key={beer.id} className="container px-3 mb-6">
-              <StoreItem beer={beer} />
-            </div>
-          ))}
+      <div className="container mx-auto sm:py-4 lg:py-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+          {beers &&
+            beers.map((beer) => (
+              <div key={beer.id} className="container px-3 mb-6">
+                <StoreItem beer={beer} />
+              </div>
+            ))}
+        </div>
       </div>
     </Layout>
   );

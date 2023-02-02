@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { translationsFormErrorsEn } from "./i18nErrors";
 
 const translationsEn = {
+  add: "Add",
   home: "Home",
   logout: "Logout",
   profile: "Profile",
@@ -256,9 +257,11 @@ const translationsEn = {
   card_cvv_placeholder: "CVV",
   card_number_placeholder: "1234 1234 1234 1234",
   card_holder_placeholder: "Card Holder",
+  products_purchased: "Products Purchased",
 };
 
 const translationsEs = {
+  add: "Añadir",
   home: "Inicio",
   logout: "Cerrar Sesión",
   profile: "Perfil",
