@@ -4,7 +4,6 @@ import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
 import { Beer } from "../lib/types";
 import Layout from "../components/Layout";
-import { faShoppingCart, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;

@@ -15,6 +15,7 @@ import { supabase } from "../../utils/supabaseClient";
 import Button from "../../components/common/Button";
 import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { Beer } from "../../lib/types";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -45,6 +46,9 @@ export default function ProductId(props: Props) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    marketplaceItems,
+    addMarketplaceItems,
+    removeMarketplaceItems,
   } = useShoppingCart();
 
   const quantity = getItemQuantity(p.id);
@@ -117,6 +121,29 @@ export default function ProductId(props: Props) {
   };
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+
+  const handleIncreaseCartQuantity = (beerId: string) => {
+    increaseCartQuantity(beerId);
+    if (marketplaceItems.find((item) => item.id === beerId)) return;
+
+    console.log(marketplaceItems);
+    const beer: Beer | undefined = marketplaceItems.find(
+      (item) => item.id === beerId
+    );
+    if (!beer) return;
+    addMarketplaceItems(beer);
+  };
+
+  const handleDecreaseCartQuantity = (beerId: string) => {
+    decreaseCartQuantity(beerId);
+    if (getItemQuantity(beerId) > 1) return;
+    removeMarketplaceItems(beerId);
+  };
+
+  const handleRemoveFromCart = (beerId: string) => {
+    removeMarketplaceItems(beerId);
+    removeFromCart(beerId);
+  };
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -426,7 +453,7 @@ export default function ProductId(props: Props) {
                         <div className="flex flex-row align-center">
                           <Button
                             class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                            onClick={() => decreaseCartQuantity(p.id)}
+                            onClick={() => handleDecreaseCartQuantity(p.id)}
                             isActive={false}
                             title={""}
                             box
@@ -442,7 +469,7 @@ export default function ProductId(props: Props) {
 
                           <Button
                             class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                            onClick={() => increaseCartQuantity(p.id)}
+                            onClick={() => handleIncreaseCartQuantity(p.id)}
                             isActive={false}
                             title={""}
                             box
@@ -453,7 +480,7 @@ export default function ProductId(props: Props) {
                           <Button
                             class="mx-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={() => {
-                              removeFromCart(p.id);
+                              handleRemoveFromCart(p.id);
                             }}
                             isActive={false}
                             title={""}
@@ -466,7 +493,7 @@ export default function ProductId(props: Props) {
                       )}
 
                       <Button
-                        onClick={() => increaseCartQuantity(p.id)}
+                        onClick={() => handleIncreaseCartQuantity(p.id)}
                         class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
                         isActive={false}
                         color={{

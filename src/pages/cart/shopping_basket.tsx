@@ -258,7 +258,8 @@ export default function Checkout(props: Props) {
         if (orderItemError) throw orderItemError;
       });
 
-      router.push("/checkout/success");
+      router.push({ pathname: "/checkout/success", query: { name: "prueba" } });
+
       setLoadingPayment(false);
     } catch (error) {
       setLoadingPayment(false);
@@ -373,14 +374,14 @@ export default function Checkout(props: Props) {
                               </div>
                               <FontAwesomeIcon
                                 icon={faShoppingCart}
-                                style={{ color: "#432a14" }}
+                                style={{ color: "#432a14", height: "6vh" }}
                                 title={"empty_cart"}
                                 width={120}
                                 height={120}
                               />
                               <FontAwesomeIcon
                                 icon={faCircleExclamation}
-                                style={{ color: "#fdc300" }}
+                                style={{ color: "#fdc300", height: "6vh" }}
                                 title={"circle_warning"}
                                 width={120}
                                 height={120}

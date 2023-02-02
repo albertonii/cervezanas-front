@@ -18,8 +18,15 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
   const { t } = useTranslation();
   const [item, setItem] = useState<Beer | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
-  const { removeFromCart, increaseCartQuantity, decreaseCartQuantity } =
-    useShoppingCart();
+  const {
+    removeFromCart,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeMarketplaceItems,
+    marketplaceItems,
+    addMarketplaceItems,
+    getItemQuantity,
+  } = useShoppingCart();
 
   useEffect(() => {
     const findBeers = async () => {
@@ -40,6 +47,27 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
       findBeers();
     }
   }, [beers, id, item]);
+
+  const handleIncreaseCartQuantity = (beerId: string) => {
+    increaseCartQuantity(beerId);
+    if (marketplaceItems.find((item) => item.id === beerId)) return;
+    const beer: Beer | undefined = marketplaceItems.find(
+      (item) => item.id === beerId
+    );
+    if (!beer) return;
+    addMarketplaceItems(beer);
+  };
+
+  const handleDecreaseCartQuantity = (beerId: string) => {
+    decreaseCartQuantity(beerId);
+    if (getItemQuantity(beerId) > 1) return;
+    removeMarketplaceItems(beerId);
+  };
+
+  const handleRemoveFromCart = (beerId: string) => {
+    removeMarketplaceItems(beerId);
+    removeFromCart(beerId);
+  };
 
   return (
     <>
@@ -73,15 +101,19 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
 
               <div className="flex">
                 <div className="flex items-center justify-center mr-2">
-                  <Button onClick={() => decreaseCartQuantity(id)}>-</Button>
+                  <Button onClick={() => handleDecreaseCartQuantity(id)}>
+                    -
+                  </Button>
                   <span className="text-lg text-white">{quantity}</span>
-                  <Button onClick={() => increaseCartQuantity(id)}>+</Button>
+                  <Button onClick={() => handleIncreaseCartQuantity(id)}>
+                    +
+                  </Button>
                 </div>
 
                 <button
                   type="button"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => handleRemoveFromCart(item.id)}
                 >
                   {t("remove")}
                 </button>
