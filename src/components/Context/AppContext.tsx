@@ -57,11 +57,13 @@ export default function AppContextProvider(props: Props) {
 
       getProfileImg();
     }
-  }, [user]);
 
-  // useEffect(() => {
-  //   console.log(profileImg);
-  // }, [profileImg]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => {
+      setBgImg("");
+      setProfileImg("");
+    };
+  }, [user]);
 
   const changeSidebarActive = (select: string) => {
     setSidebar(select);

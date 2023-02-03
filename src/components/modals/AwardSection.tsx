@@ -1,9 +1,8 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button, Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
-import { Award } from "../../types";
 import { ChangeEvent, useEffect, useState } from "react";
-import { ModalAddProductProps } from "../../lib/types";
+import { Award, ModalAddProductProps } from "../../lib/types";
 
 const emptyAward: Award = {
   id: "",

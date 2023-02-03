@@ -18,6 +18,10 @@ export const History = (props: Props) => {
     if (user != null && user != undefined) {
       setLoading(false);
     }
+
+    return () => {
+      setLoading(true);
+    };
   }, [user]);
 
   return (

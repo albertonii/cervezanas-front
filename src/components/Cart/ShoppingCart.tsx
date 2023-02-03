@@ -28,6 +28,11 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
       })
     );
     setSubTotal(total);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => {
+      setSubTotal(0);
+    };
   }, [items, marketplaceItems]);
 
   return (

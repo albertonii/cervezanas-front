@@ -46,6 +46,12 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
     if (beers != null && beers.length > 0) {
       findBeers();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => {
+      setItem(null);
+      setItemMultimedia("");
+    };
   }, [beers, id, item]);
 
   const handleIncreaseCartQuantity = (beerId: string) => {

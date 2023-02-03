@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Like } from "../../../types";
+import { Like } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
@@ -30,6 +30,10 @@ export default function LikesHistory({ userId }: Props) {
     };
 
     getLikesHistory();
+
+    return () => {
+      setLikes([]);
+    };
   }, [userId]);
 
   return (

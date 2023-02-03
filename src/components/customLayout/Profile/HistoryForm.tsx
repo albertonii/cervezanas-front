@@ -32,6 +32,10 @@ export const HistoryForm = (props: any) => {
 
   useEffect(() => {
     setId(id_);
+
+    () => {
+      setId(null);
+    };
   }, [id_]);
 
   const onSubmit = async () => {

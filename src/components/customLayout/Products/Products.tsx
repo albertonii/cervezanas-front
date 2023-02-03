@@ -38,6 +38,10 @@ export const Products = () => {
       return beers;
     };
     getProducts();
+
+    return () => {
+      setBeers([]);
+    };
   }, [user]);
 
   const handleSetBeers = (value: Beer[]) => {

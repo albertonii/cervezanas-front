@@ -52,6 +52,11 @@ export default function CheckoutItem({
     };
 
     getPrincipal();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => {
+      setPPrincipal("/marketplace_product_default.png");
+    };
   }, [beer.owner_id, beer.product_multimedia]);
 
   return (

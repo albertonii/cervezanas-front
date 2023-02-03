@@ -30,6 +30,10 @@ export const Account = () => {
       getUserData();
       setLoading(false);
     }
+
+    return () => {
+      setUserData(null);
+    };
   }, [user]);
 
   return (

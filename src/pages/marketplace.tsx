@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
 import { Beer } from "../lib/types";
 import Layout from "../components/Layout";
+import { useAuth } from "../components/Auth";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -16,18 +17,33 @@ interface Props {
 export default function MarketPlace(props: Props) {
   const { beers } = props;
 
+  const [loading, setLoading] = useState(true);
+  const { loggedIn } = useAuth();
+
+  useEffect(() => {
+    if (loggedIn) {
+      setLoading(false);
+    }
+
+    return () => {
+      setLoading(true);
+    };
+  }, [loggedIn]);
+
   return (
     <Layout usePadding={true} useBackdrop={false}>
-      <div className="container mx-auto sm:py-2 lg:py-3 ">
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
-          {beers &&
-            beers.map((beer) => (
-              <div key={beer.id} className="container px-3 mb-6 h-full">
-                <StoreItem beer={beer} />
-              </div>
-            ))}
+      {!loading && (
+        <div className="container mx-auto sm:py-2 lg:py-3 ">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+            {beers &&
+              beers.map((beer) => (
+                <div key={beer.id} className="container px-3 mb-6 h-full">
+                  <StoreItem beer={beer} />
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }

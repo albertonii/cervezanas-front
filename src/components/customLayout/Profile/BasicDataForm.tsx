@@ -42,6 +42,10 @@ export const BasicDataForm = (props: any) => {
 
   useEffect(() => {
     setId(id_);
+
+    () => {
+      setId(null);
+    };
   }, [id_]);
 
   const onSubmit = async () => {
@@ -191,7 +195,7 @@ export const BasicDataForm = (props: any) => {
           </div>
         </form>
       ) : (
-        <Spinner color="beer-blonde" />
+        <Spinner color="beer-blonde" size={"medium"} />
       )}
     </div>
   );

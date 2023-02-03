@@ -44,6 +44,10 @@ export const Profile = (props: Props) => {
       setMenuOption("account");
       setLoading(false);
     }
+
+    return () => {
+      setLoading(true);
+    };
   }, [loggedIn, user?.id]);
 
   return (
