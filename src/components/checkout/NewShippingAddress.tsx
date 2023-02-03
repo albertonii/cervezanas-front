@@ -5,6 +5,7 @@ import Modal from "../modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
+import { ShippingAddress } from "../../lib/interfaces";
 
 interface FormData {
   name: string;
@@ -21,7 +22,17 @@ interface FormData {
   shipping_checked: boolean;
 }
 
-export default function NewShippingAddress() {
+interface Props {
+  shipping: ShippingAddress[];
+  handleShippingAddresses: React.Dispatch<
+    React.SetStateAction<ShippingAddress[]>
+  >;
+}
+
+export default function NewShippingAddress({
+  shipping,
+  handleShippingAddresses,
+}: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();
@@ -50,7 +61,7 @@ export default function NewShippingAddress() {
     } = formValues;
 
     const handleAddShippingAddress = async () => {
-      const { error } = await supabase.from("shipping_info").insert({
+      const { data, error } = await supabase.from("shipping_info").insert({
         owner_id: user!.id,
         name,
         lastname,
@@ -67,6 +78,8 @@ export default function NewShippingAddress() {
       });
 
       if (error) throw error;
+
+      handleShippingAddresses((prev) => [...prev, data[0]]);
 
       reset();
     };

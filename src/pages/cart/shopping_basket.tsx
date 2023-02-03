@@ -190,6 +190,17 @@ export default function Checkout(props: Props) {
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
+  const handleShippingAddresses = (address: ShippingAddress) => {
+    setShippingAddresses((shippingAddresses) => [
+      ...shippingAddresses,
+      address,
+    ]);
+  };
+
+  const handleBillingAddresses = (address: BillingAddress) => {
+    setBillingAddresses((billingAddresses) => [...billingAddresses, address]);
+  };
+
   const handleProceedToPay = async () => {
     try {
       const cardInfo = getCardValues("card_info");
@@ -225,6 +236,44 @@ export default function Checkout(props: Props) {
 
       setLoadingPayment(true);
 
+      const { data: shippingData, error: shippingInfoError } = await supabase
+        .from("shipping_info")
+        .insert({
+          owner_id: user?.id,
+          address: shippingInfo.address,
+          address_extra: shippingInfo.address_extra,
+          address_observations: shippingInfo.address_observations,
+          city: shippingInfo.city,
+          state: shippingInfo.state,
+          zipcode: shippingInfo.zipcode,
+          country: shippingInfo.country,
+          name: shippingInfo.name,
+          lastname: shippingInfo.lastname,
+          document_id: shippingInfo.document_id,
+          phone: shippingInfo.phone,
+        })
+        .select("id");
+
+      if (shippingInfoError) throw shippingInfoError;
+
+      const { data: billingData, error: billingInfoError } = await supabase
+        .from("billing_info")
+        .insert({
+          owner_id: user?.id,
+          address: billingInfo.address,
+          city: billingInfo.city,
+          state: billingInfo.state,
+          zipcode: billingInfo.zipcode,
+          country: billingInfo.country,
+          name: billingInfo.name,
+          lastname: billingInfo.lastname,
+          document_id: billingInfo.document_id,
+          phone: billingInfo.phone,
+        })
+        .select("id");
+
+      if (billingInfoError) throw billingInfoError;
+
       const { data: order, error: orderError } = await supabase
         .from("orders")
         .insert({
@@ -239,8 +288,8 @@ export default function Checkout(props: Props) {
           ).toISOString(), // 3 days
           payment_method: "credit_card",
           order_number: "123456789",
-          shipping_info_id: shippingInfo.id,
-          billing_info_id: billingInfo.id,
+          shipping_info_id: shippingData[0].id,
+          billing_info_id: billingData[0].id,
         })
         .select("id");
 
@@ -258,7 +307,9 @@ export default function Checkout(props: Props) {
         if (orderItemError) throw orderItemError;
       });
 
-      router.push({ pathname: "/checkout/success", query: { name: "prueba" } });
+      router.push({
+        pathname: `/checkout/success/${order?.[0].id}`,
+      });
 
       setLoadingPayment(false);
     } catch (error) {
@@ -266,10 +317,6 @@ export default function Checkout(props: Props) {
       console.log("error", error);
     }
   };
-
-  useEffect(() => {
-    console.log("selectedShippingAddress", selectedShippingAddress);
-  }, [selectedShippingAddress]);
 
   const handleOnClickShipping = (addressId: string) => {
     setSelectedShippingAddress(addressId);
@@ -480,7 +527,12 @@ export default function Checkout(props: Props) {
 
                         {/* Add Shipping Information */}
                         {shippingAddresses.length <= 5 && (
-                          <NewShippingAddress />
+                          <NewShippingAddress
+                            shipping={shippingAddresses}
+                            handleShippingAddresses={() =>
+                              handleShippingAddresses
+                            }
+                          />
                         )}
 
                         {/* Radio button for select billing addresses */}

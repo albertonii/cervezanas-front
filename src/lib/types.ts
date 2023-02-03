@@ -181,7 +181,7 @@ export interface Beer extends Product {
   pack: number;
   product_lot: ProductLot[];
   product_inventory: Inventory[];
-  product_multimedia: ProductMultimedia[];
+  product_multimedia: ProductMultimedia;
   reviews: Review[];
   likes: Like[];
 }
@@ -301,9 +301,20 @@ export interface Order {
   updated_at: Date;
   owner_id: string;
   status: string;
-  shipping_info_id: ShippingInfo;
-  billing_info_id: BillingInfo;
-  paymentMethod: PaymentCardMethod;
+  shipping_info: ShippingInfo;
+  billing_info: BillingInfo;
+  payment_method: PaymentCardMethod;
+  customer_name: string;
+  tracking_id: string;
+  issue_date: Date;
+  estimated_date: Date;
+  total: number;
+  subtotal: number;
+  shipping: number;
+  tax: number;
+  currency: string;
+  discount: number;
+  discount_code: string;
 }
 
 export interface PaymentCardMethod {
@@ -526,7 +537,7 @@ export interface Beer extends Product {
   pack: number;
   product_lot: ProductLot[];
   product_inventory: Inventory[];
-  product_multimedia: ProductMultimedia[];
+  product_multimedia: ProductMultimedia;
   reviews: Review[];
   likes: Like[];
 }
