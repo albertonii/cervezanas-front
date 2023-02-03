@@ -1,3 +1,4 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -7,6 +8,7 @@ import { Beer } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import Button from "../common/Button";
+import IconButton from "../common/IconButton";
 
 interface Props {
   beer: Beer;
@@ -131,19 +133,17 @@ export default function CheckoutItem({
             {formatCurrency(productSubtotal)}
           </p>
 
-          <span>
-            <Button
-              box
-              class={""}
-              onClick={() => {
-                handleRemoveFromCart(beer.id);
-              }}
-              danger
-              small
-            >
-              {t("remove")}
-            </Button>
-          </span>
+          <IconButton
+            box
+            danger
+            accent
+            classContainer="py-2"
+            icon={faTrash}
+            color={{ filled: "#fefefe", unfilled: "#fefefe" }}
+            onClick={() => {
+              handleRemoveFromCart(beer.id);
+            }}
+          ></IconButton>
         </div>
       </div>
     </div>
