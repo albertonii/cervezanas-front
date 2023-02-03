@@ -17,6 +17,17 @@ export async function middleware(req: NextRequest) {
       new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
     );
   }
+
+  if (req.nextUrl.pathname.startsWith("/signin")) {
+    const authCookie = req.cookies.get("sb-access-token");
+    if (authCookie) return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (req.nextUrl.pathname.startsWith("/signup")) {
+    const authCookie = req.cookies.get("sb-access-token");
+    if (authCookie) return NextResponse.redirect(new URL("/", req.url));
+  }
+
   if (req.nextUrl.pathname.startsWith("/profile")) {
     const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));

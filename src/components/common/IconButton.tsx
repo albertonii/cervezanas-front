@@ -5,10 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface IconButtonProps {
   icon: IconDefinition;
   onClick: () => void;
-  isActive: boolean;
+  isActive?: boolean;
   color?: { filled: string; unfilled: string };
   classContainer?: string;
   classIcon?: string;
+  classSpanChildren?: string;
   children?: React.ReactNode;
   title?: string;
   box?: boolean;
@@ -27,6 +28,7 @@ export default function IconButton({
   children,
   classContainer: classNameContainer,
   classIcon: classNameIcon,
+  classSpanChildren: classNameSpan,
   title,
   box,
   danger,
@@ -104,6 +106,7 @@ export default function IconButton({
           ${size === "large" ? "px-5 py-3 text-lg" : ""}
           ${size === "xLarge" ? "px-6 py-3 text-xl" : ""}
           ${size === "xxLarge" ? "px-6 py-3 text-2xl" : ""}
+          ${classNameSpan}
         `}
       >
         {children}

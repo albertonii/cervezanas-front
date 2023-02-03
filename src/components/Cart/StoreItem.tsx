@@ -9,6 +9,8 @@ import {
   faShoppingCart,
   faAdd,
   faHeart,
+  faRemove,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { Beer } from "../../lib/types";
@@ -155,118 +157,58 @@ export default function StoreItem(props: StoreItemProps) {
               {formatCurrency(beer.price)}
             </div>
 
-            {/*
-            <div className="lg:flex flex-col py-4 text-sm text-gray-600">
-              <div className="flex-1 inline-flex items-center  mb-3">
-                <span className="text-secondary whitespace-nowrap mr-3">
-                  {t("format")}
-                </span>
+            <div className="flex space-x-2 text-sm  items-center justify-between font-medium mt-2">
+              {getItemQuantity(id) === 0 ? (
+                <IconButton
+                  onClick={() => handleIncreaseToCartItem()}
+                  classContainer="transition-all ease-in duration-300 border-2 border-bear-light inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-beer-softBlonde hover:text-beer-dark rounded-full hover:bg-beer-blonde "
+                  icon={faShoppingCart}
+                  size="small"
+                  isActive={false}
+                  primary
+                  classSpanChildren="pl-0 pr-1 py-1"
+                >
+                  {t("add")}
+                </IconButton>
+              ) : (
+                <>
+                  <span className="flex items-center justify-center">
+                    <Button
+                      box
+                      accent
+                      onClick={() => handleDecreaseFromCartItem()}
+                      class={"py-2"}
+                    >
+                      -
+                    </Button>
 
-                <div className="cursor-pointer text-gray-400 ">
-                  <span className="hover:text-purple-500 p-1 py-0">
-                    {t("bottle")}
-                  </span>
-                  <span className="hover:text-purple-500 p-1 py-0">
-                    {t("can")}
-                  </span>
-                  <span className="hover:text-purple-500 p-1 py-0">
-                    {t("draft")}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex-1 inline-flex items-center mb-3">
-                <span className="text-secondary whitespace-nowrap mr-3">
-                  {t("volume")}
-                </span>
-
-                <div className="cursor-pointer text-gray-400 ">
-                  <span className="hover:text-purple-500 p-1 py-0">S</span>
-                  <span className="hover:text-purple-500 p-1 py-0">M</span>
-                  <span className="hover:text-purple-500 p-1 py-0">L</span>
-                  <span className="hover:text-purple-500 p-1 py-0">XL</span>
-                </div>
-              </div>
-            </div>
-            */}
-
-            <div className="flex space-x-2 text-sm font-medium justify-start">
-              <div className="mt-auto">
-                {getItemQuantity(id) === 0 ? (
-                  <IconButton
-                    onClick={() => handleIncreaseToCartItem()}
-                    classContainer="transition-all ease-in duration-300 border-2 border-bear-light inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-beer-softBlonde hover:text-beer-dark rounded-full hover:bg-beer-blonde "
-                    icon={faShoppingCart}
-                    size="small"
-                    isActive={false}
-                    primary
-                  >
-                    {t("add")}
-                  </IconButton>
-                ) : (
-                  <div>
-                    <span className="flex items-center justify-center">
-                      <Button
-                        box
-                        accent
-                        onClick={() => handleDecreaseFromCartItem()}
-                        class={""}
-                      >
-                        -
-                      </Button>
-
-                      <span className="px-2 text-3xl text-black">
-                        {getItemQuantity(id)}
-                      </span>
-
-                      <Button
-                        box
-                        accent
-                        onClick={() => handleIncreaseToCartItem()}
-                        class={""}
-                      >
-                        +
-                      </Button>
+                    <span className="px-2 text-3xl text-black">
+                      {getItemQuantity(id)}
                     </span>
 
                     <Button
                       box
-                      danger
-                      small
                       accent
-                      class={""}
-                      onClick={() => {
-                        handleRemoveFromCart();
-                      }}
+                      onClick={() => handleIncreaseToCartItem()}
+                      class={"py-2"}
                     >
-                      {t("remove")}
+                      +
                     </Button>
-                  </div>
-                )}
-              </div>
+                  </span>
 
-              <button className="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white  hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className=""
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              </button>
+                  <IconButton
+                    box
+                    danger
+                    accent
+                    classContainer="py-2"
+                    icon={faTrash}
+                    color={{ filled: "#fefefe", unfilled: "#fefefe" }}
+                    onClick={() => {
+                      handleRemoveFromCart();
+                    }}
+                  ></IconButton>
+                </>
+              )}
             </div>
           </div>
         </div>
