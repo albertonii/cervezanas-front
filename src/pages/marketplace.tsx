@@ -18,11 +18,11 @@ export default function MarketPlace(props: Props) {
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
-      <div className="container mx-auto sm:py-4 lg:py-6">
+      <div className="container mx-auto sm:py-2 lg:py-3 ">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
           {beers &&
             beers.map((beer) => (
-              <div key={beer.id} className="container px-3 mb-6">
+              <div key={beer.id} className="container px-3 mb-6 h-full">
                 <StoreItem beer={beer} />
               </div>
             ))}

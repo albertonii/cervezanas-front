@@ -99,11 +99,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <AuthContextProvider supabaseClient={supabase}>
           <AppContextProvider>
             <QueryClientProvider client={queryClient}>
-              <ShoppingCartProvider>
-                <Suspense fallback="Loading...">
+              <Suspense fallback="Loading...">
+                <ShoppingCartProvider>
                   <Component {...pageProps} />
-                </Suspense>
-              </ShoppingCartProvider>
+                </ShoppingCartProvider>
+              </Suspense>
             </QueryClientProvider>
           </AppContextProvider>
         </AuthContextProvider>
