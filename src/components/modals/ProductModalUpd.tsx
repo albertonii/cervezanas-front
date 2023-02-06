@@ -191,7 +191,7 @@ const ProductModalUpd = (props: Props) => {
                       <select
                         {...register("type")}
                         value={""}
-                        className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                       >
                         {product_type_options.map((option) => (
                           <option key={option.value} value={option.label}>
@@ -204,7 +204,7 @@ const ProductModalUpd = (props: Props) => {
                         disabled
                         {...register("type")}
                         defaultValue={type}
-                        className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                       >
                         <option key={type} value={type}>
                           {t(product_type_options[type].value)}
@@ -224,7 +224,7 @@ const ProductModalUpd = (props: Props) => {
                           type="text"
                           id="name"
                           placeholder="IPA Jaira"
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           {...register("name", {
                             required: true,
                           })}
@@ -248,7 +248,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("campaign")}
                           value={""}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {campaigns.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -270,7 +270,7 @@ const ProductModalUpd = (props: Props) => {
                         <textarea
                           id="description"
                           placeholder=""
-                          className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           {...register("description", {
                             required: true,
                           })}
@@ -293,7 +293,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("intensity")}
                           defaultValue={intensity_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {intensity_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -318,7 +318,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("fermentation")}
                           defaultValue={fermentation_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {fermentation_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -343,7 +343,7 @@ const ProductModalUpd = (props: Props) => {
 
                         <select
                           {...register("color")}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {color_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -368,7 +368,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("origin")}
                           defaultValue={origin_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {origin_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -394,7 +394,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("family")}
                           defaultValue={family_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {family_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -416,7 +416,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("era")}
                           defaultValue={era_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {era_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -442,7 +442,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("aroma")}
                           defaultValue={aroma_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {aroma_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -467,7 +467,7 @@ const ProductModalUpd = (props: Props) => {
                         <select
                           {...register("format")}
                           defaultValue={format_options[0].label}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {format_options.map((option) => (
                             <option key={option.value} value={option.label}>
@@ -492,7 +492,7 @@ const ProductModalUpd = (props: Props) => {
 
                         <select
                           {...register("is_gluten")}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           <option key={0} value={"false"}>
                             NO

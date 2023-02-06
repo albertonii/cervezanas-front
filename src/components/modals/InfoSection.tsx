@@ -61,7 +61,7 @@ export default function ProductInfoSection({
           <select
             {...register(`volume`)}
             defaultValue={volume_can_type_options[0].value}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_can_type_options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -75,7 +75,7 @@ export default function ProductInfoSection({
           <select
             {...register(`volume`)}
             defaultValue={volume_bottle_type_options[0].value}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_bottle_type_options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -89,7 +89,7 @@ export default function ProductInfoSection({
           <select
             {...register(`volume`)}
             defaultValue={volume_draft_type_options[0].value}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_draft_type_options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -131,7 +131,7 @@ export default function ProductInfoSection({
           <select
             {...register("type")}
             defaultValue={product_type_options[0].label}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {product_type_options.map((option) => (
               <option key={option.label} value={option.label}>
@@ -150,7 +150,7 @@ export default function ProductInfoSection({
               type="text"
               id="name"
               placeholder="IPA Jaira"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("name", {
                 required: true,
               })}
@@ -171,7 +171,7 @@ export default function ProductInfoSection({
             <select
               {...register("campaign")}
               value={""}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {campaigns.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -192,7 +192,7 @@ export default function ProductInfoSection({
               id="description"
               placeholder=""
               value="Product description"
-              className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("description", {
                 required: true,
               })}
@@ -215,7 +215,7 @@ export default function ProductInfoSection({
             <select
               {...register("intensity")}
               defaultValue={intensity_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {intensity_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -237,7 +237,7 @@ export default function ProductInfoSection({
             <select
               {...register("fermentation")}
               defaultValue={fermentation_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {fermentation_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -260,7 +260,7 @@ export default function ProductInfoSection({
             <select
               {...register("color")}
               defaultValue={color_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {color_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -280,7 +280,7 @@ export default function ProductInfoSection({
             <select
               {...register("origin")}
               defaultValue={origin_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {origin_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -303,7 +303,7 @@ export default function ProductInfoSection({
             <select
               {...register("family")}
               defaultValue={family_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {family_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -325,7 +325,7 @@ export default function ProductInfoSection({
             <select
               {...register("era")}
               defaultValue={era_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {era_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -348,7 +348,7 @@ export default function ProductInfoSection({
             <select
               {...register("aroma")}
               defaultValue={aroma_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {aroma_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -370,7 +370,7 @@ export default function ProductInfoSection({
             <select
               {...register("is_gluten")}
               defaultValue="false"
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               <option key={0} value={"false"}>
                 {t("no")}
@@ -402,7 +402,7 @@ export default function ProductInfoSection({
                 {...register("format")}
                 defaultValue={format_options[0].label}
                 onChange={handleChange}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {format_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -437,7 +437,7 @@ export default function ProductInfoSection({
               <select
                 {...register(`pack`)}
                 defaultValue={pack_type_options[0].value}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {pack_type_options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -457,7 +457,7 @@ export default function ProductInfoSection({
               <input
                 type="number"
                 placeholder="2.5"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 defaultValue={3}
                 min="0"
                 {...register(`price`, { required: true, min: 0 })}
@@ -481,7 +481,7 @@ export default function ProductInfoSection({
               <input
                 type="number"
                 placeholder="500"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 min="0"
                 {...register(`stock_quantity`, { required: true, min: 0 })}
               />
@@ -505,7 +505,7 @@ export default function ProductInfoSection({
               <input
                 type="number"
                 placeholder="20"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 min="0"
                 {...register(`stock_limit_notification`, {
                   required: true,
@@ -539,7 +539,7 @@ export default function ProductInfoSection({
                 type="text"
                 id="lot_number"
                 placeholder={t("lot_number")!}
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("lot_id", {
                   required: true,
                 })}
@@ -557,7 +557,7 @@ export default function ProductInfoSection({
                 id="lot_quantity"
                 placeholder={t("lot_quantity")!}
                 type="number"
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 min="0"
                 {...register("lot_quantity", {
                   required: true,

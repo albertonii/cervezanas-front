@@ -211,8 +211,6 @@ const AddProduct = (props: Props) => {
       }
       setActiveStep(0);
 
-      
-
       if (product_type_options[0].label === BeerEnum.Product_type.beer) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")

@@ -83,7 +83,7 @@ export const HistoryForm = (props: any) => {
                 id="description"
                 placeholder=""
                 readOnly
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={description}
                 {...register("description")}
                 onChange={(e) => setDescription(e.target.value)}
@@ -100,7 +100,7 @@ export const HistoryForm = (props: any) => {
               <input
                 type="number"
                 id="foundtation_year"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={foundationYear}
                 {...register("foundationYear")}
                 onChange={(e) => setFoundationYear(e.target.value)}

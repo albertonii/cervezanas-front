@@ -97,7 +97,7 @@ export const AwardsSection = ({
               type="text"
               id="award_name"
               placeholder={t("input_prodcut_award_name_placeholder")!}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.name`, {
                 required: false,
               })}
@@ -122,7 +122,7 @@ export const AwardsSection = ({
               type="text"
               id="award_description"
               placeholder={t("input_product_award_description_placeholder")!}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.description`, {
                 required: false,
               })}
@@ -144,7 +144,7 @@ export const AwardsSection = ({
               type="number"
               id="award_year"
               placeholder={t("input_product_award_year_placeholder")!}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               value="2021"
               {...register(`awards.${index}.year`, {
                 required: false,
@@ -169,7 +169,7 @@ export const AwardsSection = ({
               onChange={(e) => showPreview(e, index)}
               accept="image/png, image/jpeg"
               id="award_img_url"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
             {`errors.awards.${index}.img_url.type` === "required" && (
               <p>{t("product_modal_required")}</p>

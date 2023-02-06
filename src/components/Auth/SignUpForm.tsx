@@ -86,7 +86,7 @@ export const SignUpForm = () => {
           {...register("access_level")}
           value={role}
           onChange={handleChangeRole}
-          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         >
           {role_options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -107,7 +107,7 @@ export const SignUpForm = () => {
           autoComplete="username"
           placeholder="user_123"
           required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -124,7 +124,7 @@ export const SignUpForm = () => {
           autoComplete="username"
           placeholder="ejemplo@gmail.com"
           required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -140,7 +140,7 @@ export const SignUpForm = () => {
           id="password"
           autoComplete="new-password"
           required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           placeholder="*****"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -149,7 +149,7 @@ export const SignUpForm = () => {
 
       {loading ? (
         <span>
-          <Spinner />
+          <Spinner color={""} size={""} />
         </span>
       ) : (
         <>

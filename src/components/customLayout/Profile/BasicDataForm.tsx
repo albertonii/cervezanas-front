@@ -93,7 +93,7 @@ export const BasicDataForm = (props: any) => {
                 id="username"
                 placeholder="user123"
                 readOnly
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={username}
                 {...register("username")}
                 onChange={(e) => setUsername(e.target.value)}
@@ -107,7 +107,7 @@ export const BasicDataForm = (props: any) => {
               <input
                 type="date"
                 id="birthdate"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={birthdate}
                 {...register("birthdate")}
                 onChange={(e) => setBirthdate(e.target.value)}
@@ -124,7 +124,7 @@ export const BasicDataForm = (props: any) => {
                 type="text"
                 id="name"
                 placeholder="Alberto"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={name}
                 {...register("given_name", {
                   required: true,
@@ -148,7 +148,7 @@ export const BasicDataForm = (props: any) => {
                 type="text"
                 id="lastname"
                 placeholder="Niironen"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={lastname}
                 {...register("lastname", {
                   required: true,
@@ -173,7 +173,7 @@ export const BasicDataForm = (props: any) => {
               </label>
               <input
                 placeholder="ejemplo@gmail.com"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={email}
                 {...register("email", {
                   required: true,

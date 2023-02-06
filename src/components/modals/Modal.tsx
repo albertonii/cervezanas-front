@@ -90,9 +90,10 @@ const Modal = (props: Props) => {
         </IconButton>
       ) : (
         <Button
-          class={classContainer}
+          class={`${classContainer} px-2 py-1`}
           onClick={() => handleShowModal(true)}
           title={title}
+          primary
         >
           {t(btnTitle)}
         </Button>
