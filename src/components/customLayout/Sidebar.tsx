@@ -60,11 +60,13 @@ export const Sidebar = (props: Props) => {
           <ul className="space-y-2">
             {sidebarLinks.map((link) => (
               <li
-                className={`${
+                className={`
+                hover:cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-beer-blonde dark:hover:bg-gray-700
+                ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"
                     : "text-gray-600"
-                } hover:cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-beer-blonde dark:hover:bg-gray-700`}
+                } `}
                 key={link.name}
                 onClick={() => handleCallback(link.option)}
               >

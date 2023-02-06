@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth/useAuth";
 
@@ -29,7 +30,10 @@ interface Props {
 export default function AppContextProvider(props: Props) {
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
-  const [sidebar, setSidebar] = useState("profile");
+  const [sidebar, setSidebar] = useLocalStorage<string>(
+    "sidebar-option",
+    "profile"
+  );
 
   const { user } = useAuth();
 
