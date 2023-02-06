@@ -4,21 +4,27 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
 import Layout from "../../../components/Layout";
-import { Beer, Order, ShippingInfo, BillingInfo } from "../../../lib/types";
+import {
+  Beer,
+  Order,
+  ShippingInfo,
+  BillingInfo,
+  Product,
+} from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
   order: Order;
-  beers: Beer[];
+  products: Product[];
 }
 
 export default function Success(props: Props) {
   const { t } = useTranslation();
-  const { order: order_, beers: beers_ } = props;
+  const { order: order_, products: products_ } = props;
 
   const [order, setOrder] = useState<Order>(order_);
-  const [products, setProducts] = useState<Beer[]>(beers_);
+  const [products, setProducts] = useState<Product[]>(products_);
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo>(
     order_.shipping_info
   );
@@ -84,8 +90,8 @@ export default function Success(props: Props) {
                     <div className="py-6 px-4 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8">
                       <div className="sm:flex lg:col-span-7">
                         <div className="flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none sm:w-40 sm:h-40">
-                          {product.product_multimedia.p_principal === null ||
-                          product.product_multimedia.p_principal ===
+                          {product.product_multimedia[0].p_principal === null ||
+                          product.product_multimedia[0].p_principal ===
                             undefined ? (
                             <Image
                               width={120}
@@ -99,7 +105,7 @@ export default function Success(props: Props) {
                               width={120}
                               height={100}
                               alt={""}
-                              src={`${product.product_multimedia.p_principal}`}
+                              src={`${product.product_multimedia[0].p_principal}`}
                               className="w-full h-full object-center object-cover sm:w-full sm:h-full"
                             />
                           )}
@@ -308,7 +314,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       *,
       shipping_info(id, *),
       billing_info(id, *),
-      beers(
+      products(
         id, 
         name, 
         price,
@@ -333,7 +339,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       order: orderData[0],
-      beers: orderData[0].beers,
+      products: orderData[0].products,
     },
   };
 }

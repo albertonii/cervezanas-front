@@ -18,7 +18,7 @@ const fetchProducts = async () => {
 };
 
 const useFetchProducts = () => {
-  return useQuery("beers", fetchProducts);
+  return useQuery("products", fetchProducts);
 };
 
 export default useFetchProducts;

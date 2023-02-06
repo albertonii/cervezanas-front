@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 import StoreItem from "../components/Cart/StoreItem";
-import { Beer, Product } from "../lib/types";
+import { Product } from "../lib/types";
 import Layout from "../components/Layout";
 import { useAuth } from "../components/Auth";
 
@@ -38,7 +38,7 @@ export default function MarketPlace(props: Props) {
             {products &&
               products.map((product) => (
                 <div key={product.id} className="container px-3 mb-6 h-full">
-                  <StoreItem product={product} />
+                  <StoreItem products={products} product={product} />
                 </div>
               ))}
           </div>
@@ -74,31 +74,6 @@ export async function getServerSideProps() {
 
     productsData![index] = product;
   });
-
-  // let { data: beersData, error: beersError } = await supabase.from("beers")
-  //   .select(`
-  //   *,
-  //   product_multimedia (
-  //     p_principal
-  //   ),product_inventory (
-  //     quantity
-  //   ),likes (
-  //     id
-  //   ), reviews (
-  //     overall
-  //   )
-  // `);
-
-  // if (beersError) throw beersError;
-
-  // beersData?.map(async (beer, index) => {
-  //   beer.product_multimedia[0].p_principal =
-  //     beer.product_multimedia[0]?.p_principal == undefined || null
-  //       ? `/marketplace_product_default.png`
-  //       : `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}/${beer.owner_id}/${beer.product_multimedia[0].p_principal}`;
-
-  //   beersData![index] = beer;
-  // });
 
   return {
     props: {

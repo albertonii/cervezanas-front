@@ -14,11 +14,11 @@ import { supabase } from "../../utils/supabaseClient";
 import { Product } from "../../lib/types";
 import Button from "../common/Button";
 
-type StoreItemProps = { product: Product };
+type StoreItemProps = { product: Product; products: Product[] };
 
 export default function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
-  const { product } = props;
+  const { product, products } = props;
   const { id } = product;
 
   const [overAll, _] = useState<string>(
@@ -77,8 +77,11 @@ export default function StoreItem(props: StoreItemProps) {
       (item) => item.id === id
     );
 
-    if (!product) return;
-    addMarketplaceItems(product);
+    if (product) return;
+
+    const product_ = products.find((item) => item.id === id);
+    if (!product_) return;
+    addMarketplaceItems(product_);
   };
 
   const handleDecreaseFromCartItem = () => {
