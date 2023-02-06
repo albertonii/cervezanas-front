@@ -119,13 +119,11 @@ export default function FourOhFour() {
             Beer Not Found
           </div>
           <button className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-110 duration-300">
-            <a className="relative inline-block text-lg font-medium text-beer-dark hover:text-beer-draft group active:text-orange-500 focus:outline-none focus:ring">
-              <span className="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 group-hover:translate-y-0 group-hover:translate-x-0"></span>
+            <span className="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 group-hover:translate-y-0 group-hover:translate-x-0"></span>
 
-              <span className="relative block px-8 py-3 bg-beer-softBlonde hover:bg-bear-light hover:text-beer-softBlonde border border-current">
-                <Link href="/">Go Home</Link>
-              </span>
-            </a>
+            <span className="relative block px-8 py-3 bg-beer-softBlonde hover:bg-bear-light hover:text-beer-softBlonde border border-current">
+              <Link href="/">Go Home</Link>
+            </span>
           </button>
         </main>
       </div>
