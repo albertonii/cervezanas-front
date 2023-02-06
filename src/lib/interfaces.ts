@@ -5,7 +5,7 @@ export interface IModalAddProduct {
   name: string;
   description: string;
   campaign: string;
-  type: number;
+  type: string;
   color: number;
   intensity: number;
   aroma: number;
@@ -13,7 +13,7 @@ export interface IModalAddProduct {
   fermentation: number;
   origin: number;
   era: number;
-  isGluten: string;
+  is_gluten: string;
   awards: Award[];
   p_principal: string;
   p_back: string;

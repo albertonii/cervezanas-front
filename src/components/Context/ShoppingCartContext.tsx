@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { Beer, CartItem } from "../../lib/types";
+import { CartItem, Product } from "../../lib/types";
 import ShoppingCart from "../Cart/ShoppingCart";
 
 type ShoppingCartContextType = {
@@ -15,8 +15,8 @@ type ShoppingCartContextType = {
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
-  marketplaceItems: Beer[];
-  addMarketplaceItems: (item: Beer) => void;
+  marketplaceItems: Product[];
+  addMarketplaceItems: (item: Product) => void;
   removeMarketplaceItems: (id: string) => void;
 };
 
@@ -33,7 +33,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   openCart: () => {},
   closeCart: () => {},
   marketplaceItems: [],
-  addMarketplaceItems: (item: Beer) => {},
+  addMarketplaceItems: (item: Product) => {},
   removeMarketplaceItems: (id: string) => {},
 });
 
@@ -49,12 +49,12 @@ export function ShoppingCartProvider({
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useLocalStorage<CartItem[]>("shopping-cart", []);
 
-  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<Beer[]>(
+  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<Product[]>(
     "marketplace-selected-items",
     []
   );
 
-  const addMarketplaceItems = (item: Beer) => {
+  const addMarketplaceItems = (item: Product) => {
     if (marketplaceItems.some((i) => i.id === item.id)) return;
     setMarketplaceItems((items) => [...items, item]);
   };

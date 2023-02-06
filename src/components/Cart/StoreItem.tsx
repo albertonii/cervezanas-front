@@ -11,22 +11,22 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { Beer } from "../../lib/types";
+import { Product } from "../../lib/types";
 import Button from "../common/Button";
 
-type StoreItemProps = { beer: Beer };
+type StoreItemProps = { product: Product };
 
 export default function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
-  const { beer } = props;
-  const { id } = beer;
+  const { product } = props;
+  const { id } = product;
 
   const [overAll, _] = useState<string>(
-    beer.reviews.length > 0
+    product.reviews.length > 0
       ? () => {
           let overAll_sum = 0;
-          beer.reviews.map((review) => (overAll_sum += review.overall));
-          const overAll_avg = overAll_sum / beer.reviews.length;
+          product.reviews.map((review) => (overAll_sum += review.overall));
+          const overAll_avg = overAll_sum / product.reviews.length;
           const overAll_toFixed: string = overAll_avg.toFixed(1);
           return overAll_toFixed;
         }
@@ -34,7 +34,7 @@ export default function StoreItem(props: StoreItemProps) {
   );
 
   const [isLike, setIsLike] = useState<boolean>(
-    beer.likes.length > 0 ? true : false
+    product.likes.length > 0 ? true : false
   );
 
   const {
@@ -53,7 +53,7 @@ export default function StoreItem(props: StoreItemProps) {
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ beer_id: beer.id, owner_id: beer.owner_id }]);
+        .insert([{ beer_id: product.id, owner_id: product.owner_id }]);
 
       if (error) throw error;
 
@@ -62,7 +62,7 @@ export default function StoreItem(props: StoreItemProps) {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ beer_id: beer.id, owner_id: beer.owner_id });
+        .match({ beer_id: product.id, owner_id: product.owner_id });
 
       if (error) throw error;
 
@@ -73,12 +73,12 @@ export default function StoreItem(props: StoreItemProps) {
   const handleIncreaseToCartItem = () => {
     increaseCartQuantity(id);
     if (marketplaceItems.find((item) => item.id === id)) return;
-    const beer: Beer | undefined = marketplaceItems.find(
+    const product: Product | undefined = marketplaceItems.find(
       (item) => item.id === id
     );
 
-    if (!beer) return;
-    addMarketplaceItems(beer);
+    if (!product) return;
+    addMarketplaceItems(product);
   };
 
   const handleDecreaseFromCartItem = () => {
@@ -114,7 +114,7 @@ export default function StoreItem(props: StoreItemProps) {
         <Image
           width={128}
           height={128}
-          src={beer.product_multimedia[0]?.p_principal}
+          src={product.product_multimedia[0]?.p_principal}
           alt="Principal Product Image"
           className="w-full object-fill rounded-2xl"
         />
@@ -138,7 +138,7 @@ export default function StoreItem(props: StoreItemProps) {
 
             <div className="flex items-center w-full justify-between min-w-0 ">
               <h2 className="font-semibold transition-all text-lg mr-auto cursor-pointer text-beer-draft hover:text-purple-500 truncate hover:text-beer-blonde">
-                <Link href={`/products/${beer.id}`}>{beer.name}</Link>
+                <Link href={`/products/${product.id}`}>{product.name}</Link>
               </h2>
               {/* {beer.product_inventory[0]?.quantity > 0 ? (
                   <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
@@ -153,7 +153,7 @@ export default function StoreItem(props: StoreItemProps) {
           </div>
 
           <div className="text-xl text-bear-dark font-semibold mt-1">
-            {formatCurrency(beer.price)}
+            {formatCurrency(product.price)}
           </div>
 
           <div className="flex space-x-2 text-sm  items-center justify-between font-medium mt-2">

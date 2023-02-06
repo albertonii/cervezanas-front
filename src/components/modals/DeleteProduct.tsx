@@ -1,42 +1,42 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Beer } from "../../lib/types";
+import { Product } from "../../lib/types";
 
 import { supabase } from "../../utils/supabaseClient";
 import Modal from "./Modal";
 
 interface Props {
-  beers: Beer[];
-  beerId: string;
+  products: Product[];
+  productId: string;
   isDeleteShowModal: boolean;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleSetBeers: React.Dispatch<React.SetStateAction<any>>;
+  handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const DeleteProduct = (props: Props) => {
   const { t } = useTranslation();
   const {
-    beers,
-    beerId,
+    products,
+    productId,
     isDeleteShowModal,
     handleDeleteShowModal,
-    handleSetBeers,
+    handleSetProducts,
   } = props;
 
   const handleClick = () => {
     const handleDelete = async () => {
       const { data, error } = await supabase
-        .from("beers")
+        .from("products")
         .delete()
-        .eq("id", beerId);
+        .eq("id", productId);
 
       if (error) throw error;
 
       handleDeleteShowModal(false);
 
-      handleSetBeers(
-        beers.filter((b) => {
-          return b.id !== beerId;
+      handleSetProducts(
+        products.filter((b) => {
+          return b.id !== productId;
         })
       );
 

@@ -145,24 +145,18 @@ export interface Auth {
   theme?: "default" | string;
 }
 
-export interface Product {
+export interface ProductCategory {
   id: string;
   name: string;
   description: string;
   created_at: Date;
-  social_cause_id: string;
-  product_lot_id: string;
-  type_id: number;
-  type: number;
-  product_category_id: string;
-  campaign_id: string;
-  owner_id: string;
+  product_id: string;
 }
 
-export interface Beer extends Product {
+export interface Beer {
   lot_id: number;
   feedback_id: number;
-  category: number;
+  category: string;
   intensity: string;
   fermentation: string;
   color: string;
@@ -179,11 +173,9 @@ export interface Beer extends Product {
   volume: number;
   format: string;
   pack: number;
-  product_lot: ProductLot[];
-  product_inventory: Inventory[];
-  product_multimedia: ProductMultimedia;
   reviews: Review[];
   likes: Like[];
+  product_id: string;
 }
 
 export interface ProductLot {
@@ -317,6 +309,13 @@ export interface Order {
   discount_code: string;
 }
 
+export interface OrderItem {
+  order_id: string;
+  product_id: string;
+  quantity: number;
+  created_at: Date;
+}
+
 export interface PaymentCardMethod {
   id: string;
   created_at: number;
@@ -390,7 +389,7 @@ export type ModalAddProductProps = {
   name: string;
   description: string;
   campaign: string;
-  type: number;
+  type: string;
   color: number;
   intensity: number;
   aroma: number;
@@ -398,7 +397,7 @@ export type ModalAddProductProps = {
   fermentation: number;
   origin: number;
   era: number;
-  isGluten: string;
+  is_gluten: boolean;
   awards: Award[];
   p_principal: FileImg;
   p_back: FileImg;
@@ -437,109 +436,23 @@ export interface AnimationTailwindClasses {
   leaveFrom?: string;
   leaveTo?: string;
 }
-
-export interface Localization {
-  // [key: string]: I18nVariables
-  ["en"]: I18nVariables;
-  ["ja"]: I18nVariables;
-  ["de_formal"]: I18nVariables;
-  ["de_informal"]: I18nVariables;
-}
-
-export interface Appearance {
-  theme?: Theme;
-  prependedClassName?: string;
-  variables?: {
-    default: ThemeVariables;
-    [key: string]: ThemeVariables;
-  };
-  className?: {
-    anchor?: string | CssComponent;
-    button?: string | CssComponent;
-    container?: string | CssComponent;
-    divider?: string | CssComponent;
-    input?: string | CssComponent;
-    label?: string | CssComponent;
-    loader?: string | CssComponent;
-    message?: string | CssComponent;
-  };
-  style?: {
-    anchor?: React.CSSProperties;
-    button?: React.CSSProperties;
-    container?: React.CSSProperties;
-    divider?: React.CSSProperties;
-    input?: React.CSSProperties;
-    label?: React.CSSProperties;
-    loader?: React.CSSProperties;
-    message?: React.CSSProperties;
-  };
-}
-
-export interface Auth {
-  supabaseClient: SupabaseClient;
-  children?: React.ReactNode;
-  socialLayout?: SocialLayout;
-  providers?: Provider[];
-  view?: ViewType;
-  redirectTo?: RedirectTo;
-  onlyThirdPartyProviders?: boolean;
-  magicLink?: boolean;
-  showLinks?: boolean;
-
-  /**
-   * This will toggle on the dark variation of the theme
-   */
-  dark?: boolean;
-  /**
-   * Override the labels and button text
-   */
-  localization?: {
-    lang?: "en" | "ja"; // es
-    variables?: I18nVariables;
-  };
-  appearance?: Appearance;
-  theme?: "default" | string;
-}
-
 export interface Product {
   id: string;
   name: string;
   description: string;
   created_at: Date;
   social_cause_id: string;
-  product_lot_id: string;
-  type_id: number;
-  type: number;
+  type: string;
   product_category_id: string;
   campaign_id: string;
   owner_id: string;
-}
-
-export interface Beer extends Product {
-  lot_id: number;
-  feedback_id: number;
-  category: number;
-  intensity: string;
-  fermentation: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  aroma: string;
-  beer_format_id: string;
-  is_gluten: boolean;
-  awards_id: string[];
-  awards: Award[];
-  is_public: boolean;
-  price: number;
-  volume: number;
-  format: string;
-  pack: number;
   product_lot: ProductLot[];
   product_inventory: Inventory[];
-  product_multimedia: ProductMultimedia;
+  product_multimedia: ProductMultimedia[];
   reviews: Review[];
   likes: Like[];
+  is_public: boolean;
+  price: number;
 }
 
 export interface ProductLot {

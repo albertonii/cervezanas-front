@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,28 +12,13 @@ import {
   origin_options,
   product_type_options,
 } from "../../lib/beerEnum";
+import { Product } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   isVisible: boolean;
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
-  beer: {
-    id: string;
-    name: string;
-    description: string;
-    campaign: string;
-    type: number;
-    color: string;
-    intensity: string;
-    aroma: string;
-    family: string;
-    fermentation: string;
-    origin: string;
-    era: string;
-    format: string;
-    is_gluten: string;
-    owner_id: string;
-  };
+  product: Product;
 }
 
 const campaigns = [
@@ -55,7 +40,7 @@ type FormValues = {
   name: string;
   description: string;
   campaign: string;
-  type: number;
+  type: string;
   color: string;
   intensity: string;
   aroma: string;
@@ -64,31 +49,33 @@ type FormValues = {
   origin: string;
   era: string;
   format: string;
-  is_gluten: string;
+  is_gluten: boolean;
   owner_id: string;
 };
 
 const ProductModalUpd = (props: Props) => {
   const { t } = useTranslation();
-  const { isVisible, beer, handleEditShowModal } = props;
+  const { isVisible, product, handleEditShowModal } = props;
 
   const {
     id,
     name,
     description,
-    campaign,
     type,
-    color,
-    intensity,
-    aroma,
-    family,
-    fermentation,
-    origin,
-    era,
-    format,
-    is_gluten,
     owner_id,
-  } = beer;
+    campaign_id,
+    beer: {
+      fermentation,
+      color,
+      intensity,
+      aroma,
+      family,
+      origin,
+      era,
+      format,
+      is_gluten,
+    },
+  } = product;
 
   const [showModal, setShowModal] = React.useState(isVisible);
 
@@ -102,7 +89,7 @@ const ProductModalUpd = (props: Props) => {
     defaultValues: {
       name,
       description,
-      campaign,
+      campaign: campaign_id,
       color,
       intensity,
       aroma,
@@ -146,8 +133,8 @@ const ProductModalUpd = (props: Props) => {
           origin: getValues("origin"),
           era: getValues("era"),
           format: getValues("format"),
-          is_gluten: is_gluten === "true",
-          type,
+          is_gluten: is_gluten === true,
+          type: getValues("type"),
           campaign_id: campaign,
           awards: [],
           owner_id,
@@ -202,6 +189,18 @@ const ProductModalUpd = (props: Props) => {
                       </label>
 
                       <select
+                        {...register("type")}
+                        value={""}
+                        className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      >
+                        {product_type_options.map((option) => (
+                          <option key={option.value} value={option.label}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* <select
                         disabled
                         {...register("type")}
                         defaultValue={type}
@@ -210,7 +209,7 @@ const ProductModalUpd = (props: Props) => {
                         <option key={type} value={type}>
                           {t(product_type_options[type].value)}
                         </option>
-                      </select>
+                      </select> */}
                     </div>
 
                     <div className="flex w-full flex-row space-x-3 ">

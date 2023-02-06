@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Beer } from "../../../lib/types";
+import { Product } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
 import LotModalAdd from "../../modals/AddLot";
@@ -12,14 +12,14 @@ export const Products = () => {
   const { user } = useAuth();
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-  const [beerModal, setBeerModal] = useState<any>(null);
+  const [productModal, setProductModal] = useState<any>(null);
 
-  const [beers, setBeers] = useState<Beer[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
-      const { data: beers, error } = await supabase
-        .from("beers")
+      const { data: products, error } = await supabase
+        .from("products")
         .select(
           `
           *,
@@ -33,19 +33,19 @@ export const Products = () => {
         )
         .eq("owner_id", user?.id);
       if (error) throw error;
-      setBeers(beers);
+      setProducts(products);
 
-      return beers;
+      return products;
     };
     getProducts();
 
     return () => {
-      setBeers([]);
+      setProducts([]);
     };
   }, [user]);
 
-  const handleSetBeers = (value: Beer[]) => {
-    setBeers(value);
+  const handleSetProducts = (value: Product[]) => {
+    setProducts(value);
   };
 
   const handleEditShowModal = (value: boolean) => {
@@ -56,8 +56,8 @@ export const Products = () => {
     setIsDeleteShowModal(value);
   };
 
-  const handleBeerModal = (beer: Beer) => {
-    setBeerModal(beer);
+  const handleProductModal = (product: Product) => {
+    setProductModal(product);
   };
 
   return (
@@ -66,24 +66,27 @@ export const Products = () => {
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 
-          <AddProduct beers={beers!} handleSetBeers={handleSetBeers} />
+          <AddProduct
+            products={products!}
+            handleSetProducts={handleSetProducts}
+          />
 
           <LotModalAdd />
         </div>
 
         <div>
           <ProductList
-            beers={beers!}
+            products={products!}
             handleEditShowModal={handleEditShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
-            handleBeerModal={handleBeerModal}
+            handleProductModal={handleProductModal}
           />
         </div>
 
         {isEditShowModal ? (
           <ProductModalUpd
             isVisible={true}
-            beer={beerModal}
+            product={productModal}
             handleEditShowModal={handleEditShowModal}
           />
         ) : (
@@ -92,11 +95,11 @@ export const Products = () => {
 
         {isDeleteShowModal ? (
           <DeleteProduct
-            beers={beers!}
-            beerId={beerModal.id}
+            products={products!}
+            productId={productModal.id}
             isDeleteShowModal={isDeleteShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
-            handleSetBeers={handleSetBeers}
+            handleSetProducts={handleSetProducts}
           />
         ) : (
           <div></div>

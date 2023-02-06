@@ -9,13 +9,12 @@ import ProductOverallReview from "../../components/reviews/ProductOverallReview"
 import ProductReviews from "../../components/reviews/ProductReviews";
 import Rate from "../../components/reviews/Rate";
 import { SupabaseProps } from "../../constants";
-import { ProductMultimedia, Review } from "../../lib/types";
+import { Product, ProductMultimedia, Review } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import Button from "../../components/common/Button";
 import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { Beer } from "../../lib/types";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -26,8 +25,8 @@ const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 const pExtra4Url = `${productsUrl}${SupabaseProps.P_EXTRA_4_URL}`;
 
 interface Props {
-  product: any[];
-  multimedia: any[];
+  product: Product[];
+  multimedia: ProductMultimedia[];
   reviews: Review[];
 }
 
@@ -126,12 +125,11 @@ export default function ProductId(props: Props) {
     increaseCartQuantity(beerId);
     if (marketplaceItems.find((item) => item.id === beerId)) return;
 
-    console.log(marketplaceItems);
-    const beer: Beer | undefined = marketplaceItems.find(
+    const product: Product | undefined = marketplaceItems.find(
       (item) => item.id === beerId
     );
-    if (!beer) return;
-    addMarketplaceItems(beer);
+    if (!product) return;
+    addMarketplaceItems(product);
   };
 
   const handleDecreaseCartQuantity = (beerId: string) => {
@@ -548,22 +546,22 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
 
-  let { data: beers, error: beersError } = await supabase
-    .from("beers")
+  let { data: product, error: productsError } = await supabase
+    .from("products")
     .select("*")
     .eq("id", productId);
 
-  let { data: beerMultimedia, error: errorMultimedia } = await supabase
+  let { data: productMultimedia, error: errorMultimedia } = await supabase
     .from("product_multimedia")
     .select("*")
-    .eq("beer_id", productId);
+    .eq("product_id", productId);
 
   const { data: reviews, error: reviewError } = await supabase
     .from("reviews")
     .select("*")
-    .eq("beer_id", productId);
+    .eq("product_id", productId);
 
-  if (beersError) throw beersError;
+  if (productsError) throw productsError;
   if (errorMultimedia) throw errorMultimedia;
   if (reviewError) throw reviewError;
 
@@ -585,8 +583,8 @@ export async function getServerSideProps(context: { params: any }) {
 
   return {
     props: {
-      product: beers,
-      multimedia: beerMultimedia,
+      product: product,
+      multimedia: productMultimedia,
       reviews,
     },
   };

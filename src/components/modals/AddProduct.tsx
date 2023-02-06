@@ -17,18 +17,18 @@ import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
 import ProductInfoSection from "./InfoSection";
 import ProductStepper from "./ProductStepper";
-import { Beer, Inventory, ModalAddProductProps } from "../../lib/types";
+import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
 import Modal from "./Modal";
 
 interface Props {
-  beers: Beer[];
-  handleSetBeers: React.Dispatch<React.SetStateAction<any>>;
+  products: Product[];
+  handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const AddProduct = (props: Props) => {
   const { t } = useTranslation();
-  const { beers, handleSetBeers } = props;
+  const { products, handleSetProducts } = props;
 
   const { user } = useAuth();
 
@@ -51,8 +51,8 @@ const AddProduct = (props: Props) => {
       fermentation: 0,
       origin: 0,
       era: 0,
-      isGluten: "",
-      type: 0,
+      is_gluten: false,
+      type: product_type_options[0].value,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
       is_public: false,
       volume: "",
@@ -84,7 +84,7 @@ const AddProduct = (props: Props) => {
         family,
         origin,
         era,
-        isGluten,
+        is_gluten,
         type,
         awards,
         p_principal,
@@ -104,13 +104,119 @@ const AddProduct = (props: Props) => {
         lot_id,
         lot_quantity,
       } = formValues;
-      if (product_type_options[type].value == BeerEnum.Product_type.beer) {
+
+      const userId = user?.id;
+
+      // Product
+      const { data: productData, error: productError } = await supabase
+        .from("products")
+        .insert({
+          is_public: is_public,
+          name: name,
+          description: description,
+          type,
+          owner_id: userId,
+          price,
+        })
+        .select();
+
+      if (productError) throw productError;
+
+      const productId = productData[0].id;
+
+      // Lot
+      const { error: lotError } = await supabase.from("product_lot").insert({
+        product_id: productId,
+        lot_id,
+        created_at: new Date(),
+        quantity: lot_quantity,
+      });
+      if (lotError) throw lotError;
+
+      // Multimedia
+      const p_principal_url =
+        p_principal != undefined ? encodeURIComponent(p_principal.name) : null;
+      const p_back_url =
+        p_back != undefined ? encodeURIComponent(p_back.name) : null;
+      const p_extra_1_url =
+        p_extra_1 != undefined ? encodeURIComponent(p_extra_1.name) : null;
+      const p_extra_2_url =
+        p_extra_2 != undefined ? encodeURIComponent(p_extra_2.name) : null;
+      const p_extra_3_url =
+        p_extra_3 != undefined ? encodeURIComponent(p_extra_3.name) : null;
+      const { error: multError } = await supabase
+        .from("product_multimedia")
+        .insert({
+          product_id: productId,
+          p_principal: p_principal_url,
+          p_back: p_back_url,
+          p_extra_1: p_extra_1_url,
+          p_extra_2: p_extra_2_url,
+          p_extra_3: p_extra_3_url,
+        });
+      if (multError) throw multError;
+
+      if (p_principal_url) {
+        const { error: pPrincipalError } = await supabase.storage
+          .from("products")
+          .upload(
+            `p_principal/${userId}/${p_principal_url}`,
+            p_principal.name,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
+        if (pPrincipalError) throw pPrincipalError;
+      }
+
+      if (p_back_url) {
+        const { error: pBackError } = await supabase.storage
+          .from("products")
+          .upload(`p_back/${userId}/${p_back_url}`, p_back.name, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (pBackError) throw pBackError;
+      }
+
+      if (p_extra_1_url) {
+        const { error: pExtra1Error } = await supabase.storage
+          .from("products")
+          .upload(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1.name, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (pExtra1Error) throw pExtra1Error;
+      }
+
+      if (p_extra_2_url) {
+        const { error: pExtra2Error } = await supabase.storage
+          .from("products")
+          .upload(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2.name, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (pExtra2Error) throw pExtra2Error;
+      }
+
+      if (p_extra_3_url) {
+        const { error: pExtra3Error } = await supabase.storage
+          .from("products")
+          .upload(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3.name, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (pExtra3Error) throw pExtra3Error;
+      }
+      setActiveStep(0);
+
+      
+
+      if (product_type_options[0].label === BeerEnum.Product_type.beer) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
-            is_public: is_public,
-            name: name,
-            description: description,
             intensity: intensity_options[intensity].label,
             fermentation: fermentation_options[fermentation].label,
             color: color_options[color].label,
@@ -118,40 +224,36 @@ const AddProduct = (props: Props) => {
             family: family_options[family].label,
             origin: origin_options[origin].label,
             era: era_options[era].label,
-            is_gluten: isGluten === "true",
-            type,
-            campaign_id: campaign,
+            // is_gluten: is_gluten === "true",
+            is_gluten,
             volume,
-            price,
             pack,
             format,
-            owner_id: user?.id,
+            product_id: productId,
           })
           .select();
+
         if (beerError) throw beerError;
-        const beerId = beerData[0].id;
-        const userId = beerData[0].owner_id;
+
+        const beer = beerData[0];
+        const beerId = beer.id;
+
         // Upd product list
-        beers.push(beerData[0]);
-        handleSetBeers(beers);
+        products.push(productData[0]);
+        handleSetProducts(products);
+
         // Inventory - Stock
         const stock: Inventory = {
-          product_id: beerId,
+          product_id: productId,
           quantity: stock_quantity,
           limit_notification: stock_limit_notification,
         };
+
         const { error: stockError } = await supabase
           .from("product_inventory")
           .insert(stock);
         if (stockError) throw stockError;
-        // Lot
-        const { error: lotError } = await supabase.from("product_lot").insert({
-          beer_id: beerId,
-          lot_id,
-          created_at: new Date(),
-          quantity: lot_quantity,
-        });
-        if (lotError) throw lotError;
+
         // Awards
         if (awards.length > 0 && awards[0].img_url != "") {
           awards.map(async (award) => {
@@ -178,81 +280,8 @@ const AddProduct = (props: Props) => {
             }
           });
         }
-        // Multimedia
-        const p_principal_url =
-          p_principal != undefined
-            ? encodeURIComponent(p_principal.name)
-            : null;
-        const p_back_url =
-          p_back != undefined ? encodeURIComponent(p_back.name) : null;
-        const p_extra_1_url =
-          p_extra_1 != undefined ? encodeURIComponent(p_extra_1.name) : null;
-        const p_extra_2_url =
-          p_extra_2 != undefined ? encodeURIComponent(p_extra_2.name) : null;
-        const p_extra_3_url =
-          p_extra_3 != undefined ? encodeURIComponent(p_extra_3.name) : null;
-        const { error: multError } = await supabase
-          .from("product_multimedia")
-          .insert({
-            beer_id: beerId,
-            p_principal: p_principal_url,
-            p_back: p_back_url,
-            p_extra_1: p_extra_1_url,
-            p_extra_2: p_extra_2_url,
-            p_extra_3: p_extra_3_url,
-          });
-        if (multError) throw multError;
-        if (p_principal_url) {
-          const { error: pPrincipalError } = await supabase.storage
-            .from("products")
-            .upload(
-              `p_principal/${userId}/${p_principal_url}`,
-              p_principal.name,
-              {
-                cacheControl: "3600",
-                upsert: false,
-              }
-            );
-          if (pPrincipalError) throw pPrincipalError;
-        }
-        if (p_back_url) {
-          const { error: pBackError } = await supabase.storage
-            .from("products")
-            .upload(`p_back/${userId}/${p_back_url}`, p_back.name, {
-              cacheControl: "3600",
-              upsert: false,
-            });
-          if (pBackError) throw pBackError;
-        }
-        if (p_extra_1_url) {
-          const { error: pExtra1Error } = await supabase.storage
-            .from("products")
-            .upload(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1.name, {
-              cacheControl: "3600",
-              upsert: false,
-            });
-          if (pExtra1Error) throw pExtra1Error;
-        }
-        if (p_extra_2_url) {
-          const { error: pExtra2Error } = await supabase.storage
-            .from("products")
-            .upload(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2.name, {
-              cacheControl: "3600",
-              upsert: false,
-            });
-          if (pExtra2Error) throw pExtra2Error;
-        }
-        if (p_extra_3_url) {
-          const { error: pExtra3Error } = await supabase.storage
-            .from("products")
-            .upload(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3.name, {
-              cacheControl: "3600",
-              upsert: false,
-            });
-          if (pExtra3Error) throw pExtra3Error;
-        }
-        setActiveStep(0);
-        return beerData;
+
+        return beer;
       }
     };
     handleInsert();

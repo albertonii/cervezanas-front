@@ -172,7 +172,7 @@ export namespace BeerEnum {
     very_good = "very_good",
     excellent = "excellent",
     superb = "superb",
-    not_qualified ="not_qualified"
+    not_qualified = "not_qualified",
   }
 }
 
@@ -381,11 +381,11 @@ export const format_options = [
 
 export const product_type_options = [
   {
-    label: 0,
+    label: BeerEnum.Product_type.beer,
     value: BeerEnum.Product_type.beer,
   },
   {
-    label: 1,
+    label: BeerEnum.Product_type.merchandising,
     value: BeerEnum.Product_type.merchandising,
   },
 ];

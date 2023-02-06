@@ -368,7 +368,7 @@ export default function ProductInfoSection({
             </label>
 
             <select
-              {...register("isGluten")}
+              {...register("is_gluten")}
               defaultValue="false"
               className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             >
@@ -379,7 +379,7 @@ export default function ProductInfoSection({
                 {t("yes")}
               </option>
             </select>
-            {errors.isGluten?.type === "required" && (
+            {errors.is_gluten?.type === "required" && (
               <p>{t("product_modal_required")}</p>
             )}
           </div>

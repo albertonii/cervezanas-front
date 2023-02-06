@@ -2,13 +2,13 @@ import { Button } from "@supabase/ui";
 import Image from "next/image";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Beer } from "../../../lib/types";
+import { Product } from "../../../lib/types";
 
 interface Props {
-  beers: Beer[];
+  products: Product[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleBeerModal: React.Dispatch<React.SetStateAction<any>>;
+  handleProductModal: React.Dispatch<React.SetStateAction<any>>;
 }
 
 interface ColumnsProps {
@@ -18,8 +18,12 @@ interface ColumnsProps {
 export default function ProductList(props: Props) {
   const { t } = useTranslation();
 
-  const { beers, handleEditShowModal, handleDeleteShowModal, handleBeerModal } =
-    props;
+  const {
+    products,
+    handleEditShowModal,
+    handleDeleteShowModal,
+    handleProductModal,
+  } = props;
 
   const [query, setQuery] = React.useState("");
 
@@ -33,23 +37,23 @@ export default function ProductList(props: Props) {
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (beer: Beer) => {
+  const handleClickEdit = (product: Product) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
-    handleBeerModal(beer);
+    handleProductModal(product);
   };
 
-  const handleClickDelete = (beer: Beer) => {
+  const handleClickDelete = (product: Product) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
-    handleBeerModal(beer);
+    handleProductModal(product);
   };
 
   const filteredItems = useMemo(() => {
-    return beers.filter((beer) => {
-      return beer.name.toLowerCase().includes(query.toLowerCase());
+    return products.filter((product) => {
+      return product.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [beers, query]);
+  }, [products, query]);
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
@@ -93,11 +97,11 @@ export default function ProductList(props: Props) {
         </thead>
 
         <tbody>
-          {beers &&
-            filteredItems.map((beer) => {
+          {products &&
+            filteredItems.map((product) => {
               return (
                 <tr
-                  key={beer.id}
+                  key={product.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
                   <th
@@ -113,28 +117,28 @@ export default function ProductList(props: Props) {
                     />
                   </th>
 
-                  <td className="py-4 px-6">{beer.name}</td>
+                  <td className="py-4 px-6">{product.name}</td>
 
-                  <td className="py-4 px-6">{beer.price}</td>
+                  <td className="py-4 px-6">{product.price}</td>
 
                   <td className="py-4 px-6">
-                    {beer.product_inventory[0]?.quantity
-                      ? beer.product_inventory[0].quantity
+                    {product.product_inventory[0]?.quantity
+                      ? product.product_inventory[0].quantity
                       : "-"}
                   </td>
 
                   <td className="py-4 px-6">
-                    {beer.product_lot[0]?.lot_id
-                      ? beer.product_lot[0]?.lot_id
+                    {product.product_lot[0]?.lot_id
+                      ? product.product_lot[0]?.lot_id
                       : "-"}
                   </td>
                   <td className="py-4 px-6">
-                    {beer.is_public ? t("yes") : t("no")}
+                    {product.is_public ? t("yes") : t("no")}
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex">
                       <Button
-                        onClick={() => handleClickEdit(beer)}
+                        onClick={() => handleClickEdit(product)}
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
                       >
                         <Image
@@ -147,7 +151,7 @@ export default function ProductList(props: Props) {
 
                       <Button
                         danger
-                        onClick={() => handleClickDelete(beer)}
+                        onClick={() => handleClickDelete(product)}
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline w-[45px]"
                       >
                         <Image
