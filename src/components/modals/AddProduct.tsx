@@ -61,8 +61,6 @@ const AddProduct = (props: Props) => {
       format: "",
       stock_quantity: 0,
       stock_limit_notification: 0,
-      // lot_id: "",
-      lot_quantity: 0,
     },
   });
 
@@ -101,8 +99,6 @@ const AddProduct = (props: Props) => {
         format,
         stock_quantity,
         stock_limit_notification,
-        lot_id,
-        lot_quantity,
       } = formValues;
 
       const userId = user?.id;
@@ -123,15 +119,6 @@ const AddProduct = (props: Props) => {
       if (productError) throw productError;
 
       const productId = productData[0].id;
-
-      // Lot
-      const { error: lotError } = await supabase.from("product_lot").insert({
-        product_id: productId,
-        lot_id,
-        created_at: new Date(),
-        quantity: lot_quantity,
-      });
-      if (lotError) throw lotError;
 
       // Multimedia
       const p_principal_url =

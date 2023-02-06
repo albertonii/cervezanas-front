@@ -89,7 +89,7 @@ export default function Stepper(props: Props) {
     <div className="p-5">
       <div className="mx-4 p-4">
         <div className="flex items-center">
-          <div className="flex items-center text-teal-600 relative">
+          <div className="flex items-center text-beer-draft relative">
             <div
               className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${detailsClass}`}
             >
@@ -222,11 +222,11 @@ export default function Stepper(props: Props) {
               disabled={activeStep === 4}
               onClick={() => handleStepper(activeStep + 1)}
               className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
-        hover:bg-teal-600  
-        bg-teal-600 
-        text-teal-100 
+        hover:bg-beer-softBlondeBubble  
+        bg-beer-blonde 
+        text-beer-draft 
         border duration-200 ease-in-out 
-        border-teal-600 transition"
+        border-beer-draft transition"
             >
               {t("next")}
             </button>
@@ -234,11 +234,11 @@ export default function Stepper(props: Props) {
             <button
               onClick={() => () => handleStepper(activeStep + 1)}
               className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
-        hover:bg-teal-200  
-        bg-teal-100 
-        text-teal-700 
+        hover:bg-bear-blonde  
+        bg-bear-alvine 
+        text-beer-draft 
         border duration-200 ease-in-out 
-        border-teal-600 transition"
+        border-beer-draft transition"
             >
               {t("skip")}
             </button>

@@ -46,6 +46,9 @@ export default function ProductInfoSection({
 }: Props) {
   const { t } = useTranslation();
 
+  const [isBeer, setIsBeer] = useState(false);
+  const [isMerchandising, setIsMerchandising] = useState(false);
+
   const [containerFormat, setContainerFormat] = useState(
     format_options[0].label
   );
@@ -101,6 +104,19 @@ export default function ProductInfoSection({
     }
   };
 
+  const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.value === "beer") {
+      setIsBeer(true);
+      setIsMerchandising(false);
+    } else if (event.target.value === "merchandising") {
+      setIsMerchandising(true);
+      setIsBeer(false);
+    } else {
+      setIsBeer(false);
+      setIsMerchandising(false);
+    }
+  };
+
   return (
     <>
       <div className="relative p-6 flex-auto">
@@ -134,7 +150,11 @@ export default function ProductInfoSection({
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {product_type_options.map((option) => (
-              <option key={option.label} value={option.label}>
+              <option
+                key={option.label}
+                value={option.label}
+                onClick={() => handleProductType}
+              >
                 {t(option.value)}
               </option>
             ))}
@@ -524,53 +544,6 @@ export default function ProductInfoSection({
         </div>
       </div>
 
-      <div className="relative p-6 flex-auto">
-        <p className="my-4 text-slate-500 text-lg leading-relaxed">
-          {t("modal_product_add_lot_title")}
-        </p>
-
-        <div className="container">
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y ">
-              <label htmlFor="lot_number" className="text-sm text-gray-600">
-                {t("lot_number")}
-              </label>
-              <input
-                type="text"
-                id="lot_number"
-                placeholder={t("lot_number")!}
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("lot_id", {
-                  required: true,
-                })}
-              />
-              {errors.lot_id?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
-            </div>
-
-            <div className="w-full space-y ">
-              <label htmlFor="lot_quantity" className="text-sm text-gray-600">
-                {t("lot_quantity")}
-              </label>
-              <input
-                id="lot_quantity"
-                placeholder={t("lot_quantity")!}
-                type="number"
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                min="0"
-                {...register("lot_quantity", {
-                  required: true,
-                  min: 0,
-                })}
-              />
-              {errors.lot_quantity?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
