@@ -1,6 +1,6 @@
 import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
 

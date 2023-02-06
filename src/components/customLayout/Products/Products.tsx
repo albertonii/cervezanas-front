@@ -74,26 +74,22 @@ export const Products = () => {
           <LotModalAdd />
         </div>
 
-        <div>
-          <ProductList
-            products={products!}
-            handleEditShowModal={handleEditShowModal}
-            handleDeleteShowModal={handleDeleteShowModal}
-            handleProductModal={handleProductModal}
-          />
-        </div>
+        <ProductList
+          products={products}
+          handleEditShowModal={handleEditShowModal}
+          handleDeleteShowModal={handleDeleteShowModal}
+          handleProductModal={handleProductModal}
+        />
 
-        {isEditShowModal ? (
+        {isEditShowModal && (
           <ProductModalUpd
             isVisible={true}
             product={productModal}
             handleEditShowModal={handleEditShowModal}
           />
-        ) : (
-          <div></div>
         )}
 
-        {isDeleteShowModal ? (
+        {isDeleteShowModal && (
           <DeleteProduct
             products={products!}
             productId={productModal.id}
@@ -101,8 +97,6 @@ export const Products = () => {
             handleDeleteShowModal={handleDeleteShowModal}
             handleSetProducts={handleSetProducts}
           />
-        ) : (
-          <div></div>
         )}
       </div>
     </>

@@ -209,7 +209,6 @@ const AddProduct = (props: Props) => {
             family: family_options[family].label,
             origin: origin_options[origin].label,
             era: era_options[era].label,
-            // is_gluten: is_gluten === "true",
             is_gluten,
             volume,
             pack,
@@ -222,10 +221,6 @@ const AddProduct = (props: Props) => {
 
         const beer = beerData[0];
         const beerId = beer.id;
-
-        // Upd product list
-        products.push(productData[0]);
-        handleSetProducts(products);
 
         // Inventory - Stock
         const stock: Inventory = {
@@ -265,6 +260,11 @@ const AddProduct = (props: Props) => {
             }
           });
         }
+
+        // Update products displaying in list of UI
+
+        products.push(productData[0]);
+        handleSetProducts(products);
 
         return beer;
       }
