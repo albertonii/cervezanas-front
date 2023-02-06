@@ -133,7 +133,7 @@ const Modal = (props: Props) => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    {description}
+                    {t(description)}
                   </p>
                   {children}
                 </div>
@@ -153,7 +153,7 @@ const Modal = (props: Props) => {
                     type="submit"
                     onClick={handleAccept}
                   >
-                    {t("save")}
+                    {t(btnTitle)}
                   </button>
                 </div>
               </div>

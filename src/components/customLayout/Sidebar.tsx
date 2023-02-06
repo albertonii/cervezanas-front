@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../Context/AppContext";
 
@@ -63,7 +62,7 @@ export const Sidebar = (props: Props) => {
               <li
                 className={`${
                   sidebar === link.option
-                    ? "bg-beer-softBlond text-gray-700"
+                    ? "bg-beer-softBlonde text-gray-700"
                     : "text-gray-600"
                 } hover:cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-beer-blonde dark:hover:bg-gray-700`}
                 key={link.name}

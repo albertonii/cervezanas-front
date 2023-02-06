@@ -122,13 +122,14 @@ export default function ProductList(props: Props) {
                   <td className="py-4 px-6">{product.price}</td>
 
                   <td className="py-4 px-6">
-                    {product.product_inventory[0]?.quantity
+                    {product.product_inventory &&
+                    product.product_inventory[0]?.quantity
                       ? product.product_inventory[0].quantity
                       : "-"}
                   </td>
 
                   <td className="py-4 px-6">
-                    {product.product_lot[0]?.lot_id
+                    {product.product_lot && product.product_lot[0]?.lot_id
                       ? product.product_lot[0]?.lot_id
                       : "-"}
                   </td>
