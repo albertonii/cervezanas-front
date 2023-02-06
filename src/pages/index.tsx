@@ -2,13 +2,13 @@ import Head from "next/head";
 import { type UserProps } from "../lib/types";
 import { NextPage } from "next";
 import "../lib/i18n/i18n";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../components/Auth/useAuth";
 import { User } from "@supabase/supabase-js";
 import Layout from "../components/Layout";
 
 const Submit: NextPage<UserProps> = () => {
-  const { supabaseClient, loggedIn, user } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   /*
   useEffect(() => {
@@ -28,10 +28,6 @@ const Submit: NextPage<UserProps> = () => {
       </Head>
 
       <Layout useBackdrop={true} usePadding={true}>
-        <h1 className="text-2xl font-bold text-center">Submit</h1>
-
-        <p className="text-center">Please login to access this page</p>
-
         <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
           <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
             {loggedIn ? User(user) : Guest()}
