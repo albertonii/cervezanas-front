@@ -50,13 +50,9 @@ export default function ProductGallery({
                   ></IconButton>
                 </div>
 
-                <Image
-                  className="mb-5"
-                  width={500}
-                  height={500}
-                  src={principal}
-                  alt=""
-                />
+                <div className="w-[36vw] h-[22vh] ">
+                  <Image className="" fill src={principal} alt="" />
+                </div>
               </div>
 
               <div className="w-full sm:w-full min-w-max px-4 text-center flex sm:flex-row items-center justify-around">
@@ -73,28 +69,30 @@ export default function ProductGallery({
                   />
                 )}
 
-                {gallery.map((photo, index) => {
-                  return (
-                    <a
-                      key={index}
-                      className={`h-30 block mb-4 mr-2 sm:mr-0 ${
-                        galleryIndex === index
-                          ? "border-2 border-beer-foam rounded"
-                          : ""
-                      }`}
-                      href="#"
-                    >
-                      <Image
-                        className="m-1"
-                        width={50}
-                        height={50}
-                        src={photo}
-                        alt=""
-                        onClick={() => setGalleryIndex(index)}
-                      />
-                    </a>
-                  );
-                })}
+                <div className="pt-6">
+                  {gallery.map((photo, index) => {
+                    return (
+                      <a
+                        key={index}
+                        className={`h-30 block mb-4 mr-2 sm:mr-0 ${
+                          galleryIndex === index
+                            ? "border-2 border-beer-foam rounded"
+                            : ""
+                        }`}
+                        href="#"
+                      >
+                        <Image
+                          className="m-1"
+                          width={50}
+                          height={50}
+                          src={photo}
+                          alt=""
+                          onClick={() => setGalleryIndex(index)}
+                        />
+                      </a>
+                    );
+                  })}
+                </div>
 
                 {/* Arrow Down */}
                 {gallery.length > 1 && (

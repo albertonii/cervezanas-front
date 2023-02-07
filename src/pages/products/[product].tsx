@@ -175,8 +175,8 @@ export default function ProductId(props: Props) {
       <div className="relative z-10" role="dialog" aria-modal="true">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
           <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
-            <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-              <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg sm:col-span-4 lg:col-span-4 h-5/6 mx-6">
+            <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
+              <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4  md:h-5/6 mx-6">
                 <ProductGallery
                   gallery={gallery}
                   isLike={isLike}
@@ -184,7 +184,7 @@ export default function ProductId(props: Props) {
                 />
               </div>
 
-              <div className="col-span-8 lg:col-span-8 mx-6 ">
+              <div className="col-span-12 lg:col-span-8 mx-6 ">
                 <div className="flex flex-column">
                   <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                     {p.name}
@@ -299,7 +299,7 @@ export default function ProductId(props: Props) {
                       </fieldset>
                     </div>
 
-                    <div className="mt-10">
+                    {/* <div className="mt-10">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-medium text-gray-900">
                           Size
@@ -460,7 +460,7 @@ export default function ProductId(props: Props) {
                           </label>
                         </div>
                       </fieldset>
-                    </div>
+                    </div> */}
 
                     <div className="mt-6 flex space-x-2">
                       {quantity === 0 ? (
@@ -540,13 +540,12 @@ export default function ProductId(props: Props) {
               </div>
 
               {/* Display Similar Products */}
-              {/* <div className="col-span-12 flex flex-col justify-center item-center px-8 "> */}
-              <div className="col-span-12 px-8 ">
+              <div className="col-span-12 mx-6">
                 <DisplaySimilarProducts />
               </div>
 
               {/* Reviews */}
-              <div className="col-span-12 flex flex-col justify-center item-center px-8">
+              <div className="col-span-12 flex flex-col justify-center item-center mx-6">
                 <ProductOverallReview
                   reviews={productReviews}
                   emptyReviews={emptyReviews}
@@ -554,7 +553,7 @@ export default function ProductId(props: Props) {
               </div>
 
               {/* New Product Review */}
-              <div className="col-span-12 flex flex-col justify-center item-center px-8">
+              <div className="col-span-12 flex flex-col justify-center item-center mx-6">
                 <NewProductReview
                   beerId={p.id}
                   ownerId={p.owner_id}
@@ -564,7 +563,7 @@ export default function ProductId(props: Props) {
 
               {/* See user reviews */}
               {!emptyReviews && (
-                <div className="col-span-12 flex flex-col justify-center item-center px-8">
+                <div className="col-span-12 flex flex-col justify-center item-center mx-6">
                   <ProductReviews
                     reviews={productReviews}
                     handleSetReviews={handleSetReviews}
