@@ -53,7 +53,7 @@ export default function StoreItem(props: StoreItemProps) {
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ beer_id: product.id, owner_id: product.owner_id }]);
+        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
 
       if (error) throw error;
 
@@ -62,7 +62,7 @@ export default function StoreItem(props: StoreItemProps) {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ beer_id: product.id, owner_id: product.owner_id });
+        .match({ product_id: product.id, owner_id: product.owner_id });
 
       if (error) throw error;
 
