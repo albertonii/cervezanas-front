@@ -40,6 +40,9 @@ export default function ProductId(props: Props) {
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
   const [gallery, setGallery] = useState<string[]>([]);
+  const [isLike, setIsLike] = useState<boolean>(
+    product[0].likes?.length > 0 ? true : false
+  );
 
   const {
     getItemQuantity,
@@ -144,6 +147,29 @@ export default function ProductId(props: Props) {
     removeFromCart(beerId);
   };
 
+  const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
+    setIsLike(value);
+
+    await handleLike();
+  };
+
+  async function handleLike() {
+    if (!isLike) {
+      const { error } = await supabase
+        .from("likes")
+        .insert([{ product_id: product[0].id, owner_id: product[0].owner_id }]);
+
+      if (error) throw error;
+    } else {
+      const { error } = await supabase
+        .from("likes")
+        .delete()
+        .match({ product_id: product[0].id, owner_id: product[0].owner_id });
+
+      if (error) throw error;
+    }
+  }
+
   return (
     <Layout usePadding={true} useBackdrop={false}>
       <div className="relative z-10" role="dialog" aria-modal="true">
@@ -151,7 +177,11 @@ export default function ProductId(props: Props) {
           <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
             <div className="grid w-full grid-cols-1 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
               <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 overflow-hidden rounded-lg sm:col-span-4 lg:col-span-4 h-5/6 mx-6">
-                <ProductGallery gallery={gallery} />
+                <ProductGallery
+                  gallery={gallery}
+                  isLike={isLike}
+                  handleSetIsLike={handleSetIsLike}
+                />
               </div>
 
               <div className="col-span-8 lg:col-span-8 mx-6 ">

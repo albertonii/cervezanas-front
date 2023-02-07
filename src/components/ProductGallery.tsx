@@ -1,15 +1,28 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faAngleLeft,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
+import IconButton from "./common/IconButton";
 
 interface Props {
   gallery: string[];
+  isLike: boolean;
+  handleSetIsLike: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ProductGallery({ gallery }: Props) {
+export default function ProductGallery({
+  gallery,
+  isLike,
+  handleSetIsLike,
+}: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [principal, setPrincipal] = useState(gallery[galleryIndex]);
+
+  const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
     setPrincipal(gallery[galleryIndex]);
@@ -21,7 +34,22 @@ export default function ProductGallery({ gallery }: Props) {
         <div className="flex flex-wrap -mx-4 justify-center">
           <div className="w-full lg:w-4/5 px-4 lg:mb-0">
             <div className="flex -mx-4 flex-col flex-wrap items-center justify-between lg:justify-start lg:items-start xl:items-center">
-              <div className="w-full sm:w-11/12 px-4">
+              <div className="w-full sm:w-11/12 px-4 relative">
+                {/* Add to fav button  */}
+                <div className="absolute top-0 right-0 ">
+                  <IconButton
+                    icon={faHeart}
+                    onClick={() => handleSetIsLike(!isLike)}
+                    isActive={isLike}
+                    color={heartColor}
+                    classContainer={
+                      "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                    }
+                    classIcon={""}
+                    title="Add to favorites"
+                  ></IconButton>
+                </div>
+
                 <Image
                   className="mb-5"
                   width={500}
