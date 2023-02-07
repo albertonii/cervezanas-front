@@ -15,8 +15,8 @@ export default function LikesHistory({ userId }: Props) {
         .from("likes")
         .select(
           `
-          beer_id,
-          beers (
+          product_id,
+          products (
             name
           ),
         `
@@ -42,7 +42,7 @@ export default function LikesHistory({ userId }: Props) {
         likes.map((like, index) => {
           return (
             <div key={index} className="mt-12 ml-8">
-              <h1>{like.beer_id}</h1>
+              <h1>{like.product_id}</h1>
             </div>
           );
         })}

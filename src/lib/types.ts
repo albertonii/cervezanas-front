@@ -262,7 +262,7 @@ export interface Like {
   created_at: Date;
   updated_at: Date;
   owner_id: string;
-  beer_id: string;
+  product_id: string;
 }
 
 export interface SocialCause {
@@ -428,14 +428,6 @@ export type FileImg = {
   webkitRelativePath: string;
 };
 
-export interface AnimationTailwindClasses {
-  enter?: string;
-  enterFrom?: string;
-  enterTo?: string;
-  leave?: string;
-  leaveFrom?: string;
-  leaveTo?: string;
-}
 export interface Product {
   id: string;
   name: string;
@@ -453,91 +445,4 @@ export interface Product {
   likes: Like[];
   is_public: boolean;
   price: number;
-}
-
-export interface ProductLot {
-  id: string;
-  lot_id: string;
-  created_at: Date;
-  quantity: number;
-  product_id: string;
-}
-
-export interface Inventory {
-  id?: string;
-  product_id: string;
-  quantity: number;
-  limit_notification: number;
-  created_at?: Date;
-}
-
-export interface Award {
-  id: string;
-  name: string;
-  description: string;
-  img_url: any;
-  year: number;
-  beer_id: string;
-}
-
-export interface ProductMultimedia {
-  id: string;
-  p_principal: string;
-  p_back: string;
-  p_extra_1: string;
-  p_extra_2: string;
-  p_extra_3: string;
-  p_extra_4: string;
-  v_principal: string;
-  v_extra_1: string;
-  v_extra_2: string;
-}
-
-interface ProductMultimediaItem {
-  id: string;
-  created_at: Date;
-  name: string;
-  bucket_url: string;
-}
-
-export interface ProductImg {
-  name: string;
-  img_url: any;
-}
-
-export interface BeerFormat {
-  id: string;
-  beer_id: string;
-  format_id: string;
-  sku: string;
-  qty: number;
-}
-
-export interface Format {
-  id: string;
-  volume: number;
-  type: string;
-}
-
-export interface Review {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
-  owner_id: string;
-  beer_id: string;
-  comment: string;
-  aroma: number;
-  appearance: number;
-  taste: number;
-  bitterness: number;
-  mouthfeel: number;
-  overall: number;
-}
-
-export interface Like {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
-  owner_id: string;
-  beer_id: string;
 }
