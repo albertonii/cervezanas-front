@@ -64,7 +64,7 @@ const DropdownButton = (props: DropdownProps) => {
           {options?.map((option: string, idx: number) => (
             <li
               key={idx}
-              className={`p-2 text-sm hover:bg-beer-softBlond hover:text-white bg-white-600 text-white `}
+              className={`p-2 text-sm hover:bg-beer-softBlond hover:text-white bg-white-600 text-white hover:bg-beer-softBlondeBubble`}
             >
               <Link href={`/${option}`}>
                 <span

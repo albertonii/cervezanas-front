@@ -259,6 +259,8 @@ const translationsEn = {
   card_number_placeholder: "1234 1234 1234 1234",
   card_holder_placeholder: "Card Holder",
   products_purchased: "Products Purchased",
+  spanish: "Spanish",
+  english: "English",
 };
 
 const translationsEs = {
@@ -532,6 +534,8 @@ const translationsEs = {
   card_cvv_placeholder: "CVV",
   card_number_placeholder: "1234 1234 1234 1234",
   card_holder_placeholder: "Titular de la tarjeta",
+  spanish: "Español",
+  english: "Inglés",
 };
 
 // the translations

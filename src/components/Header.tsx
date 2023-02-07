@@ -38,17 +38,17 @@ export default function Header({}: Props) {
     <div className="header ">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
-          <Link href={{ pathname: "/" }} className="flex items-center">
+          {/* <Link href={{ pathname: "/" }} className="flex items-center"> */}
+          <div className="relative h-16 w-20 md:h-20 md:w-26 lg:h-24 lg:w-32 flex-shrink-0 lg:my-2">
             <Image
               src="/logo_cervezanas.svg"
-              className="mr-2 sm:min-h-[4rem] md:min-h-[6rem] sm:min-w-[4rem] md:min-w-[6rem] w-auto h-auto"
               alt="Cervezanas Logo"
-              width={100}
-              height={100}
-              sizes={"xl"}
+              fill
+              style={{ objectFit: "contain" }}
               priority={true}
             />
-          </Link>
+          </div>
+          {/* </Link> */}
 
           <button
             data-collapse-toggle="navbar-default"
@@ -74,13 +74,13 @@ export default function Header({}: Props) {
           </button>
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {loggedIn ? (
                 <>
                   <li>
                     <Link href="/">
                       <span
-                        className="block py-2 pr-4 pl-3 text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                        className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
                         aria-current="page"
                       >
                         {t("home")}
@@ -90,7 +90,7 @@ export default function Header({}: Props) {
 
                   <li>
                     <Link href="/marketplace">
-                      <span className="block py-2 pr-4 pl-3 text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
+                      <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
                         {t("marketplace")}
                       </span>
                     </Link>
@@ -101,9 +101,14 @@ export default function Header({}: Props) {
                       name="language"
                       style={{ backgroundColor: "transparent" }}
                       onChange={onChangeLanguage}
+                      className="text-sm lg:text-lg focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
                     >
-                      <Select.Option value="es">🇪🇸 Español</Select.Option>
-                      <Select.Option value="en">🇬🇧 Inglés</Select.Option>
+                      <Select.Option value="es">
+                        🇪🇸 {t("spanish")}
+                      </Select.Option>
+                      <Select.Option value="en">
+                        🇬🇧 {t("english")}
+                      </Select.Option>
                     </Select>
                   </li>
 
