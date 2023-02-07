@@ -15,6 +15,7 @@ import { supabase } from "../../utils/supabaseClient";
 import Button from "../../components/common/Button";
 import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import DisplaySimilarProducts from "../../components/DisplaySimilarProducts";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -153,7 +154,7 @@ export default function ProductId(props: Props) {
                 <ProductGallery gallery={gallery} />
               </div>
 
-              <div className="sm:col-span-8 lg:col-span-8 mx-6 ">
+              <div className="col-span-8 lg:col-span-8 mx-6 ">
                 <div className="flex flex-column">
                   <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                     {p.name}
@@ -508,8 +509,14 @@ export default function ProductId(props: Props) {
                 </section>
               </div>
 
+              {/* Display Similar Products */}
+              {/* <div className="col-span-12 flex flex-col justify-center item-center px-8 "> */}
+              <div className="col-span-12 px-8 ">
+                <DisplaySimilarProducts />
+              </div>
+
               {/* Reviews */}
-              <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+              <div className="col-span-12 flex flex-col justify-center item-center px-8">
                 <ProductOverallReview
                   reviews={productReviews}
                   emptyReviews={emptyReviews}
@@ -517,7 +524,7 @@ export default function ProductId(props: Props) {
               </div>
 
               {/* New Product Review */}
-              <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+              <div className="col-span-12 flex flex-col justify-center item-center px-8">
                 <NewProductReview
                   beerId={p.id}
                   ownerId={p.owner_id}
@@ -527,7 +534,7 @@ export default function ProductId(props: Props) {
 
               {/* See user reviews */}
               {!emptyReviews && (
-                <div className="sm:col-span-12 flex flex-col justify-center item-center px-8">
+                <div className="col-span-12 flex flex-col justify-center item-center px-8">
                   <ProductReviews
                     reviews={productReviews}
                     handleSetReviews={handleSetReviews}
