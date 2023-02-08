@@ -307,6 +307,7 @@ export interface Order {
   currency: string;
   discount: number;
   discount_code: string;
+  products: OrderItem[];
 }
 
 export interface OrderItem {
@@ -445,4 +446,5 @@ export interface Product {
   likes: Like[];
   is_public: boolean;
   price: number;
+  beer: Beer;
 }

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CheckoutItem from "../../components/checkout/CheckoutItem";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
-import { Beer } from "../../lib/types";
+import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import {
   faShoppingCart,
@@ -137,28 +137,28 @@ export default function Checkout(props: Props) {
     getAddresses();
   }, [user?.id]);
 
-  const handleIncreaseCartQuantity = (beerId: string) => {
-    increaseCartQuantity(beerId);
-    if (marketplaceItems.find((item) => item.id === beerId)) return;
-    const beer: Beer | undefined = marketplaceItems.find(
-      (item) => item.id === beerId
+  const handleIncreaseCartQuantity = (productId: string) => {
+    increaseCartQuantity(productId);
+    if (marketplaceItems.find((item) => item.id === productId)) return;
+    const product: Product | undefined = marketplaceItems.find(
+      (item) => item.id === productId
     );
-    if (!beer) return;
-    addMarketplaceItems(beer);
+    if (!product) return;
+    addMarketplaceItems(product);
   };
 
-  const handleDecreaseCartQuantity = (beerId: string) => {
-    decreaseCartQuantity(beerId);
-    if (getItemQuantity(beerId) > 1) return;
-    removeMarketplaceItems(beerId);
+  const handleDecreaseCartQuantity = (productId: string) => {
+    decreaseCartQuantity(productId);
+    if (getItemQuantity(productId) > 1) return;
+    removeMarketplaceItems(productId);
   };
 
-  const handleRemoveFromCart = (beerId: string) => {
-    removeMarketplaceItems(beerId);
-    removeFromCart(beerId);
+  const handleRemoveFromCart = (productId: string) => {
+    removeMarketplaceItems(productId);
+    removeFromCart(productId);
   };
 
-  const [cart, setCart] = useState<Beer[]>([]);
+  const [cart, setCart] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -166,12 +166,12 @@ export default function Checkout(props: Props) {
     const ac = new AbortController();
 
     items.map(async (item) => {
-      const beer = marketplaceItems.find((m_item) => m_item.id === item.id);
-      if (!beer) return;
+      const product = marketplaceItems.find((m_item) => m_item.id === item.id);
+      if (!product) return;
 
-      setCart((cart) => [...cart, beer]);
+      setCart((cart) => [...cart, product]);
 
-      setsubtotal((subtotal) => subtotal + beer.price * item.quantity);
+      setsubtotal((subtotal) => subtotal + product.price * item.quantity);
     });
 
     setTotal(() => subtotal - discount + shipping);
@@ -334,7 +334,7 @@ export default function Checkout(props: Props) {
         ) : (
           <>
             {loading ? (
-              <Spinner color="beer-blonde" size="medium" />
+              <Spinner color="product-blonde" size="medium" />
             ) : (
               <div className="sm:py-4 lg:py-6 container">
                 <div className="flex justify-start items-center space-y-2 space-x-2">
@@ -366,17 +366,17 @@ export default function Checkout(props: Props) {
                 <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                   <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8 ">
                     {/* Customer's Car */}
-                    <div className="border border-beer-softBlonde flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+                    <div className="border border-product-softBlonde flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
                       <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
                         {t("customer_s_cart")}
                       </p>
                       {cart.length > 0 ? (
                         <>
-                          {cart.map((beer) => {
+                          {cart.map((product) => {
                             return (
                               <CheckoutItem
-                                key={beer.id}
-                                beer={beer}
+                                key={product.id}
+                                product={product}
                                 handleIncreaseCartQuantity={
                                   handleIncreaseCartQuantity
                                 }
@@ -384,7 +384,7 @@ export default function Checkout(props: Props) {
                                   handleDecreaseCartQuantity
                                 }
                                 handleRemoveFromCart={handleRemoveFromCart}
-                                quantity={getItemQuantity(beer.id)}
+                                quantity={getItemQuantity(product.id)}
                               />
                             );
                           })}
@@ -440,7 +440,7 @@ export default function Checkout(props: Props) {
                     </div>
 
                     {/* Shipping */}
-                    <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+                    <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                         <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                           {t("shipping_and_billing_info")}
@@ -484,7 +484,7 @@ export default function Checkout(props: Props) {
                                 <label
                                   htmlFor={`shipping-address-${address.id}`}
                                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
-                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                                 >
                                   <div className="block">
                                     <div className="w-full text-lg font-semibold">
@@ -555,7 +555,7 @@ export default function Checkout(props: Props) {
                                 <label
                                   htmlFor={`billing-address-${address.id}`}
                                   className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
-                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-beer-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-beer-softBlonde peer-checked:text-beer-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                                 >
                                   <div className="block">
                                     <div className="w-full text-lg font-semibold">
@@ -639,7 +639,7 @@ export default function Checkout(props: Props) {
                     </div>
 
                     {/* Payment */}
-                    <div className="border border-beer-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+                    <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                         <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                           {t("payment")}
@@ -688,7 +688,7 @@ export default function Checkout(props: Props) {
                                     message: "Invalid card number",
                                   },
                                 })}
-                                className="focus:outline-none px-3 py-2 w-1/2 bg-beer-softFoam rounded-sm"
+                                className="focus:outline-none px-3 py-2 w-1/2 bg-product-softFoam rounded-sm"
                                 placeholder={t("card_number_placeholder")!}
                                 minLength={16}
                                 maxLength={16}
@@ -708,7 +708,7 @@ export default function Checkout(props: Props) {
 
                                 <div className="space-x-2">
                                   <input
-                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-beer-softFoam rounded-sm"
+                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
                                     {...registerCard(
                                       "card_info.card_month_expiration",
                                       {
@@ -732,7 +732,7 @@ export default function Checkout(props: Props) {
                                   <span>/</span>
 
                                   <input
-                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-beer-softFoam rounded-sm"
+                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
                                     {...registerCard(
                                       "card_info.card_year_expiration",
                                       {
@@ -769,7 +769,7 @@ export default function Checkout(props: Props) {
                                       message: "Invalid card cvv",
                                     },
                                   })}
-                                  className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-beer-softFoam rounded-sm"
+                                  className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
                                   placeholder={t("card_cvv_placeholder")!}
                                   maxLength={3}
                                   size={3}
@@ -793,7 +793,7 @@ export default function Checkout(props: Props) {
                                     message: "Invalid card holder",
                                   },
                                 })}
-                                className="focus:outline-none px-3 py-2 w-full bg-beer-softFoam rounded-sm"
+                                className="focus:outline-none px-3 py-2 w-full bg-product-softFoam rounded-sm"
                                 placeholder={t("card_holder_placeholder")!}
                                 minLength={2}
                                 maxLength={30}
@@ -807,7 +807,7 @@ export default function Checkout(props: Props) {
                   </div>
 
                   {/* Order summary  */}
-                  <div className="border border-beer-softBlonde bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+                  <div className="border border-product-softBlonde bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
                     <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
                       {t("customer")}
                     </h3>
@@ -918,7 +918,7 @@ export default function Checkout(props: Props) {
                                   return (
                                     <label
                                       key={address.id}
-                                      className=" w-full text-beer-dark 
+                                      className=" w-full text-product-dark 
                                            dark:text-gray-400 dark:bg-gray-800"
                                     >
                                       <div className="block">
@@ -949,7 +949,7 @@ export default function Checkout(props: Props) {
                                   return (
                                     <label
                                       key={address.id}
-                                      className=" w-full text-beer-dark dark:text-gray-400 dark:bg-gray-800"
+                                      className=" w-full text-product-dark dark:text-gray-400 dark:bg-gray-800"
                                     >
                                       <div className="block">
                                         <div className="w-full text-lg font-semibold">

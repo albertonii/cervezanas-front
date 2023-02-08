@@ -166,6 +166,9 @@ const translationsEn = {
   lot_header: "Lot",
   public_header: "Public",
   action_header: "Action",
+  order_number_header: "Order Number",
+  status_header: "Status",
+  tracking_number_header: "Tracking Number",
   marketplace: "Marketplace",
   instock: "In Stock",
   outstock: "Out of Stock",
@@ -261,6 +264,7 @@ const translationsEn = {
   products_purchased: "Products Purchased",
   spanish: "Spanish",
   english: "English",
+  similar_products: "Similar Products",
 };
 
 const translationsEs = {
@@ -427,6 +431,9 @@ const translationsEs = {
   lot_header: "Lote",
   public_header: "Público",
   action_header: "Acción",
+  order_number_header: "Número de pedido",
+  status_header: "Estado",
+  tracking_number_header: "Número de seguimiento",
   marketplace: "Marketplace",
   instock: "En Stock",
   outstock: "Agotado",
@@ -536,6 +543,7 @@ const translationsEs = {
   card_holder_placeholder: "Titular de la tarjeta",
   spanish: "Español",
   english: "Inglés",
+  similar_products: "Productos similares",
 };
 
 // the translations

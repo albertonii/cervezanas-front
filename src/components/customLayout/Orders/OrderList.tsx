@@ -1,59 +1,47 @@
-import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Product } from "../../../lib/types";
+import { Order } from "../../../lib/types";
+import Button from "../../common/Button";
 
 interface Props {
-  products: Product[];
-  handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleProductModal: React.Dispatch<React.SetStateAction<any>>;
+  orders: Order[];
+  //   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
+  //   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
+  //   handleProductModal: React.Dispatch<React.SetStateAction<any>>;
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export default function ProductList(props: Props) {
+export default function OrderList(props: Props) {
   const { t } = useTranslation();
 
-  const {
-    products,
-    handleEditShowModal,
-    handleDeleteShowModal,
-    handleProductModal,
-  } = props;
+  const { orders } = props;
 
   const [query, setQuery] = React.useState("");
 
   const COLUMNS = [
-    { header: t("product_type_header") },
+    { header: t("order_number_header") },
     { header: t("name_header") },
     { header: t("price_header") },
-    { header: t("stock_header") },
-    { header: t("lot_header") },
-    { header: t("public_header") },
+    { header: t("status_header") },
+    { header: t("tracking_number_header") },
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (product: Product) => {
-    handleEditShowModal(true);
-    handleDeleteShowModal(false);
-    handleProductModal(product);
+  const handleClickView = (order: Order) => {
+    // handleEditShowModal(false);
+    // handleDeleteShowModal(true);
+    // handleProductModal(product);
   };
 
-  const handleClickDelete = (product: Product) => {
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductModal(product);
-  };
-
-  const filteredItems = useMemo(() => {
-    return products.filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
+  const filteredItemsByStatus = useMemo(() => {
+    return orders.filter((orders) => {
+      return orders.status.includes(query);
     });
-  }, [products, query]);
+  }, [orders, query]);
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
@@ -79,7 +67,7 @@ export default function ProductList(props: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search products..."
+          placeholder="Search order..."
         />
       </div>
 
@@ -97,11 +85,11 @@ export default function ProductList(props: Props) {
         </thead>
 
         <tbody>
-          {products &&
-            filteredItems.map((product) => {
+          {orders &&
+            filteredItemsByStatus.map((order) => {
               return (
                 <tr
-                  key={product.id}
+                  key={order.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
                   <th
@@ -112,54 +100,30 @@ export default function ProductList(props: Props) {
                       width={128}
                       height={128}
                       className="w-8 h-8 rounded-full"
-                      src="/icons/beer-240.png"
-                      alt="Beer Type"
+                      src="/icons/view-240.png"
+                      alt="Product type"
                     />
                   </th>
 
-                  <td className="py-4 px-6">{product.name}</td>
+                  <td className="py-4 px-6">{order.customer_name}</td>
 
-                  <td className="py-4 px-6">{product.price}</td>
+                  <td className="py-4 px-6">{order.total}</td>
 
-                  <td className="py-4 px-6">
-                    {product.product_inventory &&
-                    product.product_inventory[0]?.quantity
-                      ? product.product_inventory[0].quantity
-                      : "-"}
-                  </td>
+                  <td className="py-4 px-6">{order.status}</td>
 
-                  <td className="py-4 px-6">
-                    {product.product_lot && product.product_lot[0]?.lot_id
-                      ? product.product_lot[0]?.lot_id
-                      : "-"}
-                  </td>
-                  <td className="py-4 px-6">
-                    {product.is_public ? t("yes") : t("no")}
-                  </td>
+                  <td className="py-4 px-6">{order.tracking_id}</td>
+
                   <td className="py-4 px-6">
                     <div className="flex">
                       <Button
-                        onClick={() => handleClickEdit(product)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
+                        onClick={() => handleClickView(order)}
+                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
                       >
                         <Image
                           width={45}
                           height={45}
                           alt="Edit"
-                          src="/icons/edit-240.png"
-                        />{" "}
-                      </Button>
-
-                      <Button
-                        danger
-                        onClick={() => handleClickDelete(product)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline w-[45px]"
-                      >
-                        <Image
-                          width={45}
-                          height={45}
-                          alt="Delete"
-                          src="/icons/delete-240.png"
+                          src="/icons/view-240.png"
                         />
                       </Button>
                     </div>

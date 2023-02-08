@@ -5,11 +5,10 @@ import { HistoryForm } from "./HistoryForm";
 
 interface Props {
   user: User | null;
-  historyData: any;
 }
 
 export const History = (props: Props) => {
-  const { user, historyData } = props;
+  const { user } = props;
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(true);
@@ -39,7 +38,7 @@ export const History = (props: Props) => {
             </span>
           </div>
 
-          <HistoryForm historyData={historyData} />
+          <HistoryForm />
         </div>
       )}
     </>

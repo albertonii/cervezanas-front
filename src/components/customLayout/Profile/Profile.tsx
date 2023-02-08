@@ -9,18 +9,16 @@ import Details from "./Details";
 import { History } from "./History";
 import Values from "./Values";
 
-interface Props {}
+interface Props {
+  profile: any;
+}
 
 export const Profile = (props: Props) => {
   const { t } = useTranslation();
 
   const { user, loggedIn } = useAuth();
 
-  const [profileData, setProfileData] = useState<any>();
-  const [historyData, setHistoryData] = useState<any>();
-  const [loading, setLoading] = useState(true);
-
-  const [menuOption, setMenuOption] = useState<string>();
+  const [menuOption, setMenuOption] = useState<string>("account");
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
@@ -29,26 +27,19 @@ export const Profile = (props: Props) => {
   const renderSwitch = () => {
     switch (menuOption) {
       case "account":
-        return <Account />;
+        return <Account user={user} />;
       case "details":
         return <Details />;
       case "values":
         return <Values />;
       case "origin":
-        return <History user={user} historyData={historyData} />;
+        return <History user={user} />;
     }
   };
 
-  useEffect(() => {
-    if (loggedIn) {
-      setMenuOption("account");
-      setLoading(false);
-    }
-
-    return () => {
-      setLoading(true);
-    };
-  }, [loggedIn, user?.id]);
+  if (!user) {
+    return <div>{t("loading")}</div>;
+  }
 
   return (
     <>
@@ -69,7 +60,7 @@ export const Profile = (props: Props) => {
         </ul>
       </div>
 
-      {loading ? (
+      {!loggedIn ? (
         <div>{t("loading")}</div>
       ) : (
         <div className="container">{renderSwitch()}</div>

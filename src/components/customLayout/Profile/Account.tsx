@@ -4,37 +4,41 @@ import { BasicDataForm } from "./BasicDataForm";
 import SecretDataForm from "./SecretDataForm";
 import LocationForm from "./LocationForm";
 import CustomizeProfileForm from "./CustomizeProfileForm";
-import { useAuth } from "../../Auth/useAuth";
 import { supabase } from "../../../utils/supabaseClient";
+import { User } from "@supabase/supabase-js";
 
-export const Account = () => {
+interface Props {
+  // user: User | null;
+  user: any;
+}
+
+export const Account = ({ user }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
-  const { user } = useAuth();
   const [userData, setUserData] = useState<any>();
 
-  useEffect(() => {
-    const getUserData = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", user?.id);
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     const { data, error } = await supabase
+  //       .from("users")
+  //       .select("*")
+  //       .eq("id", user?.id);
 
-      if (error) throw error;
+  //     if (error) throw error;
 
-      setUserData(data[0]);
-    };
+  //     setUserData(data[0]);
+  //   };
 
-    if (user != null && user != undefined) {
-      getUserData();
-      setLoading(false);
-    }
+  //   if (user != null && user != undefined) {
+  //     getUserData();
+  //     setLoading(false);
+  //   }
 
-    return () => {
-      setUserData(null);
-    };
-  }, [user]);
+  //   return () => {
+  //     setUserData(null);
+  //   };
+  // }, [user]);
 
   return (
     <>

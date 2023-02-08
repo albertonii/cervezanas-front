@@ -184,7 +184,7 @@ export const AwardsSection = ({
                 width="128"
                 height="128"
                 alt="Preview uploaded image"
-                src={"/award_icon.png"}
+                src={"/award.png"}
               />
             </div> */}
           </div>
