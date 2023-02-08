@@ -8,41 +8,17 @@ import ProductList from "./ProductList";
 import DeleteProduct from "../../modals/DeleteProduct";
 import AddProduct from "../../modals/AddProduct";
 
-export const Products = () => {
-  const { user } = useAuth();
+interface Props {
+  products: Product[];
+}
+
+export const Products = ({ products: p }: Props) => {
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
+
   const [productModal, setProductModal] = useState<any>(null);
 
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const getProducts = async () => {
-      const { data: products, error } = await supabase
-        .from("products")
-        .select(
-          `
-          *,
-          product_lot (
-            lot_id
-          ),
-          product_inventory (
-            quantity
-          )
-        `
-        )
-        .eq("owner_id", user?.id);
-      if (error) throw error;
-      setProducts(products);
-
-      return products;
-    };
-    getProducts();
-
-    return () => {
-      setProducts([]);
-    };
-  }, [user]);
+  const [products, setProducts] = useState<Product[]>(p);
 
   const handleSetProducts = (value: Product[]) => {
     setProducts(value);

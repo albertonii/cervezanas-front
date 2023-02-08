@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Order } from "../../../lib/types";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import Button from "../../common/Button";
 
 interface Props {
@@ -107,7 +108,7 @@ export default function OrderList(props: Props) {
 
                   <td className="py-4 px-6">{order.customer_name}</td>
 
-                  <td className="py-4 px-6">{order.total}</td>
+                  <td className="py-4 px-6">{formatCurrency(order.total)}</td>
 
                   <td className="py-4 px-6">{order.status}</td>
 

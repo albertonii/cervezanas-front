@@ -63,7 +63,7 @@ const CustomLayout = ({ profile }: Props) => {
         case "profile":
           return <Profile profile={profile} />;
         case "products":
-          return <Products />;
+          return <Products products={profile[0].products} />;
         case "campaigns":
           return <Campaigns />;
         case "factories":
