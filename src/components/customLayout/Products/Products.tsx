@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Product } from "../../../lib/types";
-import { supabase } from "../../../utils/supabaseClient";
-import { useAuth } from "../../Auth/useAuth";
 import LotModalAdd from "../../modals/AddLot";
 import ProductModalUpd from "../../modals/ProductModalUpd";
 import ProductList from "./ProductList";

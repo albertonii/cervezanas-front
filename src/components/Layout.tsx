@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { MessageList, useMessage } from "./message";
 import Breadcrumb from "./Breadcrumb";
+import { useAuth } from "./Auth";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -17,6 +18,7 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
   useBackdrop,
 }) => {
   const { messages } = useMessage();
+  const { loggedIn } = useAuth();
 
   // Capitalize the first letter of each word in a string
   function titleize(path: string): string {
@@ -30,7 +32,9 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
     <>
       <Header />
 
-      <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+      {loggedIn && (
+        <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+      )}
 
       <main
         className={classNames(
