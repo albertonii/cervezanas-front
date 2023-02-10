@@ -146,6 +146,30 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                 </ul>
               </div>
+
+              {/* Sistemas de pago aceptado  */}
+              <div>
+                <p className="font-semibold tracking-wide text-teal-accent-400">
+                  {t("payment_system")}
+                </p>
+                <div className="flex  space-x-2">
+                  {/* Visa card image logo  */}
+                  <Image
+                    src="/icons/payments/visa.svg"
+                    alt="Visa"
+                    width={50}
+                    height={50}
+                  />
+
+                  {/* Mastercard card image logo  */}
+                  <Image
+                    src="/icons/payments/mastercard.svg"
+                    alt="Mastercard"
+                    width={50}
+                    height={50}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
