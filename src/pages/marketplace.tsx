@@ -53,6 +53,9 @@ export async function getServerSideProps() {
     "products"
   ).select(`
     *,
+    beers (
+      *
+    ),
     product_multimedia (
       p_principal
     ),product_inventory (

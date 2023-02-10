@@ -27,6 +27,7 @@ export default function CheckoutItem({
 }: Props) {
   const { t } = useTranslation();
 
+  console.log(product);
   const [p_principal, setPPrincipal] = useState<string>(
     "/marketplace_product_default.png"
   );
@@ -78,26 +79,53 @@ export default function CheckoutItem({
           <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
             {product.name}
           </h3>
-          <div className="flex justify-start items-start flex-col space-y-2">
-            <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">
-                {t("aroma")}:{" "}
-              </span>{" "}
-              {t(`${product.beer.aroma}`)}
-            </p>
-            <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">
-                {t("family")}:{" "}
-              </span>{" "}
-              {t(`${product.beer.family}`)}
-            </p>
-            <p className="text-sm dark:text-white leading-none text-gray-800">
-              <span className="dark:text-gray-400 text-gray-300">
-                {t("fermentation")}:{" "}
-              </span>{" "}
-              {t(`${product.beer.fermentation}`)}
-            </p>
-          </div>
+          {/* Product Type Beer */}
+          {product.type === "beer" && (
+            <div className="flex justify-start items-start flex-col space-y-2">
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {t("aroma")}:{" "}
+                </span>{" "}
+                {t(`${product.beers[0].aroma}`)}
+              </p>
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {t("family")}:{" "}
+                </span>{" "}
+                {t(`${product.beers[0].family}`)}
+              </p>
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {t("fermentation")}:{" "}
+                </span>{" "}
+                {t(`${product.beers[0].fermentation}`)}
+              </p>
+            </div>
+          )}
+
+          {/* Product Type Merchandising */}
+          {product.type === "Merchandising" && (
+            <div className="flex justify-start items-start flex-col space-y-2">
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {/* {t("aroma")}:{" "} */}
+                </span>{" "}
+                {/* {t(`${product.beers[0].aroma}`)} */}
+              </p>
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {/* {t("family")}:{" "} */}
+                </span>{" "}
+                {/* {t(`${product.beers[0].family}`)} */}
+              </p>
+              <p className="text-sm dark:text-white leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  {/* {t("fermentation")}:{" "} */}
+                </span>{" "}
+                {/* {t(`${product.beers[0].fermentation}`)} */}
+              </p>
+            </div>
+          )}
         </div>
         <div className="flex justify-between space-x-8 items-start w-full">
           <p className="text-base dark:text-white xl:text-lg leading-6">

@@ -1,4 +1,3 @@
-import { Input } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -583,26 +582,27 @@ export async function getServerSideProps(context: { params: any }) {
   const { product: productId } = params;
 
   let { data: product, error: productsError } = await supabase
-    .from("products")
+    .from(
+      `*,
+      beers (
+        *
+      ),
+      product_multimedia (
+        p_principal
+      ),
+      reviews (
+        *
+      )`
+    )
     .select("*")
     .eq("id", productId);
 
-  let { data: productMultimedia, error: errorMultimedia } = await supabase
-    .from("product_multimedia")
-    .select("*")
-    .eq("product_id", productId);
-
-  const { data: reviews, error: reviewError } = await supabase
-    .from("reviews")
-    .select("*")
-    .eq("product_id", productId);
-
   if (productsError) throw productsError;
-  if (errorMultimedia) throw errorMultimedia;
-  if (reviewError) throw reviewError;
 
-  if (reviews.length == 0) {
-    reviews.push({
+  if (product == null) return { notFound: true };
+
+  if (product[0].reviews.length == 0) {
+    product[0].reviews.push({
       id: "0",
       created_at: JSON.stringify(new Date()),
       beer_id: 0,
@@ -620,8 +620,8 @@ export async function getServerSideProps(context: { params: any }) {
   return {
     props: {
       product: product,
-      multimedia: productMultimedia,
-      reviews,
+      multimedia: product[0].productMultimedia,
+      reviews: product[0].reviews,
     },
   };
 }

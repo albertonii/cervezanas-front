@@ -447,5 +447,5 @@ export interface Product {
   likes: Like[];
   is_public: boolean;
   price: number;
-  beer: Beer;
+  beers: Beer[];
 }
