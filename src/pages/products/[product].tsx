@@ -237,7 +237,7 @@ export default function ProductId(props: Props) {
                   </h3>
 
                   <form>
-                    <div>
+                    {/* <div>
                       <h4 className="text-sm font-medium text-gray-900">
                         Color
                       </h4>
@@ -297,7 +297,7 @@ export default function ProductId(props: Props) {
                           </label>
                         </span>
                       </fieldset>
-                    </div>
+                    </div> */}
 
                     {/* <div className="mt-10">
                       <div className="flex items-center justify-between">
