@@ -71,3 +71,12 @@ export interface PaymentCard {
   card_holder: string;
   card_document_id: string;
 }
+
+export interface SignUpInterface {
+  userCredentials: { email: string; password: string; phone: string };
+  options: {
+    redirectTo?: string;
+    data?: object;
+    captchaToken?: string;
+  };
+}

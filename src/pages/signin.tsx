@@ -37,6 +37,7 @@ const SignIn: NextPage<UserProps> = () => {
 
   const handleGoogleSignIn = async () => {
     signInWithProvider("google");
+
     Router.push("/");
   };
 

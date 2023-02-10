@@ -10,15 +10,8 @@ import {
 import { useMessage } from "../message";
 import Router from "next/router";
 import { ROUTE_HOME, ROUTE_AUTH } from "../../config";
-
-export interface SignUpInterface {
-  userCredentials: { email: string; password: string; phone: string };
-  options: {
-    redirectTo?: string;
-    data?: object;
-    captchaToken?: string;
-  };
-}
+import { SignUpInterface } from "../../lib/interfaces";
+import { ROLE_ENUM } from "./SignUpForm";
 
 export interface AuthSession {
   user: User | null;
@@ -62,6 +55,7 @@ export const AuthContextProvider = (props: Props) => {
   const signUp = async (payload: SignUpInterface) => {
     try {
       setLoading(true);
+
       const { error } = await supabase.auth.signUp(
         payload.userCredentials,
         payload.options
@@ -104,6 +98,23 @@ export const AuthContextProvider = (props: Props) => {
           type: "success",
         });
 
+        await supabase.rpc("google_auth", {
+          email: user?.email,
+          token: user?.aud,
+        });
+
+        // Send user role producer to the server
+        await supabase.rpc("set_claim", {
+          uid: user?.id,
+          claim: "role",
+          value: ROLE_ENUM.Cervezano,
+        });
+
+        // Get my claim by role
+        await supabase.rpc("get_my_claim", {
+          claim: "role",
+        });
+
         setLoggedIn(true);
       }
     } catch (error: any) {
@@ -117,12 +128,26 @@ export const AuthContextProvider = (props: Props) => {
   };
 
   const signInWithProvider = async (provider: Provider) => {
-    await supabase.auth.signIn({ provider });
+    let isAccessLevel: boolean = false;
+    await supabase.auth.signIn({ provider }).then(async (res) => {
+      isAccessLevel = res.user?.user_metadata.access_level ? true : false;
+    });
+    // TODO: Volver aquí para introducir el access_level si no existe
+
+    // Check if access level is null or invalid
+    if (!isAccessLevel) {
+      // Send user role producer to the server
+      await supabase.rpc("set_claim", {
+        uid: user?.id,
+        claim: "access_level",
+        value: ROLE_ENUM.Cervezano,
+      });
+    }
   };
 
   const signOut = async () => {
     setLoggedIn(false);
-    return await supabase.auth.signOut();
+    await supabase.auth.signOut();
   };
 
   const setServerSession = async (event: AuthChangeEvent, session: Session) => {

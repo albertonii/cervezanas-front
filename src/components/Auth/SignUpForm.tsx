@@ -2,22 +2,23 @@ import { useState } from "react";
 import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { SignUpInterface, useAuth } from ".";
+import { useAuth } from ".";
 import Button from "../common/Button";
+import { SignUpInterface } from "../../lib/interfaces";
 
-enum role_enum {
+export enum ROLE_ENUM {
   Cervezano = "consumer",
   Productor = "producer",
 }
 
-const role_options = [
+const ROLE_OPTIONS = [
   {
     label: "Cervezano",
-    value: role_enum.Cervezano,
+    value: ROLE_ENUM.Cervezano,
   },
   {
     label: "Productor",
-    value: role_enum.Productor,
+    value: ROLE_ENUM.Productor,
   },
 ];
 
@@ -26,6 +27,15 @@ interface FormData {
   username: string;
   email: string;
   password: string;
+  avatar_url: string;
+  email_verified: boolean;
+  full_name: string;
+  iss: string;
+  name: string;
+  lastname: string;
+  picture: string;
+  provider_id: string;
+  sub: string;
 }
 
 export const SignUpForm = () => {
@@ -39,23 +49,41 @@ export const SignUpForm = () => {
     handleSubmit,
   } = useForm<FormData>({
     defaultValues: {
-      access_level: role_enum.Cervezano,
+      access_level: ROLE_ENUM.Cervezano,
       username: "",
       email: "",
       password: "",
+      avatar_url: "",
+      email_verified: false,
+      full_name: "",
+      iss: "",
+      name: "",
+      lastname: "",
+      picture: "",
+      provider_id: "",
+      sub: "",
     },
   });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState(role_enum.Cervezano);
+  const [role, setRole] = useState(ROLE_ENUM.Cervezano);
 
   const data = {
     access_level: role,
     name: "",
     lastname: "",
     username: username,
+    password: "",
+    email: "",
+    avatar_url: "",
+    email_verified: false,
+    full_name: "",
+    iss: "",
+    picture: "",
+    provider_id: "",
+    sub: "",
   };
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,8 +96,8 @@ export const SignUpForm = () => {
       userCredentials: { email: email, password: password, phone: "" },
       options: {
         redirectTo: "",
-        data: data,
         captchaToken: "",
+        data: data,
       },
     };
 
@@ -88,7 +116,7 @@ export const SignUpForm = () => {
           onChange={handleChangeRole}
           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         >
-          {role_options.map((option) => (
+          {ROLE_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -158,7 +186,7 @@ export const SignUpForm = () => {
               onSubmit();
             }}
             class={"w-96"}
-            title={t("sign_up")}
+            title={"sign_up"}
             xLarge
             primary
           >
