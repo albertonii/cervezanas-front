@@ -200,7 +200,10 @@ const SignIn: NextPage<UserProps> = () => {
                     />
                   </g>
                 </svg>
-                <span className="ml-2 text-lg">Continuar con Google</span>
+
+                <span className="ml-2 text-lg">
+                  {t("continue_with_google")}
+                </span>
               </button>
             </div>
           </div>

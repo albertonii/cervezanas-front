@@ -130,7 +130,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/devoluciones-y-garantia"
+                      href="/soporte/devoluciones-y-garantia"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("returns_and_warranty")}

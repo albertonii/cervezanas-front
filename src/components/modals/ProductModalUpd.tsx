@@ -64,7 +64,7 @@ const ProductModalUpd = (props: Props) => {
     type,
     owner_id,
     campaign_id,
-    beer: {
+    beers: [{
       fermentation,
       color,
       intensity,
@@ -74,7 +74,7 @@ const ProductModalUpd = (props: Props) => {
       era,
       format,
       is_gluten,
-    },
+    }],
   } = product;
 
   const [showModal, setShowModal] = React.useState(isVisible);
