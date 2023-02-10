@@ -1,6 +1,6 @@
 interface Props {
   color: string;
-  size: string;
+  size?: string;
 }
 
 export const Spinner = (props: Props) => {
@@ -12,6 +12,7 @@ export const Spinner = (props: Props) => {
         aria-hidden="true"
         className={`
           mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-${color}
+          ${size === "" && "h-8 w-8"}
           ${size === "small" && "h-8 w-8"}
           ${size === "medium" && "h-12 w-12"}
           ${size === "large" && "h-16 w-16"}

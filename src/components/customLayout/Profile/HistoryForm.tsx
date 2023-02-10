@@ -67,7 +67,7 @@ export const HistoryForm = (props: any) => {
         {t("history_business_title")}
       </div>
       {loading ? (
-        <Spinner color="beer-blonde" />
+        <Spinner size="medium" color="beer-blonde" />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-full flex-row space-x-3 ">

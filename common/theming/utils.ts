@@ -1,20 +1,20 @@
-import { CssComponent } from '@stitches/core/types/styled-component'
-import { Appearance } from '../../src/types'
-import { CLASS_NAMES, PREPENDED_CLASS_NAMES } from './../../src/constants'
+import { CssComponent } from "@stitches/core/types/styled-component";
+import { Appearance } from "../../src/lib/types";
+import { CLASS_NAMES, PREPENDED_CLASS_NAMES } from "./../../src/constants";
 
 export function generateClassNames(
   /**
    * name of css class name variable
    */
   classNameKey:
-    | 'button'
-    | 'container'
-    | 'anchor'
-    | 'divider'
-    | 'label'
-    | 'input'
-    | 'loader'
-    | 'message',
+    | "button"
+    | "container"
+    | "anchor"
+    | "divider"
+    | "label"
+    | "input"
+    | "loader"
+    | "message",
   /**
    * stiches CSS output
    */
@@ -24,26 +24,26 @@ export function generateClassNames(
    */
   appearance?: Appearance
 ) {
-  const classNames = []
+  const classNames = [];
 
-  const className = CLASS_NAMES[classNameKey]
+  const className = CLASS_NAMES[classNameKey];
 
   classNames.push(
     appearance?.prependedClassName
-      ? appearance?.prependedClassName + '_' + className
-      : PREPENDED_CLASS_NAMES + '_' + className
-  )
+      ? appearance?.prependedClassName + "_" + className
+      : PREPENDED_CLASS_NAMES + "_" + className
+  );
 
   if (appearance?.className?.[classNameKey]) {
-    classNames.push(appearance?.className?.[classNameKey])
+    classNames.push(appearance?.className?.[classNameKey]);
   }
 
   // if (
   //   appearance?.extendAppearance === undefined ||
   //   appearance?.extendAppearance === true
   // ) {
-  classNames.push(defaultStyles)
+  classNames.push(defaultStyles);
   // }
 
-  return classNames
+  return classNames;
 }

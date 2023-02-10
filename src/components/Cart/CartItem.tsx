@@ -4,19 +4,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Beer } from "../../lib/types";
+import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
 type CartItemProps = {
   id: string;
   quantity: number;
-  beers: Beer[];
+  products: Product[];
 };
 
-export function CartItem({ id, quantity, beers }: CartItemProps) {
+export function CartItem({ id, quantity, products }: CartItemProps) {
   const { t } = useTranslation();
-  const [item, setItem] = useState<Beer | null>(null);
+  const [item, setItem] = useState<Product | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const {
     removeFromCart,
@@ -29,8 +29,8 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
   } = useShoppingCart();
 
   useEffect(() => {
-    const findBeers = async () => {
-      setItem(beers?.find((i) => i.id === id)!);
+    const findProducts = async () => {
+      setItem(products?.find((i) => i.id === id)!);
 
       if (item == null) return null;
 
@@ -43,8 +43,8 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
       }
     };
 
-    if (beers != null && beers.length > 0) {
-      findBeers();
+    if (products != null && products.length > 0) {
+      findProducts();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,27 +52,27 @@ export function CartItem({ id, quantity, beers }: CartItemProps) {
       setItem(null);
       setItemMultimedia("");
     };
-  }, [beers, id, item]);
+  }, [products, id, item]);
 
-  const handleIncreaseCartQuantity = (beerId: string) => {
-    increaseCartQuantity(beerId);
-    if (marketplaceItems.find((item) => item.id === beerId)) return;
-    const beer: Beer | undefined = marketplaceItems.find(
-      (item) => item.id === beerId
+  const handleIncreaseCartQuantity = (productId: string) => {
+    increaseCartQuantity(productId);
+    if (marketplaceItems.find((item) => item.id === productId)) return;
+    const product: Product | undefined = marketplaceItems.find(
+      (item) => item.id === productId
     );
-    if (!beer) return;
-    addMarketplaceItems(beer);
+    if (!product) return;
+    addMarketplaceItems(product);
   };
 
-  const handleDecreaseCartQuantity = (beerId: string) => {
-    decreaseCartQuantity(beerId);
-    if (getItemQuantity(beerId) > 1) return;
-    removeMarketplaceItems(beerId);
+  const handleDecreaseCartQuantity = (productId: string) => {
+    decreaseCartQuantity(productId);
+    if (getItemQuantity(productId) > 1) return;
+    removeMarketplaceItems(productId);
   };
 
-  const handleRemoveFromCart = (beerId: string) => {
-    removeMarketplaceItems(beerId);
-    removeFromCart(beerId);
+  const handleRemoveFromCart = (productId: string) => {
+    removeMarketplaceItems(productId);
+    removeFromCart(productId);
   };
 
   return (

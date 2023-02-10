@@ -154,6 +154,7 @@ export interface ProductCategory {
 }
 
 export interface Beer {
+  id: string;
   lot_id: number;
   feedback_id: number;
   category: string;

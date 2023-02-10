@@ -20,10 +20,10 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
   useEffect(() => {
     let total = 0;
 
-    marketplaceItems?.find((beer) =>
+    marketplaceItems?.find((product) =>
       items.find((item) => {
-        if (beer.id === item.id) {
-          total += beer.price * item.quantity;
+        if (product.id === item.id) {
+          total += product.price * item.quantity;
         }
       })
     );
@@ -101,7 +101,7 @@ export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
                                   <CartItem
                                     key={item.id}
                                     {...item}
-                                    beers={marketplaceItems}
+                                    products={marketplaceItems}
                                   />
                                 </li>
                               ))}

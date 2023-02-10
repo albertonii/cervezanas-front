@@ -81,7 +81,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/purchase-conditions"
+                      href="/condiciones-de-compra"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("purchase_conditions")}
@@ -97,7 +97,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/privacy"
+                      href="/privacidad"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("privacy_policy")}
@@ -122,7 +122,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/contacto"
+                      href="/soporte/contacto"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("contact")}
@@ -130,7 +130,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/"
+                      href="/devoluciones-y-garantia"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("returns_and_warranty")}
@@ -138,7 +138,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li>
                     <Link
-                      href="/"
+                      href="/cookies"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
                     >
                       {t("cookie_policy")}

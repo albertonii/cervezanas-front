@@ -20,7 +20,8 @@ const FilePreview = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const [file, setFile] = useState<File>(new File([], ""));
+  //TODO: Cambiar el tipo de File de any a File
+  const [file, setFile] = useState<any>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
 
