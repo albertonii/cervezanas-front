@@ -1,9 +1,9 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient, Session, SupabaseClient } from "@supabase/supabase-js";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import SEO from "../../next-seo.config";
@@ -12,6 +12,8 @@ import { DefaultSeo } from "next-seo";
 import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
 import AppContextProvider from "../components/Context/AppContext";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import axios from "axios";
+import { useSession } from "../hooks/useSession";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -31,6 +33,24 @@ const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const pageMeta = (Component as any)?.defaultProps?.meta || {};
   const pageSEO = { ...SEO, ...pageMeta };
+
+  // const { session } = useSession();
+
+  const supabaseAccessToken: string = session?.accessToken || "";
+
+  const supabaseClientOptions: any = {
+    global: {
+      headers: {
+        Authorization: `Bearer ${supabaseAccessToken}`,
+      },
+    },
+  };
+
+  const supabase: SupabaseClient = createClient(
+    supabaseUrl,
+    supabaseAnonKey,
+    supabaseClientOptions
+  );
 
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -68,25 +88,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   //   return () => {
   //     authListener?.unsubscribe();
   //   };
-  // }, []);
-
-  // const { session } = useSession();
-
-  const supabaseAccessToken: string = session?.accessToken || "";
-
-  const supabaseClientOptions: any = {
-    global: {
-      headers: {
-        Authorization: `Bearer ${supabaseAccessToken}`,
-      },
-    },
-  };
-
-  const supabase: SupabaseClient = createClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    supabaseClientOptions
-  );
+  // }, [supabase.auth]);
 
   return (
     <>

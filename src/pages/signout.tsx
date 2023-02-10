@@ -7,7 +7,6 @@ const SignOut: NextPage<UserProps> = () => {
   const { signOut, setUser } = useAuth();
 
   useEffect(() => {
-    setUser(null);
     signOut();
   }, [setUser, signOut]);
 

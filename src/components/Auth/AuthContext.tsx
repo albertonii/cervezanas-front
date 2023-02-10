@@ -9,9 +9,16 @@ import {
 } from "@supabase/supabase-js";
 import { useMessage } from "../message";
 import Router from "next/router";
-import { ROUTE_HOME, ROUTE_AUTH } from "../../config";
+import {
+  ROUTE_HOME,
+  ROUTE_AUTH,
+  ROUTE_SIGNIN,
+  ROUTE_SIGNOUT,
+  ROUTE_SIGNUP,
+} from "../../config";
 import { SignUpInterface } from "../../lib/interfaces";
 import { ROLE_ENUM } from "./SignUpForm";
+import axios from "axios";
 
 export interface AuthSession {
   user: User | null;
@@ -116,6 +123,8 @@ export const AuthContextProvider = (props: Props) => {
         });
 
         setLoggedIn(true);
+
+        Router.push(ROUTE_HOME);
       }
     } catch (error: any) {
       handleMessage!({
@@ -147,7 +156,10 @@ export const AuthContextProvider = (props: Props) => {
 
   const signOut = async () => {
     setLoggedIn(false);
+    setUser(null);
+
     await supabase.auth.signOut();
+    Router.push(ROUTE_SIGNIN);
   };
 
   const setServerSession = async (event: AuthChangeEvent, session: Session) => {
@@ -173,19 +185,44 @@ export const AuthContextProvider = (props: Props) => {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        const user = session?.user! ?? null;
-        setUserLoading(false);
-        await setServerSession(event, session!);
-        if (user) {
+        if (event === "SIGNED_IN") {
+          const user = session?.user! ?? null;
+
+          setSupabaseCookie(session!);
           setUser(user);
           setLoggedIn(true);
-          // Router.push(ROUTE_HOME);
-        } else {
+        }
+        if (event === "SIGNED_OUT") {
+          removeSupabaseCookie();
           setUser(null);
           Router.push(ROUTE_AUTH);
         }
+
+        setUserLoading(false);
+        await setServerSession(event, session!);
       }
     );
+
+    const setSupabaseCookie = async (session: Session) => {
+      axios.post("/api/auth/set-supabase-cookie", {
+        event: session ? "SIGNED_IN" : "SIGNED_OUT",
+        session,
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      });
+    };
+
+    const removeSupabaseCookie = async () => {
+      axios.post("/api/auth/remove-supabase-access-cookie", {
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      });
+
+      axios.post("/api/auth/remove-supabase-refresh-cookie", {
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      });
+    };
 
     return () => {
       authListener?.unsubscribe();

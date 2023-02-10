@@ -11,6 +11,7 @@ import Layout from "../components/Layout";
 import { useAuth } from "../components/Auth/useAuth";
 import { UserCredentials } from "@supabase/supabase-js";
 import Router from "next/router";
+import { useMessage } from "../components/message";
 
 interface FormData {
   email: string;
@@ -22,6 +23,7 @@ const SignIn: NextPage<UserProps> = () => {
     useAuth();
 
   const { register, handleSubmit } = useForm<FormData>();
+  const { handleMessage } = useMessage();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,13 +34,20 @@ const SignIn: NextPage<UserProps> = () => {
       password,
     };
     signIn(userCredentials);
-    Router.push("/");
   };
 
   const handleGoogleSignIn = async () => {
-    signInWithProvider("google");
-
-    Router.push("/");
+    signInWithProvider("google")
+      .then(() => {
+        Router.push("/");
+        handleMessage!({
+          type: "success",
+          message: `Welcome, ${user?.email}`,
+        });
+      })
+      .catch((error) => {
+        handleMessage!({ type: "error", message: error.message });
+      });
   };
 
   if (loading) {
