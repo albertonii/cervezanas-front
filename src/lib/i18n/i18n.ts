@@ -265,6 +265,18 @@ const translationsEn = {
   spanish: "Spanish",
   english: "English",
   similar_products: "Similar Products",
+  who_we_are: "Who we are",
+  who_we_are_question: "Who we are?",
+  commiments: "Commiments",
+  purchase_conditions: "Purchase Conditions",
+  legal_notice: "Legal Notice",
+  privacy_policy: "Privacy Policy",
+  contact_us: "Contact Us",
+  support_center: "Support Center",
+  contact: "Contact",
+  returns_and_warranty: "Returns and Warranty",
+  cookie_policy: "Cookie Policy",
+  copyright: " © Copyright 2020 Cervezanas. All right reserved.",
 };
 
 const translationsEs = {
@@ -544,6 +556,18 @@ const translationsEs = {
   spanish: "Español",
   english: "Inglés",
   similar_products: "Productos similares",
+  who_we_are: "Quiénes somos",
+  who_we_are_question: "¿Quiénes somos?",
+  commiments: "Compromisos",
+  purchase_conditions: "Condiciones de compra",
+  legal_notice: "Aviso legal",
+  privacy_policy: "Política de privacidad",
+  contact_us: "Contactar",
+  support_center: "Centro de soporte",
+  contact: "Contacto",
+  returns_and_warranty: "Devoluciones y garantías",
+  cookie_policy: "Política de cookies",
+  copyright: " © Copyright 2020 Cervezanas. Todos los derechos reservados.",
 };
 
 // the translations
