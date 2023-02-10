@@ -12,6 +12,7 @@ import { useAuth } from "../components/Auth/useAuth";
 import { UserCredentials } from "@supabase/supabase-js";
 import Router from "next/router";
 import { useMessage } from "../components/message";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
   email: string;
@@ -21,6 +22,8 @@ interface FormData {
 const SignIn: NextPage<UserProps> = () => {
   const { signInWithProvider, signIn, signOut, loading, loggedIn, user } =
     useAuth();
+
+  const { t } = useTranslation();
 
   const { register, handleSubmit } = useForm<FormData>();
   const { handleMessage } = useMessage();
@@ -91,7 +94,7 @@ const SignIn: NextPage<UserProps> = () => {
                     htmlFor="email-address"
                     className="text-sm text-gray-600"
                   >
-                    Correo electrónico
+                    {t("email")}
                   </label>
                   <input
                     {...register("email")}
@@ -106,7 +109,7 @@ const SignIn: NextPage<UserProps> = () => {
                 </div>
                 <div className="flex w-full flex-col space-y-2 ">
                   <label htmlFor="password" className="text-sm text-gray-600">
-                    contraseña
+                    {t("password")}
                   </label>
                   <input
                     {...register("password")}
@@ -135,15 +138,15 @@ const SignIn: NextPage<UserProps> = () => {
                       className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
                     />
                   </span>
-                  Acceder
+                  {t("access")}
                 </button>
               </form>
 
               <p className="my-2 flex w-full justify-center text-sm text-gray-700">
-                ¿No estás registrado?
+                {t("not_registered_question")}
                 <Link className="cursor-pointer font-bold" href={"/signup"}>
                   <span className="mx-1 text-blue-600 hover:underline">
-                    Dame de alta
+                    {t("sign_me_up")}
                   </span>
                 </Link>
               </p>

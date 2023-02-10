@@ -278,6 +278,10 @@ const translationsEn = {
   cookie_policy: "Cookie Policy",
   copyright: " © Copyright 2020 Cervezanas. All right reserved.",
   payment_system: "Payment System",
+  sign_me_up: "Sign me up",
+  access: "Access",
+  not_registered_question: "Not registered yet?",
+  continue_with_google: "Continue with Google",
 };
 
 const translationsEs = {
@@ -570,6 +574,10 @@ const translationsEs = {
   cookie_policy: "Política de cookies",
   copyright: " © Copyright 2020 Cervezanas. Todos los derechos reservados.",
   payment_system: "Sistema de pago",
+  sign_me_up: "Dame de alta",
+  access: "Acceder",
+  not_registered_question: "¿No estás registrado?",
+  continue_with_google: "Continuar con Google",
 };
 
 // the translations
