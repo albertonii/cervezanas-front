@@ -30,7 +30,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                 className="inline-flex items-center"
               >
                 <Image
-                  className="w-8 text-teal-accent-400"
+                  className="w-8 "
                   src="/logo_cervezanas.svg"
                   alt="Logo"
                   width={100}
@@ -58,7 +58,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
             <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
               {/* Quienes somos  */}
               <div>
-                <p className="font-semibold tracking-wide text-teal-accent-400">
+                <p className="font-semibold tracking-wide text-beer-draft">
                   {t("who_we_are_question")}
                 </p>
 
@@ -108,7 +108,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
 
               {/* Contactar  */}
               <div>
-                <p className="font-semibold tracking-wide text-teal-accent-400">
+                <p className="font-semibold tracking-wide text-beer-draft">
                   {t("contact_us")}
                 </p>
                 <ul className="mt-2 space-y-2">
@@ -149,7 +149,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
 
               {/* Sistemas de pago aceptado  */}
               <div>
-                <p className="font-semibold tracking-wide text-teal-accent-400">
+                <p className="font-semibold tracking-wide text-beer-draft">
                   {t("payment_system")}
                 </p>
                 <div className="flex  space-x-2">

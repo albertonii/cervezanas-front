@@ -49,9 +49,10 @@ export default function MarketPlace(props: Props) {
 }
 
 export async function getServerSideProps() {
-  let { data: productsData, error: productsError } = await supabase.from(
-    "products"
-  ).select(`
+  let { data: productsData, error: productsError } = await supabase
+    .from("products")
+    .select(
+      `
     *,
     beers (
       *
@@ -65,7 +66,9 @@ export async function getServerSideProps() {
     ), reviews (
       overall
     )
-  `);
+  `
+    )
+    .eq("is_public", true);
 
   if (productsError) throw productsError;
 

@@ -22,9 +22,9 @@ export default function Stepper(props: Props) {
   const [multimediaIconClass, setMultimediaIconClass] = useState("");
   const [confirmIconClass, setConfirmIconClass] = useState("");
 
-  const statusPastClass = "border-teal-600";
-  const statusPresentClass = "bg-teal-600 border-teal-600";
-  const statusFutureClass = "border-gray-300";
+  const statusPastClass = "border-beer-softBlonde";
+  const statusPresentClass = "bg-beer-blonde beer-blonde";
+  const statusFutureClass = "border-beer-softBlonde";
 
   const statusPastIconClass = "green";
   const statusPresentIconClass = "white";
@@ -91,7 +91,7 @@ export default function Stepper(props: Props) {
         <div className="flex items-center">
           <div className="flex items-center text-beer-draft relative">
             <div
-              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${detailsClass}`}
+              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${detailsClass} `}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
