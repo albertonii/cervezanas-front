@@ -415,6 +415,7 @@ export default function ProductInfoSection({
 
           <div className="flex w-full flex-row space-x-3">
             <div className="container">
+              {/* Format  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
                   <label htmlFor="format" className="text-sm text-gray-600">
@@ -451,6 +452,7 @@ export default function ProductInfoSection({
                 </div>
               </div>
 
+              {/* Pack  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
                   <label htmlFor="pack" className="text-sm text-gray-600">
@@ -497,6 +499,7 @@ export default function ProductInfoSection({
                 </div>
               </div>
 
+              {/* Stock quantity  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
                   <label

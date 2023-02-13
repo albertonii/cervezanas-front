@@ -20,6 +20,7 @@ import ProductStepper from "./ProductStepper";
 import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
 import Modal from "./Modal";
+import _ from "lodash";
 
 interface Props {
   products: Product[];
@@ -104,6 +105,7 @@ const AddProduct = (props: Props) => {
       const userId = user?.id;
 
       // Product
+      // TODO: AÑADIR -> Nº ARTÍCULO, Nº VARIANTE, Nº ALEATORIO
       const { data: productData, error: productError } = await supabase
         .from("products")
         .insert({
@@ -121,16 +123,32 @@ const AddProduct = (props: Props) => {
       const productId = productData[0].id;
 
       // Multimedia
-      const p_principal_url =
-        p_principal != undefined ? encodeURIComponent(p_principal.name) : null;
-      const p_back_url =
-        p_back != undefined ? encodeURIComponent(p_back.name) : null;
-      const p_extra_1_url =
-        p_extra_1 != undefined ? encodeURIComponent(p_extra_1.name) : null;
-      const p_extra_2_url =
-        p_extra_2 != undefined ? encodeURIComponent(p_extra_2.name) : null;
-      const p_extra_3_url =
-        p_extra_3 != undefined ? encodeURIComponent(p_extra_3.name) : null;
+
+      // URL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
+      // PHOTO PRINCIPAL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
+      const p_principal_url = !_.isEmpty(p_principal?.name)
+        ? encodeURIComponent(
+            `/articles/[n_articulo]/[n_variante]/[n_aleatorio]-` +
+              p_principal.name
+          )
+        : null;
+
+      const p_back_url = !_.isEmpty(p_back?.name)
+        ? encodeURIComponent(p_back.name)
+        : null;
+
+      const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
+        ? encodeURIComponent(p_extra_1.name)
+        : null;
+
+      const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
+        ? encodeURIComponent(p_extra_2.name)
+        : null;
+
+      const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
+        ? encodeURIComponent(p_extra_3.name)
+        : null;
+
       const { error: multError } = await supabase
         .from("product_multimedia")
         .insert({
@@ -141,12 +159,13 @@ const AddProduct = (props: Props) => {
           p_extra_2: p_extra_2_url,
           p_extra_3: p_extra_3_url,
         });
+
       if (multError) throw multError;
 
       if (p_principal_url) {
         const { error: pPrincipalError } = await supabase.storage
           .from("products")
-          .upload(
+          .update(
             `p_principal/${userId}/${p_principal_url}`,
             p_principal.name,
             {
@@ -160,7 +179,7 @@ const AddProduct = (props: Props) => {
       if (p_back_url) {
         const { error: pBackError } = await supabase.storage
           .from("products")
-          .upload(`p_back/${userId}/${p_back_url}`, p_back.name, {
+          .update(`p_back/${userId}/${p_back_url}`, p_back.name, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -170,7 +189,7 @@ const AddProduct = (props: Props) => {
       if (p_extra_1_url) {
         const { error: pExtra1Error } = await supabase.storage
           .from("products")
-          .upload(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1.name, {
+          .update(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1.name, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -180,7 +199,7 @@ const AddProduct = (props: Props) => {
       if (p_extra_2_url) {
         const { error: pExtra2Error } = await supabase.storage
           .from("products")
-          .upload(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2.name, {
+          .update(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2.name, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -190,7 +209,7 @@ const AddProduct = (props: Props) => {
       if (p_extra_3_url) {
         const { error: pExtra3Error } = await supabase.storage
           .from("products")
-          .upload(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3.name, {
+          .update(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3.name, {
             cacheControl: "3600",
             upsert: false,
           });

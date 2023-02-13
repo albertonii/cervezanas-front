@@ -1,6 +1,6 @@
 import { Button } from "@supabase/ui";
 import Image from "next/image";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
 
@@ -25,7 +25,8 @@ export default function ProductList(props: Props) {
     handleProductModal,
   } = props;
 
-  const [query, setQuery] = React.useState("");
+  const [products_, setProducts_] = useState<Product[]>(products);
+  const [query, setQuery] = useState("");
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -49,11 +50,15 @@ export default function ProductList(props: Props) {
     handleProductModal(product);
   };
 
+  useEffect(() => {
+    setProducts_(products);
+  }, [products]);
+
   const filteredItems = useMemo(() => {
-    return products.filter((product) => {
+    return products_.filter((product) => {
       return product.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [products, query]);
+  }, [products_, query]);
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
@@ -97,7 +102,7 @@ export default function ProductList(props: Props) {
         </thead>
 
         <tbody>
-          {products &&
+          {products_ &&
             filteredItems.map((product) => {
               return (
                 <tr

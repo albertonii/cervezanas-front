@@ -448,4 +448,12 @@ export interface Product {
   is_public: boolean;
   price: number;
   beers: Beer[];
+  product_variant: ProductVariant[];
+}
+
+export interface ProductVariant {
+  id: string;
+  product_id: string;
+  name: string;
+  product_number: number;
 }
