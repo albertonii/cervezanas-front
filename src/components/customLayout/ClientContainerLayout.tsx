@@ -1,7 +1,7 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
@@ -11,10 +11,10 @@ type Props = {
   children: JSX.Element;
 };
 
-const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
-const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
-const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+// const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
+// const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
+// const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
 export const ClientContainerLayout = ({ children }: Props) => {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
@@ -85,7 +85,7 @@ export const ClientContainerLayout = ({ children }: Props) => {
       {bgImg && profileImg ? (
         <div className="container ">
           {/* Background Image */}
-          <div className=" bg-red-200" aria-label="Custom Header">
+          <div className=" bg-bear-alvine" aria-label="Custom Header">
             <Image
               className="max-h-[40vh] w-full object-cover"
               width={1260}
@@ -129,8 +129,9 @@ export const ClientContainerLayout = ({ children }: Props) => {
               </div>
             </div>
           </div>
+
           <div
-            className="bg-blue-200 "
+            className="bg-beer-softFoam h-full"
             aria-label="Container Client Information"
           >
             {children}

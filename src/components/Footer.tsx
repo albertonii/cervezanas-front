@@ -7,9 +7,9 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <footer>
-      <div className="relative mt-16 bg-deep-purple-accent-400">
+      <div className="relative mt-16 bg-bear-light">
         <svg
-          className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-deep-purple-accent-400"
+          className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-bear-light"
           preserveAspectRatio="none"
           viewBox="0 0 1440 54"
         >

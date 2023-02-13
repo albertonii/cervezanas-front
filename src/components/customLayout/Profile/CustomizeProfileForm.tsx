@@ -1,6 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { Button } from "@supabase/ui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
@@ -24,7 +24,10 @@ export default function CustomizeProfileForm(props: Props) {
   const { user } = props;
   const [loading, setLoading] = useState(false);
 
-  const { setBgImg, setProfileImg } = useAppContext();
+  const { bgImg, profileImg, setBgImg, setProfileImg } = useAppContext();
+
+  const [userBgImg, setUserBgImg] = useState(bgImg);
+  const [userProfileImg, setUserProfileImg] = useState(profileImg);
 
   const mockPng = new File([""], "", { type: "image/png" });
   const mockFileList = [mockPng];
@@ -82,7 +85,7 @@ export default function CustomizeProfileForm(props: Props) {
           throw storageError;
         }
 
-        setBgImg(`${fullCustomUrl}${user?.id}/img`);
+        setUserBgImg(`${fullCustomUrl}${user?.id}/img`);
       }
 
       if (profile_photo_url[0].size > 0) {
@@ -99,10 +102,11 @@ export default function CustomizeProfileForm(props: Props) {
 
         if (storageError) {
           setLoading(false);
+
           throw storageError;
         }
 
-        setProfileImg(`${fullProfilePhotoUrl}${user?.id}/img`);
+        setUserProfileImg(`${fullProfilePhotoUrl}${user?.id}/img`);
       }
 
       setLoading(false);
@@ -113,6 +117,14 @@ export default function CustomizeProfileForm(props: Props) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setBgImg(userBgImg ?? `/icons/bg-240.png`);
+  }, [setBgImg, userBgImg]);
+
+  useEffect(() => {
+    setProfileImg(userProfileImg ?? `/icons/profile-240.png`);
+  }, [setProfileImg, userProfileImg]);
 
   return (
     <section className="container px-6 py-4 bg-white space-y-3 mb-4">

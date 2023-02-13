@@ -28,15 +28,16 @@ interface Props {
 }
 
 export default function AppContextProvider(props: Props) {
-  const [bgImg, setBgImg] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [bgImg, setBgImg] = useState(`/icons/bg-240.png`);
+  const [profileImg, setProfileImg] = useState(`/icons/profile-240.png`);
   const [sidebar, setSidebar] = useLocalStorage<string>(
     "sidebar-option",
     "profile"
   );
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
+  /*
   useEffect(() => {
     if (user) {
       const getProfileImg = async () => {
@@ -47,6 +48,7 @@ export default function AppContextProvider(props: Props) {
           .from("avatars")
           .getPublicUrl(decodeUriCustomImg);
 
+        console.log(bgError);
         if (bgError) {
           throw bgError;
         } else setBgImg(bgImgData?.publicURL!);
@@ -54,6 +56,9 @@ export default function AppContextProvider(props: Props) {
         const { data: profileImgData, error: profileError } = supabase.storage
           .from("avatars")
           .getPublicUrl(decodeUriProfileImg);
+        console.log(profileError);
+
+        console.log(profileImgData);
 
         if (profileError) throw profileError;
         setProfileImg(profileImgData?.publicURL!);
@@ -64,10 +69,11 @@ export default function AppContextProvider(props: Props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     () => {
-      setBgImg("");
-      setProfileImg("");
+      setBgImg(`/icons/bg-240.png`);
+      setProfileImg(`/icons/profile-240.png`);
     };
   }, [user]);
+  */
 
   const changeSidebarActive = (select: string) => {
     setSidebar(select);
