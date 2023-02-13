@@ -26,7 +26,7 @@ export default function Stepper(props: Props) {
   const statusPresentClass = "bg-beer-blonde beer-blonde";
   const statusFutureClass = "border-beer-softBlonde";
 
-  const statusPastIconClass = "green";
+  const statusPastIconClass = "#fdc300";  // Beer Blonde
   const statusPresentIconClass = "white";
   const statusFutureIconClass = "gray";
 
