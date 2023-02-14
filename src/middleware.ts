@@ -4,6 +4,8 @@ import type { NextRequest } from "next/server";
 const PUBLIC_FILE = /\.(.*)$/;
 
 export async function middleware(req: NextRequest) {
+  const authCookie = req.cookies.get("sb-access-token");
+
   if (
     req.nextUrl.pathname.startsWith("/_next") ||
     req.nextUrl.pathname.includes("/api/") ||
@@ -19,27 +21,22 @@ export async function middleware(req: NextRequest) {
   }
 
   if (req.nextUrl.pathname.startsWith("/signin")) {
-    const authCookie = req.cookies.get("sb-access-token");
     if (authCookie) return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/signup")) {
-    const authCookie = req.cookies.get("sb-access-token");
     if (authCookie) return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/profile")) {
-    const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/marketplace")) {
-    const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/cart/shopping_basket")) {
-    const authCookie = req.cookies.get("sb-access-token");
     if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
   }
 }

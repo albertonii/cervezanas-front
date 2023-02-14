@@ -43,10 +43,6 @@ const SignIn: NextPage<UserProps> = () => {
     signInWithProvider("google")
       .then(() => {
         Router.push("/");
-        handleMessage!({
-          type: "success",
-          message: `Welcome, ${user?.email}`,
-        });
       })
       .catch((error) => {
         handleMessage!({ type: "error", message: error.message });

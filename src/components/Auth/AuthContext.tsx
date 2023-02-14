@@ -93,6 +93,7 @@ export const AuthContextProvider = (props: Props) => {
       setLoading(true);
 
       const { error, user } = await supabase.auth.signIn(payload);
+
       if (error) {
         setLoggedIn(false);
 
@@ -154,21 +155,37 @@ export const AuthContextProvider = (props: Props) => {
     }
   };
 
+  const setSupabaseCookie = async (
+    event: AuthChangeEvent,
+    session: Session
+  ) => {
+    axios.post("/api/auth/set-supabase-cookie", {
+      event: session ? "SIGNED_IN" : "SIGNED_OUT",
+      session,
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+      body: JSON.stringify({ event, session }),
+    });
+  };
+
+  const removeSupabaseCookie = async () => {
+    axios.post("/api/auth/remove-supabase-access-cookie", {
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+    });
+
+    axios.post("/api/auth/remove-supabase-refresh-cookie", {
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+    });
+  };
+
   const signOut = async () => {
     setLoggedIn(false);
     setUser(null);
 
     await supabase.auth.signOut();
     Router.push(ROUTE_SIGNIN);
-  };
-
-  const setServerSession = async (event: AuthChangeEvent, session: Session) => {
-    await fetch("/api/auth", {
-      method: "POST",
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-      body: JSON.stringify({ event, session }),
-    });
   };
 
   useEffect(() => {
@@ -185,13 +202,28 @@ export const AuthContextProvider = (props: Props) => {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log(event);
+        console.log(session);
         if (event === "SIGNED_IN") {
           const user = session?.user! ?? null;
 
-          setSupabaseCookie(session!);
+          if (
+            session?.user?.identities?.find((e) => {
+              return e.provider === "email";
+            })
+          ) {
+            await setSupabaseCookie(event, session!);
+          }
+
           setUser(user);
           setLoggedIn(true);
+
+          handleMessage!({
+            type: "success",
+            message: `Welcome, ${user?.email}`,
+          });
         }
+
         if (event === "SIGNED_OUT") {
           removeSupabaseCookie();
           setUser(null);
@@ -199,35 +231,13 @@ export const AuthContextProvider = (props: Props) => {
         }
 
         setUserLoading(false);
-        await setServerSession(event, session!);
       }
     );
-
-    const setSupabaseCookie = async (session: Session) => {
-      axios.post("/api/auth/set-supabase-cookie", {
-        event: session ? "SIGNED_IN" : "SIGNED_OUT",
-        session,
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-      });
-    };
-
-    const removeSupabaseCookie = async () => {
-      axios.post("/api/auth/remove-supabase-access-cookie", {
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-      });
-
-      axios.post("/api/auth/remove-supabase-refresh-cookie", {
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-      });
-    };
 
     return () => {
       authListener?.unsubscribe();
     };
-  }, []);
+  }, [handleMessage, supabase.auth]);
 
   const value = {
     user,
