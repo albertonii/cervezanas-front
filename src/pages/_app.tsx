@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { createClient, Session, SupabaseClient } from "@supabase/supabase-js";
 import { MessageProvider } from "../components/message";
@@ -14,6 +14,7 @@ import AppContextProvider from "../components/Context/AppContext";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import axios from "axios";
 import { useSession } from "../hooks/useSession";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -46,10 +47,20 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     },
   };
 
+  /*
   const supabase: SupabaseClient = createClient(
     supabaseUrl,
     supabaseAnonKey,
     supabaseClientOptions
+  );
+  */
+
+  const [supabase] = useState(() =>
+    createBrowserSupabaseClient({
+      supabaseUrl,
+      supabaseKey: supabaseAnonKey,
+      options: supabaseClientOptions,
+    })
   );
 
   // useEffect(() => {

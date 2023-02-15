@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
+import {
+  ROUTE_HOME,
+  ROUTE_AUTH,
+  ROUTE_SIGNIN,
+  ROUTE_SIGNOUT,
+  ROUTE_SIGNUP,
+} from "./config";
 
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get("sb-access-token");
@@ -20,23 +27,27 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (req.nextUrl.pathname.startsWith("/signin")) {
+  if (req.nextUrl.pathname.startsWith(ROUTE_SIGNIN)) {
     if (authCookie) return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (req.nextUrl.pathname.startsWith("/signup")) {
+  if (req.nextUrl.pathname.startsWith(ROUTE_SIGNUP)) {
     if (authCookie) return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/profile")) {
-    if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
+    console.log(authCookie);
+    if (!authCookie)
+      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/marketplace")) {
-    if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
+    if (!authCookie)
+      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
   }
 
   if (req.nextUrl.pathname.startsWith("/cart/shopping_basket")) {
-    if (!authCookie) return NextResponse.redirect(new URL("/signin", req.url));
+    if (!authCookie)
+      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
   }
 }

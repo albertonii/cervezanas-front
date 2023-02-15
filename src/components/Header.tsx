@@ -31,7 +31,7 @@ export default function Header({}: Props) {
 
   const handleSignOut = () => {
     signOut();
-    router.push("/signin");
+    // router.push("/signin");
   };
 
   return (

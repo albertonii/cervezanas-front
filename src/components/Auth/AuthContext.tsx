@@ -59,6 +59,55 @@ export const AuthContextProvider = (props: Props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const { handleMessage } = useMessage();
 
+  useEffect(() => {
+    const user = supabase.auth.user();
+
+    if (user) {
+      setUser(user);
+      setUserLoading(false);
+      setLoggedIn(true);
+      // Router.push(ROUTE_HOME);
+    } else {
+      setUserLoading(false);
+    }
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN") {
+          const user = session?.user! ?? null;
+
+          // if (
+          //   session?.user?.identities?.find((e) => {
+          //     return e.provider === "email";
+          //   })
+          // ) {
+          await setSupabaseCookie(event, session!);
+          // }
+
+          setUser(user);
+          setLoggedIn(true);
+
+          handleMessage!({
+            type: "success",
+            message: `Welcome, ${user?.email}`,
+          });
+        }
+
+        if (event === "SIGNED_OUT") {
+          removeSupabaseCookie();
+          setUser(null);
+          Router.push(ROUTE_AUTH);
+        }
+
+        setUserLoading(false);
+      }
+    );
+
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, [handleMessage, supabase.auth]);
+
   const signUp = async (payload: SignUpInterface) => {
     try {
       setLoading(true);
@@ -184,60 +233,12 @@ export const AuthContextProvider = (props: Props) => {
     setLoggedIn(false);
     setUser(null);
 
-    await supabase.auth.signOut();
-    Router.push(ROUTE_SIGNIN);
+    await supabase.auth.signOut().then((res) => {
+      console.log(res);
+      window.location.href = ROUTE_SIGNIN;
+      // Router.push(ROUTE_SIGNIN);
+    });
   };
-
-  useEffect(() => {
-    const user = supabase.auth.user();
-
-    if (user) {
-      setUser(user);
-      setUserLoading(false);
-      setLoggedIn(true);
-      // Router.push(ROUTE_HOME);
-    } else {
-      setUserLoading(false);
-    }
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log(event);
-        console.log(session);
-        if (event === "SIGNED_IN") {
-          const user = session?.user! ?? null;
-
-          if (
-            session?.user?.identities?.find((e) => {
-              return e.provider === "email";
-            })
-          ) {
-            await setSupabaseCookie(event, session!);
-          }
-
-          setUser(user);
-          setLoggedIn(true);
-
-          handleMessage!({
-            type: "success",
-            message: `Welcome, ${user?.email}`,
-          });
-        }
-
-        if (event === "SIGNED_OUT") {
-          removeSupabaseCookie();
-          setUser(null);
-          Router.push(ROUTE_AUTH);
-        }
-
-        setUserLoading(false);
-      }
-    );
-
-    return () => {
-      authListener?.unsubscribe();
-    };
-  }, [handleMessage, supabase.auth]);
 
   const value = {
     user,
