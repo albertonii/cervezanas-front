@@ -29,7 +29,7 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
   }
 
   return (
-    <>
+    <div className="flex flex-col h-screen justify-between">
       <Header />
 
       {loggedIn && (
@@ -48,7 +48,7 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
       </main>
 
       <Footer>.</Footer>
-    </>
+    </div>
   );
 };
 
