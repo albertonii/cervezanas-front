@@ -27,7 +27,6 @@ export default function CheckoutItem({
 }: Props) {
   const { t } = useTranslation();
 
-  console.log(product);
   const [p_principal, setPPrincipal] = useState<string>(
     "/marketplace_product_default.png"
   );

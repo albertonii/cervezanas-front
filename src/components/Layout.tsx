@@ -38,7 +38,7 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
 
       <main
         className={classNames(
-          "w-full h-full mx-auto relative",
+          "w-full h-auto mx-auto relative",
           usePadding && "px-2 sm:px-6 lg:px-8",
           useBackdrop && "bg-gray-200"
         )}

@@ -117,6 +117,38 @@ export default function Checkout(props: Props) {
     addMarketplaceItems,
   } = useShoppingCart();
 
+  const [cart, setCart] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const ac = new AbortController();
+
+    items.map(async (item) => {
+      const product = marketplaceItems.find((m_item) => m_item.id === item.id);
+      if (!product) return;
+
+      setCart((cart) => [...cart, product]);
+
+      setsubtotal((subtotal) => subtotal + product.price * item.quantity);
+    });
+
+    setTotal(() => subtotal - discount + shipping);
+
+    setLoading(false);
+
+    return () => {
+      setCart([]);
+      setLoading(false);
+      ac.abort();
+      setsubtotal(0);
+      setShipping(0);
+      setTax(0);
+      setDiscount(0);
+      setTotal(0);
+    };
+  }, [discount, items, marketplaceItems, shipping, subtotal]);
+
   useEffect(() => {
     const getAddresses = async () => {
       let { data: userData, error: usersError } = await supabase
@@ -158,43 +190,13 @@ export default function Checkout(props: Props) {
     removeFromCart(productId);
   };
 
-  const [cart, setCart] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const ac = new AbortController();
-
-    items.map(async (item) => {
-      const product = marketplaceItems.find((m_item) => m_item.id === item.id);
-      if (!product) return;
-
-      setCart((cart) => [...cart, product]);
-
-      setsubtotal((subtotal) => subtotal + product.price * item.quantity);
-    });
-
-    setTotal(() => subtotal - discount + shipping);
-
-    setLoading(false);
-
-    return () => {
-      setCart([]);
-      setLoading(false);
-      ac.abort();
-      setsubtotal(0);
-      setShipping(0);
-      setTax(0);
-      setDiscount(0);
-      setTotal(0);
-    };
-  }, [discount, items, marketplaceItems, shipping, subtotal]);
-
   const handleShippingAddresses = (address: ShippingAddress) => {
     setShippingAddresses((shippingAddresses) => [
       ...shippingAddresses,
       address,
     ]);
+
+    console.log(shippingAddresses);
   };
 
   const handleBillingAddresses = (address: BillingAddress) => {
@@ -203,13 +205,13 @@ export default function Checkout(props: Props) {
 
   const handleProceedToPay = async () => {
     try {
-      const cardInfo = getCardValues("card_info");
+      // const cardInfo = getCardValues("card_info");
       const shippingInfoId = selectedShippingAddress;
       const billingInfoId = selectedBillingAddress;
 
-      const resultCardInfo = await triggerCard("card_info", {
-        shouldFocus: true,
-      });
+      // const resultCardInfo = await triggerCard("card_info", {
+      //   shouldFocus: true,
+      // });
       const resultBillingInfoId = await triggerBilling("billing_info_id", {
         shouldFocus: true,
       });
@@ -218,7 +220,7 @@ export default function Checkout(props: Props) {
       });
 
       if (
-        resultCardInfo === false ||
+        // resultCardInfo === false ||
         resultBillingInfoId === false ||
         resultShippingInfoId === false
       )
@@ -374,18 +376,19 @@ export default function Checkout(props: Props) {
                         <>
                           {cart.map((product) => {
                             return (
-                              <CheckoutItem
-                                key={product.id}
-                                product={product}
-                                handleIncreaseCartQuantity={
-                                  handleIncreaseCartQuantity
-                                }
-                                handleDecreaseCartQuantity={
-                                  handleDecreaseCartQuantity
-                                }
-                                handleRemoveFromCart={handleRemoveFromCart}
-                                quantity={getItemQuantity(product.id)}
-                              />
+                              <div key={product.id}>
+                                <CheckoutItem
+                                  product={product}
+                                  handleIncreaseCartQuantity={
+                                    handleIncreaseCartQuantity
+                                  }
+                                  handleDecreaseCartQuantity={
+                                    handleDecreaseCartQuantity
+                                  }
+                                  handleRemoveFromCart={handleRemoveFromCart}
+                                  quantity={getItemQuantity(product.id)}
+                                />
+                              </div>
                             );
                           })}
 
@@ -442,11 +445,15 @@ export default function Checkout(props: Props) {
                     {/* Shipping */}
                     <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                        <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                        <h2 className="text-2xl dark:text-white font-semibold leading-5 text-gray-800">
                           {t("shipping_and_billing_info")}
+                        </h2>
+
+                        <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                          {t("shipping_info")}{" "}
                         </h3>
 
-                        {/* Shipping select list form */}
+                        {/* Shipping */}
                         <div className="flex flex-col justify-start items-start w-full space-y-4">
                           <div className="flex flex-col justify-start items-start w-full space-y-2">
                             <label
@@ -455,8 +462,6 @@ export default function Checkout(props: Props) {
                             >
                               {t("shipping")}
                             </label>
-
-                            {/* Option box with list user shipping address  */}
                           </div>
                         </div>
 
@@ -526,14 +531,28 @@ export default function Checkout(props: Props) {
                         </ul>
 
                         {/* Add Shipping Information */}
-                        {shippingAddresses.length <= 5 && (
+                        {shippingAddresses.length < 5 && (
                           <NewShippingAddress
-                            shipping={shippingAddresses}
-                            handleShippingAddresses={() =>
-                              handleShippingAddresses
-                            }
+                            handleShippingAddresses={handleShippingAddresses}
                           />
                         )}
+
+                        <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
+                          {" "}
+                          {t("billing_info")}{" "}
+                        </h3>
+
+                        {/* Billing */}
+                        <div className="flex flex-col justify-start items-start w-full space-y-4">
+                          <div className="flex flex-col justify-start items-start w-full space-y-2">
+                            <label
+                              htmlFor="billing"
+                              className="text-sm font-medium text-gray-500"
+                            >
+                              {t("billing")}
+                            </label>
+                          </div>
+                        </div>
 
                         {/* Radio button for select billing addresses */}
                         <ul className="grid w-full gap-6 md:grid-cols-1">
@@ -597,7 +616,11 @@ export default function Checkout(props: Props) {
                         </ul>
 
                         {/* Add Billing Information  */}
-                        {billingAddresses.length <= 5 && <NewBillingAddress />}
+                        {billingAddresses.length < 5 && (
+                          <NewBillingAddress
+                            handleBillingAddresses={handleBillingAddresses}
+                          />
+                        )}
 
                         <div className="flex justify-between items-start w-full">
                           <div className="flex justify-center items-center space-x-4">
@@ -638,7 +661,8 @@ export default function Checkout(props: Props) {
                       </div>
                     </div>
 
-                    {/* Payment */}
+                    {/* For simplicity the payment is handled by bank Payment */}
+                    {/*
                     <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                         <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
@@ -675,7 +699,9 @@ export default function Checkout(props: Props) {
                           </div>
 
                           <fieldset className="mb-3 mt-4 bg-white rounded text-gray-600 ">
-                            {/* Card Number */}
+                            */}
+                    {/* Card Number */}
+                    {/*
                             <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
                               <span className="text-right px-2">
                                 {t("card_number")}
@@ -697,10 +723,12 @@ export default function Checkout(props: Props) {
                                 required
                               />
                             </label>
+                              */}
 
-                            {/* Expiry Data and CVC GROUP */}
-                            <div className="flex flex-col items-start sm:items-center sm:flex-row justify-between my-3">
-                              {/* Expiry Data */}
+                    {/* Expiry Data and CVC GROUP */}
+                    {/* <div className="flex flex-col items-start sm:items-center sm:flex-row justify-between my-3"> */}
+                    {/* Expiry Data */}
+                    {/*
                               <label className="flex flex-col items-start sm:items-center sm:flex-row border-b border-gray-200 py-3 my-3">
                                 <span className="text-right px-2">
                                   {t("card_expiration")}
@@ -755,8 +783,10 @@ export default function Checkout(props: Props) {
                                   />
                                 </div>
                               </label>
+                                  */}
 
-                              {/* CVC */}
+                    {/* CVC */}
+                    {/*                               
                               <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
                                 <span className="text-right px-2">
                                   {t("card_cvv")}
@@ -778,10 +808,10 @@ export default function Checkout(props: Props) {
                                   required
                                 />
                               </label>
-                            </div>
+                            </div> */}
 
-                            {/* Name on Card */}
-                            <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
+                    {/* Name on Card */}
+                    {/* <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
                               <span className="text-right px-2">
                                 {t("card_holder")}
                               </span>
@@ -803,7 +833,7 @@ export default function Checkout(props: Props) {
                           </fieldset>
                         </section>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Order summary  */}
@@ -911,7 +941,7 @@ export default function Checkout(props: Props) {
                                 {t("shipping_address")}
                               </p>
 
-                              <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                              <div className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                                 {shippingAddresses.map((address) => {
                                   if (address.id !== selectedShippingAddress)
                                     return <></>;
@@ -934,7 +964,7 @@ export default function Checkout(props: Props) {
                                     </label>
                                   );
                                 })}
-                              </p>
+                              </div>
                             </div>
 
                             <div className="flex justify-center md:justify-start items-start flex-col space-y-4">
@@ -942,7 +972,7 @@ export default function Checkout(props: Props) {
                                 {t("billing_address")}
                               </p>
 
-                              <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                              <div className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                                 {billingAddresses.map((address) => {
                                   if (address.id !== selectedBillingAddress)
                                     return <></>;
@@ -964,7 +994,7 @@ export default function Checkout(props: Props) {
                                     </label>
                                   );
                                 })}
-                              </p>
+                              </div>
                             </div>
                           </div>
 

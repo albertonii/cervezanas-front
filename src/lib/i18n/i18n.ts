@@ -282,6 +282,8 @@ const translationsEn = {
   access: "Access",
   not_registered_question: "Not registered yet?",
   continue_with_google: "Continue with Google",
+  shipping_info: "Shipping Information",
+  billing_info: "Billing Information",
 };
 
 const translationsEs = {
@@ -578,6 +580,8 @@ const translationsEs = {
   access: "Acceder",
   not_registered_question: "¿No estás registrado?",
   continue_with_google: "Continuar con Google",
+  shipping_info: "Información de envío",
+  billing_info: "Información de facturación",
 };
 
 // the translations

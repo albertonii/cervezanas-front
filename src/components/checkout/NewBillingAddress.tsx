@@ -5,6 +5,7 @@ import Modal from "../modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
+import { BillingAddress } from "../../lib/interfaces";
 
 interface FormData {
   name: string;
@@ -19,7 +20,11 @@ interface FormData {
   billing_checked: boolean;
 }
 
-export default function NewBillingAddress() {
+interface Props {
+  handleBillingAddresses: (s: BillingAddress) => void;
+}
+
+export default function NewBillingAddress({ handleBillingAddresses }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();
@@ -46,7 +51,7 @@ export default function NewBillingAddress() {
     } = formValues;
 
     const handleAddBillingAddress = async () => {
-      const { error } = await supabase.from("billing_info").insert({
+      const { data, error } = await supabase.from("billing_info").insert({
         owner_id: user!.id,
         name,
         lastname,
@@ -61,6 +66,8 @@ export default function NewBillingAddress() {
       });
 
       if (error) throw error;
+
+      handleBillingAddresses(data[0]);
 
       reset();
     };

@@ -23,16 +23,10 @@ interface FormData {
 }
 
 interface Props {
-  shipping: ShippingAddress[];
-  handleShippingAddresses: React.Dispatch<
-    React.SetStateAction<ShippingAddress[]>
-  >;
+  handleShippingAddresses: (s: ShippingAddress) => void;
 }
 
-export default function NewShippingAddress({
-  shipping,
-  handleShippingAddresses,
-}: Props) {
+export default function NewShippingAddress({ handleShippingAddresses }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();
@@ -79,7 +73,9 @@ export default function NewShippingAddress({
 
       if (error) throw error;
 
-      handleShippingAddresses((prev) => [...prev, data[0]]);
+      console.log(data);
+
+      handleShippingAddresses(data[0]);
 
       reset();
     };
