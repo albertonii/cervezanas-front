@@ -35,6 +35,7 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
                   alt="Logo"
                   width={100}
                   height={100}
+                  sizes="100px"
                 />
 
                 <span className="ml-2 text-xl font-bold tracking-wide text-beer-dark uppercase">

@@ -46,6 +46,7 @@ export default function Header({}: Props) {
               fill
               style={{ objectFit: "contain" }}
               priority={true}
+              sizes="100px"
             />
           </div>
           {/* </Link> */}
