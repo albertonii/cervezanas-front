@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 const PUBLIC_FILE = /\.(.*)$/;
 import {
   ROUTE_HOME,
-  ROUTE_AUTH,
   ROUTE_SIGNIN,
   ROUTE_SIGNOUT,
   ROUTE_SIGNUP,
@@ -36,7 +35,6 @@ export async function middleware(req: NextRequest) {
   }
 
   if (req.nextUrl.pathname.startsWith("/profile")) {
-    console.log(authCookie);
     if (!authCookie)
       return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
   }

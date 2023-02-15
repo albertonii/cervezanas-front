@@ -11,7 +11,6 @@ import { useMessage } from "../message";
 import Router from "next/router";
 import {
   ROUTE_HOME,
-  ROUTE_AUTH,
   ROUTE_SIGNIN,
   ROUTE_SIGNOUT,
   ROUTE_SIGNUP,
@@ -66,7 +65,6 @@ export const AuthContextProvider = (props: Props) => {
       setUser(user);
       setUserLoading(false);
       setLoggedIn(true);
-      // Router.push(ROUTE_HOME);
     } else {
       setUserLoading(false);
     }
@@ -94,9 +92,11 @@ export const AuthContextProvider = (props: Props) => {
         }
 
         if (event === "SIGNED_OUT") {
-          removeSupabaseCookie();
-          setUser(null);
-          Router.push(ROUTE_AUTH);
+          removeSupabaseCookie().then(() => {
+            setUser(null);
+            setLoggedIn(false);
+            window.location.href = ROUTE_SIGNIN; // There is a bug in SP not deleting sb-access/refresh-token cookie unless page is reloaded
+          });
         }
 
         setUserLoading(false);
@@ -218,26 +218,24 @@ export const AuthContextProvider = (props: Props) => {
   };
 
   const removeSupabaseCookie = async () => {
-    axios.post("/api/auth/remove-supabase-access-cookie", {
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-    });
-
-    axios.post("/api/auth/remove-supabase-refresh-cookie", {
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-    });
+    return await axios
+      .post("/api/auth/remove-supabase-access-cookie", {
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      })
+      .then(() => {
+        axios.post("/api/auth/remove-supabase-refresh-cookie", {
+          headers: new Headers({ "Content-Type": "application/json" }),
+          credentials: "same-origin",
+        });
+      });
   };
 
   const signOut = async () => {
     setLoggedIn(false);
     setUser(null);
 
-    await supabase.auth.signOut().then((res) => {
-      console.log(res);
-      window.location.href = ROUTE_SIGNIN;
-      // Router.push(ROUTE_SIGNIN);
-    });
+    await supabase.auth.signOut();
   };
 
   const value = {
