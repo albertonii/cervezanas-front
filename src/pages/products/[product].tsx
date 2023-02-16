@@ -582,7 +582,8 @@ export async function getServerSideProps(context: { params: any }) {
   const { product: productId } = params;
 
   let { data: product, error: productsError } = await supabase
-    .from(
+    .from("products")
+    .select(
       `*,
       beers (
         *
@@ -594,7 +595,6 @@ export async function getServerSideProps(context: { params: any }) {
         *
       )`
     )
-    .select("*")
     .eq("id", productId);
 
   if (productsError) throw productsError;
@@ -620,8 +620,8 @@ export async function getServerSideProps(context: { params: any }) {
   return {
     props: {
       product: product,
-      multimedia: product[0].productMultimedia,
-      reviews: product[0].reviews,
+      multimedia: product[0]?.productMultimedia,
+      reviews: product[0]?.reviews,
     },
   };
 }

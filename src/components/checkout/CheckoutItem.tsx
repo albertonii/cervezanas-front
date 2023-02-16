@@ -85,19 +85,19 @@ export default function CheckoutItem({
                 <span className="dark:text-gray-400 text-gray-300">
                   {t("aroma")}:{" "}
                 </span>{" "}
-                {t(`${product.beers[0].aroma}`)}
+                {t(`${product.beers[0]?.aroma}`)}
               </p>
               <p className="text-sm dark:text-white leading-none text-gray-800">
                 <span className="dark:text-gray-400 text-gray-300">
                   {t("family")}:{" "}
                 </span>{" "}
-                {t(`${product.beers[0].family}`)}
+                {t(`${product.beers[0]?.family}`)}
               </p>
               <p className="text-sm dark:text-white leading-none text-gray-800">
                 <span className="dark:text-gray-400 text-gray-300">
                   {t("fermentation")}:{" "}
                 </span>{" "}
-                {t(`${product.beers[0].fermentation}`)}
+                {t(`${product.beers[0]?.fermentation}`)}
               </p>
             </div>
           )}

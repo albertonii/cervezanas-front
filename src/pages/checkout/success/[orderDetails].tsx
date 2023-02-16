@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
@@ -25,6 +26,8 @@ export default function Success(props: Props) {
   const { t } = useTranslation();
   const { order: order_, products: products_ } = props;
 
+  const router = useRouter();
+
   const [order, setOrder] = useState<Order>(order_);
   const [products, setProducts] = useState<Product[]>(products_);
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo>(
@@ -46,6 +49,10 @@ export default function Success(props: Props) {
       setLoading(true);
     };
   }, [loggedIn, products]);
+
+  const handleOnClick = (productId: string) => {
+    router.push(`/products/review/${productId}`);
+  };
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -198,6 +205,7 @@ export default function Success(props: Props) {
                             primary
                             medium
                             class="font-medium text-beer-draft hover:text-beer-dark my-6 "
+                            onClick={() => handleOnClick(product.id)}
                           >
                             {t("make_review_product_button")}
                           </Button>
