@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Order } from "../../../lib/types";
@@ -19,6 +20,8 @@ interface ColumnsProps {
 export default function OrderList(props: Props) {
   const { t } = useTranslation();
 
+  const router = useRouter();
+
   const { orders } = props;
 
   const [query, setQuery] = React.useState("");
@@ -33,9 +36,7 @@ export default function OrderList(props: Props) {
   ];
 
   const handleClickView = (order: Order) => {
-    // handleEditShowModal(false);
-    // handleDeleteShowModal(true);
-    // handleProductModal(product);
+    router.push(`/checkout/success/${order.id}`);
   };
 
   const filteredItemsByStatus = useMemo(() => {
@@ -93,18 +94,7 @@ export default function OrderList(props: Props) {
                   key={order.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
-                  <th
-                    scope="row"
-                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    <Image
-                      width={128}
-                      height={128}
-                      className="w-8 h-8 rounded-full"
-                      src="/icons/view-240.png"
-                      alt="Product type"
-                    />
-                  </th>
+                  <td className="py-4 px-6">{order.order_number}</td>
 
                   <td className="py-4 px-6">{order.customer_name}</td>
 

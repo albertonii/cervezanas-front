@@ -68,7 +68,7 @@ export default function Button({
       ${
         primary
           ? " bg-beer-softBlonde hover:bg-beer-blonde"
-          : "hover:bg-beer-softBlonde"
+          : "hover:bg-beer-softBlonde shrink-0"
       }
       ${accent ? "bg-beer-foam" : ""}
       ${danger ? "bg-red-400 hover:bg-red-500 " : ""}

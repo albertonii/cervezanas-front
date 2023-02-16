@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
+import Button from "../../../components/common/Button";
 import Layout from "../../../components/Layout";
 import {
   Beer,
@@ -10,6 +11,7 @@ import {
   ShippingInfo,
   BillingInfo,
   Product,
+  OrderItem,
 } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
@@ -50,16 +52,26 @@ export default function Success(props: Props) {
       {!loading && (
         <div className="container mx-auto sm:py-4 lg:py-6">
           <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
-            <div className="flex sm:items-baseline sm:space-x-4">
-              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                Order #54879
-              </h1>
-              <a
-                href="#"
-                className="hidden font-medium hover:text-beer-blonde sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
-              >
-                View invoice<span aria-hidden="true"> &rarr;</span>
-              </a>
+            <div className="flex flex-col">
+              <div className="flex sm:items-baseline sm:space-x-4">
+                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                  Order #54879
+                </h1>
+                <a
+                  href="#"
+                  className="hidden font-medium hover:text-beer-blonde sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
+                >
+                  View invoice<span aria-hidden="true"> &rarr;</span>
+                </a>
+              </div>
+
+              {/* Order Status  */}
+              <div className="md:mt-2 col-span-12 md:col-span-4 right-0 pr-12 ">
+                <p className=" text-xl font-medium text-beer-dark">
+                  {t("order_status")}:{" "}
+                  <span className="text-beer-draft">{order.status} </span>
+                </p>
+              </div>
             </div>
 
             <p className="text-sm text-gray-600">
@@ -87,9 +99,10 @@ export default function Success(props: Props) {
                     key={product.id}
                     className="bg-white border-t border-b border-gray-200 shadow-sm sm:border sm:rounded-lg"
                   >
-                    <div className="py-6 px-4 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8">
-                      <div className="sm:flex lg:col-span-7">
-                        <div className="flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none sm:w-40 sm:h-40">
+                    <div className="relative py-6 px-4 sm:px-6 grid grid-cols-12 gap-x-8 p-8 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+                      {/* Product Multimedia  */}
+                      <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 ">
+                        <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
                           {product.product_multimedia[0].p_principal === null ||
                           product.product_multimedia[0].p_principal ===
                             undefined ? (
@@ -110,69 +123,86 @@ export default function Success(props: Props) {
                             />
                           )}
                         </div>
-
-                        <div className="mt-6 sm:mt-0 sm:ml-6">
-                          <h3 className="text-base font-medium text-gray-900">
-                            <a href="#">{product.name}</a>
-                          </h3>
-                          <p className="mt-2 text-sm font-medium text-gray-900">
-                            {t("price")} - {formatCurrency(product.price)}
-                          </p>
-                          <p className="mt-2 text-sm font-medium text-gray-900">
-                            {t("quantity")} -
-                          </p>
-                          <p className="mt-3 text-sm text-gray-500">
-                            {t("description")} - {product.description}
-                          </p>
-                        </div>
                       </div>
 
+                      {/* Product Information  */}
+                      <div className="mt-6 md:mt-6 col-span-12 md:col-span-4">
+                        <h3 className="text-base font-medium text-gray-900">
+                          <a href="#">{product.name}</a>
+                        </h3>
+                        <p className="mt-2 text-sm font-medium text-gray-900">
+                          {t("price")} - {formatCurrency(product.price)}
+                        </p>
+                        <p className="mt-2 text-sm font-medium text-gray-900">
+                          {t("quantity")} -
+                        </p>
+                        <p className="mt-3 text-sm text-gray-500">
+                          {t("description")} - {product.description}
+                        </p>
+                      </div>
+
+                      {/* Shipping Information  */}
                       {shippingInfo && (
-                        <div className="mt-6 lg:mt-0 lg:col-span-5">
-                          <dl className="grid grid-cols-2 gap-x-6 text-sm">
-                            <div>
-                              <dt className="font-medium text-gray-900">
-                                {t("shipping_address")}
-                              </dt>
-                              <dd className="mt-3 text-gray-500">
+                        <div className="mt-6 col-span-12 lg:col-span-5 md:col-span-4">
+                          <dt className="font-medium text-gray-900">
+                            {t("shipping_address")}
+                          </dt>
+                          <dd className="mt-3 text-gray-500">
+                            <span className="block">
+                              {shippingInfo.name} {shippingInfo.lastname}
+                            </span>
+                            <span className="block">
+                              {shippingInfo.address}, {shippingInfo.city},
+                              {shippingInfo.state}, {shippingInfo.zipcode},
+                              {shippingInfo.country}
+                            </span>
+
+                            {shippingInfo.address_extra && (
+                              <>
                                 <span className="block">
-                                  {shippingInfo.name} {shippingInfo.lastname}
+                                  {shippingInfo.address_extra}
                                 </span>
                                 <span className="block">
-                                  {shippingInfo.address}, {shippingInfo.city},
-                                  {shippingInfo.state}, {shippingInfo.zipcode},
-                                  {shippingInfo.country}
+                                  {shippingInfo.address_observation}
                                 </span>
-                                {shippingInfo.address_extra && (
-                                  <>
-                                    <span className="block">
-                                      {shippingInfo.address_extra}
-                                    </span>
-                                    <span className="block">
-                                      {shippingInfo.address_observation}
-                                    </span>
-                                  </>
-                                )}
-                              </dd>
-                            </div>
-                            {/* <div>
-                            <dt className="font-medium text-gray-900">
-                              Shipping updates
-                            </dt>
-                            <dd className="mt-3 text-gray-500 space-y-3">
-                              <p>f•••@example.com</p>
-                              <p>1•••••••••40</p>
-                              <button
-                                type="button"
-                                className="font-medium text-beer-draft hover:text-beer-dark"
-                              >
-                                Edit
-                              </button>
-                            </dd>
-                          </div> */}
-                          </dl>
+                              </>
+                            )}
+                          </dd>
                         </div>
                       )}
+
+                      {/* Review Product  */}
+                      <div className="mt-6 col-span-12">
+                        <span className="font-medium text-gray-900">
+                          {t("review_product")}
+                        </span>
+
+                        <div className="mt-3 text-beer-dark space-y-3">
+                          {product.order_item[0].is_reviewed && (
+                            <span>
+                              {t("product_already_reviewed_condition")}
+                            </span>
+                          )}
+
+                          {order.status !== "delivered" && (
+                            <span>{t("write_review_condition")}</span>
+                          )}
+
+                          <Button
+                            disabled={
+                              product.order_item[0].is_reviewed ||
+                              order.status !== "delivered"
+                                ? true
+                                : false
+                            }
+                            primary
+                            medium
+                            class="font-medium text-beer-draft hover:text-beer-dark my-6 "
+                          >
+                            {t("make_review_product_button")}
+                          </Button>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6 lg:p-8">
@@ -318,7 +348,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         id, 
         name, 
         price,
-        product_multimedia(*)
+        product_multimedia(*),
+        order_item(*)
       )
     `
     )

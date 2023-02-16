@@ -284,6 +284,12 @@ const translationsEn = {
   continue_with_google: "Continue with Google",
   shipping_info: "Shipping Information",
   billing_info: "Billing Information",
+  make_review_product_button: "Make a review",
+  review_product: "Product Review",
+  write_review_condition:
+    "You will be able to write a product review when the order status is confirmed.",
+  product_already_reviewed_condition: "You have already reviewed this product.",
+  order_status: "Order Status",
 };
 
 const translationsEs = {
@@ -582,6 +588,12 @@ const translationsEs = {
   continue_with_google: "Continuar con Google",
   shipping_info: "Información de envío",
   billing_info: "Información de facturación",
+  make_review_product_button: "Escribir una opinión",
+  review_product: "Opinar sobre el producto",
+  write_review_condition:
+    "Podrá escribir una crítica del producto cuando el estado del pedido esté confirmado.",
+  product_already_reviewed_condition: "Ya has opinado sobre este producto",
+  order_status: "Estado del pedido",
 };
 
 // the translations

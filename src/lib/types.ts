@@ -309,12 +309,14 @@ export interface Order {
   discount: number;
   discount_code: string;
   products: OrderItem[];
+  order_number: string;
 }
 
 export interface OrderItem {
   order_id: string;
   product_id: string;
   quantity: number;
+  is_reviewed: boolean;
   created_at: Date;
 }
 
@@ -449,6 +451,7 @@ export interface Product {
   price: number;
   beers: Beer[];
   product_variant: ProductVariant[];
+  order_item: OrderItem[];
 }
 
 export interface ProductVariant {
