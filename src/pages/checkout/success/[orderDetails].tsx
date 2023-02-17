@@ -310,7 +310,7 @@ export default function Success(props: Props) {
                 <div className="pb-4 flex items-center justify-between">
                   <dt className="text-gray-600">{t("discount")}</dt>
                   <dd className="font-medium text-gray-900">
-                    {t("discount_code" + " ")} {order.discount_code} {" - "}{" "}
+                    {t("discount_code")} {order.discount_code} {" - "}{" "}
                     {formatCurrency(order.discount)}
                   </dd>
                 </div>

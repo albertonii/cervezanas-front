@@ -125,12 +125,16 @@ const AddProduct = (props: Props) => {
       // Multimedia
 
       // URL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
-      // PHOTO PRINCIPAL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
+      // TODO: PHOTO PRINCIPAL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
+      // const p_principal_url = !_.isEmpty(p_principal?.name)
+      //   ? encodeURIComponent(
+      //       `/articles/[n_articulo]/[n_variante]/[n_aleatorio]-` +
+      //         p_principal.name
+      //     )
+      //   : null;
+
       const p_principal_url = !_.isEmpty(p_principal?.name)
-        ? encodeURIComponent(
-            `/articles/[n_articulo]/[n_variante]/[n_aleatorio]-` +
-              p_principal.name
-          )
+        ? encodeURIComponent(p_principal.name)
         : null;
 
       const p_back_url = !_.isEmpty(p_back?.name)
@@ -165,7 +169,7 @@ const AddProduct = (props: Props) => {
       if (p_principal_url) {
         const { error: pPrincipalError } = await supabase.storage
           .from("products")
-          .update(
+          .upload(
             `p_principal/${userId}/${p_principal_url}`,
             p_principal.name,
             {

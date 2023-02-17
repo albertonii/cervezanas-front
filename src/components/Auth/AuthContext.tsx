@@ -18,6 +18,7 @@ import {
 import { SignUpInterface } from "../../lib/interfaces";
 import { ROLE_ENUM } from "./SignUpForm";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export interface AuthSession {
   user: User | null;
@@ -58,6 +59,8 @@ export const AuthContextProvider = (props: Props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const { handleMessage } = useMessage();
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     const user = supabase.auth.user();
 
@@ -87,7 +90,7 @@ export const AuthContextProvider = (props: Props) => {
 
           handleMessage!({
             type: "success",
-            message: `Welcome, ${user?.email}`,
+            message: `${t("welcome")}, ${user?.email}`,
           });
         }
 
@@ -106,7 +109,7 @@ export const AuthContextProvider = (props: Props) => {
     return () => {
       authListener?.unsubscribe();
     };
-  }, [handleMessage, supabase.auth]);
+  }, [handleMessage, supabase.auth, t]);
 
   const signUp = async (payload: SignUpInterface) => {
     try {

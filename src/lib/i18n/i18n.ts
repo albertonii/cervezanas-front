@@ -290,6 +290,8 @@ const translationsEn = {
     "You will be able to write a product review when the order status is confirmed.",
   product_already_reviewed_condition: "You have already reviewed this product.",
   order_status: "Order Status",
+  welcome: "Welcome",
+  discount_code: "Discount Code",
 };
 
 const translationsEs = {
@@ -594,6 +596,8 @@ const translationsEs = {
     "Podrá escribir una crítica del producto cuando el estado del pedido esté confirmado.",
   product_already_reviewed_condition: "Ya has opinado sobre este producto",
   order_status: "Estado del pedido",
+  welcome: "Bienvenido",
+  discount_code: "Código de descuento",
 };
 
 // the translations

@@ -15,6 +15,7 @@ import Button from "../../components/common/Button";
 import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import DisplaySimilarProducts from "../../components/DisplaySimilarProducts";
+import DeleteButton from "../../components/common/DeleteButton";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -505,18 +506,9 @@ export default function ProductId(props: Props) {
                             +
                           </Button>
 
-                          <Button
-                            class="mx-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2"
-                            onClick={() => {
-                              handleRemoveFromCart(p.id);
-                            }}
-                            isActive={false}
-                            title={""}
-                            danger
-                            small
-                          >
-                            {t("remove")}
-                          </Button>
+                          <DeleteButton
+                            onClick={() => handleRemoveFromCart(p.id)}
+                          />
                         </div>
                       )}
 
@@ -620,7 +612,7 @@ export async function getServerSideProps(context: { params: any }) {
   return {
     props: {
       product: product,
-      multimedia: product[0]?.productMultimedia,
+      multimedia: product[0]?.product_multimedia,
       reviews: product[0]?.reviews,
     },
   };

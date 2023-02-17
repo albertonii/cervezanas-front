@@ -61,11 +61,10 @@ export async function getServerSideProps(context: { params: any }) {
   if (productsError) throw productsError;
 
   if (product == null) return { notFound: true };
-
   return {
     props: {
       product: product,
-      multimedia: product[0]?.productMultimedia,
+      multimedia: product[0]?.product_multimedia,
     },
   };
 }

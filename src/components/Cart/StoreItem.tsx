@@ -13,6 +13,10 @@ import {
 import { supabase } from "../../utils/supabaseClient";
 import { Product } from "../../lib/types";
 import Button from "../common/Button";
+import DeleteButton from "../common/DeleteButton";
+import IncreaseButton from "../common/IncreaseButton";
+import DecreaseButton from "../common/DecreaseButton";
+import AddCardButton from "../common/AddCartButton";
 
 type StoreItemProps = { product: Product; products: Product[] };
 
@@ -162,53 +166,23 @@ export default function StoreItem(props: StoreItemProps) {
           <div className="flex space-x-2 text-sm  items-center justify-between font-medium mt-2">
             {getItemQuantity(id) === 0 ? (
               <>
-                <IconButton
-                  onClick={() => handleIncreaseToCartItem()}
-                  classContainer="transition-all ease-in duration-300 border-2 border-bear-light inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-beer-softBlonde hover:text-beer-dark rounded-full hover:bg-beer-blonde "
-                  icon={faShoppingCart}
-                  size="small"
-                  isActive={false}
-                  primary
-                  classSpanChildren="pl-0 pr-1 py-1"
-                >
-                  {t("add")}
-                </IconButton>
+                <AddCardButton onClick={() => handleIncreaseToCartItem()} />
               </>
             ) : (
               <>
-                <Button
-                  box
-                  accent
-                  onClick={() => handleDecreaseFromCartItem()}
-                  class={"py-2"}
-                >
-                  -
-                </Button>
+                <DecreaseButton onClick={() => handleDecreaseFromCartItem()} />
 
                 <span className="px-2 text-3xl text-black">
                   {getItemQuantity(id)}
                 </span>
 
-                <Button
-                  box
-                  accent
-                  onClick={() => handleIncreaseToCartItem()}
-                  class={"py-2"}
-                >
-                  +
-                </Button>
+                <IncreaseButton onClick={() => handleIncreaseToCartItem()} />
 
-                <IconButton
-                  box
-                  danger
-                  accent
-                  classContainer="py-2"
-                  icon={faTrash}
-                  color={{ filled: "#fefefe", unfilled: "#fefefe" }}
+                <DeleteButton
                   onClick={() => {
                     handleRemoveFromCart();
                   }}
-                ></IconButton>
+                />
               </>
             )}
           </div>

@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
 import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
+import DecreaseButton from "../common/DecreaseButton";
+import DeleteButton from "../common/DeleteButton";
+import IncreaseButton from "../common/IncreaseButton";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
 type CartItemProps = {
@@ -107,22 +110,20 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
 
               <div className="flex">
                 <div className="flex items-center justify-center mr-2">
-                  <Button onClick={() => handleDecreaseCartQuantity(id)}>
-                    -
-                  </Button>
-                  <span className="text-lg text-white">{quantity}</span>
-                  <Button onClick={() => handleIncreaseCartQuantity(id)}>
-                    +
-                  </Button>
+                  <DecreaseButton
+                    onClick={() => handleDecreaseCartQuantity(id)}
+                  />
+
+                  <span className="text-xl text-beer-draft mx-2">
+                    {quantity}
+                  </span>
+
+                  <IncreaseButton
+                    onClick={() => handleIncreaseCartQuantity(id)}
+                  />
                 </div>
 
-                <button
-                  type="button"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                  onClick={() => handleRemoveFromCart(item.id)}
-                >
-                  {t("remove")}
-                </button>
+                <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
               </div>
             </div>
           </div>
