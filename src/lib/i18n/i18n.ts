@@ -292,6 +292,12 @@ const translationsEn = {
   order_status: "Order Status",
   welcome: "Welcome",
   discount_code: "Discount Code",
+  comment: "Comment",
+  rate_product: "Rate Product",
+  rate: "Rate",
+  successful_product_review_creation: "Successful product review creation",
+  successful_product_review_title: "Review published",
+  continue_reviewing: "Continue reviewing",
 };
 
 const translationsEs = {
@@ -598,6 +604,12 @@ const translationsEs = {
   order_status: "Estado del pedido",
   welcome: "Bienvenido",
   discount_code: "Código de descuento",
+  comment: "Comentario",
+  rate_product: "Valorar el producto",
+  rate: "Valorar",
+  successful_product_review_creation: "¡Gracias por tu opinión!",
+  successful_product_review_title: "Opinión publicada",
+  continue_reviewing: "Continuar valorando",
 };
 
 // the translations

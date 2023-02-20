@@ -42,6 +42,7 @@ export default function Rate({
       .map((_, i) => i + 1)
       .map((idx) => (
         <FontAwesomeIcon
+          size="lg"
           key={idx}
           className={`${
             editable

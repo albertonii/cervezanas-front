@@ -248,7 +248,7 @@ export interface Review {
   created_at: Date;
   updated_at: Date;
   owner_id: string;
-  beer_id: string;
+  product_id: string;
   comment: string;
   aroma: number;
   appearance: number;

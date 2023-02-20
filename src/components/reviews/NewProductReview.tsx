@@ -4,6 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Review } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
 import Button from "../common/Button";
+import { useMessage } from "../message";
+import Modal from "../modals/Modal";
+import SuccessfulReviewModal from "../modals/SuccessfulReviewModal";
 import Rate from "./Rate";
 
 type FormValues = {
@@ -17,20 +20,23 @@ type FormValues = {
 };
 
 interface Props {
-  beerId: string;
+  productId: string;
   ownerId: string;
-  handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
+  handleSetReviews?: React.Dispatch<React.SetStateAction<Review[]>>;
+  isReady?: boolean;
 }
 
 export default function NewProductReview({
-  beerId,
+  productId,
   ownerId,
   handleSetReviews,
+  isReady: isReady_,
 }: Props) {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(isReady_);
+  const [reviewModal, setReviewModal] = useState(false);
 
   const [aromaRate, setAromaRate] = useState<number>(0);
   const [appearanceRate, setAppearanceRate] = useState<number>(0);
@@ -39,10 +45,13 @@ export default function NewProductReview({
   const [bitternessRate, setBitternessRate] = useState<number>(0);
   const [overallRate, setOverallRate] = useState<number>(0);
 
+  const { handleMessage } = useMessage();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
       aroma: 0,
@@ -70,7 +79,7 @@ export default function NewProductReview({
           overall: overallRate,
           comment,
           owner_id: ownerId,
-          beer_id: beerId,
+          product_id: productId,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         });
@@ -79,30 +88,37 @@ export default function NewProductReview({
         throw reviewError;
       }
 
-      handleSetReviews((prev) => [
-        ...prev,
-        {
-          id: review[0].id,
-          aroma: aromaRate,
-          appearance: appearanceRate,
-          taste: tasteRate,
-          mouthfeel: mouthfeelRate,
-          bitterness: bitternessRate,
-          overall: overallRate,
-          comment,
-          owner_id: ownerId,
-          beer_id: beerId,
-          created_at: review[0].created_at,
-          updated_at: review[0].updated_at,
-        },
-      ]);
+      if (handleSetReviews)
+        handleSetReviews((prev) => [
+          ...prev,
+          {
+            id: review[0].id,
+            aroma: aromaRate,
+            appearance: appearanceRate,
+            taste: tasteRate,
+            mouthfeel: mouthfeelRate,
+            bitterness: bitternessRate,
+            overall: overallRate,
+            comment,
+            owner_id: ownerId,
+            product_id: productId,
+            created_at: review[0].created_at,
+            updated_at: review[0].updated_at,
+          },
+        ]);
 
-      alert("Review created!");
+      handleMessage!({
+        message: t("successful_product_review_creation"),
+        type: "success",
+      });
+
+      reset();
+
+      setReviewModal(true);
     } catch (error) {
       console.log("error", error);
     } finally {
       setLoading(false);
-      setIsReady(false);
     }
   };
 
@@ -112,13 +128,12 @@ export default function NewProductReview({
     <>
       {isReady ? (
         <section>
-          <div>Escribir review de cerveza:</div>
-
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex w-full flex-row space-x-3">
-                <div className="w-full">
-                  <label htmlFor="aroma">Aroma</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {/* Stars  */}
+                <div className="w-full text-xl ">
+                  <label htmlFor="aroma">{t("aroma")}</label>
 
                   <Rate
                     rating={aromaRate}
@@ -129,8 +144,8 @@ export default function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full">
-                  <label htmlFor="appearance">Appearance</label>
+                <div className="w-full text-xl mb-4">
+                  <label htmlFor="appearance">{t("appearance")}</label>
                   <Rate
                     rating={appearanceRate}
                     onRating={(rate) => setAppearanceRate(rate)}
@@ -140,8 +155,8 @@ export default function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full">
-                  <label htmlFor="taste">Taste</label>
+                <div className="w-full text-xl mb-4">
+                  <label htmlFor="taste">{t("taste")}</label>
                   <Rate
                     rating={tasteRate}
                     onRating={(rate) => setTasteRate(rate)}
@@ -150,11 +165,9 @@ export default function NewProductReview({
                     editable={true}
                   />
                 </div>
-              </div>
 
-              <div className="flex w-full flex-row space-x-3">
-                <div className="w-full">
-                  <label htmlFor="mouthfeel">Mouthfeel</label>
+                <div className="w-full text-xl mb-4">
+                  <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
                   <Rate
                     rating={mouthfeelRate}
                     onRating={(rate) => setMouthfeelRate(rate)}
@@ -164,8 +177,8 @@ export default function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full">
-                  <label htmlFor="bitterness">Bitterness</label>
+                <div className="w-full text-xl mb-4">
+                  <label htmlFor="bitterness">{t("bitterness")}</label>
                   <Rate
                     rating={bitternessRate}
                     onRating={(rate) => setBitternessRate(rate)}
@@ -175,8 +188,8 @@ export default function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full">
-                  <label htmlFor="overall">Overall</label>
+                <div className="w-full text-xl mb-4">
+                  <label htmlFor="overall">{t("overall")}</label>
                   <Rate
                     rating={overallRate}
                     onRating={(rate) => setOverallRate(rate)}
@@ -187,28 +200,32 @@ export default function NewProductReview({
                 </div>
               </div>
 
-              <div className="flex w-full flex-row space-x-12">
+              {/* Comment  */}
+              <div className="flex w-full flex-row space-x-12 mt-6">
                 <div className="w-full mb-6">
                   <label
                     htmlFor="comment"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 font-medium  text-xl dark:text-white"
                   >
-                    Comment
+                    {t("comment")}
                   </label>
-                  <input
+
+                  <textarea
                     id="comment"
-                    className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    type="text"
+                    className="inline-block align-top w-full h-24 p-4 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-beer-blonde focus:border-beer-blonde dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-beer-blonde dark:focus:border-beer-blonde"
                     {...register("comment", {
                       required: "Required",
                     })}
+                    style={{ resize: "none" }}
                   />
                   {errors.comment && <p>{errors.comment.message}</p>}
                 </div>
               </div>
 
+              {/* Rate  */}
               <div className="flex w-full flex-row space-x-2">
                 <Button
+                  btnType="submit"
                   disabled={loading}
                   isActive={false}
                   class={""}
@@ -216,7 +233,7 @@ export default function NewProductReview({
                   medium
                   primary
                 >
-                  {loading ? t("loading") : t("submit")}
+                  {loading ? t("loading") : t("rate")}
                 </Button>
 
                 <Button
@@ -247,6 +264,10 @@ export default function NewProductReview({
             </Button>
           </div>
         </div>
+      )}
+
+      {reviewModal && (
+        <SuccessfulReviewModal isVisible={true}></SuccessfulReviewModal>
       )}
     </>
   );

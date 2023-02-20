@@ -16,6 +16,7 @@ import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import DisplaySimilarProducts from "../../components/DisplaySimilarProducts";
 import DeleteButton from "../../components/common/DeleteButton";
+import { useMessage } from "../../components/message";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -35,7 +36,7 @@ export default function ProductId(props: Props) {
   const { product, multimedia, reviews } = props;
   const p = product[0];
   const m: ProductMultimedia = multimedia[0];
-
+  const { handleMessage } = useMessage();
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
@@ -540,15 +541,6 @@ export default function ProductId(props: Props) {
                 <ProductOverallReview
                   reviews={productReviews}
                   emptyReviews={emptyReviews}
-                />
-              </div>
-
-              {/* New Product Review */}
-              <div className="col-span-12 flex flex-col justify-center item-center mx-6">
-                <NewProductReview
-                  beerId={p.id}
-                  ownerId={p.owner_id}
-                  handleSetReviews={handleSetReviews}
                 />
               </div>
 

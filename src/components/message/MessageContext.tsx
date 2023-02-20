@@ -3,6 +3,7 @@ import { MessageProps } from "./message.types";
 
 export type MessageContextProps = {
   messages: MessageProps[];
+  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
   handleMessage: (m: MessageProps) => void;
 };
 
@@ -18,11 +19,11 @@ export const MessageProvider = ({ children }: Props) => {
     setMessages((prevMessages) => prevMessages.concat([message]));
     setTimeout(() => {
       setMessages((prevMessages) => prevMessages.slice(1));
-    }, 5000);
+    }, 15000);
   };
 
   return (
-    <MessageContext.Provider value={{ messages, handleMessage }}>
+    <MessageContext.Provider value={{ messages, setMessages, handleMessage }}>
       {children}
     </MessageContext.Provider>
   );

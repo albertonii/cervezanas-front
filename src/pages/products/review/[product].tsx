@@ -1,7 +1,11 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Layout from "../../../components/Layout";
+import { useMessage } from "../../../components/message";
+import NewProductReview from "../../../components/reviews/NewProductReview";
 import { Product, ProductMultimedia } from "../../../lib/types";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
@@ -10,12 +14,14 @@ interface Props {
 }
 
 export default function ReviewProduct(props: Props) {
+  const { t } = useTranslation();
   const { product, multimedia } = props;
+  const { handleMessage } = useMessage();
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
-      <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-2xl font-bold">Review Product</h1>
+      <div className="container mx-auto sm:py-2 lg:py-3 h-full">
+        <h1 className="text-2xl font-bold">{t("review_product")}</h1>
 
         <p className="text-gray-500">
           Bienvenido/a, te invitamos a valorar el siguiente producto y ayudar al
@@ -24,19 +30,31 @@ export default function ReviewProduct(props: Props) {
         </p>
 
         {/* Product Image Title and Price to be reviewed */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col mt-6">
           <Image
             src={multimedia[0].p_principal}
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             alt={"Product to be reviewe"}
           />
+          <div className="ml-6">
+            <h2 className="text-xl font-bold">{product[0].name}</h2>
 
-          <h2 className="text-xl font-bold">{product[0].name}</h2>
-
-          <p className="text-gray-500">{product[0].price}</p>
+            <p className="text-gray-500">{formatCurrency(product[0].price)}</p>
+            <p className="text-gray-500">{product[0].description}</p>
+          </div>
 
           {/* Review Form */}
+          <div className="flex flex-col my-12">
+            {/* New Product Review */}
+            <div className="col-span-12 flex flex-col justify-center item-center mx-6">
+              <NewProductReview
+                productId={product[0].id}
+                ownerId={product[0].owner_id}
+                isReady={true}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
@@ -51,16 +69,25 @@ export async function getServerSideProps(context: { params: any }) {
     .from("products")
     .select(
       `*,
-      product_multimedia (
+      beers (
         *
-      )`
+      ),
+      product_multimedia (
+        p_principal
+      )
+      `
     )
-    .select("*")
     .eq("id", productId);
 
   if (productsError) throw productsError;
-
+  console.log(product);
   if (product == null) return { notFound: true };
+
+  product[0].product_multimedia[0].p_principal =
+    product[0].product_multimedia[0]?.p_principal == undefined || null
+      ? `/marketplace_product_default.png`
+      : product[0].product_multimedia[0].p_principal;
+
   return {
     props: {
       product: product,
