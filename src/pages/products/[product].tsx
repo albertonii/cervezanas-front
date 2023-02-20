@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import Layout from "../../components/Layout";
-import NewProductReview from "../../components/reviews/NewProductReview";
 import ProductGallery from "../../components/ProductGallery";
 import ProductOverallReview from "../../components/reviews/ProductOverallReview";
 import ProductReviews from "../../components/reviews/ProductReviews";
@@ -16,7 +15,6 @@ import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import DisplaySimilarProducts from "../../components/DisplaySimilarProducts";
 import DeleteButton from "../../components/common/DeleteButton";
-import { useMessage } from "../../components/message";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -36,7 +34,6 @@ export default function ProductId(props: Props) {
   const { product, multimedia, reviews } = props;
   const p = product[0];
   const m: ProductMultimedia = multimedia[0];
-  const { handleMessage } = useMessage();
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
@@ -44,6 +41,13 @@ export default function ProductId(props: Props) {
   const [isLike, setIsLike] = useState<boolean>(
     product[0].likes?.length > 0 ? true : false
   );
+  const [productStars, _] = useState<number>(() => {
+    let sum = 0;
+    reviews.forEach((r) => {
+      sum += r.overall;
+    });
+    return sum / reviews.length;
+  });
 
   const {
     getItemQuantity,
@@ -177,7 +181,7 @@ export default function ProductId(props: Props) {
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
           <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
             <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-              <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4  md:h-5/6 mx-6">
+              <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
                 <ProductGallery
                   gallery={gallery}
                   isLike={isLike}
@@ -197,7 +201,7 @@ export default function ProductId(props: Props) {
                     <div className="flex flex-col justify-end items-end">
                       <div className="flex items-center">
                         <Rate
-                          rating={3.9}
+                          rating={productStars}
                           onRating={() => {}}
                           count={5}
                           color={starColor}
@@ -205,10 +209,10 @@ export default function ProductId(props: Props) {
                         />
                       </div>
 
-                      <p className="sr-only">3.9 out of 5 stars</p>
+                      <p className="sr-only">{productStars} out of 5 stars</p>
                       <a
                         href="#"
-                        className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                        className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark"
                       >
                         {productReviews.length} {t("reviews")}
                       </a>
@@ -576,7 +580,11 @@ export async function getServerSideProps(context: { params: any }) {
         p_principal
       ),
       reviews (
-        *
+        *,
+        users (
+          created_at,
+          username
+        )
       )`
     )
     .eq("id", productId);

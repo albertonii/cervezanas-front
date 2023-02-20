@@ -6,6 +6,8 @@ import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
 import { Review } from "../../lib/types";
+import DeleteButton from "../common/DeleteButton";
+import { formatDateString } from "../../utils/formatDate";
 
 interface Props {
   review: Review;
@@ -42,9 +44,10 @@ export default function IndividualReview(props: Props) {
     setReadMore(!readMore);
   };
 
+  console.log(review);
   return (
     <article>
-      <OwnerInfo ownerId={review.owner_id} />
+      <OwnerInfo user={review.users} />
 
       <div className="flex items-center mb-1">
         <div>
@@ -56,28 +59,21 @@ export default function IndividualReview(props: Props) {
             editable={false}
           />
 
-          <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
-            Thinking to buy another one!
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+            Compraría otra / No compraría otra
           </h3>
         </div>
 
         {user?.id === review.owner_id && (
           <div className="flex items-center ml-auto space-x-2">
-            <Button
-              type="primary"
-              danger
-              onClick={() => handleDeleteReview(review.id)}
-            >
-              {t("delete")}
-            </Button>
+            <DeleteButton onClick={() => handleDeleteReview(review.id)} />
           </div>
         )}
       </div>
 
       <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
         <p>
-          Reviewed in the United Kingdom on{" "}
-          <time dateTime="2017-03-03 19:00">March 3, 2017</time>
+          {t("reviewed_on")} {formatDateString(review.created_at)}
         </p>
       </footer>
 

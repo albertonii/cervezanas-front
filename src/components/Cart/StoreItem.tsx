@@ -17,6 +17,7 @@ import DeleteButton from "../common/DeleteButton";
 import IncreaseButton from "../common/IncreaseButton";
 import DecreaseButton from "../common/DecreaseButton";
 import AddCardButton from "../common/AddCartButton";
+import { useRouter } from "next/router";
 
 type StoreItemProps = { product: Product; products: Product[] };
 
@@ -24,6 +25,7 @@ export default function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
   const { product, products } = props;
   const { id } = product;
+  const router = useRouter();
 
   const [overAll, _] = useState<string>(
     product.reviews.length > 0
@@ -123,7 +125,10 @@ export default function StoreItem(props: StoreItemProps) {
           height={128}
           src={product.product_multimedia[0]?.p_principal}
           alt="Principal Product Image"
-          className="w-full object-fill rounded-2xl"
+          className="w-full object-fill rounded-2xl hover:cursor-pointer"
+          onClick={() => {
+            router.push(`/products/${product.id}`);
+          }}
         />
 
         <div className="flex flex-col justify-between ">

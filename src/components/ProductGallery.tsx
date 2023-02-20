@@ -32,87 +32,82 @@ export default function ProductGallery({
     <section className="bg-blueGray-100 rounded-b-10xl overflow-hidden mt-4 mb-6">
       <div className="container px-4 mx-auto">
         <div className="flex flex-wrap -mx-4 justify-center">
-          <div className="w-full lg:w-4/5 px-4 lg:mb-0">
-            <div className="flex -mx-4 flex-col flex-wrap items-center justify-between lg:justify-start lg:items-start xl:items-center">
-              <div className="w-full sm:w-11/12 px-4 relative">
-                {/* Add to fav button  */}
-                <div className="absolute top-0 right-0 ">
-                  <IconButton
-                    icon={faHeart}
-                    onClick={() => handleSetIsLike(!isLike)}
-                    isActive={isLike}
-                    color={heartColor}
-                    classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
-                    }
-                    classIcon={""}
-                    title="Add to favorites"
-                  ></IconButton>
-                </div>
+          <div className="w-full lg:w-4/5 px-4 lg:mb-0 relative">
+            {/* Add to fav button  */}
+            <div className="absolute top-0 right-0 index-50">
+              <IconButton
+                icon={faHeart}
+                onClick={() => handleSetIsLike(!isLike)}
+                isActive={isLike}
+                color={heartColor}
+                classContainer={
+                  "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                }
+                classIcon={""}
+                title="Add to favorites"
+              ></IconButton>
+            </div>
 
-                <div className="w-[36vw] h-[22vh] ">
-                  <Image className="" fill src={principal} alt="" />
-                </div>
-              </div>
-
-              <div className="w-full sm:w-full min-w-max px-4 text-center flex sm:flex-row items-center justify-around">
-                {/* Arrow Up */}
-                {gallery.length > 1 && (
-                  <FontAwesomeIcon
-                    className={`cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300`}
-                    icon={faAngleLeft}
-                    style={{ color: "#000", width: "20px" }}
-                    onClick={() => {
-                      if (galleryIndex > 0 && galleryIndex < gallery.length)
-                        setGalleryIndex(galleryIndex - 1);
-                    }}
-                  />
-                )}
-
-                <div className="pt-6">
-                  {gallery.map((photo, index) => {
-                    return (
-                      <a
-                        key={index}
-                        className={`h-30 block mb-4 mr-2 sm:mr-0 ${
-                          galleryIndex === index
-                            ? "border-2 border-beer-foam rounded"
-                            : ""
-                        }`}
-                        href="#"
-                      >
-                        <Image
-                          className="m-1"
-                          width={50}
-                          height={50}
-                          src={photo}
-                          alt=""
-                          onClick={() => setGalleryIndex(index)}
-                        />
-                      </a>
-                    );
-                  })}
-                </div>
-
-                {/* Arrow Down */}
-                {gallery.length > 1 && (
-                  <FontAwesomeIcon
-                    className={`cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300`}
-                    icon={faAngleRight}
-                    style={{ color: "#000", width: "20px" }}
-                    onClick={() => {
-                      if (
-                        galleryIndex >= 0 &&
-                        galleryIndex < gallery.length - 1
-                      )
-                        setGalleryIndex(galleryIndex + 1);
-                    }}
-                  />
-                )}
+            <div className="w-full sm:w-11/12 px-4 ">
+              <div className="h-[22vh]">
+                <Image src={principal} fill alt="" />
               </div>
             </div>
           </div>
 
+          <div className="w-full px-4 text-center flex sm:flex-row items-center justify-around">
+            {/* Arrow left */}
+            {gallery.length > 1 && (
+              <FontAwesomeIcon
+                className={`cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300`}
+                icon={faAngleLeft}
+                style={{ color: "#000", width: "20px" }}
+                onClick={() => {
+                  if (galleryIndex > 0 && galleryIndex < gallery.length)
+                    setGalleryIndex(galleryIndex - 1);
+                }}
+              />
+            )}
+
+            {/* Snapshot Gallery  */}
+            <div className="pt-6 flex flex-row space-x-1">
+              {gallery.map((photo, index) => {
+                return (
+                  <a
+                    key={index}
+                    className={`h-30 block mb-4 mr-2 sm:mr-0 ${
+                      galleryIndex === index
+                        ? "border-2 border-beer-foam rounded"
+                        : ""
+                    }`}
+                    href="#"
+                  >
+                    <Image
+                      className="m-1"
+                      width={50}
+                      height={50}
+                      src={photo}
+                      alt=""
+                      onClick={() => setGalleryIndex(index)}
+                    />
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Arrow Right */}
+            {gallery.length > 1 && (
+              <FontAwesomeIcon
+                className={`cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300`}
+                icon={faAngleRight}
+                style={{ color: "#000", width: "20px" }}
+                onClick={() => {
+                  if (galleryIndex >= 0 && galleryIndex < gallery.length - 1)
+                    setGalleryIndex(galleryIndex + 1);
+                }}
+              />
+            )}
+          </div>
           {/*
           <div className="w-full lg:w-1/2 px-4">
             <div className="max-w-md mb-6">

@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export default function SimilarProduct() {
   return (
-    <div className="group relative">
-      <div className="min-h-20 aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-60">
+    <div className="group relative w-[20vw] h-[14vh] md:h-[18vh] lg:h-[30vh]">
+      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-60">
         <Image
           fill
           src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
           alt="Front of men&#039;s Basic Tee in black."
-          className=" object-cover object-center rounded-sm"
+          className=" object-cover object-center rounded-sm "
         />
       </div>
 

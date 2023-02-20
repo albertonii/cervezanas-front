@@ -25,6 +25,7 @@ specifiers:
   axios: ^1.2.0
   classnames: ^2.3.2
   cross-env: ^7.0.3
+  date-fns: ^2.29.3
   eslint: 8.21.0
   eslint-config-next: 12.2.5
   eslint-config-prettier: ^8.5.0
@@ -96,6 +97,7 @@ devDependencies:
   '@types/react-dom': 18.0.6
   autoprefixer: 10.4.13_postcss@8.4.19
   cross-env: 7.0.3
+  date-fns: 2.29.3
   eslint: 8.21.0
   eslint-config-next: 12.2.5_qugx7qdu5zevzvxaiqyxfiwquq
   eslint-config-prettier: 8.5.0_eslint@8.21.0
@@ -1576,6 +1578,11 @@ packages:
   /data-uri-to-buffer/4.0.0:
     resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
     engines: {node: '>= 12'}
+    dev: true
+
+  /date-fns/2.29.3:
+    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+    engines: {node: '>=0.11'}
     dev: true
 
   /debug/2.6.9:

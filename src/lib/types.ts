@@ -245,8 +245,8 @@ export interface Format {
 
 export interface Review {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   product_id: string;
   comment: string;
@@ -256,6 +256,7 @@ export interface Review {
   bitterness: number;
   mouthfeel: number;
   overall: number;
+  users: User;
 }
 
 export interface Like {

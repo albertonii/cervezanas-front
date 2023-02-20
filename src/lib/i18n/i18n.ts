@@ -298,6 +298,8 @@ const translationsEn = {
   successful_product_review_creation: "Successful product review creation",
   successful_product_review_title: "Review published",
   continue_reviewing: "Continue reviewing",
+  joined_on: "Joined on",
+  reviewed_on: "Reviewed on",
 };
 
 const translationsEs = {
@@ -610,6 +612,8 @@ const translationsEs = {
   successful_product_review_creation: "¡Gracias por tu opinión!",
   successful_product_review_title: "Opinión publicada",
   continue_reviewing: "Continuar valorando",
+  joined_on: "Se unió el",
+  reviewed_on: "Opinó el",
 };
 
 // the translations

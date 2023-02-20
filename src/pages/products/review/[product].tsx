@@ -80,7 +80,7 @@ export async function getServerSideProps(context: { params: any }) {
     .eq("id", productId);
 
   if (productsError) throw productsError;
-  console.log(product);
+
   if (product == null) return { notFound: true };
 
   product[0].product_multimedia[0].p_principal =
