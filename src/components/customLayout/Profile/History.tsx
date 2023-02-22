@@ -7,7 +7,7 @@ interface Props {
   user: User | null;
 }
 
-export const History = (props: Props) => {
+export function History(props: Props) {
   const { user } = props;
   const { t } = useTranslation();
 
@@ -43,4 +43,4 @@ export const History = (props: Props) => {
       )}
     </>
   );
-};
+}

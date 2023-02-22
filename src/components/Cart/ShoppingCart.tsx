@@ -11,7 +11,7 @@ type ShoppingCartProps = {
   isOpen: boolean;
 };
 
-export default function ShoppingCart({ isOpen }: ShoppingCartProps) {
+export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { t } = useTranslation();
   const { items, closeCart, marketplaceItems } = useShoppingCart();
 

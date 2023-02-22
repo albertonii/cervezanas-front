@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
 
-export const BasicDataForm = (props: any) => {
+export function BasicDataForm(props: any) {
   const { t } = useTranslation();
 
   const {
@@ -199,4 +199,4 @@ export const BasicDataForm = (props: any) => {
       )}
     </div>
   );
-};
+}

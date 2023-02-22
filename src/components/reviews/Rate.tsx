@@ -16,13 +16,7 @@ interface Props {
   editable: boolean;
 }
 
-export default function Rate({
-  count,
-  rating,
-  color,
-  onRating,
-  editable,
-}: Props) {
+export function Rate({ count, rating, color, onRating, editable }: Props) {
   const [hoverRating, setHoverRating] = useState(0);
   const [effect, setEffect] = useState(false);
 

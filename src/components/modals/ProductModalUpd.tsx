@@ -53,7 +53,7 @@ type FormValues = {
   owner_id: string;
 };
 
-const ProductModalUpd = (props: Props) => {
+export function ProductModalUpd(props: Props) {
   const { t } = useTranslation();
   const { isVisible, product, handleEditShowModal } = props;
 
@@ -64,17 +64,19 @@ const ProductModalUpd = (props: Props) => {
     type,
     owner_id,
     campaign_id,
-    beers: [{
-      fermentation,
-      color,
-      intensity,
-      aroma,
-      family,
-      origin,
-      era,
-      format,
-      is_gluten,
-    }],
+    beers: [
+      {
+        fermentation,
+        color,
+        intensity,
+        aroma,
+        family,
+        origin,
+        era,
+        format,
+        is_gluten,
+      },
+    ],
   } = product;
 
   const [showModal, setShowModal] = React.useState(isVisible);
@@ -532,6 +534,4 @@ const ProductModalUpd = (props: Props) => {
       ) : null}
     </>
   );
-};
-
-export default ProductModalUpd;
+}

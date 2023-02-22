@@ -15,7 +15,7 @@ interface ColumnsProps {
   header: string;
 }
 
-export default function ProductList(props: Props) {
+export function ProductList(props: Props) {
   const { t } = useTranslation();
 
   const {

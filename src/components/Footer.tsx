@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-const Footer = ({ children }: { children: React.ReactNode }) => {
+export function Footer({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
 
   return (
@@ -208,6 +208,4 @@ const Footer = ({ children }: { children: React.ReactNode }) => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

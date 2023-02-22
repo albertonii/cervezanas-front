@@ -1,22 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BasicDataForm } from "./BasicDataForm";
-import SecretDataForm from "./SecretDataForm";
-import LocationForm from "./LocationForm";
-import CustomizeProfileForm from "./CustomizeProfileForm";
-import { supabase } from "../../../utils/supabaseClient";
-import { User } from "@supabase/supabase-js";
+import { SecretDataForm, LocationForm, CustomizeProfileForm } from "..";
 
 interface Props {
   // user: User | null;
   user: any;
 }
 
-export const Account = ({ user }: Props) => {
+export function Account({ user }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-
-  const [userData, setUserData] = useState<any>();
 
   // useEffect(() => {
   //   const getUserData = async () => {
@@ -65,4 +58,4 @@ export const Account = ({ user }: Props) => {
       </div>
     </>
   );
-};
+}

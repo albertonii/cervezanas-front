@@ -2,10 +2,9 @@ import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { PortalModal } from ".";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import Button from "../common/Button";
-import IconButton from "../common/IconButton";
-import PortalModal from "./PortalModal";
+import { Button, IconButton } from "../common";
 
 interface Props {
   isVisible: boolean;
@@ -21,7 +20,7 @@ interface Props {
   btnSize?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
 }
 
-const Modal = (props: Props) => {
+export function Modal(props: Props) {
   const {
     isVisible,
     btnTitle,
@@ -164,6 +163,4 @@ const Modal = (props: Props) => {
       )}
     </>
   );
-};
-
-export default Modal;
+}

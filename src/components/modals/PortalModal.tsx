@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   wrapperId: string;
 }
 
-const PortalModal = ({ children, wrapperId }: Props) => {
+export function PortalModal({ children, wrapperId }: Props) {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
@@ -41,6 +41,4 @@ const PortalModal = ({ children, wrapperId }: Props) => {
   if (!portalElement) return null;
 
   return createPortal(children, portalElement);
-};
-
-export default PortalModal;
+}

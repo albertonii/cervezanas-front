@@ -6,7 +6,7 @@ import React, { useMemo } from "react";
 const _defaultGetDefaultTextGenerator = (path: string) => path;
 
 // https://dev.to/dan_starner/building-dynamic-breadcrumbs-in-nextjs-17oa
-export default function Breadcrumb({
+export function Breadcrumb({
   getDefaultTextGenerator = _defaultGetDefaultTextGenerator,
 }) {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function Breadcrumb({
   );
 
   return (
-    <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full my-6">
+    <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition  my-6">
       <div className="flex" aria-label="Breadcrumb">
         {breadcrumbs.map((crumb, idx) => {
           return (

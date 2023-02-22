@@ -9,7 +9,6 @@ import {
   faShoppingCart,
   faCircleExclamation,
   faInfoCircle,
-  faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "../../components/Layout";
@@ -195,8 +194,6 @@ export default function Checkout(props: Props) {
       ...shippingAddresses,
       address,
     ]);
-
-    console.log(shippingAddresses);
   };
 
   const handleBillingAddresses = (address: BillingAddress) => {
@@ -1029,7 +1026,6 @@ export default function Checkout(props: Props) {
 //     .from("users")
 //     .select(`*, shipping_info(*), billing_info(*)`)
 //     .eq("id", user?.id);
-//   console.log(userData);
 //   if (usersError) throw usersError;
 //   if (!userData) return { props: {} };
 

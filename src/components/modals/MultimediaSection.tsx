@@ -6,7 +6,7 @@ export interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
 }
 
-export const MultimediaSection = (props: Props) => {
+export function MultimediaSection(props: Props) {
   const { form } = props;
 
   return (
@@ -35,4 +35,4 @@ export const MultimediaSection = (props: Props) => {
       </div>
     </section>
   );
-};
+}

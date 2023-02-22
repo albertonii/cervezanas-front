@@ -24,7 +24,7 @@ interface Props {
   handleBillingAddresses: (s: BillingAddress) => void;
 }
 
-export default function NewBillingAddress({ handleBillingAddresses }: Props) {
+export function NewBillingAddress({ handleBillingAddresses }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();

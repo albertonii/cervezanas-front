@@ -1,4 +1,3 @@
-import { Button } from "@supabase/ui";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -6,9 +5,7 @@ import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
 import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
-import DecreaseButton from "../common/DecreaseButton";
-import DeleteButton from "../common/DeleteButton";
-import IncreaseButton from "../common/IncreaseButton";
+import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
 type CartItemProps = {

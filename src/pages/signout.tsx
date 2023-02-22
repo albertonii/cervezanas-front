@@ -1,16 +1,16 @@
-import { type NextPage } from "next";
 import { useEffect } from "react";
-import { type UserProps } from "../lib/types";
+import { Layout } from "../components";
 import { useAuth } from "../components/Auth/useAuth";
 
-const SignOut: NextPage<UserProps> = () => {
+export default function SignOut() {
   const { signOut, setUser } = useAuth();
 
   useEffect(() => {
     signOut();
   }, [setUser, signOut]);
 
-  return <div>The user should have signed out.</div>;
-};
-
-export default SignOut;
+  return;
+  <Layout useBackdrop={true} usePadding={false}>
+    <div>The user should have signed out.</div>
+  </Layout>;
+}

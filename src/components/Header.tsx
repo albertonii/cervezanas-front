@@ -7,12 +7,11 @@ import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
 import { useAuth } from "./Auth/useAuth";
-import DropdownButton from "./common/DropdownButton";
-import Button from "./common/Button";
+import { Button, DropdownButton } from "./common";
 
 interface Props {}
 
-export default function Header({}: Props) {
+export function Header({}: Props) {
   const { t } = useTranslation();
 
   const { loggedIn, signOut } = useAuth();

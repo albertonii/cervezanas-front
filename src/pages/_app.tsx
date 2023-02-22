@@ -1,16 +1,17 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import { createClient, Session, SupabaseClient } from "@supabase/supabase-js";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import SEO from "../../next-seo.config";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
-import { ShoppingCartProvider } from "../components/Context/ShoppingCartContext";
-import AppContextProvider from "../components/Context/AppContext";
+import {
+  AppContextProvider,
+  ShoppingCartProvider,
+} from "../components/Context/index";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import axios from "axios";
 import { useSession } from "../hooks/useSession";

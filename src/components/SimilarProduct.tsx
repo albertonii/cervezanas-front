@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function SimilarProduct() {
+export function SimilarProduct() {
   return (
     <div className="group relative w-[20vw] h-[14vh] md:h-[18vh] lg:h-[30vh]">
       <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-60">

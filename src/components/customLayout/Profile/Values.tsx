@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Values() {
+export function Values() {
   return <div>Values</div>;
 }

@@ -8,7 +8,7 @@ interface Props {
   emptyReviews: boolean;
 }
 
-export default function ProductOverallReview({ reviews, emptyReviews }: Props) {
+export function ProductOverallReview({ reviews, emptyReviews }: Props) {
   const { t } = useTranslation();
 
   const [loading, setLoading] = React.useState(false);

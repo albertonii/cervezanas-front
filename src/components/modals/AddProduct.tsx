@@ -15,19 +15,17 @@ import {
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardSection";
 import { MultimediaSection } from "./MultimediaSection";
-import ProductInfoSection from "./InfoSection";
-import ProductStepper from "./ProductStepper";
 import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
-import Modal from "./Modal";
 import _ from "lodash";
+import { Modal, ProductInfoSection, ProductStepper } from ".";
 
 interface Props {
   products: Product[];
   handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const AddProduct = (props: Props) => {
+export function AddProduct(props: Props) {
   const { t } = useTranslation();
   const { products, handleSetProducts } = props;
 
@@ -337,6 +335,4 @@ const AddProduct = (props: Props) => {
       </Modal>
     </form>
   );
-};
-
-export default AddProduct;
+}

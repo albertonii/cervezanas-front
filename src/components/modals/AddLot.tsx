@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Modal } from ".";
 import useFetchProducts from "../../hooks/useFetchProducts";
 import { supabase } from "../../utils/supabaseClient";
-import Modal from "./Modal";
 
 type FormValues = {
   lot_number: string;
@@ -13,7 +13,7 @@ type FormValues = {
 
 interface Props {}
 
-const LotModalAdd = ({}: Props) => {
+export function AddLot({}: Props) {
   const { t } = useTranslation();
 
   const { data: productsLot, isSuccess } = useFetchProducts();
@@ -178,6 +178,4 @@ const LotModalAdd = ({}: Props) => {
       </Modal>
     </form>
   );
-};
-
-export default LotModalAdd;
+}

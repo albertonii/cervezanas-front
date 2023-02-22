@@ -5,7 +5,7 @@ type Props = {
   parentCallback: (menuOption: string) => void;
 };
 
-export const Sidebar = (props: Props) => {
+export function Sidebar(props: Props) {
   const { parentCallback } = props;
   const { sidebar } = useAppContext();
 
@@ -78,4 +78,4 @@ export const Sidebar = (props: Props) => {
       </aside>
     </>
   );
-};
+}

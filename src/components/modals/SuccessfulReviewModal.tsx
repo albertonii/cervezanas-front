@@ -3,16 +3,16 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import PortalModal from "./PortalModal";
 import Link from "next/link";
-import Button from "../common/Button";
 import { useRouter } from "next/router";
+import { PortalModal } from ".";
+import { Button } from "../common";
 
 interface Props {
   isVisible: boolean;
 }
 
-const Modal = (props: Props) => {
+export function SuccessfulReviewModal(props: Props) {
   const { isVisible } = props;
 
   const { t } = useTranslation();
@@ -150,6 +150,4 @@ const Modal = (props: Props) => {
       )}
     </>
   );
-};
-
-export default Modal;
+}

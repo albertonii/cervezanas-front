@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Layout from "../../../components/Layout";
+import { Layout } from "../../../components";
 import { useMessage } from "../../../components/message";
-import NewProductReview from "../../../components/reviews/NewProductReview";
+import { NewProductReview } from "../../../components/reviews";
 import { Product, ProductMultimedia } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";

@@ -1,15 +1,13 @@
 import Head from "next/head";
-import { type UserProps } from "../lib/types";
-import { NextPage } from "next";
 import "../lib/i18n/i18n";
-import Layout from "../components/Layout";
 import { supabase } from "../utils/supabaseClient";
 import { ROLE_ENUM } from "../components/Auth/SignUpForm";
 import { useAuth } from "../components/Auth";
 import { useEffect, useState } from "react";
-import Button from "../components/common/Button";
+import { Button } from "../components/common/Button";
+import { Layout } from "../components";
 
-const Main: NextPage<UserProps> = () => {
+export default function Main() {
   const { user } = useAuth();
 
   const [output, setOutput] = useState("");
@@ -42,7 +40,6 @@ const Main: NextPage<UserProps> = () => {
 
     setOutput("Loading...");
     setTitle(`get_my_claim('${claim}')`);
-    console.log(data);
 
     if (error) console.error("get_my_claim error", error);
     else setOutput(JSON.stringify(data, null, 2));
@@ -69,6 +66,4 @@ const Main: NextPage<UserProps> = () => {
       </Layout>
     </>
   );
-};
-
-export default Main;
+}

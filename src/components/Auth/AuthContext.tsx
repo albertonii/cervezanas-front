@@ -151,13 +151,6 @@ export const AuthContextProvider = (props: Props) => {
 
         handleMessage!({ message: error.message, type: "error" });
       } else {
-        handleMessage!({
-          message: payload?.password?.length
-            ? `Welcome, ${user?.email}`
-            : `Please check your email for the magic link`,
-          type: "success",
-        });
-
         await supabase.rpc("google_auth", {
           email: user?.email,
           token: user?.aud,

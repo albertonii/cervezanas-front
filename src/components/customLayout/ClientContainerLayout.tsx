@@ -1,7 +1,7 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
@@ -16,7 +16,7 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 // const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
 // const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
-export const ClientContainerLayout = ({ children }: Props) => {
+export function ClientContainerLayout({ children }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
   const { user } = useAuth();
@@ -142,4 +142,4 @@ export const ClientContainerLayout = ({ children }: Props) => {
       )}
     </>
   );
-};
+}

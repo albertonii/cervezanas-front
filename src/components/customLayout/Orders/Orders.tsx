@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
+import { OrderList } from "..";
 import { Order } from "../../../lib/types";
-import OrderList from "./OrderList";
 
 interface Props {
   orders: Order[];
 }
 
-export const Orders = (props: Props) => {
+export function Orders(props: Props) {
   const { orders } = props;
 
   const { t } = useTranslation();
@@ -29,4 +29,4 @@ export const Orders = (props: Props) => {
       )}
     </>
   );
-};
+}

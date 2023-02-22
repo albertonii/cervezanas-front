@@ -18,7 +18,7 @@ interface Props {
   user: User | null;
 }
 
-export default function CustomizeProfileForm(props: Props) {
+export function CustomizeProfileForm(props: Props) {
   const { t } = useTranslation();
 
   const { user } = props;

@@ -1,9 +1,8 @@
 import Head from "next/head";
-import { type NextPage } from "next";
 import { faEnvelopeCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ConfirmEmail: NextPage = () => {
+export default function ConfirmEmail() {
   return (
     <>
       <Head>
@@ -29,6 +28,4 @@ const ConfirmEmail: NextPage = () => {
       </main>
     </>
   );
-};
-
-export default ConfirmEmail;
+}

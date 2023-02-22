@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import SimilarProduct from "./SimilarProduct";
 
-export default function DisplaySimilarProducts() {
+export function DisplaySimilarProducts() {
   const { t } = useTranslation();
   return (
     <div className="bg-beer-softFoam rounded-lg ">

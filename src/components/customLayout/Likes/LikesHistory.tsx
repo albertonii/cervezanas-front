@@ -6,7 +6,7 @@ interface Props {
   userId: string;
 }
 
-export default function LikesHistory({ userId }: Props) {
+export function LikesHistory({ userId }: Props) {
   const [likes, setLikes] = useState<Like[]>([]);
 
   useEffect(() => {

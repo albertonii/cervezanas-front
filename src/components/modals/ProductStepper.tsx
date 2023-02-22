@@ -7,7 +7,7 @@ interface Props {
   children: JSX.Element;
 }
 
-export default function Stepper(props: Props) {
+export function ProductStepper(props: Props) {
   const { t } = useTranslation();
 
   const { children, handleSetActiveStep, activeStep } = props;
@@ -26,7 +26,7 @@ export default function Stepper(props: Props) {
   const statusPresentClass = "bg-beer-blonde beer-blonde";
   const statusFutureClass = "border-beer-softBlonde";
 
-  const statusPastIconClass = "#fdc300";  // Beer Blonde
+  const statusPastIconClass = "#fdc300"; // Beer Blonde
   const statusPresentIconClass = "white";
   const statusFutureIconClass = "gray";
 

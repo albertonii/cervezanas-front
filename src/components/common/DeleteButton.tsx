@@ -1,12 +1,12 @@
 import React from "react";
-import IconButton from "./IconButton";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { IconButton } from "./IconButton";
 
 interface Props {
   onClick?: () => void;
 }
 
-export default function DeleteButton({ onClick }: Props) {
+export function DeleteButton({ onClick }: Props) {
   return (
     <IconButton
       box

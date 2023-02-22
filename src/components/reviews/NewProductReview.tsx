@@ -26,7 +26,7 @@ interface Props {
   isReady?: boolean;
 }
 
-export default function NewProductReview({
+export function NewProductReview({
   productId,
   ownerId,
   handleSetReviews,

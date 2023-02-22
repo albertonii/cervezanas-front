@@ -17,7 +17,7 @@ interface FormProps {
   addressProvince: string;
 }
 
-export default function LocationForm() {
+export function LocationForm() {
   const { t } = useTranslation();
 
   const {

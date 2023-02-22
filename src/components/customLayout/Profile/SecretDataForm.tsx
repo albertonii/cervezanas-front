@@ -10,7 +10,7 @@ interface FormProps {
   newPassword2: string;
 }
 
-export default function SecretDataForm() {
+export function SecretDataForm() {
   const { t } = useTranslation();
 
   const {

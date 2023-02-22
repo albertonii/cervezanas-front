@@ -7,7 +7,7 @@ interface Props {
   user: User;
 }
 
-export default function OwnerInfo({ user }: Props) {
+export function OwnerInfo({ user }: Props) {
   const { t } = useTranslation();
   return (
     <>

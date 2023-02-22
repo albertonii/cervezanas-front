@@ -1,19 +1,10 @@
-import { User } from "@supabase/supabase-js";
 import { Button } from "@supabase/ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth/useAuth";
-import { Account } from "./Account";
-import Details from "./Details";
-import { History } from "./History";
-import Values from "./Values";
+import { Account, Details, Values, History } from "../../customLayout/index";
 
-interface Props {
-  profile: any;
-}
-
-export const Profile = (props: Props) => {
+export function Profile() {
   const { t } = useTranslation();
 
   const { user, loggedIn } = useAuth();
@@ -67,4 +58,4 @@ export const Profile = (props: Props) => {
       )}
     </>
   );
-};
+}

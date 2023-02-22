@@ -20,7 +20,7 @@ interface IconButtonProps {
   size?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
 }
 
-export default function IconButton({
+export function IconButton({
   icon,
   onClick,
   isActive,

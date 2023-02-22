@@ -18,7 +18,7 @@ interface Props {
   quantity: number;
 }
 
-export default function CheckoutItem({
+export function CheckoutItem({
   product,
   handleIncreaseCartQuantity,
   handleDecreaseCartQuantity,

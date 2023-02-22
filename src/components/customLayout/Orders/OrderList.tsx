@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Order } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import Button from "../../common/Button";
+import { Button } from "../../common";
 
 interface Props {
   orders: Order[];
@@ -17,7 +17,7 @@ interface ColumnsProps {
   header: string;
 }
 
-export default function OrderList(props: Props) {
+export function OrderList(props: Props) {
   const { t } = useTranslation();
 
   const router = useRouter();

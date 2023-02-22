@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Modal } from ".";
 import { Product } from "../../lib/types";
 
 import { supabase } from "../../utils/supabaseClient";
-import Modal from "./Modal";
 
 interface Props {
   products: Product[];
@@ -13,7 +13,7 @@ interface Props {
   handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const DeleteProduct = (props: Props) => {
+export function DeleteProduct(props: Props) {
   const { t } = useTranslation();
   const {
     products,
@@ -61,6 +61,4 @@ const DeleteProduct = (props: Props) => {
       <></>
     </Modal>
   );
-};
-
-export default DeleteProduct;
+}

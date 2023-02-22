@@ -1,9 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { supabase } from "../../utils/supabaseClient";
-import { useAuth } from "../Auth/useAuth";
 
 interface IProfile {
   bgImg?: string;
@@ -27,7 +24,7 @@ interface Props {
   [propName: string]: any;
 }
 
-export default function AppContextProvider(props: Props) {
+export function AppContextProvider(props: Props) {
   const [bgImg, setBgImg] = useState(`/icons/bg-240.png`);
   const [profileImg, setProfileImg] = useState(`/icons/profile-240.png`);
   const [sidebar, setSidebar] = useLocalStorage<string>(

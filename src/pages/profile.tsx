@@ -1,23 +1,24 @@
-import { Sidebar } from "../components/customLayout/Sidebar";
 import { ClientContainerLayout } from "../components/customLayout/ClientContainerLayout";
 import { useEffect, useState } from "react";
-import { Account } from "../components/customLayout/Profile/Account";
-import { Products } from "../components/customLayout/Products/Products";
 import { Campaigns } from "../components/customLayout/Campaigns/Campaigns";
 import { Factories } from "../components/customLayout/Factories/Factories";
 import { Orders } from "../components/customLayout/Orders/Orders";
 import { Community } from "../components/customLayout/Community/Community";
-import { Stats } from "../components/customLayout/Stats/Stats";
-import { Ledger } from "../components/customLayout/Ledger/Ledger";
-import { Profile } from "../components/customLayout/Profile/Profile";
-import ProfileContexProvider, {
-  useAppContext,
-} from "../components/Context/AppContext";
-import LikesHistory from "../components/customLayout/Likes/LikesHistory";
+import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
-import Layout from "../components/Layout";
+import { Layout } from "../components/index";
 import { supabase } from "../utils/supabaseClient";
 import { Campaign, Like, Order, Product, Review } from "../lib/types";
+import {
+  Account,
+  Products,
+  Profile,
+  Sidebar,
+  Ledger,
+  Stats,
+  LikesHistory,
+} from "../components/customLayout/index";
+import { Spinner } from "../components/common";
 
 interface Props {
   profile: [
@@ -43,13 +44,18 @@ interface Props {
   ];
 }
 
-const CustomLayout = ({ profile }: Props) => {
+export default function CustomLayout({ profile }: Props) {
   const [menuOption, setMenuOption] = useState<string>();
 
   const { loggedIn } = useAuth();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const { user } = useAuth();
   const { changeSidebarActive } = useAppContext();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     if (!!user) {
@@ -61,7 +67,7 @@ const CustomLayout = ({ profile }: Props) => {
     if (profile) {
       switch (menuOption) {
         case "profile":
-          return <Profile profile={profile} />;
+          return <Profile />;
         case "products":
           return <Products products={profile[0].products} />;
         case "campaigns":
@@ -69,7 +75,7 @@ const CustomLayout = ({ profile }: Props) => {
         case "factories":
           return <Factories />;
         case "orders":
-          return <Orders orders={profile[0].orders} />;
+          return <Orders orders={profile[0]?.orders ?? []} />;
         case "community":
           return <Community />;
         case "stats":
@@ -91,25 +97,36 @@ const CustomLayout = ({ profile }: Props) => {
 
   return (
     <Layout usePadding={false} useBackdrop={false}>
-      <div className="flex flex-row">
-        {loggedIn && (
-          <>
-            <Sidebar parentCallback={handleMenuOptions} />
+      {loading ? (
+        <Spinner color="beer-blonde" size={"medium"} />
+      ) : (
+        <div className="flex flex-row">
+          {loggedIn && (
+            <>
+              <Sidebar parentCallback={handleMenuOptions} />
 
-            <ProfileContexProvider>
+              {/* <ProfileContexProvider> */}
               <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
-            </ProfileContexProvider>
-          </>
-        )}
-      </div>
+              {/* </ProfileContexProvider> */}
+            </>
+          )}
+        </div>
+      )}
     </Layout>
   );
-};
-
-export default CustomLayout;
+}
 
 export async function getServerSideProps({ req }: any) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
 
   let { data: profileData, error: profileError } = await supabase
     .from("users")
@@ -138,6 +155,10 @@ export async function getServerSideProps({ req }: any) {
 
   //   productsData![index] = product;
   // });
+
+  if (profileData === undefined || profileData === null) {
+    profileData = [];
+  }
 
   return {
     props: {

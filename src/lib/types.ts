@@ -1,7 +1,8 @@
 import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
-import { type User, Session } from "@supabase/gotrue-js/src/lib/types";
+import { Session } from "@supabase/gotrue-js/src/lib/types";
+import { User } from "../lib/interfaces";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 

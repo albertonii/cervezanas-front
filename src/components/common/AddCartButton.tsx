@@ -1,13 +1,13 @@
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { t } from "i18next";
 import React from "react";
-import IconButton from "./IconButton";
+import { IconButton } from "./IconButton";
 
 interface Props {
   onClick?: () => void;
 }
 
-export default function AddCardButton({ onClick }: Props) {
+export function AddCardButton({ onClick }: Props) {
   return (
     <IconButton
       onClick={onClick}

@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { ProductList } from "..";
 import { Product } from "../../../lib/types";
-import LotModalAdd from "../../modals/AddLot";
-import ProductModalUpd from "../../modals/ProductModalUpd";
-import ProductList from "./ProductList";
-import DeleteProduct from "../../modals/DeleteProduct";
-import AddProduct from "../../modals/AddProduct";
+import {
+  AddLot,
+  AddProduct,
+  DeleteProduct,
+  ProductModalUpd,
+} from "../../modals/index";
 
 interface Props {
   products: Product[];
 }
 
-export const Products = ({ products: p }: Props) => {
+export function Products({ products: p }: Props) {
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
@@ -45,7 +47,7 @@ export const Products = ({ products: p }: Props) => {
             handleSetProducts={handleSetProducts}
           />
 
-          <LotModalAdd />
+          <AddLot />
         </div>
 
         <ProductList
@@ -75,6 +77,6 @@ export const Products = ({ products: p }: Props) => {
       </div>
     </>
   );
-};
+}
 
 export async function getServerSideProps() {}

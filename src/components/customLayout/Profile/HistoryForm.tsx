@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
 
-export const HistoryForm = (props: any) => {
+export function HistoryForm(props: any) {
   const { t } = useTranslation();
 
   const {
@@ -111,4 +111,4 @@ export const HistoryForm = (props: any) => {
       )}
     </div>
   );
-};
+}

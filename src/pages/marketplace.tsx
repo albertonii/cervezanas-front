@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
-import StoreItem from "../components/Cart/StoreItem";
 import { Product } from "../lib/types";
-import Layout from "../components/Layout";
+import { Layout } from "../components";
 import { useAuth } from "../components/Auth";
+import { StoreItem } from "../components/Cart";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;

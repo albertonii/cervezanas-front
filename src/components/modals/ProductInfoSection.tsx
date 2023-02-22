@@ -38,7 +38,7 @@ const campaigns = [
   },
 ];
 
-export default function ProductInfoSection({
+export function ProductInfoSection({
   form: {
     register,
     formState: { errors },

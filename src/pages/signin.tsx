@@ -1,25 +1,23 @@
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { type NextPage } from "next";
 import { useState } from "react";
-import { type UserProps } from "../lib/types";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
-import Layout from "../components/Layout";
 import { useAuth } from "../components/Auth/useAuth";
 import { UserCredentials } from "@supabase/supabase-js";
 import Router from "next/router";
 import { useMessage } from "../components/message";
 import { useTranslation } from "react-i18next";
+import { Layout } from "../components";
 
 interface FormData {
   email: string;
   password: string;
 }
 
-const SignIn: NextPage<UserProps> = () => {
+export default function SignIn() {
   const { signInWithProvider, signIn, signOut, loading, loggedIn, user } =
     useAuth();
 
@@ -223,6 +221,4 @@ const SignIn: NextPage<UserProps> = () => {
       </Layout>
     </>
   );
-};
-
-export default SignIn;
+}

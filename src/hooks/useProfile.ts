@@ -17,7 +17,7 @@ const getProfile = async (id?: string) => {
   return data;
 };
 
-export default function useProfile() {
+export function useProfile() {
   const { user } = useAuth();
 
   return useQuery(["profile", getProfile(user?.id)], {

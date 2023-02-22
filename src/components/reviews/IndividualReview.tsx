@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import OwnerInfo from "../OwnerInfo";
-import Rate from "./Rate";
-import { Button } from "@supabase/ui";
 import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
 import { Review } from "../../lib/types";
-import DeleteButton from "../common/DeleteButton";
 import { formatDateString } from "../../utils/formatDate";
+import { OwnerInfo } from "..";
+import { Rate } from ".";
+import { DeleteButton } from "../common";
 
 interface Props {
   review: Review;
   handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
 }
 
-export default function IndividualReview(props: Props) {
+export function IndividualReview(props: Props) {
   const { t } = useTranslation();
   const { user } = useAuth();
 
@@ -44,7 +43,6 @@ export default function IndividualReview(props: Props) {
     setReadMore(!readMore);
   };
 
-  console.log(review);
   return (
     <article>
       <OwnerInfo user={review.users} />

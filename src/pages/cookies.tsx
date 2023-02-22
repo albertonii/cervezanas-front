@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../components/Layout";
+import { Layout } from "../components";
 
-export default function Commiments() {
+export default function Cookies() {
   return (
     <Layout usePadding={true} useBackdrop={false}>
       <div className="container m-auto">

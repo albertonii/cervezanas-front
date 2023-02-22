@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
+import { Message } from ".";
 import { MessageListProps } from "./message.types";
-import Message from "./Message";
 
 export const MessageList: FunctionComponent<MessageListProps> = ({
   messages,

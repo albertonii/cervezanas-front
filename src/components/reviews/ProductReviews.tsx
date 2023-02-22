@@ -7,7 +7,7 @@ interface Props {
   handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
 }
 
-export default function ProductReviews({ reviews, handleSetReviews }: Props) {
+export function ProductReviews({ reviews, handleSetReviews }: Props) {
   return (
     <div>
       {reviews.map((review) => (

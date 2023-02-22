@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
-import Layout from "../../components/Layout";
-import ProductGallery from "../../components/ProductGallery";
-import ProductOverallReview from "../../components/reviews/ProductOverallReview";
-import ProductReviews from "../../components/reviews/ProductReviews";
-import Rate from "../../components/reviews/Rate";
 import { SupabaseProps } from "../../constants";
 import { Product, ProductMultimedia, Review } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
-import Button from "../../components/common/Button";
-import IconButton from "../../components/common/IconButton";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import DisplaySimilarProducts from "../../components/DisplaySimilarProducts";
-import DeleteButton from "../../components/common/DeleteButton";
+import {
+  DisplaySimilarProducts,
+  Layout,
+  ProductGallery,
+} from "../../components";
+import { Button, DeleteButton, IconButton } from "../../components/common";
+import {
+  ProductOverallReview,
+  ProductReviews,
+  Rate,
+} from "../../components/reviews";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;

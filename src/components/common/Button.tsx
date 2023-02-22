@@ -21,7 +21,7 @@ interface ButtonProps {
   form?: string;
 }
 
-export default function Button({
+export function Button({
   onClick,
   isActive,
   children,

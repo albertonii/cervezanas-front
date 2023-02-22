@@ -1,9 +1,6 @@
-import { FunctionComponent } from "react";
 import classNames from "classnames";
-import Header from "./Header";
-import Footer from "./Footer";
 import { MessageList, useMessage } from "./message";
-import Breadcrumb from "./Breadcrumb";
+import { Breadcrumb, Header, Footer } from "./index";
 import { useAuth } from "./Auth";
 
 type LayoutProps = {
@@ -12,11 +9,12 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-const FullLayout: FunctionComponent<LayoutProps> = ({
-  children,
-  usePadding,
-  useBackdrop,
-}) => {
+Layout.defaultProps = {
+  usePadding: true,
+  useBackdrop: false,
+};
+
+export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   const { messages } = useMessage();
   const { loggedIn } = useAuth();
 
@@ -50,11 +48,4 @@ const FullLayout: FunctionComponent<LayoutProps> = ({
       <Footer>.</Footer>
     </div>
   );
-};
-
-FullLayout.defaultProps = {
-  usePadding: true,
-  useBackdrop: false,
-};
-
-export default FullLayout;
+}

@@ -9,7 +9,7 @@ interface DropdownProps {
   options: string[];
 }
 
-const DropdownButton = (props: DropdownProps) => {
+export function DropdownButton(props: DropdownProps) {
   const { options } = props;
 
   const [open, setOpen] = useState(false);
@@ -80,6 +80,4 @@ const DropdownButton = (props: DropdownProps) => {
       </div>
     </div>
   );
-};
-
-export default DropdownButton;
+}

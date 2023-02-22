@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
-import IconButton from "../common/IconButton";
 import {
   faShoppingCart,
   faHeart,
@@ -12,16 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { Product } from "../../lib/types";
-import Button from "../common/Button";
-import DeleteButton from "../common/DeleteButton";
-import IncreaseButton from "../common/IncreaseButton";
-import DecreaseButton from "../common/DecreaseButton";
-import AddCardButton from "../common/AddCartButton";
 import { useRouter } from "next/router";
+import {
+  AddCardButton,
+  DecreaseButton,
+  DeleteButton,
+  IconButton,
+  IncreaseButton,
+} from "../common";
 
 type StoreItemProps = { product: Product; products: Product[] };
 
-export default function StoreItem(props: StoreItemProps) {
+export function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
   const { product, products } = props;
   const { id } = product;

@@ -14,11 +14,7 @@ interface Props {
   handleSetIsLike: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ProductGallery({
-  gallery,
-  isLike,
-  handleSetIsLike,
-}: Props) {
+export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [principal, setPrincipal] = useState(gallery[galleryIndex]);
 

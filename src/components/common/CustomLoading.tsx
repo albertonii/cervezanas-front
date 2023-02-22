@@ -6,7 +6,7 @@ interface Props {
   message: string;
 }
 
-export default function CustomLoading(props: Props) {
+export function CustomLoading(props: Props) {
   const { message } = props;
 
   return (

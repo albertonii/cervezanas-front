@@ -13,7 +13,7 @@ const emptyAward: Award = {
   beer_id: "",
 };
 
-export interface Props {
+interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
 }
 
