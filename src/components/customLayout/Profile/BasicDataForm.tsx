@@ -1,9 +1,9 @@
-import { Button } from "@supabase/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
+import { Button } from "../../common";
 
 export function BasicDataForm(props: any) {
   const { t } = useTranslation();
@@ -188,7 +188,7 @@ export function BasicDataForm(props: any) {
             </div>
 
             <div className="pl-12 ">
-              <Button type="primary" size="medium">
+              <Button primary medium class={""}>
                 {t("save")}
               </Button>
             </div>

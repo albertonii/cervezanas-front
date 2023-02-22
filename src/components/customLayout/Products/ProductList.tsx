@@ -1,8 +1,9 @@
-import { Button } from "@supabase/ui";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
+import { Button, DeleteButton } from "../../common";
+import { EditButton } from "../../common/EditButton";
 
 interface Props {
   products: Product[];
@@ -142,31 +143,12 @@ export function ProductList(props: Props) {
                     {product.is_public ? t("yes") : t("no")}
                   </td>
                   <td className="py-4 px-6">
-                    <div className="flex">
-                      <Button
-                        onClick={() => handleClickEdit(product)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
-                      >
-                        <Image
-                          width={45}
-                          height={45}
-                          alt="Edit"
-                          src="/icons/edit-240.png"
-                        />{" "}
-                      </Button>
+                    <div className="flex space-x-1">
+                      <EditButton onClick={() => handleClickEdit(product)} />
 
-                      <Button
-                        danger
+                      <DeleteButton
                         onClick={() => handleClickDelete(product)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline w-[45px]"
-                      >
-                        <Image
-                          width={45}
-                          height={45}
-                          alt="Delete"
-                          src="/icons/delete-240.png"
-                        />
-                      </Button>
+                      />
                     </div>
                   </td>
                 </tr>

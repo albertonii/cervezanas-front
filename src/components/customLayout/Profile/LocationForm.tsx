@@ -1,8 +1,8 @@
-import { Button } from "@supabase/ui";
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "../../common";
 
 interface FormProps {
   addressName: string;
@@ -221,7 +221,9 @@ export function LocationForm() {
         </div>
 
         <div className="pl-12 ">
-          <Button size="medium">Guardar</Button>
+          <Button medium class={""}>
+            Guardar
+          </Button>
         </div>
       </div>
     </div>

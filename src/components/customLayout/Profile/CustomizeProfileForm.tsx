@@ -1,5 +1,4 @@
 import { User } from "@supabase/supabase-js";
-import { Button } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -7,6 +6,7 @@ import { SupabaseProps } from "../../../constants";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
+import { Button } from "../../common";
 
 type FormValues = {
   bg_url: any;
@@ -169,7 +169,7 @@ export function CustomizeProfileForm(props: Props) {
             </div>
 
             <div className="pl-12 ">
-              <Button type="primary" size="medium">
+              <Button primary medium class={""}>
                 {t("save")}
               </Button>
             </div>

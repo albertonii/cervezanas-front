@@ -1,7 +1,7 @@
-import { Button } from "@supabase/ui";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../Auth/useAuth";
+import { Button } from "../../common";
 import { Account, Details, Values, History } from "../../customLayout/index";
 
 export function Profile() {
@@ -37,16 +37,24 @@ export function Profile() {
       <div className="" aria-label="Profile Submenu">
         <ul className="pl-72 h-12 flex items-center ">
           <li className="flex-1">
-            <Button onClick={() => handleMenuClick("account")}>Cuenta</Button>
+            <Button onClick={() => handleMenuClick("account")} class={""}>
+              Cuenta
+            </Button>
           </li>
           <li className="flex-1">
-            <Button onClick={() => handleMenuClick("details")}>Detalles</Button>
+            <Button onClick={() => handleMenuClick("details")} class={""}>
+              Detalles
+            </Button>
           </li>
           <li className="flex-1">
-            <Button onClick={() => handleMenuClick("values")}>Valores</Button>
+            <Button onClick={() => handleMenuClick("values")} class={""}>
+              Valores
+            </Button>
           </li>
           <li className="flex-1">
-            <Button onClick={() => handleMenuClick("origin")}>Origen</Button>
+            <Button onClick={() => handleMenuClick("origin")} class={""}>
+              Origen
+            </Button>
           </li>
         </ul>
       </div>
