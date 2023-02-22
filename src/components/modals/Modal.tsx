@@ -7,6 +7,7 @@ import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { Button, IconButton } from "../common";
 
 interface Props {
+  showBtn?: boolean;
   isVisible: boolean;
   title: string;
   btnTitle: string;
@@ -33,6 +34,7 @@ export function Modal(props: Props) {
     classContainer,
     color,
     btnSize,
+    showBtn: showBtn_,
   } = props;
 
   const { t } = useTranslation();
@@ -40,6 +42,7 @@ export function Modal(props: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [showModal, setShowModal] = useState(isVisible);
+  const [showBtn, setShowBtn] = useState(showBtn_);
 
   const handleShowModal = (b: boolean) => {
     setShowModal(b);
@@ -74,28 +77,32 @@ export function Modal(props: Props) {
 
   return (
     <>
-      {icon ? (
-        <IconButton
-          icon={icon}
-          classIcon={classIcon}
-          classContainer={classContainer}
-          onClick={() => handleShowModal(true)}
-          isActive={false}
-          color={color}
-          title={title}
-          size={btnSize}
-        >
-          {t(btnTitle)}
-        </IconButton>
-      ) : (
-        <Button
-          class={`${classContainer} px-2 py-1`}
-          onClick={() => handleShowModal(true)}
-          title={title}
-          primary
-        >
-          {t(btnTitle)}
-        </Button>
+      {showBtn && (
+        <>
+          {icon ? (
+            <IconButton
+              icon={icon}
+              classIcon={classIcon}
+              classContainer={classContainer}
+              onClick={() => handleShowModal(true)}
+              isActive={false}
+              color={color}
+              title={title}
+              size={btnSize}
+            >
+              {t(btnTitle)}
+            </IconButton>
+          ) : (
+            <Button
+              class={`${classContainer} px-2 py-1`}
+              onClick={() => handleShowModal(true)}
+              title={title}
+              primary
+            >
+              {t(btnTitle)}
+            </Button>
+          )}
+        </>
       )}
 
       {showModal && (
@@ -103,7 +110,7 @@ export function Modal(props: Props) {
           <div className="justify-center items-start pt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             {/* The modal  */}
             <div
-              className="relative w-auto my-6 mx-auto max-w-3xl"
+              className="relative w-auto my-6 mx-4 sm:mx-auto max-w-3xl"
               ref={modalRef}
             >
               {/*content*/}
@@ -139,22 +146,26 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                  <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => handleShowModal(false)}
-                  >
-                    {t("close")}
-                  </button>
-
-                  <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="submit"
+                <div className="flex items-center justify-start p-6 border-t border-solid border-slate-200 rounded-b">
+                  <Button
+                    accent
+                    class="mr-4"
+                    medium
+                    btnType="submit"
                     onClick={handleAccept}
                   >
                     {t(btnTitle)}
-                  </button>
+                  </Button>
+
+                  <Button
+                    danger
+                    class=""
+                    btnType="button"
+                    medium
+                    onClick={() => handleShowModal(false)}
+                  >
+                    {t("close")}
+                  </Button>
                 </div>
               </div>
             </div>

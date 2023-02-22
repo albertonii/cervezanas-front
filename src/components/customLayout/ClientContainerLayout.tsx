@@ -85,9 +85,9 @@ export function ClientContainerLayout({ children }: Props) {
       {bgImg && profileImg ? (
         <div className="container ">
           {/* Background Image */}
-          <div className=" bg-bear-alvine" aria-label="Custom Header">
+          <div className=" bg-bear-alvine " aria-label="Custom Header">
             <Image
-              className="max-h-[40vh] w-full object-cover"
+              className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
               width={1260}
               height={240}
               src={bgImg}
@@ -130,8 +130,9 @@ export function ClientContainerLayout({ children }: Props) {
             </div>
           </div>
 
+          {/* Client Information */}
           <div
-            className="bg-beer-softFoam h-full"
+            className="bg-beer-softFoam h-full pt-[5vh] md:pt-[5vh] sm:"
             aria-label="Container Client Information"
           >
             {children}

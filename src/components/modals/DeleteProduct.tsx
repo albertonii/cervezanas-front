@@ -48,9 +48,10 @@ export function DeleteProduct(props: Props) {
 
   return (
     <Modal
+      showBtn={false}
       isVisible={isDeleteShowModal}
-      title={"modal_product_title"}
-      btnTitle={"delete_product"}
+      title={"modal_delete_product_title"}
+      btnTitle={"delete"}
       description={"modal_delete_product_description"}
       handler={() => {
         handleDeleteClick();

@@ -61,6 +61,7 @@ export function AddLot({}: Props) {
   return (
     <form className="w-full">
       <Modal
+        showBtn={true}
         isVisible={false}
         title={"config_lot"}
         btnTitle={"config_lot"}

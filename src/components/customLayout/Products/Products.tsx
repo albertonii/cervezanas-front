@@ -38,7 +38,7 @@ export function Products({ products: p }: Props) {
 
   return (
     <>
-      <div className="py-6 px-4 pt-12" aria-label="Products">
+      <div className="py-6 px-4 " aria-label="Products">
         <div className="flex">
           <div className="text-4xl pr-12">Productos</div>
 

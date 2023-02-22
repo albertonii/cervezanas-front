@@ -292,6 +292,7 @@ export function AddProduct(props: Props) {
   return (
     <form className="w-full">
       <Modal
+        showBtn={true}
         isVisible={false}
         title={"add_product"}
         btnTitle={"add_product"}

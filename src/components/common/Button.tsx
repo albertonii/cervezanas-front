@@ -78,7 +78,7 @@ export function Button({
       <span
         className={` 
         ${danger ? "text-beer-foam font-semibold" : ""} 
-        ${primary ? "text-beer-dark " : "text-beer-dark"}}
+        ${primary ? "text-beer-dark font-semibold" : "text-beer-dark"}}
         ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
         ${small ? "px-4 py-2 text-md" : ""} 
         ${medium ? "px-4 py-2 text-base" : ""}

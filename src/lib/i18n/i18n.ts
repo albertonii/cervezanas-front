@@ -139,6 +139,7 @@ const translationsEn = {
     "All information described in this section is public.",
   modal_product_add: "Add Product",
   delete_product: "Delete Product",
+  modal_delete_product_title: "Delete Product",
   modal_delete_product_description:
     "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
   modal_product_add_details_title: "Details",
@@ -440,6 +441,7 @@ const translationsEs = {
     "Asegúrese de rellenar todos los campos obligatorios para introducir con éxito el producto. Toda la información descrita en esta sección es pública.",
   modal_product_add: "Añadir Producto",
   delete_product: "Eliminar Producto",
+  modal_delete_product_title: "Eliminar Producto",
   modal_delete_product_description:
     "¡Cuidado! Vas a eliminar un producto. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el producto?",
   modal_product_add_details_title: "Detalles",
