@@ -45,23 +45,16 @@ interface Props {
 }
 
 export default function CustomLayout({ profile }: Props) {
-  const [menuOption, setMenuOption] = useState<string>();
-
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
 
   const { user } = useAuth();
-  const { changeSidebarActive } = useAppContext();
+  const { sidebar, changeSidebarActive } = useAppContext();
+  const [menuOption, setMenuOption] = useState<string>(sidebar);
 
   useEffect(() => {
     setLoading(false);
   }, []);
-
-  useEffect(() => {
-    if (!!user) {
-      setMenuOption("profile");
-    }
-  }, [user]);
 
   const renderSwitch = (): JSX.Element => {
     if (profile) {
