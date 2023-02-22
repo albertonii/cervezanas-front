@@ -153,6 +153,8 @@ const translationsEn = {
   true: "True",
   false: "False",
   is_public: "Publish the product",
+  is_public_description:
+    "Toggle the button to the right to make this product visible in the marketplace",
   modal_lot_add: "Add Lot",
   modal_lot_title: "Lot",
   lot_number: "Lot Number",
@@ -614,6 +616,8 @@ const translationsEs = {
   continue_reviewing: "Continuar valorando",
   joined_on: "Se unió el",
   reviewed_on: "Opinó el",
+  is_public_description:
+    "Esta opinión será visible para todos los usuarios de la web",
 };
 
 // the translations

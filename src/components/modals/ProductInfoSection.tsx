@@ -63,7 +63,6 @@ export function ProductInfoSection({
         return (
           <select
             {...register(`volume`)}
-            defaultValue={volume_can_type_options[0].value}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_can_type_options.map((option) => (
@@ -77,7 +76,6 @@ export function ProductInfoSection({
         return (
           <select
             {...register(`volume`)}
-            defaultValue={volume_bottle_type_options[0].value}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_bottle_type_options.map((option) => (
@@ -119,7 +117,7 @@ export function ProductInfoSection({
     <>
       {/* Select product type  */}
       <div className="relative pt-6 flex-auto">
-        <div className="w-full">
+        <div className="w-full flex flex-col">
           <label className="inline-flex relative items-center cursor-pointer">
             <input
               type="checkbox"
@@ -127,11 +125,15 @@ export function ProductInfoSection({
               className="sr-only peer"
               {...register("is_public")}
             />
-            <div className="w-11 h-6 bg-beer-softBlonde peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:peer-focus:ring-beer-blonde rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-beer-blonde"></div>
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:peer-focus:ring-beer-blonde rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-beer-blonde"></div>
             <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
               {t("is_public")}
             </span>
           </label>
+
+          <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
+            {t("is_public_description")}
+          </span>
         </div>
 
         <div className="w-full pt-6">
@@ -424,7 +426,7 @@ export function ProductInfoSection({
 
                   <select
                     {...register("format")}
-                    defaultValue={format_options[0].label}
+                    defaultValue={"can"}
                     onChange={handleChange}
                     className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   >
@@ -461,7 +463,6 @@ export function ProductInfoSection({
 
                   <select
                     {...register(`pack`)}
-                    defaultValue={pack_type_options[0].value}
                     className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   >
                     {pack_type_options.map((option) => (
@@ -514,6 +515,7 @@ export function ProductInfoSection({
                     placeholder="500"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     min="0"
+                    defaultValue={0}
                     {...register(`stock_quantity`, { required: true, min: 0 })}
                   />
 
@@ -538,6 +540,7 @@ export function ProductInfoSection({
                     placeholder="20"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     min="0"
+                    defaultValue={0}
                     {...register(`stock_limit_notification`, {
                       required: true,
                       min: 0,

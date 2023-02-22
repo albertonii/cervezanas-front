@@ -282,11 +282,7 @@ export function AddProduct(props: Props) {
           });
         }
 
-        // Update products displaying in list of UI
-
-        products.push(productData[0]);
-        handleSetProducts(products);
-
+        handleSetProducts((prev: any) => [...prev, productData[0]]);
         return beer;
       }
     };

@@ -429,58 +429,62 @@ export const volume_can_type_options = [
   },
   {
     label: 9,
-    value: BeerEnum.Volume_can._341,
+    value: BeerEnum.Volume_can._330,
   },
   {
     label: 10,
-    value: BeerEnum.Volume_can._350,
+    value: BeerEnum.Volume_can._341,
   },
   {
     label: 11,
-    value: BeerEnum.Volume_can._355,
+    value: BeerEnum.Volume_can._350,
   },
   {
     label: 12,
-    value: BeerEnum.Volume_can._375,
+    value: BeerEnum.Volume_can._355,
   },
   {
     label: 13,
-    value: BeerEnum.Volume_can._440,
+    value: BeerEnum.Volume_can._375,
   },
   {
     label: 14,
-    value: BeerEnum.Volume_can._473,
+    value: BeerEnum.Volume_can._440,
   },
   {
     label: 15,
-    value: BeerEnum.Volume_can._500,
+    value: BeerEnum.Volume_can._473,
   },
   {
     label: 16,
-    value: BeerEnum.Volume_can._550,
+    value: BeerEnum.Volume_can._500,
   },
   {
     label: 17,
-    value: BeerEnum.Volume_can._568,
+    value: BeerEnum.Volume_can._550,
   },
   {
     label: 18,
-    value: BeerEnum.Volume_can._650,
+    value: BeerEnum.Volume_can._568,
   },
   {
     label: 19,
-    value: BeerEnum.Volume_can._750,
+    value: BeerEnum.Volume_can._650,
   },
   {
     label: 20,
-    value: BeerEnum.Volume_can._940,
+    value: BeerEnum.Volume_can._750,
   },
   {
     label: 21,
-    value: BeerEnum.Volume_can._1000,
+    value: BeerEnum.Volume_can._940,
   },
   {
     label: 22,
+    value: BeerEnum.Volume_can._1000,
+  },
+  {
+    label: 23,
     value: BeerEnum.Volume_can._1500,
   },
 ];
@@ -524,58 +528,62 @@ export const volume_bottle_type_options = [
   },
   {
     label: 9,
-    value: BeerEnum.Volume_bottle._341,
+    value: BeerEnum.Volume_bottle._330,
   },
   {
     label: 10,
-    value: BeerEnum.Volume_bottle._350,
+    value: BeerEnum.Volume_bottle._341,
   },
   {
     label: 11,
-    value: BeerEnum.Volume_bottle._355,
+    value: BeerEnum.Volume_bottle._350,
   },
   {
     label: 12,
-    value: BeerEnum.Volume_bottle._375,
+    value: BeerEnum.Volume_bottle._355,
   },
   {
     label: 13,
-    value: BeerEnum.Volume_bottle._440,
+    value: BeerEnum.Volume_bottle._375,
   },
   {
     label: 14,
-    value: BeerEnum.Volume_bottle._473,
+    value: BeerEnum.Volume_bottle._440,
   },
   {
     label: 15,
-    value: BeerEnum.Volume_bottle._500,
+    value: BeerEnum.Volume_bottle._473,
   },
   {
     label: 16,
-    value: BeerEnum.Volume_bottle._550,
+    value: BeerEnum.Volume_bottle._500,
   },
   {
     label: 17,
-    value: BeerEnum.Volume_bottle._568,
+    value: BeerEnum.Volume_bottle._550,
   },
   {
     label: 18,
-    value: BeerEnum.Volume_bottle._650,
+    value: BeerEnum.Volume_bottle._568,
   },
   {
     label: 19,
-    value: BeerEnum.Volume_bottle._750,
+    value: BeerEnum.Volume_bottle._650,
   },
   {
     label: 20,
-    value: BeerEnum.Volume_bottle._940,
+    value: BeerEnum.Volume_bottle._750,
   },
   {
     label: 21,
-    value: BeerEnum.Volume_bottle._1000,
+    value: BeerEnum.Volume_bottle._940,
   },
   {
     label: 22,
+    value: BeerEnum.Volume_bottle._1000,
+  },
+  {
+    label: 23,
     value: BeerEnum.Volume_bottle._1500,
   },
 ];
