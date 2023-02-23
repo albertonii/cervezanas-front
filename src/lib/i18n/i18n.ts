@@ -313,6 +313,7 @@ const translationsEn = {
   start_date: "Start Date",
   end_date: "End Date",
   campaign_added_successfully: "Campaign added successfully",
+  campaign_removed_successfully: "Campaign removed successfully",
 };
 
 const translationsEs = {
@@ -640,6 +641,7 @@ const translationsEs = {
   start_date: "Fecha de inicio",
   end_date: "Fecha de fin",
   campaign_added_successfully: "Campaña añadida correctamente",
+  campaign_removed_successfully: "Campaña eliminada correctamente",
 };
 
 // the translations
