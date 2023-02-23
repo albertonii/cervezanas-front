@@ -317,6 +317,7 @@ const translationsEn = {
   end_date: "End Date",
   campaign_added_successfully: "Campaign added successfully",
   campaign_removed_successfully: "Campaign removed successfully",
+  configure_products_in_campaign: "Configure products in campaign",
 };
 
 const translationsEs = {
@@ -649,6 +650,7 @@ const translationsEs = {
   end_date: "Fecha de fin",
   campaign_added_successfully: "Campaña añadida correctamente",
   campaign_removed_successfully: "Campaña eliminada correctamente",
+  configure_products_in_campaign: "Configurar productos de la campaña",
 };
 
 // the translations

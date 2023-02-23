@@ -112,6 +112,11 @@ export function Campaigns({ campaigns: c }: Props) {
     setAcceptDeleteCampaign(value);
   };
 
+  // TODO: Terminar
+  const handleProductsInCampaign = async (index: number) => {
+    const campaign = getValues("campaigns")[index];
+  };
+
   useEffect(() => {
     if (acceptDeleteCampaign) {
       const handleRemoveCampaign = async (index: number) => {
@@ -408,6 +413,16 @@ export function Campaigns({ campaigns: c }: Props) {
                         <p>{t("product_modal_20_max_length")}</p>
                       )}
                     </div> */}
+
+                    <div className="flex flex-col w-full space-y">
+                      <Button
+                        class="w-[44vw] px-4 py-2 text-xl"
+                        primary
+                        onClick={() => handleProductsInCampaign(index)}
+                      >
+                        {t("configure_products_in_campaign")}
+                      </Button>
+                    </div>
 
                     <div className="flex space-x-2">
                       <Button
