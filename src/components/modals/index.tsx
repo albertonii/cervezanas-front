@@ -9,4 +9,3 @@ export * from "./ProductModalUpd";
 export * from "./ProductStepper";
 export * from "./SuccessfulReviewModal";
 export * from "./MultimediaSection";
-export * from "./AddCampaign";

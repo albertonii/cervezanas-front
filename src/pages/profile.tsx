@@ -111,7 +111,6 @@ export default function CustomLayout({ profile }: Props) {
 
 export async function getServerSideProps({ req }: any) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-
   if (!user) {
     return {
       redirect: {

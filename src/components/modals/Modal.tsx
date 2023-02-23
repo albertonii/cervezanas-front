@@ -148,7 +148,7 @@ export function Modal(props: Props) {
                 {/*footer*/}
                 <div className="flex items-center justify-start p-6 border-t border-solid border-slate-200 rounded-b">
                   <Button
-                    accent
+                    primary
                     class="mr-4"
                     medium
                     btnType="submit"
@@ -158,7 +158,7 @@ export function Modal(props: Props) {
                   </Button>
 
                   <Button
-                    danger
+                    accent
                     class=""
                     btnType="button"
                     medium

@@ -145,6 +145,9 @@ const translationsEn = {
   modal_product_add_details_title: "Details",
   modal_product_add_price_title: "Stock information",
   modal_product_add_lot_title: "Lot",
+  modal_delete_campaign_title: "Delete Campaign",
+  modal_delete_campaign_description:
+    "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",
   beer: "Beer",
   merchandising: "Merchandising",
   name: "Name",
@@ -458,6 +461,10 @@ const translationsEs = {
   modal_product_add_details_title: "Detalles",
   modal_product_add_price_title: "Información de stock",
   modal_product_add_lot_title: "Lote",
+  modal_delete_campaign_title: "Eliminar Campaña",
+  modal_delete_campaign_description:
+    "¡Cuidado! Vas a eliminar una campaña. Esta acción borrará de la base de datos la información relativa a la misma. ¿Estás seguro que quieres eliminar la campaña?",
+
   beer: "Cerveza",
   merchandising: "Merchandising",
   form_errors: translationsFormErrorsEn,

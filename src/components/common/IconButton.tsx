@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IconButtonProps {
   icon: IconDefinition;
-  onClick: any;
+  onClick?: any;
   isActive?: boolean;
   color?: { filled: string; unfilled: string };
   classContainer?: string;

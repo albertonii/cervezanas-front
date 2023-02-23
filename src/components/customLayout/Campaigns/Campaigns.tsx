@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignFormProps, CampaignItem } from "../../../lib/types";
+import { Campaign, CampaignFormProps } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 import { Button, DeleteButton } from "../../common";
 import { useMessage } from "../../message";
+import { DeleteCampaign } from "../../modals/DeleteCampaign";
 
 interface Props {
   campaigns: Campaign[];
@@ -15,14 +16,14 @@ export function Campaigns({ campaigns: c }: Props) {
   const { t } = useTranslation();
 
   const [campaigns, setCampaigns] = useState<Campaign[]>(c ?? []);
+  const [acceptDeleteCampaign, setAcceptDeleteCampaign] =
+    useState<boolean>(false);
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [campaignIndex, setCampaignIndex] = useState<number>(0);
 
   const { user } = useAuth();
 
   const { handleMessage } = useMessage();
-
-  useEffect(() => {
-    console.log(campaigns);
-  }, [campaigns]);
 
   const form = useForm<CampaignFormProps>({
     mode: "onSubmit",
@@ -74,7 +75,7 @@ export function Campaigns({ campaigns: c }: Props) {
       .eq("id", campaign.id);
 
     if (campaignError) throw campaignError;
-    console.log(campaign_[0]);
+
     if (campaign_[0]?.id !== campaign.id) {
       campaign.id = campaign_[0].id;
       setCampaigns([...campaigns, campaign]);
@@ -98,30 +99,69 @@ export function Campaigns({ campaigns: c }: Props) {
     });
   };
 
-  const handleRemoveCampaign = async (index: number) => {
-    remove(index);
-
-    const campaign = campaigns[index];
-
-    const { id, name } = campaign;
-    const { error: campaignError } = await supabase
-      .from("campaigns")
-      .delete()
-      .eq("id", id);
-
-    if (campaignError) throw campaignError;
-
-    handleMessage!({
-      type: "success",
-      message: `${t("campaign_removed_successfully")} , ${name}`,
-    });
+  const handleSetCampaigns = (value: Campaign[]) => {
+    setCampaigns(value);
   };
+
+  const handleDeleteShowModal = (value: boolean, index: number) => {
+    setIsShowModal(value);
+    setCampaignIndex(index);
+  };
+
+  const handleResponseModal = (value: boolean) => {
+    setAcceptDeleteCampaign(value);
+  };
+
+  useEffect(() => {
+    if (acceptDeleteCampaign) {
+      const handleRemoveCampaign = async (index: number) => {
+        const campaignId = campaigns[index].id;
+
+        const { error: campaignError } = await supabase
+          .from("campaigns")
+          .delete()
+          .eq("id", campaignId);
+
+        if (campaignError) throw campaignError;
+
+        handleSetCampaigns(
+          campaigns.filter((c) => {
+            return c.id !== campaignId;
+          })
+        );
+
+        remove(index);
+
+        handleMessage!({
+          type: "success",
+          message: `${t("campaign_removed_successfully")}`,
+        });
+      };
+
+      handleRemoveCampaign(campaignIndex);
+
+      handleDeleteShowModal(false, campaignIndex);
+      setAcceptDeleteCampaign(false);
+    }
+  }, [
+    acceptDeleteCampaign,
+    campaigns,
+    handleMessage,
+    remove,
+    t,
+    campaignIndex,
+  ]);
 
   return (
     <>
       <div className="py-6 px-4 " aria-label="Campaigns">
         <div className="flex flex-col">
           <div className="text-4xl pr-12">Campaigns</div>
+
+          {/* Show/Hide Modal*/}
+          {isShowModal && (
+            <DeleteCampaign handleResponseModal={handleResponseModal} />
+          )}
 
           {/* Add another campaign  */}
           <div className="pr-12 pt-6">
@@ -379,9 +419,16 @@ export function Campaigns({ campaigns: c }: Props) {
                         {t("save_form_campaign")}
                       </Button>
 
-                      <DeleteButton
-                        onClick={() => handleRemoveCampaign(index)}
-                      />
+                      <Button
+                        danger
+                        medium
+                        class=""
+                        onClick={() => {
+                          handleDeleteShowModal(true, index);
+                        }}
+                      >
+                        {t("delete")}
+                      </Button>
                     </div>
                   </fieldset>
                 </form>
@@ -393,5 +440,3 @@ export function Campaigns({ campaigns: c }: Props) {
     </>
   );
 }
-
-export async function getServerSideProps() {}
