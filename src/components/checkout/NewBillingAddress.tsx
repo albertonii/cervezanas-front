@@ -1,11 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import Modal from "../modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { BillingAddress } from "../../lib/interfaces";
+import { Modal } from "../modals";
 
 interface FormData {
   name: string;

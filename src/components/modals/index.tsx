@@ -1,6 +1,6 @@
 export * from "./AddLot";
 export * from "./AddProduct";
-export * from "./AwardSection";
+export * from "./AwardsSection";
 export * from "./DeleteProduct";
 export * from "./ProductInfoSection";
 export * from "./Modal";
@@ -9,3 +9,4 @@ export * from "./ProductModalUpd";
 export * from "./ProductStepper";
 export * from "./SuccessfulReviewModal";
 export * from "./MultimediaSection";
+export * from "./AddCampaign";

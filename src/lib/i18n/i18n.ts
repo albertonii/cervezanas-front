@@ -303,6 +303,16 @@ const translationsEn = {
   continue_reviewing: "Continue reviewing",
   joined_on: "Joined on",
   reviewed_on: "Reviewed on",
+  add_form_campaign: "Add Campaign",
+  save_form_campaign: "Save Campaign",
+  remove_form_campaign: "Remove Campaign",
+  img_url: "Image URL",
+  slogan: "Slogan",
+  goal: "Goal",
+  status: "Status",
+  start_date: "Start Date",
+  end_date: "End Date",
+  campaign_added_successfully: "Campaign added successfully",
 };
 
 const translationsEs = {
@@ -620,6 +630,16 @@ const translationsEs = {
   reviewed_on: "Opinó el",
   is_public_description:
     "Esta opinión será visible para todos los usuarios de la web",
+  add_form_campaign: "Añadir campaña",
+  save_form_campaign: "Guardar campaña",
+  remove_form_campaign: "Eliminar campaña",
+  img_url: "Imagen",
+  slogan: "Slogan",
+  goal: "Objetivo",
+  status: "Estado",
+  start_date: "Fecha de inicio",
+  end_date: "Fecha de fin",
+  campaign_added_successfully: "Campaña añadida correctamente",
 };
 
 // the translations

@@ -57,7 +57,7 @@ export function Button({
       color={hoverColor}
       form={form}
       className={`
-      flex items-center justify-center border-beer-softBlonde border-2 rounded mt-0
+      flex items-center justify-center border-beer-foam border-2 rounded mt-0
       ${box ? "h-auto w-10" : ""}
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       ${small ? "w-24" : ""} 
@@ -67,11 +67,11 @@ export function Button({
       ${xxLarge ? "w-80" : ""}
       ${
         primary
-          ? " bg-beer-softBlonde hover:bg-beer-blonde"
+          ? " bg-beer-softBlonde hover:bg-beer-blonde "
           : "hover:bg-beer-softBlonde shrink-0"
       }
       ${accent ? "bg-beer-foam" : ""}
-      ${danger ? "bg-red-400 hover:bg-red-500 " : ""}
+      ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
       ${className} 
       `}
     >

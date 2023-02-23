@@ -64,7 +64,7 @@ export default function CustomLayout({ profile }: Props) {
         case "products":
           return <Products products={profile[0].products} />;
         case "campaigns":
-          return <Campaigns />;
+          return <Campaigns campaigns={profile[0].campaigns} />;
         case "factories":
           return <Factories />;
         case "orders":
@@ -133,7 +133,8 @@ export async function getServerSideProps({ req }: any) {
           likes (*),
           reviews (*)
         ),
-        orders (*)
+        orders (*),
+        campaigns (*)
       `
     )
     .eq("id", user?.id);

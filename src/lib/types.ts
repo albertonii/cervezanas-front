@@ -287,7 +287,18 @@ export interface Campaign {
   owner_id: string;
   img_url: any;
   is_public: boolean;
+  slogan: string;
+  goal: string;
+  start_date: Date;
+  end_date: Date;
+  status: string;
   products: Product[];
+}
+
+export interface CampaignItem {
+  campaignId: string;
+  productId: string;
+  discount: number;
 }
 
 export interface Order {
@@ -418,6 +429,10 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
+};
+
+export type CampaignFormProps = {
+  campaigns: Campaign[];
 };
 
 export type CartItem = {

@@ -7,8 +7,7 @@ import { SupabaseProps } from "../../constants";
 import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
-import Button from "../common/Button";
-import IconButton from "../common/IconButton";
+import { Button, IconButton } from "../common";
 
 interface Props {
   product: Product;

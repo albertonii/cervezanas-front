@@ -1,8 +1,9 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { Button, Divider } from "@supabase/ui";
+import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Award, ModalAddProductProps } from "../../lib/types";
+import { Button } from "../common";
 
 const emptyAward: Award = {
   id: "",
@@ -31,8 +32,6 @@ export const AwardsSection = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const [isPrevVisible, setIsPrevVisible] = useState(false);
-
   const { fields, append, remove } = useFieldArray({
     name: "awards",
     control,
@@ -49,11 +48,8 @@ export const AwardsSection = ({
       ) as HTMLImageElement | null;
 
       if (preview !== null) {
-        setIsPrevVisible(true);
         preview.src = src;
         preview.style.display = "block";
-      } else {
-        setIsPrevVisible(false);
       }
     });
   }, [selectedFiles]);
@@ -81,7 +77,11 @@ export const AwardsSection = ({
           <div className="w-full space-y">
             {fields.length > 1 ? (
               <div>
-                <Button danger onClick={() => handleRemoveAward(index)}>
+                <Button
+                  danger
+                  onClick={() => handleRemoveAward(index)}
+                  class={""}
+                >
                   Remove
                 </Button>
               </div>
@@ -194,7 +194,7 @@ export const AwardsSection = ({
       ))}
 
       <div>
-        <Button className="" onClick={() => append(emptyAward)}>
+        <Button class="" onClick={() => append(emptyAward)}>
           {t("modal_product_award_add")}
         </Button>
       </div>

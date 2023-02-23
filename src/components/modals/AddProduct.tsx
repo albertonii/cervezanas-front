@@ -13,7 +13,7 @@ import {
   BeerEnum,
 } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
-import { AwardsSection } from "./AwardSection";
+import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
@@ -27,7 +27,7 @@ interface Props {
 
 export function AddProduct(props: Props) {
   const { t } = useTranslation();
-  const { products, handleSetProducts } = props;
+  const { handleSetProducts } = props;
 
   const { user } = useAuth();
 

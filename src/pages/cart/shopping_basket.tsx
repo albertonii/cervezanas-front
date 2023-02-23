@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CheckoutItem from "../../components/checkout/CheckoutItem";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
 import { Product } from "../../lib/types";
@@ -11,13 +10,6 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Layout from "../../components/Layout";
-import Image from "next/image";
-import Button from "../../components/common/Button";
-import NewShippingAddress from "../../components/checkout/NewShippingAddress";
-import NewBillingAddress from "../../components/checkout/NewBillingAddress";
-import CustomLoading from "../../components/common/CustomLoading";
-import { useRouter } from "next/router";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
@@ -27,6 +19,14 @@ import {
   ShippingAddress,
 } from "../../lib/interfaces";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { Button, CustomLoading } from "../../components/common";
+import {
+  CheckoutItem,
+  NewBillingAddress,
+  NewShippingAddress,
+} from "../../components/checkout";
+import { Layout } from "../../components";
+import { useRouter } from "next/router";
 
 interface FormShippingData {
   shipping_info_id: string;
