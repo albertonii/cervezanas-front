@@ -3,8 +3,8 @@ import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
-import Button from "../common/Button";
 import { SignUpInterface } from "../../lib/interfaces";
+import { Button } from "../common";
 
 export enum ROLE_ENUM {
   Cervezano = "consumer",

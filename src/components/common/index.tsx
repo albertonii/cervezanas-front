@@ -9,3 +9,5 @@ export * from "./IconButton";
 export * from "./IncreaseButton";
 export * from "./Spinner";
 export * from "./ToastNotification";
+export * from "./SearchCheckboxList";
+export * from "./SearchCheckboxListCampaign";

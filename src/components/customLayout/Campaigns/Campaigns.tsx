@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignFormProps } from "../../../lib/types";
+import { Campaign, CampaignFormProps, Product } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
-import { Button, DeleteButton } from "../../common";
+import { Button, SearchCheckboxListCampaign } from "../../common";
 import { useMessage } from "../../message";
 import { DeleteCampaign } from "../../modals/DeleteCampaign";
 
 interface Props {
   campaigns: Campaign[];
+  products: Product[];
 }
 
-export function Campaigns({ campaigns: c }: Props) {
+export function Campaigns({ campaigns: c, products }: Props) {
   const { t } = useTranslation();
 
+  const [campaignIndex, setCampaignIndex] = useState<number>(0);
   const [campaigns, setCampaigns] = useState<Campaign[]>(c ?? []);
   const [acceptDeleteCampaign, setAcceptDeleteCampaign] =
     useState<boolean>(false);
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
-  const [campaignIndex, setCampaignIndex] = useState<number>(0);
+
+  const [isShowDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [isShowProductsInCampaignModal, setShowProductsInCampaignModal] =
+    useState<boolean>(false);
+  const [indexClicked, setIndexClicked] = useState<number>(0);
 
   const { user } = useAuth();
 
@@ -81,13 +86,13 @@ export function Campaigns({ campaigns: c }: Props) {
       setCampaigns([...campaigns, campaign]);
     }
 
-    campaign.products?.map(async (product) => {
+    campaign.products?.map(async (item) => {
       const { error: orderItemError } = await supabase
         .from("campaign_item")
         .insert({
           campaign_id: campaign.id,
-          product_id: product.id,
-          discount: 10,
+          product_id: item.product_id,
+          discount: item.discount,
         });
 
       if (orderItemError) throw orderItemError;
@@ -104,17 +109,16 @@ export function Campaigns({ campaigns: c }: Props) {
   };
 
   const handleDeleteShowModal = (value: boolean, index: number) => {
-    setIsShowModal(value);
+    setShowDeleteModal(value);
     setCampaignIndex(index);
   };
 
-  const handleResponseModal = (value: boolean) => {
+  const handleResponseDeleteModal = (value: boolean) => {
     setAcceptDeleteCampaign(value);
   };
 
-  // TODO: Terminar
   const handleProductsInCampaign = async (index: number) => {
-    const campaign = getValues("campaigns")[index];
+    // const campaign = getValues("campaigns")[index];
   };
 
   useEffect(() => {
@@ -157,6 +161,11 @@ export function Campaigns({ campaigns: c }: Props) {
     campaignIndex,
   ]);
 
+  const handleProductsInCampaignShowModal = (value: boolean, index: number) => {
+    setShowProductsInCampaignModal(value);
+    setIndexClicked(index);
+  };
+
   return (
     <>
       <div className="py-6 px-4 " aria-label="Campaigns">
@@ -164,8 +173,8 @@ export function Campaigns({ campaigns: c }: Props) {
           <div className="text-4xl pr-12">Campaigns</div>
 
           {/* Show/Hide Modal*/}
-          {isShowModal && (
-            <DeleteCampaign handleResponseModal={handleResponseModal} />
+          {isShowDeleteModal && (
+            <DeleteCampaign handleResponseModal={handleResponseDeleteModal} />
           )}
 
           {/* Add another campaign  */}
@@ -393,32 +402,13 @@ export function Campaigns({ campaigns: c }: Props) {
                         "required" && <p>{t("input_required")}</p>}
                     </div>
 
-                    {/* <div className="flex flex-col w-full space-y">
-                      <label
-                        htmlFor="award_description"
-                        className="text-sm text-gray-600 mr-2"
-                      >
-                        {t("products_in_campaign")}
-                      </label>
-
-                      <input
-                        className="border border-gray-300 rounded-md"
-                        defaultValue={`campaigns.${index}.products` as const}
-                        {...register(`campaigns.${index}.products` as const)}
-                      />
-                      {`errors.awards.${index}.description.type` ===
-                        "required" && <p>{t("input_required")}</p>}
-                      {`errors.awards.${index}.description.type` ===
-                        "maxLength" && (
-                        <p>{t("product_modal_20_max_length")}</p>
-                      )}
-                    </div> */}
-
                     <div className="flex flex-col w-full space-y">
                       <Button
                         class="w-[44vw] px-4 py-2 text-xl"
                         primary
-                        onClick={() => handleProductsInCampaign(index)}
+                        onClick={() =>
+                          handleProductsInCampaignShowModal(true, index)
+                        }
                       >
                         {t("configure_products_in_campaign")}
                       </Button>
@@ -452,6 +442,16 @@ export function Campaigns({ campaigns: c }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Products in Campaign Modal  */}
+      {isShowProductsInCampaignModal && (
+        <SearchCheckboxListCampaign
+          products={products}
+          form={form}
+          handleProductsInCampaign={handleProductsInCampaign}
+          campaign={campaigns[indexClicked]}
+        />
+      )}
     </>
   );
 }

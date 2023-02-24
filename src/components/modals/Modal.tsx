@@ -14,6 +14,7 @@ interface Props {
   description: string;
   children: JSX.Element;
   handler: () => void;
+  handlerClose?: () => void;
   icon?: IconDefinition;
   classIcon: string;
   classContainer: string;
@@ -29,6 +30,7 @@ export function Modal(props: Props) {
     description,
     children,
     handler,
+    handlerClose,
     icon,
     classIcon,
     classContainer,
@@ -50,11 +52,17 @@ export function Modal(props: Props) {
 
   const handleClickOutsideCallback = () => {
     handleShowModal(false);
+    if (handlerClose) handlerClose();
   };
 
   const handleAccept = () => {
     handler();
     handleShowModal(false);
+  };
+
+  const handleClose = () => {
+    handleShowModal(false);
+    if (handlerClose) handlerClose();
   };
 
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());
@@ -162,7 +170,7 @@ export function Modal(props: Props) {
                     class=""
                     btnType="button"
                     medium
-                    onClick={() => handleShowModal(false)}
+                    onClick={handleClose}
                   >
                     {t("close")}
                   </Button>

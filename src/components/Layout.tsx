@@ -31,7 +31,15 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
       <Header />
 
       {loggedIn && (
-        <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+        <div
+          className={classNames(
+            "w-full h-auto mx-auto relative",
+            usePadding && "px-4 sm:px-6 lg:px-8",
+            useBackdrop && "bg-gray-200"
+          )}
+        >
+          <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
+        </div>
       )}
 
       <main

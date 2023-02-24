@@ -293,12 +293,12 @@ export interface Campaign {
   start_date: Date;
   end_date: Date;
   status: string;
-  products: Product[];
+  products: CampaignItem[];
 }
 
 export interface CampaignItem {
-  campaignId: string;
-  productId: string;
+  campaign_id: string;
+  product_id: string;
   discount: number;
 }
 

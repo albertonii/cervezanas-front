@@ -327,7 +327,10 @@ const translationsEn = {
   expires_at: "Expires ",
   view_invoice: "View Invoice",
   reviewed: "Review published",
-  seller_username: "Seller",
+  seller_username: "Producer",
+  products_in_campaign: "Products in campaign",
+  select_products_in_campaign_description:
+    "Select from the above list the products you want to add to the campaign and the discounts related to each product",
 };
 
 const translationsEs = {
@@ -670,7 +673,10 @@ const translationsEs = {
   expires_at: "Caduca el ",
   view_invoice: "Ver Recibo",
   reviewed: "Opinión publicada",
-  seller_username: "Vendedor",
+  seller_username: "Productor",
+  products_in_campaign: "Productos de la campaña",
+  select_products_in_campaign_description:
+    "Seleccione del listado los productos que pertenecen a la campaña junto el descuento aplicado a los mismos.",
 };
 
 // the translations

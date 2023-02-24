@@ -66,7 +66,12 @@ export default function CustomLayout({ profile, reviews }: Props) {
         case "products":
           return <Products products={profile[0].products} />;
         case "campaigns":
-          return <Campaigns campaigns={profile[0].campaigns} />;
+          return (
+            <Campaigns
+              campaigns={profile[0].campaigns}
+              products={profile[0].products}
+            />
+          );
         case "factories":
           return <Factories />;
         case "orders":
