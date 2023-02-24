@@ -257,7 +257,8 @@ export interface Review {
   bitterness: number;
   mouthfeel: number;
   overall: number;
-  users: User;
+  users?: User;
+  products?: Product;
 }
 
 export interface Like {

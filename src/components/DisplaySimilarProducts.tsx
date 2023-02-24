@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import SimilarProduct from "./SimilarProduct";
+import { SimilarProduct } from ".";
 
 export function DisplaySimilarProducts() {
   const { t } = useTranslation();

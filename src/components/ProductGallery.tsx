@@ -6,7 +6,7 @@ import {
   faAngleLeft,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import IconButton from "./common/IconButton";
+import { IconButton } from "./common";
 
 interface Props {
   gallery: string[];

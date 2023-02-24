@@ -11,6 +11,7 @@ import Router from "next/router";
 import { useMessage } from "../components/message";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../components";
+import { Spinner } from "../components/common";
 
 interface FormData {
   email: string;
@@ -48,7 +49,7 @@ export default function SignIn() {
   };
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Spinner color="beer-blonde" size={"medium"} />;
   }
 
   if (loggedIn) {

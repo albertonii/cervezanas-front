@@ -16,6 +16,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import axios from "axios";
 import { useSession } from "../hooks/useSession";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Spinner } from "../components/common";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -110,7 +111,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <DefaultSeo {...pageSEO} />
 
       <MessageProvider>
-        <Suspense fallback="Loading...">
+        <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
           <AuthContextProvider supabaseClient={supabase}>
             <AppContextProvider>
               <QueryClientProvider client={queryClient}>

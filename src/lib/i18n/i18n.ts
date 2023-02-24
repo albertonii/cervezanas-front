@@ -318,6 +318,15 @@ const translationsEn = {
   campaign_added_successfully: "Campaign added successfully",
   campaign_removed_successfully: "Campaign removed successfully",
   configure_products_in_campaign: "Configure products in campaign",
+  status_order_placed: "Order placed",
+  status_processing: "Processing",
+  status_shipped: "Shipped",
+  status_delivered: "Delivered",
+  payment_information: "Payment Information",
+  ending_with: "Ending with ",
+  expires_at: "Expires ",
+  view_invoice: "View Invoice",
+  reviewed: "Review published",
 };
 
 const translationsEs = {
@@ -651,6 +660,15 @@ const translationsEs = {
   campaign_added_successfully: "Campaña añadida correctamente",
   campaign_removed_successfully: "Campaña eliminada correctamente",
   configure_products_in_campaign: "Configurar productos de la campaña",
+  status_order_placed: "Pedido realizado",
+  status_processing: "En proceso",
+  status_shipped: "Enviado",
+  status_delivered: "Entregado",
+  payment_information: "Información de pago",
+  ending_with: "Terminada en ",
+  expires_at: "Caduca el ",
+  view_invoice: "Ver Recibo",
+  reviewed: "Opinión publicada",
 };
 
 // the translations

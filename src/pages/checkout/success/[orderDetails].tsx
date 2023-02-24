@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
-import Button from "../../../components/common/Button";
-import Layout from "../../../components/Layout";
+import { Button } from "../../../components/common";
 import {
   Beer,
   Order,
@@ -68,7 +68,7 @@ export default function Success(props: Props) {
                   href="#"
                   className="hidden font-medium hover:text-beer-blonde sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
                 >
-                  View invoice<span aria-hidden="true"> &rarr;</span>
+                  {t("view_invoice")}<span aria-hidden="true"> &rarr;</span>
                 </a>
               </div>
 
@@ -82,7 +82,7 @@ export default function Success(props: Props) {
             </div>
 
             <p className="text-sm text-gray-600">
-              Order placed{" "}
+              {t("status_order_placed")}{" "}
               <time dateTime="2021-03-22" className="font-medium text-gray-900">
                 March 22, 2021
               </time>
@@ -226,10 +226,14 @@ export default function Success(props: Props) {
                         <div className="hidden sm:grid grid-cols-4 text-sm font-medium text-gray-600 mt-6">
                           <div className="text-beer-draft">Order placed</div>
                           <div className="text-center text-beer-draft">
-                            Processing
+                            {t("status_processing")}
                           </div>
-                          <div className="text-center">Shipped</div>
-                          <div className="text-right">Delivered</div>
+                          <div className="text-center">
+                            {t("status_shipped")}
+                          </div>
+                          <div className="text-right">
+                            {t("status_delivered")}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -291,8 +295,8 @@ export default function Success(props: Props) {
                           <p className="sr-only">Visa</p>
                         </div>
                         <div className="ml-4 mt-4">
-                          <p className="text-gray-900">Ending with 4242</p>
-                          <p className="text-gray-600">Expires 02 / 24</p>
+                          <p className="text-gray-900">{t("ending_with")} 4242</p>
+                          <p className="text-gray-600">{t("expires_at")} 02 / 24</p>
                         </div>
                       </dd>
                     </div>

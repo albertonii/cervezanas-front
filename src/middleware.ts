@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import jwt from "@tsndr/cloudflare-worker-jwt";
 
 const PUBLIC_FILE = /\.(.*)$/;
 import {
@@ -11,6 +12,15 @@ import {
 
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get("sb-access-token");
+
+  /*
+  if (
+    !authCookie ||
+    !(await jwt.verify(authCookie.value, process.env.SUPABASE_JWT_SECRET!))
+  ) {
+    return NextResponse.redirect(new URL("/", req.url)); // If a user is not authenticated (either no token was send, or the token is invalid) redirect the user to the homepage where they will be presented with a log-in screen
+  }
+  */
 
   if (
     req.nextUrl.pathname.startsWith("/_next") ||

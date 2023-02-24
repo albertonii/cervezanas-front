@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Rate } from ".";
 import { Review } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
-import Button from "../common/Button";
+import { Button } from "../common";
 import { useMessage } from "../message";
-import Modal from "../modals/Modal";
-import SuccessfulReviewModal from "../modals/SuccessfulReviewModal";
-import Rate from "./Rate";
+import { SuccessfulReviewModal } from "../modals";
 
 type FormValues = {
   aroma: number;

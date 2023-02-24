@@ -47,6 +47,11 @@ export function Sidebar(props: Props) {
       option: "reviews",
     },
     {
+      name: t("watchlist"),
+      icon: "watchlist",
+      option: "likes_history",
+    },
+    {
       name: t("payments"),
       icon: "credit-card",
       option: "payments",

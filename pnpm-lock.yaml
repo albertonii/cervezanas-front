@@ -15,6 +15,7 @@ specifiers:
   '@supabase/ui': ^0.36.5
   '@tailwindcss/forms': ^0.5.2
   '@tailwindcss/line-clamp': ^0.4.2
+  '@tsndr/cloudflare-worker-jwt': ^2.2.1
   '@types/jsonwebtoken': ^9.0.1
   '@types/lodash': ^4.14.191
   '@types/node': ^18.7.2
@@ -91,6 +92,7 @@ devDependencies:
   '@commitlint/config-angular': 17.2.0
   '@supabase/auth-helpers-nextjs': 0.5.4_cokbxflmshd5kjr6lm6qhkg44i
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
+  '@tsndr/cloudflare-worker-jwt': 2.2.1
   '@types/lodash': 4.14.191
   '@types/node': 18.11.9
   '@types/react': 18.0.17
@@ -876,6 +878,10 @@ packages:
 
   /@tsconfig/node16/1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+    dev: true
+
+  /@tsndr/cloudflare-worker-jwt/2.2.1:
+    resolution: {integrity: sha512-yYxjmag5AXXs7FDCUlse8cCTQlug3fbrqUb4/s4kvdauOg5wq2V6BayHD/OUWOGmgohefFRqu4vA5phU3+Cyng==}
     dev: true
 
   /@types/json5/0.0.29:

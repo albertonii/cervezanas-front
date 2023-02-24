@@ -11,7 +11,12 @@ import {
   Layout,
   ProductGallery,
 } from "../../components";
-import { Button, DeleteButton, IconButton } from "../../components/common";
+import {
+  Button,
+  DeleteButton,
+  IconButton,
+  Spinner,
+} from "../../components/common";
 import {
   ProductOverallReview,
   ProductReviews,
@@ -43,6 +48,13 @@ export default function ProductId(props: Props) {
   const [isLike, setIsLike] = useState<boolean>(
     product[0].likes?.length > 0 ? true : false
   );
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   const [productStars, _] = useState<number>(() => {
     let sum = 0;
     reviews.forEach((r) => {
@@ -179,72 +191,78 @@ export default function ProductId(props: Props) {
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
-      <div className="relative z-10" role="dialog" aria-modal="true">
-        <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
-          <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
-            <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-              <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
-                <ProductGallery
-                  gallery={gallery}
-                  isLike={isLike}
-                  handleSetIsLike={handleSetIsLike}
-                />
-              </div>
-
-              <div className="col-span-12 lg:col-span-8 mx-6 ">
-                <div className="flex flex-column">
-                  <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                    {p.name}
-                  </h2>
-
-                  <div>
-                    <h4 className="sr-only">{t("reviews")}</h4>
-
-                    <div className="flex flex-col justify-end items-end">
-                      <div className="flex items-center">
-                        <Rate
-                          rating={productStars}
-                          onRating={() => {}}
-                          count={5}
-                          color={starColor}
-                          editable={false}
-                        />
-                      </div>
-
-                      <p className="sr-only">{productStars} out of 5 stars</p>
-                      <a
-                        href="#"
-                        className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark"
-                      >
-                        {productReviews.length} {t("reviews")}
-                      </a>
-                    </div>
-                  </div>
+      {loading ? (
+        <Spinner color="beer-blonde" size={"medium"} />
+      ) : (
+        <div className="relative z-10" role="dialog" aria-modal="true">
+          <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
+            <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
+              <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
+                <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
+                  <ProductGallery
+                    gallery={gallery}
+                    isLike={isLike}
+                    handleSetIsLike={handleSetIsLike}
+                  />
                 </div>
 
-                <section aria-labelledby="information-heading" className="mt-2">
-                  <h3 id="information-heading" className="sr-only">
-                    {t("product_information")}
-                  </h3>
+                <div className="col-span-12 lg:col-span-8 mx-6 ">
+                  <div className="flex flex-column">
+                    <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
+                      {p.name}
+                    </h2>
 
-                  <p className="text-2xl text-gray-900">
-                    {formatCurrency(p.price)}
-                  </p>
+                    <div>
+                      <h4 className="sr-only">{t("reviews")}</h4>
 
-                  <div className="mt-6">
-                    <div className="flex items-center pr-6 min-h-[6vh]">
-                      <p className="text-lg">{p.description}</p>
+                      <div className="flex flex-col justify-end items-end">
+                        <div className="flex items-center">
+                          <Rate
+                            rating={productStars}
+                            onRating={() => {}}
+                            count={5}
+                            color={starColor}
+                            editable={false}
+                          />
+                        </div>
+
+                        <p className="sr-only">{productStars} out of 5 stars</p>
+                        <a
+                          href="#"
+                          className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark"
+                        >
+                          {productReviews.length} {t("reviews")}
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </section>
 
-                <section aria-labelledby="options-heading" className="mt-10">
-                  <h3 id="options-heading" className="sr-only">
-                    {t("product_options")}
-                  </h3>
+                  <section
+                    aria-labelledby="information-heading"
+                    className="mt-2"
+                  >
+                    <h3 id="information-heading" className="sr-only">
+                      {t("product_information")}
+                    </h3>
 
-                  <form>
-                    {/* <div>
+                    <p className="text-2xl text-gray-900">
+                      {formatCurrency(p.price)}
+                    </p>
+
+                    <div className="mt-6">
+                      <div className="flex items-center pr-6 min-h-[6vh]">
+                        <p className="text-lg">{p.description}</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section aria-labelledby="options-heading" className="mt-10">
+                    <h3 id="options-heading" className="sr-only">
+                      {t("product_options")}
+                    </h3>
+
+                    <form>
+                      {/* <div>
                       <h4 className="text-sm font-medium text-gray-900">
                         Color
                       </h4>
@@ -306,7 +324,7 @@ export default function ProductId(props: Props) {
                       </fieldset>
                     </div> */}
 
-                    {/* <div className="mt-10">
+                      {/* <div className="mt-10">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-medium text-gray-900">
                           Size
@@ -469,100 +487,101 @@ export default function ProductId(props: Props) {
                       </fieldset>
                     </div> */}
 
-                    <div className="mt-6 flex space-x-2">
-                      {quantity === 0 ? (
-                        <IconButton
-                          classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                          classIcon={""}
-                          onClick={() => increaseCartQuantity(p.id)}
-                          icon={faCartArrowDown}
+                      <div className="mt-6 flex space-x-2">
+                        {quantity === 0 ? (
+                          <IconButton
+                            classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
+                            classIcon={""}
+                            onClick={() => increaseCartQuantity(p.id)}
+                            icon={faCartArrowDown}
+                            isActive={false}
+                            color={{
+                              filled: "#fdc300",
+                              unfilled: "grey",
+                            }}
+                            title={"Add item to cart"}
+                          >
+                            <>{t("add_to_cart")}</>
+                          </IconButton>
+                        ) : (
+                          <div className="flex flex-row align-center">
+                            <Button
+                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
+                              onClick={() => handleDecreaseCartQuantity(p.id)}
+                              isActive={false}
+                              title={""}
+                              box
+                            >
+                              -
+                            </Button>
+
+                            <div className="mx-6 flex items-center justify-center">
+                              <span className="text-beer-dark text-3xl">
+                                {quantity}
+                              </span>
+                            </div>
+
+                            <Button
+                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
+                              onClick={() => handleIncreaseCartQuantity(p.id)}
+                              isActive={false}
+                              title={""}
+                              box
+                            >
+                              +
+                            </Button>
+
+                            <DeleteButton
+                              onClick={() => handleRemoveFromCart(p.id)}
+                            />
+                          </div>
+                        )}
+
+                        <Button
+                          onClick={() => handleIncreaseCartQuantity(p.id)}
+                          class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
                           isActive={false}
                           color={{
-                            filled: "#fdc300",
-                            unfilled: "grey",
+                            filled: "",
+                            unfilled: "",
                           }}
-                          title={"Add item to cart"}
+                          title={""}
+                          primary
                         >
-                          <>{t("add_to_cart")}</>
-                        </IconButton>
-                      ) : (
-                        <div className="flex flex-row align-center">
-                          <Button
-                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                            onClick={() => handleDecreaseCartQuantity(p.id)}
-                            isActive={false}
-                            title={""}
-                            box
-                          >
-                            -
-                          </Button>
+                          <>{t("buy")}</>
+                        </Button>
+                      </div>
+                    </form>
+                  </section>
+                </div>
 
-                          <div className="mx-6 flex items-center justify-center">
-                            <span className="text-beer-dark text-3xl">
-                              {quantity}
-                            </span>
-                          </div>
+                {/* Display Similar Products */}
+                <div className="col-span-12 mx-6">
+                  <DisplaySimilarProducts />
+                </div>
 
-                          <Button
-                            class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                            onClick={() => handleIncreaseCartQuantity(p.id)}
-                            isActive={false}
-                            title={""}
-                            box
-                          >
-                            +
-                          </Button>
-
-                          <DeleteButton
-                            onClick={() => handleRemoveFromCart(p.id)}
-                          />
-                        </div>
-                      )}
-
-                      <Button
-                        onClick={() => handleIncreaseCartQuantity(p.id)}
-                        class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
-                        isActive={false}
-                        color={{
-                          filled: "",
-                          unfilled: "",
-                        }}
-                        title={""}
-                        primary
-                      >
-                        <>{t("buy")}</>
-                      </Button>
-                    </div>
-                  </form>
-                </section>
-              </div>
-
-              {/* Display Similar Products */}
-              <div className="col-span-12 mx-6">
-                <DisplaySimilarProducts />
-              </div>
-
-              {/* Reviews */}
-              <div className="col-span-12 flex flex-col justify-center item-center mx-6">
-                <ProductOverallReview
-                  reviews={productReviews}
-                  emptyReviews={emptyReviews}
-                />
-              </div>
-
-              {/* See user reviews */}
-              {!emptyReviews && (
+                {/* Reviews */}
                 <div className="col-span-12 flex flex-col justify-center item-center mx-6">
-                  <ProductReviews
+                  <ProductOverallReview
                     reviews={productReviews}
-                    handleSetReviews={handleSetReviews}
+                    emptyReviews={emptyReviews}
                   />
                 </div>
-              )}
+
+                {/* See user reviews */}
+                {!emptyReviews && (
+                  <div className="col-span-12 flex flex-col justify-center item-center mx-6">
+                    <ProductReviews
+                      reviews={productReviews}
+                      handleSetReviews={handleSetReviews}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }

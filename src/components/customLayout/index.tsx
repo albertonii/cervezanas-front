@@ -20,3 +20,4 @@ export * from "./Profile/SecretDataForm";
 export * from "./Profile/Values";
 export * from "./Orders/OrderList";
 export * from "./Orders/Orders";
+export * from "./Reviews/Reviews";

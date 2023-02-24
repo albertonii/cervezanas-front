@@ -1,64 +1,47 @@
+import React from "react";
+import { Review } from "../../../lib/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Like } from "../../../lib/types";
-import { supabase } from "../../../utils/supabaseClient";
+import { useTranslation } from "react-i18next";
+import { formatDateString } from "../../../utils";
+import { Rate } from "../../reviews";
+import Link from "next/link";
 
 interface Props {
-  userId: string;
+  reviews: Review[];
 }
 
-export function LikesHistory({ userId }: Props) {
-  const [likes, setLikes] = useState<Like[]>([]);
-  /*
-  useEffect(() => {
-    const getLikesHistory = async () => {
-      const { data: likes, error } = await supabase
-        .from("likes")
-        .select(
-          `
-          *,
-          products (
-            *
-          )
-        `
-        )
-        .eq("owner_id", userId)
-        .order("created_at", { ascending: false })
-        .limit(10);
-      if (error) throw error;
+export function Reviews({ reviews }: Props) {
+  const { t } = useTranslation();
 
-      setLikes(likes);
-    };
-    console.log(likes);
-
-    getLikesHistory();
-
-    return () => {
-      setLikes([]);
-    };
-  }, [userId]);
-  */
+  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
   return (
     <>
-      {likes.length > 0 &&
-        likes.map((like, index) => {
+      {reviews &&
+        reviews.length > 0 &&
+        reviews.map((review, index) => {
           return (
             <div
               key={index}
               className="mt-12 ml-8 bg-beer-foam m-6 p-6 rounded-sm"
             >
-              <article className="md:gap-8 md:grid md:grid-cols-3">
-                <div>
+              <article className="md:gap-8 md:grid md:grid-cols-4">
+                <div className="col-span-1">
                   <div className="flex items-center mb-6 space-x-4">
-                    <Image
+                    {/* <Image
                       className="w-10 h-10 rounded-full"
                       fill
                       src="/docs/images/people/profile-picture-5.jpg"
                       alt=""
-                    />
-                    <div className="space-y-1 font-medium dark:text-white">
-                      <p>Jese Leos</p>
+                    /> */}
+
+                    <div className="space-y-3 font-medium dark:text-white">
+                      <h2 className="font-semibold transition-all text-lg mr-auto cursor-pointer text-beer-draft hover:text-purple-500 truncate hover:text-beer-blonde">
+                        <Link href={`/products/${review.products?.id}`}>
+                          {review.products?.name}
+                        </Link>
+                      </h2>
+
                       <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                         <svg
                           aria-hidden="true"
@@ -91,6 +74,7 @@ export function LikesHistory({ userId }: Props) {
                               fill="white"
                             />
                           </mask>
+
                           <g mask="url(#mask0_3885_33060)">
                             <path
                               fillRule="evenodd"
@@ -163,11 +147,12 @@ export function LikesHistory({ userId }: Props) {
                             </linearGradient>
                           </defs>
                         </svg>
-                        United States
+                        {review.users?.username}
                       </div>
                     </div>
                   </div>
-                  <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+
+                  {/* <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
                     <li className="flex items-center">
                       <svg
                         aria-hidden="true"
@@ -212,16 +197,17 @@ export function LikesHistory({ userId }: Props) {
                       </svg>
                       Family
                     </li>
-                  </ul>
+                  </ul> */}
                 </div>
-                <div className="col-span-2 mt-6 md:mt-0">
+
+                <div className="col-span-3 mt-6 md:mt-0">
                   <div className="flex items-start mb-5">
                     <div className="pr-4">
                       <footer>
                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          Reviewed:{" "}
+                          {t("reviewed")}:{" "}
                           <time dateTime="2022-01-20 19:00">
-                            January 20, 2022
+                            {formatDateString(review.created_at)}
                           </time>
                         </p>
                       </footer>
@@ -230,25 +216,25 @@ export function LikesHistory({ userId }: Props) {
                         genuinely nice and helpful.
                       </h4>
                     </div>
-                    <p className="bg-blue-700 text-white text-sm font-semibold inline-flex items-center p-1.5 rounded">
-                      8.7
-                    </p>
+
+                    <div className="flex space-x-2">
+                      <Rate
+                        rating={review.overall}
+                        onRating={() => {}}
+                        count={review.overall}
+                        color={starColor}
+                        editable={false}
+                      />
+
+                      <p className="bg-beer-blonde text-white text-sm font-semibold inline-flex items-center p-1.5 rounded">
+                        {review.overall}
+                      </p>
+                    </div>
                   </div>
                   <p className="mb-2 font-light text-gray-500 dark:text-gray-400">
-                    The flat was spotless, very comfortable, and the host was
-                    amazing. I highly recommend this accommodation for anyone
-                    visiting Brasov city centre. It`s quite a while since we are
-                    no longer using hotel facilities but self contained places.
-                    And the main reason is poor cleanliness and staff not being
-                    trained properly. This place exceeded our expectation and
-                    will return for sure.
+                    {review.comment}
                   </p>
-                  <p className="mb-5 font-light text-gray-500 dark:text-gray-400">
-                    It is obviously not the same build quality as those very
-                    expensive watches. But that is like comparing a Citroën to a
-                    Ferrari. This watch was well under £100! An absolute
-                    bargain.
-                  </p>
+
                   <aside className="flex items-center mt-3 space-x-5">
                     <a
                       href="#"

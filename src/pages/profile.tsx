@@ -17,6 +17,7 @@ import {
   Ledger,
   Stats,
   LikesHistory,
+  Reviews,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 
@@ -42,9 +43,10 @@ interface Props {
       campaigns: Campaign[];
     }
   ];
+  reviews: Review[];
 }
 
-export default function CustomLayout({ profile }: Props) {
+export default function CustomLayout({ profile, reviews }: Props) {
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -57,7 +59,7 @@ export default function CustomLayout({ profile }: Props) {
   }, []);
 
   const renderSwitch = (): JSX.Element => {
-    if (profile) {
+    if (profile && reviews) {
       switch (menuOption) {
         case "profile":
           return <Profile />;
@@ -77,6 +79,8 @@ export default function CustomLayout({ profile }: Props) {
           return <Ledger />;
         case "likes_history":
           return <LikesHistory userId={user!.id} />;
+        case "reviews":
+          return <Reviews reviews={reviews} />;
       }
     }
 
@@ -129,8 +133,7 @@ export async function getServerSideProps({ req }: any) {
           *, 
           product_multimedia (*),
           product_inventory (*),
-          likes (*),
-          reviews (*)
+          likes (*)
         ),
         orders (*),
         campaigns (*)
@@ -153,9 +156,26 @@ export async function getServerSideProps({ req }: any) {
     profileData = [];
   }
 
+  let { data: reviewData, error: reviewError } = await supabase
+    .from("reviews")
+    .select(
+      `
+        *,
+        products (*)
+      `
+    )
+    .eq("owner_id", user?.id);
+
+  if (reviewError) throw profileError;
+
+  if (reviewData === undefined || reviewData === null) {
+    reviewData = [];
+  }
+
   return {
     props: {
       profile: profileData,
+      reviews: reviewData,
     },
   };
 }
