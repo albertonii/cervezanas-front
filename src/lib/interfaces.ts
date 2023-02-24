@@ -108,4 +108,5 @@ export interface User {
   updated_at?: string;
   identities?: UserIdentity[];
   username: string;
+  avatar_url: string;
 }

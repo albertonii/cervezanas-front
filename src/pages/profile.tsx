@@ -161,7 +161,10 @@ export async function getServerSideProps({ req }: any) {
     .select(
       `
         *,
-        products (*)
+        products (*,
+          product_multimedia (*)
+        ),
+        users (*)
       `
     )
     .eq("owner_id", user?.id);

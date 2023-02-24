@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { User } from "../lib/interfaces";
 
 interface Props {
-  user: User;
+  user?: User;
 }
 
 export function OwnerInfo({ user }: Props) {

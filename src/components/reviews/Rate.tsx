@@ -12,7 +12,7 @@ interface Props {
   count: number;
   rating: number;
   color: Color;
-  onRating: (rating: number) => void;
+  onRating?: (rating: number) => void;
   editable: boolean;
 }
 
@@ -52,8 +52,10 @@ export function Rate({ count, rating, color, onRating, editable }: Props) {
           }
           onMouseLeave={() => setHoverRating(0)}
           onClick={() => {
-            onRating(idx);
-            setEffect(true);
+            if (editable) {
+              onRating!(idx);
+              setEffect(true);
+            }
           }}
           onAnimationEnd={() => setEffect(false)}
         />

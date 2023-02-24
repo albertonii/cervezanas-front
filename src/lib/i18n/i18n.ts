@@ -327,6 +327,7 @@ const translationsEn = {
   expires_at: "Expires ",
   view_invoice: "View Invoice",
   reviewed: "Review published",
+  seller_username: "Seller",
 };
 
 const translationsEs = {
@@ -669,6 +670,7 @@ const translationsEs = {
   expires_at: "Caduca el ",
   view_invoice: "Ver Recibo",
   reviewed: "Opinión publicada",
+  seller_username: "Vendedor",
 };
 
 // the translations
