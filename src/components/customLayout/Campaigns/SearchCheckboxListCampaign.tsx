@@ -1,76 +1,74 @@
-import React, { useEffect, useState } from "react";
-import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
+import React, { ComponentProps, useEffect, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignItem, Product } from "../../lib/types";
-import { supabase } from "../../utils/supabaseClient";
-import { Modal } from "../modals";
+import { Campaign, CampaignItem, Product } from "../../../lib/types";
+import { supabase } from "../../../utils/supabaseClient";
+import { Modal } from "../../modals";
 
 interface Props {
+  index: number;
   products: Product[];
   campaign: Campaign;
   form: UseFormReturn<any, any>;
-  handleProductsInCampaign: React.Dispatch<React.SetStateAction<any>>;
+  handleResponseLinkProductsModal: ComponentProps<any>;
+  handleShowProductsInCampaignModal: ComponentProps<any>;
+  handleProductsInCampaign: ComponentProps<any>;
 }
 
 export function SearchCheckboxListCampaign({
+  index,
   products,
   campaign,
   form,
+  handleShowProductsInCampaignModal,
+  handleProductsInCampaign,
 }: Props) {
   const { t } = useTranslation();
 
-  const { control, register, getValues } = form;
-
-  const { fields, append, remove } = useFieldArray({
-    name: "products",
-    control,
-  });
+  const { register, getValues } = form;
 
   const [productsInCampaign, setProductsInCampaign] = useState<CampaignItem[]>(
     []
   );
-  const [acceptProductsCampaign, setAcceptProductsCampaign] =
-    useState<boolean>(false);
-  const [isShowProductsInCampaignModal, setShowProductsInCampaignModal] =
-    useState<boolean>(false);
 
   // Insert in supabase the CampaignItems related to the campaign
-  const handleProductsInCampaign = async () => {
+  const api_handleProductsInCampaign = () => {
     // Get products selected in checkbox
 
     // Create object Campaign Item
-    getValues("products").map((item: CampaignItem) => {
-      const campaignItem: CampaignItem = {
-        campaign_id: campaign.id,
-        product_id: item.product_id,
-        discount: item.discount,
-      };
+    const campaignItems: CampaignItem[] = getValues("products").map(
+      (item: CampaignItem) => {
+        const campaignItem: CampaignItem = {
+          campaign_id: campaign.id,
+          product_id: item.product_id,
+          discount: item.discount,
+        };
 
-      setProductsInCampaign([...productsInCampaign, campaignItem]);
-    });
+        return campaignItem;
+      }
+    );
 
-    if (productsInCampaign.length === 0) return;
+    const updateItemsLinkedToCampaign = async (
+      campaignItems: CampaignItem[]
+    ) => {
+      // Insert all the objects selected to supabase API
+      /*
+      const { error: itemsCampaignError } = await supabase
+        .from("campaign_item")
+        .upsert(campaignItems);
 
-    // Insert all the objects selected to supabase API
-    const { error: itemsCampaignError } = await supabase
-      .from("campaign_items")
-      .insert(productsInCampaign);
+      if (itemsCampaignError) throw itemsCampaignError;
+      */
 
-    if (itemsCampaignError) throw itemsCampaignError;
+      handleProductsInCampaign(campaignItems);
+    };
 
-    // Update list of products related to the campaign
-    const { error: campaignError } = await supabase
-      .from("campaigns")
-      .update({ products: productsInCampaign })
-      .eq("id", campaign.id);
-
-    if (campaignError) throw campaignError;
-
-    setAcceptProductsCampaign(true);
+    updateItemsLinkedToCampaign(campaignItems);
   };
 
-  const handleProductsInCampaignShowModal = (value: boolean) => {
-    setShowProductsInCampaignModal(value);
+  const handleAcceptClick = () => {
+    api_handleProductsInCampaign();
+    handleShowProductsInCampaignModal(false, index);
   };
 
   return (
@@ -79,13 +77,12 @@ export function SearchCheckboxListCampaign({
       title={"products_in_campaign"}
       btnTitle={"save"}
       description={"select_products_in_campaign_description"}
-      handler={() => handleProductsInCampaign()}
-      handlerClose={() => handleProductsInCampaignShowModal(false)}
+      handler={() => handleAcceptClick()}
+      handlerClose={() => handleShowProductsInCampaignModal(false)}
       classIcon={""}
       classContainer={""}
     >
       <>
-        <div className="section container"></div>
         <div className="w-full space-y my-6">
           <div className=" z-10 w-full bg-white rounded shadow dark:bg-gray-700">
             <div className="p-3">
@@ -125,11 +122,12 @@ export function SearchCheckboxListCampaign({
                   return (
                     <li key={product.id}>
                       <div className="flex items-center justify-between p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        {/* Checkbox Name  */}
                         <div>
                           <input
                             id="checkbox-item-11"
                             type="checkbox"
-                            {...register(`products.${index}.value`)}
+                            {...register(`products.${index}.product_id`)}
                             value={product.id}
                             className="w-4 h-4 text-beer-blonde bg-gray-100 rounded border-gray-300 focus:ring-beer-blonde dark:focus:ring-beer-draft dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                           />
@@ -141,7 +139,7 @@ export function SearchCheckboxListCampaign({
                           </label>
                         </div>
 
-                        {/* discount input inside checkbox  */}
+                        {/* Discount input inside checkbox  */}
                         <div className="flex space-x-2 items-center justify-center">
                           <label
                             htmlFor={`item.${index}.value`}
@@ -149,9 +147,11 @@ export function SearchCheckboxListCampaign({
                           >
                             {t("discount")} (%)
                           </label>
+
                           <input
                             type="number"
                             {...register(`products.${index}.discount`)}
+                            defaultValue={0}
                             className="w-16 h-8 text-sm text-gray-900 rounded dark:text-gray-300"
                           />
                         </div>

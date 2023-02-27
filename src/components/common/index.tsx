@@ -10,4 +10,4 @@ export * from "./IncreaseButton";
 export * from "./Spinner";
 export * from "./ToastNotification";
 export * from "./SearchCheckboxList";
-export * from "./SearchCheckboxListCampaign";
+export * from "../customLayout/Campaigns/SearchCheckboxListCampaign";

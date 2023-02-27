@@ -157,6 +157,7 @@ const translationsEn = {
   true: "True",
   false: "False",
   is_public: "Publish the product",
+  is_public_campaign: "Publish Campaign",
   is_public_description:
     "Toggle the button to the right to make this product visible in the marketplace",
   modal_lot_add: "Add Lot",
@@ -489,6 +490,7 @@ const translationsEs = {
   true: "Verdadero",
   false: "Falso",
   is_public: "Publicar Producto",
+  is_public_campaign: "Publicar Campaña",
   modal_lot_add: "Añadir Lote",
   modal_lot_title: "Lote",
   lot_number: "Número de Lote",
