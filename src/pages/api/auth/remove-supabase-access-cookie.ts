@@ -9,7 +9,7 @@ export default async function handler(
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    console.log("Error signing out:", error.message);
+    console.error("Error signing out:", error.message);
     return res.status(401).json({ error: error.message });
   }
 

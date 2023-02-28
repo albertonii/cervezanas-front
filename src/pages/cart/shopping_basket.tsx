@@ -314,7 +314,7 @@ export default function Checkout(props: Props) {
       setLoadingPayment(false);
     } catch (error) {
       setLoadingPayment(false);
-      console.log("error", error);
+      console.error("error", error);
     }
   };
 

@@ -54,7 +54,7 @@ export function HistoryForm(props: any) {
       if (error) throw error;
     } catch (error) {
       alert("Error updating the data!");
-      console.log(error);
+      console.error(error);
       setLoading(false);
     } finally {
       setLoading(false);

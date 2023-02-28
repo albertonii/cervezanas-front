@@ -1,8 +1,7 @@
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Campaign, CampaignItem, Product } from "../../../lib/types";
-import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 
 interface Props {
@@ -27,39 +26,29 @@ export function SearchCheckboxListCampaign({
 
   const { register, getValues } = form;
 
-  const [productsInCampaign, setProductsInCampaign] = useState<CampaignItem[]>(
-    []
-  );
-
   // Insert in supabase the CampaignItems related to the campaign
   const api_handleProductsInCampaign = () => {
     // Get products selected in checkbox
 
     // Create object Campaign Item
+    /*
     const campaignItems: CampaignItem[] = getValues("products").map(
       (item: CampaignItem) => {
         const campaignItem: CampaignItem = {
-          campaign_id: campaign.id,
+          campaign_id: "",
           product_id: item.product_id,
-          discount: item.discount,
+          product_price: item.product_price,
         };
 
         return campaignItem;
       }
     );
+    */
 
+    const campaignItems: CampaignItem[] = getValues("products");
     const updateItemsLinkedToCampaign = async (
       campaignItems: CampaignItem[]
     ) => {
-      // Insert all the objects selected to supabase API
-      /*
-      const { error: itemsCampaignError } = await supabase
-        .from("campaign_item")
-        .upsert(campaignItems);
-
-      if (itemsCampaignError) throw itemsCampaignError;
-      */
-
       handleProductsInCampaign(campaignItems);
     };
 
@@ -139,18 +128,18 @@ export function SearchCheckboxListCampaign({
                           </label>
                         </div>
 
-                        {/* Discount input inside checkbox  */}
+                        {/* Product Price input inside checkbox  */}
                         <div className="flex space-x-2 items-center justify-center">
                           <label
                             htmlFor={`item.${index}.value`}
                             className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                           >
-                            {t("discount")} (%)
+                            {t("product_price")}
                           </label>
 
                           <input
                             type="number"
-                            {...register(`products.${index}.discount`)}
+                            {...register(`products.${index}.product_price`)}
                             defaultValue={0}
                             className="w-16 h-8 text-sm text-gray-900 rounded dark:text-gray-300"
                           />

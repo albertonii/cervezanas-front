@@ -1,7 +1,7 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
@@ -28,7 +28,7 @@ export function ClientContainerLayout({ children }: Props) {
     inputRef.current!.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const updateProfile = async (file: File) => {
       const encodeUriProfileImg = encodeURIComponent(
         `${profilePhotoUrl}${user?.id}/img`

@@ -299,7 +299,7 @@ export interface Campaign {
 export interface CampaignItem {
   campaign_id: string;
   product_id: any;
-  discount: number;
+  product_price: number;
 }
 
 export interface Order {

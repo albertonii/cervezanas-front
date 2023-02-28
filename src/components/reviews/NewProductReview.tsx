@@ -115,7 +115,7 @@ export function NewProductReview({
 
       setReviewModal(true);
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
     } finally {
       setLoading(false);
     }

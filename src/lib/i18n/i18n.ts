@@ -197,6 +197,7 @@ const translationsEn = {
   proceed_to_pay: "Proceed to pay",
   subtotal: "Subtotal",
   discount: "Discount",
+  product_price: "Product Price",
   shipping: "Shipping",
   billing: "Billing",
   tax: "Taxes",
@@ -333,6 +334,10 @@ const translationsEn = {
   select_products_in_campaign_description:
     "Select from the above list the products you want to add to the campaign and the discounts related to each product",
   watchlist: "Watchlist",
+  social_cause: "Social Cause",
+  does_the_campaign_belong_to_a_social_cause:
+    "Does the campaign belong to a social cause?",
+  campaign_discount: "Campaign Discount",
 };
 
 const translationsEs = {
@@ -542,6 +547,7 @@ const translationsEs = {
   proceed_to_pay: "Proceder al pago",
   subtotal: "Subtotal",
   discount: "Descuento",
+  product_price: "Precio del producto",
   shipping: "Envío",
   billing: "Facturación",
   tax: "Impuestos",
@@ -681,6 +687,10 @@ const translationsEs = {
   select_products_in_campaign_description:
     "Seleccione del listado los productos que pertenecen a la campaña junto el descuento aplicado a los mismos.",
   watchlist: "Lista de deseos",
+  social_cause: "Causa social",
+  does_the_campaign_belong_to_a_social_cause:
+    "¿La campaña pertenece a una causa social?",
+  campaign_discount: "Descuento de la campaña",
 };
 
 // the translations

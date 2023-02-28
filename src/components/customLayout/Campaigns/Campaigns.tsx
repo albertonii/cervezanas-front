@@ -61,7 +61,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
     },
   });
 
-  const { control } = form;
+  const { control, getValues } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: "campaigns",
@@ -157,11 +157,17 @@ export function Campaigns({ campaigns: c, products }: Props) {
   };
 
   const handleProductsInCampaign = (items: CampaignItem[]) => {
-    setCampaigns((cs) => {
-      const newCampaigns = [...cs];
-      newCampaigns[campaignIndex].products = items;
-      return newCampaigns;
-    });
+    if (campaigns.length === 0) {
+      const newCampaign: Campaign = getValues("campaigns")[campaignIndex];
+      newCampaign.products = items;
+      setCampaigns([newCampaign]);
+    } else {
+      setCampaigns((cs) => {
+        const newCampaigns = [...cs];
+        newCampaigns[campaignIndex].products = items;
+        return newCampaigns;
+      });
+    }
   };
 
   return (
