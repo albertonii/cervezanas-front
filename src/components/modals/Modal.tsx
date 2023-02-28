@@ -36,7 +36,7 @@ export function Modal(props: Props) {
     classContainer,
     color,
     btnSize,
-    showBtn: showBtn_,
+    showBtn,
   } = props;
 
   const { t } = useTranslation();
@@ -44,7 +44,6 @@ export function Modal(props: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [showModal, setShowModal] = useState(isVisible);
-  const [showBtn, setShowBtn] = useState(showBtn_);
 
   const handleShowModal = (b: boolean) => {
     setShowModal(b);
@@ -68,9 +67,17 @@ export function Modal(props: Props) {
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());
 
   // handle what happens on key press
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") handleShowModal(false);
-  }, []);
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      const handleClose = () => {
+        handleShowModal(false);
+        if (handlerClose) handlerClose();
+      };
+
+      if (event.key === "Escape") handleClose();
+    },
+    [handlerClose]
+  );
 
   useEffect(() => {
     if (showModal) {
@@ -129,7 +136,7 @@ export function Modal(props: Props) {
 
                   <button
                     className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => handleShowModal(false)}
+                    onClick={() => handleClose()}
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                       <FontAwesomeIcon
@@ -138,7 +145,7 @@ export function Modal(props: Props) {
                         // onMouseLeave={() => setHoverColor("unfilled")}
                         icon={faXmark}
                         style={{ color: "beer-dark" }}
-                        onClick={() => handleShowModal(false)}
+                        onClick={() => handleClose()}
                         title={"Close Modal"}
                       />
                     </span>

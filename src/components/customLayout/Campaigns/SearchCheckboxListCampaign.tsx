@@ -28,23 +28,6 @@ export function SearchCheckboxListCampaign({
 
   // Insert in supabase the CampaignItems related to the campaign
   const api_handleProductsInCampaign = () => {
-    // Get products selected in checkbox
-
-    // Create object Campaign Item
-    /*
-    const campaignItems: CampaignItem[] = getValues("products").map(
-      (item: CampaignItem) => {
-        const campaignItem: CampaignItem = {
-          campaign_id: "",
-          product_id: item.product_id,
-          product_price: item.product_price,
-        };
-
-        return campaignItem;
-      }
-    );
-    */
-
     const campaignItems: CampaignItem[] = getValues("products");
     const updateItemsLinkedToCampaign = async (
       campaignItems: CampaignItem[]

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IconButtonProps {
   icon: IconDefinition;
-  onClick?: any;
+  onClick?: () => void;
   isActive?: boolean;
   color?: { filled: string; unfilled: string };
   classContainer?: string;
@@ -17,6 +17,7 @@ interface IconButtonProps {
   disabled?: boolean;
   primary?: boolean;
   accent?: boolean;
+  btnType?: string;
   size?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
 }
 
@@ -35,6 +36,7 @@ export function IconButton({
   disabled,
   primary,
   accent,
+  btnType,
   size,
 }: IconButtonProps) {
   const [hoverColor, setHoverColor] = useState(
@@ -67,8 +69,18 @@ export function IconButton({
     title,
   ]);
 
+  const getButtonType = () => {
+    switch (btnType) {
+      case "submit":
+        return "submit";
+      default:
+        return "button";
+    }
+  };
+
   return (
     <button
+      type={`${getButtonType()}`}
       onClick={onClick}
       color={hoverColor}
       className={`

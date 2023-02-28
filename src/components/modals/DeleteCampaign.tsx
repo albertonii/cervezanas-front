@@ -1,12 +1,13 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { Modal } from ".";
 
 interface Props {
-  handleResponseModal: React.Dispatch<React.SetStateAction<any>>;
+  handleResponseModal: ComponentProps<any>;
+  handleDeleteShowModal: ComponentProps<any>;
 }
 
 export function DeleteCampaign(props: Props) {
-  const { handleResponseModal } = props;
+  const { handleResponseModal, handleDeleteShowModal } = props;
 
   const handleDeleteClick = async () => {
     handleResponseModal(true);
@@ -22,6 +23,7 @@ export function DeleteCampaign(props: Props) {
       handler={() => {
         handleDeleteClick();
       }}
+      handlerClose={() => handleDeleteShowModal(false)}
       classIcon={""}
       classContainer={""}
     >

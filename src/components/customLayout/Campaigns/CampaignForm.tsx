@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Campaign, CampaignItem } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
-import { Button } from "../../common";
+import { Button, DeleteButton, IconButton } from "../../common";
 import { useMessage } from "../../message";
 
 enum CampaignStatus {
@@ -467,7 +467,7 @@ export function CampaignForm({
           </Button>
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex justify-between space-x-2">
           <Button
             class=""
             large
@@ -477,16 +477,7 @@ export function CampaignForm({
             {t("save_form_campaign")}
           </Button>
 
-          <Button
-            danger
-            medium
-            class=""
-            onClick={() => {
-              handleDeleteShowModal(true, index);
-            }}
-          >
-            {t("delete")}
-          </Button>
+          <DeleteButton onClick={() => handleDeleteShowModal(true, index)} />
         </div>
       </fieldset>
     </form>

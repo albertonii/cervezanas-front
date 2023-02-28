@@ -178,7 +178,10 @@ export function Campaigns({ campaigns: c, products }: Props) {
 
           {/* Show/Hide Modal*/}
           {isShowDeleteModal && (
-            <DeleteCampaign handleResponseModal={handleResponseDeleteModal} />
+            <DeleteCampaign
+              handleResponseModal={handleResponseDeleteModal}
+              handleDeleteShowModal={handleDeleteShowModal}
+            />
           )}
 
           {/* Add another campaign  */}

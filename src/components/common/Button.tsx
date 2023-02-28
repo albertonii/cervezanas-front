@@ -57,22 +57,22 @@ export function Button({
       color={hoverColor}
       form={form}
       className={`
-      flex items-center justify-center border-beer-foam border-2 rounded mt-0
-      ${box ? "h-auto w-10" : ""}
-      ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-      ${small ? "w-24" : ""} 
-      ${medium ? "w-32" : ""}
-      ${large ? "w-52" : ""}
-      ${xLarge ? "w-64" : ""}
-      ${xxLarge ? "w-80" : ""}
-      ${
-        primary
-          ? " bg-beer-softBlonde hover:bg-beer-blonde "
-          : "hover:bg-beer-softBlonde shrink-0"
-      }
-      ${accent ? "bg-beer-foam" : ""}
-      ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
-      ${className} 
+        flex items-center justify-center border-beer-foam border-2 rounded mt-0
+        ${box ? "h-auto w-10" : ""}
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${small ? "w-24" : ""} 
+        ${medium ? "w-32" : ""}
+        ${large ? "w-52" : ""}
+        ${xLarge ? "w-64" : ""}
+        ${xxLarge ? "w-80" : ""}
+        ${
+          primary
+            ? " bg-beer-softBlonde hover:bg-beer-blonde "
+            : "hover:bg-beer-softBlonde shrink-0"
+        }
+        ${accent ? "bg-beer-foam" : ""}
+        ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
+        ${className} 
       `}
     >
       <span
