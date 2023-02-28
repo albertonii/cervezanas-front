@@ -102,6 +102,8 @@ export function CampaignForm({
 
     const products = getValues("products");
 
+    if (products === undefined) return;
+
     products.map(async (item: CampaignItem) => {
       if (item.product_id === false) {
         const { error: orderItemError } = await supabase
