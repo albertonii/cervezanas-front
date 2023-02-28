@@ -332,6 +332,7 @@ const translationsEn = {
   products_in_campaign: "Products in campaign",
   select_products_in_campaign_description:
     "Select from the above list the products you want to add to the campaign and the discounts related to each product",
+  watchlist: "Watchlist",
 };
 
 const translationsEs = {
@@ -679,6 +680,7 @@ const translationsEs = {
   products_in_campaign: "Productos de la campaña",
   select_products_in_campaign_description:
     "Seleccione del listado los productos que pertenecen a la campaña junto el descuento aplicado a los mismos.",
+  watchlist: "Lista de deseos",
 };
 
 // the translations

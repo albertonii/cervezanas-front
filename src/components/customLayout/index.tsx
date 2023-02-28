@@ -9,7 +9,6 @@ export * from "./Factories/Factories";
 export * from "./Community/Community";
 export * from "./Campaigns/Campaigns";
 export * from "./Campaigns/CampaignForm";
-export * from "./Campaigns/ProductsInCampaign";
 export * from "./Profile/Account";
 export * from "./Profile/BasicDataForm";
 export * from "./Profile/CustomizeProfileForm";

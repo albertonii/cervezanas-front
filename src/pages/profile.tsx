@@ -1,9 +1,5 @@
 import { ClientContainerLayout } from "../components/customLayout/ClientContainerLayout";
 import { useEffect, useState } from "react";
-import { Campaigns } from "../components/customLayout/Campaigns/Campaigns";
-import { Factories } from "../components/customLayout/Factories/Factories";
-import { Orders } from "../components/customLayout/Orders/Orders";
-import { Community } from "../components/customLayout/Community/Community";
 import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
 import { Layout } from "../components/index";
@@ -18,6 +14,10 @@ import {
   Stats,
   LikesHistory,
   Reviews,
+  Campaigns,
+  Factories,
+  Orders,
+  Community,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 

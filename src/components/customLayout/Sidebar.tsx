@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../Context/AppContext";
+import { useRouter } from "next/router";
 
 type Props = {
   parentCallback: (menuOption: string) => void;
