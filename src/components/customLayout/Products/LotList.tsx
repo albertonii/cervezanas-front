@@ -1,12 +1,12 @@
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Product } from "../../../lib/types";
+import { ProductLot } from "../../../lib/types";
 import { DeleteButton } from "../../common";
 import { EditButton } from "../../common/EditButton";
 
 interface Props {
-  products: Product[];
+  lots: ProductLot[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleProductModal: React.Dispatch<React.SetStateAction<any>>;
@@ -16,50 +16,50 @@ interface ColumnsProps {
   header: string;
 }
 
-export function ProductList(props: Props) {
+export function LotList(props: Props) {
   const { t } = useTranslation();
 
   const {
-    products,
+    lots: lots_,
     handleEditShowModal,
     handleDeleteShowModal,
     handleProductModal,
   } = props;
 
-  const [products_, setProducts_] = useState<Product[]>(products);
+  const [lots, setLots] = useState<ProductLot[]>(lots_);
   const [query, setQuery] = useState("");
 
   const COLUMNS = [
     { header: t("product_type_header") },
-    { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("stock_header") },
-    { header: t("lot_header") },
-    { header: t("public_header") },
-    { header: t("action_header") },
+    { header: t("lot_number_header") },
+    { header: t("quantity_header") },
+    { header: t("manufacture_date_header") },
+    { header: t("expiration_date_header") },
   ];
 
-  const handleClickEdit = (product: Product) => {
+  const handleClickEdit = (lot: ProductLot) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
-    handleProductModal(product);
+    handleProductModal(lot);
   };
 
-  const handleClickDelete = (product: Product) => {
+  const handleClickDelete = (lot: ProductLot) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
-    handleProductModal(product);
+    handleProductModal(lot);
   };
 
   useEffect(() => {
-    setProducts_(products);
-  }, [products]);
+    setLots(lots);
+  }, [lots]);
 
   const filteredItems = useMemo(() => {
-    return products_.filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
+    /*
+    return lots.filter((lot) => {
+      return lot.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [products_, query]);
+    */
+  }, [lots_, query]);
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
@@ -103,11 +103,12 @@ export function ProductList(props: Props) {
         </thead>
 
         <tbody>
-          {products_ &&
-            filteredItems.map((product) => {
+          {lots_ &&
+            // filteredItems.map((lot) => {
+            lots.map((lot) => {
               return (
                 <tr
-                  key={product.id}
+                  key={lot.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
                   <th
@@ -123,32 +124,30 @@ export function ProductList(props: Props) {
                     />
                   </th>
 
-                  <td className="py-4 px-6">{product.name}</td>
+                  {/* <td className="py-4 px-6">{lot.name}</td> */}
 
-                  <td className="py-4 px-6">{product.price}</td>
+                  {/* <td className="py-4 px-6">{lot.price}</td> */}
 
                   <td className="py-4 px-6">
-                    {product.product_inventory &&
+                    {/* {product.product_inventory &&
                     product.product_inventory[0]?.quantity
                       ? product.product_inventory[0].quantity
-                      : "-"}
+                      : "-"} */}
                   </td>
 
                   <td className="py-4 px-6">
-                    {product.product_lot && product.product_lot[0]?.lot_id
+                    {/* {product.product_lot && product.product_lot[0]?.lot_id
                       ? product.product_lot[0]?.lot_id
-                      : "-"}
+                      : "-"} */}
                   </td>
                   <td className="py-4 px-6">
-                    {product.is_public ? t("yes") : t("no")}
+                    {/* {product.is_public ? t("yes") : t("no")} */}
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex space-x-1">
-                      <EditButton onClick={() => handleClickEdit(product)} />
+                      <EditButton onClick={() => handleClickEdit(lot)} />
 
-                      <DeleteButton
-                        onClick={() => handleClickDelete(product)}
-                      />
+                      <DeleteButton onClick={() => handleClickDelete(lot)} />
                     </div>
                   </td>
                 </tr>

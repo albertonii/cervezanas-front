@@ -347,6 +347,10 @@ const translationsEn = {
   packaging: "Packaging",
   receipt: "Receipt",
   search_products: "Search Products",
+  lot_number_header: "Lot",
+  quantity_header: "Quantity",
+  manufacture_date_header: "Manfucature Date",
+  expiration_date_header: "Expiration Date",
 };
 
 const translationsEs = {
@@ -708,6 +712,10 @@ const translationsEs = {
   packaging: "Envase",
   receipt: "Recibo",
   search_products: "Buscar productos",
+  lot_number_header: "Lote",
+  quantity_header: "Cantidad",
+  manufacture_date_header: "Fecha de fabricación",
+  expiration_date_header: "Fecha de caducidad",
 };
 
 // the translations
