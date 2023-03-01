@@ -7,7 +7,6 @@ import { supabase } from "../utils/supabaseClient";
 import { Campaign, Like, Order, Product, Review } from "../lib/types";
 import {
   Account,
-  Products,
   Profile,
   Sidebar,
   Ledger,
@@ -18,6 +17,7 @@ import {
   Factories,
   Orders,
   Community,
+  ConfigureProducts,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 
@@ -64,7 +64,7 @@ export default function CustomLayout({ profile, reviews }: Props) {
         case "profile":
           return <Profile />;
         case "products":
-          return <Products products={profile[0].products} />;
+          return <ConfigureProducts products={profile[0].products} />;
         case "campaigns":
           return (
             <Campaigns
@@ -106,10 +106,7 @@ export default function CustomLayout({ profile, reviews }: Props) {
           {loggedIn && (
             <>
               <Sidebar parentCallback={handleMenuOptions} />
-
-              {/* <ProfileContexProvider> */}
               <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
-              {/* </ProfileContexProvider> */}
             </>
           )}
         </div>

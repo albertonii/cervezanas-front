@@ -4,13 +4,11 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Order } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { Button } from "../../common";
+import { Button, IconButton } from "../../common";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   orders: Order[];
-  //   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
-  //   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  //   handleProductModal: React.Dispatch<React.SetStateAction<any>>;
 }
 
 interface ColumnsProps {
@@ -104,20 +102,11 @@ export function OrderList(props: Props) {
 
                   <td className="py-4 px-6">{order.tracking_id}</td>
 
-                  <td className="py-4 px-6">
-                    <div className="flex">
-                      <Button
-                        onClick={() => handleClickView(order)}
-                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 w-[45px]"
-                      >
-                        <Image
-                          width={45}
-                          height={45}
-                          alt="Edit"
-                          src="/icons/view-240.png"
-                        />
-                      </Button>
-                    </div>
+                  <td className="py-4 px-6 flex item-center justify-center">
+                    <IconButton
+                      onClick={() => handleClickView(order)}
+                      icon={faEye}
+                    />
                   </td>
                 </tr>
               );

@@ -213,6 +213,8 @@ const translationsEn = {
   loading: "Loading...",
   add_product: "Add Product",
   config_lot: "Config Lot",
+  add_lot: "Add Lot",
+  lots: "Lots",
   next: "next",
   back: "Back",
   skip: "Skip",
@@ -220,6 +222,8 @@ const translationsEn = {
   done: "Done",
   confirm: "Confirm",
   details: "Details",
+  account: "Account",
+  values: "Values",
   awards: "Awards",
   multimedia: "Multimedia",
   drag_and_drop_file: "Drag and drop files here or click to upload",
@@ -338,6 +342,11 @@ const translationsEn = {
   does_the_campaign_belong_to_a_social_cause:
     "Does the campaign belong to a social cause?",
   campaign_discount: "Campaign Discount",
+  manufacture_date: "Manufacture Date",
+  expiration_date: "Expiration Date",
+  packaging: "Packaging",
+  receipt: "Receipt",
+  search_products: "Search Products",
 };
 
 const translationsEs = {
@@ -485,7 +494,6 @@ const translationsEs = {
   modal_delete_campaign_title: "Eliminar Campaña",
   modal_delete_campaign_description:
     "¡Cuidado! Vas a eliminar una campaña. Esta acción borrará de la base de datos la información relativa a la misma. ¿Estás seguro que quieres eliminar la campaña?",
-
   beer: "Cerveza",
   merchandising: "Merchandising",
   form_errors: translationsFormErrorsEn,
@@ -563,6 +571,8 @@ const translationsEs = {
   loading: "Cargando...",
   add_product: "Añadir Producto",
   config_lot: "Configurar Lote",
+  add_lot: "Añadir Lote",
+  lots: "Lotes",
   next: "Siguiente",
   back: "Atrás",
   skip: "Saltar",
@@ -570,6 +580,8 @@ const translationsEs = {
   done: "Hecho",
   confirm: "Confirmar",
   details: "Detalles",
+  account: "Cuenta",
+  values: "Valores",
   awards: "Premios",
   multimedia: "Multimedia",
   drag_and_drop_file: "Arrastra y suelta el archivo aquí",
@@ -691,6 +703,11 @@ const translationsEs = {
   does_the_campaign_belong_to_a_social_cause:
     "¿La campaña pertenece a una causa social?",
   campaign_discount: "Descuento de la campaña",
+  manufacture_date: "Fecha de fabricación",
+  expiration_date: "Fecha de caducidad",
+  packaging: "Envase",
+  receipt: "Recibo",
+  search_products: "Buscar productos",
 };
 
 // the translations

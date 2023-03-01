@@ -2,6 +2,8 @@ export * from "./Sidebar";
 export * from "./ClientContainerLayout";
 export * from "./Products/Products";
 export * from "./Products/ProductList";
+export * from "./Products/ConfigureProducts";
+export * from "./Products/Lots";
 export * from "./Likes/LikesHistory";
 export * from "./Ledger/Ledger";
 export * from "./Stats/Stats";

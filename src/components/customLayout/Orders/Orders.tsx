@@ -19,12 +19,7 @@ export function Orders(props: Props) {
             <div className="text-4xl pr-12">{t("orders")}</div>
           </div>
 
-          <OrderList
-            orders={orders}
-            // handleEditShowModal={handleEditShowModal}
-            // handleDeleteShowModal={handleDeleteShowModal}
-            // handleProductModal={handleProductModal}
-          />
+          <OrderList orders={orders} />
         </div>
       )}
     </>

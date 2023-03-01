@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { faChevronCircleDown, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 import { useAppContext } from "../Context";
-import { useRouter } from "next/router";
 
 interface DropdownProps {
   options: string[];
@@ -31,7 +30,7 @@ export function DropdownButton(props: DropdownProps) {
     switch (option) {
       case "profile":
         return (
-          <Link href={`/${option}`}>
+          <Link href={{ pathname: `/${option}` }}>
             <span
               className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
               aria-current="page"
@@ -43,9 +42,7 @@ export function DropdownButton(props: DropdownProps) {
 
       case "orders":
         return (
-          <Link
-            href={{ pathname: `/profile`, query: { sidebarUrl: `orders` } }}
-          >
+          <Link href={{ pathname: `/profile` }}>
             <span
               className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
               aria-current="page"
@@ -57,7 +54,7 @@ export function DropdownButton(props: DropdownProps) {
 
       case "logout":
         return (
-          <Link href={`/${option}`}>
+          <Link href={{ pathname: `/${option}` }}>
             <span
               className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
               aria-current="page"

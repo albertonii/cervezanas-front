@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { useContext } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
@@ -31,46 +31,6 @@ export function AppContextProvider(props: Props) {
     "sidebar-option",
     "profile"
   );
-
-  // const { user } = useAuth();
-
-  /*
-  useEffect(() => {
-    if (user) {
-      const getProfileImg = async () => {
-        const decodeUriCustomImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
-        const decodeUriProfileImg = `${SupabaseProps.PROFILE_PHOTO_URL}${user?.id}/img`;
-
-        const { data: bgImgData, error: bgError } = supabase.storage
-          .from("avatars")
-          .getPublicUrl(decodeUriCustomImg);
-
-        console.log(bgError);
-        if (bgError) {
-          throw bgError;
-        } else setBgImg(bgImgData?.publicURL!);
-
-        const { data: profileImgData, error: profileError } = supabase.storage
-          .from("avatars")
-          .getPublicUrl(decodeUriProfileImg);
-        console.log(profileError);
-
-        console.log(profileImgData);
-
-        if (profileError) throw profileError;
-        setProfileImg(profileImgData?.publicURL!);
-      };
-
-      getProfileImg();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    () => {
-      setBgImg(`/icons/bg-240.png`);
-      setProfileImg(`/icons/profile-240.png`);
-    };
-  }, [user]);
-  */
 
   const changeSidebarActive = (select: string) => {
     setSidebar(select);

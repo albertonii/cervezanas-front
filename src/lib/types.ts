@@ -182,10 +182,16 @@ export interface Beer {
 
 export interface ProductLot {
   id: string;
-  lot_id: string;
   created_at: Date;
-  quantity: number;
+  lot_id: string;
+  lot_number: string;
   product_id: string;
+  quantity: number;
+  limit_notification: number;
+  expiration_date: Date;
+  manufacture_date: Date;
+  packaging: string;
+  receipt: string;
 }
 
 export interface Inventory {

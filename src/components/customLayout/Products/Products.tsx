@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useState } from "react";
 import { ProductList } from "..";
 import { Product } from "../../../lib/types";
@@ -39,15 +40,13 @@ export function Products({ products: p }: Props) {
   return (
     <>
       <div className="py-6 px-4 " aria-label="Products">
-        <div className="flex">
-          <div className="text-4xl pr-12">Productos</div>
+        <div className="flex items-center">
+          <div className="text-4xl pr-12">{t("products")}</div>
 
           <AddProduct
             products={products!}
             handleSetProducts={handleSetProducts}
           />
-
-          <AddLot />
         </div>
 
         <ProductList

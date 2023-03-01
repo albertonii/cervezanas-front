@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Select } from "@supabase/ui";
 import i18n from "../lib/i18n/i18n";
 import { useTranslation } from "react-i18next";
+import { Select } from "@supabase/ui";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { NextApiRequest } from "next";
@@ -30,14 +30,12 @@ export function Header({}: Props) {
 
   const handleSignOut = () => {
     signOut();
-    // router.push("/signin");
   };
 
   return (
     <div className="header ">
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
-          {/* <Link href={{ pathname: "/" }} className="flex items-center"> */}
           <div className="relative h-16 w-20 md:h-20 md:w-26 lg:h-24 lg:w-32 flex-shrink-0 lg:my-2">
             <Image
               src="/logo_cervezanas.svg"
@@ -48,7 +46,6 @@ export function Header({}: Props) {
               sizes="100px"
             />
           </div>
-          {/* </Link> */}
 
           <button
             data-collapse-toggle="navbar-default"
