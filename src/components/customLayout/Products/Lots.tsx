@@ -11,6 +11,7 @@ interface Props {
 
 export default function Lots({ products, lots }: Props) {
   const { t } = useTranslation();
+  console.log(lots);
   return (
     <div className="py-6 px-4 " aria-label="Lots">
       <div className="flex items-center">

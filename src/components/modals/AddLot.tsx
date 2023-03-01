@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { SearchCheckboxList } from "../common";
-import { BeerEnum } from "../../lib/beerEnum";
+import { format_options } from "../../lib/beerEnum";
 
 type FormValues = {
   created_at: Date;
   lot_id: string;
   lot_number: string;
+  lot_name: string;
   product_id: string;
   quantity: number;
   limit_notification: number;
@@ -30,13 +31,14 @@ export function AddLot() {
     mode: "onSubmit",
     defaultValues: {
       lot_number: "",
-      quantity: 0,
+      lot_name: "",
       product_id: "",
+      quantity: 0,
       limit_notification: 0,
       receipt: "",
       expiration_date: new Date(),
       manufacture_date: new Date(),
-      packaging: BeerEnum.Format.can.toString(),
+      packaging: format_options[0].value.toString(),
       products: [],
     },
   });
@@ -49,17 +51,34 @@ export function AddLot() {
   } = form;
 
   const onSubmit = (formValues: FormValues) => {
-    const { lot_number, quantity, products } = formValues;
+    const {
+      lot_number,
+      lot_name,
+      quantity,
+      products,
+      limit_notification,
+      receipt,
+      expiration_date,
+      manufacture_date,
+      packaging,
+    } = formValues;
 
     const handleLotInsert = () => {
+      console.log(products);
       products.map(async (product: { value: any }) => {
         if (product.value != false) {
           const product_id = product.value;
           const { error } = await supabase.from("product_lot").insert({
             product_id: product_id,
-            num_lot_id: lot_number,
             created_at: new Date(),
-            quantity: quantity,
+            quantity,
+            lot_number,
+            lot_name,
+            limit_notification,
+            receipt,
+            expiration_date,
+            manufacture_date,
+            packaging,
           });
 
           if (error) throw error;
@@ -81,19 +100,33 @@ export function AddLot() {
         isVisible={false}
         title={"config_lot"}
         btnTitle={"add_lot"}
-        description={""}
+        description={"modal_product_description"}
         handler={handleSubmit(onSubmit)}
         classIcon={""}
         classContainer={""}
       >
-        <div className="relative p-6 flex-auto">
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
-            {t("modal_product_description")}
-          </p>
-
-          <div className="flex w-full flex-col ">
-            {/* Lot Number & Quantity */}
+        <div className="relative py-6 flex-auto">
+          <div className="w-full flex flex-col ">
+            {/* Lot Name Lot Number */}
             <div className="flex w-full flex-row space-x-3 ">
+              <div className="w-full space-y ">
+                <label htmlFor="lot_name" className="text-sm text-gray-600">
+                  {t("lot_name")}
+                </label>
+                <input
+                  id="lot_name"
+                  placeholder={t("lot_name")!}
+                  type="text"
+                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  {...register("lot_name", {
+                    required: true,
+                  })}
+                />
+                {errors.lot_name?.type === "required" && (
+                  <p>{t("product_modal_required")}</p>
+                )}
+              </div>
+
               <div className="w-full space-y ">
                 <label htmlFor="lot_number" className="text-sm text-gray-600">
                   {t("lot_number")}
@@ -111,21 +144,47 @@ export function AddLot() {
                   <p>{t("product_modal_required")}</p>
                 )}
               </div>
+            </div>
 
+            {/* Quantity & Quantity Notification */}
+            <div className="flex w-full flex-row space-x-3 ">
               <div className="w-full space-y ">
                 <label htmlFor="quantity" className="text-sm text-gray-600">
                   {t("quantity")}
                 </label>
                 <input
-                  id="quantity"
-                  placeholder={t("lot_quantity")!}
                   type="number"
+                  id="quantity"
+                  placeholder={t("quantity")!}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("quantity", {
                     required: true,
                   })}
+                  min="0"
                 />
                 {errors.quantity?.type === "required" && (
+                  <p>{t("product_modal_required")}</p>
+                )}
+              </div>
+
+              <div className="w-full space-y ">
+                <label
+                  htmlFor="limit_notification"
+                  className="text-sm text-gray-600"
+                >
+                  {t("limit_notification")}
+                </label>
+                <input
+                  id="limit_notification"
+                  placeholder={t("limit_notification")!}
+                  type="number"
+                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  {...register("limit_notification", {
+                    required: true,
+                  })}
+                  min="0"
+                />
+                {errors.limit_notification?.type === "required" && (
                   <p>{t("product_modal_required")}</p>
                 )}
               </div>
@@ -182,8 +241,8 @@ export function AddLot() {
                 <label htmlFor="packaging" className="text-sm text-gray-600">
                   {t("packaging")}
                 </label>
-                <input
-                  type="text"
+
+                <textarea
                   id="packaging"
                   placeholder={t("packaging")!}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -202,10 +261,11 @@ export function AddLot() {
                 <label htmlFor="receipt" className="text-sm text-gray-600">
                   {t("receipt")}
                 </label>
+
                 <textarea
                   id="receipt"
                   placeholder={t("receipt")!}
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("receipt", {
                     required: true,
                   })}

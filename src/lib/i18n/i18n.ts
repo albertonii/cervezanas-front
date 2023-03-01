@@ -351,6 +351,8 @@ const translationsEn = {
   quantity_header: "Quantity",
   manufacture_date_header: "Manfucature Date",
   expiration_date_header: "Expiration Date",
+  limit_notification: "Limit Notification",
+  lot_name: "Lot Name",
 };
 
 const translationsEs = {
@@ -716,6 +718,8 @@ const translationsEs = {
   quantity_header: "Cantidad",
   manufacture_date_header: "Fecha de fabricación",
   expiration_date_header: "Fecha de caducidad",
+  limit_notification: "Límite de notificaciones",
+  lot_name: "Lote",
 };
 
 // the translations

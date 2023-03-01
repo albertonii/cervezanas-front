@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../Auth/useAuth";
-import { Button } from "../../common";
 import { Account, Details, Values, History } from "../../customLayout/index";
 
 export function Profile() {

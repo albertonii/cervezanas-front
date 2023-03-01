@@ -47,22 +47,22 @@ export function SearchCheckboxList({ list, form }: Props) {
           className="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="dropdownSearchButton"
         >
-          {list.map((item, index) => {
+          {list.map((product, index) => {
             return (
-              <li key={item.id}>
+              <li key={product.id}>
                 <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                   <input
                     id="checkbox-item-11"
                     type="checkbox"
-                    {...register(`item.${index}.value`)}
-                    value={list[index].id}
+                    {...register(`products.${index}.value`)}
+                    value={product.id}
                     className="w-4 h-4 text-beer-blonde bg-gray-100 rounded border-gray-300 focus:ring-beer-blonde dark:focus:ring-beer-draft dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
                     htmlFor={`products.${index}.value`}
                     className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                   >
-                    {item.name}
+                    {product.name}
                   </label>
                 </div>
               </li>

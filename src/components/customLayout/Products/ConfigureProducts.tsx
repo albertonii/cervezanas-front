@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../common";
 import { Products } from "./Products";
-import { Product } from "../../../lib/types";
+import { Product, ProductLot } from "../../../lib/types";
 import Lots from "./Lots";
 
 interface Props {
   products: Product[];
+  lots: ProductLot[];
 }
 
-export function ConfigureProducts({ products }: Props) {
+export function ConfigureProducts({ products, lots }: Props) {
   const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
   const [activeTab, setActiveTab] = useState<string>("products");
@@ -19,7 +20,7 @@ export function ConfigureProducts({ products }: Props) {
       case "products":
         return <Products products={products} />;
       case "lots":
-        return <Lots products={products} />;
+        return <Lots products={products} lots={lots} />;
     }
   };
 

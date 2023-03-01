@@ -4,7 +4,14 @@ import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
 import { Layout } from "../components/index";
 import { supabase } from "../utils/supabaseClient";
-import { Campaign, Like, Order, Product, Review } from "../lib/types";
+import {
+  Campaign,
+  Like,
+  Order,
+  Product,
+  ProductLot,
+  Review,
+} from "../lib/types";
 import {
   Account,
   Profile,
@@ -41,6 +48,7 @@ interface Props {
       likes: Like[];
       orders: Order[];
       campaigns: Campaign[];
+      product_lots: ProductLot[];
     }
   ];
   reviews: Review[];
@@ -64,7 +72,12 @@ export default function CustomLayout({ profile, reviews }: Props) {
         case "profile":
           return <Profile />;
         case "products":
-          return <ConfigureProducts products={profile[0].products} />;
+          return (
+            <ConfigureProducts
+              products={profile[0].products}
+              lots={profile[0].product_lots}
+            />
+          );
         case "campaigns":
           return (
             <Campaigns
@@ -135,7 +148,8 @@ export async function getServerSideProps({ req }: any) {
           *, 
           product_multimedia (*),
           product_inventory (*),
-          likes (*)
+          likes (*),
+          product_lot (*)
         ),
         orders (*),
         campaigns (*)
