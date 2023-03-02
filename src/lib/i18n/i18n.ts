@@ -142,6 +142,9 @@ const translationsEn = {
   modal_delete_product_title: "Delete Product",
   modal_delete_product_description:
     "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
+  modal_delete_lot_title: "Delete Lot",
+  modal_delete_lot_description:
+    "Be careful! You are about to delete a product lot. This action will delete the information related to it from the database. Are you sure you want to delete the product lot?",
   modal_product_add_details_title: "Details",
   modal_product_add_price_title: "Stock information",
   modal_product_add_lot_title: "Lot",
@@ -494,6 +497,9 @@ const translationsEs = {
   modal_delete_product_title: "Eliminar Producto",
   modal_delete_product_description:
     "¡Cuidado! Vas a eliminar un producto. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el producto?",
+  modal_delete_lot_title: "Eliminar Lote",
+  modal_delete_lot_description:
+    "¡Cuidado! Vas a eliminar un lote. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el lote?",
   modal_product_add_details_title: "Detalles",
   modal_product_add_price_title: "Información de stock",
   modal_product_add_lot_title: "Lote",
