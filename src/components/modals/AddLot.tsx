@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import useFetchProducts from "../../hooks/useFetchProducts";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,8 @@ import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { SearchCheckboxList } from "../common";
 import { format_options } from "../../lib/beerEnum";
+import { useAuth } from "../Auth";
+import { Product } from "../../lib/types";
 
 type FormValues = {
   created_at: Date;
@@ -22,10 +24,15 @@ type FormValues = {
   products: any[];
 };
 
-export function AddLot() {
+interface Props {
+  products: Product[];
+  handleSetProductLots: Dispatch<SetStateAction<any>>;
+}
+
+export function AddLot({ products, handleSetProductLots }: Props) {
   const { t } = useTranslation();
 
-  const { data: productsLot, isSuccess } = useFetchProducts();
+  const { user } = useAuth();
 
   const form = useForm<FormValues>({
     mode: "onSubmit",
@@ -63,25 +70,33 @@ export function AddLot() {
       packaging,
     } = formValues;
 
-    const handleLotInsert = () => {
-      console.log(products);
+    const handleLotInsert = async () => {
       products.map(async (product: { value: any }) => {
         if (product.value != false) {
           const product_id = product.value;
-          const { error } = await supabase.from("product_lot").insert({
-            product_id: product_id,
-            created_at: new Date(),
-            quantity,
-            lot_number,
-            lot_name,
-            limit_notification,
-            receipt,
-            expiration_date,
-            manufacture_date,
-            packaging,
-          });
+          const { data: productLotData, error } = await supabase
+            .from("product_lot")
+            .insert({
+              product_id: product_id,
+              created_at: new Date(),
+              quantity,
+              lot_number,
+              lot_name,
+              limit_notification,
+              receipt,
+              expiration_date,
+              manufacture_date,
+              packaging,
+              owner_id: user?.id,
+            });
 
           if (error) throw error;
+
+          handleSetProductLots((prev: any) => [...prev, productLotData[0]]);
+
+          return productLotData;
+        } else {
+          return null;
         }
       });
 
@@ -90,8 +105,6 @@ export function AddLot() {
 
     handleLotInsert();
   };
-
-  if (!isSuccess) return <></>;
 
   return (
     <form className="w-full">
@@ -276,7 +289,7 @@ export function AddLot() {
               </div>
             </div>
 
-            <SearchCheckboxList list={productsLot} form={form} />
+            <SearchCheckboxList list={products} form={form} />
           </div>
         </div>
       </Modal>

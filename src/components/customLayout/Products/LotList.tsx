@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProductLot } from "../../../lib/types";
+import { formatDateString } from "../../../utils";
 import { DeleteButton } from "../../common";
 import { EditButton } from "../../common/EditButton";
 
@@ -9,24 +10,22 @@ interface Props {
   lots: ProductLot[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleProductModal: React.Dispatch<React.SetStateAction<any>>;
+  handleProductLotModal: React.Dispatch<React.SetStateAction<any>>;
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export function LotList(props: Props) {
+export function LotList({
+  lots,
+  handleEditShowModal,
+  handleDeleteShowModal,
+  handleProductLotModal,
+}: Props) {
   const { t } = useTranslation();
 
-  const {
-    lots: lots_,
-    handleEditShowModal,
-    handleDeleteShowModal,
-    handleProductModal,
-  } = props;
-
-  const [lots, setLots] = useState<ProductLot[]>(lots_);
+  const [lots_, setLots_] = useState<ProductLot[]>(lots);
   const [query, setQuery] = useState("");
 
   const COLUMNS = [
@@ -35,30 +34,29 @@ export function LotList(props: Props) {
     { header: t("quantity_header") },
     { header: t("manufacture_date_header") },
     { header: t("expiration_date_header") },
+    { header: t("action_header") },
   ];
 
   const handleClickEdit = (lot: ProductLot) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
-    handleProductModal(lot);
+    handleProductLotModal(lot);
   };
 
   const handleClickDelete = (lot: ProductLot) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
-    handleProductModal(lot);
+    handleProductLotModal(lot);
   };
 
   useEffect(() => {
-    setLots(lots);
+    setLots_(lots);
   }, [lots]);
 
   const filteredItems = useMemo(() => {
-    /*
-    return lots.filter((lot) => {
-      return lot.name.toLowerCase().includes(query.toLowerCase());
+    return lots_.filter((lot) => {
+      return lot.lot_name.toLowerCase().includes(query.toLowerCase());
     });
-    */
   }, [lots_, query]);
 
   return (
@@ -85,7 +83,7 @@ export function LotList(props: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search products..."
+          placeholder="Search lot..."
         />
       </div>
 
@@ -104,8 +102,7 @@ export function LotList(props: Props) {
 
         <tbody>
           {lots_ &&
-            // filteredItems.map((lot) => {
-            lots.map((lot) => {
+            filteredItems.map((lot) => {
               return (
                 <tr
                   key={lot.id}
@@ -124,25 +121,18 @@ export function LotList(props: Props) {
                     />
                   </th>
 
-                  {/* <td className="py-4 px-6">{lot.name}</td> */}
+                  <td className="py-4 px-6">{lot.lot_name}</td>
 
-                  {/* <td className="py-4 px-6">{lot.price}</td> */}
+                  <td className="py-4 px-6">{lot.quantity}</td>
 
                   <td className="py-4 px-6">
-                    {/* {product.product_inventory &&
-                    product.product_inventory[0]?.quantity
-                      ? product.product_inventory[0].quantity
-                      : "-"} */}
+                    {formatDateString(lot.manufacture_date.toString())}
                   </td>
 
                   <td className="py-4 px-6">
-                    {/* {product.product_lot && product.product_lot[0]?.lot_id
-                      ? product.product_lot[0]?.lot_id
-                      : "-"} */}
+                    {formatDateString(lot.expiration_date.toString())}
                   </td>
-                  <td className="py-4 px-6">
-                    {/* {product.is_public ? t("yes") : t("no")} */}
-                  </td>
+
                   <td className="py-4 px-6">
                     <div className="flex space-x-1">
                       <EditButton onClick={() => handleClickEdit(lot)} />

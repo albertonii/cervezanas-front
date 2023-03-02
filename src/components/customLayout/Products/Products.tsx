@@ -2,12 +2,7 @@ import { t } from "i18next";
 import { useState } from "react";
 import { ProductList } from "..";
 import { Product } from "../../../lib/types";
-import {
-  AddLot,
-  AddProduct,
-  DeleteProduct,
-  ProductModalUpd,
-} from "../../modals/index";
+import { AddProduct, DeleteProduct, ProductModalUpd } from "../../modals/index";
 
 interface Props {
   products: Product[];

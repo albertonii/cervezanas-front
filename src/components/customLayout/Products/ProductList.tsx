@@ -16,15 +16,13 @@ interface ColumnsProps {
   header: string;
 }
 
-export function ProductList(props: Props) {
+export function ProductList({
+  products,
+  handleEditShowModal,
+  handleDeleteShowModal,
+  handleProductModal,
+}: Props) {
   const { t } = useTranslation();
-
-  const {
-    products,
-    handleEditShowModal,
-    handleDeleteShowModal,
-    handleProductModal,
-  } = props;
 
   const [products_, setProducts_] = useState<Product[]>(products);
   const [query, setQuery] = useState("");

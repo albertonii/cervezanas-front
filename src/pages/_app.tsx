@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   // TODO: If not sb-access-token but supabase.auth.token in localhost -> Sign out o refresh sb-access-token
   useEffect(() => {
-    console.log("dentro ");
+    // console.log("dentro ");
   }, []);
 
   // useEffect(() => {

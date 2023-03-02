@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../common";
 import { Products } from "./Products";
 import { Product, ProductLot } from "../../../lib/types";
 import Lots from "./Lots";

@@ -70,8 +70,7 @@ export function AddProduct(props: Props) {
   } = form;
 
   const onSubmit = (formValues: ModalAddProductProps) => {
-    reset();
-    const handleInsert = async () => {
+    const handleProductInsert = async () => {
       const {
         campaign,
         fermentation,
@@ -285,8 +284,10 @@ export function AddProduct(props: Props) {
         handleSetProducts((prev: any) => [...prev, productData[0]]);
         return beer;
       }
+
+      reset();
     };
-    handleInsert();
+    handleProductInsert();
   };
 
   return (

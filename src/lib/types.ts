@@ -185,6 +185,7 @@ export interface ProductLot {
   created_at: Date;
   lot_id: string;
   lot_number: string;
+  lot_name: string;
   product_id: string;
   quantity: number;
   limit_notification: number;

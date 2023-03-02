@@ -48,16 +48,19 @@ interface Props {
       likes: Like[];
       orders: Order[];
       campaigns: Campaign[];
-      product_lots: ProductLot[];
     }
   ];
   reviews: Review[];
+  product_lots: ProductLot[];
 }
 
-export default function CustomLayout({ profile, reviews }: Props) {
+export default function CustomLayout({
+  profile,
+  reviews,
+  product_lots,
+}: Props) {
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
-
   const { user } = useAuth();
   const { sidebar, changeSidebarActive } = useAppContext();
   const [menuOption, setMenuOption] = useState<string>(sidebar);
@@ -75,7 +78,7 @@ export default function CustomLayout({ profile, reviews }: Props) {
           return (
             <ConfigureProducts
               products={profile[0].products}
-              lots={profile[0].product_lots}
+              lots={product_lots}
             />
           );
         case "campaigns":
@@ -159,15 +162,6 @@ export async function getServerSideProps({ req }: any) {
 
   if (profileError) throw profileError;
 
-  // productsData?.map(async (userData, index) => {
-  //   product.product_multimedia[0].p_principal =
-  //     product.product_multimedia[0]?.p_principal == undefined || null
-  //       ? `/marketplace_product_default.png`
-  //       : `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}/${product.owner_id}/${product.product_multimedia[0].p_principal}`;
-
-  //   productsData![index] = product;
-  // });
-
   if (profileData === undefined || profileData === null) {
     profileData = [];
   }
@@ -185,14 +179,26 @@ export async function getServerSideProps({ req }: any) {
     )
     .eq("owner_id", user?.id);
 
-  if (reviewError) throw profileError;
+  if (reviewError) throw reviewError;
 
   if (reviewData === undefined || reviewData === null) {
     reviewData = [];
   }
 
+  let { data: productLotData, error: productLotError } = await supabase
+    .from("product_lot")
+    .select(`*`)
+    .eq("owner_id", user?.id);
+
+  if (productLotError) console.log(productLotError);
+
+  if (productLotData === undefined || productLotData === null) {
+    productLotData = [];
+  }
+
   return {
     props: {
+      product_lots: productLotData,
       profile: profileData,
       reviews: reviewData,
     },
