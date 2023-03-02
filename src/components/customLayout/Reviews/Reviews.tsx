@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Review } from "../../../lib/types";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { formatDateString } from "../../../utils";
 import { Rate } from "../../reviews";
 import Link from "next/link";
+import { DeleteButton } from "../../common";
+import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
   reviews: Review[];
 }
 
-export function Reviews({ reviews }: Props) {
+export function Reviews({ reviews: r }: Props) {
   const { t } = useTranslation();
 
+  const [reviews, setReviews] = useState<Review[]>(r);
+
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+
+  const handleDeleteReview = async (reviewId: string) => {
+    try {
+      const { error } = await supabase
+        .from("reviews")
+        .delete()
+        .match({ id: reviewId });
+      if (error) throw error;
+
+      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <>
@@ -25,7 +43,12 @@ export function Reviews({ reviews }: Props) {
               key={index}
               className="mt-12 ml-8 bg-beer-foam m-6 p-6 rounded-sm"
             >
-              <article className="grid grid-cols-4 md:gap-8 ">
+              <article className="grid grid-cols-4 md:gap-8 relative">
+                {/* Delete review button in top right corner  */}
+                <div className="absolute right-0">
+                  <DeleteButton onClick={() => handleDeleteReview(review.id)} />
+                </div>
+
                 <div className="col-span-4 lg:col-span-1 space-y-6 ">
                   {/* Seller  */}
                   <div className="flex flex-col items-center space-y-4">

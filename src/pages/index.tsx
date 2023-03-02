@@ -1,7 +1,6 @@
 import Head from "next/head";
 import "../lib/i18n/i18n";
 import { supabase } from "../utils/supabaseClient";
-import { ROLE_ENUM } from "../components/Auth/SignUpForm";
 import { useAuth } from "../components/Auth";
 import { useEffect, useState } from "react";
 import { Button } from "../components/common/Button";

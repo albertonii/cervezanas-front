@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
@@ -13,8 +13,6 @@ import {
   ShoppingCartProvider,
 } from "../components/Context/index";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import axios from "axios";
-import { useSession } from "../hooks/useSession";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Spinner } from "../components/common";
 
@@ -64,6 +62,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       options: supabaseClientOptions,
     })
   );
+
+  // TODO: If not sb-access-token but supabase.auth.token in localhost -> Sign out o refresh sb-access-token
+  useEffect(() => {
+    console.log("dentro ");
+  }, []);
 
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange(
