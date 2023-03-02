@@ -1,37 +1,18 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SecretDataForm, LocationForm, CustomizeProfileForm } from "..";
+import {
+  SecretDataForm,
+  LocationForm,
+  CustomizeProfileForm,
+  BasicDataForm,
+} from "..";
+import { Profile } from "../../../lib/types";
 
 interface Props {
-  // user: User | null;
-  user: any;
+  profile: Profile;
 }
 
-export function Account({ user }: Props) {
+export function Account({ profile }: Props) {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     const { data, error } = await supabase
-  //       .from("users")
-  //       .select("*")
-  //       .eq("id", user?.id);
-
-  //     if (error) throw error;
-
-  //     setUserData(data[0]);
-  //   };
-
-  //   if (user != null && user != undefined) {
-  //     getUserData();
-  //     setLoading(false);
-  //   }
-
-  //   return () => {
-  //     setUserData(null);
-  //   };
-  // }, [user]);
 
   return (
     <>
@@ -45,16 +26,12 @@ export function Account({ user }: Props) {
           </div>
         </div>
 
-        {loading ? (
-          <div>{t("loading")}</div>
-        ) : (
-          <div>
-            {/* <BasicDataForm profileData={userData} /> */}
-            <SecretDataForm />
-            <LocationForm />
-            <CustomizeProfileForm user={user} />
-          </div>
-        )}
+        <div>
+          <BasicDataForm profile={profile} />
+          <SecretDataForm />
+          <LocationForm />
+          <CustomizeProfileForm profile={profile} />
+        </div>
       </div>
     </>
   );

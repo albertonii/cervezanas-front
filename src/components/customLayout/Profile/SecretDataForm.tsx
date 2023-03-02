@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Button } from "../../common";
@@ -116,8 +116,7 @@ export function SecretDataForm() {
 
         <div className="flex flex-row items-end">
           <div className="pl-0">
-            <Button medium class={""}>
-              {" "}
+            <Button primary medium class={""}>
               {t("save")}
             </Button>
           </div>

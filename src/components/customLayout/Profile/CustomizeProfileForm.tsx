@@ -1,5 +1,5 @@
-import { User } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
@@ -7,6 +7,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
+import { Profile } from "../../../lib/types";
 
 type FormValues = {
   bg_url: any;
@@ -15,13 +16,12 @@ type FormValues = {
 };
 
 interface Props {
-  user: User | null;
+  profile: Profile;
 }
 
-export function CustomizeProfileForm(props: Props) {
+export function CustomizeProfileForm({ profile }: Props) {
   const { t } = useTranslation();
 
-  const { user } = props;
   const [loading, setLoading] = useState(false);
 
   const { bgImg, profileImg, setBgImg, setProfileImg } = useAppContext();
@@ -61,7 +61,7 @@ export function CustomizeProfileForm(props: Props) {
           bg_url: bg_url[0].name,
           profile_photo_url: profile_photo_url[0].name,
         })
-        .eq("id", user?.id);
+        .eq("id", profile?.id);
 
       if (profileError) {
         setLoading(false);
@@ -70,7 +70,7 @@ export function CustomizeProfileForm(props: Props) {
 
       if (bg_url[0].size > 0) {
         const encodeUriCustomImg = encodeURIComponent(
-          `${customUrl}${user?.id}/img`
+          `${customUrl}${profile?.id}/img`
         );
 
         const { error: storageError } = await supabase.storage
@@ -85,12 +85,12 @@ export function CustomizeProfileForm(props: Props) {
           throw storageError;
         }
 
-        setUserBgImg(`${fullCustomUrl}${user?.id}/img`);
+        setUserBgImg(`${fullCustomUrl}${profile?.id}/img`);
       }
 
       if (profile_photo_url[0].size > 0) {
         const encodeUriProfileImg = encodeURIComponent(
-          `${profilePhotoUrl}${user?.id}/img`
+          `${profilePhotoUrl}${profile?.id}/img`
         );
 
         const { error: storageError } = await supabase.storage
@@ -106,7 +106,7 @@ export function CustomizeProfileForm(props: Props) {
           throw storageError;
         }
 
-        setUserProfileImg(`${fullProfilePhotoUrl}${user?.id}/img`);
+        setUserProfileImg(`${fullProfilePhotoUrl}${profile?.id}/img`);
       }
 
       setLoading(false);

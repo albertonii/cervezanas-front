@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
+import { Profile } from "../../../lib/types";
 
-export function BasicDataForm(props: any) {
+interface FormData {
+  name: string;
+  lastname: string;
+  username: string;
+  birthdate: string;
+  email: string;
+}
+
+interface Props {
+  profile: Profile;
+}
+
+export function BasicDataForm({ profile }: Props) {
   const { t } = useTranslation();
 
-  const {
-    id: id_,
-    username: username_,
-    birthdate: birthdate_,
-    given_name: given_name_,
-    lastname: lastname_,
-    email: email_,
-  } = props.profileData[0];
+  const { id, username, birthdate, name, lastname, email } = profile;
 
   const [loading, setLoading] = useState(false);
-
-  const [id, setId] = useState(id_);
-  const [username, setUsername] = useState(username_);
-  const [name, setName] = useState(given_name_);
-  const [lastname, setLastname] = useState(lastname_);
-  const [email, setEmail] = useState(email_);
-  const [birthdate, setBirthdate] = useState(birthdate_);
 
   const {
     register,
@@ -33,33 +32,30 @@ export function BasicDataForm(props: any) {
   } = useForm({
     defaultValues: {
       username: username,
-      given_name: name,
+      name: name,
       lastname: lastname,
       birthdate: birthdate,
       email: email,
     },
   });
 
-  useEffect(() => {
-    setId(id_);
-
-    () => {
-      setId(null);
-    };
-  }, [id_]);
-
-  const onSubmit = async () => {
+  const onSubmit = async (formValues: FormData) => {
     try {
       setLoading(true);
 
-      const updates = {
-        id,
-        given_name: name,
-        lastname,
-        birthdate,
-      };
+      const { name, lastname, birthdate, username, email } = formValues;
 
-      let { error } = await supabase.from("users").update(updates).eq("id", id);
+      let { error } = await supabase
+        .from("users")
+        .update({
+          name,
+          lastname,
+          birthdate,
+          username,
+          email,
+        })
+        .eq("id", id);
+
       setLoading(false);
 
       if (error) throw error;
@@ -96,7 +92,6 @@ export function BasicDataForm(props: any) {
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={username}
                 {...register("username")}
-                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
@@ -110,7 +105,6 @@ export function BasicDataForm(props: any) {
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={birthdate}
                 {...register("birthdate")}
-                onChange={(e) => setBirthdate(e.target.value)}
               />
             </div>
           </div>
@@ -126,16 +120,15 @@ export function BasicDataForm(props: any) {
                 placeholder="Alberto"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={name}
-                {...register("given_name", {
+                {...register("name", {
                   required: true,
                   maxLength: 15,
                 })}
-                onChange={(e) => setName(e.target.value)}
               />
-              {errors.given_name?.type === "required" && (
+              {errors.name?.type === "required" && (
                 <p>Campo nombre es requerido</p>
               )}
-              {errors.given_name?.type === "maxLength" && (
+              {errors.name?.type === "maxLength" && (
                 <p>Nombre debe tener menos de 15 caracteres</p>
               )}
             </div>
@@ -154,7 +147,6 @@ export function BasicDataForm(props: any) {
                   required: true,
                   maxLength: 25,
                 })}
-                onChange={(e) => setLastname(e.target.value)}
               />
             </div>
 
@@ -179,7 +171,6 @@ export function BasicDataForm(props: any) {
                   required: true,
                   pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
                 })}
-                onChange={(e) => setEmail(e.target.value)}
               />
 
               {errors.email?.type === "pattern" && (
@@ -188,7 +179,7 @@ export function BasicDataForm(props: any) {
             </div>
 
             <div className="pl-12 ">
-              <Button primary medium class={""}>
+              <Button primary medium class={""} btnType={"submit"}>
                 {t("save")}
               </Button>
             </div>

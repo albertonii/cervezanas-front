@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Profile } from "../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
-import { Account, Details, Values, History } from "../../customLayout/index";
+import { Account, Details, Values } from "../../customLayout/index";
 
-export function Profile() {
+interface Props {
+  profile: Profile;
+}
+
+export function Profile({ profile }: Props) {
   const { t } = useTranslation();
 
   const { user, loggedIn } = useAuth();
@@ -19,13 +24,13 @@ export function Profile() {
   const renderSwitch = () => {
     switch (menuOption) {
       case "account":
-        return <Account user={user} />;
+        return <Account profile={profile} />;
       case "details":
         return <Details />;
       case "values":
         return <Values />;
-      case "origin":
-        return <History user={user} />;
+      // case "origin":
+      //   return <History user={user} />;
     }
   };
 
@@ -70,13 +75,13 @@ export function Profile() {
               ? "bg-gray-100 text-gray-900"
               : "bg-beer-foam"
           }
-          w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+        rounded-r-lg w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             onClick={() => handleMenuClick("values")}
           >
             {t("values")}
           </li>
 
-          <li
+          {/* <li
             className={`
           ${
             activeTab === "origin"
@@ -87,7 +92,7 @@ export function Profile() {
             onClick={() => handleMenuClick("origin")}
           >
             {t("origin")}
-          </li>
+          </li> */}
         </ul>
       </div>
 

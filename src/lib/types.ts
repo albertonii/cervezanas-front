@@ -269,6 +269,36 @@ export interface Review {
   products?: Product;
 }
 
+export interface Profile {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  owner_id: string;
+  name: string;
+  lastname: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  img_url: any;
+  is_public: boolean;
+  users?: User;
+  avatar_url: string;
+  bg_url: string;
+  birthdate: string;
+  email: string;
+  image: string;
+  role: string;
+  username: string;
+  products: Product[];
+  reviews: Review[];
+  likes: Like[];
+  orders: Order[];
+  campaigns: Campaign[];
+}
+
 export interface Like {
   id: string;
   created_at: Date;

@@ -22,7 +22,6 @@ export function LocationForm() {
 
   const {
     formState: { errors },
-    watch,
     handleSubmit,
     register,
     reset,
@@ -221,8 +220,8 @@ export function LocationForm() {
         </div>
 
         <div className="pl-12 ">
-          <Button medium class={""}>
-            Guardar
+          <Button primary medium class={""}>
+            {t("save")}
           </Button>
         </div>
       </div>

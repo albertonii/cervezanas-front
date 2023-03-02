@@ -10,11 +10,11 @@ import {
   Order,
   Product,
   ProductLot,
+  Profile as ProfileType,
   Review,
 } from "../lib/types";
 import {
   Account,
-  Profile,
   Sidebar,
   Ledger,
   Stats,
@@ -25,31 +25,12 @@ import {
   Orders,
   Community,
   ConfigureProducts,
+  Profile,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 
 interface Props {
-  profile: [
-    {
-      avatar_url: string;
-      bg_url: string;
-      birthdate: string;
-      created_at: string;
-      updated_at: string;
-      email: string;
-      image: string;
-      name: string;
-      lastname: string;
-      phone: string;
-      role: string;
-      username: string;
-      products: Product[];
-      reviews: Review[];
-      likes: Like[];
-      orders: Order[];
-      campaigns: Campaign[];
-    }
-  ];
+  profile: ProfileType[];
   reviews: Review[];
   product_lots: ProductLot[];
 }
@@ -73,7 +54,7 @@ export default function CustomLayout({
     if (profile && reviews) {
       switch (menuOption) {
         case "profile":
-          return <Profile />;
+          return <Profile profile={profile[0]} />;
         case "products":
           return (
             <ConfigureProducts
@@ -105,7 +86,7 @@ export default function CustomLayout({
       }
     }
 
-    return <Account user={profile} />;
+    return <Account profile={profile[0]} />;
   };
 
   const handleMenuOptions = (childData: string) => {
