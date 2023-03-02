@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Product, ProductLot } from "../../../lib/types";
-import { AddLot, DeleteProductLot } from "../../modals";
+import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 
 interface Props {
@@ -58,11 +58,21 @@ export default function Lots({ products, lots: l }: Props) {
       />
 
       {isDeleteShowModal && (
-        <DeleteProductLot
+        <DeleteLot
           lots={lots!}
           productLotId={lotModal.id}
           isDeleteShowModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
+          handleSetProductLots={handleSetProductLots}
+        />
+      )}
+
+      {isEditShowModal && (
+        <EditLot
+          lots={lots}
+          productLot={lotModal}
+          isEditShowModal={isEditShowModal}
+          handleEditShowModal={handleEditShowModal}
           handleSetProductLots={handleSetProductLots}
         />
       )}

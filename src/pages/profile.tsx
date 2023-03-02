@@ -187,7 +187,14 @@ export async function getServerSideProps({ req }: any) {
 
   let { data: productLotData, error: productLotError } = await supabase
     .from("product_lot")
-    .select(`*`)
+    .select(
+      `
+    *,
+      products (
+        *
+      )
+    `
+    )
     .eq("owner_id", user?.id);
 
   if (productLotError) console.log(productLotError);

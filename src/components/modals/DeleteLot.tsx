@@ -12,7 +12,7 @@ interface Props {
   handleSetProductLots: Dispatch<SetStateAction<any>>;
 }
 
-export function DeleteProductLot(props: Props) {
+export function DeleteLot(props: Props) {
   const {
     lots,
     productLotId,
@@ -54,6 +54,7 @@ export function DeleteProductLot(props: Props) {
       handler={() => {
         handleDeleteClick();
       }}
+      handlerClose={() => handleDeleteShowModal(false)}
       classIcon={""}
       classContainer={""}
     >

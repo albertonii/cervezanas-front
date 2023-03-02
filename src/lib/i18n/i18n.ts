@@ -217,6 +217,7 @@ const translationsEn = {
   add_product: "Add Product",
   config_lot: "Config Lot",
   add_lot: "Add Lot",
+  edit_lot: "Edit Lot",
   lots: "Lots",
   next: "next",
   back: "Back",
@@ -356,6 +357,7 @@ const translationsEn = {
   expiration_date_header: "Expiration Date",
   limit_notification: "Limit Notification",
   lot_name: "Lot Name",
+  lot_attached_to_product: "Lot attached to product",
 };
 
 const translationsEs = {
@@ -584,6 +586,7 @@ const translationsEs = {
   add_product: "Añadir Producto",
   config_lot: "Configurar Lote",
   add_lot: "Añadir Lote",
+  edit_lot: "Editar Lote",
   lots: "Lotes",
   next: "Siguiente",
   back: "Atrás",
@@ -726,6 +729,7 @@ const translationsEs = {
   expiration_date_header: "Fecha de caducidad",
   limit_notification: "Límite de notificaciones",
   lot_name: "Lote",
+  lot_attached_to_product: "Lote asociado al producto",
 };
 
 // the translations

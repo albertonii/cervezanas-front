@@ -5,3 +5,7 @@ export function formatDateString(dateString: string) {
     day: "numeric",
   });
 }
+
+export function formatDateDefaultInput(date: string) {
+  return new Date(date).toISOString().substring(0, 10);
+}

@@ -189,10 +189,11 @@ export interface ProductLot {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  expiration_date: Date;
-  manufacture_date: Date;
+  expiration_date: any;
+  manufacture_date: any;
   packaging: string;
   receipt: string;
+  products: Product;
 }
 
 export interface Inventory {
