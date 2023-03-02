@@ -184,7 +184,7 @@ export function ProductInfoSection({
                 <p>{t("product_modal_20_max_length")}</p>
               )}
             </div>
-
+            {/* 
             <div className="w-full ">
               <label htmlFor="campaign" className="text-sm text-gray-600">
                 {t("select_campaign")}
@@ -201,7 +201,7 @@ export function ProductInfoSection({
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
