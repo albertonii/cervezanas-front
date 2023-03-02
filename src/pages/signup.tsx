@@ -42,7 +42,7 @@ export default function SignUp() {
               <p className="my-2 flex w-full justify-center text-sm text-gray-700">
                 {t("already_account")}
                 <Link className="cursor-pointer font-bold" href={"/signin"}>
-                  <span className="mx-1 text-blue-600 hover:underline">
+                  <span className="mx-1 text-beer-blonde hover:underline">
                     {t("access_account")}
                   </span>
                 </Link>
