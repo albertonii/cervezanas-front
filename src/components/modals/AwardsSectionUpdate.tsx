@@ -15,7 +15,7 @@ const emptyAward: Award = {
 };
 
 interface Props {
-  form: UseFormReturn<ModalUpdateProductProps, any>;
+  form: UseFormReturn<any, any>;
 }
 
 interface FileProps {
@@ -27,10 +27,14 @@ export function AwardsSectionUpdate({
   form: {
     control,
     register,
+    getValues,
     formState: { errors },
   },
 }: Props) {
   const { t } = useTranslation();
+
+  console.log(control);
+  console.log(getValues());
 
   const { fields, append, remove } = useFieldArray({
     name: "awards",
@@ -162,9 +166,9 @@ export function AwardsSectionUpdate({
             </label>
 
             <input
-              type="file"
+              type="text"
               {...register(`awards.${index}.img_url`, {
-                required: true,
+                required: false,
               })}
               onChange={(e) => showPreview(e, index)}
               accept="image/png, image/jpeg"

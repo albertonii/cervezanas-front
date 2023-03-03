@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "../../components";
 
-export function SupportCenter() {
+export default function SupportCenter() {
   return (
     <Layout usePadding={true} useBackdrop={false}>
       <div>

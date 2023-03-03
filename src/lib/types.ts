@@ -475,7 +475,7 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
-  beers: Beer[];
+  beers: BeerModalProps[]; // We need this to avoid circular dependency
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
@@ -493,7 +493,7 @@ export type ModalUpdateProductProps = {
   origin: string;
   era: string;
   intensity: string;
-  awards: Award[];
+  awards?: Award[];
   p_principal: FileImg;
   p_back: FileImg;
   p_extra_1: FileImg;
@@ -507,10 +507,33 @@ export type ModalUpdateProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
-  beers: Beer[];
+  beers: BeerModalProps[]; // We need this to avoid circular dependency
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
+};
+
+type BeerModalProps = {
+  id: string;
+  lot_id: number;
+  feedback_id: number;
+  category: string;
+  fermentation: string;
+  aroma: string;
+  color: string;
+  origin: string;
+  family: string;
+  era: string;
+  intensity: string;
+  beer_format_id: string;
+  awards_id: string[];
+  price: number;
+  volume: number;
+  format: string;
+  pack: number;
+  product_id: string;
+  is_public: boolean;
+  is_gluten: boolean;
 };
 
 export type CampaignFormProps = {

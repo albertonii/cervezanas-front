@@ -5,13 +5,12 @@ import { useTranslation } from "react-i18next";
 import { ModalAddProductProps } from "../../lib/types";
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<any, any>;
   registerName: string;
 }
 
 const FilePreview = ({
   form: {
-    control,
     register,
     setValue,
     formState: { errors },

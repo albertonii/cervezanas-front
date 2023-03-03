@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { product_type_options, BeerEnum } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
@@ -261,8 +261,8 @@ export function UpdateProduct({
         product_upd[0].product_inventory = product_inventory;
 
         // Awards
-        if (awards.length > 0 && awards[0].img_url != "") {
-          awards.map(async (award: Award) => {
+        if (awards!.length > 0 && awards![0].img_url != "") {
+          awards!.map(async (award: Award) => {
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);
