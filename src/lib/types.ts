@@ -160,6 +160,7 @@ export interface Beer {
   feedback_id: number;
   category: string;
   fermentation: string;
+  aroma: string;
   color: string;
   origin: string;
   family: string;
