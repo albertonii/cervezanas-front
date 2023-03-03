@@ -521,6 +521,12 @@ export type CartItem = {
   quantity: number;
 };
 
+export interface ICarouselItem {
+  link: string;
+  imageUrl: string;
+  title: string;
+}
+
 export type FileImg = {
   lastModified: number;
   lastModifiedDate: Date;

@@ -1,9 +1,15 @@
-import { createContext, FunctionComponent, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useState,
+} from "react";
 import { MessageProps } from "./message.types";
 
 export type MessageContextProps = {
   messages: MessageProps[];
-  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
+  setMessages: Dispatch<SetStateAction<MessageProps[]>>;
   handleMessage: (m: MessageProps) => void;
 };
 

@@ -1,3 +1,5 @@
+import { fromPairs } from "lodash";
+
 export * from "./AddCartButton";
 export * from "./Button";
 export * from "./CustomLoading";
@@ -10,4 +12,6 @@ export * from "./IncreaseButton";
 export * from "./Spinner";
 export * from "./ToastNotification";
 export * from "./SearchCheckboxList";
+export * from "./CarouselItem";
+export * from "./Carousel";
 export * from "../customLayout/Campaigns/SearchCheckboxListCampaign";

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { SupabaseProps } from "../../constants";
-import { Product, ProductMultimedia, Review } from "../../lib/types";
+import {
+  ICarouselItem,
+  Product,
+  ProductMultimedia,
+  Review,
+} from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +27,7 @@ import {
   ProductReviews,
   Rate,
 } from "../../components/reviews";
+import Carousel from "../../components/common/Carousel";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -44,7 +50,7 @@ export default function ProductId(props: Props) {
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
-  const [gallery, setGallery] = useState<string[]>([]);
+  const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
     product[0].likes?.length > 0 ? true : false
   );
@@ -80,47 +86,82 @@ export default function ProductId(props: Props) {
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_principal !== "undefined" && m.p_principal !== null
-        ? pPrincipalUrl + `${p.owner_id}/` + m.p_principal
-        : "/marketplace_product_default.png",
+      {
+        link: "/",
+        title: "Principal",
+        imageUrl:
+          m.p_principal !== "undefined" && m.p_back !== null
+            ? pPrincipalUrl + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_back !== "undefined" && m.p_back !== null
-        ? pBackUrl + `${p.owner_id}/` + m.p_back
-        : "",
+      {
+        link: "/",
+        title: "Back",
+        imageUrl:
+          m.p_back !== "undefined" && m.p_back !== null
+            ? pBackUrl + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_extra_1 !== "undefined" && m.p_extra_1 !== null
-        ? pExtra1Url + `${p.owner_id}/` + m.p_extra_1
-        : "",
+      {
+        link: "/",
+        title: "Photo Extra 1",
+        imageUrl:
+          m.p_extra_1 !== "undefined" && m.p_back !== null
+            ? pExtra1Url + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_extra_2 !== "undefined" && m.p_extra_2 !== null
-        ? pExtra2Url + `${p.owner_id}/` + m.p_extra_2
-        : "",
+      {
+        link: "/",
+        title: "Photo Extra 2",
+        imageUrl:
+          m.p_extra_2 !== "undefined" && m.p_back !== null
+            ? pExtra2Url + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_extra_3 !== "undefined" && m.p_extra_3 !== null
-        ? pExtra3Url + `${p.owner_id}/` + m.p_extra_3
-        : "",
+      {
+        link: "/",
+        title: "Photo Extra 3",
+        imageUrl:
+          m.p_extra_3 !== "undefined" && m.p_back !== null
+            ? pExtra3Url + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
     setGallery((oldGallery) => [
       ...oldGallery,
-      m.p_extra_4 !== "undefined" && m.p_extra_4 !== null
-        ? pExtra4Url + `${p.owner_id}/` + m.p_extra_4
-        : "",
+      {
+        link: "/",
+        title: "Photo Extra 4",
+        imageUrl:
+          m.p_extra_4 !== "undefined" && m.p_back !== null
+            ? pExtra4Url + `${p.owner_id}/` + m.p_back
+            : "/marketplace_product_default.png",
+      },
     ]);
 
-    setGallery((oldGallery) => oldGallery.filter((item) => item !== ""));
+    setGallery((oldGallery) =>
+      oldGallery.filter(
+        (item) =>
+          item.imageUrl !== "" && item.imageUrl.includes("undefined") === false
+      )
+    );
   }, [
     m.p_back,
     m.p_extra_1,
@@ -198,6 +239,91 @@ export default function ProductId(props: Props) {
           <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
             <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
               <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
+                {/* <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
+                  <Carousel
+                    gallery={[
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                      {
+                        imageUrl: "/marketplace_product_default.png",
+                        link: "",
+                        title: "",
+                      },
+                    ]}
+                    isLike={isLike}
+                    handleSetIsLike={handleSetIsLike}
+                    handleSetGalleryIndex={() => {}}
+                  />
+                </div> */}
+
                 <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
                   <ProductGallery
                     gallery={gallery}

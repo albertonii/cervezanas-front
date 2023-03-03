@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -22,7 +22,7 @@ import { Modal, ProductInfoSection, ProductStepper } from ".";
 
 interface Props {
   products: Product[];
-  handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
+  handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
 export function AddProduct(props: Props) {
@@ -240,7 +240,6 @@ export function AddProduct(props: Props) {
         if (beerError) throw beerError;
 
         const beer = beerData[0];
-        const beerId = beer.id;
 
         // Inventory - Stock
         const stock: Inventory = {

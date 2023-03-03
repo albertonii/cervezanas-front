@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React, {
   Dispatch,
   SetStateAction,
@@ -127,7 +128,9 @@ export function ProductList({
                     />
                   </th>
 
-                  <td className="py-4 px-6">{product.name}</td>
+                  <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                    <Link href={`/products/${product.id}`}>{product.name}</Link>
+                  </td>
 
                   <td className="py-4 px-6">{product.price}</td>
 
