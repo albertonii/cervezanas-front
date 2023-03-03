@@ -77,6 +77,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
 
   return (
     <Modal
+      showBtn={true}
       isVisible={false}
       title={t("add_billing_address")}
       btnTitle={t("add_billing_address")}

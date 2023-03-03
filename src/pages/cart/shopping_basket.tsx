@@ -440,7 +440,7 @@ export default function Checkout(props: Props) {
                       )}
                     </div>
 
-                    {/* Shipping */}
+                    {/* Shipping Container */}
                     <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                         <h2 className="text-2xl dark:text-white font-semibold leading-5 text-gray-800">

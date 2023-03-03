@@ -83,6 +83,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
 
   return (
     <Modal
+      showBtn={true}
       isVisible={false}
       title={t("add_shipping_address")}
       btnTitle={t("add_shipping_address")}

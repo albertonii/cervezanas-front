@@ -6,14 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
-import {
-  Beer,
-  Order,
-  ShippingInfo,
-  BillingInfo,
-  Product,
-  OrderItem,
-} from "../../../lib/types";
+import { Order, ShippingInfo, BillingInfo, Product } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
@@ -68,7 +61,8 @@ export default function Success(props: Props) {
                   href="#"
                   className="hidden font-medium hover:text-beer-blonde sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
                 >
-                  {t("view_invoice")}<span aria-hidden="true"> &rarr;</span>
+                  {t("view_invoice")}
+                  <span aria-hidden="true"> &rarr;</span>
                 </a>
               </div>
 
@@ -154,6 +148,7 @@ export default function Success(props: Props) {
                           <dt className="font-medium text-gray-900">
                             {t("shipping_address")}
                           </dt>
+
                           <dd className="mt-3 text-gray-500">
                             <span className="block">
                               {shippingInfo.name} {shippingInfo.lastname}
@@ -295,8 +290,12 @@ export default function Success(props: Props) {
                           <p className="sr-only">Visa</p>
                         </div>
                         <div className="ml-4 mt-4">
-                          <p className="text-gray-900">{t("ending_with")} 4242</p>
-                          <p className="text-gray-600">{t("expires_at")} 02 / 24</p>
+                          <p className="text-gray-900">
+                            {t("ending_with")} 4242
+                          </p>
+                          <p className="text-gray-600">
+                            {t("expires_at")} 02 / 24
+                          </p>
                         </div>
                       </dd>
                     </div>

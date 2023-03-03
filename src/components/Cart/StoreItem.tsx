@@ -4,11 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
-import {
-  faShoppingCart,
-  faHeart,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
 import { Product } from "../../lib/types";
 import { useRouter } from "next/router";
