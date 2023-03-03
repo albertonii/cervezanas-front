@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import _ from "lodash";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  aroma_options,
-  color_options,
-  era_options,
-  family_options,
-  fermentation_options,
-  intensity_options,
-  origin_options,
-  product_type_options,
-  BeerEnum,
-} from "../../lib/beerEnum";
+import { product_type_options, BeerEnum } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
-import { AwardsSection } from "./AwardsSection";
-import { MultimediaSection } from "./MultimediaSection";
-import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
+import {
+  Product,
+  Inventory,
+  ModalUpdateProductProps,
+  Award,
+} from "../../lib/types";
 import { useAuth } from "../Auth";
-import _ from "lodash";
-import { Modal, ProductInfoSection, ProductStepper } from ".";
+import { Modal, ProductStepper } from ".";
+import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
+import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
+import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 
 interface Props {
-  products: Product[];
-  handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
+  product: Product;
+  handleSetProducts: Dispatch<SetStateAction<any>>;
+  handleEditShowModal: Dispatch<SetStateAction<any>>;
 }
 
-export function AddProduct(props: Props) {
+export function UpdateProduct({
+  product,
+  handleSetProducts,
+  handleEditShowModal,
+}: Props) {
   const { t } = useTranslation();
-  const { handleSetProducts } = props;
 
   const { user } = useAuth();
 
@@ -37,29 +37,28 @@ export function AddProduct(props: Props) {
     setActiveStep(value);
   };
 
-  const form = useForm<ModalAddProductProps>({
+  const form = useForm<ModalUpdateProductProps>({
     mode: "onSubmit",
     defaultValues: {
+      name: product.name,
+      description: product.description,
+      type: product.type,
+      is_public: product.is_public,
+      price: product.price,
+      stock_quantity: product.product_inventory[0].quantity,
+      stock_limit_notification: product.product_inventory[0].limit_notification,
       campaign: "-",
-      name: "Jaira IPA",
-      description: "-",
-      color: 0,
-      intensity: 0,
-      aroma: 0,
-      family: 0,
-      fermentation: 0,
-      origin: 0,
-      era: 0,
-      is_gluten: false,
-      type: product_type_options[0].value,
+      pack: product.beers[0].pack,
+      format: product.beers[0].format,
+      volume: product.beers[0].volume,
+      color: product.beers[0].color,
+      intensity: product.beers[0].intensity,
+      family: product.beers[0].family,
+      fermentation: product.beers[0].fermentation,
+      origin: product.beers[0].origin,
+      era: product.beers[0].era,
+      is_gluten: product.beers[0].is_gluten,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
-      is_public: false,
-      volume: "",
-      price: 0,
-      pack: "",
-      format: "",
-      stock_quantity: 0,
-      stock_limit_notification: 0,
     },
   });
 
@@ -69,8 +68,10 @@ export function AddProduct(props: Props) {
     reset,
   } = form;
 
-  const onSubmit = (formValues: ModalAddProductProps) => {
+  const onSubmit = (formValues: ModalUpdateProductProps) => {
     const handleProductInsert = async () => {
+      handleEditShowModal(false);
+
       const {
         campaign,
         fermentation,
@@ -101,23 +102,22 @@ export function AddProduct(props: Props) {
 
       const userId = user?.id;
 
-      // Product
-      // TODO: AÑADIR -> Nº ARTÍCULO, Nº VARIANTE, Nº ALEATORIO
-      const { data: productData, error: productError } = await supabase
+      const { data: product_upd, error: productError } = await supabase
         .from("products")
-        .insert({
-          is_public: is_public,
+        .update({
           name: name,
           description: description,
           type,
           owner_id: userId,
           price,
+          is_public: is_public,
         })
+        .eq("id", product.id)
         .select();
 
       if (productError) throw productError;
 
-      const productId = productData[0].id;
+      const productId = product.id;
 
       // Multimedia
 
@@ -150,18 +150,19 @@ export function AddProduct(props: Props) {
         ? encodeURIComponent(p_extra_3.name)
         : null;
 
-      const { error: multError } = await supabase
+      const { data: product_multimedia, error: multError } = await supabase
         .from("product_multimedia")
-        .insert({
-          product_id: productId,
+        .update({
           p_principal: p_principal_url,
           p_back: p_back_url,
           p_extra_1: p_extra_1_url,
           p_extra_2: p_extra_2_url,
           p_extra_3: p_extra_3_url,
-        });
+        })
+        .eq("product_id", product.id);
 
       if (multError) throw multError;
+      product_upd[0].product_multimedia = product_multimedia;
 
       if (p_principal_url) {
         const { error: pPrincipalError } = await supabase.storage
@@ -221,23 +222,24 @@ export function AddProduct(props: Props) {
       if (product_type_options[0].label === BeerEnum.Product_type.beer) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
-          .insert({
-            intensity: intensity_options[intensity].label,
-            fermentation: fermentation_options[fermentation].label,
-            color: color_options[color].label,
-            aroma: aroma_options[aroma].label,
-            family: family_options[family].label,
-            origin: origin_options[origin].label,
-            era: era_options[era].label,
+          .update({
+            intensity: intensity,
+            fermentation: fermentation,
+            color: color,
+            aroma: aroma,
+            family: family,
+            origin: origin,
+            era: era,
             is_gluten,
             volume,
             pack,
             format,
             product_id: productId,
           })
-          .select();
+          .eq("product_id", product.id);
 
         if (beerError) throw beerError;
+        product_upd[0].beers = beerData;
 
         const beer = beerData[0];
         const beerId = beer.id;
@@ -249,41 +251,56 @@ export function AddProduct(props: Props) {
           limit_notification: stock_limit_notification,
         };
 
-        const { error: stockError } = await supabase
+        const { data: product_inventory, error: stockError } = await supabase
           .from("product_inventory")
-          .insert(stock);
+          .update(stock)
+          .eq("product_id", product.id);
+
         if (stockError) throw stockError;
+
+        product_upd[0].product_inventory = product_inventory;
 
         // Awards
         if (awards.length > 0 && awards[0].img_url != "") {
-          awards.map(async (award) => {
+          awards.map(async (award: Award) => {
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);
-              const { error: awardsError } = await supabase
+              const { data: awards, error: awardsError } = await supabase
                 .from("awards")
-                .insert({
-                  product_id: productId,
+                .update({
+                  product_id: beerId,
                   name: award.name,
                   description: award.description,
                   year: award.year,
                   img_url: productFileUrl,
-                });
+                })
+                .eq("product_id", product.id);
 
               if (awardsError) throw awardsError;
+
+              product_upd[0].awards = awards[0];
+
               const { error: storageAwardsError } = await supabase.storage
                 .from("products")
                 .upload(`awards/${productFileUrl}`, file, {
                   cacheControl: "3600",
                   upsert: false,
                 });
+
               if (storageAwardsError) throw storageAwardsError;
             }
           });
         }
 
-        handleSetProducts((prev: any) => [...prev, productData[0]]);
-        return beer;
+        // Update previous product list
+        handleSetProducts((prev: any) => {
+          const index = prev.findIndex((p: any) => p.id === product_upd[0].id);
+          prev[index] = product_upd[0];
+          return [...prev];
+        });
+
+        return product;
       }
 
       reset();
@@ -294,12 +311,13 @@ export function AddProduct(props: Props) {
   return (
     <form className="w-full">
       <Modal
-        showBtn={true}
-        isVisible={false}
-        title={"add_product"}
-        btnTitle={"add_product"}
+        showBtn={false}
+        isVisible={true}
+        title={"save_product"}
+        btnTitle={"save_product"}
         description={""}
         handler={handleSubmit(onSubmit)}
+        handlerClose={() => handleEditShowModal(false)}
         classIcon={""}
         classContainer={""}
       >
@@ -315,15 +333,15 @@ export function AddProduct(props: Props) {
 
               {activeStep === 0 ? (
                 <>
-                  <ProductInfoSection form={form} />
+                  <ProductInfoSectionUpdate form={form} />
                 </>
               ) : activeStep === 1 ? (
                 <>
-                  <AwardsSection form={form} />
+                  <AwardsSectionUpdate form={form} />
                 </>
               ) : activeStep === 2 ? (
                 <>
-                  <MultimediaSection form={form} />
+                  <MultimediaSectionUpdate form={form} />
                 </>
               ) : (
                 <></>

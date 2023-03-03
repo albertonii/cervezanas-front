@@ -4,15 +4,7 @@ import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
 import { Layout } from "../components/index";
 import { supabase } from "../utils/supabaseClient";
-import {
-  Campaign,
-  Like,
-  Order,
-  Product,
-  ProductLot,
-  Profile as ProfileType,
-  Review,
-} from "../lib/types";
+import { ProductLot, Profile as ProfileType, Review } from "../lib/types";
 import {
   Account,
   Sidebar,
@@ -133,7 +125,8 @@ export async function getServerSideProps({ req }: any) {
           product_multimedia (*),
           product_inventory (*),
           likes (*),
-          product_lot (*)
+          product_lot (*),
+          beers (*)
         ),
         orders (*),
         campaigns (*)
@@ -159,7 +152,6 @@ export async function getServerSideProps({ req }: any) {
       `
     )
     .eq("owner_id", user?.id);
-
   if (reviewError) throw reviewError;
 
   if (reviewData === undefined || reviewData === null) {
@@ -178,7 +170,7 @@ export async function getServerSideProps({ req }: any) {
     )
     .eq("owner_id", user?.id);
 
-  if (productLotError) console.log(productLotError);
+  if (productLotError) console.error(productLotError);
 
   if (productLotData === undefined || productLotData === null) {
     productLotData = [];

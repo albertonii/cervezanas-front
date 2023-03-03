@@ -17,13 +17,13 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { ModalAddProductProps } from "../../lib/types";
+import { ModalUpdateProductProps } from "../../lib/types";
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<ModalUpdateProductProps, any>;
 }
 
-export function ProductInfoSection({
+export function ProductInfoSectionUpdate({
   form: {
     register,
     formState: { errors },
@@ -52,7 +52,7 @@ export function ProductInfoSection({
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_can_type_options.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} value={option.label}>
                 {option.value} (ML)
               </option>
             ))}
@@ -65,7 +65,7 @@ export function ProductInfoSection({
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_bottle_type_options.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} value={option.label}>
                 {option.value} (ML)
               </option>
             ))}
@@ -75,7 +75,7 @@ export function ProductInfoSection({
         return (
           <select
             {...register(`volume`)}
-            defaultValue={volume_draft_type_options[0].value}
+            defaultValue={volume_draft_type_options[0].label}
             className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {volume_draft_type_options.map((option) => (
@@ -158,6 +158,7 @@ export function ProductInfoSection({
                 type="text"
                 id="name"
                 placeholder="IPA Jaira"
+                defaultValue={getValues("name")}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("name", {
                   required: true,
@@ -199,6 +200,7 @@ export function ProductInfoSection({
               <textarea
                 id="description"
                 placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+                defaultValue={getValues("description")}
                 className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("description", {
                   required: true,
@@ -220,7 +222,7 @@ export function ProductInfoSection({
               </label>
 
               <select
-                {...register("intensity")}
+                // {...register("intensity")}
                 defaultValue={getValues("intensity")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
@@ -242,8 +244,8 @@ export function ProductInfoSection({
               </label>
 
               <select
-                {...register("fermentation")}
-                defaultValue={fermentation_options[0].label}
+                // {...register("fermentation")}
+                defaultValue={getValues("fermentation")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {fermentation_options.map((option) => (
@@ -266,11 +268,11 @@ export function ProductInfoSection({
 
               <select
                 {...register("color")}
-                defaultValue={color_options[0].label}
+                defaultValue={getValues("color")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {color_options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.label}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -288,11 +290,11 @@ export function ProductInfoSection({
 
               <select
                 {...register("origin")}
-                defaultValue={origin_options[0].label}
+                defaultValue={getValues("origin")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {origin_options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.label}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -311,11 +313,11 @@ export function ProductInfoSection({
 
               <select
                 {...register("family")}
-                defaultValue={family_options[0].label}
+                defaultValue={getValues("family")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {family_options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.label}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -333,11 +335,11 @@ export function ProductInfoSection({
 
               <select
                 {...register("era")}
-                defaultValue={era_options[0].label}
+                defaultValue={getValues("era")}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {era_options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.label}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -360,7 +362,7 @@ export function ProductInfoSection({
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {aroma_options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.label}>
                     {t(option.label)}
                   </option>
                 ))}

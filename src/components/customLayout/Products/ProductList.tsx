@@ -1,5 +1,11 @@
 import Image from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
 import { DeleteButton } from "../../common";
@@ -7,9 +13,9 @@ import { EditButton } from "../../common/EditButton";
 
 interface Props {
   products: Product[];
-  handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleProductModal: React.Dispatch<React.SetStateAction<any>>;
+  handleEditShowModal: Dispatch<SetStateAction<any>>;
+  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
+  handleProductModal: Dispatch<SetStateAction<any>>;
 }
 
 interface ColumnsProps {

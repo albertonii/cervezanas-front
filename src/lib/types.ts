@@ -159,24 +159,32 @@ export interface Beer {
   lot_id: number;
   feedback_id: number;
   category: string;
-  intensity: string;
   fermentation: string;
   color: string;
   origin: string;
   family: string;
   era: string;
-  aroma: string;
+  intensity: string;
   beer_format_id: string;
-  is_gluten: boolean;
   awards_id: string[];
   awards: Award[];
-  is_public: boolean;
   price: number;
   volume: number;
   format: string;
   pack: number;
   reviews: Review[];
   likes: Like[];
+  product_id: string;
+  is_public: boolean;
+  is_gluten: boolean;
+}
+
+export interface Merchandising {
+  id: string;
+  lot_id: number;
+  feedback_id: number;
+  category: string;
+  is_public: boolean;
   product_id: string;
 }
 
@@ -441,19 +449,17 @@ export type UserProps = {
 };
 
 export type ModalAddProductProps = {
-  is_public: boolean;
   name: string;
   description: string;
   campaign: string;
   type: string;
   color: number;
-  intensity: number;
   aroma: number;
   family: number;
   fermentation: number;
   origin: number;
   era: number;
-  is_gluten: boolean;
+  intensity: number;
   awards: Award[];
   p_principal: FileImg;
   p_back: FileImg;
@@ -468,6 +474,42 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
+  beers: Beer[];
+  merchandisings: Merchandising[];
+  is_gluten: boolean;
+  is_public: boolean;
+};
+
+export type ModalUpdateProductProps = {
+  name: string;
+  description: string;
+  campaign: string;
+  type: string;
+  color: string;
+  aroma: string;
+  family: string;
+  fermentation: string;
+  origin: string;
+  era: string;
+  intensity: string;
+  awards: Award[];
+  p_principal: FileImg;
+  p_back: FileImg;
+  p_extra_1: FileImg;
+  p_extra_2: FileImg;
+  p_extra_3: FileImg;
+  volume: any;
+  price: number;
+  pack: any;
+  format: any;
+  stock_quantity: number;
+  stock_limit_notification: number;
+  lot_id: number;
+  lot_quantity: number;
+  beers: Beer[];
+  merchandisings: Merchandising[];
+  is_gluten: boolean;
+  is_public: boolean;
 };
 
 export type CampaignFormProps = {
@@ -488,13 +530,21 @@ export type FileImg = {
   webkitRelativePath: string;
 };
 
+export enum ProductType {
+  BEER = "beer",
+  WINE = "wine",
+  SPIRIT = "spirit",
+  OTHER = "other",
+  MERCHANDISING = "merchandising",
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   created_at: Date;
   social_cause_id: string;
-  type: string;
+  type: ProductType;
   product_category_id: string;
   campaign_id: string;
   owner_id: string;
@@ -508,6 +558,7 @@ export interface Product {
   beers: Beer[];
   product_variant: ProductVariant[];
   order_item: OrderItem[];
+  awards: Award[];
 }
 
 export interface ProductVariant {

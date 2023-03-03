@@ -29,7 +29,6 @@ export function LikesHistory({ userId }: Props) {
 
       setLikes(likes);
     };
-    console.log(likes);
 
     getLikesHistory();
 

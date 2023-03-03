@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { useState } from "react";
 import { ProductList } from "..";
 import { Product } from "../../../lib/types";
-import { AddProduct, DeleteProduct, ProductModalUpd } from "../../modals/index";
+import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {
   products: Product[];
@@ -12,7 +12,7 @@ export function Products({ products: p }: Props) {
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
-  const [productModal, setProductModal] = useState<any>(null);
+  const [productModal, setProductModal] = useState<Product>();
 
   const [products, setProducts] = useState<Product[]>(p);
 
@@ -52,9 +52,9 @@ export function Products({ products: p }: Props) {
         />
 
         {isEditShowModal && (
-          <ProductModalUpd
-            isVisible={true}
-            product={productModal}
+          <UpdateProduct
+            product={productModal!}
+            handleSetProducts={handleSetProducts}
             handleEditShowModal={handleEditShowModal}
           />
         )}
@@ -62,7 +62,7 @@ export function Products({ products: p }: Props) {
         {isDeleteShowModal && (
           <DeleteProduct
             products={products!}
-            productId={productModal.id}
+            productId={productModal!.id}
             isDeleteShowModal={isDeleteShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
             handleSetProducts={handleSetProducts}

@@ -7,7 +7,7 @@ export * from "./EditLot";
 export * from "./ProductInfoSection";
 export * from "./Modal";
 export * from "./PortalModal";
-export * from "./ProductModalUpd";
+export * from "./UpdateProduct";
 export * from "./ProductStepper";
 export * from "./SuccessfulReviewModal";
 export * from "./MultimediaSection";

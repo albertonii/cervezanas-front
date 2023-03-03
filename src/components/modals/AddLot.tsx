@@ -69,7 +69,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       manufacture_date,
       packaging,
     } = formValues;
-    console.log(formValues);
+
     const handleLotInsert = async () => {
       products.map(async (product: { value: any }) => {
         if (product.value != false) {

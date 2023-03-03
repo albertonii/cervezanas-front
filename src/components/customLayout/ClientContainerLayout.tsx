@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 import { ChangeEvent, useRef } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
@@ -42,7 +42,7 @@ export function ClientContainerLayout({ children }: Props) {
         .remove([encodeUriProfileImg]);
 
       if (errorDelete) {
-        console.log("errorDelete", errorDelete);
+        console.error("errorDelete", errorDelete);
         return;
       }
 
@@ -54,7 +54,7 @@ export function ClientContainerLayout({ children }: Props) {
         });
 
       if (error) {
-        console.log("error", error);
+        console.error("error", error);
         return;
       }
       setProfileImg(SupabaseProps.BASE_AVATARS_URL + decodeUriProfileImg);
