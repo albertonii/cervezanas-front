@@ -31,7 +31,7 @@ export function AddProduct(props: Props) {
 
   const { user } = useAuth();
 
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);

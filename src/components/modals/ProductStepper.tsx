@@ -31,6 +31,55 @@ export function ProductStepper(props: Props) {
   const statusFutureIconClass = "gray";
 
   useEffect(() => {
+    const handleStepper = (param: number) => {
+      switch (param) {
+        case 0:
+          setDetailsClass(statusPresentClass);
+          setAwardsClass(statusFutureClass);
+          setMultimediaClass(statusFutureClass);
+          setConfirmClass(statusFutureClass);
+
+          setDetailsIconClass(statusPresentIconClass);
+          setAwardsIconClass(statusFutureIconClass);
+          setMultimediaIconClass(statusFutureIconClass);
+          setConfirmIconClass(statusFutureIconClass);
+          return "";
+        case 1:
+          setDetailsClass(statusPastClass);
+          setAwardsClass(statusPresentClass);
+          setMultimediaClass(statusFutureClass);
+          setConfirmClass(statusFutureClass);
+
+          setDetailsIconClass(statusPastIconClass);
+          setAwardsIconClass(statusPresentIconClass);
+          setMultimediaIconClass(statusFutureIconClass);
+          setConfirmIconClass(statusFutureIconClass);
+          return "";
+        case 2:
+          setDetailsClass(statusPastClass);
+          setAwardsClass(statusPastClass);
+          setMultimediaClass(statusPresentClass);
+          setConfirmClass(statusFutureClass);
+
+          setDetailsIconClass(statusPastIconClass);
+          setAwardsIconClass(statusPastIconClass);
+          setMultimediaIconClass(statusPresentIconClass);
+          setConfirmIconClass(statusFutureIconClass);
+          return "";
+        default:
+          setDetailsClass(statusPastClass);
+          setAwardsClass(statusPastClass);
+          setMultimediaClass(statusPastClass);
+          setConfirmClass(statusPresentClass);
+
+          setDetailsIconClass(statusPastIconClass);
+          setAwardsIconClass(statusPastIconClass);
+          setMultimediaIconClass(statusPastIconClass);
+          setConfirmIconClass(statusPresentIconClass);
+          return "";
+      }
+    };
+
     handleStepper(0);
   }, []);
 
