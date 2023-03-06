@@ -1,6 +1,6 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import React, { useState } from "react";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";

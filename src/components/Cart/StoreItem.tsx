@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";

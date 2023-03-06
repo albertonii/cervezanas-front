@@ -536,7 +536,7 @@ const translationsEs = {
   order_number_header: "Número de pedido",
   status_header: "Estado",
   tracking_number_header: "Número de seguimiento",
-  marketplace: "Marketplace",
+  marketplace: "Mercado",
   instock: "En Stock",
   outstock: "Agotado",
   quantity: "Cantidad",

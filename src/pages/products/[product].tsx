@@ -27,7 +27,6 @@ import {
   ProductReviews,
   Rate,
 } from "../../components/reviews";
-import Carousel from "../../components/common/Carousel";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -41,10 +40,15 @@ interface Props {
   product: Product[];
   multimedia: ProductMultimedia[];
   reviews: Review[];
+  marketplaceProducts: Product[];
 }
 
-export default function ProductId(props: Props) {
-  const { product, multimedia, reviews } = props;
+export default function ProductId({
+  product,
+  multimedia,
+  reviews,
+  marketplaceProducts,
+}: Props) {
   const p = product[0];
   const m: ProductMultimedia = multimedia[0];
   const { t } = useTranslation();
@@ -185,18 +189,22 @@ export default function ProductId(props: Props) {
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
-  const handleIncreaseCartQuantity = (beerId: string) => {
-    increaseCartQuantity(beerId);
-    if (marketplaceItems.find((item) => item.id === beerId)) return;
+  const handleIncreaseToCartItem = (productId: string) => {
+    increaseCartQuantity(productId);
+    if (marketplaceItems.find((item) => item.id === productId)) return;
 
     const product: Product | undefined = marketplaceItems.find(
-      (item) => item.id === beerId
+      (item) => item.id === productId
     );
-    if (!product) return;
-    addMarketplaceItems(product);
+
+    if (product) return;
+
+    const product_ = marketplaceProducts.find((item) => item.id === productId);
+    if (!product_) return;
+    addMarketplaceItems(product_);
   };
 
-  const handleDecreaseCartQuantity = (beerId: string) => {
+  const handleDecreaseFromCartItem = (beerId: string) => {
     decreaseCartQuantity(beerId);
     if (getItemQuantity(beerId) > 1) return;
     removeMarketplaceItems(beerId);
@@ -239,91 +247,6 @@ export default function ProductId(props: Props) {
           <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
             <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
               <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-                {/* <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
-                  <Carousel
-                    gallery={[
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                      {
-                        imageUrl: "/marketplace_product_default.png",
-                        link: "",
-                        title: "",
-                      },
-                    ]}
-                    isLike={isLike}
-                    handleSetIsLike={handleSetIsLike}
-                    handleSetGalleryIndex={() => {}}
-                  />
-                </div> */}
-
                 <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
                   <ProductGallery
                     gallery={gallery}
@@ -618,7 +541,7 @@ export default function ProductId(props: Props) {
                           <IconButton
                             classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
                             classIcon={""}
-                            onClick={() => increaseCartQuantity(p.id)}
+                            onClick={() => handleIncreaseToCartItem(p.id)}
                             icon={faCartArrowDown}
                             isActive={false}
                             color={{
@@ -633,7 +556,7 @@ export default function ProductId(props: Props) {
                           <div className="flex flex-row align-center">
                             <Button
                               class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                              onClick={() => handleDecreaseCartQuantity(p.id)}
+                              onClick={() => handleDecreaseFromCartItem(p.id)}
                               isActive={false}
                               title={""}
                               box
@@ -649,7 +572,7 @@ export default function ProductId(props: Props) {
 
                             <Button
                               class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                              onClick={() => handleIncreaseCartQuantity(p.id)}
+                              onClick={() => handleIncreaseToCartItem(p.id)}
                               isActive={false}
                               title={""}
                               box
@@ -664,7 +587,7 @@ export default function ProductId(props: Props) {
                         )}
 
                         <Button
-                          onClick={() => handleIncreaseCartQuantity(p.id)}
+                          onClick={() => handleIncreaseToCartItem(p.id)}
                           class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
                           isActive={false}
                           color={{
@@ -716,7 +639,7 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
 
-  let { data: product, error: productsError } = await supabase
+  let { data: product, error: productError } = await supabase
     .from("products")
     .select(
       `*,
@@ -736,7 +659,7 @@ export async function getServerSideProps(context: { params: any }) {
     )
     .eq("id", productId);
 
-  if (productsError) throw productsError;
+  if (productError) throw productError;
 
   if (product == null) return { notFound: true };
 
@@ -756,11 +679,27 @@ export async function getServerSideProps(context: { params: any }) {
     });
   }
 
+  let { data: products, error: productsError } = await supabase
+    .from("products")
+    .select(
+      `
+      id,
+      price,
+      product_multimedia (
+        p_principal
+      )
+    `
+    )
+    .eq("is_public", true);
+
+  if (productsError) throw productsError;
+
   return {
     props: {
       product: product,
       multimedia: product[0]?.product_multimedia,
       reviews: product[0]?.reviews,
+      marketplaceProducts: products,
     },
   };
 }

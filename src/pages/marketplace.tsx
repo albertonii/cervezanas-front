@@ -14,9 +14,7 @@ interface Props {
   reviews: { overall: number }[];
 }
 
-export default function MarketPlace(props: Props) {
-  const { products } = props;
-
+export default function MarketPlace({ products }: Props) {
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
 
@@ -59,7 +57,8 @@ export async function getServerSideProps() {
     ),
     product_multimedia (
       p_principal
-    ),product_inventory (
+    ),
+    product_inventory (
       quantity
     ),likes (
       id
