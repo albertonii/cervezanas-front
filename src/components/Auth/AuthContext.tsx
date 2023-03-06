@@ -1,23 +1,22 @@
+import axios from "axios";
+import Router from "next/router";
 import React, { useEffect, useState, createContext } from "react";
 import {
   SupabaseClient,
   Session,
-  User,
   UserCredentials,
   Provider,
   AuthChangeEvent,
 } from "@supabase/supabase-js";
 import { useMessage } from "../message";
-import Router from "next/router";
 import {
   ROUTE_HOME,
   ROUTE_SIGNIN,
   ROUTE_SIGNOUT,
   ROUTE_SIGNUP,
 } from "../../config";
-import { SignUpInterface } from "../../lib/interfaces";
+import { SignUpInterface, User } from "../../lib/interfaces";
 import { ROLE_ENUM } from "./SignUpForm";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 export interface AuthSession {
@@ -65,7 +64,7 @@ export const AuthContextProvider = (props: Props) => {
     const user = supabase.auth.user();
 
     if (user) {
-      setUser(user);
+      setUser(user as User);
       setUserLoading(false);
       setLoggedIn(true);
     } else {
@@ -85,7 +84,7 @@ export const AuthContextProvider = (props: Props) => {
           await setSupabaseCookie(event, session!);
           // }
 
-          setUser(user);
+          setUser(user as User);
           setLoggedIn(true);
 
           handleMessage!({

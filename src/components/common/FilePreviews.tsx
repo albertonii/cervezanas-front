@@ -2,7 +2,6 @@ import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ModalAddProductProps } from "../../lib/types";
 
 interface Props {
   form: UseFormReturn<any, any>;

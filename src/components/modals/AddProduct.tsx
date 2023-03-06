@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -17,8 +18,8 @@ import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
 import { useAuth } from "../Auth";
-import _ from "lodash";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
+import { uuid } from "uuidv4";
 
 interface Props {
   products: Product[];
@@ -130,24 +131,36 @@ export function AddProduct(props: Props) {
       //     )
       //   : null;
 
+      const randomUUID = uuid();
+
       const p_principal_url = !_.isEmpty(p_principal?.name)
-        ? encodeURIComponent(p_principal.name)
+        ? encodeURIComponent(
+            `${productId}/p_principal/${randomUUID}_${p_principal.name}`
+          )
         : null;
 
       const p_back_url = !_.isEmpty(p_back?.name)
-        ? encodeURIComponent(p_back.name)
+        ? encodeURIComponent(
+            `${productId}/p_principal/${randomUUID}_${p_back.name}`
+          )
         : null;
 
       const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
-        ? encodeURIComponent(p_extra_1.name)
+        ? encodeURIComponent(
+            `${productId}/p_principal/${randomUUID}_${p_extra_1.name}`
+          )
         : null;
 
       const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
-        ? encodeURIComponent(p_extra_2.name)
+        ? encodeURIComponent(
+            `${productId}/p_principal/${randomUUID}_${p_extra_2.name}`
+          )
         : null;
 
       const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
-        ? encodeURIComponent(p_extra_3.name)
+        ? encodeURIComponent(
+            `${productId}/p_principal/${randomUUID}_${p_extra_3.name}`
+          )
         : null;
 
       const { error: multError } = await supabase
@@ -164,11 +177,20 @@ export function AddProduct(props: Props) {
       if (multError) throw multError;
 
       if (p_principal_url) {
+        /*
+        const { error: storageAwardsError } = await supabase.storage
+          .from("products")
+          .upload(`awards/${productFileUrl}`, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        */
+
         const { error: pPrincipalError } = await supabase.storage
           .from("products")
           .upload(
-            `p_principal/${userId}/${p_principal_url}`,
-            p_principal.name,
+            `/articles/${productId}/p_principal/${randomUUID}_${p_principal.name}`,
+            p_principal,
             {
               cacheControl: "3600",
               upsert: false,
@@ -180,40 +202,57 @@ export function AddProduct(props: Props) {
       if (p_back_url) {
         const { error: pBackError } = await supabase.storage
           .from("products")
-          .update(`p_back/${userId}/${p_back_url}`, p_back.name, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+          // .update(`p_back/${userId}/${p_back_url}`, p_back.name, {
+          .upload(
+            `/articles/${productId}/p_back/${randomUUID}_${p_back.name}`,
+            p_back.name,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
         if (pBackError) throw pBackError;
       }
 
       if (p_extra_1_url) {
         const { error: pExtra1Error } = await supabase.storage
           .from("products")
-          .update(`p_extra_1/${userId}/${p_extra_1_url}`, p_extra_1.name, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+          .upload(
+            `/articles/${productId}/p_extra_1/${randomUUID}_${p_extra_1.name}`,
+            p_extra_1,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
         if (pExtra1Error) throw pExtra1Error;
       }
 
       if (p_extra_2_url) {
         const { error: pExtra2Error } = await supabase.storage
           .from("products")
-          .update(`p_extra_2/${userId}/${p_extra_2_url}`, p_extra_2.name, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+          .upload(
+            `/articles/${productId}/p_extra_2/${randomUUID}_${p_extra_2.name}`,
+            p_extra_2,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
         if (pExtra2Error) throw pExtra2Error;
       }
 
       if (p_extra_3_url) {
         const { error: pExtra3Error } = await supabase.storage
           .from("products")
-          .update(`p_extra_3/${userId}/${p_extra_3_url}`, p_extra_3.name, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+          .upload(
+            `/articles/${productId}/p_extra_3/${randomUUID}_${p_extra_3.name}`,
+            p_extra_3,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
         if (pExtra3Error) throw pExtra3Error;
       }
       setActiveStep(0);
@@ -282,10 +321,10 @@ export function AddProduct(props: Props) {
         }
 
         handleSetProducts((prev: any) => [...prev, productData[0]]);
+        reset();
+
         return beer;
       }
-
-      reset();
     };
     handleProductInsert();
   };

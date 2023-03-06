@@ -28,7 +28,7 @@ import {
   Rate,
 } from "../../components/reviews";
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
+const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
 const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
 const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
@@ -91,7 +91,6 @@ export default function ProductId({
 
   useEffect(() => {
     setGallery([]);
-
     setGallery((oldGallery) => [
       ...oldGallery,
       {
@@ -99,7 +98,7 @@ export default function ProductId({
         title: "Principal",
         imageUrl:
           m.p_principal !== "undefined" && m.p_back !== null
-            ? pPrincipalUrl + `${p.owner_id}/` + m.p_back
+            ? productsUrl + decodeURIComponent(m.p_principal)
             : "/marketplace_product_default.png",
       },
     ]);
@@ -111,7 +110,7 @@ export default function ProductId({
         title: "Back",
         imageUrl:
           m.p_back !== "undefined" && m.p_back !== null
-            ? pBackUrl + `${p.owner_id}/` + m.p_back
+            ? productsUrl + decodeURIComponent(m.p_back)
             : "/marketplace_product_default.png",
       },
     ]);
@@ -123,7 +122,7 @@ export default function ProductId({
         title: "Photo Extra 1",
         imageUrl:
           m.p_extra_1 !== "undefined" && m.p_back !== null
-            ? pExtra1Url + `${p.owner_id}/` + m.p_back
+            ? productsUrl + decodeURIComponent(m.p_extra_1)
             : "/marketplace_product_default.png",
       },
     ]);
@@ -135,7 +134,7 @@ export default function ProductId({
         title: "Photo Extra 2",
         imageUrl:
           m.p_extra_2 !== "undefined" && m.p_back !== null
-            ? pExtra2Url + `${p.owner_id}/` + m.p_back
+            ? productsUrl + decodeURIComponent(m.p_extra_2)
             : "/marketplace_product_default.png",
       },
     ]);
@@ -159,7 +158,7 @@ export default function ProductId({
         title: "Photo Extra 4",
         imageUrl:
           m.p_extra_4 !== "undefined" && m.p_back !== null
-            ? pExtra4Url + `${p.owner_id}/` + m.p_back
+            ? productsUrl + decodeURIComponent(m.p_extra_3)
             : "/marketplace_product_default.png",
       },
     ]);
@@ -665,6 +664,7 @@ export async function getServerSideProps(context: { params: any }) {
       )`
     )
     .eq("id", productId);
+
 
   if (productError) throw productError;
 

@@ -14,11 +14,19 @@ interface Props {
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [principal, setPrincipal] = useState(gallery[galleryIndex]);
+  const [back, setBack] = useState(gallery[galleryIndex + 1]);
+  const [extra_1, setExtra_1] = useState(gallery[galleryIndex + 2]);
+  const [extra_2, setExtra_2] = useState(gallery[galleryIndex + 3]);
+  const [extra_3, setExtra_3] = useState(gallery[galleryIndex + 4]);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
     setPrincipal(gallery[galleryIndex]);
+    setBack(gallery[galleryIndex + 1]);
+    setExtra_1(gallery[galleryIndex + 2]);
+    setExtra_2(gallery[galleryIndex + 3]);
+    setExtra_3(gallery[galleryIndex + 4]);
   }, [gallery, galleryIndex]);
 
   const handleSetGalleryIndex = (index: number) => {
@@ -45,7 +53,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
           </div>
 
           <div className="flex flex-wrap">
-            <div className="flex justify-center w-full lg:w-4/5 lg:mb-0 py-4 px-10 2xl:mx-auto 2xl:px-0">
+            <div className="flex justify-center w-full lg:w-4/5 lg:mb-0 py-4 px-10 2xl:mx-auto 2xl:px-0 ">
               {/* Principal Image  */}
               <Image
                 src={principal?.imageUrl ?? "/marketplace_product_default.png"}
@@ -59,34 +67,34 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
               <Carousel
                 gallery={[
                   {
-                    imageUrl: "/marketplace_product_default.png",
+                    imageUrl:
+                      principal?.imageUrl ?? "/marketplace_product_default.png",
                     link: principal?.link ?? "",
                     title: principal?.title ?? "",
                   },
                   {
-                    imageUrl: "/marketplace_product_default.png",
-                    link: principal?.link ?? "",
-                    title: principal?.title ?? "",
+                    imageUrl:
+                      back?.imageUrl ?? "/marketplace_product_default.png",
+                    link: back?.link ?? "",
+                    title: back?.title ?? "",
                   },
                   {
-                    imageUrl: "/marketplace_product_default.png",
-                    link: principal?.link ?? "",
-                    title: principal?.title ?? "",
+                    imageUrl:
+                      extra_1?.imageUrl ?? "/marketplace_product_default.png",
+                    link: extra_1?.link ?? "",
+                    title: extra_1?.title ?? "",
                   },
                   {
-                    imageUrl: "/marketplace_product_default.png",
-                    link: principal?.link ?? "",
-                    title: principal?.title ?? "",
+                    imageUrl:
+                      extra_2?.imageUrl ?? "/marketplace_product_default.png",
+                    link: extra_2?.link ?? "",
+                    title: extra_2?.title ?? "",
                   },
                   {
-                    imageUrl: "/marketplace_product_default.png",
-                    link: principal?.link ?? "",
-                    title: principal?.title ?? "",
-                  },
-                  {
-                    imageUrl: "/marketplace_product_default.png",
-                    link: principal?.link ?? "",
-                    title: principal?.title ?? "",
+                    imageUrl:
+                      extra_3?.imageUrl ?? "/marketplace_product_default.png",
+                    link: extra_3?.link ?? "",
+                    title: extra_3?.title ?? "",
                   },
                 ]}
                 isLike={isLike}

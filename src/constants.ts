@@ -36,6 +36,8 @@ export const CLASS_NAMES = {
 export const SupabaseProps = {
   BASE_URL: "https://kvdearmedajqvexxhmrk.supabase.co/",
   STORAGE_PRODUCTS_IMG_URL: "storage/v1/object/public/products/",
+  STORAGE_PRODUCTS_ARTICLE_IMG_URL:
+    "storage/v1/object/public/products/articles/",
   P_PRINCIPAL_URL: "p_principal/",
   P_BACK_URL: "p_back/",
   P_EXTRA_1_URL: "p_extra_1/",

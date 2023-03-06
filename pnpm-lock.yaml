@@ -22,6 +22,7 @@ specifiers:
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
   '@types/react-table': ^7.7.12
+  '@types/uuid': ^9.0.1
   autoprefixer: ^10.4.8
   axios: ^1.2.0
   classnames: ^2.3.2
@@ -55,6 +56,7 @@ specifiers:
   supabase: '>=1.8.1'
   tailwindcss: ^3.1.8
   typescript: 4.7.4
+  uuidv4: ^6.2.13
 
 dependencies:
   '@fortawesome/fontawesome-svg-core': 6.2.1
@@ -86,6 +88,7 @@ dependencies:
   react-icons: 4.6.0_react@18.2.0
   react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
   react-select: 5.7.0_zxljzmqdrxwnuenbkrz77w74uy
+  uuidv4: 6.2.13
 
 devDependencies:
   '@commitlint/cli': 17.2.0
@@ -97,6 +100,7 @@ devDependencies:
   '@types/node': 18.11.9
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
+  '@types/uuid': 9.0.1
   autoprefixer: 10.4.13_postcss@8.4.19
   cross-env: 7.0.3
   date-fns: 2.29.3
@@ -949,6 +953,14 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: false
+
+  /@types/uuid/9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+    dev: true
 
   /@typescript-eslint/parser/5.42.1_qugx7qdu5zevzvxaiqyxfiwquq:
     resolution: {integrity: sha512-kAV+NiNBWVQDY9gDJDToTE/NO8BHi4f6b7zTsVAJoTkmB/zlfOpiEVBzHOKtlgTndCKe8vj9F/PuolemZSh50Q==}
@@ -4430,6 +4442,18 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /uuidv4/6.2.13:
+    resolution: {integrity: sha512-AXyzMjazYB3ovL3q051VLH06Ixj//Knx7QnUSi1T//Ie3io6CpsPu9nVMOx5MoLWh6xV0B9J0hIaxungxXUbPQ==}
+    dependencies:
+      '@types/uuid': 8.3.4
+      uuid: 8.3.2
+    dev: false
 
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
