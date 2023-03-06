@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { SupabaseProps } from "../../constants";
@@ -61,6 +61,8 @@ export default function ProductId({
 
   const [loading, setLoading] = useState<boolean>(true);
 
+  const reviewRef = useRef<any>();
+
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -84,6 +86,8 @@ export default function ProductId({
   } = useShoppingCart();
 
   const quantity = getItemQuantity(p.id);
+
+  const executeScroll = () => reviewRef.current.scrollIntoView();
 
   useEffect(() => {
     setGallery([]);
@@ -264,7 +268,7 @@ export default function ProductId({
                     <div>
                       <h4 className="sr-only">{t("reviews")}</h4>
 
-                      <div className="flex flex-col justify-end items-end">
+                      <div className="flex flex-row justify-end items-center">
                         <div className="flex items-center">
                           <Rate
                             rating={productStars}
@@ -276,12 +280,12 @@ export default function ProductId({
                         </div>
 
                         <p className="sr-only">{productStars} out of 5 stars</p>
-                        <a
-                          href="#"
-                          className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark"
+                        <p
+                          onClick={() => executeScroll()}
+                          className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark hover:cursor-pointer"
                         >
                           {productReviews.length} {t("reviews")}
-                        </a>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -619,7 +623,10 @@ export default function ProductId({
 
                 {/* See user reviews */}
                 {!emptyReviews && (
-                  <div className="col-span-12 flex flex-col justify-center item-center mx-6">
+                  <div
+                    className="col-span-12 flex flex-col justify-center item-center mx-6"
+                    ref={reviewRef}
+                  >
                     <ProductReviews
                       reviews={productReviews}
                       handleSetReviews={handleSetReviews}

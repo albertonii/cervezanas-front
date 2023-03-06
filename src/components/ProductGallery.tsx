@@ -1,11 +1,6 @@
 import Image from "next/image";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleRight,
-  faAngleLeft,
-  faHeart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./common";
 import { ICarouselItem } from "../lib/types";
 import Carousel from "./common/Carousel";
@@ -33,33 +28,71 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   return (
     <section className="bg-blueGray-100 rounded-b-10xl overflow-hidden mt-4 mb-6 w-full">
       <div className="container px-4 mx-auto">
-        <div className="flex flex-wrap -mx-4 justify-center">
-          <div className="w-full lg:w-4/5 px-4 lg:mb-0 relative">
-            {/* Add to fav button  */}
-            <div className="absolute top-0 right-0 index-50">
-              <IconButton
-                icon={faHeart}
-                onClick={() => handleSetIsLike(!isLike)}
-                isActive={isLike}
-                color={heartColor}
-                classContainer={
-                  "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
-                }
-                classIcon={""}
-                title="Add to favorites"
-              ></IconButton>
+        <div className="-mx-4 justify-center relative">
+          {/* Add to fav button  */}
+          <div className="absolute top-2 right-8 index-50">
+            <IconButton
+              icon={faHeart}
+              onClick={() => handleSetIsLike(!isLike)}
+              isActive={isLike}
+              color={heartColor}
+              classContainer={
+                "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+              }
+              classIcon={""}
+              title="Add to favorites"
+            ></IconButton>
+          </div>
+
+          <div className="flex flex-wrap">
+            <div className="flex justify-center w-full lg:w-4/5 lg:mb-0 py-4 px-10 2xl:mx-auto 2xl:px-0">
+              {/* Principal Image  */}
+              <Image
+                src={principal?.imageUrl ?? "/marketplace_product_default.png"}
+                width={250}
+                height={250}
+                alt=""
+              />
             </div>
 
-            <div className="w-full sm:w-11/12 px-4 ">
-              <div className="h-[22vh]">
-                <Image
-                  src={
-                    principal?.imageUrl ?? "/marketplace_product_default.png"
-                  }
-                  fill
-                  alt=""
-                />
-              </div>
+            <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
+              <Carousel
+                gallery={[
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                  {
+                    imageUrl: "/marketplace_product_default.png",
+                    link: principal?.link ?? "",
+                    title: principal?.title ?? "",
+                  },
+                ]}
+                isLike={isLike}
+                handleSetIsLike={handleSetIsLike}
+                handleSetGalleryIndex={handleSetGalleryIndex}
+              />
             </div>
           </div>
           {/* 
@@ -116,46 +149,6 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
               />
             )}
           </div> */}
-
-          <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
-            <Carousel
-              gallery={[
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-                {
-                  imageUrl: "/marketplace_product_default.png",
-                  link: principal?.link ?? "",
-                  title: principal?.title ?? "",
-                },
-              ]}
-              isLike={isLike}
-              handleSetIsLike={handleSetIsLike}
-              handleSetGalleryIndex={handleSetGalleryIndex}
-            />
-          </div>
         </div>
       </div>
     </section>
