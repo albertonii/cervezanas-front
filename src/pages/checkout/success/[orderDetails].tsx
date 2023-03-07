@@ -16,9 +16,8 @@ interface Props {
   products: Product[];
 }
 
-export default function Success(props: Props) {
+export default function Success({ order: order_, products: products_ }: Props) {
   const { t } = useTranslation();
-  const { order: order_, products: products_ } = props;
 
   const router = useRouter();
 
@@ -48,6 +47,10 @@ export default function Success(props: Props) {
     router.push(`/products/review/${productId}`);
   };
 
+  const handleInvoicePdf = () => {
+    window.open(`/checkout/invoice/${order.id}`, "_ blank");
+  };
+
   return (
     <Layout usePadding={true} useBackdrop={false}>
       {!loading && (
@@ -58,13 +61,14 @@ export default function Success(props: Props) {
                 <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                   Order #54879
                 </h1>
-                <a
-                  href="#"
-                  className="hidden font-medium hover:text-beer-blonde sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
+
+                <p
+                  onClick={() => handleInvoicePdf()}
+                  className="hidden font-medium hover:text-beer-blonde hover:cursor-pointer sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
                 >
                   {t("view_invoice")}
                   <span aria-hidden="true"> &rarr;</span>
-                </a>
+                </p>
               </div>
 
               {/* Order Status  */}
