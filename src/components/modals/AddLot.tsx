@@ -1,13 +1,12 @@
 import React, { Dispatch, SetStateAction } from "react";
-import useFetchProducts from "../../hooks/useFetchProducts";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { SearchCheckboxList } from "../common";
-import { format_options } from "../../lib/beerEnum";
 import { useAuth } from "../Auth";
 import { Product } from "../../lib/types";
+import { format_options } from "../../lib/beerEnum";
 
 type FormValues = {
   created_at: Date;
@@ -17,7 +16,7 @@ type FormValues = {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  receipt: string;
+  beer_recipe: string;
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
@@ -42,10 +41,10 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       product_id: "",
       quantity: 0,
       limit_notification: 0,
-      receipt: "",
+      beer_recipe: "",
       expiration_date: new Date(),
       manufacture_date: new Date(),
-      packaging: format_options[0].value.toString(),
+      packaging: t(format_options[0].label)!,
       products: [],
     },
   });
@@ -64,7 +63,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       quantity,
       products,
       limit_notification,
-      receipt,
+      beer_recipe,
       expiration_date,
       manufacture_date,
       packaging,
@@ -83,7 +82,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
               lot_number,
               lot_name,
               limit_notification,
-              receipt,
+              beer_recipe,
               expiration_date,
               manufacture_date,
               packaging,
@@ -255,14 +254,18 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   {t("packaging")}
                 </label>
 
-                <textarea
-                  id="packaging"
-                  placeholder={t("packaging")!}
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("packaging", {
-                    required: true,
-                  })}
-                />
+                <select
+                  {...register(`packaging`, { required: true })}
+                  value={format_options[0].label}
+                  className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                >
+                  {format_options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {t(option.label)}
+                    </option>
+                  ))}
+                </select>
+
                 {errors.packaging?.type === "required" && (
                   <p>{t("product_modal_required")}</p>
                 )}
@@ -272,18 +275,18 @@ export function AddLot({ products, handleSetProductLots }: Props) {
             <div className="flex w-full flex-row space-x-3 ">
               <div className="w-full space-y ">
                 <label htmlFor="receipt" className="text-sm text-gray-600">
-                  {t("receipt")}
+                  {t("beer_recipe")}
                 </label>
 
                 <textarea
-                  id="receipt"
-                  placeholder={t("receipt")!}
+                  id="beer_recipe"
+                  placeholder={t("beer_recipe")!}
                   className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("receipt", {
+                  {...register("beer_recipe", {
                     required: true,
                   })}
                 />
-                {errors.receipt?.type === "required" && (
+                {errors.beer_recipe?.type === "required" && (
                   <p>{t("product_modal_required")}</p>
                 )}
               </div>

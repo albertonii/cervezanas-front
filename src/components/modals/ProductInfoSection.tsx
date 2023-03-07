@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
 import {
   aroma_options,
   color_options,

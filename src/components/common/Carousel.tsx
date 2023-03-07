@@ -118,7 +118,6 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
                 onClick={() => {
                   setCurrentIndex(index);
                   handleSetGalleryIndex(index);
-                  console.log(index);
                 }}
               >
                 <CarouselItem

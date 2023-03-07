@@ -201,7 +201,7 @@ export interface ProductLot {
   expiration_date: any;
   manufacture_date: any;
   packaging: string;
-  receipt: string;
+  beer_recipe: string;
   products: Product;
 }
 

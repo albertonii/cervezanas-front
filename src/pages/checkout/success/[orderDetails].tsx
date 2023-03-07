@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -128,8 +129,10 @@ export default function Success(props: Props) {
 
                       {/* Product Information  */}
                       <div className="mt-6 md:mt-6 col-span-12 md:col-span-4">
-                        <h3 className="text-base font-medium text-gray-900">
-                          <a href="#">{product.name}</a>
+                        <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                          <Link href={`/products/${product.id}`}>
+                            {product.name}
+                          </Link>
                         </h3>
                         <p className="mt-2 text-sm font-medium text-gray-900">
                           {t("price")} - {formatCurrency(product.price)}

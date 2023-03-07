@@ -359,6 +359,7 @@ const translationsEn = {
   limit_notification: "Limit Notification",
   lot_name: "Lot Name",
   lot_attached_to_product: "Lot attached to product",
+  beer_recipe: "Beer Recipe",
 };
 
 const translationsEs = {
@@ -732,6 +733,7 @@ const translationsEs = {
   limit_notification: "Límite de notificaciones",
   lot_name: "Lote",
   lot_attached_to_product: "Lote asociado al producto",
+  beer_recipe: "Receta de la cerveza",
 };
 
 // the translations

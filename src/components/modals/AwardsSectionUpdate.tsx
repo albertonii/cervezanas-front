@@ -33,9 +33,6 @@ export function AwardsSectionUpdate({
 }: Props) {
   const { t } = useTranslation();
 
-  console.log(control);
-  console.log(getValues());
-
   const { fields, append, remove } = useFieldArray({
     name: "awards",
     control,

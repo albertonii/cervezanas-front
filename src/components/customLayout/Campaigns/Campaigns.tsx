@@ -174,7 +174,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
     <>
       <div className="py-6 px-4 " aria-label="Campaigns">
         <div className="flex flex-col">
-          <div className="text-4xl pr-12">Campaigns</div>
+          <div className="text-4xl pr-12">{t("campaigns")}</div>
 
           {/* Show/Hide Modal*/}
           {isShowDeleteModal && (

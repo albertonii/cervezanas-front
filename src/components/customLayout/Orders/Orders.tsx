@@ -13,15 +13,12 @@ export function Orders(props: Props) {
 
   return (
     <>
-      {orders && orders.length > 0 && (
-        <div className="py-6 px-4 pt-12" aria-label="Products">
-          <div className="flex">
-            <div className="text-4xl pr-12">{t("orders")}</div>
-          </div>
-
-          <OrderList orders={orders} />
-        </div>
-      )}
+      <div className="py-6 px-4 pt-12" aria-label="Products">
+        <div className="flex flex-col">
+          <div className="text-4xl pr-12">{t("orders")}</div>
+        </div>{" "}
+        {orders && orders.length > 0 && <OrderList orders={orders} />}
+      </div>
     </>
   );
 }

@@ -56,7 +56,7 @@ export default function ProductId({
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
-    product[0].likes?.length > 0 ? true : false
+    product[0]?.likes?.length > 0 ? true : false
   );
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -665,13 +665,12 @@ export async function getServerSideProps(context: { params: any }) {
     )
     .eq("id", productId);
 
-
   if (productError) throw productError;
 
   if (product == null) return { notFound: true };
 
-  if (product[0].reviews.length == 0) {
-    product[0].reviews.push({
+  if (product[0]?.reviews.length == 0) {
+    product[0]?.reviews.push({
       id: "0",
       created_at: JSON.stringify(new Date()),
       beer_id: 0,
@@ -701,12 +700,27 @@ export async function getServerSideProps(context: { params: any }) {
 
   if (productsError) throw productsError;
 
+  /*
+  if (
+    product[0]?.product_multimedia === undefined ||
+    (product[0]?.reviews === undefined || product[0]?.product_multimedia) ===
+      null ||
+    product[0]?.reviews === null
+  )
+    return {
+      product: [],
+      multimedia: [],
+      reviews: [],
+      marketplaceProducts: [],
+    };
+*/
+
   return {
     props: {
       product: product,
-      multimedia: product[0]?.product_multimedia,
-      reviews: product[0]?.reviews,
-      marketplaceProducts: products,
+      multimedia: product[0]?.product_multimedia ?? [],
+      reviews: product[0]?.reviews ?? [],
+      marketplaceProducts: products ?? [],
     },
   };
 }

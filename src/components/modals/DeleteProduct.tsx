@@ -14,7 +14,6 @@ interface Props {
 }
 
 export function DeleteProduct(props: Props) {
-  const { t } = useTranslation();
   const {
     products,
     productId,
@@ -25,12 +24,19 @@ export function DeleteProduct(props: Props) {
 
   const handleDeleteClick = () => {
     const handleDelete = async () => {
-      const { data, error } = await supabase
+      const { error: reviewError } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("product_id", productId);
+
+      if (reviewError) throw reviewError;
+
+      const { data, error: productError } = await supabase
         .from("products")
         .delete()
         .eq("id", productId);
 
-      if (error) throw error;
+      if (productError) throw productError;
 
       handleDeleteShowModal(false);
 
