@@ -360,6 +360,9 @@ const translationsEn = {
   lot_name: "Lot Name",
   lot_attached_to_product: "Lot attached to product",
   beer_recipe: "Beer Recipe",
+  archive: "Archive",
+  products_archive: "Products archived",
+  lots_archive: "Lots archived",
 };
 
 const translationsEs = {
@@ -734,6 +737,9 @@ const translationsEs = {
   lot_name: "Lote",
   lot_attached_to_product: "Lote asociado al producto",
   beer_recipe: "Receta de la cerveza",
+  archive: "Archivo",
+  products_archive: "Productos archivados",
+  lots_archive: "Lotes archivados",
 };
 
 // the translations

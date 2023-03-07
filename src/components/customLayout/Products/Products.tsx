@@ -1,24 +1,19 @@
 import { t } from "i18next";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ProductList } from "..";
 import { Product } from "../../../lib/types";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {
   products: Product[];
+  handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
-export function Products({ products: p }: Props) {
+export function Products({ products, handleSetProducts }: Props) {
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
   const [productModal, setProductModal] = useState<Product>();
-
-  const [products, setProducts] = useState<Product[]>(p);
-
-  const handleSetProducts = (value: Product[]) => {
-    setProducts(value);
-  };
 
   const handleEditShowModal = (value: boolean) => {
     setIsEditShowModal(value);
@@ -42,6 +37,8 @@ export function Products({ products: p }: Props) {
             products={products!}
             handleSetProducts={handleSetProducts}
           />
+
+          {/* Archive of products  */}
         </div>
 
         <ProductList
@@ -49,6 +46,7 @@ export function Products({ products: p }: Props) {
           handleEditShowModal={handleEditShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleProductModal={handleProductModal}
+          handleSetProducts={handleSetProducts}
         />
 
         {isEditShowModal && (

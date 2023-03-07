@@ -589,6 +589,7 @@ export interface Product {
   product_variant: ProductVariant[];
   order_item: OrderItem[];
   awards: Award[];
+  is_archived: boolean;
 }
 
 export interface ProductVariant {

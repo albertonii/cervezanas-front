@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import React, {
   Dispatch,
   SetStateAction,
@@ -9,16 +9,11 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
+import { UnarchiveButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
-import { DeleteButton } from "../../common";
-import { ArchiveButton } from "../../common/ArchiveButton";
-import { EditButton } from "../../common/EditButton";
 
 interface Props {
   products: Product[];
-  handleEditShowModal: Dispatch<SetStateAction<any>>;
-  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
-  handleProductModal: Dispatch<SetStateAction<any>>;
   handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
@@ -26,11 +21,8 @@ interface ColumnsProps {
   header: string;
 }
 
-export function ProductList({
+export default function ProductsArchiveList({
   products,
-  handleEditShowModal,
-  handleDeleteShowModal,
-  handleProductModal,
   handleSetProducts,
 }: Props) {
   const { t } = useTranslation();
@@ -48,25 +40,17 @@ export function ProductList({
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (product: Product) => {
-    handleEditShowModal(true);
-    handleDeleteShowModal(false);
-    handleProductModal(product);
-  };
+  useEffect(() => {
+    setProducts_(products);
+  }, [products]);
 
-  const handleClickDelete = (product: Product) => {
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductModal(product);
-  };
-
-  const handleArchive = async (product: any) => {
-    // Update product state to archived and isPublic to false
+  const handleUnarchive = async (product: any) => {
+    // Update product state to archived to false and isPublic to true
     // Update product
     const updatedProduct = {
       ...product,
-      is_archived: true,
-      is_public: false,
+      is_archived: false,
+      is_public: true,
     };
 
     // Delete the objets that doesn't exists in supabase table but just in the state
@@ -97,11 +81,7 @@ export function ProductList({
     handleSetProducts(updatedProducts);
   };
 
-  useEffect(() => {
-    setProducts_(products);
-  }, [products]);
-
-  const filteredItems = useMemo<Product[]>(() => {
+  const filteredItems = useMemo(() => {
     return products_.filter((product) => {
       return product.name.toLowerCase().includes(query.toLowerCase());
     });
@@ -152,70 +132,60 @@ export function ProductList({
           {products_ &&
             filteredItems.map((product) => {
               return (
-                <>
-                  <tr
-                    key={product.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    {!product.is_archived && (
-                      <>
-                        <th
-                          scope="row"
-                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          <Image
-                            width={128}
-                            height={128}
-                            className="w-8 h-8 rounded-full"
-                            src="/icons/beer-240.png"
-                            alt="Beer Type"
+                <tr
+                  key={product.id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
+                  {product.is_archived && (
+                    <>
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <Image
+                          width={128}
+                          height={128}
+                          className="w-8 h-8 rounded-full"
+                          src="/icons/beer-240.png"
+                          alt="Beer Type"
+                        />
+                      </th>
+
+                      <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                        <Link href={`/products/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-6">{product.price}</td>
+
+                      <td className="py-4 px-6">
+                        {product.product_inventory &&
+                        product.product_inventory[0]?.quantity
+                          ? product.product_inventory[0].quantity
+                          : "-"}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        {product.product_lot && product.product_lot[0]?.lot_id
+                          ? product.product_lot[0]?.lot_id
+                          : "-"}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        {product.is_public ? t("yes") : t("no")}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <div className="flex space-x-1">
+                          <UnarchiveButton
+                            onClick={() => handleUnarchive(product)}
                           />
-                        </th>
-
-                        <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}>
-                            {product.name}
-                          </Link>
-                        </td>
-
-                        <td className="py-4 px-6">{product.price}</td>
-
-                        <td className="py-4 px-6">
-                          {product.product_inventory &&
-                          product.product_inventory[0]?.quantity
-                            ? product.product_inventory[0].quantity
-                            : "-"}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          {product.product_lot && product.product_lot[0]?.lot_id
-                            ? product.product_lot[0]?.lot_id
-                            : "-"}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          {product.is_public ? t("yes") : t("no")}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          <div className="flex space-x-1">
-                            <EditButton
-                              onClick={() => handleClickEdit(product)}
-                            />
-
-                            <DeleteButton
-                              onClick={() => handleClickDelete(product)}
-                            />
-
-                            <ArchiveButton
-                              onClick={() => handleArchive(product)}
-                            />
-                          </div>
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                </>
+                        </div>
+                      </td>
+                    </>
+                  )}
+                </tr>
               );
             })}
         </tbody>

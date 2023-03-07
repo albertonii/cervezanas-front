@@ -4,6 +4,8 @@ export * from "./Products/Products";
 export * from "./Products/ProductList";
 export * from "./Products/ConfigureProducts";
 export * from "./Products/Lots";
+export * from "./Products/Archive";
+export * from "./Products/ProductsArchiveList";
 export * from "./Likes/LikesHistory";
 export * from "./Ledger/Ledger";
 export * from "./Stats/Stats";

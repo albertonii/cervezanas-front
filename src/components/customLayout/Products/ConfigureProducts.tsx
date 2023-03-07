@@ -3,23 +3,35 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Products } from "./Products";
 import { Product, ProductLot } from "../../../lib/types";
+import Archive from "./Archive";
 
 interface Props {
   products: Product[];
   lots: ProductLot[];
 }
 
-export function ConfigureProducts({ products, lots }: Props) {
+export function ConfigureProducts({ products: p, lots }: Props) {
   const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
   const [activeTab, setActiveTab] = useState<string>("products");
+  const [products, setProducts] = useState<Product[]>(p);
+
+  const handleSetProducts = (value: Product[]) => {
+    setProducts(value);
+  };
 
   const renderSwitch = () => {
     switch (menuOption) {
       case "products":
-        return <Products products={products} />;
+        return (
+          <Products products={products} handleSetProducts={handleSetProducts} />
+        );
       case "lots":
         return <Lots products={products} lots={lots} />;
+      case "archive":
+        return (
+          <Archive products={products} handleSetProducts={handleSetProducts} />
+        );
     }
   };
 
@@ -47,10 +59,22 @@ export function ConfigureProducts({ products, lots }: Props) {
           <li
             className={`
           ${activeTab === "lots" ? "bg-gray-100 text-gray-900" : "bg-beer-foam"}
-          w-full rounded-r-lg flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+          w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             onClick={() => handleMenuClick("lots")}
           >
             {t("lots")}
+          </li>
+          <li
+            className={`
+          ${
+            activeTab === "archive"
+              ? "bg-gray-100 text-gray-900"
+              : "bg-beer-foam"
+          }
+          w-full rounded-r-lg flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+            onClick={() => handleMenuClick("archive")}
+          >
+            {t("archive")}
           </li>
         </ul>
       </div>
