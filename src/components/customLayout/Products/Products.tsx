@@ -12,7 +12,6 @@ interface Props {
 export function Products({ products, handleSetProducts }: Props) {
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-
   const [productModal, setProductModal] = useState<Product>();
 
   const handleEditShowModal = (value: boolean) => {
@@ -37,8 +36,6 @@ export function Products({ products, handleSetProducts }: Props) {
             products={products!}
             handleSetProducts={handleSetProducts}
           />
-
-          {/* Archive of products  */}
         </div>
 
         <ProductList

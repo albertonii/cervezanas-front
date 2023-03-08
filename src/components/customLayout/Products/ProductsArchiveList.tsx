@@ -9,11 +9,14 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
-import { UnarchiveButton } from "../../common";
+import { DeleteButton, EditButton, UnarchiveButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
   products: Product[];
+  handleEditShowModal: Dispatch<SetStateAction<any>>;
+  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
+  handleProductModal: Dispatch<SetStateAction<any>>;
   handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
@@ -23,6 +26,9 @@ interface ColumnsProps {
 
 export default function ProductsArchiveList({
   products,
+  handleEditShowModal,
+  handleDeleteShowModal,
+  handleProductModal,
   handleSetProducts,
 }: Props) {
   const { t } = useTranslation();
@@ -44,13 +50,24 @@ export default function ProductsArchiveList({
     setProducts_(products);
   }, [products]);
 
+  const handleClickEdit = (product: Product) => {
+    handleEditShowModal(true);
+    handleDeleteShowModal(false);
+    handleProductModal(product);
+  };
+
+  const handleClickDelete = (product: Product) => {
+    handleEditShowModal(false);
+    handleDeleteShowModal(true);
+    handleProductModal(product);
+  };
+
   const handleUnarchive = async (product: any) => {
     // Update product state to archived to false and isPublic to true
     // Update product
     const updatedProduct = {
       ...product,
       is_archived: false,
-      is_public: true,
     };
 
     // Delete the objets that doesn't exists in supabase table but just in the state
@@ -178,6 +195,14 @@ export default function ProductsArchiveList({
 
                       <td className="py-4 px-6">
                         <div className="flex space-x-1">
+                          <EditButton
+                            onClick={() => handleClickEdit(product)}
+                          />
+
+                          <DeleteButton
+                            onClick={() => handleClickDelete(product)}
+                          />
+
                           <UnarchiveButton
                             onClick={() => handleUnarchive(product)}
                           />
