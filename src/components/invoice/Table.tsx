@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 interface Props {
   data: {
     items: {
-      code: number;
+      code: string;
       article: string;
       price: number;
       unit: number;

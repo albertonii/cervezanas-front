@@ -363,6 +363,7 @@ const translationsEn = {
   archive: "Archive",
   products_archive: "Products archived",
   lots_archive: "Lots archived",
+  nif_cif_document_id: "NIF/CIF/Document ID",
 };
 
 const translationsEs = {
@@ -740,6 +741,7 @@ const translationsEs = {
   archive: "Archivo",
   products_archive: "Productos archivados",
   lots_archive: "Lotes archivados",
+  nif_cif_document_id: "NIF/CIF/Documento Identidad",
 };
 
 // the translations

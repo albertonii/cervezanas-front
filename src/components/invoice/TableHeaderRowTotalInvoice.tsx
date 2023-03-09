@@ -53,20 +53,23 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  itemsHeader: {
+  itemsHeaderTotal: {
     title: string;
   }[];
 }
 
-export function TableHeaderRowTotalInvoice({ itemsHeader }: Props) {
+export function TableHeaderRowTotalInvoice({ itemsHeaderTotal }: Props) {
   return (
     <>
       <View style={styles.row}>
-        <Text style={styles.title_taxable_income}>{itemsHeader[0].title}</Text>
-        <Text style={styles.title_tax}>{itemsHeader[1].title}</Text>
-        <Text style={styles.title_discount}>{itemsHeader[2].title}</Text>
-        <Text style={styles.title_discount}>{itemsHeader[3].title}</Text>
-        <Text style={styles.title_total_invoice}>{itemsHeader[3].title}</Text>
+        <Text style={styles.title_taxable_income}>
+          {itemsHeaderTotal[0].title}
+        </Text>
+        <Text style={styles.title_tax}>{itemsHeaderTotal[1].title}</Text>
+        <Text style={styles.title_discount}>{itemsHeaderTotal[2].title}</Text>
+        <Text style={styles.title_total_invoice}>
+          {itemsHeaderTotal[3].title}
+        </Text>
       </View>
     </>
   );

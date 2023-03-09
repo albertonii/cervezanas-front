@@ -338,7 +338,7 @@ export default function Success({ order: order_, products: products_ }: Props) {
                 </div>
                 <div className="pt-4 flex items-center justify-between">
                   <dt className="font-medium text-gray-900">{t("total")}</dt>
-                  <dd className="font-medium text-indigo-600">
+                  <dd className="font-medium text-beer-draft">
                     {formatCurrency(order.subtotal)}
                   </dd>
                 </div>

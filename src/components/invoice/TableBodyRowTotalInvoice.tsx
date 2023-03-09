@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
@@ -60,20 +60,35 @@ const styles = StyleSheet.create({
 
 interface Props {
   items: {
-    taxable_income: number;
-    tax: number;
-    discount: number;
-    total_invoice: number;
+    id: string;
+    code: string;
+    article: string;
+    price: number;
+    unit: number;
+    total: number;
   }[];
 }
 
 export function TableBodyRowTotalInvoice({ items }: Props) {
+  const [tax, setTax] = useState(21);
+  const [taxableIncome, setTaxableIncome] = useState(
+    items.reduce((acc, item) => {
+      return acc + item.total;
+    }, 0)
+  );
+
+  const [totalInvoice, setTotalInvoice] = useState(
+    taxableIncome + (taxableIncome * tax) / 100
+  );
+
+  // TODO: ADD DISCOUNT TO PRODUCT
+
   const rows = items.map((item, index) => (
     <View style={styles.row} key={index}>
-      <Text style={styles.data_taxable_income}>{item.taxable_income}</Text>
-      <Text style={styles.data_tax}>{item.tax}</Text>
-      <Text style={styles.data_discount}>{item.discount}</Text>
-      <Text style={styles.data_total_invoice}>{item.total_invoice}</Text>
+      <Text style={styles.data_taxable_income}>{taxableIncome}</Text>
+      <Text style={styles.data_tax}>{tax}</Text>
+      <Text style={styles.data_discount}>0</Text>
+      <Text style={styles.data_total_invoice}>{totalInvoice}</Text>
     </View>
   ));
   return <>{rows}</>;

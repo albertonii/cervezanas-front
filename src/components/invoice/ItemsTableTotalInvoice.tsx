@@ -14,20 +14,22 @@ const styles = StyleSheet.create({
 
 interface Props {
   items: {
-    taxable_income: number;
-    tax: number;
-    discount: number;
-    total_invoice: number;
+    id: string;
+    code: string;
+    article: string;
+    price: number;
+    unit: number;
+    total: number;
   }[];
-  itemsHeader: {
+  itemsHeaderTotal: {
     title: string;
   }[];
 }
 
-export function ItemsTableTotalInvoice({ items, itemsHeader }: Props) {
+export function ItemsTableTotalInvoice({ items, itemsHeaderTotal }: Props) {
   return (
     <View style={styles.tableContainer}>
-      <TableHeaderRowTotalInvoice itemsHeader={itemsHeader} />
+      <TableHeaderRowTotalInvoice itemsHeaderTotal={itemsHeaderTotal} />
       <TableBodyRowTotalInvoice items={items} />
     </View>
   );

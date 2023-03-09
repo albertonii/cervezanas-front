@@ -16,6 +16,7 @@ import { GetServerSidePropsContext } from "next";
 import { supabase } from "../../../utils/supabaseClient";
 import { formatDateString } from "../../../utils";
 import { Table, TableTotalInvoice } from "../../../components/invoice";
+import { FooterInvoice } from "../../../components/invoice/FooterInvoice";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -102,7 +103,54 @@ interface Props {
 }
 
 export default function OrderInvoice({ order, products }: Props) {
+  const items = products.map((product) => {
+    const { order_number: code } = order;
+    const { id, name: article, price, order_item } = product;
+    const { quantity: unit } = order_item[0];
+    const total = unit * price;
+
+    return {
+      id,
+      code,
+      article,
+      price,
+      unit,
+      total,
+    };
+  });
+
+  const itemsHeader = [
+    {
+      title: "Código",
+    },
+    { title: "Artículo" },
+    { title: "Precio" },
+    { title: "Unidad" },
+    { title: "Total" },
+  ];
+
+  const itemsHeaderTotal = [
+    {
+      title: "Base Imponible",
+    },
+    {
+      title: "IVA/IGIC",
+    },
+    {
+      title: "Descuento",
+    },
+    {
+      title: "Total Factura",
+    },
+  ];
+
   const data = {
+    items,
+    itemsHeader,
+    itemsHeaderTotal,
+  };
+
+  const data_ = {
     id: "5df3180a09ea16dc4b95f910",
     items: [
       {
@@ -175,13 +223,14 @@ export default function OrderInvoice({ order, products }: Props) {
           keywords={`order, receipt, invoice, pdf, cervezanas`}
           language={`en-US`} // Get from user LOCALE
         >
-          <Page size="A4" style={styles.page} orientation={"portrait"}>
+          <Page size="A4" style={styles.page} orientation={"portrait"} wrap>
             <View style={styles.container}>
               <View style={styles.row_1}>
                 <View style={styles.section}>
                   {/* eslint-disable-next-line jsx-a11y/alt-text */}
                   <Image src="/assets/logo.png" fixed style={styles.logo} />
                 </View>
+
                 <View style={styles.section}>
                   <Text>Cervezanas M&M S.L</Text>
                   <Text>
@@ -239,74 +288,11 @@ export default function OrderInvoice({ order, products }: Props) {
                 {/* Products table of the order */}
                 <Table data={data} />
 
-                <TableTotalInvoice data={dataBase} />
+                {/* Total Invoice  */}
+                <TableTotalInvoice data={data} />
 
-                <View style={styles.receipt_container}>
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: 200 }}>
-                      <Text>Producto</Text>
-
-                      {products.map((product) => (
-                        <Text key={product.id}>{product.name}</Text>
-                      ))}
-
-                      <Text>Subtotal</Text>
-                      <Text>IVA</Text>
-                      <Text>Total</Text>
-
-                      <Text>Forma de pago</Text>
-                      <Text>Fecha de pago</Text>
-
-                      <Text>Estado del pedido</Text>
-
-                      <Text>Fecha de envío</Text>
-                    </View>
-                    <View style={{ width: 100 }}>
-                      <Text>Cantidad</Text>
-
-                      {products.map((product) => (
-                        <Text key={product.id}>
-                          {product.order_item[0].quantity}
-                        </Text>
-                      ))}
-
-                      <Text>{order.subtotal}</Text>
-                      <Text>{order.tax}</Text>
-                      <Text>{order.total}</Text>
-
-                      <Text>{order.payment_method.type}</Text>
-                      <Text>
-                        {formatDateString(order.issue_date.toString())}
-                      </Text>
-
-                      <Text>{order.status}</Text>
-
-                      <Text>
-                        {formatDateString(
-                          order.shipping_info.created_at.toString()
-                        )}
-                      </Text>
-                    </View>
-
-                    <View style={{ width: 100 }}>
-                      <Text>Precio</Text>
-
-                      {products.map((product) => (
-                        <Text key={product.id}>{product.price}</Text>
-                      ))}
-                    </View>
-
-                    <View style={{ width: 100 }}>
-                      <Text>Importe</Text>
-
-                      {products.map((product) => (
-                        <Text key={product.id}>
-                          {product.price * product.order_item[0].quantity}
-                        </Text>
-                      ))}
-                    </View>
-                  </View>
-                </View>
+                {/* Footer */}
+                <FooterInvoice />
               </View>
             </View>
           </Page>

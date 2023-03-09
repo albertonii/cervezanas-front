@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   items: {
-    code: number;
+    code: string;
     article: string;
     price: number;
     unit: number;
