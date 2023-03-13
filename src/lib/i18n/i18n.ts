@@ -84,7 +84,7 @@ const translationsEn = {
   i_standard: "4-6% ABV",
   i_high: "6-9% ABV",
   i_very_high: ">9% ABV",
-  intensity: "Intensity",
+  intensity: "ABV",
   aroma: "Aroma/Dominant Flavour",
   appearance: "Appearance",
   taste: "Taste",
@@ -122,12 +122,12 @@ const translationsEn = {
   artisan: "Artisan",
   traditional: "Traditional",
   historic: "Historic",
-  high: "High",
-  low: "Low",
-  any: "Any",
-  wild: "Wild",
-  lagered: "Lagered",
-  aged: "Aged",
+  high: "High - Ale Yeast",
+  low: "Low - Lager Yeast",
+  any: "Not Applied - Ale or Lager",
+  wild: "Wild - Non-Saccharomyces yeast/bacteria",
+  lagered: "Lagered - Cold conditioning",
+  aged: "Aged - Long preconditioning",
   origin: "Region of Origin",
   family: "Style Family",
   era: "Era",
@@ -153,6 +153,8 @@ const translationsEn = {
     "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",
   beer: "Beer",
   merchandising: "Merchandising",
+  gift_card: "Gift Card",
+  other: "Other",
   name: "Name",
   description: "Description",
   year: "Year",
@@ -447,7 +449,7 @@ const translationsEs = {
   i_standard: "4-6% ABV",
   i_high: "6-9% ABV",
   i_very_high: ">9% ABV",
-  intensity: "Intensidad",
+  intensity: "ABV",
   aroma: "Aroma/Sabor Dominante",
   appearance: "Apariencia",
   taste: "Sabor",
@@ -485,12 +487,12 @@ const translationsEs = {
   artisan: "Artesanal",
   traditional: "Tradicional",
   historic: "Histórica",
-  high: "Alta",
-  low: "Baja",
-  any: "Cualquiera",
-  wild: "Wild",
-  lagered: "Lagered",
-  aged: "Envejecida",
+  high: "Alta - Levadura Ale",
+  low: "Baja - Levadura Lager",
+  any: "No aplica - Levadura Ale o Lager",
+  wild: "Wild - Levadura no Saccharomyces/bacterias",
+  lagered: "Lagered - Acondicionamiento en frío",
+  aged: "Envejecida - Largo acondicionamiento previo",
   origin: "Región de Origen",
   family: "Familia de Estilo",
   era: "Era",
@@ -516,6 +518,8 @@ const translationsEs = {
     "¡Cuidado! Vas a eliminar una campaña. Esta acción borrará de la base de datos la información relativa a la misma. ¿Estás seguro que quieres eliminar la campaña?",
   beer: "Cerveza",
   merchandising: "Merchandising",
+  gift_card: "Tarjeta Regalo",
+  other: "Otro",
   form_errors: translationsFormErrorsEn,
   name: "Nombre",
   description: "Descripción",
@@ -742,6 +746,19 @@ const translationsEs = {
   products_archive: "Productos archivados",
   lots_archive: "Lotes archivados",
   nif_cif_document_id: "NIF/CIF/Documento Identidad",
+  era_tooltip: `Cada cerveza tiene un periodo en la que fue elaborada. 
+       Era artesanal: desarrollada en la era moderna; 
+       Era tradicional: desarrollada antes de la era moderna de la cerveza artesanal; 
+       Era historica: de poca producción y no se elaborada en la actualidad. `,
+  origin_tooltip: `Región, país o continente de origen de la cerveza.`,
+  family_tooltip: `Región, país o continente de origen de la cerveza.`,
+  color_tooltip: `SRM (Standard Reference Method) mide la intensidad de una determinada
+longitud de onda de la luz. Estos valores numéricos no siempre coinciden con nuestra percepción
+percepción visual de la claridad y oscuridad del color o matiz. Por ejemplo, una cerveza de color
+amarillo claro puede tener un valor SRM de 4, mientras que una cerveza de color amarillo oscuro
+puede tener un valor SRM de 8. `,
+  intensity_tooltip: `La intensidad de la cerveza se refiere a la cantidad de azúcar que se ha
+convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la cerveza. `,
 };
 
 // the translations

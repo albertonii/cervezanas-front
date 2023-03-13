@@ -3,6 +3,7 @@ import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 import { User } from "../lib/interfaces";
+import { ProductEnum } from "./productEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -560,21 +561,12 @@ export type FileImg = {
   webkitRelativePath: string;
 };
 
-export enum ProductType {
-  BEER = "beer",
-  WINE = "wine",
-  SPIRIT = "spirit",
-  OTHER = "other",
-  MERCHANDISING = "merchandising",
-}
-
 export interface Product {
   id: string;
   name: string;
   description: string;
   created_at: Date;
   social_cause_id: string;
-  type: ProductType;
   product_category_id: string;
   campaign_id: string;
   owner_id: string;
@@ -590,6 +582,9 @@ export interface Product {
   order_item: OrderItem[];
   awards: Award[];
   is_archived: boolean;
+  state: ProductEnum.State;
+  status: ProductEnum.Status;
+  type: ProductEnum.Type;
 }
 
 export interface ProductVariant {

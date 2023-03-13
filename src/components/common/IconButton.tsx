@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { t } from "i18next";
 
 interface IconButtonProps {
   icon: IconDefinition;

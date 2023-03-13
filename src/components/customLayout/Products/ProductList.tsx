@@ -54,11 +54,13 @@ export function ProductList({
     handleProductModal(product);
   };
 
+  /*
   const handleClickDelete = (product: Product) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductModal(product);
   };
+  */
 
   const handleArchive = async (product: any) => {
     // Update product state to archived and isPublic to false
@@ -203,9 +205,11 @@ export function ProductList({
                               onClick={() => handleClickEdit(product)}
                             />
 
+                            {/* 
                             <DeleteButton
                               onClick={() => handleClickDelete(product)}
                             />
+                            */}
 
                             <ArchiveButton
                               onClick={() => handleArchive(product)}

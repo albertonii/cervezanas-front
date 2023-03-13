@@ -7,6 +7,8 @@ export const translationsFormErrorsEn = {
   invalid_card_exp_month: "Invalid card expiration month",
   invalid_card_exp_year: "Invalid card expiration year",
   error_30_max_length: "Maximum length of the field is 30 characters",
+  error_0_number_min_length: "Field must be equal or greater than 0",
+  error_100_number_max_length: "Field must be equal or lower than 100",
   error_200_max_length: "Maximum length of the field is 200 characters",
 };
 
@@ -19,5 +21,8 @@ export const translationsFormErrosEs = {
   invalid_card_exp_month: "Mes de expiración de la tarjeta inválido",
   invalid_card_exp_year: "Año de expiración de la tarjeta inválido",
   error_30_max_length: "El campo debe tener menos de 30 caracteres",
+  error_0_number_min_length: "El campo debe tener un valor mayor o igual de 0",
+  error_100_number_max_length:
+    "El campo debe tener un valor menor o igual de 100",
   error_200_max_length: "El campo debe tener menos de 200 caracteres",
 };

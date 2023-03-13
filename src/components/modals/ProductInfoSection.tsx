@@ -8,7 +8,6 @@ import {
   family_options,
   fermentation_options,
   format_options,
-  intensity_options,
   origin_options,
   pack_type_options,
   product_type_options,
@@ -17,6 +16,9 @@ import {
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
 import { ModalAddProductProps } from "../../lib/types";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { InfoTooltip } from "../common";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
@@ -102,16 +104,20 @@ export function ProductInfoSection({
     <>
       {/* Select product type  */}
       <div className="relative pt-6 flex-auto">
-        <div className="w-full flex flex-col">
-          <label className="inline-flex relative items-center cursor-pointer">
+        <div className="w-full flex flex-col items-end">
+          <label
+            className="inline-flex relative items-center cursor-pointer"
+            htmlFor="is_public"
+          >
             <input
+              id="is_public"
               type="checkbox"
               value=""
               className="sr-only peer"
               {...register("is_public")}
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:peer-focus:ring-beer-blonde rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-beer-blonde"></div>
-            <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
               {t("is_public")}
             </span>
           </label>
@@ -127,6 +133,7 @@ export function ProductInfoSection({
           </label>
 
           <select
+            id="product_type"
             {...register("type")}
             onChange={handleProductType}
             defaultValue={product_type_options[0].label}
@@ -134,7 +141,7 @@ export function ProductInfoSection({
           >
             {product_type_options.map((option) => (
               <option key={option.label} value={option.label}>
-                {t(option.value)}
+                {t(option.value.toLowerCase())}
               </option>
             ))}
           </select>
@@ -143,8 +150,8 @@ export function ProductInfoSection({
 
       {/* Beer type */}
       {isBeer && (
-        <div className="relative pt-6 flex-auto">
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
+        <div className="relative pt-6 flex-auto space-y-4">
+          <p className="my-4 text-slate-500 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
 
@@ -153,9 +160,10 @@ export function ProductInfoSection({
               <label htmlFor="product_name" className="text-sm text-gray-600">
                 {t("product_name")}
               </label>
+
               <input
                 type="text"
-                id="name"
+                id="product_name"
                 placeholder="IPA Jaira"
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("name", {
@@ -215,23 +223,35 @@ export function ProductInfoSection({
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="intensity" className="text-sm text-gray-600">
-                {t("intensity")}
+                {t("intensity")} (%)
+                <InfoTooltip
+                  content={`${t("intensity_tooltip")}`}
+                  delay={0}
+                  width={600}
+                />
               </label>
 
-              <select
-                {...register("intensity")}
-                defaultValue={getValues("intensity")}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {intensity_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
+              <input
+                id="intensity"
+                type="number"
+                placeholder="4.7"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                defaultValue={0}
+                min="0"
+                max="100"
+                {...register(`intensity`, { required: true, min: 0, max: 100 })}
+              />
 
               {errors.intensity?.type === "required" && (
                 <p>{t("product_modal_required")}</p>
+              )}
+
+              {errors.intensity?.type === "min" && (
+                <p>{t("error_0_number_min_length")}</p>
+              )}
+
+              {errors.intensity?.type === "max" && (
+                <p>{t("error_100_number_max_length")}</p>
               )}
             </div>
 
@@ -243,6 +263,7 @@ export function ProductInfoSection({
               <select
                 {...register("fermentation")}
                 defaultValue={fermentation_options[0].label}
+                id="fermentation"
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {fermentation_options.map((option) => (
@@ -260,10 +281,17 @@ export function ProductInfoSection({
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="color" className="text-sm text-gray-600">
-                {t("color")}
+                {t("color")} (SRM)
+                <InfoTooltip
+                  content={`${t("color_tooltip")}`}
+                  direction="top"
+                  delay={200}
+                  width={600}
+                />
               </label>
 
               <select
+                id="color"
                 {...register("color")}
                 defaultValue={color_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -283,9 +311,17 @@ export function ProductInfoSection({
             <div className="w-full ">
               <label htmlFor="origin" className="text-sm text-gray-600">
                 {t("origin")}
+
+                <InfoTooltip
+                  content={`${t("origin_tooltip")}`}
+                  direction="top"
+                  delay={200}
+                  width={300}
+                />
               </label>
 
               <select
+                id="origin"
                 {...register("origin")}
                 defaultValue={origin_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -306,9 +342,17 @@ export function ProductInfoSection({
             <div className="w-full ">
               <label htmlFor="family" className="text-sm text-gray-600">
                 {t("family")}
+
+                <InfoTooltip
+                  content={`${t("family_tooltip")}`}
+                  direction="top"
+                  delay={200}
+                  width={300}
+                />
               </label>
 
               <select
+                id="family"
                 {...register("family")}
                 defaultValue={family_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -326,11 +370,23 @@ export function ProductInfoSection({
             </div>
 
             <div className="w-full ">
-              <label htmlFor="era" className="text-sm text-gray-600">
+              <label
+                htmlFor="era"
+                className="text-sm text-gray-600 "
+                data-tooltip-target="tooltip-default"
+              >
                 {t("era")}
+
+                <InfoTooltip
+                  content={`${t("era_tooltip")}`}
+                  direction="top"
+                  delay={200}
+                  width={300}
+                />
               </label>
 
               <select
+                id="era"
                 {...register("era")}
                 defaultValue={era_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -341,7 +397,7 @@ export function ProductInfoSection({
                   </option>
                 ))}
               </select>
-              {errors.intensity?.type === "required" && (
+              {errors.era?.type === "required" && (
                 <p>{t("product_modal_required")}</p>
               )}
             </div>
@@ -354,6 +410,7 @@ export function ProductInfoSection({
               </label>
 
               <select
+                id="aroma"
                 {...register("aroma")}
                 defaultValue={aroma_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -378,6 +435,7 @@ export function ProductInfoSection({
               </label>
 
               <select
+                id="isGluten"
                 {...register("is_gluten")}
                 defaultValue="false"
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -396,12 +454,12 @@ export function ProductInfoSection({
           </div>
 
           {/* Stock information  */}
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
-            {t("modal_product_add_price_title")}
-          </p>
+          <div className="container mt-4">
+            <p className="my-4 text-slate-500 text-xl leading-relaxed">
+              {t("modal_product_add_price_title")}
+            </p>
 
-          <div className="flex w-full flex-row space-x-3">
-            <div className="container">
+            <div className="flex w-full flex-col space-y-4 ">
               {/* Format  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
@@ -410,6 +468,7 @@ export function ProductInfoSection({
                   </label>
 
                   <select
+                    id="format"
                     {...register("format")}
                     defaultValue={"can"}
                     onChange={handleChange}
@@ -447,6 +506,7 @@ export function ProductInfoSection({
                   </label>
 
                   <select
+                    id="pack"
                     {...register(`pack`)}
                     className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   >
@@ -468,6 +528,7 @@ export function ProductInfoSection({
                   </label>
 
                   <input
+                    id="price"
                     type="number"
                     placeholder="2.5"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -496,6 +557,7 @@ export function ProductInfoSection({
                   </label>
 
                   <input
+                    id="stockQuantity"
                     type="number"
                     placeholder="500"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -521,6 +583,7 @@ export function ProductInfoSection({
                   </label>
 
                   <input
+                    id="stockLimitNotification"
                     type="number"
                     placeholder="20"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"

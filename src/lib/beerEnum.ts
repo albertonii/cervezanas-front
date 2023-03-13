@@ -1,3 +1,5 @@
+import { ProductEnum } from "./productEnum";
+
 export namespace BeerEnum {
   export enum Intensity {
     i_session, // <4% ABC
@@ -7,8 +9,18 @@ export namespace BeerEnum {
   }
 
   export enum Color {
+    very_light,
+    straw,
     pale, // Pajizo a dorado
+    gold,
+    light_amber,
     amber, // ámbar a marrón-cobrizo
+    medium_amber,
+    copper,
+    light_brown,
+    brown,
+    dark_brown,
+    very_dark,
     dark, // marrón oscuro a negro
   }
 
@@ -65,11 +77,6 @@ export namespace BeerEnum {
     wood, // carácter a envejecimiento en madera o barril
     fruity, // notable sabor y/o aroma a frutas
     spicy, // notable sabor y/o aroma a especias
-  }
-
-  export enum Product_type {
-    beer = "beer",
-    merchandising = "merchandising",
   }
 
   export enum Volume_can {
@@ -184,8 +191,18 @@ export const intensity_options = [
 ];
 
 export const color_options = [
+  { label: "very_light", value: BeerEnum.Color.very_light },
+  { label: "straw", value: BeerEnum.Color.straw },
   { label: "pale", value: BeerEnum.Color.pale },
+  { label: "gold", value: BeerEnum.Color.gold },
+  { label: "light_amber", value: BeerEnum.Color.light_amber },
   { label: "amber", value: BeerEnum.Color.amber },
+  { label: "medium_amber", value: BeerEnum.Color.medium_amber },
+  { label: "copper", value: BeerEnum.Color.copper },
+  { label: "light_brown", value: BeerEnum.Color.light_brown },
+  { label: "brown", value: BeerEnum.Color.brown },
+  { label: "dark_brown", value: BeerEnum.Color.dark_brown },
+  { label: "very_dark", value: BeerEnum.Color.very_dark },
   { label: "dark", value: BeerEnum.Color.dark },
 ];
 
@@ -381,12 +398,20 @@ export const format_options = [
 
 export const product_type_options = [
   {
-    label: BeerEnum.Product_type.beer,
-    value: BeerEnum.Product_type.beer,
+    label: ProductEnum.Type.BEER,
+    value: ProductEnum.Type.BEER,
   },
   {
-    label: BeerEnum.Product_type.merchandising,
-    value: BeerEnum.Product_type.merchandising,
+    label: ProductEnum.Type.MERCHANDISING,
+    value: ProductEnum.Type.MERCHANDISING,
+  },
+  {
+    label: ProductEnum.Type.GIFT_CARD,
+    value: ProductEnum.Type.GIFT_CARD,
+  },
+  {
+    label: ProductEnum.Type.OTHER,
+    value: ProductEnum.Type.OTHER,
   },
 ];
 

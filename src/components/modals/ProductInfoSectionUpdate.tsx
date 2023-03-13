@@ -102,10 +102,14 @@ export function ProductInfoSectionUpdate({
   return (
     <>
       {/* Select product type  */}
-      <div className="relative pt-6 flex-auto">
-        <div className="w-full flex flex-col">
-          <label className="inline-flex relative items-center cursor-pointer">
+      <div className="relative pt-6 flex-auto space-y-4">
+        <div className="w-full flex flex-col justify-end items-end">
+          <label
+            className="inline-flex flex-row-reverse relative items-center cursor-pointer"
+            htmlFor="is_public"
+          >
             <input
+              id="is_public"
               type="checkbox"
               value=""
               className="sr-only peer"
@@ -128,6 +132,7 @@ export function ProductInfoSectionUpdate({
           </label>
 
           <select
+            id="product_type"
             {...register("type")}
             onChange={handleProductType}
             defaultValue={product_type_options[0].label}
@@ -144,8 +149,8 @@ export function ProductInfoSectionUpdate({
 
       {/* Beer type */}
       {isBeer && (
-        <div className="relative pt-6 flex-auto">
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
+        <div className="relative pt-6 flex-auto space-y-4">
+          <p className="my-4 text-slate-500 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
 
@@ -154,11 +159,11 @@ export function ProductInfoSectionUpdate({
               <label htmlFor="product_name" className="text-sm text-gray-600">
                 {t("product_name")}
               </label>
+
               <input
                 type="text"
-                id="name"
+                id="product_name"
                 placeholder="IPA Jaira"
-                defaultValue={getValues("name")}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("name", {
                   required: true,
@@ -200,7 +205,6 @@ export function ProductInfoSectionUpdate({
               <textarea
                 id="description"
                 placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-                defaultValue={getValues("description")}
                 className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("description", {
                   required: true,
@@ -218,23 +222,30 @@ export function ProductInfoSectionUpdate({
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="intensity" className="text-sm text-gray-600">
-                {t("intensity")}
+                {t("intensity")} (%)
               </label>
 
-              <select
-                // {...register("intensity")}
-                defaultValue={getValues("intensity")}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {intensity_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
+              <input
+                id="intensity"
+                type="number"
+                placeholder="4.7"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                defaultValue={0}
+                min="0"
+                max="100"
+                {...register(`intensity`, { required: true, min: 0, max: 100 })}
+              />
 
               {errors.intensity?.type === "required" && (
                 <p>{t("product_modal_required")}</p>
+              )}
+
+              {errors.intensity?.type === "min" && (
+                <p>{t("error_0_number_min_length")}</p>
+              )}
+
+              {errors.intensity?.type === "max" && (
+                <p>{t("error_100_number_max_length")}</p>
               )}
             </div>
 
@@ -244,8 +255,9 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
-                // {...register("fermentation")}
-                defaultValue={getValues("fermentation")}
+                {...register("fermentation")}
+                defaultValue={fermentation_options[0].label}
+                id="fermentation"
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {fermentation_options.map((option) => (
@@ -267,12 +279,13 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="color"
                 {...register("color")}
-                defaultValue={getValues("color")}
+                defaultValue={color_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {color_options.map((option) => (
-                  <option key={option.value} value={option.label}>
+                  <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -289,12 +302,13 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="origin"
                 {...register("origin")}
-                defaultValue={getValues("origin")}
+                defaultValue={origin_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {origin_options.map((option) => (
-                  <option key={option.value} value={option.label}>
+                  <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -312,12 +326,13 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="family"
                 {...register("family")}
-                defaultValue={getValues("family")}
+                defaultValue={family_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {family_options.map((option) => (
-                  <option key={option.value} value={option.label}>
+                  <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -334,12 +349,13 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="era"
                 {...register("era")}
-                defaultValue={getValues("era")}
+                defaultValue={era_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {era_options.map((option) => (
-                  <option key={option.value} value={option.label}>
+                  <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -357,12 +373,13 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="aroma"
                 {...register("aroma")}
                 defaultValue={aroma_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {aroma_options.map((option) => (
-                  <option key={option.value} value={option.label}>
+                  <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
                 ))}
@@ -381,6 +398,7 @@ export function ProductInfoSectionUpdate({
               </label>
 
               <select
+                id="isGluten"
                 {...register("is_gluten")}
                 defaultValue="false"
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -399,12 +417,12 @@ export function ProductInfoSectionUpdate({
           </div>
 
           {/* Stock information  */}
-          <p className="my-4 text-slate-500 text-lg leading-relaxed">
-            {t("modal_product_add_price_title")}
-          </p>
+          <div className="container mt-4">
+            <p className="my-4 text-slate-500 text-xl leading-relaxed">
+              {t("modal_product_add_price_title")}
+            </p>
 
-          <div className="flex w-full flex-row space-x-3">
-            <div className="container">
+            <div className="flex w-full flex-col space-y-4 ">
               {/* Format  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
@@ -413,6 +431,7 @@ export function ProductInfoSectionUpdate({
                   </label>
 
                   <select
+                    id="format"
                     {...register("format")}
                     defaultValue={"can"}
                     onChange={handleChange}
@@ -450,6 +469,7 @@ export function ProductInfoSectionUpdate({
                   </label>
 
                   <select
+                    id="pack"
                     {...register(`pack`)}
                     className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   >
@@ -471,6 +491,7 @@ export function ProductInfoSectionUpdate({
                   </label>
 
                   <input
+                    id="price"
                     type="number"
                     placeholder="2.5"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -499,6 +520,7 @@ export function ProductInfoSectionUpdate({
                   </label>
 
                   <input
+                    id="stockQuantity"
                     type="number"
                     placeholder="500"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -524,6 +546,7 @@ export function ProductInfoSectionUpdate({
                   </label>
 
                   <input
+                    id="stockLimitNotification"
                     type="number"
                     placeholder="20"
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"

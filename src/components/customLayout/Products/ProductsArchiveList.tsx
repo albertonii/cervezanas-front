@@ -56,11 +56,13 @@ export default function ProductsArchiveList({
     handleProductModal(product);
   };
 
+  /*
   const handleClickDelete = (product: Product) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductModal(product);
   };
+  */
 
   const handleUnarchive = async (product: any) => {
     // Update product state to archived to false and isPublic to true
@@ -199,9 +201,11 @@ export default function ProductsArchiveList({
                             onClick={() => handleClickEdit(product)}
                           />
 
+                          {/* 
                           <DeleteButton
                             onClick={() => handleClickDelete(product)}
-                          />
+                          /> 
+                          */}
 
                           <UnarchiveButton
                             onClick={() => handleUnarchive(product)}

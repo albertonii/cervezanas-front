@@ -17,4 +17,5 @@ export * from "./ToastNotification";
 export * from "./SearchCheckboxList";
 export * from "./CarouselItem";
 export * from "./Carousel";
-export * from "../customLayout/Campaigns/SearchCheckboxListCampaign";
+export * from "./Tooltip";
+export * from "./InfoTooltip";
