@@ -52,6 +52,7 @@ export default function CustomLayout({
             <ConfigureProducts
               products={profile[0].products}
               lots={product_lots}
+              customizeSettings={profile[0].customize_settings[0]}
             />
           );
         case "campaigns":
@@ -129,7 +130,8 @@ export async function getServerSideProps({ req }: any) {
           beers (*)
         ),
         orders (*),
-        campaigns (*)
+        campaigns (*),
+        customize_settings (*)
       `
     )
     .eq("id", user?.id);

@@ -206,6 +206,13 @@ export interface ProductLot {
   products: Product;
 }
 
+export interface CustomizeSettings {
+  id: string;
+  created_at: Date;
+  colors: string[];
+  familyStyle: string[];
+}
+
 export interface Inventory {
   id?: string;
   product_id: string;
@@ -307,6 +314,7 @@ export interface Profile {
   likes: Like[];
   orders: Order[];
   campaigns: Campaign[];
+  customize_settings: CustomizeSettings[];
 }
 
 export interface Like {

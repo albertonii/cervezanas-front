@@ -3,15 +3,24 @@ import Archive from "./Archive";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Products } from "./Products";
-import { Product, ProductLot } from "../../../lib/types";
+import {
+  Product,
+  ProductLot,
+  CustomizeSettings as cSettings,
+} from "../../../lib/types";
 import { CustomizeSettings } from "..";
 
 interface Props {
   products: Product[];
   lots: ProductLot[];
+  customizeSettings: cSettings;
 }
 
-export function ConfigureProducts({ products: p, lots }: Props) {
+export function ConfigureProducts({
+  products: p,
+  lots,
+  customizeSettings,
+}: Props) {
   const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
   const [activeTab, setActiveTab] = useState<string>("products");
@@ -34,7 +43,7 @@ export function ConfigureProducts({ products: p, lots }: Props) {
           <Archive products={products} handleSetProducts={handleSetProducts} />
         );
       case "customizeSettings":
-        return <CustomizeSettings />;
+        return <CustomizeSettings customizeSettings={customizeSettings} />;
     }
   };
 
@@ -76,7 +85,7 @@ export function ConfigureProducts({ products: p, lots }: Props) {
               ? "bg-gray-100 text-gray-900"
               : "bg-beer-foam"
           }
-          w-full rounded-r-lg flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
+          w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
             onClick={() => handleMenuClick("archive")}
           >
             {t("archive")}

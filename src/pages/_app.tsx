@@ -1,12 +1,13 @@
 import "../styles/globals.css";
+import SEO from "../../next-seo.config";
+import Head from "next/head";
+import Script from "next/script";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Suspense, useEffect, useState } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
-import SEO from "../../next-seo.config";
-import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import {
   AppContextProvider,
@@ -106,6 +107,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   return (
     <>
+      <Script src="/tw-elements/dist/js/index.min.js"></Script>
+
       <Head>
         <meta content="width=device-width, initial-scale=1" name="viewport" />
       </Head>
