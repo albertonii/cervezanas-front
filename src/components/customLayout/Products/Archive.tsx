@@ -36,17 +36,17 @@ export default function Archive({ products, handleSetProducts }: Props) {
   return (
     <>
       <div className="py-6 px-4 " aria-label="Products">
-        <div className="flex flex-col items-center">
+        <div className="flex items-center">
           <div className="text-4xl pr-12">{t("products_archive")}</div>
-
-          <ProductsArchiveList
-            products={products}
-            handleSetProducts={handleSetProducts}
-            handleEditShowModal={handleEditShowModal}
-            handleDeleteShowModal={handleDeleteShowModal}
-            handleProductModal={handleProductModal}
-          />
         </div>
+
+        <ProductsArchiveList
+          products={products}
+          handleSetProducts={handleSetProducts}
+          handleEditShowModal={handleEditShowModal}
+          handleDeleteShowModal={handleDeleteShowModal}
+          handleProductModal={handleProductModal}
+        />
       </div>
 
       {isEditShowModal && (

@@ -6,6 +6,7 @@ export * from "./Products/ConfigureProducts";
 export * from "./Products/Lots";
 export * from "./Products/Archive";
 export * from "./Products/ProductsArchiveList";
+export * from "./Products/CustomizeSettings";
 export * from "./Likes/LikesHistory";
 export * from "./Ledger/Ledger";
 export * from "./Stats/Stats";
