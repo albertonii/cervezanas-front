@@ -210,7 +210,7 @@ export interface CustomizeSettings {
   id: string;
   created_at: Date;
   colors: string[];
-  familyStyle: string[];
+  family_styles: string[];
 }
 
 export interface Inventory {

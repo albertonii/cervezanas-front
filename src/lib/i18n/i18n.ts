@@ -763,6 +763,11 @@ amarillo claro puede tener un valor SRM de 4, mientras que una cerveza de color 
 puede tener un valor SRM de 8. `,
   intensity_tooltip: `La intensidad de la cerveza se refiere a la cantidad de azúcar que se ha
 convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la cerveza. `,
+  products_customize_settings_description: `Personaliza las características de aquellos productos que publiques.
+  Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características.
+  Podrás ver esta información actualizada en la sección de crear Producto.`,
+  products_customize_settings_color: `Escribe aquellos colores de tu cerveza que la hacen única.`,
+  products_customize_settings_family_style: `Añade nuevos estilos a con los que se identifica tu cerveza.`,
 };
 
 // the translations

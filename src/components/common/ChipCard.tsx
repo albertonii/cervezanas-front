@@ -6,8 +6,8 @@ interface Props {
 }
 export function ChipCard({ content, handleRemove }: Props) {
   return (
-    <div className="flex justify-center items-center m-1 font-medium py-2 px-3 bg-beer-draft rounded-full text-beer-blonde border border-beer-blonde ">
-      <div className="text-md font-normal leading-none max-w-full flex-initial">
+    <div className="flex justify-center items-center m-1 font-medium py-2 px-3 bg-beer-draft rounded-full text-beer-foam border border-beer-blonde ">
+      <div className="text-md font-normal leading-none max-w-full flex-initial ">
         {content}
       </div>
 
@@ -25,7 +25,7 @@ export function ChipCard({ content, handleRemove }: Props) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="feather feather-x cursor-pointer hover:text-indigo-400 rounded-full w-4 h-4 ml-2"
+          className="feather feather-x cursor-pointer hover:text-beer-blonde rounded-full w-4 h-4 ml-2"
         >
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
