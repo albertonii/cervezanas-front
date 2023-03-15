@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CustomizeSettings } from "../../../lib/types";
+import { toLowerCase } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { ChipCard } from "../../common";
 
@@ -20,7 +21,8 @@ export function CustomizeSettings({ customizeSettings }: Props) {
   useEffect(() => {
     const addColor = async () => {
       if (colorInputRef.current) {
-        const color = colorInputRef.current.value.toLowerCase();
+        const color = toLowerCase(colorInputRef.current.value);
+
         if (
           color &&
           color.length > 0 &&
@@ -50,7 +52,7 @@ export function CustomizeSettings({ customizeSettings }: Props) {
           !familyStyles.includes(famStyle) &&
           famStyle.length < 40
         ) {
-          setColors((prevFamStyle) => [...prevFamStyle, famStyle]);
+          setFamilyStyles((prevFamStyle) => [...prevFamStyle, famStyle]);
           familyStylesInputRef.current.value = "";
 
           // Add new family style to DDBB

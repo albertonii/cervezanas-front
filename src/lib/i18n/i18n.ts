@@ -767,7 +767,7 @@ convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la ce
   Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características.
   Podrás ver esta información actualizada en la sección de crear Producto.`,
   products_customize_settings_color: `Escribe aquellos colores de tu cerveza que la hacen única.`,
-  products_customize_settings_family_style: `Añade nuevos estilos a con los que se identifica tu cerveza.`,
+  products_customize_settings_family_style: `Añade nuevos estilos con los que identificar tu cerveza.`,
 };
 
 // the translations

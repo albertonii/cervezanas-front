@@ -1,4 +1,5 @@
 import React, { ComponentProps } from "react";
+import { capitalizeFirstLetter } from "../../utils";
 
 interface Props {
   content: string;
@@ -7,9 +8,9 @@ interface Props {
 export function ChipCard({ content, handleRemove }: Props) {
   return (
     <div className="flex justify-center items-center m-1 font-medium py-2 px-3 bg-beer-draft rounded-full text-beer-foam border border-beer-blonde ">
-      <div className="text-md font-normal leading-none max-w-full flex-initial ">
-        {content}
-      </div>
+      <span className="text-md font-normal leading-none max-w-full flex-initial ">
+        {capitalizeFirstLetter(content)}
+      </span>
 
       <div
         className="flex flex-auto flex-row-reverse"
