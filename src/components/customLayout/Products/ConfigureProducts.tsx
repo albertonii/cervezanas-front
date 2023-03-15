@@ -1,6 +1,6 @@
 import Lots from "./Lots";
 import Archive from "./Archive";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Products } from "./Products";
 import {
@@ -19,8 +19,11 @@ interface Props {
 export function ConfigureProducts({
   products: p,
   lots,
-  customizeSettings,
+  customizeSettings: cSettings,
 }: Props) {
+  const [customizeSettings, setCustomizeSettings] =
+    useState<cSettings>(cSettings);
+
   const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
   const [activeTab, setActiveTab] = useState<string>("products");
@@ -30,11 +33,19 @@ export function ConfigureProducts({
     setProducts(value);
   };
 
+  const handleCustomizeSettings = (value: cSettings) => {
+    setCustomizeSettings(value);
+  };
+
   const renderSwitch = () => {
     switch (menuOption) {
       case "products":
         return (
-          <Products products={products} handleSetProducts={handleSetProducts} />
+          <Products
+            products={products}
+            handleSetProducts={handleSetProducts}
+            customizeSettings={customizeSettings}
+          />
         );
       case "lots":
         return <Lots products={products} lots={lots} />;
@@ -43,7 +54,12 @@ export function ConfigureProducts({
           <Archive products={products} handleSetProducts={handleSetProducts} />
         );
       case "customizeSettings":
-        return <CustomizeSettings customizeSettings={customizeSettings} />;
+        return (
+          <CustomizeSettings
+            customizeSettings={customizeSettings}
+            handleCustomizeSettings={handleCustomizeSettings}
+          />
+        );
     }
   };
 

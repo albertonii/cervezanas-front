@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -15,13 +15,13 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { ModalAddProductProps } from "../../lib/types";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CustomizeSettings, ModalAddProductProps } from "../../lib/types";
+import { capitalizeFirstLetter } from "../../utils";
 import { InfoTooltip } from "../common";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
+  customizeSettings: CustomizeSettings;
 }
 
 export function ProductInfoSection({
@@ -30,11 +30,32 @@ export function ProductInfoSection({
     formState: { errors },
     getValues,
   },
+  customizeSettings,
 }: Props) {
   const { t } = useTranslation();
 
   const [isBeer, setIsBeer] = useState(true);
   const [isMerchandising, setIsMerchandising] = useState(false);
+  const [colorOptions, setColorOptions] = useState(color_options);
+  const [famStyleOptions, setFamStyleOptions] = useState(family_options);
+
+  useEffect(() => {
+    const colorSettings = customizeSettings.colors.map((color) => {
+      return { label: capitalizeFirstLetter(color), value: color };
+    });
+    const newSet = [...color_options, ...colorSettings];
+
+    setColorOptions(newSet);
+  }, [customizeSettings.colors]);
+
+  useEffect(() => {
+    const famStyleSettings = customizeSettings.family_styles.map((famStyle) => {
+      return { label: capitalizeFirstLetter(famStyle), value: famStyle };
+    });
+    const newSet = [...family_options, ...famStyleSettings];
+
+    setFamStyleOptions(newSet);
+  }, [customizeSettings.family_styles]);
 
   const [containerFormat, setContainerFormat] = useState(
     format_options[0].label
@@ -296,7 +317,7 @@ export function ProductInfoSection({
                 defaultValue={color_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
-                {color_options.map((option) => (
+                {colorOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>
@@ -357,7 +378,7 @@ export function ProductInfoSection({
                 defaultValue={family_options[0].label}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
-                {family_options.map((option) => (
+                {famStyleOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {t(option.label)}
                   </option>

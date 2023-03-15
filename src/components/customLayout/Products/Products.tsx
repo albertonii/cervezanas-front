@@ -1,15 +1,33 @@
 import { t } from "i18next";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ProductList } from "..";
-import { Product } from "../../../lib/types";
+import { CustomizeSettings, Product } from "../../../lib/types";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {
   products: Product[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
+  customizeSettings: CustomizeSettings;
 }
 
-export function Products({ products, handleSetProducts }: Props) {
+export function Products({
+  products,
+  handleSetProducts,
+  customizeSettings: cSettings,
+}: Props) {
+  const [customizeSettings, setCustomizeSettings] =
+    useState<CustomizeSettings>(cSettings);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    setCustomizeSettings(cSettings);
+  }, [cSettings]);
+
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [productModal, setProductModal] = useState<Product>();
@@ -26,6 +44,10 @@ export function Products({ products, handleSetProducts }: Props) {
     setProductModal(product);
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className="py-6 px-4 " aria-label="Products">
@@ -33,8 +55,9 @@ export function Products({ products, handleSetProducts }: Props) {
           <div className="text-4xl pr-12">{t("products")}</div>
 
           <AddProduct
-            products={products!}
+            products={products}
             handleSetProducts={handleSetProducts}
+            customizeSettings={customizeSettings}
           />
         </div>
 

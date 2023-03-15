@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -16,7 +16,12 @@ import {
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import { Product, Inventory, ModalAddProductProps } from "../../lib/types";
+import {
+  Product,
+  Inventory,
+  ModalAddProductProps,
+  CustomizeSettings,
+} from "../../lib/types";
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
@@ -24,11 +29,15 @@ import { uuid } from "uuidv4";
 interface Props {
   products: Product[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
+  customizeSettings: CustomizeSettings;
 }
 
-export function AddProduct(props: Props) {
+export function AddProduct({
+  products,
+  handleSetProducts,
+  customizeSettings,
+}: Props) {
   const { t } = useTranslation();
-  const { handleSetProducts } = props;
 
   const { user } = useAuth();
 
@@ -353,7 +362,10 @@ export function AddProduct(props: Props) {
 
               {activeStep === 0 ? (
                 <>
-                  <ProductInfoSection form={form} />
+                  <ProductInfoSection
+                    form={form}
+                    customizeSettings={customizeSettings}
+                  />
                 </>
               ) : activeStep === 1 ? (
                 <>

@@ -204,6 +204,7 @@ export const color_options = [
   { label: "dark_brown", value: BeerEnum.Color.dark_brown },
   { label: "very_dark", value: BeerEnum.Color.very_dark },
   { label: "dark", value: BeerEnum.Color.dark },
+  { label: "other", value: "other" },
 ];
 
 export const fermentation_options = [
@@ -316,6 +317,10 @@ export const family_options = [
   {
     label: "specialty_beer",
     value: BeerEnum.Family.specialty_beer,
+  },
+  {
+    label: "other",
+    value: "other",
   },
 ];
 

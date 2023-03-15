@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { CustomizeSettings } from "../../../lib/types";
 import { toLowerCase } from "../../../utils";
@@ -6,9 +12,13 @@ import { supabase } from "../../../utils/supabaseClient";
 import { ChipCard } from "../../common";
 
 interface Props {
+  handleCustomizeSettings: ComponentProps<any>;
   customizeSettings: CustomizeSettings;
 }
-export function CustomizeSettings({ customizeSettings }: Props) {
+export function CustomizeSettings({
+  customizeSettings,
+  handleCustomizeSettings,
+}: Props) {
   const { t } = useTranslation();
 
   const colorInputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +31,7 @@ export function CustomizeSettings({ customizeSettings }: Props) {
   useEffect(() => {
     const addColor = async () => {
       if (colorInputRef.current) {
-        const color = toLowerCase(colorInputRef.current.value);
+        const color = toLowerCase(colorInputRef.current.value).trim();
 
         if (
           color &&
@@ -39,13 +49,19 @@ export function CustomizeSettings({ customizeSettings }: Props) {
               colors: [...colors, color],
             })
             .eq("id", customizeSettings.id);
+
+          handleCustomizeSettings((prev: any) => {
+            return { ...prev, colors: [...colors, color] };
+          });
         }
       }
     };
 
     const addFamilyStyle = async () => {
       if (familyStylesInputRef.current) {
-        const famStyle = familyStylesInputRef.current.value.toLowerCase();
+        const famStyle = familyStylesInputRef.current.value
+          .toLowerCase()
+          .trim();
         if (
           famStyle &&
           famStyle.length > 0 &&
@@ -62,6 +78,10 @@ export function CustomizeSettings({ customizeSettings }: Props) {
               family_styles: [...familyStyles, famStyle],
             })
             .eq("id", customizeSettings.id);
+
+          handleCustomizeSettings((prev: CustomizeSettings) => {
+            return { ...prev, family_styles: [...familyStyles, famStyle] };
+          });
         }
       }
     };
@@ -87,32 +107,34 @@ export function CustomizeSettings({ customizeSettings }: Props) {
       document.removeEventListener("keydown", listenerColor);
       document.removeEventListener("keydown", listenerFamilyStyle);
     };
-  }, [colors, customizeSettings.id, familyStyles]);
+  }, [colors, customizeSettings.id, familyStyles, handleCustomizeSettings]);
 
   const handleRemoveColor = async (color: string) => {
-    setColors((prevColors) =>
-      prevColors.filter((c) => {
-        return c !== color;
-      })
-    );
+    const filteredColors = colors.filter((c) => {
+      return c !== color;
+    });
+
+    setColors(filteredColors);
 
     // Remove color from DDBB
     await supabase
       .from("customize_settings")
       .update({
-        colors: colors.filter((c) => {
-          return c !== color;
-        }),
+        colors: filteredColors,
       })
       .eq("id", customizeSettings.id);
+
+    handleCustomizeSettings((prev: CustomizeSettings) => {
+      return { ...prev, colors: filteredColors };
+    });
   };
 
   const handleRemoveFamStyle = async (famStyle: string) => {
-    setFamilyStyles((prevFamStyle) =>
-      prevFamStyle.filter((p) => {
-        return p !== famStyle;
-      })
-    );
+    const filteredFamStyles = familyStyles.filter((fStyle) => {
+      return fStyle !== famStyle;
+    });
+
+    setFamilyStyles(filteredFamStyles);
 
     // Remove family style from DDBB
     await supabase
@@ -123,6 +145,10 @@ export function CustomizeSettings({ customizeSettings }: Props) {
         }),
       })
       .eq("id", customizeSettings.id);
+
+    handleCustomizeSettings((prev: CustomizeSettings) => {
+      return { ...prev, family_styles: filteredFamStyles };
+    });
   };
 
   return (
