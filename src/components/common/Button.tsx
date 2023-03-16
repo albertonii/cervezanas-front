@@ -61,7 +61,7 @@ export function Button({
         ${box ? "h-auto w-10" : ""}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
         ${small ? "w-24" : ""} 
-        ${medium ? "w-32" : ""}
+        ${medium ? "w-48" : ""}
         ${large ? "w-52" : ""}
         ${xLarge ? "w-64" : ""}
         ${xxLarge ? "w-80" : ""}

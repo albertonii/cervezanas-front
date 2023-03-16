@@ -82,7 +82,7 @@ export const AwardsSection = ({
                   onClick={() => handleRemoveAward(index)}
                   class={""}
                 >
-                  Remove
+                  {t("remove")}
                 </Button>
               </div>
             ) : (

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./IconButton";
 
 interface Props {
-  onClick?: () => void;
+  onClick?: ComponentProps<any>;
 }
 
 export function DeleteButton({ onClick }: Props) {

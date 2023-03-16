@@ -1,5 +1,6 @@
+import { Divider } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   aroma_options,
@@ -15,20 +16,30 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { CustomizeSettings, ModalAddProductProps } from "../../lib/types";
+import {
+  CustomizeSettings,
+  ModalAddProductProps,
+  ProductPack,
+} from "../../lib/types";
 import { capitalizeFirstLetter } from "../../utils";
-import { InfoTooltip } from "../common";
+import { Button, DeleteButton, InfoTooltip } from "../common";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
   customizeSettings: CustomizeSettings;
 }
 
+const emptyPack: ProductPack = {
+  id: "",
+  pack: 6,
+  price: 0,
+};
+
 export function ProductInfoSection({
   form: {
     register,
     formState: { errors },
-    getValues,
+    control,
   },
   customizeSettings,
 }: Props) {
@@ -38,6 +49,11 @@ export function ProductInfoSection({
   const [isMerchandising, setIsMerchandising] = useState(false);
   const [colorOptions, setColorOptions] = useState(color_options);
   const [famStyleOptions, setFamStyleOptions] = useState(family_options);
+
+  const { fields, append, remove } = useFieldArray({
+    name: "packs",
+    control,
+  });
 
   useEffect(() => {
     const colorSettings = customizeSettings.colors.map((color) => {
@@ -119,6 +135,14 @@ export function ProductInfoSection({
       setIsBeer(false);
       setIsMerchandising(true);
     }
+  };
+
+  const handleRemovePack = (index: number) => {
+    remove(index);
+  };
+
+  const handleAddPack = () => {
+    append(emptyPack);
   };
 
   return (
@@ -474,6 +498,87 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          <div className="flex w-full flex-row space-x-3 ">
+            {/* Individual Price  */}
+            <div className="w-full ">
+              <label htmlFor="price" className="text-sm text-gray-600">
+                {t("price")}
+              </label>
+
+              <input
+                id="price"
+                type="number"
+                placeholder="4.7"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                defaultValue={0}
+                min="0"
+                {...register(`price`, { required: true, min: 0 })}
+              />
+
+              {errors.price?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+
+              {errors.price?.type === "min" && (
+                <p>{t("error_0_number_min_length")}</p>
+              )}
+            </div>
+
+            {/* Individual Sell Available  */}
+            <div className="w-full ">
+              <label
+                htmlFor="individual_sell"
+                className="text-sm text-gray-600"
+              >
+                {t("individual_sell")}
+              </label>
+
+              <select
+                id="individual_sell"
+                {...register("individual_sell")}
+                defaultValue="false"
+                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              >
+                <option key={0} value={"false"}>
+                  {t("no")}
+                </option>
+                <option key={1} value={"true"}>
+                  {t("yes")}
+                </option>
+              </select>
+              {errors.individual_sell?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+            </div>
+
+            {/* Only Physically Available  */}
+            <div className="w-full ">
+              <label
+                htmlFor="only_physically_available"
+                className="text-sm text-gray-600"
+              >
+                {t("only_physically_available")}
+              </label>
+
+              <select
+                id="only_physically_available"
+                {...register("only_physically_available")}
+                defaultValue="false"
+                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              >
+                <option key={0} value={"false"}>
+                  {t("no")}
+                </option>
+                <option key={1} value={"true"}>
+                  {t("yes")}
+                </option>
+              </select>
+              {errors.only_physically_available?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+            </div>
+          </div>
+
           {/* Stock information  */}
           <div className="container mt-4">
             <p className="my-4 text-slate-500 text-xl leading-relaxed">
@@ -519,54 +624,6 @@ export function ProductInfoSection({
                 </div>
               </div>
 
-              {/* Pack  */}
-              <div className="flex w-full flex-row space-x-3 ">
-                <div className="w-full ">
-                  <label htmlFor="pack" className="text-sm text-gray-600">
-                    {t("pack_label")}
-                  </label>
-
-                  <select
-                    id="pack"
-                    {...register(`pack`)}
-                    className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  >
-                    {pack_type_options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.value}
-                      </option>
-                    ))}
-                  </select>
-
-                  {errors.pack?.type === "required" && (
-                    <p>Campo packs requerido</p>
-                  )}
-                </div>
-
-                <div className="w-full ">
-                  <label htmlFor="price" className="text-sm text-gray-600">
-                    {t("price_label")}
-                  </label>
-
-                  <input
-                    id="price"
-                    type="number"
-                    placeholder="2.5"
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    defaultValue={3}
-                    min="0"
-                    {...register(`price`, { required: true, min: 0 })}
-                  />
-
-                  {errors.price?.type === "required" && (
-                    <p>{t("product_modal_required")}</p>
-                  )}
-                  {errors.price?.type === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
-                  )}
-                </div>
-              </div>
-
               {/* Stock quantity  */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
@@ -595,7 +652,7 @@ export function ProductInfoSection({
                   )}
                 </div>
 
-                <div className="w-full ">
+                <div className="w-full">
                   <label
                     htmlFor="stockLimitNotification"
                     className="text-sm text-gray-600"
@@ -624,6 +681,74 @@ export function ProductInfoSection({
                   )}
                 </div>
               </div>
+
+              {/* Pack  */}
+              {fields.map((field, index) => (
+                <div key={field.id}>
+                  <div className="w-full space-y">
+                    {/* Add new pack quantity and price  */}
+                    <div className="flex w-full flex-row space-x-3 items-end">
+                      <div className="w-full">
+                        <label htmlFor="pack" className="text-sm text-gray-600">
+                          {t("pack_label")} nº {index + 1}
+                        </label>
+
+                        <select
+                          id="pack"
+                          {...register(`pack`)}
+                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                        >
+                          {pack_type_options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.value}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.pack?.type === "required" && (
+                          <p>{t("product_modal_required")}</p>
+                        )}
+                      </div>
+
+                      <div className="w-full">
+                        <label
+                          htmlFor="price"
+                          className="text-sm text-gray-600"
+                        >
+                          {t("price_label")}
+                        </label>
+
+                        <input
+                          id="price"
+                          type="number"
+                          placeholder="2.5"
+                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                          defaultValue={3}
+                          min="0"
+                          {...register(`price`, { required: true, min: 0 })}
+                        />
+
+                        {errors.price?.type === "required" && (
+                          <p>{t("product_modal_required")}</p>
+                        )}
+                        {errors.price?.type === "min" && (
+                          <p>{t("product_modal_min_0")}</p>
+                        )}
+                      </div>
+
+                      <div className="flex-grow-0">
+                        <DeleteButton onClick={() => handleRemovePack(index)} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Divider className="my-6" />
+                </div>
+              ))}
+
+              <Button class="" primary medium onClick={() => handleAddPack()}>
+                {t("add_pack")}
+              </Button>
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ import {
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
+import { ProductEnum } from "../../lib/productEnum";
 
 interface Props {
   products: Product[];
@@ -107,6 +108,7 @@ export function AddProduct({
         format,
         stock_quantity,
         stock_limit_notification,
+        packs,
       } = formValues;
 
       const userId = user?.id;
@@ -266,7 +268,7 @@ export function AddProduct({
       }
       setActiveStep(0);
 
-      if (product_type_options[0].label === BeerEnum.Product_type.beer) {
+      if (product_type_options[0].label === ProductEnum.Type.BEER) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
@@ -300,6 +302,21 @@ export function AddProduct({
           .from("product_inventory")
           .insert(stock);
         if (stockError) throw stockError;
+
+        // Packs Stock
+        if (packs.length > 0) {
+          packs.map(async (pack) => {
+            const { error: packsError } = await supabase
+              .from("product_pack")
+              .insert({
+                product_id: productId,
+                pack: pack.pack,
+                price: pack.price,
+              });
+
+            if (packsError) throw packsError;
+          });
+        }
 
         // Awards
         if (awards.length > 0 && awards[0].img_url != "") {

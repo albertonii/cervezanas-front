@@ -488,6 +488,15 @@ export type ModalAddProductProps = {
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
+  individual_sell: boolean;
+  only_physically_available: boolean;
+  packs: ProductPack[];
+};
+
+export type ProductPack = {
+  id: string;
+  pack: number;
+  price: number;
 };
 
 export type ModalUpdateProductProps = {

@@ -668,10 +668,6 @@ export const volume_draft_type_options = [
 export const pack_type_options = [
   {
     label: 0,
-    value: BeerEnum.Pack_format._1,
-  },
-  {
-    label: 0,
     value: BeerEnum.Pack_format._2,
   },
   {

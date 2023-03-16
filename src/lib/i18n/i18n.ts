@@ -378,6 +378,11 @@ const translationsEn = {
   products_archive: "Products archived",
   lots_archive: "Lots archived",
   nif_cif_document_id: "NIF/CIF/Document ID",
+  price: "Price",
+  individual_sell: "Individual Sell",
+  only_physically_available: "Only physically available",
+  add_new_pack: "Add new pack",
+  add_pack: "Add Pack",
 };
 
 const translationsEs = {
@@ -788,6 +793,11 @@ convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la ce
   Podrás ver esta información actualizada en la sección de crear Producto.`,
   products_customize_settings_color: `Escribe aquellos colores de tu cerveza que la hacen única.`,
   products_customize_settings_family_style: `Añade nuevos estilos con los que identificar tu cerveza.`,
+  price: "Precio",
+  individual_sell: "Venta individual",
+  only_physically_available: "Solo disponible físicamente",
+  add_new_pack: "Añadir nuevo pack",
+  add_pack: "Añadir pack",
 };
 
 // the translations
