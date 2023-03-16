@@ -59,6 +59,8 @@ export default function ProductId({
     product[0]?.likes?.length > 0 ? true : false
   );
 
+  console.log(productReviews);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   const reviewRef = useRef<any>();
@@ -699,7 +701,7 @@ export async function getServerSideProps(context: { params: any }) {
     .eq("is_public", true);
 
   if (productsError) throw productsError;
-
+  console.log(product[0].reviews);
   /*
   if (
     product[0]?.product_multimedia === undefined ||

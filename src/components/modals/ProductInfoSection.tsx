@@ -33,6 +33,8 @@ const emptyPack: ProductPack = {
   id: "",
   pack: 6,
   price: 0,
+  img_url: "",
+  name: "",
 };
 
 export function ProductInfoSection({
@@ -200,6 +202,7 @@ export function ProductInfoSection({
             {t("modal_product_add_details_title")}
           </p>
 
+          {/* Name & Campaign  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full space-y">
               <label htmlFor="product_name" className="text-sm text-gray-600">
@@ -242,6 +245,7 @@ export function ProductInfoSection({
             </div> */}
           </div>
 
+          {/* Description  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full space-y">
               <label htmlFor="description" className="text-sm text-gray-600">
@@ -265,6 +269,7 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Intensity & Fermentation  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="intensity" className="text-sm text-gray-600">
@@ -323,6 +328,7 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Color  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="color" className="text-sm text-gray-600">
@@ -383,6 +389,7 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Family  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="family" className="text-sm text-gray-600">
@@ -448,6 +455,7 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Aroma  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="aroma" className="text-sm text-gray-600">
@@ -473,6 +481,7 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Is Gluten  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="isGluten" className="text-sm text-gray-600">
@@ -498,8 +507,46 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          {/* Format & Volume  */}
           <div className="flex w-full flex-row space-x-3 ">
-            {/* Individual Price  */}
+            <div className="w-full ">
+              <label htmlFor="format" className="text-sm text-gray-600">
+                {t("format")}
+              </label>
+
+              <select
+                id="format"
+                {...register("format")}
+                defaultValue={"can"}
+                onChange={handleChange}
+                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              >
+                {format_options.map((option) => (
+                  <option key={option.value} value={option.label}>
+                    {t(option.label)}
+                  </option>
+                ))}
+              </select>
+              {errors.format?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+            </div>
+
+            <div className="w-full space-y">
+              <label htmlFor="volume" className="text-sm text-gray-600">
+                {t("volume_label")}
+              </label>
+
+              {renderSwitch()}
+
+              {errors.volume?.type === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Individual Price  */}
+          <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="price" className="text-sm text-gray-600">
                 {t("price")}
@@ -523,60 +570,6 @@ export function ProductInfoSection({
                 <p>{t("error_0_number_min_length")}</p>
               )}
             </div>
-
-            {/* Individual Sell Available  */}
-            <div className="w-full ">
-              <label
-                htmlFor="individual_sell"
-                className="text-sm text-gray-600"
-              >
-                {t("individual_sell")}
-              </label>
-
-              <select
-                id="individual_sell"
-                {...register("individual_sell")}
-                defaultValue="false"
-                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                <option key={0} value={"false"}>
-                  {t("no")}
-                </option>
-                <option key={1} value={"true"}>
-                  {t("yes")}
-                </option>
-              </select>
-              {errors.individual_sell?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
-            </div>
-
-            {/* Only Physically Available  */}
-            <div className="w-full ">
-              <label
-                htmlFor="only_physically_available"
-                className="text-sm text-gray-600"
-              >
-                {t("only_physically_available")}
-              </label>
-
-              <select
-                id="only_physically_available"
-                {...register("only_physically_available")}
-                defaultValue="false"
-                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                <option key={0} value={"false"}>
-                  {t("no")}
-                </option>
-                <option key={1} value={"true"}>
-                  {t("yes")}
-                </option>
-              </select>
-              {errors.only_physically_available?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
-            </div>
           </div>
 
           {/* Stock information  */}
@@ -586,45 +579,7 @@ export function ProductInfoSection({
             </p>
 
             <div className="flex w-full flex-col space-y-4 ">
-              {/* Format  */}
-              <div className="flex w-full flex-row space-x-3 ">
-                <div className="w-full ">
-                  <label htmlFor="format" className="text-sm text-gray-600">
-                    {t("format")}
-                  </label>
-
-                  <select
-                    id="format"
-                    {...register("format")}
-                    defaultValue={"can"}
-                    onChange={handleChange}
-                    className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  >
-                    {format_options.map((option) => (
-                      <option key={option.value} value={option.label}>
-                        {t(option.label)}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.format?.type === "required" && (
-                    <p>{t("product_modal_required")}</p>
-                  )}
-                </div>
-
-                <div className="w-full space-y">
-                  <label htmlFor="volume" className="text-sm text-gray-600">
-                    {t("volume_label")}
-                  </label>
-
-                  {renderSwitch()}
-
-                  {errors.volume?.type === "required" && (
-                    <p>{t("product_modal_required")}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Stock quantity  */}
+              {/* Stock quantity and Limitation */}
               <div className="flex w-full flex-row space-x-3 ">
                 <div className="w-full ">
                   <label
@@ -684,18 +639,21 @@ export function ProductInfoSection({
 
               {/* Pack  */}
               {fields.map((field, index) => (
-                <div key={field.id}>
+                <fieldset key={field.id}>
                   <div className="w-full space-y">
-                    {/* Add new pack quantity and price  */}
+                    {/* Quantity and price  */}
                     <div className="flex w-full flex-row space-x-3 items-end">
                       <div className="w-full">
-                        <label htmlFor="pack" className="text-sm text-gray-600">
-                          {t("pack_label")} nº {index + 1}
+                        <label
+                          htmlFor={`packs.${index}.pack`}
+                          className="text-sm text-gray-600"
+                        >
+                          {t("pack_quantity")} nº {index + 1}
                         </label>
 
                         <select
-                          id="pack"
-                          {...register(`pack`)}
+                          id={`packs.${index}.pack`}
+                          {...register(`packs.${index}.pack`)}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (
@@ -705,17 +663,17 @@ export function ProductInfoSection({
                           ))}
                         </select>
 
-                        {errors.pack?.type === "required" && (
+                        {`errors.packs.${index}.pack.type` === "required" && (
                           <p>{t("product_modal_required")}</p>
                         )}
                       </div>
 
                       <div className="w-full">
                         <label
-                          htmlFor="price"
+                          htmlFor={`packs.${index}.price`}
                           className="text-sm text-gray-600"
                         >
-                          {t("price_label")}
+                          {t("pack_price")}
                         </label>
 
                         <input
@@ -725,15 +683,63 @@ export function ProductInfoSection({
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           defaultValue={3}
                           min="0"
-                          {...register(`price`, { required: true, min: 0 })}
+                          {...register(`packs.${index}.price`, {
+                            required: true,
+                            min: 0,
+                          })}
                         />
 
-                        {errors.price?.type === "required" && (
+                        {`errors.packs.${index}.price.type` === "required" && (
                           <p>{t("product_modal_required")}</p>
                         )}
-                        {errors.price?.type === "min" && (
+                        {`errors.packs.${index}.price.type` === "min" && (
                           <p>{t("product_modal_min_0")}</p>
                         )}
+                      </div>
+                    </div>
+
+                    {/* Pack name and Pack Photo Optional  */}
+                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
+                      <div className="w-full">
+                        <label
+                          htmlFor={`packs.${index}.name`}
+                          className="text-sm text-gray-600"
+                        >
+                          {t("pack_name")}
+                        </label>
+
+                        <input
+                          id={`packs.${index}.name`}
+                          type="text"
+                          placeholder="Pack 6"
+                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                          defaultValue={3}
+                          min="0"
+                          {...register(`packs.${index}.name`, {
+                            required: true,
+                          })}
+                        />
+
+                        {`packs.${index}.name.type` === "required" && (
+                          <p>{t("product_modal_required")}</p>
+                        )}
+                      </div>
+
+                      <div className="w-full">
+                        <label
+                          htmlFor={`packs.${index}.img_url`}
+                          className="text-sm text-gray-600"
+                        >
+                          {t("pack_img_url")}
+                        </label>
+
+                        <input
+                          id={`packs.${index}.img_url`}
+                          type="file"
+                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                          min="0"
+                          {...register(`packs.${index}.img_url`, {})}
+                        />
                       </div>
 
                       <div className="flex-grow-0">
@@ -743,7 +749,7 @@ export function ProductInfoSection({
                   </div>
 
                   <Divider className="my-6" />
-                </div>
+                </fieldset>
               ))}
 
               <Button class="" primary medium onClick={() => handleAddPack()}>

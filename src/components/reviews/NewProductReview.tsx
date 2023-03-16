@@ -51,17 +51,7 @@ export function NewProductReview({
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<FormValues>({
-    defaultValues: {
-      aroma: 0,
-      appearance: 0,
-      taste: 0,
-      mouthfeel: 0,
-      bitterness: 0,
-      overall: 0,
-      comment: "",
-    },
-  });
+  } = useForm<FormValues>();
 
   const onSubmit = async (formValues: FormValues) => {
     try {

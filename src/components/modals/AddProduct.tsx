@@ -11,7 +11,6 @@ import {
   intensity_options,
   origin_options,
   product_type_options,
-  BeerEnum,
 } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";

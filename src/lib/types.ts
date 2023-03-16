@@ -497,6 +497,8 @@ export type ProductPack = {
   id: string;
   pack: number;
   price: number;
+  img_url: string;
+  name: string;
 };
 
 export type ModalUpdateProductProps = {
