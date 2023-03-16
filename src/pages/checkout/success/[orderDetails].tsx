@@ -207,7 +207,14 @@ export default function Success({ order: order_, products: products_ }: Props) {
                             primary
                             medium
                             class="font-medium text-beer-draft hover:text-beer-dark my-6 "
-                            onClick={() => handleOnClick(product.id)}
+                            onClick={() => {
+                              if (
+                                !product.order_item[0].is_reviewed &&
+                                order.status === "delivered"
+                              ) {
+                                handleOnClick(product.id);
+                              }
+                            }}
                           >
                             {t("make_review_product_button")}
                           </Button>
