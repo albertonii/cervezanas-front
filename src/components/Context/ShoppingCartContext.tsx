@@ -8,6 +8,7 @@ type ShoppingCartContextType = {
   cartQuantity: number;
   clearMarketplace: () => void;
   clearItems: () => void;
+  clearCart: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
@@ -25,6 +26,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   cartQuantity: 0,
   clearMarketplace: () => {},
   clearItems: () => {},
+  clearCart: () => {},
   isInCart: (id: string) => false,
   getItemQuantity: (id: string) => 0,
   increaseCartQuantity: (id: string) => {},
@@ -69,6 +71,11 @@ export function ShoppingCartProvider({
 
   const clearItems = () => {
     setItems([]);
+  };
+
+  const clearCart = () => {
+    clearMarketplace();
+    clearItems();
   };
 
   const isInCart = (id: string) => {
@@ -139,6 +146,7 @@ export function ShoppingCartProvider({
         removeMarketplaceItems,
         clearMarketplace,
         clearItems,
+        clearCart,
         isInCart,
         getItemQuantity,
         increaseCartQuantity,

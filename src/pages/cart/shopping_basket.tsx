@@ -55,6 +55,8 @@ export default function Checkout(props: Props) {
   } = props;
 
   const { user } = useAuth();
+  const { clearCart } = useShoppingCart();
+
   const router = useRouter();
 
   const [subtotal, setsubtotal] = useState<number>(0);
@@ -203,13 +205,9 @@ export default function Checkout(props: Props) {
 
   const handleProceedToPay = async () => {
     try {
-      // const cardInfo = getCardValues("card_info");
       const shippingInfoId = selectedShippingAddress;
       const billingInfoId = selectedBillingAddress;
 
-      // const resultCardInfo = await triggerCard("card_info", {
-      //   shouldFocus: true,
-      // });
       const resultBillingInfoId = await triggerBilling("billing_info_id", {
         shouldFocus: true,
       });
@@ -217,11 +215,7 @@ export default function Checkout(props: Props) {
         shouldFocus: true,
       });
 
-      if (
-        // resultCardInfo === false ||
-        resultBillingInfoId === false ||
-        resultShippingInfoId === false
-      )
+      if (resultBillingInfoId === false || resultShippingInfoId === false)
         return;
 
       const shippingInfo = shippingAddresses.find(
@@ -312,6 +306,7 @@ export default function Checkout(props: Props) {
       });
 
       setLoadingPayment(false);
+      clearCart();
     } catch (error) {
       setLoadingPayment(false);
       console.error("error", error);

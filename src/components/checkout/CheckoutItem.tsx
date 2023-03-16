@@ -4,10 +4,11 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Product, ProductType } from "../../lib/types";
+import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
+import { ProductEnum } from "../../lib/productEnum";
 
 interface Props {
   product: Product;
@@ -78,7 +79,7 @@ export function CheckoutItem({
             {product.name}
           </h3>
           {/* Product Type Beer */}
-          {product.type === ProductType.BEER && (
+          {product.type === ProductEnum.Type.BEER && (
             <div className="flex justify-start items-start flex-col space-y-2">
               <p className="text-sm dark:text-white leading-none text-gray-800">
                 <span className="dark:text-gray-400 text-gray-300">
@@ -102,7 +103,7 @@ export function CheckoutItem({
           )}
 
           {/* Product Type Merchandising */}
-          {product.type === ProductType.MERCHANDISING && (
+          {product.type === ProductEnum.Type.MERCHANDISING && (
             <div className="flex justify-start items-start flex-col space-y-2">
               <p className="text-sm dark:text-white leading-none text-gray-800">
                 <span className="dark:text-gray-400 text-gray-300">
