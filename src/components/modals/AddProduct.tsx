@@ -109,7 +109,7 @@ export function AddProduct({
         stock_limit_notification,
         packs,
       } = formValues;
-
+      console.log(formValues);
       const userId = user?.id;
 
       // Product
@@ -265,6 +265,7 @@ export function AddProduct({
           );
         if (pExtra3Error) throw pExtra3Error;
       }
+
       setActiveStep(0);
 
       if (product_type_options[0].label === ProductEnum.Type.BEER) {
@@ -311,9 +312,25 @@ export function AddProduct({
                 product_id: productId,
                 pack: pack.pack,
                 price: pack.price,
+                name: pack.name,
+                img_url: pack.img_url.name,
               });
 
             if (packsError) throw packsError;
+
+            // Add Img to Store
+            const { error: storagePacksError } = await supabase.storage
+              .from("products")
+              .upload(
+                `articles/${productId}/packs/${randomUUID}_${pack.img_url.name}`,
+                pack.img_url,
+                {
+                  cacheControl: "3600",
+                  upsert: false,
+                }
+              );
+
+            if (storagePacksError) throw storagePacksError;
           });
         }
 

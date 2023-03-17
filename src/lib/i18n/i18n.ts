@@ -383,6 +383,13 @@ const translationsEn = {
   only_physically_available: "Only physically available",
   add_new_pack: "Add new pack",
   add_pack: "Add Pack",
+  add_product_pack: "Add Product Pack",
+  add_product_pack_description:
+    "Click in below button to add a new pack to the product. May be pack of 2, 6, 12, etc.",
+  pack_quantity: "Quantity",
+  pack_price: "Price",
+  pack_name: "Pack name",
+  pack_img_url: "Pack image URL",
 };
 
 const translationsEs = {
@@ -798,6 +805,13 @@ convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la ce
   only_physically_available: "Solo disponible físicamente",
   add_new_pack: "Añadir nuevo pack",
   add_pack: "Añadir pack",
+  add_product_pack: "Añadir pack al producto",
+  add_product_pack_description:
+    "Presiona el botón de abajo y añade un pack al producto seleccionando los productos que lo componen y el precio del pack.",
+  pack_quantity: "Cantidad de packs",
+  pack_price: "Precio del pack",
+  pack_name: "Nombre del pack",
+  pack_img_url: "Imagen del pack",
 };
 
 // the translations

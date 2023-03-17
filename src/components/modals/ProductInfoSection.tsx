@@ -33,7 +33,7 @@ const emptyPack: ProductPack = {
   id: "",
   pack: 6,
   price: 0,
-  img_url: "",
+  img_url: new File([""], "filename"),
   name: "",
 };
 
@@ -198,6 +198,8 @@ export function ProductInfoSection({
       {/* Beer type */}
       {isBeer && (
         <div className="relative pt-6 flex-auto space-y-4">
+          <Divider />
+
           <p className="my-4 text-slate-500 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
@@ -572,6 +574,8 @@ export function ProductInfoSection({
             </div>
           </div>
 
+          <Divider />
+
           {/* Stock information  */}
           <div className="container mt-4">
             <p className="my-4 text-slate-500 text-xl leading-relaxed">
@@ -637,9 +641,22 @@ export function ProductInfoSection({
                 </div>
               </div>
 
+              <Divider />
+
               {/* Pack  */}
+              <div className="flex flex-col space-y-2">
+                <span className="text-lg ">{t("add_product_pack")}</span>
+
+                <span className="text-sm ">
+                  {t("add_product_pack_description")}
+                </span>
+              </div>
+
               {fields.map((field, index) => (
-                <fieldset key={field.id}>
+                <fieldset
+                  className="border border-solid border-gray-300 p-3"
+                  key={field.id}
+                >
                   <div className="w-full space-y">
                     {/* Quantity and price  */}
                     <div className="flex w-full flex-row space-x-3 items-end">
@@ -652,6 +669,7 @@ export function ProductInfoSection({
                         </label>
 
                         <select
+                          required
                           id={`packs.${index}.pack`}
                           {...register(`packs.${index}.pack`)}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -682,6 +700,7 @@ export function ProductInfoSection({
                           placeholder="2.5"
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           defaultValue={3}
+                          required
                           min="0"
                           {...register(`packs.${index}.price`, {
                             required: true,
@@ -711,9 +730,10 @@ export function ProductInfoSection({
                         <input
                           id={`packs.${index}.name`}
                           type="text"
-                          placeholder="Pack 6"
+                          placeholder={`Pack ${index + 1}`}
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           defaultValue={3}
+                          required
                           min="0"
                           {...register(`packs.${index}.name`, {
                             required: true,
@@ -724,7 +744,9 @@ export function ProductInfoSection({
                           <p>{t("product_modal_required")}</p>
                         )}
                       </div>
+                    </div>
 
+                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.img_url`}
@@ -738,6 +760,7 @@ export function ProductInfoSection({
                           type="file"
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           min="0"
+                          accept="image/png, image/jpeg"
                           {...register(`packs.${index}.img_url`, {})}
                         />
                       </div>
@@ -747,8 +770,6 @@ export function ProductInfoSection({
                       </div>
                     </div>
                   </div>
-
-                  <Divider className="my-6" />
                 </fieldset>
               ))}
 

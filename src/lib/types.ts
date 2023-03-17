@@ -471,11 +471,11 @@ export type ModalAddProductProps = {
   era: number;
   intensity: number;
   awards: Award[];
-  p_principal: FileImg;
-  p_back: FileImg;
-  p_extra_1: FileImg;
-  p_extra_2: FileImg;
-  p_extra_3: FileImg;
+  p_principal: File;
+  p_back: File;
+  p_extra_1: File;
+  p_extra_2: File;
+  p_extra_3: File;
   volume: any;
   price: number;
   pack: any;
@@ -497,7 +497,7 @@ export type ProductPack = {
   id: string;
   pack: number;
   price: number;
-  img_url: string;
+  img_url: File;
   name: string;
 };
 
