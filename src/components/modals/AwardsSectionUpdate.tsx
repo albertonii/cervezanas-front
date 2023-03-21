@@ -83,7 +83,7 @@ export function AwardsSectionUpdate({
                   onClick={() => handleRemoveAward(index)}
                   class={""}
                 >
-                  Remove
+                  {t("remove")}
                 </Button>
               </div>
             ) : (

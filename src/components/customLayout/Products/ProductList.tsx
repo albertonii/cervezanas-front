@@ -10,7 +10,6 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
-import { DeleteButton } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 
@@ -154,72 +153,70 @@ export function ProductList({
           {products_ &&
             filteredItems.map((product) => {
               return (
-                <>
-                  <tr
-                    key={product.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    {!product.is_archived && (
-                      <>
-                        <th
-                          scope="row"
-                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          <Image
-                            width={128}
-                            height={128}
-                            className="w-8 h-8 rounded-full"
-                            src="/icons/beer-240.png"
-                            alt="Beer Type"
+                <tr
+                  key={product.id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
+                  {!product.is_archived && (
+                    <>
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <Image
+                          width={128}
+                          height={128}
+                          className="w-8 h-8 rounded-full"
+                          src="/icons/beer-240.png"
+                          alt="Beer Type"
+                        />
+                      </th>
+
+                      <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                        <Link href={`/products/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-6">{product.price}</td>
+
+                      <td className="py-4 px-6">
+                        {product.product_inventory &&
+                        product.product_inventory[0]?.quantity
+                          ? product.product_inventory[0].quantity
+                          : "-"}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        {product.product_lot && product.product_lot[0]?.lot_id
+                          ? product.product_lot[0]?.lot_id
+                          : "-"}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        {product.is_public ? t("yes") : t("no")}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <div className="flex space-x-1">
+                          <EditButton
+                            onClick={() => handleClickEdit(product)}
                           />
-                        </th>
 
-                        <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}>
-                            {product.name}
-                          </Link>
-                        </td>
-
-                        <td className="py-4 px-6">{product.price}</td>
-
-                        <td className="py-4 px-6">
-                          {product.product_inventory &&
-                          product.product_inventory[0]?.quantity
-                            ? product.product_inventory[0].quantity
-                            : "-"}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          {product.product_lot && product.product_lot[0]?.lot_id
-                            ? product.product_lot[0]?.lot_id
-                            : "-"}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          {product.is_public ? t("yes") : t("no")}
-                        </td>
-
-                        <td className="py-4 px-6">
-                          <div className="flex space-x-1">
-                            <EditButton
-                              onClick={() => handleClickEdit(product)}
-                            />
-
-                            {/* 
+                          {/* 
                             <DeleteButton
                               onClick={() => handleClickDelete(product)}
                             />
                             */}
 
-                            <ArchiveButton
-                              onClick={() => handleArchive(product)}
-                            />
-                          </div>
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                </>
+                          <ArchiveButton
+                            onClick={() => handleArchive(product)}
+                          />
+                        </div>
+                      </td>
+                    </>
+                  )}
+                </tr>
               );
             })}
         </tbody>

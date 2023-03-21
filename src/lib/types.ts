@@ -166,18 +166,15 @@ export interface Beer {
   origin: string;
   family: string;
   era: string;
-  intensity: string;
-  beer_format_id: string;
+  intensity: number;
   awards_id: string[];
   awards: Award[];
   price: number;
   volume: number;
   format: string;
-  pack: number;
   reviews: Review[];
   likes: Like[];
   product_id: string;
-  is_public: boolean;
   is_gluten: boolean;
 }
 
@@ -497,7 +494,7 @@ export type ProductPack = {
   id: string;
   pack: number;
   price: number;
-  img_url: File;
+  img_url: File | string;
   name: string;
 };
 
@@ -545,12 +542,10 @@ type BeerModalProps = {
   family: string;
   era: string;
   intensity: string;
-  beer_format_id: string;
   awards_id: string[];
   price: number;
   volume: number;
   format: string;
-  pack: number;
   product_id: string;
   is_public: boolean;
   is_gluten: boolean;

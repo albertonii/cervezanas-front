@@ -8,7 +8,6 @@ import {
   era_options,
   family_options,
   fermentation_options,
-  intensity_options,
   origin_options,
   product_type_options,
 } from "../../lib/beerEnum";
@@ -272,7 +271,7 @@ export function AddProduct({
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({
-            intensity: intensity_options[intensity].label,
+            intensity: intensity,
             fermentation: fermentation_options[fermentation].label,
             color: color_options[color].label,
             aroma: aroma_options[aroma].label,
@@ -281,7 +280,6 @@ export function AddProduct({
             era: era_options[era].label,
             is_gluten,
             volume,
-            pack,
             format,
             product_id: productId,
           })
@@ -319,18 +317,24 @@ export function AddProduct({
             if (packsError) throw packsError;
 
             // Add Img to Store
-            const { error: storagePacksError } = await supabase.storage
-              .from("products")
-              .upload(
-                `articles/${productId}/packs/${randomUUID}_${pack.img_url.name}`,
-                pack.img_url,
-                {
-                  cacheControl: "3600",
-                  upsert: false,
-                }
-              );
+            // check if image selected in file input is not empty and is an image
+            if (pack.img_url.length > 0) {
+              const file = pack.img_url;
+              const productFileUrl = encodeURIComponent(file.name);
 
-            if (storagePacksError) throw storagePacksError;
+              const { error: storagePacksError } = await supabase.storage
+                .from("products")
+                .upload(
+                  `articles/${productId}/packs/${randomUUID}_${productFileUrl}`,
+                  pack.img_url,
+                  {
+                    cacheControl: "3600",
+                    upsert: false,
+                  }
+                );
+
+              if (storagePacksError) throw storagePacksError;
+            }
           });
         }
 

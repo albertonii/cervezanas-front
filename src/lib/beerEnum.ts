@@ -1,12 +1,12 @@
 import { ProductEnum } from "./productEnum";
 
 export namespace BeerEnum {
-  export enum Intensity {
-    i_session, // <4% ABC
-    i_standard, // 4-6% ABC
-    i_high, // 6-9% ABC
-    i_very_high, // >9% ABC
-  }
+  // export enum Intensity {
+  //   i_session, // <4% ABC
+  //   i_standard, // 4-6% ABC
+  //   i_high, // 6-9% ABC
+  //   i_very_high, // >9% ABC
+  // }
 
   export enum Color {
     very_light,
@@ -183,12 +183,12 @@ export namespace BeerEnum {
   }
 }
 
-export const intensity_options = [
-  { label: "i_session", value: BeerEnum.Intensity.i_session },
-  { label: "i_standard", value: BeerEnum.Intensity.i_standard },
-  { label: "i_high", value: BeerEnum.Intensity.i_high },
-  { label: "i_very_high", value: BeerEnum.Intensity.i_very_high },
-];
+// export const intensity_options = [
+//   { label: "i_session", value: BeerEnum.Intensity.i_session },
+//   { label: "i_standard", value: BeerEnum.Intensity.i_standard },
+//   { label: "i_high", value: BeerEnum.Intensity.i_high },
+//   { label: "i_very_high", value: BeerEnum.Intensity.i_very_high },
+// ];
 
 export const color_options = [
   { label: "very_light", value: BeerEnum.Color.very_light },

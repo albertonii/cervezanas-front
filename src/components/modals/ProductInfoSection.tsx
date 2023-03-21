@@ -1,5 +1,5 @@
-import { Divider } from "@supabase/ui";
 import React, { useEffect, useState } from "react";
+import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -33,7 +33,7 @@ const emptyPack: ProductPack = {
   id: "",
   pack: 6,
   price: 0,
-  img_url: new File([""], "filename"),
+  img_url: "",
   name: "",
 };
 
@@ -139,11 +139,18 @@ export function ProductInfoSection({
     }
   };
 
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
+
   const handleRemovePack = (index: number) => {
+    console.log(index);
     remove(index);
   };
 
   const handleAddPack = () => {
+    console.log("dentro");
+
     append(emptyPack);
   };
 
@@ -671,7 +678,7 @@ export function ProductInfoSection({
                         <select
                           required
                           id={`packs.${index}.pack`}
-                          {...register(`packs.${index}.pack`)}
+                          {...register(`packs.${index}.pack` as const)}
                           className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (
@@ -702,7 +709,7 @@ export function ProductInfoSection({
                           defaultValue={3}
                           required
                           min="0"
-                          {...register(`packs.${index}.price`, {
+                          {...register(`packs.${index}.price` as const, {
                             required: true,
                             min: 0,
                           })}
@@ -735,7 +742,7 @@ export function ProductInfoSection({
                           defaultValue={3}
                           required
                           min="0"
-                          {...register(`packs.${index}.name`, {
+                          {...register(`packs.${index}.name` as const, {
                             required: true,
                           })}
                         />
@@ -761,10 +768,11 @@ export function ProductInfoSection({
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                           min="0"
                           accept="image/png, image/jpeg"
-                          {...register(`packs.${index}.img_url`, {})}
+                          {...register(`packs.${index}.img_url` as const, {})}
                         />
                       </div>
 
+                      {/* Delete BTN  */}
                       <div className="flex-grow-0">
                         <DeleteButton onClick={() => handleRemovePack(index)} />
                       </div>

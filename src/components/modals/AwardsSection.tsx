@@ -3,7 +3,7 @@ import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Award, ModalAddProductProps } from "../../lib/types";
-import { Button } from "../common";
+import { Button, DeleteButton } from "../common";
 
 const emptyAward: Award = {
   id: "",
@@ -37,6 +37,10 @@ export const AwardsSection = ({
     control,
   });
 
+  useEffect(() => {
+    console.log("awards section");
+  }, []);
+
   const [selectedFiles, setSelectedFiles] = useState<FileProps[]>([]);
 
   useEffect(() => {
@@ -64,50 +68,49 @@ export const AwardsSection = ({
   };
 
   const handleRemoveAward = (index: number) => {
+    console.log(index);
     setSelectedFiles((current) =>
       current.filter((selectedFile) => selectedFile.index !== index)
     );
     remove(index);
   };
 
+  const handleAddAward = () => {
+    append(emptyAward);
+  };
+
   return (
     <section id="Award">
       {fields.map((field, index) => (
         <div key={field.id}>
-          <div className="w-full space-y">
-            {fields.length > 1 ? (
-              <div>
-                <Button
-                  danger
-                  onClick={() => handleRemoveAward(index)}
-                  class={""}
-                >
-                  {t("remove")}
-                </Button>
-              </div>
-            ) : (
-              <></>
-            )}
+          <div className="flex flex-row space-x-4 items-end">
+            <div className="w-full space-y">
+              <label htmlFor="award_name" className="text-sm text-gray-600">
+                <b>{index + 1} </b> {t("name")}
+              </label>
 
-            <label htmlFor="award_name" className="text-sm text-gray-600">
-              <b>{index + 1} </b> {t("name")}
-            </label>
+              <input
+                type="text"
+                id="award_name"
+                placeholder={t("input_prodcut_award_name_placeholder")!}
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                {...register(`awards.${index}.name`, {
+                  required: false,
+                })}
+              />
+              {`errors.awards.${index}.name.type` === "required" && (
+                <p>{t("product_modal_required")}</p>
+              )}
+              {`errors.awards.${index}.name.type` === "maxLength" && (
+                <p>{t("product_modal_20_max_length")}</p>
+              )}
+            </div>
 
-            <input
-              type="text"
-              id="award_name"
-              placeholder={t("input_prodcut_award_name_placeholder")!}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register(`awards.${index}.name`, {
-                required: false,
-              })}
-            />
-            {`errors.awards.${index}.name.type` === "required" && (
-              <p>{t("product_modal_required")}</p>
-            )}
-            {`errors.awards.${index}.name.type` === "maxLength" && (
-              <p>{t("product_modal_20_max_length")}</p>
-            )}
+            <div>
+              {fields.length > 1 && (
+                <DeleteButton onClick={() => handleRemoveAward(index)} />
+              )}
+            </div>
           </div>
 
           <div className="w-full space-y">
@@ -194,7 +197,7 @@ export const AwardsSection = ({
       ))}
 
       <div>
-        <Button class="" onClick={() => append(emptyAward)}>
+        <Button class="" primary medium onClick={() => handleAddAward()}>
           {t("modal_product_award_add")}
         </Button>
       </div>
