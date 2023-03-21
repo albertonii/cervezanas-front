@@ -9,7 +9,7 @@ export * from "./DropdownButton";
 export * from "./EditButton";
 export * from "./ArchiveButton";
 export * from "./UnarchiveButton";
-export * from "./FilePreviews";
+export * from "./FilePreviewProductMultimedia";
 export * from "./IconButton";
 export * from "./IncreaseButton";
 export * from "./Spinner";

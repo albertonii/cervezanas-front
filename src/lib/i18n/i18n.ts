@@ -63,6 +63,14 @@ const translationsEn = {
   format_label: "Format",
   container_label: "Container",
   volume_label: "Volume",
+  name_label: "Name",
+  description_label: "Description",
+  intensity_label: "ABV",
+  fermentation_label: "Fermentation/Conditioning",
+  color_label: "Color",
+  origin_label: "Region of Origin",
+  family_label: "Style Family",
+  era_label: "Era",
   stock_quantity_label: "Stock Quantity",
   stock_limit_notification_label:
     "Stock limit notification (when stock quantity is less than)",
@@ -415,10 +423,12 @@ from the beer.`,
   add_product_pack: "Add Product Pack",
   add_product_pack_description:
     "Click in below button to add a new pack to the product. May be pack of 2, 6, 12, etc.",
+  packs: "Packs",
   pack_quantity: "Quantity",
   pack_price: "Price",
   pack_name: "Pack name",
   pack_img_url: "Pack image URL",
+  unassigned: "Unassigned",
 };
 
 const translationsEs = {
@@ -482,6 +492,14 @@ const translationsEs = {
   format_label: "Formato",
   container_label: "Envase",
   volume_label: "Volumen",
+  name_label: "Nombre",
+  description_label: "Descripción",
+  intensity_label: "ABV",
+  fermentation_label: "Fermentación",
+  color_label: "Color",
+  origin_label: "Origen",
+  family_label: "Familia",
+  era_label: "Era",
   stock_quantity_label: "Cantidad en Stock",
   stock_limit_notification_label:
     "Notificar cuando el stock llegue a este valor",
@@ -846,10 +864,12 @@ desprenden de la cerveza. `,
   add_product_pack: "Añadir pack al producto",
   add_product_pack_description:
     "Presiona el botón de abajo y añade un pack al producto seleccionando los productos que lo componen y el precio del pack.",
+  packs: "Packs",
   pack_quantity: "Cantidad de packs",
   pack_price: "Precio del pack",
   pack_name: "Nombre del pack",
   pack_img_url: "Imagen del pack",
+  unassigned: "Sin asignar",
 };
 
 // the translations

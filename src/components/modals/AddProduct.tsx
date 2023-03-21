@@ -24,6 +24,7 @@ import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductEnum } from "../../lib/productEnum";
+import { ProductSummary } from "./ProductSummary";
 
 interface Props {
   products: Product[];
@@ -398,22 +399,16 @@ export function AddProduct({
               </p>
 
               {activeStep === 0 ? (
-                <>
-                  <ProductInfoSection
-                    form={form}
-                    customizeSettings={customizeSettings}
-                  />
-                </>
+                <ProductInfoSection
+                  form={form}
+                  customizeSettings={customizeSettings}
+                />
               ) : activeStep === 1 ? (
-                <>
-                  <AwardsSection form={form} />
-                </>
+                <AwardsSection form={form} />
               ) : activeStep === 2 ? (
-                <>
-                  <MultimediaSection form={form} />
-                </>
+                <MultimediaSection form={form} />
               ) : (
-                <></>
+                <ProductSummary form={form} />
               )}
             </>
           </ProductStepper>

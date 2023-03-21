@@ -8,12 +8,8 @@ interface Props {
   registerName: string;
 }
 
-const FilePreview = ({
-  form: {
-    register,
-    setValue,
-    formState: { errors },
-  },
+export const FilePreviewProductMultimedia = ({
+  form: { register, setValue },
   registerName,
 }: Props) => {
   const { t } = useTranslation();
@@ -150,5 +146,3 @@ const FilePreview = ({
     </div>
   );
 };
-
-export default FilePreview;
