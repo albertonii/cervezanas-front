@@ -131,16 +131,6 @@ export function AddProduct({
       const productId = productData[0].id;
 
       // Multimedia
-
-      // URL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
-      // TODO: PHOTO PRINCIPAL = /articles/[n_articulo]/[n_variante]/[n_aleatorio]-[nombre-articulo.jgp]
-      // const p_principal_url = !_.isEmpty(p_principal?.name)
-      //   ? encodeURIComponent(
-      //       `/articles/[n_articulo]/[n_variante]/[n_aleatorio]-` +
-      //         p_principal.name
-      //     )
-      //   : null;
-
       const randomUUID = uuid();
 
       const p_principal_url = !_.isEmpty(p_principal?.name)

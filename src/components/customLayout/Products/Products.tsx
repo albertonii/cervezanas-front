@@ -80,7 +80,7 @@ export function Products({
         {isDeleteShowModal && (
           <DeleteProduct
             products={products!}
-            productId={productModal!.id}
+            product={productModal}
             isDeleteShowModal={isDeleteShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
             handleSetProducts={handleSetProducts}

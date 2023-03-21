@@ -7,7 +7,7 @@ import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
   products: Product[];
-  productId: string;
+  product: Product | undefined;
   isDeleteShowModal: boolean;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
@@ -16,7 +16,7 @@ interface Props {
 export function DeleteProduct(props: Props) {
   const {
     products,
-    productId,
+    product,
     isDeleteShowModal,
     handleDeleteShowModal,
     handleSetProducts,
@@ -24,17 +24,26 @@ export function DeleteProduct(props: Props) {
 
   const handleDeleteClick = () => {
     const handleDelete = async () => {
+      // Delete all storage images from the product
+      if (product?.product_multimedia[0].p_principal) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
+
+        if (storageError) throw storageError;
+      }
+
       const { error: reviewError } = await supabase
         .from("reviews")
         .delete()
-        .eq("product_id", productId);
+        .eq("product_id", product?.id);
 
       if (reviewError) throw reviewError;
 
       const { data, error: productError } = await supabase
         .from("products")
         .delete()
-        .eq("id", productId);
+        .eq("id", product?.id);
 
       if (productError) throw productError;
 
@@ -42,7 +51,7 @@ export function DeleteProduct(props: Props) {
 
       handleSetProducts(
         products.filter((b) => {
-          return b.id !== productId;
+          return b.id !== product?.id;
         })
       );
 
