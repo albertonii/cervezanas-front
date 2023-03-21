@@ -378,6 +378,35 @@ const translationsEn = {
   products_archive: "Products archived",
   lots_archive: "Lots archived",
   nif_cif_document_id: "NIF/CIF/Document ID",
+  era_tooltip: `Each beer has a period in which it was brewed. 
+       Craft era: developed in the modern era; 
+       Traditional era: developed before the modern era of craft beer; 
+       Historical era: of low production and not brewed today. `,
+  origin_tooltip: `Region, country or continent of origin of the beer.`,
+  family_tooltip: `Styles can be grouped into style families that can be compared and contrasted.`,
+  color_tooltip: `SRM (Standard Reference Method) measures the intensity of a given wavelength of light.
+wavelength of light. These numerical values do not always match our visual perception of the lightness and darkness of the color or hue.
+visual perception of the lightness and darkness of color or hue. For example, a light yellow beer may have an SRM value of
+may have an SRM value of 4, while a dark yellow beer may have an SRM value of 8.
+may have an SRM value of 8. `,
+  intensity_tooltip: `Beer strength refers to the amount of sugar that has been converted to alcohol.
+converted to alcohol. The higher the value, the more alcohol the beer has.`,
+  aroma_tooltip: `Beer aroma refers to the perception of the odors emanating from the beer.
+from the beer.`,
+  fermentation_tooltip: `Fermentation is the process by which yeast transforms sugar into alcohol. 
+       Ale: fermentation with top-fermenting yeast;
+       Lager: fermentation with bottom-fermenting yeast;
+       Mixed: fermentation with both top-fermenting and bottom-fermenting yeasts. 
+       Wild: fermentation with wild yeasts. 
+       Lagered: fermentation with bottom-fermenting yeast and subsequent cold storage. 
+       Barrel-aged: fermentation with bottom-fermenting yeast and subsequent storage in barrels.
+       `,
+
+  products_customize_settings_description: `Personaliza las características de aquellos productos que publiques.
+  Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características.
+  Podrás ver esta información actualizada en la sección de crear Producto.`,
+  products_customize_settings_color: `Escribe aquellos colores de tu cerveza que la hacen única.`,
+  products_customize_settings_family_style: `Añade nuevos estilos con los que identificar tu cerveza.`,
   price: "Price",
   individual_sell: "Individual Sell",
   only_physically_available: "Only physically available",
@@ -787,7 +816,7 @@ const translationsEs = {
        Era tradicional: desarrollada antes de la era moderna de la cerveza artesanal; 
        Era historica: de poca producción y no se elaborada en la actualidad. `,
   origin_tooltip: `Región, país o continente de origen de la cerveza.`,
-  family_tooltip: `Región, país o continente de origen de la cerveza.`,
+  family_tooltip: `Los estilos pueden agruparse en familias de estilo que puedan ser comparadas y contrastadas.`,
   color_tooltip: `SRM (Standard Reference Method) mide la intensidad de una determinada
 longitud de onda de la luz. Estos valores numéricos no siempre coinciden con nuestra percepción
 percepción visual de la claridad y oscuridad del color o matiz. Por ejemplo, una cerveza de color
@@ -795,6 +824,15 @@ amarillo claro puede tener un valor SRM de 4, mientras que una cerveza de color 
 puede tener un valor SRM de 8. `,
   intensity_tooltip: `La intensidad de la cerveza se refiere a la cantidad de azúcar que se ha
 convertido en alcohol. Cuanto más alto sea el valor, más alcohol tendrá la cerveza. `,
+  aroma_tooltip: `El aroma de la cerveza se refiere a la percepción de los olores que se
+desprenden de la cerveza. `,
+  fermentation_tooltip: `La fermentación es el proceso por el que la levadura transforma el azúcar en alcohol. 
+       Ale: fermentación con levadura de fermentación alta;
+       Lager: fermentación con levaduras de fermentación baja;
+       Mixta: fermentación con levaduras de fermentación alta y de fermentación baja. 
+       Salvaje: fermentación con levaduras salvajes. 
+       Lagered: fermentación con levaduras de fermentación baja y posterior almacenamiento en frío. 
+       Envejecido en barrica: fermentación con levaduras de fermentación baja y posterior almacenamiento en barricas.`,
   products_customize_settings_description: `Personaliza las características de aquellos productos que publiques.
   Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características.
   Podrás ver esta información actualizada en la sección de crear Producto.`,

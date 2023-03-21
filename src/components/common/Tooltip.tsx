@@ -19,6 +19,7 @@ export function Tooltip({
 
   const [active, setActive] = useState(false);
 
+  const [width, setWidth] = useState(0);
   const showTip = () => {
     timeout = setTimeout(() => {
       setActive(true);
@@ -30,7 +31,9 @@ export function Tooltip({
     setActive(false);
   };
 
-  const width = w ? `${w}px` : "600px";
+  useEffect(() => {
+    if (w) setWidth(w);
+  }, [w]);
 
   return (
     <div
@@ -44,13 +47,14 @@ export function Tooltip({
       {/* Wrapping */}
       {children}
       <div
+        style={{ width: `${width}px` }}
         className={`Tooltip-Tip 
           ${!active ? "hidden" : " transition-2"}
           ${direction === "top" ? "bottom-[150%]" : ""} 
           ${direction === "bottom" ? "top-[150%]" : ""} 
           ${direction === "left" ? "-left-[0%] -top-[100%]" : ""}
           ${direction === "right" ? "left-[250%] -top-[100%]" : ""}
-           w-[${width}] flex items-center justify-center absolute rounded-lg left-1/2 transform -translate-x-1/2 py-3 px-4 bg-beer-blonde text-sm leading-tight z-50 shadow-lg `}
+            flex items-center justify-center absolute rounded-lg left-1/2 transform -translate-x-1/2 py-3 px-4 bg-beer-blonde text-sm leading-tight z-50 shadow-lg `}
       >
         {/* Content */}
         <p className="break-words ">{content}</p>

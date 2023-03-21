@@ -317,6 +317,12 @@ export function ProductInfoSection({
             <div className="w-full ">
               <label htmlFor="fermentation" className="text-sm text-gray-600">
                 {t("fermentation")}
+
+                <InfoTooltip
+                  content={`${t("fermentation_tooltip")}`}
+                  delay={0}
+                  width={600}
+                />
               </label>
 
               <select
@@ -469,6 +475,12 @@ export function ProductInfoSection({
             <div className="w-full ">
               <label htmlFor="aroma" className="text-sm text-gray-600">
                 {t("aroma")}
+
+                <InfoTooltip
+                  content={`${t("aroma_tooltip")}`}
+                  delay={0}
+                  width={600}
+                />
               </label>
 
               <select
