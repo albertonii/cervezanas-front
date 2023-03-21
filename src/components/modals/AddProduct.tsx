@@ -62,7 +62,7 @@ export function AddProduct({
       era: 0,
       is_gluten: false,
       type: product_type_options[0].value,
-      awards: [{ name: "", description: "", year: 0, img_url: "" }],
+      awards: [{ name: "", description: "", year: 2023, img_url: "" }],
       is_public: false,
       volume: "",
       price: 0,

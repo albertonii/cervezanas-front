@@ -149,11 +149,13 @@ export function ProductSummary({ form: { getValues } }: Props) {
         </fieldset>
 
         {/* Packs */}
-        <div className="text-xl text-beer-draft">
-          <label className="text-md font-semibold text-gray-600">
-            {t("packs")}
-          </label>
-        </div>
+        {getValues("packs").length > 0 && (
+          <div className="text-xl text-beer-draft">
+            <label className="text-md font-semibold text-gray-600">
+              {t("packs")}
+            </label>
+          </div>
+        )}
 
         {getValues("packs").map((pack, index) => (
           <fieldset
@@ -198,10 +200,67 @@ export function ProductSummary({ form: { getValues } }: Props) {
                   {pack.img_url.length === 0 ? (
                     t("unassigned")
                   ) : (
-                    <FilePreview
-                      file={pack.img_url}
-                      registerName="p_principal"
-                    />
+                    <FilePreview file={pack.img_url} />
+                  )}
+                </span>
+              </div>
+            </div>
+          </fieldset>
+        ))}
+
+        {/* Awards */}
+        {getValues("awards").length > 0 && (
+          <div className="text-xl text-beer-draft">
+            <label className="text-md font-semibold text-gray-600">
+              {t("awards")}
+            </label>
+          </div>
+        )}
+
+        {getValues("awards").map((award, index) => (
+          <fieldset
+            key={index}
+            className="flex flex-col gap-2 space-y-4 border rounded p-2"
+          >
+            <div className="flex flex-row justify-between">
+              <div className="space-x-2">
+                <label className="text-md font-semibold text-gray-600">
+                  {t("award_name")}
+                </label>
+
+                <span className="text-md">
+                  {award.name.length === 0 ? t("unassigned") : award.name}
+                </span>
+              </div>
+
+              <div className="space-x-2">
+                <label className="text-md font-semibold text-gray-600">
+                  {t("award_description")}
+                </label>
+
+                <span className="text-md">{award.description}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between">
+              <div className="space-x-2">
+                <label className="text-md font-semibold text-gray-600">
+                  {t("award_year")}
+                </label>
+
+                <span className="text-md">{award.year}</span>
+              </div>
+
+              <div className="space-x-2">
+                <label className="text-md font-semibold text-gray-600">
+                  {t("award_img_url")}
+                </label>
+
+                <span className="text-md">
+                  {award.img_url.length === 0 ? (
+                    t("unassigned")
+                  ) : (
+                    <FilePreview file={award.img_url} />
                   )}
                 </span>
               </div>

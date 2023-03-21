@@ -429,6 +429,10 @@ from the beer.`,
   pack_name: "Pack name",
   pack_img_url: "Pack image URL",
   unassigned: "Unassigned",
+  award_name: "Name",
+  award_description: "Description",
+  award_year: "Year",
+  award_img_url: "Image",
 };
 
 const translationsEs = {
@@ -870,6 +874,10 @@ desprenden de la cerveza. `,
   pack_name: "Nombre del pack",
   pack_img_url: "Imagen del pack",
   unassigned: "Sin asignar",
+  award_name: "Nombre",
+  award_description: "Descripción",
+  award_year: "Año",
+  award_img_url: "Imagen",
 };
 
 // the translations

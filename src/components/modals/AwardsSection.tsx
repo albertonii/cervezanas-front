@@ -83,7 +83,7 @@ export const AwardsSection = ({
     <section id="Award">
       {fields.map((field, index) => (
         <div key={field.id}>
-          <div className="flex flex-row space-x-4 items-end">
+          <div className="flex flex-row items-end">
             <div className="w-full space-y">
               <label htmlFor="award_name" className="text-sm text-gray-600">
                 <b>{index + 1} </b> {t("name")}

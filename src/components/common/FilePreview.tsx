@@ -1,10 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 interface Props {
   file?: any;
-  registerName: string;
 }
 
 const FilePreview = ({ file }: Props) => {

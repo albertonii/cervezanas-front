@@ -277,20 +277,22 @@ export function ProductStepper(props: Props) {
         border duration-200 ease-in-out 
         border-beer-draft transition"
             >
-              {t("next")}
+              {activeStep === 3 ? t("save") : t("next")}
             </button>
 
-            <button
-              onClick={() => () => handleStepper(activeStep + 1)}
-              className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+            {activeStep !== 3 && (
+              <button
+                onClick={() => handleStepper(3)}
+                className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
         hover:bg-bear-blonde  
         bg-bear-alvine 
         text-beer-draft 
         border duration-200 ease-in-out 
         border-beer-draft transition"
-            >
-              {t("skip")}
-            </button>
+              >
+                {t("skip")}
+              </button>
+            )}
           </div>
         </div>
       </div>
