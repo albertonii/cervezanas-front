@@ -131,7 +131,8 @@ export async function getServerSideProps({ req }: any) {
         ),
         orders (*),
         campaigns (*),
-        customize_settings (*)
+        customize_settings (*),
+        profile_location (*)
       `
     )
     .eq("id", user?.id);

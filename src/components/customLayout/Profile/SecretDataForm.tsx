@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
-import { Button } from "../../common";
+import { Button, Spinner } from "../../common";
+import { useMessage } from "../../message";
 
 interface FormProps {
   oldPassword: string;
@@ -12,6 +13,10 @@ interface FormProps {
 
 export function SecretDataForm() {
   const { t } = useTranslation();
+
+  const [loading, setLoading] = useState(false);
+
+  const { handleMessage } = useMessage();
 
   const {
     formState: { errors },
@@ -29,23 +34,31 @@ export function SecretDataForm() {
   });
 
   const onSubmit = async (formValues: FormProps) => {
-    try {
-      const { oldPassword, newPassword, newPassword2 } = formValues;
+    setLoading(true);
 
-      // TODO: Check old password before updating
+    // TODO: Check if old password is correct
 
-      if (newPassword == newPassword2) {
-        const { data, error } = await supabase.auth.update({
+    // TODO: Update and fix error Not Logged In after update pass
+
+    const { oldPassword, newPassword, newPassword2 } = formValues;
+
+    if (newPassword === newPassword2) {
+      setTimeout(async () => {
+        const { error } = await supabase.auth.update({
           password: newPassword,
         });
 
         if (error) throw error;
 
+        handleMessage!({
+          type: "success",
+          message: `${t("password_updated")}`,
+        });
+
         reset();
-      } else {
-      }
-    } catch (error) {
-    } finally {
+
+        setLoading(false);
+      }, 700);
     }
   };
 
@@ -58,69 +71,82 @@ export function SecretDataForm() {
         {t("password")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
         <div className="flex w-full flex-row space-x-3 ">
           <div className="w-full ">
             <label htmlFor="actual_password" className="text-sm text-gray-600">
               {t("actual_password")}
             </label>
-            <input
-              {...register("oldPassword")}
-              type="password"
-              id="old_password"
-              placeholder="**********"
-              required
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            />
-          </div>
-        </div>
 
-        <div className="flex w-full flex-row space-x-3 mb-4">
-          <div className="w-full ">
-            <label htmlFor="newPassword" className="text-sm text-gray-600">
-              {t("new_password")}
-            </label>
             <input
-              {...register("newPassword")}
-              type="password"
-              id="new_password_1"
-              placeholder="**********"
-              required
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            />
-          </div>
-
-          <div className="w-full space-y">
-            <label htmlFor="newPassword2" className="text-sm text-gray-600">
-              {t("confirm_password")}
-            </label>
-            <input
-              {...register("newPassword2", {
+              {...register("oldPassword", {
                 required: true,
-                validate: (val: string) => {
-                  if (watch("newPassword") != val) {
-                    return "Your passwords do no match";
-                  }
-                },
               })}
               type="password"
-              id="new_password_2"
+              id="actual_password"
               placeholder="**********"
-              required
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
 
-            {errors.newPassword2?.message && <p>{t("confirm_match")}</p>}
+            {errors.oldPassword?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
           </div>
         </div>
 
-        <div className="flex flex-row items-end">
-          <div className="pl-0">
-            <Button primary medium class={""}>
-              {t("save")}
-            </Button>
-          </div>
+        <div className="w-full ">
+          <label htmlFor="newPassword" className="text-sm text-gray-600">
+            {t("new_password")}
+          </label>
+
+          <input
+            {...register("newPassword", {
+              required: true,
+            })}
+            type="password"
+            id="new_password_1"
+            placeholder="**********"
+            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          />
+
+          {errors.newPassword?.type === "required" && (
+            <p>{t("errors.input_required")}</p>
+          )}
         </div>
+
+        <div className="w-full ">
+          <label htmlFor="newPassword2" className="text-sm text-gray-600">
+            {t("confirm_password")}
+          </label>
+
+          <input
+            {...register("newPassword2", {
+              required: true,
+              validate: (val: string) => {
+                if (watch("newPassword") != val) {
+                  return t("errors.password_match")!;
+                }
+              },
+            })}
+            type="password"
+            id="new_password_2"
+            placeholder="**********"
+            required
+            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          />
+
+          {errors.newPassword2?.type === "validate" && (
+            <p>{errors.newPassword2?.message}</p>
+          )}
+        </div>
+
+        {loading && (
+          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+        )}
+
+        <Button primary medium btnType={"submit"} disabled={loading}>
+          {t("save")}
+        </Button>
       </form>
     </div>
   );

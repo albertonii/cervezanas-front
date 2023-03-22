@@ -29,7 +29,7 @@ export function Account({ profile }: Props) {
         <div>
           <BasicDataForm profile={profile} />
           <SecretDataForm />
-          <LocationForm />
+          <LocationForm profile_location={profile.profile_location[0]} />
           <CustomizeProfileForm profile={profile} />
         </div>
       </div>

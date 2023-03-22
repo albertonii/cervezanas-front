@@ -312,6 +312,23 @@ export interface Profile {
   orders: Order[];
   campaigns: Campaign[];
   customize_settings: CustomizeSettings[];
+  profile_location: ProfileLocation[];
+}
+
+export interface ProfileLocation {
+  id: string;
+  created_at: Date;
+  name: string;
+  lastname: string;
+  document_id: string;
+  company: string;
+  phone: string;
+  postalcode: number;
+  country: string;
+  province: string;
+  town: string;
+  address_1: string;
+  address_2: string;
 }
 
 export interface Like {

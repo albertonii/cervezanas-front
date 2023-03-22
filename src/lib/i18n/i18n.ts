@@ -437,6 +437,7 @@ from the beer.`,
   award_year: "Year",
   award_img_url: "Image",
   errors: translationsFormErrorsEn,
+  password_updated: "Password updated successfully",
 };
 
 const translationsEs = {
@@ -882,6 +883,7 @@ desprenden de la cerveza. `,
   award_year: "Año",
   award_img_url: "Imagen",
   errors: translationsFormErrorsEs,
+  password_updated: "Contraseña actualizada",
 };
 
 // the translations

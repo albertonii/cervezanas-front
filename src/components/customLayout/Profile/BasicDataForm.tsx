@@ -46,7 +46,7 @@ export function BasicDataForm({ profile }: Props) {
     const { name, lastname, birthdate, username, email } = formValues;
 
     setTimeout(async () => {
-      let { error } = await supabase
+      const { error } = await supabase
         .from("users")
         .update({
           name,

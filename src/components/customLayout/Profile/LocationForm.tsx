@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../common";
+import { ProfileLocation } from "../../../lib/types";
+import { supabase } from "../../../utils/supabaseClient";
+import { Button, Spinner } from "../../common";
+import _ from "lodash";
 
 interface FormProps {
   addressName: string;
@@ -10,37 +13,59 @@ interface FormProps {
   addressDoc: string;
   addressCompany: string;
   addressPhone: string;
-  addressLocation: string;
-  addressPC: string;
+  address1: string;
+  address2: string;
+  addressPC: number;
   addressTown: string;
   addressCountry: string;
   addressProvince: string;
 }
 
-export function LocationForm() {
+interface Props {
+  profile_location: ProfileLocation;
+}
+
+export function LocationForm({ profile_location }: Props) {
   const { t } = useTranslation();
+
+  const [loading, setLoading] = useState(false);
+
+  const {
+    id: profile_location_id,
+    name,
+    lastname,
+    document_id,
+    company,
+    phone,
+    postalcode,
+    country,
+    province,
+    town,
+    address_1,
+    address_2,
+  } = profile_location;
 
   const {
     formState: { errors },
     handleSubmit,
     register,
-    reset,
   } = useForm<FormProps>({
     mode: "onSubmit",
     defaultValues: {
-      addressName: "",
-      addressLastname: "",
-      addressDoc: "",
-      addressCompany: "",
-      addressPhone: "",
-      addressLocation: "",
-      addressPC: "",
-      addressTown: "",
+      addressName: name,
+      addressLastname: lastname,
+      addressDoc: document_id,
+      addressCompany: company,
+      addressPhone: phone,
+      address1: address_1,
+      address2: address_2,
+      addressPC: postalcode,
+      addressTown: town,
     },
   });
 
-  const [addressCountry, setAddressCountry] = useState("");
-  const [addressProvince, setAddressProvince] = useState("");
+  const [addressCountry, setAddressCountry] = useState(country);
+  const [addressProvince, setAddressProvince] = useState(province);
 
   const selectCountry = (val: string) => {
     setAddressCountry(val);
@@ -51,22 +76,66 @@ export function LocationForm() {
   };
 
   const onSubmit = async (formValues: FormProps) => {
-    try {
-      const {
-        addressName,
-        addressLastname,
-        addressDoc,
-        addressCompany,
-        addressPhone,
-        addressLocation,
-        addressPC,
-        addressTown,
-      } = formValues;
+    setLoading(true);
 
-      reset();
-    } catch (error) {
-    } finally {
-    }
+    const {
+      addressName,
+      addressLastname,
+      addressDoc,
+      addressCompany,
+      addressPhone,
+      address1,
+      address2,
+      addressPC,
+      addressTown,
+    } = formValues;
+
+    setTimeout(async () => {
+      if (
+        _.isNull(profile_location_id) ||
+        _.isUndefined(profile_location_id) ||
+        profile_location_id === ""
+      ) {
+        const { error } = await supabase.from("profile_location").insert([
+          {
+            name: addressName,
+            lastname: addressLastname,
+            document_id: addressDoc,
+            company: addressCompany,
+            phone: addressPhone,
+            address_1: address1,
+            address_2: address2,
+            postalcode: addressPC,
+            town: addressTown,
+            country: addressCountry,
+            province: addressProvince,
+            owner_id: supabase.auth.user()?.id,
+          },
+        ]);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("profile_location")
+          .update({
+            name: addressName,
+            lastname: addressLastname,
+            document_id: addressDoc,
+            company: addressCompany,
+            phone: addressPhone,
+            address_1: address1,
+            address_2: address2,
+            postalcode: addressPC,
+            town: addressTown,
+            country: addressCountry,
+            province: addressProvince,
+          })
+          .eq("id", profile_location_id);
+
+        if (error) throw error;
+      }
+
+      setLoading(false);
+    }, 700);
   };
 
   return (
@@ -78,153 +147,219 @@ export function LocationForm() {
         {t("location")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}></form>
-      <div className="flex w-full flex-row space-x-3 ">
-        <div className="w-full ">
-          <label htmlFor="address_name" className="text-sm text-gray-600">
-            {t("loc_name")}
-          </label>
-          <input
-            type="text"
-            id="address_name"
-            placeholder="Alberto"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressName")}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+        <div className="flex w-full flex-row space-x-3 ">
+          <div className="w-full ">
+            <label htmlFor="address_name" className="text-sm text-gray-600">
+              {t("loc_name")}
+            </label>
+
+            <input
+              type="text"
+              id="address_name"
+              placeholder="Alberto"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressName", { required: true })}
+            />
+
+            {errors.addressName?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
+
+          <div className="w-full ">
+            <label htmlFor="address_lastname" className="text-sm text-gray-600">
+              {t("lastname")}
+            </label>
+
+            <input
+              type="text"
+              id="address_lastname"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressLastname", { required: true })}
+            />
+
+            {errors.addressLastname?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
         </div>
 
-        <div className="w-full ">
-          <label htmlFor="address_lastname" className="text-sm text-gray-600">
-            {t("lastname")}
-          </label>
-          <input
-            type="text"
-            id="address_lastname"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressLastname")}
-          />
-        </div>
-      </div>
+        <div className="flex w-full flex-row space-x-3">
+          <div className="w-full space-y">
+            <label htmlFor="address_doc" className="text-sm text-gray-600">
+              {t("document_id")}
+            </label>
 
-      <div className="flex w-full flex-row space-x-3">
-        <div className="w-full space-y">
-          <label htmlFor="address_doc" className="text-sm text-gray-600">
-            {t("document_id")}
-          </label>
-          <input
-            type="text"
-            id="address_doc"
-            placeholder="00112233-R"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressDoc")}
-          />
-        </div>
+            <input
+              type="text"
+              id="address_doc"
+              placeholder="00112233-R"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressDoc", { required: true })}
+            />
 
-        <div className="w-full">
-          <label htmlFor="lastname" className="text-sm text-gray-600">
-            {t("loc_company")}
-          </label>
-          <input
-            type="text"
-            id="addressCompany"
-            placeholder="Empresa 2000 SL"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressCompany")}
-          />
-        </div>
+            {errors.addressDoc?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
 
-        <div className="w-full">
-          <label htmlFor="address_phone" className="text-sm text-gray-600">
-            {t("loc_phone")}
-          </label>
-          <input
-            type="text"
-            id="addressPhone"
-            placeholder="+34 685 222 222"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressPhone")}
-          />
-        </div>
-      </div>
+          <div className="w-full">
+            <label htmlFor="lastname" className="text-sm text-gray-600">
+              {t("loc_company")}
+            </label>
 
-      <div className="flex">
-        <div className="w-full">
-          <label htmlFor="addressLocation" className="text-sm text-gray-600">
-            {t("loc_location")}
-          </label>
-          <input
-            type="text"
-            id="addressLocation"
-            placeholder="Calle España 123"
-            required
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressLocation")}
-          />
-        </div>
-      </div>
+            <input
+              type="text"
+              id="addressCompany"
+              placeholder="Empresa 2000 SL"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressCompany")}
+            />
+          </div>
 
-      <div className="flex flex-row space-x-3">
-        <div className="w-full">
-          <label htmlFor="addressPC" className="text-sm text-gray-600">
-            {t("loc_pc")}
-          </label>
-          <input
-            type="text"
-            id="addressPC"
-            placeholder="27018"
-            required
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressPC")}
-          />
+          <div className="w-full">
+            <label htmlFor="address_phone" className="text-sm text-gray-600">
+              {t("loc_phone")}
+            </label>
+
+            <input
+              type="text"
+              id="addressPhone"
+              placeholder="+34 685 222 222"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressPhone", { required: true })}
+            />
+
+            {errors.addressPhone?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
         </div>
 
-        <div className="w-full">
-          <label htmlFor="addressTown" className="text-sm text-gray-600">
-            {t("loc_town")}
-          </label>
-          <input
-            type="text"
-            id="addressTown"
-            placeholder="Madrid"
-            required
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            {...register("addressTown")}
-          />
-        </div>
-      </div>
+        <div className="flex">
+          <div className="w-full">
+            <label htmlFor="address1" className="text-sm text-gray-600">
+              {t("loc_location")}
+            </label>
 
-      <div className="flex flex-row items-end space-x-3">
-        <div className="w-full">
-          <label htmlFor="addressCountry" className="text-sm text-gray-600">
-            {t("loc_country")}
-          </label>
+            <input
+              type="text"
+              id="address1"
+              placeholder="Calle España 123"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("address1", { required: true })}
+            />
 
-          <CountryDropdown
-            classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            value={addressCountry}
-            onChange={(val) => selectCountry(val)}
-          />
+            {errors.address1?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
         </div>
 
-        <div className="w-full">
-          <label htmlFor="addressProvince" className="text-sm text-gray-600">
-            {t("loc_province")}
-          </label>
+        <div className="flex">
+          <div className="w-full">
+            <label htmlFor="address2" className="text-sm text-gray-600">
+              {t("loc_location")}
+            </label>
 
-          <RegionDropdown
-            classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            country={addressCountry}
-            value={addressProvince}
-            onChange={(val) => selectRegion(val)}
-          />
+            <input
+              type="text"
+              id="address2"
+              placeholder=" - "
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("address2")}
+            />
+
+            {errors.address2?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
         </div>
 
-        <div className="pl-12 ">
-          <Button primary medium class={""}>
-            {t("save")}
-          </Button>
+        <div className="flex flex-row space-x-3">
+          <div className="w-full">
+            <label htmlFor="addressPC" className="text-sm text-gray-600">
+              {t("loc_pc")}
+            </label>
+
+            <input
+              type="number"
+              id="addressPC"
+              placeholder="27018"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressPC", { required: true })}
+            />
+
+            {errors.addressPC?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
+
+          <div className="w-full">
+            <label htmlFor="addressTown" className="text-sm text-gray-600">
+              {t("loc_town")}
+            </label>
+
+            <input
+              type="text"
+              id="addressTown"
+              placeholder="Madrid"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              {...register("addressTown", {
+                required: true,
+              })}
+            />
+
+            {errors.addressTown?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
         </div>
-      </div>
+
+        <div className="flex flex-row items-end space-x-3">
+          <div className="w-full">
+            <label htmlFor="addressCountry" className="text-sm text-gray-600">
+              {t("loc_country")}
+            </label>
+
+            <CountryDropdown
+              classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              value={addressCountry}
+              onChange={(val) => selectCountry(val)}
+            />
+
+            {errors.addressCountry?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
+
+          <div className="w-full">
+            <label htmlFor="addressProvince" className="text-sm text-gray-600">
+              {t("loc_province")}
+            </label>
+
+            <RegionDropdown
+              classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              country={addressCountry}
+              value={addressProvince}
+              onChange={(val) => selectRegion(val)}
+            />
+
+            {errors.addressProvince?.type === "required" && (
+              <p>{t("errors.input_required")}</p>
+            )}
+          </div>
+        </div>
+
+        {loading && (
+          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+        )}
+
+        <Button primary medium btnType={"submit"} disabled={loading}>
+          {t("save")}
+        </Button>
+      </form>
     </div>
   );
 }
