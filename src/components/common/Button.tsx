@@ -4,7 +4,7 @@ interface ButtonProps {
   onClick?: () => void;
   isActive?: boolean;
   color?: { filled: string; unfilled: string };
-  class: string;
+  class?: string;
   children?: React.ReactNode;
   title?: string;
   box?: boolean;
@@ -52,6 +52,7 @@ export function Button({
 
   return (
     <button
+      disabled={disabled}
       type={`${getButtonType()}`}
       onClick={onClick}
       color={hoverColor}

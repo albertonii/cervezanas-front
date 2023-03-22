@@ -1,17 +1,31 @@
 interface Props {
   color: string;
   size?: string;
+  class?: string;
+  absolute?: boolean;
+  center?: boolean;
 }
 
-export const Spinner = (props: Props) => {
-  const { color, size } = props;
-
+export const Spinner = ({
+  color,
+  size,
+  class: class_,
+  absolute,
+  center,
+}: Props) => {
   return (
-    <div role="status">
+    <div
+      role="status"
+      className={`
+        ${class_} ${absolute ? "absolute" : ""} 
+        ${center ? "left-1/2 bottom-[50%] -translate-x-1/2" : ""}
+        bg-beer-softBlonde rounded-lg m-4 p-4 bg-opacity-90
+      `}
+    >
       <svg
         aria-hidden="true"
         className={`
-          mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-${color}
+          text-gray-200 animate-spin dark:text-gray-600 fill-${color}
           ${size === "" && "h-8 w-8"}
           ${size === "small" && "h-8 w-8"}
           ${size === "medium" && "h-12 w-12"}

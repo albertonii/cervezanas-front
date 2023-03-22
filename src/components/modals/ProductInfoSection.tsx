@@ -227,9 +227,7 @@ export function ProductInfoSection({
                   required: true,
                 })}
               />
-              {errors.name?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
+              {errors.name?.type === "required" && <p>{t("input_required")}</p>}
               {errors.name?.type === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
               )}
@@ -270,7 +268,7 @@ export function ProductInfoSection({
                 })}
               />
               {errors.description?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
               {errors.description?.type === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
@@ -302,7 +300,7 @@ export function ProductInfoSection({
               />
 
               {errors.intensity?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
 
               {errors.intensity?.type === "min" && (
@@ -338,7 +336,7 @@ export function ProductInfoSection({
                 ))}
               </select>
               {errors.fermentation?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
           </div>
@@ -399,7 +397,7 @@ export function ProductInfoSection({
                 ))}
               </select>
               {errors.origin?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
           </div>
@@ -432,7 +430,7 @@ export function ProductInfoSection({
               </select>
 
               {errors.family?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
 
@@ -464,9 +462,7 @@ export function ProductInfoSection({
                   </option>
                 ))}
               </select>
-              {errors.era?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
-              )}
+              {errors.era?.type === "required" && <p>{t("input_required")}</p>}
             </div>
           </div>
 
@@ -523,7 +519,7 @@ export function ProductInfoSection({
                 </option>
               </select>
               {errors.is_gluten?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
           </div>
@@ -549,7 +545,7 @@ export function ProductInfoSection({
                 ))}
               </select>
               {errors.format?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
 
@@ -561,7 +557,7 @@ export function ProductInfoSection({
               {renderSwitch()}
 
               {errors.volume?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
             </div>
           </div>
@@ -584,7 +580,7 @@ export function ProductInfoSection({
               />
 
               {errors.price?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+                <p>{t("input_required")}</p>
               )}
 
               {errors.price?.type === "min" && (
@@ -623,7 +619,7 @@ export function ProductInfoSection({
                   />
 
                   {errors.stock_quantity?.type === "required" && (
-                    <p>{t("product_modal_required")}</p>
+                    <p>{t("input_required")}</p>
                   )}
                   {errors.stock_quantity?.type === "min" && (
                     <p>{t("product_modal_min_0")}</p>
@@ -652,7 +648,7 @@ export function ProductInfoSection({
                   />
 
                   {errors.stock_limit_notification?.type === "required" && (
-                    <p>{t("product_modal_required")}</p>
+                    <p>{t("input_required")}</p>
                   )}
                   {errors.stock_limit_notification?.type === "min" && (
                     <p>{t("product_modal_min_0")}</p>
@@ -701,7 +697,7 @@ export function ProductInfoSection({
                         </select>
 
                         {`errors.packs.${index}.pack.type` === "required" && (
-                          <p>{t("product_modal_required")}</p>
+                          <p>{t("input_required")}</p>
                         )}
                       </div>
 
@@ -728,7 +724,7 @@ export function ProductInfoSection({
                         />
 
                         {`errors.packs.${index}.price.type` === "required" && (
-                          <p>{t("product_modal_required")}</p>
+                          <p>{t("input_required")}</p>
                         )}
                         {`errors.packs.${index}.price.type` === "min" && (
                           <p>{t("product_modal_min_0")}</p>
@@ -760,7 +756,7 @@ export function ProductInfoSection({
                         />
 
                         {`packs.${index}.name.type` === "required" && (
-                          <p>{t("product_modal_required")}</p>
+                          <p>{t("input_required")}</p>
                         )}
                       </div>
                     </div>

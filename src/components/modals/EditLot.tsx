@@ -158,7 +158,7 @@ export function EditLot({
                   })}
                 />
                 {errors.lot_name?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
 
@@ -177,7 +177,7 @@ export function EditLot({
                   })}
                 />
                 {errors.lot_number?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
             </div>
@@ -199,7 +199,7 @@ export function EditLot({
                   min="0"
                 />
                 {errors.quantity?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
 
@@ -222,7 +222,7 @@ export function EditLot({
                   min="0"
                 />
                 {errors.limit_notification?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
             </div>
@@ -247,7 +247,7 @@ export function EditLot({
                   })}
                 />
                 {errors.manufacture_date?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
 
@@ -269,7 +269,7 @@ export function EditLot({
                   })}
                 />
                 {errors.expiration_date?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
             </div>
@@ -290,7 +290,7 @@ export function EditLot({
                   })}
                 />
                 {errors.packaging?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
             </div>
@@ -312,7 +312,7 @@ export function EditLot({
                   })}
                 />
                 {errors.receipt?.type === "required" && (
-                  <p>{t("product_modal_required")}</p>
+                  <p>{t("input_required")}</p>
                 )}
               </div>
             </div>
