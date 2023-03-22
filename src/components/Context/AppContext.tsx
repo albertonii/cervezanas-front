@@ -1,6 +1,8 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
+import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { supabase } from "../../utils/supabaseClient";
 
 interface IProfile {
   bgImg?: string;
@@ -25,8 +27,25 @@ interface Props {
 }
 
 export function AppContextProvider(props: Props) {
-  const [bgImg, setBgImg] = useState(`/icons/bg-240.png`);
-  const [profileImg, setProfileImg] = useState(`/icons/profile-240.png`);
+  const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
+  const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
+  const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
+  const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+
+  const decodeUriProfileImg = decodeURIComponent(
+    `${fullProfilePhotoUrl}${supabase.auth.user()?.id}/img`
+  );
+
+  const decodeUriCustomImg = decodeURIComponent(
+    `${fullCustomUrl}${supabase.auth.user()?.id}/img`
+  );
+
+  const [bgImg, setBgImg] = useState(
+    decodeUriCustomImg ?? `/icons/profile-240.png`
+  );
+  const [profileImg, setProfileImg] = useState(
+    decodeUriProfileImg ?? `/icons/profile-240.png`
+  );
   const [sidebar, setSidebar] = useLocalStorage<string>(
     "sidebar-option",
     "profile"

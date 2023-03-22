@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
@@ -18,6 +18,9 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export function ClientContainerLayout({ children }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
+
+  const [bgImg_, setBgImg_] = useState(bgImg);
+  const [profileImg_, setProfileImg_] = useState(bgImg);
 
   const { user } = useAuth();
 
@@ -46,7 +49,7 @@ export function ClientContainerLayout({ children }: Props) {
         return;
       }
 
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("avatars")
         .upload(encodeUriProfileImg, file, {
           cacheControl: "3600",
@@ -80,9 +83,17 @@ export function ClientContainerLayout({ children }: Props) {
     // console.log(fileObj.name);
   };
 
+  useEffect(() => {
+    setBgImg_(bgImg);
+  }, [bgImg]);
+
+  useEffect(() => {
+    setProfileImg_(profileImg);
+  }, [profileImg]);
+
   return (
     <>
-      {bgImg && profileImg ? (
+      {bgImg_ && profileImg_ ? (
         <div className="container ">
           {/* Background Image */}
           <div className=" bg-bear-alvine " aria-label="Custom Header">
@@ -90,7 +101,7 @@ export function ClientContainerLayout({ children }: Props) {
               className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
               width={1260}
               height={240}
-              src={bgImg}
+              src={bgImg_}
               alt={"background custom image"}
             />
 
@@ -101,11 +112,12 @@ export function ClientContainerLayout({ children }: Props) {
                   <div className="relative" onClick={() => handleClick()}>
                     <Image
                       className="w-36 h-36 rounded-full absolute"
-                      src={profileImg}
+                      src={profileImg_}
                       alt=""
                       width={240}
                       height={240}
                     />
+
                     <div className="w-36 h-36 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
                       <FontAwesomeIcon
                         icon={faUpload}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
@@ -8,6 +7,8 @@ import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
 import { Profile } from "../../../lib/types";
+import { FilePreviewAndHide } from "../../common/FilePreviewAndHide";
+import { isValidObject } from "../../../utils/utils";
 
 type FormValues = {
   bg_url: any;
@@ -32,11 +33,7 @@ export function CustomizeProfileForm({ profile }: Props) {
   const mockPng = new File([""], "", { type: "image/png" });
   const mockFileList = [mockPng];
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({
+  const form = useForm({
     defaultValues: {
       bg_url: mockFileList,
       avatar_url: mockFileList,
@@ -44,38 +41,49 @@ export function CustomizeProfileForm({ profile }: Props) {
     },
   });
 
+  const { handleSubmit } = form;
+
   const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
   const onSubmit = async (formValues: FormValues) => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const { bg_url, profile_photo_url } = formValues;
+    const { bg_url, profile_photo_url } = formValues;
 
-      const { error: profileError } = await supabase
+    if (isValidObject(bg_url)) {
+      /*
+      const { error } = await supabase
         .from("users")
         .update({
-          bg_url: bg_url[0].name,
-          profile_photo_url: profile_photo_url[0].name,
+          bg_url: bg_url.name,
         })
         .eq("id", profile?.id);
 
-      if (profileError) {
-        setLoading(false);
-        throw profileError;
+      if (error) {
+        throw error;
       }
+      */
 
-      if (bg_url[0].size > 0) {
+      if (bg_url.size > 0) {
         const encodeUriCustomImg = encodeURIComponent(
           `${customUrl}${profile?.id}/img`
         );
 
+        const { error: errorDelete } = await supabase.storage
+          .from("avatars")
+          .remove([encodeUriCustomImg]);
+
+        if (errorDelete) {
+          setLoading(false);
+          throw errorDelete;
+        }
+
         const { error: storageError } = await supabase.storage
           .from("avatars")
-          .upload(encodeUriCustomImg, bg_url[0], {
+          .upload(encodeUriCustomImg, bg_url, {
             upsert: true,
             cacheControl: "0",
           });
@@ -87,15 +95,26 @@ export function CustomizeProfileForm({ profile }: Props) {
 
         setUserBgImg(`${fullCustomUrl}${profile?.id}/img`);
       }
+    }
 
-      if (profile_photo_url[0].size > 0) {
+    if (isValidObject(profile_photo_url)) {
+      if (profile_photo_url.size > 0) {
         const encodeUriProfileImg = encodeURIComponent(
           `${profilePhotoUrl}${profile?.id}/img`
         );
 
+        const { error: errorDelete } = await supabase.storage
+          .from("avatars")
+          .remove([encodeUriProfileImg]);
+
+        if (errorDelete) {
+          setLoading(false);
+          throw errorDelete;
+        }
+
         const { error: storageError } = await supabase.storage
           .from("avatars")
-          .upload(encodeUriProfileImg, profile_photo_url[0], {
+          .upload(encodeUriProfileImg, profile_photo_url, {
             upsert: true,
             cacheControl: "0",
           });
@@ -108,14 +127,9 @@ export function CustomizeProfileForm({ profile }: Props) {
 
         setUserProfileImg(`${fullProfilePhotoUrl}${profile?.id}/img`);
       }
-
-      setLoading(false);
-    } catch (error) {
-      alert("Error updating the data!");
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -132,52 +146,39 @@ export function CustomizeProfileForm({ profile }: Props) {
         {t("profile_custom")}
       </div>
 
-      {!loading ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-row items-end space-x-3">
-            <div className="w-full">
-              <label htmlFor="bg_img" className="text-sm text-gray-600">
-                {t("profile_custom_bg_img")}
-              </label>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+        <div className="flex flex-row items-end space-x-3">
+          <div className="w-full">
+            <label htmlFor="bg_img" className="text-sm text-gray-600">
+              {t("profile_custom_bg_img")}
+            </label>
 
-              <input
-                type="file"
-                {...register("bg_url", {
-                  required: false,
-                })}
-                accept="image/png, image/jpeg"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              />
-            </div>
-
-            <div className="w-full ">
-              <label
-                htmlFor="profile_photo_img"
-                className="text-sm text-gray-600"
-              >
-                {t("profile_custom_profile_photo_img")}
-              </label>
-
-              <input
-                type="file"
-                {...register("profile_photo_url", {
-                  required: false,
-                })}
-                accept="image/png, image/jpeg"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              />
-            </div>
-
-            <div className="pl-12 ">
-              <Button primary medium class={""}>
-                {t("save")}
-              </Button>
-            </div>
+            <FilePreviewAndHide form={form} registerName={"bg_url"} />
           </div>
-        </form>
-      ) : (
-        <Spinner color="beer-blonde" size={"medium"} />
-      )}
+
+          <div className="w-full ">
+            <label
+              htmlFor="profile_photo_img"
+              className="text-sm text-gray-600"
+            >
+              {t("profile_custom_profile_photo_img")}
+            </label>
+
+            <FilePreviewAndHide
+              form={form}
+              registerName={"profile_photo_url"}
+            />
+          </div>
+        </div>
+
+        {loading && (
+          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+        )}
+
+        <Button primary medium btnType={"submit"} disabled={loading}>
+          {t("save")}
+        </Button>
+      </form>
     </section>
   );
 }
