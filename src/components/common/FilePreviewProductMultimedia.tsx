@@ -118,7 +118,7 @@ export const FilePreviewProductMultimedia = ({
           <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
             <div className="relative h-full w-full bg-gray-200  z-1 flex justify-center items-center">
               <div className="flex flex-row items-center gap-2">
-                <div className="h-32 w-32 ">
+                <div className="h-32">
                   <Image
                     width={128}
                     height={128}

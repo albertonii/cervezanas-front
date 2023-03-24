@@ -6,9 +6,6 @@ import { Layout } from "../components";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
-const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
-
 interface Props {
   products: Product[];
   reviews: { overall: number }[];

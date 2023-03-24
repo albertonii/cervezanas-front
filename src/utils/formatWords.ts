@@ -5,3 +5,7 @@ export function capitalizeFirstLetter(string: string) {
 export function toLowerCase(string: string) {
   return string.toLowerCase();
 }
+
+export function getFileExtensionByName(fileName: string) {
+  return fileName.split(".").pop();
+}

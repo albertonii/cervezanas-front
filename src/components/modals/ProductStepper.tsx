@@ -267,18 +267,19 @@ export function ProductStepper(props: Props) {
           </button>
 
           <div className="flex-auto flex flex-row-reverse">
-            <button
-              disabled={activeStep === 4}
-              onClick={() => handleStepper(activeStep + 1)}
-              className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+            {activeStep < 3 && (
+              <button
+                onClick={() => handleStepper(activeStep + 1)}
+                className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
         hover:bg-beer-softBlondeBubble  
         bg-beer-blonde 
         text-beer-draft 
         border duration-200 ease-in-out 
         border-beer-draft transition"
-            >
-              {activeStep === 3 ? t("save") : t("next")}
-            </button>
+              >
+                {t("next")}
+              </button>
+            )}
 
             {activeStep !== 3 && (
               <button
