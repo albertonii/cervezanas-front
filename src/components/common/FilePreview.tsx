@@ -18,7 +18,7 @@ const FilePreview = ({ file }: Props) => {
             width={64}
             height={64}
             className="w-full h-full rounded"
-            src={URL.createObjectURL(file[0])}
+            src={URL.createObjectURL(file)}
             alt={""}
           />
         </div>

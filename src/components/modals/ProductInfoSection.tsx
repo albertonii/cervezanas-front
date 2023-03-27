@@ -15,6 +15,7 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
+  BeerEnum,
 } from "../../lib/beerEnum";
 import {
   CustomizeSettings,
@@ -51,6 +52,9 @@ export function ProductInfoSection({
   const [isMerchandising, setIsMerchandising] = useState(false);
   const [colorOptions, setColorOptions] = useState(color_options);
   const [famStyleOptions, setFamStyleOptions] = useState(family_options);
+  const [formatOptions, setFormatOptions] = useState<string>(
+    format_options[0].label
+  );
 
   const { fields, append, remove } = useFieldArray({
     name: "packs",
@@ -75,57 +79,8 @@ export function ProductInfoSection({
     setFamStyleOptions(newSet);
   }, [customizeSettings.family_styles]);
 
-  const [containerFormat, setContainerFormat] = useState(
-    format_options[0].label
-  );
-
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setContainerFormat(event.target.value);
-  };
-
-  const renderSwitch = () => {
-    switch (containerFormat) {
-      case "can":
-        return (
-          <select
-            {...register(`volume`)}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          >
-            {volume_can_type_options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.value} (ML)
-              </option>
-            ))}
-          </select>
-        );
-      case "bottle":
-        return (
-          <select
-            {...register(`volume`)}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          >
-            {volume_bottle_type_options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.value} (ML)
-              </option>
-            ))}
-          </select>
-        );
-      case "draft":
-        return (
-          <select
-            {...register(`volume`)}
-            defaultValue={volume_draft_type_options[0].value}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          >
-            {volume_draft_type_options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.value} (L)
-              </option>
-            ))}
-          </select>
-        );
-    }
+    setFormatOptions(event.target.value);
   };
 
   // Function that switch between merchandising and beer when select option is clicked
@@ -531,9 +486,9 @@ export function ProductInfoSection({
               <select
                 id="format"
                 {...register("format")}
-                defaultValue={"can"}
                 onChange={handleChange}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                value={formatOptions}
               >
                 {format_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -541,6 +496,7 @@ export function ProductInfoSection({
                   </option>
                 ))}
               </select>
+
               {errors.format?.type === "required" && (
                 <p>{t("input_required")}</p>
               )}
@@ -551,7 +507,37 @@ export function ProductInfoSection({
                 {t("volume_label")}
               </label>
 
-              {renderSwitch()}
+              <select
+                {...register(`volume`)}
+                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                value={"330"}
+              >
+                {formatOptions === "can" ? (
+                  <>
+                    {volume_can_type_options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.value} (ML)
+                      </option>
+                    ))}
+                  </>
+                ) : formatOptions === "bottle" ? (
+                  <>
+                    {volume_bottle_type_options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.value} (ML)
+                      </option>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {volume_draft_type_options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.value} (L)
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
 
               {errors.volume?.type === "required" && (
                 <p>{t("input_required")}</p>

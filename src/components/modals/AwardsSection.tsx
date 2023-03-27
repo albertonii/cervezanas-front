@@ -4,13 +4,14 @@ import { useTranslation } from "react-i18next";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Award, ModalAddProductProps } from "../../lib/types";
 import { Button, DeleteButton } from "../common";
+import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
 
 const emptyAward: Award = {
   id: "",
   name: "",
   description: "",
   img_url: "",
-  year: 0,
+  year: 2023,
   beer_id: "",
 };
 
@@ -23,13 +24,13 @@ interface FileProps {
   file: File;
 }
 
-export const AwardsSection = ({
-  form: {
+export const AwardsSection = ({ form }: Props) => {
+  const {
     control,
     register,
     formState: { errors },
-  },
-}: Props) => {
+  } = form;
+
   const { t } = useTranslation();
 
   const { fields, append, remove } = useFieldArray({
@@ -77,7 +78,7 @@ export const AwardsSection = ({
   return (
     <section id="Award">
       {fields.map((field, index) => (
-        <div key={field.id}>
+        <div key={field.id} className="relative pt-6 flex-auto space-y-4">
           <div className="flex flex-row items-end">
             <div className="w-full space-y">
               <label htmlFor="award_name" className="text-sm text-gray-600">
@@ -159,32 +160,14 @@ export const AwardsSection = ({
               {t("upload_img_url")}
             </label>
 
-            <input
-              type="file"
-              {...register(`awards.${index}.img_url`, {
-                required: true,
-              })}
-              onChange={(e) => showPreview(e, index)}
-              accept="image/png, image/jpeg"
-              id="award_img_url"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+            <FilePreviewAndHide
+              form={form}
+              registerName={`awards.${index}.img_url`}
             />
+
             {`errors.awards.${index}.img_url.type` === "required" && (
               <p>{t("input_required")}</p>
             )}
-
-            {/* <div
-              aria-label="Preview Uploaded Image"
-              className={`${isPrevVisible ? "block" : "hidden"}`}
-            >
-              <Image
-                id={`prev-img-${index}`}
-                width="128"
-                height="128"
-                alt="Preview uploaded image"
-                src={"/award.png"}
-              />
-            </div> */}
           </div>
 
           <Divider className="my-6" />

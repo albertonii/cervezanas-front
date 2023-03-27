@@ -51,26 +51,7 @@ export function AddProduct({
   const form = useForm<ModalAddProductProps>({
     mode: "onSubmit",
     defaultValues: {
-      campaign: "-",
-      name: "Jaira IPA",
-      description: "-",
-      color: 0,
-      intensity: 0,
-      aroma: 0,
-      family: 0,
-      fermentation: 0,
-      origin: 0,
-      era: 0,
-      is_gluten: false,
-      type: product_type_options[0].value,
-      awards: [{ name: "", description: "", year: 2023, img_url: "" }],
-      is_public: false,
-      volume: "",
-      price: 0,
-      pack: "",
-      format: "",
-      stock_quantity: 0,
-      stock_limit_notification: 0,
+      awards: [],
     },
   });
 
@@ -141,8 +122,6 @@ export function AddProduct({
             )}`
           )
         : null;
-
-      console.log(p_principal_url);
 
       const p_back_url = !_.isEmpty(p_back?.name)
         ? encodeURIComponent(
@@ -283,6 +262,7 @@ export function AddProduct({
       setActiveStep(0);
 
       if (product_type_options[0].label === ProductEnum.Type.BEER) {
+        console.log(formValues);
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .insert({

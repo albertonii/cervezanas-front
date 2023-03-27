@@ -13,7 +13,7 @@ export function Orders(props: Props) {
 
   return (
     <>
-      <div className="py-6 px-4 pt-12" aria-label="Products">
+      <div className="py-6 px-4" aria-label="Products">
         <div className="flex flex-col">
           <div className="text-4xl pr-12">{t("orders")}</div>
         </div>{" "}

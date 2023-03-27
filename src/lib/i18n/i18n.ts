@@ -773,7 +773,7 @@ const translationsEs = {
   make_review_product_button: "Escribir una opinión",
   review_product: "Opinar sobre el producto",
   write_review_condition:
-    "Podrá escribir una crítica del producto cuando el estado del pedido esté confirmado.",
+    "Podrá escribir una crítica cuando el estado del pedido esté confirmado.",
   product_already_reviewed_condition: "Ya has opinado sobre este producto",
   order_status: "Estado del pedido",
   welcome: "Bienvenido",

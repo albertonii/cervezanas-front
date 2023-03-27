@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const FilePreviewAndHide = ({
-  form: { register, setValue },
+  form: { setValue },
   registerName,
 }: Props) => {
   const { t } = useTranslation();

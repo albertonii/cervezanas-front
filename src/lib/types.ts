@@ -484,7 +484,6 @@ export type ModalAddProductProps = {
   origin: number;
   era: number;
   intensity: number;
-  awards: Award[];
   p_principal: File;
   p_back: File;
   p_extra_1: File;
@@ -498,6 +497,7 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
+  awards: Award[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
   merchandisings: Merchandising[];
   is_gluten: boolean;
