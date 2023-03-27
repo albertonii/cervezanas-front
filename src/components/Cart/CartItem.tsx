@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
 import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { isValidObject } from "../../utils/utils";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
@@ -34,13 +35,11 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
 
       if (item == null) return null;
 
-      if (item.product_multimedia[0] != null || undefined) {
-        setItemMultimedia(
-          `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}${item.owner_id}/${item.product_multimedia[0].p_principal}`
-        );
-      } else {
-        setItemMultimedia("/marketplace_product_default.png");
-      }
+      setItemMultimedia(
+        isValidObject(item.product_multimedia[0])
+          ? `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${item.product_multimedia[0].p_principal}`
+          : "/marketplace_product_default.png"
+      );
     };
 
     if (products != null && products.length > 0) {

@@ -19,9 +19,6 @@ import { SupabaseProps } from "../../constants";
 
 type StoreItemProps = { product: Product; products: Product[] };
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
-const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
-
 export function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
   const { product, products } = props;

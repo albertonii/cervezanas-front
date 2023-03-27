@@ -58,6 +58,8 @@ export default function ProductId({
     product[0]?.likes?.length > 0 ? true : false
   );
 
+  console.log(reviews);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   const reviewRef = useRef<any>();
@@ -650,22 +652,6 @@ export async function getServerSideProps(context: { params: any }) {
   if (productError) throw productError;
 
   if (product == null) return { notFound: true };
-
-  if (product[0]?.reviews.length == 0) {
-    product[0]?.reviews.push({
-      id: "0",
-      created_at: JSON.stringify(new Date()),
-      beer_id: 0,
-      owner_id: 0,
-      aroma: 0,
-      appearance: 0,
-      taste: 0,
-      mouthfeel: 0,
-      bitterness: 0,
-      overall: 0,
-      comment: "",
-    });
-  }
 
   let { data: products, error: productsError } = await supabase
     .from("products")

@@ -44,6 +44,7 @@ export const SupabaseProps = {
   P_EXTRA_2_URL: "p_extra_2/",
   P_EXTRA_3_URL: "p_extra_3/",
   P_EXTRA_4_URL: "p_extra_4/",
+  ARTICLES: "articles/",
   BASE_AVATARS_URL:
     "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/avatars/",
   BASE_PRODUCTS_URL:

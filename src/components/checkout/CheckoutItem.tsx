@@ -9,6 +9,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
 import { ProductEnum } from "../../lib/productEnum";
+import { isValidObject } from "../../utils/utils";
 
 interface Props {
   product: Product;
@@ -34,16 +35,13 @@ export function CheckoutItem({
 
   useEffect(() => {
     const getPrincipal = async () => {
-      const hasPrincipal = product.product_multimedia[0].p_principal
-        ? true
-        : false;
-
       if (
-        hasPrincipal &&
+        isValidObject(product.product_multimedia[0]) &&
         product.product_multimedia[0].p_principal !==
           "/marketplace_product_default.png"
       ) {
-        const pPrincipalUrl = `${SupabaseProps.P_PRINCIPAL_URL}${product.owner_id}/${product.product_multimedia[0].p_principal}`;
+        const pPrincipalUrl = `${SupabaseProps.ARTICLES}${product.product_multimedia[0].p_principal}`;
+
         const { data: p_principal, error } = supabase.storage
           .from("products")
           .getPublicUrl(pPrincipalUrl);

@@ -7,9 +7,11 @@ import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
+import { SupabaseProps } from "../../../constants";
 import { Order, ShippingInfo, BillingInfo, Product } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
+import { isValidObject } from "../../../utils/utils";
 
 interface Props {
   order: Order;
@@ -107,24 +109,24 @@ export default function Success({ order: order_, products: products_ }: Props) {
                   >
                     <div className="relative py-6 px-4 sm:px-6 grid grid-cols-12 gap-x-8 p-8 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
                       {/* Product Multimedia  */}
-                      <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 ">
+                      <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 mt-6 md:mt-6">
                         <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
-                          {product.product_multimedia[0].p_principal === null ||
-                          product.product_multimedia[0].p_principal ===
-                            undefined ? (
+                          {isValidObject(
+                            product.product_multimedia[0].p_principal
+                          ) ? (
                             <Image
                               width={120}
-                              height={100}
+                              height={120}
                               alt={""}
-                              src="/marketplace_product_default.png"
+                              src={`${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`}
                               className="w-full h-full object-center object-cover sm:w-full sm:h-full"
                             />
                           ) : (
                             <Image
                               width={120}
-                              height={100}
+                              height={120}
                               alt={""}
-                              src={`${product.product_multimedia[0].p_principal}`}
+                              src="/marketplace_product_default.png"
                               className="w-full h-full object-center object-cover sm:w-full sm:h-full"
                             />
                           )}
