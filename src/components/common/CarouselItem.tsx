@@ -12,15 +12,13 @@ interface Props {
 export default function CarouselItem({ resource }: Props) {
   return (
     <div className="flex flex-col items-center">
-      <span className="...">
-        <Image
-          src={resource.imageUrl || ""}
-          alt={resource.title}
-          width={200}
-          height={200}
-          className=""
-        />
-      </span>
+      <Image
+        src={resource.imageUrl || ""}
+        alt={resource.title}
+        width={120}
+        height={120}
+        className="rounded hover:opacity-80 transition ease-in duration-200 max-h-[240px]"
+      />
     </div>
   );
 }

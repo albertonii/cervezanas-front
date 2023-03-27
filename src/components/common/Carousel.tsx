@@ -57,6 +57,11 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
       : 0;
   }, []);
 
+  const handleClick = (index: number) => {
+    setCurrentIndex(index);
+    handleSetGalleryIndex(index);
+  };
+
   return (
     <div className="carousel my-12 mx-auto">
       <div className="relative overflow-hidden">
@@ -108,7 +113,7 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
 
         <div
           ref={carousel}
-          className="carousel-container relative flex gap-1 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0"
+          className="carousel-container relative flex gap-1 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0 ml-2"
         >
           {gallery.map((resource, index) => {
             return (
@@ -116,8 +121,7 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
                 key={index}
                 className="carousel-item text-center relative snap-start hover:cursor-pointer"
                 onClick={() => {
-                  setCurrentIndex(index);
-                  handleSetGalleryIndex(index);
+                  handleClick(index);
                 }}
               >
                 <CarouselItem

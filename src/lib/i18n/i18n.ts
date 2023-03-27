@@ -412,7 +412,6 @@ from the beer.`,
        Lagered: fermentation with bottom-fermenting yeast and subsequent cold storage. 
        Barrel-aged: fermentation with bottom-fermenting yeast and subsequent storage in barrels.
        `,
-
   products_customize_settings_description: `Personaliza las características de aquellos productos que publiques.
   Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características.
   Podrás ver esta información actualizada en la sección de crear Producto.`,
@@ -438,6 +437,7 @@ from the beer.`,
   award_img_url: "Image",
   errors: translationsFormErrorsEn,
   password_updated: "Password updated successfully",
+  signed_id_as: "Signed in as",
 };
 
 const translationsEs = {
@@ -884,6 +884,7 @@ desprenden de la cerveza. `,
   award_img_url: "Imagen",
   errors: translationsFormErrorsEs,
   password_updated: "Contraseña actualizada",
+  signed_in_as: "Sesión iniciada como",
 };
 
 // the translations

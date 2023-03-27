@@ -34,7 +34,6 @@ const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
 const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
 const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
-const pExtra4Url = `${productsUrl}${SupabaseProps.P_EXTRA_4_URL}`;
 
 interface Props {
   product: Product[];
@@ -58,8 +57,6 @@ export default function ProductId({
   const [isLike, setIsLike] = useState<boolean>(
     product[0]?.likes?.length > 0 ? true : false
   );
-
-  console.log(productReviews);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -93,77 +90,61 @@ export default function ProductId({
 
   useEffect(() => {
     setGallery([]);
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Principal",
-        imageUrl:
-          m.p_principal !== "undefined" && m.p_back !== null
-            ? productsUrl + decodeURIComponent(m.p_principal)
-            : "/marketplace_product_default.png",
-      },
-    ]);
 
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Back",
-        imageUrl:
-          m.p_back !== "undefined" && m.p_back !== null
-            ? productsUrl + decodeURIComponent(m.p_back)
-            : "/marketplace_product_default.png",
-      },
-    ]);
+    if (m.p_principal !== "undefined" && m.p_principal !== null) {
+      setGallery((oldGallery) => [
+        ...oldGallery,
+        {
+          link: "/",
+          title: "Principal",
+          imageUrl: productsUrl + decodeURIComponent(m.p_principal),
+        },
+      ]);
+    }
 
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Photo Extra 1",
-        imageUrl:
-          m.p_extra_1 !== "undefined" && m.p_back !== null
-            ? productsUrl + decodeURIComponent(m.p_extra_1)
-            : "/marketplace_product_default.png",
-      },
-    ]);
+    if (m.p_back !== "undefined" && m.p_back !== null) {
+      setGallery((oldGallery) => [
+        ...oldGallery,
+        {
+          link: "/",
+          title: "Back",
+          imageUrl: productsUrl + decodeURIComponent(m.p_back),
+        },
+      ]);
+    }
 
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Photo Extra 2",
-        imageUrl:
-          m.p_extra_2 !== "undefined" && m.p_back !== null
-            ? productsUrl + decodeURIComponent(m.p_extra_2)
-            : "/marketplace_product_default.png",
-      },
-    ]);
+    if (m.p_extra_1 !== "undefined" && m.p_extra_1 !== null) {
+      setGallery((oldGallery) => [
+        ...oldGallery,
+        {
+          link: "/",
+          title: "Photo Extra 1",
+          imageUrl: productsUrl + decodeURIComponent(m.p_extra_1),
+        },
+      ]);
+    }
 
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Photo Extra 3",
-        imageUrl:
-          m.p_extra_3 !== "undefined" && m.p_back !== null
-            ? pExtra3Url + `${p.owner_id}/` + m.p_back
-            : "/marketplace_product_default.png",
-      },
-    ]);
+    if (m.p_extra_2 !== "undefined" && m.p_extra_2 !== null) {
+      setGallery((oldGallery) => [
+        ...oldGallery,
+        {
+          link: "/",
+          title: "Photo Extra 2",
+          imageUrl: productsUrl + decodeURIComponent(m.p_extra_2),
+        },
+      ]);
+    }
 
-    setGallery((oldGallery) => [
-      ...oldGallery,
-      {
-        link: "/",
-        title: "Photo Extra 4",
-        imageUrl:
-          m.p_extra_4 !== "undefined" && m.p_back !== null
-            ? productsUrl + decodeURIComponent(m.p_extra_3)
-            : "/marketplace_product_default.png",
-      },
-    ]);
+    if (m.p_extra_3 !== "undefined" && m.p_extra_3 !== null) {
+      setGallery((oldGallery) => [
+        ...oldGallery,
+        {
+          link: "/",
+          title: "Photo Extra 3",
+          imageUrl: pExtra3Url + `${p.owner_id}/` + m.p_back,
+        },
+      ]);
+    }
 
     setGallery((oldGallery) =>
       oldGallery.filter(
@@ -176,7 +157,6 @@ export default function ProductId({
     m.p_extra_1,
     m.p_extra_2,
     m.p_extra_3,
-    m.p_extra_4,
     m.p_principal,
     p.owner_id,
   ]);
@@ -701,21 +681,6 @@ export async function getServerSideProps(context: { params: any }) {
     .eq("is_public", true);
 
   if (productsError) throw productsError;
-  console.log(product[0].reviews);
-  /*
-  if (
-    product[0]?.product_multimedia === undefined ||
-    (product[0]?.reviews === undefined || product[0]?.product_multimedia) ===
-      null ||
-    product[0]?.reviews === null
-  )
-    return {
-      product: [],
-      multimedia: [],
-      reviews: [],
-      marketplaceProducts: [],
-    };
-*/
 
   return {
     props: {

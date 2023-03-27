@@ -37,10 +37,6 @@ export const AwardsSection = ({
     control,
   });
 
-  useEffect(() => {
-    console.log("awards section");
-  }, []);
-
   const [selectedFiles, setSelectedFiles] = useState<FileProps[]>([]);
 
   useEffect(() => {
@@ -68,7 +64,6 @@ export const AwardsSection = ({
   };
 
   const handleRemoveAward = (index: number) => {
-    console.log(index);
     setSelectedFiles((current) =>
       current.filter((selectedFile) => selectedFile.index !== index)
     );

@@ -25,7 +25,6 @@ import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductEnum } from "../../lib/productEnum";
 import { ProductSummary } from "./ProductSummary";
-import { encode } from "iconv-lite";
 import { getFileExtensionByName } from "../../utils";
 
 interface Props {
@@ -111,7 +110,7 @@ export function AddProduct({
         stock_limit_notification,
         packs,
       } = formValues;
-      console.log(formValues);
+
       const userId = user?.id;
 
       // Product
@@ -137,11 +136,13 @@ export function AddProduct({
 
       const p_principal_url = !_.isEmpty(p_principal?.name)
         ? encodeURIComponent(
-            `/articles/${productId}/p_principal/${randomUUID}.${getFileExtensionByName(
+            `${productId}/p_principal/${randomUUID}.${getFileExtensionByName(
               p_principal.name
             )}`
           )
         : null;
+
+      console.log(p_principal_url);
 
       const p_back_url = !_.isEmpty(p_back?.name)
         ? encodeURIComponent(

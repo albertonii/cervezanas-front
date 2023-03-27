@@ -11,7 +11,7 @@ import Router from "next/router";
 import { useMessage } from "../components/message";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../components";
-import { Spinner } from "../components/common";
+import { Button, Spinner } from "../components/common";
 
 interface FormData {
   email: string;
@@ -24,7 +24,11 @@ export default function SignIn() {
 
   const { t } = useTranslation();
 
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
   const { handleMessage } = useMessage();
 
   const [email, setEmail] = useState("");
@@ -55,9 +59,9 @@ export default function SignIn() {
   if (loggedIn) {
     return (
       <>
-        Signed in as {user?.email} <br />
+        {t("signed_in_as")} {user?.email} <br />
         <button type="button" onClick={() => signOut()}>
-          Sign out
+          {t("sign_out")}
         </button>
       </>
     );
@@ -76,7 +80,7 @@ export default function SignIn() {
             <div className="mx-auto w-full max-w-sm lg:w-96">
               <div>
                 <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                  Acceder
+                  {t("sign_in")}
                 </h2>
               </div>
 
@@ -84,64 +88,79 @@ export default function SignIn() {
                 className="mt-4 space-y-4"
                 onSubmit={handleSubmit(handleCredentialsSignIn)}
               >
-                {/* email  */}
-                <div className="flex w-full flex-col space-y-3">
-                  <label
-                    htmlFor="email-address"
-                    className="text-sm text-gray-600"
+                <fieldset>
+                  {/* email  */}
+                  <div className="flex w-full flex-col space-y-3">
+                    <label
+                      htmlFor="email-address"
+                      className="text-sm text-gray-600"
+                    >
+                      {t("email")}
+                      <input
+                        {...register("email", {
+                          required: true,
+                          pattern: /^\S+@\S+$/i,
+                        })}
+                        type="email"
+                        id="email-address"
+                        placeholder="ejemplo@gmail.com"
+                        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+
+                      {errors.email?.type === "required" && (
+                        <p>{t("input_required")}</p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* password  */}
+                  <div className="flex w-full flex-col space-y-2 ">
+                    <label htmlFor="password" className="text-sm text-gray-600">
+                      {t("password")}
+                      <input
+                        {...register("password", {
+                          required: true,
+                          minLength: 6,
+                        })}
+                        type="password"
+                        id="password"
+                        className="relative flex w-full appearance-none justify-center rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                        placeholder="*****"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+
+                      {errors.password?.type === "required" && (
+                        <p>{t("input_required")}</p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* submit  */}
+                  <Button
+                    btnType="submit"
+                    title={""}
+                    class={
+                      "group relative my-4 bg-beer-blonde hover:bg-beer-draft hover:text-beer-blonde hover:font-semibold flex w-full justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 border-none "
+                    }
                   >
-                    {t("email")}
-                  </label>
-                  <input
-                    {...register("email")}
-                    type="email"
-                    id="email-address"
-                    placeholder="ejemplo@gmail.com"
-                    required
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                {/* password  */}
-                <div className="flex w-full flex-col space-y-2 ">
-                  <label htmlFor="password" className="text-sm text-gray-600">
-                    {t("password")}
-                  </label>
-                  <input
-                    {...register("password")}
-                    type="password"
-                    id="password"
-                    required
-                    className="relative flex w-full appearance-none justify-center rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    placeholder="*****"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-
-                {/* submit  */}
-                <button
-                  type="submit"
-                  className="group relative my-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2"
-                >
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FontAwesomeIcon
-                      icon={faLock}
-                      style={{ color: "bear-dark" }}
-                      // onClick={() => setOpen(true)}
-                      // onMouseEnter={() => setHoverColor("filled")}
-                      // onMouseLeave={() => setHoverColor("unfilled")}
-                      title={"Lock"}
-                      className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
-                    />
-                  </span>
-                  {t("access")}
-                </button>
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <FontAwesomeIcon
+                        icon={faLock}
+                        style={{ color: "bear-dark" }}
+                        // onClick={() => setOpen(true)}
+                        // onMouseEnter={() => setHoverColor("filled")}
+                        // onMouseLeave={() => setHoverColor("unfilled")}
+                        title={"Lock"}
+                        className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+                      />
+                    </span>
+                    {t("access")}
+                  </Button>
+                </fieldset>
               </form>
 
-              <p className="my-2 flex w-full justify-center text-sm text-gray-700">
+              <p className="my-2 flex w-full justify-start text-sm text-gray-700">
                 {t("not_registered_question")}
                 <Link className="cursor-pointer font-bold" href={"/signup"}>
                   <span className="mx-1 text-beer-blonde hover:underline">
@@ -151,7 +170,7 @@ export default function SignIn() {
               </p>
 
               <br />
-              <br />
+
               {/* <SignInGoogle /> */}
               <button
                 className="flex flex-row items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 

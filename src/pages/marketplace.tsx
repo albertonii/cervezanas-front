@@ -72,7 +72,7 @@ export async function getServerSideProps() {
     product.product_multimedia[0].p_principal =
       product.product_multimedia[0]?.p_principal == undefined || null
         ? `/marketplace_product_default.png`
-        : `${SupabaseProps.BASE_PRODUCTS_URL}${SupabaseProps.PRODUCT_P_PRINCIPAL}/${product.owner_id}/${product.product_multimedia[0].p_principal}`;
+        : `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`;
 
     productsData![index] = product;
   });
