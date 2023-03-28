@@ -23,7 +23,6 @@ export function ConfigureProducts({
 }: Props) {
   const [customizeSettings, setCustomizeSettings] =
     useState<cSettings>(cSettings);
-
   const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
   const [activeTab, setActiveTab] = useState<string>("products");

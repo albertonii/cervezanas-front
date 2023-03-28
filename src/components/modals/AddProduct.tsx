@@ -312,7 +312,7 @@ export function AddProduct({
 
             // Add Img to Store
             // check if image selected in file input is not empty and is an image
-            if (isValidObject(pack.img_url)) {
+            if (pack.img_url) {
               const file = pack.img_url;
               const productFileUrl = encodeURIComponent(file.name);
 

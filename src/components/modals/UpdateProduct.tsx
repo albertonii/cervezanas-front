@@ -34,13 +34,12 @@ export function UpdateProduct({
 
   const { user } = useAuth();
 
+  console.log(product);
   const [activeStep, setActiveStep] = useState(0);
 
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
   };
-
-  console.log(product);
 
   const form = useForm<ModalUpdateProductProps>({
     mode: "onSubmit",
@@ -125,6 +124,7 @@ export function UpdateProduct({
       if (productError) throw productError;
 
       const productId = product.id;
+      console.log(productId);
 
       // Multimedia
       const p_principal_url =
@@ -283,13 +283,15 @@ export function UpdateProduct({
                   pack.img_url,
                   {
                     cacheControl: "3600",
-                    upsert: false,
+                    upsert: true,
                   }
                 );
 
               if (storagePacksError) throw storagePacksError;
             }
           });
+
+          productData[0].product_pack = packs;
         }
 
         // Awards

@@ -10,6 +10,7 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { Product } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
+import { DeleteButton } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 
@@ -95,6 +96,12 @@ export function ProductList({
 
     setProducts_(updatedProducts);
     handleSetProducts(updatedProducts);
+  };
+
+  const handleClickDelete = (product: Product) => {
+    handleEditShowModal(false);
+    handleDeleteShowModal(true);
+    handleProductModal(product);
   };
 
   useEffect(() => {
@@ -202,11 +209,9 @@ export function ProductList({
                             onClick={() => handleClickEdit(product)}
                           />
 
-                          {/* 
-                            <DeleteButton
-                              onClick={() => handleClickDelete(product)}
-                            />
-                            */}
+                          <DeleteButton
+                            onClick={() => handleClickDelete(product)}
+                          />
 
                           <ArchiveButton
                             onClick={() => handleArchive(product)}

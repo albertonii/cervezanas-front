@@ -47,8 +47,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     control,
   } = form;
 
-  console.log(getValues());
-
   const { t } = useTranslation();
 
   const { fields, append, remove } = useFieldArray({
@@ -702,7 +700,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                       </div>
                     </div>
 
-                    {/* Pack name and Pack Photo Optional  */}
+                    {/* Pack name  */}
                     <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
                       <div className="w-full">
                         <label

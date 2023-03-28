@@ -18,7 +18,6 @@ export const FilePreviewAndHide = ({
   const [file, setFile] = useState<any>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
-
   const [existsPrevImg, setExistsPrevImg] = useState(
     getValues(registerName)?.length > 0 ?? false
   );
@@ -40,6 +39,10 @@ export const FilePreviewAndHide = ({
     setFile(new File([], ""));
     setExistsPrevImg(false);
   };
+
+  if (existsPrevImg) {
+    console.log(SupabaseProps.BASE_PRODUCTS_URL + getValues(registerName));
+  }
 
   return (
     <div className="md:w-4/5 w-[360px] rounded-md">
