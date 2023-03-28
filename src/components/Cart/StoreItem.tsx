@@ -103,7 +103,7 @@ export function StoreItem(props: StoreItemProps) {
 
   return (
     <div className="max-w-sm shadow-lg rounded-xl p-4">
-      <div className="relative mb-1 ">
+      <div className="relative mb-1 flex justify-center">
         <div className="absolute top-0 right-0 p-3">
           <IconButton
             icon={faHeart}
