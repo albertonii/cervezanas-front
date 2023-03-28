@@ -90,5 +90,3 @@ export function Products({
     </>
   );
 }
-
-export async function getServerSideProps() {}

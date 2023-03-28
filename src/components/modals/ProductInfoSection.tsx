@@ -15,7 +15,6 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
-  BeerEnum,
 } from "../../lib/beerEnum";
 import {
   CustomizeSettings,
@@ -23,7 +22,12 @@ import {
   ProductPack,
 } from "../../lib/types";
 import { capitalizeFirstLetter } from "../../utils";
-import { Button, DeleteButton, InfoTooltip } from "../common";
+import {
+  Button,
+  DeleteButton,
+  FilePreviewAndHide,
+  InfoTooltip,
+} from "../common";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
@@ -38,15 +42,15 @@ const emptyPack: ProductPack = {
   name: "",
 };
 
-export function ProductInfoSection({
-  form: {
+export function ProductInfoSection({ form, customizeSettings }: Props) {
+  const { t } = useTranslation();
+
+  const {
     register,
     formState: { errors },
     control,
-  },
-  customizeSettings,
-}: Props) {
-  const { t } = useTranslation();
+    getValues,
+  } = form;
 
   const [isBeer, setIsBeer] = useState(true);
   const [isMerchandising, setIsMerchandising] = useState(false);
@@ -276,7 +280,9 @@ export function ProductInfoSection({
               </label>
 
               <select
-                {...register("fermentation")}
+                {...register("fermentation", {
+                  required: true,
+                })}
                 defaultValue={fermentation_options[0].label}
                 id="fermentation"
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -423,7 +429,6 @@ export function ProductInfoSection({
             <div className="w-full ">
               <label htmlFor="aroma" className="text-sm text-gray-600">
                 {t("aroma")}
-
                 <InfoTooltip
                   content={`${t("aroma_tooltip")}`}
                   delay={0}
@@ -485,10 +490,11 @@ export function ProductInfoSection({
 
               <select
                 id="format"
-                {...register("format")}
+                {...register("format", {
+                  value: formatOptions,
+                })}
                 onChange={handleChange}
                 className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                value={formatOptions}
               >
                 {format_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -641,7 +647,7 @@ export function ProductInfoSection({
 
               <Divider />
 
-              {/* Pack  */}
+              {/* Packs  */}
               <div className="flex flex-col space-y-2">
                 <span className="text-lg ">{t("add_product_pack")}</span>
 
@@ -753,13 +759,9 @@ export function ProductInfoSection({
                           {t("pack_img_url")}
                         </label>
 
-                        <input
-                          id={`packs.${index}.img_url`}
-                          type="file"
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          min="0"
-                          accept="image/png, image/jpeg"
-                          {...register(`packs.${index}.img_url` as const, {})}
+                        <FilePreviewAndHide
+                          form={form}
+                          registerName={`packs.${index}.img_url`}
                         />
                       </div>
 

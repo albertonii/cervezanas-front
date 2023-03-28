@@ -9,6 +9,8 @@ export * from "./DropdownButton";
 export * from "./EditButton";
 export * from "./ArchiveButton";
 export * from "./UnarchiveButton";
+export * from "./FilePreview";
+export * from "./FilePreviewAndHide";
 export * from "./FilePreviewProductMultimedia";
 export * from "./IconButton";
 export * from "./IncreaseButton";

@@ -502,8 +502,6 @@ export type ModalAddProductProps = {
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
-  individual_sell: boolean;
-  only_physically_available: boolean;
   packs: ProductPack[];
 };
 
@@ -511,8 +509,9 @@ export type ProductPack = {
   id: string;
   pack: number;
   price: number;
-  img_url: File | string;
+  img_url: any;
   name: string;
+  randomUUID: string;
 };
 
 export type ModalUpdateProductProps = {
@@ -526,13 +525,12 @@ export type ModalUpdateProductProps = {
   fermentation: string;
   origin: string;
   era: string;
-  intensity: string;
-  awards?: Award[];
-  p_principal: FileImg;
-  p_back: FileImg;
-  p_extra_1: FileImg;
-  p_extra_2: FileImg;
-  p_extra_3: FileImg;
+  intensity: number;
+  p_principal: File;
+  p_back: File;
+  p_extra_1: File;
+  p_extra_2: File;
+  p_extra_3: File;
   volume: any;
   price: number;
   pack: any;
@@ -541,10 +539,12 @@ export type ModalUpdateProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
+  awards?: Award[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
+  packs: ProductPack[];
 };
 
 type BeerModalProps = {
@@ -616,6 +616,7 @@ export interface Product {
   state: ProductEnum.State;
   status: ProductEnum.Status;
   type: ProductEnum.Type;
+  product_pack: ProductPack[];
 }
 
 export interface ProductVariant {

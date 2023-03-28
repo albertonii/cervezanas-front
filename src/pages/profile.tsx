@@ -127,7 +127,8 @@ export async function getServerSideProps({ req }: any) {
           product_inventory (*),
           likes (*),
           product_lot (*),
-          beers (*)
+          beers (*),
+          product_pack (*)
         ),
         orders (*),
         campaigns (*),

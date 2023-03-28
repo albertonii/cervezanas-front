@@ -54,7 +54,6 @@ export function ProductList({
   };
 
   /*
-  const handleClickDelete = (product: Product) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductModal(product);
