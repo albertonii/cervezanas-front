@@ -9,10 +9,11 @@ import {
 } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
-import { Button, SearchCheckboxListCampaign } from "../../common";
+import { Button } from "../../common";
 import { useMessage } from "../../message";
 import { DeleteCampaign } from "../../modals/DeleteCampaign";
 import { CampaignForm } from "./CampaignForm";
+import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
 
 interface Props {
   campaigns: Campaign[];

@@ -28,6 +28,9 @@ import {
 } from "../../components/checkout";
 import { Layout } from "../../components";
 import { useRouter } from "next/router";
+import { encodeBase64, hmacSha256 } from "../../utils/utils";
+import { encrypt3DES } from "../../tpv/config";
+import axios from "axios";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -204,113 +207,201 @@ export default function Checkout(props: Props) {
   };
 
   const handleProceedToPay = async () => {
-    try {
-      const shippingInfoId = selectedShippingAddress;
-      const billingInfoId = selectedBillingAddress;
+    const shippingInfoId = selectedShippingAddress;
+    const billingInfoId = selectedBillingAddress;
 
-      const resultBillingInfoId = await triggerBilling("billing_info_id", {
-        shouldFocus: true,
-      });
-      const resultShippingInfoId = await triggerShipping("shipping_info_id", {
-        shouldFocus: true,
-      });
+    const resultBillingInfoId = await triggerBilling("billing_info_id", {
+      shouldFocus: true,
+    });
+    const resultShippingInfoId = await triggerShipping("shipping_info_id", {
+      shouldFocus: true,
+    });
 
-      if (resultBillingInfoId === false || resultShippingInfoId === false)
-        return;
+    if (resultBillingInfoId === false || resultShippingInfoId === false) return;
 
-      const shippingInfo = shippingAddresses.find(
-        (address) => address.id === shippingInfoId
-      );
+    const shippingInfo = shippingAddresses.find(
+      (address) => address.id === shippingInfoId
+    );
 
-      const billingInfo = billingAddresses.find(
-        (address) => address.id === billingInfoId
-      );
+    const billingInfo = billingAddresses.find(
+      (address) => address.id === billingInfoId
+    );
 
-      if (!shippingInfo || !billingInfo) return;
+    if (!shippingInfo || !billingInfo) return;
 
-      setLoadingPayment(true);
+    setLoadingPayment(true);
 
-      const { data: shippingData, error: shippingInfoError } = await supabase
-        .from("shipping_info")
+    const { data: shippingData, error: shippingInfoError } = await supabase
+      .from("shipping_info")
+      .upsert({
+        owner_id: user?.id,
+        address: shippingInfo.address,
+        address_extra: shippingInfo.address_extra,
+        address_observations: shippingInfo.address_observations,
+        city: shippingInfo.city,
+        state: shippingInfo.state,
+        zipcode: shippingInfo.zipcode,
+        country: shippingInfo.country,
+        name: shippingInfo.name,
+        lastname: shippingInfo.lastname,
+        document_id: shippingInfo.document_id,
+        phone: shippingInfo.phone,
+      })
+      .select("id");
+
+    if (shippingInfoError) throw shippingInfoError;
+
+    const { data: billingData, error: billingInfoError } = await supabase
+      .from("billing_info")
+      .upsert({
+        owner_id: user?.id,
+        address: billingInfo.address,
+        city: billingInfo.city,
+        state: billingInfo.state,
+        zipcode: billingInfo.zipcode,
+        country: billingInfo.country,
+        name: billingInfo.name,
+        lastname: billingInfo.lastname,
+        document_id: billingInfo.document_id,
+        phone: billingInfo.phone,
+      })
+      .select("id");
+
+    if (billingInfoError) throw billingInfoError;
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        owner_id: user?.id,
+        total: total,
+        customer_name: "manolito",
+        status: "started",
+        tracking_id: "123456789",
+        issue_date: new Date().toISOString(),
+        estimated_date: new Date(
+          new Date().getTime() + 1000 * 60 * 60 * 24 * 3
+        ).toISOString(), // 3 days
+        payment_method: "credit_card",
+        order_number: "123456789",
+        shipping_info_id: shippingData[0].id,
+        billing_info_id: billingData[0].id,
+      })
+      .select("id");
+
+    if (orderError) throw orderError;
+
+    items.map(async (item) => {
+      const { error: orderItemError } = await supabase
+        .from("order_item")
         .insert({
-          owner_id: user?.id,
-          address: shippingInfo.address,
-          address_extra: shippingInfo.address_extra,
-          address_observations: shippingInfo.address_observations,
-          city: shippingInfo.city,
-          state: shippingInfo.state,
-          zipcode: shippingInfo.zipcode,
-          country: shippingInfo.country,
-          name: shippingInfo.name,
-          lastname: shippingInfo.lastname,
-          document_id: shippingInfo.document_id,
-          phone: shippingInfo.phone,
-        })
-        .select("id");
+          order_id: order?.[0].id,
+          product_id: item.id,
+          quantity: item.quantity,
+        });
 
-      if (shippingInfoError) throw shippingInfoError;
+      if (orderItemError) throw orderItemError;
+    });
 
-      const { data: billingData, error: billingInfoError } = await supabase
-        .from("billing_info")
-        .insert({
-          owner_id: user?.id,
-          address: billingInfo.address,
-          city: billingInfo.city,
-          state: billingInfo.state,
-          zipcode: billingInfo.zipcode,
-          country: billingInfo.country,
-          name: billingInfo.name,
-          lastname: billingInfo.lastname,
-          document_id: billingInfo.document_id,
-          phone: billingInfo.phone,
-        })
-        .select("id");
+    // Parámetros entrada:
+    // DS_MERCHANT_AMOUNT - importe
+    // DS_MERCHANT_CURRENCY - Divisa
+    // DS_MERCHANT_MERCHANTCODE - Código de comercio
+    // DS_MERCHANT_MERCHANTURL - URL del comercio
+    // DS_MERCHANT_ORDER* - Número de pedido
+    // DS_MERCHANT_TERMINAL - Terminal*
+    // DS_MERCHANT_TRANSACTIONTYPE - Tipo de transacción*
+    // DS_MERCHANT_URLKO - URL de error
+    // DS_MERCHANT_URLOK - URL de éxito
+    // DS_MERCHANT_AUTHORISATIONCODE - Código autorización
+    // DS_MERCHANT_PRODUCTDESCRIPTION - Descripción del producto
+    // DS_MERCHANT_PRODUCTNAME - Nombre del producto
+    // DS_MERCHANT_TITULAR - Titular de la tarjeta
+    // DS_MERCHANT_CVV2 - CVV2
+    // DS_MERCHANT_EXPIRYDATE - Fecha de caducidad
+    // DS_MERCHANT_MERCHANTNAME - Nombre del comercio
+    // DS_MERCHANT_TRANSACTIONDATE - Fecha de la transacción
+    // DS_MERCHANT_CONSUMERLANGUAGE - Idioma
+    // DS_MERCHANT_EMV3DS - Datos de autenticación 3DS - Recomendación añadir: Email, homePhone, shipAddrLine1 y dentro de acctInfo: chAccChange, chAccDate y txnActivityYear
 
-      if (billingInfoError) throw billingInfoError;
+    // Ds_MerchantParameters
+    const merchantParameters = {
+      DS_MERCHANT_AMOUNT: total,
+      DS_MERCHANT_CURRENCY: "978",
+      DS_MERCHANT_MERCHANTCODE: "097839427",
+      DS_MERCHANT_MERCHANTURL: "localhost",
+      DS_MERCHANT_ORDER: order?.[0].id,
+      DS_MERCHANT_TERMINAL: "1",
+      DS_MERCHANT_TRANSACTIONTYPE: "0",
+      DS_MERCHANT_URLKO: "localhost/checkout/error",
+      DS_MERCHANT_URLOK: "localhost/checkout/success",
+      DS_MERCHANT_AUTHORISATIONCODE: "",
+    };
 
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          owner_id: user?.id,
-          total: total,
-          customer_name: "manolito",
-          status: "started",
-          tracking_id: "123456789",
-          issue_date: new Date().toISOString(),
-          estimated_date: new Date(
-            new Date().getTime() + 1000 * 60 * 60 * 24 * 3
-          ).toISOString(), // 3 days
-          payment_method: "credit_card",
-          order_number: "123456789",
-          shipping_info_id: shippingData[0].id,
-          billing_info_id: billingData[0].id,
-        })
-        .select("id");
+    const jsonMerchantParamenters = JSON.stringify(merchantParameters);
 
-      if (orderError) throw orderError;
+    const base64MerchantParameters = encodeBase64(jsonMerchantParamenters);
 
-      items.map(async (item) => {
-        const { error: orderItemError } = await supabase
-          .from("order_item")
-          .insert({
-            order_id: order?.[0].id,
-            product_id: item.id,
-            quantity: item.quantity,
-          });
+    // Ds_SignatureVersion
+    const signatureVersion = "HMAC_SHA256_V1";
 
-        if (orderItemError) throw orderItemError;
+    // Ds_Signature
+
+    // Signature KEY Base64
+    const signatureKeyB64 = encodeBase64(
+      process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET!
+    );
+
+    // 3DES
+    const diversified3DES = encrypt3DES(
+      signatureKeyB64,
+      merchantParameters.DS_MERCHANT_ORDER
+    );
+
+    // HMAC-256
+    const result = hmacSha256(base64MerchantParameters, diversified3DES);
+
+    // Encode final value
+    const signature = encodeBase64(result);
+
+    // URL
+    const url = `/tpv?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`;
+
+    // Call to Redsys API with URL and get response with token and url to redirect to payment gateway (Getnet)
+
+    // Add cors to axios
+    const data = await axios
+      .post(url, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers":
+            "Origin, X-Requested-With, Content-Type, Accept",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .then((error) => {
+        console.log(error);
       });
 
-      router.push({
-        pathname: `/checkout/success/${order?.[0].id}`,
-      });
+    console.log(data);
 
-      setLoadingPayment(false);
-      clearCart();
-    } catch (error) {
-      setLoadingPayment(false);
-      console.error("error", error);
-    }
+    // REDIRECT TO URL
+    // router.push(url);
+
+    // // IF URL ERROR -> PUSH TO ERROR
+    // router.push({
+    //   pathname: `/checkout/error/${order?.[0].id}`,
+    // });
+
+    // // IF URL OK -> PUSH TO SUCCESS
+    // router.push({
+    //   pathname: `/checkout/success/${order?.[0].id}`,
+    // });
+
+    setLoadingPayment(false);
+    clearCart();
   };
 
   const handleOnClickShipping = (addressId: string) => {
@@ -1015,6 +1106,13 @@ export default function Checkout(props: Props) {
   );
 }
 
+function NextCors(
+  req: any,
+  res: any,
+  arg2: { methods: string[]; origin: string; optionsSuccessStatus: number }
+) {
+  throw new Error("Function not implemented.");
+}
 // export async function getServerSideProps({ req }: any) {
 //   const { user } = await supabase.auth.api.getUserByCookie(req);
 

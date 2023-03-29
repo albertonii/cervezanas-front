@@ -19,9 +19,13 @@ module.exports = {
         destination: "/cart/shopping_basket",
         permanent: true,
       },
+      {
+        source: "/tpv",
+        destination: "https://sis-t.redsys.es:25443/sis/realizarPago",
+        permanent: true,
+      },
     ];
   },
-
   i18n: {
     // These are all the locales you want to support in
     // your application
