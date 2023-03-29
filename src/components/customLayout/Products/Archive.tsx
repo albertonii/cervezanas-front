@@ -60,7 +60,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
       {isDeleteShowModal && (
         <DeleteProduct
           products={products!}
-          productId={productModal!.id}
+          product={productModal!}
           isDeleteShowModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleSetProducts={handleSetProducts}

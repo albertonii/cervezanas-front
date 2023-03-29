@@ -48,7 +48,7 @@ export function EditLot({
       product_id: productLot.product_id,
       quantity: productLot.quantity,
       limit_notification: productLot.limit_notification,
-      receipt: productLot.receipt,
+      // receipt: productLot.receipt,
       expiration_date: productLot.expiration_date,
       manufacture_date: productLot.manufacture_date,
       packaging: productLot.packaging,
@@ -296,7 +296,7 @@ export function EditLot({
             </div>
 
             {/* Receipt */}
-            <div className="flex w-full flex-row space-x-3 ">
+            {/* <div className="flex w-full flex-row space-x-3 ">
               <div className="w-full space-y ">
                 <label htmlFor="receipt" className="text-sm text-gray-600">
                   {t("receipt")}
@@ -315,7 +315,7 @@ export function EditLot({
                   <p>{t("input_required")}</p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             {/* Separator  */}
             <div className="inline-flex items-center justify-center w-full">

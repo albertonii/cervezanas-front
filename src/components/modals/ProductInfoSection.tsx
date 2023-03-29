@@ -40,6 +40,7 @@ const emptyPack: ProductPack = {
   price: 0,
   img_url: "",
   name: "",
+  randomUUID: "",
 };
 
 export function ProductInfoSection({ form, customizeSettings }: Props) {
