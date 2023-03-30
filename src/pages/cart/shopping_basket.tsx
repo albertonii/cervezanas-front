@@ -28,7 +28,7 @@ import {
 } from "../../components/checkout";
 import { Layout } from "../../components";
 import { useRouter } from "next/router";
-import { decodeBase64, encodeBase64 } from "../../utils/utils";
+import { decodeBase64, encodeBase64, isValidObject } from "../../utils/utils";
 import { encrypt3DES, hmacSha256 } from "../../tpv/config";
 
 import axios from "axios";
@@ -68,13 +68,11 @@ interface Props {
   billingAddresses: BillingAddress[];
 }
 
-export default function Checkout(props: Props) {
+export default function Checkout({
+  shippingAddresses: shippingAddresses_,
+  billingAddresses: billingAddresses_,
+}: Props) {
   const { t } = useTranslation();
-
-  const {
-    shippingAddresses: shippingAddresses_,
-    billingAddresses: billingAddresses_,
-  } = props;
 
   const { user } = useAuth();
   const { clearCart } = useShoppingCart();
@@ -181,6 +179,7 @@ export default function Checkout(props: Props) {
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
 
+  /*
   useEffect(() => {
     const getAddresses = async () => {
       let { data: userData, error: usersError } = await supabase
@@ -198,8 +197,9 @@ export default function Checkout(props: Props) {
       }
     };
 
-    getAddresses();
+    if (isValidObject(user?.id)) getAddresses();
   }, [user?.id]);
+  */
 
   const handleIncreaseCartQuantity = (productId: string) => {
     increaseCartQuantity(productId);
@@ -318,13 +318,10 @@ export default function Checkout(props: Props) {
     // const successRedirectPath = "/checkout/success";
     // const errorRedirectPath = "/checkout/error";
     // const notificationPath = "/api/notification";
-
     await axios
       .get(`/api/redirection?amount=${total}&order_id=${order?.[0].id}`)
       .then((res) => {
         const { Ds_MerchantParameters, Ds_Signature } = res.data.form.body;
-        console.log(Ds_MerchantParameters);
-        console.log(Ds_Signature);
 
         setMerchantParameters(Ds_MerchantParameters);
         setMerchantSignature(Ds_Signature);
@@ -431,7 +428,7 @@ export default function Checkout(props: Props) {
     <Layout usePadding={true} useBackdrop={false}>
       <div className="flex flex-row items-center justify-center sm:my-2 lg:mx-6 ">
         <form
-          action={`https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=${merchantParameters}&Ds_Signature=${merchantSignature}`}
+          action={`https://sis-t.redsys.es:25443/sis/realizarPago`}
           method="POST"
           name="form"
           ref={formRef}
@@ -601,53 +598,54 @@ export default function Checkout(props: Props) {
                         <ul className="grid w-full gap-6 md:grid-cols-1">
                           {shippingAddresses.map((address) => {
                             return (
-                              <li
-                                key={address.id}
-                                onClick={() =>
-                                  handleOnClickShipping(address.id)
-                                }
-                              >
-                                <input
-                                  type="radio"
-                                  id={`shipping-address-${address.id}`}
-                                  {...registerShipping("shipping_info_id", {
-                                    required: true,
-                                  })}
-                                  value={address.id}
-                                  className="hidden peer"
-                                  required
-                                />
-
-                                <label
-                                  htmlFor={`shipping-address-${address.id}`}
-                                  className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
-                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                              <div key={address.id}>
+                                <li
+                                  onClick={() =>
+                                    handleOnClickShipping(address.id)
+                                  }
                                 >
-                                  <div className="block">
-                                    <div className="w-full text-lg font-semibold">
-                                      {address.name} {address.lastname}
-                                    </div>
-                                    <div className="w-full">
-                                      {address.address}, {address.city},{" "}
-                                      {address.state}, {address.zipcode},{" "}
-                                      {address.country}
-                                    </div>
-                                  </div>
-                                  <svg
-                                    aria-hidden="true"
-                                    className="w-6 h-6 ml-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                  <input
+                                    type="radio"
+                                    id={`shipping-address-${address.id}`}
+                                    {...registerShipping("shipping_info_id", {
+                                      required: true,
+                                    })}
+                                    value={address.id}
+                                    className="hidden peer"
+                                    required
+                                  />
+
+                                  <label
+                                    htmlFor={`shipping-address-${address.id}`}
+                                    className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                                   >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                      clipRule="evenodd"
-                                    ></path>
-                                  </svg>
-                                </label>
-                              </li>
+                                    <div className="block">
+                                      <div className="w-full text-lg font-semibold">
+                                        {address.name} {address.lastname}
+                                      </div>
+                                      <div className="w-full">
+                                        {address.address}, {address.city},{" "}
+                                        {address.state}, {address.zipcode},{" "}
+                                        {address.country}
+                                      </div>
+                                    </div>
+                                    <svg
+                                      aria-hidden="true"
+                                      className="w-6 h-6 ml-3"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                      ></path>
+                                    </svg>
+                                  </label>
+                                </li>
+                              </div>
                             );
                           })}
 
@@ -690,49 +688,52 @@ export default function Checkout(props: Props) {
                         <ul className="grid w-full gap-6 md:grid-cols-1">
                           {billingAddresses.map((address) => {
                             return (
-                              <li
-                                key={address.id}
-                                onClick={() => handleOnClickBilling(address.id)}
-                              >
-                                <input
-                                  type="radio"
-                                  id={`billing-address-${address.id}`}
-                                  {...registerBilling("billing_info_id")}
-                                  value={address.id}
-                                  className="hidden peer"
-                                  required
-                                />
-
-                                <label
-                                  htmlFor={`billing-address-${address.id}`}
-                                  className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
-                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                              <div key={address.id}>
+                                <li
+                                  onClick={() =>
+                                    handleOnClickBilling(address.id)
+                                  }
                                 >
-                                  <div className="block">
-                                    <div className="w-full text-lg font-semibold">
-                                      {address.name} {address.lastname}
-                                    </div>
-                                    <div className="w-full">
-                                      {address.address}, {address.city},{" "}
-                                      {address.state}, {address.zipcode},{" "}
-                                      {address.country}
-                                    </div>
-                                  </div>
-                                  <svg
-                                    aria-hidden="true"
-                                    className="w-6 h-6 ml-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                  <input
+                                    type="radio"
+                                    id={`billing-address-${address.id}`}
+                                    {...registerBilling("billing_info_id")}
+                                    value={address.id}
+                                    className="hidden peer"
+                                    required
+                                  />
+
+                                  <label
+                                    htmlFor={`billing-address-${address.id}`}
+                                    className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer
+                                         dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-product-blonde peer-checked:bg-bear-alvine peer-checked:border-4 peer-checked:border-product-softBlonde peer-checked:text-product-dark hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                                   >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                      clipRule="evenodd"
-                                    ></path>
-                                  </svg>
-                                </label>
-                              </li>
+                                    <div className="block">
+                                      <div className="w-full text-lg font-semibold">
+                                        {address.name} {address.lastname}
+                                      </div>
+                                      <div className="w-full">
+                                        {address.address}, {address.city},{" "}
+                                        {address.state}, {address.zipcode},{" "}
+                                        {address.country}
+                                      </div>
+                                    </div>
+                                    <svg
+                                      aria-hidden="true"
+                                      className="w-6 h-6 ml-3"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                      ></path>
+                                    </svg>
+                                  </label>
+                                </li>
+                              </div>
                             );
                           })}
 
@@ -900,26 +901,26 @@ export default function Checkout(props: Props) {
 
                               <div className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                                 {shippingAddresses.map((address) => {
-                                  if (address.id !== selectedShippingAddress)
-                                    return <></>;
-                                  return (
-                                    <label
-                                      key={address.id}
-                                      className=" w-full text-product-dark 
+                                  if (address.id === selectedShippingAddress)
+                                    return (
+                                      <div key={address.id}>
+                                        <label
+                                          className=" w-full text-product-dark 
                                            dark:text-gray-400 dark:bg-gray-800"
-                                    >
-                                      <div className="block">
-                                        <div className="w-full text-lg font-semibold">
-                                          {address.name} {address.lastname}
-                                        </div>
-                                        <div className="w-full text-md">
-                                          {address.address}, {address.city},{" "}
-                                          {address.state}, {address.zipcode},{" "}
-                                          {address.country}
-                                        </div>
+                                        >
+                                          <div className="block">
+                                            <div className="w-full text-lg font-semibold">
+                                              {address.name} {address.lastname}
+                                            </div>
+                                            <div className="w-full text-md">
+                                              {address.address}, {address.city},{" "}
+                                              {address.state}, {address.zipcode}
+                                              , {address.country}
+                                            </div>
+                                          </div>
+                                        </label>
                                       </div>
-                                    </label>
-                                  );
+                                    );
                                 })}
                               </div>
                             </div>
@@ -931,25 +932,24 @@ export default function Checkout(props: Props) {
 
                               <div className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                                 {billingAddresses.map((address) => {
-                                  if (address.id !== selectedBillingAddress)
-                                    return <></>;
-                                  return (
-                                    <label
-                                      key={address.id}
-                                      className=" w-full text-product-dark dark:text-gray-400 dark:bg-gray-800"
-                                    >
-                                      <div className="block">
-                                        <div className="w-full text-lg font-semibold">
-                                          {address.name} {address.lastname}
-                                        </div>
-                                        <div className="w-full text-md">
-                                          {address.address}, {address.city},{" "}
-                                          {address.state}, {address.zipcode},{" "}
-                                          {address.country}
-                                        </div>
+                                  if (address.id === selectedBillingAddress)
+                                    return (
+                                      <div key={address.id}>
+                                        <label className=" w-full text-product-dark dark:text-gray-400 dark:bg-gray-800">
+                                          <div className="block">
+                                            <div className="w-full text-lg font-semibold">
+                                              {address.name} {address.lastname}
+                                            </div>
+
+                                            <div className="w-full text-md">
+                                              {address.address}, {address.city},{" "}
+                                              {address.state}, {address.zipcode}
+                                              , {address.country}
+                                            </div>
+                                          </div>
+                                        </label>
                                       </div>
-                                    </label>
-                                  );
+                                    );
                                 })}
                               </div>
                             </div>
@@ -979,6 +979,7 @@ export default function Checkout(props: Props) {
   );
 }
 
+/*
 function NextCors(
   req: any,
   res: any,
@@ -986,20 +987,21 @@ function NextCors(
 ) {
   throw new Error("Function not implemented.");
 }
-// export async function getServerSideProps({ req }: any) {
-//   const { user } = await supabase.auth.api.getUserByCookie(req);
+*/
+export async function getServerSideProps({ req }: any) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
 
-//   let { data: userData, error: usersError } = await supabase
-//     .from("users")
-//     .select(`*, shipping_info(*), billing_info(*)`)
-//     .eq("id", user?.id);
-//   if (usersError) throw usersError;
-//   if (!userData) return { props: {} };
+  let { data: userData, error: usersError } = await supabase
+    .from("users")
+    .select(`*, shipping_info(*), billing_info(*)`)
+    .eq("id", user?.id);
+  if (usersError) throw usersError;
+  if (!userData) return { props: {} };
 
-//   return {
-//     props: {
-//       shippingAddresses: userData[0]?.shipping_info ?? [],
-//       billingAddresses: userData[0]?.billing_info ?? [],
-//     },
-//   };
-// }
+  return {
+    props: {
+      shippingAddresses: userData[0]?.shipping_info ?? [],
+      billingAddresses: userData[0]?.billing_info ?? [],
+    },
+  };
+}

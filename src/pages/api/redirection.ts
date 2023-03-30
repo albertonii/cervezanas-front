@@ -41,7 +41,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const amount = req.query["amount"] as string;
-    const orderId = req.query["order_id"] as string;
+    // const orderId = req.query["order_id"] as string;
 
     // Use productIds to calculate amount and currency
     const { totalAmount, currency } = {
@@ -50,7 +50,7 @@ export default async function handler(
       currency: "EUR",
     } as const;
 
-    // const orderId = randomTransactionId();
+    const orderId = randomTransactionId();
 
     const currencyInfo = CURRENCIES[currency];
 
@@ -72,7 +72,7 @@ export default async function handler(
       // amount in smallest currency unit(cents)
       DS_MERCHANT_AMOUNT: redsysAmount,
       DS_MERCHANT_CURRENCY: redsysCurrency,
-      DS_MERCHANT_MERCHANTNAME: "MI COMERCIO",
+      DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
       DS_MERCHANT_MERCHANTURL: `${endpoint}${notificationPath}`,
       DS_MERCHANT_URLOK: `${endpoint}${successRedirectPath}`,
       DS_MERCHANT_URLKO: `${endpoint}${errorRedirectPath}`,
