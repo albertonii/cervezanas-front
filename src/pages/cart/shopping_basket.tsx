@@ -14,11 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
-import {
-  BillingAddress,
-  PaymentCard,
-  ShippingAddress,
-} from "../../lib/interfaces";
+import { BillingAddress, ShippingAddress } from "../../lib/interfaces";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Button, CustomLoading } from "../../components/common";
 import {
@@ -27,22 +23,17 @@ import {
   NewShippingAddress,
 } from "../../components/checkout";
 import { Layout } from "../../components";
-import { useRouter } from "next/router";
-import { decodeBase64, encodeBase64, isValidObject } from "../../utils/utils";
-import { encrypt3DES, hmacSha256 } from "../../tpv/config";
 
-import axios from "axios";
 import {
   createRedsysAPI,
-  SANDBOX_URLS,
-  ResponseJSONSuccess,
-  Currency,
   TRANSACTION_TYPES,
   randomTransactionId,
+  SANDBOX_URLS,
   isResponseCodeOk,
   CURRENCIES,
-  RedirectInputParams,
+  Currency,
 } from "redsys-easy";
+import Decimal from "decimal.js";
 
 interface OrderPaymentStatus {
   orderId: string;
@@ -59,10 +50,6 @@ interface FormBillingData {
   billing_info_id: string;
 }
 
-interface FormCardData {
-  card_info: PaymentCard;
-}
-
 interface Props {
   shippingAddresses: ShippingAddress[];
   billingAddresses: BillingAddress[];
@@ -76,8 +63,6 @@ export default function Checkout({
 
   const { user } = useAuth();
   const { clearCart } = useShoppingCart();
-
-  const router = useRouter();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -111,30 +96,15 @@ export default function Checkout({
 
   const {
     formState: { errors: shippingErrors },
-    handleSubmit: handleShippingSubmit,
     register: registerShipping,
-    reset: resetShipping,
-    getValues: getShippingValues,
     trigger: triggerShipping,
   } = useForm<FormShippingData>();
 
   const {
     formState: { errors: billingErrors },
-    handleSubmit: handleBillingSubmit,
     register: registerBilling,
-    reset: resetBilling,
-    getValues: getBillingValues,
     trigger: triggerBilling,
   } = useForm<FormBillingData>();
-
-  const {
-    formState: { errors: cardErrors },
-    handleSubmit: handleCardSubmit,
-    register: registerCard,
-    reset: resetCard,
-    getValues: getCardValues,
-    trigger: triggerCard,
-  } = useForm<FormCardData>();
 
   const {
     items,
@@ -178,28 +148,6 @@ export default function Checkout({
       setTotal(0);
     };
   }, [discount, items, marketplaceItems, shipping, subtotal]);
-
-  /*
-  useEffect(() => {
-    const getAddresses = async () => {
-      let { data: userData, error: usersError } = await supabase
-        .from("users")
-        .select(`*, shipping_info(*), billing_info(*)`)
-        .eq("id", user?.id);
-
-      if (usersError) {
-        console.error(usersError);
-      }
-
-      if (userData) {
-        setShippingAddresses(userData[0].shipping_info);
-        setBillingAddresses(userData[0].billing_info);
-      }
-    };
-
-    if (isValidObject(user?.id)) getAddresses();
-  }, [user?.id]);
-  */
 
   const handleIncreaseCartQuantity = (productId: string) => {
     increaseCartQuantity(productId);
@@ -291,106 +239,68 @@ export default function Checkout({
       if (orderItemError) throw orderItemError;
     });
 
-    // Parámetros entrada:
-    // DS_MERCHANT_AMOUNT - importe
-    // DS_MERCHANT_CURRENCY - Divisa
-    // DS_MERCHANT_MERCHANTCODE - Código de comercio
-    // DS_MERCHANT_MERCHANTURL - URL del comercio
-    // DS_MERCHANT_ORDER* - Número de pedido
-    // DS_MERCHANT_TERMINAL - Terminal*
-    // DS_MERCHANT_TRANSACTIONTYPE - Tipo de transacción*
-    // DS_MERCHANT_URLKO - URL de error
-    // DS_MERCHANT_URLOK - URL de éxito
-    // DS_MERCHANT_AUTHORISATIONCODE - Código autorización
-    // DS_MERCHANT_PRODUCTDESCRIPTION - Descripción del producto
-    // DS_MERCHANT_PRODUCTNAME - Nombre del producto
-    // DS_MERCHANT_TITULAR - Titular de la tarjeta
-    // DS_MERCHANT_CVV2 - CVV2
-    // DS_MERCHANT_EXPIRYDATE - Fecha de caducidad
-    // DS_MERCHANT_MERCHANTNAME - Nombre del comercio
-    // DS_MERCHANT_TRANSACTIONDATE - Fecha de la transacción
-    // DS_MERCHANT_CONSUMERLANGUAGE - Idioma
-    // DS_MERCHANT_EMV3DS - Datos de autenticación 3DS - Recomendación añadir: Email, homePhone, shipAddrLine1 y dentro de acctInfo: chAccChange, chAccDate y txnActivityYear
+    proceedPaymentRedsys();
 
-    // const port = 3000;
-    // const endpoint = `http://localhost:${port}`;
+    setLoadingPayment(false);
+    // clearCart();
+  };
 
-    // const successRedirectPath = "/checkout/success";
-    // const errorRedirectPath = "/checkout/error";
-    // const notificationPath = "/api/notification";
-    await axios
-      .get(`/api/redirection?amount=${total}&order_id=${order?.[0].id}`)
-      .then((res) => {
-        const { Ds_MerchantParameters, Ds_Signature } = res.data.form.body;
+  // REDSYS PAYMENT
+  const proceedPaymentRedsys = async () => {
+    const { createRedirectForm, processRestNotification } = createRedsysAPI({
+      urls: SANDBOX_URLS,
+      secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
+    });
 
-        setMerchantParameters(Ds_MerchantParameters);
-        setMerchantSignature(Ds_Signature);
-        setIsFormReady(true);
-      })
-      .then((error) => {
-        console.log(error);
-      });
+    const merchantInfo = {
+      DS_MERCHANT_MERCHANTCODE: "097839427",
+      DS_MERCHANT_TERMINAL: "1",
+    } as const;
 
-    // // Ds_MerchantParameters
-    // const merchantParameters = {
-    //   DS_MERCHANT_AMOUNT: total,
-    //   DS_MERCHANT_ORDER: order?.[0].id,
-    //   DS_MERCHANT_CURRENCY: "978",
-    //   DS_MERCHANT_MERCHANTCODE: "097839427",
-    //   DS_MERCHANT_TERMINAL: "1",
-    //   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION,
-    //   // DS_MERCHANT_AUTHORISATIONCODE: "",
-    //   // DS_MERCHANT_MERCHANTNAME: "MI COMERCIO",
-    //   // DS_MERCHANT_MERCHANTURL: `${endpoint}${notificationPath}`,
-    //   // DS_MERCHANT_URLOK: `${endpoint}${successRedirectPath}`,
-    //   // DS_MERCHANT_URLKO: `${endpoint}${errorRedirectPath}`,
-    // } as const;
+    const port = 3344;
+    const endpoint = `http://example.com:${port}`;
 
-    // const jsonMerchantParamenters = JSON.stringify(merchantParameters);
-    // const base64MerchantParameters = encodeBase64(jsonMerchantParamenters);
+    const successRedirectPath = "/success";
+    const errorRedirectPath = "/error";
+    const notificationPath = "/api/notification";
 
-    // Ds_SignatureVersion
-    // const signatureVersion = "HMAC_SHA256_V1";
+    // Use productIds to calculate amount and currency
+    const { totalAmount, currency } = {
+      // Never use floats for money
+      totalAmount: total,
+      currency: "EUR",
+    } as const;
 
-    // Ds_Signature
-    // Signature KEY Base64
-    // const signatureKeyB64 = encodeBase64(
-    //   process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET!
-    // );
+    const orderId = randomTransactionId();
 
-    // 3DES
-    // const diversified3DES = encrypt3DES(
-    //   signatureKeyB64,
-    //   merchantParameters.DS_MERCHANT_ORDER
-    // );
-    // console.log(base64MerchantParameters);
-    // console.log(diversified3DES);
-    // HMAC-256
-    // const result = hmacSha256(base64MerchantParameters, diversified3DES);
+    const currencyInfo = CURRENCIES[currency];
 
-    // Encode final value
-    // const signature = encodeBase64(result);
-    // console.log(result);
+    // Convert 49.99€ -> 4999
+    const redsysAmount = new Decimal(totalAmount)
+      .mul(Math.pow(10, currencyInfo.decimals))
+      .round()
+      .toFixed(0);
 
-    // btnRef.current && btnRef.current.click();
-    // formRef.current && formRef.current.requestSubmit();
+    // Convert EUR -> 978
+    const redsysCurrency = currencyInfo.num;
 
-    // URL
-    // const formUrlv1 = `https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`;
-    // const formUrl = `https://sis-t.redsys.es:25443/sis/realizarPago`;
+    const form = createRedirectForm({
+      ...merchantInfo,
+      DS_MERCHANT_MERCHANTCODE: "097839427",
+      DS_MERCHANT_TERMINAL: "1",
+      DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
+      DS_MERCHANT_ORDER: orderId,
+      DS_MERCHANT_AMOUNT: redsysAmount,
+      DS_MERCHANT_CURRENCY: redsysCurrency,
+      DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
+      DS_MERCHANT_MERCHANTURL: `${endpoint}${notificationPath}`,
+      DS_MERCHANT_URLOK: `${endpoint}${successRedirectPath}`,
+      DS_MERCHANT_URLKO: `${endpoint}${errorRedirectPath}`,
+    });
 
-    // Call to Redsys API with URL and get response with token and url to redirect to payment gateway (Getnet)
-    // await axios
-    //   .post(
-    //     `https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`
-    //   )
-    //   .then((res) => {
-    //     // setApiResponse(res.data);
-    //     console.log(res.data);
-    //   })
-    //   .then((error) => {
-    //     console.log(error);
-    //   });
+    setMerchantParameters(form.body.Ds_MerchantParameters);
+    setMerchantSignature(form.body.Ds_Signature);
+    setIsFormReady(true);
 
     // REDIRECT TO URL
     // router.push(url);
@@ -404,9 +314,6 @@ export default function Checkout({
     // router.push({
     //   pathname: `/checkout/success/${order?.[0].id}`,
     // });
-
-    setLoadingPayment(false);
-    // clearCart();
   };
 
   useEffect(() => {
