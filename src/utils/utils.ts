@@ -17,7 +17,6 @@ export function encodeBase64(string: string) {
   return Buffer.from(string).toString("base64");
 }
 
-export function hmacSha256(key: string, data: string) {
-  const crypto = require("crypto");
-  return crypto.createHmac("sha256", key).update(data).digest("hex");
+export function decodeBase64(string: string) {
+  return Buffer.from(string, "base64").toString();
 }

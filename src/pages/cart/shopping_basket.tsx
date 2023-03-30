@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -28,9 +28,28 @@ import {
 } from "../../components/checkout";
 import { Layout } from "../../components";
 import { useRouter } from "next/router";
-import { encodeBase64, hmacSha256 } from "../../utils/utils";
-import { encrypt3DES } from "../../tpv/config";
+import { decodeBase64, encodeBase64 } from "../../utils/utils";
+import { encrypt3DES, hmacSha256 } from "../../tpv/config";
+
 import axios from "axios";
+import {
+  createRedsysAPI,
+  SANDBOX_URLS,
+  ResponseJSONSuccess,
+  Currency,
+  TRANSACTION_TYPES,
+  randomTransactionId,
+  isResponseCodeOk,
+  CURRENCIES,
+  RedirectInputParams,
+} from "redsys-easy";
+
+interface OrderPaymentStatus {
+  orderId: string;
+  amount: string;
+  currency: Currency;
+  status: "PENDING_PAYMENT" | "PAYMENT_FAILED" | "PAYMENT_SUCCEDED";
+}
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -62,6 +81,9 @@ export default function Checkout(props: Props) {
 
   const router = useRouter();
 
+  const formRef = useRef<HTMLFormElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
   const [subtotal, setsubtotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
   const [shipping, setShipping] = useState<number>(0);
@@ -79,10 +101,15 @@ export default function Checkout(props: Props) {
     billingAddresses_ ?? []
   );
 
+  const [isFormReady, setIsFormReady] = useState<boolean>(false);
+
   const [selectedShippingAddress, setSelectedShippingAddress] =
     useState<string>("");
   const [selectedBillingAddress, setSelectedBillingAddress] =
     useState<string>("");
+
+  const [merchantParameters, setMerchantParameters] = useState<string>("");
+  const [merchantSignature, setMerchantSignature] = useState<string>("");
 
   const {
     formState: { errors: shippingErrors },
@@ -231,44 +258,6 @@ export default function Checkout(props: Props) {
 
     setLoadingPayment(true);
 
-    const { data: shippingData, error: shippingInfoError } = await supabase
-      .from("shipping_info")
-      .upsert({
-        owner_id: user?.id,
-        address: shippingInfo.address,
-        address_extra: shippingInfo.address_extra,
-        address_observations: shippingInfo.address_observations,
-        city: shippingInfo.city,
-        state: shippingInfo.state,
-        zipcode: shippingInfo.zipcode,
-        country: shippingInfo.country,
-        name: shippingInfo.name,
-        lastname: shippingInfo.lastname,
-        document_id: shippingInfo.document_id,
-        phone: shippingInfo.phone,
-      })
-      .select("id");
-
-    if (shippingInfoError) throw shippingInfoError;
-
-    const { data: billingData, error: billingInfoError } = await supabase
-      .from("billing_info")
-      .upsert({
-        owner_id: user?.id,
-        address: billingInfo.address,
-        city: billingInfo.city,
-        state: billingInfo.state,
-        zipcode: billingInfo.zipcode,
-        country: billingInfo.country,
-        name: billingInfo.name,
-        lastname: billingInfo.lastname,
-        document_id: billingInfo.document_id,
-        phone: billingInfo.phone,
-      })
-      .select("id");
-
-    if (billingInfoError) throw billingInfoError;
-
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -283,8 +272,8 @@ export default function Checkout(props: Props) {
         ).toISOString(), // 3 days
         payment_method: "credit_card",
         order_number: "123456789",
-        shipping_info_id: shippingData[0].id,
-        billing_info_id: billingData[0].id,
+        shipping_info_id: shippingInfoId,
+        billing_info_id: billingInfoId,
       })
       .select("id");
 
@@ -323,69 +312,88 @@ export default function Checkout(props: Props) {
     // DS_MERCHANT_CONSUMERLANGUAGE - Idioma
     // DS_MERCHANT_EMV3DS - Datos de autenticación 3DS - Recomendación añadir: Email, homePhone, shipAddrLine1 y dentro de acctInfo: chAccChange, chAccDate y txnActivityYear
 
-    // Ds_MerchantParameters
-    const merchantParameters = {
-      DS_MERCHANT_AMOUNT: total,
-      DS_MERCHANT_CURRENCY: "978",
-      DS_MERCHANT_MERCHANTCODE: "097839427",
-      DS_MERCHANT_MERCHANTURL: "localhost",
-      DS_MERCHANT_ORDER: order?.[0].id,
-      DS_MERCHANT_TERMINAL: "1",
-      DS_MERCHANT_TRANSACTIONTYPE: "0",
-      DS_MERCHANT_URLKO: "localhost/checkout/error",
-      DS_MERCHANT_URLOK: "localhost/checkout/success",
-      DS_MERCHANT_AUTHORISATIONCODE: "",
-    };
+    // const port = 3000;
+    // const endpoint = `http://localhost:${port}`;
 
-    const jsonMerchantParamenters = JSON.stringify(merchantParameters);
+    // const successRedirectPath = "/checkout/success";
+    // const errorRedirectPath = "/checkout/error";
+    // const notificationPath = "/api/notification";
 
-    const base64MerchantParameters = encodeBase64(jsonMerchantParamenters);
+    await axios
+      .get(`/api/redirection?amount=${total}&order_id=${order?.[0].id}`)
+      .then((res) => {
+        const { Ds_MerchantParameters, Ds_Signature } = res.data.form.body;
+        console.log(Ds_MerchantParameters);
+        console.log(Ds_Signature);
 
-    // Ds_SignatureVersion
-    const signatureVersion = "HMAC_SHA256_V1";
-
-    // Ds_Signature
-
-    // Signature KEY Base64
-    const signatureKeyB64 = encodeBase64(
-      process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET!
-    );
-
-    // 3DES
-    const diversified3DES = encrypt3DES(
-      signatureKeyB64,
-      merchantParameters.DS_MERCHANT_ORDER
-    );
-
-    // HMAC-256
-    const result = hmacSha256(base64MerchantParameters, diversified3DES);
-
-    // Encode final value
-    const signature = encodeBase64(result);
-
-    // URL
-    const url = `/tpv?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`;
-
-    // Call to Redsys API with URL and get response with token and url to redirect to payment gateway (Getnet)
-
-    // Add cors to axios
-    const data = await axios
-      .post(url, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers":
-            "Origin, X-Requested-With, Content-Type, Accept",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((response) => {
-        console.log(response);
+        setMerchantParameters(Ds_MerchantParameters);
+        setMerchantSignature(Ds_Signature);
+        setIsFormReady(true);
       })
       .then((error) => {
         console.log(error);
       });
 
-    console.log(data);
+    // // Ds_MerchantParameters
+    // const merchantParameters = {
+    //   DS_MERCHANT_AMOUNT: total,
+    //   DS_MERCHANT_ORDER: order?.[0].id,
+    //   DS_MERCHANT_CURRENCY: "978",
+    //   DS_MERCHANT_MERCHANTCODE: "097839427",
+    //   DS_MERCHANT_TERMINAL: "1",
+    //   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION,
+    //   // DS_MERCHANT_AUTHORISATIONCODE: "",
+    //   // DS_MERCHANT_MERCHANTNAME: "MI COMERCIO",
+    //   // DS_MERCHANT_MERCHANTURL: `${endpoint}${notificationPath}`,
+    //   // DS_MERCHANT_URLOK: `${endpoint}${successRedirectPath}`,
+    //   // DS_MERCHANT_URLKO: `${endpoint}${errorRedirectPath}`,
+    // } as const;
+
+    // const jsonMerchantParamenters = JSON.stringify(merchantParameters);
+    // const base64MerchantParameters = encodeBase64(jsonMerchantParamenters);
+
+    // Ds_SignatureVersion
+    // const signatureVersion = "HMAC_SHA256_V1";
+
+    // Ds_Signature
+    // Signature KEY Base64
+    // const signatureKeyB64 = encodeBase64(
+    //   process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET!
+    // );
+
+    // 3DES
+    // const diversified3DES = encrypt3DES(
+    //   signatureKeyB64,
+    //   merchantParameters.DS_MERCHANT_ORDER
+    // );
+    // console.log(base64MerchantParameters);
+    // console.log(diversified3DES);
+    // HMAC-256
+    // const result = hmacSha256(base64MerchantParameters, diversified3DES);
+
+    // Encode final value
+    // const signature = encodeBase64(result);
+    // console.log(result);
+
+    // btnRef.current && btnRef.current.click();
+    // formRef.current && formRef.current.requestSubmit();
+
+    // URL
+    // const formUrlv1 = `https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`;
+    // const formUrl = `https://sis-t.redsys.es:25443/sis/realizarPago`;
+
+    // Call to Redsys API with URL and get response with token and url to redirect to payment gateway (Getnet)
+    // await axios
+    //   .post(
+    //     `https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=${signatureVersion}&Ds_MerchantParameters=${base64MerchantParameters}&Ds_Signature=${signature}`
+    //   )
+    //   .then((res) => {
+    //     // setApiResponse(res.data);
+    //     console.log(res.data);
+    //   })
+    //   .then((error) => {
+    //     console.log(error);
+    //   });
 
     // REDIRECT TO URL
     // router.push(url);
@@ -401,8 +409,15 @@ export default function Checkout(props: Props) {
     // });
 
     setLoadingPayment(false);
-    clearCart();
+    // clearCart();
   };
+
+  useEffect(() => {
+    if (isFormReady) {
+      // Call submit form
+      btnRef.current && btnRef.current.click();
+    }
+  }, [isFormReady]);
 
   const handleOnClickShipping = (addressId: string) => {
     setSelectedShippingAddress(addressId);
@@ -415,6 +430,38 @@ export default function Checkout(props: Props) {
   return (
     <Layout usePadding={true} useBackdrop={false}>
       <div className="flex flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+        <form
+          action={`https://sis-t.redsys.es:25443/sis/realizarPago?Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=${merchantParameters}&Ds_Signature=${merchantSignature}`}
+          method="POST"
+          name="form"
+          ref={formRef}
+        >
+          <input
+            type="hidden"
+            id="Ds_SignatureVersion"
+            name="Ds_SignatureVersion"
+            value="HMAC_SHA256_V1"
+          />
+
+          <input
+            type="hidden"
+            id="Ds_MerchantParameters"
+            name="Ds_MerchantParameters"
+            value={merchantParameters}
+          />
+
+          <input
+            type="hidden"
+            id="Ds_Signature"
+            name="Ds_Signature"
+            value={merchantSignature}
+          />
+
+          <button ref={btnRef} type="submit" hidden>
+            Submit
+          </button>
+        </form>
+
         {loadingPayment ? (
           <CustomLoading message={`${t("loading")}`} />
         ) : (
@@ -450,6 +497,7 @@ export default function Checkout(props: Props) {
                 </div>
 
                 <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+                  {/* Products  */}
                   <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8 ">
                     {/* Customer's Car */}
                     <div className="border border-product-softBlonde flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
@@ -744,180 +792,6 @@ export default function Checkout(props: Props) {
                         </div>
                       </div>
                     </div>
-
-                    {/* For simplicity the payment is handled by bank Payment */}
-                    {/*
-                    <div className="border border-product-softBlonde flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-                      <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-                        <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                          {t("payment")}
-                        </h3>
-
-                        <section>
-                          <div className="flex flex-col justify-start items-start space-y-2">
-                            <div className="text-xl text-gray-500">
-                              {t("payment_method")}
-                            </div>
-                            <div className="flex flex-row justify-start items-center space-x-2">
-                              <div className="w-8 h-8">
-                                <FontAwesomeIcon
-                                  icon={faCreditCard}
-                                  style={{ color: "#fdc300" }}
-                                  title={"payment_method"}
-                                  width={32}
-                                  height={32}
-                                />
-                              </div>
-                              <div className="text-lg text-gray-500">
-                                {t("credit_card")}
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-
-                        <section>
-                          <div className="flex flex-col justify-start items-start space-y-2">
-                            <div className="text-xl text-gray-500">
-                              {t("card_details")}
-                            </div>
-                          </div>
-
-                          <fieldset className="mb-3 mt-4 bg-white rounded text-gray-600 ">
-                            */}
-                    {/* Card Number */}
-                    {/*
-                            <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
-                              <span className="text-right px-2">
-                                {t("card_number")}
-                              </span>
-                              <input
-                                {...registerCard("card_info.card_number", {
-                                  required: true,
-                                  pattern: {
-                                    value: /^[0-9]{16}$/,
-                                    message: "Invalid card number",
-                                  },
-                                })}
-                                className="focus:outline-none px-3 py-2 w-1/2 bg-product-softFoam rounded-sm"
-                                placeholder={t("card_number_placeholder")!}
-                                minLength={16}
-                                maxLength={16}
-                                min={0}
-                                type="number"
-                                required
-                              />
-                            </label>
-                              */}
-
-                    {/* Expiry Data and CVC GROUP */}
-                    {/* <div className="flex flex-col items-start sm:items-center sm:flex-row justify-between my-3"> */}
-                    {/* Expiry Data */}
-                    {/*
-                              <label className="flex flex-col items-start sm:items-center sm:flex-row border-b border-gray-200 py-3 my-3">
-                                <span className="text-right px-2">
-                                  {t("card_expiration")}
-                                </span>
-
-                                <div className="space-x-2">
-                                  <input
-                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
-                                    {...registerCard(
-                                      "card_info.card_month_expiration",
-                                      {
-                                        required: true,
-                                        pattern: {
-                                          value: /^[0-9]{2}$/,
-                                          message:
-                                            "Invalid card expiration month",
-                                        },
-                                      }
-                                    )}
-                                    placeholder={
-                                      t("card_month_expiration_placeholder")!
-                                    }
-                                    maxLength={2}
-                                    min={0}
-                                    type="number"
-                                    required
-                                  />
-
-                                  <span>/</span>
-
-                                  <input
-                                    className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
-                                    {...registerCard(
-                                      "card_info.card_year_expiration",
-                                      {
-                                        required: true,
-                                        pattern: {
-                                          value: /^[0-9]{2}$/,
-                                          message:
-                                            "Invalid card expiration year",
-                                        },
-                                      }
-                                    )}
-                                    placeholder={
-                                      t("card_year_expiration_placeholder")!
-                                    }
-                                    maxLength={2}
-                                    size={2}
-                                    min={0}
-                                    type="number"
-                                    required
-                                  />
-                                </div>
-                              </label>
-                                  */}
-
-                    {/* CVC */}
-                    {/*                               
-                              <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
-                                <span className="text-right px-2">
-                                  {t("card_cvv")}
-                                </span>
-                                <input
-                                  {...registerCard("card_info.card_cvv", {
-                                    required: true,
-                                    pattern: {
-                                      value: /^[0-9]{3}$/,
-                                      message: "Invalid card cvv",
-                                    },
-                                  })}
-                                  className="focus:outline-none px-3 py-2 w-16 md:w-20 bg-product-softFoam rounded-sm"
-                                  placeholder={t("card_cvv_placeholder")!}
-                                  maxLength={3}
-                                  size={3}
-                                  min={0}
-                                  type="number"
-                                  required
-                                />
-                              </label>
-                            </div> */}
-
-                    {/* Name on Card */}
-                    {/* <label className="flex flex-col items-start border-b border-gray-200 py-3 sm:items-center sm:flex-row my-3">
-                              <span className="text-right px-2">
-                                {t("card_holder")}
-                              </span>
-                              <input
-                                {...registerCard("card_info.card_holder", {
-                                  required: true,
-                                  pattern: {
-                                    value: /^[a-zA-Z ]{2,30}$/,
-                                    message: "Invalid card holder",
-                                  },
-                                })}
-                                className="focus:outline-none px-3 py-2 w-full bg-product-softFoam rounded-sm"
-                                placeholder={t("card_holder_placeholder")!}
-                                minLength={2}
-                                maxLength={30}
-                                required
-                              />
-                            </label>
-                          </fieldset>
-                        </section>
-                      </div>
-                    </div> */}
                   </div>
 
                   {/* Order summary  */}
@@ -996,7 +870,6 @@ export default function Checkout(props: Props) {
                           {/* Proceed to pay */}
                           <div className="flex justify-center items-center md:justify-start md:items-start w-full">
                             <Button
-                              btnType={"submit"}
                               large
                               primary
                               class="font-semibold"

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../components/Auth/useAuth";
 import { UserCredentials } from "@supabase/supabase-js";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useMessage } from "../components/message";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../components";
@@ -19,6 +19,8 @@ interface FormData {
 }
 
 export default function SignIn() {
+  const router = useRouter();
+
   const { signInWithProvider, signIn, signOut, loading, loggedIn, user } =
     useAuth();
 
@@ -57,14 +59,7 @@ export default function SignIn() {
   }
 
   if (loggedIn) {
-    return (
-      <>
-        {t("signed_in_as")} {user?.email} <br />
-        <button type="button" onClick={() => signOut()}>
-          {t("sign_out")}
-        </button>
-      </>
-    );
+    router.push("/");
   }
 
   return (
