@@ -30,14 +30,11 @@ export function CustomizeProfileForm({ profile }: Props) {
   const [userBgImg, setUserBgImg] = useState(bgImg);
   const [userProfileImg, setUserProfileImg] = useState(profileImg);
 
-  const mockPng = new File([""], "", { type: "image/png" });
-  const mockFileList = [mockPng];
-
   const form = useForm({
     defaultValues: {
-      bg_url: mockFileList,
-      avatar_url: mockFileList,
-      profile_photo_url: mockFileList,
+      bg_url: SupabaseProps.CUSTOM_BG_URL + profile?.id ?? "",
+      avatar_url: SupabaseProps.BASE_AVATARS_URL + profile?.id ?? "",
+      profile_photo_url: SupabaseProps.PROFILE_PHOTO_URL + profile?.id ?? "",
     },
   });
 
@@ -53,23 +50,10 @@ export function CustomizeProfileForm({ profile }: Props) {
 
     const { bg_url, profile_photo_url } = formValues;
 
-    if (isValidObject(bg_url)) {
-      /*
-      const { error } = await supabase
-        .from("users")
-        .update({
-          bg_url: bg_url.name,
-        })
-        .eq("id", profile?.id);
-
-      if (error) {
-        throw error;
-      }
-      */
-
+    if (isValidObject(bg_url.name)) {
       if (bg_url.size > 0) {
         const encodeUriCustomImg = encodeURIComponent(
-          `${customUrl}${profile?.id}/img`
+          `${SupabaseProps.CUSTOM_BG_URL}${profile?.id}`
         );
 
         const { error: errorDelete } = await supabase.storage
@@ -93,14 +77,15 @@ export function CustomizeProfileForm({ profile }: Props) {
           throw storageError;
         }
 
-        setUserBgImg(`${fullCustomUrl}${profile?.id}/img`);
+        setUserBgImg(`${fullCustomUrl}${profile?.id}`);
       }
     }
 
-    if (isValidObject(profile_photo_url)) {
+    if (isValidObject(profile_photo_url.name)) {
       if (profile_photo_url.size > 0) {
+        // const encodeUriProfileImg = encodeURIComponent(`${profileUrl}${profile?.id}`);
         const encodeUriProfileImg = encodeURIComponent(
-          `${profilePhotoUrl}${profile?.id}/img`
+          `${SupabaseProps.PROFILE_PHOTO_URL}${profile?.id}`
         );
 
         const { error: errorDelete } = await supabase.storage
@@ -153,7 +138,11 @@ export function CustomizeProfileForm({ profile }: Props) {
               {t("profile_custom_bg_img")}
             </label>
 
-            <FilePreviewAndHide form={form} registerName={"bg_url"} />
+            <FilePreviewAndHide
+              storagePath="avatars"
+              form={form}
+              registerName={"bg_url"}
+            />
           </div>
 
           <div className="w-full ">
@@ -165,6 +154,7 @@ export function CustomizeProfileForm({ profile }: Props) {
             </label>
 
             <FilePreviewAndHide
+              storagePath="avatars"
               form={form}
               registerName={"profile_photo_url"}
             />

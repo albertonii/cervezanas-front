@@ -161,6 +161,7 @@ export const AwardsSection = ({ form }: Props) => {
             </label>
 
             <FilePreviewAndHide
+              storagePath="products"
               form={form}
               registerName={`awards.${index}.img_url`}
             />

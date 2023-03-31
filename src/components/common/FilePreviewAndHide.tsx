@@ -7,11 +7,13 @@ import { SupabaseProps } from "../../constants";
 interface Props {
   form: UseFormReturn<any, any>;
   registerName: string;
+  storagePath: string;
 }
 
 export const FilePreviewAndHide = ({
   form: { setValue, getValues },
   registerName,
+  storagePath,
 }: Props) => {
   const { t } = useTranslation();
   //TODO: Cambiar el tipo de File de any a File
@@ -41,7 +43,7 @@ export const FilePreviewAndHide = ({
   };
 
   if (existsPrevImg) {
-    console.log(SupabaseProps.BASE_PRODUCTS_URL + getValues(registerName));
+    // console.log(SupabaseProps.BASE_AVATARS_URL + getValues(registerName));
   }
 
   return (
@@ -51,17 +53,19 @@ export const FilePreviewAndHide = ({
       </span>
 
       {existsPrevImg ? (
-        <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
-          <div className="relative h-full w-full bg-gray-200  z-1 flex justify-center items-center">
+        <div className="overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer border-gray-400 border-dotted">
+          <div className="relative bg-gray-200  z-1 flex justify-center items-center">
             <div className="flex flex-row items-center gap-2">
-              <div className="h-32 w-32 ">
+              <div className="h-32">
                 <Image
                   width={128}
                   height={128}
                   className="w-full h-full rounded"
-                  src={`${SupabaseProps.BASE_PRODUCTS_URL}${getValues(
-                    registerName
-                  )}`}
+                  src={`${
+                    storagePath === "products"
+                      ? SupabaseProps.BASE_PRODUCTS_URL
+                      : SupabaseProps.BASE_AVATARS_URL
+                  }${getValues(registerName)}`}
                   alt={""}
                 />
               </div>
@@ -83,7 +87,7 @@ export const FilePreviewAndHide = ({
             <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
               <div className="relative h-full w-full bg-gray-200  z-1 flex justify-center items-center">
                 <div className="flex flex-row items-center gap-2">
-                  <div className="h-32 w-32 ">
+                  <div className="h-32 ">
                     <Image
                       width={128}
                       height={128}

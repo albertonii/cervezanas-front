@@ -761,6 +761,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         </label>
 
                         <FilePreviewAndHide
+                          storagePath="products"
                           form={form}
                           registerName={`packs.${index}.img_url`}
                         />
