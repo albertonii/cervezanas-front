@@ -6,6 +6,7 @@ import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { useAppContext } from "../Context/AppContext";
+import { processRestNotification } from "../TPV";
 
 type Props = {
   children: JSX.Element;

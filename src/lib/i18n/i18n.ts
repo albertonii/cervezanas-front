@@ -436,6 +436,11 @@ from the beer.`,
   errors: translationsFormErrorsEn,
   password_updated: "Password updated successfully",
   signed_id_as: "Signed in as",
+  order_number: "Order number",
+  order_placed: "Order placed",
+  in_process: "In process",
+  shipped: "Shipped",
+  delivered: "Delivered",
 };
 
 const translationsEs = {
@@ -881,6 +886,11 @@ desprenden de la cerveza. `,
   errors: translationsFormErrorsEs,
   password_updated: "Contraseña actualizada",
   signed_in_as: "Sesión iniciada como",
+  order_number: "Número de pedido",
+  order_placed: "Pedido realizado",
+  in_process: "En proceso",
+  shipped: "Enviado",
+  delivered: "Entregado",
 };
 
 // the translations

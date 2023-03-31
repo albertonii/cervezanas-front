@@ -24,23 +24,9 @@ import {
 } from "../../components/checkout";
 import { Layout } from "../../components";
 
-import {
-  createRedsysAPI,
-  TRANSACTION_TYPES,
-  randomTransactionId,
-  SANDBOX_URLS,
-  isResponseCodeOk,
-  CURRENCIES,
-  Currency,
-} from "redsys-easy";
+import { randomTransactionId, CURRENCIES, Currency } from "redsys-easy";
 import Decimal from "decimal.js";
-
-interface OrderPaymentStatus {
-  orderId: string;
-  amount: string;
-  currency: Currency;
-  status: "PENDING_PAYMENT" | "PAYMENT_FAILED" | "PAYMENT_SUCCEDED";
-}
+import { createRedirectForm, merchantInfo } from "../../components/TPV";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -206,20 +192,35 @@ export default function Checkout({
 
     setLoadingPayment(true);
 
+    await proceedPaymentRedsys().then((orderNumber) => {
+      createOrder(billingInfoId, shippingInfoId, orderNumber);
+    });
+
+    setLoadingPayment(false);
+
+    setIsFormReady(true);
+    clearCart();
+  };
+
+  const createOrder = async (
+    billingInfoId: string,
+    shippingInfoId: string,
+    orderNumber: string
+  ) => {
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
         owner_id: user?.id,
         total: total,
         customer_name: "manolito",
-        status: "started",
+        status: "order_placed",
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
         estimated_date: new Date(
           new Date().getTime() + 1000 * 60 * 60 * 24 * 3
         ).toISOString(), // 3 days
         payment_method: "credit_card",
-        order_number: "123456789",
+        order_number: orderNumber,
         shipping_info_id: shippingInfoId,
         billing_info_id: billingInfoId,
       })
@@ -238,32 +239,10 @@ export default function Checkout({
 
       if (orderItemError) throw orderItemError;
     });
-
-    proceedPaymentRedsys();
-
-    setLoadingPayment(false);
-    // clearCart();
   };
 
   // REDSYS PAYMENT
   const proceedPaymentRedsys = async () => {
-    const { createRedirectForm, processRestNotification } = createRedsysAPI({
-      urls: SANDBOX_URLS,
-      secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
-    });
-
-    const merchantInfo = {
-      DS_MERCHANT_MERCHANTCODE: "097839427",
-      DS_MERCHANT_TERMINAL: "1",
-    } as const;
-
-    const port = 3344;
-    const endpoint = `http://example.com:${port}`;
-
-    const successRedirectPath = "/success";
-    const errorRedirectPath = "/error";
-    const notificationPath = "/api/notification";
-
     // Use productIds to calculate amount and currency
     const { totalAmount, currency } = {
       // Never use floats for money
@@ -271,7 +250,7 @@ export default function Checkout({
       currency: "EUR",
     } as const;
 
-    const orderId = randomTransactionId();
+    const orderNumber = randomTransactionId();
 
     const currencyInfo = CURRENCIES[currency];
 
@@ -286,34 +265,15 @@ export default function Checkout({
 
     const form = createRedirectForm({
       ...merchantInfo,
-      DS_MERCHANT_MERCHANTCODE: "097839427",
-      DS_MERCHANT_TERMINAL: "1",
-      DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
-      DS_MERCHANT_ORDER: orderId,
+      DS_MERCHANT_ORDER: orderNumber,
       DS_MERCHANT_AMOUNT: redsysAmount,
       DS_MERCHANT_CURRENCY: redsysCurrency,
-      DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
-      DS_MERCHANT_MERCHANTURL: `${endpoint}${notificationPath}`,
-      DS_MERCHANT_URLOK: `${endpoint}${successRedirectPath}`,
-      DS_MERCHANT_URLKO: `${endpoint}${errorRedirectPath}`,
     });
 
     setMerchantParameters(form.body.Ds_MerchantParameters);
     setMerchantSignature(form.body.Ds_Signature);
-    setIsFormReady(true);
 
-    // REDIRECT TO URL
-    // router.push(url);
-
-    // // IF URL ERROR -> PUSH TO ERROR
-    // router.push({
-    //   pathname: `/checkout/error/${order?.[0].id}`,
-    // });
-
-    // // IF URL OK -> PUSH TO SUCCESS
-    // router.push({
-    //   pathname: `/checkout/success/${order?.[0].id}`,
-    // });
+    return orderNumber;
   };
 
   useEffect(() => {
@@ -886,15 +846,6 @@ export default function Checkout({
   );
 }
 
-/*
-function NextCors(
-  req: any,
-  res: any,
-  arg2: { methods: string[]; origin: string; optionsSuccessStatus: number }
-) {
-  throw new Error("Function not implemented.");
-}
-*/
 export async function getServerSideProps({ req }: any) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 

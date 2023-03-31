@@ -19,7 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/checkout/success"
+    "src/pages/checkout/success",
+    "src/pages/checkout/invoice"
   ],
   "exclude": ["node_modules"]
 }
