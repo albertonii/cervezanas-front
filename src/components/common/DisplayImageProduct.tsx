@@ -14,7 +14,7 @@ interface Props {
   height?: number;
 }
 
-export default function DisplayImage({
+export default function DisplayImageProduct({
   product,
   onClick,
   class: class_,

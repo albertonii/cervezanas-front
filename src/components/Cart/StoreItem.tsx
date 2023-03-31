@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,8 +14,7 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
-import { SupabaseProps } from "../../constants";
-import DisplayImage from "../common/DisplayImage";
+import DisplayImage from "../common/DisplayImageProduct";
 
 type StoreItemProps = { product: Product; products: Product[] };
 

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
+import DisplayImageString from "../../../components/common/DisplayImageString";
 import { SupabaseProps } from "../../../constants";
 import { Order, Product } from "../../../lib/types";
 import { formatDateString } from "../../../utils";
@@ -144,21 +145,13 @@ export default function Success({
                         <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
                           {isValidObject(
                             product.product_multimedia[0].p_principal
-                          ) ? (
-                            <Image
+                          ) && (
+                            <DisplayImageString
                               width={120}
                               height={120}
                               alt={""}
                               src={`${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`}
-                              className="w-full h-full object-center object-cover sm:w-full sm:h-full"
-                            />
-                          ) : (
-                            <Image
-                              width={120}
-                              height={120}
-                              alt={""}
-                              src="/marketplace_product_default.png"
-                              className="w-full h-full object-center object-cover sm:w-full sm:h-full"
+                              class="w-full h-full object-center object-cover sm:w-full sm:h-full"
                             />
                           )}
                         </div>

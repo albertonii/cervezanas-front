@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
@@ -8,9 +7,8 @@ import { useAuth } from "../../../components/Auth";
 import { Order, Product } from "../../../lib/types";
 import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
-import { decodeBase64, isValidObject } from "../../../utils/utils";
-import { SupabaseProps } from "../../../constants";
-import DisplayImage from "../../../components/common/DisplayImage";
+import { decodeBase64 } from "../../../utils/utils";
+import DisplayImage from "../../../components/common/DisplayImageProduct";
 
 interface Props {
   isError?: boolean;

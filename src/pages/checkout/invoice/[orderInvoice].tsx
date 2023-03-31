@@ -322,7 +322,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       )
     `
     )
-    .eq("id", orderId);
+    .eq("order_number", orderId);
 
   if (orderError) {
     throw new Error(orderError.message);

@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
+import DisplayImageString from "../common/DisplayImageString";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
 import { Product } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { isValidObject } from "../../utils/utils";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
@@ -36,9 +35,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
       if (item == null) return null;
 
       setItemMultimedia(
-        isValidObject(item.product_multimedia[0])
-          ? `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${item.product_multimedia[0].p_principal}`
-          : "/marketplace_product_default.png"
+        `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${item.product_multimedia[0].p_principal}`
       );
     };
 
@@ -79,12 +76,12 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
       {item ? (
         <>
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-            <Image
+            <DisplayImageString
               width={240}
               height={200}
               src={itemMultimedia}
               alt={""}
-              className="h-full w-full object-cover object-center"
+              class="h-full w-full object-cover object-center"
             />
           </div>
 
