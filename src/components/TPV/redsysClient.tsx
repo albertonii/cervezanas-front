@@ -21,7 +21,7 @@ const port = 3000;
 export const endpointRedsys = `http://localhost:${port}`;
 
 export const successRedirectPath = "/checkout/success/";
-export const errorRedirectPath = "/api/checkout/error";
+export const errorRedirectPath = "/checkout/error";
 export const notificationPath = "/api/notification";
 
 export const merchantInfo = {

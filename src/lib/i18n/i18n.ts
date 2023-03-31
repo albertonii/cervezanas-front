@@ -441,6 +441,7 @@ from the beer.`,
   in_process: "In process",
   shipped: "Shipped",
   delivered: "Delivered",
+  user_cancelled: "User cancelled",
 };
 
 const translationsEs = {
@@ -891,6 +892,7 @@ desprenden de la cerveza. `,
   in_process: "En proceso",
   shipped: "Enviado",
   delivered: "Entregado",
+  user_cancelled: "Cancelado por el usuario",
 };
 
 // the translations

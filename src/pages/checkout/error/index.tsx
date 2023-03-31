@@ -1,18 +1,15 @@
-import { NextApiRequest } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
-import { Button } from "../../../components/common";
-import { SupabaseProps } from "../../../constants";
 import { Order, Product } from "../../../lib/types";
-import { formatDateString } from "../../../utils";
-import { formatCurrency } from "../../../utils/formatCurrency";
+import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64, isValidObject } from "../../../utils/utils";
+import { SupabaseProps } from "../../../constants";
 
 interface Props {
   isError?: boolean;
@@ -20,17 +17,8 @@ interface Props {
   products: Product[];
 }
 
-export default function Success({
-  order,
-  products: products_,
-  isError,
-}: Props) {
+export default function Error({ order, products, isError }: Props) {
   const { t } = useTranslation();
-
-  const router = useRouter();
-
-  const [products, _] = useState<Product[]>(products_);
-
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
 
@@ -44,43 +32,9 @@ export default function Success({
     };
   }, [loggedIn, products]);
 
-  const handleOnClick = (productId: string) => {
-    router.push(`/products/review/${productId}`);
-  };
-
   const handleInvoicePdf = () => {
     window.open(`/checkout/invoice/${order.order_number}`, "_ blank");
   };
-
-  if (isError) {
-    return (
-      <Layout usePadding={true} useBackdrop={false}>
-        <div className="container mx-auto sm:py-4 lg:py-6">
-          <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
-            <div className="flex flex-col">
-              <div className="flex sm:items-baseline sm:space-x-4">
-                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                  Order Error
-                </h1>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-              <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Order Details
-                </h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  Details and status for your order.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout usePadding={true} useBackdrop={false}>
@@ -121,8 +75,7 @@ export default function Success({
               href="#"
               className="text-sm font-medium hover:text-beer-blonde sm:hidden"
             >
-              {t("view_invoice")}
-              <span aria-hidden="true"> &rarr;</span>
+              View invoice<span aria-hidden="true"> &rarr;</span>
             </a>
           </div>
 
@@ -214,77 +167,32 @@ export default function Success({
                           </dd>
                         </div>
                       )}
-
-                      {/* Review Product  */}
-                      <div className="mt-6 col-span-12">
-                        <span className="font-medium text-gray-900">
-                          {t("review_product")}
-                        </span>
-
-                        <div className="mt-3 text-beer-dark space-y-3">
-                          {product.order_item[0].is_reviewed && (
-                            <span>
-                              {t("product_already_reviewed_condition")}
-                            </span>
-                          )}
-
-                          {order.status !== "delivered" && (
-                            <span>{t("write_review_condition")}</span>
-                          )}
-
-                          <Button
-                            disabled={
-                              product.order_item[0].is_reviewed ||
-                              order.status !== "delivered"
-                                ? true
-                                : false
-                            }
-                            primary
-                            medium
-                            class="font-medium text-beer-draft hover:text-beer-dark my-6 "
-                            onClick={() => {
-                              if (
-                                !product.order_item[0].is_reviewed &&
-                                order.status === "delivered"
-                              ) {
-                                handleOnClick(product.id);
-                              }
-                            }}
-                          >
-                            {t("make_review_product_button")}
-                          </Button>
-                        </div>
-                      </div>
                     </div>
 
+                    {/* TODO: VENIR AQUI Y MANEJAR ESTADOS DEL PEDIDO  */}
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6 lg:p-8">
                       <h4 className="sr-only">Status</h4>
-                      <p className="text-sm font-medium text-gray-900">
-                        Preparing to ship on{" "}
-                        <time dateTime="2021-03-24">March 24, 2021</time>
+                      <p className="text-sm font-medium text-gray-900 flex justify-between">
+                        {t("status")}: {t("user_cancelled")}
+                        <time dateTime="2021-03-24">
+                          {formatDateString(order.issue_date.toString())}
+                        </time>
                       </p>
                       <div className="mt-6" aria-hidden="true">
                         <div className="bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-2 bg-beer-blonde rounded-full"></div>
+                          <div className="h-2 bg-red-400 rounded-full"></div>
                         </div>
                         <div className="hidden sm:grid grid-cols-4 text-sm font-medium text-gray-600 mt-6">
                           <div className="text-beer-draft">
-                            {t("order_placed")}
-                          </div>
-                          <div className="text-center text-beer-draft">
-                            {t("status_processing")}
-                          </div>
-                          <div className="text-center">
-                            {t("status_shipped")}
-                          </div>
-                          <div className="text-right">
-                            {t("status_delivered")}
+                            {t("user_cancelled")}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
+
+              {/* <!-- More products... --> */}
             </div>
           </div>
 
@@ -400,7 +308,21 @@ export async function getServerSideProps(req: NextApiRequest) {
     Ds_Signature: string;
   };
 
-  const { Ds_Order: orderId } = JSON.parse(decodeBase64(Ds_MerchantParameters));
+  const { Ds_Order: orderId, Ds_Response } = JSON.parse(
+    decodeBase64(Ds_MerchantParameters)
+  );
+
+  if (Ds_Response === "9915") {
+    // Update order status to user_cancelled
+    const { error: statusError } = await supabase
+      .from("orders")
+      .update({ status: "user_cancelled" })
+      .eq("order_number", orderId);
+
+    if (statusError) {
+      console.error(statusError.message);
+    }
+  }
 
   let { data: orderData, error: orderError } = await supabase
     .from("orders")
@@ -435,6 +357,7 @@ export async function getServerSideProps(req: NextApiRequest) {
     return {
       props: {
         order: null,
+        products: null,
       },
     };
   }
