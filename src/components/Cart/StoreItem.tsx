@@ -16,6 +16,7 @@ import {
   IncreaseButton,
 } from "../common";
 import { SupabaseProps } from "../../constants";
+import DisplayImage from "../common/DisplayImage";
 
 type StoreItemProps = { product: Product; products: Product[] };
 
@@ -119,15 +120,15 @@ export function StoreItem(props: StoreItemProps) {
         </div>
 
         <div className="w-[200px] h-[200px]">
-          <Image
+          <DisplayImage
             width={128}
             height={128}
-            src={product.product_multimedia[0]?.p_principal}
             alt="Principal Product Image"
-            className="rounded-2xl hover:cursor-pointer w-full h-full object-contain"
-            onClick={() => {
-              router.push(`/products/${product.id}`);
-            }}
+            product={product}
+            class={
+              "rounded-2xl hover:cursor-pointer w-full h-full object-contain"
+            }
+            onClick={() => router.push(`/products/${product.id}`)}
           />
         </div>
       </div>

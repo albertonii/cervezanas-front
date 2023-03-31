@@ -10,6 +10,7 @@ import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64, isValidObject } from "../../../utils/utils";
 import { SupabaseProps } from "../../../constants";
+import DisplayImage from "../../../components/common/DisplayImage";
 
 interface Props {
   isError?: boolean;
@@ -32,10 +33,6 @@ export default function Error({ order, products, isError }: Props) {
     };
   }, [loggedIn, products]);
 
-  const handleInvoicePdf = () => {
-    window.open(`/checkout/invoice/${order.order_number}`, "_ blank");
-  };
-
   return (
     <Layout usePadding={true} useBackdrop={false}>
       {!loading && (
@@ -46,14 +43,6 @@ export default function Error({ order, products, isError }: Props) {
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
                   {t("order_number")} #{order.order_number}
                 </h1>
-
-                <p
-                  onClick={() => handleInvoicePdf()}
-                  className="hidden font-medium hover:text-beer-blonde hover:cursor-pointer sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
-                >
-                  {t("view_invoice")}
-                  <span aria-hidden="true"> &rarr;</span>
-                </p>
               </div>
 
               {/* Order Status  */}
@@ -94,25 +83,7 @@ export default function Error({ order, products, isError }: Props) {
                       {/* Product Multimedia  */}
                       <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 mt-6 md:mt-6">
                         <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
-                          {isValidObject(
-                            product.product_multimedia[0].p_principal
-                          ) ? (
-                            <Image
-                              width={120}
-                              height={120}
-                              alt={""}
-                              src={`${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`}
-                              className="w-full h-full object-center object-cover sm:w-full sm:h-full"
-                            />
-                          ) : (
-                            <Image
-                              width={120}
-                              height={120}
-                              alt={""}
-                              src="/marketplace_product_default.png"
-                              className="w-full h-full object-center object-cover sm:w-full sm:h-full"
-                            />
-                          )}
+                          <DisplayImage product={product} />
                         </div>
                       </div>
 
