@@ -119,6 +119,7 @@ export function StoreItem(props: StoreItemProps) {
 
         <div className="w-[200px] h-[200px]">
           <DisplayImage
+            isBasePath={true}
             width={128}
             height={128}
             alt="Principal Product Image"

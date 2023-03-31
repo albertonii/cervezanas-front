@@ -294,7 +294,6 @@ export function AddProduct({
         // Packs Stock
         if (packs.length > 0) {
           packs.map(async (pack) => {
-            console.log(pack);
             const { error: packsError } = await supabase
               .from("product_pack")
               .insert({

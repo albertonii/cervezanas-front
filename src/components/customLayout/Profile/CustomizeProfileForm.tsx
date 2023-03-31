@@ -52,6 +52,8 @@ export function CustomizeProfileForm({ profile }: Props) {
 
     if (isValidObject(bg_url.name)) {
       if (bg_url.size > 0) {
+        // TODO: Actualizar aquí la URL de APP CONTEXT de Custom IMG y Profile IMG para que pueda estar sincronizado.
+
         const encodeUriCustomImg = encodeURIComponent(
           `${SupabaseProps.CUSTOM_BG_URL}${profile?.id}`
         );

@@ -11,6 +11,7 @@ interface Props {
   alt?: string;
   width?: number;
   height?: number;
+  isBasePath?: boolean;
 }
 
 export default function DisplayImageString({
@@ -20,9 +21,10 @@ export default function DisplayImageString({
   alt,
   width,
   height,
+  isBasePath,
 }: Props) {
   const [src, setSrc] = useState(
-    SupabaseProps.BASE_PRODUCTS_ARTICLES_URL + src_
+    isBasePath ? src_ : SupabaseProps.BASE_PRODUCTS_ARTICLES_URL + src_
   );
   if (!isValidObject(src)) return null;
 

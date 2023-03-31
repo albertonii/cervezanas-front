@@ -1,5 +1,3 @@
-import { fromPairs } from "lodash";
-
 export * from "./AddCartButton";
 export * from "./Button";
 export * from "./CustomLoading";

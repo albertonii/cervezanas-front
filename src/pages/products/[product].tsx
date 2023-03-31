@@ -27,6 +27,7 @@ import {
   ProductReviews,
   Rate,
 } from "../../components/reviews";
+import { isValidObject } from "../../utils/utils";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
 const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
@@ -57,8 +58,6 @@ export default function ProductId({
   const [isLike, setIsLike] = useState<boolean>(
     product[0]?.likes?.length > 0 ? true : false
   );
-
-  console.log(reviews);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -93,7 +92,7 @@ export default function ProductId({
   useEffect(() => {
     setGallery([]);
 
-    if (m.p_principal !== "undefined" && m.p_principal !== null) {
+    if (isValidObject(m.p_principal)) {
       setGallery((oldGallery) => [
         ...oldGallery,
         {
@@ -104,7 +103,7 @@ export default function ProductId({
       ]);
     }
 
-    if (m.p_back !== "undefined" && m.p_back !== null) {
+    if (isValidObject(m.p_back)) {
       setGallery((oldGallery) => [
         ...oldGallery,
         {
@@ -115,7 +114,7 @@ export default function ProductId({
       ]);
     }
 
-    if (m.p_extra_1 !== "undefined" && m.p_extra_1 !== null) {
+    if (isValidObject(m.p_extra_1)) {
       setGallery((oldGallery) => [
         ...oldGallery,
         {
@@ -126,7 +125,7 @@ export default function ProductId({
       ]);
     }
 
-    if (m.p_extra_2 !== "undefined" && m.p_extra_2 !== null) {
+    if (isValidObject(m.p_extra_2)) {
       setGallery((oldGallery) => [
         ...oldGallery,
         {
@@ -137,7 +136,7 @@ export default function ProductId({
       ]);
     }
 
-    if (m.p_extra_3 !== "undefined" && m.p_extra_3 !== null) {
+    if (isValidObject(m.p_extra_3)) {
       setGallery((oldGallery) => [
         ...oldGallery,
         {

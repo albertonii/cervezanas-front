@@ -77,6 +77,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
         <>
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
             <DisplayImageString
+              isBasePath={true}
               width={240}
               height={200}
               src={itemMultimedia}

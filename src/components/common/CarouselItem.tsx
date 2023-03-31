@@ -18,6 +18,7 @@ export default function CarouselItem({ resource }: Props) {
         width={120}
         height={120}
         class="rounded hover:opacity-80 transition ease-in duration-200 max-h-[240px]"
+        isBasePath={true}
       />
     </div>
   );

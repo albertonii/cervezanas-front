@@ -33,11 +33,11 @@ export function AppContextProvider(props: Props) {
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
   const decodeUriProfileImg = decodeURIComponent(
-    `${fullProfilePhotoUrl}${supabase.auth.user()?.id}/img`
+    `${fullProfilePhotoUrl}${supabase.auth.user()?.id}`
   );
 
   const decodeUriCustomImg = decodeURIComponent(
-    `${fullCustomUrl}${supabase.auth.user()?.id}/img`
+    `${fullCustomUrl}${supabase.auth.user()?.id}`
   );
 
   const [bgImg, setBgImg] = useState(

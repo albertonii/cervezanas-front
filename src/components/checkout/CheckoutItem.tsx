@@ -10,6 +10,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
 import { ProductEnum } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 
 interface Props {
   product: Product;
@@ -69,6 +70,7 @@ export function CheckoutItem({
           src={p_principal}
           alt={product.name}
         />
+        {/* TODO: <DisplayImageProduct /> */}
       </div>
 
       <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">

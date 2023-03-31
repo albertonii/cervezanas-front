@@ -15,21 +15,16 @@ interface Props {
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [main, setMain] = useState(gallery[0]);
-  const [principal, setPrincipal] = useState(gallery[galleryIndex]);
-  const [back, setBack] = useState(gallery[galleryIndex + 1]);
-  const [extra_1, setExtra_1] = useState(gallery[galleryIndex + 2]);
-  const [extra_2, setExtra_2] = useState(gallery[galleryIndex + 3]);
-  const [extra_3, setExtra_3] = useState(gallery[galleryIndex + 4]);
+  // const [principal, setPrincipal] = useState(gallery[galleryIndex]);
+  // const [back, setBack] = useState(gallery[galleryIndex + 1]);
+  // const [extra_1, setExtra_1] = useState(gallery[galleryIndex + 2]);
+  // const [extra_2, setExtra_2] = useState(gallery[galleryIndex + 3]);
+  // const [extra_3, setExtra_3] = useState(gallery[galleryIndex + 4]);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
     setMain(gallery[galleryIndex]);
-    // setPrincipal(gallery[galleryIndex]);
-    // setBack(gallery[galleryIndex + 1]);
-    // setExtra_1(gallery[galleryIndex + 2]);
-    // setExtra_2(gallery[galleryIndex + 3]);
-    // setExtra_3(gallery[galleryIndex + 4]);
   }, [gallery, galleryIndex]);
 
   const handleSetGalleryIndex = (index: number) => {
@@ -64,6 +59,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                 height={150}
                 alt=""
                 class="rounded"
+                isBasePath={true}
               />
             </div>
 
