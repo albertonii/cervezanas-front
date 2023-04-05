@@ -1,11 +1,11 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Order } from "../../../lib/types";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { Button, IconButton } from "../../common";
+import { IconButton } from "../../common";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { encodeBase64 } from "../../../utils/utils";
 
 interface Props {
   orders: Order[];
@@ -34,7 +34,13 @@ export function OrderList(props: Props) {
   ];
 
   const handleClickView = (order: Order) => {
-    router.push(`/checkout/success/${order.id}`);
+    const Ds_MerchantParameters = encodeBase64(
+      JSON.stringify({ Ds_Order: order.order_number })
+    );
+
+    router.push(
+      `/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+    );
   };
 
   const filteredItemsByStatus = useMemo(() => {

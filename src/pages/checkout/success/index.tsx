@@ -394,7 +394,9 @@ export async function getServerSideProps(req: NextApiRequest) {
     Ds_Signature: string;
   };
 
-  const { Ds_Order: orderId } = JSON.parse(decodeBase64(Ds_MerchantParameters));
+  const { Ds_Order: orderNumber } = JSON.parse(
+    decodeBase64(Ds_MerchantParameters)
+  );
 
   let { data: orderData, error: orderError } = await supabase
     .from("orders")
@@ -412,7 +414,7 @@ export async function getServerSideProps(req: NextApiRequest) {
       )
     `
     )
-    .eq("order_number", orderId);
+    .eq("order_number", orderNumber);
 
   if (orderError) {
     console.error(orderError.message);
