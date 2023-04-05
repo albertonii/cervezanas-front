@@ -78,7 +78,7 @@ const translationsEn = {
   stock_limit_notification_label:
     "Stock limit notification (when stock quantity is less than)",
   title: "Title",
-  produtc_description:
+  product_description:
     "Be sure to fill in all required fields to successfully enter the product.",
   maltose: "Maltose",
   bitter: "Bitter",
@@ -678,8 +678,8 @@ const translationsEs = {
   tax: "Impuestos",
   total: "Total",
   input_product_award_year_placeholder: "Año de la medalla",
-  input_prodcut_award_name_placeholder: "Nombre de la medalla",
-  input_prodcut_award_description_placeholder: "Descripción",
+  input_product_award_name_placeholder: "Nombre de la medalla",
+  input_product_award_description_placeholder: "Descripción",
   modal_product_award_add: "Añadir Premio",
   product_information: "Información del producto",
   product_options: "Opciones",

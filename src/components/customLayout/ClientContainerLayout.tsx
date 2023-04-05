@@ -20,8 +20,6 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 export function ClientContainerLayout({ children }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
-  console.log(bgImg);
-
   const [bgImg_, setBgImg_] = useState(bgImg);
   const [profileImg_, setProfileImg_] = useState(bgImg);
 

@@ -97,7 +97,7 @@ export function AwardsSectionUpdate({
             <input
               type="text"
               id="award_name"
-              placeholder={t("input_prodcut_award_name_placeholder")!}
+              placeholder={t("input_product_award_name_placeholder")!}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.name`, {
                 required: false,

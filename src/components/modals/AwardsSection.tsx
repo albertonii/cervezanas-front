@@ -55,15 +55,6 @@ export const AwardsSection = ({ form }: Props) => {
     });
   }, [selectedFiles]);
 
-  const showPreview = async (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.target.files!.length > 0) {
-      setSelectedFiles([...selectedFiles, { index, file: e.target.files![0] }]);
-    }
-  };
-
   const handleRemoveAward = (index: number) => {
     setSelectedFiles((current) =>
       current.filter((selectedFile) => selectedFile.index !== index)
@@ -88,7 +79,7 @@ export const AwardsSection = ({ form }: Props) => {
               <input
                 type="text"
                 id="award_name"
-                placeholder={t("input_prodcut_award_name_placeholder")!}
+                placeholder={t("input_product_award_name_placeholder")!}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register(`awards.${index}.name`, {
                   required: false,
@@ -102,7 +93,7 @@ export const AwardsSection = ({ form }: Props) => {
               )}
             </div>
 
-            <div>
+            <div className="ml-4">
               {fields.length > 1 && (
                 <DeleteButton onClick={() => handleRemoveAward(index)} />
               )}
@@ -161,7 +152,7 @@ export const AwardsSection = ({ form }: Props) => {
             </label>
 
             <FilePreviewAndHide
-              storagePath="products"
+              storagePath="products/awards"
               form={form}
               registerName={`awards.${index}.img_url`}
             />

@@ -21,7 +21,7 @@ import {
   ModalAddProductProps,
   ProductPack,
 } from "../../lib/types";
-import { capitalizeFirstLetter } from "../../utils";
+import { capitalizeFirstLetter, formatCurrency } from "../../utils";
 import {
   Button,
   DeleteButton,
@@ -556,16 +556,16 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="price" className="text-sm text-gray-600">
-                {t("price")}
+                {t("price")} €
               </label>
 
               <input
                 id="price"
                 type="number"
-                placeholder="4.7"
+                placeholder={formatCurrency(2.5)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                defaultValue={0}
                 min="0"
+                value="0"
                 {...register(`price`, { required: true, min: 0 })}
               />
 
@@ -696,15 +696,14 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           htmlFor={`packs.${index}.price`}
                           className="text-sm text-gray-600"
                         >
-                          {t("pack_price")}
+                          {t("pack_price")} €
                         </label>
 
                         <input
                           id="price"
                           type="number"
-                          placeholder="2.5"
+                          placeholder={formatCurrency(2.5)}
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={3}
                           required
                           min="0"
                           {...register(`packs.${index}.price` as const, {

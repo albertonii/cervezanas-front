@@ -54,4 +54,5 @@ export const SupabaseProps = {
   PRODUCT_P_PRINCIPAL: "p_principal/",
   CUSTOM_BG_URL: "custom_bg/",
   PROFILE_PHOTO_URL: "profile_photo/",
+  AWARDS_URL: "awards/",
 };
