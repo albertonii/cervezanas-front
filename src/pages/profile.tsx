@@ -18,6 +18,7 @@ import {
   Community,
   ConfigureProducts,
   Profile,
+  ConsumptionPoints,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 
@@ -76,6 +77,8 @@ export default function CustomLayout({
           return <LikesHistory userId={user!.id} />;
         case "reviews":
           return <Reviews reviews={reviews} />;
+        case "consumption_points":
+          return <ConsumptionPoints profile={profile[0]} />;
       }
     }
 

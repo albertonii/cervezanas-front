@@ -313,6 +313,7 @@ export interface Profile {
   campaigns: Campaign[];
   customize_settings: CustomizeSettings[];
   profile_location: ProfileLocation[];
+  isCPOrganizer: boolean;
 }
 
 export interface ProfileLocation {

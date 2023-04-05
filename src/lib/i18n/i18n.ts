@@ -442,6 +442,17 @@ from the beer.`,
   shipped: "Shipped",
   delivered: "Delivered",
   user_cancelled: "User cancelled",
+  consumption_points: "Consumption points",
+  apply_cp_organizer: "Apply consumption points to organizer",
+  form_submit_cp_organizer_title:
+    "Application for registration as an organiser",
+  form_submit_cp_organizer_description: `If you are a willing to create an event, you can apply to become an organiser.
+  Once your application has been validated, you will be able to add your events and consumption points.`,
+  form_submit_cp_organizer_cover_letter: `Cover letter`,
+  form_submit_cp_organizer_cv: `Curriculum`,
+  form_submit_cp_organizer_cover_letter_description: `Briefly describe your experience in the beer industry and your motivations for applying to become an organiser of consumption points. 
+  If you have any events or drinking points you would like to add, you can indicate this in your cover letter. Feel free to add any information you consider relevant.`,
+  form_submit_cp_organizer_cv_description: `Please attach your CV so that we can get to know your experience in the beer and event organisation sector.`,
 };
 
 const translationsEs = {
@@ -893,6 +904,18 @@ desprenden de la cerveza. `,
   shipped: "Enviado",
   delivered: "Entregado",
   user_cancelled: "Cancelado por el usuario",
+  consumption_points: "Puntos de consumo",
+  consumption_points_description: `Los puntos de consumo son aquellos sitios validados por Cervezanas donde disfrutar de los mejores establecimientos, eventos y cervezas.
+  Estos puntos pueden ser fijos (fábricas con Tap Room, restaurantes, etc) o móviles (Barcelona Beer Festival, eventos de cerveza, etc).`,
+  apply_cp_organizer: "Darme de alta como organizador",
+  form_submit_cp_organizer_title: "Solicitud de alta como organizador",
+  form_submit_cp_organizer_description: `Si eres organizador de eventos de cerveza, puedes solicitar tu alta como organizador de puntos de consumo.
+  Una vez validada tu solicitud, podrás añadir tus eventos y puntos de consumo.`,
+  form_submit_cp_organizer_cover_letter: "Carta de presentación",
+  form_submit_cp_organizer_cv: `CV`,
+  form_submit_cp_organizer_cover_letter_description: `Describe brevemente tu experiencia en el sector de la cerveza y tus motivaciones para solicitar tu alta como organizador de puntos de consumo. 
+  Si tienes algún evento o punto de consumo que quieras añadir, puedes indicarlo en la carta de presentación. Sientete libre de añadir cualquier información que consideres relevante.`,
+  form_submit_cp_organizer_cv_description: `Adjunta tu CV para que podamos conocer tu experiencia en el sector de la cerveza y organización de eventos.`,
 };
 
 // the translations

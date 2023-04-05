@@ -27,3 +27,4 @@ export * from "./Profile/Values";
 export * from "./Orders/OrderList";
 export * from "./Orders/Orders";
 export * from "./Reviews/Reviews";
+export * from "./ConsumptionPoints/ConsumptionPoints";

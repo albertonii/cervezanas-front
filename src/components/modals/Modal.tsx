@@ -140,9 +140,6 @@ export function Modal(props: Props) {
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                       <FontAwesomeIcon
-                        // className={`${className} `}
-                        // onMouseEnter={() => setHoverColor("filled")}
-                        // onMouseLeave={() => setHoverColor("unfilled")}
                         icon={faXmark}
                         style={{ color: "beer-dark" }}
                         onClick={() => handleClose()}

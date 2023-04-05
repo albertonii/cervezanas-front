@@ -109,4 +109,5 @@ export interface User {
   identities?: UserIdentity[];
   username: string;
   avatar_url: string;
+  isCPOrganizer: boolean;
 }

@@ -49,44 +49,42 @@ export function Products({
   }
 
   return (
-    <>
-      <div className="py-6 px-4 " aria-label="Products">
-        <div className="flex items-center">
-          <div className="text-4xl pr-12">{t("products")}</div>
+    <div className="py-6 px-4 " aria-label="Products">
+      <div className="flex items-center">
+        <div className="text-4xl pr-12">{t("products")}</div>
 
-          <AddProduct
-            products={products}
-            handleSetProducts={handleSetProducts}
-            customizeSettings={customizeSettings}
-          />
-        </div>
-
-        <ProductList
+        <AddProduct
           products={products}
+          handleSetProducts={handleSetProducts}
+          customizeSettings={customizeSettings}
+        />
+      </div>
+
+      <ProductList
+        products={products}
+        handleEditShowModal={handleEditShowModal}
+        handleDeleteShowModal={handleDeleteShowModal}
+        handleProductModal={handleProductModal}
+        handleSetProducts={handleSetProducts}
+      />
+
+      {isEditShowModal && (
+        <UpdateProduct
+          product={productModal!}
+          handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
+        />
+      )}
+
+      {isDeleteShowModal && (
+        <DeleteProduct
+          products={products!}
+          product={productModal}
+          isDeleteShowModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
-          handleProductModal={handleProductModal}
           handleSetProducts={handleSetProducts}
         />
-
-        {isEditShowModal && (
-          <UpdateProduct
-            product={productModal!}
-            handleSetProducts={handleSetProducts}
-            handleEditShowModal={handleEditShowModal}
-          />
-        )}
-
-        {isDeleteShowModal && (
-          <DeleteProduct
-            products={products!}
-            product={productModal}
-            isDeleteShowModal={isDeleteShowModal}
-            handleDeleteShowModal={handleDeleteShowModal}
-            handleSetProducts={handleSetProducts}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
 }

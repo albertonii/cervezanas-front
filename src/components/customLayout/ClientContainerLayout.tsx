@@ -6,16 +6,12 @@ import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { useAppContext } from "../Context/AppContext";
-import { processRestNotification } from "../TPV";
 
 type Props = {
   children: JSX.Element;
 };
 
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
-// const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
-// const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
-// const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
 export function ClientContainerLayout({ children }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();

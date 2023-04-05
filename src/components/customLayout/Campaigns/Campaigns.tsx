@@ -172,68 +172,66 @@ export function Campaigns({ campaigns: c, products }: Props) {
   };
 
   return (
-    <>
-      <div className="py-6 px-4 " aria-label="Campaigns">
-        <div className="flex flex-col">
-          <div className="text-4xl pr-12">{t("campaigns")}</div>
+    <div className="py-6 px-4 " aria-label="Campaigns">
+      <div className="flex flex-col">
+        <div className="text-4xl pr-12">{t("campaigns")}</div>
 
-          {/* Show/Hide Modal*/}
-          {isShowDeleteModal && (
-            <DeleteCampaign
-              handleResponseModal={handleResponseDeleteModal}
-              handleDeleteShowModal={handleDeleteShowModal}
-            />
-          )}
+        {/* Show/Hide Modal*/}
+        {isShowDeleteModal && (
+          <DeleteCampaign
+            handleResponseModal={handleResponseDeleteModal}
+            handleDeleteShowModal={handleDeleteShowModal}
+          />
+        )}
 
-          {/* Add another campaign  */}
-          <div className="pr-12 pt-6">
-            <Button
-              class="text-md"
-              large
-              primary
-              onClick={() => append(emptyCampaign)}
-            >
-              {t("add_form_campaign")}
-            </Button>
-          </div>
+        {/* Add another campaign  */}
+        <div className="pr-12 pt-6">
+          <Button
+            class="text-md"
+            large
+            primary
+            onClick={() => append(emptyCampaign)}
+          >
+            {t("add_form_campaign")}
+          </Button>
+        </div>
 
-          {/* Map campaigns and make a editable form for each one */}
-          <div className="mt-6">
-            {fields.map((field, index) => (
-              <div key={field.id} className="mt-6">
-                <CampaignForm
+        {/* Map campaigns and make a editable form for each one */}
+        <div className="mt-6">
+          {fields.map((field, index) => (
+            <div key={field.id} className="mt-6">
+              <CampaignForm
+                index={index}
+                campaigns={campaigns}
+                field={field}
+                form={form}
+                handleDeleteShowModal={handleDeleteShowModal}
+                handleShowProductsInCampaignModal={
+                  handleShowProductsInCampaignModal
+                }
+                handleSaveCampaign={handleSaveCampaign}
+              />
+
+              {/* Products in Campaign Modal  */}
+              {isShowProductsInCampaignModal && (
+                <SearchCheckboxListCampaign
                   index={index}
-                  campaigns={campaigns}
-                  field={field}
+                  products={products}
                   form={form}
-                  handleDeleteShowModal={handleDeleteShowModal}
+                  handleResponseLinkProductsModal={
+                    handleResponseLinkProductsModal
+                  }
                   handleShowProductsInCampaignModal={
                     handleShowProductsInCampaignModal
                   }
-                  handleSaveCampaign={handleSaveCampaign}
+                  handleProductsInCampaign={handleProductsInCampaign}
+                  campaign={campaigns[campaignIndex]}
                 />
-
-                {/* Products in Campaign Modal  */}
-                {isShowProductsInCampaignModal && (
-                  <SearchCheckboxListCampaign
-                    index={index}
-                    products={products}
-                    form={form}
-                    handleResponseLinkProductsModal={
-                      handleResponseLinkProductsModal
-                    }
-                    handleShowProductsInCampaignModal={
-                      handleShowProductsInCampaignModal
-                    }
-                    handleProductsInCampaign={handleProductsInCampaign}
-                    campaign={campaigns[campaignIndex]}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

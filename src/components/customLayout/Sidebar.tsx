@@ -51,6 +51,11 @@ export function Sidebar(props: Props) {
       icon: "watchlist",
       option: "likes_history",
     },
+    {
+      name: t("consumption_points"),
+      icon: "location",
+      option: "consumption_points",
+    },
   ];
 
   return (

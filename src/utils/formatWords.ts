@@ -7,5 +7,6 @@ export function toLowerCase(string: string) {
 }
 
 export function getFileExtensionByName(fileName: string) {
+  console.log(fileName);
   return fileName.split(".").pop();
 }

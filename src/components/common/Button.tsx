@@ -71,7 +71,7 @@ export function Button({
             ? " bg-beer-softBlonde hover:bg-beer-blonde "
             : "hover:bg-beer-softBlonde shrink-0"
         }
-        ${accent ? "bg-beer-foam" : ""}
+        ${accent ? "bg-beer-foam border-beer-blonde" : ""}
         ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
         ${className} 
       `}
