@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import i18n from "../lib/i18n/i18n";
+import i18n from "../lib/translations/i18n";
 import { useTranslation } from "react-i18next";
 import { Select } from "@supabase/ui";
 import { useRouter } from "next/router";

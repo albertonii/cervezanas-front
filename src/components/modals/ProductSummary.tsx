@@ -40,7 +40,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         {/* Description  */}
         <fieldset className="flex flex-row gap-2">
           <label className="text-md font-semibold text-gray-600">
-            {t("description_label")}
+            {t("description")}
           </label>
 
           <span className="text-md">{getValues("description")}</span>
@@ -235,7 +235,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
 
               <div className="space-x-2">
                 <label className="text-md font-semibold text-gray-600">
-                  {t("award_description")}
+                  {t("description")}
                 </label>
 
                 <span className="text-md">{award.description}</span>

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import "../lib/i18n/i18n";
+import "../lib/translations/i18n";
 import { supabase } from "../utils/supabaseClient";
 import { useAuth } from "../components/Auth";
 import { useEffect, useState } from "react";

@@ -1,14 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "@tsndr/cloudflare-worker-jwt";
 
 const PUBLIC_FILE = /\.(.*)$/;
-import {
-  ROUTE_HOME,
-  ROUTE_SIGNOUT,
-  ROUTE_SIGNIN,
-  ROUTE_SIGNUP,
-} from "./config";
+import { ROUTE_SIGNIN, ROUTE_SIGNUP } from "./config";
 
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get("sb-access-token");
