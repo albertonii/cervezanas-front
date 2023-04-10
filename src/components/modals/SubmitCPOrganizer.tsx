@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { getFileExtensionByName } from "../../utils";
@@ -13,7 +13,20 @@ type FormValues = {
   cv_file: File[];
 };
 
-export function SubmitCPOrganizer() {
+interface props {
+  handleCPOrganizerStatus: ComponentProps<any>;
+}
+
+{
+  /**
+  CP Organizer status:
+    -1: not submitted
+    0: pending
+    1: accepted
+    2: rejected
+ */
+}
+export function SubmitCPOrganizer({ handleCPOrganizerStatus }: props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();
@@ -45,22 +58,44 @@ export function SubmitCPOrganizer() {
               upsert: true,
               cacheControl: "0",
             }
-          );
+          )
+          .then(async (res) => {
+            const { error: cvError } = await supabase.storage
+              .from("documents")
+              .upload(
+                `/cv/${user?.id}.${getFileExtensionByName(cv_file[0].name)}`,
+                cv_file[0],
+                {
+                  upsert: true,
+                  cacheControl: "0",
+                }
+              )
+              .catch((err) => {
+                console.log(err);
+                throw cvError;
+              })
+              .then(async (res) => {
+                // Update user status
+                const { error: userError } = await supabase
+                  .from("users")
+                  .update({ cp_organizer_status: 0 }) // 0: pending
+                  .eq("id", user?.id)
+                  .then((res) => {
+                    handleCPOrganizerStatus(0);
+                    return res;
+                  });
 
-        if (coverLetterError) throw coverLetterError;
+                if (userError) throw userError;
 
-        const { error: cvError } = await supabase.storage
-          .from("documents")
-          .upload(
-            `/cv/${user?.id}.${getFileExtensionByName(cv_file[0].name)}`,
-            cv_file[0],
-            {
-              upsert: true,
-              cacheControl: "0",
-            }
-          );
+                return res;
+              });
 
-        if (cvError) throw cvError;
+            return res;
+          })
+          .catch((err) => {
+            console.log(err);
+            throw coverLetterError;
+          });
       } else {
         return null;
       }
@@ -104,15 +139,6 @@ export function SubmitCPOrganizer() {
                   })}
                   accept=".pdf,.doc,.docs"
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
-                  </svg>
-                </div>
               </div>
               {errors.cover_letter_file && (
                 <p className="text-xs italic text-red-500">
@@ -140,16 +166,6 @@ export function SubmitCPOrganizer() {
                   })}
                   accept=".pdf,.doc,.docs"
                 />
-
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
-                  </svg>
-                </div>
               </div>
               {errors.cv_file && (
                 <p className="text-xs italic text-red-500">

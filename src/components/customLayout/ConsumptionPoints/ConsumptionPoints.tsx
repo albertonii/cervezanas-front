@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Profile } from "../../../lib/types";
-import { Button } from "../../common";
 import { SubmitCPOrganizer } from "../../modals";
+import CPAccepted from "./CPAccepted";
+import CPPending from "./CPPending";
+import CPRejected from "./CPRejected";
 
 interface props {
   profile: Profile;
 }
 
-export function ConsumptionPoints({ profile: { isCPOrganizer } }: props) {
+export function ConsumptionPoints({ profile: { cp_organizer_status } }: props) {
   const { t } = useTranslation();
+
+  const [cpOrganizerStatus, setCPOrganizerStatus] =
+    useState(cp_organizer_status);
+
+  const handleCPOrganizerStatus = (status: number) => {
+    setCPOrganizerStatus(status);
+  };
 
   const handleClick = () => {};
 
@@ -18,11 +27,7 @@ export function ConsumptionPoints({ profile: { isCPOrganizer } }: props) {
       <div className="flex flex-col">
         <div className="text-4xl pr-12">{t("consumption_points")}</div>
 
-        {isCPOrganizer ? (
-          <div className="text-2xl pr-12">
-            {t("consumption_points_organizer")}
-          </div>
-        ) : (
+        {cpOrganizerStatus === -1 ? (
           <div>
             <div className="text-lg text-beer-dark bg-beer-foam p-2 mt-4">
               {t("consumption_points_description")}
@@ -31,7 +36,7 @@ export function ConsumptionPoints({ profile: { isCPOrganizer } }: props) {
             <div>
               <p>
                 Date de alta a través de nuestro formulario para obtener el
-                título de organizador de puntos cervezanas{" "}
+                título de organizador de puntos cervezanas.{" "}
               </p>
               <p>
                 Con él tendrás la potestad de organizar eventos y promociones
@@ -43,9 +48,21 @@ export function ConsumptionPoints({ profile: { isCPOrganizer } }: props) {
 
             {/* Modal with form to register as a consumption point organizer  */}
             <div className="pr-12 pt-6">
-              <SubmitCPOrganizer />
+              <SubmitCPOrganizer
+                handleCPOrganizerStatus={handleCPOrganizerStatus}
+              />
             </div>
           </div>
+        ) : (
+          <>
+            {cpOrganizerStatus === 0 ? (
+              <CPPending />
+            ) : (
+              <>
+                <>{cpOrganizerStatus === 1 ? <CPAccepted /> : <CPRejected />}</>
+              </>
+            )}
+          </>
         )}
       </div>
     </div>

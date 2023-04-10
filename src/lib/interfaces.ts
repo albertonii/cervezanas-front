@@ -109,5 +109,5 @@ export interface User {
   identities?: UserIdentity[];
   username: string;
   avatar_url: string;
-  isCPOrganizer: boolean;
+  cp_organizer_status: number;
 }

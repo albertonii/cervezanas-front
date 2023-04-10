@@ -28,3 +28,6 @@ export * from "./Orders/OrderList";
 export * from "./Orders/Orders";
 export * from "./Reviews/Reviews";
 export * from "./ConsumptionPoints/ConsumptionPoints";
+export * from "./ConsumptionPoints/CPAccepted";
+export * from "./ConsumptionPoints/CPRejected";
+export * from "./ConsumptionPoints/CPPending";
