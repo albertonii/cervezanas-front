@@ -225,7 +225,7 @@ export default function ProductId({
   }
 
   return (
-    <Layout usePadding={true} useBackdrop={false}>
+    <>
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
@@ -395,7 +395,7 @@ export default function ProductId({
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 }
 

@@ -2,6 +2,12 @@ import classNames from "classnames";
 import { MessageList, useMessage } from "./message";
 import { Breadcrumb, Header, Footer } from "./index";
 import { useAuth } from "./Auth";
+import {
+  AppContextProvider,
+  ShoppingCartProvider,
+} from "../components/Context/index";
+import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -13,6 +19,14 @@ Layout.defaultProps = {
   usePadding: true,
   useBackdrop: false,
 };
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 
 export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   const { messages } = useMessage();
@@ -27,33 +41,51 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   }
 
   return (
-    <div className="flex flex-col h-screen justify-between">
-      <Header />
+    <>
+      <AppContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <ShoppingCartProvider>
+            <Head>
+              <title>Cervezanas - Comunidad cervecera</title>
+              <meta
+                content="width=device-width, initial-scale=1"
+                name="viewport"
+              />
+            </Head>
 
-      {loggedIn && (
-        <div
-          className={classNames(
-            "w-full h-auto mx-auto relative",
-            usePadding && "px-4 sm:px-6 lg:px-8",
-            useBackdrop && "bg-gray-200"
-          )}
-        >
-          <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
-        </div>
-      )}
+            <div className="flex flex-col h-screen justify-between">
+              <Header />
 
-      <main
-        className={classNames(
-          "w-full h-auto mx-auto relative",
-          usePadding && "px-2 sm:px-6 lg:px-8",
-          useBackdrop && "bg-gray-200"
-        )}
-      >
-        <MessageList messages={messages ?? []} />
-        {children}
-      </main>
+              {loggedIn && (
+                <div
+                  className={classNames(
+                    "w-full h-auto mx-auto relative",
+                    usePadding && "px-4 sm:px-6 lg:px-8",
+                    useBackdrop && "bg-gray-200"
+                  )}
+                >
+                  <Breadcrumb
+                    getDefaultTextGenerator={(path) => titleize(path)}
+                  />
+                </div>
+              )}
 
-      <Footer>.</Footer>
-    </div>
+              <main
+                className={classNames(
+                  "w-full h-auto mx-auto relative",
+                  usePadding && "px-2 sm:px-6 lg:px-8",
+                  useBackdrop && "bg-gray-200"
+                )}
+              >
+                <MessageList messages={messages ?? []} />
+                {children}
+              </main>
+
+              <Footer>.</Footer>
+            </div>
+          </ShoppingCartProvider>
+        </QueryClientProvider>
+      </AppContextProvider>
+    </>
   );
 }

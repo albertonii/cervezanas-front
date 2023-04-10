@@ -32,7 +32,7 @@ export default function Error({ order, products, isError }: Props) {
   }, [loggedIn, products]);
 
   return (
-    <Layout usePadding={true} useBackdrop={false}>
+    <>
       {!loading && (
         <div className="container mx-auto sm:py-4 lg:py-6">
           <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
@@ -266,7 +266,7 @@ export default function Error({ order, products, isError }: Props) {
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 }
 

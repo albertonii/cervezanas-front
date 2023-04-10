@@ -1,9 +1,8 @@
 import React from "react";
-import { Layout } from "../components";
 
 export default function LegalNotice() {
   return (
-    <Layout usePadding={true} useBackdrop={false}>
+    <>
       <div className="container m-auto">
         <div className="text-xl mt-12 mb-4">Datos identificativos</div>
 
@@ -140,6 +139,6 @@ export default function LegalNotice() {
           http://ec.europa.eu/consumers/odr/.
         </div>
       </div>
-    </Layout>
+    </>
   );
 }

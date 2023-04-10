@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 import { Product } from "../lib/types";
-import { Layout } from "../components";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 
@@ -26,7 +25,7 @@ export default function MarketPlace({ products }: Props) {
   }, [loggedIn]);
 
   return (
-    <Layout usePadding={true} useBackdrop={false}>
+    <>
       {!loading && (
         <div className="container mx-auto sm:py-2 lg:py-3 ">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
@@ -39,7 +38,7 @@ export default function MarketPlace({ products }: Props) {
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 }
 

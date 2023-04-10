@@ -91,7 +91,7 @@ export default function CustomLayout({
   };
 
   return (
-    <Layout usePadding={false} useBackdrop={false}>
+    <>
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
@@ -104,7 +104,7 @@ export default function CustomLayout({
           )}
         </div>
       )}
-    </Layout>
+    </>
   );
 }
 

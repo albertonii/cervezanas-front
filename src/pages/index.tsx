@@ -4,7 +4,6 @@ import { supabase } from "../utils/supabaseClient";
 import { useAuth } from "../components/Auth";
 import { useEffect, useState } from "react";
 import { Button } from "../components/common/Button";
-import { Layout } from "../components";
 
 export default function Main() {
   const { user } = useAuth();
@@ -53,16 +52,14 @@ export default function Main() {
         <title>Cervezanas</title>
       </Head>
 
-      <Layout useBackdrop={true} usePadding={true}>
-        <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
-          <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
-            Main Page
-            <Button onClick={() => callClaims()} primary class={""}>
-              Prueba de claims
-            </Button>
-          </div>
-        </main>
-      </Layout>
+      <main className="flex justify-center py-10 px-4 pt-10 sm:px-12">
+        <div className="w-full bg-white p-4 shadow-lg sm:w-4/5 md:w-2/3 lg:w-1/2">
+          Main Page
+          <Button onClick={() => callClaims()} primary class={""}>
+            Prueba de claims
+          </Button>
+        </div>
+      </main>
     </>
   );
 }

@@ -55,37 +55,35 @@ export default function Success({
 
   if (isError) {
     return (
-      <Layout usePadding={true} useBackdrop={false}>
-        <div className="container mx-auto sm:py-4 lg:py-6">
-          <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
-            <div className="flex flex-col">
-              <div className="flex sm:items-baseline sm:space-x-4">
-                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                  Order Error
-                </h1>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-              <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Order Details
-                  {t("order_details")}
-                </h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  Details and status for your order.
-                </p>
-              </div>
+      <div className="container mx-auto sm:py-4 lg:py-6">
+        <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
+          <div className="flex flex-col">
+            <div className="flex sm:items-baseline sm:space-x-4">
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                Order Error
+              </h1>
             </div>
           </div>
         </div>
-      </Layout>
+        <div className="mt-8">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div className="px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Order Details
+                {t("order_details")}
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                Details and status for your order.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Layout usePadding={true} useBackdrop={false}>
+    <>
       {!loading && (
         <div className="container mx-auto sm:py-4 lg:py-6">
           <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
@@ -383,7 +381,7 @@ export default function Success({
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 }
 
