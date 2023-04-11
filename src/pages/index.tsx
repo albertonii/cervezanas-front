@@ -5,7 +5,7 @@ import { useAuth } from "../components/Auth";
 import { useEffect, useState } from "react";
 import { Button } from "../components/common/Button";
 
-export default function Main() {
+export default function Home() {
   const { user } = useAuth();
 
   const [output, setOutput] = useState("");
