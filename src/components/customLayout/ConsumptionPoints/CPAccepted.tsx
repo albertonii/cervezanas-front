@@ -1,24 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import HorizontalSections from "../../common/HorizontalSections";
+import CPFixed from "./CPFixed";
+import CPMobile from "./CPMobile";
 
 // Consumption Point status is in pending for validation by the admin of the platform
 export default function CPAccepted() {
+  const [menuOption, setMenuOption] = useState<string>("cp_fixed");
+
+  const renderSwitch = () => {
+    switch (menuOption) {
+      case "cp_fixed":
+        return <CPFixed />;
+      case "cp_mobile":
+        return <CPMobile />;
+    }
+  };
+
+  const handleMenuClick = (opt: string): void => {
+    setMenuOption(opt);
+  };
+
   return (
-    <div>
+    <div className="h-[50vh]">
       <div className="text-3xl">¡Petición aceptada!</div>
 
       <div>
-        <div className="text-lg">
+        <div className="text-lg max-w-3xl">
           El equipo de cervezanas ha recibido tu solicitud para participar como
-          punto de consumo certificado. Estamos revisando la información que nos
-          has hecho llegar. ¡Te mantendremos informado lo antes posible!
+          punto de consumo certificado y has sido admitido. Ahora podrás usar
+          los paneles de control para gestionar tu punto de consumo.
         </div>
       </div>
 
-      <div className="mt-4">
-        <span className="text-3xl">
-          ¡Muchas gracias por confiar en nosotros!
-        </span>
-      </div>
+      <HorizontalSections
+        handleMenuClick={handleMenuClick}
+        tabs={["cp_fixed", "cp_mobile"]}
+      />
+
+      <div className="container">{renderSwitch()}</div>
     </div>
   );
 }

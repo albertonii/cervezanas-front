@@ -1,3 +1,4 @@
+import HorizontalSections from "../../common/HorizontalSections";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Profile } from "../../../lib/types";
@@ -14,11 +15,9 @@ export function Profile({ profile }: Props) {
   const { user, loggedIn } = useAuth();
 
   const [menuOption, setMenuOption] = useState<string>("account");
-  const [activeTab, setActiveTab] = useState<string>("account");
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
-    setActiveTab(opt);
   };
 
   const renderSwitch = () => {
@@ -29,8 +28,6 @@ export function Profile({ profile }: Props) {
         return <Details />;
       case "values":
         return <Values />;
-      // case "origin":
-      //   return <History user={user} />;
     }
   };
 
@@ -40,61 +37,10 @@ export function Profile({ profile }: Props) {
 
   return (
     <>
-      <div className="" aria-label="Profile Submenu">
-        <ul className="pl-72 pr-6 pb-6 hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
-          <li
-            className={`
-          ${
-            activeTab === "account"
-              ? "bg-gray-100  text-gray-900"
-              : "bg-beer-foam"
-          }
-          w-full flex items-center justify-center p-4 rounded-l-lg focus:ring-4 hover:cursor-pointer focus:ring-beer-blonde hover:bg-gray-50 hover:text-gray-700 active focus:outline-none dark:bg-gray-700 dark:text-white`}
-            onClick={() => handleMenuClick("account")}
-          >
-            {t("account")}
-          </li>
-
-          <li
-            className={`
-          ${
-            activeTab === "details"
-              ? "bg-gray-100 text-gray-900"
-              : "bg-beer-foam"
-          }
-          w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-            onClick={() => handleMenuClick("details")}
-          >
-            {t("details")}
-          </li>
-
-          <li
-            className={`
-          ${
-            activeTab === "values"
-              ? "bg-gray-100 text-gray-900"
-              : "bg-beer-foam"
-          }
-        rounded-r-lg w-full flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-            onClick={() => handleMenuClick("values")}
-          >
-            {t("values")}
-          </li>
-
-          {/* <li
-            className={`
-          ${
-            activeTab === "origin"
-              ? "bg-gray-100 text-gray-900"
-              : "bg-beer-foam"
-          }
-          w-full rounded-r-lg flex items-center justify-center p-4 hover:cursor-pointer hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-beer-blonde focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700`}
-            onClick={() => handleMenuClick("origin")}
-          >
-            {t("origin")}
-          </li> */}
-        </ul>
-      </div>
+      <HorizontalSections
+        handleMenuClick={handleMenuClick}
+        tabs={["account", "details", "values"]}
+      />
 
       {!loggedIn ? (
         <div>{t("loading")}</div>

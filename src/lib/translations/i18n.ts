@@ -450,6 +450,8 @@ from the beer.`,
   form_submit_cp_organizer_cover_letter_description: `Briefly describe your experience in the beer industry and your motivations for applying to become an organiser of consumption points. 
   If you have any events or drinking points you would like to add, you can indicate this in your cover letter. Feel free to add any information you consider relevant.`,
   form_submit_cp_organizer_cv_description: `Please attach your CV so that we can get to know your experience in the beer and event organisation sector.`,
+  cp_fixed: `Fixed consumption points`,
+  cp_mobile: `Mobile consumption points`,
 };
 
 const translationsEs = {
@@ -911,6 +913,8 @@ desprenden de la cerveza. `,
   form_submit_cp_organizer_cover_letter_description: `Describe brevemente tu experiencia en el sector de la cerveza y tus motivaciones para solicitar tu alta como organizador de puntos de consumo. 
   Si tienes algún evento o punto de consumo que quieras añadir, puedes indicarlo en la carta de presentación. Sientete libre de añadir cualquier información que consideres relevante.`,
   form_submit_cp_organizer_cv_description: `Adjunta tu CV para que podamos conocer tu experiencia en el sector de la cerveza y organización de eventos.`,
+  cp_fixed: `Puntos fijos`,
+  cp_mobile: `Puntos móviles`,
 };
 
 // the translations

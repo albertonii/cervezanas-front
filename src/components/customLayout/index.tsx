@@ -31,3 +31,5 @@ export * from "./ConsumptionPoints/ConsumptionPoints";
 export * from "./ConsumptionPoints/CPAccepted";
 export * from "./ConsumptionPoints/CPRejected";
 export * from "./ConsumptionPoints/CPPending";
+export * from "./ConsumptionPoints/CPFixed";
+export * from "./ConsumptionPoints/CPMobile";
