@@ -14,6 +14,8 @@ interface Props {
 export function Account({ profile }: Props) {
   const { t } = useTranslation();
 
+  if (!profile) return null;
+
   return (
     <>
       <div className="py-6 px-4" id="account-container">

@@ -25,15 +25,18 @@ import {
   ConsumptionPoints,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
+import SubmittedCPs from "../components/admin/SubmittedCPs";
 
 interface Props {
-  profile: ProfileType[];
+  submittedCPs: IConsumptionPoints[];
+  profile: ProfileType;
   reviews: Review[];
   product_lots: ProductLot[];
   cps: IConsumptionPoints;
 }
 
 export default function CustomLayout({
+  submittedCPs,
   profile,
   reviews,
   product_lots,
@@ -41,7 +44,7 @@ export default function CustomLayout({
 }: Props) {
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const { sidebar, changeSidebarActive } = useAppContext();
   const [menuOption, setMenuOption] = useState<string>(sidebar);
 
@@ -50,51 +53,53 @@ export default function CustomLayout({
   }, []);
 
   const renderSwitch = (): JSX.Element => {
-    if (profile && reviews) {
-      switch (menuOption) {
-        case "profile":
-          return <Profile profile={profile[0]} />;
-        case "products":
-          return (
-            <ConfigureProducts
-              products={profile[0].products}
-              lots={product_lots}
-              customizeSettings={profile[0].customize_settings[0]}
-            />
-          );
-        case "campaigns":
-          return (
-            <Campaigns
-              campaigns={profile[0].campaigns}
-              products={profile[0].products}
-            />
-          );
-        case "factories":
-          return <Factories />;
-        case "orders":
-          return <Orders orders={profile[0]?.orders ?? []} />;
-        case "community":
-          return <Community />;
-        case "stats":
-          return <Stats />;
-        case "ledger":
-          return <Ledger />;
-        case "likes_history":
-          return <LikesHistory userId={user!.id} />;
-        case "reviews":
-          return <Reviews reviews={reviews} />;
-        case "consumption_points":
-          return <ConsumptionPoints profile={profile[0]} cps={cps} />;
-      }
+    switch (menuOption) {
+      case "submitted_aps":
+        return <SubmittedCPs submittedCPs={submittedCPs} />;
+      case "profile":
+        return <Profile profile={profile} />;
+      case "products":
+        return (
+          <ConfigureProducts
+            products={profile.products}
+            lots={product_lots}
+            customizeSettings={profile.customize_settings[0]}
+          />
+        );
+      case "campaigns":
+        return (
+          <Campaigns
+            campaigns={profile.campaigns}
+            products={profile.products}
+          />
+        );
+      case "factories":
+        return <Factories />;
+      case "orders":
+        return <Orders orders={profile?.orders ?? []} />;
+      case "community":
+        return <Community />;
+      case "stats":
+        return <Stats />;
+      case "ledger":
+        return <Ledger />;
+      case "likes_history":
+        return <LikesHistory userId={user!.id} />;
+      case "reviews":
+        return <Reviews reviews={reviews} />;
+      case "consumption_points":
+        return <ConsumptionPoints profile={profile} cps={cps} />;
+      default:
+        return <Account profile={profile} />;
     }
-
-    return <Account profile={profile[0]} />;
   };
 
   const handleMenuOptions = (childData: string) => {
     changeSidebarActive(childData);
     setMenuOption(childData);
   };
+
+  if (role === null || user === null) return <></>;
 
   return (
     <>
@@ -104,8 +109,10 @@ export default function CustomLayout({
         <div className="flex flex-row">
           {loggedIn && (
             <>
-              <Sidebar parentCallback={handleMenuOptions} />
-              <ClientContainerLayout>{renderSwitch()}</ClientContainerLayout>
+              <Sidebar parentCallback={handleMenuOptions} role={role} />
+              <ClientContainerLayout role={role} user={user}>
+                {renderSwitch()}
+              </ClientContainerLayout>
             </>
           )}
         </div>
@@ -153,62 +160,83 @@ export async function getServerSideProps({ req }: any) {
     profileData = [];
   }
 
-  let { data: reviewData, error: reviewError } = await supabase
-    .from("reviews")
-    .select(
-      `
+  // Return different data by role
+  if (
+    profileData[0].role === "producer" ||
+    profileData[0].role === "consumer"
+  ) {
+    let { data: reviewData, error: reviewError } = await supabase
+      .from("reviews")
+      .select(
+        `
         *,
         products (*,
           product_multimedia (*)
         ),
         users (*)
       `
-    )
-    .eq("owner_id", user?.id);
-  if (reviewError) throw reviewError;
+      )
+      .eq("owner_id", user?.id);
+    if (reviewError) throw reviewError;
 
-  if (reviewData === undefined || reviewData === null) {
-    reviewData = [];
-  }
+    if (reviewData === undefined || reviewData === null) {
+      reviewData = [];
+    }
 
-  let { data: productLotData, error: productLotError } = await supabase
-    .from("product_lot")
-    .select(
-      `
+    let { data: productLotData, error: productLotError } = await supabase
+      .from("product_lot")
+      .select(
+        `
       *,
       products (
         *
       )
     `
-    )
-    .eq("owner_id", user?.id);
+      )
+      .eq("owner_id", user?.id);
 
-  if (productLotError) console.error(productLotError);
+    if (productLotError) console.error(productLotError);
 
-  let { data: cps, error: cpsError } = await supabase
-    .from("consumption_points")
-    .select(
-      `
+    let { data: cps, error: cpsError } = await supabase
+      .from("consumption_points")
+      .select(
+        `
         *,
         cp_fixed (*),
         cp_mobile (*)
       `
-    )
-    .eq("owner_id", user?.id);
+      )
+      .eq("owner_id", user?.id);
 
-  if (cpsError) console.error(cpsError);
-  console.log(cps![0]);
+    if (cpsError) console.error(cpsError);
 
-  if (productLotData === undefined || productLotData === null) {
-    productLotData = [];
+    if (productLotData === undefined || productLotData === null) {
+      productLotData = [];
+    }
+
+    return {
+      props: {
+        product_lots: productLotData,
+        profile: profileData[0],
+        reviews: reviewData,
+        cps: cps,
+      },
+    };
+  } else {
+    let { data: submittedCPs, error: submittedCPsError } = await supabase
+      .from("consumption_points")
+      .select(
+        `
+        *,
+        owner_id (id, name, email, username, role)
+        `
+      );
+
+    if (submittedCPsError) console.error(submittedCPsError);
+    return {
+      props: {
+        submittedCPs: submittedCPs,
+      },
+    };
   }
-
-  return {
-    props: {
-      product_lots: productLotData,
-      profile: profileData,
-      reviews: reviewData,
-      cps: cps,
-    },
-  };
 }

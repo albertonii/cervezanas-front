@@ -43,7 +43,7 @@ export function LocationForm({ profile_location }: Props) {
     town,
     address_1,
     address_2,
-  } = profile_location;
+  } = profile_location ?? {};
 
   const {
     formState: { errors },

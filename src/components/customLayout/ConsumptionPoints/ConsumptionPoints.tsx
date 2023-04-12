@@ -24,8 +24,6 @@ export function ConsumptionPoints({
     setCPOrganizerStatus(status);
   };
 
-  const handleClick = () => {};
-
   return (
     <div className="py-6 px-4 " aria-label="ConsumptionPoints">
       <div className="flex flex-col">

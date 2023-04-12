@@ -15,12 +15,12 @@ import {
   ROUTE_SIGNOUT,
   ROUTE_SIGNUP,
 } from "../../config";
-import { SignUpInterface, User } from "../../lib/interfaces";
-import { ROLE_ENUM } from "./SignUpForm";
+import { ROLE_ENUM, SignUpInterface, User } from "../../lib/interfaces";
 import { useTranslation } from "react-i18next";
 
 export interface AuthSession {
   user: User | null;
+  role: ROLE_ENUM | null;
   loading: boolean;
   setUser: (user: User | null) => void;
   signUp: (payload: SignUpInterface) => void;
@@ -34,6 +34,7 @@ export interface AuthSession {
 
 export const AuthContext = createContext<AuthSession>({
   user: null,
+  role: null,
   setUser: () => {},
   signIn: () => {},
   signUp: () => {},
@@ -53,6 +54,7 @@ export interface Props {
 export const AuthContextProvider = (props: Props) => {
   const { supabaseClient: supabase } = props;
   const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -109,6 +111,27 @@ export const AuthContextProvider = (props: Props) => {
       authListener?.unsubscribe();
     };
   }, [handleMessage, supabase.auth, t]);
+
+  // TODO: OPTIMIZAR ESTO. Si se actualiza el usuario se ejecuta de nuevo
+  useEffect(() => {
+    if (!user) return;
+
+    const getRole = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user?.id);
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      setRole(data![0].role);
+    };
+
+    getRole();
+  }, [supabase, user]);
 
   const signUp = async (payload: SignUpInterface) => {
     try {
@@ -235,6 +258,7 @@ export const AuthContextProvider = (props: Props) => {
 
   const value = {
     user,
+    role,
     loading,
     setUser: (user: User | null) => setUser(user),
     signUp,

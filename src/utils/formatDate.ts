@@ -9,3 +9,7 @@ export function formatDateString(dateString: string) {
 export function formatDateDefaultInput(date: string) {
   return new Date(date).toISOString().substring(0, 10);
 }
+
+export function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString();
+}

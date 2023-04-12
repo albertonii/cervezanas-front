@@ -46,13 +46,45 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
     const { cover_letter_file, cv_file } = formValues;
 
     const submitCPOrganizer = async () => {
+      const coverLetterName = encodeURIComponent(cover_letter_file[0].name);
+      const cvName = encodeURIComponent(cv_file[0].name);
+
       if (isValidObject(cover_letter_file) && isValidObject(cv_file)) {
+        // Update user status
+        const { error: cpError } = await supabase
+          .from("consumption_points")
+          .insert({
+            cp_organizer_status: 0,
+            owner_id: user?.id,
+            cover_letter_name: coverLetterName,
+            cv_name: cvName,
+          }) // 0: pending
+          .then((res) => {
+            handleCPOrganizerStatus(0);
+            return res;
+          })
+          .then(async (res) => {
+            // Update user status
+            const { error: userError } = await supabase
+              .from("users")
+              .update({ cp_organizer_status: 0 }) // 0: pending
+              .eq("id", user?.id)
+              .then((res) => {
+                handleCPOrganizerStatus(0);
+                return res;
+              });
+
+            if (userError) throw userError;
+
+            return res;
+          });
+
+        if (cpError) throw cpError;
+
         const { error: coverLetterError } = await supabase.storage
           .from("documents")
           .upload(
-            `/cover_letter/${user?.id}.${getFileExtensionByName(
-              cover_letter_file[0].name
-            )}`,
+            `/cover_letter/${user?.id}_${coverLetterName}`,
             cover_letter_file[0],
             {
               upsert: true,
@@ -62,31 +94,15 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
           .then(async (res) => {
             const { error: cvError } = await supabase.storage
               .from("documents")
-              .upload(
-                `/cv/${user?.id}.${getFileExtensionByName(cv_file[0].name)}`,
-                cv_file[0],
-                {
-                  upsert: true,
-                  cacheControl: "0",
-                }
-              )
+              .upload(`/cv/${user?.id}_${cvName}`, cv_file[0], {
+                upsert: true,
+                cacheControl: "0",
+              })
               .catch((err) => {
                 console.log(err);
                 throw cvError;
               })
               .then(async (res) => {
-                // Update user status
-                const { error: userError } = await supabase
-                  .from("users")
-                  .update({ cp_organizer_status: 0 }) // 0: pending
-                  .eq("id", user?.id)
-                  .then((res) => {
-                    handleCPOrganizerStatus(0);
-                    return res;
-                  });
-
-                if (userError) throw userError;
-
                 return res;
               });
 

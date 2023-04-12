@@ -52,7 +52,7 @@ export function DropdownButton(props: DropdownProps) {
           </Link>
         );
 
-      case "logout":
+      case "signout":
         return (
           <Link href={{ pathname: `/${option}` }}>
             <span

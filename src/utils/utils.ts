@@ -20,3 +20,19 @@ export function encodeBase64(string: string) {
 export function decodeBase64(string: string) {
   return Buffer.from(string, "base64").toString();
 }
+
+export function generateDownloadableLink(blob: any, filename: string) {
+  const url = window.URL.createObjectURL(new Blob([blob]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", `${decodeURIComponent(filename)}`);
+
+  // Append to html link element page
+  document.body.appendChild(link);
+
+  // Start download
+  link.click();
+
+  // Clean up and remove the link
+  link.parentNode?.removeChild(link);
+}

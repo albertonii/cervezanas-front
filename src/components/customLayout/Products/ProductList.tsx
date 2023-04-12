@@ -54,13 +54,6 @@ export function ProductList({
     handleProductModal(product);
   };
 
-  /*
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductModal(product);
-  };
-  */
-
   const handleArchive = async (product: any) => {
     // Update product state to archived and isPublic to false
     // Update product

@@ -3,10 +3,10 @@ import { useAppContext } from "../Context/AppContext";
 
 type Props = {
   parentCallback: (menuOption: string) => void;
+  role: string;
 };
 
-export function Sidebar(props: Props) {
-  const { parentCallback } = props;
+export function Sidebar({ parentCallback, role }: Props) {
   const { sidebar } = useAppContext();
 
   const { t } = useTranslation();
@@ -15,48 +15,57 @@ export function Sidebar(props: Props) {
     parentCallback(option);
   };
 
-  const sidebarLinks = [
-    {
-      name: t("profile"),
-      icon: "user",
-      option: "profile",
-    },
-    {
-      name: t("products"),
-      icon: "box",
-      option: "products",
-    },
-    {
-      name: t("campaigns"),
-      icon: "gift",
-      option: "campaigns",
-    },
-    {
-      name: t("factories"),
-      icon: "truck",
-      option: "factories",
-    },
-    {
-      name: t("orders"),
-      icon: "shopping-cart",
-      option: "orders",
-    },
-    {
-      name: t("reviews"),
-      icon: "review",
-      option: "reviews",
-    },
-    {
-      name: t("watchlist"),
-      icon: "watchlist",
-      option: "likes_history",
-    },
-    {
-      name: t("consumption_points"),
-      icon: "location",
-      option: "consumption_points",
-    },
-  ];
+  const sidebarLinks =
+    role === "admin"
+      ? [
+          {
+            name: t("submitted_aps"),
+            icon: "user",
+            option: "submitted_aps",
+          },
+        ]
+      : [
+          {
+            name: t("profile"),
+            icon: "user",
+            option: "profile",
+          },
+          {
+            name: t("products"),
+            icon: "box",
+            option: "products",
+          },
+          {
+            name: t("campaigns"),
+            icon: "gift",
+            option: "campaigns",
+          },
+          {
+            name: t("factories"),
+            icon: "truck",
+            option: "factories",
+          },
+          {
+            name: t("orders"),
+            icon: "shopping-cart",
+            option: "orders",
+          },
+          {
+            name: t("reviews"),
+            icon: "review",
+            option: "reviews",
+          },
+          {
+            name: t("watchlist"),
+            icon: "watchlist",
+            option: "likes_history",
+          },
+          {
+            name: t("consumption_points"),
+            icon: "location",
+            option: "consumption_points",
+          },
+        ];
 
   return (
     <>

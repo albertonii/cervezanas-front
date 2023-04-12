@@ -320,10 +320,12 @@ export interface Profile {
 export interface IConsumptionPoints {
   id: string;
   created_at: Date;
-  updated_at: Date;
-  owner_id: string;
   cp_fixed: ICPFixed[];
   cp_mobile: ICPMobile[];
+  cp_organizer_status: number;
+  owner_id: User;
+  cv_name: string;
+  cover_letter_name: string;
 }
 
 export interface ICPFixed {

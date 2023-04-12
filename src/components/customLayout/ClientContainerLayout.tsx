@@ -4,22 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
-import { useAuth } from "../Auth";
 import { useAppContext } from "../Context/AppContext";
+import { User } from "../../lib/interfaces";
 
 type Props = {
   children: JSX.Element;
+  user: User;
+  role: string;
 };
 
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
-export function ClientContainerLayout({ children }: Props) {
+export function ClientContainerLayout({ children, user, role }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
   const [bgImg_, setBgImg_] = useState(bgImg);
   const [profileImg_, setProfileImg_] = useState(bgImg);
-
-  const { user } = useAuth();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -90,66 +90,78 @@ export function ClientContainerLayout({ children }: Props) {
 
   return (
     <>
-      {bgImg_ && profileImg_ ? (
-        <div className="container ">
-          {/* Background Image */}
-          <div className=" bg-bear-alvine " aria-label="Custom Header">
-            <Image
-              className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
-              width={1260}
-              height={240}
-              src={bgImg_}
-              alt={"background custom image"}
-            />
+      <div className="container ">
+        {role === "admin" && (
+          <>
+            {/* Client Information */}
+            <div
+              className="bg-beer-softFoam h-full pt-[5vh] md:pt-[5vh] sm:"
+              aria-label="Container Client Information"
+            >
+              {children}
+            </div>
+          </>
+        )}
 
-            {/* Profile Image */}
-            <div className="space-x-2 relative pl-24" aria-label="Logo">
-              <div className="bottom-20 absolute">
-                <div className="w-64  ">
-                  <div className="relative" onClick={() => handleClick()}>
-                    <Image
-                      className="w-36 h-36 rounded-full absolute"
-                      src={profileImg_}
-                      alt=""
-                      width={240}
-                      height={240}
-                    />
+        {role === "producer" && bgImg_ && profileImg_ && (
+          <>
+            {/* Background Image */}
+            <div className=" bg-bear-alvine " aria-label="Custom Header">
+              <Image
+                className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
+                width={1260}
+                height={240}
+                src={bgImg_}
+                alt={"background custom image"}
+              />
 
-                    <div className="w-36 h-36 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
-                      <FontAwesomeIcon
-                        icon={faUpload}
-                        style={{ color: "bear-dark" }}
-                        // onMouseEnter={() => setHoverColor("filled")}
-                        // onMouseLeave={() => setHoverColor("unfilled")}
-                        title={"profile"}
-                        width={60}
-                        height={60}
+              {/* Profile Image */}
+              <div className="space-x-2 relative pl-24" aria-label="Logo">
+                <div className="bottom-20 absolute">
+                  <div className="w-64  ">
+                    <div className="relative" onClick={() => handleClick()}>
+                      <Image
+                        className="w-36 h-36 rounded-full absolute"
+                        src={profileImg_}
+                        alt=""
+                        width={240}
+                        height={240}
                       />
-                      <input
-                        style={{ display: "none" }}
-                        ref={inputRef}
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        onChange={handleFileChange}
-                      />
+
+                      <div className="w-36 h-36 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+                        <FontAwesomeIcon
+                          icon={faUpload}
+                          style={{ color: "bear-dark" }}
+                          // onMouseEnter={() => setHoverColor("filled")}
+                          // onMouseLeave={() => setHoverColor("unfilled")}
+                          title={"profile"}
+                          width={60}
+                          height={60}
+                        />
+                        <input
+                          style={{ display: "none" }}
+                          ref={inputRef}
+                          type="file"
+                          accept="image/png, image/jpeg"
+                          onChange={handleFileChange}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Client Information */}
-          <div
-            className="bg-beer-softFoam h-full pt-[5vh] md:pt-[5vh] sm:"
-            aria-label="Container Client Information"
-          >
-            {children}
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+            {/* Client Information */}
+            <div
+              className="bg-beer-softFoam h-full pt-[5vh] md:pt-[5vh] sm:"
+              aria-label="Container Client Information"
+            >
+              {children}
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }

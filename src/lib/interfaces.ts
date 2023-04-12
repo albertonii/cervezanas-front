@@ -111,3 +111,10 @@ export interface User {
   avatar_url: string;
   cp_organizer_status: number;
 }
+
+export enum ROLE_ENUM {
+  Cervezano = "consumer",
+  Productor = "producer",
+  Moderator = "moderator",
+  Admin = "admin",
+}

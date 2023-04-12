@@ -3,13 +3,8 @@ import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
-import { SignUpInterface } from "../../lib/interfaces";
+import { ROLE_ENUM, SignUpInterface } from "../../lib/interfaces";
 import { Button } from "../common";
-
-export enum ROLE_ENUM {
-  Cervezano = "consumer",
-  Productor = "producer",
-}
 
 const ROLE_OPTIONS = [
   {

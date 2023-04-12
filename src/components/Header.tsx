@@ -136,7 +136,7 @@ export function Header({}: Props) {
 
                   <li>
                     <DropdownButton
-                      options={["profile", "orders", "logout"]}
+                      options={["profile", "orders", "signout"]}
                     ></DropdownButton>
                   </li>
 
