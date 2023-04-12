@@ -24,8 +24,6 @@ export function ConsumptionPoints({
     setCPOrganizerStatus(status);
   };
 
-  console.log(cps);
-
   const handleClick = () => {};
 
   return (
@@ -67,7 +65,7 @@ export function ConsumptionPoints({
               <>
                 <>
                   {cpOrganizerStatus === 1 ? (
-                    <CPAccepted consumptionPoints={cps} />
+                    <CPAccepted cps={cps} />
                   ) : (
                     <CPRejected />
                   )}

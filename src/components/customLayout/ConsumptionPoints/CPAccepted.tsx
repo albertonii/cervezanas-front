@@ -5,17 +5,17 @@ import CPFixed from "./CPFixed";
 import CPMobile from "./CPMobile";
 
 interface Props {
-  consumptionPoints: IConsumptionPoints;
+  cps: IConsumptionPoints;
 }
 
 // Consumption Point status is in pending for validation by the admin of the platform
-export default function CPAccepted({ consumptionPoints }: Props) {
+export default function CPAccepted({ cps }: Props) {
   const [menuOption, setMenuOption] = useState<string>("cp_fixed");
 
   const renderSwitch = () => {
     switch (menuOption) {
       case "cp_fixed":
-        return <CPFixed cpFixed={consumptionPoints.cp_fixed} />;
+        return <CPFixed cpFixed={cps.cp_fixed} />;
       case "cp_mobile":
         return <CPMobile />;
     }

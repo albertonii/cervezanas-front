@@ -175,7 +175,7 @@ export async function getServerSideProps({ req }: any) {
     .from("product_lot")
     .select(
       `
-    *,
+      *,
       products (
         *
       )
@@ -189,12 +189,15 @@ export async function getServerSideProps({ req }: any) {
     .from("consumption_points")
     .select(
       `
-        *
+        *,
+        cp_fixed (*),
+        cp_mobile (*)
       `
     )
     .eq("owner_id", user?.id);
 
   if (cpsError) console.error(cpsError);
+  console.log(cps![0]);
 
   if (productLotData === undefined || productLotData === null) {
     productLotData = [];
