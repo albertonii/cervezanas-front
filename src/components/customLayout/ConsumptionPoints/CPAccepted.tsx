@@ -1,17 +1,21 @@
 import React, { useState } from "react";
+import { IConsumptionPoints } from "../../../lib/types";
 import HorizontalSections from "../../common/HorizontalSections";
 import CPFixed from "./CPFixed";
-import CPGoogleMap from "./CPGoogleMap";
 import CPMobile from "./CPMobile";
 
+interface Props {
+  consumptionPoints: IConsumptionPoints;
+}
+
 // Consumption Point status is in pending for validation by the admin of the platform
-export default function CPAccepted() {
+export default function CPAccepted({ consumptionPoints }: Props) {
   const [menuOption, setMenuOption] = useState<string>("cp_fixed");
 
   const renderSwitch = () => {
     switch (menuOption) {
       case "cp_fixed":
-        return <CPFixed />;
+        return <CPFixed cpFixed={consumptionPoints.cp_fixed} />;
       case "cp_mobile":
         return <CPMobile />;
     }

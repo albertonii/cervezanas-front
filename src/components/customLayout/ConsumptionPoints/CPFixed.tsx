@@ -1,10 +1,12 @@
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import CPGoogleMap from "./CPGoogleMap";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
-import CPGoogleMap from "./CPGoogleMap";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../Auth";
+import { ICPFixed } from "../../../lib/types";
 
 interface FormData {
   cp_name: string;
@@ -19,10 +21,16 @@ interface FormData {
   status: string;
 }
 
-export default function CPFixed() {
+interface Props {
+  cpFixed: ICPFixed[];
+}
+
+export default function CPFixed({ cpFixed }: Props) {
   const { t } = useTranslation();
 
   const [address, setAddress] = React.useState<string>("");
+
+  const { user } = useAuth();
 
   const {
     formState: { errors },
@@ -58,6 +66,7 @@ export default function CPFixed() {
       end_date,
       address,
       status: "active",
+      owner_id: user?.id,
     });
 
     if (error) {
@@ -235,6 +244,13 @@ export default function CPFixed() {
           </fieldset>
         </form>
       </Modal>
+
+      {/* Section displaying all the fixed consumption points created by the organizer  */}
+      <section className="flex flex-col space-y-4">
+        <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
+
+        <div className="flex flex-row space-x-4"></div>
+      </section>
     </div>
   );
 }

@@ -2,9 +2,13 @@ import { ClientContainerLayout } from "../components/customLayout/ClientContaine
 import { useEffect, useState } from "react";
 import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
-import { Layout } from "../components/index";
 import { supabase } from "../utils/supabaseClient";
-import { ProductLot, Profile as ProfileType, Review } from "../lib/types";
+import {
+  IConsumptionPoints,
+  ProductLot,
+  Profile as ProfileType,
+  Review,
+} from "../lib/types";
 import {
   Account,
   Sidebar,
@@ -26,12 +30,14 @@ interface Props {
   profile: ProfileType[];
   reviews: Review[];
   product_lots: ProductLot[];
+  cps: IConsumptionPoints;
 }
 
 export default function CustomLayout({
   profile,
   reviews,
   product_lots,
+  cps,
 }: Props) {
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
@@ -78,7 +84,7 @@ export default function CustomLayout({
         case "reviews":
           return <Reviews reviews={reviews} />;
         case "consumption_points":
-          return <ConsumptionPoints profile={profile[0]} />;
+          return <ConsumptionPoints profile={profile[0]} cps={cps} />;
       }
     }
 
@@ -179,6 +185,17 @@ export async function getServerSideProps({ req }: any) {
 
   if (productLotError) console.error(productLotError);
 
+  let { data: cps, error: cpsError } = await supabase
+    .from("consumption_points")
+    .select(
+      `
+        *
+      `
+    )
+    .eq("owner_id", user?.id);
+
+  if (cpsError) console.error(cpsError);
+
   if (productLotData === undefined || productLotData === null) {
     productLotData = [];
   }
@@ -188,6 +205,7 @@ export async function getServerSideProps({ req }: any) {
       product_lots: productLotData,
       profile: profileData,
       reviews: reviewData,
+      cps: cps,
     },
   };
 }

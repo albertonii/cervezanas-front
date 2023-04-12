@@ -13,7 +13,7 @@ type FormValues = {
   cv_file: File[];
 };
 
-interface props {
+interface Props {
   handleCPOrganizerStatus: ComponentProps<any>;
 }
 
@@ -26,7 +26,7 @@ interface props {
     2: rejected
  */
 }
-export function SubmitCPOrganizer({ handleCPOrganizerStatus }: props) {
+export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();

@@ -1,12 +1,12 @@
 import React, { ComponentProps, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface props {
+interface Props {
   handleMenuClick: ComponentProps<any>;
   tabs: string[];
 }
 
-export default function HorizontalSections({ handleMenuClick, tabs }: props) {
+export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
   const [activeTab, setActiveTab] = useState<string>(tabs[0]);
 
   const { t } = useTranslation();

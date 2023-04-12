@@ -4,6 +4,7 @@ import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 import { User } from "../lib/interfaces";
 import { ProductEnum } from "./productEnum";
+import { ConsumptionPoints } from "../components/customLayout";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -314,6 +315,52 @@ export interface Profile {
   customize_settings: CustomizeSettings[];
   profile_location: ProfileLocation[];
   cp_organizer_status: number;
+}
+
+export interface IConsumptionPoints {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  owner_id: string;
+  cp_fixed: ICPFixed[];
+  cp_mobile: ICPMobile[];
+}
+
+export interface ICPFixed {
+  id: string;
+  created_at: Date;
+  cp_name: string;
+  cp_description: string;
+  organizer_name: string;
+  organizer_lastname: string;
+  organizer_email: string;
+  organizer_phone: string;
+  start_date: Date;
+  end_date: Date;
+  address: string;
+  status: string;
+  maximum_capacity: number;
+  is_booking_required: boolean;
+}
+
+export interface ICPMobile {
+  id: string;
+  created_at: Date;
+  cp_name: string;
+  cp_description: string;
+  organizer_name: string;
+  organizer_lastname: string;
+  organizer_email: string;
+  organizer_phone: string;
+  start_date: Date;
+  end_date: Date;
+  address: string;
+  status: string;
+  logo: string;
+  gallery: string[];
+  maximum_capacity: number;
+  is_booking_required: boolean;
+  // TODO: rrss
 }
 
 export interface ProfileLocation {

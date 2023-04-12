@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Profile } from "../../../lib/types";
+import { IConsumptionPoints, Profile } from "../../../lib/types";
 import { SubmitCPOrganizer } from "../../modals";
 import CPAccepted from "./CPAccepted";
 import CPPending from "./CPPending";
 import CPRejected from "./CPRejected";
 
-interface props {
+interface Props {
   profile: Profile;
+  cps: IConsumptionPoints;
 }
 
-export function ConsumptionPoints({ profile: { cp_organizer_status } }: props) {
+export function ConsumptionPoints({
+  profile: { cp_organizer_status },
+  cps,
+}: Props) {
   const { t } = useTranslation();
 
   const [cpOrganizerStatus, setCPOrganizerStatus] =
@@ -19,6 +23,8 @@ export function ConsumptionPoints({ profile: { cp_organizer_status } }: props) {
   const handleCPOrganizerStatus = (status: number) => {
     setCPOrganizerStatus(status);
   };
+
+  console.log(cps);
 
   const handleClick = () => {};
 
@@ -59,7 +65,13 @@ export function ConsumptionPoints({ profile: { cp_organizer_status } }: props) {
               <CPPending />
             ) : (
               <>
-                <>{cpOrganizerStatus === 1 ? <CPAccepted /> : <CPRejected />}</>
+                <>
+                  {cpOrganizerStatus === 1 ? (
+                    <CPAccepted consumptionPoints={cps} />
+                  ) : (
+                    <CPRejected />
+                  )}
+                </>
               </>
             )}
           </>
