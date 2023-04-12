@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import HorizontalSections from "../../common/HorizontalSections";
 import CPFixed from "./CPFixed";
-import CPMobile from "./CPMobile";
-import AutoComplete from "react-google-autocomplete";
 import CPGoogleMap from "./CPGoogleMap";
+import CPMobile from "./CPMobile";
 
 // Consumption Point status is in pending for validation by the admin of the platform
 export default function CPAccepted() {
@@ -33,11 +32,6 @@ export default function CPAccepted() {
           los paneles de control para gestionar tu punto de consumo.
         </div>
       </div>
-      {/* 
-      <AutoComplete
-        apiKey={"AIzaSyAKy3WmKXNpusaPjszA5IZA-jABYT5lHss"}
-        onPlaceSelected={(place: any) => console.log(place)}
-      /> */}
 
       <HorizontalSections
         handleMenuClick={handleMenuClick}
@@ -45,8 +39,6 @@ export default function CPAccepted() {
       />
 
       <div className="container">{renderSwitch()}</div>
-
-      <CPGoogleMap />
     </div>
   );
 }

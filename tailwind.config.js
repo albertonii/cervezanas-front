@@ -158,5 +158,9 @@ module.exports = {
       sky: colors.sky,
     },
   },
+  variants: {
+    border: ["hover"],
+    borderColor: ["hover"],
+  },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
 };

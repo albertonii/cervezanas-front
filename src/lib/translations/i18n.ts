@@ -452,6 +452,11 @@ from the beer.`,
   form_submit_cp_organizer_cv_description: `Please attach your CV so that we can get to know your experience in the beer and event organisation sector.`,
   cp_fixed: `Fixed consumption points`,
   cp_mobile: `Mobile consumption points`,
+  add_new_cp_fixed: `Add new fixed consumption point`,
+  add_new_cp_mobile: `Add new mobile consumption point`,
+  new_cp_fixed_config: `New fixed consumption point configuration`,
+  new_cp_mobile_config: `New mobile consumption point configuration`,
+  search_an_address: `Search an address`,
 };
 
 const translationsEs = {
@@ -915,6 +920,15 @@ desprenden de la cerveza. `,
   form_submit_cp_organizer_cv_description: `Adjunta tu CV para que podamos conocer tu experiencia en el sector de la cerveza y organización de eventos.`,
   cp_fixed: `Puntos fijos`,
   cp_mobile: `Puntos móviles`,
+  add_new_cp_fixed: `Añadir nuevo punto fijo de consumo`,
+  add_new_cp_mobile: `Añadir nuevo punto móvil de consumo`,
+  new_cp_fixed_config: `Nuevo punto fijo de consumo`,
+  new_cp_mobile_config: `Nuevo de punto móvil de consumo`,
+  search_an_address: `Busca una dirección`,
+  cp_name: `Nombre del punto de consumo`,
+  organizer_info: `Información del organizador`,
+  cp_fixed_info: `Información del punto fijo`,
+  cp_fixed_location: `Localización del punto fijo`,
 };
 
 // the translations
