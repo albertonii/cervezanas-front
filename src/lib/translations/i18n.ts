@@ -205,6 +205,8 @@ const translationsEn = {
   order_number_header: "Order Number",
   status_header: "Status",
   tracking_number_header: "Tracking Number",
+  no_pending_cp:
+    "There are no pending requests from Cervezanos who want to be Consumption Points organisers.",
   marketplace: "Marketplace",
   instock: "In Stock",
   outstock: "Out of Stock",
@@ -662,6 +664,8 @@ const translationsEs = {
   order_number_header: "Número de pedido",
   status_header: "Estado",
   tracking_number_header: "Número de seguimiento",
+  no_pending_cp:
+    "No hay peticiones pendientes de cervezanos que quieran ser organizadores de Puntos de Consumo.",
   marketplace: "Mercado",
   instock: "En Stock",
   outstock: "Agotado",

@@ -1,6 +1,10 @@
-import { faFileArrowDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCancel,
+  faCheck,
+  faFileArrowDown,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { resizeImage } from "next/dist/server/image-optimizer";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +12,7 @@ import { IConsumptionPoints } from "../../lib/types";
 import { formatDate } from "../../utils";
 import { supabase } from "../../utils/supabaseClient";
 import { generateDownloadableLink } from "../../utils/utils";
+import { IconButton } from "../common";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -21,7 +26,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
 
-  const [hover, setHover] = useState(false);
+  const acceptColor = { filled: "#90470b", unfilled: "grey" };
+  const rejectColor = { filled: "red", unfilled: "grey" };
 
   const COLUMNS = [
     { header: "" },
@@ -59,10 +65,43 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       });
   };
 
-  // kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/documents/cv/3edf30f7-ff32-4e1c-ac15-31ea9a7ecb29_The%20Workshopper%20Playbook%20Ebook.pdf
-  // kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/documents/cv/3edf30f7-ff32-4e1c-ac15-31ea9a7ecb29_The%20Workshopper%20Playbook%20Ebook.pdf
+  const handleApproveClick = async (cp: IConsumptionPoints) => {
+    await supabase
+      .from("consumption_points")
+      .update({ cp_organizer_status: 1 })
+      .eq("id", cp.id)
+      .then(async () => {
+        await supabase
+          .from("users")
+          .update({ cp_organizer_status: 1 })
+          .eq("id", cp.owner_id.id);
+      });
+  };
 
-  https: return (
+  const handleRejectClick = async (cp: IConsumptionPoints) => {
+    await supabase
+      .from("consumption_points")
+      .update({ cp_organizer_status: 2 })
+      .eq("id", cp.id)
+      .then(async () => {
+        await supabase
+          .from("users")
+          .update({ cp_organizer_status: 1 })
+          .eq("id", cp.owner_id.id);
+      });
+  };
+
+  if (submittedCPs.length === 0) {
+    return (
+      <div className="flex items-center justify-center w-full h-full p-6">
+        <p className="text-xl text-gray-500 dark:text-gray-400">
+          {t("no_pending_cp")}
+        </p>
+      </div>
+    );
+  }
+
+  return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
       <div className="relative w-full">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -159,7 +198,28 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                       />
                     </td>
 
-                    <td className="py-4 px-6"></td>
+                    <td className="py-4 px-6 flex ">
+                      <IconButton
+                        icon={faCheck}
+                        onClick={() => handleApproveClick(cp)}
+                        color={acceptColor}
+                        classContainer={
+                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                        }
+                        classIcon={""}
+                        title="Add to favorites"
+                      />
+                      <IconButton
+                        icon={faCancel}
+                        onClick={() => handleRejectClick(cp)}
+                        color={rejectColor}
+                        classContainer={
+                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                        }
+                        classIcon={""}
+                        title="Add to favorites"
+                      />
+                    </td>
                   </tr>
                 );
               })}
