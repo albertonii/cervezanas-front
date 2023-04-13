@@ -230,12 +230,14 @@ export async function getServerSideProps({ req }: any) {
       productLotData = [];
     }
 
+    if (cps == null) cps = [];
+
     return {
       props: {
         product_lots: productLotData,
         profile: profileData[0],
         reviews: reviewData,
-        cps: cps,
+        cps: cps[0],
       },
     };
   } else {
@@ -249,6 +251,8 @@ export async function getServerSideProps({ req }: any) {
       );
 
     if (submittedCPsError) console.error(submittedCPsError);
+    if (submittedCPs == null) return { props: { submittedCPs: [] } };
+
     return {
       props: {
         submittedCPs: submittedCPs,

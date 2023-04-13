@@ -3,7 +3,7 @@ import {
   UserIdentity,
   UserMetadata,
 } from "@supabase/supabase-js";
-import { Award } from "./types";
+import { Award, IConsumptionPoints } from "./types";
 
 export interface IModalAddProduct {
   is_public: boolean;
@@ -110,6 +110,7 @@ export interface User {
   username: string;
   avatar_url: string;
   cp_organizer_status: number;
+  consumption_points: IConsumptionPoints;
 }
 
 export enum ROLE_ENUM {

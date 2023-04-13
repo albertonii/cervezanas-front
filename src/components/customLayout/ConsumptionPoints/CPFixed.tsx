@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../Auth";
 import { ICPFixed } from "../../../lib/types";
+import ListCPFixed from "./ListCPFixed";
 
 interface FormData {
   cp_name: string;
@@ -22,15 +22,13 @@ interface FormData {
 }
 
 interface Props {
+  cpsId: string;
   cpFixed: ICPFixed[];
 }
 
-export default function CPFixed({ cpFixed }: Props) {
+export default function CPFixed({ cpsId, cpFixed }: Props) {
   const { t } = useTranslation();
-
   const [address, setAddress] = React.useState<string>("");
-
-  const { user } = useAuth();
 
   const {
     formState: { errors },
@@ -55,7 +53,7 @@ export default function CPFixed({ cpFixed }: Props) {
       end_date,
     } = formValues;
 
-    const { data, error } = await supabase.from("cp_fixed").insert({
+    const { error } = await supabase.from("cp_fixed").insert({
       cp_name,
       cp_description,
       organizer_name,
@@ -66,7 +64,7 @@ export default function CPFixed({ cpFixed }: Props) {
       end_date,
       address,
       status: "active",
-      owner_id: user?.id,
+      cp_id: cpsId,
     });
 
     if (error) {
@@ -246,10 +244,12 @@ export default function CPFixed({ cpFixed }: Props) {
       </Modal>
 
       {/* Section displaying all the fixed consumption points created by the organizer  */}
-      <section className="flex flex-col space-y-4">
+      <section className="flex flex-col space-y-4 mt-4">
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
-        <div className="flex flex-row space-x-4"></div>
+        <div className="flex flex-row space-x-4">
+          <ListCPFixed cpFixed={cpFixed} />
+        </div>
       </section>
     </div>
   );

@@ -467,6 +467,7 @@ from the beer.`,
   accept_cp_description_modal: `Are you sure you want to accept the request for this consumption point?`,
   reject_cp_description_modal: `Are you sure you want to reject the request for this consumption point?`,
   reject: `Reject`,
+  cp_fixed_list: `Fixed consumption points list`,
 };
 
 const translationsEs = {
@@ -949,6 +950,7 @@ desprenden de la cerveza. `,
   accept_cp_description_modal: `¿Estás seguro de que quieres aceptar la solicitud de este punto de consumo?`,
   reject_cp_description_modal: `¿Estás seguro de que quieres rechazar la solicitud de este punto de consumo?`,
   reject: `Rechazar`,
+  cp_fixed_list: `Lista de puntos fijos`,
 };
 
 // the translations

@@ -15,7 +15,7 @@ export default function CPAccepted({ cps }: Props) {
   const renderSwitch = () => {
     switch (menuOption) {
       case "cp_fixed":
-        return <CPFixed cpFixed={cps.cp_fixed} />;
+        return <CPFixed cpFixed={cps.cp_fixed} cpsId={cps.id} />;
       case "cp_mobile":
         return <CPMobile />;
     }
@@ -26,7 +26,7 @@ export default function CPAccepted({ cps }: Props) {
   };
 
   return (
-    <div className="h-[50vh]">
+    <>
       <div className="text-3xl">¡Petición aceptada!</div>
 
       <div>
@@ -43,6 +43,6 @@ export default function CPAccepted({ cps }: Props) {
       />
 
       <div className="container">{renderSwitch()}</div>
-    </div>
+    </>
   );
 }

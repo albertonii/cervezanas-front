@@ -61,13 +61,11 @@ export function ConsumptionPoints({
               <CPPending />
             ) : (
               <>
-                <>
-                  {cpOrganizerStatus === 1 ? (
-                    <CPAccepted cps={cps} />
-                  ) : (
-                    <CPRejected />
-                  )}
-                </>
+                {cpOrganizerStatus === 1 ? (
+                  <CPAccepted cps={cps} />
+                ) : (
+                  <CPRejected />
+                )}
               </>
             )}
           </>
