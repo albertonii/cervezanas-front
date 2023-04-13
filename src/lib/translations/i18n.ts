@@ -464,6 +464,9 @@ from the beer.`,
   new_cp_mobile_config: `New mobile consumption point configuration`,
   search_an_address: `Search an address`,
   submitted_aps: `CP Submitted applications`,
+  accept_cp_description_modal: `Are you sure you want to accept the request for this consumption point?`,
+  reject_cp_description_modal: `Are you sure you want to reject the request for this consumption point?`,
+  reject: `Reject`,
 };
 
 const translationsEs = {
@@ -943,6 +946,9 @@ desprenden de la cerveza. `,
   cp_fixed_info: `Información del punto fijo`,
   cp_fixed_location: `Localización del punto fijo`,
   submitted_aps: `Solicitudes de P.C.`,
+  accept_cp_description_modal: `¿Estás seguro de que quieres aceptar la solicitud de este punto de consumo?`,
+  reject_cp_description_modal: `¿Estás seguro de que quieres rechazar la solicitud de este punto de consumo?`,
+  reject: `Rechazar`,
 };
 
 // the translations

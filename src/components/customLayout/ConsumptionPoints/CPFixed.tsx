@@ -26,8 +26,6 @@ interface Props {
 }
 
 export default function CPFixed({ cpFixed }: Props) {
-  console.log(cpFixed);
-
   const { t } = useTranslation();
 
   const [address, setAddress] = React.useState<string>("");

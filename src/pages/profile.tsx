@@ -26,6 +26,8 @@ import {
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
 import SubmittedCPs from "../components/admin/SubmittedCPs";
+import { useRouter } from "next/router";
+import { isValidObject } from "../utils/utils";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -48,9 +50,26 @@ export default function CustomLayout({
   const { sidebar, changeSidebarActive } = useAppContext();
   const [menuOption, setMenuOption] = useState<string>(sidebar);
 
+  const router = useRouter();
+
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (isValidObject(router.query.a)) {
+      setMenuOption(router.query.a as string);
+      changeSidebarActive(router.query.a as string);
+    } else {
+      if (role === "admin") {
+        setMenuOption("submitted_aps");
+        changeSidebarActive("submitted_aps");
+      } else {
+        setMenuOption("account");
+        changeSidebarActive("account");
+      }
+    }
+  }, [changeSidebarActive, role, router]);
 
   const renderSwitch = (): JSX.Element => {
     switch (menuOption) {

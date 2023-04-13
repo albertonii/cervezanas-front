@@ -13,6 +13,7 @@ import { formatDate } from "../../utils";
 import { supabase } from "../../utils/supabaseClient";
 import { generateDownloadableLink } from "../../utils/utils";
 import { IconButton } from "../common";
+import { Modal } from "../modals";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -26,8 +27,15 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
 
+  const [submittedList, setSubmittedList] = useState(submittedCPs);
+
   const acceptColor = { filled: "#90470b", unfilled: "grey" };
   const rejectColor = { filled: "red", unfilled: "grey" };
+
+  const [isAcceptModal, setIsAcceptModal] = useState(false);
+  const [isRejectModal, setIsRejectModal] = useState(false);
+
+  const [selectedCP, setSelectedCP] = useState<IConsumptionPoints>();
 
   const COLUMNS = [
     { header: "" },
@@ -39,12 +47,18 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   ];
 
   const filteredItems = useMemo<IConsumptionPoints[]>(() => {
-    return submittedCPs.filter((submittedCP) => {
+    return submittedList.filter((submittedCP) => {
       return submittedCP.owner_id.username
         .toLowerCase()
         .includes(query.toLowerCase());
     });
-  }, [submittedCPs, query]);
+  }, [submittedList, query]);
+
+  // Remove from submitted list after accepting or rejecting
+  const removeFromSubmittedList = (id: string) => {
+    const newList = submittedList.filter((item) => item.id !== id);
+    setSubmittedList(newList);
+  };
 
   const handleCoverLetterClick = async (cp: IConsumptionPoints) => {
     await supabase.storage
@@ -66,19 +80,14 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   };
 
   const handleApproveClick = async (cp: IConsumptionPoints) => {
-    await supabase
-      .from("consumption_points")
-      .update({ cp_organizer_status: 1 })
-      .eq("id", cp.id)
-      .then(async () => {
-        await supabase
-          .from("users")
-          .update({ cp_organizer_status: 1 })
-          .eq("id", cp.owner_id.id);
-      });
+    setIsAcceptModal(true);
+    setSelectedCP(cp);
   };
 
   const handleRejectClick = async (cp: IConsumptionPoints) => {
+    setIsRejectModal(true);
+    setSelectedCP(cp);
+
     await supabase
       .from("consumption_points")
       .update({ cp_organizer_status: 2 })
@@ -91,7 +100,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       });
   };
 
-  if (submittedCPs.length === 0) {
+  if (submittedList.length === 0) {
     return (
       <div className="flex items-center justify-center w-full h-full p-6">
         <p className="text-xl text-gray-500 dark:text-gray-400">
@@ -101,8 +110,63 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     );
   }
 
+  const handleUpdateStatus = async (status: number) => {
+    supabase
+      .from("consumption_points")
+      .update({ cp_organizer_status: status })
+      .eq("id", selectedCP!.id)
+      .then(async () => {
+        await supabase
+          .from("users")
+          .update({ cp_organizer_status: status })
+          .eq("id", selectedCP!.owner_id.id);
+      });
+  };
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
+      {isAcceptModal && (
+        <Modal
+          title={t("accept")!}
+          icon={faCheck}
+          color={acceptColor}
+          handler={async () => {
+            handleUpdateStatus(1);
+            removeFromSubmittedList(selectedCP!.id);
+            setIsAcceptModal(false);
+          }}
+          handlerClose={() => setIsAcceptModal(false)}
+          isVisible={true}
+          description={"accept_cp_description_modal"}
+          classIcon={""}
+          classContainer={""}
+          btnTitle={t("accept")}
+        >
+          <></>
+        </Modal>
+      )}
+
+      {isRejectModal && (
+        <Modal
+          title={t("reject")!}
+          icon={faCheck}
+          color={acceptColor}
+          handler={async () => {
+            handleUpdateStatus(2);
+            removeFromSubmittedList(selectedCP!.id);
+            setIsRejectModal(false);
+          }}
+          handlerClose={() => setIsRejectModal(false)}
+          isVisible={true}
+          description={t("reject_cp_description_modal")}
+          classIcon={""}
+          classContainer={""}
+          btnTitle={t("accept")}
+        >
+          <></>
+        </Modal>
+      )}
+
       <div className="relative w-full">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
@@ -124,7 +188,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search products..."
         />
       </div>
@@ -142,7 +206,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           </tr>
         </thead>
 
-        {submittedCPs.map((cp) => {
+        {submittedList.map((cp) => {
           return (
             <tbody key={cp.id}>
               {filteredItems.map((cp) => {
@@ -172,7 +236,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
                     <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
 
-                    <td className="py-4 px-6 items-center flex justify-center">
+                    <td className="py-4 px-6 cursor-pointer">
                       <FontAwesomeIcon
                         icon={faFileArrowDown}
                         style={{
@@ -180,12 +244,12 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                           width: 30,
                           height: 30,
                         }}
-                        title={"profile"}
+                        title={"download file"}
                         onClick={() => handleCoverLetterClick(cp)}
                       />
                     </td>
 
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 cursor-pointer">
                       <FontAwesomeIcon
                         icon={faFileArrowDown}
                         style={{
@@ -193,7 +257,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                           width: 30,
                           height: 30,
                         }}
-                        title={"profile"}
+                        title={"download file"}
                         onClick={() => handleCVClick(cp)}
                       />
                     </td>
@@ -207,7 +271,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                           "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
                         }
                         classIcon={""}
-                        title="Add to favorites"
+                        title={t("accept")!}
                       />
                       <IconButton
                         icon={faCancel}
@@ -217,7 +281,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                           "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
                         }
                         classIcon={""}
-                        title="Add to favorites"
+                        title={t("reject")!}
                       />
                     </td>
                   </tr>

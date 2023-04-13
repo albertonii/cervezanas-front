@@ -14,7 +14,7 @@ interface Props {}
 export function Header({}: Props) {
   const { t } = useTranslation();
 
-  const { loggedIn, signOut } = useAuth();
+  const { loggedIn, signOut, role } = useAuth();
 
   const router = useRouter();
 
@@ -74,7 +74,7 @@ export function Header({}: Props) {
             <ul className="flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {loggedIn ? (
                 <>
-                  <li>
+                  <li className="flex items-center">
                     <Link href="/">
                       <span
                         className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
@@ -85,7 +85,7 @@ export function Header({}: Props) {
                     </Link>
                   </li>
 
-                  <li>
+                  <li className="flex items-center">
                     <Link href="/marketplace">
                       <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
                         {t("marketplace")}
@@ -93,7 +93,7 @@ export function Header({}: Props) {
                     </Link>
                   </li>
 
-                  <li>
+                  <li className="flex items-center">
                     <Select
                       name="language"
                       style={{ backgroundColor: "transparent" }}
@@ -109,38 +109,45 @@ export function Header({}: Props) {
                     </Select>
                   </li>
 
-                  <li>
-                    <Button
-                      class={
-                        "border-none hover:bg-transparent hover:scale-110 transition-all"
-                      }
-                      onClick={() => openCart()}
-                      title={""}
-                    >
-                      <div className="relative rounded-full">
-                        <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                          <Image
-                            src={"/icons/shopping-cart-240.png"}
-                            width={30}
-                            height={30}
-                            alt={"Go to Shopping cart"}
-                          />
-                        </span>
+                  {/* Cart  */}
+                  {role !== "admin" && (
+                    <li className="flex items-center">
+                      <Button
+                        class={
+                          "border-none hover:bg-transparent hover:scale-110 transition-all"
+                        }
+                        onClick={() => openCart()}
+                        title={""}
+                      >
+                        <div className="relative rounded-full">
+                          <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                            <Image
+                              src={"/icons/shopping-cart-240.png"}
+                              width={30}
+                              height={30}
+                              alt={"Go to Shopping cart"}
+                            />
+                          </span>
 
-                        <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
-                          {cartQuantity}
+                          <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
+                            {cartQuantity}
+                          </div>
                         </div>
-                      </div>
-                    </Button>
-                  </li>
+                      </Button>
+                    </li>
+                  )}
 
-                  <li>
+                  <li className="flex items-center">
                     <DropdownButton
-                      options={["profile", "orders", "signout"]}
+                      options={
+                        role === "admin"
+                          ? ["submitted_aps"]
+                          : ["profile", "orders", "signout"]
+                      }
                     ></DropdownButton>
                   </li>
 
-                  <li>
+                  <li className="flex items-center">
                     <Button
                       onClick={() => handleSignOut()}
                       title={""}
@@ -161,7 +168,7 @@ export function Header({}: Props) {
                 </>
               ) : (
                 <>
-                  <li>
+                  <li className="flex items-center">
                     <Button
                       onClick={() => handleSignIn()}
                       title={""}

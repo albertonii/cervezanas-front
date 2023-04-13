@@ -63,6 +63,18 @@ export function DropdownButton(props: DropdownProps) {
             </span>
           </Link>
         );
+
+      case "submitted_aps":
+        return (
+          <Link href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}>
+            <span
+              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
     }
   };
 

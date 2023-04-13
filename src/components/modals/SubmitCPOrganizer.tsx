@@ -99,7 +99,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                 cacheControl: "0",
               })
               .catch((err) => {
-                console.log(err);
+                console.error(err);
                 throw cvError;
               })
               .then(async (res) => {
@@ -109,7 +109,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
             return res;
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
             throw coverLetterError;
           });
       } else {

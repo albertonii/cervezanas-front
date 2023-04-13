@@ -45,7 +45,7 @@ export default function SignIn() {
         console.log(res);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         handleMessage!({ type: "error", message: error.message });
       });
   };

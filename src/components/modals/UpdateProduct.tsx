@@ -34,7 +34,6 @@ export function UpdateProduct({
 
   const { user } = useAuth();
 
-  console.log(product);
   const [activeStep, setActiveStep] = useState(0);
 
   const handleSetActiveStep = (value: number) => {
@@ -124,7 +123,6 @@ export function UpdateProduct({
       if (productError) throw productError;
 
       const productId = product.id;
-      console.log(productId);
 
       // Multimedia
       const p_principal_url =
