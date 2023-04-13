@@ -1,27 +1,39 @@
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
-import { faEdit, faLocation, faTrash } from "@fortawesome/free-solid-svg-icons";
+import React, { ComponentProps, useMemo, useState } from "react";
+import {
+  faCheck,
+  faEdit,
+  faLocation,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { ICPFixed } from "../../../lib/types";
 import { formatDate } from "../../../utils";
 import { IconButton } from "../../common";
+import { Modal } from "../../modals";
+import { supabase } from "../../../utils/supabaseClient";
 
 interface ColumnsProps {
   header: string;
 }
 interface Props {
   cpFixed: ICPFixed[];
+  handleCPList: ComponentProps<any>;
 }
 
-export default function ListCPFixed({ cpFixed }: Props) {
+export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
   const [query, setQuery] = useState("");
 
-  const [fixedList, setFixedList] = useState(cpFixed);
-
   const { t } = useTranslation();
+
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
+
+  const [isEditModal, setIsEditModal] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+
+  const [selectedCP, setSelectedCP] = useState<ICPFixed>();
 
   const COLUMNS = [
     { header: "" },
@@ -32,26 +44,114 @@ export default function ListCPFixed({ cpFixed }: Props) {
     { header: t("action_header") },
   ];
 
-  // Remove from fixed list
-  const removeFromFixedList = (id: string) => {
-    const newList = fixedList.filter((item) => item.id !== id);
-    setFixedList(newList);
+  const handleEditClick = async (cp: ICPFixed) => {
+    setIsEditModal(true);
+    setSelectedCP(cp);
   };
 
-  // Add to fixed list
-  const addToFixedList = (fixed: ICPFixed) => {
-    const newList = [...fixedList, fixed];
-    setFixedList(newList);
+  const handleDeleteClick = async (cp: ICPFixed) => {
+    setIsDeleteModal(true);
+    setSelectedCP(cp);
+  };
+
+  // Remove from fixed list
+  const removeFromFixedList = (id: string) => {
+    const newList = cpFixed.filter((item) => item.id !== id);
+    handleCPList(newList);
+  };
+
+  // Delete CP Fixed from database
+  const handleRemoveCP = async () => {
+    const { error } = await supabase
+      .from("cp_fixed")
+      .delete()
+      .eq("id", selectedCP!.id);
+
+    if (error) throw error;
+  };
+
+  // Update to fixed list
+  const updToFixedList = () => {
+    const newList = cpFixed.map((item) => {
+      if (item.id === selectedCP?.id) {
+        return selectedCP;
+      }
+      return item;
+    });
+
+    handleCPList(newList);
+  };
+
+  // Update CP Fixed in database
+  const handleUpdate = async () => {
+    const { error } = await supabase
+      .from("cp_fixed")
+      .update({
+        cp_name: selectedCP?.cp_name,
+        cp_description: selectedCP?.cp_description,
+        organizer_name: selectedCP?.organizer_name,
+        organizer_lastname: selectedCP?.organizer_lastname,
+        organizer_email: selectedCP?.organizer_email,
+        organizer_phone: selectedCP?.organizer_phone,
+        address: selectedCP?.address,
+        is_booking_required: selectedCP?.is_booking_required,
+        maximum_capacity: selectedCP?.maximum_capacity,
+      })
+      .eq("id", selectedCP!.id);
+
+    if (error) throw error;
   };
 
   const filteredItems = useMemo<ICPFixed[]>(() => {
-    return fixedList.filter((fixed) => {
+    return cpFixed.filter((fixed) => {
       return fixed.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [fixedList, query]);
+  }, [cpFixed, query]);
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
+      {isEditModal && (
+        <Modal
+          title={t("accept")!}
+          icon={faCheck}
+          color={editColor}
+          handler={async () => {
+            handleUpdate();
+            updToFixedList();
+            setIsEditModal(false);
+          }}
+          handlerClose={() => setIsEditModal(false)}
+          isVisible={true}
+          description={"accept_cp_description_modal"}
+          classIcon={""}
+          classContainer={""}
+          btnTitle={t("accept")}
+        >
+          <></>
+        </Modal>
+      )}
+
+      {isDeleteModal && (
+        <Modal
+          title={t("delete")!}
+          icon={faTrash}
+          color={editColor}
+          handler={async () => {
+            handleRemoveCP();
+            removeFromFixedList(selectedCP!.id);
+            setIsDeleteModal(false);
+          }}
+          handlerClose={() => setIsDeleteModal(false)}
+          isVisible={true}
+          description={t("reject_cp_description_modal")}
+          classIcon={""}
+          classContainer={""}
+          btnTitle={t("accept")}
+        >
+          <></>
+        </Modal>
+      )}
+
       <div className="relative w-full">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
@@ -91,66 +191,66 @@ export default function ListCPFixed({ cpFixed }: Props) {
           </tr>
         </thead>
 
-        {fixedList.map((cp) => {
-          return (
-            <tbody key={cp.id}>
-              {filteredItems.map((cp) => {
-                return (
-                  <tr
-                    key={cp.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <th
-                      scope="row"
-                      className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      <FontAwesomeIcon
-                        icon={faLocation}
-                        style={{ color: "#fdc300" }}
-                        title={"fixed_location"}
-                        width={80}
-                        height={80}
-                      />
-                    </th>
+        <tbody>
+          {filteredItems.map((cp) => {
+            return (
+              <tr
+                key={cp.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <th
+                  scope="row"
+                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  <FontAwesomeIcon
+                    icon={faLocation}
+                    style={{ color: "#fdc300" }}
+                    title={"fixed_location"}
+                    width={80}
+                    height={80}
+                  />
+                </th>
 
-                    <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
-                      <Link href={`/cp_name`}>{cp.cp_name}</Link>
-                    </td>
+                <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                  <Link href={`/cp_name`}>{cp.cp_name}</Link>
+                </td>
 
-                    <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+                <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
 
-                    <td className="py-4 px-6 cursor-pointer"></td>
+                <td className="py-4 px-6 cursor-pointer"></td>
 
-                    <td className="py-4 px-6 cursor-pointer"></td>
+                <td className="py-4 px-6 cursor-pointer"></td>
 
-                    <td className="py-4 px-6 flex ">
-                      <IconButton
-                        icon={faEdit}
-                        onClick={() => {}}
-                        color={editColor}
-                        classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
-                        }
-                        classIcon={""}
-                        title={t("edit")!}
-                      />
-                      <IconButton
-                        icon={faTrash}
-                        onClick={() => {}}
-                        color={deleteColor}
-                        classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
-                        }
-                        classIcon={""}
-                        title={t("delete")!}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          );
-        })}
+                <td className="py-4 px-6 flex ">
+                  <IconButton
+                    icon={faEdit}
+                    onClick={() => {
+                      handleEditClick(cp);
+                    }}
+                    color={editColor}
+                    classContainer={
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                    }
+                    classIcon={""}
+                    title={t("edit")!}
+                  />
+                  <IconButton
+                    icon={faTrash}
+                    onClick={() => {
+                      handleDeleteClick(cp);
+                    }}
+                    color={deleteColor}
+                    classContainer={
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                    }
+                    classIcon={""}
+                    title={t("delete")!}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

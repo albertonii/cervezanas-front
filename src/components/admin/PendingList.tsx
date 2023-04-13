@@ -206,90 +206,86 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           </tr>
         </thead>
 
-        {submittedList.map((cp) => {
-          return (
-            <tbody key={cp.id}>
-              {filteredItems.map((cp) => {
-                return (
-                  <tr
-                    key={cp.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <th
-                      scope="row"
-                      className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        style={{ color: "#fdc300" }}
-                        title={"check_warning"}
-                        width={80}
-                        height={80}
-                      />
-                    </th>
+        <tbody>
+          {filteredItems.map((cp) => {
+            return (
+              <tr
+                key={cp.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <th
+                  scope="row"
+                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    style={{ color: "#fdc300" }}
+                    title={"check_warning"}
+                    width={80}
+                    height={80}
+                  />
+                </th>
 
-                    <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
-                      <Link href={`/products/${cp.owner_id.id}`}>
-                        {cp.owner_id.username}
-                      </Link>
-                    </td>
+                <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                  <Link href={`/products/${cp.owner_id.id}`}>
+                    {cp.owner_id.username}
+                  </Link>
+                </td>
 
-                    <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+                <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
 
-                    <td className="py-4 px-6 cursor-pointer">
-                      <FontAwesomeIcon
-                        icon={faFileArrowDown}
-                        style={{
-                          color: "",
-                          width: 30,
-                          height: 30,
-                        }}
-                        title={"download file"}
-                        onClick={() => handleCoverLetterClick(cp)}
-                      />
-                    </td>
+                <td className="py-4 px-6 cursor-pointer">
+                  <FontAwesomeIcon
+                    icon={faFileArrowDown}
+                    style={{
+                      color: "",
+                      width: 30,
+                      height: 30,
+                    }}
+                    title={"download file"}
+                    onClick={() => handleCoverLetterClick(cp)}
+                  />
+                </td>
 
-                    <td className="py-4 px-6 cursor-pointer">
-                      <FontAwesomeIcon
-                        icon={faFileArrowDown}
-                        style={{
-                          color: "",
-                          width: 30,
-                          height: 30,
-                        }}
-                        title={"download file"}
-                        onClick={() => handleCVClick(cp)}
-                      />
-                    </td>
+                <td className="py-4 px-6 cursor-pointer">
+                  <FontAwesomeIcon
+                    icon={faFileArrowDown}
+                    style={{
+                      color: "",
+                      width: 30,
+                      height: 30,
+                    }}
+                    title={"download file"}
+                    onClick={() => handleCVClick(cp)}
+                  />
+                </td>
 
-                    <td className="py-4 px-6 flex ">
-                      <IconButton
-                        icon={faCheck}
-                        onClick={() => handleApproveClick(cp)}
-                        color={acceptColor}
-                        classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
-                        }
-                        classIcon={""}
-                        title={t("accept")!}
-                      />
-                      <IconButton
-                        icon={faCancel}
-                        onClick={() => handleRejectClick(cp)}
-                        color={rejectColor}
-                        classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
-                        }
-                        classIcon={""}
-                        title={t("reject")!}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          );
-        })}
+                <td className="py-4 px-6 flex ">
+                  <IconButton
+                    icon={faCheck}
+                    onClick={() => handleApproveClick(cp)}
+                    color={acceptColor}
+                    classContainer={
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                    }
+                    classIcon={""}
+                    title={t("accept")!}
+                  />
+                  <IconButton
+                    icon={faCancel}
+                    onClick={() => handleRejectClick(cp)}
+                    color={rejectColor}
+                    classContainer={
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                    }
+                    classIcon={""}
+                    title={t("reject")!}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

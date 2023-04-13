@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import CPGoogleMap from "./CPGoogleMap";
+import ListCPFixed from "./ListCPFixed";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed } from "../../../lib/types";
-import ListCPFixed from "./ListCPFixed";
 
 interface FormData {
   cp_name: string;
@@ -28,7 +28,9 @@ interface Props {
 
 export default function CPFixed({ cpsId, cpFixed }: Props) {
   const { t } = useTranslation();
-  const [address, setAddress] = React.useState<string>("");
+
+  const [address, setAddress] = useState<string>("");
+  const [cpList, setCpList] = useState<ICPFixed[]>(cpFixed);
 
   const {
     formState: { errors },
@@ -39,6 +41,10 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
   const handleAddress = (address: string) => {
     setAddress(address);
+  };
+
+  const handleCPList = (cps: ICPFixed[]) => {
+    setCpList(cps);
   };
 
   const onSubmit = async (formValues: FormData) => {
@@ -53,7 +59,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       end_date,
     } = formValues;
 
-    const { error } = await supabase.from("cp_fixed").insert({
+    const { data, error } = await supabase.from("cp_fixed").insert({
       cp_name,
       cp_description,
       organizer_name,
@@ -70,6 +76,9 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     if (error) {
       throw error;
     }
+
+    const newCPList = [...cpList, data[0]];
+    handleCPList(newCPList);
 
     reset();
   };
@@ -248,7 +257,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
         <div className="flex flex-row space-x-4">
-          <ListCPFixed cpFixed={cpFixed} />
+          <ListCPFixed cpFixed={cpList} handleCPList={handleCPList} />
         </div>
       </section>
     </div>
