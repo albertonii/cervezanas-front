@@ -1,16 +1,10 @@
-import {
-  createContext,
-  Dispatch,
-  FunctionComponent,
-  SetStateAction,
-  useState,
-} from "react";
+import { createContext, useState } from "react";
 import { MessageProps } from "./message.types";
 
 export type MessageContextProps = {
   messages: MessageProps[];
-  setMessages: Dispatch<SetStateAction<MessageProps[]>>;
   handleMessage: (m: MessageProps) => void;
+  clearMessages: () => void;
 };
 
 export const MessageContext = createContext<Partial<MessageContextProps>>({});
@@ -21,15 +15,20 @@ interface Props {
 
 export const MessageProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<MessageProps[]>([]);
+
   const handleMessage = (message: MessageProps) => {
-    setMessages((prevMessages) => prevMessages.concat([message]));
+    setMessages((prevMessages) => [...prevMessages, message]);
     setTimeout(() => {
-      setMessages((prevMessages) => prevMessages.slice(1));
+      setMessages(messages.slice(1));
     }, 15000);
   };
 
+  const clearMessages = () => {
+    setMessages([]);
+  };
+
   return (
-    <MessageContext.Provider value={{ messages, setMessages, handleMessage }}>
+    <MessageContext.Provider value={{ messages, handleMessage, clearMessages }}>
       {children}
     </MessageContext.Provider>
   );

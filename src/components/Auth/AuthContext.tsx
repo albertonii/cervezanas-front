@@ -24,7 +24,7 @@ export interface AuthSession {
   loading: boolean;
   setUser: (user: User | null) => void;
   signUp: (payload: SignUpInterface) => void;
-  signIn: (payload: UserCredentials) => void;
+  signIn: (payload: UserCredentials) => Promise<any>;
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
   supabaseClient: SupabaseClient | null;
@@ -36,7 +36,7 @@ export const AuthContext = createContext<AuthSession>({
   user: null,
   role: null,
   setUser: () => {},
-  signIn: () => {},
+  signIn: () => Promise.resolve(),
   signUp: () => {},
   signInWithProvider: () => Promise.resolve(),
   signOut: () => {},
@@ -58,7 +58,7 @@ export const AuthContextProvider = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
-  const { handleMessage } = useMessage();
+  const { handleMessage, clearMessages } = useMessage();
 
   const { t } = useTranslation();
 
@@ -89,6 +89,8 @@ export const AuthContextProvider = (props: Props) => {
           setUser(user as User);
           setLoggedIn(true);
 
+          clearMessages!();
+
           handleMessage!({
             type: "success",
             message: `${t("welcome")}, ${user?.email}`,
@@ -110,7 +112,7 @@ export const AuthContextProvider = (props: Props) => {
     return () => {
       authListener?.unsubscribe();
     };
-  }, [handleMessage, supabase.auth, t]);
+  }, [clearMessages, handleMessage, supabase.auth, t]);
 
   // TODO: OPTIMIZAR ESTO. Si se actualiza el usuario se ejecuta de nuevo
   useEffect(() => {
@@ -145,6 +147,7 @@ export const AuthContextProvider = (props: Props) => {
         handleMessage!({ message: error.message, type: "error" });
         setLoggedIn(false);
       } else {
+        clearMessages!();
         handleMessage!({
           message:
             "Signup successful. Please check your inbox for a confirmation email!",
@@ -163,45 +166,36 @@ export const AuthContextProvider = (props: Props) => {
   };
 
   const signIn = async (payload: UserCredentials) => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const { error, user } = await supabase.auth.signIn(payload);
+    const { error, user } = await supabase.auth.signIn(payload);
 
-      if (error) {
-        setLoggedIn(false);
-
-        handleMessage!({ message: error.message, type: "error" });
-      } else {
-        await supabase.rpc("google_auth", {
-          email: user?.email,
-          token: user?.aud,
-        });
-
-        // Send user role producer to the server
-        await supabase.rpc("set_claim", {
-          uid: user?.id,
-          claim: "role",
-          value: ROLE_ENUM.Cervezano,
-        });
-
-        // Get my claim by role
-        await supabase.rpc("get_my_claim", {
-          claim: "role",
-        });
-
-        setLoggedIn(true);
-
-        Router.push(ROUTE_HOME);
-      }
-    } catch (error: any) {
-      handleMessage!({
-        message: error.error_description || error,
-        type: "error",
-      });
-    } finally {
+    if (error) {
+      handleMessage!({ message: error.message, type: "error" });
+      setLoggedIn(false);
       setLoading(false);
+      return error;
     }
+
+    await supabase.rpc("google_auth", {
+      email: user?.email,
+      token: user?.aud,
+    });
+
+    // Send user role producer to the server
+    await supabase.rpc("set_claim", {
+      uid: user?.id,
+      claim: "role",
+      value: ROLE_ENUM.Cervezano,
+    });
+
+    // Get my claim by role
+    await supabase.rpc("get_my_claim", {
+      claim: "role",
+    });
+
+    setLoggedIn(true);
+    setLoading(false);
   };
 
   const signInWithProvider = async (provider: Provider) => {

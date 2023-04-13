@@ -10,7 +10,6 @@ import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
 import { ProductEnum } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
-import DisplayImageProduct from "../common/DisplayImageProduct";
 
 interface Props {
   product: Product;

@@ -89,7 +89,7 @@ export function SecretDataForm() {
             />
 
             {errors.oldPassword?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -110,7 +110,7 @@ export function SecretDataForm() {
           />
 
           {errors.newPassword?.type === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <p>{t("errors.errors.input_required")}</p>
           )}
         </div>
 

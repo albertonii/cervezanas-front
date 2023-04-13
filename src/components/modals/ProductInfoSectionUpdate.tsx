@@ -153,7 +153,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                 })}
               />
-              {errors.name?.type === "required" && <p>{t("input_required")}</p>}
+              {errors.name?.type === "required" && <p>{t("errors.input_required")}</p>}
               {errors.name?.type === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
               )}
@@ -193,7 +193,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 })}
               />
               {errors.description?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
               {errors.description?.type === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
@@ -224,7 +224,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               />
 
               {errors.intensity?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
 
               {errors.intensity?.type === "min" && (
@@ -262,7 +262,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 ))}
               </select>
               {errors.fermentation?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
           </div>
@@ -323,7 +323,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 ))}
               </select>
               {errors.origin?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
           </div>
@@ -355,7 +355,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               </select>
 
               {errors.family?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
 
@@ -384,7 +384,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 ))}
               </select>
               {errors.intensity?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
           </div>
@@ -444,7 +444,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 </option>
               </select>
               {errors.is_gluten?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
           </div>
@@ -472,7 +472,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               </select>
 
               {errors.format?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
 
@@ -515,7 +515,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               </select>
 
               {errors.volume?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
             </div>
           </div>
@@ -541,7 +541,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               />
 
               {errors.price?.type === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
 
               {errors.price?.type === "min" && (
@@ -583,7 +583,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   />
 
                   {errors.stock_quantity?.type === "required" && (
-                    <p>{t("input_required")}</p>
+                    <p>{t("errors.input_required")}</p>
                   )}
                   {errors.stock_quantity?.type === "min" && (
                     <p>{t("product_modal_min_0")}</p>
@@ -612,7 +612,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   />
 
                   {errors.stock_limit_notification?.type === "required" && (
-                    <p>{t("input_required")}</p>
+                    <p>{t("errors.input_required")}</p>
                   )}
                   {errors.stock_limit_notification?.type === "min" && (
                     <p>{t("product_modal_min_0")}</p>
@@ -664,7 +664,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                         </select>
 
                         {`errors.packs.${index}.pack.type` === "required" && (
-                          <p>{t("input_required")}</p>
+                          <p>{t("errors.input_required")}</p>
                         )}
                       </div>
 
@@ -692,7 +692,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                         />
 
                         {`errors.packs.${index}.price.type` === "required" && (
-                          <p>{t("input_required")}</p>
+                          <p>{t("errors.input_required")}</p>
                         )}
                         {`errors.packs.${index}.price.type` === "min" && (
                           <p>{t("product_modal_min_0")}</p>
@@ -725,7 +725,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                         />
 
                         {`packs.${index}.name.type` === "required" && (
-                          <p>{t("input_required")}</p>
+                          <p>{t("errors.errors.input_required")}</p>
                         )}
                       </div>
                     </div>

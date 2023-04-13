@@ -135,7 +135,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.lot_name?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
 
@@ -153,7 +153,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.lot_number?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
             </div>
@@ -175,7 +175,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   min="0"
                 />
                 {errors.quantity?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
 
@@ -197,7 +197,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   min="0"
                 />
                 {errors.limit_notification?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
             </div>
@@ -221,7 +221,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.manufacture_date?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
 
@@ -242,7 +242,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.expiration_date?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
             </div>
@@ -267,7 +267,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 </select>
 
                 {errors.packaging?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
             </div>
@@ -287,7 +287,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.beer_recipe?.type === "required" && (
-                  <p>{t("input_required")}</p>
+                  <p>{t("errors.input_required")}</p>
                 )}
               </div>
             </div>

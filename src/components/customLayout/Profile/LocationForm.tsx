@@ -163,7 +163,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressName?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
 
@@ -180,7 +180,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressLastname?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -200,7 +200,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressDoc?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
 
@@ -232,7 +232,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressPhone?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -252,7 +252,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.address1?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -272,7 +272,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.address2?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -292,7 +292,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressPC?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
 
@@ -312,7 +312,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressTown?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -330,7 +330,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressCountry?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
 
@@ -347,7 +347,7 @@ export function LocationForm({ profile_location }: Props) {
             />
 
             {errors.addressProvince?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>

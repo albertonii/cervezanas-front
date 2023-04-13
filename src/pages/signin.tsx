@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 import { useState } from "react";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../components/Auth/useAuth";
 import { UserCredentials } from "@supabase/supabase-js";
-import Router, { useRouter } from "next/router";
 import { useMessage } from "../components/message";
 import { useTranslation } from "react-i18next";
 import { Button, Spinner } from "../components/common";
@@ -20,8 +20,7 @@ interface FormData {
 export default function SignIn() {
   const router = useRouter();
 
-  const { signInWithProvider, signIn, signOut, loading, loggedIn, user } =
-    useAuth();
+  const { signInWithProvider, signIn, loading, loggedIn } = useAuth();
 
   const { t } = useTranslation();
 
@@ -40,7 +39,15 @@ export default function SignIn() {
       email,
       password,
     };
-    signIn(userCredentials);
+
+    signIn(userCredentials)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        handleMessage!({ type: "error", message: error.message });
+      });
   };
 
   const handleGoogleSignIn = async () => {
@@ -81,7 +88,7 @@ export default function SignIn() {
               className="mt-4 space-y-4"
               onSubmit={handleSubmit(handleCredentialsSignIn)}
             >
-              <fieldset>
+              <fieldset className="space-y-4">
                 {/* email  */}
                 <div className="flex w-full flex-col space-y-3">
                   <label
@@ -102,7 +109,7 @@ export default function SignIn() {
                     />
 
                     {errors.email?.type === "required" && (
-                      <p>{t("input_required")}</p>
+                      <p>{t("errors.input_required")}</p>
                     )}
                   </label>
                 </div>
@@ -124,7 +131,7 @@ export default function SignIn() {
                     />
 
                     {errors.password?.type === "required" && (
-                      <p>{t("input_required")}</p>
+                      <p>{t("errors.input_required")}</p>
                     )}
                   </label>
                 </div>

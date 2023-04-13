@@ -104,7 +104,7 @@ export function AwardsSectionUpdate({
               })}
             />
             {`errors.awards.${index}.name.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
             {`errors.awards.${index}.name.type` === "maxLength" && (
               <p>{t("product_modal_20_max_length")}</p>
@@ -129,7 +129,7 @@ export function AwardsSectionUpdate({
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
-              <p>{t("product_modinput_requiredal_required")}</p>
+              <p>{t("product_moderrors.input_requiredal_required")}</p>
             )}
             {`errors.awards.${index}.description.type` === "maxLength" && (
               <p>{t("product_modal_20_max_length")}</p>
@@ -153,7 +153,7 @@ export function AwardsSectionUpdate({
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
 
@@ -173,7 +173,7 @@ export function AwardsSectionUpdate({
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
             {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
 
             {/* <div

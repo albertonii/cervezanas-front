@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import { Alert } from "@reach/alert";
 import classNames from "classnames";
 import {
@@ -20,7 +19,6 @@ export function Message({ message, type }: MessageProps) {
           : "bg-gray-100 text-gray-800"
       )}
     >
-      {" "}
       {type === "success" ? (
         <FontAwesomeIcon
           icon={faCheckCircle}

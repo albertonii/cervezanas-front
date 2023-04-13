@@ -201,7 +201,7 @@ export function CampaignForm({
             </select>
 
             {`errors.campaigns.${index}.is_public?.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
 
@@ -231,7 +231,7 @@ export function CampaignForm({
             </select>
 
             {`errors.campaigns.${index}.status.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -254,7 +254,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.img_url.type` === "required" && (
-            <p>{t("input_required")}</p>
+            <p>{t("errors.input_required")}</p>
           )}
         </div>
 
@@ -277,7 +277,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.name.type` === "required" && (
-            <p>{t("input_required")}</p>
+            <p>{t("errors.input_required")}</p>
           )}
           {`errors.campaigns.${index}.name.type` === "maxLength" && (
             <p>{t("error_30_max_length")}</p>
@@ -303,7 +303,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.description.type` === "required" && (
-            <p>{t("input_required")}</p>
+            <p>{t("errors.input_required")}</p>
           )}
           {`errors.campaigns.${index}.description.type` === "maxLength" && (
             <p>{t("error_200_max_length")}</p>
@@ -328,7 +328,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.slogan.type` === "required" && (
-            <p>{t("input_required")}</p>
+            <p>{t("errors.input_required")}</p>
           )}
           {`errors.campaigns.${index}.slogan.type` === "maxLength" && (
             <p>{t("error_200_max_length")}</p>
@@ -353,7 +353,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.goal.type` === "required" && (
-            <p>{t("input_required")}</p>
+            <p>{t("errors.input_required")}</p>
           )}
           {`errors.campaigns.${index}.goal.type` === "maxLength" && (
             <p>{t("error_200_max_length")}</p>
@@ -377,7 +377,7 @@ export function CampaignForm({
               {...register(`campaigns.${index}.start_date` as const)}
             />
             {`errors.campaigns.${index}.start_date.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
 
@@ -397,7 +397,7 @@ export function CampaignForm({
               {...register(`campaigns.${index}.end_date` as const)}
             />
             {`errors.awards.${index}.end_date.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
         </div>

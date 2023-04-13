@@ -86,7 +86,7 @@ export const AwardsSection = ({ form }: Props) => {
                 })}
               />
               {`errors.awards.${index}.name.type` === "required" && (
-                <p>{t("input_required")}</p>
+                <p>{t("errors.input_required")}</p>
               )}
               {`errors.awards.${index}.name.type` === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
@@ -118,7 +118,7 @@ export const AwardsSection = ({ form }: Props) => {
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
             {`errors.awards.${index}.description.type` === "maxLength" && (
               <p>{t("product_modal_20_max_length")}</p>
@@ -142,7 +142,7 @@ export const AwardsSection = ({ form }: Props) => {
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
 
@@ -158,7 +158,7 @@ export const AwardsSection = ({ form }: Props) => {
             />
 
             {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>{t("input_required")}</p>
+              <p>{t("errors.input_required")}</p>
             )}
           </div>
 

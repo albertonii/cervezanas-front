@@ -104,7 +104,7 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.birthdate?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
           </div>
         </div>
@@ -127,7 +127,7 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.name?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
             {errors.name?.type === "maxLength" && (
               <p>{t("errors.error_30_max_length")}</p>
@@ -151,7 +151,7 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.lastname?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
             {errors.lastname?.type === "maxLength" && (
               <p>{t("errors.error_50_max_length")}</p>
@@ -174,7 +174,7 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.email?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <p>{t("errors.errors.input_required")}</p>
             )}
 
             {errors.email?.type === "pattern" && (

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { MessageList, useMessage } from "./message";
+import { MessageList, MessageProps, useMessage } from "./message";
 import { Breadcrumb, Header, Footer } from "./index";
 import { useAuth } from "./Auth";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../components/Context/index";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { useEffect, useState } from "react";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -53,7 +54,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
               />
             </Head>
 
-            <div className="flex flex-col h-screen justify-between">
+            <div className="flex flex-col h-screen justify-between relative">
               <Header />
 
               {loggedIn && (
