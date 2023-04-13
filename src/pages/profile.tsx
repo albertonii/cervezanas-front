@@ -64,9 +64,6 @@ export default function CustomLayout({
       if (role === "admin") {
         setMenuOption("submitted_aps");
         changeSidebarActive("submitted_aps");
-      } else {
-        setMenuOption("account");
-        changeSidebarActive("account");
       }
     }
   }, [changeSidebarActive, role, router]);

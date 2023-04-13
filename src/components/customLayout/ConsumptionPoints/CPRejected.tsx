@@ -3,21 +3,25 @@ import React from "react";
 // Consumption Point status is in pending for validation by the admin of the platform
 export default function CPRejected() {
   return (
-    <div>
+    <div className="space-y-6">
       <div className="text-3xl">Petición denegada</div>
 
       <div>
         <div className="text-lg">
           El equipo de cervezanas ha recibido tu solicitud para participar como
-          punto de consumo certificado. Estamos revisando la información que nos
-          has hecho llegar. ¡Te mantendremos informado lo antes posible!
+          punto de consumo certificado y, lamentablemente no ha sido posible su
+          aprobación.
         </div>
-      </div>
 
-      <div className="mt-4">
-        <span className="text-3xl">
-          ¡Muchas gracias por confiar en nosotros!
-        </span>
+        <div className="text-lg">
+          Si crees que se trata de un error, por favor, ponte en contacto con
+          nosotros a través de nuestro formulario de contacto.
+        </div>
+
+        <div className="text-lg">
+          Gracias por tu interés en Cervezanas y esperamos que pronto puedas
+          formar parte de nuestra comunidad como Punto de Consumo Certificado.
+        </div>
       </div>
     </div>
   );
