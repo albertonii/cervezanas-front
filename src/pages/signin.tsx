@@ -2,7 +2,7 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
@@ -49,6 +49,37 @@ export default function SignIn() {
         handleMessage!({ type: "error", message: error.message });
       });
   };
+
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      const handleCredentialsSignIn = async () => {
+        const userCredentials: UserCredentials = {
+          email,
+          password,
+        };
+
+        signIn(userCredentials)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+            handleMessage!({ type: "error", message: error.message });
+          });
+      };
+
+      if (event.key === "Enter") handleCredentialsSignIn();
+    },
+    [email, handleMessage, password, signIn]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   const handleGoogleSignIn = async () => {
     signInWithProvider("google")
