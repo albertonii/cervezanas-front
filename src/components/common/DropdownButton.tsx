@@ -80,7 +80,7 @@ export function DropdownButton(props: DropdownProps) {
 
   return (
     <div
-      className="w-12 h-full font-medium relative hover:cursor-pointer"
+      className="w-12 h-full flex justify-center items-center font-medium relative hover:cursor-pointer"
       id="profile-dropdown"
       ref={dropdown}
     >

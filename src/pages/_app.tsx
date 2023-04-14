@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <MessageProvider>
         <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
           <AuthContextProvider supabaseClient={supabase}>
-            <Layout usePadding={true} useBackdrop={false}>
+            <Layout usePadding={false} useBackdrop={false}>
               <Component {...pageProps} />
             </Layout>
           </AuthContextProvider>

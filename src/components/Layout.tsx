@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { MessageList, MessageProps, useMessage } from "./message";
+import { MessageList, useMessage } from "./message";
 import { Breadcrumb, Header, Footer } from "./index";
 import { useAuth } from "./Auth";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../components/Context/index";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -33,6 +33,10 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   const { messages } = useMessage();
   const { loggedIn } = useAuth();
 
+  const router = useRouter();
+
+  const isHomepage = router.asPath === "/";
+
   // Capitalize the first letter of each word in a string
   function titleize(path: string): string {
     return path
@@ -54,13 +58,13 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
               />
             </Head>
 
-            <div className="flex flex-col h-screen justify-between relative">
+            <div className="flex flex-col h-screen justify-between relative bg-beer-foam">
               <Header />
 
-              {loggedIn && (
+              {loggedIn && !isHomepage && (
                 <div
                   className={classNames(
-                    "w-full h-auto mx-auto relative",
+                    "w-full h-auto mx-auto relative mt-[10vh]",
                     usePadding && "px-4 sm:px-6 lg:px-8",
                     useBackdrop && "bg-gray-200"
                   )}
@@ -73,7 +77,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
               <main
                 className={classNames(
-                  "w-full h-auto mx-auto relative",
+                  "w-full h-auto mx-auto relative mt-[10vh]",
                   usePadding && "px-2 sm:px-6 lg:px-8",
                   useBackdrop && "bg-gray-200"
                 )}
@@ -82,7 +86,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
                 {children}
               </main>
 
-              <Footer>.</Footer>
+              {/* <Footer>.</Footer> */}
             </div>
           </ShoppingCartProvider>
         </QueryClientProvider>

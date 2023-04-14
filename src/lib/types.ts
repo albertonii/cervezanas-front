@@ -667,6 +667,7 @@ export interface Product {
   status: ProductEnum.Status;
   type: ProductEnum.Type;
   product_pack: ProductPack[];
+  is_monthly: boolean;
 }
 
 export interface ProductVariant {

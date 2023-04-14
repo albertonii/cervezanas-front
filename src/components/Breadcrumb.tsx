@@ -1,7 +1,7 @@
-import { Typography } from "@supabase/ui";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useMemo } from "react";
+import { Typography } from "@supabase/ui";
+import { useRouter } from "next/router";
 
 const _defaultGetDefaultTextGenerator = (path: string) => path;
 

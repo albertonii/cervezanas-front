@@ -33,20 +33,10 @@ export function Header({}: Props) {
   };
 
   return (
-    <div className="header ">
-      <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+    <div className="header absolute w-full bg-beer-foam">
+      <nav className="border-gray-200 px-2 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
-          <div className="relative h-16 w-20 md:h-20 md:w-26 lg:h-24 lg:w-32 flex-shrink-0 lg:my-2">
-            <Image
-              src="/logo_cervezanas.svg"
-              alt="Cervezanas Logo"
-              fill
-              style={{ objectFit: "contain" }}
-              priority={true}
-              sizes="100px"
-            />
-          </div>
-
+          {/* Hamburguer menu  */}
           <button
             data-collapse-toggle="navbar-default"
             type="button"
@@ -70,45 +60,49 @@ export function Header({}: Props) {
             </svg>
           </button>
 
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+          <div className="grid grid-cols-3 gap-4 w-full" id="navbar-default">
+            {/* Left elements  */}
             <ul className="flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li className="flex items-center">
+                <Link href="/">
+                  <span
+                    className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                    aria-current="page"
+                  >
+                    {t("home").toUpperCase()}
+                  </span>
+                </Link>
+              </li>
+
+              <li className="flex items-center">
+                <Link href="/marketplace">
+                  <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
+                    {t("marketplace").toUpperCase()}
+                  </span>
+                </Link>
+              </li>
+            </ul>
+
+            {/* Logo Cervezanas  */}
+            <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
+              <div className="relative h-[173px] w-[221px] bg-beer-gold flex justify-center ">
+                <Image
+                  src="/logo_cervezanas.svg"
+                  alt="Cervezanas Logo"
+                  width={150}
+                  height={100}
+                  style={{ objectFit: "contain" }}
+                  priority={true}
+                  sizes="100px"
+                />
+                <div className="w-full pt-[22px] h-[22px] absolute -bottom-5 bg-beer-darkGold"></div>
+              </div>
+            </div>
+
+            {/* Right elements  */}
+            <ul className="flex flex-col justify-end align-middle p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {loggedIn ? (
                 <>
-                  <li className="flex items-center">
-                    <Link href="/">
-                      <span
-                        className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
-                        aria-current="page"
-                      >
-                        {t("home")}
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li className="flex items-center">
-                    <Link href="/marketplace">
-                      <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
-                        {t("marketplace")}
-                      </span>
-                    </Link>
-                  </li>
-
-                  <li className="flex items-center">
-                    <Select
-                      name="language"
-                      style={{ backgroundColor: "transparent" }}
-                      onChange={onChangeLanguage}
-                      className="text-sm lg:text-lg focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                    >
-                      <Select.Option value="es">
-                        🇪🇸 {t("spanish")}
-                      </Select.Option>
-                      <Select.Option value="en">
-                        🇬🇧 {t("english")}
-                      </Select.Option>
-                    </Select>
-                  </li>
-
                   {/* Cart  */}
                   {role !== "admin" && (
                     <li className="flex items-center">
@@ -147,6 +141,23 @@ export function Header({}: Props) {
                     ></DropdownButton>
                   </li>
 
+                  {/* Language  */}
+                  <li className="flex items-center max-w-[50px]">
+                    <Select
+                      size="tiny"
+                      name="language"
+                      style={{
+                        backgroundColor: "transparent",
+                        maxWidth: "50px",
+                      }}
+                      onChange={onChangeLanguage}
+                      className=""
+                    >
+                      <Select.Option value="es">🇪🇸</Select.Option>
+                      <Select.Option value="en">🇬🇧</Select.Option>
+                    </Select>
+                  </li>
+
                   <li className="flex items-center">
                     <Button
                       onClick={() => handleSignOut()}
@@ -168,6 +179,23 @@ export function Header({}: Props) {
                 </>
               ) : (
                 <>
+                  {/* Language  */}
+                  <li className="flex items-center">
+                    <Select
+                      size="tiny"
+                      name="language"
+                      style={{
+                        backgroundColor: "transparent",
+                        maxWidth: "50px",
+                      }}
+                      onChange={onChangeLanguage}
+                      className=""
+                    >
+                      <Select.Option value="es">🇪🇸</Select.Option>
+                      <Select.Option value="en">🇬🇧</Select.Option>
+                    </Select>
+                  </li>
+
                   <li className="flex items-center">
                     <Button
                       onClick={() => handleSignIn()}

@@ -6,7 +6,7 @@ export function Footer({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
 
   return (
-    <footer>
+    <footer className="absolute -bottom-[100vh] lg:-bottom-96 w-full ">
       <div className="relative mt-16 bg-bear-light">
         <svg
           className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-bear-light"

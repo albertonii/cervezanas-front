@@ -135,6 +135,8 @@ module.exports = {
         softBlondeBubble: "#f1d273",
         softFoam: "#fce8ae",
         foam: "#fefefe",
+        gold: "#EE9900",
+        darkGold: "#CA8200",
       },
       bear: {
         dark: "#502600",
