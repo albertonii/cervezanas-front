@@ -44,6 +44,7 @@ export default function CustomLayout({
   product_lots,
   cps,
 }: Props) {
+  console.log(cps);
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const { user, role } = useAuth();
@@ -223,7 +224,6 @@ export async function getServerSideProps({ req }: any) {
       `
       )
       .eq("owner_id", user?.id);
-
     if (cpsError) console.error(cpsError);
 
     if (productLotData === undefined || productLotData === null) {
@@ -237,7 +237,7 @@ export async function getServerSideProps({ req }: any) {
         product_lots: productLotData,
         profile: profileData[0],
         reviews: reviewData,
-        cps: cps[0],
+        cps: cps[0] ?? cps,
       },
     };
   } else {

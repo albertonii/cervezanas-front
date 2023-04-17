@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints } from "../../lib/types";
+import { IConsumptionPoints, SortBy } from "../../lib/types.d";
 import { formatDate } from "../../utils";
 import { supabase } from "../../utils/supabaseClient";
 import { generateDownloadableLink } from "../../utils/utils";
@@ -17,10 +17,6 @@ import { Modal } from "../modals";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
-}
-
-interface ColumnsProps {
-  header: string;
 }
 
 export default function ListPendingCP({ submittedCPs }: Props) {
@@ -35,24 +31,35 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const [isAcceptModal, setIsAcceptModal] = useState(false);
   const [isRejectModal, setIsRejectModal] = useState(false);
 
+  const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedCP, setSelectedCP] = useState<IConsumptionPoints>();
 
-  const COLUMNS = [
-    { header: "" },
-    { header: t("name_header") },
-    { header: t("created_date_header") },
-    { header: t("cover_letter_header") },
-    { header: t("cv_header") },
-    { header: t("action_header") },
-  ];
-
-  const filteredItems = useMemo<IConsumptionPoints[]>(() => {
+  const filteredItems: IConsumptionPoints[] = useMemo<
+    IConsumptionPoints[]
+  >(() => {
     return submittedList.filter((submittedCP) => {
       return submittedCP.owner_id.username
         .toLowerCase()
         .includes(query.toLowerCase());
     });
   }, [submittedList, query]);
+
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
+
+  const sortedItems = useMemo(() => {
+    if (sorting === SortBy.NONE) return filteredItems;
+
+    const compareProperties: Record<string, (cp: IConsumptionPoints) => any> = {
+      [SortBy.USERNAME]: (cp) => cp.owner_id.username,
+    };
+
+    return filteredItems.toSorted((a, b) => {
+      const extractProperty = compareProperties[sorting];
+      return extractProperty(a).localeCompare(extractProperty(b));
+    });
+  }, [filteredItems, sorting]);
 
   // Remove from submitted list after accepting or rejecting
   const removeFromSubmittedList = (id: string) => {
@@ -114,12 +121,12 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     supabase
       .from("consumption_points")
       .update({ cp_organizer_status: status })
-      .eq("id", selectedCP!.id)
+      .eq("id", selectedCP?.id)
       .then(async () => {
         await supabase
           .from("users")
           .update({ cp_organizer_status: status })
-          .eq("id", selectedCP!.owner_id.id);
+          .eq("id", selectedCP?.owner_id.id);
       });
   };
 
@@ -196,18 +203,46 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            {COLUMNS.map((column: ColumnsProps, index: number) => {
-              return (
-                <th key={index} scope="col" className="py-3 px-6">
-                  {column.header}
-                </th>
-              );
-            })}
+            <th scope="col" className="py-3 px-6 hover:cursor-pointer">
+              .
+            </th>
+
+            <th
+              scope="col"
+              className="py-3 px-6 hover:cursor-pointer"
+              onClick={() => {
+                handleChangeSort(SortBy.USERNAME);
+              }}
+            >
+              {t("username_header")}
+            </th>
+
+            <th
+              scope="col"
+              className="py-3 px-6 hover:cursor-pointer"
+              onClick={() => {
+                handleChangeSort(SortBy.CREATED_DATE);
+              }}
+            >
+              {t("created_date_header")}
+            </th>
+
+            <th scope="col" className="py-3 px-6">
+              {t("cover_letter_header")}
+            </th>
+
+            <th scope="col" className="py-3 px-6 ">
+              {t("cv_header")}
+            </th>
+
+            <th scope="col" className="py-3 px-6 ">
+              {t("action_header")}
+            </th>
           </tr>
         </thead>
 
         <tbody>
-          {filteredItems.map((cp) => {
+          {sortedItems.map((cp) => {
             return (
               <tr
                 key={cp.id}

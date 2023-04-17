@@ -19,7 +19,7 @@ export default function Home({ monthlyProducts }: Props) {
         {/* First section  */}
         <div className="h-full">
           <Hero />
-          <MonthlyBeers monthlyProducts={monthlyProducts} />
+          {/* <MonthlyBeers monthlyProducts={monthlyProducts} /> */}
         </div>
       </>
     </>

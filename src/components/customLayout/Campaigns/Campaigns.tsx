@@ -6,7 +6,7 @@ import {
   CampaignFormProps,
   CampaignItem,
   Product,
-} from "../../../lib/types";
+} from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 import { Button } from "../../common";

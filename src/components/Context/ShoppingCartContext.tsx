@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { CartItem, Product } from "../../lib/types";
+import { CartItem, Product } from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
 
 type ShoppingCartContextType = {

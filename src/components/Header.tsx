@@ -64,20 +64,31 @@ export function Header({}: Props) {
             {/* Left elements  */}
             <ul className="flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li className="flex items-center">
-                <Link href="/">
-                  <span
-                    className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
-                    aria-current="page"
-                  >
-                    {t("home").toUpperCase()}
+                <Link href="/marketplace">
+                  <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
+                    {t("marketplace").toUpperCase()}
                   </span>
                 </Link>
               </li>
 
               <li className="flex items-center">
-                <Link href="/marketplace">
-                  <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
-                    {t("marketplace").toUpperCase()}
+                <Link href="/community">
+                  <span
+                    className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                    aria-current="page"
+                  >
+                    {t("community").toUpperCase()}
+                  </span>
+                </Link>
+              </li>
+
+              <li className="flex items-center">
+                <Link href="/events">
+                  <span
+                    className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                    aria-current="page"
+                  >
+                    {t("events").toUpperCase()}
                   </span>
                 </Link>
               </li>

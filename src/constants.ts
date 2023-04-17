@@ -1,4 +1,4 @@
-import { ViewsMap } from "./lib/types";
+import { ViewsMap } from "./lib/types.d";
 
 export const VIEWS: ViewsMap = {
   SIGN_IN: "sign_in",

@@ -3,7 +3,7 @@ import DisplayImageString from "../common/DisplayImageString";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Product } from "../../lib/types";
+import { Product } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";

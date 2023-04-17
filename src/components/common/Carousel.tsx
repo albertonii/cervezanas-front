@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, ComponentProps } from "react";
-import { ICarouselItem } from "../../lib/types";
+import { ICarouselItem } from "../../lib/types.d";
 import CarouselItem from "./CarouselItem";
 
 interface Props {

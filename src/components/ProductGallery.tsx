@@ -2,7 +2,7 @@ import Carousel from "./common/Carousel";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./common";
-import { ICarouselItem } from "../lib/types";
+import { ICarouselItem } from "../lib/types.d";
 import DisplayImageString from "./common/DisplayImageString";
 
 interface Props {

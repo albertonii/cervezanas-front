@@ -1,6 +1,6 @@
 import React from "react";
 import ListPendingCP from "./PendingList";
-import { IConsumptionPoints } from "../../lib/types";
+import { IConsumptionPoints } from "../../lib/types.d";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];

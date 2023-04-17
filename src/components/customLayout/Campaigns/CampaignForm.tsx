@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ComponentProps, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignItem } from "../../../lib/types";
+import { Campaign, CampaignItem } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 import { Button, DeleteButton, IconButton } from "../../common";

@@ -8,7 +8,7 @@ interface Props {
 
 export default function MonthlyBeers({ monthlyProducts }: Props) {
   if (monthlyProducts.length === 0) return null;
-  console.log(monthlyProducts);
+
   return (
     <div className="w-100% h-[150vh] bg-beer-foam flex justify-center pt-56 ">
       <div className="container ">

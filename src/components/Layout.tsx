@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { MessageList, useMessage } from "./message";
-import { Breadcrumb, Header, Footer } from "./index";
+import { Breadcrumb, Header } from "./index";
 import { useAuth } from "./Auth";
 import {
   AppContextProvider,
@@ -58,7 +58,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
               />
             </Head>
 
-            <div className="flex flex-col h-screen justify-between relative bg-beer-foam">
+            <div className="flex flex-col h-screen relative bg-beer-foam">
               <Header />
 
               {loggedIn && !isHomepage && (

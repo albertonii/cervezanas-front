@@ -2,9 +2,8 @@ import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
-import { User } from "../lib/interfaces";
+import { User } from "./interfaces";
 import { ProductEnum } from "./productEnum";
-import { ConsumptionPoints } from "../components/customLayout";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -675,4 +674,19 @@ export interface ProductVariant {
   product_id: string;
   name: string;
   product_number: number;
+}
+
+export enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  NAME = "name",
+  LAST = "last",
+  COUNTRY = "country",
+  CREATED_DATE = "created_date",
+}
+
+declare global {
+  interface Array<T> {
+    toSorted(compareFn?: (a: T, b: T) => number): T[];
+  }
 }

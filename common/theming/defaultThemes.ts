@@ -8,7 +8,7 @@
  * https://stitches.dev/docs/api#theme
  */
 
-import { Theme } from "../../src/lib/types";
+import { Theme } from "../../src/lib/types.d";
 
 // brand: 'hsl(252 62% 55%)',
 // brandAccent: 'hsl(252 62% 45%)',

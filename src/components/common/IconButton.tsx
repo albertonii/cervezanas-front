@@ -11,7 +11,7 @@ interface IconButtonProps {
   classIcon?: string;
   classSpanChildren?: string;
   children?: React.ReactNode;
-  title?: string;
+  title: string;
   box?: boolean;
   danger?: boolean;
   disabled?: boolean;

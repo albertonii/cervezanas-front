@@ -1,3 +1,5 @@
+import DisplayImage from "../common/DisplayImageProduct";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -13,15 +15,12 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
-import DisplayImage from "../common/DisplayImageProduct";
-import Link from "next/link";
 
 interface Props {
   product: Product;
 }
 
 export default function MonthlyCardItem({ product }: Props) {
-  console.log(product);
   const { t } = useTranslation();
   const { id } = product;
   const router = useRouter();

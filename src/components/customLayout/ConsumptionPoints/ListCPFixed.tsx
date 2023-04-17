@@ -8,15 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import { ICPFixed } from "../../../lib/types";
+import { ICPFixed, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
 import { supabase } from "../../../utils/supabaseClient";
 
-interface ColumnsProps {
-  header: string;
-}
 interface Props {
   cpFixed: ICPFixed[];
   handleCPList: ComponentProps<any>;
@@ -33,16 +30,8 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
   const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
+  const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedCP, setSelectedCP] = useState<ICPFixed>();
-
-  const COLUMNS = [
-    { header: "" },
-    { header: t("name_header") },
-    { header: t("created_date_header") },
-    { header: t("") },
-    { header: t("") },
-    { header: t("action_header") },
-  ];
 
   const handleEditClick = async (cp: ICPFixed) => {
     setIsEditModal(true);
@@ -65,7 +54,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
     const { error } = await supabase
       .from("cp_fixed")
       .delete()
-      .eq("id", selectedCP!.id);
+      .eq("id", selectedCP?.id);
 
     if (error) throw error;
   };
@@ -97,7 +86,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
         is_booking_required: selectedCP?.is_booking_required,
         maximum_capacity: selectedCP?.maximum_capacity,
       })
-      .eq("id", selectedCP!.id);
+      .eq("id", selectedCP?.id);
 
     if (error) throw error;
   };
@@ -108,11 +97,29 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
     });
   }, [cpFixed, query]);
 
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
+
+  const sortedItems = useMemo(() => {
+    if (sorting === SortBy.NONE) return filteredItems;
+
+    const compareProperties: Record<string, (cp: ICPFixed) => any> = {
+      [SortBy.NAME]: (cp) => cp.cp_name,
+      [SortBy.CREATED_DATE]: (cp) => cp.created_at,
+    };
+
+    return filteredItems.toSorted((a, b) => {
+      const extractProperty = compareProperties[sorting];
+      return extractProperty(a).localeCompare(extractProperty(b));
+    });
+  }, [filteredItems, sorting]);
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
       {isEditModal && (
         <Modal
-          title={t("accept")!}
+          title={t("accept")}
           icon={faCheck}
           color={editColor}
           handler={async () => {
@@ -133,7 +140,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
 
       {isDeleteModal && (
         <Modal
-          title={t("delete")!}
+          title={t("delete")}
           icon={faTrash}
           color={editColor}
           handler={async () => {
@@ -181,18 +188,40 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            {COLUMNS.map((column: ColumnsProps, index: number) => {
-              return (
-                <th key={index} scope="col" className="py-3 px-6">
-                  {column.header}
-                </th>
-              );
-            })}
+            <th scope="col" className="py-3 px-6"></th>
+
+            <th
+              scope="col"
+              className="py-3 px-6 hover:cursor-pointer"
+              onClick={() => {
+                handleChangeSort(SortBy.NAME);
+              }}
+            >
+              {t("name_header")}
+            </th>
+
+            <th
+              scope="col"
+              className="py-3 px-6 hover:cursor-pointer"
+              onClick={() => {
+                handleChangeSort(SortBy.CREATED_DATE);
+              }}
+            >
+              {t("created_date_header")}
+            </th>
+
+            <th scope="col" className="py-3 px-6 "></th>
+
+            <th scope="col" className="py-3 px-6 "></th>
+
+            <th scope="col" className="py-3 px-6 ">
+              {t("action_header")}
+            </th>
           </tr>
         </thead>
 
         <tbody>
-          {filteredItems.map((cp) => {
+          {sortedItems.map((cp) => {
             return (
               <tr
                 key={cp.id}
@@ -232,7 +261,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
                       "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
                     }
                     classIcon={""}
-                    title={t("edit")!}
+                    title={t("edit")}
                   />
                   <IconButton
                     icon={faTrash}
@@ -244,7 +273,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
                       "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
                     }
                     classIcon={""}
-                    title={t("delete")!}
+                    title={t("delete")}
                   />
                 </td>
               </tr>
