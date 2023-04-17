@@ -43,7 +43,7 @@ export default function MarketPlace({ products }: Props) {
 }
 
 export async function getServerSideProps() {
-  let { data: productsData, error: productsError } = await supabase
+  const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(
       `

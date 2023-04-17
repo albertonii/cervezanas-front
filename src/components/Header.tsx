@@ -6,7 +6,7 @@ import { Select } from "@supabase/ui";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { useAuth } from "./Auth/useAuth";
-import { Button, DropdownButton } from "./common";
+import { Button, HeaderDropdownButton } from "./common";
 
 export function Header() {
   const { t } = useTranslation();
@@ -25,12 +25,12 @@ export function Header() {
     router.push("/signin");
   };
 
-  const handleSignOut = () => {
-    signOut();
+  const handleBeerMe = () => {
+    router.push("/beer-me");
   };
 
   return (
-    <div className="header absolute w-full bg-beer-foam">
+    <div className="header absolute w-full bg-beer-foam z-40 bg-transparent">
       <nav className="border-gray-200 px-2 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
         <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
           {/* Hamburguer menu  */}
@@ -118,21 +118,19 @@ export function Header() {
                     <li className="flex items-center">
                       <Button
                         class={
-                          "border-none hover:bg-transparent hover:scale-110 transition-all"
+                          "border-none hover:bg-transparent hover:scale-110 transition-all hover:cursor-pointer"
                         }
                         onClick={() => openCart()}
                         title={""}
                       >
                         <div className="relative rounded-full">
-                          <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded bg-transparent  hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                            <Image
-                              src={"/icons/shopping-cart-240.png"}
-                              width={30}
-                              height={30}
-                              alt={"Go to Shopping cart"}
-                            />
-                          </span>
-
+                          <Image
+                            src={"/icons/shopping-cart.svg"}
+                            width={45}
+                            height={45}
+                            alt={"Go to Shopping cart"}
+                            className={"rounded-full"}
+                          />
                           <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
                             {cartQuantity}
                           </div>
@@ -142,13 +140,13 @@ export function Header() {
                   )}
 
                   <li className="flex items-center">
-                    <DropdownButton
+                    <HeaderDropdownButton
                       options={
                         role === "admin"
                           ? ["submitted_aps"]
                           : ["profile", "orders", "signout"]
                       }
-                    ></DropdownButton>
+                    />
                   </li>
 
                   {/* Language  */}
@@ -166,25 +164,6 @@ export function Header() {
                       <Select.Option value="es">🇪🇸</Select.Option>
                       <Select.Option value="en">🇬🇧</Select.Option>
                     </Select>
-                  </li>
-
-                  <li className="flex items-center">
-                    <Button
-                      onClick={() => handleSignOut()}
-                      title={""}
-                      class={
-                        "border-none hover:bg-transparent hover:scale-110 transition-all"
-                      }
-                    >
-                      <span className="logo block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        <Image
-                          src={"/icons/logout-240.png"}
-                          width={30}
-                          height={30}
-                          alt={"Logout user"}
-                        />
-                      </span>
-                    </Button>
                   </li>
                 </>
               ) : (
@@ -217,6 +196,27 @@ export function Header() {
                   </li>
                 </>
               )}
+
+              <li>
+                <Button onClick={() => handleBeerMe()} title={""}>
+                  <div className="absolute right-0 bg-beer-dark flex justify-start items-center px-2 py-1 rounded-l space-x-4">
+                    <Image
+                      src={"/icons/beerme.svg"}
+                      width={45}
+                      height={45}
+                      alt={"Find Cervezanas spots"}
+                      className={"rounded-full"}
+                    />
+
+                    <div className="flex flex-col">
+                      <div className="text-beer-foam text-right ">Puntos</div>
+                      <div className="text-beer-foam text-right ">
+                        Cervezanas
+                      </div>
+                    </div>
+                  </div>
+                </Button>
+              </li>
             </ul>
           </div>
         </div>

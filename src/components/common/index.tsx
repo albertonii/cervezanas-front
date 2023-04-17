@@ -3,7 +3,7 @@ export * from "./Button";
 export * from "./CustomLoading";
 export * from "./DecreaseButton";
 export * from "./DeleteButton";
-export * from "./DropdownButton";
+export * from "../HeaderDropdownButton";
 export * from "./EditButton";
 export * from "./ArchiveButton";
 export * from "./UnarchiveButton";

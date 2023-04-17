@@ -339,6 +339,7 @@ export interface ICPFixed {
   start_date: Date;
   end_date: Date;
   address: string;
+  geoArgs: google.maps.GeocoderRequest;
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;
@@ -689,4 +690,15 @@ declare global {
   interface Array<T> {
     toSorted(compareFn?: (a: T, b: T) => number): T[];
   }
+}
+
+export interface IMarker {
+  address: google.maps.GeocoderRequest;
+  type: MarkerType;
+}
+
+export enum MarkerType {
+  NONE = "none",
+  FIXED = "fixed",
+  MOBILE = "mobile",
 }

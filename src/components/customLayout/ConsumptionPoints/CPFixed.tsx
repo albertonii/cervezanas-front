@@ -7,6 +7,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed } from "../../../lib/types";
+import { getGeocode } from "use-places-autocomplete";
 
 interface FormData {
   cp_name: string;
@@ -59,6 +60,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       end_date,
     } = formValues;
 
+    const results = await getGeocode({ address });
+
     const { data, error } = await supabase.from("cp_fixed").insert({
       cp_name,
       cp_description,
@@ -71,6 +74,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       address,
       status: "active",
       cp_id: cpsId,
+      geoArgs: results,
     });
 
     if (error) {

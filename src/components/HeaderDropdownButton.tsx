@@ -1,16 +1,17 @@
+import Link from "next/link";
+import Image from "next/image";
 import React, { useRef, useState } from "react";
-import { faChevronCircleDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
-import { useOutsideClick } from "../../hooks/useOnOutsideClick";
-import { useAppContext } from "../Context";
+import { useOutsideClick } from "../hooks/useOnOutsideClick";
+import { useAppContext } from "./Context";
 
 interface DropdownProps {
   options: string[];
 }
 
-export function DropdownButton(props: DropdownProps) {
+export function HeaderDropdownButton(props: DropdownProps) {
   const { options } = props;
 
   const [open, setOpen] = useState(false);
@@ -84,17 +85,14 @@ export function DropdownButton(props: DropdownProps) {
       id="profile-dropdown"
       ref={dropdown}
     >
-      <div
-        className={`absolute bg-beer-blonde w-full p-2 flex items-center justify-between rounded ${"text-gray-700"}`}
-        onClick={() => setOpen(!open)}
-      >
-        <span className="w-4 h-auto block py-2 pr-4 pl-3 text-beer-dark rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 hover:text-beer-draft md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-          <FontAwesomeIcon
-            icon={faUser}
-            style={{ color: "bear-dark" }}
-            title={"profile"}
-          />
-        </span>
+      <div onClick={() => setOpen(!open)} className="relative">
+        <Image
+          src={"/icons/user-profile.svg"}
+          width={45}
+          height={45}
+          alt={"Go to Shopping cart"}
+          className={"rounded-full"}
+        />
 
         <FontAwesomeIcon
           icon={faChevronCircleDown}
@@ -102,12 +100,12 @@ export function DropdownButton(props: DropdownProps) {
           title={"chevron_circle_down"}
           width={20}
           height={20}
-          className={`${open && "rotate-180"}`}
+          className={`absolute bottom-0 right-0 ${open && "rotate-180"}`}
         />
       </div>
 
       {/* Dropdow */}
-      <div className="absolute right-0 inset-y-8 z-10 divide-y divide-gray-100  w-44 dark:bg-gray-700 ">
+      <div className="absolute right-0 inset-y-8 z-10 divide-y divide-gray-100 w-44 dark:bg-gray-700 ">
         <ul
           className={`bg-white mt-2 overflow-y-auto rounded-lg shadow ${
             open ? "max-h-60" : "max-h-0"

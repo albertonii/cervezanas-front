@@ -1,7 +1,6 @@
 import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { getFileExtensionByName } from "../../utils";
 import { supabase } from "../../utils/supabaseClient";
 import { isValidObject } from "../../utils/utils";
 import { useAuth } from "../Auth";
