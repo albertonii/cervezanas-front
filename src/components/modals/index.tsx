@@ -12,3 +12,4 @@ export * from "./ProductStepper";
 export * from "./SuccessfulReviewModal";
 export * from "./MultimediaSection";
 export * from "./SubmitCPOrganizer";
+export * from "./DeleteModal";

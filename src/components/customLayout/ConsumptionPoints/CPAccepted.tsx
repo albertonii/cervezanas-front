@@ -42,7 +42,7 @@ export default function CPAccepted({ cps }: Props) {
         tabs={["cp_fixed", "cp_mobile"]}
       />
 
-      <div className="container">{renderSwitch()}</div>
+      {renderSwitch()}
     </>
   );
 }

@@ -44,7 +44,6 @@ export default function CustomLayout({
   product_lots,
   cps,
 }: Props) {
-  console.log(cps);
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const { user, role } = useAuth();
@@ -149,7 +148,7 @@ export async function getServerSideProps({ req }: any) {
     };
   }
 
-  let { data: profileData, error: profileError } = await supabase
+  const { data: profileData, error: profileError } = await supabase
     .from("users")
     .select(
       `
@@ -173,16 +172,12 @@ export async function getServerSideProps({ req }: any) {
 
   if (profileError) throw profileError;
 
-  if (profileData === undefined || profileData === null) {
-    profileData = [];
-  }
-
   // Return different data by role
   if (
     profileData[0].role === "producer" ||
     profileData[0].role === "consumer"
   ) {
-    let { data: reviewData, error: reviewError } = await supabase
+    const { data: reviewData, error: reviewError } = await supabase
       .from("reviews")
       .select(
         `
@@ -196,11 +191,7 @@ export async function getServerSideProps({ req }: any) {
       .eq("owner_id", user?.id);
     if (reviewError) throw reviewError;
 
-    if (reviewData === undefined || reviewData === null) {
-      reviewData = [];
-    }
-
-    let { data: productLotData, error: productLotError } = await supabase
+    const { data: productLotData, error: productLotError } = await supabase
       .from("product_lot")
       .select(
         `
@@ -214,7 +205,7 @@ export async function getServerSideProps({ req }: any) {
 
     if (productLotError) console.error(productLotError);
 
-    let { data: cps, error: cpsError } = await supabase
+    const { data: cps, error: cpsError } = await supabase
       .from("consumption_points")
       .select(
         `
@@ -226,22 +217,16 @@ export async function getServerSideProps({ req }: any) {
       .eq("owner_id", user?.id);
     if (cpsError) console.error(cpsError);
 
-    if (productLotData === undefined || productLotData === null) {
-      productLotData = [];
-    }
-
-    if (cps == null) cps = [];
-
     return {
       props: {
-        product_lots: productLotData,
-        profile: profileData[0],
-        reviews: reviewData,
-        cps: cps[0] ?? cps,
+        product_lots: productLotData ?? [],
+        profile: profileData[0] ?? [],
+        reviews: reviewData ?? [],
+        cps: cps ?? [],
       },
     };
   } else {
-    let { data: submittedCPs, error: submittedCPsError } = await supabase
+    const { data: submittedCPs, error: submittedCPsError } = await supabase
       .from("consumption_points")
       .select(
         `

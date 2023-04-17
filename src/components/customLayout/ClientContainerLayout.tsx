@@ -25,7 +25,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
   const handleClick = () => {
     // 👇️ open file input box on click of other element
-    inputRef.current!.click();
+    inputRef.current?.click();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +90,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
   return (
     <>
-      <div className="container ">
+      <div className=" w-full">
         {role === "admin" && (
           <>
             {/* Client Information */}

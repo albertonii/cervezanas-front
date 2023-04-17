@@ -5,13 +5,10 @@ import { useTranslation } from "react-i18next";
 import { Select } from "@supabase/ui";
 import { useRouter } from "next/router";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
-import { NextApiRequest } from "next";
 import { useAuth } from "./Auth/useAuth";
 import { Button, DropdownButton } from "./common";
 
-interface Props {}
-
-export function Header({}: Props) {
+export function Header() {
   const { t } = useTranslation();
 
   const { loggedIn, signOut, role } = useAuth();
@@ -96,16 +93,18 @@ export function Header({}: Props) {
 
             {/* Logo Cervezanas  */}
             <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
-              <div className="relative h-[173px] w-[221px] bg-beer-gold flex justify-center ">
-                <Image
-                  src="/logo_cervezanas.svg"
-                  alt="Cervezanas Logo"
-                  width={150}
-                  height={100}
-                  style={{ objectFit: "contain" }}
-                  priority={true}
-                  sizes="100px"
-                />
+              <div className="relative h-[163px] w-[221px] bg-beer-gold flex justify-center ">
+                <Link href={"/"}>
+                  <Image
+                    src="/logo_cervezanas.svg"
+                    alt="Cervezanas Logo"
+                    width={150}
+                    height={100}
+                    style={{ objectFit: "contain", marginTop: "4px" }}
+                    priority={true}
+                    sizes="100px"
+                  />
+                </Link>
                 <div className="w-full pt-[22px] h-[22px] absolute -bottom-5 bg-beer-darkGold"></div>
               </div>
             </div>
@@ -225,5 +224,3 @@ export function Header({}: Props) {
     </div>
   );
 }
-
-export async function getServerSideProps(req: NextApiRequest) {}

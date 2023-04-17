@@ -84,7 +84,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
   };
 
   return (
-    <div className="my-4">
+    <>
       <Modal
         showBtn={true}
         isVisible={false}
@@ -95,7 +95,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
         handler={handleSubmit(onSubmit)}
         btnSize={"large"}
         classIcon={"w-6 h-6"}
-        classContainer={"!w-1/2"}
+        classContainer={""}
       >
         <form>
           <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
@@ -253,13 +253,11 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       </Modal>
 
       {/* Section displaying all the fixed consumption points created by the organizer  */}
-      <section className="flex flex-col space-y-4 mt-4">
+      <section className="flex flex-col space-y-4 mt-4 ">
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
-        <div className="flex flex-row space-x-4">
-          <ListCPFixed cpFixed={cpList} handleCPList={handleCPList} />
-        </div>
+        <ListCPFixed cpFixed={cpList} handleCPList={handleCPList} />
       </section>
-    </div>
+    </>
   );
 }

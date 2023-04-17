@@ -13,6 +13,7 @@ import { formatDate } from "../../../utils";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
 import { supabase } from "../../../utils/supabaseClient";
+import DeleteModal from "../../modals/DeleteModal";
 
 interface Props {
   cpFixed: ICPFixed[];
@@ -115,6 +116,12 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
     });
   }, [filteredItems, sorting]);
 
+  const handleDelete = () => {
+    handleRemoveCP();
+    removeFromFixedList(selectedCP!.id);
+    setIsDeleteModal(false);
+  };
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
       {isEditModal && (
@@ -139,24 +146,15 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
       )}
 
       {isDeleteModal && (
-        <Modal
+        <DeleteModal
           title={t("delete")}
-          icon={faTrash}
-          color={editColor}
           handler={async () => {
-            handleRemoveCP();
-            removeFromFixedList(selectedCP!.id);
-            setIsDeleteModal(false);
+            handleDelete();
           }}
           handlerClose={() => setIsDeleteModal(false)}
-          isVisible={true}
-          description={t("reject_cp_description_modal")}
-          classIcon={""}
-          classContainer={""}
+          description={t("delete_cp_description_modal")}
           btnTitle={t("accept")}
-        >
-          <></>
-        </Modal>
+        />
       )}
 
       <div className="relative w-full">
@@ -181,7 +179,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search products..."
+          placeholder="Search by name..."
         />
       </div>
 
@@ -250,7 +248,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
 
                 <td className="py-4 px-6 cursor-pointer"></td>
 
-                <td className="py-4 px-6 flex ">
+                <td className="py-4 px-6 flex space-x-2">
                   <IconButton
                     icon={faEdit}
                     onClick={() => {
@@ -258,11 +256,12 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
                     }}
                     color={editColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
                     }
                     classIcon={""}
                     title={t("edit")}
                   />
+
                   <IconButton
                     icon={faTrash}
                     onClick={() => {
@@ -270,7 +269,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
                     }}
                     color={deleteColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
                     }
                     classIcon={""}
                     title={t("delete")}

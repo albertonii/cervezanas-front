@@ -70,7 +70,7 @@ export function Products({
 
       {isEditShowModal && (
         <UpdateProduct
-          product={productModal!}
+          product={productModal}
           handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
         />

@@ -75,7 +75,7 @@ export function ConfigureProducts({
         tabs={["products", "lots", "archive", "customizeSettings"]}
       />
 
-      <div className="container">{renderSwitch()}</div>
+      {renderSwitch()}
     </>
   );
 }
