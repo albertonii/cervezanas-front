@@ -59,6 +59,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       start_date,
       end_date,
     } = formValues;
+    console.log(address);
 
     const results = await getGeocode({ address });
 

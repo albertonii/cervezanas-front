@@ -100,7 +100,7 @@ const PlacesAutocomplete = ({
     clearSuggestions();
 
     const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
+    const { lat, lng } = getLatLng(results[0]);
 
     map.panTo({ lat, lng });
     setSelected({ lat, lng });

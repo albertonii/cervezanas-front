@@ -1,10 +1,5 @@
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  MarkerProps,
-} from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
 import {
   Combobox,
@@ -21,7 +16,8 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, IMarker } from "../lib/types";
+import { IConsumptionPoints, ICPFixed } from "../lib/types";
+import { formatDate } from "../utils";
 
 const containerStyle = {
   width: "100%",
@@ -34,6 +30,16 @@ interface Props {
   cps: IConsumptionPoints[];
 }
 
+const getCurrentPosition = async () => {
+  if (!navigator.geolocation) {
+    return null;
+  }
+
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
 export default function BMGoogleMap({ handleAddress, cps }: Props) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
@@ -45,40 +51,81 @@ export default function BMGoogleMap({ handleAddress, cps }: Props) {
 }
 
 function Map({ handleAddress, cps }: Props) {
-  const [fixedMarkers, setFixedMarkers] = useState<IMarker[]>([]);
+  const { t } = useTranslation();
+
+  // const [fixedMarkers, setFixedMarkers] = useState<google.maps.Marker[]>([]);
+  const [map, setMap] = useState<google.maps.Map>();
+
+  const onMarkerFixClick = (marker: google.maps.Marker, fixed: ICPFixed) => {
+    const content = `<div class="flex flex-col items-center space-y-4">
+          <div class="flex flex-row space-x-2">
+            <p class="text-md">Fecha inicio: ${formatDate(fixed.start_date)}</p>
+            <p class="text-md">Fecha fin: ${formatDate(fixed.end_date)}</p>
+          </div>
+
+          <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
+          <p class="text-sm">${fixed.cp_description}</p>
+          <p class="text-sm">Dirección: ${fixed.address}</p>
+          <p class="text-sm">¿Necesario reserva?: ${
+            fixed.is_booking_required ? t("yes") : t("no")
+          }</p>
+         
+
+          <div class="flex flex-col items-center">
+            <div class="text-lg font-semibold"> 
+            Contacto de la persona encargada
+            </div>
+
+            <div class="flex flex-row space-x-2">
+              <p class="text-sm">Nombre: ${fixed.organizer_name} ${
+      fixed.organizer_lastname
+    }</p> 
+              <p class="text-sm">Teléfono: ${fixed.organizer_phone}</p>
+              <p class="text-sm">Email: ${fixed.organizer_email}</p>
+            </div>
+          </div>
+        </div>`;
+
+    const infowindow = new google.maps.InfoWindow({
+      content,
+    });
+
+    infowindow.open(map, marker);
+  };
 
   // Loop through CPs and add CP fixed markers in first component render
   useEffect(() => {
+    getCurrentPosition().then((position: any) => {
+      const { latitude, longitude } = position.coords;
+      const center = { lat: latitude, lng: longitude };
+
+      setMap((prev) => {
+        if (prev) {
+          prev.setCenter(center);
+        }
+        return prev;
+      });
+    });
+
     cps.map((cp) => {
       cp.cp_fixed.map(async (fixed) => {
-        const results = await getGeocode(fixed.geoArgs);
-        const { lat, lng } = getLatLng(results[0]);
-      });
+        const { lat, lng } = fixed.geoArgs[0].geometry.location;
+        const marker: google.maps.Marker = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: fixed.cp_name,
+          icon: "/icons/fixed_place_48.png",
+          clickable: true,
+        });
 
-      // setFixedMarkers((prevState) => [...(prevState ?? []), ...cp.cp_fixed]);
+        marker.addListener("click", () => onMarkerFixClick(marker, fixed));
+        marker.setMap(map ?? null);
+      });
     });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(fixedMarkers);
-  // }, [fixedMarkers]);
-
   const center = useMemo(() => ({ lat: 40.41, lng: -3.7 }), []);
   const [selected, setSelected] = useState(null);
-
-  const [map, setMap] = useState<google.maps.Map>();
-
-  const [cpsMarkers, setCpsMarkers] = useState([]);
-
-  /*
-  useEffect(()=>{
-    cps.map(cp =>{
-      const marker: MarkerProps = {lat: }
-    })
-  }, [cps])
-
-  console.log(cps);
-  */
 
   return (
     <div className="space-y-4 relative">
@@ -93,7 +140,7 @@ function Map({ handleAddress, cps }: Props) {
       </div>
 
       <GoogleMap
-        zoom={12}
+        zoom={10}
         center={center}
         mapContainerClassName="map-container"
         mapContainerStyle={containerStyle}

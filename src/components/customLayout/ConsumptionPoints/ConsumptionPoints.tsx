@@ -8,7 +8,7 @@ import CPRejected from "./CPRejected";
 
 interface Props {
   profile: Profile;
-  cps: IConsumptionPoints;
+  cps: IConsumptionPoints[];
 }
 
 export function ConsumptionPoints({
@@ -62,7 +62,7 @@ export function ConsumptionPoints({
             ) : (
               <>
                 {cpOrganizerStatus === 1 ? (
-                  <CPAccepted cps={cps} />
+                  <CPAccepted cps={cps[0]} />
                 ) : (
                   <CPRejected />
                 )}

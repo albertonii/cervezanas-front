@@ -339,7 +339,7 @@ export interface ICPFixed {
   start_date: Date;
   end_date: Date;
   address: string;
-  geoArgs: google.maps.GeocoderRequest;
+  geoArgs: GeocodeResult[];
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;

@@ -34,7 +34,7 @@ interface Props {
   profile: ProfileType;
   reviews: Review[];
   product_lots: ProductLot[];
-  cps: IConsumptionPoints;
+  cps: IConsumptionPoints[];
 }
 
 export default function CustomLayout({
