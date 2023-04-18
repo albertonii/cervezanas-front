@@ -114,11 +114,25 @@ function Map({ handleAddress, cps }: Props) {
           position: { lat, lng },
           map: map,
           title: fixed.cp_name,
-          icon: "/icons/fixed_place_48.png",
+          icon: "/icons/mobile_place_48.png",
           clickable: true,
         });
 
         marker.addListener("click", () => onMarkerFixClick(marker, fixed));
+        marker.setMap(map ?? null);
+      });
+
+      cp.cp_mobile.map(async (mobile) => {
+        const { lat, lng } = mobile.geoArgs[0].geometry.location;
+        const marker: google.maps.Marker = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: mobile.cp_name,
+          icon: "/icons/mobile_place_48.png",
+          clickable: true,
+        });
+
+        marker.addListener("click", () => onMarkerFixClick(marker, mobile));
         marker.setMap(map ?? null);
       });
     });

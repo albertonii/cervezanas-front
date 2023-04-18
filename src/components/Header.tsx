@@ -31,35 +31,35 @@ export function Header() {
 
   return (
     <div className="header absolute w-full bg-beer-foam z-40 bg-transparent">
-      <nav className="border-gray-200 px-2 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
-        <div className="container flex lg:flex-wrap justify-between items-center mx-auto">
-          {/* Hamburguer menu  */}
-          <button
-            data-collapse-toggle="navbar-default"
-            type="button"
-            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
+      <nav className="border-gray-200 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
+        <div className="container grid grid-cols-3 sm:gap-2 sm:flex sm:justify-between sm:items-center sm:mx-auto bg-beer-darkGold sm:bg-transparent">
+          {/* Left elements  */}
+          <div className="w-full flex justify-center items-center ">
+            {/* Hamburguer menu  */}
+            <button
+              data-collapse-toggle="navbar-default"
+              type="button"
+              className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="navbar-default"
+              aria-expanded="false"
             >
-              <path
-                fillRule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </button>
+              <span className="sr-only">Open main menu</span>
+              <svg
+                className="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
 
-          <div className="grid grid-cols-3 gap-4 w-full" id="navbar-default">
-            {/* Left elements  */}
-            <ul className="flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="hidden md:flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li className="flex items-center">
                 <Link href="/marketplace">
                   <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
@@ -90,17 +90,19 @@ export function Header() {
                 </Link>
               </li>
             </ul>
+          </div>
 
-            {/* Logo Cervezanas  */}
+          {/* Logo Cervezanas  */}
+          <div className="w-full bg-beer-darkGold " id="navbar-default">
             <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
-              <div className="relative h-[163px] w-[221px] bg-beer-gold flex justify-center ">
+              <div className="relative h-[100px] sm:h-[163px] w-[110px] sm:w-[181px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
                 <Link href={"/"}>
                   <Image
                     src="/logo_cervezanas.svg"
                     alt="Cervezanas Logo"
-                    width={150}
-                    height={100}
-                    style={{ objectFit: "contain", marginTop: "4px" }}
+                    width={200}
+                    height={200}
+                    style={{ objectFit: "contain" }}
                     priority={true}
                     sizes="100px"
                   />
@@ -108,9 +110,11 @@ export function Header() {
                 <div className="w-full pt-[22px] h-[22px] absolute -bottom-5 bg-beer-darkGold"></div>
               </div>
             </div>
+          </div>
 
-            {/* Right elements  */}
-            <ul className="flex flex-col justify-end align-middle p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          {/* Right elements  */}
+          <div className="w-full">
+            <ul className="hidden sm:flex sm:flex-col sm:justify-end sm:align-middle sm:p-4 sm:mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {loggedIn ? (
                 <>
                   {/* Cart  */}
@@ -196,28 +200,24 @@ export function Header() {
                   </li>
                 </>
               )}
-
-              <li>
-                <Button onClick={() => handleBeerMe()} title={""}>
-                  <div className="absolute right-0 bg-beer-dark flex justify-start items-center px-2 py-1 rounded-l space-x-4">
-                    <Image
-                      src={"/icons/beerme.svg"}
-                      width={45}
-                      height={45}
-                      alt={"Find Cervezanas spots"}
-                      className={"rounded-full"}
-                    />
-
-                    <div className="flex flex-col">
-                      <div className="text-beer-foam text-right ">Puntos</div>
-                      <div className="text-beer-foam text-right ">
-                        Cervezanas
-                      </div>
-                    </div>
-                  </div>
-                </Button>
-              </li>
             </ul>
+
+            <Button onClick={() => handleBeerMe()} title={""}>
+              <div className="absolute right-0 bg-beer-dark flex justify-start items-center sm:px-2 sm:py-1 sm:rounded-l space-x-4">
+                <Image
+                  src={"/icons/beerme.svg"}
+                  width={45}
+                  height={45}
+                  alt={"Find Cervezanas spots"}
+                  className={"rounded-full"}
+                />
+
+                <div className="flex flex-col ">
+                  <div className="text-beer-foam text-right ">Puntos</div>
+                  <div className="text-beer-foam text-right ">Cervezanas</div>
+                </div>
+              </div>
+            </Button>
           </div>
         </div>
       </nav>

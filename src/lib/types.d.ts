@@ -362,6 +362,8 @@ export interface ICPMobile {
   gallery: string[];
   maximum_capacity: number;
   is_booking_required: boolean;
+  geoArgs: GeocodeResult[];
+
   // TODO: rrss
 }
 
