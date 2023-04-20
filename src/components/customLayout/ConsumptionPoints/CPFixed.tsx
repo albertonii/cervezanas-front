@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPFixed from "./ListCPFixed";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
@@ -8,6 +8,7 @@ import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed } from "../../../lib/types";
 import { getGeocode } from "use-places-autocomplete";
+import { isValidObject } from "../../../utils/utils";
 
 interface FormData {
   cp_name: string;
@@ -32,6 +33,11 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
   const [address, setAddress] = useState<string>("");
   const [cpList, setCpList] = useState<ICPFixed[]>(cpFixed);
+
+  const [addressInputRequired, setAddressInputRequired] =
+    useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const {
     formState: { errors },
@@ -59,7 +65,11 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       start_date,
       end_date,
     } = formValues;
-    console.log(address);
+
+    if (!isValidObject(address)) {
+      setAddressInputRequired(true);
+      return;
+    }
 
     const results = await getGeocode({ address });
 
@@ -85,6 +95,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     const newCPList = [...cpList, data[0]];
     handleCPList(newCPList);
 
+    setShowModal(false);
+
     reset();
   };
 
@@ -92,7 +104,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     <>
       <Modal
         showBtn={true}
-        isVisible={false}
+        showModal={showModal}
+        setShowModal={setShowModal}
         title={t("add_new_cp_fixed")}
         btnTitle={t("new_cp_fixed_config")}
         description={""}
@@ -103,7 +116,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
         classContainer={""}
       >
         <form>
-          <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
+          <fieldset className="space-y-4 p-4 border-2 rounded-md border-beer-softBlondeBubble">
             <legend className="text-2xl m-2">{t("cp_fixed_info")}</legend>
 
             {/* Event name  */}
@@ -118,7 +131,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
               {errors.cp_name && (
                 <span className="text-red-500">
-                  {t("cp_fixed_name_required")}
+                  {t("errors.input_required")}
                 </span>
               )}
             </div>
@@ -131,9 +144,9 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 {...register("cp_description", { required: true })}
               />
 
-              {errors.cp_name && (
+              {errors.cp_description && (
                 <span className="text-red-500">
-                  {t("cp_fixed_description_required")}
+                  {t("errors.input_required")}
                 </span>
               )}
             </div>
@@ -151,7 +164,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
                 {errors.start_date && (
                   <span className="text-red-500">
-                    {t("cp_fixed_start_date_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -167,7 +180,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
                 {errors.end_date && (
                   <span className="text-red-500">
-                    {t("cp_fixed_end_date_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -190,7 +203,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
                 {errors.organizer_name && (
                   <span className="text-red-500">
-                    {t("cp_fixed_organizer_name_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -204,9 +217,9 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                   {...register("organizer_lastname", { required: true })}
                 />
 
-                {errors.organizer_name && (
+                {errors.organizer_lastname && (
                   <span className="text-red-500">
-                    {t("cp_fixed_organizer_lastname_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -225,7 +238,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
                 {errors.organizer_email && (
                   <span className="text-red-500">
-                    {t("cp_fixed_organizer_email_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -241,7 +254,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
                 {errors.organizer_phone && (
                   <span className="text-red-500">
-                    {t("cp_fixed_organizer_phone_required")}
+                    {t("errors.input_required")}
                   </span>
                 )}
               </div>
@@ -250,6 +263,10 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
           <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
             <legend className="text-2xl">{t("cp_fixed_location")}</legend>
+
+            {addressInputRequired && (
+              <span className="text-red-500">{t("errors.input_required")}</span>
+            )}
 
             {/* Address  */}
             <CPGoogleMap handleAddress={handleAddress} />

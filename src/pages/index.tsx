@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Hero from "../components/homepage/Hero";
+import MonthlyBeers from "../components/homepage/MonthlyBeers";
 import { Product } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 
@@ -18,7 +19,7 @@ export default function Home({ monthlyProducts }: Props) {
         {/* First section  */}
         <div className="h-full mt-[10vh]">
           <Hero />
-          {/* <MonthlyBeers monthlyProducts={monthlyProducts} /> */}
+          <MonthlyBeers monthlyProducts={monthlyProducts} />
         </div>
       </>
     </>

@@ -1,10 +1,8 @@
 import { NextApiRequest } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import DisplayImageString from "../../../components/common/DisplayImageString";
@@ -396,7 +394,7 @@ export async function getServerSideProps(req: NextApiRequest) {
     decodeBase64(Ds_MerchantParameters)
   );
 
-  let { data: orderData, error: orderError } = await supabase
+  const { data: orderData, error: orderError } = await supabase
     .from("orders")
     .select(
       `

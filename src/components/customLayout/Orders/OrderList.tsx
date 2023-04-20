@@ -104,7 +104,7 @@ export function OrderList(props: Props) {
 
                   <td className="py-4 px-6">{formatCurrency(order.total)}</td>
 
-                  <td className="py-4 px-6">{order.status}</td>
+                  <td className="py-4 px-6">{t(order.status)}</td>
 
                   <td className="py-4 px-6">{order.tracking_id}</td>
 
@@ -112,6 +112,7 @@ export function OrderList(props: Props) {
                     <IconButton
                       onClick={() => handleClickView(order)}
                       icon={faEye}
+                      title={""}
                     />
                   </td>
                 </tr>

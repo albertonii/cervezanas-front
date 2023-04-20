@@ -107,7 +107,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
               {t("format_label")}
             </label>
 
-            <span className="text-md">{getValues("format")}</span>
+            <span className="text-md">{t(getValues("format"))}</span>
           </div>
 
           <div className="space-x-2">
@@ -123,7 +123,9 @@ export function ProductSummary({ form: { getValues } }: Props) {
               {t("price")}
             </label>
 
-            <span className="text-md">{getValues("price")}</span>
+            <span className="text-md">
+              {formatCurrency(getValues("price"))}
+            </span>
           </div>
         </fieldset>
 

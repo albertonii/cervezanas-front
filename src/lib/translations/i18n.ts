@@ -362,6 +362,7 @@ const translationsEn = {
   status_processing: "Processing",
   status_shipped: "Shipped",
   status_delivered: "Delivered",
+  status_started: "Started",
   payment_information: "Payment Information",
   ending_with: "Ending with ",
   expires_at: "Expires ",
@@ -545,8 +546,7 @@ const translationsEs = {
   family_label: "Familia",
   era_label: "Era",
   stock_quantity_label: "Cantidad en Stock",
-  stock_limit_notification_label:
-    "Notificar cuando el stock llegue a este valor",
+  stock_limit_notification_label: "Notificar cuando el stock llegue a ",
   title: "Título",
   product_description:
     "Asegúrese de rellenar todos los campos obligatorios para introducir correctamente el producto",
@@ -844,6 +844,7 @@ const translationsEs = {
   status_processing: "En proceso",
   status_shipped: "Enviado",
   status_delivered: "Entregado",
+  status_started: "Iniciado",
   payment_information: "Información de pago",
   ending_with: "Terminada en ",
   expires_at: "Caduca el ",

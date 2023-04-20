@@ -1,6 +1,6 @@
 import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { ComponentProps, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { PortalModal } from ".";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
@@ -8,23 +8,23 @@ import { Button, IconButton } from "../common";
 
 interface Props {
   showBtn?: boolean;
-  isVisible: boolean;
+  showModal: boolean;
   title: string;
   btnTitle: string;
   description: string;
   children: JSX.Element;
-  handler: () => void;
+  handler: ComponentProps<any>;
   handlerClose?: () => void;
   icon?: IconDefinition;
   classIcon: string;
   classContainer: string;
   color?: { filled: string; unfilled: string };
   btnSize?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
+  setShowModal: (b: boolean) => void;
 }
 
 export function Modal(props: Props) {
   const {
-    isVisible,
     btnTitle,
     title,
     description,
@@ -37,13 +37,13 @@ export function Modal(props: Props) {
     color,
     btnSize,
     showBtn,
+    showModal,
+    setShowModal,
   } = props;
 
   const { t } = useTranslation();
 
   const modalRef = useRef<HTMLDivElement>(null);
-
-  const [showModal, setShowModal] = useState(isVisible);
 
   const handleShowModal = (b: boolean) => {
     setShowModal(b);
@@ -54,9 +54,8 @@ export function Modal(props: Props) {
     if (handlerClose) handlerClose();
   };
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     handler();
-    handleShowModal(false);
   };
 
   const handleClose = () => {
@@ -78,6 +77,10 @@ export function Modal(props: Props) {
     },
     [handlerClose]
   );
+
+  useEffect(() => {
+    handleShowModal(showModal);
+  }, [showModal]);
 
   useEffect(() => {
     if (showModal) {

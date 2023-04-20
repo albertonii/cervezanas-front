@@ -8,6 +8,8 @@ interface Props {
   handler: ComponentProps<any>;
   handlerClose: ComponentProps<any>;
   btnTitle: string;
+  showModal: boolean;
+  setShowModal: (b: boolean) => void;
 }
 
 export default function AddCPFixed({
@@ -16,6 +18,7 @@ export default function AddCPFixed({
   handler,
   handlerClose,
   btnTitle,
+  setShowModal,
 }: Props) {
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
   const classIcon = "";
@@ -29,7 +32,8 @@ export default function AddCPFixed({
       color={deleteColor}
       handler={async () => handler()}
       handlerClose={() => handlerClose()}
-      isVisible={true}
+      showModal={true}
+      setShowModal={setShowModal}
       classIcon={classIcon}
       classContainer={classContainer}
       btnTitle={btnTitle}

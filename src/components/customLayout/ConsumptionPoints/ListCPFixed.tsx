@@ -135,11 +135,12 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
             setIsEditModal(false);
           }}
           handlerClose={() => setIsEditModal(false)}
-          isVisible={true}
           description={"accept_cp_description_modal"}
           classIcon={""}
           classContainer={""}
           btnTitle={t("accept")}
+          showModal={isEditModal}
+          setShowModal={setIsEditModal}
         >
           <></>
         </Modal>
@@ -154,6 +155,8 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
           handlerClose={() => setIsDeleteModal(false)}
           description={t("delete_cp_description_modal")}
           btnTitle={t("accept")}
+          showModal={isDeleteModal}
+          setShowModal={setIsDeleteModal}
         />
       )}
 

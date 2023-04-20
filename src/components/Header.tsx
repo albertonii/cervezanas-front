@@ -30,7 +30,7 @@ export function Header() {
   };
 
   return (
-    <div className="header absolute w-full bg-beer-foam z-40 bg-transparent">
+    <div className="header absolute w-full bg-beer-foam z-40 sm:z-10 bg-transparent">
       <nav className="border-gray-200 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
         <div className="container grid grid-cols-3 sm:gap-2 sm:flex sm:justify-between sm:items-center sm:mx-auto bg-beer-darkGold sm:bg-transparent">
           {/* Left elements  */}
@@ -93,7 +93,7 @@ export function Header() {
           </div>
 
           {/* Logo Cervezanas  */}
-          <div className="w-full bg-beer-darkGold " id="navbar-default">
+          <div className="w-full " id="navbar-default">
             <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
               <div className="relative h-[100px] sm:h-[163px] w-[110px] sm:w-[181px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
                 <Link href={"/"}>
@@ -115,6 +115,23 @@ export function Header() {
           {/* Right elements  */}
           <div className="w-full">
             <ul className="hidden sm:flex sm:flex-col sm:justify-end sm:align-middle sm:p-4 sm:mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              {/* Language  */}
+              <li className="flex items-center max-w-[50px]">
+                <Select
+                  size="tiny"
+                  name="language"
+                  style={{
+                    backgroundColor: "transparent",
+                    maxWidth: "50px",
+                  }}
+                  onChange={onChangeLanguage}
+                  className=""
+                >
+                  <Select.Option value="es">🇪🇸</Select.Option>
+                  <Select.Option value="en">🇬🇧</Select.Option>
+                </Select>
+              </li>
+
               {loggedIn ? (
                 <>
                   {/* Cart  */}
@@ -152,43 +169,9 @@ export function Header() {
                       }
                     />
                   </li>
-
-                  {/* Language  */}
-                  <li className="flex items-center max-w-[50px]">
-                    <Select
-                      size="tiny"
-                      name="language"
-                      style={{
-                        backgroundColor: "transparent",
-                        maxWidth: "50px",
-                      }}
-                      onChange={onChangeLanguage}
-                      className=""
-                    >
-                      <Select.Option value="es">🇪🇸</Select.Option>
-                      <Select.Option value="en">🇬🇧</Select.Option>
-                    </Select>
-                  </li>
                 </>
               ) : (
                 <>
-                  {/* Language  */}
-                  <li className="flex items-center">
-                    <Select
-                      size="tiny"
-                      name="language"
-                      style={{
-                        backgroundColor: "transparent",
-                        maxWidth: "50px",
-                      }}
-                      onChange={onChangeLanguage}
-                      className=""
-                    >
-                      <Select.Option value="es">🇪🇸</Select.Option>
-                      <Select.Option value="en">🇬🇧</Select.Option>
-                    </Select>
-                  </li>
-
                   <li className="flex items-center">
                     <Button
                       onClick={() => handleSignIn()}

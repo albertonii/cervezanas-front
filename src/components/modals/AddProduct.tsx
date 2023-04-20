@@ -23,7 +23,6 @@ import {
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
-import { ProductEnum } from "../../lib/productEnum";
 import { ProductSummary } from "./ProductSummary";
 import { getFileExtensionByName } from "../../utils";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
