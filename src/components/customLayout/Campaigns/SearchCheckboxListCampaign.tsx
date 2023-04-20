@@ -17,12 +17,14 @@ interface Props {
 export function SearchCheckboxListCampaign({
   index,
   products,
-  campaign,
+  // campaign,
   form,
   handleShowProductsInCampaignModal,
   handleProductsInCampaign,
 }: Props) {
   const { t } = useTranslation();
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const { register, getValues } = form;
 
@@ -41,11 +43,13 @@ export function SearchCheckboxListCampaign({
   const handleAcceptClick = () => {
     api_handleProductsInCampaign();
     handleShowProductsInCampaignModal(false, index);
+    setShowModal(false);
   };
 
   return (
     <Modal
-      isVisible={true}
+      showModal={showModal}
+      setShowModal={setShowModal}
       title={"products_in_campaign"}
       btnTitle={"save"}
       description={"select_products_in_campaign_description"}

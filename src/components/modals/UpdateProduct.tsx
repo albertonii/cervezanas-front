@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { fermentation_options, product_type_options } from "../../lib/beerEnum";
@@ -21,12 +21,14 @@ import { uuid } from "uuidv4";
 
 interface Props {
   product: Product;
-  handleSetProducts: Dispatch<SetStateAction<any>>;
-  handleEditShowModal: Dispatch<SetStateAction<any>>;
+  showModal: boolean;
+  handleSetProducts: ComponentProps<any>;
+  handleEditShowModal: ComponentProps<any>;
 }
 
 export function UpdateProduct({
   product,
+  showModal,
   handleSetProducts,
   handleEditShowModal,
 }: Props) {
@@ -67,18 +69,14 @@ export function UpdateProduct({
     },
   });
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (formValues: ModalUpdateProductProps) => {
     const handleProductUpdate = async () => {
       handleEditShowModal(false);
 
       const {
-        campaign,
+        // campaign,
         fermentation,
         color,
         intensity,
@@ -342,7 +340,8 @@ export function UpdateProduct({
     <form className="w-full">
       <Modal
         showBtn={false}
-        isVisible={true}
+        showModal={showModal}
+        setShowModal={handleEditShowModal}
         title={"save_product"}
         btnTitle={"save_product"}
         description={""}

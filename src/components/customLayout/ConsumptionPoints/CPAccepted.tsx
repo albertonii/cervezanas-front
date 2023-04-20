@@ -17,7 +17,7 @@ export default function CPAccepted({ cps }: Props) {
       case "cp_fixed":
         return <CPFixed cpFixed={cps.cp_fixed} cpsId={cps.id} />;
       case "cp_mobile":
-        return <CPMobile />;
+        return <CPMobile cpsId={cps.id} cpMobile={cps.cp_mobile} />;
     }
   };
 

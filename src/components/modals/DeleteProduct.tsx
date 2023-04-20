@@ -1,5 +1,4 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React, { ComponentProps } from "react";
 import { Modal } from ".";
 import { Product } from "../../lib/types";
 
@@ -8,16 +7,16 @@ import { supabase } from "../../utils/supabaseClient";
 interface Props {
   products: Product[];
   product: Product | undefined;
-  isDeleteShowModal: boolean;
-  handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleSetProducts: React.Dispatch<React.SetStateAction<any>>;
+  showModal: boolean;
+  handleDeleteShowModal: ComponentProps<any>;
+  handleSetProducts: ComponentProps<any>;
 }
 
 export function DeleteProduct(props: Props) {
   const {
     products,
     product,
-    isDeleteShowModal,
+    showModal,
     handleDeleteShowModal,
     handleSetProducts,
   } = props;
@@ -64,7 +63,8 @@ export function DeleteProduct(props: Props) {
   return (
     <Modal
       showBtn={false}
-      isVisible={isDeleteShowModal}
+      showModal={showModal}
+      setShowModal={handleDeleteShowModal}
       title={"modal_delete_product_title"}
       btnTitle={"delete"}
       description={"modal_delete_product_description"}

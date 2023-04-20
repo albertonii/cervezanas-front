@@ -68,9 +68,10 @@ export function Products({
         handleSetProducts={handleSetProducts}
       />
 
-      {isEditShowModal && (
+      {isEditShowModal && productModal != null && (
         <UpdateProduct
           product={productModal}
+          showModal={isEditShowModal}
           handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
         />
@@ -78,9 +79,9 @@ export function Products({
 
       {isDeleteShowModal && (
         <DeleteProduct
-          products={products!}
+          products={products ?? []}
           product={productModal}
-          isDeleteShowModal={isDeleteShowModal}
+          showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleSetProducts={handleSetProducts}
         />

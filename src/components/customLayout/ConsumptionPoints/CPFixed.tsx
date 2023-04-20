@@ -128,13 +128,10 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 id="name"
                 {...register("cp_name", { required: true })}
               />
-
-              {errors.cp_name && (
-                <span className="text-red-500">
-                  {t("errors.input_required")}
-                </span>
-              )}
             </div>
+            {errors.cp_name && (
+              <span className="text-red-500">{t("errors.input_required")}</span>
+            )}
 
             {/* Event description  */}
             <div className="flex flex-col space-y-2">
@@ -143,13 +140,10 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 className="max-h-[180px] bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-xl"
                 {...register("cp_description", { required: true })}
               />
-
-              {errors.cp_description && (
-                <span className="text-red-500">
-                  {t("errors.input_required")}
-                </span>
-              )}
             </div>
+            {errors.cp_description && (
+              <span className="text-red-500">{t("errors.input_required")}</span>
+            )}
 
             {/* Start date and end date  */}
             <div className="flex flex-row space-x-2">

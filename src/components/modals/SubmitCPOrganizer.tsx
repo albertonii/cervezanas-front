@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabaseClient";
@@ -29,6 +29,8 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const form = useForm<FormValues>({
     mode: "onSubmit",
@@ -119,13 +121,16 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
     };
 
     submitCPOrganizer();
+
+    setShowModal(false);
   };
 
   return (
     <form className="w-full">
       <Modal
         showBtn={true}
-        isVisible={false}
+        showModal={showModal}
+        setShowModal={setShowModal}
         title={"form_submit_cp_organizer_title"}
         btnTitle={"apply_cp_organizer"}
         description={"form_submit_cp_organizer_description"}

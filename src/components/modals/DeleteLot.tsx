@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { ComponentProps } from "react";
 import { Modal } from ".";
 import { ProductLot } from "../../lib/types";
 
@@ -7,20 +7,20 @@ import { supabase } from "../../utils/supabaseClient";
 interface Props {
   lots: ProductLot[];
   productLotId: string;
-  isDeleteShowModal: boolean;
-  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
-  handleSetProductLots: Dispatch<SetStateAction<any>>;
+  handleDeleteShowModal: ComponentProps<any>;
+  handleSetProductLots: ComponentProps<any>;
+  showModal: boolean;
+  setShowModal: ComponentProps<any>;
 }
 
-export function DeleteLot(props: Props) {
-  const {
-    lots,
-    productLotId,
-    isDeleteShowModal,
-    handleDeleteShowModal,
-    handleSetProductLots,
-  } = props;
-
+export function DeleteLot({
+  lots,
+  productLotId,
+  handleDeleteShowModal,
+  handleSetProductLots,
+  showModal,
+  setShowModal,
+}: Props) {
   const handleDeleteClick = () => {
     const handleDelete = async () => {
       const { data, error } = await supabase
@@ -47,7 +47,8 @@ export function DeleteLot(props: Props) {
   return (
     <Modal
       showBtn={false}
-      isVisible={isDeleteShowModal}
+      showModal={showModal}
+      setShowModal={setShowModal}
       title={"modal_delete_lot_title"}
       btnTitle={"delete"}
       description={"modal_delete_lot_description"}

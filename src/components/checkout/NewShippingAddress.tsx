@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
@@ -31,6 +31,8 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
 
   const { user } = useAuth();
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const {
     formState: { errors },
     handleSubmit,
@@ -56,7 +58,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
 
     const handleAddShippingAddress = async () => {
       const { data, error } = await supabase.from("shipping_info").insert({
-        owner_id: user!.id,
+        owner_id: user?.id,
         name,
         lastname,
         document_id,
@@ -79,12 +81,15 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
     };
 
     handleAddShippingAddress();
+
+    setShowModal(false);
   };
 
   return (
     <Modal
       showBtn={true}
-      isVisible={false}
+      showModal={showModal}
+      setShowModal={setShowModal}
       title={t("add_shipping_address")}
       btnTitle={t("add_shipping_address")}
       description={""}

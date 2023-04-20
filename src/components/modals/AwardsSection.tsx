@@ -1,7 +1,7 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Award, ModalAddProductProps } from "../../lib/types";
 import { Button, DeleteButton } from "../common";
 import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
@@ -25,11 +25,7 @@ interface FileProps {
 }
 
 export const AwardsSection = ({ form }: Props) => {
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = form;
+  const { control, register } = form;
 
   const { t } = useTranslation();
 
@@ -42,9 +38,9 @@ export const AwardsSection = ({ form }: Props) => {
 
   useEffect(() => {
     selectedFiles.map((file) => {
-      let src = URL.createObjectURL(file.file);
+      const src = URL.createObjectURL(file.file);
 
-      let preview = document.getElementById(
+      const preview = document.getElementById(
         `prev-img-${file.index}`
       ) as HTMLImageElement | null;
 
@@ -79,7 +75,9 @@ export const AwardsSection = ({ form }: Props) => {
               <input
                 type="text"
                 id="award_name"
-                placeholder={t("input_product_award_name_placeholder")!}
+                placeholder={
+                  t("input_product_award_name_placeholder") + "Award name"
+                }
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register(`awards.${index}.name`, {
                   required: false,
@@ -111,7 +109,7 @@ export const AwardsSection = ({ form }: Props) => {
             <input
               type="text"
               id="award_description"
-              placeholder={t("description")!}
+              placeholder={t("description") + "Award description"}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.description`, {
                 required: false,
@@ -133,7 +131,7 @@ export const AwardsSection = ({ form }: Props) => {
             <input
               type="number"
               id="award_year"
-              placeholder={t("input_product_award_year_placeholder")!}
+              placeholder={t("input_product_award_year_placeholder") + "2021"}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               value="2021"
               {...register(`awards.${index}.year`, {

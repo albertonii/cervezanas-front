@@ -134,7 +134,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
       {isAcceptModal && (
         <Modal
-          title={t("accept")!}
+          title={t("accept")}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
@@ -143,7 +143,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             setIsAcceptModal(false);
           }}
           handlerClose={() => setIsAcceptModal(false)}
-          isVisible={true}
+          showModal={isAcceptModal}
+          setShowModal={setIsAcceptModal}
           description={"accept_cp_description_modal"}
           classIcon={""}
           classContainer={""}
@@ -155,7 +156,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
       {isRejectModal && (
         <Modal
-          title={t("reject")!}
+          title={t("reject")}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
@@ -164,7 +165,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             setIsRejectModal(false);
           }}
           handlerClose={() => setIsRejectModal(false)}
-          isVisible={true}
+          showModal={isRejectModal}
+          setShowModal={setIsRejectModal}
           description={t("reject_cp_description_modal")}
           classIcon={""}
           classContainer={""}
@@ -304,7 +306,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                       "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
                     }
                     classIcon={""}
-                    title={t("accept")!}
+                    title={t("accept")}
                   />
                   <IconButton
                     icon={faCancel}
@@ -314,7 +316,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                       "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
                     }
                     classIcon={""}
-                    title={t("reject")!}
+                    title={t("reject")}
                   />
                 </td>
               </tr>

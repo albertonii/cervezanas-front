@@ -118,7 +118,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
 
           <select
             id="product_type"
-            defaultValue={getValues("type")!}
+            defaultValue={getValues("type") ?? "BEER"}
             className="text-sm hover:bg-gray-200 hover:cursor-not-allowed relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             disabled
           >
@@ -153,7 +153,9 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                 })}
               />
-              {errors.name?.type === "required" && <p>{t("errors.input_required")}</p>}
+              {errors.name?.type === "required" && (
+                <p>{t("errors.input_required")}</p>
+              )}
               {errors.name?.type === "maxLength" && (
                 <p>{t("product_modal_20_max_length")}</p>
               )}

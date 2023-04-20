@@ -50,7 +50,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     register,
     formState: { errors },
     control,
-    getValues,
   } = form;
 
   const [isBeer, setIsBeer] = useState(true);

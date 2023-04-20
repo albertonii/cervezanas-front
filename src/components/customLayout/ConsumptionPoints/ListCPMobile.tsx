@@ -9,18 +9,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import { ICPFixed, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
+import { supabase } from "../../../utils/supabaseClient";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
-import { supabase } from "../../../utils/supabaseClient";
+import { ICPMobile } from "../../../lib/types";
 
 interface Props {
-  cpFixed: ICPFixed[];
+  cpMobile: ICPMobile[];
   handleCPList: ComponentProps<any>;
 }
 
-export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
+enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  NAME = "name",
+  LAST = "last",
+  COUNTRY = "country",
+  CREATED_DATE = "created_date",
+}
+
+export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
   const [query, setQuery] = useState("");
 
   const { t } = useTranslation();
@@ -32,37 +41,38 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-  const [selectedCP, setSelectedCP] = useState<ICPFixed>();
+  console.log(SortBy.COUNTRY);
+  const [selectedCP, setSelectedCP] = useState<ICPMobile>();
 
-  const handleEditClick = async (cp: ICPFixed) => {
+  const handleEditClick = async (cp: ICPMobile) => {
     setIsEditModal(true);
     setSelectedCP(cp);
   };
 
-  const handleDeleteClick = async (cp: ICPFixed) => {
+  const handleDeleteClick = async (cp: ICPMobile) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
   };
 
-  // Remove from fixed list
-  const removeFromFixedList = (id: string) => {
-    const newList = cpFixed.filter((item) => item.id !== id);
+  // Remove from mobile list
+  const removeFromMobileList = (id: string) => {
+    const newList = cpMobile.filter((item) => item.id !== id);
     handleCPList(newList);
   };
 
-  // Delete CP Fixed from database
+  // Delete CP Mobile from database
   const handleRemoveCP = async () => {
     const { error } = await supabase
-      .from("cp_fixed")
+      .from("cp_mobile")
       .delete()
       .eq("id", selectedCP?.id);
 
     if (error) throw error;
   };
 
-  // Update to fixed list
-  const updToFixedList = () => {
-    const newList = cpFixed.map((item) => {
+  // Update to mobile list
+  const updToMobileList = () => {
+    const newList = cpMobile.map((item) => {
       if (item.id === selectedCP?.id) {
         return selectedCP;
       }
@@ -72,10 +82,10 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
     handleCPList(newList);
   };
 
-  // Update CP Fixed in database
+  // Update CP Mobile in database
   const handleUpdate = async () => {
     const { error } = await supabase
-      .from("cp_fixed")
+      .from("cp_mobile")
       .update({
         cp_name: selectedCP?.cp_name,
         cp_description: selectedCP?.cp_description,
@@ -92,11 +102,11 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
     if (error) throw error;
   };
 
-  const filteredItems = useMemo<ICPFixed[]>(() => {
-    return cpFixed.filter((fixed) => {
-      return fixed.cp_name.toLowerCase().includes(query.toLowerCase());
+  const filteredItems = useMemo<ICPMobile[]>(() => {
+    return cpMobile.filter((mobile) => {
+      return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpFixed, query]);
+  }, [cpMobile, query]);
 
   const handleChangeSort = (sort: SortBy) => {
     setSorting(sort);
@@ -105,7 +115,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
 
-    const compareProperties: Record<string, (cp: ICPFixed) => any> = {
+    const compareProperties: Record<string, (cp: ICPMobile) => any> = {
       [SortBy.NAME]: (cp) => cp.cp_name,
       [SortBy.CREATED_DATE]: (cp) => cp.created_at,
     };
@@ -119,8 +129,8 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
   const handleDelete = () => {
     if (!selectedCP) return;
 
+    removeFromMobileList(selectedCP.id);
     handleRemoveCP();
-    removeFromFixedList(selectedCP.id);
     setIsDeleteModal(false);
   };
 
@@ -133,7 +143,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
           color={editColor}
           handler={async () => {
             handleUpdate();
-            updToFixedList();
+            updToMobileList();
             setIsEditModal(false);
           }}
           handlerClose={() => setIsEditModal(false)}
@@ -224,7 +234,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
         </thead>
 
         <tbody>
-          {sortedItems.map((cp) => {
+          {sortedItems.map((cp: ICPMobile) => {
             return (
               <tr
                 key={cp.id}
@@ -237,7 +247,7 @@ export default function ListCPFixed({ cpFixed, handleCPList }: Props) {
                   <FontAwesomeIcon
                     icon={faLocation}
                     style={{ color: "#fdc300" }}
-                    title={"fixed_location"}
+                    title={"mobile_location"}
                     width={80}
                     height={80}
                   />

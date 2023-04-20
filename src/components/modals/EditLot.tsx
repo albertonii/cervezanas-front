@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { ComponentProps, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
@@ -26,14 +26,16 @@ interface Props {
   lots: ProductLot[];
   productLot: ProductLot;
   isEditShowModal: boolean;
-  handleSetProductLots: Dispatch<SetStateAction<any>>;
-  handleEditShowModal: Dispatch<SetStateAction<any>>;
+  setShowModal: ComponentProps<any>;
+  handleSetProductLots: ComponentProps<any>;
+  handleEditShowModal: ComponentProps<any>;
 }
 
 export function EditLot({
   lots,
   productLot,
   isEditShowModal,
+  setShowModal,
   handleSetProductLots,
   handleEditShowModal,
 }: Props) {
@@ -127,7 +129,8 @@ export function EditLot({
     <form className="w-full">
       <Modal
         showBtn={false}
-        isVisible={isEditShowModal}
+        showModal={isEditShowModal}
+        setShowModal={setShowModal}
         title={"config_lot"}
         btnTitle={"edit_lot"}
         description={"modal_product_description"}
@@ -149,7 +152,7 @@ export function EditLot({
 
                 <input
                   id="lot_name"
-                  placeholder={t("lot_name")!}
+                  placeholder={t("lot_name") ?? "Lot name"}
                   type="text"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   defaultValue={productLot.lot_name}
@@ -169,7 +172,7 @@ export function EditLot({
                 <input
                   type="text"
                   id="lot_number"
-                  placeholder={t("lot_number")!}
+                  placeholder={t("lot_number") ?? "Lot number"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   defaultValue={productLot.lot_number}
                   {...register("lot_number", {
@@ -190,7 +193,7 @@ export function EditLot({
                 <input
                   type="number"
                   id="quantity"
-                  placeholder={t("quantity")!}
+                  placeholder={t("quantity") ?? "Quantity"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   defaultValue={productLot.quantity}
                   {...register("quantity", {
@@ -212,7 +215,7 @@ export function EditLot({
                 </label>
                 <input
                   id="limit_notification"
-                  placeholder={t("limit_notification")!}
+                  placeholder={t("limit_notification") ?? "Limit notification"}
                   type="number"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   defaultValue={productLot.limit_notification}
@@ -239,7 +242,7 @@ export function EditLot({
                 <input
                   type="date"
                   id="manufacture_date"
-                  placeholder={t("manufacture_date")!}
+                  placeholder={t("manufacture_date") ?? "Manufacture date"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   value={formatDateDefaultInput(productLot.manufacture_date)}
                   {...register("manufacture_date", {
@@ -260,7 +263,7 @@ export function EditLot({
                 </label>
                 <input
                   id="expiration_date"
-                  placeholder={t("expiration_date")!}
+                  placeholder={t("expiration_date") ?? "Expiration date"}
                   type="date"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   value={formatDateDefaultInput(productLot.expiration_date)}
@@ -282,7 +285,7 @@ export function EditLot({
 
                 <textarea
                   id="packaging"
-                  placeholder={t("packaging")!}
+                  placeholder={t("packaging") ?? "Packaging"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   defaultValue={productLot.packaging}
                   {...register("packaging", {

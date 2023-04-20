@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
@@ -33,6 +33,8 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
   const { user } = useAuth();
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const form = useForm<FormValues>({
     mode: "onSubmit",
     defaultValues: {
@@ -44,7 +46,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       beer_recipe: "",
       expiration_date: new Date(),
       manufacture_date: new Date(),
-      packaging: t(format_options[0].label)!,
+      packaging: t(format_options[0].label) ?? "",
       products: [],
     },
   });
@@ -103,13 +105,16 @@ export function AddLot({ products, handleSetProductLots }: Props) {
     };
 
     handleLotInsert();
+
+    setShowModal(false);
   };
 
   return (
     <form className="w-full">
       <Modal
         showBtn={true}
-        isVisible={false}
+        setShowModal={setShowModal}
+        showModal={showModal}
         title={"config_lot"}
         btnTitle={"add_lot"}
         description={"modal_product_description"}
@@ -127,7 +132,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 </label>
                 <input
                   id="lot_name"
-                  placeholder={t("lot_name")!}
+                  placeholder={t("lot_name") ?? "Lot name"}
                   type="text"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("lot_name", {
@@ -146,7 +151,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <input
                   type="text"
                   id="lot_number"
-                  placeholder={t("lot_number")!}
+                  placeholder={t("lot_number") ?? "Lot number"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("lot_number", {
                     required: true,
@@ -167,7 +172,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <input
                   type="number"
                   id="quantity"
-                  placeholder={t("quantity")!}
+                  placeholder={t("quantity") ?? "Quantity"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("quantity", {
                     required: true,
@@ -188,7 +193,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 </label>
                 <input
                   id="limit_notification"
-                  placeholder={t("limit_notification")!}
+                  placeholder={t("limit_notification") ?? "Limit notification"}
                   type="number"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("limit_notification", {
@@ -214,7 +219,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <input
                   type="date"
                   id="manufacture_date"
-                  placeholder={t("manufacture_date")!}
+                  placeholder={t("manufacture_date") ?? "Manufacture date"}
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("manufacture_date", {
                     required: true,
@@ -234,7 +239,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 </label>
                 <input
                   id="expiration_date"
-                  placeholder={t("expiration_date")!}
+                  placeholder={t("expiration_date") ?? "Expiration date"}
                   type="date"
                   className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("expiration_date", {
@@ -280,7 +285,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
                 <textarea
                   id="beer_recipe"
-                  placeholder={t("beer_recipe")!}
+                  placeholder={t("beer_recipe") ?? "Beer recipe"}
                   className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("beer_recipe", {
                     required: true,

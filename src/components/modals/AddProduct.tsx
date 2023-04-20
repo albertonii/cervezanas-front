@@ -34,7 +34,7 @@ interface Props {
 }
 
 export function AddProduct({
-  products,
+  // products,
   handleSetProducts,
   customizeSettings,
 }: Props) {
@@ -42,6 +42,7 @@ export function AddProduct({
 
   const { user } = useAuth();
 
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const handleSetActiveStep = (value: number) => {
@@ -55,16 +56,12 @@ export function AddProduct({
     },
   });
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (formValues: ModalAddProductProps) => {
     const handleProductInsert = async () => {
       const {
-        campaign,
+        // campaign,
         fermentation,
         color,
         intensity,
@@ -311,8 +308,8 @@ export function AddProduct({
             // Add Img to Store
             // check if image selected in file input is not empty and is an image
             if (pack.img_url) {
-              const file = pack.img_url;
-              const productFileUrl = encodeURIComponent(file.name);
+              // const file = pack.img_url;
+              // const productFileUrl = encodeURIComponent(file.name);
 
               const { error: storagePacksError } = await supabase.storage
                 .from("products")
@@ -369,6 +366,8 @@ export function AddProduct({
     };
 
     handleProductInsert();
+    setShowModal(false);
+
     reset();
   };
 
@@ -376,7 +375,8 @@ export function AddProduct({
     <form className="w-full">
       <Modal
         showBtn={true}
-        isVisible={false}
+        showModal={showModal}
+        setShowModal={setShowModal}
         title={"add_product"}
         btnTitle={"add_product"}
         description={""}
