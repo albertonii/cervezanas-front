@@ -114,7 +114,7 @@ function Map({ handleAddress, cps }: Props) {
           position: { lat, lng },
           map: map,
           title: fixed.cp_name,
-          icon: "/icons/mobile_place_48.png",
+          icon: "/icons/fixed_place_48.png",
           clickable: true,
         });
 

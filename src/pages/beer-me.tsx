@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BMGoogleMap from "../components/BMGoogleMap";
-import { IConsumptionPoints, ICPFixed, IMarker } from "../lib/types";
+import { IConsumptionPoints } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
 
 interface Props {
   cps: IConsumptionPoints[];
@@ -39,7 +35,6 @@ export async function getServerSideProps() {
         )
     `
     );
-
   if (cpsERror) throw cpsERror;
 
   return {

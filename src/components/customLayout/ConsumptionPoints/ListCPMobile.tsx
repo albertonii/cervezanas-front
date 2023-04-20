@@ -41,7 +41,6 @@ export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-  console.log(SortBy.COUNTRY);
   const [selectedCP, setSelectedCP] = useState<ICPMobile>();
 
   const handleEditClick = async (cp: ICPMobile) => {
