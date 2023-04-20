@@ -473,6 +473,7 @@ from the beer.`,
   reject: `Reject`,
   cp_fixed_list: `Fixed consumption points list`,
   cp_mobile_list: `Mobile consumption points list`,
+  is_internal_organizer: `Internal organizer?`,
 };
 
 const translationsEs = {
@@ -962,6 +963,7 @@ desprenden de la cerveza. `,
   reject: `Rechazar`,
   cp_fixed_list: `Lista de puntos fijos`,
   cp_mobile_list: `Lista de puntos de consumo móviles`,
+  is_internal_organizer: `¿Organizador interno?`,
 };
 
 // the translations

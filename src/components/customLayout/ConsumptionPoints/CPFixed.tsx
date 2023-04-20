@@ -1,6 +1,6 @@
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPFixed from "./ListCPFixed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
@@ -9,6 +9,8 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed } from "../../../lib/types";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../utils/utils";
+import { useQuery } from "react-query";
+import { useAuth } from "../../Auth";
 
 interface FormData {
   cp_name: string;
@@ -21,6 +23,7 @@ interface FormData {
   end_date: string;
   address: string;
   status: string;
+  is_internal_organizer: boolean;
 }
 
 interface Props {
@@ -31,13 +34,33 @@ interface Props {
 export default function CPFixed({ cpsId, cpFixed }: Props) {
   const { t } = useTranslation();
 
+  const { user } = useAuth();
+
   const [address, setAddress] = useState<string>("");
   const [cpList, setCpList] = useState<ICPFixed[]>(cpFixed);
+
+  const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
 
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
 
+  const [externalOrganizers, setExternalOrganizers] = useState<any>([]);
+
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const getExternalOrganizers = async () => {
+    return await supabase
+      .from("users")
+      .select("id, name, lastname")
+      .eq("cp_organizer_status", 1);
+    // .neq("id", user?.id);
+  };
+
+  const query = useQuery({
+    queryKey: ["organizers"],
+    queryFn: getExternalOrganizers,
+    enabled: false,
+  });
 
   const {
     formState: { errors },
@@ -100,6 +123,21 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     reset();
   };
 
+  const handleIsInternalOrganizer = (e: any) => {
+    if (e.target.value === "true") {
+      setIsInternalOrganizer(true);
+    } else {
+      const loadExternalOrganizer = async () => {
+        const { data } = await query.refetch();
+        setExternalOrganizers(data?.data ?? []);
+      };
+
+      loadExternalOrganizer();
+
+      setIsInternalOrganizer(false);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -116,6 +154,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
         classContainer={""}
       >
         <form>
+          {/* Event Information  */}
           <fieldset className="space-y-4 p-4 border-2 rounded-md border-beer-softBlondeBubble">
             <legend className="text-2xl m-2">{t("cp_fixed_info")}</legend>
 
@@ -181,80 +220,143 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
             </div>
           </fieldset>
 
+          {/* Organizer Information  */}
           <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
             <legend className="text-2xl">{t("organizer_info")}</legend>
 
-            {/* Organizer name and lastname  */}
-            <div className="flex flex-row space-x-2 ">
-              <div className="w-full flex flex-col">
-                <label htmlFor="organizer_name">{t("name")}</label>
-                <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
-                  type="text"
-                  id="organizer_name"
-                  {...register("organizer_name", { required: true })}
-                />
-
-                {errors.organizer_name && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
-                )}
-              </div>
-
-              <div className="w-full flex flex-col">
-                <label htmlFor="organizer_lastname">{t("lastname")}</label>
-                <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
-                  type="text"
-                  id="organizer_lastname"
-                  {...register("organizer_lastname", { required: true })}
-                />
-
-                {errors.organizer_lastname && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Email and phone  */}
+            {/* Is internal organizer value  */}
             <div className="flex flex-row space-x-2">
-              <div className="flex flex-col">
-                <label htmlFor="organizer_email">{t("email")}</label>
-                <input
+              <div className="flex flex-col w-full">
+                <label htmlFor="is_internal_organizer">
+                  {t("is_internal_organizer")}
+                </label>
+
+                <select
                   className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
-                  type="email"
-                  id="organizer_email"
-                  {...register("organizer_email", { required: true })}
-                />
+                  id="is_internal_organizer"
+                  {...register("is_internal_organizer", { required: true })}
+                  onChange={(e) => {
+                    handleIsInternalOrganizer(e);
+                  }}
+                >
+                  <option value="true">{t("yes")}</option>
+                  <option value="false">{t("no")}</option>
+                </select>
 
-                {errors.organizer_email && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
-                )}
-              </div>
-
-              <div className="flex flex-col">
-                <label htmlFor="organizer_phone">{t("phone")}</label>
-                <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
-                  type="text"
-                  id="organizer_phone"
-                  {...register("organizer_phone", { required: true })}
-                />
-
-                {errors.organizer_phone && (
+                {errors.is_internal_organizer && (
                   <span className="text-red-500">
                     {t("errors.input_required")}
                   </span>
                 )}
               </div>
             </div>
+
+            {/* In case organizer is internal from company*/}
+            {isInternalOrganizer && (
+              <>
+                {/* Organizer name and lastname  */}
+                <div className="flex flex-row space-x-2 ">
+                  <div className="w-full flex flex-col">
+                    <label htmlFor="organizer_name">{t("name")}</label>
+                    <input
+                      className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                      type="text"
+                      id="organizer_name"
+                      {...register("organizer_name", { required: true })}
+                    />
+
+                    {errors.organizer_name && (
+                      <span className="text-red-500">
+                        {t("errors.input_required")}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="w-full flex flex-col">
+                    <label htmlFor="organizer_lastname">{t("lastname")}</label>
+                    <input
+                      className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                      type="text"
+                      id="organizer_lastname"
+                      {...register("organizer_lastname", { required: true })}
+                    />
+
+                    {errors.organizer_lastname && (
+                      <span className="text-red-500">
+                        {t("errors.input_required")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Email and phone  */}
+                <div className="flex flex-row space-x-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="organizer_email">{t("email")}</label>
+                    <input
+                      className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                      type="email"
+                      id="organizer_email"
+                      {...register("organizer_email", { required: true })}
+                    />
+
+                    {errors.organizer_email && (
+                      <span className="text-red-500">
+                        {t("errors.input_required")}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label htmlFor="organizer_phone">{t("phone")}</label>
+                    <input
+                      className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                      type="text"
+                      id="organizer_phone"
+                      {...register("organizer_phone", { required: true })}
+                    />
+
+                    {errors.organizer_phone && (
+                      <span className="text-red-500">
+                        {t("errors.input_required")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* In case organizer is external from company*/}
+            {!isInternalOrganizer && (
+              <>
+                <div className="flex flex-col w-full">
+                  <span className="mt-2 mb-2">
+                    Selecciona del listado de abajo el organizador externo
+                    responsable de este evento. Una vez creado el evento
+                    enviaremos una confirmación al organizador externo para que
+                    pueda gestionar el evento y acepta los términos y
+                    condiciones de uso de la plataforma. Dicho evento tendrá el
+                    estado `Pendiente de confirmación` hasta que el organizador
+                    externo acepte los términos y condiciones.
+                  </span>
+
+                  <select
+                    className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                    id="is_external_organizer"
+                  >
+                    {externalOrganizers &&
+                      externalOrganizers.map((organizer: any) => (
+                        <option key={organizer.id} value={organizer.id}>
+                          {organizer.name} {organizer.lastname}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </>
+            )}
           </fieldset>
 
+          {/* Location  */}
           <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
             <legend className="text-2xl">{t("cp_fixed_location")}</legend>
 
