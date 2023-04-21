@@ -490,6 +490,12 @@ from the beer.`,
   october: `October`,
   november: `November`,
   december: `December`,
+  add_new_monthly_product: `Add new monthly product`,
+  add_monthly_product: `Add monthly product`,
+  new_monthly_product: `New monthly product`,
+  category: `Category`,
+  expert_committee: `Expert committee`,
+  experimental: `Experimental`,
 };
 
 const translationsEs = {
@@ -996,6 +1002,12 @@ desprenden de la cerveza. `,
   october: `Octubre`,
   november: `Noviembre`,
   december: `Diciembre`,
+  add_new_monthly_product: `Añadir nuevo producto mensual`,
+  add_monthly_product: `Añadir producto`,
+  new_monthly_product: `Nuevo producto`,
+  category: `Categoría`,
+  expert_committee: `Comité de expertos`,
+  experimental: `Experimental`,
 };
 
 // the translations

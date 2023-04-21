@@ -30,7 +30,7 @@ interface Props {
   form: UseFormReturn<ModalUpdateProductProps, any>;
 }
 
-const emptyPack: IProductPack = {
+const emptyPack: ProductPack = {
   id: "",
   pack: 6,
   price: 0,

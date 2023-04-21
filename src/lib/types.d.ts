@@ -3,7 +3,6 @@ import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 import { User } from "./interfaces";
-import { ProductEnum } from "./productEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 

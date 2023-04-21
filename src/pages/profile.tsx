@@ -5,6 +5,7 @@ import { useAuth } from "../components/Auth/useAuth";
 import { supabase } from "../utils/supabaseClient";
 import {
   IConsumptionPoints,
+  IMonthlyProduct,
   IProductLot,
   Profile as ProfileType,
   Review,
@@ -28,10 +29,11 @@ import { Spinner } from "../components/common";
 import SubmittedCPs from "../components/Admin/cps/SubmittedCPs";
 import { useRouter } from "next/router";
 import { isValidObject } from "../utils/utils";
-import MonthlyBeers from "../components/Admin/monthly/MonthlyBeers";
+import MonthlyBeers from "../components/Admin/monthly/MonthlyProducts";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
+  mProducts: IMonthlyProduct[];
   profile: ProfileType;
   reviews: Review[];
   product_lots: IProductLot[];
@@ -40,6 +42,7 @@ interface Props {
 
 export default function CustomLayout({
   submittedCPs,
+  mProducts,
   profile,
   reviews,
   product_lots,
@@ -77,7 +80,7 @@ export default function CustomLayout({
       case "submitted_aps":
         return <SubmittedCPs submittedCPs={submittedCPs} />;
       case "monthly_beers":
-        return <MonthlyBeers products={[]} />;
+        return <MonthlyBeers mProducts={mProducts} />;
       case "profile":
         return <Profile profile={profile} />;
       case "products":
@@ -242,11 +245,19 @@ export async function getServerSideProps({ req }: any) {
       );
 
     if (submittedCPsError) console.error(submittedCPsError);
-    if (submittedCPs == null) return { props: { submittedCPs: [] } };
+
+    const { data: mProducts, error: mProductsError } = await supabase.from(
+      "monthly_products"
+    ).select(`*,
+              product_id(*)
+              `);
+
+    if (mProductsError) console.error(mProductsError);
 
     return {
       props: {
-        submittedCPs: submittedCPs,
+        submittedCPs,
+        mProducts,
       },
     };
   }

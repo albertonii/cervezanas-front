@@ -31,3 +31,24 @@ export namespace ProductEnum {
     ARCHIVED = "ARCHIVED",
   }
 }
+
+enum MonthlyProductCategory {
+  community = "community",
+  expert_committee = "expert_committee",
+  experimental = "experimental",
+}
+
+export const category_options = [
+  {
+    label: "community",
+    value: MonthlyProductCategory.community,
+  },
+  {
+    label: "expert_committee",
+    value: MonthlyProductCategory.expert_committee,
+  },
+  {
+    label: "experimental",
+    value: MonthlyProductCategory.experimental,
+  },
+];
