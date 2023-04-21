@@ -1,12 +1,12 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
-import { Product } from "../../lib/types";
+import { IProduct } from "../../lib/types";
 
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
-  products: Product[];
-  product: Product | undefined;
+  products: IProduct[];
+  product: IProduct | undefined;
   showModal: boolean;
   handleDeleteShowModal: ComponentProps<any>;
   handleSetProducts: ComponentProps<any>;

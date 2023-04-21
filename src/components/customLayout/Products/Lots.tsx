@@ -5,8 +5,8 @@ import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 
 interface Props {
-  products: Product[];
-  lots: ProductLot[];
+  products: IProduct[];
+  lots: IProductLot[];
 }
 
 export default function Lots({ products, lots: l }: Props) {
@@ -19,7 +19,7 @@ export default function Lots({ products, lots: l }: Props) {
 
   const [lots, setLots] = useState<ProductLot[]>(l);
 
-  const handleSetProductLots = (value: ProductLot[]) => {
+  const handleSetProductLots = (value: IProductLot[]) => {
     setLots(value);
   };
 
@@ -35,7 +35,7 @@ export default function Lots({ products, lots: l }: Props) {
     setIsDeleteShowModal(value);
   };
 
-  const handleProductLotModal = (productLot: ProductLot) => {
+  const handleProductLotModal = (productLot: IProductLot) => {
     setProductLotModal(productLot);
   };
 

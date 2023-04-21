@@ -5,7 +5,7 @@ import { CustomizeSettings, Product } from "../../../lib/types";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
   customizeSettings: CustomizeSettings;
 }
@@ -30,7 +30,7 @@ export function Products({
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-  const [productModal, setProductModal] = useState<Product>();
+  const [productModal, setProductModal] = useState<IProduct>();
 
   const handleEditShowModal = (value: boolean) => {
     setIsEditShowModal(value);
@@ -40,7 +40,7 @@ export function Products({
     setIsDeleteShowModal(value);
   };
 
-  const handleProductModal = (product: Product) => {
+  const handleProductModal = (product: IProduct) => {
     setProductModal(product);
   };
 

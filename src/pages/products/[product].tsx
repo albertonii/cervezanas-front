@@ -4,7 +4,7 @@ import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { SupabaseProps } from "../../constants";
 import {
   ICarouselItem,
-  Product,
+  IProduct,
   ProductMultimedia,
   Review,
 } from "../../lib/types";
@@ -37,10 +37,10 @@ const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 interface Props {
-  product: Product[];
-  multimedia: ProductMultimedia[];
+  product: IProduct[];
+  multimedia: IProductMultimedia[];
   reviews: Review[];
-  marketplaceProducts: Product[];
+  marketplaceProducts: IProduct[];
 }
 
 export default function ProductId({
@@ -50,7 +50,7 @@ export default function ProductId({
   marketplaceProducts,
 }: Props) {
   const p = product[0];
-  const m: ProductMultimedia = multimedia[0];
+  const m: IProductMultimedia = multimedia[0];
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<Review[]>(reviews);
@@ -179,7 +179,7 @@ export default function ProductId({
     increaseCartQuantity(productId);
     if (marketplaceItems.find((item) => item.id === productId)) return;
 
-    const product: Product | undefined = marketplaceItems.find(
+    const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === productId
     );
 

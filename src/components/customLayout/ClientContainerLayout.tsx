@@ -66,18 +66,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
     }
 
     updateProfile(fileObj);
-
-    // console.log("fileObj is", fileObj);
-
-    // 👇️ reset file input
     event.target.files = null;
-
-    // 👇️ is now empty
-    // console.log(event.target.files);
-
-    // 👇️ can still access file object here
-    // console.log(fileObj);
-    // console.log(fileObj.name);
   };
 
   useEffect(() => {
@@ -90,7 +79,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
   return (
     <>
-      <div className=" w-full">
+      <div className="w-full h-[90vh]">
         {role === "admin" && (
           <>
             {/* Client Information */}

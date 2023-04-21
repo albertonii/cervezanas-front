@@ -17,7 +17,7 @@ import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
 
 interface Props {
   campaigns: Campaign[];
-  products: Product[];
+  products: IProduct[];
 }
 
 export function Campaigns({ campaigns: c, products }: Props) {

@@ -6,7 +6,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { Product } from "../../lib/types";
+import { IProduct } from "../../lib/types";
 import { useRouter } from "next/router";
 import {
   AddCardButton,
@@ -17,7 +17,7 @@ import {
 } from "../common";
 
 interface Props {
-  product: Product;
+  product: IProduct;
 }
 
 export default function MonthlyCardItem({ product }: Props) {
@@ -48,7 +48,6 @@ export default function MonthlyCardItem({ product }: Props) {
     decreaseCartQuantity,
     removeFromCart,
     removeMarketplaceItems,
-    marketplaceItems,
   } = useShoppingCart();
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
@@ -78,7 +77,7 @@ export default function MonthlyCardItem({ product }: Props) {
     /*
     increaseCartQuantity(id);
     if (marketplaceItems.find((item) => item.id === id)) return;
-    const product: Product | undefined = marketplaceItems.find(
+    const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === id
     );
 

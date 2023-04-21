@@ -8,14 +8,14 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Product } from "../../../lib/types";
+import { IProduct } from "../../../lib/types";
 import { supabase } from "../../../utils/supabaseClient";
 import { DeleteButton } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   handleEditShowModal: Dispatch<SetStateAction<any>>;
   handleDeleteShowModal: Dispatch<SetStateAction<any>>;
   handleProductModal: Dispatch<SetStateAction<any>>;
@@ -48,7 +48,7 @@ export function ProductList({
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (product: Product) => {
+  const handleClickEdit = (product: IProduct) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
     handleProductModal(product);
@@ -91,7 +91,7 @@ export function ProductList({
     handleSetProducts(updatedProducts);
   };
 
-  const handleClickDelete = (product: Product) => {
+  const handleClickDelete = (product: IProduct) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductModal(product);

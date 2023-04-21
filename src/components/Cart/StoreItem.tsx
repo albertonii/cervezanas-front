@@ -5,7 +5,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { Product } from "../../lib/types.d";
+import { IProduct } from "../../lib/types.d";
 import { useRouter } from "next/router";
 import {
   AddCardButton,
@@ -16,7 +16,7 @@ import {
 } from "../common";
 import DisplayImage from "../common/DisplayImageProduct";
 
-type StoreItemProps = { product: Product; products: Product[] };
+type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 export function StoreItem(props: StoreItemProps) {
   const { t } = useTranslation();
@@ -76,7 +76,7 @@ export function StoreItem(props: StoreItemProps) {
   const handleIncreaseToCartItem = () => {
     increaseCartQuantity(id);
     if (marketplaceItems.find((item) => item.id === id)) return;
-    const product: Product | undefined = marketplaceItems.find(
+    const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === id
     );
 

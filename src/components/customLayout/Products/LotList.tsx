@@ -7,7 +7,7 @@ import { DeleteButton } from "../../common";
 import { EditButton } from "../../common/EditButton";
 
 interface Props {
-  lots: ProductLot[];
+  lots: IProductLot[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleProductLotModal: React.Dispatch<React.SetStateAction<any>>;
@@ -37,13 +37,13 @@ export function LotList({
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (lot: ProductLot) => {
+  const handleClickEdit = (lot: IProductLot) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
     handleProductLotModal(lot);
   };
 
-  const handleClickDelete = (lot: ProductLot) => {
+  const handleClickDelete = (lot: IProductLot) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductLotModal(lot);

@@ -16,8 +16,8 @@ type ShoppingCartContextType = {
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
-  marketplaceItems: Product[];
-  addMarketplaceItems: (item: Product) => void;
+  marketplaceItems: IProduct[];
+  addMarketplaceItems: (item: IProduct) => void;
   removeMarketplaceItems: (id: string) => void;
 };
 
@@ -35,7 +35,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   openCart: () => {},
   closeCart: () => {},
   marketplaceItems: [],
-  addMarketplaceItems: (item: Product) => {},
+  addMarketplaceItems: (item: IProduct) => {},
   removeMarketplaceItems: (id: string) => {},
 });
 
@@ -56,7 +56,7 @@ export function ShoppingCartProvider({
     []
   );
 
-  const addMarketplaceItems = (item: Product) => {
+  const addMarketplaceItems = (item: IProduct) => {
     if (marketplaceItems.some((i) => i.id === item.id)) return;
     setMarketplaceItems((items) => [...items, item]);
   };

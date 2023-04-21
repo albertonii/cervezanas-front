@@ -1,11 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Product } from "../../../lib/types";
+import { IProduct } from "../../../lib/types";
 import { DeleteProduct, UpdateProduct } from "../../modals";
 import ProductsArchiveList from "./ProductsArchiveList";
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
@@ -19,7 +19,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-  const [productModal, setProductModal] = useState<Product>();
+  const [productModal, setProductModal] = useState<IProduct>();
 
   const handleEditShowModal = (value: boolean) => {
     setIsEditShowModal(value);
@@ -29,7 +29,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
     setIsDeleteShowModal(value);
   };
 
-  const handleProductModal = (product: Product) => {
+  const handleProductModal = (product: IProduct) => {
     setProductModal(product);
   };
 
@@ -54,6 +54,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
           product={productModal!}
           handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
+          showModal={false}
         />
       )}
 
@@ -61,7 +62,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
         <DeleteProduct
           products={products!}
           product={productModal!}
-          isDeleteShowModal={isDeleteShowModal}
+          showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleSetProducts={handleSetProducts}
         />

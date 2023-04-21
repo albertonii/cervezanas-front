@@ -23,6 +23,11 @@ export function Sidebar({ parentCallback, role }: Props) {
             icon: "user",
             option: "submitted_aps",
           },
+          {
+            name: t("monthly_beers"),
+            icon: "beer",
+            option: "monthly_beers",
+          },
         ]
       : [
           {

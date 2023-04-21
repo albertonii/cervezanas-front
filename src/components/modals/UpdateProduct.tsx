@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { fermentation_options, product_type_options } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 import {
-  Product,
+  IProduct,
   Inventory,
   Award,
   ModalUpdateProductProps,
@@ -20,7 +20,7 @@ import { getFileExtensionByName } from "../../utils";
 import { uuid } from "uuidv4";
 
 interface Props {
-  product: Product;
+  product: IProduct;
   showModal: boolean;
   handleSetProducts: ComponentProps<any>;
   handleEditShowModal: ComponentProps<any>;

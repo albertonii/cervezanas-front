@@ -3,7 +3,7 @@ import DisplayImageString from "../common/DisplayImageString";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Product } from "../../lib/types.d";
+import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -11,7 +11,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 type CartItemProps = {
   id: string;
   quantity: number;
-  products: Product[];
+  products: IProduct[];
 };
 
 export function CartItem({ id, quantity, products }: CartItemProps) {
@@ -53,7 +53,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
   const handleIncreaseCartQuantity = (productId: string) => {
     increaseCartQuantity(productId);
     if (marketplaceItems.find((item) => item.id === productId)) return;
-    const product: Product | undefined = marketplaceItems.find(
+    const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === productId
     );
     if (!product) return;

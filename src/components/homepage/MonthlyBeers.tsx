@@ -1,9 +1,9 @@
 import React from "react";
 import MonthlyCardItem from "./MonthlyCardItem";
-import { Product } from "../../lib/types";
+import { IProduct } from "../../lib/types";
 
 interface Props {
-  monthlyProducts: Product[];
+  monthlyProducts: IProduct[];
 }
 
 export default function MonthlyBeers({ monthlyProducts }: Props) {

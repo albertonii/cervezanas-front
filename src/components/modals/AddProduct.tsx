@@ -15,7 +15,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  Product,
+  IProduct,
   Inventory,
   CustomizeSettings,
   ModalAddProductProps,
@@ -28,7 +28,7 @@ import { getFileExtensionByName } from "../../utils";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
   customizeSettings: CustomizeSettings;
 }

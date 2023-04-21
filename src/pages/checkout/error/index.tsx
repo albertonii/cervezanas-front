@@ -13,7 +13,7 @@ import DisplayImage from "../../../components/common/DisplayImageProduct";
 interface Props {
   isError?: boolean;
   order: Order;
-  products: Product[];
+  products: IProduct[];
 }
 
 export default function Error({ order, products, isError }: Props) {

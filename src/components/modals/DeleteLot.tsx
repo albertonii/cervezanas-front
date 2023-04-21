@@ -5,7 +5,7 @@ import { ProductLot } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
 
 interface Props {
-  lots: ProductLot[];
+  lots: IProductLot[];
   productLotId: string;
   handleDeleteShowModal: ComponentProps<any>;
   handleSetProductLots: ComponentProps<any>;

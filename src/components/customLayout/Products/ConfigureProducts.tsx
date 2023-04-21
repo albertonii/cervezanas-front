@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Products } from "./Products";
 import {
-  Product,
+  IProduct,
   ProductLot,
   CustomizeSettings as cSettings,
 } from "../../../lib/types";
@@ -12,8 +12,8 @@ import { CustomizeSettings } from "..";
 import HorizontalSections from "../../common/HorizontalSections";
 
 interface Props {
-  products: Product[];
-  lots: ProductLot[];
+  products: IProduct[];
+  lots: IProductLot[];
   customizeSettings: cSettings;
 }
 
@@ -29,7 +29,7 @@ export function ConfigureProducts({
   const [activeTab, setActiveTab] = useState<string>("products");
   const [products, setProducts] = useState<Product[]>(p);
 
-  const handleSetProducts = (value: Product[]) => {
+  const handleSetProducts = (value: IProduct[]) => {
     setProducts(value);
   };
 

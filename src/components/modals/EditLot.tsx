@@ -23,8 +23,8 @@ type FormValues = {
 };
 
 interface Props {
-  lots: ProductLot[];
-  productLot: ProductLot;
+  lots: IProductLot[];
+  productLot: IProductLot;
   isEditShowModal: boolean;
   setShowModal: ComponentProps<any>;
   handleSetProductLots: ComponentProps<any>;

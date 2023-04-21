@@ -9,8 +9,8 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
-  product: Product[];
-  multimedia: ProductMultimedia[];
+  product: IProduct[];
+  multimedia: IProductMultimedia[];
 }
 
 export default function ReviewProduct(props: Props) {

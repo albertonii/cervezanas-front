@@ -5,7 +5,7 @@ import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
-import { Product } from "../../lib/types";
+import { IProduct } from "../../lib/types";
 import { format_options } from "../../lib/beerEnum";
 
 type FormValues = {
@@ -24,7 +24,7 @@ type FormValues = {
 };
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   handleSetProductLots: Dispatch<SetStateAction<any>>;
 }
 

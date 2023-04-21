@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, SortBy } from "../../lib/types.d";
-import { formatDate } from "../../utils";
-import { supabase } from "../../utils/supabaseClient";
-import { generateDownloadableLink } from "../../utils/utils";
-import { IconButton } from "../common";
-import { Modal } from "../modals";
+import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
+import { formatDate } from "../../../utils";
+import { supabase } from "../../../utils/supabaseClient";
+import { generateDownloadableLink } from "../../../utils/utils";
+import { IconButton } from "../../common";
+import { Modal } from "../../modals";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];

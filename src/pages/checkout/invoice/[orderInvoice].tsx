@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   order: Order;
-  products: Product[];
+  products: IProduct[];
 }
 
 export default function OrderInvoice({ order, products }: Props) {

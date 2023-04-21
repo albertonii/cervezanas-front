@@ -16,7 +16,7 @@ import { decodeBase64, isValidObject } from "../../../utils/utils";
 interface Props {
   isError?: boolean;
   order: Order;
-  products: Product[];
+  products: IProduct[];
 }
 
 export default function Success({

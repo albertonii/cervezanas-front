@@ -187,7 +187,7 @@ export interface Merchandising {
   product_id: string;
 }
 
-export interface ProductLot {
+export interface IProductLot {
   id: string;
   created_at: Date;
   lot_id: string;
@@ -200,7 +200,7 @@ export interface ProductLot {
   manufacture_date: any;
   packaging: string;
   beer_recipe: string;
-  products: Product;
+  products: IProduct;
 }
 
 export interface CustomizeSettings {
@@ -280,7 +280,7 @@ export interface Review {
   mouthfeel: number;
   overall: number;
   users?: User;
-  products?: Product;
+  products?: IProduct;
 }
 
 export interface Profile {
@@ -306,7 +306,7 @@ export interface Profile {
   image: string;
   role: string;
   username: string;
-  products: Product[];
+  products: IProduct[];
   reviews: Review[];
   likes: Like[];
   orders: Order[];
@@ -399,7 +399,7 @@ export interface SocialCause {
   owner_id: string;
   img_url: any;
   is_public: boolean;
-  products: Product[];
+  products: IProduct[];
 }
 
 export interface Campaign {
@@ -554,7 +554,7 @@ export type ModalAddProductProps = {
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
-  packs: ProductPack[];
+  packs: IProductPack[];
 };
 
 export type ProductPack = {
@@ -596,7 +596,7 @@ export type ModalUpdateProductProps = {
   merchandisings: Merchandising[];
   is_gluten: boolean;
   is_public: boolean;
-  packs: ProductPack[];
+  packs: IProductPack[];
 };
 
 type BeerModalProps = {
@@ -644,7 +644,7 @@ export type FileImg = {
   webkitRelativePath: string;
 };
 
-export interface Product {
+export interface IProduct {
   id: string;
   name: string;
   description: string;
@@ -653,30 +653,38 @@ export interface Product {
   product_category_id: string;
   campaign_id: string;
   owner_id: string;
-  product_lot: ProductLot[];
+  product_lot: IProductLot[];
   product_inventory: Inventory[];
-  product_multimedia: ProductMultimedia[];
+  product_multimedia: IProductMultimedia[];
   reviews: Review[];
   likes: Like[];
   is_public: boolean;
   price: number;
   beers: Beer[];
-  product_variant: ProductVariant[];
+  product_variant: IProductVariant[];
   order_item: OrderItem[];
   awards: Award[];
   is_archived: boolean;
-  state: ProductEnum.State;
-  status: ProductEnum.Status;
-  type: ProductEnum.Type;
-  product_pack: ProductPack[];
+  state: IProductEnum.State;
+  status: IProductEnum.Status;
+  type: IProductEnum.Type;
+  product_pack: IProductPack[];
   is_monthly: boolean;
 }
 
-export interface ProductVariant {
+export interface IProductVariant {
   id: string;
   product_id: string;
   name: string;
   product_number: number;
+}
+
+export interface IMonthlyProduct {
+  id: string;
+  category: string;
+  month: number;
+  year: number;
+  product_id: IProduct;
 }
 
 export enum SortBy {

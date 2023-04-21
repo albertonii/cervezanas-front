@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
-import { Product } from "../../lib/types";
+import { IProduct } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import {
   faShoppingCart,
@@ -138,7 +138,7 @@ export default function Checkout({
   const handleIncreaseCartQuantity = (productId: string) => {
     increaseCartQuantity(productId);
     if (marketplaceItems.find((item) => item.id === productId)) return;
-    const product: Product | undefined = marketplaceItems.find(
+    const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === productId
     );
     if (!product) return;

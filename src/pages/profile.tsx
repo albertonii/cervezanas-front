@@ -5,7 +5,7 @@ import { useAuth } from "../components/Auth/useAuth";
 import { supabase } from "../utils/supabaseClient";
 import {
   IConsumptionPoints,
-  ProductLot,
+  IProductLot,
   Profile as ProfileType,
   Review,
 } from "../lib/types";
@@ -25,15 +25,16 @@ import {
   ConsumptionPoints,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
-import SubmittedCPs from "../components/admin/SubmittedCPs";
+import SubmittedCPs from "../components/Admin/cps/SubmittedCPs";
 import { useRouter } from "next/router";
 import { isValidObject } from "../utils/utils";
+import MonthlyBeers from "../components/Admin/monthly/MonthlyBeers";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
   profile: ProfileType;
   reviews: Review[];
-  product_lots: ProductLot[];
+  product_lots: IProductLot[];
   cps: IConsumptionPoints[];
 }
 
@@ -60,11 +61,14 @@ export default function CustomLayout({
     if (isValidObject(router.query.a)) {
       setMenuOption(router.query.a as string);
       changeSidebarActive(router.query.a as string);
+      router.query.a = "";
     } else {
+      /*
       if (role === "admin") {
         setMenuOption("submitted_aps");
         changeSidebarActive("submitted_aps");
       }
+      */
     }
   }, [changeSidebarActive, role, router]);
 
@@ -72,6 +76,8 @@ export default function CustomLayout({
     switch (menuOption) {
       case "submitted_aps":
         return <SubmittedCPs submittedCPs={submittedCPs} />;
+      case "monthly_beers":
+        return <MonthlyBeers products={[]} />;
       case "profile":
         return <Profile profile={profile} />;
       case "products":

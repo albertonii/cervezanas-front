@@ -6,7 +6,7 @@ import { Modal } from "../../modals";
 
 interface Props {
   index: number;
-  products: Product[];
+  products: IProduct[];
   campaign: Campaign;
   form: UseFormReturn<any, any>;
   handleResponseLinkProductsModal: ComponentProps<any>;

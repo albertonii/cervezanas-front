@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
-import { Product } from "../lib/types";
+import { IProduct } from "../lib/types";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
   reviews: { overall: number }[];
 }
 

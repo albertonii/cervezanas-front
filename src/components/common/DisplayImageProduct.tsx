@@ -2,11 +2,11 @@ import { ComponentProps } from "@stitches/core";
 import Image from "next/image";
 import { useState } from "react";
 import { SupabaseProps } from "../../constants";
-import { Product } from "../../lib/types.d";
+import { IProduct } from "../../lib/types.d";
 import { isValidObject } from "../../utils/utils";
 
 interface Props {
-  product: Product;
+  product: IProduct;
   onClick?: ComponentProps<typeof Image>["onClick"];
   class?: string;
   alt?: string;

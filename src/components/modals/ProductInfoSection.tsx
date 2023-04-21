@@ -34,7 +34,7 @@ interface Props {
   customizeSettings: CustomizeSettings;
 }
 
-const emptyPack: ProductPack = {
+const emptyPack: IProductPack = {
   id: "",
   pack: 6,
   price: 0,

@@ -4,7 +4,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../constants";
-import { Product } from "../../lib/types.d";
+import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
@@ -12,7 +12,7 @@ import { ProductEnum } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 
 interface Props {
-  product: Product;
+  product: IProduct;
   handleIncreaseCartQuantity: (id: string) => void;
   handleDecreaseCartQuantity: (id: string) => void;
   handleRemoveFromCart: (id: string) => void;
