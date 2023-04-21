@@ -124,7 +124,7 @@ export default function CustomLayout({
     setMenuOption(childData);
   };
 
-  if (role === null || user === null) return <></>;
+  if (role == null || user == null) return <></>;
 
   return (
     <>

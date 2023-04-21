@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Hero from "../components/homepage/Hero";
 import MonthlyBeers from "../components/homepage/MonthlyBeers";
-import { IProduct } from "../lib/types";
+import { IMonthlyProduct } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 
 interface Props {
-  monthlyProducts: IProduct[];
+  monthlyProducts: IMonthlyProduct[];
 }
 
 export default function Home({ monthlyProducts }: Props) {

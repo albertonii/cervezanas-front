@@ -496,6 +496,7 @@ from the beer.`,
   category: `Category`,
   expert_committee: `Expert committee`,
   experimental: `Experimental`,
+  monthly_products: `Monthly products`,
 };
 
 const translationsEs = {
@@ -1008,6 +1009,7 @@ desprenden de la cerveza. `,
   category: `Categoría`,
   expert_committee: `Comité de expertos`,
   experimental: `Experimental`,
+  monthly_products: `Productos mensuales`,
 };
 
 // the translations

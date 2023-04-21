@@ -93,7 +93,7 @@ export function Header() {
           </div>
 
           {/* Logo Cervezanas  */}
-          <div className="w-full " id="navbar-default">
+          <div className="w-full" id="navbar-default">
             <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
               <div className="relative h-[100px] sm:h-[163px] w-[110px] sm:w-[181px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
                 <Link href={"/"}>
@@ -164,7 +164,7 @@ export function Header() {
                     <HeaderDropdownButton
                       options={
                         role === "admin"
-                          ? ["submitted_aps"]
+                          ? ["submitted_aps", "monthly_products", "signout"]
                           : ["profile", "orders", "signout"]
                       }
                     />

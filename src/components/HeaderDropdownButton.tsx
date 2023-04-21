@@ -76,6 +76,20 @@ export function HeaderDropdownButton(props: DropdownProps) {
             </span>
           </Link>
         );
+
+      case "monthly_products":
+        return (
+          <Link
+            href={{ pathname: `/profile`, query: { a: `monthly_products` } }}
+          >
+            <span
+              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
     }
   };
 

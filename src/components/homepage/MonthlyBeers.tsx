@@ -1,9 +1,9 @@
 import React from "react";
 import MonthlyCardItem from "./MonthlyCardItem";
-import { IProduct } from "../../lib/types";
+import { IMonthlyProduct } from "../../lib/types";
 
 interface Props {
-  monthlyProducts: IProduct[];
+  monthlyProducts: IMonthlyProduct[];
 }
 
 export default function MonthlyBeers({ monthlyProducts }: Props) {
@@ -30,9 +30,9 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
 
           {/* Cards  */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-gap-4">
-            {monthlyProducts.map((product) => (
-              <div key={product.id} className="w-">
-                <MonthlyCardItem product={product} />
+            {monthlyProducts.map((mProduct) => (
+              <div key={mProduct.id} className="">
+                <MonthlyCardItem mProduct={mProduct} />
               </div>
             ))}
           </div>
