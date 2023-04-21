@@ -11,7 +11,7 @@ import { Button, HeaderDropdownButton } from "./common";
 export function Header() {
   const { t } = useTranslation();
 
-  const { loggedIn, signOut, role } = useAuth();
+  const { loggedIn, role } = useAuth();
 
   const router = useRouter();
 
@@ -59,7 +59,7 @@ export function Header() {
               </svg>
             </button>
 
-            <ul className="hidden md:flex flex-col align-center p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="hidden md:flex flex-col align-center p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li className="flex items-center">
                 <Link href="/marketplace">
                   <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
@@ -114,7 +114,7 @@ export function Header() {
 
           {/* Right elements  */}
           <div className="w-full">
-            <ul className="hidden sm:flex sm:flex-col sm:justify-end sm:align-middle sm:p-4 sm:mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="hidden sm:flex sm:flex-col sm:justify-end sm:align-middle sm:p-4 sm:mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {/* Language  */}
               <li className="flex items-center max-w-[50px]">
                 <Select

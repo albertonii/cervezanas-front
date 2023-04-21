@@ -21,6 +21,8 @@ interface Props {
 }
 
 export default function MonthlyCardItem({ product }: Props) {
+  if (!product) return null;
+
   const { t } = useTranslation();
   const { id } = product;
   const router = useRouter();
@@ -99,10 +101,8 @@ export default function MonthlyCardItem({ product }: Props) {
     removeFromCart(id);
   };
 
-  if (marketplaceItems === undefined) return <div></div>;
-
   return (
-    <div className="max-w-sm shadow-lg rounded-xl p-4">
+    <div className="sm:max-w-sm shadow-lg rounded-xl p-4">
       <div className="relative mb-1 flex justify-center">
         <div className="absolute top-0 right-0 p-3">
           <IconButton

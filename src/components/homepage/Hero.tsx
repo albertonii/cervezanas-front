@@ -8,12 +8,12 @@ export default function Hero() {
   };
 
   return (
-    <>
+    <div className="">
       <div className="bg-[url('/assets/golden_wave_pattern.png')] h-[60px] "></div>
-      <div className="w-100% h-[50vh] bg-beer-blonde flex justify-center pt-10 ">
-        <div className="container grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="w-100% h-[65vh] sm:h-[50vh] bg-beer-blonde flex justify-center pt-10 ">
+        <div className="container sm:grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
           {/* copywriting  */}
-          <div className="w-full space-y-4">
+          <div className="w-full h-full space-y-4 p-4 sm:p-0">
             {/* Title */}
             <div className="text-4xl font-bold text-beer-dark">
               <h1>Un punto de encuentro</h1>
@@ -49,24 +49,24 @@ export default function Hero() {
           </div>
 
           {/* Photography  */}
-          <div className="w-full relative flex justify-end items-start">
+          <div className="w-full relative flex justify-end items-start -top-10">
             <Image
               src={"/assets/hero.png"}
               width={550}
               height={450}
               alt={"hero image"}
-              className="absolute top-0 left-auto right-auto z-10 drop-shadow-2xl	 rounded-md	"
+              className="absolute top-0 left-auto right-20 sm:right-44 z-10 drop-shadow-2xl	rounded-md w-1/2 sm:w-2/5 lg:w-3/4"
             />
             <Image
               src={"/assets/bg_dots.png"}
               width={450}
               height={450}
               alt={"hero image"}
-              className="absolute top-10 left-20"
+              className="absolute top-10 left-20 sm:left-56 w-1/2 sm:w-1/4 lg:w-2/3"
             />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

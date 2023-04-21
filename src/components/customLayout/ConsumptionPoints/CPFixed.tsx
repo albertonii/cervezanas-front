@@ -1,6 +1,6 @@
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPFixed from "./ListCPFixed";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
@@ -52,8 +52,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     return await supabase
       .from("users")
       .select("id, name, lastname")
-      .eq("cp_organizer_status", 1);
-    // .neq("id", user?.id);
+      .eq("cp_organizer_status", 1)
+      .neq("id", user?.id);
   };
 
   const query = useQuery({

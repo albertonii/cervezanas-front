@@ -7,11 +7,11 @@ interface Props {
 }
 
 export default function MonthlyBeers({ monthlyProducts }: Props) {
-  if (monthlyProducts.length === 0) return null;
+  if (monthlyProducts.length === 0 && !monthlyProducts) return null;
 
   return (
-    <div className="w-100% h-[150vh] bg-beer-foam flex justify-center pt-56 ">
-      <div className="container ">
+    <div className="w-100% h-full sm:h-full bg-beer-foam flex justify-center pt-[48vh] sm:pt-[40vh] ">
+      <div className="container p-4 sm:p-0">
         {/* Copywriting  */}
         <div className="flex flex-col space-y-6">
           {/* Title  */}
@@ -29,9 +29,9 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
           </div>
 
           {/* Cards  */}
-          <div className="grid grid-cols-3 grid-gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-gap-4">
             {monthlyProducts.map((product) => (
-              <div key={product.id} className="">
+              <div key={product.id} className="w-">
                 <MonthlyCardItem product={product} />
               </div>
             ))}
