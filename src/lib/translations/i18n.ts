@@ -250,7 +250,8 @@ const translationsEn = {
   add_lot: "Add Lot",
   edit_lot: "Edit Lot",
   lots: "Lots",
-  next: "next",
+  next: "Next",
+  prev: "Prev",
   back: "Back",
   skip: "Skip",
   end: "End",
@@ -497,6 +498,7 @@ from the beer.`,
   expert_committee: `Expert committee`,
   experimental: `Experimental`,
   monthly_products: `Monthly products`,
+  pagination_footer_nums: `Showing {{from}} to {{to}} of {{total}} entries`,
 };
 
 const translationsEs = {
@@ -755,6 +757,7 @@ const translationsEs = {
   edit_lot: "Editar Lote",
   lots: "Lotes",
   next: "Siguiente",
+  prev: "Anterior",
   back: "Atrás",
   skip: "Saltar",
   end: "Finalizar",
@@ -1010,6 +1013,7 @@ desprenden de la cerveza. `,
   expert_committee: `Comité de expertos`,
   experimental: `Experimental`,
   monthly_products: `Productos mensuales`,
+  pagination_footer_nums: `Mostrando {{from}} a {{to}} de {{total}} registros`,
 };
 
 // the translations

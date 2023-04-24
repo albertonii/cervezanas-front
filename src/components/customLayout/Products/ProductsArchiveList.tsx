@@ -33,9 +33,6 @@ export default function ProductsArchiveList({
   handleProductModal,
   handleSetProducts,
 }: Props) {
-  const productsCount = ps.filter((product) => product.is_archived).length;
-  const pageRange = 10;
-
   const { user } = useAuth();
   if (!user) return null;
 
@@ -47,6 +44,13 @@ export default function ProductsArchiveList({
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const productsCount = ps.filter((product) => product.is_archived).length;
+  const pageRange = 10;
+  const finalPage =
+    productsCount < currentPage * pageRange
+      ? productsCount
+      : currentPage * pageRange;
 
   const { isError, isLoading, refetch } = useFetchProductsByOwner(
     user.id,
@@ -271,25 +275,19 @@ export default function ProductsArchiveList({
           {/* Prev and Next button for pagination  */}
           <div className="flex justify-around items-center my-4">
             <Button class="" onClick={() => handlePrevPage()} small primary>
-              Prev
+              {t("prev")}
             </Button>
 
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              Showing{" "}
-              <span className="font-medium">
-                {(currentPage - 1) * pageRange + 1}
-              </span>{" "}
-              to{" "}
-              <span className="font-medium">
-                {productsCount < currentPage * pageRange
-                  ? productsCount
-                  : currentPage * pageRange}
-              </span>{" "}
-              of <span className="font-medium"> {productsCount}</span> Results
+              {t("pagination_footer_nums", {
+                from: currentPage,
+                to: finalPage,
+                total: productsCount,
+              })}
             </p>
 
             <Button class="" onClick={() => handleNextPage()} small primary>
-              Next
+              {t("next")}
             </Button>
           </div>
         </>

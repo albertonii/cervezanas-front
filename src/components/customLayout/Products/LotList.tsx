@@ -25,9 +25,6 @@ export function LotList({
   handleDeleteShowModal,
   handleProductLotModal,
 }: Props) {
-  const lotsCount = ls.length;
-  const pageRange = 10;
-
   const { user } = useAuth();
   if (!user) return null;
 
@@ -36,6 +33,11 @@ export function LotList({
   const [lots, setLots] = useState<IProductLot[]>(ls);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const lotsCount = ls.length;
+  const pageRange = 10;
+  const finalPage =
+    lotsCount < currentPage * pageRange ? lotsCount : currentPage * pageRange;
 
   const { isError, isLoading, refetch } = useFetchLots(
     user.id,
@@ -202,25 +204,19 @@ export function LotList({
           {/* Prev and Next button for pagination  */}
           <div className="flex justify-around items-center my-4">
             <Button class="" onClick={() => handlePrevPage()} small primary>
-              Prev
+              {t("prev")}
             </Button>
 
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              Showing{" "}
-              <span className="font-medium">
-                {(currentPage - 1) * pageRange + 1}
-              </span>{" "}
-              to{" "}
-              <span className="font-medium">
-                {lotsCount < currentPage * pageRange
-                  ? lotsCount
-                  : currentPage * pageRange}
-              </span>{" "}
-              of <span className="font-medium"> {lotsCount}</span> Results
+              {t("pagination_footer_nums", {
+                from: currentPage,
+                to: finalPage,
+                total: lotsCount,
+              })}
             </p>
 
             <Button class="" onClick={() => handleNextPage()} small primary>
-              Next
+              {t("next")}
             </Button>
           </div>
         </>

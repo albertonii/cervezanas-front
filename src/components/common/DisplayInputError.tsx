@@ -7,5 +7,5 @@ interface Props {
 
 export default function DisplayInputError({ message }: Props) {
   const { t } = useTranslation();
-  return <span className="text-red-500">{t(message)}</span>;
+  return <span className="text-red-400 font-semibold">{t(message)}</span>;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Svg, Line, Text } from "@react-pdf/renderer";
 
 export function FooterInvoice() {
