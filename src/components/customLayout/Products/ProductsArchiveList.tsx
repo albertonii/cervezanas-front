@@ -9,8 +9,10 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../../lib/types.d";
-import { DeleteButton, EditButton, UnarchiveButton } from "../../common";
+import { Button, EditButton, Spinner, UnarchiveButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
+import { useAuth } from "../../Auth";
+import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 
 interface Props {
   products: IProduct[];
@@ -25,16 +27,33 @@ interface ColumnsProps {
 }
 
 export default function ProductsArchiveList({
-  products,
+  products: ps,
   handleEditShowModal,
   handleDeleteShowModal,
   handleProductModal,
   handleSetProducts,
 }: Props) {
+  const productsCount = ps.filter((product) => product.is_archived).length;
+  const pageRange = 10;
+
+  const { user } = useAuth();
+  if (!user) return null;
+
   const { t } = useTranslation();
 
-  const [products_, setProducts_] = useState<Product[]>(products);
+  const [products, setProducts] = useState<IProduct[]>(
+    ps.filter((product) => product.is_archived)
+  );
+
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { isError, isLoading, refetch } = useFetchProductsByOwner(
+    user.id,
+    currentPage,
+    pageRange,
+    true
+  );
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -47,22 +66,20 @@ export default function ProductsArchiveList({
   ];
 
   useEffect(() => {
-    setProducts_(products);
-  }, [products]);
+    setProducts(ps);
+  }, [ps]);
+
+  useEffect(() => {
+    refetch().then((res) => {
+      setProducts(res.data as IProduct[]);
+    });
+  }, [currentPage]);
 
   const handleClickEdit = (product: IProduct) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
     handleProductModal(product);
   };
-
-  /*
-  const handleClickDelete = (product: IProduct) => {
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductModal(product);
-  };
-  */
 
   const handleUnarchive = async (product: any) => {
     // Update product state to archived to false and isPublic to true
@@ -89,25 +106,49 @@ export default function ProductsArchiveList({
     if (error) throw error;
 
     // Update products state
-    const updatedProducts = products_.map((product_) => {
+    const updatedProducts = products.map((product_) => {
       if (product_.id === product.id) {
         return updatedProduct;
       }
       return product_;
     });
 
-    setProducts_(updatedProducts);
+    setProducts(updatedProducts);
     handleSetProducts(updatedProducts);
   };
 
   const filteredItems = useMemo(() => {
-    return products_.filter((product) => {
+    return products.filter((product) => {
       return product.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [products_, query]);
+  }, [products, query]);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(productsCount / pageRange)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
+      {isError && (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("error_fetching_products")}
+          </p>
+        </div>
+      )}
+
+      {isLoading && (
+        <Spinner color="beer-blonde" size="xLarge" absolute center />
+      )}
+
       <div className="relative w-full">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
@@ -148,7 +189,7 @@ export default function ProductsArchiveList({
         </thead>
 
         <tbody>
-          {products_ &&
+          {products &&
             filteredItems.map((product) => {
               return (
                 <tr
@@ -219,6 +260,31 @@ export default function ProductsArchiveList({
             })}
         </tbody>
       </table>
+
+      {/* Prev and Next button for pagination  */}
+      <div className="flex justify-around items-center my-4">
+        <Button class="" onClick={() => handlePrevPage()} small primary>
+          Prev
+        </Button>
+
+        <p className="text-sm text-gray-700 dark:text-gray-400">
+          Showing{" "}
+          <span className="font-medium">
+            {(currentPage - 1) * pageRange + 1}
+          </span>{" "}
+          to{" "}
+          <span className="font-medium">
+            {productsCount < currentPage * pageRange
+              ? productsCount
+              : currentPage * pageRange}
+          </span>{" "}
+          of <span className="font-medium"> {productsCount}</span> Results
+        </p>
+
+        <Button class="" onClick={() => handleNextPage()} small primary>
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

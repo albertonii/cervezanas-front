@@ -44,6 +44,7 @@ const useFetchProducts = (
     queryFn: () =>
       fetchProductsByOwner(ownerId, currentPage, pageRange, isArchived),
     enabled: false,
+    refetchOnWindowFocus: false,
   });
 };
 
