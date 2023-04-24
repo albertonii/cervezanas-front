@@ -15,7 +15,6 @@ import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  IProduct,
   Inventory,
   CustomizeSettings,
   ModalAddProductProps,
@@ -28,16 +27,11 @@ import { getFileExtensionByName } from "../../utils";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
 
 interface Props {
-  products: IProduct[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
   customizeSettings: CustomizeSettings;
 }
 
-export function AddProduct({
-  // products,
-  handleSetProducts,
-  customizeSettings,
-}: Props) {
+export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
   const { t } = useTranslation();
 
   const { user } = useAuth();

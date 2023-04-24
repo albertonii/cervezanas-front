@@ -6,6 +6,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { BillingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
+import DisplayInputError from "../common/DisplayInputError";
 
 interface FormData {
   name: string;
@@ -111,7 +112,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   required
                 />
                 {errors.name?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -123,7 +124,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   required
                 />
                 {errors.lastname?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -134,7 +135,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("document_id")}*`}
                 />
                 {errors.document_id?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -146,7 +147,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("loc_phone")}*`}
                 />
                 {errors.phone?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
             </div>
@@ -164,7 +165,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("address")}*`}
                 />
                 {errors.address?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -175,7 +176,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("country")}*`}
                 />
                 {errors.country?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -186,7 +187,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("loc_pc")}*`}
                 />
                 {errors.zipcode?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -197,7 +198,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("loc_town")}*`}
                 />
                 {errors.city?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
 
@@ -208,7 +209,7 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
                   placeholder={`${t("loc_province")}*`}
                 />
                 {errors.state?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </label>
             </div>

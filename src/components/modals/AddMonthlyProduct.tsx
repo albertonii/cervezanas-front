@@ -7,6 +7,7 @@ import { IProduct, SortBy } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import { IconButton } from "../common";
 import { Modal } from "./Modal";
+import DisplayInputError from "../common/DisplayInputError";
 
 interface FormData {
   category: string;
@@ -142,7 +143,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
               ))}
             </select>
             {errors.category?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 

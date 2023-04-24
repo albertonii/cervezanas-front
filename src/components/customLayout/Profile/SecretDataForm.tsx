@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Button, Spinner } from "../../common";
+import DisplayInputError from "../../common/DisplayInputError";
 import { useMessage } from "../../message";
 
 interface FormProps {
@@ -89,7 +90,7 @@ export function SecretDataForm() {
             />
 
             {errors.oldPassword?.type === "required" && (
-              <p>{t("errors.errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
         </div>
@@ -110,7 +111,7 @@ export function SecretDataForm() {
           />
 
           {errors.newPassword?.type === "required" && (
-            <p>{t("errors.errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
         </div>
 
@@ -124,7 +125,7 @@ export function SecretDataForm() {
               required: true,
               validate: (val: string) => {
                 if (watch("newPassword") != val) {
-                  return t("errors.password_match")!;
+                  return "errors.password_match";
                 }
               },
             })}
@@ -136,7 +137,7 @@ export function SecretDataForm() {
           />
 
           {errors.newPassword2?.type === "validate" && (
-            <p>{errors.newPassword2?.message}</p>
+            <DisplayInputError message="errors.newPassword2?.message" />
           )}
         </div>
 

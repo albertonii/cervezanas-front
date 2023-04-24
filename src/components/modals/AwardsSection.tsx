@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Award, ModalAddProductProps } from "../../lib/types.d";
 import { Button, DeleteButton } from "../common";
 import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
+import DisplayInputError from "../common/DisplayInputError";
 
 const emptyAward: Award = {
   id: "",
@@ -84,10 +85,10 @@ export const AwardsSection = ({ form }: Props) => {
                 })}
               />
               {`errors.awards.${index}.name.type` === "required" && (
-                <p>{t("errors.input_required")}</p>
+                <DisplayInputError message="errors.input_required" />
               )}
               {`errors.awards.${index}.name.type` === "maxLength" && (
-                <p>{t("product_modal_20_max_length")}</p>
+                <DisplayInputError message="errors.product_modal_20_max_length" />
               )}
             </div>
 
@@ -116,10 +117,10 @@ export const AwardsSection = ({ form }: Props) => {
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
             {`errors.awards.${index}.description.type` === "maxLength" && (
-              <p>{t("product_modal_20_max_length")}</p>
+              <DisplayInputError message="errors.product_modal_20_max_length" />
             )}
           </div>
 
@@ -140,7 +141,7 @@ export const AwardsSection = ({ form }: Props) => {
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 
@@ -156,7 +157,7 @@ export const AwardsSection = ({ form }: Props) => {
             />
 
             {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 

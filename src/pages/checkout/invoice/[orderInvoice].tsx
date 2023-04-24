@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     border: "1px solid #000",
     padding: 10,
   },
-  receipt_container: {
+  recipe_container: {
     flexDirection: "row",
     fontSize: 10,
     marginTop: 20,
@@ -217,10 +217,10 @@ export default function OrderInvoice({ order, products }: Props) {
     <>
       <PDFViewer style={styles.viewer}>
         <Document
-          title={`receipt_${order.id}`}
+          title={`recipe_${order.id}`}
           author={`cervezanas_pdf_creator`}
           subject={`order details with product purchased, shipping and billing information and more details`}
-          keywords={`order, receipt, invoice, pdf, cervezanas`}
+          keywords={`order, recipe, invoice, pdf, cervezanas`}
           language={`en-US`} // Get from user LOCALE
         >
           <Page size="A4" style={styles.page} orientation={"portrait"} wrap>
@@ -272,7 +272,7 @@ export default function OrderInvoice({ order, products }: Props) {
                 </View>
 
                 {/* Nº factura; fecha; forma de pago */}
-                <View style={styles.receipt_container}>
+                <View style={styles.recipe_container}>
                   <Text>Nº factura: {order.order_number}</Text>
                   <Text>
                     Fecha: {formatDateString(order.issue_date.toString())}

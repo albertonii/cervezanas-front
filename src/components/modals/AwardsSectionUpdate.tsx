@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Award, ModalUpdateProductProps } from "../../lib/types.d";
 import { Button } from "../common";
+import DisplayInputError from "../common/DisplayInputError";
 
 const emptyAward: Award = {
   id: "",
@@ -23,14 +24,7 @@ interface FileProps {
   file: File;
 }
 
-export function AwardsSectionUpdate({
-  form: {
-    control,
-    register,
-    getValues,
-    formState: { errors },
-  },
-}: Props) {
+export function AwardsSectionUpdate({ form: { control, register } }: Props) {
   const { t } = useTranslation();
 
   const { fields, append, remove } = useFieldArray({
@@ -42,9 +36,9 @@ export function AwardsSectionUpdate({
 
   useEffect(() => {
     selectedFiles.map((file) => {
-      let src = URL.createObjectURL(file.file);
+      const src = URL.createObjectURL(file.file);
 
-      let preview = document.getElementById(
+      const preview = document.getElementById(
         `prev-img-${file.index}`
       ) as HTMLImageElement | null;
 
@@ -97,17 +91,17 @@ export function AwardsSectionUpdate({
             <input
               type="text"
               id="award_name"
-              placeholder={t("input_product_award_name_placeholder")!}
+              placeholder={t("input_product_award_name_placeholder") ?? ""}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.name`, {
                 required: false,
               })}
             />
             {`errors.awards.${index}.name.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
             {`errors.awards.${index}.name.type` === "maxLength" && (
-              <p>{t("product_modal_20_max_length")}</p>
+              <DisplayInputError message="errors.product_modal_20_max_length" />
             )}
           </div>
 
@@ -122,17 +116,17 @@ export function AwardsSectionUpdate({
             <input
               type="text"
               id="award_description"
-              placeholder={t("description")!}
+              placeholder={t("description") ?? ""}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.description`, {
                 required: false,
               })}
             />
             {`errors.awards.${index}.description.type` === "required" && (
-              <p>{t("product_moderrors.input_requiredal_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
             {`errors.awards.${index}.description.type` === "maxLength" && (
-              <p>{t("product_modal_20_max_length")}</p>
+              <DisplayInputError message="errors.product_modal_20_max_length" />
             )}
           </div>
 
@@ -144,7 +138,7 @@ export function AwardsSectionUpdate({
             <input
               type="number"
               id="award_year"
-              placeholder={t("input_product_award_year_placeholder")!}
+              placeholder={t("input_product_award_year_placeholder") ?? ""}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               value="2021"
               {...register(`awards.${index}.year`, {
@@ -153,7 +147,7 @@ export function AwardsSectionUpdate({
               })}
             />
             {`errors.awards.${index}.year.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 
@@ -173,21 +167,8 @@ export function AwardsSectionUpdate({
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
             {`errors.awards.${index}.img_url.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
-
-            {/* <div
-              aria-label="Preview Uploaded Image"
-              className={`${isPrevVisible ? "block" : "hidden"}`}
-            >
-              <Image
-                id={`prev-img-${index}`}
-                width="128"
-                height="128"
-                alt="Preview uploaded image"
-                src={"/award.png"}
-              />
-            </div> */}
           </div>
 
           <Divider className="my-6" />

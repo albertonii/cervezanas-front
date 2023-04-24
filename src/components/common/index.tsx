@@ -20,3 +20,4 @@ export * from "./Carousel";
 export * from "./Tooltip";
 export * from "./InfoTooltip";
 export * from "./ChipCard";
+export * from "./DisplayInputError";

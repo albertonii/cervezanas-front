@@ -117,7 +117,7 @@ export function ProductList({
 
   // Update products state when products props changes
   useEffect(() => {
-    setProducts(products);
+    setProducts(ps);
   }, [ps]);
 
   useEffect(() => {
@@ -158,13 +158,11 @@ export function ProductList({
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {products.length === 0 && (
+      {!isError && !isLoading && products.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_products")}</p>
         </div>
-      )}
-
-      {products.length > 0 && (
+      ) : (
         <>
           <div className="relative w-full">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

@@ -11,6 +11,7 @@ import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
+import DisplayInputError from "../../common/DisplayInputError";
 
 interface FormData {
   cp_name: string;
@@ -119,7 +120,6 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     handleCPList(newCPList);
 
     setShowModal(false);
-
     reset();
   };
 
@@ -169,7 +169,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
               />
             </div>
             {errors.cp_name && (
-              <span className="text-red-500">{t("errors.input_required")}</span>
+              <DisplayInputError message="errors.input_required" />
             )}
 
             {/* Event description  */}
@@ -181,7 +181,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
               />
             </div>
             {errors.cp_description && (
-              <span className="text-red-500">{t("errors.input_required")}</span>
+              <DisplayInputError message="errors.input_required" />
             )}
 
             {/* Start date and end date  */}
@@ -196,9 +196,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 />
 
                 {errors.start_date && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -212,9 +210,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 />
 
                 {errors.end_date && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -244,9 +240,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                 </select>
 
                 {errors.is_internal_organizer && (
-                  <span className="text-red-500">
-                    {t("errors.input_required")}
-                  </span>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -266,9 +260,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                     />
 
                     {errors.organizer_name && (
-                      <span className="text-red-500">
-                        {t("errors.input_required")}
-                      </span>
+                      <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
 
@@ -282,9 +274,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                     />
 
                     {errors.organizer_lastname && (
-                      <span className="text-red-500">
-                        {t("errors.input_required")}
-                      </span>
+                      <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
                 </div>
@@ -301,9 +291,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                     />
 
                     {errors.organizer_email && (
-                      <span className="text-red-500">
-                        {t("errors.input_required")}
-                      </span>
+                      <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
 
@@ -317,9 +305,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                     />
 
                     {errors.organizer_phone && (
-                      <span className="text-red-500">
-                        {t("errors.input_required")}
-                      </span>
+                      <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
                 </div>

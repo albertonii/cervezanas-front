@@ -6,6 +6,7 @@ import { Button } from "../../common";
 import { Profile } from "../../../lib/types.d";
 import { formatDateDefaultInput } from "../../../utils";
 import { useTranslation } from "react-i18next";
+import DisplayInputError from "../../common/DisplayInputError";
 
 interface FormData {
   name: string;
@@ -104,7 +105,7 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.birthdate?.type === "required" && (
-              <p>{t("errors.errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
         </div>
@@ -127,10 +128,10 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.name?.type === "required" && (
-              <p>{t("errors.errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
             {errors.name?.type === "maxLength" && (
-              <p>{t("errors.error_30_max_length")}</p>
+              <DisplayInputError message="errors.error_30_max_length" />
             )}
           </div>
 
@@ -151,10 +152,10 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.lastname?.type === "required" && (
-              <p>{t("errors.errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
             {errors.lastname?.type === "maxLength" && (
-              <p>{t("errors.error_50_max_length")}</p>
+              <DisplayInputError message="errors.error_50_max_length" />
             )}
           </div>
         </div>
@@ -174,11 +175,11 @@ export function BasicDataForm({ profile }: Props) {
             />
 
             {errors.email?.type === "required" && (
-              <p>{t("errors.errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
 
             {errors.email?.type === "pattern" && (
-              <p>{t("errors.input_email_invalid")}</p>
+              <DisplayInputError message="errors.input_email_invalid" />
             )}
           </div>
         </div>

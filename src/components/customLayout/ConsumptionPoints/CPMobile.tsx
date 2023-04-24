@@ -9,6 +9,7 @@ import { ICPMobile } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { isValidObject } from "../../../utils/utils";
 import { Modal } from "../../modals";
+import DisplayInputError from "../../common/DisplayInputError";
 
 interface FormData {
   cp_name: string;
@@ -130,7 +131,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
               />
             </div>
             {errors.cp_name && (
-              <span className="text-red-500">{t("errors.input_required")}</span>
+              <DisplayInputError message="errors.input_required" />
             )}
 
             {/* Event description  */}
@@ -142,7 +143,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
               />
             </div>
             {errors.cp_description && (
-              <span className="text-red-500">{t("errors.input_required")}</span>
+              <DisplayInputError message="errors.input_required" />
             )}
 
             {/* Start date and end date  */}
@@ -158,7 +159,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.start_date && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>
@@ -174,7 +175,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.end_date && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>
@@ -197,7 +198,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.organizer_name && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>
@@ -213,7 +214,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.organizer_lastname && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>
@@ -232,7 +233,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.organizer_email && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>
@@ -248,7 +249,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
                 {errors.organizer_phone && (
                   <span className="text-red-500">
-                    {t("errors.input_required")}
+                    <DisplayInputError message="errors.input_required" />
                   </span>
                 )}
               </div>

@@ -198,7 +198,7 @@ export interface IProductLot {
   expiration_date: any;
   manufacture_date: any;
   packaging: string;
-  beer_recipe: string;
+  recipe: string;
   products: IProduct;
 }
 

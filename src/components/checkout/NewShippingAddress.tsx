@@ -6,6 +6,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { ShippingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
+import DisplayInputError from "../common/DisplayInputError";
 
 interface FormData {
   name: string;
@@ -118,7 +119,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     required
                   />
                   {errors.name?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -130,7 +131,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     required
                   />
                   {errors.lastname?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -141,7 +142,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("document_id")}*`}
                   />
                   {errors.document_id?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -153,7 +154,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("loc_phone")}*`}
                   />
                   {errors.phone?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
               </div>
@@ -171,7 +172,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("address")}*`}
                   />
                   {errors.address?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -182,7 +183,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("address")} 2*`}
                   />
                   {errors.address_extra?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -193,7 +194,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("address_observations")}*`}
                   />
                   {errors.address_observations?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -204,7 +205,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("country")}*`}
                   />
                   {errors.country?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -215,7 +216,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("loc_pc")}*`}
                   />
                   {errors.zipcode?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -226,7 +227,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("loc_town")}*`}
                   />
                   {errors.city?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
@@ -237,7 +238,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
                     placeholder={`${t("loc_province")}*`}
                   />
                   {errors.state?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
+                    <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
               </div>

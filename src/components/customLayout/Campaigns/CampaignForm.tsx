@@ -1,10 +1,11 @@
-import React, { ChangeEvent, ComponentProps, useEffect, useState } from "react";
+import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Campaign, CampaignItem } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
-import { Button, DeleteButton, IconButton } from "../../common";
+import { Button, DeleteButton } from "../../common";
+import DisplayInputError from "../../common/DisplayInputError";
 import { useMessage } from "../../message";
 
 enum CampaignStatus {
@@ -201,7 +202,7 @@ export function CampaignForm({
             </select>
 
             {`errors.campaigns.${index}.is_public?.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 
@@ -231,7 +232,7 @@ export function CampaignForm({
             </select>
 
             {`errors.campaigns.${index}.status.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
         </div>
@@ -254,7 +255,7 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.img_url.type` === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
         </div>
 
@@ -277,10 +278,10 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.name.type` === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
           {`errors.campaigns.${index}.name.type` === "maxLength" && (
-            <p>{t("error_30_max_length")}</p>
+            <DisplayInputError message="errors.error_30_max_length" />
           )}
         </div>
 
@@ -303,10 +304,10 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.description.type` === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
           {`errors.campaigns.${index}.description.type` === "maxLength" && (
-            <p>{t("error_200_max_length")}</p>
+            <DisplayInputError message="errors.error_200_max_length" />
           )}
         </div>
 
@@ -328,10 +329,10 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.slogan.type` === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
           {`errors.campaigns.${index}.slogan.type` === "maxLength" && (
-            <p>{t("error_200_max_length")}</p>
+            <DisplayInputError message="errors.error_200_max_length" />
           )}
         </div>
 
@@ -353,10 +354,10 @@ export function CampaignForm({
             })}
           />
           {`errors.campaigns.${index}.goal.type` === "required" && (
-            <p>{t("errors.input_required")}</p>
+            <DisplayInputError message="errors.input_required" />
           )}
           {`errors.campaigns.${index}.goal.type` === "maxLength" && (
-            <p>{t("error_200_max_length")}</p>
+            <DisplayInputError message="errors.error_200_max_length" />
           )}
         </div>
 
@@ -377,7 +378,7 @@ export function CampaignForm({
               {...register(`campaigns.${index}.start_date` as const)}
             />
             {`errors.campaigns.${index}.start_date.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
 
@@ -397,7 +398,7 @@ export function CampaignForm({
               {...register(`campaigns.${index}.end_date` as const)}
             />
             {`errors.awards.${index}.end_date.type` === "required" && (
-              <p>{t("errors.input_required")}</p>
+              <DisplayInputError message="errors.input_required" />
             )}
           </div>
         </div>

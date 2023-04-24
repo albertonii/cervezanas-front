@@ -1,11 +1,12 @@
-import React, { ComponentProps, Dispatch, SetStateAction } from "react";
+import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
-import { ProductLot } from "../../lib/types.d";
+import { IProductLot } from "../../lib/types.d";
 import { formatDateDefaultInput } from "../../utils";
+import DisplayInputError from "../common/DisplayInputError";
 
 type FormValues = {
   created_at: Date;
@@ -15,7 +16,7 @@ type FormValues = {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  receipt: string;
+  recipe: string;
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
@@ -50,7 +51,7 @@ export function EditLot({
       product_id: productLot.product_id,
       quantity: productLot.quantity,
       limit_notification: productLot.limit_notification,
-      // receipt: productLot.receipt,
+      // recipe: productLot.recipe,
       expiration_date: productLot.expiration_date,
       manufacture_date: productLot.manufacture_date,
       packaging: productLot.packaging,
@@ -68,7 +69,7 @@ export function EditLot({
     const lot_name = getValues("lot_name");
     const quantity = getValues("quantity");
     const limit_notification = getValues("limit_notification");
-    const receipt = getValues("receipt");
+    const recipe = getValues("recipe");
     const expiration_date = getValues("expiration_date");
     const manufacture_date = getValues("manufacture_date");
     const packaging = getValues("packaging");
@@ -82,7 +83,7 @@ export function EditLot({
             lot_number,
             lot_name,
             limit_notification,
-            receipt,
+            recipe,
             expiration_date,
             manufacture_date,
             packaging,
@@ -104,7 +105,7 @@ export function EditLot({
                 lot_number,
                 lot_name,
                 limit_notification,
-                receipt,
+                recipe,
                 expiration_date,
                 manufacture_date,
                 packaging,
@@ -161,7 +162,7 @@ export function EditLot({
                   })}
                 />
                 {errors.lot_name?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -180,7 +181,7 @@ export function EditLot({
                   })}
                 />
                 {errors.lot_number?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -202,7 +203,7 @@ export function EditLot({
                   min="0"
                 />
                 {errors.quantity?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -225,7 +226,7 @@ export function EditLot({
                   min="0"
                 />
                 {errors.limit_notification?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -250,7 +251,7 @@ export function EditLot({
                   })}
                 />
                 {errors.manufacture_date?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -272,7 +273,7 @@ export function EditLot({
                   })}
                 />
                 {errors.expiration_date?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -293,32 +294,10 @@ export function EditLot({
                   })}
                 />
                 {errors.packaging?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
-
-            {/* Receipt */}
-            {/* <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
-                <label htmlFor="receipt" className="text-sm text-gray-600">
-                  {t("receipt")}
-                </label>
-
-                <textarea
-                  id="receipt"
-                  placeholder={t("receipt")!}
-                  className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  defaultValue={productLot.receipt}
-                  {...register("receipt", {
-                    required: true,
-                  })}
-                />
-                {errors.receipt?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
-                )}
-              </div>
-            </div> */}
 
             {/* Separator  */}
             <div className="inline-flex items-center justify-center w-full">

@@ -54,7 +54,6 @@ export function Products({
         <div className="text-4xl pr-12">{t("products")}</div>
 
         <AddProduct
-          products={products}
           handleSetProducts={handleSetProducts}
           customizeSettings={customizeSettings}
         />

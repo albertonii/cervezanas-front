@@ -7,8 +7,9 @@ import { SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
 import { IProduct } from "../../lib/types.d";
 import { format_options } from "../../lib/beerEnum";
+import DisplayInputError from "../common/DisplayInputError";
 
-type FormValues = {
+type FormData = {
   created_at: Date;
   lot_id: string;
   lot_number: string;
@@ -16,7 +17,7 @@ type FormValues = {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  beer_recipe: string;
+  recipe: string;
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
@@ -35,7 +36,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const form = useForm<FormValues>({
+  const form = useForm<FormData>({
     mode: "onSubmit",
     defaultValues: {
       lot_number: "",
@@ -43,7 +44,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       product_id: "",
       quantity: 0,
       limit_notification: 0,
-      beer_recipe: "",
+      recipe: "",
       expiration_date: new Date(),
       manufacture_date: new Date(),
       packaging: t(format_options[0].label) ?? "",
@@ -58,14 +59,15 @@ export function AddLot({ products, handleSetProductLots }: Props) {
     formState: { errors },
   } = form;
 
-  const onSubmit = (formValues: FormValues) => {
+  const onSubmit = (formValues: FormData) => {
+    console.log("dentro");
     const {
       lot_number,
       lot_name,
       quantity,
       products,
       limit_notification,
-      beer_recipe,
+      recipe,
       expiration_date,
       manufacture_date,
       packaging,
@@ -84,7 +86,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
               lot_number,
               lot_name,
               limit_notification,
-              beer_recipe,
+              recipe,
               expiration_date,
               manufacture_date,
               packaging,
@@ -96,25 +98,22 @@ export function AddLot({ products, handleSetProductLots }: Props) {
           handleSetProductLots((prev: any) => [...prev, productLotData[0]]);
 
           return productLotData;
-        } else {
-          return null;
         }
       });
-
-      reset();
     };
 
     handleLotInsert();
-
     setShowModal(false);
+
+    reset();
   };
 
   return (
     <form className="w-full">
       <Modal
         showBtn={true}
-        setShowModal={setShowModal}
         showModal={showModal}
+        setShowModal={setShowModal}
         title={"config_lot"}
         btnTitle={"add_lot"}
         description={"modal_product_description"}
@@ -130,6 +129,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <label htmlFor="lot_name" className="text-sm text-gray-600">
                   {t("lot_name")}
                 </label>
+
                 <input
                   id="lot_name"
                   placeholder={t("lot_name") ?? "Lot name"}
@@ -140,7 +140,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.lot_name?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -148,6 +148,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <label htmlFor="lot_number" className="text-sm text-gray-600">
                   {t("lot_number")}
                 </label>
+
                 <input
                   type="text"
                   id="lot_number"
@@ -158,7 +159,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.lot_number?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -180,7 +181,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   min="0"
                 />
                 {errors.quantity?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -202,7 +203,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   min="0"
                 />
                 {errors.limit_notification?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -226,7 +227,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.manufacture_date?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
 
@@ -247,7 +248,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   })}
                 />
                 {errors.expiration_date?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
@@ -272,14 +273,14 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 </select>
 
                 {errors.packaging?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
 
             <div className="flex w-full flex-row space-x-3 ">
               <div className="w-full space-y ">
-                <label htmlFor="receipt" className="text-sm text-gray-600">
+                <label htmlFor="recipe" className="text-sm text-gray-600">
                   {t("beer_recipe")}
                 </label>
 
@@ -287,12 +288,12 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   id="beer_recipe"
                   placeholder={t("beer_recipe") ?? "Beer recipe"}
                   className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("beer_recipe", {
+                  {...register("recipe", {
                     required: true,
                   })}
                 />
-                {errors.beer_recipe?.type === "required" && (
-                  <p>{t("errors.input_required")}</p>
+                {errors.recipe?.type === "required" && (
+                  <DisplayInputError message="errors.input_required" />
                 )}
               </div>
             </div>
