@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { CustomizeSettings } from "../../../lib/types";
+import { CustomizeSettings } from "../../../lib/types.d";
 import { toLowerCase } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { ChipCard } from "../../common";

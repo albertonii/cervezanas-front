@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
-import { IProduct } from "../../lib/types";
+import { IProduct } from "../../lib/types.d";
 
 import { supabase } from "../../utils/supabaseClient";
 

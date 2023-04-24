@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Order } from "../../../lib/types";
+import { Order } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { IconButton } from "../../common";
 import { faEye } from "@fortawesome/free-solid-svg-icons";

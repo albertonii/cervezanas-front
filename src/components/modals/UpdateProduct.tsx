@@ -9,7 +9,7 @@ import {
   Inventory,
   Award,
   ModalUpdateProductProps,
-} from "../../lib/types";
+} from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductStepper } from ".";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";

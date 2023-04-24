@@ -9,7 +9,7 @@ import {
   IProductLot,
   Profile as ProfileType,
   Review,
-} from "../lib/types";
+} from "../lib/types.d";
 import {
   Account,
   Sidebar,
@@ -76,6 +76,8 @@ export default function CustomLayout({
   }, [changeSidebarActive, role, router]);
 
   const renderSwitch = (): JSX.Element => {
+    if (!user) return <></>;
+
     switch (menuOption) {
       case "submitted_aps":
         return <SubmittedCPs submittedCPs={submittedCPs} />;
@@ -109,7 +111,7 @@ export default function CustomLayout({
       case "ledger":
         return <Ledger />;
       case "likes_history":
-        return <LikesHistory userId={user!.id} />;
+        return <LikesHistory userId={user.id} />;
       case "reviews":
         return <Reviews reviews={reviews} />;
       case "consumption_points":
@@ -162,15 +164,6 @@ export async function getServerSideProps({ req }: any) {
     .select(
       `
         *,
-        products (
-          *, 
-          product_multimedia (*),
-          product_inventory (*),
-          likes (*),
-          product_lot (*),
-          beers (*),
-          product_pack (*)
-        ),
         orders (*),
         campaigns (*),
         customize_settings (*),
@@ -186,6 +179,27 @@ export async function getServerSideProps({ req }: any) {
     profileData[0].role === "producer" ||
     profileData[0].role === "consumer"
   ) {
+    const {
+      data: productsData,
+      error: productsError,
+      count,
+    } = await supabase
+      .from("products")
+      .select(
+        `
+        *, 
+        product_multimedia (*),
+        product_inventory (*),
+        likes (*),
+        product_lot (*),
+        beers (*), 
+        product_pack (*)
+      `
+      )
+      .eq("owner_id", user?.id);
+
+    if (productsError) throw productsError;
+
     const { data: reviewData, error: reviewError } = await supabase
       .from("reviews")
       .select(
@@ -198,6 +212,7 @@ export async function getServerSideProps({ req }: any) {
       `
       )
       .eq("owner_id", user?.id);
+
     if (reviewError) throw reviewError;
 
     const { data: productLotData, error: productLotError } = await supabase
@@ -226,8 +241,11 @@ export async function getServerSideProps({ req }: any) {
       .eq("owner_id", user?.id);
     if (cpsError) console.error(cpsError);
 
+    profileData[0].products = productsData;
+
     return {
       props: {
+        products_count: count,
         product_lots: productLotData ?? [],
         profile: profileData[0] ?? [],
         reviews: reviewData ?? [],

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useMessage } from "../../../components/message";
 import { NewProductReview } from "../../../components/reviews";
-import { Product, ProductMultimedia } from "../../../lib/types";
+import { Product, ProductMultimedia } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../components/common/Spinner";
-import { IProduct } from "../../lib/types";
+import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import {
   faShoppingCart,

@@ -13,7 +13,7 @@ import { formatDate } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
-import { ICPMobile } from "../../../lib/types";
+import { ICPMobile } from "../../../lib/types.d";
 
 interface Props {
   cpMobile: ICPMobile[];

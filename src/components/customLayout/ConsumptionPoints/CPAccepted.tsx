@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IConsumptionPoints } from "../../../lib/types";
+import { IConsumptionPoints } from "../../../lib/types.d";
 import HorizontalSections from "../../common/HorizontalSections";
 import CPFixed from "./CPFixed";
 import CPMobile from "./CPMobile";

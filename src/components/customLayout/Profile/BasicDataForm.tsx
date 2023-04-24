@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
-import { Profile } from "../../../lib/types";
+import { Profile } from "../../../lib/types.d";
 import { formatDateDefaultInput } from "../../../utils";
 import { useTranslation } from "react-i18next";
 

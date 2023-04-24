@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Like } from "../../../lib/types";
+import { Like } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {

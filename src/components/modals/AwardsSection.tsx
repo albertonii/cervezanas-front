@@ -2,7 +2,7 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { Award, ModalAddProductProps } from "../../lib/types";
+import { Award, ModalAddProductProps } from "../../lib/types.d";
 import { Button, DeleteButton } from "../common";
 import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
 

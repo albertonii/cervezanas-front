@@ -7,7 +7,7 @@ import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import DisplayImageString from "../../../components/common/DisplayImageString";
 import { SupabaseProps } from "../../../constants";
-import { Order, Product } from "../../../lib/types";
+import { Order, Product } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";

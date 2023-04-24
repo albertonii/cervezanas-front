@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
-import { Review } from "../../lib/types";
+import { Review } from "../../lib/types.d";
 import { formatDateString } from "../../utils/formatDate";
 import { OwnerInfo } from "..";
 import { Rate } from ".";

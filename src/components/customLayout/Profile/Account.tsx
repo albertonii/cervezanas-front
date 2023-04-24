@@ -5,7 +5,7 @@ import {
   CustomizeProfileForm,
   BasicDataForm,
 } from "..";
-import { Profile } from "../../../lib/types";
+import { Profile } from "../../../lib/types.d";
 
 interface Props {
   profile: Profile;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
-import { IProduct } from "../lib/types";
+import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, Profile } from "../../../lib/types";
+import { IConsumptionPoints, Profile } from "../../../lib/types.d";
 import { SubmitCPOrganizer } from "../../modals";
 import CPAccepted from "./CPAccepted";
 import CPPending from "./CPPending";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Review } from "../../../lib/types";
+import { Review } from "../../../lib/types.d";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { formatDateString } from "../../../utils";

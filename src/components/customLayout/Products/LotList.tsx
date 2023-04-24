@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProductLot } from "../../../lib/types";
+import { ProductLot } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
 import { DeleteButton } from "../../common";
 import { EditButton } from "../../common/EditButton";

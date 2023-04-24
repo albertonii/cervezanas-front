@@ -1,6 +1,6 @@
 import React from "react";
 import { IndividualReview } from ".";
-import { Review } from "../../lib/types";
+import { Review } from "../../lib/types.d";
 
 interface Props {
   reviews: Review[];

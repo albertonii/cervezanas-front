@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ProductList } from "..";
-import { CustomizeSettings, Product } from "../../../lib/types";
+import { CustomizeSettings, IProduct } from "../../../lib/types.d";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {

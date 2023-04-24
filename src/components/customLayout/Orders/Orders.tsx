@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { OrderList } from "..";
-import { Order } from "../../../lib/types";
+import { Order } from "../../../lib/types.d";
 
 interface Props {
   orders: Order[];

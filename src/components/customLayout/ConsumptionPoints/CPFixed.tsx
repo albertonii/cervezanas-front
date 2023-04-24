@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed } from "../../../lib/types";
+import { ICPFixed } from "../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";

@@ -7,7 +7,7 @@ import {
   IProduct,
   ProductMultimedia,
   Review,
-} from "../../lib/types";
+} from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";

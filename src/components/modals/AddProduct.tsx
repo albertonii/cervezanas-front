@@ -19,7 +19,7 @@ import {
   Inventory,
   CustomizeSettings,
   ModalAddProductProps,
-} from "../../lib/types";
+} from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";

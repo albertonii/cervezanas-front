@@ -1,7 +1,7 @@
 import React, { ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignItem, Product } from "../../../lib/types";
+import { Campaign, CampaignItem, Product } from "../../../lib/types.d";
 import { Modal } from "../../modals";
 
 interface Props {

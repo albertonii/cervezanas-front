@@ -4,7 +4,7 @@ import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
-import { Order, Product } from "../../../lib/types";
+import { Order, Product } from "../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64 } from "../../../utils/utils";

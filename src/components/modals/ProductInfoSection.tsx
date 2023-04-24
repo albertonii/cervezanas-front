@@ -20,7 +20,7 @@ import {
   CustomizeSettings,
   ModalAddProductProps,
   ProductPack,
-} from "../../lib/types";
+} from "../../lib/types.d";
 import { capitalizeFirstLetter, formatCurrency } from "../../utils";
 import {
   Button,

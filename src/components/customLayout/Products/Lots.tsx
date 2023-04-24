@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Product, ProductLot } from "../../../lib/types";
+import { Product, ProductLot } from "../../../lib/types.d";
 import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 

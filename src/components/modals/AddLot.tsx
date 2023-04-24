@@ -5,7 +5,7 @@ import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
-import { IProduct } from "../../lib/types";
+import { IProduct } from "../../lib/types.d";
 import { format_options } from "../../lib/beerEnum";
 
 type FormValues = {

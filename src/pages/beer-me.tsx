@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import BMGoogleMap from "../components/BMGoogleMap";
-import { IConsumptionPoints } from "../lib/types";
+import React, { useState } from "react";
+import { IConsumptionPoints } from "../lib/types.d";
 import { supabase } from "../utils/supabaseClient";
 
 interface Props {
@@ -26,12 +26,12 @@ export async function getServerSideProps() {
     .from("consumption_points")
     .select(
       `
-        *,
+          *,
         cp_fixed (
-        *
+          *
         ),
         cp_mobile (
-        *
+          *
         )
     `
     );

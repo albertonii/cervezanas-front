@@ -5,7 +5,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { getGeocode } from "use-places-autocomplete";
-import { ICPMobile } from "../../../lib/types";
+import { ICPMobile } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { isValidObject } from "../../../utils/utils";
 import { Modal } from "../../modals";

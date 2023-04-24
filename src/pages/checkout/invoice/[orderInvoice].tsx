@@ -11,7 +11,7 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-import { Order, Product } from "../../../lib/types";
+import { Order, Product } from "../../../lib/types.d";
 import { GetServerSidePropsContext } from "next";
 import { supabase } from "../../../utils/supabaseClient";
 import { formatDateString } from "../../../utils";

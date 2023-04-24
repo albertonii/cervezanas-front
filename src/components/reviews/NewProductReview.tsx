@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Rate } from ".";
-import { Review } from "../../lib/types";
+import { Review } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import { Button } from "../common";
 import { useMessage } from "../message";

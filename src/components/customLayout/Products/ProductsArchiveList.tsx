@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { IProduct } from "../../../lib/types";
+import { IProduct } from "../../../lib/types.d";
 import { DeleteButton, EditButton, UnarchiveButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
 

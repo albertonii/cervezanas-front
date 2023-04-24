@@ -6,7 +6,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
-import { Profile } from "../../../lib/types";
+import { Profile } from "../../../lib/types.d";
 import { FilePreviewAndHide } from "../../common/FilePreviewAndHide";
 import { isValidObject } from "../../../utils/utils";
 

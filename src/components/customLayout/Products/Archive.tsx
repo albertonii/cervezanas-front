@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IProduct } from "../../../lib/types";
+import { IProduct } from "../../../lib/types.d";
 import { DeleteProduct, UpdateProduct } from "../../modals";
 import ProductsArchiveList from "./ProductsArchiveList";
 

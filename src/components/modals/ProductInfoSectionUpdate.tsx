@@ -17,7 +17,7 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { ModalUpdateProductProps, ProductPack } from "../../lib/types";
+import { ModalUpdateProductProps, ProductPack } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import {
   Button,

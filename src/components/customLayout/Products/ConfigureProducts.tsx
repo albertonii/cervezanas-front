@@ -1,13 +1,12 @@
 import Lots from "./Lots";
 import Archive from "./Archive";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from "react";
 import { Products } from "./Products";
 import {
   IProduct,
-  ProductLot,
+  IProductLot,
   CustomizeSettings as cSettings,
-} from "../../../lib/types";
+} from "../../../lib/types.d";
 import { CustomizeSettings } from "..";
 import HorizontalSections from "../../common/HorizontalSections";
 
@@ -24,10 +23,8 @@ export function ConfigureProducts({
 }: Props) {
   const [customizeSettings, setCustomizeSettings] =
     useState<cSettings>(cSettings);
-  const { t } = useTranslation();
   const [menuOption, setMenuOption] = useState<string>("products");
-  const [activeTab, setActiveTab] = useState<string>("products");
-  const [products, setProducts] = useState<Product[]>(p);
+  const [products, setProducts] = useState<IProduct[]>(p);
 
   const handleSetProducts = (value: IProduct[]) => {
     setProducts(value);
@@ -65,7 +62,6 @@ export function ConfigureProducts({
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
-    setActiveTab(opt);
   };
 
   return (

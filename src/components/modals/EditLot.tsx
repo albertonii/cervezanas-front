@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
-import { ProductLot } from "../../lib/types";
+import { ProductLot } from "../../lib/types.d";
 import { formatDateDefaultInput } from "../../utils";
 
 type FormValues = {
