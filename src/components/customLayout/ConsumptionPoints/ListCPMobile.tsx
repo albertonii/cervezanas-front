@@ -1,13 +1,7 @@
 import Link from "next/link";
 import DeleteModal from "../../modals/DeleteModal";
 import React, { ComponentProps, useMemo, useState } from "react";
-import {
-  faCheck,
-  faEdit,
-  faLocation,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
@@ -30,9 +24,17 @@ enum SortBy {
 }
 
 export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
-  const [query, setQuery] = useState("");
-
   const { t } = useTranslation();
+
+  const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const productsCount = ps.filter((product) => !product.is_archived).length;
+  const pageRange = 10;
+  const finalPage =
+    productsCount < currentPage * pageRange
+      ? productsCount
+      : currentPage * pageRange;
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -200,8 +202,6 @@ export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="py-3 px-6"></th>
-
             <th
               scope="col"
               className="py-3 px-6 hover:cursor-pointer"
@@ -239,19 +239,6 @@ export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
                 key={cp.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
-                <th
-                  scope="row"
-                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <FontAwesomeIcon
-                    icon={faLocation}
-                    style={{ color: "#fdc300" }}
-                    title={"mobile_location"}
-                    width={80}
-                    height={80}
-                  />
-                </th>
-
                 <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
                   <Link href={`/cp_name`}>{cp.cp_name}</Link>
                 </td>

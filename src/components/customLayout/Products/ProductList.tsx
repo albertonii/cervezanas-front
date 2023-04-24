@@ -70,7 +70,7 @@ export function ProductList({
     { header: t("action_header") },
   ];
 
-  const handleClickEdit = (product: IProduct) => {
+  const handleEditClick = (product: IProduct) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
     handleProductModal(product);
@@ -113,7 +113,7 @@ export function ProductList({
     handleSetProducts(updatedProducts);
   };
 
-  const handleClickDelete = (product: IProduct) => {
+  const handleDeleteClick = (product: IProduct) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
     handleProductModal(product);
@@ -257,11 +257,11 @@ export function ProductList({
                         <td className="py-4 px-6">
                           <div className="flex space-x-1">
                             <EditButton
-                              onClick={() => handleClickEdit(product)}
+                              onClick={() => handleEditClick(product)}
                             />
 
                             <DeleteButton
-                              onClick={() => handleClickDelete(product)}
+                              onClick={() => handleDeleteClick(product)}
                             />
 
                             <ArchiveButton

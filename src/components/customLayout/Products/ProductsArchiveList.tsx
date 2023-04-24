@@ -117,7 +117,7 @@ export default function ProductsArchiveList({
       return product_;
     });
 
-    setProducts(updatedProducts);
+    // setProducts(updatedProducts);
     handleSetProducts(updatedProducts);
   };
 

@@ -342,6 +342,7 @@ export interface ICPFixed {
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;
+  cp_id: string;
 }
 
 export interface ICPMobile {

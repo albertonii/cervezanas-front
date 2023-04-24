@@ -68,7 +68,7 @@ export function LotList({
 
   useEffect(() => {
     setLots(lots);
-  }, [lots]);
+  }, [ls]);
 
   useEffect(() => {
     refetch().then((res) => {
@@ -76,7 +76,7 @@ export function LotList({
     });
   }, [currentPage]);
 
-  const filteredItems = useMemo(() => {
+  const filteredItems = useMemo<IProductLot[]>(() => {
     return lots.filter((lot) => {
       return lot.lot_name.toLowerCase().includes(query.toLowerCase());
     });
