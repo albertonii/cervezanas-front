@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SupabaseProps } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
@@ -71,9 +70,9 @@ export async function getServerSideProps() {
     product.product_multimedia[0].p_principal =
       product.product_multimedia[0]?.p_principal == undefined || null
         ? `/marketplace_product_default.png`
-        : `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`;
+        : `${product.product_multimedia[0].p_principal}`;
 
-    productsData![index] = product;
+    productsData[index] = product;
   });
 
   return {

@@ -24,17 +24,16 @@ export function StoreItem(props: StoreItemProps) {
   const { id } = product;
   const router = useRouter();
 
-  const [overAll, _] = useState<string>(
-    product.reviews.length > 0
-      ? () => {
-          let overAll_sum = 0;
-          product.reviews.map((review) => (overAll_sum += review.overall));
-          const overAll_avg = overAll_sum / product.reviews.length;
-          const overAll_toFixed: string = overAll_avg.toFixed(1);
-          return overAll_toFixed;
-        }
-      : t("no_reviews") ?? ""
-  );
+  const overAllCalculation = () => {
+    let overAll_sum = 0;
+    product.reviews.map((review) => (overAll_sum += review.overall));
+    const overAll_avg = overAll_sum / product.reviews.length;
+    const overAll_toFixed: string = overAll_avg.toFixed(1);
+    return overAll_toFixed.toString();
+  };
+
+  const overAll =
+    product.reviews.length > 0 ? overAllCalculation() : t("no_reviews") ?? "";
 
   const [isLike, setIsLike] = useState<boolean>(
     product.likes.length > 0 ? true : false
@@ -119,7 +118,6 @@ export function StoreItem(props: StoreItemProps) {
 
         <div className="w-[200px] h-[200px]">
           <DisplayImage
-            isBasePath={true}
             width={128}
             height={128}
             alt="Principal Product Image"

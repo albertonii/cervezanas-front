@@ -1,6 +1,6 @@
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useAppContext } from "../Context/AppContext";
 
 type Props = {
@@ -17,14 +17,6 @@ export function Sidebar({ parentCallback, role }: Props) {
 
   const handleCallback = (option: string) => {
     parentCallback(option);
-  };
-
-  const showHiddenSidebar = () => {
-    if (open) {
-      return "absolute h-screen w-64 bg-white z-10 top-0 left-0 ease-in-out duration-300";
-    } else {
-      return "hidden";
-    }
   };
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -148,8 +140,8 @@ export function Sidebar({ parentCallback, role }: Props) {
       <aside
         className={`
         ${
-          open ? "translate-x-0" : "-translate-x-[100%] "
-        } sm:block ease-in-out transform  absolute duration-300 h-screen bg-white z-10`}
+          open ? "translate-x-0" : "-translate-x-[100%] sm:translate-x-0 "
+        } sm:block ease-in-out transform absolute sm:relative duration-300 h-screen bg-white z-10`}
         aria-label="Sidebar"
         id="default-sidebar"
         ref={sidebarRef}

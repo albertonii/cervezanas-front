@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -15,8 +14,8 @@ import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  Inventory,
-  CustomizeSettings,
+  IInventory,
+  ICustomizeSettings,
   ModalAddProductProps,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
@@ -24,11 +23,15 @@ import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductSummary } from "./ProductSummary";
 import { getFileExtensionByName } from "../../utils";
-import { isNotEmptyArray, isValidObject } from "../../utils/utils";
+import {
+  generateFileName,
+  isNotEmptyArray,
+  isValidObject,
+} from "../../utils/utils";
 
 interface Props {
   handleSetProducts: Dispatch<SetStateAction<any>>;
-  customizeSettings: CustomizeSettings;
+  customizeSettings: ICustomizeSettings;
 }
 
 export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
@@ -105,45 +108,35 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
       // Multimedia
       const randomUUID = uuid();
 
-      const p_principal_url = !_.isEmpty(p_principal?.name)
-        ? encodeURIComponent(
-            `${productId}/p_principal/${randomUUID}.${getFileExtensionByName(
-              p_principal.name
-            )}`
-          )
-        : null;
+      const p_principal_url =
+        p_principal?.name ??
+        encodeURIComponent(
+          `/articles/${productId}/p_principal/${randomUUID}.${generateFileName(
+            p_principal.name
+          )}`
+        );
 
-      const p_back_url = !_.isEmpty(p_back?.name)
-        ? encodeURIComponent(
-            `${productId}/p_back/${randomUUID}.${getFileExtensionByName(
-              p_back.name
-            )}`
-          )
-        : null;
+      const p_back_url =
+        p_back?.name ??
+        encodeURIComponent(
+          `/articles/${productId}/p_back/${randomUUID}.${p_back.name}`
+        );
 
-      const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
-        ? encodeURIComponent(
-            `${productId}/p_extra_1/${randomUUID}.${getFileExtensionByName(
-              p_extra_1.name
-            )}`
-          )
-        : null;
+      const p_extra_1_url =
+        p_extra_1?.name ??
+        encodeURIComponent(
+          `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1.name}`
+        );
 
-      const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
-        ? encodeURIComponent(
-            `${productId}/p_extra_2/${randomUUID}.${getFileExtensionByName(
-              p_extra_2.name
-            )}`
-          )
-        : null;
+      const p_extra_2_url =
+        p_extra_2?.name ??
+        encodeURIComponent(
+          `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2.name}`
+        );
 
-      const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
-        ? encodeURIComponent(
-            `${productId}/p_extra_3/${randomUUID}.${getFileExtensionByName(
-              p_extra_3.name
-            )}`
-          )
-        : null;
+      const p_extra_3_url =
+        p_extra_3?.name ??
+        `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3.name}`;
 
       const { error: multError } = await supabase
         .from("product_multimedia")
@@ -162,7 +155,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         const { error: pPrincipalError } = await supabase.storage
           .from("products")
           .upload(
-            `/articles/${productId}/p_principal/${randomUUID}.${getFileExtensionByName(
+            `/articles/${productId}/p_principal/${randomUUID}.${generateFileName(
               p_principal.name
             )}`,
             p_principal,
@@ -178,11 +171,8 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
       if (p_back_url) {
         const { error: pBackError } = await supabase.storage
           .from("products")
-          // .update(`p_back/${userId}/${p_back_url}`, p_back.name, {
           .upload(
-            `/articles/${productId}/p_back/${randomUUID}.${getFileExtensionByName(
-              p_back.name
-            )}`,
+            `/articles/${productId}/p_back/${randomUUID}.${p_back.name}`,
             p_back,
             {
               cacheControl: "3600",
@@ -196,9 +186,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         const { error: pExtra1Error } = await supabase.storage
           .from("products")
           .upload(
-            `/articles/${productId}/p_extra_1/${randomUUID}.${getFileExtensionByName(
-              p_extra_1.name
-            )}`,
+            `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1.name}`,
             p_extra_1,
             {
               cacheControl: "3600",
@@ -212,9 +200,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         const { error: pExtra2Error } = await supabase.storage
           .from("products")
           .upload(
-            `/articles/${productId}/p_extra_2/${randomUUID}.${getFileExtensionByName(
-              p_extra_2.name
-            )}`,
+            `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2.name}`,
             p_extra_2,
             {
               cacheControl: "3600",
@@ -228,9 +214,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         const { error: pExtra3Error } = await supabase.storage
           .from("products")
           .upload(
-            `/articles/${productId}/p_extra_3/${randomUUID}.${getFileExtensionByName(
-              p_extra_3.name
-            )}`,
+            `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3.name}`,
             p_extra_3,
             {
               cacheControl: "3600",
@@ -267,7 +251,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         productData[0].beers = beer;
 
         // Inventory - Stock
-        const stock: Inventory = {
+        const stock: IInventory = {
           product_id: productId,
           quantity: stock_quantity,
           limit_notification: stock_limit_notification,

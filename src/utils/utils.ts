@@ -1,4 +1,7 @@
 import _ from "lodash";
+import path from "path";
+import sha256 from "crypto-js/sha256";
+import { uuid } from "uuidv4";
 
 export function isValidObject(object: any) {
   return object != null && object !== "" && !_.isEmpty(object);
@@ -30,4 +33,11 @@ export function generateDownloadableLink(blob: any, filename: string) {
 
   // Clean up and remove the link
   link.parentNode?.removeChild(link);
+}
+
+export function generateFileName(fName: string) {
+  const fileExt = fName.split(".").pop();
+  const fileName = `${uuid()}.${fileExt}`;
+  const encodedFileName = encodeURIComponent(fileName);
+  return encodedFileName;
 }

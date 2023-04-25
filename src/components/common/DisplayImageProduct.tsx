@@ -1,6 +1,6 @@
-import { ComponentProps } from "@stitches/core";
 import Image from "next/image";
-import { useState } from "react";
+import { ComponentProps } from "@stitches/core";
+import { useEffect, useState } from "react";
 import { SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { isValidObject } from "../../utils/utils";
@@ -12,7 +12,6 @@ interface Props {
   alt?: string;
   width?: number;
   height?: number;
-  isBasePath?: boolean;
 }
 
 export default function DisplayImageProduct({
@@ -22,16 +21,15 @@ export default function DisplayImageProduct({
   alt,
   width,
   height,
-  isBasePath,
 }: Props) {
-  const [src, setSrc] = useState("/marketplace_product_default.png");
+  const [src, setSrc] = useState(
+    SupabaseProps.BASE_PRODUCTS_ARTICLES_URL +
+      product.product_multimedia[0].p_principal
+  );
 
-  // const [src, setSrc] = useState(
-  //     "isBasePath
-  //       ? encodeURIComponent(product.product_multimedia[0].p_principal)
-  //       : SupabaseProps.BASE_PRODUCTS_ARTICLES_URL +
-  //           encodeURIComponent(product.product_multimedia[0].p_principal)"
-  //   );
+  useEffect(() => {
+    console.log(src);
+  }, [src]);
 
   if (!isValidObject(product)) return null;
 

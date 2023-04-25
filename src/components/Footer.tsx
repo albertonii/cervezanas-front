@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-export function Footer({ children }: { children: React.ReactNode }) {
+export function Footer() {
   const { t } = useTranslation();
 
   return (
