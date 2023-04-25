@@ -2,9 +2,8 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
-import { Layout } from "../../../components";
 import { useAuth } from "../../../components/Auth";
-import { Order, Product } from "../../../lib/types.d";
+import { IProduct, Order } from "../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64 } from "../../../utils/utils";
@@ -293,7 +292,7 @@ export async function getServerSideProps(req: NextApiRequest) {
     }
   }
 
-  let { data: orderData, error: orderError } = await supabase
+  const { data: orderData, error: orderError } = await supabase
     .from("orders")
     .select(
       `

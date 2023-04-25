@@ -120,7 +120,7 @@ export interface Appearance {
   };
 }
 
-export interface Auth {
+export interface IAuth {
   supabaseClient: SupabaseClient;
   children?: React.ReactNode;
   socialLayout?: SocialLayout;
@@ -146,7 +146,7 @@ export interface Auth {
   theme?: "default" | string;
 }
 
-export interface ProductCategory {
+export interface IProductCategory {
   id: string;
   name: string;
   description: string;
@@ -154,7 +154,7 @@ export interface ProductCategory {
   product_id: string;
 }
 
-export interface Beer {
+export interface IBeer {
   id: string;
   lot_id: number;
   feedback_id: number;
@@ -177,7 +177,7 @@ export interface Beer {
   is_gluten: boolean;
 }
 
-export interface Merchandising {
+export interface IMerchandising {
   id: string;
   lot_id: number;
   feedback_id: number;
@@ -202,14 +202,14 @@ export interface IProductLot {
   products: IProduct;
 }
 
-export interface CustomizeSettings {
+export interface ICustomizeSettings {
   id: string;
   created_at: Date;
   colors: string[];
   family_styles: string[];
 }
 
-export interface Inventory {
+export interface IInventory {
   id?: string;
   product_id: string;
   quantity: number;
@@ -217,7 +217,7 @@ export interface Inventory {
   created_at?: Date;
 }
 
-export interface Award {
+export interface IAward {
   id: string;
   name: string;
   description: string;
@@ -226,7 +226,7 @@ export interface Award {
   beer_id: string;
 }
 
-export interface ProductMultimedia {
+export interface IProductMultimedia {
   id: string;
   p_principal: string;
   p_back: string;
@@ -239,19 +239,19 @@ export interface ProductMultimedia {
   v_extra_2: string;
 }
 
-interface ProductMultimediaItem {
+interface IProductMultimediaItem {
   id: string;
   created_at: Date;
   name: string;
   bucket_url: string;
 }
 
-export interface ProductImg {
+export interface IProductImg {
   name: string;
   img_url: any;
 }
 
-export interface BeerFormat {
+export interface IBeerFormat {
   id: string;
   beer_id: string;
   format_id: string;
@@ -259,13 +259,7 @@ export interface BeerFormat {
   qty: number;
 }
 
-export interface Format {
-  id: string;
-  volume: number;
-  type: string;
-}
-
-export interface Review {
+export interface IReview {
   id: string;
   created_at: string;
   updated_at: string;
@@ -282,7 +276,7 @@ export interface Review {
   products?: IProduct;
 }
 
-export interface Profile {
+export interface IProfile {
   id: string;
   created_at: Date;
   updated_at: Date;
@@ -425,7 +419,7 @@ export interface CampaignItem {
   product_price: number;
 }
 
-export interface Order {
+export interface IOrder {
   id: string;
   created_at: Date;
   updated_at: Date;
@@ -445,11 +439,11 @@ export interface Order {
   currency: string;
   discount: number;
   discount_code: string;
-  products: OrderItem[];
+  products: IOrderItem[];
   order_number: string;
 }
 
-export interface OrderItem {
+export interface IOrderItem {
   order_id: string;
   product_id: string;
   quantity: number;
@@ -457,7 +451,7 @@ export interface OrderItem {
   created_at: Date;
 }
 
-export interface PaymentCardMethod {
+export interface IPaymentCardMethod {
   id: string;
   created_at: number;
   status: string;
@@ -471,7 +465,7 @@ export interface PaymentCardMethod {
   checkSave: boolean;
 }
 
-export interface PaymentStandardTransferMethod {
+export interface IPaymentStandardTransferMethod {
   id: string;
   created_at: number;
   status: string;
@@ -482,7 +476,7 @@ export interface PaymentStandardTransferMethod {
   recipient: string;
 }
 
-export interface ShippingInfo {
+export interface IShippingInfo {
   id: string;
   created_at: Date;
   updated_at: Date;
@@ -501,7 +495,7 @@ export interface ShippingInfo {
   is_default: boolean;
 }
 
-export interface BillingInfo {
+export interface IBillingInfo {
   id: string;
   created_at: Date;
   updated_at: Date;

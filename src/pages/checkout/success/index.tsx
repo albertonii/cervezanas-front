@@ -1,13 +1,13 @@
-import { NextApiRequest } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import DisplayImageString from "../../../components/common/DisplayImageString";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { NextApiRequest } from "next";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
-import DisplayImageString from "../../../components/common/DisplayImageString";
 import { SupabaseProps } from "../../../constants";
-import { Order, Product } from "../../../lib/types.d";
+import { Order, IProduct } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
@@ -28,7 +28,7 @@ export default function Success({
 
   const router = useRouter();
 
-  const [products, _] = useState<Product[]>(products_);
+  const [products, _] = useState<IProduct[]>(products_);
 
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();

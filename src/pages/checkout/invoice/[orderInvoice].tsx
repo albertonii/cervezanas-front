@@ -11,7 +11,7 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-import { Order, Product } from "../../../lib/types.d";
+import { IProduct, Order } from "../../../lib/types.d";
 import { GetServerSidePropsContext } from "next";
 import { supabase } from "../../../utils/supabaseClient";
 import { formatDateString } from "../../../utils";
@@ -150,69 +150,6 @@ export default function OrderInvoice({ order, products }: Props) {
     itemsHeaderTotal,
   };
 
-  const data_ = {
-    id: "5df3180a09ea16dc4b95f910",
-    items: [
-      {
-        code: 10464593,
-        article: "Protector Hidrogel Smartphone",
-        price: 12.39,
-        unit: 1,
-        total: 12.39,
-      },
-      {
-        code: 578999,
-        article:
-          "Apple iPhone 13 Mini 128GB Azul Libre SN: 353464131797814 Apple iPhone 13 Mini 128GB Azul Libre SN: 353464131797814 Apple iPhone 13 Mini 128GB Azul Libre SN: 353464131797814",
-        price: 642.7,
-        unit: 1,
-        total: 642.7,
-      },
-      {
-        code: 133414,
-        article: "CANON DIGITAL",
-        price: 1.1,
-        unit: 1,
-        total: 1.1,
-      },
-    ],
-    itemsHeader: [
-      {
-        title: "Código",
-      },
-      { title: "Artículo" },
-      { title: "Precio" },
-      { title: "Unidad" },
-      { title: "Total" },
-    ],
-  };
-
-  const dataBase = {
-    id: "5df3180a09ea16dc4b95f911",
-    items: [
-      {
-        taxable_income: 656.19,
-        tax: 21,
-        discount: 0,
-        total_invoice: 12.39,
-      },
-    ],
-    itemsHeader: [
-      {
-        title: "Base Imponible",
-      },
-      {
-        title: "IVA/IGIC",
-      },
-      {
-        title: "Descuento",
-      },
-      {
-        title: "Total Factura",
-      },
-    ],
-  };
-
   return (
     <>
       <PDFViewer style={styles.viewer}>
@@ -227,7 +164,6 @@ export default function OrderInvoice({ order, products }: Props) {
             <View style={styles.container}>
               <View style={styles.row_1}>
                 <View style={styles.section}>
-                  {/* eslint-disable-next-line jsx-a11y/alt-text */}
                   <Image src="/assets/logo.png" fixed style={styles.logo} />
                 </View>
 
@@ -306,7 +242,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const params = context.params as { orderInvoice: string };
   const { orderInvoice: orderId } = params;
 
-  let { data: orderData, error: orderError } = await supabase
+  const { data: orderData, error: orderError } = await supabase
     .from("orders")
     .select(
       `

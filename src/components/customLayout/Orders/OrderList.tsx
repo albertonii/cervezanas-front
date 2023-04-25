@@ -1,28 +1,52 @@
+import useFetchCPOrders from "../../../hooks/useFetchOrders";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Order } from "../../../lib/types.d";
+import { IOrder } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { IconButton } from "../../common";
+import { Button, IconButton, Spinner } from "../../common";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../utils/utils";
+import { useAuth } from "../../Auth";
 
 interface Props {
-  orders: Order[];
+  orders: IOrder[];
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export function OrderList(props: Props) {
+export function OrderList({ orders: os }: Props) {
+  const { user } = useAuth();
+  if (!user) return null;
+
   const { t } = useTranslation();
+
+  const [orders, setOrders] = useState(os);
+  const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const ordersCount = os.length;
+  const pageRange = 10;
+  const finalPage =
+    ordersCount < currentPage * pageRange
+      ? ordersCount
+      : currentPage * pageRange;
 
   const router = useRouter();
 
-  const { orders } = props;
+  const { isError, isLoading, refetch } = useFetchCPOrders(
+    user.id,
+    currentPage,
+    pageRange
+  );
 
-  const [query, setQuery] = React.useState("");
+  useEffect(() => {
+    refetch().then((res) => {
+      setOrders(res.data as IOrder[]);
+    });
+  }, [currentPage]);
 
   const COLUMNS = [
     { header: t("order_number_header") },
@@ -33,7 +57,7 @@ export function OrderList(props: Props) {
     { header: t("action_header") },
   ];
 
-  const handleClickView = (order: Order) => {
+  const handleClickView = (order: IOrder) => {
     const Ds_MerchantParameters = encodeBase64(
       JSON.stringify({ Ds_Order: order.order_number })
     );
@@ -49,77 +73,130 @@ export function OrderList(props: Props) {
     });
   }, [orders, query]);
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(ordersCount / pageRange)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
-      <div className="relative w-full">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
+      {isError && (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("error_fetching_products")}
+          </p>
         </div>
+      )}
 
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search order..."
-        />
-      </div>
+      {isLoading && (
+        <Spinner color="beer-blonde" size="xLarge" absolute center />
+      )}
 
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            {COLUMNS.map((column: ColumnsProps, index: number) => {
-              return (
-                <th key={index} scope="col" className="py-3 px-6">
-                  {column.header}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
+      {!isError && !isLoading && orders.length === 0 ? (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
+        </div>
+      ) : (
+        <>
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </div>
 
-        <tbody>
-          {orders &&
-            filteredItemsByStatus.map((order) => {
-              return (
-                <tr
-                  key={order.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <td className="py-4 px-6">{order.order_number}</td>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search order..."
+            />
+          </div>
 
-                  <td className="py-4 px-6">{order.customer_name}</td>
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                {COLUMNS.map((column: ColumnsProps, index: number) => {
+                  return (
+                    <th key={index} scope="col" className="py-3 px-6">
+                      {column.header}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
 
-                  <td className="py-4 px-6">{formatCurrency(order.total)}</td>
+            <tbody>
+              {orders &&
+                filteredItemsByStatus.map((order) => {
+                  return (
+                    <tr
+                      key={order.id}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <td className="py-4 px-6">{order.order_number}</td>
 
-                  <td className="py-4 px-6">{t(order.status)}</td>
+                      <td className="py-4 px-6">{order.customer_name}</td>
 
-                  <td className="py-4 px-6">{order.tracking_id}</td>
+                      <td className="py-4 px-6">
+                        {formatCurrency(order.total)}
+                      </td>
 
-                  <td className="py-4 px-6 flex item-center justify-center">
-                    <IconButton
-                      onClick={() => handleClickView(order)}
-                      icon={faEye}
-                      title={""}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+                      <td className="py-4 px-6">{t(order.status)}</td>
+
+                      <td className="py-4 px-6">{order.tracking_id}</td>
+
+                      <td className="py-4 px-6 flex item-center justify-center">
+                        <IconButton
+                          onClick={() => handleClickView(order)}
+                          icon={faEye}
+                          title={""}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+
+          {/* Prev and Next button for pagination  */}
+          <div className="flex justify-around items-center my-4">
+            <Button class="" onClick={() => handlePrevPage()} small primary>
+              {t("prev")}
+            </Button>
+
+            <p className="text-sm text-gray-700 dark:text-gray-400">
+              {t("pagination_footer_nums", {
+                from: currentPage,
+                to: finalPage,
+                total: ordersCount,
+              })}
+            </p>
+
+            <Button class="" onClick={() => handleNextPage()} small primary>
+              {t("next")}
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
