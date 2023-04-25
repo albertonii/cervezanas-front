@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DeleteModal from "../../modals/DeleteModal";
-import React, { ComponentProps, useMemo, useState } from "react";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../../utils";
@@ -56,6 +56,36 @@ export default function ListCPMobile({ cpMobile: cp, handleCPList }: Props) {
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedCP, setSelectedCP] = useState<ICPMobile>();
+
+  useEffect(() => {
+    refetch().then((res) => {
+      setCPMobile(res.data as ICPMobile[]);
+    });
+  }, [currentPage]);
+
+  const filteredItems = useMemo<ICPMobile[]>(() => {
+    return cpMobile.filter((mobile) => {
+      return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
+    });
+  }, [cpMobile, query]);
+
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
+
+  const sortedItems = useMemo(() => {
+    if (sorting === SortBy.NONE) return filteredItems;
+
+    const compareProperties: Record<string, (cp: ICPMobile) => any> = {
+      [SortBy.NAME]: (cp) => cp.cp_name,
+      [SortBy.CREATED_DATE]: (cp) => cp.created_at,
+    };
+
+    return filteredItems.toSorted((a, b) => {
+      const extractProperty = compareProperties[sorting];
+      return extractProperty(a).localeCompare(extractProperty(b));
+    });
+  }, [filteredItems, sorting]);
 
   const handleEditClick = async (cp: ICPMobile) => {
     setIsEditModal(true);
@@ -114,30 +144,6 @@ export default function ListCPMobile({ cpMobile: cp, handleCPList }: Props) {
 
     if (error) throw error;
   };
-
-  const filteredItems = useMemo<ICPMobile[]>(() => {
-    return cpMobile.filter((mobile) => {
-      return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [cpMobile, query]);
-
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
-
-  const sortedItems = useMemo(() => {
-    if (sorting === SortBy.NONE) return filteredItems;
-
-    const compareProperties: Record<string, (cp: ICPMobile) => any> = {
-      [SortBy.NAME]: (cp) => cp.cp_name,
-      [SortBy.CREATED_DATE]: (cp) => cp.created_at,
-    };
-
-    return filteredItems.toSorted((a, b) => {
-      const extractProperty = compareProperties[sorting];
-      return extractProperty(a).localeCompare(extractProperty(b));
-    });
-  }, [filteredItems, sorting]);
 
   const handleDelete = () => {
     if (!selectedCP) return;
