@@ -30,7 +30,7 @@ export function Header() {
   };
 
   return (
-    <div className="header absolute w-full bg-beer-foam z-40 sm:z-10 bg-transparent">
+    <header className="header absolute w-full bg-beer-foam z-40 sm:z-20 bg-transparent">
       <nav className="border-gray-200 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
         <div className="container grid grid-cols-3 sm:gap-2 sm:flex sm:justify-between sm:items-center sm:mx-auto bg-beer-darkGold sm:bg-transparent">
           {/* Left elements  */}
@@ -94,7 +94,7 @@ export function Header() {
 
           {/* Logo Cervezanas  */}
           <div className="w-full" id="navbar-default">
-            <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 z-50 flex justify-center">
+            <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 flex justify-center">
               <div className="relative h-[100px] sm:h-[163px] w-[110px] sm:w-[181px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
                 <Link href={"/"}>
                   <Image
@@ -204,6 +204,6 @@ export function Header() {
           </div>
         </div>
       </nav>
-    </div>
+    </header>
   );
 }

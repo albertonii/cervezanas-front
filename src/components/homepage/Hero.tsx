@@ -3,10 +3,6 @@ import React from "react";
 import { Button } from "../common";
 
 export default function Hero() {
-  const style = {
-    backgroundImage: `url(${"/assets/golden_wave_pattern.png"})`,
-  };
-
   return (
     <div className="">
       <div className="bg-[url('/assets/golden_wave_pattern.png')] h-[60px] "></div>

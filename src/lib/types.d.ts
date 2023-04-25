@@ -363,6 +363,7 @@ export interface ICPMobile {
   maximum_capacity: number;
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
+  cp_id: string;
 
   // TODO: rrss
 }

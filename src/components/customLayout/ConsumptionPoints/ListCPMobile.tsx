@@ -5,9 +5,11 @@ import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
-import { IconButton } from "../../common";
+import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { ICPMobile } from "../../../lib/types.d";
+import { useAuth } from "../../Auth";
+import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
 
 interface Props {
   cpMobile: ICPMobile[];
@@ -23,18 +25,28 @@ enum SortBy {
   CREATED_DATE = "created_date",
 }
 
-export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
+export default function ListCPMobile({ cpMobile: cp, handleCPList }: Props) {
+  const { user } = useAuth();
+  if (!user) return null;
+
   const { t } = useTranslation();
 
+  const [cpMobile, setCPMobile] = useState<ICPMobile[]>(cp);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const productsCount = ps.filter((product) => !product.is_archived).length;
+  const mobileCount = cp.length;
   const pageRange = 10;
   const finalPage =
-    productsCount < currentPage * pageRange
-      ? productsCount
+    mobileCount < currentPage * pageRange
+      ? mobileCount
       : currentPage * pageRange;
+
+  const { isError, isLoading, refetch } = useFetchCPMobile(
+    cp[0].cp_id,
+    currentPage,
+    pageRange
+  );
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -135,6 +147,18 @@ export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
     setIsDeleteModal(false);
   };
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(mobileCount / pageRange)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
       {isEditModal && (
@@ -173,114 +197,155 @@ export default function ListCPMobile({ cpMobile, handleCPList }: Props) {
         />
       )}
 
-      <div className="relative w-full">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
+      {isError && (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("error_fetching_products")}
+          </p>
         </div>
+      )}
 
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search by name..."
-        />
-      </div>
+      {isLoading && (
+        <Spinner color="beer-blonde" size="xLarge" absolute center />
+      )}
 
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th
-              scope="col"
-              className="py-3 px-6 hover:cursor-pointer"
-              onClick={() => {
-                handleChangeSort(SortBy.NAME);
-              }}
-            >
-              {t("name_header")}
-            </th>
-
-            <th
-              scope="col"
-              className="py-3 px-6 hover:cursor-pointer"
-              onClick={() => {
-                handleChangeSort(SortBy.CREATED_DATE);
-              }}
-            >
-              {t("created_date_header")}
-            </th>
-
-            <th scope="col" className="py-3 px-6 "></th>
-
-            <th scope="col" className="py-3 px-6 "></th>
-
-            <th scope="col" className="py-3 px-6 ">
-              {t("action_header")}
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {sortedItems.map((cp: ICPMobile) => {
-            return (
-              <tr
-                key={cp.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+      {!isError && !isLoading && cpMobile.length === 0 ? (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("no_cp_mobile")}
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
-                  <Link href={`/cp_name`}>{cp.cp_name}</Link>
-                </td>
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </div>
 
-                <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search by name..."
+            />
+          </div>
 
-                <td className="py-4 px-6 cursor-pointer"></td>
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th
+                  scope="col"
+                  className="py-3 px-6 hover:cursor-pointer"
+                  onClick={() => {
+                    handleChangeSort(SortBy.NAME);
+                  }}
+                >
+                  {t("name_header")}
+                </th>
 
-                <td className="py-4 px-6 cursor-pointer"></td>
+                <th
+                  scope="col"
+                  className="py-3 px-6 hover:cursor-pointer"
+                  onClick={() => {
+                    handleChangeSort(SortBy.CREATED_DATE);
+                  }}
+                >
+                  {t("created_date_header")}
+                </th>
 
-                <td className="py-4 px-6 flex space-x-2">
-                  <IconButton
-                    icon={faEdit}
-                    onClick={() => {
-                      handleEditClick(cp);
-                    }}
-                    color={editColor}
-                    classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
-                    }
-                    classIcon={""}
-                    title={t("edit")}
-                  />
+                <th scope="col" className="py-3 px-6 "></th>
 
-                  <IconButton
-                    icon={faTrash}
-                    onClick={() => {
-                      handleDeleteClick(cp);
-                    }}
-                    color={deleteColor}
-                    classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
-                    }
-                    classIcon={""}
-                    title={t("delete")}
-                  />
-                </td>
+                <th scope="col" className="py-3 px-6 "></th>
+
+                <th scope="col" className="py-3 px-6 ">
+                  {t("action_header")}
+                </th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+
+            <tbody>
+              {sortedItems.map((cp: ICPMobile) => {
+                return (
+                  <tr
+                    key={cp.id}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                      <Link href={`/cp_name`}>{cp.cp_name}</Link>
+                    </td>
+
+                    <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+
+                    <td className="py-4 px-6 cursor-pointer"></td>
+
+                    <td className="py-4 px-6 cursor-pointer"></td>
+
+                    <td className="py-4 px-6 flex space-x-2">
+                      <IconButton
+                        icon={faEdit}
+                        onClick={() => {
+                          handleEditClick(cp);
+                        }}
+                        color={editColor}
+                        classContainer={
+                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                        }
+                        classIcon={""}
+                        title={t("edit")}
+                      />
+
+                      <IconButton
+                        icon={faTrash}
+                        onClick={() => {
+                          handleDeleteClick(cp);
+                        }}
+                        color={deleteColor}
+                        classContainer={
+                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                        }
+                        classIcon={""}
+                        title={t("delete")}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          {/* Prev and Next button for pagination  */}
+          <div className="flex justify-around items-center my-4">
+            <Button class="" onClick={() => handlePrevPage()} small primary>
+              {t("prev")}
+            </Button>
+
+            <p className="text-sm text-gray-700 dark:text-gray-400">
+              {t("pagination_footer_nums", {
+                from: currentPage,
+                to: finalPage,
+                total: mobileCount,
+              })}
+            </p>
+
+            <Button class="" onClick={() => handleNextPage()} small primary>
+              {t("next")}
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
