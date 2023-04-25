@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
-  Campaign,
   CampaignFormProps,
-  CampaignItem,
-  Product,
+  ICampaign,
+  ICampaignItem,
+  IProduct,
 } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
@@ -16,7 +16,7 @@ import { CampaignForm } from "./CampaignForm";
 import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
 
 interface Props {
-  campaigns: Campaign[];
+  campaigns: ICampaign[];
   products: IProduct[];
 }
 
@@ -25,7 +25,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
 
   const { user } = useAuth();
 
-  const emptyCampaign: Campaign = {
+  const emptyCampaign: ICampaign = {
     id: "",
     name: "",
     description: "",
@@ -41,7 +41,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
     products: [],
   };
 
-  const [campaigns, setCampaigns] = useState<Campaign[]>(c ?? emptyCampaign);
+  const [campaigns, setCampaigns] = useState<ICampaign[]>(c ?? emptyCampaign);
   const [campaignIndex, setCampaignIndex] = useState<number>(0);
 
   const [acceptDeleteCampaign, setAcceptDeleteCampaign] =
@@ -52,6 +52,8 @@ export function Campaigns({ campaigns: c, products }: Props) {
   const [isShowDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [isShowProductsInCampaignModal, setShowProductsInCampaignModal] =
     useState<boolean>(false);
+
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const { handleMessage } = useMessage();
 
@@ -129,7 +131,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
     }
   }, [acceptLinkProductsCampaign]);
 
-  const handleSetCampaigns = (value: Campaign[]) => {
+  const handleSetCampaigns = (value: ICampaign[]) => {
     setCampaigns(value);
   };
 
@@ -153,13 +155,13 @@ export function Campaigns({ campaigns: c, products }: Props) {
     setCampaignIndex(index);
   };
 
-  const handleSaveCampaign = (campaign: Campaign) => {
+  const handleSaveCampaign = (campaign: ICampaign) => {
     setCampaigns([...campaigns, campaign]);
   };
 
-  const handleProductsInCampaign = (items: CampaignItem[]) => {
+  const handleProductsInCampaign = (items: ICampaignItem[]) => {
     if (campaigns.length === 0) {
-      const newCampaign: Campaign = getValues("campaigns")[campaignIndex];
+      const newCampaign: ICampaign = getValues("campaigns")[campaignIndex];
       newCampaign.products = items;
       setCampaigns([newCampaign]);
     } else {
@@ -179,6 +181,8 @@ export function Campaigns({ campaigns: c, products }: Props) {
         {/* Show/Hide Modal*/}
         {isShowDeleteModal && (
           <DeleteCampaign
+            showModal={isDeleteModal}
+            setShowModal={setIsDeleteModal}
             handleResponseModal={handleResponseDeleteModal}
             handleDeleteShowModal={handleDeleteShowModal}
           />

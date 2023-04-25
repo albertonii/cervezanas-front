@@ -39,7 +39,7 @@ export function Header() {
             <button
               data-collapse-toggle="navbar-default"
               type="button"
-              className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex sm:hidden items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="navbar-default"
               aria-expanded="false"
             >
@@ -59,7 +59,7 @@ export function Header() {
               </svg>
             </button>
 
-            <ul className="hidden md:flex flex-col align-center p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="hidden sm:flex flex-col align-center p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li className="flex items-center">
                 <Link href="/marketplace">
                   <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
@@ -95,13 +95,13 @@ export function Header() {
           {/* Logo Cervezanas  */}
           <div className="w-full" id="navbar-default">
             <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 flex justify-center">
-              <div className="relative h-[100px] sm:h-[163px] w-[110px] sm:w-[181px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
+              <div className="relative h-[100px] sm:h-[143px] lg:h-[153] w-[110px] sm:w-[141px] lg:w-[151px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
                 <Link href={"/"}>
                   <Image
                     src="/logo_cervezanas.svg"
                     alt="Cervezanas Logo"
-                    width={200}
-                    height={200}
+                    width={160}
+                    height={160}
                     style={{ objectFit: "contain" }}
                     priority={true}
                     sizes="100px"

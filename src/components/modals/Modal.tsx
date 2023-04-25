@@ -157,6 +157,7 @@ export function Modal(props: Props) {
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
                     {t(description)}
                   </p>
+
                   {children}
                 </div>
 

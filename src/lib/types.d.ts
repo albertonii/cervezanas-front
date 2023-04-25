@@ -362,7 +362,7 @@ export interface ICPMobile {
   // TODO: rrss
 }
 
-export interface ProfileLocation {
+export interface IProfileLocation {
   id: string;
   created_at: Date;
   name: string;
@@ -378,7 +378,7 @@ export interface ProfileLocation {
   address_2: string;
 }
 
-export interface Like {
+export interface ILike {
   id: string;
   created_at: Date;
   updated_at: Date;
@@ -386,7 +386,7 @@ export interface Like {
   product_id: string;
 }
 
-export interface SocialCause {
+export interface ISocialCause {
   id: string;
   name: string;
   description: string;
@@ -397,7 +397,7 @@ export interface SocialCause {
   products: IProduct[];
 }
 
-export interface Campaign {
+export interface ICampaign {
   id: string;
   name: string;
   description: string;
@@ -410,10 +410,10 @@ export interface Campaign {
   start_date: Date;
   end_date: Date;
   status: string;
-  products?: CampaignItem[];
+  products?: ICampaignItem[];
 }
 
-export interface CampaignItem {
+export interface ICampaignItem {
   campaign_id: string;
   product_id: any;
   product_price: number;
