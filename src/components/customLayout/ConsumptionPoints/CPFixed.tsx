@@ -130,7 +130,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       const { error } = await supabase.from("notifications").insert({
         message: `You have been assigned as organizer for the fixed consumption point ${cp_name}`,
         user_id: selectedEOrganizer,
-        link: "/profile/consumption-points",
+        link: "/profile?a=consumption_points",
         source: user?.id, // User that has created the consumption point
       });
 

@@ -47,8 +47,8 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
   return (
     <>
-      <AppContextProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AppContextProvider>
           <ShoppingCartProvider>
             <Head>
               <title>Cervezanas - Comunidad cervecera</title>
@@ -89,8 +89,8 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
               <Footer />
             </div>
           </ShoppingCartProvider>
-        </QueryClientProvider>
-      </AppContextProvider>
+        </AppContextProvider>
+      </QueryClientProvider>
     </>
   );
 }

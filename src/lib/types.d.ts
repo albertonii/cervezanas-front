@@ -2,7 +2,7 @@ import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types.d";
-import { User } from "./interfaces";
+import { IUser, User } from "./interfaces";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -615,14 +615,14 @@ type BeerModalProps = {
   is_gluten: boolean;
 };
 
-export type CampaignFormProps = {
+export type ICampaignFormProps = {
   campaigns: Campaign[];
 };
 
-export type CartItem = {
+export interface ICartItem {
   id: string;
   quantity: number;
-};
+}
 
 export interface ICarouselItem {
   link: string;
@@ -715,4 +715,5 @@ export interface INotification {
   message: string;
   link: string;
   read: boolean;
+  source: IUser;
 }

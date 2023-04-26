@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Spinner } from "../components/common";
 import { Layout } from "../components";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -51,9 +52,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <MessageProvider>
         <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
           <AuthContextProvider supabaseClient={supabase}>
-            <Layout usePadding={false} useBackdrop={false}>
-              <Component {...pageProps} />
-            </Layout>
+            <PayPalScriptProvider
+              options={{
+                "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "",
+              }}
+            >
+              <Layout usePadding={false} useBackdrop={false}>
+                <Component {...pageProps} />
+              </Layout>
+            </PayPalScriptProvider>
           </AuthContextProvider>
         </Suspense>
       </MessageProvider>

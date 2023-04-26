@@ -22,11 +22,11 @@ import {
   NewBillingAddress,
   NewShippingAddress,
 } from "../../components/checkout";
-import { Layout } from "../../components";
 
-import { randomTransactionId, CURRENCIES, Currency } from "redsys-easy";
+import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import Decimal from "decimal.js";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
+import { Paypal } from "../../components/paypal";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -103,7 +103,7 @@ export default function Checkout({
     addMarketplaceItems,
   } = useShoppingCart();
 
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -251,7 +251,6 @@ export default function Checkout({
     } as const;
 
     const orderNumber = randomTransactionId();
-
     const currencyInfo = CURRENCIES[currency];
 
     // Convert 49.99€ -> 4999
@@ -420,7 +419,7 @@ export default function Checkout({
                             <FontAwesomeIcon
                               icon={faShoppingCart}
                               style={{ color: "#432a14", height: "6vh" }}
-                              title={"empty_cart"}
+                              title={t("empty_cart") ?? "empty_cart"}
                               width={120}
                               height={120}
                             />
@@ -646,7 +645,7 @@ export default function Checkout({
 
                       <div className="w-full flex justify-center items-center">
                         <Button
-                          title={t("view_carrier_details")!}
+                          title={t("view_carrier_details") ?? "View details"}
                           accent
                           medium
                           class="sm:w-full text-base font-medium"
@@ -744,6 +743,25 @@ export default function Checkout({
                           >
                             {t("proceed_to_pay")}
                           </Button>
+                        </div>
+
+                        {/* Paypal payment method */}
+                        <div className="flex justify-center items-center md:justify-start md:items-start w-full">
+                          {/* 
+                          <Button
+                            large
+                            primary
+                            class="font-semibold"
+                            title={""}
+                            disabled={cart.length === 0}
+                            onClick={() => {
+                              handleProceedToPay();
+                            }}
+                          >
+                            {t("proceed_to_paypal")}
+                          </Button>
+                          */}
+                          <Paypal />
                         </div>
                       </div>
                     </div>
@@ -843,10 +861,20 @@ export default function Checkout({
 export async function getServerSideProps({ req }: any) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  let { data: userData, error: usersError } = await supabase
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+
+  const { data: userData, error: usersError } = await supabase
     .from("users")
     .select(`*, shipping_info(*), billing_info(*)`)
     .eq("id", user?.id);
+
   if (usersError) throw usersError;
   if (!userData) return { props: {} };
 

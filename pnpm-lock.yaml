@@ -8,6 +8,8 @@ specifiers:
   '@fortawesome/react-fontawesome': ^0.2.0
   '@headlessui/react': ^1.7.7
   '@heroicons/react': ^2.0.13
+  '@paypal/checkout-server-sdk': ^1.0.3
+  '@paypal/react-paypal-js': ^7.8.3
   '@reach/alert': ^0.18.0
   '@reach/combobox': ^0.18.0
   '@react-google-maps/api': 2.7.0
@@ -24,6 +26,7 @@ specifiers:
   '@types/jsonwebtoken': ^9.0.1
   '@types/lodash': ^4.14.191
   '@types/node': ^18.7.2
+  '@types/paypal__checkout-server-sdk': ^1.0.5
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
   '@types/react-table': ^7.7.12
@@ -113,6 +116,8 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 17.2.0
   '@commitlint/config-angular': 17.2.0
+  '@paypal/checkout-server-sdk': 1.0.3
+  '@paypal/react-paypal-js': 7.8.3_biqbaboplfbrettd7655fr4n2y
   '@react-google-maps/api': 2.7.0_biqbaboplfbrettd7655fr4n2y
   '@supabase/auth-helpers-nextjs': 0.5.4_cokbxflmshd5kjr6lm6qhkg44i
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
@@ -121,6 +126,7 @@ devDependencies:
   '@types/decimal.js': 7.4.0
   '@types/lodash': 4.14.191
   '@types/node': 18.11.9
+  '@types/paypal__checkout-server-sdk': 1.0.5
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
   '@types/uuid': 9.0.1
@@ -781,6 +787,42 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
+  /@paypal/checkout-server-sdk/1.0.3:
+    resolution: {integrity: sha512-UEdq8akEdMz0Vs4qoQFU2gMp8PpyE/HKyMwiZuK4vIWUKl8jfd1fWKjQN5cDFm9NkFUIp5U7h++rdMOVj9WMNA==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@paypal/paypalhttp': 1.0.1
+    dev: true
+
+  /@paypal/paypal-js/5.1.6:
+    resolution: {integrity: sha512-1upF06pv0AUtTftRVSra44p8ibqGa3ruKLArvdhpZla25zcrND7R+nDUIMrJ0iteVYZowhujZStFs6NoruExfg==}
+    dependencies:
+      promise-polyfill: 8.3.0
+    dev: true
+
+  /@paypal/paypalhttp/1.0.1:
+    resolution: {integrity: sha512-DC7AHxTT7drF6dUi3YaFdPVuT15sIkpD5H2eHmdtFgxM4UanS1o1ZDfMhR9mpxd8o+X6pz2r+EZVRRq+n1cssQ==}
+    engines: {node: '>=4'}
+    dev: true
+
+  /@paypal/react-paypal-js/7.8.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-7sD5JFA0IH9kysyGFv5DTmtPn54vLWZ0DLhdjUvsjqZnoEs11mJJJlTsTA7MkIO3jBAJOWlfoA4wLYzmy68C4g==}
+    peerDependencies:
+      react: '>=16.3.0'
+      react-dom: '>=16.3.0'
+    dependencies:
+      '@paypal/paypal-js': 5.1.6
+      '@paypal/sdk-constants': 1.0.130
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: true
+
+  /@paypal/sdk-constants/1.0.130:
+    resolution: {integrity: sha512-hrh1SyZy+qiBA+h/EYWjTZ7QiBcRgDiEfhHCxP47fiBO8wE9w+DiEfHm747vFQomvHg6AyDxhyGXjnuaGAW31A==}
+    dependencies:
+      hi-base32: 0.5.1
+    dev: true
+
   /@popperjs/core/2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: false
@@ -1304,6 +1346,18 @@ packages:
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+
+  /@types/paypal__checkout-server-sdk/1.0.5:
+    resolution: {integrity: sha512-pGpESvscnVi26tPOZGEXzr1PQXgNW8aaKtMSB2C8K41+4UW3kT28MCMLmKJkSkkNaJ4LHKEOzfun/c2ntC416g==}
+    dependencies:
+      '@types/paypal__paypalhttp': 1.0.0
+    dev: true
+
+  /@types/paypal__paypalhttp/1.0.0:
+    resolution: {integrity: sha512-JSrGEKWT+VnMNNkOFPYRcBdv/W5FuDP0ZDp9KxExZVEtX8xZTO4NFfkG9gkQ+g/RnEbVZnFwrQ04LH5HLio5Gw==}
+    dependencies:
+      '@types/node': 18.11.9
+    dev: true
 
   /@types/phoenix/1.5.4:
     resolution: {integrity: sha512-L5eZmzw89eXBKkiqVBcJfU1QGx9y+wurRIEgt0cuLH0hwNtVUxtx+6cu0R2STwWj468sjXyBYPYDtGclUd1kjQ==}
@@ -3072,6 +3126,10 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
+  /hi-base32/0.5.1:
+    resolution: {integrity: sha512-EmBBpvdYh/4XxsnUybsPag6VikPYnN30td+vQk+GI3qpahVEG9+gTkG0aXVxTjBqQ5T6ijbWIu77O+C5WFWsnA==}
+    dev: true
+
   /hoist-non-react-statics/3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
@@ -4269,6 +4327,10 @@ packages:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    dev: true
+
+  /promise-polyfill/8.3.0:
+    resolution: {integrity: sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==}
     dev: true
 
   /prop-types/15.8.1:

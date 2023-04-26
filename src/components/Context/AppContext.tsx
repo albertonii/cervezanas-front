@@ -1,8 +1,11 @@
-import React, { createContext, useState } from "react";
+import useFetchNotifications from "../../hooks/useFetchNotifications";
+import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { INotification } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
+import { useAuth } from "../Auth";
 
 interface IProfile {
   bgImg?: string;
@@ -11,15 +14,21 @@ interface IProfile {
   setProfileImg: (newBgImg: string) => void;
   sidebar: string;
   changeSidebarActive: (select: string) => void;
+  notifications?: INotification[];
+  openNotification: boolean;
+  setOpenNotification: (open: boolean) => void;
 }
 
 const AppContext = createContext<IProfile>({
   bgImg: "",
-  setBgImg: () => {},
+  setBgImg: () => void {},
   profileImg: "",
-  setProfileImg: () => {},
+  setProfileImg: () => void {},
   sidebar: "",
-  changeSidebarActive: () => {},
+  changeSidebarActive: () => void {},
+  notifications: [],
+  openNotification: false,
+  setOpenNotification: () => void {},
 });
 
 interface Props {
@@ -31,6 +40,13 @@ export function AppContextProvider(props: Props) {
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+
+  const { user } = useAuth();
+
+  if (!user) return;
+  const { refetch } = useFetchNotifications(user.id);
+
+  const [openNotification, setOpenNotification] = useState(false);
 
   const decodeUriProfileImg = decodeURIComponent(
     `${fullProfilePhotoUrl}${supabase.auth.user()?.id}`
@@ -51,9 +67,18 @@ export function AppContextProvider(props: Props) {
     "profile"
   );
 
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+
   const changeSidebarActive = (select: string) => {
     setSidebar(select);
   };
+
+  useEffect(() => {
+    if (!user) return;
+    refetch().then((res) => {
+      setNotifications(res.data as INotification[]);
+    });
+  }, []);
 
   const value = {
     bgImg,
@@ -62,6 +87,9 @@ export function AppContextProvider(props: Props) {
     setProfileImg,
     sidebar,
     changeSidebarActive,
+    notifications,
+    openNotification,
+    setOpenNotification,
   };
 
   return <AppContext.Provider value={value} {...props} />;

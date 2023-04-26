@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { CartItem, Product } from "../../lib/types.d";
+import { ICartItem, IProduct } from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
 
 type ShoppingCartContextType = {
-  items: CartItem[];
+  items: ICartItem[];
   cartQuantity: number;
   clearMarketplace: () => void;
   clearItems: () => void;
@@ -49,9 +49,9 @@ export function ShoppingCartProvider({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useLocalStorage<CartItem[]>("shopping-cart", []);
+  const [items, setItems] = useLocalStorage<ICartItem[]>("shopping-cart", []);
 
-  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<Product[]>(
+  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<IProduct[]>(
     "marketplace-selected-items",
     []
   );

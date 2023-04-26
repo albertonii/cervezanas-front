@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
 import { ROUTE_SIGNIN, ROUTE_SIGNUP } from "./config";
+import { supabase } from "./utils/supabaseClient";
 
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get("sb-access-token");
@@ -13,6 +14,22 @@ export async function middleware(req: NextRequest) {
   // ) {
   //   return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url)); // If a user is not authenticated (either no token was send, or the token is invalid) redirect the user to the homepage where they will be presented with a log-in screen
   // }
+
+  // Check if the authCookie is still valid
+  /*
+  if (authCookie) {
+    const { data: user, error } = await supabase.auth.api.getUserByCookie(
+      authCookie
+    );
+
+    console.log(user);
+    console.log(error);
+
+    if (error) {
+      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
+    }
+  }
+  */
 
   if (
     req.nextUrl.pathname.startsWith("/_next") ||

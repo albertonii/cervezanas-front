@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { ICPFixed, IOrder } from "../lib/types";
+import { IOrder } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 
 const fetchCPOrders = async (
