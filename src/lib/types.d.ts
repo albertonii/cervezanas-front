@@ -707,3 +707,12 @@ export enum MarkerType {
   FIXED = "fixed",
   MOBILE = "mobile",
 }
+
+export interface INotification {
+  id: string;
+  created_at: Date;
+  user_id: string;
+  message: string;
+  link: string;
+  read: boolean;
+}

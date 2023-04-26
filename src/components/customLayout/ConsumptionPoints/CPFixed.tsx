@@ -12,6 +12,7 @@ import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
 import DisplayInputError from "../../common/DisplayInputError";
+import { IUser } from "../../../lib/interfaces";
 
 interface FormData {
   cp_name: string;
@@ -45,9 +46,12 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
 
-  const [externalOrganizers, setExternalOrganizers] = useState<any>([]);
+  const [externalOrganizers, setExternalOrganizers] = useState<IUser[]>([]);
+  const [selectedEOrganizer, setSelectedEOrganizer] = useState<string>();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
   const getExternalOrganizers = async () => {
     return await supabase
@@ -79,6 +83,11 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
   };
 
   const onSubmit = async (formValues: FormData) => {
+    if (!selectedEOrganizer && !isInternalOrganizer) {
+      setErrorOnSelectEOrganizer(true);
+      return;
+    }
+
     const {
       cp_name,
       cp_description,
@@ -114,6 +123,20 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
     if (error) {
       throw error;
+    }
+
+    if (!isInternalOrganizer) {
+      // Notify user that has been assigned as organizer
+      const { error } = await supabase.from("notifications").insert({
+        message: `You have been assigned as organizer for the fixed consumption point ${cp_name}`,
+        user_id: selectedEOrganizer,
+        link: "/profile/consumption-points",
+        source: user?.id, // User that has created the consumption point
+      });
+
+      if (error) {
+        throw error;
+      }
     }
 
     const newCPList = [...cpList, data[0]];
@@ -329,14 +352,29 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
                   <select
                     className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
                     id="is_external_organizer"
+                    onClick={(e: any) => {
+                      const value = e.target.value;
+                      setSelectedEOrganizer(value);
+                    }}
                   >
                     {externalOrganizers &&
                       externalOrganizers.map((organizer: any) => (
-                        <option key={organizer.id} value={organizer.id}>
+                        <option
+                          key={organizer.id}
+                          value={organizer.id}
+                          onSelect={() => {
+                            setSelectedEOrganizer(organizer);
+                            setErrorOnSelectEOrganizer(false);
+                          }}
+                        >
                           {organizer.name} {organizer.lastname}
                         </option>
                       ))}
                   </select>
+
+                  {errorOnSelectEOrganizer && (
+                    <DisplayInputError message="errors.input_required" />
+                  )}
                 </div>
               </>
             )}

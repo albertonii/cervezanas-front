@@ -76,7 +76,7 @@ export const AuthContextProvider = (props: Props) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN") {
-          const user = session?.user! ?? null;
+          const user = session?.user ?? null;
 
           // if (
           //   session?.user?.identities?.find((e) => {
@@ -199,7 +199,7 @@ export const AuthContextProvider = (props: Props) => {
   };
 
   const signInWithProvider = async (provider: Provider) => {
-    let isAccessLevel: boolean = false;
+    let isAccessLevel = false;
     await supabase.auth.signIn({ provider }).then(async (res) => {
       isAccessLevel = res.user?.user_metadata.access_level ? true : false;
     });

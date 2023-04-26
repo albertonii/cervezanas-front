@@ -3,7 +3,7 @@ import {
   UserIdentity,
   UserMetadata,
 } from "@supabase/supabase-js";
-import { Award, IConsumptionPoints } from "./types";
+import { IAward, IConsumptionPoints } from "./types";
 
 export interface IModalAddProduct {
   is_public: boolean;
@@ -19,7 +19,7 @@ export interface IModalAddProduct {
   origin: number;
   era: number;
   is_gluten: string;
-  awards: Award[];
+  awards: IAward[];
   p_principal: string;
   p_back: string;
   p_extra_1: string;
@@ -35,7 +35,7 @@ export interface IModalAddProduct {
   lot_quantity: number;
 }
 
-export interface ShippingAddress {
+export interface IShippingAddress {
   id: string;
   name: string;
   lastname: string;
@@ -51,7 +51,7 @@ export interface ShippingAddress {
   shipping_checked: boolean;
 }
 
-export interface BillingAddress {
+export interface IBillingAddress {
   id: string;
   name: string;
   lastname: string;
@@ -65,7 +65,7 @@ export interface BillingAddress {
   billing_checked: boolean;
 }
 
-export interface PaymentCard {
+export interface IPaymentCard {
   id: string;
   card_number: string;
   card_name: string;
@@ -77,7 +77,7 @@ export interface PaymentCard {
   card_document_id: string;
 }
 
-export interface SignUpInterface {
+export interface ISignUpInterface {
   userCredentials: { email: string; password: string; phone: string };
   options: {
     redirectTo?: string;
@@ -86,7 +86,7 @@ export interface SignUpInterface {
   };
 }
 
-export interface User {
+export interface IUser {
   id: string;
   app_metadata: UserAppMetadata;
   user_metadata: UserMetadata;
