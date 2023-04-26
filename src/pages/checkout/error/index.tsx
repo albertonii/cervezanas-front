@@ -3,19 +3,19 @@ import React, { useState, useEffect } from "react";
 import { NextApiRequest } from "next";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
-import { IProduct, Order } from "../../../lib/types.d";
+import { IProduct, IOrder } from "../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64 } from "../../../utils/utils";
-import DisplayImage from "../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 
 interface Props {
   isError?: boolean;
-  order: Order;
+  order: IOrder;
   products: IProduct[];
 }
 
-export default function Error({ order, products, isError }: Props) {
+export default function Error({ order, products }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
@@ -80,7 +80,15 @@ export default function Error({ order, products, isError }: Props) {
                       {/* Product Multimedia  */}
                       <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 mt-6 md:mt-6">
                         <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
-                          <DisplayImage product={product} />
+                          <DisplayImageProduct
+                            width={128}
+                            height={128}
+                            alt="Principal Product Image"
+                            imgSrc={product.product_multimedia[0].p_principal}
+                            class={
+                              "rounded-2xl hover:cursor-pointer w-full h-full object-contain"
+                            }
+                          />
                         </div>
                       </div>
 

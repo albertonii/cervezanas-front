@@ -11,7 +11,7 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-import { IProduct, Order } from "../../../lib/types.d";
+import { IProduct, IOrder } from "../../../lib/types.d";
 import { GetServerSidePropsContext } from "next";
 import { supabase } from "../../../utils/supabaseClient";
 import { formatDateString } from "../../../utils";
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  order: Order;
+  order: IOrder;
   products: IProduct[];
 }
 

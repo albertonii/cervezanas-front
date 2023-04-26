@@ -1,4 +1,3 @@
-import DisplayImage from "../common/DisplayImageProduct";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +5,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { IMonthlyProduct, IProduct } from "../../lib/types.d";
+import { IMonthlyProduct } from "../../lib/types.d";
 import { useRouter } from "next/router";
 import {
   AddCardButton,
@@ -15,6 +14,7 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -119,12 +119,11 @@ export default function MonthlyCardItem({ mProduct }: Props) {
         </div>
 
         <div className="w-[200px] h-[200px]">
-          <DisplayImage
-            isBasePath={true}
+          <DisplayImageProduct
             width={128}
             height={128}
             alt="Principal Product Image"
-            product={product}
+            imgSrc={product.product_multimedia[0].p_principal}
             class={
               "rounded-2xl hover:cursor-pointer w-full h-full object-contain"
             }

@@ -1,34 +1,27 @@
 import Link from "next/link";
-import DisplayImageString from "../../../components/common/DisplayImageString";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { NextApiRequest } from "next";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
-import { SupabaseProps } from "../../../constants";
-import { Order, IProduct } from "../../../lib/types.d";
+import { IOrder, IProduct } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64, isValidObject } from "../../../utils/utils";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 
 interface Props {
   isError?: boolean;
-  order: Order;
+  order: IOrder;
   products: IProduct[];
 }
 
-export default function Success({
-  order,
-  products: products_,
-  isError,
-}: Props) {
+export default function Success({ order, products, isError }: Props) {
   const { t } = useTranslation();
 
   const router = useRouter();
-
-  const [products, _] = useState<IProduct[]>(products_);
 
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
@@ -67,7 +60,6 @@ export default function Success({
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">
-                Order Details
                 {t("order_details")}
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
@@ -142,11 +134,11 @@ export default function Success({
                           {isValidObject(
                             product.product_multimedia[0].p_principal
                           ) && (
-                            <DisplayImageString
+                            <DisplayImageProduct
                               width={120}
                               height={120}
                               alt={""}
-                              src={`${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${product.product_multimedia[0].p_principal}`}
+                              imgSrc={`${product.product_multimedia[0].p_principal}`}
                               class="w-full h-full object-center object-cover sm:w-full sm:h-full"
                             />
                           )}

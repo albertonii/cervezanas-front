@@ -1,12 +1,10 @@
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SupabaseProps } from "../../constants";
-import { IProduct } from "../../lib/types.d";
-import { isValidObject } from "../../utils/utils";
 
 interface Props {
-  product: IProduct;
+  imgSrc: string;
   onClick?: ComponentProps<typeof Image>["onClick"];
   class?: string;
   alt?: string;
@@ -15,7 +13,7 @@ interface Props {
 }
 
 export default function DisplayImageProduct({
-  product,
+  imgSrc,
   onClick,
   class: class_,
   alt,
@@ -23,17 +21,8 @@ export default function DisplayImageProduct({
   height,
 }: Props) {
   const [src, setSrc] = useState(
-    SupabaseProps.BASE_PRODUCTS_ARTICLES_URL +
-      product.product_multimedia[0].p_principal
+    SupabaseProps.BASE_PRODUCTS_ARTICLES_URL + imgSrc
   );
-
-  useEffect(() => {
-    console.log(src);
-  }, [src]);
-
-  if (!isValidObject(product)) return null;
-
-  if (!isValidObject(product.product_multimedia[0])) return null;
 
   return (
     <Image
@@ -42,6 +31,7 @@ export default function DisplayImageProduct({
       alt={alt ?? "image"}
       src={src}
       onError={() => setSrc("/marketplace_product_default.png")}
+      onBlur={() => setSrc("/marketplace_product_default.png")}
       onClick={onClick}
       className={class_}
     />

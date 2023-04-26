@@ -14,7 +14,7 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
-import DisplayImage from "../common/DisplayImageProduct";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -117,11 +117,11 @@ export function StoreItem(props: StoreItemProps) {
         </div>
 
         <div className="w-[200px] h-[200px]">
-          <DisplayImage
+          <DisplayImageProduct
             width={128}
             height={128}
             alt="Principal Product Image"
-            product={product}
+            imgSrc={product.product_multimedia[0].p_principal}
             class={
               "rounded-2xl hover:cursor-pointer w-full h-full object-contain"
             }

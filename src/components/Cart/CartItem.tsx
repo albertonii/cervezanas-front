@@ -1,12 +1,11 @@
 import Link from "next/link";
-import DisplayImageString from "../common/DisplayImageString";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 
 type CartItemProps = {
   id: string;
@@ -16,7 +15,7 @@ type CartItemProps = {
 
 export function CartItem({ id, quantity, products }: CartItemProps) {
   const { t } = useTranslation();
-  const [item, setItem] = useState<Product | null>(null);
+  const [item, setItem] = useState<IProduct | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const {
     removeFromCart,
@@ -30,20 +29,16 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
 
   useEffect(() => {
     const findProducts = async () => {
-      setItem(products?.find((i) => i.id === id)!);
-
-      if (item == null) return null;
-
-      setItemMultimedia(
-        `${SupabaseProps.BASE_PRODUCTS_ARTICLES_URL}${item.product_multimedia[0].p_principal}`
-      );
+      const p = products?.find((i) => i.id === id);
+      if (!p) return;
+      setItem(p);
+      setItemMultimedia(p.product_multimedia[0].p_principal);
     };
 
     if (products != null && products.length > 0) {
       findProducts();
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     () => {
       setItem(null);
       setItemMultimedia("");
@@ -76,11 +71,10 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
       {item ? (
         <>
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-            <DisplayImageString
-              isBasePath={true}
+            <DisplayImageProduct
               width={240}
               height={200}
-              src={itemMultimedia}
+              imgSrc={itemMultimedia}
               alt={""}
               class="h-full w-full object-cover object-center"
             />

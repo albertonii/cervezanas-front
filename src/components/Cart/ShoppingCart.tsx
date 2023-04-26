@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -5,7 +6,6 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
 
 type ShoppingCartProps = {
   isOpen: boolean;

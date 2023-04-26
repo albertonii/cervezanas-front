@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./common";
 import { ICarouselItem } from "../lib/types.d";
-import DisplayImageString from "./common/DisplayImageString";
+import DisplayImageProduct from "./common/DisplayImageProduct";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -52,13 +52,12 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
           <div className="flex flex-wrap">
             <div className="flex justify-center w-full lg:w-4/5 lg:mb-0 py-4 px-10 2xl:mx-auto 2xl:px-0 max-h-[540px]">
               {/* Principal Image  */}
-              <DisplayImageString
-                src={main?.imageUrl}
+              <DisplayImageProduct
+                imgSrc={main?.imageUrl}
                 width={350}
                 height={150}
                 alt=""
                 class="rounded"
-                isBasePath={true}
               />
             </div>
 
