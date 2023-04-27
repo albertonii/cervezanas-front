@@ -91,17 +91,12 @@ export function ShoppingCartProvider({ children }: Props) {
 
   const increaseCartQuantity = (id: string) => {
     setItems((currItems) => {
-      if (currItems.find((item) => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1 }];
-      } else {
-        return currItems.map((item) => {
-          if (item.id === id) {
-            return { ...item, quantity: item.quantity + 1 };
-          } else {
-            return item;
-          }
-        });
-      }
+      const item = currItems.find((item) => item.id === id);
+      return item
+        ? currItems.map((item) =>
+            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        : [...currItems, { id, quantity: 1 }];
     });
   };
 
@@ -128,7 +123,7 @@ export function ShoppingCartProvider({ children }: Props) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const cartQuantity = items?.reduce(
+  const cartQuantity = items.reduce(
     (quantity, item) => item.quantity + quantity,
     0
   );

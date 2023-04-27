@@ -25,12 +25,15 @@ export function Header() {
   };
 
   const handleSignIn = () => {
-    router.push("/signin");
+    router.push(`/signin`);
   };
 
   const handleBeerMe = () => {
-    router.push("/beer-me");
+    router.push(`/beer-me`);
   };
+
+  const MENU_ITEM_STYLES =
+    "block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg";
 
   return (
     <>
@@ -66,7 +69,7 @@ export function Header() {
               <ul className="align-center mt-4 hidden flex-col p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
                 <li className="flex items-center">
                   <Link href="/marketplace">
-                    <span className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg">
+                    <span className={`${MENU_ITEM_STYLES}`}>
                       {t("marketplace").toUpperCase()}
                     </span>
                   </Link>
@@ -74,10 +77,7 @@ export function Header() {
 
                 <li className="flex items-center">
                   <Link href="/community">
-                    <span
-                      className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg"
-                      aria-current="page"
-                    >
+                    <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                       {t("community").toUpperCase()}
                     </span>
                   </Link>
@@ -85,10 +85,7 @@ export function Header() {
 
                 <li className="flex items-center">
                   <Link href="/events">
-                    <span
-                      className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg"
-                      aria-current="page"
-                    >
+                    <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                       {t("events").toUpperCase()}
                     </span>
                   </Link>
@@ -142,7 +139,7 @@ export function Header() {
                     class={
                       "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
                     }
-                    onClick={() => setOpenNotification(!openNotification)}
+                    onClick={() => setOpenNotification(true)}
                     title={""}
                   >
                     <div className="relative rounded-full">
@@ -160,12 +157,10 @@ export function Header() {
                   </Button>
 
                   {/* Notification popup  */}
-                  <div className="">
-                    <Notification
-                      open={openNotification}
-                      setOpen={setOpenNotification}
-                    />
-                  </div>
+                  <Notification
+                    open={openNotification}
+                    setOpen={setOpenNotification}
+                  />
                 </li>
 
                 {loggedIn ? (

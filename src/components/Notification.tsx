@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { INotification } from "../lib/types";
 import { supabase } from "../utils/supabaseClient";
 import { useAppContext } from "./Context";
+import { useTranslation } from "react-i18next";
+import { getTimeElapsed } from "../utils";
 
 interface Props {
   open: boolean;
@@ -12,25 +14,22 @@ interface Props {
 }
 
 export function Notification({ open, setOpen }: Props) {
+  const { t } = useTranslation();
   const notificationRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
 
   const router = useRouter();
   const { notifications } = useAppContext();
   if (!open) return null;
 
-  useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
-
   const handleOnClick = (notification: INotification) => {
-    {
-      // Cambiar estado de la notificación ha es leído si se presiona en ella
-      supabase
-        .from("notifications")
-        .update({ read: true })
-        .eq("id", notification.id)
-        .then(() => {
-          router.push(notification.link);
-        });
-    }
+    supabase
+      .from("notifications")
+      .update({ read: true })
+      .eq("id", notification.id)
+      .then(() => {
+        router.push(notification.link);
+      });
   };
 
   const handleClickOutsideCallback = () => {
@@ -41,79 +40,45 @@ export function Notification({ open, setOpen }: Props) {
 
   return (
     <div ref={notificationRef}>
-      {notifications?.length === 0 && (
-        <div
-          className="absolute -left-[14rem] top-10 z-50 h-auto max-h-[35vh] w-[40vw] overflow-y-scroll 
-        rounded-md border-2 border-beer-gold bg-beer-softFoam p-4 lg:-left-40 lg:w-[25vw]"
-        >
-          <div className="flex flex-col space-y-4">
-            <div className="flex justify-between rounded-lg bg-white/30 py-6 px-4">
-              <div className="flex items-center space-x-4">
-                <div className="flex flex-col space-y-1">
-                  <span className="text-sm">No tienes notificaciones</span>
-                </div>
-              </div>
-            </div>
+      <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
+        <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
+          <div className="bg-beer-softFoam p-4">
+            <h3 className="text-2xl font-bold">{t("notifications")}</h3>
           </div>
-        </div>
-      )}
-      {notifications.length > 0 && (
-        <div
-          className="absolute top-10 -left-[14rem] z-50 h-auto max-h-[35vh] w-[40vw] overflow-y-scroll rounded-md border-2
-         border-beer-gold bg-beer-softFoam p-4 lg:-left-40 lg:w-[25vw]"
-        >
-          <div className="flex flex-col space-y-4">
-            {notifications?.map((notification) => (
-              <div
-                className="flex justify-between rounded-lg bg-white/30 py-6 px-4 hover:cursor-pointer hover:bg-beer-softBlondeBubble"
-                onClick={() => handleOnClick(notification)}
-                key={notification.id}
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="flex flex-col space-y-1">
-                    <span className="text-sm">{notification.message}</span>
+          <div className="divide-y divide-gray-200">
+            {notifications.length === 0 ? (
+              <div className="p-4 text-gray-500">{t("no_notifications")}</div>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  className="cursor-pointer px-4 py-2 hover:bg-beer-softBlondeBubble"
+                  onClick={() => handleOnClick(notification)}
+                  key={notification.id}
+                >
+                  <div className="flex items-center justify-between  space-x-4">
+                    <div className="flex items-center space-x-4">
+                      <Image
+                        width={36}
+                        height={36}
+                        src={"/icons/watch-icon.png"}
+                        alt="read notification"
+                        className="rounded-full"
+                      />
+                      <span className="text-lg font-medium">
+                        {notification.message}
+                      </span>
+                    </div>
+
+                    <span className="text-sm text-gray-500">
+                      {getTimeElapsed(notification.created_at)}
+                    </span>
                   </div>
                 </div>
-
-                <div className="flex flex-col ">
-                  <span className="flex items-center justify-center font-bold">
-                    <Image
-                      width={36}
-                      height={36}
-                      src={"/icons/watch-icon.png"}
-                      alt="read notification"
-                      className="rounded-sm"
-                    />
-                  </span>
-
-                  <div className="text-stone-600 flex-none px-4 py-2 text-xs md:text-sm">
-                    17m ago
-                  </div>
-                </div>
-
-                {/* <div className="flex items-center space-x-4">
-                <Image
-                  width={100}
-                  height={100}
-                  alt={""}
-                  src="/assets/hero.png"
-                  className="rounded-full h-14 w-14"
-                />
-                <div className="flex flex-col space-y-1">
-                  <span className="font-bold">{notification.source.name}</span>
-                  <span className="text-sm">
-                    Yeah same question here too 🔥
-                  </span>
-                </div>
-              </div>
-              <div className="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">
-                17m ago
-              </div> */}
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

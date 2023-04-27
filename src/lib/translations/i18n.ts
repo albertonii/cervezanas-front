@@ -499,6 +499,8 @@ from the beer.`,
   experimental: `Experimental`,
   monthly_products: `Monthly products`,
   pagination_footer_nums: `Showing {{from}} to {{to}} of {{total}} entries`,
+  notifications: `Notifications`,
+  no_notifications: `No notifications`,
 };
 
 const translationsEs = {
@@ -1014,6 +1016,8 @@ desprenden de la cerveza. `,
   experimental: `Experimental`,
   monthly_products: `Productos mensuales`,
   pagination_footer_nums: `Mostrando {{from}} a {{to}} de {{total}} registros`,
+  notifications: `Notificaciones`,
+  no_notifications: `No tienes notificaciones`,
 };
 
 // the translations

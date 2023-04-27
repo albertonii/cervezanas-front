@@ -7,7 +7,7 @@ import { INotification } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 
-type AppContextTYpe = {
+type AppContextType = {
   bgImg?: string;
   setBgImg: (newBgImg: string) => void;
   profileImg?: string;
@@ -19,7 +19,17 @@ type AppContextTYpe = {
   setOpenNotification: (open: boolean) => void;
 };
 
-const AppContext = createContext<Partial<AppContextTYpe>>({});
+const AppContext = createContext<AppContextType>({
+  bgImg: "",
+  setBgImg: () => void {},
+  profileImg: "",
+  setProfileImg: () => void {},
+  sidebar: "",
+  changeSidebarActive: () => void {},
+  notifications: [],
+  openNotification: false,
+  setOpenNotification: () => void {},
+});
 
 interface Props {
   children: React.ReactNode;
