@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -22,14 +21,13 @@ interface Props {
 }
 
 export default function MonthlyCardItem({ mProduct }: Props) {
-  if (!mProduct) return null;
   const product = mProduct.product_id;
 
   const { t } = useTranslation();
   const { id } = product;
   const router = useRouter();
 
-  const [overAll, _] = useState<string>(
+  const [overAll, setOverAll] = useState<string>(
     product.reviews.length > 0
       ? () => {
           let overAll_sum = 0;
@@ -41,9 +39,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
       : t("no_reviews") ?? ""
   );
 
-  const [isLike, setIsLike] = useState<boolean>(
-    product.likes.length > 0 ? true : false
-  );
+  const [isLike, setIsLike] = useState<boolean>(!!product.likes.length);
 
   const {
     getItemQuantity,
