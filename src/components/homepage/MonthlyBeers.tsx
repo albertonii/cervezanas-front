@@ -10,7 +10,7 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
   if (monthlyProducts.length === 0 && !monthlyProducts) return null;
 
   return (
-    <div className="w-100% h-full sm:h-full bg-beer-foam flex justify-center pt-[48vh] sm:pt-[40vh] ">
+    <div className="w-100% mb-20 flex h-full justify-center bg-beer-foam pt-[48vh] sm:h-full sm:pt-[40vh]">
       <div className="container p-4 sm:p-0">
         {/* Copywriting  */}
         <div className="flex flex-col space-y-6">
@@ -29,9 +29,9 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
           </div>
 
           {/* Cards  */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-gap-4">
+          <div className="grid-gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
             {monthlyProducts.map((mProduct) => (
-              <div key={mProduct.id} className="">
+              <div key={mProduct.id}>
                 <MonthlyCardItem mProduct={mProduct} />
               </div>
             ))}
