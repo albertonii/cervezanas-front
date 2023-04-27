@@ -18,7 +18,8 @@ export function Header() {
   const router = useRouter();
 
   const { cartQuantity, openCart } = useShoppingCart();
-  const { openNotification, setOpenNotification } = useAppContext();
+  const { notifications, openNotification, setOpenNotification } =
+    useAppContext();
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -151,7 +152,7 @@ export function Header() {
                         className={"rounded-full"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                        {cartQuantity}
+                        {notifications?.length ?? 0}
                       </div>
                     </div>
                   </Button>
