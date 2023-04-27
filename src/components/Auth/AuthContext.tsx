@@ -1,5 +1,4 @@
 import axios from "axios";
-import Router from "next/router";
 import React, { useEffect, useState, createContext } from "react";
 import {
   SupabaseClient,
@@ -9,21 +8,16 @@ import {
   AuthChangeEvent,
 } from "@supabase/supabase-js";
 import { useMessage } from "../message";
-import {
-  ROUTE_HOME,
-  ROUTE_SIGNIN,
-  ROUTE_SIGNOUT,
-  ROUTE_SIGNUP,
-} from "../../config";
-import { ROLE_ENUM, SignUpInterface, User } from "../../lib/interfaces";
+import { ROUTE_SIGNIN } from "../../config";
+import { ROLE_ENUM, ISignUpInterface, IUser } from "../../lib/interfaces";
 import { useTranslation } from "react-i18next";
 
 export interface AuthSession {
-  user: User | null;
+  user: IUser | null;
   role: ROLE_ENUM | null;
   loading: boolean;
-  setUser: (user: User | null) => void;
-  signUp: (payload: SignUpInterface) => void;
+  setUser: (user: IUser | null) => void;
+  signUp: (payload: ISignUpInterface) => void;
   signIn: (payload: UserCredentials) => Promise<any>;
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
@@ -32,19 +26,7 @@ export interface AuthSession {
   loggedIn: boolean;
 }
 
-export const AuthContext = createContext<AuthSession>({
-  user: null,
-  role: null,
-  setUser: () => {},
-  signIn: () => Promise.resolve(),
-  signUp: () => {},
-  signInWithProvider: () => Promise.resolve(),
-  signOut: () => {},
-  supabaseClient: null,
-  loading: false,
-  userLoading: false,
-  loggedIn: false,
-});
+export const AuthContext = createContext<Partial<AuthSession>>({});
 
 export interface Props {
   supabaseClient: SupabaseClient;
@@ -53,7 +35,7 @@ export interface Props {
 
 export const AuthContextProvider = (props: Props) => {
   const { supabaseClient: supabase } = props;
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
@@ -66,7 +48,7 @@ export const AuthContextProvider = (props: Props) => {
     const user = supabase.auth.user();
 
     if (user) {
-      setUser(user as User);
+      setUser(user as IUser);
       setUserLoading(false);
       setLoggedIn(true);
     } else {
@@ -78,15 +60,9 @@ export const AuthContextProvider = (props: Props) => {
         if (event === "SIGNED_IN") {
           const user = session?.user ?? null;
 
-          // if (
-          //   session?.user?.identities?.find((e) => {
-          //     return e.provider === "email";
-          //   })
-          // ) {
-          await setSupabaseCookie(event, session!);
-          // }
+          await setSupabaseCookie(event, session as Session);
 
-          setUser(user as User);
+          setUser(user as IUser);
           setLoggedIn(true);
 
           clearMessages!();
@@ -129,13 +105,13 @@ export const AuthContextProvider = (props: Props) => {
         return;
       }
 
-      setRole(data![0].role);
+      setRole(data[0].role);
     };
 
     getRole();
   }, [supabase, user]);
 
-  const signUp = async (payload: SignUpInterface) => {
+  const signUp = async (payload: ISignUpInterface) => {
     try {
       setLoading(true);
 
@@ -254,7 +230,7 @@ export const AuthContextProvider = (props: Props) => {
     user,
     role,
     loading,
-    setUser: (user: User | null) => setUser(user),
+    setUser: (user: IUser | null) => setUser(user),
     signUp,
     signIn,
     signInWithProvider,

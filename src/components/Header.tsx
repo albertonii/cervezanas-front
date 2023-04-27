@@ -34,22 +34,22 @@ export function Header() {
 
   return (
     <>
-      <header className="header absolute w-full bg-beer-foam z-40 sm:z-20 bg-transparent">
-        <nav className="border-gray-200 sm:px-4 pb-2.5 rounded dark:bg-gray-900">
-          <div className="container grid grid-cols-3 sm:gap-2 sm:flex sm:justify-between sm:items-center sm:mx-auto bg-beer-darkGold sm:bg-transparent">
+      <header className="header absolute z-40 w-full bg-beer-foam bg-transparent sm:z-20">
+        <nav className="rounded border-gray-200 pb-2.5 dark:bg-gray-900 sm:px-4">
+          <div className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:items-center sm:justify-between sm:gap-2 sm:bg-transparent">
             {/* Left elements  */}
-            <div className="w-full flex justify-center items-center ">
+            <div className="flex w-full items-center justify-center ">
               {/* Hamburguer menu  */}
               <button
                 data-collapse-toggle="navbar-default"
                 type="button"
-                className="inline-flex sm:hidden items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
                 aria-controls="navbar-default"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
                 <svg
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -63,10 +63,10 @@ export function Header() {
                 </svg>
               </button>
 
-              <ul className="hidden sm:flex flex-col align-center p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="align-center mt-4 hidden flex-col p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
                 <li className="flex items-center">
                   <Link href="/marketplace">
-                    <span className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft">
+                    <span className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg">
                       {t("marketplace").toUpperCase()}
                     </span>
                   </Link>
@@ -75,7 +75,7 @@ export function Header() {
                 <li className="flex items-center">
                   <Link href="/community">
                     <span
-                      className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                      className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg"
                       aria-current="page"
                     >
                       {t("community").toUpperCase()}
@@ -86,7 +86,7 @@ export function Header() {
                 <li className="flex items-center">
                   <Link href="/events">
                     <span
-                      className="block py-2 pr-4 pl-3 text-sm lg:text-lg text-beer-dark rounded md:bg-transparent md:p-0 dark:text-white font-semibold hover:text-beer-draft"
+                      className="block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg"
                       aria-current="page"
                     >
                       {t("events").toUpperCase()}
@@ -98,8 +98,8 @@ export function Header() {
 
             {/* Logo Cervezanas  */}
             <div className="w-full" id="navbar-default">
-              <div className="relative h-16 w-full md:h-20 lg:h-24 flex-shrink-0 flex justify-center">
-                <div className="relative h-[100px] sm:h-[143px] lg:h-[153] w-[110px] sm:w-[141px] lg:w-[151px] p-2 sm:p-2 bg-beer-gold flex justify-center ">
+              <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+                <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
                   <Link href={"/"}>
                     <Image
                       src="/logo_cervezanas.svg"
@@ -111,16 +111,16 @@ export function Header() {
                       sizes="100px"
                     />
                   </Link>
-                  <div className="w-full pt-[22px] h-[22px] absolute -bottom-5 bg-beer-darkGold"></div>
+                  <div className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></div>
                 </div>
               </div>
             </div>
 
             {/* Right elements  */}
             <div className="w-full">
-              <ul className="hidden sm:flex sm:flex-col sm:justify-end sm:align-middle sm:p-4 sm:mt-4 md:flex-row  md:space-x-8 md:mt-0 md:text-sm md:font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="hidden dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-col sm:justify-end sm:p-4  sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
                 {/* Language  */}
-                <li className="flex items-center max-w-[50px]">
+                <li className="flex max-w-[50px] items-center">
                   <Select
                     size="tiny"
                     name="language"
@@ -137,10 +137,10 @@ export function Header() {
                 </li>
 
                 {/* Notifications  */}
-                <li className="flex items-center relative">
+                <li className="relative flex items-center">
                   <Button
                     class={
-                      "border-none hover:bg-transparent hover:scale-110 transition-all hover:cursor-pointer"
+                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
                     }
                     onClick={() => setOpenNotification(!openNotification)}
                     title={""}
@@ -153,7 +153,7 @@ export function Header() {
                         alt={"Go to Shopping cart"}
                         className={"rounded-full"}
                       />
-                      <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
+                      <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {cartQuantity}
                       </div>
                     </div>
@@ -161,7 +161,10 @@ export function Header() {
 
                   {/* Notification popup  */}
                   <div className="">
-                    <Notification open={openNotification} />
+                    <Notification
+                      open={openNotification}
+                      setOpen={setOpenNotification}
+                    />
                   </div>
                 </li>
 
@@ -172,7 +175,7 @@ export function Header() {
                       <li className="flex items-center">
                         <Button
                           class={
-                            "border-none hover:bg-transparent hover:scale-110 transition-all hover:cursor-pointer"
+                            "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
                           }
                           onClick={() => openCart()}
                           title={""}
@@ -185,7 +188,7 @@ export function Header() {
                               alt={"Go to Shopping cart"}
                               className={"rounded-full"}
                             />
-                            <div className="rounded-full bg-beer-blonde flex justify-center items-center white w-6 h-6 absolute bottom-0 right-0 translate-x-2 translate-y-2">
+                            <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                               {cartQuantity}
                             </div>
                           </div>
@@ -219,7 +222,7 @@ export function Header() {
               </ul>
 
               <Button onClick={() => handleBeerMe()} title={""}>
-                <div className="absolute right-0 bg-beer-dark flex justify-start items-center sm:px-2 sm:py-1 sm:rounded-l space-x-4">
+                <div className="absolute right-0 flex items-center justify-start space-x-4 bg-beer-dark sm:rounded-l sm:px-2 sm:py-1">
                   <Image
                     src={"/icons/beerme.svg"}
                     width={45}
@@ -229,8 +232,8 @@ export function Header() {
                   />
 
                   <div className="flex flex-col ">
-                    <div className="text-beer-foam text-right ">Puntos</div>
-                    <div className="text-beer-foam text-right ">Cervezanas</div>
+                    <div className="text-right text-beer-foam ">Puntos</div>
+                    <div className="text-right text-beer-foam ">Cervezanas</div>
                   </div>
                 </div>
               </Button>

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Head from "next/head";
 import { MessageList, useMessage } from "./message";
 import { Breadcrumb, Footer, Header } from "./index";
 import { useAuth } from "./Auth";
@@ -6,7 +7,6 @@ import {
   AppContextProvider,
   ShoppingCartProvider,
 } from "../components/Context/index";
-import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useRouter } from "next/router";
 
@@ -58,13 +58,13 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
               />
             </Head>
 
-            <div className="flex flex-col relative bg-beer-foam">
+            <div className="relative flex flex-col bg-beer-foam">
               <Header />
 
               {loggedIn && !isHomepage && (
                 <div
                   className={classNames(
-                    "w-full h-auto mx-auto relative mt-[10vh]",
+                    "relative mx-auto mt-[10vh] h-auto w-full",
                     usePadding && "px-4 sm:px-6 lg:px-8",
                     useBackdrop && "bg-gray-200"
                   )}
@@ -77,7 +77,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
               <main
                 className={classNames(
-                  "w-full h-auto mx-auto relative ",
+                  "relative mx-auto h-auto w-full ",
                   usePadding && "px-2 sm:px-6 lg:px-8",
                   useBackdrop && "bg-gray-200"
                 )}

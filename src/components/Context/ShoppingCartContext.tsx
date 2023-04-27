@@ -24,30 +24,26 @@ type ShoppingCartContextType = {
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
   items: [],
   cartQuantity: 0,
-  clearMarketplace: () => {},
-  clearItems: () => {},
-  clearCart: () => {},
-  isInCart: (id: string) => false,
-  getItemQuantity: (id: string) => 0,
-  increaseCartQuantity: (id: string) => {},
-  decreaseCartQuantity: (id: string) => {},
-  removeFromCart: (id: string) => {},
-  openCart: () => {},
-  closeCart: () => {},
+  clearMarketplace: () => void {},
+  clearItems: () => void {},
+  clearCart: () => void {},
+  isInCart: () => false,
+  getItemQuantity: () => 0,
+  increaseCartQuantity: () => void {},
+  decreaseCartQuantity: () => void {},
+  removeFromCart: () => void {},
+  openCart: () => void {},
+  closeCart: () => void {},
   marketplaceItems: [],
-  addMarketplaceItems: (item: IProduct) => {},
-  removeMarketplaceItems: (id: string) => {},
+  addMarketplaceItems: () => void {},
+  removeMarketplaceItems: () => void {},
 });
 
-export function useShoppingCart() {
-  return useContext(ShoppingCartContext);
+interface Props {
+  children: React.ReactNode;
 }
 
-export function ShoppingCartProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function ShoppingCartProvider({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useLocalStorage<ICartItem[]>("shopping-cart", []);
 
@@ -137,28 +133,39 @@ export function ShoppingCartProvider({
     0
   );
 
+  const value = {
+    items,
+    marketplaceItems,
+    addMarketplaceItems,
+    removeMarketplaceItems,
+    clearMarketplace,
+    clearItems,
+    clearCart,
+    isInCart,
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+    openCart,
+    closeCart,
+    cartQuantity,
+  };
+
   return (
-    <ShoppingCartContext.Provider
-      value={{
-        items,
-        marketplaceItems,
-        addMarketplaceItems,
-        removeMarketplaceItems,
-        clearMarketplace,
-        clearItems,
-        clearCart,
-        isInCart,
-        getItemQuantity,
-        increaseCartQuantity,
-        decreaseCartQuantity,
-        removeFromCart,
-        openCart,
-        closeCart,
-        cartQuantity,
-      }}
-    >
+    <ShoppingCartContext.Provider value={value}>
       {children}
       {items && <ShoppingCart isOpen={isOpen} />}
     </ShoppingCartContext.Provider>
   );
+}
+
+export function useShoppingCart() {
+  const context = useContext(ShoppingCartContext);
+  if (context === undefined) {
+    throw new Error(
+      "useShoppingCart must be used within a ShoppingCartProvider"
+    );
+  }
+
+  return context;
 }

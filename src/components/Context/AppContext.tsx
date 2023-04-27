@@ -7,7 +7,7 @@ import { INotification } from "../../lib/types";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 
-interface IProfile {
+type AppContextTYpe = {
   bgImg?: string;
   setBgImg: (newBgImg: string) => void;
   profileImg?: string;
@@ -17,21 +17,12 @@ interface IProfile {
   notifications?: INotification[];
   openNotification: boolean;
   setOpenNotification: (open: boolean) => void;
-}
+};
 
-const AppContext = createContext<IProfile>({
-  bgImg: "",
-  setBgImg: () => void {},
-  profileImg: "",
-  setProfileImg: () => void {},
-  sidebar: "",
-  changeSidebarActive: () => void {},
-  notifications: [],
-  openNotification: false,
-  setOpenNotification: () => void {},
-});
+const AppContext = createContext<Partial<AppContextTYpe>>({});
 
 interface Props {
+  children: React.ReactNode;
   [propName: string]: any;
 }
 
@@ -43,7 +34,7 @@ export function AppContextProvider(props: Props) {
 
   const { user } = useAuth();
 
-  if (!user) return;
+  if (!user) return <></>;
   const { refetch } = useFetchNotifications(user.id);
 
   const [openNotification, setOpenNotification] = useState(false);
@@ -74,7 +65,6 @@ export function AppContextProvider(props: Props) {
   };
 
   useEffect(() => {
-    if (!user) return;
     refetch().then((res) => {
       setNotifications(res.data as INotification[]);
     });
@@ -92,7 +82,11 @@ export function AppContextProvider(props: Props) {
     setOpenNotification,
   };
 
-  return <AppContext.Provider value={value} {...props} />;
+  return (
+    <AppContext.Provider value={value} {...props}>
+      {props.children}
+    </AppContext.Provider>
+  );
 }
 
 export const useAppContext = () => {
