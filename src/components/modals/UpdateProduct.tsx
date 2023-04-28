@@ -6,8 +6,8 @@ import { fermentation_options, product_type_options } from "../../lib/beerEnum";
 import { supabase } from "../../utils/supabaseClient";
 import {
   IProduct,
-  Inventory,
-  Award,
+  IInventory,
+  IAward,
   ModalUpdateProductProps,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
@@ -232,7 +232,7 @@ export function UpdateProduct({
         const beerId = beer.id;
 
         // Inventory - Stock
-        const stock: Inventory = {
+        const stock: IInventory = {
           product_id: productId,
           quantity: stock_quantity,
           limit_notification: stock_limit_notification,
@@ -292,7 +292,7 @@ export function UpdateProduct({
 
         // Awards
         if (isNotEmptyArray(awards!) && isValidObject(awards![0].img_url)) {
-          awards!.map(async (award: Award) => {
+          awards!.map(async (award: IAward) => {
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);
@@ -356,7 +356,7 @@ export function UpdateProduct({
             handleSetActiveStep={handleSetActiveStep}
           >
             <>
-              <p className="my-4 text-slate-500 text-lg leading-relaxed">
+              <p className="text-slate-500 my-4 text-lg leading-relaxed">
                 {t("modal_product_description")}
               </p>
 

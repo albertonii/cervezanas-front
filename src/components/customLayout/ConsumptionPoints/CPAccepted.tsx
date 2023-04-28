@@ -30,7 +30,7 @@ export default function CPAccepted({ cps }: Props) {
       <div className="text-3xl">¡Petición aceptada!</div>
 
       <div>
-        <div className="text-lg max-w-3xl">
+        <div className="max-w-3xl text-lg">
           El equipo de cervezanas ha recibido tu solicitud para participar como
           punto de consumo certificado y has sido admitido. Ahora podrás usar
           los paneles de control para gestionar tu punto de consumo.

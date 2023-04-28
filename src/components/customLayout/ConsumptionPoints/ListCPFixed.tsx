@@ -12,11 +12,16 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 
 interface Props {
+  cpsId: string;
   cpFixed: ICPFixed[];
   handleCPList: ComponentProps<any>;
 }
 
-export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
+export default function ListCPFixed({
+  cpsId,
+  cpFixed: cp,
+  handleCPList,
+}: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -32,7 +37,7 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
     fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
   const { isError, isLoading, refetch } = useFetchCPFixed(
-    cp[0].cp_id,
+    cpsId,
     currentPage,
     pageRange
   );
@@ -155,7 +160,7 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
+    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {isEditModal && (
         <Modal
           title={t("accept")}
@@ -211,10 +216,10 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
       ) : (
         <>
           <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="h-5 w-5 text-gray-500 dark:text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -231,13 +236,13 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Search by name..."
             />
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th
                   scope="col"
@@ -274,19 +279,19 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
                 return (
                   <tr
                     key={cp.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                    <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/cp_name`}>{cp.cp_name}</Link>
                     </td>
 
                     <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
 
-                    <td className="py-4 px-6 cursor-pointer"></td>
+                    <td className="cursor-pointer py-4 px-6"></td>
 
-                    <td className="py-4 px-6 cursor-pointer"></td>
+                    <td className="cursor-pointer py-4 px-6"></td>
 
-                    <td className="py-4 px-6 flex space-x-2">
+                    <td className="flex space-x-2 py-4 px-6">
                       <IconButton
                         icon={faEdit}
                         onClick={() => {
@@ -320,7 +325,7 @@ export default function ListCPFixed({ cpFixed: cp, handleCPList }: Props) {
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="flex justify-around items-center my-4">
+          <div className="my-4 flex items-center justify-around">
             <Button class="" onClick={() => handlePrevPage()} small primary>
               {t("prev")}
             </Button>

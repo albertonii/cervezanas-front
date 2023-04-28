@@ -117,14 +117,14 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
         classContainer={""}
       >
         <form>
-          <fieldset className="space-y-4 p-4 border-2 rounded-md border-beer-softBlondeBubble">
-            <legend className="text-2xl m-2">{t("cp_mobile_info")}</legend>
+          <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+            <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
 
             {/* Event name  */}
             <div className="flex flex-col space-y-2">
               <label htmlFor="cp_name">{t("cp_name")}</label>
               <input
-                className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-xl"
+                className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
                 type="text"
                 id="name"
                 {...register("cp_name", { required: true })}
@@ -138,7 +138,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
             <div className="flex flex-col space-y-2">
               <label htmlFor="cp_description">{t("description")}</label>
               <textarea
-                className="max-h-[180px] bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-xl"
+                className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
                 {...register("cp_description", { required: true })}
               />
             </div>
@@ -148,12 +148,12 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
 
             {/* Start date and end date  */}
             <div className="flex flex-row space-x-2">
-              <div className="flex flex-col  w-full">
+              <div className="flex w-full  flex-col">
                 <label htmlFor="start_date">{t("start_date")}</label>
                 <input
                   type="date"
                   id="start_date"
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   {...register("start_date", { required: true })}
                 />
 
@@ -164,10 +164,10 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
                 )}
               </div>
 
-              <div className="flex flex-col w-full">
+              <div className="flex w-full flex-col">
                 <label htmlFor="end_date">{t("end_date")}</label>
                 <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   type="date"
                   id="end_date"
                   {...register("end_date", { required: true })}
@@ -182,15 +182,15 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
             </div>
           </fieldset>
 
-          <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
+          <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
             <legend className="text-2xl">{t("organizer_info")}</legend>
 
             {/* Organizer name and lastname  */}
             <div className="flex flex-row space-x-2 ">
-              <div className="w-full flex flex-col">
+              <div className="flex w-full flex-col">
                 <label htmlFor="organizer_name">{t("name")}</label>
                 <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   type="text"
                   id="organizer_name"
                   {...register("organizer_name", { required: true })}
@@ -203,10 +203,10 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
                 )}
               </div>
 
-              <div className="w-full flex flex-col">
+              <div className="flex w-full flex-col">
                 <label htmlFor="organizer_lastname">{t("lastname")}</label>
                 <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   type="text"
                   id="organizer_lastname"
                   {...register("organizer_lastname", { required: true })}
@@ -225,7 +225,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
               <div className="flex flex-col">
                 <label htmlFor="organizer_email">{t("email")}</label>
                 <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   type="email"
                   id="organizer_email"
                   {...register("organizer_email", { required: true })}
@@ -241,7 +241,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
               <div className="flex flex-col">
                 <label htmlFor="organizer_phone">{t("phone")}</label>
                 <input
-                  className="bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-md "
+                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                   type="text"
                   id="organizer_phone"
                   {...register("organizer_phone", { required: true })}
@@ -256,7 +256,7 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
             </div>
           </fieldset>
 
-          <fieldset className="space-y-4 p-4 mt-12 border-2 rounded-md border-beer-softBlondeBubble">
+          <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
             <legend className="text-2xl">{t("cp_mobile_location")}</legend>
 
             {addressInputRequired && (
@@ -270,10 +270,14 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
       </Modal>
 
       {/* Section displaying all the Mobile consumption points created by the organizer  */}
-      <section className="flex flex-col space-y-4 mt-4 ">
+      <section className="mt-4 flex flex-col space-y-4 ">
         <h2 className="text-2xl">{t("cp_mobile_list")}</h2>
 
-        <ListCPMobile cpMobile={cpList} handleCPList={handleCPList} />
+        <ListCPMobile
+          cpMobile={cpList}
+          cpsId={cpsId}
+          handleCPList={handleCPList}
+        />
       </section>
     </>
   );

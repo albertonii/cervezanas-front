@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, Profile } from "../../../lib/types.d";
+import { IConsumptionPoints, IProfile } from "../../../lib/types.d";
 import { SubmitCPOrganizer } from "../../modals";
 import CPAccepted from "./CPAccepted";
 import CPPending from "./CPPending";
 import CPRejected from "./CPRejected";
 
 interface Props {
-  profile: Profile;
+  profile: IProfile;
   cps: IConsumptionPoints[];
 }
 
@@ -27,11 +27,11 @@ export function ConsumptionPoints({
   return (
     <div className="py-6 px-4 " aria-label="ConsumptionPoints">
       <div className="flex flex-col">
-        <div className="text-4xl pr-12 mb-8">{t("consumption_points")}</div>
+        <div className="mb-8 pr-12 text-4xl">{t("consumption_points")}</div>
 
         {cpOrganizerStatus === -1 ? (
           <div>
-            <div className="text-lg text-beer-dark bg-beer-foam p-2 mt-4">
+            <div className="mt-4 bg-beer-foam p-2 text-lg text-beer-dark">
               {t("consumption_points_description")}
             </div>
 

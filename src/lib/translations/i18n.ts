@@ -503,6 +503,8 @@ from the beer.`,
   no_notifications: `No notifications`,
   my_account: `My account`,
   menu: `Menu`,
+  no_cp_fixed: `No fixed consumption points`,
+  no_cp_mobile: `No mobile consumption points`,
 };
 
 const translationsEs = {
@@ -1022,6 +1024,8 @@ desprenden de la cerveza. `,
   no_notifications: `No tienes notificaciones`,
   my_account: `Mi cuenta`,
   menu: `Menú`,
+  no_cp_fixed: `No hay puntos fijos de consumo`,
+  no_cp_mobile: `No hay puntos móviles de consumo`,
 };
 
 // the translations
