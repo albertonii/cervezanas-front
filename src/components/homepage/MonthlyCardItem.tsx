@@ -27,17 +27,20 @@ export default function MonthlyCardItem({ mProduct }: Props) {
   const { id } = product;
   const router = useRouter();
 
-  const [overAll, setOverAll] = useState<string>(
-    product.reviews.length > 0
-      ? () => {
-          let overAll_sum = 0;
-          product.reviews.map((review) => (overAll_sum += review.overall));
-          const overAll_avg = overAll_sum / product.reviews.length;
-          const overAll_toFixed: string = overAll_avg.toFixed(1);
-          return overAll_toFixed;
-        }
-      : t("no_reviews") ?? ""
-  );
+  const overAll = () => {
+    if (product.reviews.length === 0) {
+      return t("no_reviews") ?? "";
+    }
+
+    const overAll_sum = product.reviews.reduce(
+      (sum, review) => sum + review.overall,
+      0
+    );
+    const overAll_avg = overAll_sum / product.reviews.length;
+    const overAll_toFixed = overAll_avg.toFixed(1);
+
+    return overAll_toFixed;
+  };
 
   const [isLike, setIsLike] = useState<boolean>(!!product.likes.length);
 
@@ -144,7 +147,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
                 </svg>
 
                 <span className="mr-3  whitespace-nowrap text-gray-400">
-                  {overAll}
+                  {overAll()}
                 </span>
               </div>
 

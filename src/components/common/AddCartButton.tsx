@@ -17,6 +17,7 @@ export function AddCardButton({ onClick }: Props) {
       isActive={false}
       primary
       classSpanChildren="pl-0 pr-1 py-1"
+      title={"Add to cart"}
     >
       {t("add")}
     </IconButton>

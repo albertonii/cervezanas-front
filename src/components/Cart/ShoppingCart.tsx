@@ -38,7 +38,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-20"
+        className="relative z-40"
         onClose={() => {
           closeCart();
         }}
@@ -129,7 +129,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
                           onClick={() => {
                             closeCart();
                           }}
-                          className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm hover:bg-beer-dark hover:text-beer-blonde transition-all"
+                          className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
                         >
                           {t("checkout")}
                         </Link>

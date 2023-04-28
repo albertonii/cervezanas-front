@@ -1,3 +1,5 @@
+import SubmittedCPs from "../components/Admin/cps/SubmittedCPs";
+import MonthlyBeers from "../components/Admin/monthly/MonthlyProducts";
 import { ClientContainerLayout } from "../components/customLayout/ClientContainerLayout";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../components/Context/AppContext";
@@ -7,8 +9,8 @@ import {
   IConsumptionPoints,
   IMonthlyProduct,
   IProductLot,
-  Profile as ProfileType,
-  Review,
+  IProfile,
+  IReview,
 } from "../lib/types.d";
 import {
   Account,
@@ -26,16 +28,14 @@ import {
   ConsumptionPoints,
 } from "../components/customLayout/index";
 import { Spinner } from "../components/common";
-import SubmittedCPs from "../components/Admin/cps/SubmittedCPs";
 import { useRouter } from "next/router";
 import { isValidObject } from "../utils/utils";
-import MonthlyBeers from "../components/Admin/monthly/MonthlyProducts";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
   mProducts: IMonthlyProduct[];
-  profile: ProfileType;
-  reviews: Review[];
+  profile: IProfile;
+  reviews: IReview[];
   product_lots: IProductLot[];
   cps: IConsumptionPoints[];
 }

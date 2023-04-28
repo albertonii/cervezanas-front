@@ -7,3 +7,4 @@ export * from "./OwnerInfo";
 export * from "./ProductGallery";
 export * from "./SimilarProduct";
 export * from "./Notification";
+export * from "./MobileMenu";

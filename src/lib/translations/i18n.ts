@@ -501,6 +501,8 @@ from the beer.`,
   pagination_footer_nums: `Showing {{from}} to {{to}} of {{total}} entries`,
   notifications: `Notifications`,
   no_notifications: `No notifications`,
+  my_account: `My account`,
+  menu: `Menu`,
 };
 
 const translationsEs = {
@@ -1018,6 +1020,8 @@ desprenden de la cerveza. `,
   pagination_footer_nums: `Mostrando {{from}} a {{to}} de {{total}} registros`,
   notifications: `Notificaciones`,
   no_notifications: `No tienes notificaciones`,
+  my_account: `Mi cuenta`,
+  menu: `Menú`,
 };
 
 // the translations
