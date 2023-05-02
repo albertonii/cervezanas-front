@@ -1,10 +1,8 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Layout } from "../../../components";
-import { useMessage } from "../../../components/message";
 import { NewProductReview } from "../../../components/reviews";
-import { Product, ProductMultimedia } from "../../../lib/types.d";
+import { IProduct, IProductMultimedia } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
@@ -16,10 +14,9 @@ interface Props {
 export default function ReviewProduct(props: Props) {
   const { t } = useTranslation();
   const { product, multimedia } = props;
-  const { handleMessage } = useMessage();
 
   return (
-    <div className="container mx-auto sm:py-2 lg:py-3 h-full">
+    <div className="container mx-auto h-full sm:py-2 lg:py-3">
       <h1 className="text-2xl font-bold">{t("review_product")}</h1>
 
       <p className="text-gray-500">
@@ -29,7 +26,7 @@ export default function ReviewProduct(props: Props) {
       </p>
 
       {/* Product Image Title and Price to be reviewed */}
-      <div className="flex flex-col mt-6">
+      <div className="mt-6 flex flex-col">
         <Image
           src={multimedia[0].p_principal}
           width={100}
@@ -44,9 +41,9 @@ export default function ReviewProduct(props: Props) {
         </div>
 
         {/* Review Form */}
-        <div className="flex flex-col my-12">
+        <div className="my-12 flex flex-col">
           {/* New Product Review */}
-          <div className="col-span-12 flex flex-col justify-center item-center mx-6">
+          <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
             <NewProductReview
               productId={product[0].id}
               ownerId={product[0].owner_id}
@@ -63,7 +60,7 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
 
-  let { data: product, error: productsError } = await supabase
+  const { data: product, error: productsError } = await supabase
     .from("products")
     .select(
       `*,

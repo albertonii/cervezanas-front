@@ -46,7 +46,7 @@ export default function SignIn() {
       })
       .catch((error) => {
         console.error(error);
-        handleMessage!({ type: "error", message: error.message });
+        handleMessage({ type: "error", message: error.message });
       });
   };
 
@@ -64,7 +64,7 @@ export default function SignIn() {
           })
           .catch((error) => {
             console.error(error);
-            handleMessage!({ type: "error", message: error.message });
+            handleMessage({ type: "error", message: error.message });
           });
       };
 
@@ -87,7 +87,7 @@ export default function SignIn() {
         Router.push("/");
       })
       .catch((error) => {
-        handleMessage!({ type: "error", message: error.message });
+        handleMessage({ type: "error", message: error.message });
       });
   };
 
@@ -172,7 +172,7 @@ export default function SignIn() {
                   btnType="submit"
                   title={""}
                   class={
-                    "group relative my-4 bg-beer-blonde hover:bg-beer-draft hover:text-beer-blonde hover:font-semibold flex w-full justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 border-none "
+                    "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde py-2 px-4 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
                   }
                 >
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -204,12 +204,12 @@ export default function SignIn() {
 
             {/* <SignInGoogle /> */}
             <button
-              className="flex flex-row items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 
-              focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 mr-2 mb-2 dark:bg-gray-800 dark:text-white 
-              dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              className="mr-2 mb-2 flex flex-row items-center rounded-lg border border-gray-300 bg-white 
+              px-3 py-0 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 
+              dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
               onClick={() => handleGoogleSignIn()}
             >
-              <span className="flex items-center justify-center w-6 h-6 mx-2 my-4">
+              <span className="mx-2 my-4 flex h-6 w-6 items-center justify-center">
                 <svg
                   className="w-6"
                   xmlns="http://www.w3.org/2000/svg"

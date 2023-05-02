@@ -8,7 +8,7 @@ import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
-import { ProductEnum } from "../../lib/productEnum";
+import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 
 interface Props {
@@ -47,53 +47,54 @@ export function CheckoutItem({
           .getPublicUrl(pPrincipalUrl);
 
         if (error) throw error;
-        setPPrincipal(p_principal!.publicURL);
+
+        if (!p_principal) return;
+        setPPrincipal(p_principal.publicURL);
       }
     };
 
     getPrincipal();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     () => {
       setPPrincipal("/marketplace_product_default.png");
     };
   }, [product.owner_id, product.product_multimedia]);
 
   return (
-    <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+    <div className="mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8">
       <div className="pb-4 md:pb-8 ">
         <Image
           width={600}
           height={600}
-          className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
+          className="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40"
           src={p_principal}
           alt={product.name}
         />
         {/* TODO: <DisplayImageProduct /> */}
       </div>
 
-      <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-        <div className="w-full flex flex-col justify-start items-start space-y-8">
-          <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
+      <div className="flex w-full flex-col items-start justify-between space-y-4 border-b border-gray-200 pb-8 md:flex-row md:space-y-0">
+        <div className="flex w-full flex-col items-start justify-start space-y-8">
+          <h3 className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
             {product.name}
           </h3>
           {/* Product Type Beer */}
-          {product.type === ProductEnum.Type.BEER && (
-            <div className="flex justify-start items-start flex-col space-y-2">
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+          {product.type === Type.BEER && (
+            <div className="flex flex-col items-start justify-start space-y-2">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {t("aroma")}:{" "}
                 </span>{" "}
                 {t(`${product.beers[0]?.aroma}`)}
               </p>
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {t("family")}:{" "}
                 </span>{" "}
                 {t(`${product.beers[0]?.family}`)}
               </p>
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {t("fermentation")}:{" "}
                 </span>{" "}
                 {t(`${product.beers[0]?.fermentation}`)}
@@ -102,22 +103,22 @@ export function CheckoutItem({
           )}
 
           {/* Product Type Merchandising */}
-          {product.type === ProductEnum.Type.MERCHANDISING && (
-            <div className="flex justify-start items-start flex-col space-y-2">
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+          {product.type === Type.MERCHANDISING && (
+            <div className="flex flex-col items-start justify-start space-y-2">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("aroma")}:{" "} */}
                 </span>{" "}
                 {/* {t(`${product.beers[0].aroma}`)} */}
               </p>
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("family")}:{" "} */}
                 </span>{" "}
                 {/* {t(`${product.beers[0].family}`)} */}
               </p>
-              <p className="text-sm dark:text-white leading-none text-gray-800">
-                <span className="dark:text-gray-400 text-gray-300">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("fermentation")}:{" "} */}
                 </span>{" "}
                 {/* {t(`${product.beers[0].fermentation}`)} */}
@@ -125,12 +126,12 @@ export function CheckoutItem({
             </div>
           )}
         </div>
-        <div className="flex justify-between space-x-8 items-start w-full">
-          <p className="text-base dark:text-white xl:text-lg leading-6">
+        <div className="flex w-full items-start justify-between space-x-8">
+          <p className="text-base leading-6 dark:text-white xl:text-lg">
             {formatCurrency(product.price)}
             <span className="text-red-300 line-through"> $45.00</span>
           </p>
-          <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">
+          <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
             {quantity === 0 ? (
               <></>
             ) : (
@@ -155,7 +156,7 @@ export function CheckoutItem({
               </span>
             )}
           </p>
-          <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">
+          <p className="text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-lg">
             {formatCurrency(productSubtotal)}
           </p>
 
@@ -169,6 +170,7 @@ export function CheckoutItem({
             onClick={() => {
               handleRemoveFromCart(product.id);
             }}
+            title={""}
           ></IconButton>
         </div>
       </div>

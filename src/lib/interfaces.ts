@@ -77,7 +77,7 @@ export interface IPaymentCard {
   card_document_id: string;
 }
 
-export interface ISignUpInterface {
+export interface ISignUp {
   userCredentials: { email: string; password: string; phone: string };
   options: {
     redirectTo?: string;

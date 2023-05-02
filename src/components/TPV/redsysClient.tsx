@@ -1,16 +1,13 @@
-import {
-  createRedsysAPI,
-  Currency,
-  SANDBOX_URLS,
-  TRANSACTION_TYPES,
-} from "redsys-easy";
+import { createRedsysAPI, SANDBOX_URLS, TRANSACTION_TYPES } from "redsys-easy";
 
+/*
 interface OrderPaymentStatus {
   orderId: string;
   amount: string;
   currency: Currency;
   status: "PENDING_PAYMENT" | "PAYMENT_FAILED" | "PAYMENT_SUCCEDED";
 }
+*/
 
 export const { createRedirectForm, processRestNotification } = createRedsysAPI({
   urls: SANDBOX_URLS,

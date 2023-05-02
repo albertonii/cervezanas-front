@@ -552,7 +552,7 @@ export type ModalAddProductProps = {
   packs: IProductPack[];
 };
 
-export type ProductPack = {
+export type IProductPack = {
   id: string;
   pack: number;
   price: number;

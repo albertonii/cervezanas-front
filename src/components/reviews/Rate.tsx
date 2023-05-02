@@ -12,7 +12,7 @@ interface Props {
   count: number;
   rating: number;
   color: Color;
-  onRating?: (rating: number) => void;
+  onRating: (rating: number) => void;
   editable: boolean;
 }
 
@@ -40,7 +40,7 @@ export function Rate({ count, rating, color, onRating, editable }: Props) {
           key={idx}
           className={`${
             editable
-              ? "cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300"
+              ? "cursor-pointer transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
               : ""
           }  ${
             effect && editable && "animate-wiggle" ? "animate-wiggle" : ""
@@ -53,7 +53,7 @@ export function Rate({ count, rating, color, onRating, editable }: Props) {
           onMouseLeave={() => setHoverRating(0)}
           onClick={() => {
             if (editable) {
-              onRating!(idx);
+              onRating(idx);
               setEffect(true);
             }
           }}
@@ -71,5 +71,5 @@ export function Rate({ count, rating, color, onRating, editable }: Props) {
     editable,
   ]);
 
-  return <div className="flex flex-row h-6 my-2">{starRating}</div>;
+  return <div className="my-2 flex h-6 flex-row">{starRating}</div>;
 }

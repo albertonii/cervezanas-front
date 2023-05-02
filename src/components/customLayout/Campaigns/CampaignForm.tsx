@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Campaign, CampaignItem } from "../../../lib/types.d";
+import { ICampaign, ICampaignItem } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 import { Button, DeleteButton } from "../../common";
@@ -23,7 +23,7 @@ enum SocialCauseExample {
 
 type Props = {
   index: number;
-  campaigns: Campaign[];
+  campaigns: ICampaign[];
   field: any;
   handleDeleteShowModal: ComponentProps<any>;
   handleShowProductsInCampaignModal: ComponentProps<any>;
@@ -105,7 +105,7 @@ export function CampaignForm({
 
     if (products === undefined) return;
 
-    products.map(async (item: CampaignItem) => {
+    products.map(async (item: ICampaignItem) => {
       if (item.product_id === false) {
         const { error: orderItemError } = await supabase
           .from("campaign_item")
@@ -114,7 +114,7 @@ export function CampaignForm({
 
         if (orderItemError) throw orderItemError;
       } else if (typeof item.product_id === "string") {
-        products?.map(async (item: CampaignItem) => {
+        products?.map(async (item: ICampaignItem) => {
           const { error: orderItemError } = await supabase
             .from("campaign_item")
             .upsert({
@@ -128,7 +128,7 @@ export function CampaignForm({
       }
     });
 
-    handleMessage!({
+    handleMessage({
       type: "success",
       message: `${t("campaign_added_successfully")} , ${campaign.name}`,
     });
@@ -145,11 +145,11 @@ export function CampaignForm({
 
   return (
     <form>
-      <fieldset className="p-4 bg-beer-softBlonde rounded space-y-2 relative">
+      <fieldset className="relative space-y-2 rounded bg-beer-softBlonde p-4">
         {/* Campaign Status Signal  */}
         <div className="absolute top-0 right-0 mt-2 mr-2">
           <div className="flex flex-row items-center space-x-2">
-            <p className="text-md text-gray-600 font-semibold">
+            <p className="text-md font-semibold text-gray-600">
               {campaignStatus === CampaignStatus.active
                 ? t("active").toUpperCase()
                 : campaignStatus === CampaignStatus.paused
@@ -162,7 +162,7 @@ export function CampaignForm({
             </p>
 
             <div
-              className={`w-4 h-4 rounded-full  ${
+              className={`h-4 w-4 rounded-full  ${
                 campaignStatus === CampaignStatus.active
                   ? "bg-green-500"
                   : campaignStatus === CampaignStatus.paused
@@ -177,12 +177,12 @@ export function CampaignForm({
           </div>
         </div>
 
-        <div className="flex flex-row w-full space-y-2">
+        <div className="flex w-full flex-row space-y-2">
           {/* Is Public  */}
-          <div className="flex flex-col w-full space-y">
+          <div className="space-y flex w-full flex-col">
             <label
               htmlFor={`${index}-campaign_is_public`}
-              className="text-sm text-gray-600 mr-2"
+              className="mr-2 text-sm text-gray-600"
             >
               {t("is_public_campaign")}
             </label>
@@ -190,7 +190,7 @@ export function CampaignForm({
             <select
               id={`${index}-campaign_is_public`}
               defaultValue="false"
-              className="text-sm relative block w-20 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              className="relative block w-20 appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`campaigns.${index}.is_public` as const)}
             >
               <option key={0} value={"false"}>
@@ -207,10 +207,10 @@ export function CampaignForm({
           </div>
 
           {/* Status  */}
-          <div className="flex flex-col w-full space-y">
+          <div className="space-y flex w-full flex-col">
             <label
               htmlFor={`${index}-campaign_status`}
-              className="text-sm text-gray-600 mr-2"
+              className="mr-2 text-sm text-gray-600"
             >
               {t("status")}
             </label>
@@ -220,7 +220,7 @@ export function CampaignForm({
                 required: true,
               })}
               onChange={(e) => handleStatusClick(e)}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {(Object.keys(CampaignStatus) as Array<keyof CampaignStatus>).map(
                 (option, index) => (
@@ -238,17 +238,17 @@ export function CampaignForm({
         </div>
 
         {/* Campaign Image */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_img_url`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("img_url")}
           </label>
 
           <input
             type="file"
-            className="border border-gray-300 rounded-md p-2"
+            className="rounded-md border border-gray-300 p-2"
             defaultValue=""
             {...register(`campaigns.${index}.img_url` as const, {
               required: true,
@@ -260,17 +260,17 @@ export function CampaignForm({
         </div>
 
         {/* Campaign Name  */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_name`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("name")}
           </label>
 
           <input
             id={`${index}-campaign_name`}
-            className="border border-gray-300 rounded-md"
+            className="rounded-md border border-gray-300"
             defaultValue={field.name}
             {...register(`campaigns.${index}.name` as const, {
               required: true,
@@ -286,17 +286,17 @@ export function CampaignForm({
         </div>
 
         {/* Description  */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_description`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("description")}
           </label>
 
           <textarea
             id={`${index}-campaign_description`}
-            className="border border-gray-300 rounded-md"
+            className="rounded-md border border-gray-300"
             defaultValue={field.description}
             {...register(`campaigns.${index}.description` as const, {
               required: true,
@@ -312,16 +312,16 @@ export function CampaignForm({
         </div>
 
         {/* Slogan  */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_slogan`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("slogan")}
           </label>
 
           <textarea
-            className="border border-gray-300 rounded-md"
+            className="rounded-md border border-gray-300"
             defaultValue={field.slogan}
             {...register(`campaigns.${index}.slogan` as const, {
               required: true,
@@ -337,16 +337,16 @@ export function CampaignForm({
         </div>
 
         {/* Goal  */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_goal`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("goal")}
           </label>
 
           <textarea
-            className="border border-gray-300 rounded-md"
+            className="rounded-md border border-gray-300"
             defaultValue={field.goal}
             {...register(`campaigns.${index}.goal` as const, {
               required: true,
@@ -361,19 +361,19 @@ export function CampaignForm({
           )}
         </div>
 
-        <div className="flex flex-row w-full space-y space-x-4">
+        <div className="space-y flex w-full flex-row space-x-4">
           {/* Start Date  */}
-          <div className="flex flex-col w-full space-y">
+          <div className="space-y flex w-full flex-col">
             <label
               htmlFor={`${index}-campaign_start_date`}
-              className="text-sm text-gray-600 mr-2"
+              className="mr-2 text-sm text-gray-600"
             >
               {t("start_date")}
             </label>
 
             <input
               type={"date"}
-              className="border border-gray-300 rounded-md"
+              className="rounded-md border border-gray-300"
               defaultValue={field.start_date.toString()}
               {...register(`campaigns.${index}.start_date` as const)}
             />
@@ -383,17 +383,17 @@ export function CampaignForm({
           </div>
 
           {/* End Date  */}
-          <div className="flex flex-col w-full space-y">
+          <div className="space-y flex w-full flex-col">
             <label
               htmlFor={`${index}-campaign_end_date`}
-              className="text-sm text-gray-600 mr-2"
+              className="mr-2 text-sm text-gray-600"
             >
               {t("end_date")}
             </label>
 
             <input
               type={"date"}
-              className="border border-gray-300 rounded-md"
+              className="rounded-md border border-gray-300"
               defaultValue={field.end_date.toString()}
               {...register(`campaigns.${index}.end_date` as const)}
             />
@@ -404,17 +404,17 @@ export function CampaignForm({
         </div>
 
         {/* Separator  */}
-        <div className="inline-flex items-center justify-center w-full">
-          <hr className="w-full h-[0.15rem] my-8 bg-beer-foam border-0 rounded dark:bg-gray-700" />
+        <div className="inline-flex w-full items-center justify-center">
+          <hr className="my-8 h-[0.15rem] w-full rounded border-0 bg-beer-foam dark:bg-gray-700" />
         </div>
 
         {/* Social Cause */}
-        <div className="flex flex-col w-full space-y ">
-          <p className="text-lg mb-0-4">
+        <div className="space-y flex w-full flex-col ">
+          <p className="mb-0-4 text-lg">
             {t("does_the_campaign_belong_to_a_social_cause")}
           </p>
 
-          <label className="inline-flex items-center mb-2">
+          <label className="mb-2 inline-flex items-center">
             {t("social_cause")}
           </label>
 
@@ -423,7 +423,7 @@ export function CampaignForm({
               required: true,
             })}
             onChange={(e) => handleSocialCauseClick(e)}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+            className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {(
               Object.keys(SocialCauseExample) as Array<keyof SocialCauseExample>
@@ -436,10 +436,10 @@ export function CampaignForm({
         </div>
 
         {/* Campaign Discount  */}
-        <div className="flex flex-col w-full space-y">
+        <div className="space-y flex w-full flex-col">
           <label
             htmlFor={`${index}-campaign_discount`}
-            className="text-sm text-gray-600 mr-2"
+            className="mr-2 text-sm text-gray-600"
           >
             {t("campaign_discount")} (%)
           </label>
@@ -447,7 +447,7 @@ export function CampaignForm({
           <input
             type="number"
             id={`${index}-campaign_discount`}
-            className="border border-gray-300 rounded-md"
+            className="rounded-md border border-gray-300"
             defaultValue={0}
             max={100}
             min={0}
@@ -456,11 +456,11 @@ export function CampaignForm({
         </div>
 
         {/* Separator  */}
-        <div className="inline-flex items-center justify-center w-full">
-          <hr className="w-full h-[0.15rem] my-8 bg-beer-foam border-0 rounded dark:bg-gray-700" />
+        <div className="inline-flex w-full items-center justify-center">
+          <hr className="my-8 h-[0.15rem] w-full rounded border-0 bg-beer-foam dark:bg-gray-700" />
         </div>
 
-        <div className="flex flex-col w-full space-y mt-12">
+        <div className="space-y mt-12 flex w-full flex-col">
           <Button
             class="w-[44vw] px-4 py-2 text-xl"
             primary

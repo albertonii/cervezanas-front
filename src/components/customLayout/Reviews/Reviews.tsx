@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Review } from "../../../lib/types.d";
+import { IReview } from "../../../lib/types.d";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { formatDateString } from "../../../utils";
@@ -9,13 +9,13 @@ import { DeleteButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
-  reviews: Review[];
+  reviews: IReview[];
 }
 
 export function Reviews({ reviews: r }: Props) {
   const { t } = useTranslation();
 
-  const [reviews, setReviews] = useState<Review[]>(r);
+  const [reviews, setReviews] = useState<IReview[]>(r);
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
@@ -37,16 +37,16 @@ export function Reviews({ reviews: r }: Props) {
     <>
       <div className="py-6 px-4 " aria-label="Reviews">
         <div className="flex flex-col">
-          <div className="text-4xl pr-12">{t("reviews")}</div>
+          <div className="pr-12 text-4xl">{t("reviews")}</div>
           {reviews &&
             reviews.length > 0 &&
             reviews.map((review, index) => {
               return (
                 <div
                   key={index}
-                  className="mt-12 ml-8 bg-beer-foam m-6 p-6 rounded-sm"
+                  className="m-6 mt-12 ml-8 rounded-sm bg-beer-foam p-6"
                 >
-                  <article className="grid grid-cols-4 md:gap-8 relative">
+                  <article className="relative grid grid-cols-4 md:gap-8">
                     {/* Delete review button in top right corner  */}
                     <div className="absolute right-0">
                       <DeleteButton
@@ -54,7 +54,7 @@ export function Reviews({ reviews: r }: Props) {
                       />
                     </div>
 
-                    <div className="col-span-4 lg:col-span-1 space-y-6 ">
+                    <div className="col-span-4 space-y-6 lg:col-span-1 ">
                       {/* Seller  */}
                       <div className="flex flex-col items-center space-y-4">
                         <div className="">
@@ -70,10 +70,10 @@ export function Reviews({ reviews: r }: Props) {
                           />
                         </div>
 
-                        <h2 className="transition-all text-xl truncate ">
+                        <h2 className="truncate text-xl transition-all ">
                           {t("seller_username")}:{" "}
                           <Link
-                            className="font-bold text-beer-draft hover:text-purple-500 hover:text-beer-blonde cursor-pointer"
+                            className="hover:text-purple-500 cursor-pointer font-bold text-beer-draft hover:text-beer-blonde"
                             href={`/users/${review.users?.id}`}
                           >
                             {review.users?.username}
@@ -83,13 +83,13 @@ export function Reviews({ reviews: r }: Props) {
                     </div>
 
                     {/* Review rate */}
-                    <div className="col-span-4 lg:col-span-3 mt-6 md:mt-0">
-                      <div className="flex flex-col-reverse md:flex-row tems-start md:items-center justify-between">
+                    <div className="col-span-4 mt-6 md:mt-0 lg:col-span-3">
+                      <div className="tems-start flex flex-col-reverse justify-between md:flex-row md:items-center">
                         <div className="space-y-2">
                           {/* Img Product  */}
                           <div className="flex flex-row items-center space-y-4 space-x-4">
                             <Image
-                              className="w-20 h-20 sm:w-100 sm:h-100 rounded"
+                              className="sm:w-100 sm:h-100 h-20 w-20 rounded"
                               width={80}
                               height={80}
                               src={`${
@@ -99,7 +99,7 @@ export function Reviews({ reviews: r }: Props) {
                               alt=""
                             />
 
-                            <span className="font-bold transition-all text-xl mr-auto cursor-pointer text-beer-draft dark:text-beer-foam hover:text-purple-500 truncate hover:text-beer-blonde">
+                            <span className="hover:text-purple-500 mr-auto cursor-pointer truncate text-xl font-bold text-beer-draft transition-all hover:text-beer-blonde dark:text-beer-foam">
                               <Link href={`/products/${review.products?.id}`}>
                                 {review.products?.name}
                               </Link>
@@ -119,25 +119,25 @@ export function Reviews({ reviews: r }: Props) {
                         <div className="flex space-x-2">
                           <Rate
                             rating={review.overall}
-                            onRating={() => {}}
+                            onRating={() => void {}}
                             count={review.overall}
                             color={starColor}
                             editable={false}
                           />
 
-                          <p className="bg-beer-blonde text-white text-sm font-semibold inline-flex items-center p-1.5 rounded">
+                          <p className="inline-flex items-center rounded bg-beer-blonde p-1.5 text-sm font-semibold text-white">
                             {review.overall} / 5
                           </p>
                         </div>
                       </div>
 
-                      <p className="font-medium text-md text-beer-dark dark:text-gray-400">
+                      <p className="text-md font-medium text-beer-dark dark:text-gray-400">
                         {review.comment}
                       </p>
 
                       {/* Stars  */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-9">
-                        <div className="w-full text-md ">
+                      <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                        <div className="text-md w-full ">
                           <label htmlFor="aroma">{t("aroma")}</label>
 
                           <Rate
@@ -145,56 +145,62 @@ export function Reviews({ reviews: r }: Props) {
                             count={5}
                             color={starColor}
                             editable={false}
+                            onRating={() => void {}}
                           />
                         </div>
 
-                        <div className="w-full text-md mb-4">
+                        <div className="text-md mb-4 w-full">
                           <label htmlFor="appearance">{t("appearance")}</label>
                           <Rate
                             rating={review.appearance}
                             count={5}
                             color={starColor}
                             editable={false}
+                            onRating={() => void {}}
                           />
                         </div>
 
-                        <div className="w-full text-md mb-4">
+                        <div className="text-md mb-4 w-full">
                           <label htmlFor="taste">{t("taste")}</label>
                           <Rate
                             rating={review.taste}
                             count={5}
                             color={starColor}
                             editable={false}
+                            onRating={() => void {}}
                           />
                         </div>
 
-                        <div className="w-full text-md mb-4">
+                        <div className="text-md mb-4 w-full">
                           <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
                           <Rate
                             rating={review.mouthfeel}
                             count={5}
                             color={starColor}
                             editable={false}
+                            onRating={() => void {}}
                           />
                         </div>
 
-                        <div className="w-full text-md mb-4">
+                        <div className="text-md mb-4 w-full">
                           <label htmlFor="bitterness">{t("bitterness")}</label>
                           <Rate
                             rating={review.bitterness}
                             count={5}
                             color={starColor}
                             editable={false}
+                            onRating={() => void {}}
                           />
                         </div>
 
-                        <div className="w-full text-md mb-4">
+                        <div className="text-md mb-4 w-full">
                           <label htmlFor="overall">{t("overall")}</label>
                           <Rate
                             rating={review.overall}
                             count={5}
                             color={starColor}
                             editable={true}
+                            onRating={() => void {}}
                           />
                         </div>
                       </div>

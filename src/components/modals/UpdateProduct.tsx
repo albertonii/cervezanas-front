@@ -291,8 +291,12 @@ export function UpdateProduct({
         }
 
         // Awards
-        if (isNotEmptyArray(awards!) && isValidObject(awards![0].img_url)) {
-          awards!.map(async (award: IAward) => {
+        if (
+          awards &&
+          isNotEmptyArray(awards) &&
+          isValidObject(awards[0].img_url)
+        ) {
+          awards.map(async (award: IAward) => {
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);

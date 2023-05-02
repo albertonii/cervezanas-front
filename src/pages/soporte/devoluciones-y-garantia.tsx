@@ -1,10 +1,9 @@
 import React from "react";
-import { Layout } from "../../components";
 
 export default function SupportCenter() {
   return (
     <>
-      <div className="text-xl mt-12 mb-4"> Devoluciones y Garantías</div>
+      <div className="mt-12 mb-4 text-xl"> Devoluciones y Garantías</div>
       <div>
         ¿A qué tienes derecho como comprador? Cervezanas se caracteriza por ir
         más allá de la ley de garantía básica y ofrecer a los usuarios la máxima

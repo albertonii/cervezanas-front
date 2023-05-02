@@ -20,7 +20,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
   const [bitterness, setBitterness] = React.useState(0);
   const [overall, setOverall] = React.useState(0);
   const [qualification, setQualification] = React.useState(
-    BeerEnum.ReviewQualification.not_qualified
+    ReviewQualification.not_qualified
   );
 
   useEffect(() => {
@@ -66,22 +66,22 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
   function setQualificationReview(overall: number) {
     switch (true) {
       case overall < 2:
-        setQualification(BeerEnum.ReviewQualification.need_to_improve);
+        setQualification(ReviewQualification.need_to_improve);
         break;
       case overall < 3:
-        setQualification(BeerEnum.ReviewQualification.fair);
+        setQualification(ReviewQualification.fair);
         break;
       case overall < 4:
-        setQualification(BeerEnum.ReviewQualification.good);
+        setQualification(ReviewQualification.good);
         break;
       case overall < 4.7:
-        setQualification(BeerEnum.ReviewQualification.very_good);
+        setQualification(ReviewQualification.very_good);
         break;
       case overall < 5:
-        setQualification(BeerEnum.ReviewQualification.excellent);
+        setQualification(ReviewQualification.excellent);
         break;
       case overall === 5:
-        setQualification(BeerEnum.ReviewQualification.superb);
+        setQualification(ReviewQualification.superb);
         break;
     }
   }
@@ -96,21 +96,20 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
     <>
       {loading && (
         <section>
-          <div className="flex items-center mb-5">
-            <p className="bg-blue-100 text-beer-blonde text-lg font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+          <div className="mb-5 flex items-center">
+            <p className="inline-flex items-center rounded bg-blue-100 p-1.5 text-lg font-semibold text-beer-blonde dark:bg-blue-200 dark:text-blue-800">
               {!emptyReviews ? overall.toFixed(1) : 0}
             </p>
             <p
               className={`ml-2 font-medium text-gray-900 dark:text-white ${
-                qualification == BeerEnum.ReviewQualification.superb &&
-                !emptyReviews
-                  ? "text-2xl animate-bounce text-transparent bg-gradient-to-r to-beer-blonde from-beer-dark bg-clip-text"
+                qualification == ReviewQualification.superb && !emptyReviews
+                  ? "animate-bounce bg-gradient-to-r from-beer-dark to-beer-blonde bg-clip-text text-2xl text-transparent"
                   : ""
               }`}
             >
               {!emptyReviews ? t(qualification) : t("not_qualified")}
             </p>
-            <span className="w-1 h-1 mx-2 bg-gray-900 rounded-full dark:bg-gray-500"></span>
+            <span className="mx-2 h-1 w-1 rounded-full bg-gray-900 dark:bg-gray-500"></span>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
               {reviews.length} {t("reviews")}
             </p>
@@ -131,10 +130,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {t("aroma")}
                 </dt>
-                <dd className="flex items-center mb-3">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2">
+                <dd className="mb-3 flex items-center">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500 `}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                       style={{
                         width: `${getPercentage(aroma)}`,
                       }}
@@ -149,10 +148,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {t("appearance")}
                 </dt>
-                <dd className="flex items-center mb-3">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2">
+                <dd className="mb-3 flex items-center">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500 `}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                       style={{
                         width: `${getPercentage(appearance)}`,
                       }}
@@ -167,10 +166,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {t("taste")}
                 </dt>
-                <dd className="flex items-center mb-3">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2">
+                <dd className="mb-3 flex items-center">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500 `}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                       style={{
                         width: `${getPercentage(taste)}`,
                       }}
@@ -187,10 +186,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {t("mouthfeel")}
                 </dt>
-                <dd className="flex items-center mb-3">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2">
+                <dd className="mb-3 flex items-center">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500`}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500`}
                       style={{
                         width: `${getPercentage(mouthfeel)}`,
                       }}
@@ -206,10 +205,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {t("bitterness")}
                 </dt>
-                <dd className="flex items-center mb-3">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2">
+                <dd className="mb-3 flex items-center">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500`}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500`}
                       style={{
                         width: `${getPercentage(bitterness)}`,
                       }}
@@ -226,15 +225,15 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                   {t("overall")}
                 </dt>
                 <dd className="flex items-center ">
-                  <div className="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 mr-2 ">
+                  <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700 ">
                     <div
-                      className={`bg-beer-blonde h-2.5 rounded dark:bg-blue-500 `}
+                      className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                       style={{
                         width: `${getPercentage(overall)}`,
                       }}
                     ></div>
                   </div>
-                  <span className="text-lg font-medium text-gray-500 dark:text-gray-400 animate-neon_beer">
+                  <span className="animate-neon_beer text-lg font-medium text-gray-500 dark:text-gray-400">
                     {!emptyReviews && overall.toFixed(1)}
                   </span>
                 </dd>

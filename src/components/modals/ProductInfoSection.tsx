@@ -17,9 +17,9 @@ import {
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
 import {
-  CustomizeSettings,
+  ICustomizeSettings,
+  IProductPack,
   ModalAddProductProps,
-  ProductPack,
 } from "../../lib/types.d";
 import { capitalizeFirstLetter, formatCurrency } from "../../utils";
 import {
@@ -31,7 +31,7 @@ import {
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
-  customizeSettings: CustomizeSettings;
+  customizeSettings: ICustomizeSettings;
 }
 
 const emptyPack: IProductPack = {
@@ -109,23 +109,23 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   return (
     <>
       {/* Select product type  */}
-      <div className="relative pt-6 flex-auto">
-        <div className="w-full flex flex-col items-end">
+      <div className="relative flex-auto pt-6">
+        <div className="flex w-full flex-col items-end">
           <label
-            className="inline-flex relative items-center cursor-pointer"
+            className="relative inline-flex cursor-pointer items-center"
             htmlFor="is_public"
           >
             <input
               id="is_public"
               type="checkbox"
-              className="sr-only peer"
+              className="peer sr-only"
               {...register("is_public", {
                 required: true,
               })}
               defaultChecked={true}
             />
 
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:peer-focus:ring-beer-blonde rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-beer-blonde"></div>
+            <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
             <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
               {t("is_public")}
@@ -147,7 +147,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             {...register("type")}
             onChange={handleProductType}
             defaultValue={product_type_options[0].label}
-            className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+            className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {product_type_options.map((option) => (
               <option key={option.label} value={option.label}>
@@ -160,16 +160,16 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
       {/* Beer type */}
       {isBeer && (
-        <div className="relative pt-6 flex-auto space-y-4">
+        <div className="relative flex-auto space-y-4 pt-6">
           <Divider />
 
-          <p className="my-4 text-slate-500 text-xl leading-relaxed">
+          <p className="text-slate-500 my-4 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
 
           {/* Name & Campaign  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="product_name" className="text-sm text-gray-600">
                 {t("product_name")}
               </label>
@@ -212,7 +212,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
           {/* Description  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="description" className="text-sm text-gray-600">
                 {t("product_description")}
               </label>
@@ -220,7 +220,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               <textarea
                 id="description"
                 placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("description", {
                   required: true,
                 })}
@@ -287,7 +287,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 })}
                 defaultValue={fermentation_options[0].label}
                 id="fermentation"
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {fermentation_options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -318,7 +318,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="color"
                 {...register("color")}
                 defaultValue={color_options[0].label}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {colorOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -348,7 +348,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="origin"
                 {...register("origin")}
                 defaultValue={origin_options[0].label}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {origin_options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -380,7 +380,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="family"
                 {...register("family")}
                 defaultValue={family_options[0].label}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {famStyleOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -414,7 +414,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="era"
                 {...register("era")}
                 defaultValue={era_options[0].label}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {era_options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -444,7 +444,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="aroma"
                 {...register("aroma")}
                 defaultValue={aroma_options[0].label}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {aroma_options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -470,7 +470,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 id="isGluten"
                 {...register("is_gluten")}
                 defaultValue="false"
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 <option key={0} value={"false"}>
                   {t("no")}
@@ -498,7 +498,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                   value: formatOptions,
                 })}
                 onChange={handleChange}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {format_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -512,14 +512,14 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               )}
             </div>
 
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="volume" className="text-sm text-gray-600">
                 {t("volume_label")}
               </label>
 
               <select
                 {...register(`volume`)}
-                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 value={"330"}
               >
                 {formatOptions === "can" ? (
@@ -586,7 +586,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
           {/* Stock information  */}
           <div className="container mt-4">
-            <p className="my-4 text-slate-500 text-xl leading-relaxed">
+            <p className="text-slate-500 my-4 text-xl leading-relaxed">
               {t("modal_product_add_price_title")}
             </p>
 
@@ -665,9 +665,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                   className="border border-solid border-gray-300 p-3"
                   key={field.id}
                 >
-                  <div className="w-full space-y">
+                  <div className="space-y w-full">
                     {/* Quantity and price  */}
-                    <div className="flex w-full flex-row space-x-3 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.pack`}
@@ -680,7 +680,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           required
                           id={`packs.${index}.pack`}
                           {...register(`packs.${index}.pack` as const)}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -725,7 +725,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     </div>
 
                     {/* Pack name and Pack Photo Optional  */}
-                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.name`}
@@ -753,7 +753,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                       </div>
                     </div>
 
-                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.img_url`}

@@ -32,7 +32,9 @@ export const FilePreviewAndHide = ({
   );
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-    let file = e.target.files![0];
+    if (e.target.files === null) return console.log("No hay archivos");
+
+    const file = e.target.files[0];
     setFile(file);
     setMessage("");
   };
@@ -54,21 +56,21 @@ export const FilePreviewAndHide = ({
   }, [existsPrevImg]);
 
   return (
-    <div className="md:w-4/5 w-[360px] rounded-md">
-      <span className="flex justify-center items-center bg-white text-[12px] mb-1 text-red-500">
+    <div className="w-[360px] rounded-md md:w-4/5">
+      <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">
         {message}
       </span>
 
       {hideDrop ? (
-        <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
-          <div className="relative h-full w-full bg-gray-200  z-1 flex justify-center items-center">
+        <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
+          <div className="z-1 relative flex h-full  w-full items-center justify-center bg-gray-200">
             <div className="flex flex-row items-center gap-2">
               <div className="h-32 ">
                 {existsPrevImg ? (
                   <Image
                     width={128}
                     height={128}
-                    className="w-full h-full rounded"
+                    className="h-full w-full rounded"
                     src={`${
                       storagePath === "products"
                         ? SupabaseProps.BASE_PRODUCTS_URL
@@ -80,7 +82,7 @@ export const FilePreviewAndHide = ({
                   <Image
                     width={128}
                     height={128}
-                    className="w-full h-full rounded"
+                    className="h-full w-full rounded"
                     src={URL.createObjectURL(file)}
                     alt={""}
                   />
@@ -92,25 +94,25 @@ export const FilePreviewAndHide = ({
               onClick={() => {
                 removeImage();
               }}
-              className="absolute top-0 right-0 object-right-top h-6 w-6 mr-1 mt-1 bg-red-400 flex items-center cursor-pointer justify-center rounded-sm"
+              className="absolute top-0 right-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
             >
-              <i className="mdi mdi-trash-can text-white text-[16px]">x</i>
+              <i className="mdi mdi-trash-can text-[16px] text-white">x</i>
             </div>
           </div>
         </div>
       ) : (
-        <div className="h-32 w-full overflow-hidden relative shadow-md border-2 items-center rounded-md cursor-pointer   border-gray-400 border-dotted">
+        <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
           <input
             id={registerName}
             type="file"
             onChange={handleFile}
             accept="image/png, image/jpeg"
-            className="h-full w-full opacity-0 z-10 absolute"
+            className="absolute z-10 h-full w-full opacity-0"
           />
 
-          <div className="h-full w-full bg-gray-200 absolute z-1 flex justify-center items-center top-0">
+          <div className="z-1 absolute top-0 flex h-full w-full items-center justify-center bg-gray-200">
             <div className="flex flex-col px-2">
-              <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
+              <i className="mdi mdi-folder-open text-center text-[30px] text-gray-400"></i>
               <span className="text-[12px]">{t("drag_and_drop_file")}</span>
             </div>
           </div>

@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
-import { Review } from "../../lib/types.d";
+import { IReview } from "../../lib/types.d";
 import { formatDateString } from "../../utils/formatDate";
 import { OwnerInfo } from "..";
 import { Rate } from ".";
 import { DeleteButton } from "../common";
 
 interface Props {
-  review: Review;
-  handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
+  review: IReview;
+  handleSetReviews: React.Dispatch<React.SetStateAction<IReview[]>>;
 }
 
 export function IndividualReview(props: Props) {
@@ -47,11 +47,11 @@ export function IndividualReview(props: Props) {
     <article>
       <OwnerInfo user={review.users} />
 
-      <div className="flex items-center mb-1">
+      <div className="mb-1 flex items-center">
         <div>
           <Rate
             rating={review.overall}
-            onRating={() => {}}
+            onRating={() => void {}}
             count={5}
             color={starColor}
             editable={false}
@@ -63,7 +63,7 @@ export function IndividualReview(props: Props) {
         </div>
 
         {user?.id === review.owner_id && (
-          <div className="flex items-center ml-auto space-x-2">
+          <div className="ml-auto flex items-center space-x-2">
             <DeleteButton onClick={() => handleDeleteReview(review.id)} />
           </div>
         )}
@@ -86,14 +86,14 @@ export function IndividualReview(props: Props) {
       {readMore ? (
         <a
           onClick={handleRead}
-          className="block mb-5 text-sm font-medium text-beer-dark hover:underline dark:text-blue-500 cursor-pointer"
+          className="mb-5 block cursor-pointer text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
         >
           Read less
         </a>
       ) : (
         <a
           onClick={handleRead}
-          className="block mb-5 text-sm font-medium text-beer-dark hover:underline dark:text-blue-500 cursor-pointer"
+          className="mb-5 block cursor-pointer text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
         >
           Read more
         </a>
@@ -103,10 +103,10 @@ export function IndividualReview(props: Props) {
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           19 people found this helpful
         </p>
-        <div className="flex items-center mt-3 space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
+        <div className="mt-3 flex items-center space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
           <a
             href="#"
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
           >
             Helpful
           </a>

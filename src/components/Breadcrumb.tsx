@@ -7,6 +7,7 @@ const _defaultGetDefaultTextGenerator = (path: string) => path;
 
 // https://dev.to/dan_starner/building-dynamic-breadcrumbs-in-nextjs-17oa
 export function Breadcrumb({
+  // eslint-disable-next-line react/prop-types
   getDefaultTextGenerator = _defaultGetDefaultTextGenerator,
 }) {
   const router = useRouter();
@@ -41,7 +42,7 @@ export function Breadcrumb({
   );
 
   return (
-    <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition  my-6">
+    <div className="container mx-auto my-6 flex w-full transform items-center justify-between transition  lg:flex-wrap">
       <div className="flex" aria-label="Breadcrumb">
         {breadcrumbs.map((crumb, idx) => {
           return (

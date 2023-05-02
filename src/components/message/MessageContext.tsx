@@ -7,7 +7,11 @@ export type MessageContextProps = {
   clearMessages: () => void;
 };
 
-export const MessageContext = createContext<Partial<MessageContextProps>>({});
+export const MessageContext = createContext<MessageContextProps>({
+  messages: [],
+  handleMessage: () => void {},
+  clearMessages: () => void {},
+});
 
 interface Props {
   children: React.ReactNode;

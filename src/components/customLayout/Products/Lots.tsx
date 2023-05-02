@@ -42,7 +42,7 @@ export default function Lots({ products, lots: l }: Props) {
   return (
     <div className="py-6 px-4 " aria-label="Lots">
       <div className="flex items-center">
-        <div className="text-4xl pr-12">{t("lots")}</div>
+        <div className="pr-12 text-4xl">{t("lots")}</div>
 
         <AddLot
           products={products}
@@ -59,9 +59,9 @@ export default function Lots({ products, lots: l }: Props) {
 
       {isDeleteShowModal && (
         <DeleteLot
-          lots={lots!}
+          lots={lots}
           productLotId={lotModal.id}
-          isDeleteShowModal={isDeleteShowModal}
+          showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleSetProductLots={handleSetProductLots}
         />
@@ -71,9 +71,9 @@ export default function Lots({ products, lots: l }: Props) {
         <EditLot
           lots={lots}
           productLot={lotModal}
-          isEditShowModal={isEditShowModal}
           handleEditShowModal={handleEditShowModal}
           handleSetProductLots={handleSetProductLots}
+          showModal={isEditShowModal}
         />
       )}
     </div>

@@ -2,11 +2,11 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Award, ModalUpdateProductProps } from "../../lib/types.d";
+import { IAward } from "../../lib/types.d";
 import { Button } from "../common";
 import DisplayInputError from "../common/DisplayInputError";
 
-const emptyAward: Award = {
+const emptyAward: IAward = {
   id: "",
   name: "",
   description: "",
@@ -53,8 +53,8 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
     e: ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.target.files!.length > 0) {
-      setSelectedFiles([...selectedFiles, { index, file: e.target.files![0] }]);
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFiles([...selectedFiles, { index, file: e.target.files[0] }]);
     }
   };
 
@@ -69,7 +69,7 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
     <section id="Award">
       {fields.map((field, index) => (
         <div key={field.id}>
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             {fields.length > 1 ? (
               <div>
                 <Button
@@ -105,7 +105,7 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
             )}
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label
               htmlFor="award_description"
               className="text-sm text-gray-600"
@@ -130,7 +130,7 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
             )}
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="award_year" className="text-sm text-gray-600">
               {t("year")}
             </label>
@@ -151,7 +151,7 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
             )}
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="award_img_url" className="text-sm text-gray-600">
               {t("upload_img_url")}
             </label>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
-  CampaignFormProps,
+  ICampaignFormProps,
   ICampaign,
   ICampaignItem,
   IProduct,
@@ -57,7 +57,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
 
   const { handleMessage } = useMessage();
 
-  const form = useForm<CampaignFormProps>({
+  const form = useForm<ICampaignFormProps>({
     mode: "onSubmit",
     defaultValues: {
       campaigns: campaigns ?? emptyCampaign,
@@ -105,7 +105,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
 
         remove(campaignIndex);
 
-        handleMessage!({
+        handleMessage({
           type: "success",
           message: `${t("campaign_removed_successfully")}`,
         });
@@ -176,7 +176,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
   return (
     <div className="py-6 px-4 " aria-label="Campaigns">
       <div className="flex flex-col">
-        <div className="text-4xl pr-12">{t("campaigns")}</div>
+        <div className="pr-12 text-4xl">{t("campaigns")}</div>
 
         {/* Show/Hide Modal*/}
         {isShowDeleteModal && (

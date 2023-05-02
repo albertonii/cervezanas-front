@@ -1,21 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { SupabaseProps } from "../../constants";
 import {
   ICarouselItem,
   IProduct,
-  ProductMultimedia,
-  Review,
+  IProductMultimedia,
+  IReview,
 } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import {
-  DisplaySimilarProducts,
-  Layout,
-  ProductGallery,
-} from "../../components";
+import { DisplaySimilarProducts, ProductGallery } from "../../components";
 import {
   Button,
   DeleteButton,
@@ -27,19 +29,18 @@ import {
   ProductReviews,
   Rate,
 } from "../../components/reviews";
-import { isValidObject } from "../../utils/utils";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
-const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
-const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
-const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
-const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
+// const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
+// const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
+// const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
+// const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 interface Props {
   product: IProduct[];
   multimedia: IProductMultimedia[];
-  reviews: Review[];
+  reviews: IReview[];
   marketplaceProducts: IProduct[];
 }
 
@@ -49,14 +50,15 @@ export default function ProductId({
   reviews,
   marketplaceProducts,
 }: Props) {
-  const p = product[0];
-  const m: IProductMultimedia = multimedia[0];
+  const selectedProduct = product[0];
+  const selectedMultimedia = multimedia[0];
+
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
-  const [productReviews, setProductReviews] = useState<Review[]>(reviews);
+  const [productReviews, setProductReviews] = useState<IReview[]>(reviews);
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
-    product[0]?.likes?.length > 0 ? true : false
+    Boolean(selectedProduct?.likes?.length)
   );
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -67,13 +69,10 @@ export default function ProductId({
     setLoading(false);
   }, []);
 
-  const [productStars, _] = useState<number>(() => {
-    let sum = 0;
-    reviews.forEach((r) => {
-      sum += r.overall;
-    });
-    return sum / reviews.length;
-  });
+  const productStars = useMemo(() => {
+    const sum = reviews.reduce((acc, review) => acc + review.overall, 0);
+    return reviews.length ? sum / reviews.length : 0;
+  }, [reviews]);
 
   const {
     getItemQuantity,
@@ -85,109 +84,97 @@ export default function ProductId({
     removeMarketplaceItems,
   } = useShoppingCart();
 
-  const quantity = getItemQuantity(p.id);
+  const quantity = getItemQuantity(selectedProduct.id);
 
-  const executeScroll = () => reviewRef.current.scrollIntoView();
+  const executeScroll = useCallback(
+    () => reviewRef.current.scrollIntoView(),
+    [reviewRef]
+  );
 
   useEffect(() => {
-    setGallery([]);
+    const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
+      selectedMultimedia;
 
-    if (isValidObject(m.p_principal)) {
-      setGallery((oldGallery) => [
-        ...oldGallery,
-        {
-          link: "/",
-          title: "Principal",
-          imageUrl: productsUrl + decodeURIComponent(m.p_principal),
-        },
-      ]);
-    }
-
-    if (isValidObject(m.p_back)) {
-      setGallery((oldGallery) => [
-        ...oldGallery,
-        {
-          link: "/",
-          title: "Back",
-          imageUrl: productsUrl + decodeURIComponent(m.p_back),
-        },
-      ]);
-    }
-
-    if (isValidObject(m.p_extra_1)) {
-      setGallery((oldGallery) => [
-        ...oldGallery,
-        {
-          link: "/",
-          title: "Photo Extra 1",
-          imageUrl: productsUrl + decodeURIComponent(m.p_extra_1),
-        },
-      ]);
-    }
-
-    if (isValidObject(m.p_extra_2)) {
-      setGallery((oldGallery) => [
-        ...oldGallery,
-        {
-          link: "/",
-          title: "Photo Extra 2",
-          imageUrl: productsUrl + decodeURIComponent(m.p_extra_2),
-        },
-      ]);
-    }
-
-    if (isValidObject(m.p_extra_3)) {
-      setGallery((oldGallery) => [
-        ...oldGallery,
-        {
-          link: "/",
-          title: "Photo Extra 3",
-          imageUrl: pExtra3Url + `${p.owner_id}/` + m.p_back,
-        },
-      ]);
-    }
-
-    setGallery((oldGallery) =>
-      oldGallery.filter(
-        (item) =>
-          item.imageUrl !== "" && item.imageUrl.includes("undefined") === false
-      )
+    setGallery(
+      [
+        ...(p_principal
+          ? [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: productsUrl + decodeURIComponent(p_principal),
+              },
+            ]
+          : []),
+        ...(p_back
+          ? [
+              {
+                link: "/",
+                title: "Back",
+                imageUrl: productsUrl + decodeURIComponent(p_back),
+              },
+            ]
+          : []),
+        ...(p_extra_1
+          ? [
+              {
+                link: "/",
+                title: "Photo Extra 1",
+                imageUrl: productsUrl + decodeURIComponent(p_extra_1),
+              },
+            ]
+          : []),
+        ...(p_extra_2
+          ? [
+              {
+                link: "/",
+                title: "Photo Extra 2",
+                imageUrl: productsUrl + decodeURIComponent(p_extra_2),
+              },
+            ]
+          : []),
+        ...(p_extra_3
+          ? [
+              {
+                link: "/",
+                title: "Photo Extra 3",
+                imageUrl:
+                  pExtra3Url + `${selectedProduct.owner_id}/` + p_extra_3,
+              },
+            ]
+          : []),
+      ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
     );
   }, [
-    m.p_back,
-    m.p_extra_1,
-    m.p_extra_2,
-    m.p_extra_3,
-    m.p_principal,
-    p.owner_id,
+    selectedMultimedia.p_back,
+    selectedMultimedia.p_extra_1,
+    selectedMultimedia.p_extra_2,
+    selectedMultimedia.p_extra_3,
+    selectedMultimedia.p_principal,
+    selectedProduct.owner_id,
   ]);
 
   useEffect(() => {
-    if (productReviews[0]?.id === "0" || productReviews.length === 0) {
+    if (productReviews[0]?.id === "0" || !productReviews?.length) {
       setEmptyReviews(true);
     }
   }, [productReviews]);
 
-  const handleSetReviews = (value: React.SetStateAction<Review[]>) => {
+  const handleSetReviews = (value: React.SetStateAction<IReview[]>) => {
     setProductReviews(value);
-    setEmptyReviews(value.length === 0 ? true : false);
+    setEmptyReviews(!value.length);
   };
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
   const handleIncreaseToCartItem = (productId: string) => {
     increaseCartQuantity(productId);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
 
-    const product: IProduct | undefined = marketplaceItems.find(
-      (item) => item.id === productId
-    );
+    if (marketplaceItems.some(({ id }) => id === productId)) return;
 
-    if (product) return;
-
-    const product_ = marketplaceProducts.find((item) => item.id === productId);
-    if (!product_) return;
-    addMarketplaceItems(product_);
+    const product = marketplaceProducts.find(({ id }) => id === productId);
+    if (!product) return;
+    addMarketplaceItems(product);
   };
 
   const handleDecreaseFromCartItem = (beerId: string) => {
@@ -203,7 +190,6 @@ export default function ProductId({
 
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
     setIsLike(value);
-
     await handleLike();
   };
 
@@ -230,10 +216,10 @@ export default function ProductId({
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
         <div className="relative z-10" role="dialog" aria-modal="true">
-          <div className="container flex lg:flex-wrap justify-between items-center mx-auto w-full transform transition h-full mt-6">
+          <div className="container mx-auto mt-6 flex h-full w-full transform items-center justify-between transition lg:flex-wrap">
             <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
               <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-                <div className="bg-bear-alvine flex items-center justify-center aspect-w-2 aspect-h-3 md:overflow-hidden rounded-lg col-span-12 lg:col-span-4 mx-6">
+                <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-bear-alvine md:overflow-hidden lg:col-span-4">
                   <ProductGallery
                     gallery={gallery}
                     isLike={isLike}
@@ -241,20 +227,20 @@ export default function ProductId({
                   />
                 </div>
 
-                <div className="col-span-12 lg:col-span-8 mx-6 ">
-                  <div className="flex flex-column">
+                <div className="col-span-12 mx-6 lg:col-span-8 ">
+                  <div className="flex-column flex">
                     <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                      {p.name}
+                      {selectedProduct.name}
                     </h2>
 
                     <div>
                       <h4 className="sr-only">{t("reviews")}</h4>
 
-                      <div className="flex flex-row justify-end items-center">
+                      <div className="flex flex-row items-center justify-end">
                         <div className="flex items-center">
                           <Rate
                             rating={productStars}
-                            onRating={() => {}}
+                            onRating={() => void {}}
                             count={5}
                             color={starColor}
                             editable={false}
@@ -264,7 +250,7 @@ export default function ProductId({
                         <p className="sr-only">{productStars} out of 5 stars</p>
                         <p
                           onClick={() => executeScroll()}
-                          className="ml-3 text-sm font-medium text-beer-draft hover:text-beer-dark hover:cursor-pointer"
+                          className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
                         >
                           {productReviews.length} {t("reviews")}
                         </p>
@@ -281,12 +267,12 @@ export default function ProductId({
                     </h3>
 
                     <p className="text-2xl text-gray-900">
-                      {formatCurrency(p.price)}
+                      {formatCurrency(selectedProduct.price)}
                     </p>
 
                     <div className="mt-6">
-                      <div className="flex items-center pr-6 min-h-[6vh]">
-                        <p className="text-lg">{p.description}</p>
+                      <div className="flex min-h-[6vh] items-center pr-6">
+                        <p className="text-lg">{selectedProduct.description}</p>
                       </div>
                     </div>
                   </section>
@@ -302,7 +288,9 @@ export default function ProductId({
                           <IconButton
                             classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
                             classIcon={""}
-                            onClick={() => handleIncreaseToCartItem(p.id)}
+                            onClick={() =>
+                              handleIncreaseToCartItem(selectedProduct.id)
+                            }
                             icon={faCartArrowDown}
                             isActive={false}
                             color={{
@@ -314,10 +302,12 @@ export default function ProductId({
                             <>{t("add_to_cart")}</>
                           </IconButton>
                         ) : (
-                          <div className="flex flex-row align-center">
+                          <div className="align-center flex flex-row">
                             <Button
                               class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                              onClick={() => handleDecreaseFromCartItem(p.id)}
+                              onClick={() =>
+                                handleDecreaseFromCartItem(selectedProduct.id)
+                              }
                               isActive={false}
                               title={""}
                               box
@@ -326,14 +316,16 @@ export default function ProductId({
                             </Button>
 
                             <div className="mx-6 flex items-center justify-center">
-                              <span className="text-beer-dark text-3xl">
+                              <span className="text-3xl text-beer-dark">
                                 {quantity}
                               </span>
                             </div>
 
                             <Button
                               class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
-                              onClick={() => handleIncreaseToCartItem(p.id)}
+                              onClick={() =>
+                                handleIncreaseToCartItem(selectedProduct.id)
+                              }
                               isActive={false}
                               title={""}
                               box
@@ -342,14 +334,18 @@ export default function ProductId({
                             </Button>
 
                             <DeleteButton
-                              onClick={() => handleRemoveFromCart(p.id)}
+                              onClick={() =>
+                                handleRemoveFromCart(selectedProduct.id)
+                              }
                             />
                           </div>
                         )}
 
                         <Button
-                          onClick={() => handleIncreaseToCartItem(p.id)}
-                          class="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
+                          onClick={() =>
+                            handleIncreaseToCartItem(selectedProduct.id)
+                          }
+                          class="bg-purple-500 hover:bg-purple-600 mt-6 mb-2 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
                           isActive={false}
                           color={{
                             filled: "",
@@ -371,7 +367,7 @@ export default function ProductId({
                 </div>
 
                 {/* Reviews */}
-                <div className="col-span-12 flex flex-col justify-center item-center mx-6">
+                <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
                   <ProductOverallReview
                     reviews={productReviews}
                     emptyReviews={emptyReviews}
@@ -381,7 +377,7 @@ export default function ProductId({
                 {/* See user reviews */}
                 {!emptyReviews && (
                   <div
-                    className="col-span-12 flex flex-col justify-center item-center mx-6"
+                    className="item-center col-span-12 mx-6 flex flex-col justify-center"
                     ref={reviewRef}
                   >
                     <ProductReviews
@@ -403,7 +399,7 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
 
-  let { data: product, error: productError } = await supabase
+  const { data: product, error: productError } = await supabase
     .from("products")
     .select(
       `*,
@@ -427,7 +423,7 @@ export async function getServerSideProps(context: { params: any }) {
 
   if (product == null) return { notFound: true };
 
-  let { data: products, error: productsError } = await supabase
+  const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
       `

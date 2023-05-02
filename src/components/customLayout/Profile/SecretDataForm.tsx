@@ -41,7 +41,7 @@ export function SecretDataForm() {
 
     // TODO: Update and fix error Not Logged In after update pass
 
-    const { oldPassword, newPassword, newPassword2 } = formValues;
+    const { newPassword, newPassword2 } = formValues;
 
     if (newPassword === newPassword2) {
       setTimeout(async () => {
@@ -51,7 +51,7 @@ export function SecretDataForm() {
 
         if (error) throw error;
 
-        handleMessage!({
+        handleMessage({
           type: "success",
           message: `${t("password_updated")}`,
         });
@@ -66,13 +66,13 @@ export function SecretDataForm() {
   return (
     <div
       id="account_secret_data"
-      className="container px-6 py-4  bg-white space-y-3 mb-4"
+      className="container mb-4 space-y-3  bg-white px-6 py-4"
     >
       <div id="password" className="text-2xl">
         {t("password")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
           <div className="w-full ">
             <label htmlFor="actual_password" className="text-sm text-gray-600">

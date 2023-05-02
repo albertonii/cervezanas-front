@@ -36,7 +36,7 @@ export type ProtectedRouteOption = {
 export const ProtectedRoute = async ({
   context: { req },
   redirectTo = "/",
-  getPropsFunc = () => {},
+  getPropsFunc = () => void {},
 }: ProtectedRouteOption): Promise<ProtectedRouteServerSideProps> => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
   // We can do a re-direction from the server

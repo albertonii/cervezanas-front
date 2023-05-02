@@ -19,11 +19,7 @@ export function HistoryForm(props: any) {
   const [description, setDescription] = useState(description_);
   const [foundationYear, setFoundationYear] = useState(foundationYear_);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       description: description_,
       foundationYear: foundationYear_,
@@ -48,7 +44,10 @@ export function HistoryForm(props: any) {
         foundationYear,
       };
 
-      let { error } = await supabase.from("users").update(updates).eq("id", id);
+      const { error } = await supabase
+        .from("users")
+        .update(updates)
+        .eq("id", id);
       setLoading(false);
 
       if (error) throw error;
@@ -62,7 +61,7 @@ export function HistoryForm(props: any) {
   };
 
   return (
-    <div id="history" className="container px-6 py-4 bg-white space-y-3 mb-4">
+    <div id="history" className="container mb-4 space-y-3 bg-white px-6 py-4">
       <div id="history-data" className="text-2xl">
         {t("history_business_title")}
       </div>

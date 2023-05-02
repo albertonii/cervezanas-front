@@ -10,7 +10,6 @@ interface Props {
   handleDeleteShowModal: ComponentProps<any>;
   handleSetProductLots: ComponentProps<any>;
   showModal: boolean;
-  setShowModal: ComponentProps<any>;
 }
 
 export function DeleteLot({
@@ -19,7 +18,6 @@ export function DeleteLot({
   handleDeleteShowModal,
   handleSetProductLots,
   showModal,
-  setShowModal,
 }: Props) {
   const handleDeleteClick = () => {
     const handleDelete = async () => {
@@ -48,7 +46,7 @@ export function DeleteLot({
     <Modal
       showBtn={false}
       showModal={showModal}
-      setShowModal={setShowModal}
+      setShowModal={handleDeleteShowModal}
       title={"modal_delete_lot_title"}
       btnTitle={"delete"}
       description={"modal_delete_lot_description"}

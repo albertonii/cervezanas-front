@@ -37,7 +37,7 @@ export default function Archive({ products, handleSetProducts }: Props) {
     <>
       <div className="py-6 px-4 " aria-label="Products">
         <div className="flex items-center">
-          <div className="text-4xl pr-12">{t("products_archive")}</div>
+          <div className="pr-12 text-4xl">{t("products_archive")}</div>
         </div>
 
         <ProductsArchiveList
@@ -49,9 +49,9 @@ export default function Archive({ products, handleSetProducts }: Props) {
         />
       </div>
 
-      {isEditShowModal && (
+      {productModal && isEditShowModal && (
         <UpdateProduct
-          product={productModal!}
+          product={productModal}
           handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
           showModal={false}
@@ -60,8 +60,8 @@ export default function Archive({ products, handleSetProducts }: Props) {
 
       {isDeleteShowModal && (
         <DeleteProduct
-          products={products!}
-          product={productModal!}
+          products={products}
+          product={productModal}
           showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
           handleSetProducts={handleSetProducts}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Rate } from ".";
-import { Review } from "../../lib/types.d";
+import { IReview } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import { Button } from "../common";
 import { useMessage } from "../message";
@@ -21,7 +21,7 @@ type FormValues = {
 interface Props {
   productId: string;
   ownerId: string;
-  handleSetReviews?: React.Dispatch<React.SetStateAction<Review[]>>;
+  handleSetReviews?: React.Dispatch<React.SetStateAction<IReview[]>>;
   isReady?: boolean;
 }
 
@@ -96,7 +96,7 @@ export function NewProductReview({
           },
         ]);
 
-      handleMessage!({
+      handleMessage({
         message: t("successful_product_review_creation"),
         type: "success",
       });
@@ -133,7 +133,7 @@ export function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full text-xl mb-4">
+                <div className="mb-4 w-full text-xl">
                   <label htmlFor="appearance">{t("appearance")}</label>
                   <Rate
                     rating={appearanceRate}
@@ -144,7 +144,7 @@ export function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full text-xl mb-4">
+                <div className="mb-4 w-full text-xl">
                   <label htmlFor="taste">{t("taste")}</label>
                   <Rate
                     rating={tasteRate}
@@ -155,7 +155,7 @@ export function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full text-xl mb-4">
+                <div className="mb-4 w-full text-xl">
                   <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
                   <Rate
                     rating={mouthfeelRate}
@@ -166,7 +166,7 @@ export function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full text-xl mb-4">
+                <div className="mb-4 w-full text-xl">
                   <label htmlFor="bitterness">{t("bitterness")}</label>
                   <Rate
                     rating={bitternessRate}
@@ -177,7 +177,7 @@ export function NewProductReview({
                   />
                 </div>
 
-                <div className="w-full text-xl mb-4">
+                <div className="mb-4 w-full text-xl">
                   <label htmlFor="overall">{t("overall")}</label>
                   <Rate
                     rating={overallRate}
@@ -190,18 +190,18 @@ export function NewProductReview({
               </div>
 
               {/* Comment  */}
-              <div className="flex w-full flex-row space-x-12 mt-6">
-                <div className="w-full mb-6">
+              <div className="mt-6 flex w-full flex-row space-x-12">
+                <div className="mb-6 w-full">
                   <label
                     htmlFor="comment"
-                    className="block mb-2 font-medium  text-xl dark:text-white"
+                    className="mb-2 block text-xl  font-medium dark:text-white"
                   >
                     {t("comment")}
                   </label>
 
                   <textarea
                     id="comment"
-                    className="inline-block align-top w-full h-24 p-4 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-beer-blonde focus:border-beer-blonde dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-beer-blonde dark:focus:border-beer-blonde"
+                    className="sm:text-md inline-block h-24 w-full rounded-lg border border-gray-300 bg-gray-50 p-4 align-top focus:border-beer-blonde focus:ring-beer-blonde dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-beer-blonde dark:focus:ring-beer-blonde"
                     {...register("comment", {
                       required: "Required",
                     })}

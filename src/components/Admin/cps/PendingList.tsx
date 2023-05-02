@@ -109,7 +109,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
   if (submittedList.length === 0) {
     return (
-      <div className="flex items-center justify-center w-full h-full p-6">
+      <div className="flex h-full w-full items-center justify-center p-6">
         <p className="text-xl text-gray-500 dark:text-gray-400">
           {t("no_pending_cp")}
         </p>
@@ -131,15 +131,15 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg px-6 py-4 ">
-      {isAcceptModal && (
+    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+      {selectedCP && isAcceptModal && (
         <Modal
           title={t("accept")}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
             handleUpdateStatus(1);
-            removeFromSubmittedList(selectedCP!.id);
+            removeFromSubmittedList(selectedCP.id);
             setIsAcceptModal(false);
           }}
           handlerClose={() => setIsAcceptModal(false)}
@@ -154,14 +154,14 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         </Modal>
       )}
 
-      {isRejectModal && (
+      {selectedCP && isRejectModal && (
         <Modal
           title={t("reject")}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
             handleUpdateStatus(2);
-            removeFromSubmittedList(selectedCP!.id);
+            removeFromSubmittedList(selectedCP.id);
             setIsRejectModal(false);
           }}
           handlerClose={() => setIsRejectModal(false)}
@@ -177,10 +177,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       )}
 
       <div className="relative w-full">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+            className="h-5 w-5 text-gray-500 dark:text-gray-400"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -197,13 +197,13 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           placeholder="Search products..."
         />
       </div>
 
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="py-3 px-6 hover:cursor-pointer">
               .
@@ -248,11 +248,11 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             return (
               <tr
                 key={cp.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
               >
                 <th
                   scope="row"
-                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                 >
                   <FontAwesomeIcon
                     icon={faUser}
@@ -263,7 +263,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </th>
 
-                <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link href={`/products/${cp.owner_id.id}`}>
                     {cp.owner_id.username}
                   </Link>
@@ -271,7 +271,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
                 <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
 
-                <td className="py-4 px-6 cursor-pointer">
+                <td className="cursor-pointer py-4 px-6">
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
@@ -284,7 +284,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </td>
 
-                <td className="py-4 px-6 cursor-pointer">
+                <td className="cursor-pointer py-4 px-6">
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
@@ -297,7 +297,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </td>
 
-                <td className="py-4 px-6 flex ">
+                <td className="flex py-4 px-6 ">
                   <IconButton
                     icon={faCheck}
                     onClick={() => handleApproveClick(cp)}

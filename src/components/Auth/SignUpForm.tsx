@@ -3,7 +3,7 @@ import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
-import { ROLE_ENUM, SignUpInterface } from "../../lib/interfaces";
+import { ROLE_ENUM, ISignUp } from "../../lib/interfaces";
 import { Button } from "../common";
 
 const ROLE_OPTIONS = [
@@ -87,7 +87,7 @@ export const SignUpForm = () => {
   };
 
   const onSubmit = async () => {
-    const userCredentials: SignUpInterface = {
+    const userCredentials: ISignUp = {
       userCredentials: { email: email, password: password, phone: "" },
       options: {
         redirectTo: "",
@@ -109,7 +109,7 @@ export const SignUpForm = () => {
           {...register("access_level")}
           value={role}
           onChange={handleChangeRole}
-          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         >
           {ROLE_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>

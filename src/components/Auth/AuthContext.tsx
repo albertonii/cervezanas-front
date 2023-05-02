@@ -9,7 +9,7 @@ import {
 } from "@supabase/supabase-js";
 import { useMessage } from "../message";
 import { ROUTE_SIGNIN } from "../../config";
-import { ROLE_ENUM, ISignUpInterface, IUser } from "../../lib/interfaces";
+import { ROLE_ENUM, ISignUp, IUser } from "../../lib/interfaces";
 import { useTranslation } from "react-i18next";
 
 export interface AuthSession {
@@ -17,7 +17,7 @@ export interface AuthSession {
   role: ROLE_ENUM | null;
   loading: boolean;
   setUser: (user: IUser | null) => void;
-  signUp: (payload: ISignUpInterface) => void;
+  signUp: (payload: ISignUp) => void;
   signIn: (payload: UserCredentials) => Promise<any>;
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
@@ -26,7 +26,19 @@ export interface AuthSession {
   loggedIn: boolean;
 }
 
-export const AuthContext = createContext<Partial<AuthSession>>({});
+export const AuthContext = createContext<AuthSession>({
+  user: null,
+  role: null,
+  loading: false,
+  setUser: () => void {},
+  signUp: () => void {},
+  signIn: () => Promise.resolve(),
+  signInWithProvider: () => Promise.resolve(),
+  signOut: () => void {},
+  supabaseClient: null,
+  userLoading: true,
+  loggedIn: false,
+});
 
 export interface Props {
   supabaseClient: SupabaseClient;
@@ -53,6 +65,7 @@ export const AuthContextProvider = (props: Props) => {
       setLoggedIn(true);
     } else {
       setUserLoading(false);
+      setLoggedIn(false);
     }
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -65,9 +78,9 @@ export const AuthContextProvider = (props: Props) => {
           setUser(user as IUser);
           setLoggedIn(true);
 
-          clearMessages!();
+          clearMessages();
 
-          handleMessage!({
+          handleMessage({
             type: "success",
             message: `${t("welcome")}, ${user?.email}`,
           });
@@ -111,7 +124,7 @@ export const AuthContextProvider = (props: Props) => {
     getRole();
   }, [supabase, user]);
 
-  const signUp = async (payload: ISignUpInterface) => {
+  const signUp = async (payload: ISignUp) => {
     try {
       setLoading(true);
 
@@ -120,11 +133,11 @@ export const AuthContextProvider = (props: Props) => {
         payload.options
       );
       if (error) {
-        handleMessage!({ message: error.message, type: "error" });
+        handleMessage({ message: error.message, type: "error" });
         setLoggedIn(false);
       } else {
-        clearMessages!();
-        handleMessage!({
+        clearMessages();
+        handleMessage({
           message:
             "Signup successful. Please check your inbox for a confirmation email!",
           type: "success",
@@ -132,7 +145,7 @@ export const AuthContextProvider = (props: Props) => {
         setLoggedIn(true);
       }
     } catch (error: any) {
-      handleMessage!({
+      handleMessage({
         message: error.error_description || error,
         type: "error",
       });
@@ -147,7 +160,7 @@ export const AuthContextProvider = (props: Props) => {
     const { error, user } = await supabase.auth.signIn(payload);
 
     if (error) {
-      handleMessage!({ message: error.message, type: "error" });
+      handleMessage({ message: error.message, type: "error" });
       setLoggedIn(false);
       setLoading(false);
       return error;

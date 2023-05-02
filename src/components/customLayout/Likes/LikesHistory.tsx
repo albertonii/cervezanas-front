@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Like } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
+import { ILike } from "../../../lib/types.d";
 
 interface Props {
   userId: string;
@@ -10,7 +9,7 @@ interface Props {
 
 export function LikesHistory({ userId }: Props) {
   const { t } = useTranslation();
-  const [likes, setLikes] = useState<Like[]>([]);
+  const [likes, setLikes] = useState<ILike[]>([]);
   /*
   useEffect(() => {
     const getLikesHistory = async () => {
@@ -44,19 +43,19 @@ export function LikesHistory({ userId }: Props) {
     <>
       <div className="py-6 px-4 " aria-label="Watchlist">
         <div className="flex flex-col">
-          <div className="text-4xl pr-12">{t("watchlist")}</div>
+          <div className="pr-12 text-4xl">{t("watchlist")}</div>
           {likes.length > 0 &&
             likes.map((like, index) => {
               return (
                 <div
                   key={index}
-                  className="mt-12 ml-8 bg-beer-foam m-6 p-6 rounded-sm"
+                  className="m-6 mt-12 ml-8 rounded-sm bg-beer-foam p-6"
                 >
-                  <article className="md:gap-8 md:grid md:grid-cols-3">
+                  <article className="md:grid md:grid-cols-3 md:gap-8">
                     <div>
-                      <div className="flex items-center mb-6 space-x-4">
+                      <div className="mb-6 flex items-center space-x-4">
                         <Image
-                          className="w-10 h-10 rounded-full"
+                          className="h-10 w-10 rounded-full"
                           fill
                           src="/docs/images/people/profile-picture-5.jpg"
                           alt=""
@@ -66,7 +65,7 @@ export function LikesHistory({ userId }: Props) {
                           <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                             <svg
                               aria-hidden="true"
-                              className="w-5 mr-1.5"
+                              className="mr-1.5 w-5"
                               viewBox="0 0 18 13"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +174,7 @@ export function LikesHistory({ userId }: Props) {
                         <li className="flex items-center">
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 mr-1.5"
+                            className="mr-1.5 h-4 w-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +190,7 @@ export function LikesHistory({ userId }: Props) {
                         <li className="flex items-center">
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 mr-1.5"
+                            className="mr-1.5 h-4 w-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +206,7 @@ export function LikesHistory({ userId }: Props) {
                         <li className="flex items-center">
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 mr-1.5"
+                            className="mr-1.5 h-4 w-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +218,7 @@ export function LikesHistory({ userId }: Props) {
                       </ul>
                     </div>
                     <div className="col-span-2 mt-6 md:mt-0">
-                      <div className="flex items-start mb-5">
+                      <div className="mb-5 flex items-start">
                         <div className="pr-4">
                           <footer>
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -234,7 +233,7 @@ export function LikesHistory({ userId }: Props) {
                             was genuinely nice and helpful.
                           </h4>
                         </div>
-                        <p className="bg-blue-700 text-white text-sm font-semibold inline-flex items-center p-1.5 rounded">
+                        <p className="inline-flex items-center rounded bg-blue-700 p-1.5 text-sm font-semibold text-white">
                           8.7
                         </p>
                       </div>
@@ -253,14 +252,14 @@ export function LikesHistory({ userId }: Props) {
                         to a Ferrari. This watch was well under £100! An
                         absolute bargain.
                       </p>
-                      <aside className="flex items-center mt-3 space-x-5">
+                      <aside className="mt-3 flex items-center space-x-5">
                         <a
                           href="#"
                           className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                         >
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 mr-1.5"
+                            className="mr-1.5 h-4 w-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -271,11 +270,11 @@ export function LikesHistory({ userId }: Props) {
                         </a>
                         <a
                           href="#"
-                          className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group"
+                          className="group inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                         >
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 mr-1.5"
+                            className="mr-1.5 h-4 w-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"

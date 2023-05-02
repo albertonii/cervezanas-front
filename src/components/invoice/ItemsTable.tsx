@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "@react-pdf/renderer";
 import { TableBodyRow, TableHeaderRow } from ".";
-import { String } from "lodash";
 
 const styles = StyleSheet.create({
   tableContainer: {

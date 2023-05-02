@@ -38,6 +38,7 @@ export async function middleware(req: NextRequest) {
   ) {
     return;
   }
+
   if (req.nextUrl.locale === "default") {
     const locale = req.cookies.get("NEXT_LOCALE") || "es";
     return NextResponse.redirect(
