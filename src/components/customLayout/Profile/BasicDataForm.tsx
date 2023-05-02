@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
-import { Profile } from "../../../lib/types.d";
+import { IProfile } from "../../../lib/types.d";
 import { formatDateDefaultInput } from "../../../utils";
 import { useTranslation } from "react-i18next";
 import DisplayInputError from "../../common/DisplayInputError";
@@ -17,7 +17,7 @@ interface FormData {
 }
 
 interface Props {
-  profile: Profile;
+  profile: IProfile;
 }
 
 export function BasicDataForm({ profile }: Props) {
@@ -67,13 +67,13 @@ export function BasicDataForm({ profile }: Props) {
   return (
     <div
       id="account_basic_data"
-      className="container px-6 py-4 bg-white space-y-3 mb-4"
+      className="container mb-4 space-y-3 bg-white px-6 py-4"
     >
       <div id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
           <div className="w-full ">
             <label htmlFor="username" className="text-sm text-gray-600">
@@ -85,7 +85,7 @@ export function BasicDataForm({ profile }: Props) {
               id="username"
               placeholder="user123"
               readOnly
-              className="hover:bg-beer-softFoam hover:cursor-not-allowed relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("username")}
             />
           </div>
@@ -111,7 +111,7 @@ export function BasicDataForm({ profile }: Props) {
         </div>
 
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="username" className="text-sm text-gray-600">
               {t("profile_acc_name")}
             </label>

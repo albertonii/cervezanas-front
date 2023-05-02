@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import SEO from "../../next-seo.config";
-import Script from "next/script";
 import type { AppProps } from "next/app";
 import { Suspense, useState } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";

@@ -16,6 +16,7 @@ export function DeleteButton({ onClick }: Props) {
       icon={faTrash}
       color={{ filled: "#fefefe", unfilled: "#fefefe" }}
       onClick={onClick}
+      title={"Delete this item"}
     ></IconButton>
   );
 }

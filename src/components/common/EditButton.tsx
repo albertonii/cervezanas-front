@@ -15,6 +15,7 @@ export function EditButton({ onClick }: Props) {
       icon={faEdit}
       color={{ filled: "#fefefe", unfilled: "#fefefe" }}
       onClick={onClick}
+      title={"Edit this item"}
     ></IconButton>
   );
 }

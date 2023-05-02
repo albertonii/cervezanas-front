@@ -1,10 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { User } from "../lib/interfaces";
+import { IUser } from "../lib/interfaces";
 
 interface Props {
-  user?: User;
+  user?: IUser;
 }
 
 export function OwnerInfo({ user }: Props) {
@@ -12,9 +12,9 @@ export function OwnerInfo({ user }: Props) {
   return (
     <>
       {user && (
-        <div className="flex items-center mb-4 space-x-4">
+        <div className="mb-4 flex items-center space-x-4">
           <Image
-            className="w-10 h-10 rounded-full"
+            className="h-10 w-10 rounded-full"
             src="/marketplace_product_default.png"
             alt=""
             width={40}

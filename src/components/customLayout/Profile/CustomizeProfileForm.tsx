@@ -6,7 +6,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
-import { Profile } from "../../../lib/types.d";
+import { IProfile } from "../../../lib/types.d";
 import { FilePreviewAndHide } from "../../common/FilePreviewAndHide";
 import { isValidObject } from "../../../utils/utils";
 
@@ -17,7 +17,7 @@ type FormValues = {
 };
 
 interface Props {
-  profile: Profile;
+  profile: IProfile;
 }
 
 export function CustomizeProfileForm({ profile }: Props) {

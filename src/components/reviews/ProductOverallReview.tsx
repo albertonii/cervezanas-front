@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { BeerEnum } from "../../lib/beerEnum";
-import { Review } from "../../lib/types.d";
+import { IReview } from "../../lib/types.d";
+import { ReviewQualification } from "../../lib/beerEnum";
 
 interface Props {
-  reviews: Review[];
+  reviews: IReview[];
   emptyReviews: boolean;
 }
 

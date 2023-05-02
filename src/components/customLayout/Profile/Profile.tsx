@@ -1,12 +1,12 @@
 import HorizontalSections from "../../common/HorizontalSections";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Profile } from "../../../lib/types.d";
+import { IProfile } from "../../../lib/types.d";
 import { useAuth } from "../../Auth/useAuth";
 import { Account, Details, Values } from "../../customLayout/index";
 
 interface Props {
-  profile: Profile;
+  profile: IProfile;
 }
 
 export function Profile({ profile }: Props) {

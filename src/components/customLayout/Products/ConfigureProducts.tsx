@@ -4,15 +4,15 @@ import React, { useState } from "react";
 import { Products } from "./Products";
 import {
   IProduct,
-  IProductLot,
-  CustomizeSettings as cSettings,
+  IRefProductLot,
+  ICustomizeSettings as cSettings,
 } from "../../../lib/types.d";
 import { CustomizeSettings } from "..";
 import HorizontalSections from "../../common/HorizontalSections";
 
 interface Props {
   products: IProduct[];
-  lots: IProductLot[];
+  lots: IRefProductLot[];
   customizeSettings: cSettings;
 }
 

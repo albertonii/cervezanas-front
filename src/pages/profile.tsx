@@ -8,8 +8,8 @@ import { supabase } from "../utils/supabaseClient";
 import {
   IConsumptionPoints,
   IMonthlyProduct,
-  IProductLot,
   IProfile,
+  IRefProductLot,
   IReview,
 } from "../lib/types.d";
 import {
@@ -36,7 +36,7 @@ interface Props {
   mProducts: IMonthlyProduct[];
   profile: IProfile;
   reviews: IReview[];
-  product_lots: IProductLot[];
+  product_lots: IRefProductLot[];
   cps: IConsumptionPoints[];
 }
 

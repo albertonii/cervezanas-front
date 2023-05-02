@@ -2,12 +2,12 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { Award, ModalAddProductProps } from "../../lib/types.d";
+import { IAward, ModalAddProductProps } from "../../lib/types.d";
 import { Button, DeleteButton } from "../common";
 import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
 import DisplayInputError from "../common/DisplayInputError";
 
-const emptyAward: Award = {
+const emptyAward: IAward = {
   id: "",
   name: "",
   description: "",
@@ -66,9 +66,9 @@ export const AwardsSection = ({ form }: Props) => {
   return (
     <section id="Award">
       {fields.map((field, index) => (
-        <div key={field.id} className="relative pt-6 flex-auto space-y-4">
+        <div key={field.id} className="relative flex-auto space-y-4 pt-6">
           <div className="flex flex-row items-end">
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="award_name" className="text-sm text-gray-600">
                 <b>{index + 1} </b> {t("name")}
               </label>
@@ -99,7 +99,7 @@ export const AwardsSection = ({ form }: Props) => {
             </div>
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label
               htmlFor="award_description"
               className="text-sm text-gray-600"
@@ -124,7 +124,7 @@ export const AwardsSection = ({ form }: Props) => {
             )}
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="award_year" className="text-sm text-gray-600">
               {t("year")}
             </label>
@@ -145,7 +145,7 @@ export const AwardsSection = ({ form }: Props) => {
             )}
           </div>
 
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="award_img_url" className="text-sm text-gray-600">
               {t("upload_img_url")}
             </label>

@@ -15,6 +15,7 @@ export function UnarchiveButton({ onClick }: Props) {
       icon={faBoxOpen}
       color={{ filled: "#B0B0B0", unfilled: "#B0B0B0" }}
       onClick={onClick}
+      title={"Unarchive this product"}
     ></IconButton>
   );
 }

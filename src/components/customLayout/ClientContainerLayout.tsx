@@ -5,11 +5,11 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SupabaseProps } from "../../constants";
 import { supabase } from "../../utils/supabaseClient";
 import { useAppContext } from "../Context/AppContext";
-import { User } from "../../lib/interfaces";
+import { IUser } from "../../lib/interfaces";
 
 type Props = {
   children: JSX.Element;
-  user: User;
+  user: IUser;
   role: string;
 };
 
@@ -78,12 +78,12 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
   return (
     <>
-      <div className="w-full h-[90vh]">
+      <div className="h-[90vh] w-full">
         {role === "admin" && (
           <>
             {/* Client Information */}
             <div
-              className="bg-beer-softFoam pt-[5vh] md:pt-[5vh] sm:"
+              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}
@@ -96,7 +96,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
             {/* Background Image */}
             <div className=" bg-bear-alvine " aria-label="Custom Header">
               <Image
-                className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
+                className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
                 src={bgImg_}
@@ -104,19 +104,19 @@ export function ClientContainerLayout({ children, user, role }: Props) {
               />
 
               {/* Profile Image */}
-              <div className="space-x-2 relative pl-24" aria-label="Logo">
-                <div className="bottom-20 absolute">
+              <div className="relative space-x-2 pl-24" aria-label="Logo">
+                <div className="absolute bottom-20">
                   <div className="w-64  ">
                     <div className="relative" onClick={() => handleClick()}>
                       <Image
-                        className="w-36 h-36 rounded-full absolute"
+                        className="absolute h-36 w-36 rounded-full"
                         src={profileImg_}
                         alt=""
                         width={240}
                         height={240}
                       />
 
-                      <div className="w-36 h-36 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+                      <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
                         <FontAwesomeIcon
                           icon={faUpload}
                           style={{ color: "bear-dark" }}
@@ -142,7 +142,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
             {/* Client Information */}
             <div
-              className="bg-beer-softFoam pt-[5vh] md:pt-[5vh] sm:"
+              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}
@@ -155,7 +155,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
             {/* Background Image */}
             <div className=" bg-bear-alvine " aria-label="Custom Header">
               <Image
-                className="max-h-[20vh] md:max-h-[40vh] w-full object-cover"
+                className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
                 src={bgImg_}
@@ -163,19 +163,19 @@ export function ClientContainerLayout({ children, user, role }: Props) {
               />
 
               {/* Profile Image */}
-              <div className="space-x-2 relative pl-24" aria-label="Logo">
-                <div className="bottom-20 absolute">
+              <div className="relative space-x-2 pl-24" aria-label="Logo">
+                <div className="absolute bottom-20">
                   <div className="w-64  ">
                     <div className="relative" onClick={() => handleClick()}>
                       <Image
-                        className="w-36 h-36 rounded-full absolute"
+                        className="absolute h-36 w-36 rounded-full"
                         src={profileImg_}
                         alt=""
                         width={240}
                         height={240}
                       />
 
-                      <div className="w-36 h-36 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+                      <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
                         <FontAwesomeIcon
                           icon={faUpload}
                           style={{ color: "bear-dark" }}
@@ -201,7 +201,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
             {/* Client Information */}
             <div
-              className="bg-beer-softFoam pt-[5vh] md:pt-[5vh] sm:"
+              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}

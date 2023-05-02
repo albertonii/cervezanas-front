@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { OrderList } from "..";
-import { Order } from "../../../lib/types.d";
+import { IOrder } from "../../../lib/types.d";
 
 interface Props {
-  orders: Order[];
+  orders: IOrder[];
 }
 
 export function Orders(props: Props) {
@@ -14,7 +14,7 @@ export function Orders(props: Props) {
   return (
     <div className="py-6 px-4" aria-label="Products">
       <div className="flex flex-col">
-        <div className="text-4xl pr-12">{t("orders")}</div>
+        <div className="pr-12 text-4xl">{t("orders")}</div>
       </div>{" "}
       {orders && orders.length > 0 && <OrderList orders={orders} />}
     </div>

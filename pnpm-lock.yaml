@@ -23,6 +23,7 @@ specifiers:
   '@tsndr/cloudflare-worker-jwt': ^2.2.1
   '@types/crypto-js': ^4.1.1
   '@types/decimal.js': ^7.4.0
+  '@types/google.maps': ^3.52.6
   '@types/jsonwebtoken': ^9.0.1
   '@types/lodash': ^4.14.191
   '@types/node': ^18.7.2
@@ -125,6 +126,7 @@ devDependencies:
   '@tsndr/cloudflare-worker-jwt': 2.2.1
   '@types/crypto-js': 4.1.1
   '@types/decimal.js': 7.4.0
+  '@types/google.maps': 3.52.6
   '@types/lodash': 4.14.191
   '@types/node': 18.11.9
   '@types/paypal__checkout-server-sdk': 1.0.5
@@ -1304,6 +1306,10 @@ packages:
 
   /@types/google.maps/3.46.1:
     resolution: {integrity: sha512-GAa5ZWYgXG50yLXybb7A824esGm/L0LKHS7qD0qkP0IA/Qp5r922P9tmYcbCkGEf3Zgf7Ukbp7l08/IGIJuQwQ==}
+    dev: true
+
+  /@types/google.maps/3.52.6:
+    resolution: {integrity: sha512-CnwN5UcezNiRuJzV0wGIsqXWNwMM6WzIxmy9lOUx+yauRQMee5XH/N7NaVOsiY5T5ygrnBwPO+csND652HYsTQ==}
     dev: true
 
   /@types/json-schema/7.0.11:

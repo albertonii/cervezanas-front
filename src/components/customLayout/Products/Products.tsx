@@ -1,13 +1,13 @@
 import { t } from "i18next";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ProductList } from "..";
-import { CustomizeSettings, IProduct } from "../../../lib/types.d";
+import { ICustomizeSettings, IProduct } from "../../../lib/types.d";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
 
 interface Props {
   products: IProduct[];
   handleSetProducts: Dispatch<SetStateAction<any>>;
-  customizeSettings: CustomizeSettings;
+  customizeSettings: ICustomizeSettings;
 }
 
 export function Products({
@@ -16,7 +16,7 @@ export function Products({
   customizeSettings: cSettings,
 }: Props) {
   const [customizeSettings, setCustomizeSettings] =
-    useState<CustomizeSettings>(cSettings);
+    useState<ICustomizeSettings>(cSettings);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -51,7 +51,7 @@ export function Products({
   return (
     <div className="py-6 px-4 " aria-label="Products">
       <div className="flex items-center">
-        <div className="text-4xl pr-12">{t("products")}</div>
+        <div className="pr-12 text-4xl">{t("products")}</div>
 
         <AddProduct
           handleSetProducts={handleSetProducts}

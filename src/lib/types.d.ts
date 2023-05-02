@@ -199,6 +199,21 @@ export interface IProductLot {
   manufacture_date: any;
   packaging: string;
   recipe: string;
+}
+
+export interface IRefProductLot {
+  id: string;
+  created_at: Date;
+  lot_id: string;
+  lot_number: string;
+  lot_name: string;
+  product_id: string;
+  quantity: number;
+  limit_notification: number;
+  expiration_date: any;
+  manufacture_date: any;
+  packaging: string;
+  recipe: string;
   products: IProduct;
 }
 
@@ -300,12 +315,12 @@ export interface IProfile {
   role: string;
   username: string;
   products: IProduct[];
-  reviews: Review[];
-  likes: Like[];
-  orders: Order[];
-  campaigns: Campaign[];
-  customize_settings: CustomizeSettings[];
-  profile_location: ProfileLocation[];
+  reviews: IReview[];
+  likes: ILike[];
+  orders: IOrder[];
+  campaigns: ICampaign[];
+  customize_settings: ICustomizeSettings[];
+  profile_location: IProfileLocation[];
   cp_organizer_status: number;
 }
 

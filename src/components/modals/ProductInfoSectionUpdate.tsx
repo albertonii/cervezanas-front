@@ -17,7 +17,7 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
-import { ModalUpdateProductProps, ProductPack } from "../../lib/types.d";
+import { ModalUpdateProductProps, IProductPack } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import {
   Button,
@@ -30,7 +30,7 @@ interface Props {
   form: UseFormReturn<ModalUpdateProductProps, any>;
 }
 
-const emptyPack: ProductPack = {
+const emptyPack: IProductPack = {
   id: "",
   pack: 6,
   price: 0,
@@ -83,23 +83,23 @@ export function ProductInfoSectionUpdate({ form }: Props) {
   return (
     <>
       {/* Select product type  */}
-      <div className="relative pt-6 flex-auto space-y-4">
-        <div className="w-full flex flex-col justify-end items-end">
+      <div className="relative flex-auto space-y-4 pt-6">
+        <div className="flex w-full flex-col items-end justify-end">
           <label
-            className="inline-flex relative items-center cursor-pointer"
+            className="relative inline-flex cursor-pointer items-center"
             htmlFor="is_public"
           >
             <input
               id="is_public"
               type="checkbox"
-              className="sr-only peer"
+              className="peer sr-only"
               {...register("is_public", {
                 required: true,
               })}
               defaultChecked={getValues("is_public")}
             />
 
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:peer-focus:ring-beer-blonde rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-beer-blonde"></div>
+            <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
             <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
               {t("is_public")}
@@ -119,7 +119,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <select
             id="product_type"
             defaultValue={getValues("type") ?? "BEER"}
-            className="text-sm hover:bg-gray-200 hover:cursor-not-allowed relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-gray-200 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             disabled
           >
             {product_type_options.map((option) => (
@@ -133,13 +133,13 @@ export function ProductInfoSectionUpdate({ form }: Props) {
 
       {/* Beer type */}
       {getValues("type") === "BEER" && (
-        <div className="relative pt-6 flex-auto space-y-4">
-          <p className="my-4 text-slate-500 text-xl leading-relaxed">
+        <div className="relative flex-auto space-y-4 pt-6">
+          <p className="text-slate-500 my-4 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="product_name" className="text-sm text-gray-600">
                 {t("product_name")}
               </label>
@@ -181,7 +181,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="description" className="text-sm text-gray-600">
                 {t("product_description")}
               </label>
@@ -189,7 +189,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               <textarea
                 id="description"
                 placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("description", {
                   required: true,
                 })}
@@ -255,7 +255,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   value: getValues("fermentation"),
                 })}
                 id="fermentation"
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {fermentation_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -286,7 +286,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register("color", {
                   value: getValues("color"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {color_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -316,7 +316,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register("origin", {
                   value: getValues("origin"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {origin_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -347,7 +347,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register("family", {
                   value: getValues("family"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {family_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -377,7 +377,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register("era", {
                   value: getValues("era"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {era_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -408,7 +408,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                   value: getValues("aroma"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {aroma_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -436,7 +436,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                   value: getValues("is_gluten"),
                 })}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 <option key={0} value={"false"}>
                   {t("no")}
@@ -464,7 +464,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   value: getValues("format"),
                 })}
                 onChange={handleChange}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {format_options.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -478,7 +478,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               )}
             </div>
 
-            <div className="w-full space-y">
+            <div className="space-y w-full">
               <label htmlFor="volume" className="text-sm text-gray-600">
                 {t("volume_label")}
               </label>
@@ -487,7 +487,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register(`volume`, {
                   value: getValues("volume"),
                 })}
-                className="text-sm relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {formatOptions === "can" ? (
                   <>
@@ -556,7 +556,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
 
           {/* Stock information and Packs */}
           <div className="container mt-4">
-            <p className="my-4 text-slate-500 text-xl leading-relaxed">
+            <p className="text-slate-500 my-4 text-xl leading-relaxed">
               {t("modal_product_add_price_title")}
             </p>
 
@@ -638,9 +638,9 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   className="border border-solid border-gray-300 p-3"
                   key={field.id}
                 >
-                  <div className="w-full space-y">
+                  <div className="space-y w-full">
                     {/* Quantity and price  */}
-                    <div className="flex w-full flex-row space-x-3 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.pack`}
@@ -656,7 +656,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                             value: getValues(`packs.${index}.pack`),
                             required: true,
                           })}
-                          className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -703,7 +703,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                     </div>
 
                     {/* Pack name  */}
-                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.name`}
@@ -733,7 +733,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                     </div>
 
                     {/* File  */}
-                    <div className="flex w-full flex-row space-x-3 space-y-2 items-end">
+                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
                       <div className="w-full">
                         <label
                           htmlFor={`packs.${index}.img_url`}

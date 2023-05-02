@@ -15,6 +15,7 @@ export function ArchiveButton({ onClick }: Props) {
       icon={faBoxArchive}
       color={{ filled: "#B0B0B0", unfilled: "#B0B0B0" }}
       onClick={onClick}
+      title={"Archive this product"}
     ></IconButton>
   );
 }

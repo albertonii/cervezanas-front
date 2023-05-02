@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ProfileLocation } from "../../../lib/types.d";
+import { IProfileLocation } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { Button, Spinner } from "../../common";
 import _ from "lodash";
@@ -23,7 +23,7 @@ interface FormProps {
 }
 
 interface Props {
-  profile_location: ProfileLocation;
+  profile_location: IProfileLocation;
 }
 
 export function LocationForm({ profile_location }: Props) {
@@ -142,13 +142,13 @@ export function LocationForm({ profile_location }: Props) {
   return (
     <div
       id="location_data"
-      className="container px-6 py-4 bg-white space-y-3 mb-4"
+      className="container mb-4 space-y-3 bg-white px-6 py-4"
     >
       <div id="location-data-title" className="text-2xl">
         {t("location")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
           <div className="w-full ">
             <label htmlFor="address_name" className="text-sm text-gray-600">
@@ -187,7 +187,7 @@ export function LocationForm({ profile_location }: Props) {
         </div>
 
         <div className="flex w-full flex-row space-x-3">
-          <div className="w-full space-y">
+          <div className="space-y w-full">
             <label htmlFor="address_doc" className="text-sm text-gray-600">
               {t("document_id")}
             </label>

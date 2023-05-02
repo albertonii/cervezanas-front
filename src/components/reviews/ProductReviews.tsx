@@ -1,10 +1,10 @@
 import React from "react";
 import { IndividualReview } from ".";
-import { Review } from "../../lib/types.d";
+import { IReview } from "../../lib/types.d";
 
 interface Props {
-  reviews: Review[];
-  handleSetReviews: React.Dispatch<React.SetStateAction<Review[]>>;
+  reviews: IReview[];
+  handleSetReviews: React.Dispatch<React.SetStateAction<IReview[]>>;
 }
 
 export function ProductReviews({ reviews, handleSetReviews }: Props) {

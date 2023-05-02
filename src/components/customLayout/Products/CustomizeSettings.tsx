@@ -1,19 +1,13 @@
-import React, {
-  ComponentProps,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CustomizeSettings } from "../../../lib/types.d";
+import { ICustomizeSettings } from "../../../lib/types.d";
 import { toLowerCase } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { ChipCard } from "../../common";
 
 interface Props {
   handleCustomizeSettings: ComponentProps<any>;
-  customizeSettings: CustomizeSettings;
+  customizeSettings: ICustomizeSettings;
 }
 export function CustomizeSettings({
   customizeSettings,
@@ -79,7 +73,7 @@ export function CustomizeSettings({
             })
             .eq("id", customizeSettings.id);
 
-          handleCustomizeSettings((prev: CustomizeSettings) => {
+          handleCustomizeSettings((prev: ICustomizeSettings) => {
             return { ...prev, family_styles: [...familyStyles, famStyle] };
           });
         }
@@ -124,7 +118,7 @@ export function CustomizeSettings({
       })
       .eq("id", customizeSettings.id);
 
-    handleCustomizeSettings((prev: CustomizeSettings) => {
+    handleCustomizeSettings((prev: ICustomizeSettings) => {
       return { ...prev, colors: filteredColors };
     });
   };
@@ -146,7 +140,7 @@ export function CustomizeSettings({
       })
       .eq("id", customizeSettings.id);
 
-    handleCustomizeSettings((prev: CustomizeSettings) => {
+    handleCustomizeSettings((prev: ICustomizeSettings) => {
       return { ...prev, family_styles: filteredFamStyles };
     });
   };
@@ -155,14 +149,14 @@ export function CustomizeSettings({
     <>
       <div className="py-6 px-4 " aria-label="CustomizeSettings">
         <div className="flex items-center">
-          <div className="text-4xl pr-12">
+          <div className="pr-12 text-4xl">
             {t("products_customize_settings")}
           </div>
         </div>
 
         <div className="flex flex-col space-y-4">
           {/* Text description to Customize colors available for a new beer product. */}
-          <div className="text-md text-gray-500 dark:text-gray-400 my-4">
+          <div className="text-md my-4 text-gray-500 dark:text-gray-400">
             {t("products_customize_settings_description")}
           </div>
 
@@ -180,7 +174,7 @@ export function CustomizeSettings({
                 ref={colorInputRef}
                 id="colorInputRef"
                 type="text"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </fieldset>
 
@@ -219,7 +213,7 @@ export function CustomizeSettings({
                 ref={familyStylesInputRef}
                 id="familyStylesInputRef"
                 type="text"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </fieldset>
 

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
-import { IProductLot } from "../../lib/types.d";
+import { IRefProductLot } from "../../lib/types.d";
 import { formatDateDefaultInput } from "../../utils";
 import DisplayInputError from "../common/DisplayInputError";
 
@@ -24,8 +24,8 @@ type FormValues = {
 };
 
 interface Props {
-  lots: IProductLot[];
-  productLot: IProductLot;
+  lots: IRefProductLot[];
+  productLot: IRefProductLot;
   showModal: boolean;
   handleSetProductLots: ComponentProps<any>;
   handleEditShowModal: ComponentProps<any>;

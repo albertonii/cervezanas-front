@@ -5,10 +5,10 @@ import {
   CustomizeProfileForm,
   BasicDataForm,
 } from "..";
-import { Profile } from "../../../lib/types.d";
+import { IProfile } from "../../../lib/types.d";
 
 interface Props {
-  profile: Profile;
+  profile: IProfile;
 }
 
 export function Account({ profile }: Props) {

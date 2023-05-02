@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IProductLot, IProduct } from "../../../lib/types.d";
+import { IProduct, IRefProductLot } from "../../../lib/types.d";
 import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 
 interface Props {
   products: IProduct[];
-  lots: IProductLot[];
+  lots: IRefProductLot[];
 }
 
 export default function Lots({ products, lots: l }: Props) {
@@ -17,9 +17,9 @@ export default function Lots({ products, lots: l }: Props) {
 
   const [lotModal, setProductLotModal] = useState<any>(null);
 
-  const [lots, setLots] = useState<IProductLot[]>(l);
+  const [lots, setLots] = useState<IRefProductLot[]>(l);
 
-  const handleSetProductLots = (value: IProductLot[]) => {
+  const handleSetProductLots = (value: IRefProductLot[]) => {
     setLots(value);
   };
 
@@ -35,7 +35,7 @@ export default function Lots({ products, lots: l }: Props) {
     setIsDeleteShowModal(value);
   };
 
-  const handleProductLotModal = (productLot: IProductLot) => {
+  const handleProductLotModal = (productLot: IRefProductLot) => {
     setProductLotModal(productLot);
   };
 
