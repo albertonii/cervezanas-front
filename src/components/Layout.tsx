@@ -60,7 +60,6 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
             <div className="relative flex flex-col bg-beer-foam">
               <Header />
-
               {loggedIn && !isHomepage && (
                 <div
                   className={classNames(
@@ -74,7 +73,6 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
                   />
                 </div>
               )}
-
               <main
                 className={classNames(
                   "relative mx-auto h-auto w-full ",

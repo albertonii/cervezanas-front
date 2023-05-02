@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { INotification } from "../../lib/types";
+import { INotification } from "../../lib/types.d";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 
@@ -44,7 +44,7 @@ export function AppContextProvider(props: Props) {
 
   const { user } = useAuth();
 
-  if (!user) return <></>;
+  if (!user) return <>{props.children}</>;
   const { refetch } = useFetchNotifications(user.id);
 
   const [openNotification, setOpenNotification] = useState(false);
