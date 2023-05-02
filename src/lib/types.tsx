@@ -1,5 +1,5 @@
 import { type User, Session } from "@supabase/gotrue-js/src/lib/types";
-import { Award } from "./types";
+import { IAward } from "./types.d";
 
 export type UserProps = {
   user: User;
@@ -20,7 +20,7 @@ export type ModalAddProductProps = {
   origin: number;
   era: number;
   isGluten: string;
-  awards: Award[];
+  awards: IAward[];
   p_principal: FileImg;
   p_back: FileImg;
   p_extra_1: FileImg;

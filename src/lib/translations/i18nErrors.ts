@@ -12,6 +12,7 @@ export const translationsFormErrorsEn = {
   error_100_number_max_length: "Field must be equal or lower than 100",
   error_200_max_length: "Maximum length of the field is 200 characters",
   password_match: "Passwords do not match",
+  select_location_required: `Select a location is required`,
 };
 
 export const translationsFormErrorsEs = {
@@ -29,4 +30,5 @@ export const translationsFormErrorsEs = {
     "El campo debe tener un valor menor o igual de 100",
   error_200_max_length: "El campo debe tener menos de 200 caracteres",
   password_match: "Las contraseñas no coinciden",
+  select_location_required: `Debes seleccionar una localización`,
 };

@@ -1,8 +1,15 @@
 import { PayPalButtons, FUNDING } from "@paypal/react-paypal-js";
+import { randomTransactionId } from "redsys-easy";
+
 import { supabase } from "../../utils/supabaseClient";
 
-export function Paypal() {
-  /*
+interface Props {
+  total: number;
+}
+
+export function Paypal({ total }: Props) {
+  const orderNumber = randomTransactionId();
+
   const handleApprove = async (data: any, actions: any) => {
     const order = await actions.order.capture();
     await supabase
@@ -24,13 +31,13 @@ export function Paypal() {
           layout: "vertical",
           shape: "rect",
         }}
-        createOrder={(data, actions) => {
+        createOrder={(data: any, actions: any) => {
           return actions.order.create({
             purchase_units: [
               {
                 amount: {
-                  value: "10.00",
-                  currency_code: "USD",
+                  value: total,
+                  currency_code: "EUR",
                 },
               },
             ],
@@ -40,6 +47,4 @@ export function Paypal() {
       />
     </>
   );
-  */
-  return <></>;
 }

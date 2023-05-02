@@ -51,6 +51,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
 		"@commitlint/config-angular": "^17.0.3",
+		"@paypal/react-paypal-js": "^7.8.3",
 		"@react-google-maps/api": "2.7.0",
 		"@supabase/auth-helpers-nextjs": "^0.5.4",
 		"@tailwindcss/line-clamp": "^0.4.2",
@@ -80,6 +81,7 @@
 		"postcss": "^8.4.16",
 		"prettier": "^2.7.1",
 		"prettier-plugin-tailwindcss": "^0.1.13",
+		"react-paypal-js": "link:@types/@paypal/react-paypal-js",
 		"react-table": "^7.8.0",
 		"supabase": ">=1.8.1",
 		"tailwindcss": "^3.1.8",

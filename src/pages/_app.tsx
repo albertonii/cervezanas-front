@@ -6,6 +6,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import { DefaultSeo } from "next-seo";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -41,6 +42,12 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     })
   );
 
+  const initialPaypalOptions = {
+    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "",
+    currency: "EUR",
+    intent: "capture",
+  };
+
   return (
     <>
       {/* <Script src="/tw-elements/dist/js/index.min.js"></Script> */}
@@ -50,15 +57,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <MessageProvider>
         <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
           <AuthContextProvider supabaseClient={supabase}>
-            {/* <PayPalScriptProvider
-              options={{
-                "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "",
-              }}
-            > */}
-            <Layout usePadding={false} useBackdrop={false}>
-              <Component {...pageProps} />
-            </Layout>
-            {/* </PayPalScriptProvider> */}
+            <PayPalScriptProvider options={initialPaypalOptions}>
+              <Layout usePadding={false} useBackdrop={false}>
+                <Component {...pageProps} />
+              </Layout>
+            </PayPalScriptProvider>
           </AuthContextProvider>
         </Suspense>
       </MessageProvider>

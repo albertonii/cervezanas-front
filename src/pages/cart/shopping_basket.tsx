@@ -26,7 +26,8 @@ import {
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import Decimal from "decimal.js";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
-// import { Paypal } from "../../components/paypal";
+import { Paypal } from "../../components/paypal";
+import DisplayInputError from "../../components/common/DisplayInputError";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -167,13 +168,14 @@ export default function Checkout({
     setBillingAddresses((billingAddresses) => [...billingAddresses, address]);
   };
 
-  const handleProceedToPay = async () => {
+  const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
     const billingInfoId = selectedBillingAddress;
 
     const resultBillingInfoId = await triggerBilling("billing_info_id", {
       shouldFocus: true,
     });
+
     const resultShippingInfoId = await triggerShipping("shipping_info_id", {
       shouldFocus: true,
     });
@@ -188,9 +190,17 @@ export default function Checkout({
       (address) => address.id === billingInfoId
     );
 
-    if (!shippingInfo || !billingInfo) return;
+    if (!shippingInfo || !billingInfo) false;
+    return true;
+  };
+
+  const handleProceedToPay = async () => {
+    if (!(await checkForm())) return;
 
     setLoadingPayment(true);
+
+    const shippingInfoId = selectedShippingAddress;
+    const billingInfoId = selectedBillingAddress;
 
     await proceedPaymentRedsys().then((orderNumber) => {
       createOrder(billingInfoId, shippingInfoId, orderNumber);
@@ -517,11 +527,7 @@ export default function Checkout({
                         {/* Error input displaying */}
                         {shippingErrors.shipping_info_id?.type ===
                           "required" && (
-                          <div className="p-5 text-red-500">
-                            <p className="text-semibold text-2xl">
-                              {t("radio_button_required")}
-                            </p>
-                          </div>
+                          <DisplayInputError message="errors.select_location_required" />
                         )}
                       </ul>
 
@@ -533,8 +539,7 @@ export default function Checkout({
                       )}
 
                       <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                        {" "}
-                        {t("billing_info")}{" "}
+                        {t("billing_info")}
                       </h3>
 
                       {/* Billing */}
@@ -560,7 +565,9 @@ export default function Checkout({
                                 <input
                                   type="radio"
                                   id={`billing-address-${address.id}`}
-                                  {...registerBilling("billing_info_id")}
+                                  {...registerBilling("billing_info_id", {
+                                    required: true,
+                                  })}
                                   value={address.id}
                                   className="peer hidden"
                                   required
@@ -602,11 +609,7 @@ export default function Checkout({
 
                         {/* Error input displaying */}
                         {billingErrors.billing_info_id?.type === "required" && (
-                          <div className="p-5 text-red-500">
-                            <p className="text-semibold text-2xl">
-                              {t("radio_button_required")}
-                            </p>
-                          </div>
+                          <DisplayInputError message="errors.select_location_required" />
                         )}
                       </ul>
 
@@ -734,7 +737,7 @@ export default function Checkout({
                           <Button
                             large
                             primary
-                            class="font-semibold"
+                            class={`font-semibold`}
                             title={""}
                             disabled={cart.length === 0}
                             onClick={() => {
@@ -746,22 +749,13 @@ export default function Checkout({
                         </div>
 
                         {/* Paypal payment method */}
-                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
-                          {/* 
-                          <Button
-                            large
-                            primary
-                            class="font-semibold"
-                            title={""}
-                            disabled={cart.length === 0}
-                            onClick={() => {
-                              handleProceedToPay();
-                            }}
-                          >
-                            {t("proceed_to_paypal")}
-                          </Button>
-                          */}
-                          {/* <Paypal /> */}
+                        <div
+                          className="flex w-full items-center justify-center md:items-start md:justify-start"
+                          onClick={() => {
+                            checkForm();
+                          }}
+                        >
+                          <Paypal total={total} />
                         </div>
                       </div>
                     </div>
