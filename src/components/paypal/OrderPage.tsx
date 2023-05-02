@@ -1,4 +1,4 @@
-import paypal from "@paypal/checkout-server-sdk";
+// import paypal from "@paypal/checkout-server-sdk";
 
 /*
 const payPalClient = new paypal.core.PayPalHttpClient({
@@ -11,32 +11,32 @@ const payPalClient = new paypal.core.PayPalHttpClient({
 */
 
 export default function OrderPage() {
-  const createOrder = async () => {
-    const request = new paypal.orders.OrdersCreateRequest();
-    request.prefer("return=representation");
-    request.requestBody({
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: "100.00",
-          },
-        },
-      ],
-    });
-    /*
+  // const createOrder = async () => {
+  //   const request = new paypal.orders.OrdersCreateRequest();
+  //   request.prefer("return=representation");
+  //   request.requestBody({
+  //     intent: "CAPTURE",
+  //     purchase_units: [
+  //       {
+  //         amount: {
+  //           currency_code: "USD",
+  //           value: "100.00",
+  //         },
+  //       },
+  //     ],
+  //   });
+  /*
     const response = await payPalClient.execute(request);
     const order = response.result;
     console.log(order);
     */
-    // Aquí debes redirigir al usuario a la página de confirmación de pago de PayPal
-    // Puedes utilizar la propiedad order.links.find(link => link.rel === 'approve') para obtener el enlace para redirigir al usuario
-  };
+  // Aquí debes redirigir al usuario a la página de confirmación de pago de PayPal
+  // Puedes utilizar la propiedad order.links.find(link => link.rel === 'approve') para obtener el enlace para redirigir al usuario
+  // };
 
   return (
     <div>
-      <button onClick={createOrder}>Crear orden de pedido</button>
+      {/* <button onClick={createOrder}>Crear orden de pedido</button> */}
     </div>
   );
 }

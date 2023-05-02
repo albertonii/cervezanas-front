@@ -2,6 +2,7 @@ import { PayPalButtons, FUNDING } from "@paypal/react-paypal-js";
 import { supabase } from "../../utils/supabaseClient";
 
 export function Paypal() {
+  /*
   const handleApprove = async (data: any, actions: any) => {
     const order = await actions.order.capture();
     await supabase
@@ -39,4 +40,6 @@ export function Paypal() {
       />
     </>
   );
+  */
+  return <></>;
 }

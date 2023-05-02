@@ -26,7 +26,7 @@ import {
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import Decimal from "decimal.js";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
-import { Paypal } from "../../components/paypal";
+// import { Paypal } from "../../components/paypal";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -761,7 +761,7 @@ export default function Checkout({
                             {t("proceed_to_paypal")}
                           </Button>
                           */}
-                          <Paypal />
+                          {/* <Paypal /> */}
                         </div>
                       </div>
                     </div>

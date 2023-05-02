@@ -3,11 +3,9 @@ import type { NextRequest } from "next/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
 import { ROUTE_SIGNIN, ROUTE_SIGNUP } from "./config";
-import { supabase } from "./utils/supabaseClient";
 
 export async function middleware(req: NextRequest) {
   const authCookie = req.cookies.get("sb-access-token");
-  // console.log(authCookie);
   // if (
   //   !authCookie ||
   //   !(await jwt.verify(authCookie.value, process.env.SUPABASE_JWT_SECRET!))

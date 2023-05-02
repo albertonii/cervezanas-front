@@ -51,8 +51,6 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
 		"@commitlint/config-angular": "^17.0.3",
-		"@paypal/checkout-server-sdk": "^1.0.3",
-		"@paypal/react-paypal-js": "^7.8.3",
 		"@react-google-maps/api": "2.7.0",
 		"@supabase/auth-helpers-nextjs": "^0.5.4",
 		"@tailwindcss/line-clamp": "^0.4.2",
@@ -62,7 +60,6 @@
 		"@types/google.maps": "^3.52.6",
 		"@types/lodash": "^4.14.191",
 		"@types/node": "^18.7.2",
-		"@types/paypal__checkout-server-sdk": "^1.0.5",
 		"@types/react": "18.0.17",
 		"@types/react-dom": "18.0.6",
 		"@types/uuid": "^9.0.1",
