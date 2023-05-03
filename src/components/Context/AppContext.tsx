@@ -44,8 +44,7 @@ export function AppContextProvider(props: Props) {
 
   const { user } = useAuth();
 
-  if (!user) return <>{props.children}</>;
-  const { refetch } = useFetchNotifications(user.id);
+  const { refetch } = useFetchNotifications(user?.id ?? "");
 
   const [openNotification, setOpenNotification] = useState(false);
 

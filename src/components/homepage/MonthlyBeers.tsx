@@ -35,6 +35,7 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
                 <MonthlyCardItem mProduct={mProduct} />
               </div>
             ))}
+
           </div>
         </div>
       </div>

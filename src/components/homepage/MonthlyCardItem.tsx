@@ -22,14 +22,26 @@ interface Props {
 
 export default function MonthlyCardItem({ mProduct }: Props) {
   const product = mProduct.product_id;
+  if (!product) return null;
+
+  const { id } = product;
+
+  const {
+    getItemQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+    removeMarketplaceItems,
+  } = useShoppingCart();
+
+  const itemQuantity = getItemQuantity(id);
+  if (isNaN(itemQuantity)) return <></>;
 
   const { t } = useTranslation();
-  const { id } = product;
   const router = useRouter();
 
   const overAll = () => {
     if (product.reviews.length === 0) {
-      return t("no_reviews") ?? "";
+      return t("no_reviews") || "";
     }
 
     const overAll_sum = product.reviews.reduce(
@@ -43,13 +55,6 @@ export default function MonthlyCardItem({ mProduct }: Props) {
   };
 
   const [isLike, setIsLike] = useState<boolean>(!!product.likes.length);
-
-  const {
-    getItemQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    removeMarketplaceItems,
-  } = useShoppingCart();
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -92,8 +97,8 @@ export default function MonthlyCardItem({ mProduct }: Props) {
 
   const handleDecreaseFromCartItem = () => {
     decreaseCartQuantity(id);
-    if (getItemQuantity(id) > 1) return;
-    removeMarketplaceItems(id);
+    // if (getItemQuantity(id) > 1) return;
+    // removeMarketplaceItems(id);
   };
 
   const handleRemoveFromCart = () => {
@@ -167,7 +172,8 @@ export default function MonthlyCardItem({ mProduct }: Props) {
             </div>
 
             <div className="mt-2 flex items-center  justify-between space-x-2 text-sm font-medium">
-              {getItemQuantity(id) === 0 ? (
+              {/* {itemQuantity === 0 ? ( */}
+              {product ? (
                 <>
                   <AddCardButton onClick={() => handleIncreaseToCartItem()} />
                 </>
@@ -178,7 +184,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
                   />
 
                   <span className="px-2 text-3xl text-black">
-                    {getItemQuantity(id)}
+                    {/* {itemQuantity} */}
                   </span>
 
                   <IncreaseButton onClick={() => handleIncreaseToCartItem()} />

@@ -1,4 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ICartItem, IProduct } from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
@@ -74,22 +80,22 @@ export function ShoppingCartProvider({ children }: Props) {
     clearItems();
   };
 
-  const isInCart = (id: string) => {
-    return items.some((item) => item.id === id);
-  };
+  const isInCart = useCallback(
+    (id: string) => {
+      return items.some((item) => item.id === id);
+    },
+    [items]
+  );
 
-  const getItemQuantity = (id: string) => {
-    if (items) {
-      const item = items.find((item) => {
-        return item.id === id;
-      });
+  const getItemQuantity = useCallback(
+    (id: string) => {
+      const item = items?.find((item) => item?.id === id);
+      return item?.quantity || 0;
+    },
+    [items]
+  );
 
-      return item ? item.quantity : 0;
-    }
-    return 0;
-  };
-
-  const increaseCartQuantity = (id: string) => {
+  const increaseCartQuantity = useCallback((id: string) => {
     setItems((currItems) => {
       const item = currItems.find((item) => item.id === id);
       return item
@@ -98,9 +104,9 @@ export function ShoppingCartProvider({ children }: Props) {
           )
         : [...currItems, { id, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const decreaseCartQuantity = (id: string) => {
+  const decreaseCartQuantity = useCallback((id: string) => {
     setItems((currItems) => {
       if (currItems.find((item) => item.id === id)?.quantity === 1) {
         return currItems.filter((item) => item.id !== id);
@@ -114,7 +120,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
       }
     });
-  };
+  }, []);
 
   const removeFromCart = (id: string) => {
     setItems((items) => items.filter((item) => item.id !== id));
@@ -123,12 +129,27 @@ export function ShoppingCartProvider({ children }: Props) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const cartQuantity = items.reduce(
-    (quantity, item) => item.quantity + quantity,
-    0
-  );
+  const cartQuantity = 2;
 
-  const value = {
+  const value = useMemo(() => {
+    return {
+      items,
+      marketplaceItems,
+      addMarketplaceItems,
+      removeMarketplaceItems,
+      clearMarketplace,
+      clearItems,
+      clearCart,
+      isInCart,
+      getItemQuantity,
+      increaseCartQuantity,
+      decreaseCartQuantity,
+      removeFromCart,
+      openCart,
+      closeCart,
+      cartQuantity,
+    };
+  }, [
     items,
     marketplaceItems,
     addMarketplaceItems,
@@ -144,7 +165,7 @@ export function ShoppingCartProvider({ children }: Props) {
     openCart,
     closeCart,
     cartQuantity,
-  };
+  ]);
 
   return (
     <ShoppingCartContext.Provider value={value}>
