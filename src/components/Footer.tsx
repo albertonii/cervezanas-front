@@ -6,10 +6,10 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="absolute -bottom-[100vh] lg:-bottom-[100vh] w-full ">
+    <footer className="absolute -bottom-[100vh] w-full lg:-bottom-[100vh] ">
       <div className="relative mt-16 bg-bear-light">
         <svg
-          className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-bear-light"
+          className="absolute top-0 -mt-5 h-6 w-full text-bear-light sm:-mt-10 sm:h-16"
           preserveAspectRatio="none"
           viewBox="0 0 1440 54"
         >
@@ -19,8 +19,8 @@ export function Footer() {
           ></path>
         </svg>
 
-        <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-          <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
+        <div className="mx-auto px-4 pt-12 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+          <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6">
             {/* Descripción de la empresa */}
             <div className="md:max-w-md lg:col-span-2">
               <Link
@@ -38,17 +38,17 @@ export function Footer() {
                   sizes="100px"
                 />
 
-                <span className="ml-2 text-xl font-bold tracking-wide text-beer-dark uppercase">
+                <span className="ml-2 text-xl font-bold uppercase tracking-wide text-beer-dark">
                   Cervezanas
                 </span>
               </Link>
 
               <div className="mt-4 lg:max-w-sm">
-                <p className="text-sm text-deep-purple-50">
+                <p className="text-deep-purple-50 text-sm">
                   Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                   accusantium doloremque laudantium, totam rem aperiam.
                 </p>
-                <p className="mt-4 text-sm text-deep-purple-50">
+                <p className="text-deep-purple-50 mt-4 text-sm">
                   Eaque ipsa quae ab illo inventore veritatis et quasi
                   architecto beatae vitae dicta sunt explicabo.
                 </p>
@@ -56,7 +56,7 @@ export function Footer() {
             </div>
 
             {/* Links */}
-            <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
+            <div className="row-gap-8 grid grid-cols-2 gap-5 md:grid-cols-4 lg:col-span-4">
               {/* Quienes somos  */}
               <div>
                 <p className="font-semibold tracking-wide text-beer-draft">
@@ -67,7 +67,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/quienes-somos"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("who_we_are")}
                     </Link>
@@ -75,7 +75,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/compromisos"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("commiments")}
                     </Link>
@@ -83,7 +83,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/condiciones-de-compra"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("purchase_conditions")}
                     </Link>
@@ -91,7 +91,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/aviso-legal"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("legal_notice")}
                     </Link>
@@ -99,7 +99,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/privacidad"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("privacy_policy")}
                     </Link>
@@ -116,7 +116,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/soporte"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("support_center")}
                     </Link>
@@ -124,7 +124,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/soporte/contacto"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("contact")}
                     </Link>
@@ -132,7 +132,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/soporte/devoluciones-y-garantia"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("returns_and_warranty")}
                     </Link>
@@ -140,7 +140,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/cookies"
-                      className="transition-colors duration-300 text-deep-purple-50 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
                     >
                       {t("cookie_policy")}
                     </Link>
@@ -156,30 +156,30 @@ export function Footer() {
                 <div className="flex  space-x-2">
                   {/* Visa card image logo  */}
                   <Image
-                    src="/icons/payments/visa.svg"
+                    src="/icons/payments/visa.png"
                     alt="Visa"
-                    width={50}
-                    height={50}
+                    width={80}
+                    height={80}
                   />
 
                   {/* Mastercard card image logo  */}
                   <Image
-                    src="/icons/payments/mastercard.svg"
+                    src="/icons/payments/mastercard.png"
                     alt="Mastercard"
-                    width={50}
-                    height={50}
+                    width={80}
+                    height={80}
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col justify-between pt-5 pb-10 border-t border-deep-purple-accent-200 sm:flex-row">
+          <div className="border-deep-purple-accent-200 flex flex-col justify-between border-t pt-5 pb-10 sm:flex-row">
             <p className="text-sm text-gray-100">{t("copyright")}</p>
-            <div className="flex items-center mt-4 space-x-4 sm:mt-0">
+            <div className="mt-4 flex items-center space-x-4 sm:mt-0">
               <Link
                 href="/"
-                className="transition-colors duration-300 text-deep-purple-100 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
                   <path d="M24,4.6c-0.9,0.4-1.8,0.7-2.8,0.8c1-0.6,1.8-1.6,2.2-2.7c-1,0.6-2,1-3.1,1.2c-0.9-1-2.2-1.6-3.6-1.6 c-2.7,0-4.9,2.2-4.9,4.9c0,0.4,0,0.8,0.1,1.1C7.7,8.1,4.1,6.1,1.7,3.1C1.2,3.9,1,4.7,1,5.6c0,1.7,0.9,3.2,2.2,4.1 C2.4,9.7,1.6,9.5,1,9.1c0,0,0,0,0,0.1c0,2.4,1.7,4.4,3.9,4.8c-0.4,0.1-0.8,0.2-1.3,0.2c-0.3,0-0.6,0-0.9-0.1c0.6,2,2.4,3.4,4.6,3.4 c-1.7,1.3-3.8,2.1-6.1,2.1c-0.4,0-0.8,0-1.2-0.1c2.2,1.4,4.8,2.2,7.5,2.2c9.1,0,14-7.5,14-14c0-0.2,0-0.4,0-0.6 C22.5,6.4,23.3,5.5,24,4.6z"></path>
@@ -187,7 +187,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/"
-                className="transition-colors duration-300 text-deep-purple-100 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
               >
                 <svg viewBox="0 0 30 30" fill="currentColor" className="h-6">
                   <circle cx="15" cy="15" r="4"></circle>
@@ -196,7 +196,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/"
-                className="transition-colors duration-300 text-deep-purple-100 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
                   <path d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z"></path>

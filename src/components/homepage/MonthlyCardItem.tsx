@@ -5,7 +5,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { IMonthlyProduct } from "../../lib/types.d";
+import { IMonthlyProduct, IProduct } from "../../lib/types.d";
 import { useRouter } from "next/router";
 import {
   AddCardButton,
@@ -18,9 +18,10 @@ import DisplayImageProduct from "../common/DisplayImageProduct";
 
 interface Props {
   mProduct: IMonthlyProduct;
+  mProducts: IMonthlyProduct[];
 }
 
-export default function MonthlyCardItem({ mProduct }: Props) {
+export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const product = mProduct.product_id;
   if (!product) return null;
 
@@ -31,6 +32,9 @@ export default function MonthlyCardItem({ mProduct }: Props) {
     decreaseCartQuantity,
     removeFromCart,
     removeMarketplaceItems,
+    increaseCartQuantity,
+    marketplaceItems,
+    addMarketplaceItems,
   } = useShoppingCart();
 
   const itemQuantity = getItemQuantity(id);
@@ -80,25 +84,21 @@ export default function MonthlyCardItem({ mProduct }: Props) {
   }
 
   const handleIncreaseToCartItem = () => {
-    /*
     increaseCartQuantity(id);
+
     if (marketplaceItems.find((item) => item.id === id)) return;
-    const product: IProduct | undefined = marketplaceItems.find(
-      (item) => item.id === id
-    );
 
-    if (product) return;
+    const pMarketplace = marketplaceItems.find((item) => item.id === id);
+    if (pMarketplace) return;
 
-    const product_ = products.find((item) => item.id === id);
-    if (!product_) return;
-    addMarketplaceItems(product_);
-    */
+    const pMonthly = mProducts.find((item) => item.product_id.id === id);
+    if (pMonthly) addMarketplaceItems(pMonthly.product_id);
   };
 
   const handleDecreaseFromCartItem = () => {
     decreaseCartQuantity(id);
-    // if (getItemQuantity(id) > 1) return;
-    // removeMarketplaceItems(id);
+    if (getItemQuantity(id) > 1) return;
+    removeMarketplaceItems(id);
   };
 
   const handleRemoveFromCart = () => {
@@ -172,8 +172,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
             </div>
 
             <div className="mt-2 flex items-center  justify-between space-x-2 text-sm font-medium">
-              {/* {itemQuantity === 0 ? ( */}
-              {product ? (
+              {itemQuantity === 0 ? (
                 <>
                   <AddCardButton onClick={() => handleIncreaseToCartItem()} />
                 </>
@@ -184,7 +183,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
                   />
 
                   <span className="px-2 text-3xl text-black">
-                    {/* {itemQuantity} */}
+                    {itemQuantity}
                   </span>
 
                   <IncreaseButton onClick={() => handleIncreaseToCartItem()} />

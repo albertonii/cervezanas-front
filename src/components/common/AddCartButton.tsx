@@ -1,6 +1,6 @@
+import React from "react";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { t } from "i18next";
-import React from "react";
 import { IconButton } from "./IconButton";
 
 interface Props {

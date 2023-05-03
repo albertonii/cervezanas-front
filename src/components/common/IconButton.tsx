@@ -84,10 +84,10 @@ export function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`
-        flex items-center justify-center hover:bg-beer-softBlonde border-beer-softBlonde border-2 rounded mt-0
+        mt-0 flex items-center justify-center rounded border-2 border-beer-softBlonde hover:bg-beer-softBlonde
         ${box ? "h-auto w-10" : ""}
         ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${disabled ? "cursor-not-allowed opacity-50" : ""}
         ${size === "small" ? "w-24" : ""} 
         ${size === "medium" ? "w-32" : ""}
         ${size === "large" ? "w-52" : ""}
@@ -103,7 +103,7 @@ export function IconButton({
       `}
     >
       <span
-        className={`${children != null ? "mr-1" : ""} text-bear-dark h-5 w-5`}
+        className={`${children != null ? "mr-1" : ""} h-5 w-5 text-bear-dark`}
       >
         {iconButton}
       </span>
@@ -113,7 +113,7 @@ export function IconButton({
           ${danger ? "text-beer-foam " : ""} 
           ${primary ? "text-beer-dark " : "text-beer-dark"}}
           ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
-          ${size === "small" ? "px-4 py-2 text-md" : ""} 
+          ${size === "small" ? "text-md px-4 py-2" : ""} 
           ${size === "medium" ? "px-4 py-2 text-base" : ""}
           ${size === "large" ? "px-5 py-3 text-lg" : ""}
           ${size === "xLarge" ? "px-6 py-3 text-xl" : ""}

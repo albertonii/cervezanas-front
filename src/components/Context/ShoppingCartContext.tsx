@@ -129,7 +129,9 @@ export function ShoppingCartProvider({ children }: Props) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const cartQuantity = 2;
+  const cartQuantity = useMemo(() => {
+    return items.reduce((acc, item) => acc + item.quantity, 0);
+  }, [items]);
 
   const value = useMemo(() => {
     return {

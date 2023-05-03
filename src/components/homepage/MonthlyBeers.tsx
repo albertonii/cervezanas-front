@@ -30,12 +30,16 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
 
           {/* Cards  */}
           <div className="grid-gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {monthlyProducts.map((mProduct) => (
+            {/* {monthlyProducts.map((mProduct) => (
               <div key={mProduct.id}>
                 <MonthlyCardItem mProduct={mProduct} />
               </div>
-            ))}
+            ))} */}
 
+            <MonthlyCardItem
+              mProduct={monthlyProducts[0]}
+              mProducts={monthlyProducts}
+            />
           </div>
         </div>
       </div>
