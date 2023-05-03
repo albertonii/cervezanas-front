@@ -3,6 +3,9 @@ import { ComponentProps } from "@stitches/core";
 import { useState } from "react";
 import { SupabaseProps } from "../../constants";
 
+const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
+const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
+
 interface Props {
   imgSrc: string;
   onClick?: ComponentProps<typeof Image>["onClick"];
@@ -20,9 +23,7 @@ export default function DisplayImageProduct({
   width,
   height,
 }: Props) {
-  const [src, setSrc] = useState(
-    SupabaseProps.BASE_PRODUCTS_ARTICLES_URL + imgSrc
-  );
+  const [src, setSrc] = useState(BASE_PRODUCTS_ARTICLES_URL + imgSrc);
 
   return (
     <Image
@@ -30,8 +31,8 @@ export default function DisplayImageProduct({
       height={height ?? 120}
       alt={alt ?? "image"}
       src={src}
-      onError={() => setSrc("/marketplace_product_default.png")}
-      onBlur={() => setSrc("/marketplace_product_default.png")}
+      onError={() => setSrc(MARKETPLACE_PRODUCT)}
+      onBlur={() => setSrc(MARKETPLACE_PRODUCT)}
       onClick={onClick}
       className={class_}
     />

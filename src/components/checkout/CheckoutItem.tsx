@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
@@ -10,6 +9,9 @@ import { supabase } from "../../utils/supabaseClient";
 import { Button, IconButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
+import DisplayImageProduct from "../common/DisplayImageProduct";
+
+const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
 interface Props {
   product: IProduct;
@@ -31,14 +33,14 @@ export function CheckoutItem({
   const [p_principal, setPPrincipal] = useState<string>(
     "/marketplace_product_default.png"
   );
-  const [productSubtotal, _] = useState<number>(product.price * quantity);
+
+  const productSubtotal = product.price * quantity;
 
   useEffect(() => {
     const getPrincipal = async () => {
       if (
         isValidObject(product.product_multimedia[0]) &&
-        product.product_multimedia[0].p_principal !==
-          "/marketplace_product_default.png"
+        product.product_multimedia[0].p_principal !== MARKETPLACE_PRODUCT
       ) {
         const pPrincipalUrl = `${SupabaseProps.ARTICLES}${product.product_multimedia[0].p_principal}`;
 
@@ -63,14 +65,13 @@ export function CheckoutItem({
   return (
     <div className="mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8">
       <div className="pb-4 md:pb-8 ">
-        <Image
+        <DisplayImageProduct
+          imgSrc={p_principal}
+          alt={product.name}
           width={600}
           height={600}
-          className="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40"
-          src={p_principal}
-          alt={product.name}
+          class="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40"
         />
-        {/* TODO: <DisplayImageProduct /> */}
       </div>
 
       <div className="flex w-full flex-col items-start justify-between space-y-4 border-b border-gray-200 pb-8 md:flex-row md:space-y-0">
