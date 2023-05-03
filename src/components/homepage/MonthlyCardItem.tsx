@@ -5,7 +5,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
-import { IMonthlyProduct, IProduct } from "../../lib/types.d";
+import { IMonthlyProduct } from "../../lib/types.d";
 import { useRouter } from "next/router";
 import {
   AddCardButton,

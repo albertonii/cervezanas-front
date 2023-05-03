@@ -41,6 +41,10 @@ export default function ScreenMenu({ setOpenHamburger }: Props) {
   const MENU_ITEM_STYLES =
     "block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg";
 
+  const handleClickBell = () => {
+    setOpenNotification(true);
+  };
+
   return (
     <nav className="rounded border-gray-200 pb-2.5 dark:bg-gray-900 sm:px-4">
       <div className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
@@ -145,7 +149,7 @@ export default function ScreenMenu({ setOpenHamburger }: Props) {
                 class={
                   "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
                 }
-                onClick={() => setOpenNotification(true)}
+                onClick={() => handleClickBell()}
                 title={""}
               >
                 <div className="relative rounded-full">
