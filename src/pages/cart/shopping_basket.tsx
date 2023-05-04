@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -118,7 +118,7 @@ export default function Checkout({
       ) as IProduct[];
       setCart(ps);
 
-      setTotal(() => subtotal - discount + shipping);
+      setTotal(() => subtotal - discount + shipping + tax);
       setLoading(false);
     };
 
@@ -137,28 +137,37 @@ export default function Checkout({
       setDiscount(0);
       setTotal(0);
     };
-  }, [discount, items, marketplaceItems, shipping, subtotal]);
+  }, [discount, items, marketplaceItems, shipping, subtotal, tax]);
 
-  const handleIncreaseCartQuantity = (productId: string) => {
-    increaseCartQuantity(productId);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
-    const product: IProduct | undefined = marketplaceItems.find(
-      (item) => item.id === productId
-    );
-    if (!product) return;
-    addMarketplaceItems(product);
-  };
+  const handleIncreaseCartQuantity = useCallback(
+    (productId: string) => {
+      increaseCartQuantity(productId);
+      if (marketplaceItems.find((item) => item.id === productId)) return;
+      const product: IProduct | undefined = marketplaceItems.find(
+        (item) => item.id === productId
+      );
+      if (!product) return;
+      addMarketplaceItems(product);
+    },
+    [addMarketplaceItems, increaseCartQuantity, marketplaceItems]
+  );
 
-  const handleDecreaseCartQuantity = (productId: string) => {
-    decreaseCartQuantity(productId);
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
-  };
+  const handleDecreaseCartQuantity = useCallback(
+    (productId: string) => {
+      decreaseCartQuantity(productId);
+      if (getItemQuantity(productId) > 1) return;
+      removeMarketplaceItems(productId);
+    },
+    [decreaseCartQuantity, getItemQuantity, removeMarketplaceItems]
+  );
 
-  const handleRemoveFromCart = (productId: string) => {
-    removeMarketplaceItems(productId);
-    removeFromCart(productId);
-  };
+  const handleRemoveFromCart = useCallback(
+    (productId: string) => {
+      removeMarketplaceItems(productId);
+      removeFromCart(productId);
+    },
+    [removeFromCart, removeMarketplaceItems]
+  );
 
   const handleShippingAddresses = (address: IShippingAddress) => {
     setShippingAddresses((shippingAddresses) => [
@@ -205,12 +214,14 @@ export default function Checkout({
     const shippingInfoId = selectedShippingAddress;
     const billingInfoId = selectedBillingAddress;
 
-    await proceedPaymentRedsys().then((orderNumber) => {
+    try {
+      const orderNumber = await proceedPaymentRedsys();
       createOrder(billingInfoId, shippingInfoId, orderNumber);
-    });
-
-    setLoadingPayment(false);
-    setIsFormReady(true);
+      setIsFormReady(true);
+    } catch (error) {
+      console.error(error);
+      setLoadingPayment(false);
+    }
   };
 
   const createOrder = async (
