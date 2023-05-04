@@ -6,7 +6,7 @@ import { SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
-import { Button, IconButton } from "../common";
+import { DecreaseButton, IconButton, IncreaseButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
@@ -137,23 +137,15 @@ export function CheckoutItem({
               <></>
             ) : (
               <span className="flex items-center justify-center">
-                <Button
-                  box
+                <DecreaseButton
                   onClick={() => handleDecreaseCartQuantity(product.id)}
-                  class={""}
-                >
-                  -
-                </Button>
+                />
 
                 <span className="px-2 text-3xl text-black">{quantity}</span>
 
-                <Button
-                  box
+                <IncreaseButton
                   onClick={() => handleIncreaseCartQuantity(product.id)}
-                  class={""}
-                >
-                  +
-                </Button>
+                />
               </span>
             )}
           </p>

@@ -1,11 +1,11 @@
 import Link from "next/link";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { DecreaseButton, DeleteButton, IncreaseButton } from "../common";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
-import DisplayImageProduct from "../common/DisplayImageProduct";
 
 type CartItemProps = {
   id: string;
@@ -68,7 +68,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
 
   return (
     <>
-      {item ? (
+      {item && (
         <>
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
             <DisplayImageProduct
@@ -97,12 +97,12 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
               </p>
 
               <div className="flex">
-                <div className="flex items-center justify-center mr-2">
+                <div className="mr-2 flex items-center justify-center">
                   <DecreaseButton
                     onClick={() => handleDecreaseCartQuantity(id)}
                   />
 
-                  <span className="text-xl text-beer-draft mx-2">
+                  <span className="mx-2 text-xl text-beer-draft">
                     {quantity}
                   </span>
 
@@ -116,8 +116,6 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
             </div>
           </div>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

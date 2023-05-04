@@ -54,32 +54,27 @@ export default function Checkout({
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const [subtotal, setsubtotal] = useState<number>(0);
-  const [discount, setDiscount] = useState<number>(0);
-  const [shipping, setShipping] = useState<number>(0);
-  const [tax, setTax] = useState<number>(0);
-  const [total, setTotal] = useState<number>(
-    subtotal - discount + shipping + tax
-  );
-  const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
+  const [subtotal, setSubtotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [total, setTotal] = useState(subtotal - discount + shipping + tax);
+  const [loadingPayment, setLoadingPayment] = useState(false);
+  const [isFormReady, setIsFormReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [merchantParameters, setMerchantParameters] = useState("");
+  const [merchantSignature, setMerchantSignature] = useState("");
+  const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
+  const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
+
+  const [cart, setCart] = useState<IProduct[]>([]);
 
   const [shippingAddresses, setShippingAddresses] = useState<
     IShippingAddress[]
-  >(shippingAddresses_ ?? []);
-
+  >(shippingAddresses_ || []);
   const [billingAddresses, setBillingAddresses] = useState<IBillingAddress[]>(
-    billingAddresses_ ?? []
+    billingAddresses_ || []
   );
-
-  const [isFormReady, setIsFormReady] = useState<boolean>(false);
-
-  const [selectedShippingAddress, setSelectedShippingAddress] =
-    useState<string>("");
-  const [selectedBillingAddress, setSelectedBillingAddress] =
-    useState<string>("");
-
-  const [merchantParameters, setMerchantParameters] = useState<string>("");
-  const [merchantSignature, setMerchantSignature] = useState<string>("");
 
   const {
     formState: { errors: shippingErrors },
@@ -104,31 +99,39 @@ export default function Checkout({
     addMarketplaceItems,
   } = useShoppingCart();
 
-  const [cart, setCart] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
   useEffect(() => {
+    const awaitProducts = async () => {
+      const promises = items.map(async (item) => {
+        // Finds the product in the marketplaceItems array
+        const product = marketplaceItems.find(
+          (m_item) => m_item.id === item.id
+        );
+        if (!product) return null;
+
+        setSubtotal((subtotal) => subtotal + product.price * item.quantity);
+        return product;
+      });
+
+      const awaitedProducts = await Promise.all(promises);
+      const ps = awaitedProducts.filter(
+        (product) => product !== null
+      ) as IProduct[];
+      setCart(ps);
+
+      setTotal(() => subtotal - discount + shipping);
+      setLoading(false);
+    };
+
     setLoading(true);
     const ac = new AbortController();
 
-    items.map(async (item) => {
-      const product = marketplaceItems.find((m_item) => m_item.id === item.id);
-      if (!product) return;
-
-      setCart((cart) => [...cart, product]);
-
-      setsubtotal((subtotal) => subtotal + product.price * item.quantity);
-    });
-
-    setTotal(() => subtotal - discount + shipping);
-
-    setLoading(false);
+    awaitProducts();
 
     return () => {
       setCart([]);
       setLoading(false);
       ac.abort();
-      setsubtotal(0);
+      setSubtotal(0);
       setShipping(0);
       setTax(0);
       setDiscount(0);
@@ -207,9 +210,7 @@ export default function Checkout({
     });
 
     setLoadingPayment(false);
-
     setIsFormReady(true);
-    clearCart();
   };
 
   const createOrder = async (
