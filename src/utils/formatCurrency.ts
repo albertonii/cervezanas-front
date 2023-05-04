@@ -6,3 +6,7 @@ const CURRENCY_FORMATTER = new Intl.NumberFormat("es-ES", {
 export function formatCurrency(number: number) {
   return CURRENCY_FORMATTER.format(number);
 }
+
+export function formatPaypal(number: number) {
+  return number.toFixed(2);
+}

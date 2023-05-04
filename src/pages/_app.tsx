@@ -57,7 +57,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <MessageProvider>
         <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
           <AuthContextProvider supabaseClient={supabase}>
-            <PayPalScriptProvider options={initialPaypalOptions}>
+            <PayPalScriptProvider
+              deferLoading={false}
+              options={initialPaypalOptions}
+            >
               <Layout usePadding={false} useBackdrop={false}>
                 <Component {...pageProps} />
               </Layout>
