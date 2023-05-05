@@ -8,10 +8,12 @@ specifiers:
   '@fortawesome/react-fontawesome': ^0.2.0
   '@headlessui/react': ^1.7.7
   '@heroicons/react': ^2.0.13
+  '@paypal/checkout-server-sdk': ^1.0.3
   '@paypal/react-paypal-js': ^7.8.3
   '@reach/alert': ^0.18.0
   '@reach/combobox': ^0.18.0
   '@react-google-maps/api': 2.7.0
+  '@react-hook/media-query': ^1.1.1
   '@react-pdf/renderer': ^3.1.7
   '@stitches/core': ^1.2.8
   '@supabase/auth-helpers-nextjs': ^0.5.4
@@ -82,8 +84,10 @@ dependencies:
   '@fortawesome/react-fontawesome': 0.2.0_z27bm67dtmuyyvss23ckjdrcuy
   '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
+  '@paypal/checkout-server-sdk': 1.0.3
   '@reach/alert': 0.18.0_biqbaboplfbrettd7655fr4n2y
   '@reach/combobox': 0.18.0_biqbaboplfbrettd7655fr4n2y
+  '@react-hook/media-query': 1.1.1_react@18.2.0
   '@react-pdf/renderer': 3.1.7_react@18.2.0
   '@stitches/core': 1.2.8
   '@supabase/supabase-js': 1.35.7
@@ -789,11 +793,23 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
+  /@paypal/checkout-server-sdk/1.0.3:
+    resolution: {integrity: sha512-UEdq8akEdMz0Vs4qoQFU2gMp8PpyE/HKyMwiZuK4vIWUKl8jfd1fWKjQN5cDFm9NkFUIp5U7h++rdMOVj9WMNA==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@paypal/paypalhttp': 1.0.1
+    dev: false
+
   /@paypal/paypal-js/5.1.6:
     resolution: {integrity: sha512-1upF06pv0AUtTftRVSra44p8ibqGa3ruKLArvdhpZla25zcrND7R+nDUIMrJ0iteVYZowhujZStFs6NoruExfg==}
     dependencies:
       promise-polyfill: 8.3.0
     dev: true
+
+  /@paypal/paypalhttp/1.0.1:
+    resolution: {integrity: sha512-DC7AHxTT7drF6dUi3YaFdPVuT15sIkpD5H2eHmdtFgxM4UanS1o1ZDfMhR9mpxd8o+X6pz2r+EZVRRq+n1cssQ==}
+    engines: {node: '>=4'}
+    dev: false
 
   /@paypal/react-paypal-js/7.8.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-7sD5JFA0IH9kysyGFv5DTmtPn54vLWZ0DLhdjUvsjqZnoEs11mJJJlTsTA7MkIO3jBAJOWlfoA4wLYzmy68C4g==}
@@ -962,6 +978,14 @@ packages:
   /@react-google-maps/marker-clusterer/2.6.0:
     resolution: {integrity: sha512-EjeoCM+U/6W9qoGWqurcDbCubqTEDTFET7Jd3XcLHqTLvFAE473x2YbQg98mJXKNgPKcPTNEcTiYYGiIz9tEjA==}
     dev: true
+
+  /@react-hook/media-query/1.1.1_react@18.2.0:
+    resolution: {integrity: sha512-VM14wDOX5CW5Dn6b2lTiMd79BFMTut9AZj2+vIRT3LCKgMCYmdqruTtzDPSnIVDQdtxdPgtOzvU9oK20LopuOw==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@react-pdf/fns/2.0.1:
     resolution: {integrity: sha512-/vgecczzFYBQFkgUupH+sxXhLWQtBwdwCgweyh25XOlR4NZuaMD/UVUDl4loFHhRQqDMQq37lkTcchh7zzW6ug==}

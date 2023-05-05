@@ -3,6 +3,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { IUser } from "../lib/interfaces";
 
+const MARKETPLACE_PRODUCT = "marketplace_product_default.png";
+
 interface Props {
   user?: IUser;
 }
@@ -15,7 +17,7 @@ export function OwnerInfo({ user }: Props) {
         <div className="mb-4 flex items-center space-x-4">
           <Image
             className="h-10 w-10 rounded-full"
-            src="/marketplace_product_default.png"
+            src={`/${MARKETPLACE_PRODUCT}`}
             alt=""
             width={40}
             height={40}

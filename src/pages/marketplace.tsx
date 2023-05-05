@@ -4,6 +4,8 @@ import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 
+const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
+
 interface Props {
   products: IProduct[];
   reviews: { overall: number }[];
@@ -30,7 +32,7 @@ export default function MarketPlace({ products }: Props) {
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
             {products &&
               products.map((product) => (
-                <div key={product.id} className="container px-3 mb-6 h-full">
+                <div key={product.id} className="container mb-6 h-full px-3">
                   <StoreItem products={products} product={product} />
                 </div>
               ))}
@@ -69,7 +71,7 @@ export async function getServerSideProps() {
   productsData?.map(async (product, index) => {
     product.product_multimedia[0].p_principal =
       product.product_multimedia[0]?.p_principal == undefined || null
-        ? `/marketplace_product_default.png`
+        ? `${MARKETPLACE_PRODUCT}`
         : `${product.product_multimedia[0].p_principal}`;
 
     productsData[index] = product;

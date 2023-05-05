@@ -23,7 +23,11 @@ export default function DisplayImageProduct({
   width,
   height,
 }: Props) {
-  const [src, setSrc] = useState(BASE_PRODUCTS_ARTICLES_URL + imgSrc);
+  const [src, setSrc] = useState(
+    imgSrc === MARKETPLACE_PRODUCT
+      ? MARKETPLACE_PRODUCT
+      : BASE_PRODUCTS_ARTICLES_URL + imgSrc
+  );
 
   return (
     <Image

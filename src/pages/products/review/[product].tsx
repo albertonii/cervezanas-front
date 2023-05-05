@@ -6,6 +6,8 @@ import { IProduct, IProductMultimedia } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 
+const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
+
 interface Props {
   product: IProduct[];
   multimedia: IProductMultimedia[];
@@ -80,7 +82,7 @@ export async function getServerSideProps(context: { params: any }) {
 
   product[0].product_multimedia[0].p_principal =
     product[0].product_multimedia[0]?.p_principal == undefined || null
-      ? `/marketplace_product_default.png`
+      ? `${MARKETPLACE_PRODUCT}`
       : product[0].product_multimedia[0].p_principal;
 
   return {

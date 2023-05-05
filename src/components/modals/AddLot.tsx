@@ -60,7 +60,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
   } = form;
 
   const onSubmit = (formValues: FormData) => {
-    console.log("dentro");
+    ("dentro");
     const {
       lot_number,
       lot_name,
@@ -121,11 +121,11 @@ export function AddLot({ products, handleSetProductLots }: Props) {
         classIcon={""}
         classContainer={""}
       >
-        <div className="relative py-6 flex-auto">
-          <div className="w-full flex flex-col ">
+        <div className="relative flex-auto py-6">
+          <div className="flex w-full flex-col ">
             {/* Lot Name Lot Number */}
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label htmlFor="lot_name" className="text-sm text-gray-600">
                   {t("lot_name")}
                 </label>
@@ -134,7 +134,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   id="lot_name"
                   placeholder={t("lot_name") ?? "Lot name"}
                   type="text"
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("lot_name", {
                     required: true,
                   })}
@@ -144,7 +144,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 )}
               </div>
 
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label htmlFor="lot_number" className="text-sm text-gray-600">
                   {t("lot_number")}
                 </label>
@@ -153,7 +153,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   type="text"
                   id="lot_number"
                   placeholder={t("lot_number") ?? "Lot number"}
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("lot_number", {
                     required: true,
                   })}
@@ -166,7 +166,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
             {/* Quantity & Quantity Notification */}
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label htmlFor="quantity" className="text-sm text-gray-600">
                   {t("quantity")}
                 </label>
@@ -174,7 +174,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   type="number"
                   id="quantity"
                   placeholder={t("quantity") ?? "Quantity"}
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("quantity", {
                     required: true,
                   })}
@@ -185,7 +185,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 )}
               </div>
 
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label
                   htmlFor="limit_notification"
                   className="text-sm text-gray-600"
@@ -196,7 +196,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   id="limit_notification"
                   placeholder={t("limit_notification") ?? "Limit notification"}
                   type="number"
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("limit_notification", {
                     required: true,
                   })}
@@ -210,7 +210,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
             {/* Manufacture Date & Expiration Date */}
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label
                   htmlFor="manufacture_date"
                   className="text-sm text-gray-600"
@@ -221,7 +221,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   type="date"
                   id="manufacture_date"
                   placeholder={t("manufacture_date") ?? "Manufacture date"}
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("manufacture_date", {
                     required: true,
                   })}
@@ -231,7 +231,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 )}
               </div>
 
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label
                   htmlFor="expiration_date"
                   className="text-sm text-gray-600"
@@ -242,7 +242,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                   id="expiration_date"
                   placeholder={t("expiration_date") ?? "Expiration date"}
                   type="date"
-                  className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("expiration_date", {
                     required: true,
                   })}
@@ -255,7 +255,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
 
             {/* Packaging & Receipt */}
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label htmlFor="packaging" className="text-sm text-gray-600">
                   {t("packaging")}
                 </label>
@@ -263,7 +263,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <select
                   {...register(`packaging`, { required: true })}
                   value={format_options[0].label}
-                  className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 >
                   {format_options.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -279,7 +279,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
             </div>
 
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full space-y ">
+              <div className="space-y w-full ">
                 <label htmlFor="recipe" className="text-sm text-gray-600">
                   {t("beer_recipe")}
                 </label>
@@ -287,7 +287,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
                 <textarea
                   id="beer_recipe"
                   placeholder={t("beer_recipe") ?? "Beer recipe"}
-                  className="relative block w-full min-h-20 max-h-48 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  className="min-h-20 relative block max-h-48 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("recipe", {
                     required: true,
                   })}

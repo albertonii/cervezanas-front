@@ -11,11 +11,7 @@ import { Button, HeaderDropdownButton } from "./common";
 import { Notification } from "./Notification";
 import { useAppContext } from "./Context";
 
-interface Props {
-  setOpenHamburger: (open: boolean) => void;
-}
-
-export default function ScreenMenu({ setOpenHamburger }: Props) {
+export default function ScreenMenu() {
   const { t } = useTranslation();
 
   const { loggedIn, role } = useAuth();
@@ -46,36 +42,10 @@ export default function ScreenMenu({ setOpenHamburger }: Props) {
   };
 
   return (
-    <nav className="rounded border-gray-200 pb-2.5 dark:bg-gray-900 sm:px-4">
+    <nav className="rounded border-gray-200 dark:bg-gray-900 sm:px-4">
       <div className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
         {/* Left elements  */}
         <div className="flex w-full items-center justify-center ">
-          {/* Hamburguer menu  */}
-          <Button
-            data-collapse-toggle="navbar-default"
-            class="ml-3 inline-flex items-center rounded-lg border-beer-softBlonde p-2 text-sm text-beer-softBlonde transition-all duration-300 hover:border-beer-draft hover:text-beer-draft focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-            onClick={() => setOpenHamburger(true)}
-          >
-            <>
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="h-6 w-6"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </>
-          </Button>
-
           <ul className="align-center mt-4 hidden p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             <li className="flex items-center">
               <Link href="/marketplace">

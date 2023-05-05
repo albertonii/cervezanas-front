@@ -3,7 +3,7 @@ import { Auth } from "@supabase/ui";
 
 export default async function signUpGoogle() {
   const { error } = await supabase.auth.signUp({ provider: "google" });
-  if (error) console.log(error);
+  if (error) console.error(error);
 }
 
 export const SignUpGoogle = () => {
@@ -14,9 +14,9 @@ export const SignUpGoogle = () => {
       {!user && (
         <>
           <button
-            className="flex flex-row items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 
-              focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 mr-2 mb-2 dark:bg-gray-800 dark:text-white 
-              dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 my-2"
+            className="my-2 mr-2 mb-2 flex flex-row items-center rounded-lg border border-gray-300 
+              bg-white px-3 py-0 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 
+              dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => signUpGoogle()}
           >
             <svg

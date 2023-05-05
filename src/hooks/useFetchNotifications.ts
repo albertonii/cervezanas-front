@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { INotification } from "../lib/types";
+import { INotification } from "../lib/types.d";
 import { supabase } from "../utils/supabaseClient";
 
 const fetchNotifications = async (ownerId: string) => {

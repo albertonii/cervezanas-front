@@ -49,7 +49,6 @@ export default function Checkout({
   const { t } = useTranslation();
 
   const { user } = useAuth();
-  const { clearCart } = useShoppingCart();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -767,7 +766,7 @@ export default function Checkout({
                             checkForm();
                           }}
                         >
-                          <Paypal total={total} />
+                          <Paypal total={total} items={items} />
                         </div>
                       </div>
                     </div>

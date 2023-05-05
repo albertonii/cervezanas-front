@@ -32,7 +32,7 @@ export const FilePreviewAndHide = ({
   );
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files === null) return console.log("No hay archivos");
+    if (e.target.files === null) return console.info("No hay archivos");
 
     const file = e.target.files[0];
     setFile(file);

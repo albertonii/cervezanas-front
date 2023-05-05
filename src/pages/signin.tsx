@@ -42,7 +42,7 @@ export default function SignIn() {
 
     signIn(userCredentials)
       .then((res) => {
-        console.log(res);
+        console.info(res);
       })
       .catch((error) => {
         console.error(error);
@@ -60,7 +60,7 @@ export default function SignIn() {
 
         signIn(userCredentials)
           .then((res) => {
-            console.log(res);
+            console.info(res);
           })
           .catch((error) => {
             console.error(error);

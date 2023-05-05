@@ -26,7 +26,7 @@ export function Notification({ open, setOpen }: Props) {
     supabase
       .from("notifications")
       .update({ read: true })
-      .eq("id", notification.id)
+      .eq("id", notification?.id)
       .then(() => {
         router.push(notification.link);
       });

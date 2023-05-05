@@ -56,7 +56,6 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
 
   const filteredItems = useMemo<IProduct[]>(() => {
     if (!products) return [];
-    console.log(query.toLowerCase());
     return products.filter((product) => {
       return product.name.toLowerCase().includes(query.toLowerCase());
     });
@@ -85,7 +84,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
   };
 
   const onSubmit = async (formValues: FormData) => {
-    if (!selectedProduct) return console.log("No product selected");
+    if (!selectedProduct) return console.info("No product selected");
 
     const { category, month, year } = formValues;
 
@@ -125,8 +124,8 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
       classContainer={""}
     >
       <form>
-        <fieldset className="space-y-4 p-4 border-2 rounded-md border-beer-softBlondeBubble">
-          <legend className="text-2xl m-2">{t("cp_fixed_info")}</legend>
+        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+          <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
           {/* Category  */}
           <div className="flex flex-col space-y-2">
@@ -134,7 +133,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
               id="category"
               {...register("category", { required: true })}
               defaultValue={category_options[0].label}
-              className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
               {category_options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -149,7 +148,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
 
           {/* Month and Year */}
           <div className="flex flex-row space-x-4">
-            <div className="flex flex-row items-center w-full">
+            <div className="flex w-full flex-row items-center">
               <label htmlFor="month" className="mr-2">
                 {t("month")}
               </label>
@@ -157,7 +156,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
               <select
                 id="month"
                 name="month"
-                className="pr-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 {...(register("month"), { required: true })}
               >
                 <option value="0">{t("select_month")}</option>
@@ -177,7 +176,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
             </div>
 
             {/* Year */}
-            <div className="flex flex-row items-center w-full">
+            <div className="flex w-full flex-row items-center">
               <label htmlFor="year" className="mr-2">
                 {t("year")}
               </label>
@@ -185,7 +184,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                 id="year"
                 name="year"
                 {...(register("year"), { required: true })}
-                className="pr-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
                 <option value="0">{t("select_year")}</option>
                 <option value="2023">{t("2023")}</option>
@@ -202,10 +201,10 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
             </label>
 
             <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
                   aria-hidden="true"
-                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  className="h-5 w-5 text-gray-500 dark:text-gray-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -222,13 +221,13 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="Search by name..."
               />
             </div>
 
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+              <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="py-3 px-6"></th>
 
@@ -253,21 +252,21 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                   return (
                     <tr
                       key={product.id}
-                      className={` border-b dark:bg-gray-800 dark:border-gray-700 
+                      className={` border-b dark:border-gray-700 dark:bg-gray-800 
                       ${
                         product.id === selectedProduct?.id && `bg-beer-draft`
                       } `}
                     >
                       <th
                         scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                       ></th>
 
-                      <td className="py-4 px-6 text-beer-blonde font-semibold ">
+                      <td className="py-4 px-6 font-semibold text-beer-blonde ">
                         {product.name}
                       </td>
 
-                      <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                      <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
                         <IconButton
                           onClick={() => handleClick(product)}
                           icon={faHandPointer}

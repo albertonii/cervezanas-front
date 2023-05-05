@@ -72,9 +72,9 @@ export default function MonthlyBeers({ mProducts }: Props) {
     <>
       <AddMonthlyProduct handleAddProduct={handleAddProduct} />
 
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6 p-4 space-y-4">
+      <div className="relative mt-6 space-y-4 overflow-x-auto p-4 shadow-md sm:rounded-lg">
         {/* Select month and year to see the products and new monthly product btn */}
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
             {/* Month */}
             <div className="flex flex-row items-center">
@@ -84,7 +84,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
               <select
                 id="month"
                 name="month"
-                className="pr-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 value={month}
                 onChange={(e) => setMonth(parseInt(e.target.value))}
               >
@@ -105,7 +105,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
             </div>
 
             {/* Year */}
-            <div className="flex flex-row items-center ml-4">
+            <div className="ml-4 flex flex-row items-center">
               <label htmlFor="year" className="mr-2">
                 {t("year")}
               </label>
@@ -114,7 +114,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
                 name="year"
                 value={year}
                 onChange={(e) => setYear(parseInt(e.target.value))}
-                className="pr-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
                 <option value="0">{t("select_year")}</option>
                 <option value="2023">{t("2023")}</option>
@@ -130,10 +130,10 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         {/* Search input  */}
         <div className="relative w-full">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
               aria-hidden="true"
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -150,14 +150,14 @@ export default function MonthlyBeers({ mProducts }: Props) {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="Search products..."
           />
         </div>
 
         {/* Monthly product table  */}
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {COLUMNS.map((column: ColumnsProps, index: number) => {
                 return (
@@ -175,22 +175,22 @@ export default function MonthlyBeers({ mProducts }: Props) {
                 return (
                   <tr
                     key={product.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <th
                       scope="row"
-                      className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                     >
                       <Image
                         width={128}
                         height={128}
-                        className="w-8 h-8 rounded-full"
+                        className="h-8 w-8 rounded-full"
                         src="/icons/beer-240.png"
                         alt="Beer Type"
                       />
                     </th>
 
-                    <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                    <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/products/${product.id}`}>
                         {product.product_id.name}
                       </Link>
@@ -202,15 +202,11 @@ export default function MonthlyBeers({ mProducts }: Props) {
                       <div className="flex space-x-1">
                         <EditButton
                           onClick={() => {
-                            console.log("edit");
+                            ("edit");
                           }}
                         />
 
-                        <DeleteButton
-                          onClick={() => {
-                            console.log("delete");
-                          }}
-                        />
+                        <DeleteButton onClick={() => void {}} />
                       </div>
                     </td>
                   </tr>

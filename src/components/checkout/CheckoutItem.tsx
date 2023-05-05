@@ -30,9 +30,7 @@ export function CheckoutItem({
 }: Props) {
   const { t } = useTranslation();
 
-  const [p_principal, setPPrincipal] = useState<string>(
-    "/marketplace_product_default.png"
-  );
+  const [p_principal, setPPrincipal] = useState<string>(MARKETPLACE_PRODUCT);
 
   const productSubtotal = product.price * quantity;
 
@@ -58,7 +56,7 @@ export function CheckoutItem({
     getPrincipal();
 
     () => {
-      setPPrincipal("/marketplace_product_default.png");
+      setPPrincipal(MARKETPLACE_PRODUCT);
     };
   }, [product.owner_id, product.product_multimedia]);
 

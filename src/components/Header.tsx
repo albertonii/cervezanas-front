@@ -1,23 +1,13 @@
-import { MobileMenu } from "./MobileMenu";
-import { useState } from "react";
 import ScreenMenu from "./ScreenMenu";
+import { MobileMenu } from "./MobileMenu";
 
 export function Header() {
-  const [openHamburguer, setOpenHamburger] = useState(false);
-
-  const handleClickOutsideCallback = () => {
-    setOpenHamburger(false);
-  };
   return (
     <>
       <header className="header absolute z-40 w-full bg-beer-foam bg-transparent sm:z-20">
-        <ScreenMenu setOpenHamburger={setOpenHamburger} />
+        <MobileMenu />
 
-        {/* Mobile menu  */}
-        <MobileMenu
-          openHamburguer={openHamburguer}
-          handleClickOutsideCallback={handleClickOutsideCallback}
-        />
+        <ScreenMenu />
       </header>
     </>
   );
