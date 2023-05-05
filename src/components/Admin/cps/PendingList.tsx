@@ -1,3 +1,5 @@
+import Link from "next/link";
+import React, { useMemo, useState } from "react";
 import {
   faCancel,
   faCheck,
@@ -5,8 +7,6 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
@@ -14,6 +14,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import { generateDownloadableLink } from "../../../utils/utils";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
+import { useAuth } from "../../Auth";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -22,6 +23,8 @@ interface Props {
 export default function ListPendingCP({ submittedCPs }: Props) {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
+
+  const { user } = useAuth();
 
   const [submittedList, setSubmittedList] = useState(submittedCPs);
 
@@ -116,6 +119,19 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       </div>
     );
   }
+  const sendNotification = async (message: string) => {
+    // Notify user that has been assigned as organizer
+    const { error } = await supabase.from("notifications").insert({
+      message: `${message}`,
+      user_id: submittedCPs[0].owner_id.id,
+      link: "/profile?a=consumption_points",
+      source: user?.id, // User that has created the consumption point
+    });
+
+    if (error) {
+      throw error;
+    }
+  };
 
   const handleUpdateStatus = async (status: number) => {
     supabase
@@ -141,6 +157,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             handleUpdateStatus(1);
             removeFromSubmittedList(selectedCP.id);
             setIsAcceptModal(false);
+            sendNotification("Your consumption point has been accepted");
           }}
           handlerClose={() => setIsAcceptModal(false)}
           showModal={isAcceptModal}
