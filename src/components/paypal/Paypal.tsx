@@ -63,9 +63,9 @@ export function Paypal({
         },
       })
       .then((res) => {
-        clearCart();
+        // clearCart();
         if (res.data !== 500) {
-          router.push(`${successRedirectPath}/${orderId}`);
+          // router.push(`${successRedirectPath}/${orderId}`);
           return res;
         }
       })

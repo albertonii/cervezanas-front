@@ -113,36 +113,6 @@ export function ScreenMenu() {
               </Select>
             </li>
 
-            {/* Notifications  */}
-            <li className="relative flex items-center">
-              <Button
-                class={
-                  "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
-                }
-                onClick={() => handleClickBell()}
-                title={""}
-              >
-                <div className="relative rounded-full">
-                  <Image
-                    src={"/icons/notification-icon.svg"}
-                    width={45}
-                    height={45}
-                    alt={"Go to Shopping cart"}
-                    className={"rounded-full"}
-                  />
-                  <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                    {notifications?.length ?? 0}
-                  </div>
-                </div>
-              </Button>
-
-              {/* Notification popup  */}
-              <Notification
-                open={openNotification}
-                setOpen={setOpenNotification}
-              />
-            </li>
-
             {loggedIn ? (
               <>
                 {/* Cart  */}
@@ -170,6 +140,36 @@ export function ScreenMenu() {
                     </Button>
                   </li>
                 )}
+
+                {/* Notifications  */}
+                <li className="relative flex items-center">
+                  <Button
+                    class={
+                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
+                    }
+                    onClick={() => handleClickBell()}
+                    title={""}
+                  >
+                    <div className="relative rounded-full">
+                      <Image
+                        src={"/icons/notification-icon.svg"}
+                        width={45}
+                        height={45}
+                        alt={"Go to Shopping cart"}
+                        className={"rounded-full"}
+                      />
+                      <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
+                        {notifications?.length ?? 0}
+                      </div>
+                    </div>
+                  </Button>
+
+                  {/* Notification popup  */}
+                  <Notification
+                    open={openNotification}
+                    setOpen={setOpenNotification}
+                  />
+                </li>
 
                 <li className="flex items-center">
                   <HeaderDropdownButton

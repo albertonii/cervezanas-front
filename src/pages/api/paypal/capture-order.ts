@@ -36,7 +36,7 @@ export default async function handler(
 
       res.json(resJson);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return res.send(500);
     }
   }

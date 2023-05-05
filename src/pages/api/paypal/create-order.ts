@@ -93,21 +93,24 @@ export default async function handler(
     }
 
     //Once order is created store the data using Supabase client
-    await supabase.from("orders").insert({
-      owner_id: user_id,
-      total: total,
-      customer_name: username,
-      status: "order_placed",
-      tracking_id: "123456789",
-      payment_method: "paypal",
-      order_number: orderId,
-      shipping_info_id,
-      billing_info_id,
-      issue_date: new Date().toISOString(),
-      estimated_date: new Date(
-        new Date().getTime() + 1000 * 60 * 60 * 24 * 3
-      ).toISOString(), // 3 days
-    });
+     await supabase
+      .from("orders")
+      .insert({
+        owner_id: user_id,
+        total: total,
+        customer_name: username,
+        status: "order_placed",
+        tracking_id: "123456789",
+        payment_method: "paypal",
+        order_number: orderId,
+        shipping_info_id,
+        billing_info_id,
+        issue_date: new Date().toISOString(),
+        estimated_date: new Date(
+          new Date().getTime() + 1000 * 60 * 60 * 24 * 3
+        ).toISOString(), // 3 days
+      })
+      .select("*");
 
     const resJson = {
       id: orderId,
