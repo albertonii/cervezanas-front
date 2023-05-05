@@ -23,12 +23,11 @@ import {
   NewBillingAddress,
   NewShippingAddress,
 } from "../../components/checkout";
-
-import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import Decimal from "decimal.js";
+import DisplayInputError from "../../components/common/DisplayInputError";
+import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
 import { Paypal } from "../../components/paypal";
-import DisplayInputError from "../../components/common/DisplayInputError";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -757,14 +756,21 @@ export default function Checkout({
                         </div>
 
                         {/* Paypal payment method */}
-                        <div
-                          className="flex w-full items-center justify-center md:items-start md:justify-start"
-                          onClick={() => {
-                            checkForm();
-                          }}
-                        >
-                          <Paypal total={total} items={items} />
-                        </div>
+                        {total > 0 && (
+                          <div
+                            className="flex w-full items-center justify-center md:items-start md:justify-start"
+                            onClick={() => {
+                              checkForm();
+                            }}
+                          >
+                            <Paypal
+                              total={total}
+                              items={items}
+                              shipping_info_id={selectedShippingAddress}
+                              billing_info_id={selectedBillingAddress}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 

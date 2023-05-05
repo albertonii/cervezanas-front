@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Spinner } from "../components/common";
 import { Layout } from "../components";
+import Script from "next/script";
 
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
@@ -43,14 +44,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   );
 
   const initialPaypalOptions = {
-    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "",
+    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
     currency: "EUR",
-    intent: "capture",
   };
 
   return (
     <>
-      {/* <Script src="/tw-elements/dist/js/index.min.js"></Script> */}
+      <Script src="/tw-elements/dist/js/index.min.js"></Script>
 
       <DefaultSeo {...pageSEO} />
 

@@ -1,33 +1,43 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import paypal from "@paypal/checkout-server-sdk";
 import client from "../../../lib/paypal";
+import { supabase } from "../../../utils/supabaseClient";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //Capture order to complete payment
-  const { orderId } = req.body;
+  if (req.method === "POST") {
+    //Capture order to complete payment
+    const { order_id: orderId } = req.body.body;
 
-  const PaypalClient = client();
-  const request = new paypal.orders.OrdersCaptureRequest(orderId);
-  request.requestBody({});
+    const PaypalClient = client();
+    const request = new paypal.orders.OrdersCaptureRequest(orderId);
+    request.requestBody({});
 
-  const response = await PaypalClient.execute(request);
-  if (!response) {
-    res.status(500);
+    try {
+      const capture = await PaypalClient.execute(request);
+      if (!capture) {
+        res.status(500);
+      }
+
+      // Update payment to PAID status once completed
+      await supabase
+        .from("orders")
+        .update({
+          status: "PAID",
+        })
+        .eq("id", orderId);
+
+      const result = capture.result;
+      const resJson = {
+        result,
+      };
+
+      res.json(resJson);
+    } catch (error) {
+      console.log(error);
+      return res.send(500);
+    }
   }
-
-  // Update payment to PAID status once completed
-  /*
-  await prisma.payment.updateMany({
-    where: {
-      orderID,
-    },
-    data: {
-      status: "PAID",
-    },
-  });
-  */
-  res.json({ ...response.result });
 }
