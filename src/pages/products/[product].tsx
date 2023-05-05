@@ -51,6 +51,9 @@ export default function ProductId({
   marketplaceProducts,
 }: Props) {
   const selectedProduct = product[0];
+  console.log(product);
+  if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
+
   const selectedMultimedia = multimedia[0];
 
   const { t } = useTranslation();
@@ -398,6 +401,8 @@ export default function ProductId({
 export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
+
+  console.log(productId);
 
   const { data: product, error: productError } = await supabase
     .from("products")

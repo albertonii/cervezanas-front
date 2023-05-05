@@ -33,7 +33,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link href={{ pathname: `/${option}` }}>
             <span
-              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -45,7 +45,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link href={{ pathname: `/profile` }}>
             <span
-              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -57,7 +57,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link href={{ pathname: `/${option}` }}>
             <span
-              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -69,7 +69,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}>
             <span
-              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -83,7 +83,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
             href={{ pathname: `/profile`, query: { a: `monthly_products` } }}
           >
             <span
-              className="block py-2 pr-4 pl-3 text-md text-beer-dark hover:text-beer-draft  md:bg-transparent  md:p-0 dark:text-white"
+              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -95,7 +95,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
   return (
     <div
-      className="w-12 h-full flex justify-center items-center font-medium relative hover:cursor-pointer"
+      className="relative flex h-full w-12 items-center justify-center font-medium hover:cursor-pointer"
       id="profile-dropdown"
       ref={dropdown}
     >
@@ -119,9 +119,9 @@ export function HeaderDropdownButton(props: DropdownProps) {
       </div>
 
       {/* Dropdow */}
-      <div className="absolute right-0 inset-y-8 z-10 divide-y divide-gray-100 w-44 dark:bg-gray-700 ">
+      <div className="absolute inset-y-8 right-0 z-40 w-44 divide-y divide-gray-100 dark:bg-gray-700 ">
         <ul
-          className={`bg-white mt-2 overflow-y-auto rounded-lg shadow ${
+          className={`mt-2 overflow-y-auto rounded-lg bg-white shadow ${
             open ? "max-h-60" : "max-h-0"
           }
             dark:text-gray-200 `}
@@ -129,7 +129,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
           {options?.map((option: string, idx: number) => (
             <li
               key={idx}
-              className={`p-2 text-sm hover:bg-beer-softBlond hover:text-white bg-white-600 text-white hover:bg-beer-softBlondeBubble`}
+              className={`hover:bg-beer-softBlond bg-white-600 p-2 text-sm text-white hover:bg-beer-softBlondeBubble hover:text-white`}
               onClick={() => changeSidebarActive(option)}
             >
               {handleDropdownButton(option)}

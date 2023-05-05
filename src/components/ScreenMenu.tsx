@@ -193,7 +193,7 @@ export function ScreenMenu() {
           </ul>
 
           <Button onClick={() => handleBeerMe()} title={""}>
-            <div className="absolute right-0 top-16 flex items-center justify-start space-x-4 bg-beer-dark sm:top-24 sm:rounded-l sm:px-2 sm:py-1">
+            <div className="absolute right-0 top-16  flex items-center justify-start space-x-4 bg-beer-dark sm:top-24 sm:rounded-l sm:px-2 sm:py-1">
               <Image
                 src={"/icons/beerme.svg"}
                 width={45}

@@ -191,7 +191,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
                     </th>
 
                     <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/products/${product.id}`}>
+                      <Link href={`/products/${product.product_id.id}`}>
                         {product.product_id.name}
                       </Link>
                     </td>
