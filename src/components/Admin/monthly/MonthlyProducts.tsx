@@ -32,6 +32,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
     { header: t("product_type_header") },
     { header: t("name_header") },
     { header: t("category") },
+    { header: t("month_year") },
     { header: t("action_header") },
   ];
 
@@ -62,6 +63,63 @@ export default function MonthlyBeers({ mProducts }: Props) {
   }, [products, query]);
 
   useEffect(() => {
+    if (month === 0 && year === 0) {
+      const fetchByMonthAndYear = async () => {
+        const { data, error } = await supabase.from("monthly_products").select(
+          `
+            *,
+            product_id (id, name)
+            `
+        );
+
+        if (error) throw error;
+
+        setProducts(data);
+      };
+
+      fetchByMonthAndYear();
+    }
+
+    if (month > 0 && year === 0) {
+      const fetchByMonthAndYear = async () => {
+        const { data, error } = await supabase
+          .from("monthly_products")
+          .select(
+            `
+            *,
+            product_id (id, name)
+            `
+          )
+          .eq("month", month);
+
+        if (error) throw error;
+
+        setProducts(data);
+      };
+
+      fetchByMonthAndYear();
+    }
+
+    if (month === 0 && year > 0) {
+      const fetchByMonthAndYear = async () => {
+        const { data, error } = await supabase
+          .from("monthly_products")
+          .select(
+            `
+            *,
+            product_id (id, name)
+            `
+          )
+          .eq("year", year);
+
+        if (error) throw error;
+
+        setProducts(data);
+      };
+
+      fetchByMonthAndYear();
+    }
+
     if (month > 0 && year > 0) {
       const fetchByMonthAndYear = async () => {
         const { data, error } = await supabase
@@ -86,7 +144,9 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
   return (
     <>
-      <AddMonthlyProduct handleAddProduct={handleAddProduct} />
+      <div className="pl-4">
+        <AddMonthlyProduct handleAddProduct={handleAddProduct} />
+      </div>
 
       <div className="relative mt-6 space-y-4 overflow-x-auto p-4 shadow-md sm:rounded-lg">
         {/* Select month and year to see the products and new monthly product btn */}
@@ -213,6 +273,9 @@ export default function MonthlyBeers({ mProducts }: Props) {
                     </td>
 
                     <td className="py-4 px-6">{t(product.category)}</td>
+                    <td className="py-4 px-6">
+                      {product.month}/{product.year}
+                    </td>
 
                     <td className="py-4 px-6">
                       <div className="flex space-x-1">

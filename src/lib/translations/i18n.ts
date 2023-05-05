@@ -196,6 +196,7 @@ const translationsEn = {
   no: "No",
   product_type_header: "Product Type",
   name_header: "Name",
+  month_year: "Month/Year",
   price_header: "Price",
   stock_header: "Stock",
   lot_header: "Lot",
@@ -505,6 +506,8 @@ from the beer.`,
   menu: `Menu`,
   no_cp_fixed: `No fixed consumption points`,
   no_cp_mobile: `No mobile consumption points`,
+  modal_delete_monthly_product_title: `Remove product of the month`,
+  modal_delete_monthly_product_description: `Are you sure you want to remove the product? This action cannot be undone.`,
 };
 
 const translationsEs = {
@@ -1026,6 +1029,9 @@ desprenden de la cerveza. `,
   menu: `Menú`,
   no_cp_fixed: `No hay puntos fijos de consumo`,
   no_cp_mobile: `No hay puntos móviles de consumo`,
+  modal_delete_monthly_product_title: `Eliminar producto del mes`,
+  modal_delete_monthly_product_description: `¿Está seguro de que desea eliminar el punto de consumo? Esta acción no se puede deshacer.`,
+  month_year: "Mes/Año",
 };
 
 // the translations
