@@ -6,6 +6,7 @@ import { IMonthlyProduct } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { DeleteButton, EditButton } from "../../common";
 import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
+import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -24,6 +25,9 @@ export default function MonthlyBeers({ mProducts }: Props) {
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
 
+  const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
+  const [productModal, setProductModal] = useState<IMonthlyProduct>();
+
   const COLUMNS = [
     { header: t("product_type_header") },
     { header: t("name_header") },
@@ -33,6 +37,18 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
   const handleAddProduct = (product: IMonthlyProduct) => {
     setProducts((prev) => [...prev, product]);
+  };
+
+  const handleDeleteProduct = (id: string) => {
+    setProducts((prev) => prev.filter((product) => product.id !== id));
+  };
+
+  const handleDeleteShowModal = (value: boolean) => {
+    setIsDeleteShowModal(value);
+  };
+
+  const handleProductModal = (product: IMonthlyProduct) => {
+    setProductModal(product);
   };
 
   const filteredItems = useMemo<IMonthlyProduct[]>(() => {
@@ -206,7 +222,12 @@ export default function MonthlyBeers({ mProducts }: Props) {
                           }}
                         />
 
-                        <DeleteButton onClick={() => void {}} />
+                        <DeleteButton
+                          onClick={() => {
+                            handleDeleteShowModal(true);
+                            handleProductModal(product);
+                          }}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -214,6 +235,16 @@ export default function MonthlyBeers({ mProducts }: Props) {
               })}
           </tbody>
         </table>
+
+        {isDeleteShowModal && (
+          <DeleteMonthlyProduct
+            products={products ?? []}
+            product={productModal}
+            showModal={isDeleteShowModal}
+            handleDeleteShowModal={handleDeleteShowModal}
+            handleSetProducts={handleDeleteProduct}
+          />
+        )}
       </div>
     </>
   );
