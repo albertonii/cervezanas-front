@@ -11,7 +11,7 @@ import { Button, HeaderDropdownButton } from "./common";
 import { Notification } from "./Notification";
 import { useAppContext } from "./Context";
 
-export default function ScreenMenu() {
+export function ScreenMenu() {
   const { t } = useTranslation();
 
   const { loggedIn, role } = useAuth();

@@ -13,25 +13,22 @@ import { useRef, useState } from "react";
 import { useAppContext } from "./Context";
 
 export function MobileMenu() {
-  const { t } = useTranslation();
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
   const { notifications, openNotification, setOpenNotification } =
     useAppContext();
+  const { cartQuantity, openCart } = useShoppingCart();
+  useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
+  const { loggedIn, role } = useAuth();
+
+  const { t } = useTranslation();
 
   const [openHamburguer, setOpenHamburger] = useState(false);
+  const router = useRouter();
 
   const handleClickOutsideCallback = () => {
     setOpenHamburger(false);
   };
-
-  const sidebarRef = useRef<HTMLDivElement>(null);
-
-  useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
-
-  const { loggedIn, role } = useAuth();
-
-  const router = useRouter();
-
-  const { cartQuantity, openCart } = useShoppingCart();
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -53,6 +50,8 @@ export function MobileMenu() {
 
   const MENU_HEADER_STYLES =
     "text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4";
+
+  if (!loggedIn) return <></>;
 
   return (
     <>
