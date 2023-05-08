@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { NewProductReview } from "../../../components/reviews";
 import { IProduct, IProductMultimedia } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { supabase } from "../../../utils/supabaseClient";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { ROUTE_SIGNIN } from "../../../config";
 
 const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
@@ -58,8 +59,24 @@ export default function ReviewProduct(props: Props) {
   );
 }
 
-export async function getServerSideProps(context: { params: any }) {
-  const { params } = context;
+export async function getServerSideProps(ctx: { params: any }) {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: ROUTE_SIGNIN,
+        permanent: false,
+      },
+    };
+
+  const { params } = ctx;
   const { product: productId } = params;
 
   const { data: product, error: productsError } = await supabase

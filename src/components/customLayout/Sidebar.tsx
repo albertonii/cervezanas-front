@@ -2,6 +2,7 @@ import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../Context/AppContext";
+import { Button } from "../common";
 
 type Props = {
   parentCallback: (menuOption: string) => void;
@@ -110,19 +111,19 @@ export function Sidebar({ parentCallback, role }: Props) {
 
   return (
     <>
-      <button
+      <Button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
-        type="button"
-        className={`inline-flex items-center p-2 mt-2 mx-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600`}
+        btnType="button"
+        class={`mx-2 mt-2 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
         onClick={() => {
           handleClick();
         }}
       >
         <span className="sr-only">Open sidebar</span>
         <svg
-          className="w-6 h-6"
+          className="h-6 w-6"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -134,26 +135,25 @@ export function Sidebar({ parentCallback, role }: Props) {
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
-      </button>
-      {/* ${showHiddenSidebar()} sm:block sm:translate-x-0 transition-all translate-x-0 delay-150 ease-in-out duration-300`} */}
+      </Button>
 
       <aside
         className={`
         ${
-          open ? "translate-x-0" : "-translate-x-[100%] sm:translate-x-0 "
-        } sm:block ease-in-out transform absolute sm:relative duration-300 h-screen bg-white z-10`}
+          open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0 "
+        } absolute z-10 h-full transform bg-white duration-300 ease-in-out lg:relative lg:block`}
         aria-label="Sidebar"
         id="default-sidebar"
         ref={sidebarRef}
       >
         <div
-          className={`w-64 overflow-y-auto py-4 px-3 h-full bg-gray-50 rounded dark:bg-gray-800`}
+          className={`h-full w-56 overflow-y-auto rounded bg-gray-50 py-4 px-3 dark:bg-gray-800`}
         >
           <ul className="space-y-2 font-medium">
             {sidebarLinks.map((link) => (
               <li
                 className={`
-                hover:cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-beer-blonde dark:hover:bg-gray-700
+                flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"

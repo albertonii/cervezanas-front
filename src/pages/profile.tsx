@@ -165,8 +165,6 @@ export async function getServerSideProps(ctx: any) {
         permanent: false,
       },
     };
-  console.log(session);
-  console.log(session.user.id);
 
   const { data: profileData, error: profileError } = await supabase
     .from("users")

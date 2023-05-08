@@ -81,7 +81,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
 
   return (
     <>
-      <div className="h-[90vh] w-full">
+      <div className="h-full w-full">
         {role === "admin" && (
           <>
             {/* Client Information */}
