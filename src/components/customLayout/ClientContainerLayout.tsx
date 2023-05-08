@@ -7,6 +7,9 @@ import { supabase } from "../../utils/supabaseClient";
 import { useAppContext } from "../Context/AppContext";
 import { IUser } from "../../lib/interfaces";
 
+const BG_IMG = "/icons/bg-240.png";
+const PROFILE_IMG = "/icons/profile-240.png";
+
 type Props = {
   children: JSX.Element;
   user: IUser;
@@ -18,8 +21,8 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 export function ClientContainerLayout({ children, user, role }: Props) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
-  const [bgImg_, setBgImg_] = useState(bgImg);
-  const [profileImg_, setProfileImg_] = useState(bgImg);
+  const [bgImg_, setBgImg_] = useState(bgImg ?? BG_IMG);
+  const [profileImg_, setProfileImg_] = useState(profileImg ?? PROFILE_IMG);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -69,11 +72,11 @@ export function ClientContainerLayout({ children, user, role }: Props) {
   };
 
   useEffect(() => {
-    setBgImg_(bgImg);
+    setBgImg_(bgImg ?? BG_IMG);
   }, [bgImg]);
 
   useEffect(() => {
-    setProfileImg_(profileImg);
+    setProfileImg_(profileImg ?? PROFILE_IMG);
   }, [profileImg]);
 
   return (
@@ -100,6 +103,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
                 width={1260}
                 height={240}
                 src={bgImg_}
+                onError={() => setBgImg_(BG_IMG)}
                 alt={"background custom image"}
               />
 
@@ -111,6 +115,7 @@ export function ClientContainerLayout({ children, user, role }: Props) {
                       <Image
                         className="absolute h-36 w-36 rounded-full"
                         src={profileImg_}
+                        onError={() => setProfileImg_(PROFILE_IMG)}
                         alt=""
                         width={240}
                         height={240}
