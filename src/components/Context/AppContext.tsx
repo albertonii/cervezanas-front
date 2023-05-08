@@ -73,7 +73,6 @@ export function AppContextProvider(props: Props) {
   useEffect(() => {
     if (!user?.id) return;
     refetch().then((res) => {
-      console.log(res);
       setNotifications(res.data as INotification[]);
     });
   }, []);

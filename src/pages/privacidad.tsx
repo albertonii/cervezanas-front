@@ -1,3 +1,4 @@
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
 
 export default function Privacy() {
@@ -16,7 +17,7 @@ export default function Privacy() {
         28030 - España, Teléfono de contacto: +34 687 859 655*
       </div>
 
-      <div className="text-xl mt-12 mb-4">
+      <div className="mt-12 mb-4 text-xl">
         ¿Qué hacemos con tus datos? - Apartado &quot;Nuevo Cliente&quot;
       </div>
 
@@ -32,7 +33,7 @@ export default function Privacy() {
         del servicio requerido y únicamente serán empleados para este fin.
       </div>
 
-      <div className="text-xl mt-12 mb-4">
+      <div className="mt-12 mb-4 text-xl">
         - Apartado &quot;Realizar Compra&quot;
       </div>
 
@@ -50,7 +51,7 @@ export default function Privacy() {
         vigente.
       </div>
 
-      <div className="text-xl mt-12 mb-4">
+      <div className="mt-12 mb-4 text-xl">
         - Apartado &quot;Boletín ofertas&quot; y &quot;Ofertas Express&quot;
       </div>
 
@@ -64,7 +65,7 @@ export default function Privacy() {
         consentimiento en el correspondiente apartado.
       </div>
 
-      <div className="text-xl mt-12 mb-4">
+      <div className="mt-12 mb-4 text-xl">
         - Apartado &quot;Formulario de Contacto y Centro de Soporte de
         Cervezanas&quot;
       </div>
@@ -81,7 +82,7 @@ export default function Privacy() {
         cualquier sitio web.
       </div>
 
-      <div className="text-xl mt-12 mb-4">
+      <div className="mt-12 mb-4 text-xl">
         - Apartado &quot;Formulario RMA&quot;
       </div>
 

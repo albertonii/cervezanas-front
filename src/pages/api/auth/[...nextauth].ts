@@ -4,6 +4,7 @@ import CredentailsProvider from "next-auth/providers/credentials";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import jwt from "jsonwebtoken";
 import { supabase } from "../../../utils/supabase-browser";
+import { ROUTE_SIGNIN, ROUTE_SIGNOUT } from "../../../config";
 
 interface AuthProps {
   email: string;
@@ -113,8 +114,8 @@ export default NextAuth({
   // pages is not specified for that route.
   // https://next-auth.js.org/configuration/pages
   pages: {
-    signIn: "/signin", // Displays signin buttons
-    signOut: "/signout", // Displays form with sign out button
+    signIn: ROUTE_SIGNIN, // Displays signin buttons
+    signOut: ROUTE_SIGNOUT, // Displays form with sign out button
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // Used for check email page
     // newUser: null // If set, new users will be directed here on first sign in

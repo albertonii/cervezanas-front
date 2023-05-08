@@ -4,7 +4,6 @@ import { ClientContainerLayout } from "../components/customLayout/ClientContaine
 import { useEffect, useState } from "react";
 import { useAppContext } from "../components/Context/AppContext";
 import { useAuth } from "../components/Auth/useAuth";
-import { supabase } from "../utils/supabaseClient";
 import {
   IConsumptionPoints,
   IMonthlyProduct,
@@ -30,6 +29,8 @@ import {
 import { Spinner } from "../components/common";
 import { useRouter } from "next/router";
 import { isValidObject } from "../utils/utils";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { ROUTE_SIGNIN } from "../config";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -148,16 +149,24 @@ export default function CustomLayout({
   );
 }
 
-export async function getServerSideProps({ req }: any) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-  if (!user) {
+export async function getServerSideProps(ctx: any) {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
     return {
       redirect: {
-        destination: "/signin",
+        destination: ROUTE_SIGNIN,
         permanent: false,
       },
     };
-  }
+  console.log(session);
+  console.log(session.user.id);
 
   const { data: profileData, error: profileError } = await supabase
     .from("users")
@@ -170,7 +179,7 @@ export async function getServerSideProps({ req }: any) {
         profile_location (*)
       `
     )
-    .eq("id", user?.id);
+    .eq("id", session.user.id);
 
   if (profileError) throw profileError;
 
@@ -196,7 +205,7 @@ export async function getServerSideProps({ req }: any) {
         product_pack (*)
       `
       )
-      .eq("owner_id", user?.id);
+      .eq("owner_id", session.user.id);
 
     if (productsError) throw productsError;
 
@@ -211,7 +220,7 @@ export async function getServerSideProps({ req }: any) {
         users (*)
       `
       )
-      .eq("owner_id", user?.id);
+      .eq("owner_id", session.user.id);
 
     if (reviewError) throw reviewError;
 
@@ -225,7 +234,7 @@ export async function getServerSideProps({ req }: any) {
       )
     `
       )
-      .eq("owner_id", user?.id);
+      .eq("owner_id", session?.id);
 
     if (productLotError) console.error(productLotError);
 
@@ -238,7 +247,7 @@ export async function getServerSideProps({ req }: any) {
         cp_mobile (*)
       `
       )
-      .eq("owner_id", user?.id);
+      .eq("owner_id", session.user.id);
     if (cpsError) console.error(cpsError);
 
     profileData[0].products = productsData;

@@ -28,6 +28,7 @@ import DisplayInputError from "../../components/common/DisplayInputError";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
 import { Paypal } from "../../components/paypal";
+import { ROUTE_SIGNIN } from "../../config";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -872,7 +873,7 @@ export async function getServerSideProps({ req }: any) {
   if (!user) {
     return {
       redirect: {
-        destination: "/signin",
+        destination: ROUTE_SIGNIN,
         permanent: false,
       },
     };

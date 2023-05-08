@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { supabase } from "../utils/supabase-browser";
+import { supabase } from "../utils/supabaseClient";
 
 interface User {
   email: string;

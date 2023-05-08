@@ -3,67 +3,39 @@ import type { NextRequest } from "next/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
 import { ROUTE_SIGNIN, ROUTE_SIGNUP } from "./config";
+import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export async function middleware(req: NextRequest) {
-  const authCookie = req.cookies.get("sb-access-token");
-  // if (
-  //   !authCookie ||
-  //   !(await jwt.verify(authCookie.value, process.env.SUPABASE_JWT_SECRET!))
-  // ) {
-  //   return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url)); // If a user is not authenticated (either no token was send, or the token is invalid) redirect the user to the homepage where they will be presented with a log-in screen
-  // }
+  // We need to create a response and hand it to the supabase client to be able to modify the response headers.
+  const res = NextResponse.next();
+  // Create authenticated Supabase Client.
+  const supabase = createMiddlewareSupabaseClient({ req, res });
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  // Check if the authCookie is still valid
-  /*
-  if (authCookie) {
-    const { data: user, error } = await supabase.auth.api.getUserByCookie(
-      authCookie
-    );
-
-    console.log(user);
-    console.log(error);
-
-    if (error) {
-      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
-    }
-  }
-  */
-
-  if (
-    req.nextUrl.pathname.startsWith("/_next") ||
-    req.nextUrl.pathname.includes("/api/") ||
-    PUBLIC_FILE.test(req.nextUrl.pathname)
-  ) {
-    return;
-  }
-
-  if (req.nextUrl.locale === "default") {
-    const locale = req.cookies.get("NEXT_LOCALE") || "es";
-    return NextResponse.redirect(
-      new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
-    );
+  // Check auth condition
+  if (session.user) {
+    // Authentication successful, forward request to protected route.
+    return res;
   }
 
   if (req.nextUrl.pathname.startsWith(ROUTE_SIGNIN)) {
-    if (authCookie) return NextResponse.redirect(new URL("/", req.url));
+    if (session) return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (req.nextUrl.pathname.startsWith(ROUTE_SIGNUP)) {
-    if (authCookie) return NextResponse.redirect(new URL("/", req.url));
+    if (session) return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (req.nextUrl.pathname.startsWith("/profile")) {
-    if (!authCookie)
-      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
-  }
-
-  if (req.nextUrl.pathname.startsWith("/marketplace")) {
-    if (!authCookie)
-      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
-  }
-
-  if (req.nextUrl.pathname.startsWith("/cart/shopping_basket")) {
-    if (!authCookie)
-      return NextResponse.redirect(new URL(ROUTE_SIGNIN, req.url));
-  }
+  // Auth condition not met, redirect to home page.
+  const redirectUrl = req.nextUrl.clone();
+  redirectUrl.pathname = ROUTE_SIGNIN;
+  redirectUrl.searchParams.set(`redirectedFrom`, req.nextUrl.pathname);
+  return NextResponse.redirect(redirectUrl);
 }
+
+export const config = {
+  matcher: ["/cart/shopping_basket", "/profile/:path*"],
+};

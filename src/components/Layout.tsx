@@ -45,7 +45,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
       .join(" ");
   }
 
-  // if (!user) router.push(`/signin`);
+  // if (!user) router.push(ROUTE_SIGNIN);
 
   return (
     <>

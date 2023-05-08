@@ -10,6 +10,7 @@ import { useAuth } from "./Auth/useAuth";
 import { Button, HeaderDropdownButton } from "./common";
 import { Notification } from "./Notification";
 import { useAppContext } from "./Context";
+import { ROUTE_SIGNIN } from "../config";
 
 export function ScreenMenu() {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ export function ScreenMenu() {
   };
 
   const handleSignIn = () => {
-    router.push(`/signin`);
+    router.push(ROUTE_SIGNIN);
   };
 
   const handleBeerMe = () => {

@@ -11,6 +11,7 @@ import { Button } from "./common";
 import { Notification } from "./Notification";
 import { useRef, useState } from "react";
 import { useAppContext } from "./Context";
+import { ROUTE_SIGNIN } from "../config";
 
 export function MobileMenu() {
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ export function MobileMenu() {
   };
 
   const handleSignIn = () => {
-    router.push(`/signin`);
+    router.push(ROUTE_SIGNIN);
     setOpenNotification(false);
   };
 

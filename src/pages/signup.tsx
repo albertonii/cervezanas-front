@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { useAuth } from "../components/Auth/useAuth";
 import { useTranslation } from "react-i18next";
+import { ROUTE_SIGNIN } from "../config";
 
 export default function SignUp() {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ export default function SignUp() {
 
             <p className="my-2 flex w-full justify-center text-sm text-gray-700">
               {t("already_account")}
-              <Link className="cursor-pointer font-bold" href={"/signin"}>
+              <Link className="cursor-pointer font-bold" href={ROUTE_SIGNIN}>
                 <span className="mx-1 text-beer-blonde hover:underline">
                   {t("access_account")}
                 </span>
