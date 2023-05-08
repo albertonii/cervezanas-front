@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { INotification } from "../../lib/types.d";
-import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 
 type AppContextType = {
@@ -49,12 +48,10 @@ export function AppContextProvider(props: Props) {
   const [openNotification, setOpenNotification] = useState(false);
 
   const decodeUriProfileImg = decodeURIComponent(
-    `${fullProfilePhotoUrl}${supabase.auth.user()?.id}`
+    `${fullProfilePhotoUrl}${user?.id}`
   );
 
-  const decodeUriCustomImg = decodeURIComponent(
-    `${fullCustomUrl}${supabase.auth.user()?.id}`
-  );
+  const decodeUriCustomImg = decodeURIComponent(`${fullCustomUrl}${user?.id}`);
 
   const [bgImg, setBgImg] = useState(
     decodeUriCustomImg ?? `/icons/profile-240.png`

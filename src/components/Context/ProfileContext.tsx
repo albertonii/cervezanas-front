@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
-import { supabase } from "../../utils/supabase-browser";
-import { useUser } from "../Auth/UserContext";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabase } from "../../utils/supabaseClient";
 
 interface IProfile {
   bgImg?: string;
@@ -13,9 +13,9 @@ interface IProfile {
 
 const ProfileContext = createContext<IProfile>({
   bgImg: "",
-  setBgImg: () => {},
   profileImg: "",
-  setProfileImg: () => {},
+  setBgImg: () => void {},
+  setProfileImg: () => void {},
 });
 
 interface Props {
@@ -45,7 +45,7 @@ export default function ProfileContexProvider(props: Props) {
           .getPublicUrl(decodeUriCustomImg);
 
         if (bgError) throw bgError;
-        setBgImg(bgImgData?.publicURL!);
+        setBgImg(bgImgData?.publicURL ?? "");
 
         const { data: profileImgData, error: profileError } =
           await supabase.storage
@@ -53,7 +53,7 @@ export default function ProfileContexProvider(props: Props) {
             .getPublicUrl(decodeUriProfileImg);
 
         if (profileError) throw profileError;
-        setProfileImg(profileImgData?.publicURL!);
+        setProfileImg(profileImgData?.publicURL ?? "");
       };
 
       getProfileImg();

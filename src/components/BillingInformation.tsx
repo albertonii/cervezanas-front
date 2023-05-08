@@ -1,10 +1,10 @@
-import { Button } from "@supabase/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { BillingInfo } from "../lib/types";
+import { IBillingInfo } from "../lib/types.d";
+import { Button } from "./common";
 
 interface Props {
-  option: BillingInfo;
+  option: IBillingInfo;
   handleSetBillingOption: any;
 }
 
@@ -17,14 +17,14 @@ export default function BillingInformation({
   return (
     <div
       key={option.id}
-      className="flex flex-row justify-start items-start space-x-4 w-full"
+      className="flex w-full flex-row items-start justify-start space-x-4"
     >
       <input
         type="radio"
         name="billing"
         value={option.id}
         id={"billing-" + option.id}
-        onChange={(e) => {
+        onChange={() => {
           handleSetBillingOption(option.id);
         }}
         className={"mt-2"}
@@ -32,7 +32,7 @@ export default function BillingInformation({
       />
       <label
         htmlFor={"billing-" + option.id}
-        className="dark:text-gray-300 text-gray-600"
+        className="text-gray-600 dark:text-gray-300"
       >
         <span className="text-md text-beer-dark">
           {option.name} {option.lastname}
@@ -46,7 +46,7 @@ export default function BillingInformation({
 
       <div className="flex">
         <Button>{t("delete")}</Button>
-        <Button className={"ml-6"}>{t("edit")}</Button>
+        <Button class={"ml-6"}>{t("edit")}</Button>
       </div>
     </div>
   );

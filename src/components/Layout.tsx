@@ -45,6 +45,8 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
       .join(" ");
   }
 
+  // if (!user) router.push(`/signin`);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>

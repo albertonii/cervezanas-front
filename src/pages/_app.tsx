@@ -10,6 +10,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { Spinner } from "../components/common";
 import { Layout } from "../components";
 import Script from "next/script";
@@ -56,16 +57,21 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
       <MessageProvider>
         <Suspense fallback={<Spinner color="beer-blonde" size={"medium"} />}>
-          <AuthContextProvider supabaseClient={supabase}>
-            <PayPalScriptProvider
-              deferLoading={false}
-              options={initialPaypalOptions}
-            >
+          <SessionContextProvider
+            supabaseClient={supabase}
+            initialSession={pageProps.initialSession}
+          >
+            <AuthContextProvider supabaseClient={supabase}>
+              {/* <PayPalScriptProvider
+                deferLoading={false}
+                options={initialPaypalOptions}
+              > */}
               <Layout usePadding={false} useBackdrop={false}>
                 <Component {...pageProps} />
               </Layout>
-            </PayPalScriptProvider>
-          </AuthContextProvider>
+              {/* </PayPalScriptProvider> */}
+            </AuthContextProvider>
+          </SessionContextProvider>
         </Suspense>
       </MessageProvider>
     </>

@@ -1,22 +1,20 @@
-import axios from "axios";
 import React, { useEffect, useState, createContext } from "react";
 import {
-  SupabaseClient,
-  Session,
   UserCredentials,
   Provider,
-  AuthChangeEvent,
+  SupabaseClient,
 } from "@supabase/supabase-js";
 import { useMessage } from "../message";
-import { ROUTE_SIGNIN } from "../../config";
 import { ROLE_ENUM, ISignUp, IUser } from "../../lib/interfaces";
 import { useTranslation } from "react-i18next";
+
+import { useSessionContext, useUser } from "@supabase/auth-helpers-react";
+import { Spinner } from "../common";
 
 export interface AuthSession {
   user: IUser | null;
   role: ROLE_ENUM | null;
   loading: boolean;
-  setUser: (user: IUser | null) => void;
   signUp: (payload: ISignUp) => void;
   signIn: (payload: UserCredentials) => Promise<any>;
   signInWithProvider: (provider: Provider) => Promise<void>;
@@ -30,7 +28,6 @@ export const AuthContext = createContext<AuthSession>({
   user: null,
   role: null,
   loading: false,
-  setUser: () => void {},
   signUp: () => void {},
   signIn: () => Promise.resolve(),
   signInWithProvider: () => Promise.resolve(),
@@ -46,8 +43,11 @@ export interface Props {
 }
 
 export const AuthContextProvider = (props: Props) => {
-  const { supabaseClient: supabase } = props;
-  const [user, setUser] = useState<IUser | null>(null);
+  // const { supabaseClient: supabase } = props;
+
+  const { isLoading, supabaseClient: supabase } = useSessionContext();
+  const user = useUser();
+
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
@@ -57,10 +57,7 @@ export const AuthContextProvider = (props: Props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const user = supabase.auth.user();
-
     if (user) {
-      setUser(user as IUser);
       setUserLoading(false);
       setLoggedIn(true);
     } else {
@@ -69,13 +66,12 @@ export const AuthContextProvider = (props: Props) => {
     }
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: any, session: any) => {
         if (event === "SIGNED_IN") {
           const user = session?.user ?? null;
 
-          await setSupabaseCookie(event, session as Session);
+          // await setSupabaseCookie(event, session as Session);
 
-          setUser(user as IUser);
           setLoggedIn(true);
 
           clearMessages();
@@ -87,11 +83,12 @@ export const AuthContextProvider = (props: Props) => {
         }
 
         if (event === "SIGNED_OUT") {
+          /*
           removeSupabaseCookie().then(() => {
-            setUser(null);
             setLoggedIn(false);
             window.location.href = ROUTE_SIGNIN; // There is a bug in SP not deleting sb-access/refresh-token cookie unless page is reloaded
           });
+          */
         }
 
         setUserLoading(false);
@@ -99,7 +96,7 @@ export const AuthContextProvider = (props: Props) => {
     );
 
     return () => {
-      authListener?.unsubscribe();
+      authListener?.subscription.unsubscribe();
     };
   }, [clearMessages, handleMessage, supabase.auth, t]);
 
@@ -157,7 +154,7 @@ export const AuthContextProvider = (props: Props) => {
   const signIn = async (payload: UserCredentials) => {
     setLoading(true);
 
-    const { error, user } = await supabase.auth.signIn(payload);
+    const { error, user } = await supabase.auth.signInWithPassword(payload);
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });
@@ -189,7 +186,7 @@ export const AuthContextProvider = (props: Props) => {
 
   const signInWithProvider = async (provider: Provider) => {
     let isAccessLevel = false;
-    await supabase.auth.signIn({ provider }).then(async (res) => {
+    await supabase.auth.signInWithOAuth({ provider }).then(async (res: any) => {
       isAccessLevel = res.user?.user_metadata.access_level ? true : false;
     });
     // TODO: Volver aquí para introducir el access_level si no existe
@@ -205,6 +202,7 @@ export const AuthContextProvider = (props: Props) => {
     }
   };
 
+  /*
   const setSupabaseCookie = async (
     event: AuthChangeEvent,
     session: Session
@@ -231,19 +229,20 @@ export const AuthContextProvider = (props: Props) => {
         });
       });
   };
+  */
 
   const signOut = async () => {
     setLoggedIn(false);
-    setUser(null);
 
     await supabase.auth.signOut();
   };
+
+  if (isLoading) return <Spinner size="medium" color="beer-gold" />;
 
   const value = {
     user,
     role,
     loading,
-    setUser: (user: IUser | null) => setUser(user),
     signUp,
     signIn,
     signInWithProvider,

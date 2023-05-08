@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { useMemo } from "react";
-import { Typography } from "@supabase/ui";
 import { useRouter } from "next/router";
 
 const _defaultGetDefaultTextGenerator = (path: string) => path;
@@ -65,7 +64,7 @@ function Crumb({ href, last = false, title }: CrumbProps) {
   if (last) {
     return (
       <div>
-        <Typography color="text.primary"> {title}</Typography>
+        <span color="text.primary"> {title}</span>
       </div>
     );
   }
