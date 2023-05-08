@@ -6,7 +6,7 @@ import { NextApiRequest } from "next";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import { IOrder, IProduct } from "../../../lib/types.d";
-import { formatDateString } from "../../../utils";
+import { formatDate, formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64, isValidObject } from "../../../utils/utils";
@@ -47,7 +47,7 @@ export default function Success({ order, products, isError }: Props) {
   if (isError) {
     return (
       <div className="container mx-auto sm:py-4 lg:py-6">
-        <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
+        <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex flex-col">
             <div className="flex sm:items-baseline sm:space-x-4">
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
@@ -57,9 +57,9 @@ export default function Success({ order, products, isError }: Props) {
           </div>
         </div>
         <div className="mt-8">
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
                 {t("order_details")}
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
@@ -76,7 +76,7 @@ export default function Success({ order, products, isError }: Props) {
     <>
       {!loading && (
         <div className="container mx-auto sm:py-4 lg:py-6">
-          <div className=" px-4 space-y-2 sm:px-0 sm:flex sm:items-baseline sm:justify-between sm:space-y-0">
+          <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
             <div className="flex flex-col">
               <div className="flex sm:items-baseline sm:space-x-4">
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
@@ -85,7 +85,7 @@ export default function Success({ order, products, isError }: Props) {
 
                 <p
                   onClick={() => handleInvoicePdf()}
-                  className="hidden font-medium hover:text-beer-blonde hover:cursor-pointer sm:block text-sm tracking-wide text-gray-500 mt-4 sm:mt-0 sm:ml-2"
+                  className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:mt-0 sm:ml-2 sm:block"
                 >
                   {t("view_invoice")}
                   <span aria-hidden="true"> &rarr;</span>
@@ -93,8 +93,8 @@ export default function Success({ order, products, isError }: Props) {
               </div>
 
               {/* Order Status  */}
-              <div className="md:mt-2 col-span-12 md:col-span-4 right-0 pr-12 ">
-                <p className=" text-lg sm:text-xl font-medium text-beer-dark">
+              <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
+                <p className=" text-lg font-medium text-beer-dark sm:text-xl">
                   {t("order_status")}:{" "}
                   <span className="text-beer-draft">{t(order.status)} </span>
                 </p>
@@ -125,12 +125,12 @@ export default function Success({ order, products, isError }: Props) {
                 products.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-white border-t border-b border-gray-200 shadow-sm sm:border sm:rounded-lg"
+                    className="border-t border-b border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
-                    <div className="relative py-6 px-4 sm:px-6 grid grid-cols-12 gap-x-8 p-8 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+                    <div className="relative grid grid-cols-12 gap-x-8 p-8 py-6 px-4 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
                       {/* Product Multimedia  */}
-                      <div className="flex justify-center col-span-12 md:col-span-2 sm:ml-6 mt-6 md:mt-6">
-                        <div className="flex-shrink-0 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none w-20 h-20 lg:w-40 lg:h-40">
+                      <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
+                        <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
                           {isValidObject(
                             product.product_multimedia[0].p_principal
                           ) && (
@@ -139,14 +139,14 @@ export default function Success({ order, products, isError }: Props) {
                               height={120}
                               alt={""}
                               imgSrc={`${product.product_multimedia[0].p_principal}`}
-                              class="w-full h-full object-center object-cover sm:w-full sm:h-full"
+                              class="h-full w-full object-cover object-center sm:h-full sm:w-full"
                             />
                           )}
                         </div>
                       </div>
 
                       {/* Product Information  */}
-                      <div className="mt-6 md:mt-6 col-span-12 md:col-span-4">
+                      <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                         <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                           <Link href={`/products/${product.id}`}>
                             {product.name}
@@ -165,7 +165,7 @@ export default function Success({ order, products, isError }: Props) {
 
                       {/* Shipping Information  */}
                       {order.shipping_info && (
-                        <div className="mt-6 col-span-12 lg:col-span-5 md:col-span-4">
+                        <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
                           <dt className="font-medium text-gray-900">
                             {t("shipping_address")}
                           </dt>
@@ -198,12 +198,12 @@ export default function Success({ order, products, isError }: Props) {
                       )}
 
                       {/* Review Product  */}
-                      <div className="mt-6 col-span-12">
+                      <div className="col-span-12 mt-6">
                         <span className="font-medium text-gray-900">
                           {t("review_product")}
                         </span>
 
-                        <div className="mt-3 text-beer-dark space-y-3">
+                        <div className="mt-3 space-y-3 text-beer-dark">
                           {product.order_item[0].is_reviewed && (
                             <span>
                               {t("product_already_reviewed_condition")}
@@ -223,7 +223,7 @@ export default function Success({ order, products, isError }: Props) {
                             }
                             primary
                             medium
-                            class="font-medium text-beer-draft hover:text-beer-dark my-6 "
+                            class="my-6 font-medium text-beer-draft hover:text-beer-dark "
                             onClick={() => {
                               if (
                                 !product.order_item[0].is_reviewed &&
@@ -242,14 +242,16 @@ export default function Success({ order, products, isError }: Props) {
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6 lg:p-8">
                       <h4 className="sr-only">Status</h4>
                       <p className="text-sm font-medium text-gray-900">
-                        Preparing to ship on{" "}
-                        <time dateTime="2021-03-24">March 24, 2021</time>
+                        {t("preparing_to_ship")}{" "}
+                        <time dateTime="2021-03-24">
+                          {formatDateString(order.issue_date.toString())}{" "}
+                        </time>
                       </p>
                       <div className="mt-6" aria-hidden="true">
-                        <div className="bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-2 bg-beer-blonde rounded-full"></div>
+                        <div className="overflow-hidden rounded-full bg-gray-200">
+                          <div className="h-2 rounded-full bg-beer-blonde"></div>
                         </div>
-                        <div className="hidden sm:grid grid-cols-4 text-sm font-medium text-gray-600 mt-6">
+                        <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
                           <div className="text-beer-draft">
                             {t("order_placed")}
                           </div>
@@ -274,7 +276,7 @@ export default function Success({ order, products, isError }: Props) {
           <div className="mt-16">
             <h2 className="sr-only">{t("billing_summary")}</h2>
 
-            <div className="bg-gray-100 py-6 px-4 sm:px-6 sm:rounded-lg lg:px-8 lg:py-8 lg:grid lg:grid-cols-12 lg:gap-x-8">
+            <div className="bg-gray-100 py-6 px-4 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
               {order.billing_info && (
                 <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                   <div>
@@ -334,33 +336,33 @@ export default function Success({ order, products, isError }: Props) {
                 </dl>
               )}
 
-              <dl className="mt-8 divide-y divide-gray-200 text-sm lg:mt-0 lg:col-span-5">
-                <div className="pb-4 flex items-center justify-between">
+              <dl className="mt-8 divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
+                <div className="flex items-center justify-between pb-4">
                   <dt className="text-gray-600">{t("subtotal")}</dt>
                   <dd className="font-medium text-gray-900">
                     {formatCurrency(order.subtotal)}
                   </dd>
                 </div>
-                <div className="pb-4 flex items-center justify-between">
+                <div className="flex items-center justify-between pb-4">
                   <dt className="text-gray-600">{t("discount")}</dt>
                   <dd className="font-medium text-gray-900">
                     {t("discount_code")} {order.discount_code} {" - "}{" "}
                     {formatCurrency(order.discount)}
                   </dd>
                 </div>
-                <div className="py-4 flex items-center justify-between">
+                <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">{t("shipping")}</dt>
                   <dd className="font-medium text-gray-900">
                     {formatCurrency(order.shipping)}
                   </dd>
                 </div>
-                <div className="py-4 flex items-center justify-between">
+                <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">{t("tax")}</dt>
                   <dd className="font-medium text-gray-900">
                     {formatCurrency(order.tax)}
                   </dd>
                 </div>
-                <div className="pt-4 flex items-center justify-between">
+                <div className="flex items-center justify-between pt-4">
                   <dt className="font-medium text-gray-900">{t("total")}</dt>
                   <dd className="font-medium text-beer-draft">
                     {formatCurrency(order.subtotal)}

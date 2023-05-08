@@ -508,6 +508,7 @@ from the beer.`,
   no_cp_mobile: `No mobile consumption points`,
   modal_delete_monthly_product_title: `Remove product of the month`,
   modal_delete_monthly_product_description: `Are you sure you want to remove the product? This action cannot be undone.`,
+  preparing_to_ship: `Preparing to ship on`,
 };
 
 const translationsEs = {
@@ -1032,6 +1033,7 @@ desprenden de la cerveza. `,
   modal_delete_monthly_product_title: `Eliminar producto del mes`,
   modal_delete_monthly_product_description: `¿Está seguro de que desea eliminar el punto de consumo? Esta acción no se puede deshacer.`,
   month_year: "Mes/Año",
+  preparing_to_ship: `Preparando para enviar`,
 };
 
 // the translations
