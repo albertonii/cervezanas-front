@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IMonthlyProduct } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { DeleteButton, EditButton } from "../../common";
-import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
 
 interface Props {
@@ -74,7 +74,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         if (error) throw error;
 
-        setProducts(data);
+        setProducts(data as IMonthlyProduct[]);
       };
 
       fetchByMonthAndYear();
@@ -94,7 +94,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         if (error) throw error;
 
-        setProducts(data);
+        setProducts(data as IMonthlyProduct[]);
       };
 
       fetchByMonthAndYear();
@@ -114,7 +114,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         if (error) throw error;
 
-        setProducts(data);
+        setProducts(data as IMonthlyProduct[]);
       };
 
       fetchByMonthAndYear();
@@ -135,7 +135,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         if (error) throw error;
 
-        setProducts(data);
+        setProducts(data as IMonthlyProduct[]);
       };
 
       fetchByMonthAndYear();

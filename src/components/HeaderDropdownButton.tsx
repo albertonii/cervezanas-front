@@ -121,8 +121,8 @@ export function HeaderDropdownButton(props: DropdownProps) {
       {/* Dropdow */}
       <div className="absolute inset-y-8 right-0 z-40 w-44 divide-y divide-gray-100 dark:bg-gray-700 ">
         <ul
-          className={`mt-2 overflow-y-auto rounded-lg bg-white shadow ${
-            open ? "max-h-60" : "max-h-0"
+          className={`mt-2 overflow-y-auto rounded-lg  bg-white shadow ${
+            open ? "max-h-60 border-2 border-beer-blonde" : "max-h-0"
           }
             dark:text-gray-200 `}
         >
