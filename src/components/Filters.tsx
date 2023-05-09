@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../utils";
 
@@ -9,6 +9,8 @@ interface Props {
 export function Filters({ changeFilters }: Props) {
   const { t } = useTranslation();
   const [minPrice, setMinPrice] = useState(0);
+  const minPriceFilterId = useId();
+  const categoryFilterId = useId();
 
   const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinPrice(parseInt(e.target.value));
@@ -28,10 +30,10 @@ export function Filters({ changeFilters }: Props) {
   return (
     <section className="flex w-full items-center justify-between font-medium">
       <div className="flex items-center gap-4">
-        <label htmlFor="price">{t("price_starts_at")}</label>
+        <label htmlFor={minPriceFilterId}>{t("price_starts_at")}</label>
         <input
           type="range"
-          id="price"
+          id={minPriceFilterId}
           name="price"
           min="0"
           max="1000"
@@ -41,8 +43,8 @@ export function Filters({ changeFilters }: Props) {
       </div>
 
       <div className="flex items-center gap-4">
-        <label htmlFor="category">{t("category")}</label>
-        <select id="category" onChange={handleChangeCategory}>
+        <label htmlFor={categoryFilterId}>{t("category")}</label>
+        <select id={categoryFilterId} onChange={handleChangeCategory}>
           <option value="all">{t("all")}</option>
           <option value="beer">{t("beer")}</option>
           <option value="merchandising">{t("merchandising")}</option>
