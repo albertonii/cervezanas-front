@@ -3,7 +3,7 @@ import { supabase } from "../utils/supabaseClient";
 import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
-import { MarketplaceHeader } from "../components";
+import { Filters, MarketplaceHeader } from "../components";
 
 const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
@@ -41,13 +41,14 @@ export default function MarketPlace({ products }: Props) {
   }, [loggedIn]);
 
   const filteredProducts = filterProducts(products);
-  console.log(filteredProducts);
 
   return (
     <>
       {!loading && (
         <div className="container mx-auto sm:py-2 lg:py-3 ">
-          <MarketplaceHeader changeFilters={setFilters} />
+          <MarketplaceHeader>
+            <Filters changeFilters={setFilters} />
+          </MarketplaceHeader>
 
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
             {filteredProducts &&

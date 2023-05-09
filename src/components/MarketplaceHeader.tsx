@@ -1,14 +1,9 @@
-import React from "react";
-import { Filters } from "./Filters";
+import React, { ReactNode } from "react";
 
 interface Props {
-  changeFilters: (filters: any) => void;
+  children: ReactNode;
 }
 
-export function MarketplaceHeader({ changeFilters }: Props) {
-  return (
-    <div className="my-8 ">
-      <Filters changeFilters={changeFilters} />
-    </div>
-  );
+export function MarketplaceHeader({ children }: Props) {
+  return <div className="my-8 ">{children}</div>;
 }
