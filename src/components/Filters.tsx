@@ -1,18 +1,17 @@
-import React, { useId, useState } from "react";
+import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../utils";
 import { useAppContext } from "./Context";
 
 export function Filters() {
   const { t } = useTranslation();
-  const [minPrice, setMinPrice] = useState(0);
+
+  const { filters, setFilters } = useAppContext();
+
   const minPriceFilterId = useId();
   const categoryFilterId = useId();
 
-  const { setFilters } = useAppContext();
-
   const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(parseInt(e.target.value));
     setFilters((prevState: any) => ({
       ...prevState,
       minPrice: parseInt(e.target.value),
@@ -36,9 +35,10 @@ export function Filters() {
           name="price"
           min="0"
           max="1000"
+          value={filters.minPrice}
           onChange={handleChangeMinPrice}
         />
-        <span>{formatCurrency(minPrice)}</span>
+        <span>{formatCurrency(filters.minPrice)}</span>
       </div>
 
       <div className="flex items-center gap-4">
