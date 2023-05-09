@@ -3,6 +3,7 @@ import { supabase } from "../utils/supabaseClient";
 import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
+import { MarketplaceHeader } from "../components";
 
 const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
@@ -15,6 +16,20 @@ export default function MarketPlace({ products }: Props) {
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
 
+  const [filters, setFilters] = useState({
+    category: "all",
+    minPrice: 0,
+  });
+
+  const filterProducts = (products: IProduct[]) => {
+    return products.filter((product) => {
+      return (
+        product.price >= filters.minPrice &&
+        (filters.category === "all" || product.category === filters.category)
+      );
+    });
+  };
+
   useEffect(() => {
     if (loggedIn) {
       setLoading(false);
@@ -25,15 +40,20 @@ export default function MarketPlace({ products }: Props) {
     };
   }, [loggedIn]);
 
+  const filteredProducts = filterProducts(products);
+  console.log(filteredProducts);
+
   return (
     <>
       {!loading && (
         <div className="container mx-auto sm:py-2 lg:py-3 ">
+          <MarketplaceHeader changeFilters={setFilters} />
+
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
-            {products &&
-              products.map((product) => (
+            {filteredProducts &&
+              filteredProducts.map((product) => (
                 <div key={product.id} className="container mb-6 h-full px-3">
-                  <StoreItem products={products} product={product} />
+                  <StoreItem products={filteredProducts} product={product} />
                 </div>
               ))}
           </div>

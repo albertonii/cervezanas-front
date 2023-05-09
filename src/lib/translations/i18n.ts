@@ -509,6 +509,8 @@ from the beer.`,
   modal_delete_monthly_product_title: `Remove product of the month`,
   modal_delete_monthly_product_description: `Are you sure you want to remove the product? This action cannot be undone.`,
   preparing_to_ship: `Preparing to ship on`,
+  all: `All`,
+  price_starts_at: `Price starts at`,
 };
 
 const translationsEs = {
@@ -1034,6 +1036,8 @@ desprenden de la cerveza. `,
   modal_delete_monthly_product_description: `¿Está seguro de que desea eliminar el punto de consumo? Esta acción no se puede deshacer.`,
   month_year: "Mes/Año",
   preparing_to_ship: `Preparando para enviar`,
+  all: `Todos`,
+  price_starts_at: `Precio desde`,
 };
 
 // the translations

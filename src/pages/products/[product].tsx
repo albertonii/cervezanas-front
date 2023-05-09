@@ -402,8 +402,6 @@ export async function getServerSideProps(context: { params: any }) {
   const { params } = context;
   const { product: productId } = params;
 
-  console.log(productId);
-
   const { data: product, error: productError } = await supabase
     .from("products")
     .select(

@@ -6,7 +6,7 @@ import { NextApiRequest } from "next";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import { IOrder, IProduct } from "../../../lib/types.d";
-import { formatDate, formatDateString } from "../../../utils";
+import { formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64, isValidObject } from "../../../utils/utils";

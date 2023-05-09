@@ -34,6 +34,8 @@ export function generateDownloadableLink(blob: any, filename: string) {
 }
 
 export function generateFileName(fName: string) {
+  if (!fName) return "";
+
   const fileExt = fName.split(".").pop();
   const fileName = `${uuid()}.${fileExt}`;
   const encodedFileName = encodeURIComponent(fileName);

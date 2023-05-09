@@ -50,6 +50,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
     mode: "onSubmit",
     defaultValues: {
       awards: [],
+      type: "beer",
     },
   });
 
@@ -83,6 +84,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         stock_quantity,
         stock_limit_notification,
         packs,
+        category,
       } = formValues;
 
       const userId = user?.id;
@@ -98,6 +100,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
           owner_id: userId,
           price,
           is_public,
+          category,
         })
         .select();
 
@@ -108,50 +111,19 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
       // Multimedia
       const randomUUID = uuid();
 
-      const p_principal_url =
-        p_principal?.name ??
-        encodeURIComponent(
+      let p_principal_url = "";
+      let p_back_url = "";
+      let p_extra_1_url = "";
+      let p_extra_2_url = "";
+      let p_extra_3_url = "";
+
+      if (p_principal) {
+        p_principal_url = encodeURIComponent(
           `/articles/${productId}/p_principal/${randomUUID}.${generateFileName(
             p_principal.name
           )}`
         );
 
-      const p_back_url =
-        p_back?.name ??
-        encodeURIComponent(
-          `/articles/${productId}/p_back/${randomUUID}.${p_back.name}`
-        );
-
-      const p_extra_1_url =
-        p_extra_1?.name ??
-        encodeURIComponent(
-          `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1.name}`
-        );
-
-      const p_extra_2_url =
-        p_extra_2?.name ??
-        encodeURIComponent(
-          `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2.name}`
-        );
-
-      const p_extra_3_url =
-        p_extra_3?.name ??
-        `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3.name}`;
-
-      const { error: multError } = await supabase
-        .from("product_multimedia")
-        .insert({
-          product_id: productId,
-          p_principal: p_principal_url,
-          p_back: p_back_url,
-          p_extra_1: p_extra_1_url,
-          p_extra_2: p_extra_2_url,
-          p_extra_3: p_extra_3_url,
-        });
-
-      if (multError) throw multError;
-
-      if (p_principal_url) {
         const { error: pPrincipalError } = await supabase.storage
           .from("products")
           .upload(
@@ -168,7 +140,13 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         if (pPrincipalError) throw pPrincipalError;
       }
 
-      if (p_back_url) {
+      if (p_back) {
+        p_back_url =
+          p_back &&
+          encodeURIComponent(
+            `/articles/${productId}/p_back/${randomUUID}.${p_back?.name}`
+          );
+
         const { error: pBackError } = await supabase.storage
           .from("products")
           .upload(
@@ -182,7 +160,13 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         if (pBackError) throw pBackError;
       }
 
-      if (p_extra_1_url) {
+      if (p_extra_1) {
+        p_extra_1_url =
+          p_extra_1 &&
+          encodeURIComponent(
+            `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1?.name}`
+          );
+
         const { error: pExtra1Error } = await supabase.storage
           .from("products")
           .upload(
@@ -196,7 +180,13 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         if (pExtra1Error) throw pExtra1Error;
       }
 
-      if (p_extra_2_url) {
+      if (p_extra_2) {
+        p_extra_2_url =
+          p_extra_2 &&
+          encodeURIComponent(
+            `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2?.name}`
+          );
+
         const { error: pExtra2Error } = await supabase.storage
           .from("products")
           .upload(
@@ -210,7 +200,11 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         if (pExtra2Error) throw pExtra2Error;
       }
 
-      if (p_extra_3_url) {
+      if (p_extra_3) {
+        p_extra_3_url =
+          p_extra_3 &&
+          `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3?.name}`;
+
         const { error: pExtra3Error } = await supabase.storage
           .from("products")
           .upload(
@@ -223,6 +217,19 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
           );
         if (pExtra3Error) throw pExtra3Error;
       }
+
+      const { error: multError } = await supabase
+        .from("product_multimedia")
+        .insert({
+          product_id: productId,
+          p_principal: p_principal_url ?? "",
+          p_back: p_back_url ?? "",
+          p_extra_1: p_extra_1_url ?? "",
+          p_extra_2: p_extra_2_url ?? "",
+          p_extra_3: p_extra_3_url ?? "",
+        });
+
+      if (multError) throw multError;
 
       setActiveStep(0);
 
@@ -368,7 +375,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
             handleSetActiveStep={handleSetActiveStep}
           >
             <>
-              <p className="my-4 text-slate-500 text-lg leading-relaxed">
+              <p className="text-slate-500 my-4 text-lg leading-relaxed">
                 {t("modal_product_description")}
               </p>
 

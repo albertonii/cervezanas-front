@@ -29,6 +29,7 @@ import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../components/TPV";
 import { Paypal } from "../../components/paypal";
 import { ROUTE_SIGNIN } from "../../config";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -867,22 +868,27 @@ export default function Checkout({
   );
 }
 
-export async function getServerSideProps({ req }: any) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+export async function getServerSideProps(ctx: any) {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
 
-  if (!user) {
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
     return {
       redirect: {
         destination: ROUTE_SIGNIN,
         permanent: false,
       },
     };
-  }
 
   const { data: userData, error: usersError } = await supabase
     .from("users")
     .select(`*, shipping_info(*), billing_info(*)`)
-    .eq("id", user?.id);
+    .eq("id", session.user.id);
 
   if (usersError) throw usersError;
   if (!userData) return { props: {} };

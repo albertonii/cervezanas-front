@@ -62,14 +62,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             initialSession={pageProps.initialSession}
           >
             <AuthContextProvider supabaseClient={supabase}>
-              {/* <PayPalScriptProvider
+              <PayPalScriptProvider
                 deferLoading={false}
                 options={initialPaypalOptions}
-              > */}
-              <Layout usePadding={false} useBackdrop={false}>
-                <Component {...pageProps} />
-              </Layout>
-              {/* </PayPalScriptProvider> */}
+              >
+                <Layout usePadding={false} useBackdrop={false}>
+                  <Component {...pageProps} />
+                </Layout>
+              </PayPalScriptProvider>
             </AuthContextProvider>
           </SessionContextProvider>
         </Suspense>

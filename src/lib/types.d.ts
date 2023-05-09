@@ -146,14 +146,6 @@ export interface IAuth {
   theme?: "default" | string;
 }
 
-export interface IProductCategory {
-  id: string;
-  name: string;
-  description: string;
-  created_at: Date;
-  product_id: string;
-}
-
 export interface IBeer {
   id: string;
   lot_id: number;
@@ -565,6 +557,7 @@ export type ModalAddProductProps = {
   is_gluten: boolean;
   is_public: boolean;
   packs: IProductPack[];
+  category: string;
 };
 
 export type IProductPack = {
@@ -660,7 +653,7 @@ export interface IProduct {
   description: string;
   created_at: Date;
   social_cause_id: string;
-  product_category_id: string;
+  category: string;
   campaign_id: string;
   owner_id: string;
   product_lot: IProductLot[];

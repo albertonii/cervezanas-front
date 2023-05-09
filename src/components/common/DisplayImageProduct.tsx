@@ -38,7 +38,8 @@ export default function DisplayImageProduct({
       onError={() => setSrc(MARKETPLACE_PRODUCT)}
       onBlur={() => setSrc(MARKETPLACE_PRODUCT)}
       onClick={onClick}
-      className={class_}
+      className={`${class_}`}
+      style={{ objectFit: "cover" }}
     />
   );
 }

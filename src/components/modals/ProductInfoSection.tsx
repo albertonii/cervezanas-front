@@ -89,13 +89,16 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
   // Function that switch between merchandising and beer when select option is clicked
   const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value === "beer") {
+    const category = event.target.value.toLowerCase();
+    if (category === "beer") {
       setIsBeer(true);
       setIsMerchandising(false);
-    } else if (event.target.value === "merchandising") {
+    } else if (category === "merchandising") {
       setIsBeer(false);
       setIsMerchandising(true);
     }
+
+    form.setValue("category", category);
   };
 
   const handleRemovePack = (index: number) => {
@@ -190,6 +193,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 <p>{t("product_modal_20_max_length")}</p>
               )}
             </div>
+
             {/* 
             <div className="w-full ">
               <label htmlFor="campaign" className="text-sm text-gray-600">
@@ -568,7 +572,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 placeholder={formatCurrency(2.5)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 min="0"
-                value="0"
                 {...register(`price`, { required: true, min: 0 })}
               />
 
