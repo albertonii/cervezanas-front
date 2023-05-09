@@ -17,7 +17,7 @@ export default function MarketPlace({ products }: Props) {
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
 
-  const { filterProducts, setFilters } = useFilters();
+  const { filterProducts } = useFilters();
   const filteredProducts = filterProducts(products);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function MarketPlace({ products }: Props) {
       {!loading && (
         <div className="container mx-auto sm:py-2 lg:py-3 ">
           <MarketplaceHeader>
-            <Filters changeFilters={setFilters} />
+            <Filters />
           </MarketplaceHeader>
 
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">

@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { IProduct } from "../lib/types.d";
+import { useAppContext } from "../components/Context";
 
 export default function useFilters() {
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-  });
+  const { filters, setFilters } = useAppContext();
 
   const filterProducts = (products: IProduct[]) => {
     return products.filter((product) => {

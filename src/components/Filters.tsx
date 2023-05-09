@@ -1,27 +1,26 @@
 import React, { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../utils";
+import { useAppContext } from "./Context";
 
-interface Props {
-  changeFilters: (filters: any) => void;
-}
-
-export function Filters({ changeFilters }: Props) {
+export function Filters() {
   const { t } = useTranslation();
   const [minPrice, setMinPrice] = useState(0);
   const minPriceFilterId = useId();
   const categoryFilterId = useId();
 
+  const { setFilters } = useAppContext();
+
   const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinPrice(parseInt(e.target.value));
-    changeFilters((prevState: any) => ({
+    setFilters((prevState: any) => ({
       ...prevState,
       minPrice: parseInt(e.target.value),
     }));
   };
 
   const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    changeFilters((prevState: any) => ({
+    setFilters((prevState: any) => ({
       ...prevState,
       category: e.target.value,
     }));

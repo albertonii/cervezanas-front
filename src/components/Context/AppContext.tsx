@@ -7,6 +7,8 @@ import { INotification } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 
 type AppContextType = {
+  filters: any;
+  setFilters: (newFilters: any) => void;
   bgImg?: string;
   setBgImg: (newBgImg: string) => void;
   profileImg?: string;
@@ -19,6 +21,8 @@ type AppContextType = {
 };
 
 const AppContext = createContext<AppContextType>({
+  filters: { category: "all", minPrice: 0 },
+  setFilters: () => void {},
   bgImg: "",
   setBgImg: () => void {},
   profileImg: "",
@@ -40,6 +44,11 @@ export function AppContextProvider(props: Props) {
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+
+  const [filters, setFilters] = useState({
+    category: "all",
+    minPrice: 0,
+  });
 
   const { user } = useAuth();
 
@@ -78,6 +87,8 @@ export function AppContextProvider(props: Props) {
   }, []);
 
   const value = {
+    filters,
+    setFilters,
     bgImg,
     setBgImg,
     profileImg,
