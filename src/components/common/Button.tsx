@@ -58,9 +58,9 @@ export function Button({
       color={hoverColor}
       form={form}
       className={`
-        flex items-center justify-center border-beer-foam border-2 rounded mt-0
+        mt-0 flex items-center justify-center rounded border-2 border-beer-foam
         ${box ? "h-auto w-10" : ""}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${disabled ? "cursor-not-allowed opacity-50" : ""}
         ${small ? "w-24" : ""} 
         ${medium ? "w-48" : ""}
         ${large ? "w-52" : ""}
@@ -68,20 +68,20 @@ export function Button({
         ${xxLarge ? "w-80" : ""}
         ${
           primary
-            ? " bg-beer-softBlonde hover:bg-beer-blonde "
-            : "hover:bg-beer-softBlonde shrink-0"
+            ? " border-2 border-beer-softBlonde bg-beer-softBlonde hover:bg-beer-blonde"
+            : "shrink-0 hover:bg-beer-softBlonde"
         }
-        ${accent ? "bg-beer-foam border-beer-blonde" : ""}
+        ${accent ? "border-2 border-beer-blonde bg-beer-foam" : ""}
         ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
         ${className} 
       `}
     >
       <span
         className={` 
-        ${danger ? "text-beer-foam font-semibold" : ""} 
-        ${primary ? "text-beer-dark font-semibold" : "text-beer-dark"}}
+        ${danger ? "font-semibold text-beer-foam" : ""} 
+        ${primary ? "font-semibold text-beer-dark" : "text-beer-dark"}}
         ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
-        ${small ? "px-4 py-2 text-md" : ""} 
+        ${small ? "text-md px-4 py-2" : ""} 
         ${medium ? "px-4 py-2 text-base" : ""}
         ${large ? "px-5 py-3 text-lg" : ""}
         ${xLarge ? "px-6 py-3 text-xl" : ""}

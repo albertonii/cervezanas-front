@@ -51,7 +51,7 @@ export default function ProductId({
   marketplaceProducts,
 }: Props) {
   const selectedProduct = product[0];
-  console.log(product);
+
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
 
   const selectedMultimedia = multimedia[0];

@@ -15,12 +15,12 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
         {/* Copywriting  */}
         <div className="flex flex-col space-y-6">
           {/* Title  */}
-          <div className="text-4xl text-beer-draft">
+          <div className="text-3xl text-beer-draft sm:text-4xl">
             Selección Cervezanas del mes
           </div>
 
           {/* Subtitle  */}
-          <div className="text-xl text-beer-dark">
+          <div className="text-md text-beer-dark sm:text-xl">
             Cada mes te presentamos aquellas cervezas que han conseguido ser
             aptas para los certificados de calidad que emitimos desde
             Cervezanas. Dando visibilidad a aquella seleccionada por nuestra

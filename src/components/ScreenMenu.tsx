@@ -194,16 +194,18 @@ export function ScreenMenu() {
           </ul>
 
           <Button onClick={() => handleBeerMe()} title={""}>
-            <div className="absolute right-0 top-16  flex items-center justify-start space-x-4 bg-beer-dark sm:top-24 sm:rounded-l sm:px-2 sm:py-1">
+            <div className="absolute right-0 top-10 flex flex-col items-center justify-start space-x-4 rounded-l-lg bg-beer-dark sm:top-24 sm:flex-row sm:rounded-l sm:px-2 sm:py-1">
               <Image
                 src={"/icons/beerme.svg"}
                 width={45}
                 height={45}
                 alt={"Find Cervezanas spots"}
-                className={"rounded-full"}
+                className={
+                  "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
+                }
               />
 
-              <div className="flex flex-col ">
+              <div className="hidden sm:flex sm:flex-col">
                 <div className="text-right text-beer-foam ">Puntos</div>
                 <div className="text-right text-beer-foam ">Cervezanas</div>
               </div>

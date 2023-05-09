@@ -6,7 +6,7 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="absolute -bottom-[100vh] w-full lg:-bottom-[100vh] ">
+    <footer className="relative w-full ">
       <div className="relative mt-16 bg-bear-light">
         <svg
           className="absolute top-0 -mt-5 h-6 w-full text-bear-light sm:-mt-10 sm:h-16"
@@ -56,9 +56,9 @@ export function Footer() {
             </div>
 
             {/* Links */}
-            <div className="row-gap-8 grid grid-cols-2 gap-5 md:grid-cols-4 lg:col-span-4">
+            <div className="row-gap-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4 lg:col-span-4">
               {/* Quienes somos  */}
-              <div>
+              <>
                 <p className="font-semibold tracking-wide text-beer-draft">
                   {t("who_we_are_question")}
                 </p>
@@ -105,10 +105,10 @@ export function Footer() {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </>
 
               {/* Contactar  */}
-              <div>
+              <>
                 <p className="font-semibold tracking-wide text-beer-draft">
                   {t("contact_us")}
                 </p>
@@ -146,14 +146,14 @@ export function Footer() {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </>
 
               {/* Sistemas de pago aceptado  */}
-              <div>
+              <>
                 <p className="font-semibold tracking-wide text-beer-draft">
                   {t("payment_system")}
                 </p>
-                <div className="flex  space-x-2">
+                <div className="flex space-x-2">
                   {/* Visa card image logo  */}
                   <Image
                     src="/icons/payments/visa.png"
@@ -170,13 +170,15 @@ export function Footer() {
                     height={80}
                   />
                 </div>
-              </div>
+              </>
             </div>
           </div>
 
           <div className="border-deep-purple-accent-200 flex flex-col justify-between border-t pt-5 pb-10 sm:flex-row">
             <p className="text-sm text-gray-100">{t("copyright")}</p>
-            <div className="mt-4 flex items-center space-x-4 sm:mt-0">
+
+            {/* RRSS Icons  */}
+            <div className="mt-4 flex items-center justify-center space-x-4 sm:mt-0">
               <Link
                 href="/"
                 className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"

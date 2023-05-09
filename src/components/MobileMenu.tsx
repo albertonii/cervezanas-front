@@ -19,8 +19,9 @@ export function MobileMenu() {
   const { notifications, openNotification, setOpenNotification } =
     useAppContext();
   const { cartQuantity, openCart } = useShoppingCart();
-  useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
   const { loggedIn, role } = useAuth();
+
+  useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
   const { t } = useTranslation();
 

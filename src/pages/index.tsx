@@ -17,7 +17,7 @@ export default function Home({ monthlyProducts }: Props) {
 
       <>
         {/* First section  */}
-        <div className="mt-[10vh] h-full">
+        <div className="mt-[10vh] h-full ">
           <Hero />
           <MonthlyBeers monthlyProducts={monthlyProducts} />
         </div>
