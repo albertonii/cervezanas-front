@@ -1,3 +1,4 @@
+import useFilters from "../hooks/useFilters";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { IProduct } from "../lib/types.d";
@@ -16,19 +17,8 @@ export default function MarketPlace({ products }: Props) {
   const [loading, setLoading] = useState(true);
   const { loggedIn } = useAuth();
 
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-  });
-
-  const filterProducts = (products: IProduct[]) => {
-    return products.filter((product) => {
-      return (
-        product.price >= filters.minPrice &&
-        (filters.category === "all" || product.category === filters.category)
-      );
-    });
-  };
+  const { filterProducts, setFilters } = useFilters();
+  const filteredProducts = filterProducts(products);
 
   useEffect(() => {
     if (loggedIn) {
@@ -39,8 +29,6 @@ export default function MarketPlace({ products }: Props) {
       setLoading(true);
     };
   }, [loggedIn]);
-
-  const filteredProducts = filterProducts(products);
 
   return (
     <>
