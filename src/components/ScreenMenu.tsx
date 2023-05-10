@@ -47,7 +47,7 @@ export function ScreenMenu() {
       <div className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
         {/* Left elements  */}
         <div className="flex w-full items-center justify-center ">
-          <ul className="align-center mt-4 hidden p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+          <ul className="align-center mt-4 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             <li className="flex items-center">
               <Link href="/marketplace">
                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -96,7 +96,7 @@ export function ScreenMenu() {
 
         {/* Right elements  */}
         <div className="w-full">
-          <ul className="hidden dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-row sm:justify-end sm:p-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+          <ul className=" dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-row sm:justify-end sm:p-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             {/* Language  */}
             <li className="flex max-w-[50px] items-center">
               <Select
@@ -205,7 +205,7 @@ export function ScreenMenu() {
                 }
               />
 
-              <div className="hidden sm:flex sm:flex-col">
+              <div className="sm:flex sm:flex-col">
                 <div className="text-right text-beer-foam ">Puntos</div>
                 <div className="text-right text-beer-foam ">Cervezanas</div>
               </div>

@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
-import { useState } from "react";
-import { SupabaseProps } from "../../constants";
+import { memo, useEffect, useMemo, useState } from "react";
+import { COMMON, SupabaseProps } from "../../constants";
 
 const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
-const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
 interface Props {
   imgSrc: string;
@@ -15,7 +14,7 @@ interface Props {
   height?: number;
 }
 
-export default function DisplayImageProduct({
+function DisplayImageProduct({
   imgSrc,
   onClick,
   class: class_,
@@ -24,22 +23,29 @@ export default function DisplayImageProduct({
   height,
 }: Props) {
   const [src, setSrc] = useState(
-    imgSrc === MARKETPLACE_PRODUCT
-      ? MARKETPLACE_PRODUCT
+    imgSrc === COMMON.MARKETPLACE_PRODUCT
+      ? COMMON.MARKETPLACE_PRODUCT
       : BASE_PRODUCTS_ARTICLES_URL + imgSrc
   );
+  useEffect(() => {
+    console.log("render");
+  }, []);
+
+  const memoizedSrc = useMemo(() => src, [src]);
 
   return (
     <Image
       width={width ?? 120}
       height={height ?? 120}
       alt={alt ?? "image"}
-      src={src}
-      onError={() => setSrc(MARKETPLACE_PRODUCT)}
-      onBlur={() => setSrc(MARKETPLACE_PRODUCT)}
+      src={memoizedSrc}
+      onError={() => setSrc(COMMON.MARKETPLACE_PRODUCT)}
+      onBlur={() => setSrc(COMMON.MARKETPLACE_PRODUCT)}
       onClick={onClick}
       className={`${class_}`}
       style={{ objectFit: "cover" }}
     />
   );
 }
+
+export default memo(DisplayImageProduct);

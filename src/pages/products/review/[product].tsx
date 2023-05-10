@@ -6,8 +6,7 @@ import { IProduct, IProductMultimedia } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { ROUTE_SIGNIN } from "../../../config";
-
-const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
+import { COMMON } from "../../../constants";
 
 interface Props {
   product: IProduct[];
@@ -99,7 +98,7 @@ export async function getServerSideProps(ctx: { params: any }) {
 
   product[0].product_multimedia[0].p_principal =
     product[0].product_multimedia[0]?.p_principal == undefined || null
-      ? `${MARKETPLACE_PRODUCT}`
+      ? `${COMMON.MARKETPLACE_PRODUCT}`
       : product[0].product_multimedia[0].p_principal;
 
   return {

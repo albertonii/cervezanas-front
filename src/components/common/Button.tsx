@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface ButtonProps {
   onClick?: () => void;
@@ -39,7 +39,7 @@ export function Button({
   btnType,
   form,
 }: ButtonProps) {
-  const [hoverColor, _] = useState(isActive ? "filled" : "unfilled");
+  const hoverColor = isActive ? "filled" : "unfilled";
 
   const getButtonType = () => {
     switch (btnType) {
@@ -58,7 +58,7 @@ export function Button({
       color={hoverColor}
       form={form}
       className={`
-        mt-0 flex items-center justify-center rounded border-2 border-beer-foam
+        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde transition duration-100 ease-in
         ${box ? "h-auto w-10" : ""}
         ${disabled ? "cursor-not-allowed opacity-50" : ""}
         ${small ? "w-24" : ""} 

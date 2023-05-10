@@ -7,7 +7,7 @@ export default function Hero() {
     <>
       <div className="h-[60px] bg-[url('/assets/golden_wave_pattern.png')] "></div>
 
-      <div className="flex w-full justify-center bg-beer-blonde pt-10 sm:h-[50vh] ">
+      <div className="flex w-full justify-center bg-beer-blonde pt-10 sm:h-[50vh] md:h-[59vh]">
         <div className="container gap-10 sm:grid sm:grid-cols-1 lg:grid-cols-2">
           {/* copywriting  */}
           <div className="h-full w-full space-y-8 p-4 sm:p-0">
@@ -53,7 +53,7 @@ export default function Hero() {
               width={550}
               height={450}
               alt={"hero image"}
-              className="absolute top-0 left-auto right-20 z-10 w-1/2 rounded-md	drop-shadow-2xl sm:right-44 sm:w-2/5 lg:w-3/4"
+              className="absolute top-0 left-auto right-20 z-10 w-1/2 rounded-md	drop-shadow-2xl sm:right-44 sm:w-2/5 md:right-20 lg:w-3/4"
             />
             <Image
               src={"/assets/bg_dots.png"}

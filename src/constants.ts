@@ -10,6 +10,10 @@ export const VIEWS: ViewsMap = {
 
 export const PREPENDED_CLASS_NAMES = "supabase-ui-auth";
 
+export const COMMON = {
+  MARKETPLACE_PRODUCT: "/marketplace_product_default.png",
+};
+
 /**
  * CSS class names
  * used for generating prepended classes

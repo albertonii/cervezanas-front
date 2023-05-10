@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
@@ -7,6 +6,7 @@ import { IMonthlyProduct } from "../../../lib/types.d";
 import { supabase } from "../../../utils/supabaseClient";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
+import DisplayImageProduct from "../../common/DisplayImageProduct";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -257,11 +257,11 @@ export default function MonthlyBeers({ mProducts }: Props) {
                       scope="row"
                       className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                     >
-                      <Image
+                      <DisplayImageProduct
+                        imgSrc={"/icons/beer-240.png"}
                         width={128}
                         height={128}
-                        className="h-8 w-8 rounded-full"
-                        src="/icons/beer-240.png"
+                        class="h-8 w-8 rounded-full"
                         alt="Beer Type"
                       />
                     </th>

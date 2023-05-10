@@ -53,14 +53,12 @@ export function MobileMenu() {
   const MENU_HEADER_STYLES =
     "text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4";
 
-  if (!loggedIn) return <></>;
-
   return (
     <>
       {/* Hamburguer menu  */}
       <Button
         data-collapse-toggle="navbar-default"
-        class="absolute top-[50%] ml-3 inline-flex -translate-y-1/2 items-center rounded-lg border-beer-softBlonde p-2 text-sm text-beer-softBlonde transition-all duration-300 hover:border-beer-draft hover:text-beer-draft focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden md:hidden"
+        class="absolute top-6 z-10 ml-3  inline-flex items-center rounded-lg border-beer-softBlonde p-2 text-sm text-beer-softBlonde transition-all duration-300 hover:border-beer-draft hover:text-beer-draft focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="navbar-default"
         aria-expanded="false"
         onClick={() => setOpenHamburger(true)}
@@ -82,6 +80,24 @@ export function MobileMenu() {
           </svg>
         </>
       </Button>
+
+      {/* Logo Cervezanas  */}
+      <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+        <div className="absolute flex h-[90px] w-[90px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+          <Link href={"/"}>
+            <Image
+              src="/logo_cervezanas.svg"
+              alt="Cervezanas Logo"
+              width={100}
+              height={100}
+              style={{ objectFit: "contain" }}
+              priority={true}
+              sizes="100px"
+            />
+          </Link>
+          <div className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></div>
+        </div>
+      </div>
 
       <nav
         ref={sidebarRef}

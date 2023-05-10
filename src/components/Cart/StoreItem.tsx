@@ -109,7 +109,7 @@ export function StoreItem(props: StoreItemProps) {
             isActive={isLike}
             color={heartColor}
             classContainer={
-              "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+              " bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
             }
             classIcon={""}
             title="Add to favorites"
@@ -120,7 +120,7 @@ export function StoreItem(props: StoreItemProps) {
           <DisplayImageProduct
             width={128}
             height={128}
-            alt="Principal Product Image"
+            alt="Principal Product Image store item"
             imgSrc={product.product_multimedia[0].p_principal}
             class={
               "h-full w-full rounded-2xl object-contain hover:cursor-pointer"

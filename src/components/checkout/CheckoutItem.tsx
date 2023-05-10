@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SupabaseProps } from "../../constants";
+import { COMMON, SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { supabase } from "../../utils/supabaseClient";
@@ -10,8 +10,6 @@ import { DecreaseButton, IconButton, IncreaseButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-
-const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
 
 interface Props {
   product: IProduct;
@@ -30,7 +28,9 @@ export function CheckoutItem({
 }: Props) {
   const { t } = useTranslation();
 
-  const [p_principal, setPPrincipal] = useState<string>(MARKETPLACE_PRODUCT);
+  const [p_principal, setPPrincipal] = useState<string>(
+    COMMON.MARKETPLACE_PRODUCT
+  );
 
   const productSubtotal = product.price * quantity;
 
@@ -38,25 +38,23 @@ export function CheckoutItem({
     const getPrincipal = async () => {
       if (
         isValidObject(product.product_multimedia[0]) &&
-        product.product_multimedia[0].p_principal !== MARKETPLACE_PRODUCT
+        product.product_multimedia[0].p_principal !== COMMON.MARKETPLACE_PRODUCT
       ) {
         const pPrincipalUrl = `${SupabaseProps.ARTICLES}${product.product_multimedia[0].p_principal}`;
 
-        const { data: p_principal, error } = supabase.storage
+        const { data: p_principal } = supabase.storage
           .from("products")
           .getPublicUrl(pPrincipalUrl);
 
-        if (error) throw error;
-
         if (!p_principal) return;
-        setPPrincipal(p_principal.publicURL);
+        setPPrincipal(p_principal.publicUrl);
       }
     };
 
     getPrincipal();
 
     () => {
-      setPPrincipal(MARKETPLACE_PRODUCT);
+      setPPrincipal(COMMON.MARKETPLACE_PRODUCT);
     };
   }, [product.owner_id, product.product_multimedia]);
 

@@ -5,8 +5,7 @@ import { IProduct } from "../lib/types.d";
 import { useAuth } from "../components/Auth";
 import { StoreItem } from "../components/Cart";
 import { Filters, MarketplaceHeader } from "../components";
-
-const MARKETPLACE_PRODUCT = "/marketplace_product_default.png";
+import { COMMON } from "../constants";
 
 interface Props {
   products: IProduct[];
@@ -80,7 +79,7 @@ export async function getServerSideProps() {
   productsData?.map(async (product, index) => {
     product.product_multimedia[0].p_principal =
       product.product_multimedia[0]?.p_principal == undefined || null
-        ? `${MARKETPLACE_PRODUCT}`
+        ? `${COMMON.MARKETPLACE_PRODUCT}`
         : `${product.product_multimedia[0].p_principal}`;
 
     productsData[index] = product;

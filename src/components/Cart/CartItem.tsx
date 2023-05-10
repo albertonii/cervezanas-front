@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -45,26 +45,34 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
     };
   }, [products, id, item]);
 
-  const handleIncreaseCartQuantity = (productId: string) => {
-    increaseCartQuantity(productId);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
+  const handleIncreaseCartQuantity = useCallback(() => {
+    increaseCartQuantity(id);
+    if (marketplaceItems.find((item) => item.id === id)) return;
     const product: IProduct | undefined = marketplaceItems.find(
-      (item) => item.id === productId
+      (item) => item.id === id
     );
     if (!product) return;
     addMarketplaceItems(product);
-  };
+  }, [increaseCartQuantity, marketplaceItems, addMarketplaceItems]);
 
-  const handleDecreaseCartQuantity = (productId: string) => {
-    decreaseCartQuantity(productId);
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
-  };
+  const handleDecreaseCartQuantity = useCallback(() => {
+    decreaseCartQuantity(id);
+    if (getItemQuantity(id) > 1) return;
+    removeMarketplaceItems(id);
+  }, [decreaseCartQuantity, getItemQuantity, removeMarketplaceItems]);
 
-  const handleRemoveFromCart = (productId: string) => {
-    removeMarketplaceItems(productId);
-    removeFromCart(productId);
-  };
+  const handleRemoveFromCart = useCallback(
+    (itemId: string) => {
+      removeMarketplaceItems(itemId);
+      removeFromCart(itemId);
+    },
+    [removeFromCart, removeMarketplaceItems]
+  );
+
+  const formattedPrice = useMemo(
+    () => formatCurrency(item?.price ?? 0),
+    [item?.price]
+  );
 
   return (
     <>
@@ -75,7 +83,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
               width={240}
               height={200}
               imgSrc={itemMultimedia}
-              alt={""}
+              alt={"Cart Item display image"}
               class="h-full w-full object-cover object-center"
             />
           </div>
@@ -87,7 +95,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
               </p>
 
               <h3>
-                <p className="ml-4">{formatCurrency(item.price)}</p>
+                <p className="ml-4">{formattedPrice}</p>
               </h3>
             </div>
 
@@ -99,7 +107,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
               <div className="flex">
                 <div className="mr-2 flex items-center justify-center">
                   <DecreaseButton
-                    onClick={() => handleDecreaseCartQuantity(id)}
+                    onClick={() => handleDecreaseCartQuantity()}
                   />
 
                   <span className="mx-2 text-xl text-beer-draft">
@@ -107,7 +115,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
                   </span>
 
                   <IncreaseButton
-                    onClick={() => handleIncreaseCartQuantity(id)}
+                    onClick={() => handleIncreaseCartQuantity()}
                   />
                 </div>
 
