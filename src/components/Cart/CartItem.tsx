@@ -30,12 +30,13 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
   useEffect(() => {
     const findProducts = async () => {
       const p = products?.find((i) => i.id === id);
-      if (!p) return;
-      setItem(p);
-      setItemMultimedia(p.product_multimedia[0].p_principal);
+      if (p) {
+        setItem(p);
+        setItemMultimedia(p.product_multimedia[0].p_principal);
+      }
     };
 
-    if (products != null && products.length > 0) {
+    if (products && products.length > 0) {
       findProducts();
     }
 
@@ -51,8 +52,9 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
     const product: IProduct | undefined = marketplaceItems.find(
       (item) => item.id === id
     );
-    if (!product) return;
-    addMarketplaceItems(product);
+    if (product) {
+      addMarketplaceItems(product);
+    }
   }, [increaseCartQuantity, marketplaceItems, addMarketplaceItems]);
 
   const handleDecreaseCartQuantity = useCallback(() => {

@@ -3,17 +3,13 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
-import { CartItem } from "./CartItem";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useTranslation } from "react-i18next";
+import CartItem from "./CartItem";
 
-type ShoppingCartProps = {
-  isOpen: boolean;
-};
-
-export function ShoppingCart({ isOpen }: ShoppingCartProps) {
+export function ShoppingCart() {
   const { t } = useTranslation();
-  const { items, closeCart, marketplaceItems } = useShoppingCart();
+  const { items, closeCart, marketplaceItems, isOpen } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);
 

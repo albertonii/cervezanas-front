@@ -25,6 +25,7 @@ type ShoppingCartContextType = {
   marketplaceItems: IProduct[];
   addMarketplaceItems: (item: IProduct) => void;
   removeMarketplaceItems: (id: string) => void;
+  isOpen: boolean;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -43,6 +44,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   marketplaceItems: [],
   addMarketplaceItems: () => void {},
   removeMarketplaceItems: () => void {},
+  isOpen: false,
 });
 
 interface Props {
@@ -151,6 +153,7 @@ export function ShoppingCartProvider({ children }: Props) {
       openCart,
       closeCart,
       cartQuantity,
+      isOpen,
     };
   }, [
     items,
@@ -168,12 +171,13 @@ export function ShoppingCartProvider({ children }: Props) {
     openCart,
     closeCart,
     cartQuantity,
+    isOpen,
   ]);
 
   return (
     <ShoppingCartContext.Provider value={value}>
       {children}
-      {items && <ShoppingCart isOpen={isOpen} />}
+      {items && <ShoppingCart />}
     </ShoppingCartContext.Provider>
   );
 }
