@@ -3,23 +3,18 @@ import { Modal } from ".";
 import { IProduct } from "../../lib/types.d";
 
 import { supabase } from "../../utils/supabaseClient";
+import { useAppContext } from "../Context";
 
 interface Props {
-  products: IProduct[];
   product: IProduct | undefined;
   showModal: boolean;
   handleDeleteShowModal: ComponentProps<any>;
-  handleSetProducts: ComponentProps<any>;
 }
 
 export function DeleteProduct(props: Props) {
-  const {
-    products,
-    product,
-    showModal,
-    handleDeleteShowModal,
-    handleSetProducts,
-  } = props;
+  const { product, showModal, handleDeleteShowModal } = props;
+
+  const { products, setProducts } = useAppContext();
 
   const handleDeleteClick = () => {
     const handleDelete = async () => {
@@ -49,7 +44,7 @@ export function DeleteProduct(props: Props) {
       handleDeleteShowModal(false);
 
       // Refresh product list after delete
-      handleSetProducts(
+      setProducts(
         products.filter((b) => {
           return b.id !== product?.id;
         })

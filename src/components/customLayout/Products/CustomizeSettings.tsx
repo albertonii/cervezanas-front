@@ -1,19 +1,15 @@
-import React, { ComponentProps, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ICustomizeSettings } from "../../../lib/types.d";
 import { toLowerCase } from "../../../utils";
 import { supabase } from "../../../utils/supabaseClient";
 import { ChipCard } from "../../common";
+import { useAppContext } from "../../Context";
 
-interface Props {
-  handleCustomizeSettings: ComponentProps<any>;
-  customizeSettings: ICustomizeSettings;
-}
-export function CustomizeSettings({
-  customizeSettings,
-  handleCustomizeSettings,
-}: Props) {
+export function CustomizeSettings() {
   const { t } = useTranslation();
+
+  const { customizeSettings, setCustomizeSettings } = useAppContext();
 
   const colorInputRef = useRef<HTMLInputElement>(null);
   const familyStylesInputRef = useRef<HTMLInputElement>(null);
@@ -44,8 +40,8 @@ export function CustomizeSettings({
             })
             .eq("id", customizeSettings.id);
 
-          handleCustomizeSettings((prev: any) => {
-            return { ...prev, colors: [...colors, color] };
+          setCustomizeSettings((prev: ICustomizeSettings) => {
+            return { ...prev, colors: [...prev.colors, color] };
           });
         }
       }
@@ -73,7 +69,7 @@ export function CustomizeSettings({
             })
             .eq("id", customizeSettings.id);
 
-          handleCustomizeSettings((prev: ICustomizeSettings) => {
+          setCustomizeSettings((prev: ICustomizeSettings) => {
             return { ...prev, family_styles: [...familyStyles, famStyle] };
           });
         }
@@ -101,7 +97,7 @@ export function CustomizeSettings({
       document.removeEventListener("keydown", listenerColor);
       document.removeEventListener("keydown", listenerFamilyStyle);
     };
-  }, [colors, customizeSettings.id, familyStyles, handleCustomizeSettings]);
+  }, [colors, customizeSettings.id, familyStyles, setCustomizeSettings]);
 
   const handleRemoveColor = async (color: string) => {
     const filteredColors = colors.filter((c) => {
@@ -118,7 +114,7 @@ export function CustomizeSettings({
       })
       .eq("id", customizeSettings.id);
 
-    handleCustomizeSettings((prev: ICustomizeSettings) => {
+    setCustomizeSettings((prev: ICustomizeSettings) => {
       return { ...prev, colors: filteredColors };
     });
   };
@@ -140,7 +136,7 @@ export function CustomizeSettings({
       })
       .eq("id", customizeSettings.id);
 
-    handleCustomizeSettings((prev: ICustomizeSettings) => {
+    setCustomizeSettings((prev: ICustomizeSettings) => {
       return { ...prev, family_styles: filteredFamStyles };
     });
   };

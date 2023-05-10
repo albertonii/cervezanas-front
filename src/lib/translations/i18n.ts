@@ -511,6 +511,7 @@ from the beer.`,
   preparing_to_ship: `Preparing to ship on`,
   all: `All`,
   price_starts_at: `Price starts at`,
+  no_products: `No products`,
 };
 
 const translationsEs = {
@@ -1038,6 +1039,7 @@ desprenden de la cerveza. `,
   preparing_to_ship: `Preparando para enviar`,
   all: `Todos`,
   price_starts_at: `Precio desde`,
+  no_products: `No hay productos`,
 };
 
 // the translations

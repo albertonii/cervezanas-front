@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IProduct, IRefProductLot } from "../../../lib/types.d";
+import { IRefProductLot } from "../../../lib/types.d";
 import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
+import { useAppContext } from "../../Context";
 
-interface Props {
-  products: IProduct[];
-  lots: IRefProductLot[];
-}
-
-export default function Lots({ products, lots: l }: Props) {
+export default function Lots() {
   const { t } = useTranslation();
+
+  const { products, lots, setLots } = useAppContext();
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
   const [lotModal, setProductLotModal] = useState<any>(null);
-
-  const [lots, setLots] = useState<IRefProductLot[]>(l);
 
   const handleSetProductLots = (value: IRefProductLot[]) => {
     setLots(value);

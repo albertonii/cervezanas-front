@@ -18,22 +18,22 @@ import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
 import { getFileExtensionByName } from "../../utils";
 import { uuid } from "uuidv4";
+import { useAppContext } from "../Context";
 
 interface Props {
   product: IProduct;
   showModal: boolean;
-  handleSetProducts: ComponentProps<any>;
   handleEditShowModal: ComponentProps<any>;
 }
 
 export function UpdateProduct({
   product,
   showModal,
-  handleSetProducts,
   handleEditShowModal,
 }: Props) {
   const { t } = useTranslation();
 
+  const { setProducts } = useAppContext();
   const { user } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -327,7 +327,7 @@ export function UpdateProduct({
         }
 
         // Update previous product list
-        handleSetProducts((prev: any) => {
+        setProducts((prev) => {
           const index = prev.findIndex((p: any) => p.id === productData[0].id);
           prev[index] = productData[0];
           return [...prev];

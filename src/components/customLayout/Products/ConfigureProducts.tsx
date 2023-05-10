@@ -2,61 +2,24 @@ import Lots from "./Lots";
 import Archive from "./Archive";
 import React, { useState } from "react";
 import { Products } from "./Products";
-import {
-  IProduct,
-  IRefProductLot,
-  ICustomizeSettings as cSettings,
-} from "../../../lib/types.d";
 import { CustomizeSettings } from "..";
 import HorizontalSections from "../../common/HorizontalSections";
 
-interface Props {
-  products: IProduct[];
-  lots: IRefProductLot[];
-  customizeSettings: cSettings;
-}
-
-export function ConfigureProducts({
-  products: p,
-  lots,
-  customizeSettings: cSettings,
-}: Props) {
-  const [customizeSettings, setCustomizeSettings] =
-    useState<cSettings>(cSettings);
+export function ConfigureProducts() {
   const [menuOption, setMenuOption] = useState<string>("products");
-  const [products, setProducts] = useState<IProduct[]>(p);
-
-  const handleSetProducts = (value: IProduct[]) => {
-    setProducts(value);
-  };
-
-  const handleCustomizeSettings = (value: cSettings) => {
-    setCustomizeSettings(value);
-  };
 
   const renderSwitch = () => {
     switch (menuOption) {
       case "products":
-        return (
-          <Products
-            products={products}
-            handleSetProducts={handleSetProducts}
-            customizeSettings={customizeSettings}
-          />
-        );
+        return <Products />;
       case "lots":
-        return <Lots products={products} lots={lots} />;
+        return <Lots />;
       case "archive":
         return (
-          <Archive products={products} handleSetProducts={handleSetProducts} />
+          <Archive/>
         );
       case "customizeSettings":
-        return (
-          <CustomizeSettings
-            customizeSettings={customizeSettings}
-            handleCustomizeSettings={handleCustomizeSettings}
-          />
-        );
+        return <CustomizeSettings />;
     }
   };
 

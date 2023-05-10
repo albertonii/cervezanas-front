@@ -1,32 +1,14 @@
 import { t } from "i18next";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductList } from "..";
-import { ICustomizeSettings, IProduct } from "../../../lib/types.d";
+import { IProduct } from "../../../lib/types.d";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
-
-interface Props {
-  products: IProduct[];
-  handleSetProducts: Dispatch<SetStateAction<any>>;
-  customizeSettings: ICustomizeSettings;
-}
-
-export function Products({
-  products,
-  handleSetProducts,
-  customizeSettings: cSettings,
-}: Props) {
-  const [customizeSettings, setCustomizeSettings] =
-    useState<ICustomizeSettings>(cSettings);
-
+export function Products() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setLoading(false);
   }, []);
-
-  useEffect(() => {
-    setCustomizeSettings(cSettings);
-  }, [cSettings]);
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
@@ -53,36 +35,28 @@ export function Products({
       <div className="flex items-center">
         <div className="pr-12 text-4xl">{t("products")}</div>
 
-        <AddProduct
-          handleSetProducts={handleSetProducts}
-          customizeSettings={customizeSettings}
-        />
+        <AddProduct />
       </div>
 
       <ProductList
-        products={products}
         handleEditShowModal={handleEditShowModal}
         handleDeleteShowModal={handleDeleteShowModal}
         handleProductModal={handleProductModal}
-        handleSetProducts={handleSetProducts}
       />
 
       {isEditShowModal && productModal != null && (
         <UpdateProduct
           product={productModal}
           showModal={isEditShowModal}
-          handleSetProducts={handleSetProducts}
           handleEditShowModal={handleEditShowModal}
         />
       )}
 
       {isDeleteShowModal && (
         <DeleteProduct
-          products={products ?? []}
           product={productModal}
           showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
-          handleSetProducts={handleSetProducts}
         />
       )}
     </div>

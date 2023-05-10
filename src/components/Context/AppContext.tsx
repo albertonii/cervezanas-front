@@ -3,7 +3,12 @@ import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { INotification } from "../../lib/types.d";
+import {
+  ICustomizeSettings,
+  INotification,
+  IProduct,
+  IRefProductLot,
+} from "../../lib/types.d";
 import { useAuth } from "../Auth";
 
 type AppContextType = {
@@ -18,6 +23,12 @@ type AppContextType = {
   notifications?: INotification[];
   openNotification: boolean;
   setOpenNotification: (open: boolean) => void;
+  products: IProduct[];
+  setProducts: (newProducts: IProduct[]) => void;
+  lots: IRefProductLot[];
+  setLots: (newLots: IRefProductLot[]) => void;
+  customizeSettings: ICustomizeSettings;
+  setCustomizeSettings: (newCustomizeSettings: ICustomizeSettings) => void;
 };
 
 const AppContext = createContext<AppContextType>({
@@ -32,6 +43,17 @@ const AppContext = createContext<AppContextType>({
   notifications: [],
   openNotification: false,
   setOpenNotification: () => void {},
+  products: [],
+  setProducts: () => void {},
+  lots: [],
+  setLots: () => void {},
+  customizeSettings: {
+    id: "",
+    created_at: new Date(),
+    colors: [],
+    family_styles: [],
+  },
+  setCustomizeSettings: () => void {},
 });
 
 interface Props {
@@ -49,6 +71,16 @@ export function AppContextProvider(props: Props) {
     category: "all",
     minPrice: 0,
   });
+
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [lots, setLots] = useState<IRefProductLot[]>([]);
+  const [customizeSettings, setCustomizeSettings] =
+    useState<ICustomizeSettings>({
+      id: "",
+      created_at: new Date(),
+      colors: [],
+      family_styles: [],
+    });
 
   const { user } = useAuth();
 
@@ -98,6 +130,12 @@ export function AppContextProvider(props: Props) {
     notifications,
     openNotification,
     setOpenNotification,
+    products,
+    setProducts,
+    lots,
+    setLots,
+    customizeSettings,
+    setCustomizeSettings,
   };
 
   return (

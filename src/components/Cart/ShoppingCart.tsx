@@ -5,7 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useTranslation } from "react-i18next";
-import CartItem from "./CartItem";
+import { CartItem } from "./CartItem";
 
 export function ShoppingCart() {
   const { t } = useTranslation();

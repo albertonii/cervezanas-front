@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,11 +13,7 @@ import {
 import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import {
-  IInventory,
-  ICustomizeSettings,
-  ModalAddProductProps,
-} from "../../lib/types.d";
+import { IInventory, ModalAddProductProps } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
@@ -28,14 +24,12 @@ import {
   isNotEmptyArray,
   isValidObject,
 } from "../../utils/utils";
+import { useAppContext } from "../Context";
 
-interface Props {
-  handleSetProducts: Dispatch<SetStateAction<any>>;
-  customizeSettings: ICustomizeSettings;
-}
-
-export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
+export function AddProduct() {
   const { t } = useTranslation();
+
+  const { customizeSettings, setProducts } = useAppContext();
 
   const { user } = useAuth();
 
@@ -344,7 +338,7 @@ export function AddProduct({ handleSetProducts, customizeSettings }: Props) {
         }
 
         // Add new product to the list
-        handleSetProducts((prev: any) => [...prev, productData[0]]);
+        setProducts((prev: IProduct[]) => [...prev, productData[0]]);
 
         return beer;
       }

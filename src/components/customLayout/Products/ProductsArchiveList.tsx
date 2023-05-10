@@ -13,13 +13,12 @@ import { Button, EditButton, Spinner, UnarchiveButton } from "../../common";
 import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../Auth";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
+import { useAppContext } from "../../Context";
 
 interface Props {
-  products: IProduct[];
   handleEditShowModal: Dispatch<SetStateAction<any>>;
   handleDeleteShowModal: Dispatch<SetStateAction<any>>;
   handleProductModal: Dispatch<SetStateAction<any>>;
-  handleSetProducts: Dispatch<SetStateAction<any>>;
 }
 
 interface ColumnsProps {
@@ -27,25 +26,24 @@ interface ColumnsProps {
 }
 
 export default function ProductsArchiveList({
-  products: ps,
   handleEditShowModal,
   handleDeleteShowModal,
   handleProductModal,
-  handleSetProducts,
 }: Props) {
+  const { products: ps, setProducts } = useAppContext();
+
   const { user } = useAuth();
   if (!user) return null;
 
   const { t } = useTranslation();
 
-  const [products, setProducts] = useState<IProduct[]>(
-    ps.filter((product) => product.is_archived)
-  );
+  const products = ps.filter((product) => product.is_archived);
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const productsCount = ps.filter((product) => product.is_archived).length;
+
   const pageRange = 10;
   const finalPage =
     productsCount < currentPage * pageRange
@@ -68,10 +66,6 @@ export default function ProductsArchiveList({
     { header: t("public_header") },
     { header: t("action_header") },
   ];
-
-  useEffect(() => {
-    setProducts(ps);
-  }, [ps]);
 
   useEffect(() => {
     refetch().then((res) => {
@@ -117,8 +111,7 @@ export default function ProductsArchiveList({
       return product_;
     });
 
-    // setProducts(updatedProducts);
-    handleSetProducts(updatedProducts);
+    setProducts(updatedProducts);
   };
 
   const filteredItems = useMemo(() => {
@@ -140,7 +133,7 @@ export default function ProductsArchiveList({
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
+    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -160,10 +153,10 @@ export default function ProductsArchiveList({
       ) : (
         <>
           <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="h-5 w-5 text-gray-500 dark:text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -180,13 +173,13 @@ export default function ProductsArchiveList({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Search products..."
             />
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
@@ -204,24 +197,24 @@ export default function ProductsArchiveList({
                   return (
                     <tr
                       key={product.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       {product.is_archived && (
                         <>
                           <th
                             scope="row"
-                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                           >
                             <Image
                               width={128}
                               height={128}
-                              className="w-8 h-8 rounded-full"
+                              className="h-8 w-8 rounded-full"
                               src="/icons/beer-240.png"
                               alt="Beer Type"
                             />
                           </th>
 
-                          <td className="py-4 px-6 text-beer-blonde font-semibold hover:text-beer-draft">
+                          <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
                             <Link href={`/products/${product.id}`}>
                               {product.name}
                             </Link>
@@ -273,7 +266,7 @@ export default function ProductsArchiveList({
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="flex justify-around items-center my-4">
+          <div className="my-4 flex items-center justify-around">
             <Button class="" onClick={() => handlePrevPage()} small primary>
               {t("prev")}
             </Button>

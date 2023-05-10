@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { COMMON, SupabaseProps } from "../../constants";
 
 const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
@@ -27,9 +27,6 @@ function DisplayImageProduct({
       ? COMMON.MARKETPLACE_PRODUCT
       : BASE_PRODUCTS_ARTICLES_URL + imgSrc
   );
-  useEffect(() => {
-    console.log("render");
-  }, []);
 
   const memoizedSrc = useMemo(() => src, [src]);
 

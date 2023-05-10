@@ -52,7 +52,13 @@ export default function CustomLayout({
   const { loggedIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const { user, role } = useAuth();
-  const { sidebar, changeSidebarActive } = useAppContext();
+  const {
+    sidebar,
+    changeSidebarActive,
+    setProducts,
+    setLots,
+    setCustomizeSettings,
+  } = useAppContext();
   const [menuOption, setMenuOption] = useState<string>(sidebar);
 
   const router = useRouter();
@@ -60,6 +66,12 @@ export default function CustomLayout({
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    setProducts(profile.products);
+    setLots(product_lots);
+    setCustomizeSettings(profile.customize_settings[0]);
+  }, [profile, product_lots]);
 
   useEffect(() => {
     if (isValidObject(router.query.a)) {
@@ -87,13 +99,7 @@ export default function CustomLayout({
       case "profile":
         return <Profile profile={profile} />;
       case "products":
-        return (
-          <ConfigureProducts
-            products={profile.products}
-            lots={product_lots}
-            customizeSettings={profile.customize_settings[0]}
-          />
-        );
+        return <ConfigureProducts />;
       case "campaigns":
         return (
           <Campaigns
