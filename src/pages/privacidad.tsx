@@ -1,4 +1,3 @@
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
 
 export default function Privacy() {

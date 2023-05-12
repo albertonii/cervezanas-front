@@ -95,7 +95,7 @@ export function LotList({
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
+    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -109,16 +109,18 @@ export function LotList({
       )}
 
       {!isLoading && !isError && lots.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_lots")}</p>
+        <div className="my-[10vh] flex items-center justify-center">
+          <p className="text-2xl text-gray-500 dark:text-gray-400">
+            {t("no_lots")}
+          </p>
         </div>
       ) : (
         <>
           <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="h-5 w-5 text-gray-500 dark:text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -135,13 +137,13 @@ export function LotList({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Search lot..."
             />
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
@@ -159,16 +161,16 @@ export function LotList({
                   return (
                     <tr
                       key={lot.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <th
                         scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                       >
                         <Image
                           width={128}
                           height={128}
-                          className="w-8 h-8 rounded-full"
+                          className="h-8 w-8 rounded-full"
                           src="/icons/beer-240.png"
                           alt="Beer Type"
                         />
@@ -202,7 +204,7 @@ export function LotList({
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="flex justify-around items-center my-4">
+          <div className="my-4 flex items-center justify-around">
             <Button class="" onClick={() => handlePrevPage()} small primary>
               {t("prev")}
             </Button>

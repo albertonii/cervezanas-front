@@ -1,9 +1,9 @@
 import Lots from "./Lots";
+import HorizontalSections from "../../common/HorizontalSections";
 import Archive from "./Archive";
 import React, { useState } from "react";
 import { Products } from "./Products";
 import { CustomizeSettings } from "..";
-import HorizontalSections from "../../common/HorizontalSections";
 
 export function ConfigureProducts() {
   const [menuOption, setMenuOption] = useState<string>("products");
@@ -15,9 +15,7 @@ export function ConfigureProducts() {
       case "lots":
         return <Lots />;
       case "archive":
-        return (
-          <Archive/>
-        );
+        return <Archive />;
       case "customizeSettings":
         return <CustomizeSettings />;
     }

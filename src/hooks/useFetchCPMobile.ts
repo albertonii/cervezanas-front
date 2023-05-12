@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { ICPFixed } from "../lib/types";
+import { ICPFixed } from "../lib/types.d";
 import { supabase } from "../utils/supabaseClient";
 
 const fetchCPMobile = async (

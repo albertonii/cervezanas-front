@@ -112,8 +112,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
   if (submittedList.length === 0) {
     return (
-      <div className="flex h-full w-full items-center justify-center p-6">
-        <p className="text-xl text-gray-500 dark:text-gray-400">
+      <div className="my-[10vh] flex items-center justify-center">
+        <p className="text-2xl text-gray-500 dark:text-gray-400">
           {t("no_pending_cp")}
         </p>
       </div>

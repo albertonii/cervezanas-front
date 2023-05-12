@@ -160,8 +160,10 @@ export function ProductList({
       )}
 
       {!isError && !isLoading && products.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_products")}</p>
+        <div className="my-[10vh] flex items-center justify-center">
+          <p className="text-2xl text-gray-500 dark:text-gray-400">
+            {t("no_products")}
+          </p>
         </div>
       ) : (
         <>

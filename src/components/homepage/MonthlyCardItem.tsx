@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
-  const product = mProduct.product_id;
+  const product = mProduct?.product_id;
 
   if (!product) return null;
 

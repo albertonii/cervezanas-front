@@ -15,6 +15,7 @@ import {
   IncreaseButton,
 } from "../common";
 import DisplayImageProduct from "../common/DisplayImageProduct";
+import { COMMON } from "../../constants";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -121,7 +122,11 @@ export function StoreItem(props: StoreItemProps) {
             width={128}
             height={128}
             alt="Principal Product Image store item"
-            imgSrc={product.product_multimedia[0].p_principal}
+            imgSrc={
+              product.product_multimedia[0]
+                ? product.product_multimedia[0].p_principal
+                : `/${COMMON.MARKETPLACE_PRODUCT}`
+            }
             class={
               "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
             }
