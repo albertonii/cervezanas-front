@@ -18,6 +18,7 @@ export default function MarketPlace({ products }: Props) {
 
   const { filterProducts } = useFilters();
   const filteredProducts = filterProducts(products);
+  console.log(filteredProducts);
 
   useEffect(() => {
     if (loggedIn) {
@@ -77,8 +78,9 @@ export async function getServerSideProps() {
   if (productsError) throw productsError;
 
   productsData?.map(async (product, index) => {
+    console.log(!product.product_multimedia);
     product.product_multimedia[0].p_principal =
-      product.product_multimedia[0]?.p_principal == undefined || null
+      !product.product_multimedia || !product.product_multimedia[0]?.p_principal
         ? `${COMMON.MARKETPLACE_PRODUCT}`
         : `${product.product_multimedia[0].p_principal}`;
 
