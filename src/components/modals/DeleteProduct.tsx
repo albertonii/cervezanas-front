@@ -19,7 +19,10 @@ export function DeleteProduct(props: Props) {
   const handleDeleteClick = () => {
     const handleDelete = async () => {
       // Delete all storage images from the product
-      if (product?.product_multimedia[0]?.p_principal) {
+      if (
+        product?.product_multimedia &&
+        product?.product_multimedia[0]?.p_principal
+      ) {
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
