@@ -1,8 +1,8 @@
 import { ViewsMap } from "./lib/types.d";
 
 export const VIEWS: ViewsMap = {
-  SIGN_IN: "sign_in",
-  SIGN_UP: "sign_up",
+  SIGN_IN: "signin",
+  SIGN_UP: "signup",
   FORGOTTEN_PASSWORD: "forgotten_password",
   MAGIC_LINK: "magic_link",
   UPDATE_PASSWORD: "update_password",

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -41,7 +43,7 @@ export function LikesHistory({ userId }: Props) {
 
   return (
     <>
-      <div className="py-6 px-4 " aria-label="Watchlist">
+      <div className="px-4 py-6 " aria-label="Watchlist">
         <div className="flex flex-col">
           <div className="pr-12 text-4xl">{t("watchlist")}</div>
           {likes.length > 0 &&
@@ -49,7 +51,7 @@ export function LikesHistory({ userId }: Props) {
               return (
                 <div
                   key={index}
-                  className="m-6 mt-12 ml-8 rounded-sm bg-beer-foam p-6"
+                  className="m-6 ml-8 mt-12 rounded-sm bg-beer-foam p-6"
                 >
                   <article className="md:grid md:grid-cols-3 md:gap-8">
                     <div>

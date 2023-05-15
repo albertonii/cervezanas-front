@@ -1,5 +1,6 @@
+"use client";
+
 import React, { useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
 import { IReview } from "../../lib/types.d";
@@ -7,6 +8,7 @@ import { formatDateString } from "../../utils/formatDate";
 import { OwnerInfo } from "..";
 import { Rate } from ".";
 import { DeleteButton } from "../common";
+import { supabase } from "../../utils";
 
 interface Props {
   review: IReview;

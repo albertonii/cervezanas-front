@@ -1,3 +1,5 @@
+"use client";
+
 import Lots from "./Lots";
 import HorizontalSections from "../../common/HorizontalSections";
 import Archive from "./Archive";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "@supabase/supabase-js";
@@ -28,7 +30,7 @@ export function History(props: Props) {
       {loading ? (
         <div>{t("loading")} </div>
       ) : (
-        <div className="py-6 px-4" id="account-container">
+        <div className="px-4 py-6" id="account-container">
           <div className="flex flex-col justify-between py-4" id="header">
             <div id="title" className="text-4xl">
               {t("history_title")}

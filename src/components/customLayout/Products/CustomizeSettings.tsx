@@ -1,8 +1,9 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ICustomizeSettings } from "../../../lib/types.d";
-import { toLowerCase } from "../../../utils";
-import { supabase } from "../../../utils/supabaseClient";
+import { supabase, toLowerCase } from "../../../utils";
 import { ChipCard } from "../../common";
 import { useAppContext } from "../../Context";
 
@@ -143,7 +144,7 @@ export function CustomizeSettings() {
 
   return (
     <>
-      <div className="py-6 px-4 " aria-label="CustomizeSettings">
+      <div className="px-4 py-6 " aria-label="CustomizeSettings">
         <div className="flex items-center">
           <div className="pr-12 text-4xl">
             {t("products_customize_settings")}

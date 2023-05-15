@@ -1,12 +1,13 @@
+"use client";
+
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { IProfileLocation } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
-import { Button, Spinner } from "../../common";
+import { Button, DisplayInputError, Spinner } from "../../common";
 import _ from "lodash";
-import DisplayInputError from "../../common/DisplayInputError";
+import { supabase } from "../../../utils";
 
 interface FormProps {
   addressName: string;

@@ -1,11 +1,12 @@
+"use client";
+
 import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ICampaign, ICampaignItem } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
+import { supabase } from "../../../utils";
 import { useAuth } from "../../Auth";
-import { Button, DeleteButton } from "../../common";
-import DisplayInputError from "../../common/DisplayInputError";
+import { Button, DeleteButton, DisplayInputError } from "../../common";
 import { useMessage } from "../../message";
 
 enum CampaignStatus {
@@ -147,7 +148,7 @@ export function CampaignForm({
     <form>
       <fieldset className="relative space-y-2 rounded bg-beer-softBlonde p-4">
         {/* Campaign Status Signal  */}
-        <div className="absolute top-0 right-0 mt-2 mr-2">
+        <div className="absolute right-0 top-0 mr-2 mt-2">
           <div className="flex flex-row items-center space-x-2">
             <p className="text-md font-semibold text-gray-600">
               {campaignStatus === CampaignStatus.active

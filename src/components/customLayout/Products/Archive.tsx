@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../../lib/types.d";
@@ -30,7 +32,7 @@ export default function Archive() {
 
   return (
     <>
-      <div className="py-6 px-4 " aria-label="Products">
+      <div className="px-4 py-6 " aria-label="Products">
         <div className="flex items-center">
           <div className="pr-12 text-4xl">{t("products_archive")}</div>
         </div>

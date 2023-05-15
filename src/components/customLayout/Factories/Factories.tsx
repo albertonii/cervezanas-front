@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 
 export const Factories = () => {
@@ -5,9 +7,9 @@ export const Factories = () => {
 
   return (
     <>
-      <div className="py-6 px-4 " aria-label="Factories">
+      <div className="px-4 py-6 " aria-label="Factories">
         <div className="flex flex-col">
-          <div className="text-4xl pr-12">{t("factories")}</div>
+          <div className="pr-12 text-4xl">{t("factories")}</div>
         </div>
       </div>
     </>

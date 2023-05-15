@@ -1,10 +1,10 @@
+"use client";
 import Link from "next/link";
 import DeleteModal from "../../modals/DeleteModal";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../../utils";
-import { supabase } from "../../../utils/supabaseClient";
+import { formatDate, supabase } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { ICPMobile } from "../../../lib/types.d";
@@ -259,7 +259,7 @@ export default function ListCPMobile({
               <tr>
                 <th
                   scope="col"
-                  className="py-3 px-6 hover:cursor-pointer"
+                  className="px-6 py-3 hover:cursor-pointer"
                   onClick={() => {
                     handleChangeSort(SortBy.NAME);
                   }}
@@ -269,7 +269,7 @@ export default function ListCPMobile({
 
                 <th
                   scope="col"
-                  className="py-3 px-6 hover:cursor-pointer"
+                  className="px-6 py-3 hover:cursor-pointer"
                   onClick={() => {
                     handleChangeSort(SortBy.CREATED_DATE);
                   }}
@@ -277,11 +277,11 @@ export default function ListCPMobile({
                   {t("created_date_header")}
                 </th>
 
-                <th scope="col" className="py-3 px-6 "></th>
+                <th scope="col" className="px-6 py-3 "></th>
 
-                <th scope="col" className="py-3 px-6 "></th>
+                <th scope="col" className="px-6 py-3 "></th>
 
-                <th scope="col" className="py-3 px-6 ">
+                <th scope="col" className="px-6 py-3 ">
                   {t("action_header")}
                 </th>
               </tr>
@@ -294,17 +294,17 @@ export default function ListCPMobile({
                     key={cp.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
+                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/cp_name`}>{cp.cp_name}</Link>
                     </td>
 
-                    <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+                    <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
 
-                    <td className="cursor-pointer py-4 px-6"></td>
+                    <td className="cursor-pointer px-6 py-4"></td>
 
-                    <td className="cursor-pointer py-4 px-6"></td>
+                    <td className="cursor-pointer px-6 py-4"></td>
 
-                    <td className="flex space-x-2 py-4 px-6">
+                    <td className="flex space-x-2 px-6 py-4">
                       <IconButton
                         icon={faEdit}
                         onClick={() => {

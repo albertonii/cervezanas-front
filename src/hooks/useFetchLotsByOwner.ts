@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { IProductLot } from "../lib/types";
-import { supabase } from "../utils/supabaseClient";
+import { IProductLot } from "../lib/types.d";
+import { supabase } from "../utils";
 
 const fetchLotsByOwner = async (
   ownerId: string,

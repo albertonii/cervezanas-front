@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IRefProductLot } from "../../../lib/types.d";
@@ -36,7 +38,7 @@ export default function Lots() {
   };
 
   return (
-    <div className="py-6 px-4 " aria-label="Lots">
+    <div className="px-4 py-6 " aria-label="Lots">
       <div className="flex items-center">
         <div className="pr-12 text-4xl">{t("lots")}</div>
 

@@ -1,9 +1,10 @@
+"use client";
+
 import _ from "lodash";
 import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { fermentation_options, product_type_options } from "../../lib/beerEnum";
-import { supabase } from "../../utils/supabaseClient";
 import {
   IProduct,
   IInventory,
@@ -16,7 +17,7 @@ import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
 import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
-import { getFileExtensionByName } from "../../utils";
+import { getFileExtensionByName, supabase } from "../../utils";
 import { uuid } from "uuidv4";
 import { useAppContext } from "../Context";
 

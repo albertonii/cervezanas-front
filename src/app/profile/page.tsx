@@ -1,161 +1,28 @@
-import { useEffect, useState } from "react";
-import {
-  IConsumptionPoints,
-  IMonthlyProduct,
-  IProfile,
-  IRefProductLot,
-  IReview,
-} from "../../lib/types.d";
-import {
-  Account,
-  Sidebar,
-  Ledger,
-  Stats,
-  LikesHistory,
-  Reviews,
-  Campaigns,
-  Factories,
-  Orders,
-  Community,
-  ConfigureProducts,
-  Profile,
-  ConsumptionPoints,
-import { useRouter } from "next/navigation";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useAuth } from "../../components/Auth";
-import { useAppContext } from "../../components/Context";
-import { useRouter } from "next/navigation";
-import { isValidObject } from "../../utils/utils";
-import SubmittedCPs from "../../components/Admin/cps/SubmittedCPs";
-import MonthlyBeers from "../../components/homepage/MonthlyBeers";
-import { Spinner } from "../../components/common";
-import { ClientContainerLayout } from "../../components/customLayout";
+import { ROUTE_SIGNIN } from "../../config";
+import { createServerClient } from "../../utils/supabaseServer";
+import Profile from "./Profile";
 
-interface Props {
-  submittedCPs: IConsumptionPoints[];
-  mProducts: IMonthlyProduct[];
-  profile: IProfile;
-  reviews: IReview[];
-  product_lots: IRefProductLot[];
-  cps: IConsumptionPoints[];
-}
-
-export default function CustomLayout({
-  submittedCPs,
-  mProducts,
-  profile,
-  reviews,
-  product_lots,
-  cps,
-}: Props) {
-  const { loggedIn, user, role } = useAuth();
-  const [loading, setLoading] = useState<boolean>(true);
-  const {
-    sidebar,
-    changeSidebarActive,
-    setProducts,
-    setLots,
-    setCustomizeSettings,
-  } = useAppContext();
-  const [menuOption, setMenuOption] = useState<string>(sidebar);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    setProducts(profile.products);
-    setLots(product_lots);
-    setCustomizeSettings(profile.customize_settings[0]);
-  }, [profile, product_lots]);
-
-  useEffect(() => {
-    if (isValidObject(router.query.a)) {
-      setMenuOption(router.query.a as string);
-      changeSidebarActive(router.query.a as string);
-      router.query.a = "";
-    } else {
-      /*
-      if (role === "admin") {
-        setMenuOption("submitted_aps");
-        changeSidebarActive("submitted_aps");
-      }
-      */
-    }
-  }, [changeSidebarActive, role, router]);
-
-  const renderSwitch = (): JSX.Element => {
-    if (!user) return <></>;
-
-    switch (menuOption) {
-      case "submitted_aps":
-        return <SubmittedCPs submittedCPs={submittedCPs} />;
-      case "monthly_beers":
-        return <MonthlyBeers mProducts={mProducts} />;
-      case "profile":
-        return <Profile profile={profile} />;
-      case "products":
-        return <ConfigureProducts />;
-      case "campaigns":
-        return (
-          <Campaigns
-            campaigns={profile.campaigns}
-            products={profile.products}
-          />
-        );
-      case "factories":
-        return <Factories />;
-      case "orders":
-        return <Orders orders={profile?.orders ?? []} />;
-      case "community":
-        return <Community />;
-      case "stats":
-        return <Stats />;
-      case "ledger":
-        return <Ledger />;
-      case "likes_history":
-        return <LikesHistory userId={user.id} />;
-      case "reviews":
-        return <Reviews reviews={reviews} />;
-      case "consumption_points":
-        return <ConsumptionPoints profile={profile} cps={cps} />;
-      default:
-        return <Account profile={profile} />;
-    }
-  };
-
-  const handleMenuOptions = (childData: string) => {
-    changeSidebarActive(childData);
-    setMenuOption(childData);
-  };
-
-  if (role == null || user == null) return <></>;
+export default async function ProfilePage() {
+  const { submittedCPs, monthlyProducts, profile, reviews, product_lots, cps } =
+    await getProfileData();
 
   return (
     <>
-      {loading ? (
-        <Spinner color="beer-blonde" size={"medium"} />
-      ) : (
-        <div className="flex flex-row">
-          {loggedIn && (
-            <>
-              <Sidebar parentCallback={handleMenuOptions} role={role} />
-              <ClientContainerLayout role={role} user={user}>
-                {renderSwitch()}
-              </ClientContainerLayout>
-            </>
-          )}
-        </div>
-      )}
+      <Profile
+        submittedCPs={submittedCPs}
+        monthlyProducts={monthlyProducts}
+        profile={profile}
+        reviews={reviews}
+        product_lots={product_lots}
+        cps={cps}
+      />
     </>
   );
 }
 
-export async function getServerSideProps(ctx: any) {
+async function getProfileData() {
   // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient(ctx);
+  const supabase = createServerClient();
 
   // Check if we have a session
   const {
@@ -255,13 +122,11 @@ export async function getServerSideProps(ctx: any) {
     profileData[0].products = productsData;
 
     return {
-      props: {
-        products_count: count,
-        product_lots: productLotData ?? [],
-        profile: profileData[0] ?? [],
-        reviews: reviewData ?? [],
-        cps: cps ?? [],
-      },
+      products_count: count,
+      product_lots: productLotData ?? [],
+      profile: profileData[0] ?? [],
+      reviews: reviewData ?? [],
+      cps: cps ?? [],
     };
   } else {
     const { data: submittedCPs, error: submittedCPsError } = await supabase
@@ -275,19 +140,16 @@ export async function getServerSideProps(ctx: any) {
 
     if (submittedCPsError) console.error(submittedCPsError);
 
-    const { data: mProducts, error: mProductsError } = await supabase.from(
-      "monthly_products"
-    ).select(`*,
+    const { data: monthlyProducts, error: mProductsError } =
+      await supabase.from("monthly_products").select(`*,
               product_id(*)
               `);
 
     if (mProductsError) console.error(mProductsError);
 
     return {
-      props: {
-        submittedCPs,
-        mProducts,
-      },
+      submittedCPs,
+      monthlyProducts,
     };
   }
 }

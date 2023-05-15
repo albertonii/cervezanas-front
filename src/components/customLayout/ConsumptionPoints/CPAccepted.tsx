@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { IConsumptionPoints } from "../../../lib/types.d";
 import HorizontalSections from "../../common/HorizontalSections";

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import {
@@ -9,8 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
-import { formatDate } from "../../../utils";
-import { supabase } from "../../../utils/supabaseClient";
+import { formatDate, supabase } from "../../../utils";
 import { generateDownloadableLink } from "../../../utils/utils";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
@@ -75,7 +76,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       .from("public/documents")
 
       .download(`cover_letter/${cp.owner_id.id}_${cp.cover_letter_name}`)
-      .then((blob) => {
+      .then((blob: any) => {
         generateDownloadableLink(blob, cp.cover_letter_name);
       });
   };
@@ -222,13 +223,13 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="py-3 px-6 hover:cursor-pointer">
+            <th scope="col" className="px-6 py-3 hover:cursor-pointer">
               .
             </th>
 
             <th
               scope="col"
-              className="py-3 px-6 hover:cursor-pointer"
+              className="px-6 py-3 hover:cursor-pointer"
               onClick={() => {
                 handleChangeSort(SortBy.USERNAME);
               }}
@@ -238,7 +239,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
             <th
               scope="col"
-              className="py-3 px-6 hover:cursor-pointer"
+              className="px-6 py-3 hover:cursor-pointer"
               onClick={() => {
                 handleChangeSort(SortBy.CREATED_DATE);
               }}
@@ -246,15 +247,15 @@ export default function ListPendingCP({ submittedCPs }: Props) {
               {t("created_date_header")}
             </th>
 
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               {t("cover_letter_header")}
             </th>
 
-            <th scope="col" className="py-3 px-6 ">
+            <th scope="col" className="px-6 py-3 ">
               {t("cv_header")}
             </th>
 
-            <th scope="col" className="py-3 px-6 ">
+            <th scope="col" className="px-6 py-3 ">
               {t("action_header")}
             </th>
           </tr>
@@ -269,7 +270,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
               >
                 <th
                   scope="row"
-                  className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                  className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                 >
                   <FontAwesomeIcon
                     icon={faUser}
@@ -280,15 +281,15 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </th>
 
-                <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
+                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link href={`/products/${cp.owner_id.id}`}>
                     {cp.owner_id.username}
                   </Link>
                 </td>
 
-                <td className="py-4 px-6">{formatDate(cp.created_at)}</td>
+                <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
 
-                <td className="cursor-pointer py-4 px-6">
+                <td className="cursor-pointer px-6 py-4">
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
@@ -301,7 +302,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </td>
 
-                <td className="cursor-pointer py-4 px-6">
+                <td className="cursor-pointer px-6 py-4">
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
@@ -314,7 +315,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </td>
 
-                <td className="flex py-4 px-6 ">
+                <td className="flex px-6 py-4 ">
                   <IconButton
                     icon={faCheck}
                     onClick={() => handleApproveClick(cp)}

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { ICPFixed } from "../lib/types.d";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils";
 
 const fetchCPFixed = async (
   cpId: string,

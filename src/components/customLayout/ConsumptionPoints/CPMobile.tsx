@@ -1,3 +1,5 @@
+"use client";
+
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMobile from "./ListCPMobile";
 import React, { useState } from "react";
@@ -6,10 +8,10 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { getGeocode } from "use-places-autocomplete";
 import { ICPMobile } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
 import { isValidObject } from "../../../utils/utils";
 import { Modal } from "../../modals";
-import DisplayInputError from "../../common/DisplayInputError";
+import { DisplayInputError } from "../../common";
+import { supabase } from "../../../utils";
 
 interface FormData {
   cp_name: string;

@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Rate } from ".";
 import { IReview } from "../../lib/types.d";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils";
 import { Button } from "../common";
 import { useMessage } from "../message";
 import { SuccessfulReviewModal } from "../modals";

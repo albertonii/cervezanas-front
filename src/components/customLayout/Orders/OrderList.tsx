@@ -1,3 +1,5 @@
+"use client";
+
 import useFetchCPOrders from "../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -136,7 +138,7 @@ export function OrderList({ orders: os }: Props) {
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
-                    <th key={index} scope="col" className="py-3 px-6">
+                    <th key={index} scope="col" className="px-6 py-3">
                       {column.header}
                     </th>
                   );
@@ -152,19 +154,19 @@ export function OrderList({ orders: os }: Props) {
                       key={order.id}
                       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
-                      <td className="py-4 px-6">{order.order_number}</td>
+                      <td className="px-6 py-4">{order.order_number}</td>
 
-                      <td className="py-4 px-6">{order.customer_name}</td>
+                      <td className="px-6 py-4">{order.customer_name}</td>
 
-                      <td className="py-4 px-6">
+                      <td className="px-6 py-4">
                         {formatCurrency(order.total)}
                       </td>
 
-                      <td className="py-4 px-6">{t(order.status)}</td>
+                      <td className="px-6 py-4">{t(order.status)}</td>
 
-                      <td className="py-4 px-6">{order.tracking_id}</td>
+                      <td className="px-6 py-4">{order.tracking_id}</td>
 
-                      <td className="item-center flex justify-center py-4 px-6">
+                      <td className="item-center flex justify-center px-6 py-4">
                         <IconButton
                           onClick={() => handleClickView(order)}
                           icon={faEye}

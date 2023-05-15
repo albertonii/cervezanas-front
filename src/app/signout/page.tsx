@@ -1,12 +1,7 @@
-import { useEffect } from "react";
-import { useAuth } from "../../components/Auth";
+"use client";
 
-export default function SignOut() {
-  const { signOut } = useAuth();
+import Signout from "./Signout";
 
-  useEffect(() => {
-    signOut();
-  }, [signOut]);
-
-  return;
+export default function SignOutPage() {
+  return <Signout />;
 }

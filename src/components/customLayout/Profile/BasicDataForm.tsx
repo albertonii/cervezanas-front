@@ -1,12 +1,12 @@
+"use client";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
-import { Button } from "../../common";
+import { Button, DisplayInputError } from "../../common";
 import { IProfile } from "../../../lib/types.d";
-import { formatDateDefaultInput } from "../../../utils";
+import { formatDateDefaultInput, supabase } from "../../../utils";
 import { useTranslation } from "react-i18next";
-import DisplayInputError from "../../common/DisplayInputError";
 
 interface FormData {
   name: string;

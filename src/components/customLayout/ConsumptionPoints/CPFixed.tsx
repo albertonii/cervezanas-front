@@ -1,9 +1,10 @@
+"use client";
+
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPFixed from "./ListCPFixed";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../../utils/supabaseClient";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed } from "../../../lib/types.d";
@@ -11,8 +12,9 @@ import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
-import DisplayInputError from "../../common/DisplayInputError";
 import { IUser } from "../../../lib/interfaces";
+import { supabase } from "../../../utils";
+import { DisplayInputError } from "../../common";
 
 interface FormData {
   cp_name: string;
@@ -339,7 +341,7 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
             {!isInternalOrganizer && (
               <>
                 <div className="flex w-full flex-col">
-                  <span className="mt-2 mb-2">
+                  <span className="mb-2 mt-2">
                     Selecciona del listado de abajo el organizador externo
                     responsable de este evento. Una vez creado el evento
                     enviaremos una confirmación al organizador externo para que

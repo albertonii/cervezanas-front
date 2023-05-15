@@ -1,13 +1,14 @@
+"use client";
+
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
-import { supabase } from "../../utils/supabaseClient";
-import { SearchCheckboxList } from "../common";
+import { DisplayInputError, SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
 import { IProduct } from "../../lib/types.d";
 import { format_options } from "../../lib/beerEnum";
-import DisplayInputError from "../common/DisplayInputError";
+import { supabase } from "../../utils";
 
 type FormData = {
   created_at: Date;

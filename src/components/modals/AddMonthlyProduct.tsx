@@ -1,13 +1,14 @@
+"use client";
+
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { category_options } from "../../lib/productEnum";
 import { IProduct, SortBy } from "../../lib/types.d";
-import { supabase } from "../../utils/supabaseClient";
-import { IconButton } from "../common";
+import { DisplayInputError, IconButton } from "../common";
 import { Modal } from "./Modal";
-import DisplayInputError from "../common/DisplayInputError";
+import { supabase } from "../../utils";
 
 interface FormData {
   category: string;
@@ -229,11 +230,11 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="py-3 px-6"></th>
+                  <th scope="col" className="px-6 py-3"></th>
 
                   <th
                     scope="col"
-                    className="py-3 px-6 hover:cursor-pointer"
+                    className="px-6 py-3 hover:cursor-pointer"
                     onClick={() => {
                       handleChangeSort(SortBy.NAME);
                     }}
@@ -241,7 +242,7 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                     {t("name_header")}
                   </th>
 
-                  <th scope="col" className="py-3 px-6 ">
+                  <th scope="col" className="px-6 py-3 ">
                     {t("action_header")}
                   </th>
                 </tr>
@@ -259,14 +260,14 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                     >
                       <th
                         scope="row"
-                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                       ></th>
 
-                      <td className="py-4 px-6 font-semibold text-beer-blonde ">
+                      <td className="px-6 py-4 font-semibold text-beer-blonde ">
                         {product.name}
                       </td>
 
-                      <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
+                      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                         <IconButton
                           onClick={() => handleClick(product)}
                           icon={faHandPointer}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import {
   SecretDataForm,
@@ -18,7 +20,7 @@ export function Account({ profile }: Props) {
 
   return (
     <>
-      <div className="py-6 px-4" id="account-container">
+      <div className="px-4 py-6" id="account-container">
         <div className="flex justify-between py-4" id="header">
           <div id="title" className="text-4xl">
             {t("profile_title_my_data")}

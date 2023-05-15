@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { IOrder } from "../lib/types";
-import { supabase } from "../utils/supabaseClient";
+import { IOrder } from "../lib/types.d";
+import { supabase } from "../utils";
 
 const fetchCPOrders = async (
   ownerId: string,

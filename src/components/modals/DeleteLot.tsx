@@ -1,8 +1,7 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
 import { IProductLot } from "../../lib/types.d";
-
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils";
 
 interface Props {
   lots: IProductLot[];

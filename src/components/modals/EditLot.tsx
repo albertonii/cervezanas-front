@@ -1,12 +1,13 @@
+"use client";
+
 import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from ".";
-import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { IRefProductLot } from "../../lib/types.d";
-import { formatDateDefaultInput } from "../../utils";
-import DisplayInputError from "../common/DisplayInputError";
+import { formatDateDefaultInput, supabase } from "../../utils";
+import { DisplayInputError } from "../common";
 
 type FormValues = {
   created_at: Date;

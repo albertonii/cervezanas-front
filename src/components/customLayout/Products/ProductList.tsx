@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
@@ -10,12 +12,12 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
 import { Button, DeleteButton, Spinner } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 import { useAuth } from "../../Auth";
 import { useAppContext } from "../../Context";
+import { supabase } from "../../../utils";
 
 interface Props {
   handleEditShowModal: Dispatch<SetStateAction<any>>;
@@ -198,7 +200,7 @@ export function ProductList({
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
-                    <th key={index} scope="col" className="py-3 px-6">
+                    <th key={index} scope="col" className="px-6 py-3">
                       {column.header}
                     </th>
                   );
@@ -217,7 +219,7 @@ export function ProductList({
                       <>
                         <th
                           scope="row"
-                          className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
                           <Image
                             width={128}
@@ -228,32 +230,32 @@ export function ProductList({
                           />
                         </th>
 
-                        <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
+                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                           <Link href={`/products/${product.id}`}>
                             {product.name}
                           </Link>
                         </td>
 
-                        <td className="py-4 px-6">{product.price}</td>
+                        <td className="px-6 py-4">{product.price}</td>
 
-                        <td className="py-4 px-6">
+                        <td className="px-6 py-4">
                           {product.product_inventory &&
                           product.product_inventory[0]?.quantity
                             ? product.product_inventory[0].quantity
                             : "-"}
                         </td>
 
-                        <td className="py-4 px-6">
+                        <td className="px-6 py-4">
                           {product.product_lot && product.product_lot[0]?.lot_id
                             ? product.product_lot[0]?.lot_id
                             : "-"}
                         </td>
 
-                        <td className="py-4 px-6">
+                        <td className="px-6 py-4">
                           {product.is_public ? t("yes") : t("no")}
                         </td>
 
-                        <td className="py-4 px-6">
+                        <td className="px-6 py-4">
                           <div className="flex space-x-1">
                             <EditButton
                               onClick={() => handleEditClick(product)}

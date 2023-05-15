@@ -1,3 +1,5 @@
+"use client";
+
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,15 +11,16 @@ type Props = {
   role: string;
 };
 
-export function Sidebar({ parentCallback, role }: Props) {
+export function Sidebar(/*{ parentCallback, role }: Props*/) {
   const { sidebar } = useAppContext();
 
+  const role = "admin";
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
 
   const handleCallback = (option: string) => {
-    parentCallback(option);
+    // parentCallback(option);
   };
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -147,7 +150,7 @@ export function Sidebar({ parentCallback, role }: Props) {
         ref={sidebarRef}
       >
         <div
-          className={`h-full w-56 overflow-y-auto rounded bg-gray-50 py-4 px-3 dark:bg-gray-800`}
+          className={`h-full w-56 overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800`}
         >
           <ul className="space-y-2 font-medium">
             {sidebarLinks.map((link) => (

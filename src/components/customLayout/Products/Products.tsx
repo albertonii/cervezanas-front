@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { ProductList } from "..";
@@ -31,7 +33,7 @@ export function Products() {
   }
 
   return (
-    <div className="py-6 px-4 " aria-label="Products">
+    <div className="px-4 py-6 " aria-label="Products">
       <div className="flex items-center">
         <div className="pr-12 text-4xl">{t("products")}</div>
 

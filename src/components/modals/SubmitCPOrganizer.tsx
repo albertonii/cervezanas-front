@@ -1,7 +1,9 @@
+"use client";
+
 import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils";
 import { isValidObject } from "../../utils/utils";
 import { useAuth } from "../Auth";
 import { Modal } from "./Modal";
@@ -60,17 +62,17 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
             cover_letter_name: coverLetterName,
             cv_name: cvName,
           }) // 0: pending
-          .then((res) => {
+          .then((res: any) => {
             handleCPOrganizerStatus(0);
             return res;
           })
-          .then(async (res) => {
+          .then(async (res: any) => {
             // Update user status
             const { error: userError } = await supabase
               .from("users")
               .update({ cp_organizer_status: 0 }) // 0: pending
               .eq("id", user?.id)
-              .then((res) => {
+              .then((res: any) => {
                 handleCPOrganizerStatus(0);
                 return res;
               });
@@ -92,24 +94,24 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
               cacheControl: "0",
             }
           )
-          .then(async (res) => {
+          .then(async (res: any) => {
             const { error: cvError } = await supabase.storage
               .from("documents")
               .upload(`/cv/${user?.id}_${cvName}`, cv_file[0], {
                 upsert: true,
                 cacheControl: "0",
               })
-              .catch((err) => {
+              .catch((err: Error) => {
                 console.error(err);
                 throw cvError;
               })
-              .then(async (res) => {
+              .then(async (res: any) => {
                 return res;
               });
 
             return res;
           })
-          .catch((err) => {
+          .catch((err: Error) => {
             console.error(err);
             throw coverLetterError;
           });
@@ -142,7 +144,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
           <fieldset className="flex flex-col space-y-2">
             {/* Input pdf file with cover letter  */}
             <div className="flex flex-col space-y-2">
-              <label className="text-md font-bold text-gray-700 tracking-wide">
+              <label className="text-md font-bold tracking-wide text-gray-700">
                 {t("form_submit_cp_organizer_cover_letter")}
               </label>
 
@@ -153,7 +155,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
               <div className="relative">
                 <input
                   type="file"
-                  className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="block w-full appearance-none rounded border border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   {...register("cover_letter_file", {
                     required: true,
                   })}
@@ -169,7 +171,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
 
             {/* Input pdf file with BEER CV  */}
             <div className="flex flex-col space-y-2">
-              <label className="text-md font-bold text-gray-700 tracking-wide">
+              <label className="text-md font-bold tracking-wide text-gray-700">
                 {t("form_submit_cp_organizer_cv")}
               </label>
 
@@ -180,7 +182,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
               <div className="relative">
                 <input
                   type="file"
-                  className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="block w-full appearance-none rounded border border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   {...register("cv_file", {
                     required: true,
                   })}

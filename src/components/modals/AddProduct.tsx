@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -10,7 +12,6 @@ import {
   origin_options,
   product_type_options,
 } from "../../lib/beerEnum";
-import { supabase } from "../../utils/supabaseClient";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import { IInventory, ModalAddProductProps } from "../../lib/types.d";
@@ -18,7 +19,7 @@ import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductSummary } from "./ProductSummary";
-import { getFileExtensionByName } from "../../utils";
+import { getFileExtensionByName, supabase } from "../../utils";
 import {
   generateFileName,
   isNotEmptyArray,

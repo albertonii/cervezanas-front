@@ -67,8 +67,8 @@ export interface Localization {
 export type SocialLayout = "horizontal" | "vertical";
 export type SocialButtonSize = "tiny" | "small" | "medium" | "large" | "xlarge";
 
-export type ViewSignIn = "sign_in";
-export type ViewSignUp = "sign_up";
+export type ViewSignIn = "signin";
+export type ViewSignUp = "signup";
 export type ViewMagicLink = "magic_link";
 export type ViewForgottenPassword = "forgotten_password";
 export type ViewUpdatePassword = "update_password";

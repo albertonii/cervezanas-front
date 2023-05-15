@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { OrderList } from "..";
 import { IOrder } from "../../../lib/types.d";
@@ -12,7 +14,7 @@ export function Orders(props: Props) {
   const { t } = useTranslation();
 
   return (
-    <div className="py-6 px-4" aria-label="Products">
+    <div className="px-4 py-6" aria-label="Products">
       <div className="flex flex-col">
         <div className="pr-12 text-4xl">{t("orders")}</div>
       </div>{" "}

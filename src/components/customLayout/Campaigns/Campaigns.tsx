@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -7,7 +9,7 @@ import {
   ICampaignItem,
   IProduct,
 } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
+import { supabase } from "../../../utils";
 import { useAuth } from "../../Auth";
 import { Button } from "../../common";
 import { useMessage } from "../../message";
@@ -174,7 +176,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
   };
 
   return (
-    <div className="py-6 px-4 " aria-label="Campaigns">
+    <div className="px-4 py-6 " aria-label="Campaigns">
       <div className="flex flex-col">
         <div className="pr-12 text-4xl">{t("campaigns")}</div>
 

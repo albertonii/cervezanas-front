@@ -1,12 +1,13 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { IReview } from "../../../lib/types.d";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { formatDateString } from "../../../utils";
+import { formatDateString, supabase } from "../../../utils";
 import { Rate } from "../../reviews";
-import Link from "next/link";
 import { DeleteButton } from "../../common";
-import { supabase } from "../../../utils/supabaseClient";
 
 interface Props {
   reviews: IReview[];
@@ -35,7 +36,7 @@ export function Reviews({ reviews: r }: Props) {
 
   return (
     <>
-      <div className="py-6 px-4 " aria-label="Reviews">
+      <div className="px-4 py-6 " aria-label="Reviews">
         <div className="flex flex-col">
           <div className="pr-12 text-4xl">{t("reviews")}</div>
           {reviews &&
@@ -44,7 +45,7 @@ export function Reviews({ reviews: r }: Props) {
               return (
                 <div
                   key={index}
-                  className="m-6 mt-12 ml-8 rounded-sm bg-beer-foam p-6"
+                  className="m-6 ml-8 mt-12 rounded-sm bg-beer-foam p-6"
                 >
                   <article className="relative grid grid-cols-4 md:gap-8">
                     {/* Delete review button in top right corner  */}
@@ -87,7 +88,7 @@ export function Reviews({ reviews: r }: Props) {
                       <div className="tems-start flex flex-col-reverse justify-between md:flex-row md:items-center">
                         <div className="space-y-2">
                           {/* Img Product  */}
-                          <div className="flex flex-row items-center space-y-4 space-x-4">
+                          <div className="flex flex-row items-center space-x-4 space-y-4">
                             <Image
                               className="sm:w-100 sm:h-100 h-20 w-20 rounded"
                               width={80}

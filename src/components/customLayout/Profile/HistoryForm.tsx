@@ -1,8 +1,10 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { supabase } from "../../../utils/supabaseClient";
 import { Spinner } from "../../common/Spinner";
+import { supabase } from "../../../utils";
 
 export function HistoryForm(props: any) {
   const { t } = useTranslation();

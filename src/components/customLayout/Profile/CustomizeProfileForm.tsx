@@ -1,14 +1,16 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SupabaseProps } from "../../../constants";
-import { supabase } from "../../../utils/supabaseClient";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
 import { Button } from "../../common";
 import { IProfile } from "../../../lib/types.d";
 import { FilePreviewAndHide } from "../../common/FilePreviewAndHide";
 import { isValidObject } from "../../../utils/utils";
+import { supabase } from "../../../utils";
 
 type FormValues = {
   bg_url: any;
@@ -128,12 +130,12 @@ export function CustomizeProfileForm({ profile }: Props) {
   }, [setProfileImg, userProfileImg]);
 
   return (
-    <section className="container px-6 py-4 bg-white space-y-3 mb-4">
+    <section className="container mb-4 space-y-3 bg-white px-6 py-4">
       <div id="account-data" className="text-2xl">
         {t("profile_custom")}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 relative">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex flex-row items-end space-x-3">
           <div className="w-full">
             <label htmlFor="bg_img" className="text-sm text-gray-600">
