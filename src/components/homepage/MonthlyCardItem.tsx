@@ -1,12 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import DisplayImageProduct from "../common/DisplayImageProduct";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { supabase } from "../../utils/supabaseClient";
 import { IMonthlyProduct } from "../../lib/types.d";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   AddCardButton,
   DecreaseButton,
@@ -14,7 +16,7 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
-import DisplayImageProduct from "../common/DisplayImageProduct";
+import { supabase } from "../../utils/supabaseBrowser";
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -65,6 +67,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
 
   async function handleLike() {
     if (!isLike) {
+      console.log("supabase ", supabase);
       const { error } = await supabase
         .from("likes")
         .insert([{ product_id: product.id, owner_id: product.owner_id }]);
@@ -111,7 +114,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
     <>
       <div className="mt-2 rounded-xl p-4 shadow-lg sm:max-w-sm lg:max-w-md">
         <div className="relative mb-1 flex justify-center">
-          <div className="absolute top-0 right-0 p-3">
+          <div className="absolute right-0 top-0 p-3">
             <IconButton
               icon={faHeart}
               onClick={() => handleLike()}

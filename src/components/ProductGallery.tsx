@@ -1,3 +1,5 @@
+"use client";
+
 import Carousel from "./common/Carousel";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";

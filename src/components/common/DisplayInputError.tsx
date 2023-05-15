@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -5,7 +7,7 @@ interface Props {
   message: string;
 }
 
-export default function DisplayInputError({ message }: Props) {
+export function DisplayInputError({ message }: Props) {
   const { t } = useTranslation();
-  return <span className="text-red-400 font-semibold">{t(message)}</span>;
+  return <span className="font-semibold text-red-400">{t(message)}</span>;
 }

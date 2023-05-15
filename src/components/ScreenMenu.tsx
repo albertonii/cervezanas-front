@@ -1,10 +1,12 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import i18n from "../lib/translations/i18n";
 import { useTranslation } from "react-i18next";
 import { Select } from "@supabase/ui";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { useAuth } from "./Auth/useAuth";
 import { Button, HeaderDropdownButton } from "./common";
@@ -43,7 +45,7 @@ export function ScreenMenu() {
   };
 
   return (
-    <nav className="rounded border-gray-200 dark:bg-gray-900 sm:px-4">
+    <div className="rounded border-gray-200 dark:bg-gray-900 sm:px-4">
       <div className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
         {/* Left elements  */}
         <div className="flex w-full items-center justify-center ">
@@ -213,6 +215,6 @@ export function ScreenMenu() {
           </Button>
         </div>
       </div>
-    </nav>
+    </div>
   );
 }

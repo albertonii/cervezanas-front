@@ -1,22 +1,33 @@
-import React, { useEffect, useState, createContext } from "react";
-import {
-  UserCredentials,
-  Provider,
-  SupabaseClient,
-} from "@supabase/supabase-js";
+"use client";
+
+import React, { useEffect, useState, createContext, useMemo } from "react";
+import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { useMessage } from "../message";
 import { ROLE_ENUM, ISignUp, IUser } from "../../lib/interfaces";
-import { useTranslation } from "react-i18next";
 
-import { useSessionContext, useUser } from "@supabase/auth-helpers-react";
-import { Spinner } from "../common";
+import { useRouter } from "next/navigation";
+import { supabase } from "../../utils/supabaseBrowser";
+
+export const VIEWS = {
+  SIGN_IN: "sign_in",
+  SIGN_UP: "sign_up",
+  FORGOTTEN_PASSWORD: "forgotten_password",
+  MAGIC_LINK: "magic_link",
+  UPDATE_PASSWORD: "update_password",
+};
+
+export const EVENTS = {
+  PASSWORD_RECOVERY: "PASSWORD_RECOVERY",
+  SIGNED_OUT: "SIGNED_OUT",
+  USER_UPDATED: "USER_UPDATED",
+};
 
 export interface AuthSession {
   user: IUser | null;
   role: ROLE_ENUM | null;
   loading: boolean;
   signUp: (payload: ISignUp) => void;
-  signIn: (payload: UserCredentials) => Promise<any>;
+  signIn: (payload: any) => Promise<any>;
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
   supabaseClient: SupabaseClient | null;
@@ -38,15 +49,19 @@ export const AuthContext = createContext<AuthSession>({
 });
 
 export interface Props {
-  supabaseClient: SupabaseClient;
   [propName: string]: any;
+  accessToken: string;
 }
 
 export const AuthContextProvider = (props: Props) => {
-  // const { supabaseClient: supabase } = props;
+  const { accessToken } = props;
+  const [initial, setInitial] = useState(true);
+  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+  const [view, setView] = useState(VIEWS.SIGN_IN);
+  const router = useRouter();
 
-  const { isLoading, supabaseClient: supabase } = useSessionContext();
-  const user = useUser();
+  // const user = useUser();
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
@@ -54,8 +69,45 @@ export const AuthContextProvider = (props: Props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const { handleMessage, clearMessages } = useMessage();
 
-  const { t } = useTranslation();
+  useEffect(() => {
+    async function getActiveSession() {
+      const {
+        data: { session: activeSession },
+      } = await supabase.auth.getSession();
+      setSession(activeSession);
+      setUser(activeSession?.user ?? null);
+      setInitial(false);
+    }
+    getActiveSession();
 
+    const {
+      data: { subscription: authListener },
+    } = supabase.auth.onAuthStateChange((event: any, currentSession: any) => {
+      if (currentSession?.access_token !== accessToken) {
+        router.refresh();
+      }
+
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+
+      switch (event) {
+        case EVENTS.PASSWORD_RECOVERY:
+          setView(VIEWS.UPDATE_PASSWORD);
+          break;
+        case EVENTS.SIGNED_OUT:
+        case EVENTS.USER_UPDATED:
+          setView(VIEWS.SIGN_IN);
+          break;
+        default:
+      }
+    });
+
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, []);
+
+  /*
   useEffect(() => {
     if (user) {
       setUserLoading(false);
@@ -89,6 +141,7 @@ export const AuthContextProvider = (props: Props) => {
             window.location.href = ROUTE_SIGNIN; // There is a bug in SP not deleting sb-access/refresh-token cookie unless page is reloaded
           });
           */
+  /*
         }
 
         setUserLoading(false);
@@ -99,8 +152,10 @@ export const AuthContextProvider = (props: Props) => {
       authListener?.subscription.unsubscribe();
     };
   }, [clearMessages, handleMessage, supabase.auth, t]);
+  */
 
   // TODO: OPTIMIZAR ESTO. Si se actualiza el usuario se ejecuta de nuevo
+  /*
   useEffect(() => {
     if (!user) return;
 
@@ -111,7 +166,7 @@ export const AuthContextProvider = (props: Props) => {
         .eq("id", user?.id);
 
       if (error) {
-        console.log(error);
+        console.error(error);
         return;
       }
 
@@ -120,6 +175,7 @@ export const AuthContextProvider = (props: Props) => {
 
     getRole();
   }, [supabase, user]);
+  */
 
   const signUp = async (payload: ISignUp) => {
     try {
@@ -151,7 +207,7 @@ export const AuthContextProvider = (props: Props) => {
     }
   };
 
-  const signIn = async (payload: UserCredentials) => {
+  const signIn = async (payload: any) => {
     setLoading(true);
 
     const { error, user } = await supabase.auth.signInWithPassword(payload);
@@ -186,16 +242,19 @@ export const AuthContextProvider = (props: Props) => {
 
   const signInWithProvider = async (provider: Provider) => {
     let isAccessLevel = false;
+    let user = null;
     await supabase.auth.signInWithOAuth({ provider }).then(async (res: any) => {
-      isAccessLevel = res.user?.user_metadata.access_level ? true : false;
+      user = res.user;
+      isAccessLevel = user.user_metadata.access_level ? true : false;
     });
     // TODO: Volver aquí para introducir el access_level si no existe
 
     // Check if access level is null or invalid
-    if (!isAccessLevel) {
+    if (!isAccessLevel && user) {
       // Send user role producer to the server
       await supabase.rpc("set_claim", {
-        uid: user?.id,
+        // uid: user.id,
+        uid: "",
         claim: "access_level",
         value: ROLE_ENUM.Cervezano,
       });
@@ -237,9 +296,20 @@ export const AuthContextProvider = (props: Props) => {
     await supabase.auth.signOut();
   };
 
-  if (isLoading) return <Spinner size="medium" color="beer-gold" />;
-
-  const value = {
+  const value = useMemo(() => {
+    return {
+      user,
+      role,
+      loading,
+      signUp,
+      signIn,
+      signInWithProvider,
+      signOut,
+      supabaseClient: supabase,
+      loggedIn,
+      userLoading,
+    };
+  }, [
     user,
     role,
     loading,
@@ -247,10 +317,10 @@ export const AuthContextProvider = (props: Props) => {
     signIn,
     signInWithProvider,
     signOut,
-    supabaseClient: supabase,
+    supabase,
     loggedIn,
     userLoading,
-  };
+  ]);
 
   return <AuthContext.Provider value={value} {...props} />;
 };

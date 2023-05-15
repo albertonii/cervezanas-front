@@ -1,12 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { supabase } from "../../utils/supabaseClient";
 import { IProduct } from "../../lib/types.d";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   AddCardButton,
   DecreaseButton,
@@ -16,12 +17,12 @@ import {
 } from "../common";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { COMMON } from "../../constants";
+import { supabase } from "../../utils";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
-export function StoreItem(props: StoreItemProps) {
+export function StoreItem({ product, products }: StoreItemProps) {
   const { t } = useTranslation();
-  const { product, products } = props;
   const { id } = product;
   const router = useRouter();
 
@@ -103,7 +104,7 @@ export function StoreItem(props: StoreItemProps) {
   return (
     <div className="max-w-sm rounded-xl p-4 shadow-lg">
       <div className="relative mb-1 flex justify-center">
-        <div className="absolute top-0 right-0 p-3">
+        <div className="absolute right-0 top-0 p-3">
           <IconButton
             icon={faHeart}
             onClick={() => handleLike()}

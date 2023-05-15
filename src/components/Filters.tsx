@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../utils";

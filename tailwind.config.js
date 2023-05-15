@@ -3,12 +3,17 @@
 const colors = require("tailwindcss/colors");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const forms = require("@tailwindcss/forms");
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const lineClamp = require("@tailwindcss/line-clamp");
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: "media",
+
   theme: {
     extend: {
       fontFamily: {
@@ -166,5 +171,5 @@ module.exports = {
     border: ["hover"],
     borderColor: ["hover"],
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
+  plugins: [forms, lineClamp],
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { SimilarProduct } from ".";
@@ -5,13 +7,13 @@ import { SimilarProduct } from ".";
 export function DisplaySimilarProducts() {
   const { t } = useTranslation();
   return (
-    <div className="bg-beer-softFoam rounded-lg ">
-      <div className="mx-auto max-w-2xl py-6 px-4 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="rounded-lg bg-beer-softFoam ">
+      <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           {t("similar_products")}
         </h2>
 
-        <div className="mt-6 space-x-4 flex flex-row">
+        <div className="mt-6 flex flex-row space-x-4">
           <SimilarProduct />
           <SimilarProduct />
           <SimilarProduct />

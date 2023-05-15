@@ -1,3 +1,5 @@
+"use client";
+
 import useFetchNotifications from "../../hooks/useFetchNotifications";
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";

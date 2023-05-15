@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -174,7 +176,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="border-deep-purple-accent-200 flex flex-col justify-between border-t pt-5 pb-10 sm:flex-row">
+          <div className="border-deep-purple-accent-200 flex flex-col justify-between border-t pb-10 pt-5 sm:flex-row">
             <p className="text-sm text-gray-100">{t("copyright")}</p>
 
             {/* RRSS Icons  */}

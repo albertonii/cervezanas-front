@@ -1,6 +1,6 @@
 import useFetchCPOrders from "../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { IOrder } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
@@ -86,7 +86,7 @@ export function OrderList({ orders: os }: Props) {
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg mt-6">
+    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -106,10 +106,10 @@ export function OrderList({ orders: os }: Props) {
       ) : (
         <>
           <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="h-5 w-5 text-gray-500 dark:text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -126,13 +126,13 @@ export function OrderList({ orders: os }: Props) {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-beer-blonde focus:border-beer-blonde block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Search order..."
             />
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
@@ -150,7 +150,7 @@ export function OrderList({ orders: os }: Props) {
                   return (
                     <tr
                       key={order.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <td className="py-4 px-6">{order.order_number}</td>
 
@@ -164,7 +164,7 @@ export function OrderList({ orders: os }: Props) {
 
                       <td className="py-4 px-6">{order.tracking_id}</td>
 
-                      <td className="py-4 px-6 flex item-center justify-center">
+                      <td className="item-center flex justify-center py-4 px-6">
                         <IconButton
                           onClick={() => handleClickView(order)}
                           icon={faEye}
@@ -178,7 +178,7 @@ export function OrderList({ orders: os }: Props) {
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="flex justify-around items-center my-4">
+          <div className="my-4 flex items-center justify-around">
             <Button class="" onClick={() => handlePrevPage()} small primary>
               {t("prev")}
             </Button>

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode, useEffect, useState } from "react";
 
 interface Props {
@@ -37,7 +39,8 @@ export function Tooltip({
 
   return (
     <div
-      className={`Tooltip-Wrapper relative align-items inline-block ${
+      relative
+      className={`Tooltip-Wrapper align-items relative inline-block ${
         active ? "" : "opacity-100"
       }`}
       // When to show the tooltip
@@ -53,8 +56,8 @@ export function Tooltip({
           ${direction === "top" ? "bottom-[150%]" : ""} 
           ${direction === "bottom" ? "top-[150%]" : ""} 
           ${direction === "left" ? "-left-[0%] -top-[100%]" : ""}
-          ${direction === "right" ? "left-[250%] -top-[100%]" : ""}
-            flex items-center justify-center absolute rounded-lg left-1/2 transform -translate-x-1/2 py-3 px-4 bg-beer-blonde text-sm leading-tight z-50 shadow-lg `}
+            left-1/2$z-50{dlex -transiatr-e-1/2 transformction === "right" ? "left-[25[100%]" : "bgbeeblod absolute
+            absolute left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde py-3 px-4 text-sm leading-tight shadow-lg `}
       >
         {/* Content */}
         <p className="break-words ">{content}</p>

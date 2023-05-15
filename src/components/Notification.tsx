@@ -1,12 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import useOnClickOutside from "../hooks/useOnOutsideClickDOM";
 import React, { useRef } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { INotification } from "../lib/types.d";
-import { supabase } from "../utils/supabaseClient";
 import { useAppContext } from "./Context";
 import { useTranslation } from "react-i18next";
 import { getTimeElapsed } from "../utils";
+import { supabase } from "../utils/supabaseBrowser";
 
 interface Props {
   open: boolean;

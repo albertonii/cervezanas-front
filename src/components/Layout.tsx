@@ -7,8 +7,8 @@ import {
   AppContextProvider,
   ShoppingCartProvider,
 } from "../components/Context/index";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useRouter } from "next/router";
+// import { QueryClient, QueryClientProvider } from "react-query";
+import { useRouter } from "next/navigation";
 
 type LayoutProps = {
   usePadding?: boolean;
@@ -21,13 +21,13 @@ Layout.defaultProps = {
   useBackdrop: false,
 };
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0,
-    },
-  },
-});
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       retry: 0,
+//     },
+//   },
+// });
 
 export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   const { messages } = useMessage();
@@ -35,7 +35,7 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
   const router = useRouter();
 
-  const isHomepage = router.asPath === "/";
+  // const isHomepage = router.asPath === "/";
 
   // Capitalize the first letter of each word in a string
   function titleize(path: string): string {
@@ -49,48 +49,46 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <AppContextProvider>
-          <ShoppingCartProvider>
-            <Head>
-              <title>Cervezanas - Comunidad cervecera</title>
-              <meta
-                content="width=device-width, initial-scale=1"
-                name="viewport"
-              />
-            </Head>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <AppContextProvider>
+        <ShoppingCartProvider>
+          <Head>
+            <title>Cervezanas - Comunidad cervecera</title>
+            <meta
+              content="width=device-width, initial-scale=1"
+              name="viewport"
+            />
+          </Head>
 
-            <div className="relative flex flex-col bg-beer-foam">
-              <Header />
-              {loggedIn && !isHomepage && (
-                <div
-                  className={classNames(
-                    "relative mx-auto mt-[10vh] h-auto w-full",
-                    usePadding && "px-4 sm:px-6 lg:px-8",
-                    useBackdrop && "bg-gray-200"
-                  )}
-                >
-                  <Breadcrumb
-                    getDefaultTextGenerator={(path) => titleize(path)}
-                  />
-                </div>
+          <div className="relative flex flex-col bg-beer-foam">
+            <Header />
+            {/* {loggedIn && !isHomepage && ( */}
+            <div
+              className={classNames(
+                "relative mx-auto mt-[10vh] h-auto w-full",
+                usePadding && "px-4 sm:px-6 lg:px-8",
+                useBackdrop && "bg-gray-200"
               )}
-              <main
-                className={classNames(
-                  "relative mx-auto h-auto w-full ",
-                  usePadding && "px-2 sm:px-6 lg:px-8",
-                  useBackdrop && "bg-gray-200"
-                )}
-              >
-                <MessageList messages={messages ?? []} />
-                {children}
-              </main>
-
-              <Footer />
+            >
+              <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} />
             </div>
-          </ShoppingCartProvider>
-        </AppContextProvider>
-      </QueryClientProvider>
+            {/* )} */}
+            <main
+              className={classNames(
+                "relative mx-auto h-auto w-full ",
+                usePadding && "px-2 sm:px-6 lg:px-8",
+                useBackdrop && "bg-gray-200"
+              )}
+            >
+              <MessageList messages={messages ?? []} />
+              {children}
+            </main>
+
+            <Footer />
+          </div>
+        </ShoppingCartProvider>
+      </AppContextProvider>
+      {/* </QueryClientProvider> */}
     </>
   );
 }

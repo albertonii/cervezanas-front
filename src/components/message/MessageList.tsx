@@ -1,10 +1,10 @@
-import { FunctionComponent } from "react";
-import { Message } from ".";
-import { MessageListProps } from "./message.types";
+"use client";
 
-export const MessageList: FunctionComponent<MessageListProps> = ({
-  messages,
-}) => {
+import { Message, useMessage } from ".";
+
+export const MessageList = () => {
+  const { messages } = useMessage();
+
   return (
     <div className="app-messages absolute top-[12%] z-[19]  flex w-screen flex-col place-items-end justify-start pr-[10%] md:top-[8%]">
       {messages.map((message, index) => (

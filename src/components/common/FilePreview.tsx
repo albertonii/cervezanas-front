@@ -11,13 +11,13 @@ const FilePreview = ({ file }: Props) => {
   }
 
   return (
-    <div className=" overflow-hidden relative shadow-md border-2 items-center border-gray-400 border-dotted w-[80px] h-[50px] rounded-md">
-      <div className="relative h-full w-full bg-gray-200 z-1 flex justify-center items-center">
+    <div className=" relative h-[50px] w-[80px] items-center overflow-hidden rounded-md border-2 border-dotted border-gray-400 shadow-md">
+      <div className="z-1 relative flex h-full w-full items-center justify-center bg-gray-200">
         <div className="">
           <Image
             width={64}
             height={64}
-            className="w-full h-full rounded"
+            className="h-full w-full rounded"
             src={URL.createObjectURL(file)}
             alt={""}
           />

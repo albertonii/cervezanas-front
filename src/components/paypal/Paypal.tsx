@@ -4,7 +4,7 @@ import { formatPaypal } from "../../utils";
 import { useShoppingCart } from "../Context";
 import { ICartItem } from "../../lib/types.d";
 import { useAuth } from "../Auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface Props {
   total: number;

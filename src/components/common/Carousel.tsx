@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, useEffect, ComponentProps } from "react";
 import { ICarouselItem } from "../../lib/types.d";
 import CarouselItem from "./CarouselItem";
@@ -65,15 +67,15 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
   return (
     <div className="carousel my-12 mx-auto">
       <div className="relative overflow-hidden">
-        <div className="flex justify-between absolute top left w-full h-full">
+        <div className="top left absolute flex h-full w-full justify-between">
           <button
             onClick={movePrev}
-            className="hover:bg-blue-900/75 text-white w-10 h-full text-center opacity-75 hover:opacity-100 disabled:opacity-25 disabled:cursor-not-allowed z-10 p-0 m-0 transition-all ease-in-out duration-300"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-blue-900/75 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
             disabled={isDisabled("prev")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-20 -ml-5"
+              className="-ml-5 h-12 w-20"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -90,12 +92,12 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
 
           <button
             onClick={moveNext}
-            className="hover:bg-blue-900/75 text-white w-10 h-full text-center opacity-75 hover:opacity-100 disabled:opacity-25 disabled:cursor-not-allowed z-10 p-0 m-0 transition-all ease-in-out duration-300"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-blue-900/75 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
             disabled={isDisabled("next")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-20 -ml-5"
+              className="-ml-5 h-12 w-20"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -113,13 +115,13 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
 
         <div
           ref={carousel}
-          className="carousel-container relative flex gap-1 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0 ml-2"
+          className="carousel-container relative z-0 ml-2 flex touch-pan-x snap-x snap-mandatory gap-1 overflow-hidden scroll-smooth"
         >
           {gallery.map((resource, index) => {
             return (
               <div
                 key={index}
-                className="carousel-item text-center relative snap-start hover:cursor-pointer"
+                className="carousel-item relative snap-start text-center hover:cursor-pointer"
                 onClick={() => {
                   handleClick(index);
                 }}

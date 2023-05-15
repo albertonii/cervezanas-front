@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../common";
 
-export default function Hero() {
+export function Hero() {
   return (
     <>
       <div className="h-[60px] bg-[url('/assets/golden_wave_pattern.png')] "></div>
@@ -53,14 +53,14 @@ export default function Hero() {
               width={550}
               height={450}
               alt={"hero image"}
-              className="absolute top-0 left-auto right-20 z-10 w-1/2 rounded-md	drop-shadow-2xl sm:right-44 sm:w-2/5 md:right-20 lg:w-3/4"
+              className="absolute left-auto right-20 top-0 z-10 w-1/2 rounded-md	drop-shadow-2xl sm:right-44 sm:w-2/5 md:right-20 lg:w-3/4"
             />
             <Image
               src={"/assets/bg_dots.png"}
               width={450}
               height={450}
               alt={"hero image"}
-              className="absolute top-10 left-20 w-1/2 sm:left-56 sm:w-1/4 lg:w-2/3"
+              className="absolute left-20 top-10 w-1/2 sm:left-56 sm:w-1/4 lg:w-2/3"
             />
           </div>
         </div>

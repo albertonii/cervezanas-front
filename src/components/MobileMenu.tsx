@@ -1,10 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import i18n from "../lib/translations/i18n";
 import useOnClickOutside from "../hooks/useOnOutsideClickDOM";
 import { useTranslation } from "react-i18next";
 import { Select } from "@supabase/ui";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useShoppingCart } from "./Context/ShoppingCartContext";
 import { useAuth } from "./Auth/useAuth";
 import { Button } from "./common";
@@ -54,7 +56,7 @@ export function MobileMenu() {
     "text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4";
 
   return (
-    <>
+    <div>
       {/* Hamburguer menu  */}
       <Button
         data-collapse-toggle="navbar-default"
@@ -99,15 +101,15 @@ export function MobileMenu() {
         </div>
       </div>
 
-      <nav
+      <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 z-30 h-full w-3/4 transform bg-beer-gold transition-transform duration-300 ease-in-out sm:hidden ${
+        className={`fixed left-0 top-0 z-30 h-full w-3/4 transform bg-beer-gold transition-transform duration-300 ease-in-out sm:hidden ${
           openHamburguer
             ? "bg-darkGold translate-x-0"
             : "-translate-x-full bg-beer-gold"
         }`}
       >
-        <ul className="space-y-2 pt-16 pl-4">
+        <ul className="space-y-2 pl-4 pt-16">
           <li className="flex items-center justify-center space-x-4">
             {/* Language  */}
             <Select
@@ -289,7 +291,7 @@ export function MobileMenu() {
             </li>
           )}
         </ul>
-      </nav>
-    </>
+      </div>
+    </div>
   );
 }

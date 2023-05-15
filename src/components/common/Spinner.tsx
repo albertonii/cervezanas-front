@@ -19,13 +19,13 @@ export const Spinner = ({
       className={`
         ${class_} ${absolute ? "absolute" : ""} 
         ${center ? "left-1/2 bottom-[50%] -translate-x-1/2" : ""}
-        bg-beer-softBlonde rounded-lg m-4 p-4 bg-opacity-90
+        m-4 rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
       `}
     >
       <svg
         aria-hidden="true"
         className={`
-          text-gray-200 animate-spin dark:text-gray-600 fill-${color}
+          animate-spin text-gray-200 dark:text-gray-600 fill-${color}
           ${size === "" && "h-8 w-8"}
           ${size === "small" && "h-8 w-8"}
           ${size === "medium" && "h-12 w-12"}

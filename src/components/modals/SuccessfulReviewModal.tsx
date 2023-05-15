@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { PortalModal } from ".";
 import { Button } from "../common";
 
@@ -60,25 +60,25 @@ export function SuccessfulReviewModal(props: Props) {
     <>
       {showModal && (
         <PortalModal wrapperId="modal-portal">
-          <div className="justify-center items-start pt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden pt-16 outline-none focus:outline-none">
             {/* The modal  */}
             <div
-              className="relative w-auto my-6 mx-auto max-w-3xl"
+              className="relative my-6 mx-auto w-auto max-w-3xl"
               ref={modalRef}
             >
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
                   <p className="text-xl font-semibold">
                     {t("successful_product_review_title")}
                   </p>
 
                   <button
-                    className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
                     onClick={() => handleShowModal(false)}
                   >
-                    <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                    <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
                       <FontAwesomeIcon
                         // className={`${className} `}
                         // onMouseEnter={() => setHoverColor("filled")}
@@ -93,14 +93,14 @@ export function SuccessfulReviewModal(props: Props) {
                 </div>
 
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <div className="flex justify-center w-full">
-                    <p className="my-4 text-slate-500 text-3xl leading-relaxed font-semibold text-beer-draft">
+                <div className="relative flex-auto p-6">
+                  <div className="flex w-full justify-center">
+                    <p className="text-slate-500 my-4 text-3xl font-semibold leading-relaxed text-beer-draft">
                       ¡Gracias por tu opinión!
                     </p>
                   </div>
 
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
                     Acabas de conseguir 30 puntos por todo el contenido aportado
                     en este formulario ¡Recuerda que a más contenido aportes,
                     más puntos!
@@ -108,13 +108,13 @@ export function SuccessfulReviewModal(props: Props) {
 
                   <br />
 
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
                     Con tu valoración acabas de entrar al sorteo que se realiza
                     todos los meses, en el que podrás ganar 50, 100 o 200€
                     ¡Sigue así!
                   </p>
 
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
                     {/* Underline link  */}
                     <Link
                       className="text-beer-draft underline hover:font-semibold"
@@ -126,7 +126,7 @@ export function SuccessfulReviewModal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="border-slate-200 flex items-center justify-end rounded-b border-t border-solid p-6">
                   <Button
                     class=""
                     accent
@@ -137,7 +137,7 @@ export function SuccessfulReviewModal(props: Props) {
 
                   <Button
                     btnType="submit"
-                    class="bg-beer-draft text-white active:bg-beer-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    class="mr-1 mb-1 rounded bg-beer-draft px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-beer-dark"
                     onClick={handleAccept}
                   >
                     {t("continue_reviewing")}

@@ -1,31 +1,43 @@
+"use client";
+
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 
-const _defaultGetDefaultTextGenerator = (path: string) => path;
-
 // https://dev.to/dan_starner/building-dynamic-breadcrumbs-in-nextjs-17oa
-export function Breadcrumb({
-  // eslint-disable-next-line react/prop-types
-  getDefaultTextGenerator = _defaultGetDefaultTextGenerator,
-}) {
+export function Breadcrumb() {
   const router = useRouter();
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+  }, [router.isReady, router.pathname]);
+
+  // Capitalize the first letter of each word in a string
+  function titleize(path: string): string {
+    return path
+      .split("/")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+  const getDefaultTextGenerator = (path: string) => titleize(path);
 
   // Call the function to generate the breadcrumbs list
   const breadcrumbs = useMemo(
     function generateBreadcrumbs() {
       // Remove any query parameters, as those aren't included in breadcrumbs
-      const asPathWithoutQuery = router.asPath.split("?")[0];
+      const asPathWithoutQuery = router.pathname.split("?")[0];
 
       // Break down the path between "/"s, removing empty entities
       // Ex:"/my/nested/path" --> ["my", "nested", "path"]
       const asPathNestedRoutes = asPathWithoutQuery
         .split("/")
-        .filter((v) => v.length > 0);
+        .filter((v: any) => v.length > 0);
 
       // Iterate over the list of nested route parts and build
       // a "crumb" object for each one.
-      const crumblist = asPathNestedRoutes.map((subpath, idx) => {
+      const crumblist = asPathNestedRoutes.map((subpath: any, idx: any) => {
         // We can get the partial nested route for the crumb
         // by joining together the path parts up to this point.
         const href: string =
@@ -37,7 +49,7 @@ export function Breadcrumb({
       // Add in a default "Home" crumb for the top-level
       return [{ href: "/", text: "Home", title: "Homepage" }, ...crumblist];
     },
-    [getDefaultTextGenerator, router.asPath]
+    [router.pathname]
   );
 
   return (

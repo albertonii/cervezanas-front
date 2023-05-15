@@ -12,8 +12,6 @@ const deleteProductImgs = async (product: IProduct) => {
       .remove([p_principal_url]);
 
     if (error) throw error;
-
-    console.log(data);
   }
 
   // 2. Delete awards images
