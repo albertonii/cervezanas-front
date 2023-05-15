@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Hero } from "../components/homepage";
 import MonthlyBeers from "../components/homepage/MonthlyBeers";

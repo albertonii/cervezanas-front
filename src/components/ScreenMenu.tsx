@@ -188,7 +188,12 @@ export function ScreenMenu() {
               <>
                 <li className="flex items-center">
                   <Button onClick={() => handleSignIn()} title={""} class={""}>
-                    {t("login")}
+                    <Image
+                      src={"/icons/sign_in.png"}
+                      width={25}
+                      height={25}
+                      alt={"Login"}
+                    />
                   </Button>
                 </li>
               </>

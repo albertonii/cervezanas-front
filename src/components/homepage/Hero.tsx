@@ -49,6 +49,7 @@ export function Hero() {
           {/* Photography  */}
           <div className="relative top-10 flex w-full items-start justify-end sm:-top-10 md:top-0 ">
             <Image
+              priority
               src={"/assets/hero.png"}
               width={550}
               height={450}
@@ -56,6 +57,7 @@ export function Hero() {
               className="absolute left-auto right-20 top-0 z-10 w-1/2 rounded-md	drop-shadow-2xl sm:right-44 sm:w-2/5 md:right-20 lg:w-3/4"
             />
             <Image
+              priority
               src={"/assets/bg_dots.png"}
               width={450}
               height={450}

@@ -3,7 +3,6 @@ module.exports = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
-    enableUndici: true,
   },
   images: {
     domains: [
@@ -15,6 +14,7 @@ module.exports = {
       "i.ibb.co",
     ],
     formats: ["image/webp", "image/avif"],
+    minimumCacheTTL: 60,
   },
   async redirects() {
     return [

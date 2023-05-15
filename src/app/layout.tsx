@@ -1,13 +1,13 @@
 import "../styles/globals.css";
 
 import classNames from "classnames";
+import ReactQueryWrapper from "./ReactQueryWrapper";
 import {
   AppContextProvider,
   ShoppingCartProvider,
 } from "../components/Context/index";
 import { Footer, Header } from "../components";
 import { MessageList, MessageProvider } from "../components/message";
-import ReactQueryWrapper from "./ReactQueryWrapper";
 import { AuthContextProvider } from "../components/Auth";
 import { createServerClient } from "../utils/supabaseServer";
 

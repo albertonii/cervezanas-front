@@ -205,9 +205,16 @@ export function MobileMenu() {
           </li>
 
           <li className={`${MENU_HEADER_STYLES}`}>
-            {loggedIn
-              ? t("my_account").toUpperCase()
-              : t("login").toUpperCase()}
+            {loggedIn ? (
+              t("my_account").toUpperCase()
+            ) : (
+              <Image
+                src={"/icons/sign_in.png"}
+                width={25}
+                height={25}
+                alt={"Login"}
+              />
+            )}
           </li>
 
           {role === "consumer" ||
