@@ -8,9 +8,7 @@ interface Props {
   orders: IOrder[];
 }
 
-export function Orders(props: Props) {
-  const { orders } = props;
-
+export function Orders({ orders }: Props) {
   const { t } = useTranslation();
 
   return (

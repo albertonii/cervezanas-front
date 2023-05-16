@@ -3,10 +3,10 @@ import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IMonthlyProduct } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
 import DisplayImageProduct from "../../common/DisplayImageProduct";
+import { supabase } from "../../../utils";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -237,7 +237,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
             <tr>
               {COLUMNS.map((column: ColumnsProps, index: number) => {
                 return (
-                  <th key={index} scope="col" className="py-3 px-6">
+                  <th key={index} scope="col" className="px-6 py-3">
                     {column.header}
                   </th>
                 );
@@ -255,7 +255,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
                   >
                     <th
                       scope="row"
-                      className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
                       <DisplayImageProduct
                         imgSrc={"/icons/beer-240.png"}
@@ -266,18 +266,18 @@ export default function MonthlyBeers({ mProducts }: Props) {
                       />
                     </th>
 
-                    <td className="py-4 px-6 font-semibold text-beer-blonde hover:text-beer-draft">
+                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/products/${product.product_id.id}`}>
                         {product.product_id.name}
                       </Link>
                     </td>
 
-                    <td className="py-4 px-6">{t(product.category)}</td>
-                    <td className="py-4 px-6">
+                    <td className="px-6 py-4">{t(product.category)}</td>
+                    <td className="px-6 py-4">
                       {product.month}/{product.year}
                     </td>
 
-                    <td className="py-4 px-6">
+                    <td className="px-6 py-4">
                       <div className="flex space-x-1">
                         <EditButton
                           onClick={() => {

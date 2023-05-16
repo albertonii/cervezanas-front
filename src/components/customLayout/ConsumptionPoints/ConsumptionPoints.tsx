@@ -9,13 +9,13 @@ import CPPending from "./CPPending";
 import CPRejected from "./CPRejected";
 
 interface Props {
-  profile: IProfile;
   cps: IConsumptionPoints[];
+  profile: IProfile;
 }
 
 export function ConsumptionPoints({
-  profile: { cp_organizer_status },
   cps,
+  profile: { cp_organizer_status },
 }: Props) {
   const { t } = useTranslation();
 
