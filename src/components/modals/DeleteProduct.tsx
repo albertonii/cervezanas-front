@@ -3,8 +3,8 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
 import { IProduct } from "../../lib/types.d";
-import { supabase } from "../../utils";
 import { useAppContext } from "../Context";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   product: IProduct | undefined;
@@ -14,7 +14,7 @@ interface Props {
 
 export function DeleteProduct(props: Props) {
   const { product, showModal, handleDeleteShowModal } = props;
-
+  const { supabase } = useSupabase();
   const { products, setProducts } = useAppContext();
 
   const handleDeleteClick = () => {

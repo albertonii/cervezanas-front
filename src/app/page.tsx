@@ -1,16 +1,9 @@
-import { useAuth } from "../components/Auth";
 import { IMonthlyProduct } from "../lib/types.d";
 import { createServerClient } from "../utils/supabaseServer";
 import Homepage from "./Homepage";
 
 export default async function Mainpage() {
-  const { initial } = useAuth();
-
   const monthlyProducts = await getMonthlyProducts();
-
-  if (initial) {
-    return <div className="card h-72">Loading...</div>;
-  }
 
   return (
     <>

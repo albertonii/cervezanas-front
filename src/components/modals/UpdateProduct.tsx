@@ -17,9 +17,10 @@ import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
 import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
-import { getFileExtensionByName, supabase } from "../../utils";
+import { getFileExtensionByName } from "../../utils";
 import { uuid } from "uuidv4";
 import { useAppContext } from "../Context";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   product: IProduct;
@@ -42,6 +43,8 @@ export function UpdateProduct({
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
   };
+
+  const { supabase } = useSupabase();
 
   const form = useForm<ModalUpdateProductProps>({
     mode: "onSubmit",

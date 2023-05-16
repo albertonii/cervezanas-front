@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import paypal from "@paypal/checkout-server-sdk";
 import client from "../../../lib/paypal";
-import { supabase } from "../../../utils/supabaseClient";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  /*
   if (req.method === "POST") {
     //Capture order to complete payment
     const { order_id: orderId } = req.body.body;
@@ -40,4 +40,5 @@ export default async function handler(
       return res.send(500);
     }
   }
+  */
 }

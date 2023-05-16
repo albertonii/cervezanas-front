@@ -20,7 +20,7 @@ export default function Signup() {
     if (user) {
       router.push("/");
     }
-  });
+  }, []);
 
   return (
     <main className="flex h-full min-h-screen bg-white">

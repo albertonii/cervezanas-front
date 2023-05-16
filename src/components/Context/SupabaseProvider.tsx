@@ -15,7 +15,17 @@ export default function SupabaseProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [supabase] = useState(() => createBrowserSupabaseClient());
+  const [supabase] = useState(() =>
+    createBrowserSupabaseClient({
+      db: {
+        schema: "public",
+      },
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+      },
+    })
+  );
 
   return (
     <Context.Provider value={{ supabase }}>

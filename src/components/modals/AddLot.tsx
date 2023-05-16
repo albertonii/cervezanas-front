@@ -8,7 +8,7 @@ import { DisplayInputError, SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
 import { IProduct } from "../../lib/types.d";
 import { format_options } from "../../lib/beerEnum";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 type FormData = {
   created_at: Date;
@@ -32,7 +32,7 @@ interface Props {
 
 export function AddLot({ products, handleSetProductLots }: Props) {
   const { t } = useTranslation();
-
+  const { supabase } = useSupabase();
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);

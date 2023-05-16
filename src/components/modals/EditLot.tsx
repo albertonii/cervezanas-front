@@ -6,8 +6,9 @@ import { useTranslation } from "react-i18next";
 import { Modal } from ".";
 import { useAuth } from "../Auth";
 import { IRefProductLot } from "../../lib/types.d";
-import { formatDateDefaultInput, supabase } from "../../utils";
+import { formatDateDefaultInput } from "../../utils";
 import { DisplayInputError } from "../common";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 type FormValues = {
   created_at: Date;
@@ -41,6 +42,7 @@ export function EditLot({
 }: Props) {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { supabase } = useSupabase();
 
   const form = useForm<FormValues>({
     mode: "onSubmit",

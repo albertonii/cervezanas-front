@@ -2,7 +2,7 @@ import paypal from "@paypal/checkout-server-sdk";
 import client from "../../../lib/paypal";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ICartItem } from "../../../lib/types.d";
-import { supabase } from "../../../utils/supabaseClient";
+// import { supabase } from "../../../utils/supabaseClient";
 
 interface ICreateOrderItem {
   id: string;
@@ -15,6 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  /*
   if (req.method === "POST") {
     const {
       total,
@@ -117,4 +118,5 @@ export default async function handler(
     };
     res.json(resJson);
   }
+  */
 }

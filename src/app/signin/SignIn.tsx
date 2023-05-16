@@ -96,6 +96,7 @@ export default function SignIn() {
     return <Spinner color="beer-blonde" size={"medium"} />;
   }
 
+  console.log(session);
   if (session) {
     router.push("/");
   }

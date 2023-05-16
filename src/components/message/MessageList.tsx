@@ -2,7 +2,7 @@
 
 import { Message, useMessage } from ".";
 
-export const MessageList = () => {
+const MessageList = () => {
   const { messages } = useMessage();
 
   return (

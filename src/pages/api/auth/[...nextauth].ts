@@ -1,4 +1,5 @@
-import NextAuth from "next-auth";
+/*
+import NetAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentailsProvider from "next-auth/providers/credentials";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
@@ -161,3 +162,4 @@ export default NextAuth({
   // Enable debug messages in the console if you are having problems
   debug: false,
 });
+*/
