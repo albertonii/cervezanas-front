@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import HorizontalSections from "../../../components/common/HorizontalSections";
 import { Spinner } from "../../../components/common";
 import { Account, Details, Values } from "../../../components/customLayout";
-import { IProfile } from "../../../lib/types.d";
+import { IProfile } from "../../../lib/types";
 
 interface Props {
   profile: IProfile;
@@ -44,7 +44,7 @@ export default function Profile({ profile }: Props) {
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
-        <div className="container">{renderSwitch()}</div>
+        <div>{renderSwitch()}</div>
       )}
     </>
   );

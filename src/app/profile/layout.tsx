@@ -1,13 +1,11 @@
 "use client";
 
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../components/Auth";
 import { useAppContext } from "../../components/Context";
-
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../constants";
 import { supabase } from "../../utils";
 import { Sidebar } from "./Sidebar";
@@ -19,11 +17,7 @@ type LayoutProps = {
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
-  const [menuOption, setMenuOption] = useState<string>("profile");
-  const params = useParams();
   const { user, role } = useAuth();
-
-  const { changeSidebarActive } = useAppContext();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
@@ -87,54 +81,6 @@ export default function layout({ children }: LayoutProps) {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 
-  /*
-  const renderSwitch = (): JSX.Element => {
-    switch (menuOption) {
-      case "submitted_aps":
-        return <SubmittedCPs submittedCPs={submittedCPs} />;
-      case "monthly_beers":
-        return <MonthlyBeers monthlyProducts={monthlyProducts} />;
-      //   case "profile":
-      //     return <Profile profile={profile} />;
-      case "products":
-        return <ConfigureProducts />;
-      case "campaigns":
-        return (
-          <Campaigns
-            campaigns={profile.campaigns}
-            products={profile.products}
-          />
-        );
-      case "factories":
-        return <Factories />;
-      case "orders":
-        return <Orders orders={profile?.orders ?? []} />;
-      case "community":
-        return <Community />;
-      case "stats":
-        return <Stats />;
-      case "ledger":
-        return <Ledger />;
-      case "likes_history":
-        return <LikesHistory userId={user.id} />;
-      case "reviews":
-        return <Reviews reviews={reviews} />;
-      case "consumption_points":
-        return <ConsumptionPoints profile={profile} cps={cps} />;
-      default:
-        return <Account profile={profile} />;
-    }
-  };
-  */
-
-  /*
-  useEffect(() => {
-    setProducts(profile.products);
-    setLots(product_lots);
-    setCustomizeSettings(profile.customize_settings[0]);
-  }, [profile, product_lots]);
-  */
-
   // useEffect(() => {
   //   if (!params) return;
   //   if (isValidObject(params.a)) {
@@ -150,11 +96,6 @@ export default function layout({ children }: LayoutProps) {
   //     */
   //   }
   // }, [changeSidebarActive, role, params]);
-
-  const handleMenuOptions = (childData: string) => {
-    changeSidebarActive(childData);
-    setMenuOption(childData);
-  };
 
   return (
     <div className="flex">

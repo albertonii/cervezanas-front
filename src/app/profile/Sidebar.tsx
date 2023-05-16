@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../components/Auth";
@@ -7,21 +8,13 @@ import { Button } from "../../components/common";
 import { useAppContext } from "../../components/Context";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 
-type Props = {
-  parentCallback: (menuOption: string) => void;
-};
-
-export function Sidebar(/*{ parentCallback }: Props*/) {
+export function Sidebar() {
   const { sidebar } = useAppContext();
 
   const { role } = useAuth();
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-
-  const handleCallback = (option: string) => {
-    // parentCallback(option);
-  };
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -61,54 +54,54 @@ export function Sidebar(/*{ parentCallback }: Props*/) {
           {
             name: t("submitted_aps"),
             icon: "user",
-            option: "submitted_aps",
+            option: "profile/submitted_aps",
           },
           {
             name: t("monthly_beers"),
             icon: "beer",
-            option: "monthly_beers",
+            option: "profile/monthly_beers",
           },
         ]
       : [
           {
             name: t("profile"),
             icon: "user",
-            option: "profile",
+            option: "profile/settings",
           },
           {
             name: t("products"),
             icon: "box",
-            option: "products",
+            option: "profile/products",
           },
           {
             name: t("campaigns"),
             icon: "gift",
-            option: "campaigns",
+            option: "profile/campaigns",
           },
           {
             name: t("factories"),
             icon: "truck",
-            option: "factories",
+            option: "profile/factories",
           },
           {
             name: t("orders"),
             icon: "shopping-cart",
-            option: "orders",
+            option: "profile/orders",
           },
           {
             name: t("reviews"),
             icon: "review",
-            option: "reviews",
+            option: "profile/reviews",
           },
           {
             name: t("watchlist"),
             icon: "watchlist",
-            option: "likes_history",
+            option: "profile/likes_history",
           },
           {
             name: t("consumption_points"),
             icon: "location",
-            option: "consumption_points",
+            option: "profile/consumption_points",
           },
         ];
 
@@ -163,9 +156,13 @@ export function Sidebar(/*{ parentCallback }: Props*/) {
                     : "text-gray-600"
                 } `}
                 key={link.name}
-                onClick={() => handleCallback(link.option)}
               >
-                <span className="mx-4 font-medium">{t(link.name)}</span>
+                <Link
+                  href={{ pathname: link.option }}
+                  className="mx-4 font-medium"
+                >
+                  {t(link.name)}
+                </Link>
               </li>
             ))}
           </ul>
