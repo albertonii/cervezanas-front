@@ -33,8 +33,7 @@ async function getLikesData() {
     .from("likes")
     .select(
       `
-        *,
-        product_id (*),
+        *
       `
     )
     .eq("owner_id", session.user.id);
