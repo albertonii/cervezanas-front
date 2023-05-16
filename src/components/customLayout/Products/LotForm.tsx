@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useFetchProducts from "../../../hooks/useFetchBeers";
-import { supabase } from "../../../utils/supabase-browser";
+import { IProductLot } from "../../../lib/types.d";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 type FormValues = {
   lot_number: string;
@@ -16,6 +17,8 @@ interface Props {
 
 export default function LotForm({ handleShowModal }: Props) {
   const { t } = useTranslation();
+
+  const { supabase } = useSupabase();
 
   const { data: productsLot, isSuccess } = useFetchProducts();
 
@@ -62,14 +65,14 @@ export default function LotForm({ handleShowModal }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <div className="relative p-6 flex-auto">
-        <p className="my-4 text-slate-500 text-lg leading-relaxed">
+      <div className="relative flex-auto p-6">
+        <p className="text-slate-500 my-4 text-lg leading-relaxed">
           {t("modal_product_description")}
         </p>
 
         <div className="flex w-full flex-col ">
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full space-y ">
+            <div className="space-y w-full ">
               <label htmlFor="lot_number" className="text-sm text-gray-600">
                 {t("lot_number")}
               </label>
@@ -77,7 +80,7 @@ export default function LotForm({ handleShowModal }: Props) {
                 type="text"
                 id="lot_number"
                 placeholder={t("lot_number")!}
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 {...register("lot_number", {
                   required: true,
                 })}
@@ -87,7 +90,7 @@ export default function LotForm({ handleShowModal }: Props) {
               )}
             </div>
 
-            <div className="w-full space-y ">
+            <div className="space-y w-full ">
               <label htmlFor="lot_quantity" className="text-sm text-gray-600">
                 {t("lot_quantity")}
               </label>
@@ -95,7 +98,7 @@ export default function LotForm({ handleShowModal }: Props) {
                 id="lot_quantity"
                 placeholder={t("lot_quantity")!}
                 type="number"
-                className="relative block w-full min-h-20 max-h-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 {...register("lot_quantity", {
                   required: true,
                 })}
@@ -106,15 +109,15 @@ export default function LotForm({ handleShowModal }: Props) {
             </div>
           </div>
 
-          <div className="w-full space-y my-6">
+          <div className="space-y my-6 w-full">
             <div>
-              <div className=" z-10 w-full bg-white rounded shadow dark:bg-gray-700">
+              <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
                 <div className="p-3">
                   <label className="sr-only">Search</label>
                   <div className="relative">
-                    <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <svg
-                        className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        className="h-5 w-5 text-gray-500 dark:text-gray-400"
                         aria-hidden="true"
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -131,30 +134,30 @@ export default function LotForm({ handleShowModal }: Props) {
                     <input
                       type="text"
                       id="input-group-search"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="Search user"
                     />
                   </div>
                 </div>
 
                 <ul
-                  className="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200"
+                  className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownSearchButton"
                 >
-                  {productsLot.map((product, index) => {
+                  {productsLot.map((product: IProductLot, index: number) => {
                     return (
                       <li key={product.id}>
-                        <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <div className="flex items-center rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
                           <input
                             id="checkbox-item-11"
                             type="checkbox"
                             {...register(`products.${index}.value`)}
                             value={productsLot[index].id}
-                            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600"
                           />
                           <label
                             htmlFor={`products.${index}.value`}
-                            className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                            className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                           >
                             {product.name}
                           </label>
@@ -169,16 +172,16 @@ export default function LotForm({ handleShowModal }: Props) {
         </div>
 
         {/*footer*/}
-        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+        <div className="border-slate-200 flex items-center justify-end rounded-b border-t border-solid p-6">
           <button
-            className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            className="mb-1 mr-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
             type="submit"
           >
             {t("save")}
           </button>
 
           <button
-            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            className="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
             type="button"
             onClick={() => handleShowModal(false)}
           >

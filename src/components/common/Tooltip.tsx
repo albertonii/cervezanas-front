@@ -39,7 +39,6 @@ export function Tooltip({
 
   return (
     <div
-      relative
       className={`Tooltip-Wrapper align-items relative inline-block ${
         active ? "" : "opacity-100"
       }`}
@@ -57,7 +56,7 @@ export function Tooltip({
           ${direction === "bottom" ? "top-[150%]" : ""} 
           ${direction === "left" ? "-left-[0%] -top-[100%]" : ""}
             left-1/2$z-50{dlex -transiatr-e-1/2 transformction === "right" ? "left-[25[100%]" : "bgbeeblod absolute
-            absolute left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde py-3 px-4 text-sm leading-tight shadow-lg `}
+             left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde px-4 py-3 text-sm leading-tight shadow-lg `}
       >
         {/* Content */}
         <p className="break-words ">{content}</p>

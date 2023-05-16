@@ -5,13 +5,14 @@ import { VIEWS } from "../../../constants";
 export default async function ProductId({ searchParams }: any) {
   const { product, multimedia, reviews, marketplaceProducts } =
     await getProductData(searchParams);
+
   return (
     <>
       <Product
-        product={product!}
-        multimedia={multimedia!}
-        reviews={reviews!}
-        marketplaceProducts={marketplaceProducts!}
+        product={product}
+        multimedia={multimedia}
+        reviews={reviews}
+        marketplaceProducts={marketplaceProducts ?? []}
       />
     </>
   );

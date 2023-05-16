@@ -48,6 +48,9 @@ export default async function RootLayout({ children }: LayoutProps) {
                         )}
                       >
                         {/* <Breadcrumb /> */}
+                        {/* <Breadcrumb
+                          getDefaultTextGenerator={(path) => titleize(path)}
+                        /> */}
                       </div>
 
                       <main

@@ -28,7 +28,6 @@ const containerStyle = {
 };
 
 interface Props {
-  handleAddress: ComponentProps<any>;
   cps: IConsumptionPoints[];
 }
 
@@ -42,17 +41,17 @@ const getCurrentPosition = async () => {
   });
 };
 
-export default function BMGoogleMap({ handleAddress, cps }: Props) {
+export default function BMGoogleMap({ cps }: Props) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map handleAddress={handleAddress} cps={cps} />;
+  return <Map cps={cps} />;
 }
 
-function Map({ handleAddress, cps }: Props) {
+function Map({ cps }: Props) {
   const { t } = useTranslation();
 
   // const [fixedMarkers, setFixedMarkers] = useState<google.maps.Marker[]>([]);
@@ -145,12 +144,12 @@ function Map({ handleAddress, cps }: Props) {
 
   return (
     <div className="relative space-y-4">
-      <div className="places-container absolute top-0 left-1/2 z-10 mt-2 -translate-x-1/2 transform">
+      <div className="places-container absolute left-1/2 top-0 z-10 mt-2 -translate-x-1/2 transform">
         {map && (
           <PlacesAutocomplete
             setSelected={setSelected}
             map={map}
-            handleAddress={handleAddress}
+            // handleAddress={handleAddress}
           />
         )}
       </div>
@@ -171,14 +170,14 @@ function Map({ handleAddress, cps }: Props) {
 interface PlacesProps {
   setSelected: ComponentProps<any>;
   map: google.maps.Map;
-  handleAddress: ComponentProps<any>;
+  // handleAddress: ComponentProps<any>;
 }
 
 const PlacesAutocomplete = ({
   setSelected,
   map,
-  handleAddress,
-}: PlacesProps) => {
+}: // handleAddress,
+PlacesProps) => {
   const { t } = useTranslation();
 
   const {
@@ -189,9 +188,9 @@ const PlacesAutocomplete = ({
     clearSuggestions,
   } = usePlacesAutocomplete();
 
-  useEffect(() => {
-    handleAddress(value);
-  }, [handleAddress, value]);
+  // useEffect(() => {
+  //   handleAddress(value);
+  // }, [handleAddress, value]);
 
   const handleSelect = async (address: any) => {
     setValue(address, false);

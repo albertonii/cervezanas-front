@@ -1,27 +1,37 @@
-"use client";
-
-import BMGoogleMap from "../../components/BMGoogleMap";
-import React, { useState } from "react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { VIEWS } from "../../constants";
 import { IConsumptionPoints } from "../../lib/types.d";
+import Beerme from "./Beerme";
 
-export default async function BeerMe() {
-  const cps = await getCPs();
-  const [address, setAddress] = useState<string>("");
-
-  const handleAddress = (address: string) => {
-    setAddress(address);
-  };
+export default async function BeerMePage() {
+  const { cps } = await getCPsData();
+  if (!cps) return null;
 
   return (
-    <div className="mx-auto sm:py-2 lg:py-3 ">
-      <BMGoogleMap handleAddress={handleAddress} cps={cps} />
-    </div>
+    <>
+      <Beerme cps={cps} />
+    </>
   );
 }
 
-async function getCPs() {
-  /*
-  const { data: cps, error: cpsERror } = await supabase
+async function getCPsData() {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient();
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: VIEWS.ROUTE_SIGNIN,
+        permanent: false,
+      },
+    };
+
+  const { data: cps, error: cpsError } = await supabase
     .from("consumption_points")
     .select(
       `
@@ -34,8 +44,7 @@ async function getCPs() {
         )
     `
     );
-  if (cpsERror) throw cpsERror;
+  if (cpsError) throw cpsError;
 
-  return cps as IConsumptionPoints[];
-  */
+  return { cps: cps as IConsumptionPoints[] };
 }

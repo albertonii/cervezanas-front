@@ -4,9 +4,9 @@ import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ICampaign, ICampaignItem } from "../../../lib/types.d";
-import { supabase } from "../../../utils";
 import { useAuth } from "../../Auth";
 import { Button, DeleteButton, DisplayInputError } from "../../common";
+import { useSupabase } from "../../Context/SupabaseProvider";
 import { useMessage } from "../../message";
 
 enum CampaignStatus {
@@ -43,6 +43,8 @@ export function CampaignForm({
   const { t } = useTranslation();
 
   const { user } = useAuth();
+
+  const { supabase } = useSupabase();
 
   const { handleMessage } = useMessage();
 
