@@ -31,7 +31,6 @@ Layout.defaultProps = {
 
 export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
   const { messages } = useMessage();
-  const { loggedIn } = useAuth();
 
   const router = useRouter();
 
@@ -49,7 +48,6 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
   return (
     <>
-      {/* <QueryClientProvider client={queryClient}> */}
       <AppContextProvider>
         <ShoppingCartProvider>
           <Head>
@@ -62,7 +60,6 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
 
           <div className="relative flex flex-col bg-beer-foam">
             <Header />
-            {/* {loggedIn && !isHomepage && ( */}
             <div
               className={classNames(
                 "relative mx-auto mt-[10vh] h-auto w-full",
@@ -88,7 +85,6 @@ export function Layout({ children, usePadding, useBackdrop }: LayoutProps) {
           </div>
         </ShoppingCartProvider>
       </AppContextProvider>
-      {/* </QueryClientProvider> */}
     </>
   );
 }

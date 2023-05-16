@@ -14,7 +14,7 @@ interface Props {
 export function Profile({ profile }: Props) {
   const { t } = useTranslation();
 
-  const { user, loggedIn } = useAuth();
+  const { user, session } = useAuth();
 
   const [menuOption, setMenuOption] = useState<string>("account");
 
@@ -44,7 +44,7 @@ export function Profile({ profile }: Props) {
         tabs={["account", "details", "values"]}
       />
 
-      {!loggedIn ? (
+      {!session ? (
         <div>{t("loading")}</div>
       ) : (
         <div className="container">{renderSwitch()}</div>

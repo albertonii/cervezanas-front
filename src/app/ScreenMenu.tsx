@@ -16,7 +16,7 @@ import { ROUTE_SIGNIN } from "../config";
 import { useMediaQuery } from "react-responsive";
 
 export function ScreenMenu() {
-  const { session } = useAuth();
+  const { session, role } = useAuth();
   if (!session) return <> </>;
 
   const isMD = useMediaQuery({
@@ -33,8 +33,6 @@ export function ScreenMenu() {
   });
 
   const { t } = useTranslation();
-
-  const { loggedIn, role } = useAuth();
 
   const router = useRouter();
 
@@ -135,7 +133,7 @@ export function ScreenMenu() {
                   </Select>
                 </li>
 
-                {loggedIn ? (
+                {session ? (
                   <>
                     {/* Cart  */}
                     {role !== "admin" && (

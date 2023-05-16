@@ -21,7 +21,7 @@ interface FormData {
 export default function SignIn() {
   const router = useRouter();
 
-  const { signInWithProvider, signIn, loading, loggedIn } = useAuth();
+  const { signInWithProvider, signIn, loading, session } = useAuth();
 
   const { t } = useTranslation();
 
@@ -96,7 +96,7 @@ export default function SignIn() {
     return <Spinner color="beer-blonde" size={"medium"} />;
   }
 
-  if (loggedIn) {
+  if (session) {
     router.push("/");
   }
 

@@ -32,7 +32,6 @@ export interface AuthSession {
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
   supabaseClient: SupabaseClient | null;
-  loggedIn: boolean;
 }
 
 export const AuthContext = createContext<AuthSession>({
@@ -45,7 +44,6 @@ export const AuthContext = createContext<AuthSession>({
   signInWithProvider: () => Promise.resolve(),
   signOut: () => void {},
   supabaseClient: null,
-  loggedIn: false,
 });
 
 export interface Props {
@@ -65,7 +63,6 @@ export const AuthContextProvider = (props: Props) => {
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const { handleMessage, clearMessages } = useMessage();
 
   useEffect(() => {
@@ -117,7 +114,6 @@ export const AuthContextProvider = (props: Props) => {
       );
       if (error) {
         handleMessage({ message: error.message, type: "error" });
-        setLoggedIn(false);
       } else {
         clearMessages();
         handleMessage({
@@ -125,7 +121,6 @@ export const AuthContextProvider = (props: Props) => {
             "Signup successful. Please check your inbox for a confirmation email!",
           type: "success",
         });
-        setLoggedIn(true);
       }
     } catch (error: any) {
       handleMessage({
@@ -144,7 +139,6 @@ export const AuthContextProvider = (props: Props) => {
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });
-      setLoggedIn(false);
       setLoading(false);
       return error;
     }
@@ -166,7 +160,6 @@ export const AuthContextProvider = (props: Props) => {
       claim: "role",
     });
 
-    setLoggedIn(true);
     setLoading(false);
   };
 
@@ -221,8 +214,6 @@ export const AuthContextProvider = (props: Props) => {
   */
 
   const signOut = async () => {
-    setLoggedIn(false);
-
     await supabase.auth.signOut();
   };
 
@@ -237,7 +228,6 @@ export const AuthContextProvider = (props: Props) => {
       signInWithProvider,
       signOut,
       supabaseClient: supabase,
-      loggedIn,
     };
   }, [
     session,
@@ -249,7 +239,6 @@ export const AuthContextProvider = (props: Props) => {
     signInWithProvider,
     signOut,
     supabase,
-    loggedIn,
   ]);
 
   return <AuthContext.Provider value={value} {...props} />;

@@ -18,17 +18,17 @@ interface Props {
 export default function Error({ order, products }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const { loggedIn } = useAuth();
+  const { session } = useAuth();
 
   useEffect(() => {
-    if (loggedIn) {
+    if (session) {
       setLoading(false);
     }
 
     return () => {
       setLoading(true);
     };
-  }, [loggedIn, products]);
+  }, [session, products]);
 
   return (
     <>
@@ -74,9 +74,9 @@ export default function Error({ order, products }: Props) {
                 products.map((product) => (
                   <div
                     key={product.id}
-                    className="border-t border-b border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+                    className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
-                    <div className="relative grid grid-cols-12 gap-x-8 p-8 py-6 px-4 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+                    <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
                       {/* Product Multimedia  */}
                       <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
                         <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
@@ -146,7 +146,7 @@ export default function Error({ order, products }: Props) {
                     </div>
 
                     {/* TODO: VENIR AQUI Y MANEJAR ESTADOS DEL PEDIDO  */}
-                    <div className="border-t border-gray-200 py-6 px-4 sm:px-6 lg:p-8">
+                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
                       <h4 className="sr-only">Status</h4>
                       <p className="flex justify-between text-sm font-medium text-gray-900">
                         {t("status")}: {t("user_cancelled")}
@@ -176,7 +176,7 @@ export default function Error({ order, products }: Props) {
           <div className="mt-16">
             <h2 className="sr-only">{t("billing_summary")}</h2>
 
-            <div className="bg-gray-100 py-6 px-4 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+            <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
               {order.billing_info && (
                 <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                   <div>
