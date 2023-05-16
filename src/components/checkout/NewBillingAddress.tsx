@@ -1,12 +1,14 @@
+"use client";
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../Auth";
 import { IBillingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
-import DisplayInputError from "../common/DisplayInputError";
+import { supabase } from "../../utils";
+import { DisplayInputError } from "../common";
 
 interface FormData {
   name: string;

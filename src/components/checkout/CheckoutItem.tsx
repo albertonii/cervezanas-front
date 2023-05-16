@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
@@ -5,11 +7,11 @@ import { useTranslation } from "react-i18next";
 import { COMMON, SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { supabase } from "../../utils/supabaseClient";
 import { DecreaseButton, IconButton, IncreaseButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
+import { supabase } from "../../utils";
 
 interface Props {
   product: IProduct;

@@ -3,7 +3,7 @@ import {
   UserIdentity,
   UserMetadata,
 } from "@supabase/supabase-js";
-import { IAward, IConsumptionPoints } from "./types";
+import { IAward, IConsumptionPoints } from "./types.d";
 
 export interface IModalAddProduct {
   is_public: boolean;

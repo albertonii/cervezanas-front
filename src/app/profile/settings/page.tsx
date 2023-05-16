@@ -45,5 +45,4 @@ async function getProfileData() {
   if (profileError) throw profileError;
 
   return { profile: profileData[0] as IProfile };
-  // }
 }

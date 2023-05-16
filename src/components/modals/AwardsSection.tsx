@@ -3,9 +3,8 @@ import { Divider } from "@supabase/ui";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { IAward, ModalAddProductProps } from "../../lib/types.d";
-import { Button, DeleteButton } from "../common";
+import { Button, DeleteButton, DisplayInputError } from "../common";
 import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
-import DisplayInputError from "../common/DisplayInputError";
 
 const emptyAward: IAward = {
   id: "",

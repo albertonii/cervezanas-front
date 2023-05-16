@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -12,24 +14,25 @@ import {
   faLongArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { supabase } from "../../../utils/supabaseClient";
 import { useAuth } from "../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
 import { IBillingAddress, IShippingAddress } from "../../../lib/interfaces";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { Button, CustomLoading } from "../../../components/common";
+import {
+  Button,
+  CustomLoading,
+  DisplayInputError,
+} from "../../../components/common";
 import {
   CheckoutItem,
   NewBillingAddress,
   NewShippingAddress,
 } from "../../../components/checkout";
 import Decimal from "decimal.js";
-import DisplayInputError from "../../../components/common/DisplayInputError";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../components/TPV";
 import { Paypal } from "../../../components/paypal";
-import { ROUTE_SIGNIN } from "../../../config";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "../../../utils";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -355,7 +358,7 @@ export default function Checkout({
             <Spinner color="product-blonde" size="medium" />
           ) : (
             <div className="container sm:py-4 lg:py-6">
-              <div className="flex items-center justify-start space-y-2 space-x-2">
+              <div className="flex items-center justify-start space-x-2 space-y-2">
                 <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                   {t("checkout")}
                 </h1>
@@ -375,7 +378,7 @@ export default function Checkout({
                     />
                   </div>
 
-                  <div className="mt-4 text-sm tracking-wide text-gray-500 sm:mt-0 sm:ml-2">
+                  <div className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
                     {t("complete_shipping_billing")}
                   </div>
                 </div>
@@ -460,7 +463,7 @@ export default function Checkout({
                   </div>
 
                   {/* Shipping Container */}
-                  <div className="border-product-softBlonde flex w-full flex-col items-stretch justify-center space-y-4 border md:flex-row md:space-y-0 md:space-x-6 xl:space-x-8">
+                  <div className="border-product-softBlonde flex w-full flex-col items-stretch justify-center space-y-4 border md:flex-row md:space-x-6 md:space-y-0 xl:space-x-8">
                     <div className="flex w-full flex-col justify-center space-y-6 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
                       <h2 className="text-2xl font-semibold leading-5 text-gray-800 dark:text-white">
                         {t("shipping_and_billing_info")}
@@ -866,37 +869,4 @@ export default function Checkout({
       )}
     </div>
   );
-}
-
-export async function getServerSideProps(ctx: any) {
-  // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient(ctx);
-
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
-
-  const { data: userData, error: usersError } = await supabase
-    .from("users")
-    .select(`*, shipping_info(*), billing_info(*)`)
-    .eq("id", session.user.id);
-
-  if (usersError) throw usersError;
-  if (!userData) return { props: {} };
-
-  return {
-    props: {
-      shippingAddresses: userData[0]?.shipping_info ?? [],
-      billingAddresses: userData[0]?.billing_info ?? [],
-    },
-  };
 }
