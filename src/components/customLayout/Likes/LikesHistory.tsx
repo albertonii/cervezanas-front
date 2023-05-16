@@ -1,45 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ILike } from "../../../lib/types.d";
 
 interface Props {
-  userId: string;
+  likes: ILike[];
 }
 
-export function LikesHistory({ userId }: Props) {
+export function LikesHistory({ likes }: Props) {
   const { t } = useTranslation();
-  const [likes, setLikes] = useState<ILike[]>([]);
-  /*
-  useEffect(() => {
-    const getLikesHistory = async () => {
-      const { data: likes, error } = await supabase
-        .from("likes")
-        .select(
-          `
-          *,
-          products (
-            *
-          )
-        `
-        )
-        .eq("owner_id", userId)
-        .order("created_at", { ascending: false })
-        .limit(10);
-      if (error) throw error;
-
-      setLikes(likes);
-    };
-
-    getLikesHistory();
-
-    return () => {
-      setLikes([]);
-    };
-  }, [userId]);
-  */
 
   return (
     <>
