@@ -81,22 +81,6 @@ export default function layout({ children }: LayoutProps) {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 
-  // useEffect(() => {
-  //   if (!params) return;
-  //   if (isValidObject(params.a)) {
-  //     setMenuOption(params.a as string);
-  //     changeSidebarActive(params.a as string);
-  //     params.a = "";
-  //   } else {
-  //     /*
-  //     if (role === "admin") {
-  //       setMenuOption("submitted_aps");
-  //       changeSidebarActive("submitted_aps");
-  //     }
-  //     */
-  //   }
-  // }, [changeSidebarActive, role, params]);
-
   return (
     <div className="flex">
       <Sidebar />

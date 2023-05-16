@@ -1,10 +1,11 @@
 import Profile from "./Profile";
 import { ROUTE_SIGNIN } from "../../../config";
-import { IProfile } from "../../../lib/types";
+import { IProfile } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
+
   return (
     <>
       <Profile profile={profile!} />

@@ -101,7 +101,7 @@ export function Sidebar() {
           {
             name: t("consumption_points"),
             icon: "location",
-            option: "profile/consumption_points",
+            option: "consumption_points",
           },
         ];
 
