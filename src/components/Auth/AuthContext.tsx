@@ -23,6 +23,7 @@ export const EVENTS = {
 };
 
 export interface AuthSession {
+  session: any;
   user: IUser | null;
   role: ROLE_ENUM | null;
   loading: boolean;
@@ -31,11 +32,11 @@ export interface AuthSession {
   signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => void;
   supabaseClient: SupabaseClient | null;
-  userLoading: boolean;
   loggedIn: boolean;
 }
 
 export const AuthContext = createContext<AuthSession>({
+  session: null,
   user: null,
   role: null,
   loading: false,
@@ -44,7 +45,6 @@ export const AuthContext = createContext<AuthSession>({
   signInWithProvider: () => Promise.resolve(),
   signOut: () => void {},
   supabaseClient: null,
-  userLoading: true,
   loggedIn: false,
 });
 
@@ -65,7 +65,6 @@ export const AuthContextProvider = (props: Props) => {
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
-  const [userLoading, setUserLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const { handleMessage, clearMessages } = useMessage();
 
@@ -77,6 +76,7 @@ export const AuthContextProvider = (props: Props) => {
       setSession(activeSession);
       setUser(activeSession?.user ?? null);
       setInitial(false);
+      setRole(activeSession?.user?.app_metadata?.role);
     }
     getActiveSession();
 
@@ -106,76 +106,6 @@ export const AuthContextProvider = (props: Props) => {
       authListener?.unsubscribe();
     };
   }, []);
-
-  /*
-  useEffect(() => {
-    if (user) {
-      setUserLoading(false);
-      setLoggedIn(true);
-    } else {
-      setUserLoading(false);
-      setLoggedIn(false);
-    }
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event: any, session: any) => {
-        if (event === "SIGNED_IN") {
-          const user = session?.user ?? null;
-
-          // await setSupabaseCookie(event, session as Session);
-
-          setLoggedIn(true);
-
-          clearMessages();
-
-          handleMessage({
-            type: "success",
-            message: `${t("welcome")}, ${user?.email}`,
-          });
-        }
-
-        if (event === "SIGNED_OUT") {
-          /*
-          removeSupabaseCookie().then(() => {
-            setLoggedIn(false);
-            window.location.href = ROUTE_SIGNIN; // There is a bug in SP not deleting sb-access/refresh-token cookie unless page is reloaded
-          });
-          */
-  /*
-        }
-
-        setUserLoading(false);
-      }
-    );
-
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
-  }, [clearMessages, handleMessage, supabase.auth, t]);
-  */
-
-  // TODO: OPTIMIZAR ESTO. Si se actualiza el usuario se ejecuta de nuevo
-  /*
-  useEffect(() => {
-    if (!user) return;
-
-    const getRole = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user?.id);
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      setRole(data[0].role);
-    };
-
-    getRole();
-  }, [supabase, user]);
-  */
 
   const signUp = async (payload: ISignUp) => {
     try {
@@ -298,6 +228,7 @@ export const AuthContextProvider = (props: Props) => {
 
   const value = useMemo(() => {
     return {
+      session,
       user,
       role,
       loading,
@@ -307,9 +238,9 @@ export const AuthContextProvider = (props: Props) => {
       signOut,
       supabaseClient: supabase,
       loggedIn,
-      userLoading,
     };
   }, [
+    session,
     user,
     role,
     loading,
@@ -319,7 +250,6 @@ export const AuthContextProvider = (props: Props) => {
     signOut,
     supabase,
     loggedIn,
-    userLoading,
   ]);
 
   return <AuthContext.Provider value={value} {...props} />;

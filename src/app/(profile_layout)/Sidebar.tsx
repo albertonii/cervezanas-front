@@ -1,20 +1,20 @@
 "use client";
 
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAppContext } from "../Context/AppContext";
-import { Button } from "../common";
+import { useAuth } from "../../components/Auth";
+import { Button } from "../../components/common";
+import { useAppContext } from "../../components/Context";
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 
 type Props = {
   parentCallback: (menuOption: string) => void;
-  role: string;
 };
 
-export function Sidebar(/*{ parentCallback, role }: Props*/) {
+export function Sidebar(/*{ parentCallback }: Props*/) {
   const { sidebar } = useAppContext();
 
-  const role = "admin";
+  const { role } = useAuth();
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);

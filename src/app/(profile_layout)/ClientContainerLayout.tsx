@@ -5,7 +5,7 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SupabaseProps } from "../../constants";
-import { useAppContext } from "../Context/AppContext";
+import { useAppContext } from "../../components/Context/AppContext";
 import { IUser } from "../../lib/interfaces";
 import { supabase } from "../../utils";
 
