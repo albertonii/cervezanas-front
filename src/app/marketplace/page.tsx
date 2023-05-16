@@ -1,7 +1,7 @@
 import Marketplace from "./Marketplace";
 import React from "react";
 import { IProduct } from "../../lib/types.d";
-import { COMMON } from "../../constants";
+import { COMMON, VIEWS } from "../../constants";
 import { createServerClient } from "../../utils/supabaseServer";
 
 export default async function MarketPlacePage() {
@@ -16,6 +16,19 @@ export default async function MarketPlacePage() {
 
 async function getMarketplaceProducts() {
   const supabase = createServerClient();
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: VIEWS.ROUTE_SIGNIN,
+        permanent: false,
+      },
+    };
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")

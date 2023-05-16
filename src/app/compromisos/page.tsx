@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function Commiments() {
   return (
     <div className="container m-auto">
-      <div className="mt-12 mb-4 text-xl"> Compromisos con el cliente</div>
+      <div className="mb-4 mt-12 text-xl"> Compromisos con el cliente</div>
       <div>
         Devoluciones gratuitas, siempre Si algo no te gusta o no te convence no
         queremos que te lo quedes, devuélvelo, gratuitamente, siempre. Tu

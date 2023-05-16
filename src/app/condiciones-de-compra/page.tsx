@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function PurchaseConditions() {
   return (
     <div className="container m-auto">
-      <div className="mt-12 mb-4 text-xl">
+      <div className="mb-4 mt-12 text-xl">
         Titular y condiciones generales de contratación
       </div>
 
@@ -41,7 +39,7 @@ export default function PurchaseConditions() {
         supuestos de fraude detectados por esta empresa y/o cualquiera de sus
         proveedores.
       </div>
-      <div className="mt-12 mb-4 text-xl"> Envíos</div>
+      <div className="mb-4 mt-12 text-xl"> Envíos</div>
       <div>
         Los plazos de entrega oscilan entre las 24 y las 72 horas a elección del
         cliente. No podemos garantizar estos plazos de entrega, si bien
@@ -70,7 +68,7 @@ export default function PurchaseConditions() {
         <div>Comprobar las direcciones de transportistas y contacto</div>
       </div>
 
-      <div className="mt-12 mb-4 text-xl"> Desestimiento</div>
+      <div className="mb-4 mt-12 text-xl"> Desestimiento</div>
 
       <div>
         A estos efectos, Cervezanas informa que el Texto Refundido de la Ley
@@ -153,7 +151,7 @@ export default function PurchaseConditions() {
         una devolución” del Centro de Soporte. Consulta nuestra política de
         devoluciones.
       </div>
-      <div className="mt-12 mb-4 text-xl">
+      <div className="mb-4 mt-12 text-xl">
         Condiciones de devoluciones para clientes particulares
       </div>
       <div>
@@ -199,7 +197,7 @@ export default function PurchaseConditions() {
         defectuosos. Cervezanas se reserva el derecho a denegar la devolución en
         caso de detectarse cualquier anomalía en el producto devuelto.
       </div>
-      <div className="mt-12 mb-4 text-xl">Garantías</div>
+      <div className="mb-4 mt-12 text-xl">Garantías</div>
       <div>
         {" "}
         La garantía no cubre aquellos defectos provocados por un uso incorrecto

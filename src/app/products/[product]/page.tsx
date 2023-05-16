@@ -35,6 +35,7 @@ async function getProductData(searchParams: any) {
         permanent: false,
       },
     };
+
   const { data: product, error: productError } = await supabase
     .from("products")
     .select(

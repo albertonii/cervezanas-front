@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Page,
@@ -11,12 +13,10 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-import { IProduct, IOrder } from "../../../lib/types.d";
-import { GetServerSidePropsContext } from "next";
-import { supabase } from "../../../utils/supabaseClient";
-import { formatDateString } from "../../../utils";
-import { Table, TableTotalInvoice } from "../../../components/invoice";
-import { FooterInvoice } from "../../../components/invoice/FooterInvoice";
+import { IProduct, IOrder } from "../../../../lib/types.d";
+import { formatDateString } from "../../../../utils";
+import { Table, TableTotalInvoice } from "../../../../components/invoice";
+import { FooterInvoice } from "../../../../components/invoice/FooterInvoice";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -236,46 +236,4 @@ export default function OrderInvoice({ order, products }: Props) {
       </PDFViewer>
     </>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const params = context.params as { orderInvoice: string };
-  const { orderInvoice: orderId } = params;
-
-  const { data: orderData, error: orderError } = await supabase
-    .from("orders")
-    .select(
-      `
-      *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_item(*)
-      )
-    `
-    )
-    .eq("order_number", orderId);
-
-  if (orderError) {
-    throw new Error(orderError.message);
-  }
-
-  if (!orderData || orderData.length === 0) {
-    return {
-      props: {
-        order: null,
-      },
-    };
-  }
-
-  return {
-    props: {
-      order: orderData[0],
-      products: orderData[0].products,
-    },
-  };
 }
