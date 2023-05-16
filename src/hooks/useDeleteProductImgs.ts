@@ -1,8 +1,12 @@
+"use client";
+
 import { useQuery } from "react-query";
-import { supabase } from "../utils/supabaseClient";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 import { IProduct } from "../lib/types.d";
 
 const deleteProductImgs = async (product: IProduct) => {
+  const { supabase } = useSupabase();
+
   // 1. Delete product multimedia images
   if (product.product_multimedia[0]) {
     const p_principal_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/${product.id}/p_principal/${product.product_multimedia[0].p_principal}`;

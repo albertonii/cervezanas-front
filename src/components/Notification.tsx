@@ -8,7 +8,7 @@ import { INotification } from "../lib/types.d";
 import { useAppContext } from "./Context";
 import { useTranslation } from "react-i18next";
 import { getTimeElapsed } from "../utils";
-import { supabase } from "../utils/supabaseBrowser";
+import { useSupabase } from "./Context/SupabaseProvider";
 
 interface Props {
   open: boolean;
@@ -16,6 +16,8 @@ interface Props {
 }
 
 export function Notification({ open, setOpen }: Props) {
+  const { supabase } = useSupabase();
+
   const { t } = useTranslation();
   const notificationRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(notificationRef, () => handleClickOutsideCallback());

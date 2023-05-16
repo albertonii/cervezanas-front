@@ -32,7 +32,7 @@ import Decimal from "decimal.js";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../components/TPV";
 import { Paypal } from "../../../components/paypal";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../../components/Context/SupabaseProvider";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -54,6 +54,8 @@ export default function Checkout({
   const { t } = useTranslation();
 
   const { user } = useAuth();
+
+  const { supabase } = useSupabase();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);

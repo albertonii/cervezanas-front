@@ -11,7 +11,7 @@ import { DecreaseButton, IconButton, IncreaseButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   product: IProduct;
@@ -28,6 +28,8 @@ export function CheckoutItem({
   handleRemoveFromCart,
   quantity,
 }: Props) {
+  const { supabase } = useSupabase();
+
   const { t } = useTranslation();
 
   const [p_principal, setPPrincipal] = useState<string>(

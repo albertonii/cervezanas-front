@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_FILE = /\.(.*)$/;
-import { ROUTE_SIGNIN, ROUTE_SIGNUP } from "./config";
 import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export async function middleware(req: NextRequest) {
@@ -12,36 +10,15 @@ export async function middleware(req: NextRequest) {
   // Create authenticated Supabase Client.
   const supabase = createMiddlewareSupabaseClient({ req, res });
 
-  // Check if we have a session
+  // This gives us the user session and also refresh expired session tokens and set new cookie headers.
   const {
     data: { session },
   } = await supabase.auth.getSession();
+  console.log(session);
 
   return res;
-
-  /*
-  // Check auth condition
-  if (session?.user) {
-    // Authentication successful, forward request to protected route.
-    return res;
-  }
-
-  if (req.nextUrl.pathname.startsWith(ROUTE_SIGNIN)) {
-    if (session) return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (req.nextUrl.pathname.startsWith(ROUTE_SIGNUP)) {
-    if (session) return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  // Auth condition not met, redirect to home page.
-  const redirectUrl = req.nextUrl.clone();
-  redirectUrl.pathname = ROUTE_SIGNIN;
-  redirectUrl.searchParams.set(`redirectedFrom`, req.nextUrl.pathname);
-  return NextResponse.redirect(redirectUrl);
-  */
 }
 
 export const config = {
-  matcher: ["/cart/shopping_basket", "/profile/:path*"],
+  matcher: ["/cart/shopping_basket/:path*", "/profile/:path*"],
 };

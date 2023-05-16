@@ -15,7 +15,6 @@ import {
   IReview,
 } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { supabase } from "../../../utils/supabaseClient";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 import {
@@ -220,7 +219,7 @@ export default function ProductId({
       ) : (
         <div className="relative z-10" role="dialog" aria-modal="true">
           <div className="container mx-auto mt-6 flex h-full w-full transform items-center justify-between transition lg:flex-wrap">
-            <div className="relative flex w-full items-center overflow-hidden bg-white  pt-14 pb-8 sm:pt-8 ">
+            <div className="relative flex w-full items-center overflow-hidden bg-white  pb-8 pt-14 sm:pt-8 ">
               <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
                 <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-bear-alvine md:overflow-hidden lg:col-span-4">
                   <ProductGallery
@@ -307,7 +306,7 @@ export default function ProductId({
                         ) : (
                           <div className="align-center flex flex-row">
                             <Button
-                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
+                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam px-4 py-3 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
                               onClick={() =>
                                 handleDecreaseFromCartItem(selectedProduct.id)
                               }
@@ -325,7 +324,7 @@ export default function ProductId({
                             </div>
 
                             <Button
-                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam py-3 px-4 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
+                              class="flex w-full items-center justify-center rounded-md border border-transparent bg-beer-foam px-4 py-3 text-base font-medium focus:outline-none focus:ring-2 focus:ring-beer-blonde focus:ring-offset-2"
                               onClick={() =>
                                 handleIncreaseToCartItem(selectedProduct.id)
                               }
@@ -348,7 +347,7 @@ export default function ProductId({
                           onClick={() =>
                             handleIncreaseToCartItem(selectedProduct.id)
                           }
-                          class="bg-purple-500 hover:bg-purple-600 mt-6 mb-2 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
+                          class="bg-purple-500 hover:bg-purple-600 mb-2 mt-6 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
                           isActive={false}
                           color={{
                             filled: "",

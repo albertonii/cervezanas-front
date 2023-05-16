@@ -1,8 +1,11 @@
+"use client";
+
 import { useQuery } from "react-query";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 import { INotification } from "../lib/types.d";
-import { supabase } from "../utils/supabaseBrowser";
 
 const fetchNotifications = async (ownerId: string) => {
+  const { supabase } = useSupabase();
   const { data, error } = await supabase
     .from("notifications")
     .select(

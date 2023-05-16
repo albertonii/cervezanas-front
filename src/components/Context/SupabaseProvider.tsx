@@ -1,34 +1,33 @@
 "use client";
 
-import type { Session } from "@supabase/auth-helpers-nextjs";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { createContext, useContext, useState } from "react";
 // import { TypedSupabaseClient } from "../../app/layout";
 
 type SupabaseContext = {
   supabase: any;
-  session: any | null;
 };
 
-// @ts-ignore
-const Context = createContext<SupabaseContext>();
+const Context = createContext<SupabaseContext | undefined>(undefined);
 
 export default function SupabaseProvider({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: any | null;
 }) {
-  const [supabase] = useState(() => createBrowserClient());
+  const [supabase] = useState(() => createBrowserSupabaseClient());
 
   return (
-    <Context.Provider value={{ supabase, session }}>
+    <Context.Provider value={{ supabase }}>
       <>{children}</>
     </Context.Provider>
   );
 }
 
-export const useSupabase = () => useContext(Context);
-function createBrowserClient() {
-  throw new Error("Function not implemented.");
-}
+export const useSupabase = () => {
+  const context = useContext(Context);
+  if (context === undefined) {
+    throw new Error("useSupabase must be used within a SupabaseProvider");
+  }
+  return context;
+};

@@ -3,7 +3,6 @@
 import BMGoogleMap from "../../components/BMGoogleMap";
 import React, { useState } from "react";
 import { IConsumptionPoints } from "../../lib/types.d";
-import { supabase } from "../../utils/supabaseBrowser";
 
 export default async function BeerMe() {
   const cps = await getCPs();
@@ -21,6 +20,7 @@ export default async function BeerMe() {
 }
 
 async function getCPs() {
+  /*
   const { data: cps, error: cpsERror } = await supabase
     .from("consumption_points")
     .select(
@@ -37,4 +37,5 @@ async function getCPs() {
   if (cpsERror) throw cpsERror;
 
   return cps as IConsumptionPoints[];
+  */
 }

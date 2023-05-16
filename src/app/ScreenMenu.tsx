@@ -17,7 +17,7 @@ import { useMediaQuery } from "react-responsive";
 
 export function ScreenMenu() {
   const { session, role } = useAuth();
-  if (!session) return <> </>;
+  if (!session) return <></>;
 
   const isMD = useMediaQuery({
     query: "(min-width: 768px) and (max-width: 1023px)",

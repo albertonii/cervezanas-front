@@ -6,7 +6,7 @@ import { useMessage } from "../message";
 import { ROLE_ENUM, ISignUp, IUser } from "../../lib/interfaces";
 
 import { useRouter } from "next/navigation";
-import { supabase } from "../../utils/supabaseBrowser";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 export const VIEWS = {
   SIGN_IN: "sign_in",
@@ -23,6 +23,7 @@ export const EVENTS = {
 };
 
 export interface AuthSession {
+  initial: boolean;
   session: any;
   user: IUser | null;
   role: ROLE_ENUM | null;
@@ -35,6 +36,7 @@ export interface AuthSession {
 }
 
 export const AuthContext = createContext<AuthSession>({
+  initial: true,
   session: null,
   user: null,
   role: null,
@@ -58,6 +60,7 @@ export const AuthContextProvider = (props: Props) => {
   const [session, setSession] = useState(null);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const router = useRouter();
+  const { supabase } = useSupabase();
 
   // const user = useUser();
 
@@ -74,13 +77,14 @@ export const AuthContextProvider = (props: Props) => {
       setUser(activeSession?.user ?? null);
       setInitial(false);
       setRole(activeSession?.user?.app_metadata?.role);
+      setInitial(false);
     }
     getActiveSession();
 
     const {
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange((event: any, currentSession: any) => {
-      if (currentSession?.access_token !== accessToken) {
+      if (!currentSession || currentSession?.access_token !== accessToken) {
         router.refresh();
       }
 
@@ -228,6 +232,7 @@ export const AuthContextProvider = (props: Props) => {
       signInWithProvider,
       signOut,
       supabaseClient: supabase,
+      initial,
     };
   }, [
     session,
@@ -239,6 +244,7 @@ export const AuthContextProvider = (props: Props) => {
     signInWithProvider,
     signOut,
     supabase,
+    initial,
   ]);
 
   return <AuthContext.Provider value={value} {...props} />;

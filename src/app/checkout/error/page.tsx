@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
 import { IProduct, IOrder } from "../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../utils";
-import { supabase } from "../../../utils/supabaseClient";
 import { decodeBase64 } from "../../../utils/utils";
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 

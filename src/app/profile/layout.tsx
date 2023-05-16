@@ -7,8 +7,8 @@ import { useAppContext } from "../../components/Context";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../constants";
-import { supabase } from "../../utils";
 import { Sidebar } from "./Sidebar";
+import { useSupabase } from "../../components/Context/SupabaseProvider";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,6 +18,7 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
   const { user, role } = useAuth();
+  const { supabase } = useSupabase();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 

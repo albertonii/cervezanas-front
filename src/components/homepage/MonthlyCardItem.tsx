@@ -16,7 +16,7 @@ import {
   IconButton,
   IncreaseButton,
 } from "../common";
-import { supabase } from "../../utils/supabaseBrowser";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -24,6 +24,7 @@ interface Props {
 }
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
+  const { supabase } = useSupabase();
   const product = mProduct?.product_id;
 
   if (!product) return null;
