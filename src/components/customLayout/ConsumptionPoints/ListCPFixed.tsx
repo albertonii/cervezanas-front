@@ -7,10 +7,11 @@ import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { ICPFixed, SortBy } from "../../../lib/types.d";
-import { formatDate, supabase } from "../../../utils";
+import { formatDate } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { useAuth } from "../../Auth";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   cpsId: string;
@@ -27,6 +28,7 @@ export default function ListCPFixed({
   if (!user) return null;
 
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [cpFixed, setCPFixed] = useState(cp);
   const [query, setQuery] = useState("");

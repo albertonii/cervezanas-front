@@ -20,13 +20,13 @@ import {
   volume_bottle_type_options,
 } from "../../lib/beerEnum";
 import { ModalUpdateProductProps, IProductPack } from "../../lib/types.d";
-import { supabase } from "../../utils";
 import {
   Button,
   DeleteButton,
   FilePreviewAndHide,
   InfoTooltip,
 } from "../common";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductProps, any>;
@@ -42,6 +42,8 @@ const emptyPack: IProductPack = {
 };
 
 export function ProductInfoSectionUpdate({ form }: Props) {
+  const { supabase } = useSupabase();
+
   const {
     register,
     formState: { errors },

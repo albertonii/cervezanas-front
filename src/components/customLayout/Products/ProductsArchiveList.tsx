@@ -15,7 +15,7 @@ import { Button, EditButton, Spinner, UnarchiveButton } from "../../common";
 import { useAuth } from "../../Auth";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 import { useAppContext } from "../../Context";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   handleEditShowModal: Dispatch<SetStateAction<any>>;
@@ -32,6 +32,7 @@ export default function ProductsArchiveList({
   handleDeleteShowModal,
   handleProductModal,
 }: Props) {
+  const { supabase } = useSupabase();
   const { products: ps, setProducts } = useAppContext();
 
   const { user } = useAuth();

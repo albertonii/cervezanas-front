@@ -1,12 +1,16 @@
+"use client";
+
 import { useQuery } from "react-query";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 import { ICPFixed } from "../lib/types.d";
-import { supabase } from "../utils";
 
 const fetchCPFixed = async (
   cpId: string,
   currentPage: number,
   pageRange: number
 ) => {
+  const { supabase } = useSupabase();
+
   const { data, error } = await supabase
     .from("cp_fixed")
     .select(

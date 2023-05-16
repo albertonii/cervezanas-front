@@ -9,8 +9,8 @@ export default async function CheckoutPage() {
   return (
     <>
       <Checkout
-        shippingAddresses={shippingAddresses!}
-        billingAddresses={billingAddresses!}
+        shippingAddresses={shippingAddresses ?? []}
+        billingAddresses={billingAddresses ?? []}
       />
     </>
   );

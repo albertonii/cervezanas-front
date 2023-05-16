@@ -11,11 +11,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
-import { formatDate, supabase } from "../../../utils";
+import { formatDate } from "../../../utils";
 import { generateDownloadableLink } from "../../../utils/utils";
 import { IconButton } from "../../common";
 import { Modal } from "../../modals";
 import { useAuth } from "../../Auth";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -24,6 +25,8 @@ interface Props {
 export default function ListPendingCP({ submittedCPs }: Props) {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
+
+  const { supabase } = useSupabase();
 
   const { user } = useAuth();
 

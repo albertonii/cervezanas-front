@@ -5,10 +5,11 @@ import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
+  if (!profile) return null;
 
   return (
     <>
-      <Profile profile={profile!} />
+      <Profile profile={profile} />
     </>
   );
 }

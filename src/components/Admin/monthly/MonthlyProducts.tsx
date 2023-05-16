@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
@@ -6,7 +8,7 @@ import { IMonthlyProduct } from "../../../lib/types.d";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
 import DisplayImageProduct from "../../common/DisplayImageProduct";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -18,6 +20,8 @@ interface ColumnsProps {
 
 export default function MonthlyBeers({ mProducts }: Props) {
   const { t } = useTranslation();
+
+  const { supabase } = useSupabase();
 
   const [products, setProducts] = useState<IMonthlyProduct[]>(mProducts);
   const [query, setQuery] = useState("");

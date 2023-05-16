@@ -8,7 +8,7 @@ import { formatDateString } from "../../utils/formatDate";
 import { OwnerInfo } from "..";
 import { Rate } from ".";
 import { DeleteButton } from "../common";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   review: IReview;
@@ -17,6 +17,7 @@ interface Props {
 
 export function IndividualReview(props: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
   const { user } = useAuth();
 
   const [readMore, setReadMore] = useState(false);

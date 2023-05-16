@@ -1,9 +1,13 @@
+"use client";
+
 import { useQuery } from "react-query";
 import { useAuth } from "../components/Auth/useAuth";
-import { supabase } from "../utils/supabaseClient";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 
 // NOT USED NOW
 const getProfile = async (id?: string) => {
+  const { supabase } = useSupabase();
+
   const { data, error } = await supabase
     .from("users")
     .select("username, name, lastname, birthdate")

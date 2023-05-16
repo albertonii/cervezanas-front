@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 import { Spinner } from "../../common/Spinner";
 import { Button, DisplayInputError } from "../../common";
 import { IProfile } from "../../../lib/types.d";
-import { formatDateDefaultInput, supabase } from "../../../utils";
+import { formatDateDefaultInput } from "../../../utils";
 import { useTranslation } from "react-i18next";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface FormData {
   name: string;
@@ -22,6 +23,7 @@ interface Props {
 
 export function BasicDataForm({ profile }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { id, username, birthdate, name, lastname, email } = profile;
 

@@ -5,11 +5,11 @@ import { COMMON, VIEWS } from "../../constants";
 import { createServerClient } from "../../utils/supabaseServer";
 
 export default async function MarketPlacePage() {
-  const products = await getMarketplaceProducts();
+  const { products } = await getMarketplaceProducts();
 
   return (
     <>
-      <Marketplace products={products} />
+      <Marketplace products={products ?? []} />
     </>
   );
 }
@@ -69,5 +69,5 @@ async function getMarketplaceProducts() {
     productsData[index] = product;
   });
 
-  return productsData as IProduct[];
+  return { products: productsData as IProduct[] };
 }

@@ -10,7 +10,7 @@ import { Button } from "../../common";
 import { IProfile } from "../../../lib/types.d";
 import { FilePreviewAndHide } from "../../common/FilePreviewAndHide";
 import { isValidObject } from "../../../utils/utils";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 type FormValues = {
   bg_url: any;
@@ -24,6 +24,7 @@ interface Props {
 
 export function CustomizeProfileForm({ profile }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);
 

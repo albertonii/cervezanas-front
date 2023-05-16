@@ -1,10 +1,11 @@
 import { ROUTE_SIGNIN } from "../../../config";
-import { IProduct, IProfile } from "../../../lib/types";
+import { IProduct } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { Products } from "./Products";
 
 export default async function ProductsPage() {
   const { products } = await getProductsData();
+  if (!products) return null;
   return (
     <>
       <Products products={products} />

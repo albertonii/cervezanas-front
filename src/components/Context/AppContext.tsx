@@ -55,7 +55,7 @@ const AppContext = createContext<AppContextType>({
     colors: [],
     family_styles: [],
   },
-  setCustomizeSettings: () => void {},
+  setCustomizeSettings: (newCustomizeSettings: ICustomizeSettings) => void {},
 });
 
 interface Props {

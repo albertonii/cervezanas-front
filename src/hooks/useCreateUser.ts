@@ -1,5 +1,7 @@
+"use client";
+
 import { useMutation } from "react-query";
-import { supabase } from "../utils/supabaseClient";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 
 interface User {
   email: string;
@@ -14,6 +16,8 @@ interface Options {
 }
 
 const createUser = async (user: User, data: Options) => {
+  const { supabase } = useSupabase();
+
   // Check if username exists
   const { data: userWithUsername } = await supabase
     .from("users")

@@ -19,18 +19,20 @@ import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductSummary } from "./ProductSummary";
-import { getFileExtensionByName, supabase } from "../../utils";
+import { getFileExtensionByName } from "../../utils";
 import {
   generateFileName,
   isNotEmptyArray,
   isValidObject,
 } from "../../utils/utils";
 import { useAppContext } from "../Context";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 export function AddProduct() {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
-  const { customizeSettings, setProducts } = useAppContext();
+  const { customizeSettings, setProducts, products } = useAppContext();
 
   const { user } = useAuth();
 
@@ -339,7 +341,7 @@ export function AddProduct() {
         }
 
         // Add new product to the list
-        setProducts((prev: IProduct[]) => [...prev, productData[0]]);
+        setProducts([...products, productData[0]]);
 
         return beer;
       }

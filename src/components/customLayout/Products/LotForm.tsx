@@ -1,7 +1,7 @@
 import React from "react";
+import useFetchProducts from "../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import useFetchProducts from "../../../hooks/useFetchBeers";
 import { IProductLot } from "../../../lib/types.d";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
@@ -79,7 +79,7 @@ export default function LotForm({ handleShowModal }: Props) {
               <input
                 type="text"
                 id="lot_number"
-                placeholder={t("lot_number")!}
+                placeholder={t("lot_number") ?? "lot_number"}
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 {...register("lot_number", {
                   required: true,
@@ -96,7 +96,7 @@ export default function LotForm({ handleShowModal }: Props) {
               </label>
               <input
                 id="lot_quantity"
-                placeholder={t("lot_quantity")!}
+                placeholder={t("lot_quantity") ?? "lot_quantity"}
                 type="number"
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 {...register("lot_quantity", {
@@ -159,7 +159,7 @@ export default function LotForm({ handleShowModal }: Props) {
                             htmlFor={`products.${index}.value`}
                             className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                           >
-                            {product.name}
+                            {product.lot_name}
                           </label>
                         </div>
                       </li>

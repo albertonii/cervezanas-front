@@ -17,7 +17,7 @@ import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 import { useAuth } from "../../Auth";
 import { useAppContext } from "../../Context";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   handleEditShowModal: Dispatch<SetStateAction<any>>;
@@ -34,6 +34,7 @@ export function ProductList({
   handleDeleteShowModal,
   handleProductModal,
 }: Props) {
+  const { supabase } = useSupabase();
   const { products: ps, setProducts } = useAppContext();
 
   const { user } = useAuth();

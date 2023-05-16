@@ -11,7 +11,7 @@ import { ICPMobile } from "../../../lib/types.d";
 import { isValidObject } from "../../../utils/utils";
 import { Modal } from "../../modals";
 import { DisplayInputError } from "../../common";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface FormData {
   cp_name: string;
@@ -33,6 +33,7 @@ interface Props {
 
 export default function CPMobile({ cpsId, cpMobile }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [address, setAddress] = useState<string>("");
   const [cpList, setCpList] = useState<ICPMobile[]>(cpMobile);

@@ -5,8 +5,8 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../Auth";
 import { IShippingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
-import { supabase } from "../../utils";
 import { DisplayInputError } from "../common";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface FormData {
   name: string;
@@ -29,6 +29,7 @@ interface Props {
 
 export function NewShippingAddress({ handleShippingAddresses }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { user } = useAuth();
 

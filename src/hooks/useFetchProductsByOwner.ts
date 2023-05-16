@@ -1,6 +1,8 @@
+"use client";
+
 import { useQuery } from "react-query";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 import { IProduct } from "../lib/types.d";
-import { supabase } from "../utils";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -8,6 +10,8 @@ const fetchProductsByOwner = async (
   pageRange: number,
   isArchived: boolean
 ) => {
+  const { supabase } = useSupabase();
+
   const { data, error } = await supabase
     .from("products")
     .select(

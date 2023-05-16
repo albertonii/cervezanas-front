@@ -7,11 +7,12 @@ import {
   ShoppingCartProvider,
 } from "../components/Context/index";
 import { Footer, Header } from "../components";
-import { MessageList, MessageProvider } from "../components/message";
+import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import { createServerClient } from "../utils/supabaseServer";
 import SupabaseProvider from "../components/Context/SupabaseProvider";
 import SupabaseListener from "../components/Context/SupabaseListener";
+import MessageList from "../components/message/MessageList";
 
 type LayoutProps = {
   children: React.ReactNode;

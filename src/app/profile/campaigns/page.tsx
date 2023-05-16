@@ -8,7 +8,7 @@ export default async function CampaignPage() {
 
   return (
     <>
-      <Campaigns campaigns={campaigns!} products={products!} />
+      <Campaigns campaigns={campaigns ?? []} products={products ?? []} />
     </>
   );
 }

@@ -7,8 +7,8 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../Auth";
 import { IBillingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
-import { supabase } from "../../utils";
 import { DisplayInputError } from "../common";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface FormData {
   name: string;
@@ -29,6 +29,7 @@ interface Props {
 
 export function NewBillingAddress({ handleBillingAddresses }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { user } = useAuth();
 

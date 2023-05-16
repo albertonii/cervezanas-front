@@ -1,15 +1,17 @@
 "use client";
+
 import Link from "next/link";
 import DeleteModal from "../../modals/DeleteModal";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { formatDate, supabase } from "../../../utils";
+import { formatDate } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { ICPMobile } from "../../../lib/types.d";
 import { useAuth } from "../../Auth";
 import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   cpsId: string;
@@ -33,6 +35,8 @@ export default function ListCPMobile({
 }: Props) {
   const { user } = useAuth();
   if (!user) return null;
+
+  const { supabase } = useSupabase();
 
   const { t } = useTranslation();
 

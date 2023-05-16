@@ -1,7 +1,11 @@
+"use client";
+
 import { useQuery } from "react-query";
-import { supabase } from "../utils/supabaseClient";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const fetchProducts = async () => {
+  const { supabase } = useSupabase();
+
   const { data, error } = await supabase.from("products").select(`
     *,
     beers (*),

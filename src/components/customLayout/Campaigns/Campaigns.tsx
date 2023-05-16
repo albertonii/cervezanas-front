@@ -9,9 +9,9 @@ import {
   ICampaignItem,
   IProduct,
 } from "../../../lib/types.d";
-import { supabase } from "../../../utils";
 import { useAuth } from "../../Auth";
 import { Button } from "../../common";
+import { useSupabase } from "../../Context/SupabaseProvider";
 import { useMessage } from "../../message";
 import { DeleteCampaign } from "../../modals/DeleteCampaign";
 import { CampaignForm } from "./CampaignForm";
@@ -24,6 +24,7 @@ interface Props {
 
 export function Campaigns({ campaigns: c, products }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { user } = useAuth();
 

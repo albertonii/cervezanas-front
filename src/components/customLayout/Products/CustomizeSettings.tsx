@@ -3,12 +3,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ICustomizeSettings } from "../../../lib/types.d";
-import { supabase, toLowerCase } from "../../../utils";
+import { toLowerCase } from "../../../utils";
 import { ChipCard } from "../../common";
 import { useAppContext } from "../../Context";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 export function CustomizeSettings() {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { customizeSettings, setCustomizeSettings } = useAppContext();
 
@@ -41,8 +43,9 @@ export function CustomizeSettings() {
             })
             .eq("id", customizeSettings.id);
 
-          setCustomizeSettings((prev: ICustomizeSettings) => {
-            return { ...prev, colors: [...prev.colors, color] };
+          setCustomizeSettings({
+            ...customizeSettings,
+            colors: [...colors, color],
           });
         }
       }
@@ -70,8 +73,9 @@ export function CustomizeSettings() {
             })
             .eq("id", customizeSettings.id);
 
-          setCustomizeSettings((prev: ICustomizeSettings) => {
-            return { ...prev, family_styles: [...familyStyles, famStyle] };
+          setCustomizeSettings({
+            ...customizeSettings,
+            family_styles: [...familyStyles, famStyle],
           });
         }
       }
@@ -115,8 +119,9 @@ export function CustomizeSettings() {
       })
       .eq("id", customizeSettings.id);
 
-    setCustomizeSettings((prev: ICustomizeSettings) => {
-      return { ...prev, colors: filteredColors };
+    setCustomizeSettings({
+      ...customizeSettings,
+      colors: [...filteredColors, color],
     });
   };
 
@@ -137,8 +142,9 @@ export function CustomizeSettings() {
       })
       .eq("id", customizeSettings.id);
 
-    setCustomizeSettings((prev: ICustomizeSettings) => {
-      return { ...prev, family_styles: filteredFamStyles };
+    setCustomizeSettings({
+      ...customizeSettings,
+      family_styles: [...filteredFamStyles, famStyle],
     });
   };
 

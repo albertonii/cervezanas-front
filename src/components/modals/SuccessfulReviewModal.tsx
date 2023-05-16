@@ -1,9 +1,10 @@
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
+import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 import { PortalModal } from ".";
 import { Button } from "../common";
@@ -33,9 +34,7 @@ export function SuccessfulReviewModal(props: Props) {
 
   const handleAccept = () => {
     handleShowModal(false);
-    router.push({
-      pathname: `/profile`,
-    });
+    router.push(`/profile`);
   };
 
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());
@@ -63,7 +62,7 @@ export function SuccessfulReviewModal(props: Props) {
           <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden pt-16 outline-none focus:outline-none">
             {/* The modal  */}
             <div
-              className="relative my-6 mx-auto w-auto max-w-3xl"
+              className="relative mx-auto my-6 w-auto max-w-3xl"
               ref={modalRef}
             >
               {/*content*/}
@@ -137,7 +136,7 @@ export function SuccessfulReviewModal(props: Props) {
 
                   <Button
                     btnType="submit"
-                    class="mr-1 mb-1 rounded bg-beer-draft px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-beer-dark"
+                    class="mb-1 mr-1 rounded bg-beer-draft px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-beer-dark"
                     onClick={handleAccept}
                   >
                     {t("continue_reviewing")}

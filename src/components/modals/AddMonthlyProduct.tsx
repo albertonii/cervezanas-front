@@ -8,7 +8,7 @@ import { category_options } from "../../lib/productEnum";
 import { IProduct, SortBy } from "../../lib/types.d";
 import { DisplayInputError, IconButton } from "../common";
 import { Modal } from "./Modal";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface FormData {
   category: string;
@@ -23,6 +23,7 @@ interface Props {
 
 export default function AddMonthlyProduct({ handleAddProduct }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedProduct, setSelectedCP] = useState<IProduct>();

@@ -5,10 +5,11 @@ import { Reviews } from "../../../components/customLayout";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();
+  if (!reviews) return null;
 
   return (
     <>
-      <Reviews reviews={reviews!} />
+      <Reviews reviews={reviews} />
     </>
   );
 }

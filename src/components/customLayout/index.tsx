@@ -1,4 +1,3 @@
-export * from "../ClientContainerLayout";
 export * from "./Products/Products";
 export * from "./Products/ProductList";
 export * from "./Products/ConfigureProducts";

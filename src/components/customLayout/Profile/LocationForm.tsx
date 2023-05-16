@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { IProfileLocation } from "../../../lib/types.d";
 import { Button, DisplayInputError, Spinner } from "../../common";
 import _ from "lodash";
-import { supabase } from "../../../utils";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface FormProps {
   addressName: string;
@@ -29,6 +29,7 @@ interface Props {
 
 export function LocationForm({ profile_location }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);
 

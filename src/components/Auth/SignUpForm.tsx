@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { ROLE_ENUM, ISignUp } from "../../lib/interfaces";
-import { Button } from "../common";
+import { Button, DisplayInputError } from "../common";
 
 const ROLE_OPTIONS = [
   {
@@ -123,8 +123,11 @@ export const SignUpForm = () => {
         <label htmlFor="username" className="text-sm text-gray-600">
           {t("username")}
         </label>
+
         <input
-          {...register("username")}
+          {...register("username", {
+            required: true,
+          })}
           type="text"
           id="username"
           autoComplete="username"
@@ -134,6 +137,10 @@ export const SignUpForm = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+
+        {errors.username?.type === "required" && (
+          <DisplayInputError message="errors.input_required" />
+        )}
       </div>
 
       <div className="flex w-full flex-col space-y-2">
@@ -141,7 +148,7 @@ export const SignUpForm = () => {
           {t("email")}
         </label>
         <input
-          {...register("email")}
+          {...register("email", { required: true })}
           type="email"
           id="email-address"
           autoComplete="username"
@@ -151,6 +158,10 @@ export const SignUpForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        {errors.email?.type === "required" && (
+          <DisplayInputError message="errors.input_required" />
+        )}
       </div>
 
       <div className="flex w-full flex-col space-y-2 ">
@@ -158,7 +169,9 @@ export const SignUpForm = () => {
           {t("password")}
         </label>
         <input
-          {...register("password")}
+          {...register("password", {
+            required: true,
+          })}
           type="password"
           id="password"
           autoComplete="new-password"
@@ -168,6 +181,10 @@ export const SignUpForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {errors.password?.type === "required" && (
+          <DisplayInputError message="errors.input_required" />
+        )}
       </div>
 
       {loading ? (

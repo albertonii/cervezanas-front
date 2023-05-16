@@ -1,7 +1,7 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
 import { IProductLot } from "../../lib/types.d";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   lots: IProductLot[];
@@ -18,6 +18,8 @@ export function DeleteLot({
   handleSetProductLots,
   showModal,
 }: Props) {
+  const { supabase } = useSupabase();
+
   const handleDeleteClick = () => {
     const handleDelete = async () => {
       const { data, error } = await supabase

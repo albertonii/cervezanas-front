@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Rate } from ".";
 import { IReview } from "../../lib/types.d";
-import { supabase } from "../../utils";
 import { Button } from "../common";
+import { useSupabase } from "../Context/SupabaseProvider";
 import { useMessage } from "../message";
 import { SuccessfulReviewModal } from "../modals";
 
@@ -34,6 +34,7 @@ export function NewProductReview({
   isReady: isReady_,
 }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);
   const [isReady, setIsReady] = useState(isReady_);

@@ -1,8 +1,10 @@
+"use client";
+
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
 import { useUser } from "@supabase/auth-helpers-react";
-import { supabase } from "../../utils/supabaseClient";
+import { useSupabase } from "./SupabaseProvider";
 
 interface IProfile {
   bgImg?: string;
@@ -23,6 +25,7 @@ interface Props {
 }
 
 export default function ProfileContexProvider(props: Props) {
+  const { supabase } = useSupabase();
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
   const { user } = useUser();

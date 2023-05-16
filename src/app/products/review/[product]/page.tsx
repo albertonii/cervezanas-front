@@ -8,7 +8,7 @@ export default async function ReviewProduct({ searchParams }: any) {
 
   return (
     <>
-      <ProductReview product={product!} multimedia={multimedia!} />
+      <ProductReview product={product} multimedia={multimedia} />
     </>
   );
 }

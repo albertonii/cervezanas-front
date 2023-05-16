@@ -1,12 +1,16 @@
+"use client";
+
 import { useQuery } from "react-query";
+import { useSupabase } from "../components/Context/SupabaseProvider";
 import { IProductLot } from "../lib/types.d";
-import { supabase } from "../utils";
 
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
   pageRange: number
 ) => {
+  const { supabase } = useSupabase();
+
   const { data, error } = await supabase
     .from("product_lot")
     .select(

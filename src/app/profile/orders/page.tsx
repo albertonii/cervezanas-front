@@ -8,7 +8,7 @@ export default async function OrdersPage() {
 
   return (
     <>
-      <Orders orders={orders!} />
+      <Orders orders={orders ?? []} />
     </>
   );
 }

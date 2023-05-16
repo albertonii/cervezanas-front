@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../../utils";
 import { Button, DisplayInputError, Spinner } from "../../common";
+import { useSupabase } from "../../Context/SupabaseProvider";
 import { useMessage } from "../../message";
 
 interface FormProps {
@@ -15,6 +15,7 @@ interface FormProps {
 
 export function SecretDataForm() {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);
 

@@ -17,12 +17,14 @@ import {
 } from "../common";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { COMMON } from "../../constants";
-import { supabase } from "../../utils";
+import { useSupabase } from "../Context/SupabaseProvider";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 export function StoreItem({ product, products }: StoreItemProps) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
+
   const { id } = product;
   const router = useRouter();
 

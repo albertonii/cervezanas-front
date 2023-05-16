@@ -3,9 +3,9 @@
 import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../utils";
 import { isValidObject } from "../../utils/utils";
 import { useAuth } from "../Auth";
+import { useSupabase } from "../Context/SupabaseProvider";
 import { Modal } from "./Modal";
 
 type FormValues = {
@@ -29,6 +29,7 @@ interface Props {
 }
 export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const { user } = useAuth();
 

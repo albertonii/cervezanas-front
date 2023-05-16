@@ -5,9 +5,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { IReview } from "../../../lib/types.d";
 import { useTranslation } from "react-i18next";
-import { formatDateString, supabase } from "../../../utils";
+import { formatDateString } from "../../../utils";
 import { Rate } from "../../reviews";
 import { DeleteButton } from "../../common";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
   reviews: IReview[];
@@ -15,6 +16,7 @@ interface Props {
 
 export function Reviews({ reviews: r }: Props) {
   const { t } = useTranslation();
+  const { supabase } = useSupabase();
 
   const [reviews, setReviews] = useState<IReview[]>(r);
 

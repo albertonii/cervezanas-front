@@ -13,8 +13,8 @@ import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
 import { IUser } from "../../../lib/interfaces";
-import { supabase } from "../../../utils";
 import { DisplayInputError } from "../../common";
+import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface FormData {
   cp_name: string;
@@ -37,7 +37,7 @@ interface Props {
 
 export default function CPFixed({ cpsId, cpFixed }: Props) {
   const { t } = useTranslation();
-
+  const { supabase } = useSupabase();
   const { user } = useAuth();
 
   const [address, setAddress] = useState<string>("");

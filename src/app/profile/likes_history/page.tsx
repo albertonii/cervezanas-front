@@ -5,10 +5,11 @@ import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function LikesPage() {
   const { likes } = await getLikesData();
+  if (!likes) return null;
 
   return (
     <>
-      <LikesHistory likes={likes!} />
+      <LikesHistory likes={likes} />
     </>
   );
 }
