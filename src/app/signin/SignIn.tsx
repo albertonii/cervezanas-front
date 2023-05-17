@@ -63,7 +63,7 @@ export default function SignIn() {
   };
 
   if (loading) {
-    return <Spinner color="beer-blonde" size={"medium"} />;
+    return <Spinner color="beer-blonde" size={"fullScreen"} />;
   }
 
   if (user) {

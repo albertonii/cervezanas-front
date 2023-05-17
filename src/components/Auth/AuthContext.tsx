@@ -144,10 +144,13 @@ export const AuthContextProvider = ({
     }
   };
 
-  const signIn = async (payload: any) => {
+  const signIn = async (email: string, password: string) => {
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword(payload);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });

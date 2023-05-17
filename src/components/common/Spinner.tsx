@@ -17,9 +17,10 @@ export const Spinner = ({
     <div
       role="status"
       className={`
-        ${class_} ${absolute ? "absolute" : ""} 
-        ${center ? "left-1/2 bottom-[50%] -translate-x-1/2" : ""}
-        m-4 rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
+        ${class_} ${absolute ? "absolute" : "relative"} 
+        ${center ? "bottom-[50%] left-1/2 -translate-x-1/2" : ""}
+        ${size === "fullScreen" && "h-screen w-screen"}
+        rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
       `}
     >
       <svg
@@ -32,6 +33,10 @@ export const Spinner = ({
           ${size === "large" && "h-16 w-16"}
           ${size === "xLarge" && "h-20 w-20"}
           ${size === "xxLarge" && "h-28 w-28"}
+          ${
+            size === "fullScreen" &&
+            "absolute bottom-0 left-0 right-0 top-1/4 mx-auto h-48 w-48"
+          }
         `}
         viewBox="0 0 100 101"
         fill="none"
