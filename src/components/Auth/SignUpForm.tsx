@@ -36,7 +36,7 @@ interface FormData {
 export const SignUpForm = () => {
   const { t } = useTranslation();
 
-  const { signUp, loading } = useAuth();
+  const { signUp, isLoading: loading } = useAuth();
 
   const {
     register,

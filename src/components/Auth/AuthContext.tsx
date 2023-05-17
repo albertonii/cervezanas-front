@@ -5,28 +5,18 @@ import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { ISignUp, IUser, ROLE_ENUM } from "../../lib/types.d";
+import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
-
-export const VIEWS = {
-  SIGN_IN: "sign_in",
-  SIGN_UP: "sign_up",
-  FORGOTTEN_PASSWORD: "forgotten_password",
-  MAGIC_LINK: "magic_link",
-  UPDATE_PASSWORD: "update_password",
-};
-
-export const EVENTS = {
-  PASSWORD_RECOVERY: "PASSWORD_RECOVERY",
-  SIGNED_OUT: "SIGNED_OUT",
-  USER_UPDATED: "USER_UPDATED",
-};
+import useFetchProfileContext from "../../hooks/useFetchProfileContext";
+import { EVENTS, VIEWS } from "../../constants";
+import useSWR from "swr";
 
 export interface AuthSession {
   initial: boolean;
-  user: IUser | null;
+  user: any;
+  error: any;
   role: ROLE_ENUM | null;
-  loading: boolean;
+  isLoading: boolean;
   signUp: (payload: ISignUp) => void;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
@@ -37,8 +27,9 @@ export interface AuthSession {
 export const AuthContext = createContext<AuthSession>({
   initial: true,
   user: null,
+  error: null,
   role: null,
-  loading: false,
+  isLoading: false,
   signUp: () => void {},
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
@@ -54,23 +45,21 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [initial, setInitial] = useState(true);
-  const [user, setUser] = useState(null);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const router = useRouter();
 
   const { supabase } = useSupabase();
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
-  const [loading, setLoading] = useState(false);
   const { handleMessage, clearMessages } = useMessage();
 
-  // Get USER
   const getUser = async () => {
     const { data: user, error } = await supabase
       .from("users")
       .select("*")
       .eq("id", serverSession?.user?.id)
       .single();
+
     if (error) {
       console.error(error);
       return null;
@@ -79,8 +68,24 @@ export const AuthContextProvider = ({
     }
   };
 
+  const {
+    data: user,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(serverSession ? "profile-context" : null, getUser);
+
+  /*
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useFetchProfileContext(serverSession?.user?.id);
+  */
+
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
+    /*
     async function getActiveSession() {
       const {
         data: { session: activeSession },
@@ -89,21 +94,31 @@ export const AuthContextProvider = ({
       setInitial(false);
     }
     getActiveSession();
+    */
 
     const {
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange((event: any, currentSession: any) => {
-      if (currentSession?.access_token !== serverSession?.access_token) {
+      if (
+        !serverSession ||
+        !currentSession ||
+        currentSession?.access_token !== serverSession?.access_token
+      ) {
         router.refresh();
       }
 
-      setUser(currentSession?.user ?? null);
-
+      console.log(event);
       switch (event) {
+        case EVENTS.INITIAL_SESSION:
+          setInitial(false);
+          break;
         case EVENTS.PASSWORD_RECOVERY:
           setView(VIEWS.UPDATE_PASSWORD);
           break;
         case EVENTS.SIGNED_OUT:
+          setView(VIEWS.SIGN_IN);
+          router.push(view);
+          break;
         case EVENTS.USER_UPDATED:
           setView(VIEWS.SIGN_IN);
           break;
@@ -118,7 +133,7 @@ export const AuthContextProvider = ({
 
   const signUp = async (payload: ISignUp) => {
     try {
-      setLoading(true);
+      // setLoading(true);
 
       const { error } = await supabase.auth.signUp(
         payload.userCredentials
@@ -140,12 +155,12 @@ export const AuthContextProvider = ({
         type: "error",
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
+    // setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -154,9 +169,11 @@ export const AuthContextProvider = ({
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });
-      setLoading(false);
+      // setLoading(false);
       return error;
     }
+
+    router.push("/");
 
     // TODO: VOLVER PARA INSERTAR ROLE
     /*
@@ -178,7 +195,7 @@ export const AuthContextProvider = ({
     });
     */
 
-    setLoading(false);
+    // setLoading(false);
   };
 
   const signInWithProvider = async (provider: Provider) => {
@@ -204,15 +221,16 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    router.push("/signin");
   };
 
   const value = useMemo(() => {
     return {
       initial,
       user,
+      error,
       role,
-      loading,
+      isLoading,
+      mutate,
       signUp,
       signIn,
       signInWithProvider,
@@ -222,8 +240,10 @@ export const AuthContextProvider = ({
   }, [
     initial,
     user,
+    error,
     role,
-    loading,
+    isLoading,
+    mutate,
     signUp,
     signIn,
     signInWithProvider,

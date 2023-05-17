@@ -8,6 +8,13 @@ export const VIEWS: ViewsMap = {
   UPDATE_PASSWORD: "update_password",
 };
 
+export const EVENTS = {
+  PASSWORD_RECOVERY: "PASSWORD_RECOVERY",
+  SIGNED_OUT: "SIGNED_OUT",
+  USER_UPDATED: "USER_UPDATED",
+  INITIAL_SESSION: "INITIAL_SESSION",
+};
+
 export const PREPENDED_CLASS_NAMES = "supabase-ui-auth";
 
 export const COMMON = {

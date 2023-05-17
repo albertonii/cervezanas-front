@@ -49,9 +49,9 @@
     "react-i18next": "^12.0.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.2",
-    "react-responsive": "^9.0.2",
     "react-select": "^5.7.0",
     "redsys-easy": "^4.0.2",
+    "swr": "^2.1.5",
     "tw-elements": "1.0.0-beta1",
     "uuidv4": "^6.2.13"
   },

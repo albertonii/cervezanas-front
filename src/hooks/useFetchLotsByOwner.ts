@@ -40,7 +40,7 @@ const useFetchLots = (
 
   return useQuery({
     queryKey: ["lots_owner"],
-    queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange),
+    queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange, supabase),
     enabled: false,
     refetchOnWindowFocus: false,
   });

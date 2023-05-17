@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { useOutsideClick } from "../hooks/useOnOutsideClick";
 import { useAppContext } from "./Context";
+import { useAuth } from "./Auth";
 
 interface DropdownProps {
   options: string[];
@@ -21,6 +22,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
   const { t } = useTranslation();
 
+  const { signOut } = useAuth();
   const { changeSidebarActive } = useAppContext();
 
   const handleOpenCallback = () => {
@@ -57,14 +59,13 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "signout":
         return (
-          <Link href={{ pathname: `/profile/${option}` }}>
-            <span
-              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-              aria-current="page"
-            >
-              {t(option)}
-            </span>
-          </Link>
+          <span
+            className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+            aria-current="page"
+            onClick={() => signOut()}
+          >
+            {t(option)}
+          </span>
         );
 
       case "submitted_aps":

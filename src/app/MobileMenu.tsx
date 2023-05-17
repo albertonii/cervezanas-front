@@ -9,7 +9,6 @@ import { Select } from "@supabase/ui";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../config";
-import { useMediaQuery } from "react-responsive";
 import { useAuth } from "../components/Auth";
 import { useAppContext, useShoppingCart } from "../components/Context";
 import { Button } from "../components/common";
@@ -17,12 +16,6 @@ import { Notification } from "../components";
 
 export function MobileMenu() {
   const { role, user } = useAuth();
-  if (!user) return <> </>;
-
-  const isTiny = useMediaQuery({ query: "(max-width: 639px)" });
-  const isSM = useMediaQuery({
-    query: "(min-width: 640px) and (max-width: 767px)",
-  });
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -64,8 +57,8 @@ export function MobileMenu() {
 
   return (
     <>
-      {(isTiny || isSM) && (
-        <div>
+      <header className="header absolute z-40 w-full bg-beer-foam bg-transparent sm:z-30 sm:hidden">
+        <nav>
           {/* Hamburguer menu  */}
           <Button
             data-collapse-toggle="navbar-default"
@@ -307,16 +300,7 @@ export function MobileMenu() {
                 </Link>
               </li>
 
-              {user ? (
-                <li className="flex items-center">
-                  <Button
-                    class={`${MENU_ITEM_STYLES} bg-beer-red text-white transition-all duration-200`}
-                    onClick={handleSignOut}
-                  >
-                    {t("signout").toUpperCase()}
-                  </Button>
-                </li>
-              ) : (
+              {!user ? (
                 <li className="flex items-center">
                   <Button
                     class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark`}
@@ -325,11 +309,20 @@ export function MobileMenu() {
                     {t("sign_in").toUpperCase()}
                   </Button>
                 </li>
+              ) : (
+                <li className="flex items-center">
+                  <Button
+                    class={`${MENU_ITEM_STYLES} bg-beer-red text-white transition-all duration-200`}
+                    onClick={handleSignOut}
+                  >
+                    {t("signout").toUpperCase()}
+                  </Button>
+                </li>
               )}
             </ul>
           </div>
-        </div>
-      )}
+        </nav>
+      </header>
     </>
   );
 }
