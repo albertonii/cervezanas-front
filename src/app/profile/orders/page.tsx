@@ -6,7 +6,6 @@ import { VIEWS } from "../../../constants";
 
 export default async function OrdersPage() {
   const ordersData = await getOrdersData();
-  console.log(ordersData);
   const [orders] = await Promise.all([ordersData]);
 
   return (

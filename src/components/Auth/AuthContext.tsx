@@ -6,7 +6,7 @@ import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, IUser, ROLE_ENUM } from "../../lib/types.d";
-import useMessage from "../message/useMessage";
+import { useMessage } from "../message";
 
 export const VIEWS = {
   SIGN_IN: "sign_in",
@@ -72,7 +72,7 @@ export const AuthContextProvider = ({
       .eq("id", serverSession?.user?.id)
       .single();
     if (error) {
-      console.log(error);
+      console.error(error);
       return null;
     } else {
       return user;

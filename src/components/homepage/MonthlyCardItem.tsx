@@ -68,7 +68,6 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
 
   async function handleLike() {
     if (!isLike) {
-      console.log("supabase ", supabase);
       const { error } = await supabase
         .from("likes")
         .insert([{ product_id: product.id, owner_id: product.owner_id }]);
