@@ -1,7 +1,8 @@
 import Profile from "./Profile";
-import { ROUTE_SIGNIN } from "../../../config";
 import { IProfile } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
+import { redirect } from "next/navigation";
+import { VIEWS } from "../../../constants";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
@@ -22,13 +23,9 @@ async function getProfileData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: profileData, error: profileError } = await supabase
     .from("users")

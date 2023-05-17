@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { ConsumptionPoints } from "../../../components/customLayout";
 import { ROUTE_SIGNIN } from "../../../config";
+import { VIEWS } from "../../../constants";
 import { IProfile, IConsumptionPoints } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
@@ -22,13 +24,9 @@ async function getCPSData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: profileData, error: profileError } = await supabase
     .from("users")

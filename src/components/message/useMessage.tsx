@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { MessageContext } from "./MessageContext";
 
-export const useMessage = () => {
+const useMessage = () => {
   const context = useContext(MessageContext);
 
   if (context === undefined) {
@@ -12,3 +12,5 @@ export const useMessage = () => {
 
   return context;
 };
+
+export default useMessage;

@@ -1,15 +1,15 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const fetchCPMobile = async (
   cpId: string,
   currentPage: number,
-  pageRange: number
+  pageRange: number,
+  supabase: SupabaseClient<any>
 ) => {
-  const { supabase } = useSupabase();
-
   const { data, error } = await supabase
     .from("cp_mobile")
     .select(
@@ -30,9 +30,11 @@ const useFetchCPMobile = (
   currentPage: number,
   pageRange: number
 ) => {
+  const { supabase } = useSupabase();
+
   return useQuery({
     queryKey: ["cp_fixed"],
-    queryFn: () => fetchCPMobile(cpId, currentPage, pageRange),
+    queryFn: () => fetchCPMobile(cpId, currentPage, pageRange, supabase),
     enabled: false,
     refetchOnWindowFocus: false,
   });

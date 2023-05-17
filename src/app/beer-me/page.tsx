@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { VIEWS } from "../../constants";
 import { IConsumptionPoints } from "../../lib/types.d";
 import { createServerClient } from "../../utils/supabaseServer";
@@ -23,13 +24,9 @@ async function getCPsData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: cps, error: cpsError } = await supabase
     .from("consumption_points")

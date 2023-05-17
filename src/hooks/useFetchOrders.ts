@@ -6,10 +6,9 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchCPOrders = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number
+  pageRange: number,
+  supabase: any
 ) => {
-  const { supabase } = useSupabase();
-
   const { data, error } = await supabase
     .from("orders")
     .select(
@@ -38,9 +37,11 @@ const useFetchCPOrders = (
   currentPage: number,
   pageRange: number
 ) => {
+  const { supabase } = useSupabase();
+
   return useQuery({
     queryKey: ["orders"],
-    queryFn: () => fetchCPOrders(ownerId, currentPage, pageRange),
+    queryFn: () => fetchCPOrders(ownerId, currentPage, pageRange, supabase),
     enabled: false,
     refetchOnWindowFocus: false,
   });

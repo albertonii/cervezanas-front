@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import React from "react";
 import { VIEWS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
@@ -35,13 +36,9 @@ async function getCheckoutErrorData(slug: any) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   if (Ds_Response === "9915") {
     // Update order status to user_cancelled

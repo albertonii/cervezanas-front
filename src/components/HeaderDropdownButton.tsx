@@ -33,9 +33,9 @@ export function HeaderDropdownButton(props: DropdownProps) {
     switch (option) {
       case "profile":
         return (
-          <Link href={{ pathname: `/${option}` }}>
+          <Link href={{ pathname: `/profile/settings` }}>
             <span
-              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -45,9 +45,9 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "orders":
         return (
-          <Link href={{ pathname: `/profile` }}>
+          <Link href={{ pathname: `/profile/${option}` }}>
             <span
-              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -57,9 +57,9 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "signout":
         return (
-          <Link href={{ pathname: `/${option}` }}>
+          <Link href={{ pathname: `/profile/${option}` }}>
             <span
-              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -71,7 +71,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}>
             <span
-              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}
@@ -85,7 +85,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
             href={{ pathname: `/profile`, query: { a: `monthly_products` } }}
           >
             <span
-              className="text-md block py-2 pr-4 pl-3 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
               {t(option)}

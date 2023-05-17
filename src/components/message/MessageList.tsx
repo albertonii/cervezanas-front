@@ -1,6 +1,7 @@
 "use client";
 
-import { Message, useMessage } from ".";
+import { Message } from "./Message";
+import useMessage from "./useMessage";
 
 const MessageList = () => {
   const { messages } = useMessage();

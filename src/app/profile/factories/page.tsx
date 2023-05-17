@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation";
 import { ROUTE_SIGNIN } from "../../../config";
+import { VIEWS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function FactoriesPage() {
@@ -15,13 +17,9 @@ async function getFactoriesData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   return {};
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { VIEWS } from "../../constants";
 import { createServerClient } from "../../utils/supabaseServer";
 import { IProduct } from "../../lib/types";
+import { redirect } from "next/navigation";
 
 export default async function MarketPlacePage() {
   const productsData = await getMarketplaceProducts();
@@ -23,7 +24,9 @@ async function getMarketplaceProducts() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) return [];
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")

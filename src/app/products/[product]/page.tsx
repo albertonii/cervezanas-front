@@ -1,6 +1,7 @@
 import Product from "./Product";
 import { VIEWS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
+import { redirect } from "next/navigation";
 
 export default async function ProductId({ searchParams }: any) {
   const productData = await getProductData(searchParams);
@@ -38,13 +39,9 @@ async function getProductData(searchParams: any) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: product, error: productError } = await supabase
     .from("products")
@@ -82,13 +79,9 @@ async function getMarketplaceData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: products, error: productsError } = await supabase
     .from("products")

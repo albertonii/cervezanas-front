@@ -1,12 +1,14 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 import { IProduct } from "../lib/types.d";
 
-const deleteProductImgs = async (product: IProduct) => {
-  const { supabase } = useSupabase();
-
+const deleteProductImgs = async (
+  product: IProduct,
+  supabase: SupabaseClient<any>
+) => {
   // 1. Delete product multimedia images
   if (product.product_multimedia[0]) {
     const p_principal_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/${product.id}/p_principal/${product.product_multimedia[0].p_principal}`;
@@ -25,6 +27,8 @@ const deleteProductImgs = async (product: IProduct) => {
 };
 
 const useDeleteProductImgs = (product: IProduct) => {
+  const { supabase } = useSupabase();
+
   // return useQuery(["delete-product-imgs", product], deleteProductImgs);
   return null;
 };

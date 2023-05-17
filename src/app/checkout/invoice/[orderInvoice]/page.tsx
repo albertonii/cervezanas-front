@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import OrderInvoice from "./OrderInvoice";
@@ -29,13 +30,9 @@ async function getInvoiceData(slug: any) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: orderData, error: orderError } = await supabase
     .from("orders")

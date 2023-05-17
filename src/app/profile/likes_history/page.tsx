@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { LikesHistory } from "../../../components/customLayout";
 import { ROUTE_SIGNIN } from "../../../config";
+import { VIEWS } from "../../../constants";
 import { ILike } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
@@ -22,13 +24,9 @@ async function getLikesData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: likesData, error: likesError } = await supabase
     .from("likes")

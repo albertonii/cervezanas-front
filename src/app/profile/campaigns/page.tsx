@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation";
 import { Campaigns } from "../../../components/customLayout";
+import { VIEWS } from "../../../constants";
 import { ICampaign, IProduct } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
@@ -25,8 +27,9 @@ async function getCampaignData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) return [];
-
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
   const { data: campaignsData, error: campaignsError } = await supabase
     .from("campaigns")
     .select(
@@ -49,8 +52,9 @@ async function getProductsData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) return [];
-
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
   const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(

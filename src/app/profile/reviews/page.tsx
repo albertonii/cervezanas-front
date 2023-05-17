@@ -2,6 +2,8 @@ import { ROUTE_SIGNIN } from "../../../config";
 import { IReview } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { Reviews } from "../../../components/customLayout";
+import { redirect } from "next/navigation";
+import { VIEWS } from "../../../constants";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();
@@ -22,13 +24,9 @@ async function getReviewsData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: reviewsData, error: reviewsError } = await supabase
     .from("users")

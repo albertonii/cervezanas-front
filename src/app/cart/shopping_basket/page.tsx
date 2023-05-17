@@ -1,5 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { redirect } from "next/navigation";
 import { ROUTE_SIGNIN } from "../../../config";
+import { VIEWS } from "../../../constants";
 import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import Checkout from "./Checkout";
@@ -24,13 +26,9 @@ async function getCheckout() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: userData, error: usersError } = await supabase
     .from("users")

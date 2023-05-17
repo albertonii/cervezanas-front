@@ -25,7 +25,7 @@ export function OrderList({ orders: os }: Props) {
 
   const { t } = useTranslation();
 
-  const [orders, setOrders] = useState(os);
+  const [orders, setOrders] = useState<IOrder[]>(os);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -46,8 +46,7 @@ export function OrderList({ orders: os }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      // const orders = res.data as IOrder[];
-      const orders = res.data as any;
+      const orders = res.data as IOrder[];
       setOrders(orders);
     });
   }, [currentPage]);
@@ -72,6 +71,7 @@ export function OrderList({ orders: os }: Props) {
   };
 
   const filteredItemsByStatus = useMemo(() => {
+    if (!orders) return [];
     return orders.filter((orders) => {
       return orders.status.includes(query);
     });
@@ -103,7 +103,7 @@ export function OrderList({ orders: os }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && orders.length === 0 ? (
+      {!isError && !isLoading && orders && orders.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
         </div>
@@ -178,6 +178,13 @@ export function OrderList({ orders: os }: Props) {
                     </tr>
                   );
                 })}
+              {!orders && (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center">
+                    {t("no_orders")}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
 

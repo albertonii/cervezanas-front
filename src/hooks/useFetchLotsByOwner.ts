@@ -1,15 +1,15 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number
+  pageRange: number,
+  supabase: SupabaseClient<any>
 ) => {
-  const { supabase } = useSupabase();
-
   const { data, error } = await supabase
     .from("product_lot")
     .select(
@@ -36,6 +36,8 @@ const useFetchLots = (
   currentPage: number,
   pageRange: number
 ) => {
+  const { supabase } = useSupabase();
+
   return useQuery({
     queryKey: ["lots_owner"],
     queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange),

@@ -1,5 +1,6 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useMutation } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
@@ -15,9 +16,11 @@ interface Options {
   lastname: string;
 }
 
-const createUser = async (user: User, data: Options) => {
-  const { supabase } = useSupabase();
-
+const createUser = async (
+  user: User,
+  data: Options,
+  supabase: SupabaseClient<any>
+) => {
   // Check if username exists
   const { data: userWithUsername } = await supabase
     .from("users")
@@ -46,7 +49,9 @@ const createUser = async (user: User, data: Options) => {
 };
 
 export default function useCreateUser(user: User, data: Options) {
-  return useMutation("register", () => createUser(user, data), {
+  const { supabase } = useSupabase();
+
+  return useMutation("register", () => createUser(user, data, supabase), {
     /*
     onSuccess: async (u) => {
       const { data: insertData, error: insertError } = await supabase

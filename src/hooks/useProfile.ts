@@ -1,13 +1,12 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useAuth } from "../components/Auth/useAuth";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
 // NOT USED NOW
-const getProfile = async (id?: string) => {
-  const { supabase } = useSupabase();
-
+const getProfile = async (supabase: SupabaseClient<any>, id?: string) => {
   const { data, error } = await supabase
     .from("users")
     .select("username, name, lastname, birthdate")
@@ -23,8 +22,12 @@ const getProfile = async (id?: string) => {
 
 export function useProfile() {
   const { user } = useAuth();
+  const { supabase } = useSupabase();
 
-  return useQuery(["profile", getProfile(user?.id)], {
-    enabled: !!user,
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getProfile(supabase, user?.id),
+    enabled: false,
+    refetchOnWindowFocus: false,
   });
 }

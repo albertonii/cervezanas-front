@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { COMMON, VIEWS } from "../../../../constants";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import ProductReview from "./ProductReview";
@@ -24,13 +25,9 @@ async function getProductReview(searchParams: any) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: product, error: productsError } = await supabase
     .from("products")

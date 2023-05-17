@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState, createContext, useMemo } from "react";
 import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
-import { useMessage } from "../message";
 
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, IUser, ROLE_ENUM } from "../../lib/types.d";
+import useMessage from "../message/useMessage";
 
 export const VIEWS = {
   SIGN_IN: "sign_in",

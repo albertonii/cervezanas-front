@@ -15,7 +15,7 @@ export function Orders({ orders }: Props) {
     <div className="px-4 py-6" aria-label="Products">
       <div className="flex flex-col">
         <div className="pr-12 text-4xl">{t("orders")}</div>
-      </div>{" "}
+      </div>
       {orders && orders.length > 0 && <OrderList orders={orders} />}
     </div>
   );

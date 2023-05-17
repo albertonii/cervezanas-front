@@ -1,11 +1,10 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
-const fetchProducts = async () => {
-  const { supabase } = useSupabase();
-
+const fetchProducts = async (supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase.from("products").select(`
     *,
     beers (*),
@@ -22,7 +21,14 @@ const fetchProducts = async () => {
 };
 
 const useFetchProducts = () => {
-  return useQuery("products", fetchProducts);
+  const { supabase } = useSupabase();
+
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetchProducts(supabase),
+    enabled: false,
+    refetchOnWindowFocus: false,
+  });
 };
 
 export default useFetchProducts;

@@ -1,14 +1,17 @@
-import { ROUTE_SIGNIN } from "../../../config";
 import { IOrder } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { Orders } from "../../../components/customLayout";
+import { redirect } from "next/navigation";
+import { VIEWS } from "../../../constants";
 
 export default async function OrdersPage() {
-  const { orders } = await getOrdersData();
+  const ordersData = await getOrdersData();
+  console.log(ordersData);
+  const [orders] = await Promise.all([ordersData]);
 
   return (
     <>
-      <Orders orders={orders ?? []} />
+      <Orders orders={orders} />
     </>
   );
 }
@@ -21,13 +24,9 @@ async function getOrdersData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
 
   const { data: ordersData, error: ordersError } = await supabase
     .from("orders")
@@ -37,8 +36,7 @@ async function getOrdersData() {
       `
     )
     .eq("owner_id", session.user.id);
-
   if (ordersError) throw ordersError;
 
-  return { orders: ordersData as IOrder[] };
+  return ordersData as IOrder[];
 }
