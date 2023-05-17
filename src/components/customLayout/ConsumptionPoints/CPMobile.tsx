@@ -96,12 +96,14 @@ export default function CPMobile({ cpsId, cpMobile }: Props) {
       throw error;
     }
 
-    const newCPList = [...cpList, data[0]];
-    handleCPList(newCPList);
+    if (data) {
+      const newCPList = [...cpList, data[0]];
+      handleCPList(newCPList);
 
-    setShowModal(false);
+      setShowModal(false);
 
-    reset();
+      reset();
+    }
   };
 
   return (

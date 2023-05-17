@@ -14,7 +14,12 @@ export async function middleware(req: NextRequest) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log(session);
+
+  if (!session) {
+    const url = new URL(req.url);
+    url.pathname = "/signin";
+    return NextResponse.redirect(url);
+  }
 
   return res;
 }

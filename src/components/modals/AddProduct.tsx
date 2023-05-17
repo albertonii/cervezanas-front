@@ -14,7 +14,7 @@ import {
 } from "../../lib/beerEnum";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import { IInventory, ModalAddProductProps } from "../../lib/types.d";
+import { IInventory, IProduct, ModalAddProductProps } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
@@ -341,7 +341,8 @@ export function AddProduct() {
         }
 
         // Add new product to the list
-        setProducts([...products, productData[0]]);
+        const product = productData[0] as IProduct;
+        setProducts([...products, product]);
 
         return beer;
       }

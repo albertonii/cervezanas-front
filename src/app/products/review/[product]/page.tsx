@@ -1,14 +1,14 @@
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { ROUTE_SIGNIN } from "../../../../config";
-import { COMMON } from "../../../../constants";
+import { COMMON, VIEWS } from "../../../../constants";
+import { createServerClient } from "../../../../utils/supabaseServer";
 import ProductReview from "./ProductReview";
 
 export default async function ReviewProduct({ searchParams }: any) {
-  const { product, multimedia } = await getProductReview(searchParams);
+  const productData = await getProductReview(searchParams);
+  const [product] = await Promise.all([productData]);
 
   return (
     <>
-      <ProductReview product={product} multimedia={multimedia} />
+      <ProductReview product={product[0]} />
     </>
   );
 }
@@ -17,7 +17,7 @@ async function getProductReview(searchParams: any) {
   const { productId } = searchParams;
 
   // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient();
+  const supabase = createServerClient();
 
   // Check if we have a session
   const {
@@ -27,7 +27,7 @@ async function getProductReview(searchParams: any) {
   if (!session)
     return {
       redirect: {
-        destination: ROUTE_SIGNIN,
+        destination: VIEWS.ROUTE_SIGNIN,
         permanent: false,
       },
     };
@@ -50,13 +50,10 @@ async function getProductReview(searchParams: any) {
 
   if (product == null) return { notFound: true };
 
-  product[0].product_multimedia[0].p_principal =
-    product[0].product_multimedia[0]?.p_principal == undefined || null
-      ? `${COMMON.MARKETPLACE_PRODUCT}`
-      : product[0].product_multimedia[0].p_principal;
+  product[0].product_multimedia[0].p_principal = !product[0]
+    .product_multimedia[0]?.p_principal
+    ? `${COMMON.MARKETPLACE_PRODUCT}`
+    : product[0].product_multimedia[0].p_principal;
 
-  return {
-    product: product,
-    multimedia: product[0]?.product_multimedia,
-  };
+  return product[0];
 }

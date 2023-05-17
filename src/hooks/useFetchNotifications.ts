@@ -2,7 +2,6 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { INotification } from "../lib/types.d";
 
 const fetchNotifications = async (ownerId: string) => {
   const { supabase } = useSupabase();
@@ -21,7 +20,7 @@ const fetchNotifications = async (ownerId: string) => {
 };
 
 const useFetchNotifications = (ownerId: string) => {
-  return useQuery<INotification[]>({
+  return useQuery({
     queryKey: ["notifications"],
     queryFn: () => fetchNotifications(ownerId),
     enabled: false,

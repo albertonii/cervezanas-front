@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../Auth";
-import { IShippingAddress } from "../../lib/interfaces";
 import { Modal } from "../modals";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { IShippingAddress } from "../../lib/types.d";
 
 interface FormData {
   name: string;
@@ -76,6 +76,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
       });
 
       if (error) throw error;
+      if (!data) throw new Error("No data returned from supabase");
 
       handleShippingAddresses(data[0]);
 

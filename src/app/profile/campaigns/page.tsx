@@ -1,10 +1,14 @@
 import { Campaigns } from "../../../components/customLayout";
-import { ROUTE_SIGNIN } from "../../../config";
 import { ICampaign, IProduct } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function CampaignPage() {
-  const { campaigns, products } = await getCampaignData();
+  const productsData = await getProductsData();
+  const campaignsData = await getCampaignData();
+  const [products, campaigns] = await Promise.all([
+    productsData,
+    campaignsData,
+  ]);
 
   return (
     <>
@@ -21,13 +25,7 @@ async function getCampaignData() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) return [];
 
   const { data: campaignsData, error: campaignsError } = await supabase
     .from("campaigns")
@@ -39,6 +37,19 @@ async function getCampaignData() {
     .eq("owner_id", session.user.id);
 
   if (campaignsError) throw campaignsError;
+
+  return campaignsData as ICampaign[];
+}
+
+async function getProductsData() {
+  const supabase = createServerClient();
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) return [];
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")
@@ -57,9 +68,5 @@ async function getCampaignData() {
 
   if (productsError) throw productsError;
 
-  return {
-    campaigns: campaignsData as ICampaign[],
-    products: productsData as IProduct[],
-  };
-  // }
+  return productsData as IProduct[];
 }

@@ -2,7 +2,6 @@ import React from "react";
 import useFetchProducts from "../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { IProductLot } from "../../../lib/types.d";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
 type FormValues = {
@@ -144,7 +143,7 @@ export default function LotForm({ handleShowModal }: Props) {
                   className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownSearchButton"
                 >
-                  {productsLot.map((product: IProductLot, index: number) => {
+                  {productsLot.map((product, index: number) => {
                     return (
                       <li key={product.id}>
                         <div className="flex items-center rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">

@@ -8,12 +8,13 @@ import { NewProductReview } from "../../../../components/reviews";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 
 interface Props {
-  product: IProduct[];
-  multimedia: IProductMultimedia[];
+  product: IProduct;
 }
 
-export default function ProductReview({ product, multimedia }: Props) {
+export default function ProductReview({ product }: Props) {
   const { t } = useTranslation();
+
+  const multimedia: IProductMultimedia[] = product.product_multimedia;
 
   return (
     <div className="container mx-auto h-full sm:py-2 lg:py-3">
@@ -34,10 +35,10 @@ export default function ProductReview({ product, multimedia }: Props) {
           alt={"Product to be reviewe"}
         />
         <div className="ml-6">
-          <h2 className="text-xl font-bold">{product[0].name}</h2>
+          <h2 className="text-xl font-bold">{product.name}</h2>
 
-          <p className="text-gray-500">{formatCurrency(product[0].price)}</p>
-          <p className="text-gray-500">{product[0].description}</p>
+          <p className="text-gray-500">{formatCurrency(product.price)}</p>
+          <p className="text-gray-500">{product.description}</p>
         </div>
 
         {/* Review Form */}
@@ -45,8 +46,8 @@ export default function ProductReview({ product, multimedia }: Props) {
           {/* New Product Review */}
           <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
             <NewProductReview
-              productId={product[0].id}
-              ownerId={product[0].owner_id}
+              productId={product.id}
+              ownerId={product.owner_id}
               isReady={true}
             />
           </div>

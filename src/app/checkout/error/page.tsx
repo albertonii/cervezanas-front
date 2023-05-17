@@ -6,11 +6,13 @@ import ErrorCheckout from "./ErrorCheckout";
 
 export default async function Error({ params }: { params: { slug: any } }) {
   const { slug } = params;
-  const { order, products } = await getCheckoutErrorData(slug);
+  const orderData = await getCheckoutErrorData(slug);
+  const [order] = await Promise.all([orderData]);
+  const products = order?.products;
 
   return (
     <>
-      <ErrorCheckout order={order} products={products} />
+      <ErrorCheckout order={order[0]} products={products ?? []} />
     </>
   );
 }
@@ -87,8 +89,5 @@ async function getCheckoutErrorData(slug: any) {
     };
   }
 
-  return {
-    order: orderData[0],
-    products: orderData[0].products,
-  };
+  return orderData[0];
 }

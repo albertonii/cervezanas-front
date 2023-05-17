@@ -68,7 +68,9 @@ export default function ListCPMobile({
 
   useEffect(() => {
     refetch().then((res) => {
-      setCPMobile(res.data as ICPMobile[]);
+      // const cpMobile = res.data as ICPMobile[];
+      const cpMobile = res.data as any;
+      setCPMobile(cpMobile);
     });
   }, [currentPage]);
 

@@ -72,7 +72,9 @@ export default function ProductsArchiveList({
 
   useEffect(() => {
     refetch().then((res) => {
-      setProducts(res.data as IProduct[]);
+      // const products = res.data as IProduct[];
+      const products = res.data as any;
+      setProducts(products);
     });
   }, [currentPage]);
 

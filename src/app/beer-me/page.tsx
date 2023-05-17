@@ -1,6 +1,6 @@
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { VIEWS } from "../../constants";
 import { IConsumptionPoints } from "../../lib/types.d";
+import { createServerClient } from "../../utils/supabaseServer";
 import Beerme from "./Beerme";
 
 export default async function BeerMePage() {
@@ -16,7 +16,7 @@ export default async function BeerMePage() {
 
 async function getCPsData() {
   // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient();
+  const supabase = createServerClient();
 
   // Check if we have a session
   const {

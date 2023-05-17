@@ -55,7 +55,7 @@ const AppContext = createContext<AppContextType>({
     colors: [],
     family_styles: [],
   },
-  setCustomizeSettings: (newCustomizeSettings: ICustomizeSettings) => void {},
+  setCustomizeSettings: () => void {},
 });
 
 interface Props {
@@ -116,7 +116,9 @@ export function AppContextProvider(props: Props) {
   useEffect(() => {
     if (!user?.id) return;
     refetch().then((res) => {
-      setNotifications(res.data as INotification[]);
+      // TODO: VOLVER AQUI!
+      // const notifications: INotification[] = res.data;
+      // setNotifications(notifications);
     });
   }, []);
 

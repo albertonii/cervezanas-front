@@ -1,11 +1,12 @@
 import Marketplace from "./Marketplace";
 import React from "react";
-import { IProduct } from "../../lib/types.d";
-import { COMMON, VIEWS } from "../../constants";
+import { VIEWS } from "../../constants";
 import { createServerClient } from "../../utils/supabaseServer";
+import { IProduct } from "../../lib/types";
 
 export default async function MarketPlacePage() {
-  const { products } = await getMarketplaceProducts();
+  const productsData = await getMarketplaceProducts();
+  const [products] = await Promise.all([productsData]);
 
   return (
     <>
@@ -22,13 +23,7 @@ async function getMarketplaceProducts() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: VIEWS.ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+  if (!session) return [];
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")
@@ -54,6 +49,7 @@ async function getMarketplaceProducts() {
 
   if (productsError) throw productsError;
 
+  /*
   productsData?.map(async (product: IProduct, index: number) => {
     if (
       !product.product_multimedia[0] ||
@@ -68,6 +64,7 @@ async function getMarketplaceProducts() {
 
     productsData[index] = product;
   });
+  */
 
-  return { products: productsData as IProduct[] };
+  return productsData as IProduct[];
 }

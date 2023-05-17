@@ -16,8 +16,8 @@ import { Button } from "../components/common";
 import { Notification } from "../components";
 
 export function MobileMenu() {
-  const { role, session } = useAuth();
-  if (!session) return <> </>;
+  const { role, user } = useAuth();
+  if (!user) return <> </>;
 
   const isTiny = useMediaQuery({ query: "(max-width: 639px)" });
   const isSM = useMediaQuery({
@@ -219,7 +219,7 @@ export function MobileMenu() {
               </li>
 
               <li className={`${MENU_HEADER_STYLES}`}>
-                {session ? (
+                {user ? (
                   t("my_account").toUpperCase()
                 ) : (
                   <Image
@@ -307,7 +307,7 @@ export function MobileMenu() {
                 </Link>
               </li>
 
-              {session ? (
+              {user ? (
                 <li className="flex items-center">
                   <Button
                     class={`${MENU_ITEM_STYLES} bg-beer-red text-white transition-all duration-200`}

@@ -23,17 +23,17 @@ export default function SuccessCheckout({ order, products, isError }: Props) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
-  const { session } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (session) {
+    if (user) {
       setLoading(false);
     }
 
     return () => {
       setLoading(true);
     };
-  }, [session, products]);
+  }, [user, products]);
 
   const handleOnClick = (productId: string) => {
     router.push(`/products/review/${productId}`);

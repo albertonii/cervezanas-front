@@ -58,7 +58,7 @@ export function CampaignForm({
     const campaign = getValues("campaigns")[index];
 
     if (campaign.id === "" || campaign.id === undefined) {
-      const { data: campaign_, error: campaignError } = await supabase
+      const { data, error: campaignError } = await supabase
         .from("campaigns")
         .insert({
           name: campaign.name,
@@ -74,13 +74,15 @@ export function CampaignForm({
         });
 
       if (campaignError) throw campaignError;
+      if (!data) return;
+      const campaign_ = data[0] as ICampaign;
 
-      if (campaign_[index]?.id !== campaign.id) {
-        campaign.id = campaign_[0].id;
+      if (campaign_.id !== campaign.id) {
+        campaign.id = campaign_.id;
         handleSaveCampaign(campaign);
       }
     } else {
-      const { data: campaign_, error: campaignError } = await supabase
+      const { data, error: campaignError } = await supabase
         .from("campaigns")
         .update({
           name: campaign.name,
@@ -97,9 +99,11 @@ export function CampaignForm({
         .eq("id", campaign.id);
 
       if (campaignError) throw campaignError;
+      if (!data) return;
+      const campaign_ = data[0] as ICampaign;
 
-      if (campaign_[index]?.id !== campaign.id) {
-        campaign.id = campaign_[0].id;
+      if (campaign_.id !== campaign.id) {
+        campaign.id = campaign_.id;
         handleSaveCampaign(campaign);
       }
     }

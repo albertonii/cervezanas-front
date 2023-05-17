@@ -47,7 +47,7 @@ export function SecretDataForm() {
 
     if (newPassword === newPassword2) {
       setTimeout(async () => {
-        const { error } = await supabase.auth.update({
+        const { error } = await supabase.auth.updateUser({
           password: newPassword,
         });
 

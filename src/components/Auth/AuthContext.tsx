@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import { Provider, SupabaseClient } from "@supabase/supabase-js";
+import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 import { useMessage } from "../message";
-import { ROLE_ENUM, ISignUp, IUser } from "../../lib/interfaces";
 
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { ISignUp, IUser, ROLE_ENUM } from "../../lib/types.d";
 
 export const VIEWS = {
   SIGN_IN: "sign_in",
@@ -24,58 +24,67 @@ export const EVENTS = {
 
 export interface AuthSession {
   initial: boolean;
-  session: any;
   user: IUser | null;
   role: ROLE_ENUM | null;
   loading: boolean;
   signUp: (payload: ISignUp) => void;
-  signIn: (payload: any) => Promise<any>;
-  signInWithProvider: (provider: Provider) => Promise<void>;
-  signOut: () => void;
-  supabaseClient: SupabaseClient | null;
+  signIn: (email: string, password: string) => void;
+  signInWithProvider: (provider: Provider) => void;
+  signOut: () => Promise<void>;
+  supabase: SupabaseClient | null;
 }
 
 export const AuthContext = createContext<AuthSession>({
   initial: true,
-  session: null,
   user: null,
   role: null,
   loading: false,
   signUp: () => void {},
-  signIn: () => Promise.resolve(),
-  signInWithProvider: () => Promise.resolve(),
-  signOut: () => void {},
-  supabaseClient: null,
+  signIn: async (email: string, password: string) => null,
+  signInWithProvider: async () => void {},
+  signOut: async () => void {},
+  supabase: null,
 });
 
-export interface Props {
-  [propName: string]: any;
-  accessToken: string;
-}
-
-export const AuthContextProvider = (props: Props) => {
-  const { accessToken } = props;
+export const AuthContextProvider = ({
+  serverSession,
+  children,
+}: {
+  serverSession?: Session | null;
+  children: React.ReactNode;
+}) => {
   const [initial, setInitial] = useState(true);
   const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const router = useRouter();
-  const { supabase } = useSupabase();
 
-  // const user = useUser();
+  const { supabase } = useSupabase();
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [loading, setLoading] = useState(false);
   const { handleMessage, clearMessages } = useMessage();
 
+  // Get USER
+  const getUser = async () => {
+    const { data: user, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", serverSession?.user?.id)
+      .single();
+    if (error) {
+      console.log(error);
+      return null;
+    } else {
+      return user;
+    }
+  };
+
+  // Refresh the Page to Sync Server and Client
   useEffect(() => {
     async function getActiveSession() {
       const {
         data: { session: activeSession },
       } = await supabase.auth.getSession();
-      setSession(activeSession);
-      setUser(activeSession?.user ?? null);
-      setInitial(false);
       setRole(activeSession?.user?.app_metadata?.role);
       setInitial(false);
     }
@@ -84,11 +93,10 @@ export const AuthContextProvider = (props: Props) => {
     const {
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange((event: any, currentSession: any) => {
-      if (!currentSession || currentSession?.access_token !== accessToken) {
+      if (currentSession?.access_token !== serverSession?.access_token) {
         router.refresh();
       }
 
-      setSession(currentSession);
       setUser(currentSession?.user ?? null);
 
       switch (event) {
@@ -106,15 +114,15 @@ export const AuthContextProvider = (props: Props) => {
     return () => {
       authListener?.unsubscribe();
     };
-  }, []);
+  }, [supabase, serverSession, router]);
 
   const signUp = async (payload: ISignUp) => {
     try {
       setLoading(true);
 
       const { error } = await supabase.auth.signUp(
-        payload.userCredentials,
-        payload.options
+        payload.userCredentials
+        // payload.options
       );
       if (error) {
         handleMessage({ message: error.message, type: "error" });
@@ -139,7 +147,7 @@ export const AuthContextProvider = (props: Props) => {
   const signIn = async (payload: any) => {
     setLoading(true);
 
-    const { error, user } = await supabase.auth.signInWithPassword(payload);
+    const { error } = await supabase.auth.signInWithPassword(payload);
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });
@@ -147,6 +155,8 @@ export const AuthContextProvider = (props: Props) => {
       return error;
     }
 
+    // TODO: VOLVER PARA INSERTAR ROLE
+    /*
     await supabase.rpc("google_auth", {
       email: user?.email,
       token: user?.aud,
@@ -163,6 +173,7 @@ export const AuthContextProvider = (props: Props) => {
     await supabase.rpc("get_my_claim", {
       claim: "role",
     });
+    */
 
     setLoading(false);
   };
@@ -188,42 +199,14 @@ export const AuthContextProvider = (props: Props) => {
     }
   };
 
-  /*
-  const setSupabaseCookie = async (
-    event: AuthChangeEvent,
-    session: Session
-  ) => {
-    axios.post("/api/auth/set-supabase-cookie", {
-      event: session ? "SIGNED_IN" : "SIGNED_OUT",
-      session,
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-      body: JSON.stringify({ event, session }),
-    });
-  };
-
-  const removeSupabaseCookie = async () => {
-    return await axios
-      .post("/api/auth/remove-supabase-access-cookie", {
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-      })
-      .then(() => {
-        axios.post("/api/auth/remove-supabase-refresh-cookie", {
-          headers: new Headers({ "Content-Type": "application/json" }),
-          credentials: "same-origin",
-        });
-      });
-  };
-  */
-
   const signOut = async () => {
     await supabase.auth.signOut();
+    router.push("/signin");
   };
 
   const value = useMemo(() => {
     return {
-      session,
+      initial,
       user,
       role,
       loading,
@@ -231,11 +214,10 @@ export const AuthContextProvider = (props: Props) => {
       signIn,
       signInWithProvider,
       signOut,
-      supabaseClient: supabase,
-      initial,
+      supabase,
     };
   }, [
-    session,
+    initial,
     user,
     role,
     loading,
@@ -244,8 +226,7 @@ export const AuthContextProvider = (props: Props) => {
     signInWithProvider,
     signOut,
     supabase,
-    initial,
   ]);
 
-  return <AuthContext.Provider value={value} {...props} />;
+  return <AuthContext.Provider value={value}> {children}</AuthContext.Provider>;
 };

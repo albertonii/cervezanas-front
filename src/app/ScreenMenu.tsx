@@ -16,8 +16,8 @@ import { ROUTE_SIGNIN } from "../config";
 import { useMediaQuery } from "react-responsive";
 
 export function ScreenMenu() {
-  const { session, role } = useAuth();
-  if (!session) return <></>;
+  const { user, role } = useAuth();
+  if (!user) return <></>;
 
   const isMD = useMediaQuery({
     query: "(min-width: 768px) and (max-width: 1023px)",
@@ -133,7 +133,7 @@ export function ScreenMenu() {
                   </Select>
                 </li>
 
-                {session ? (
+                {user ? (
                   <>
                     {/* Cart  */}
                     {role !== "admin" && (

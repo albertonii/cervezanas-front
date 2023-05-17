@@ -46,7 +46,9 @@ export function OrderList({ orders: os }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      setOrders(res.data as IOrder[]);
+      // const orders = res.data as IOrder[];
+      const orders = res.data as any;
+      setOrders(orders);
     });
   }, [currentPage]);
 

@@ -11,7 +11,7 @@ import { MessageProvider } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import { createServerClient } from "../utils/supabaseServer";
 import SupabaseProvider from "../components/Context/SupabaseProvider";
-import SupabaseListener from "../components/Context/SupabaseListener";
+// import SupabaseListener from "../components/Context/SupabaseListener";
 import MessageList from "../components/message/MessageList";
 
 type LayoutProps = {
@@ -28,16 +28,14 @@ export default async function RootLayout({ children }: LayoutProps) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const accessToken = session?.access_token || null;
-
   return (
     <html lang="en">
       <body>
         <SupabaseProvider>
-          <SupabaseListener />
+          {/* <SupabaseListener /> */}
           <MessageProvider>
             <ReactQueryWrapper>
-              <AuthContextProvider accessToken={accessToken}>
+              <AuthContextProvider serverSession={session}>
                 <AppContextProvider>
                   <ShoppingCartProvider>
                     <div className="relative flex flex-col bg-beer-foam">

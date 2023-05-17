@@ -5,7 +5,11 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../../components/common/Spinner";
-import { IProduct } from "../../../lib/types.d";
+import {
+  IBillingAddress,
+  IProduct,
+  IShippingAddress,
+} from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import {
   faShoppingCart,
@@ -16,7 +20,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
-import { IBillingAddress, IShippingAddress } from "../../../lib/interfaces";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import {
   Button,

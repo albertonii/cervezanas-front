@@ -35,7 +35,7 @@ export function UpdateProduct({
 }: Props) {
   const { t } = useTranslation();
 
-  const { setProducts } = useAppContext();
+  const { products, setProducts } = useAppContext();
   const { user } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -109,7 +109,7 @@ export function UpdateProduct({
 
       const userId = user?.id;
 
-      const { data: productData, error: productError } = await supabase
+      const { data, error: productError } = await supabase
         .from("products")
         .update({
           name,
@@ -123,6 +123,9 @@ export function UpdateProduct({
         .select();
 
       if (productError) throw productError;
+      if (!data) throw new Error("No data returned from supabase");
+
+      const productData = data[0] as IProduct;
 
       const productId = product.id;
 
@@ -154,8 +157,9 @@ export function UpdateProduct({
         .eq("product_id", product.id);
 
       if (multError) throw multError;
-
-      productData[0].product_multimedia = product_multimedia;
+      if (product_multimedia) {
+        productData.product_multimedia = product_multimedia;
+      }
 
       // Store images in bucket
       if (p_principal_url) {
@@ -210,7 +214,7 @@ export function UpdateProduct({
 
       setActiveStep(0);
 
-      if (product_type_options[0].label === productData[0].type) {
+      if (product_type_options[0].label === productData.type) {
         const { data: beerData, error: beerError } = await supabase
           .from("beers")
           .update({
@@ -230,7 +234,7 @@ export function UpdateProduct({
           .select();
 
         if (beerError) throw beerError;
-        productData[0].beers = beerData;
+        productData.beers = beerData;
 
         const beer = beerData[0];
         const beerId = beer.id;
@@ -248,7 +252,9 @@ export function UpdateProduct({
           .eq("product_id", product.id);
         if (stockError) throw stockError;
 
-        productData[0].product_inventory = product_inventory;
+        if (product_inventory) {
+          productData.product_inventory = product_inventory;
+        }
 
         // Packs
         if (packs.length > 0) {
@@ -291,7 +297,7 @@ export function UpdateProduct({
             }
           });
 
-          productData[0].product_pack = packs;
+          productData.product_pack = packs;
         }
 
         // Awards
@@ -304,7 +310,7 @@ export function UpdateProduct({
             if (award.img_url.length > 0) {
               const file = award.img_url[0];
               const productFileUrl = encodeURIComponent(file.name);
-              const { data: awards, error: awardsError } = await supabase
+              const { data, error: awardsError } = await supabase
                 .from("awards")
                 .update({
                   product_id: beerId,
@@ -316,8 +322,10 @@ export function UpdateProduct({
                 .eq("product_id", product.id);
 
               if (awardsError) throw awardsError;
+              if (!data) throw new Error("No data returned from awards update");
 
-              productData[0].awards = awards[0];
+              const awards = data as IAward[];
+              productData.awards = awards;
 
               const { error: storageAwardsError } = await supabase.storage
                 .from("products")
@@ -330,12 +338,12 @@ export function UpdateProduct({
           });
         }
 
+        // Product - Update
+        const index = products.findIndex((p: any) => p.id === productData.id);
+        products[index] = productData;
+
         // Update previous product list
-        setProducts((prev) => {
-          const index = prev.findIndex((p: any) => p.id === productData[0].id);
-          prev[index] = productData[0];
-          return [...prev];
-        });
+        setProducts(products);
 
         return product;
       }

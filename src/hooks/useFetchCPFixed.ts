@@ -2,7 +2,6 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { ICPFixed } from "../lib/types.d";
 
 const fetchCPFixed = async (
   cpId: string,
@@ -31,7 +30,7 @@ const useFetchCPFixed = (
   currentPage: number,
   pageRange: number
 ) => {
-  return useQuery<ICPFixed[]>({
+  return useQuery({
     queryKey: ["cp_fixed"],
     queryFn: () => fetchCPFixed(cpId, currentPage, pageRange),
     enabled: false,

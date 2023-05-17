@@ -7,12 +7,11 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Modal } from "../../modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed } from "../../../lib/types.d";
+import { ICPFixed, IUser } from "../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../utils/utils";
 import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
-import { IUser } from "../../../lib/interfaces";
 import { DisplayInputError } from "../../common";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
@@ -141,11 +140,13 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
       }
     }
 
-    const newCPList = [...cpList, data[0]];
-    handleCPList(newCPList);
+    if (data) {
+      const newCPList = [...cpList, data[0]];
+      handleCPList(newCPList);
 
-    setShowModal(false);
-    reset();
+      setShowModal(false);
+      reset();
+    }
   };
 
   const handleIsInternalOrganizer = (e: any) => {
@@ -154,7 +155,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     } else {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
-        setExternalOrganizers(data?.data ?? []);
+        const externalOrganizers = data?.data as any[];
+        setExternalOrganizers(externalOrganizers);
       };
 
       loadExternalOrganizer();

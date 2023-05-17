@@ -25,7 +25,8 @@ const deleteProductImgs = async (product: IProduct) => {
 };
 
 const useDeleteProductImgs = (product: IProduct) => {
-  return useQuery(["delete-product-imgs", product], deleteProductImgs);
+  // return useQuery(["delete-product-imgs", product], deleteProductImgs);
+  return null;
 };
 
 export default useDeleteProductImgs;

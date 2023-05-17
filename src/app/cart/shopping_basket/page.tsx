@@ -1,6 +1,6 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ROUTE_SIGNIN } from "../../../config";
-import { IBillingAddress, IShippingAddress } from "../../../lib/interfaces";
+import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import Checkout from "./Checkout";
 

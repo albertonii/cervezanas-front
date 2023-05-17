@@ -3,8 +3,8 @@ import { Spinner } from "../common/Spinner";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
-import { ROLE_ENUM, ISignUp } from "../../lib/interfaces";
 import { Button, DisplayInputError } from "../common";
+import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 
 const ROLE_OPTIONS = [
   {

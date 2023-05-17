@@ -1,11 +1,11 @@
 "use client";
 
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { createContext, useContext, useState } from "react";
-// import { TypedSupabaseClient } from "../../app/layout";
+import { createClient } from "../../utils/supabaseBrowser";
 
 type SupabaseContext = {
-  supabase: any;
+  supabase: SupabaseClient<any>;
 };
 
 const Context = createContext<SupabaseContext | undefined>(undefined);
@@ -15,17 +15,7 @@ export default function SupabaseProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [supabase] = useState(() =>
-    createBrowserSupabaseClient({
-      db: {
-        schema: "public",
-      },
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-      },
-    })
-  );
+  const [supabase] = useState(() => createClient());
 
   return (
     <Context.Provider value={{ supabase }}>

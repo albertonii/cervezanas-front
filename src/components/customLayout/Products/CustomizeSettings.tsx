@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ICustomizeSettings } from "../../../lib/types.d";
 import { toLowerCase } from "../../../utils";
 import { ChipCard } from "../../common";
 import { useAppContext } from "../../Context";

@@ -2,7 +2,6 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { IProductLot } from "../lib/types.d";
 
 const fetchLotsByOwner = async (
   ownerId: string,
@@ -37,7 +36,7 @@ const useFetchLots = (
   currentPage: number,
   pageRange: number
 ) => {
-  return useQuery<IProductLot[]>({
+  return useQuery({
     queryKey: ["lots_owner"],
     queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange),
     enabled: false,

@@ -1,4 +1,4 @@
-import paypal from "@paypal/checkout-server-sdk";
+// import paypal from "@paypal/checkout-server-sdk";
 import client from "../../../lib/paypal";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ICartItem } from "../../../lib/types.d";

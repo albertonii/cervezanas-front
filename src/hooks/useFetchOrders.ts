@@ -2,7 +2,6 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { IOrder } from "../lib/types.d";
 
 const fetchCPOrders = async (
   ownerId: string,
@@ -39,7 +38,7 @@ const useFetchCPOrders = (
   currentPage: number,
   pageRange: number
 ) => {
-  return useQuery<IOrder[]>({
+  return useQuery({
     queryKey: ["orders"],
     queryFn: () => fetchCPOrders(ownerId, currentPage, pageRange),
     enabled: false,

@@ -16,17 +16,17 @@ interface Props {
 export default function ErrorCheckout({ order, products }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const { session } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (session) {
+    if (user) {
       setLoading(false);
     }
 
     return () => {
       setLoading(true);
     };
-  }, [session, products]);
+  }, [user, products]);
 
   return (
     <>

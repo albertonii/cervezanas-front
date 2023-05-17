@@ -72,7 +72,9 @@ export function LotList({
 
   useEffect(() => {
     refetch().then((res) => {
-      setLots(res.data as IProductLot[]);
+      // const lots = res.data as IProductLot[];
+      const lots = res.data as any;
+      setLots(lots);
     });
   }, [currentPage]);
 
@@ -147,7 +149,7 @@ export function LotList({
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {
                   return (
-                    <th key={index} scope="col" className="py-3 px-6">
+                    <th key={index} scope="col" className="px-6 py-3">
                       {column.header}
                     </th>
                   );
@@ -165,7 +167,7 @@ export function LotList({
                     >
                       <th
                         scope="row"
-                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                       >
                         <Image
                           width={128}
@@ -176,19 +178,19 @@ export function LotList({
                         />
                       </th>
 
-                      <td className="py-4 px-6">{lot.lot_name}</td>
+                      <td className="px-6 py-4">{lot.lot_name}</td>
 
-                      <td className="py-4 px-6">{lot.quantity}</td>
+                      <td className="px-6 py-4">{lot.quantity}</td>
 
-                      <td className="py-4 px-6">
+                      <td className="px-6 py-4">
                         {formatDateString(lot.manufacture_date.toString())}
                       </td>
 
-                      <td className="py-4 px-6">
+                      <td className="px-6 py-4">
                         {formatDateString(lot.expiration_date.toString())}
                       </td>
 
-                      <td className="py-4 px-6">
+                      <td className="px-6 py-4">
                         <div className="flex space-x-1">
                           <EditButton onClick={() => handleClickEdit(lot)} />
 

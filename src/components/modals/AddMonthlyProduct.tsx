@@ -49,7 +49,8 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
         if (error) {
           throw error;
         }
-        setProducts(data);
+        const products = data as IProduct[];
+        setProducts(products);
       };
 
       getProducts();

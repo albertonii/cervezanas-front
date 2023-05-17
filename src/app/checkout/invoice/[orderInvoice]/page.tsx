@@ -8,11 +8,13 @@ export default async function OrderInvoicePage({
   params: { slug: any };
 }) {
   const { slug } = params;
-  const { order, products } = await getInvoiceData(slug);
+  const orderData = await getInvoiceData(slug);
+  const [order] = await Promise.all([orderData]);
+  const products = order?.products;
 
   return (
     <>
-      <OrderInvoice order={order} products={products} />
+      <OrderInvoice order={order[0]} products={products} />
     </>
   );
 }
@@ -64,8 +66,5 @@ async function getInvoiceData(slug: any) {
     };
   }
 
-  return {
-    order: orderData[0],
-    products: orderData[0].products,
-  };
+  return orderData[0];
 }

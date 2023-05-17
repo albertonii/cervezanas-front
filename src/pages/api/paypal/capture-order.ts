@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import paypal from "@paypal/checkout-server-sdk";
+// import paypal from "@paypal/checkout-server-sdk";
 import client from "../../../lib/paypal";
 
 export default async function handler(

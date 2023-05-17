@@ -8,6 +8,7 @@ import { IProfileLocation } from "../../../lib/types.d";
 import { Button, DisplayInputError, Spinner } from "../../common";
 import _ from "lodash";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { useAuth } from "../../Auth";
 
 interface FormProps {
   addressName: string;
@@ -30,6 +31,7 @@ interface Props {
 export function LocationForm({ profile_location }: Props) {
   const { t } = useTranslation();
   const { supabase } = useSupabase();
+  const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -112,7 +114,7 @@ export function LocationForm({ profile_location }: Props) {
             town: addressTown,
             country: addressCountry,
             province: addressProvince,
-            owner_id: supabase.auth.user()?.id,
+            owner_id: user?.id,
           },
         ]);
         if (error) throw error;

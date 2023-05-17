@@ -56,7 +56,9 @@ export default function ListCPFixed({
 
   useEffect(() => {
     refetch().then((res) => {
-      setCPFixed(res.data as ICPFixed[]);
+      // const cpFixed = res.data as ICPFixed;
+      const cpFixed = res.data as any;
+      setCPFixed(cpFixed);
     });
   }, [currentPage]);
 

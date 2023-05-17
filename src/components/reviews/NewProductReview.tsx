@@ -60,7 +60,7 @@ export function NewProductReview({
     try {
       const { comment } = formValues;
 
-      const { data: review, error: reviewError } = await supabase
+      const { data, error: reviewError } = await supabase
         .from("reviews")
         .insert({
           aroma: aromaRate,
@@ -76,15 +76,16 @@ export function NewProductReview({
           updated_at: new Date().toISOString(),
         });
 
-      if (reviewError) {
-        throw reviewError;
-      }
+      if (reviewError) throw reviewError;
+      if (!data) throw new Error("No data");
+
+      const review = data[0] as IReview;
 
       if (handleSetReviews)
         handleSetReviews((prev) => [
           ...prev,
           {
-            id: review[0].id,
+            id: review.id,
             aroma: aromaRate,
             appearance: appearanceRate,
             taste: tasteRate,
@@ -94,8 +95,8 @@ export function NewProductReview({
             comment,
             owner_id: ownerId,
             product_id: productId,
-            created_at: review[0].created_at,
-            updated_at: review[0].updated_at,
+            created_at: review.created_at,
+            updated_at: review.updated_at,
           },
         ]);
 

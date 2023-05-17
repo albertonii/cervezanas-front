@@ -2,7 +2,6 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { IProduct } from "../lib/types.d";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -43,7 +42,7 @@ const useFetchProducts = (
   pageRange: number,
   isArchived: boolean
 ) => {
-  return useQuery<IProduct[]>({
+  return useQuery({
     queryKey: ["products_owner"],
     queryFn: () =>
       fetchProductsByOwner(ownerId, currentPage, pageRange, isArchived),

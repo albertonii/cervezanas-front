@@ -95,6 +95,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
             });
 
           if (error) throw error;
+          if (!productLotData) throw new Error("No data");
 
           handleSetProductLots((prev: any) => [...prev, productLotData[0]]);
 

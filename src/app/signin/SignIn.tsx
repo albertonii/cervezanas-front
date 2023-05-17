@@ -21,7 +21,7 @@ interface FormData {
 export default function SignIn() {
   const router = useRouter();
 
-  const { signInWithProvider, signIn, loading, session } = useAuth();
+  const { signInWithProvider, signIn, loading, user } = useAuth();
 
   const { t } = useTranslation();
 
@@ -36,37 +36,13 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   const handleCredentialsSignIn = async () => {
-    const userCredentials: any = {
-      email,
-      password,
-    };
-
-    signIn(userCredentials)
-      .then((res: any) => {
-        console.info(res);
-      })
-      .catch((error: any) => {
-        console.error(error);
-        handleMessage({ type: "error", message: error.message });
-      });
+    signIn(email, password);
   };
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       const handleCredentialsSignIn = async () => {
-        const userCredentials: any = {
-          email,
-          password,
-        };
-
-        signIn(userCredentials)
-          .then((res: any) => {
-            console.info(res);
-          })
-          .catch((error: any) => {
-            console.error(error);
-            handleMessage({ type: "error", message: error.message });
-          });
+        signIn(email, password);
       };
 
       if (event.key === "Enter") handleCredentialsSignIn();
@@ -83,21 +59,14 @@ export default function SignIn() {
   }, [handleKeyPress]);
 
   const handleGoogleSignIn = async () => {
-    signInWithProvider("google")
-      .then(() => {
-        router.push("/");
-      })
-      .catch((error: any) => {
-        handleMessage({ type: "error", message: error.message });
-      });
+    signInWithProvider("google");
   };
 
   if (loading) {
     return <Spinner color="beer-blonde" size={"medium"} />;
   }
 
-  console.log(session);
-  if (session) {
+  if (user) {
     router.push("/");
   }
 

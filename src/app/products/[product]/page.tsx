@@ -1,18 +1,27 @@
 import Product from "./Product";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { VIEWS } from "../../../constants";
+import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function ProductId({ searchParams }: any) {
-  const { product, multimedia, reviews, marketplaceProducts } =
-    await getProductData(searchParams);
+  const productData = await getProductData(searchParams);
+  const marketplaceData = await getMarketplaceData();
+
+  const [product, marketplaceProducts] = await Promise.all([
+    productData,
+    marketplaceData,
+  ]);
+
+  const multimedia = product?.product_multimedia;
+  const reviews = product?.reviews;
 
   return (
     <>
       <Product
-        product={product}
+        product={product[0]}
         multimedia={multimedia}
         reviews={reviews}
-        marketplaceProducts={marketplaceProducts ?? []}
+        // marketplaceProducts={marketplaceProducts ?? []}
+        marketplaceProducts={[]}
       />
     </>
   );
@@ -22,7 +31,7 @@ async function getProductData(searchParams: any) {
   const { productId } = searchParams;
 
   // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient();
+  const supabase = createServerClient();
 
   // Check if we have a session
   const {
@@ -61,6 +70,26 @@ async function getProductData(searchParams: any) {
 
   if (product == null) return { notFound: true };
 
+  return product[0];
+}
+
+async function getMarketplaceData() {
+  // Create authenticated Supabase Client
+  const supabase = createServerClient();
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: VIEWS.ROUTE_SIGNIN,
+        permanent: false,
+      },
+    };
+
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
@@ -76,10 +105,5 @@ async function getProductData(searchParams: any) {
 
   if (productsError) throw productsError;
 
-  return {
-    product: product,
-    multimedia: product[0]?.product_multimedia ?? [],
-    reviews: product[0]?.reviews ?? [],
-    marketplaceProducts: products ?? [],
-  };
+  return products;
 }

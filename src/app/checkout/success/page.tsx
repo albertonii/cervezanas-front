@@ -9,11 +9,17 @@ export default async function SuccessPage({
   params: { slug: any };
 }) {
   const { slug } = params;
-  const { order, products } = await getSuccessData(slug);
+  const orderData = await getSuccessData(slug);
+  const [order] = await Promise.all([orderData]);
+  const products = order?.products;
 
   return (
     <>
-      <SuccessCheckout order={order} isError={false} products={products} />
+      <SuccessCheckout
+        order={order[0]}
+        isError={false}
+        products={products ?? []}
+      />
     </>
   );
 }
@@ -81,8 +87,5 @@ async function getSuccessData(slug: any) {
     };
   }
 
-  return {
-    order: orderData[0],
-    products: orderData[0].products,
-  };
+  return orderData[0];
 }

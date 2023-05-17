@@ -83,7 +83,7 @@ export function Paypal({
           shape: "rect",
         }}
         createOrder={createOrder}
-        onApprove={handleApprove}
+        // onApprove={handleApprove}
         onCancel={(data: any) => console.log(data)}
         onError={(err: any) => console.error(err)}
       />

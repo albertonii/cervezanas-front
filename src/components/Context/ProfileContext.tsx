@@ -3,7 +3,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../../constants";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useAuth } from "../Auth";
 import { useSupabase } from "./SupabaseProvider";
 
 interface IProfile {
@@ -28,7 +28,7 @@ export default function ProfileContexProvider(props: Props) {
   const { supabase } = useSupabase();
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const value = {
     bgImg,
@@ -43,20 +43,17 @@ export default function ProfileContexProvider(props: Props) {
         const decodeUriCustomImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
         const decodeUriProfileImg = `${SupabaseProps.PROFILE_PHOTO_URL}${user?.id}/img`;
 
-        const { data: bgImgData, error: bgError } = await supabase.storage
+        const { data: bgImgData } = await supabase.storage
           .from("avatars")
           .getPublicUrl(decodeUriCustomImg);
 
-        if (bgError) throw bgError;
-        setBgImg(bgImgData?.publicURL ?? "");
+        setBgImg(bgImgData?.publicUrl ?? "");
 
-        const { data: profileImgData, error: profileError } =
-          await supabase.storage
-            .from("avatars")
-            .getPublicUrl(decodeUriProfileImg);
+        const { data: profileImgData } = await supabase.storage
+          .from("avatars")
+          .getPublicUrl(decodeUriProfileImg);
 
-        if (profileError) throw profileError;
-        setProfileImg(profileImgData?.publicURL ?? "");
+        setProfileImg(profileImgData?.publicUrl ?? "");
       };
 
       getProfileImg();

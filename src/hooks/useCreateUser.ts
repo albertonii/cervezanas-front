@@ -31,13 +31,11 @@ const createUser = async (user: User, data: Options) => {
     throw new Error("User with username exists");
   }
 
-  const { user: u, error: signUpError } = await supabase.auth.signUp(
-    {
-      email: user.email,
-      password: user.password,
-    },
-    options
-  );
+  const { data: u, error: signUpError } = await supabase.auth.signUp({
+    email: user.email,
+    password: user.password,
+    options,
+  });
 
   if (signUpError) {
     alert(signUpError.message);
