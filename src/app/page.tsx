@@ -2,6 +2,11 @@ import { IMonthlyProduct } from "../lib/types.d";
 import { createServerClient } from "../utils/supabaseServer";
 import Homepage from "./Homepage";
 
+export const metadata = {
+  title: { default: "Comunidad Cervezanas", template: `%s | Cervezanas` },
+  description: "Tu portal de descubrimiento de cervezas artesanales",
+};
+
 export default async function Mainpage() {
   const monthlyProducts = await getMonthlyProducts();
 

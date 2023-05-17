@@ -5,6 +5,35 @@ import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
 import ErrorCheckout from "./ErrorCheckout";
 
+export async function generateMetadata({ params }: { params: { slug: any } }) {
+  try {
+    const { slug } = params;
+    const { Ds_MerchantParameters } = slug.query as {
+      Ds_MerchantParameters: string;
+      Ds_SignatureVersion: string;
+      Ds_Signature: string;
+    };
+
+    if (!Ds_MerchantParameters) {
+      return {
+        title: "Not found",
+        description: "The page you are looking for does not exists",
+      };
+    }
+
+    return {
+      title: "Error page for checkout",
+      description:
+        "Error page for checkout reached by code sent from Checkout Order",
+    };
+  } catch (error) {
+    return {
+      title: "Not found",
+      description: "The page you are looking for does not exists",
+    };
+  }
+}
+
 export default async function Error({ params }: { params: { slug: any } }) {
   const { slug } = params;
   const orderData = await getCheckoutErrorData(slug);
