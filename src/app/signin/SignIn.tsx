@@ -20,8 +20,8 @@ interface FormData {
 
 export default function SignIn() {
   const router = useRouter();
-
   const { signInWithProvider, signIn, isLoading: loading, user } = useAuth();
+  if (user) router.push("/");
 
   const { t } = useTranslation();
 

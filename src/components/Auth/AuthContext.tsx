@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
-import useFetchProfileContext from "../../hooks/useFetchProfileContext";
 import { EVENTS, VIEWS } from "../../constants";
 import useSWR from "swr";
 
@@ -91,7 +90,6 @@ export const AuthContextProvider = ({
         data: { session: activeSession },
       } = await supabase.auth.getSession();
       setRole(activeSession?.user?.app_metadata?.role);
-      setInitial(false);
     }
     getActiveSession();
     */
@@ -106,7 +104,6 @@ export const AuthContextProvider = ({
       ) {
         router.refresh();
       }
-
       console.log(event);
       switch (event) {
         case EVENTS.INITIAL_SESSION:
