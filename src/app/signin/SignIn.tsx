@@ -21,7 +21,6 @@ interface FormData {
 export default function SignIn() {
   const router = useRouter();
   const { signInWithProvider, signIn, isLoading: loading, user } = useAuth();
-  if (user) router.push("/");
 
   const { t } = useTranslation();
 
@@ -34,6 +33,10 @@ export default function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user]);
 
   const handleCredentialsSignIn = async () => {
     signIn(email, password);
@@ -65,9 +68,6 @@ export default function SignIn() {
   if (loading) {
     return <Spinner color="beer-blonde" size={"fullScreen"} />;
   }
-  // if (user) {
-  //   router.push("/");
-  // }
 
   return (
     <>
