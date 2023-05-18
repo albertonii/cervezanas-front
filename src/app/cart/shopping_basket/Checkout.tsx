@@ -463,6 +463,8 @@ export default function Checkout({
                     handleOnClickBilling={handleOnClickBilling}
                     formShipping={formShipping}
                     formBilling={formBilling}
+                    selectedShippingAddress={selectedShippingAddress}
+                    selectedBillingAddress={selectedBillingAddress}
                   />
                 </div>
 
