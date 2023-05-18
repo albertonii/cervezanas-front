@@ -9,7 +9,7 @@ interface Props {
 
 export default function ShippingAddressItem({ address }: Props) {
   return (
-    <div key={address.id}>
+    <>
       <label
         className=" text-product-dark w-full 
                                            dark:bg-gray-800 dark:text-gray-400"
@@ -24,6 +24,6 @@ export default function ShippingAddressItem({ address }: Props) {
           </div>
         </div>
       </label>
-    </div>
+    </>
   );
 }
