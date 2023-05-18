@@ -1,32 +1,53 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../constants";
+import { IOrder } from "../../../lib/types";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
 import SuccessCheckout from "./SuccessCheckout";
 
-export default async function SuccessPage({
-  params,
-}: {
-  params: { slug: any };
-}) {
-  const { slug } = params;
-  const orderData = await getSuccessData(slug);
-  const [order] = await Promise.all([orderData]);
-  const products = order?.products;
+export async function generateMetadata({ searchParams }: any) {
+  try {
+    const { Ds_MerchantParameters } = searchParams as {
+      Ds_MerchantParameters: string;
+      Ds_SignatureVersion: string;
+      Ds_Signature: string;
+    };
 
+    if (!Ds_MerchantParameters) {
+      return {
+        title: "Not found",
+        description: "The page you are looking for does not exists",
+      };
+    }
+
+    return {
+      title: {
+        default: "Success page for checkout",
+        template: `%s | Cervezanas`,
+      },
+      description: "Checkout order information displaying in this page",
+    };
+  } catch (error) {
+    return {
+      title: "Not found",
+      description: "The page you are looking for does not exists",
+    };
+  }
+}
+
+export default async function SuccessPage({ searchParams }: any) {
+  const { orderData, isError } = await getSuccessData(searchParams);
+  const [order] = await Promise.all([orderData]);
+  if (!order) return <></>;
   return (
     <>
-      <SuccessCheckout
-        order={order[0]}
-        isError={false}
-        products={products ?? []}
-      />
+      <SuccessCheckout order={order} isError={isError} />
     </>
   );
 }
 
-async function getSuccessData(slug: any) {
-  const { Ds_MerchantParameters } = slug.query as {
+async function getSuccessData(searchParams: any) {
+  const { Ds_MerchantParameters } = searchParams as {
     Ds_MerchantParameters: string;
     Ds_SignatureVersion: string;
     Ds_Signature: string;
@@ -68,21 +89,17 @@ async function getSuccessData(slug: any) {
   if (orderError) {
     console.error(orderError.message);
     return {
-      props: {
-        isError: true,
-        order: null,
-        products: null,
-      },
+      orderData: null,
+      isError: true,
     };
   }
 
   if (!orderData || orderData.length === 0) {
     return {
-      props: {
-        order: null,
-      },
+      orderData: null,
+      isError: true,
     };
   }
 
-  return orderData[0];
+  return { orderData: orderData[0] as IOrder, isError: false };
 }

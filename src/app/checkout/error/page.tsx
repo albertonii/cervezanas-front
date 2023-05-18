@@ -1,57 +1,49 @@
+import ErrorCheckout from "./ErrorCheckout";
 import React from "react";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../constants";
 import { IOrder } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
-import ErrorCheckout from "./ErrorCheckout";
 
-export const metadata = {
-  title: { default: "Error page for checkout", template: `%s | Cervezanas` },
-  description:
-    "Error page for checkout reached by code sent from Checkout Order",
-};
+export async function generateMetadata({ searchParams }: any) {
+  try {
+    const { Ds_MerchantParameters } = searchParams as {
+      Ds_MerchantParameters: string;
+      Ds_SignatureVersion: string;
+      Ds_Signature: string;
+    };
 
-// export async function generateMetadata({ params }: { params: { slug: any } }) {
-//   try {
+    if (!Ds_MerchantParameters) {
+      return {
+        title: "Not found",
+        description: "The page you are looking for does not exists",
+      };
+    }
 
-//     const { slug } = params;
-//     console.log(slug);
-
-//     const { Ds_MerchantParameters } = slug.query as {
-//       Ds_MerchantParameters: string;
-//       Ds_SignatureVersion: string;
-//       Ds_Signature: string;
-//     };
-
-//     if (!Ds_MerchantParameters) {
-//       return {
-//         title: "Not found",
-//         description: "The page you are looking for does not exists",
-//       };
-//     }
-
-//     return {
-//       title: "Error page for checkout",
-//       description:
-//         "Error page for checkout reached by code sent from Checkout Order",
-//     };
-//   } catch (error) {
-//     return {
-//       title: "Not found",
-//       description: "The page you are looking for does not exists",
-//     };
-//   }
-// }
+    return {
+      title: {
+        default: "Error page for checkout",
+        template: `%s | Cervezanas`,
+      },
+      description:
+        "Error page for checkout reached by code sent from Checkout Order",
+    };
+  } catch (error) {
+    return {
+      title: "Not found",
+      description: "The page you are looking for does not exists",
+    };
+  }
+}
 
 export default async function Error({ searchParams }: any) {
-  const orderData = await getCheckoutErrorData(searchParams);
+  const { orderData, isError } = await getCheckoutErrorData(searchParams);
   const [order] = await Promise.all([orderData]);
-  console.log(order);
   if (!order) return <></>;
   return (
     <>
-      <ErrorCheckout order={order} />
+      <ErrorCheckout order={order} isError={isError} />
     </>
   );
 }
@@ -110,12 +102,18 @@ async function getCheckoutErrorData(searchParams: any) {
 
   if (orderError) {
     console.error(orderError.message);
-    throw orderError;
+    return {
+      orderData: null,
+      isError: true,
+    };
   }
 
   if (!orderData || orderData.length === 0) {
-    return null;
+    return {
+      orderData: null,
+      isError: true,
+    };
   }
 
-  return orderData[0] as IOrder;
+  return { orderData: orderData[0] as IOrder, isError: false };
 }

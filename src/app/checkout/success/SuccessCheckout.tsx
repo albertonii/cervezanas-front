@@ -9,15 +9,16 @@ import { useAuth } from "../../../components/Auth";
 import { formatDateString } from "../../../utils";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { isValidObject } from "../../../utils/utils";
-import { IProduct, IOrder } from "../../../lib/types.d";
+import { IOrder } from "../../../lib/types.d";
 import { Button } from "../../../components/common";
-
+1;
 interface Props {
   isError?: boolean;
   order: IOrder;
-  products: IProduct[];
 }
-export default function SuccessCheckout({ order, products, isError }: Props) {
+export default function SuccessCheckout({ order, isError }: Props) {
+  const { products } = order;
+
   const { t } = useTranslation();
 
   const router = useRouter();
@@ -52,18 +53,6 @@ export default function SuccessCheckout({ order, products, isError }: Props) {
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                 Order Error
               </h1>
-            </div>
-          </div>
-        </div>
-        <div className="mt-8">
-          <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg font-medium leading-6 text-gray-900">
-                {t("order_details")}
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Details and status for your order.
-              </p>
             </div>
           </div>
         </div>
@@ -203,7 +192,7 @@ export default function SuccessCheckout({ order, products, isError }: Props) {
                         </span>
 
                         <div className="mt-3 space-y-3 text-beer-dark">
-                          {product.order_item[0].is_reviewed && (
+                          {product.is_reviewed && (
                             <span>
                               {t("product_already_reviewed_condition")}
                             </span>
@@ -215,7 +204,7 @@ export default function SuccessCheckout({ order, products, isError }: Props) {
 
                           <Button
                             disabled={
-                              product.order_item[0].is_reviewed ||
+                              product.is_reviewed ||
                               order.status !== "delivered"
                                 ? true
                                 : false
@@ -225,7 +214,7 @@ export default function SuccessCheckout({ order, products, isError }: Props) {
                             class="my-6 font-medium text-beer-draft hover:text-beer-dark "
                             onClick={() => {
                               if (
-                                !product.order_item[0].is_reviewed &&
+                                !product.is_reviewed &&
                                 order.status === "delivered"
                               ) {
                                 handleOnClick(product.id);

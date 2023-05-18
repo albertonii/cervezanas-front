@@ -12,7 +12,7 @@ interface Props {
   isError?: boolean;
   order: IOrder;
 }
-export default function ErrorCheckout({ order }: Props) {
+export default function ErrorCheckout({ order, isError }: Props) {
   const { products } = order;
 
   const { t } = useTranslation();
@@ -28,6 +28,22 @@ export default function ErrorCheckout({ order }: Props) {
       setLoading(true);
     };
   }, [user, products]);
+
+  if (isError) {
+    return (
+      <div className="container mx-auto sm:py-4 lg:py-6">
+        <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+          <div className="flex flex-col">
+            <div className="flex sm:items-baseline sm:space-x-4">
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                Order Error
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
