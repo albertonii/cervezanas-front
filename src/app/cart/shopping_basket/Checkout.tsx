@@ -36,6 +36,8 @@ import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../components/TPV";
 // import { Paypal } from "../../../components/paypal";
 import { useSupabase } from "../../../components/Context/SupabaseProvider";
+import ShippingAddressItem from "./ShippingAddressItem";
+import BillingAddressItem from "./BillingAddressItem";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -786,7 +788,7 @@ export default function Checkout({
 
                     {/* Addresses */}
                     <div className="mt-6 flex flex-shrink-0 flex-col items-start justify-start space-y-6 pb-4 md:mt-0">
-                      <div className="mb-6 flex w-full flex-col bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
+                      <div className="mb-6 flex w-full flex-col space-y-4 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
                         <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                           {t("addresses")}
                         </h3>
@@ -799,26 +801,13 @@ export default function Checkout({
 
                             <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
                               {shippingAddresses.map((address) => {
-                                if (address.id === selectedShippingAddress)
+                                if (address.id === selectedShippingAddress) {
                                   return (
                                     <div key={address.id}>
-                                      <label
-                                        className=" text-product-dark w-full 
-                                           dark:bg-gray-800 dark:text-gray-400"
-                                      >
-                                        <div className="block">
-                                          <div className="w-full text-lg font-semibold">
-                                            {address.name} {address.lastname}
-                                          </div>
-                                          <div className="text-md w-full">
-                                            {address.address}, {address.city},{" "}
-                                            {address.state}, {address.zipcode},{" "}
-                                            {address.country}
-                                          </div>
-                                        </div>
-                                      </label>
+                                      <ShippingAddressItem address={address} />
                                     </div>
                                   );
+                                }
                               })}
                             </div>
                           </div>
@@ -833,19 +822,7 @@ export default function Checkout({
                                 if (address.id === selectedBillingAddress)
                                   return (
                                     <div key={address.id}>
-                                      <label className=" text-product-dark w-full dark:bg-gray-800 dark:text-gray-400">
-                                        <div className="block">
-                                          <div className="w-full text-lg font-semibold">
-                                            {address.name} {address.lastname}
-                                          </div>
-
-                                          <div className="text-md w-full">
-                                            {address.address}, {address.city},{" "}
-                                            {address.state}, {address.zipcode},{" "}
-                                            {address.country}
-                                          </div>
-                                        </div>
-                                      </label>
+                                      <BillingAddressItem address={address} />
                                     </div>
                                   );
                               })}
