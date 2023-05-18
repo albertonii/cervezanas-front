@@ -461,6 +461,11 @@ export interface IOrderItem {
   quantity: number;
   is_reviewed: boolean;
   created_at: Date;
+  product_multimedia: IProductMultimedia[];
+  name: string;
+  description: string;
+  id: string;
+  price: number;
 }
 
 export interface IPaymentCardMethod {

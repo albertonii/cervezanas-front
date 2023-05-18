@@ -1,54 +1,63 @@
-import { redirect } from "next/navigation";
 import React from "react";
+import { redirect } from "next/navigation";
 import { VIEWS } from "../../../constants";
+import { IOrder } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
 import ErrorCheckout from "./ErrorCheckout";
 
-export async function generateMetadata({ params }: { params: { slug: any } }) {
-  try {
-    const { slug } = params;
-    const { Ds_MerchantParameters } = slug.query as {
-      Ds_MerchantParameters: string;
-      Ds_SignatureVersion: string;
-      Ds_Signature: string;
-    };
+export const metadata = {
+  title: { default: "Error page for checkout", template: `%s | Cervezanas` },
+  description:
+    "Error page for checkout reached by code sent from Checkout Order",
+};
 
-    if (!Ds_MerchantParameters) {
-      return {
-        title: "Not found",
-        description: "The page you are looking for does not exists",
-      };
-    }
+// export async function generateMetadata({ params }: { params: { slug: any } }) {
+//   try {
 
-    return {
-      title: "Error page for checkout",
-      description:
-        "Error page for checkout reached by code sent from Checkout Order",
-    };
-  } catch (error) {
-    return {
-      title: "Not found",
-      description: "The page you are looking for does not exists",
-    };
-  }
-}
+//     const { slug } = params;
+//     console.log(slug);
 
-export default async function Error({ params }: { params: { slug: any } }) {
-  const { slug } = params;
-  const orderData = await getCheckoutErrorData(slug);
+//     const { Ds_MerchantParameters } = slug.query as {
+//       Ds_MerchantParameters: string;
+//       Ds_SignatureVersion: string;
+//       Ds_Signature: string;
+//     };
+
+//     if (!Ds_MerchantParameters) {
+//       return {
+//         title: "Not found",
+//         description: "The page you are looking for does not exists",
+//       };
+//     }
+
+//     return {
+//       title: "Error page for checkout",
+//       description:
+//         "Error page for checkout reached by code sent from Checkout Order",
+//     };
+//   } catch (error) {
+//     return {
+//       title: "Not found",
+//       description: "The page you are looking for does not exists",
+//     };
+//   }
+// }
+
+export default async function Error({ searchParams }: any) {
+  const orderData = await getCheckoutErrorData(searchParams);
   const [order] = await Promise.all([orderData]);
-  const products = order?.products;
-
+  console.log(order);
+  if (!order) return <></>;
   return (
     <>
-      <ErrorCheckout order={order[0]} products={products ?? []} />
+      <ErrorCheckout order={order} />
     </>
   );
 }
 
-async function getCheckoutErrorData(slug: any) {
-  const { Ds_MerchantParameters } = slug.query as {
+async function getCheckoutErrorData(searchParams: any) {
+  const { Ds_MerchantParameters } = searchParams as {
     Ds_MerchantParameters: string;
     Ds_SignatureVersion: string;
     Ds_Signature: string;
@@ -101,19 +110,12 @@ async function getCheckoutErrorData(slug: any) {
 
   if (orderError) {
     console.error(orderError.message);
-    return {
-      isError: true,
-      order: null,
-      products: null,
-    };
+    throw orderError;
   }
 
   if (!orderData || orderData.length === 0) {
-    return {
-      order: null,
-      products: null,
-    };
+    return null;
   }
 
-  return orderData[0];
+  return orderData[0] as IOrder;
 }

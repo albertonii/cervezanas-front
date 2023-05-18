@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -32,7 +34,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
       const p = products?.find((i) => i.id === id);
       if (p) {
         setItem(p);
-        setItemMultimedia(p.product_multimedia[0].p_principal);
+        setItemMultimedia(p.product_multimedia[0]?.p_principal);
       }
     };
 

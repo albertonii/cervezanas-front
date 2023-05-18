@@ -5,15 +5,16 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../components/Auth";
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import { IOrder, IProduct } from "../../../lib/types.d";
+import { IOrder } from "../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../utils";
 
 interface Props {
   isError?: boolean;
   order: IOrder;
-  products: IProduct[];
 }
-export default function ErrorCheckout({ order, products }: Props) {
+export default function ErrorCheckout({ order }: Props) {
+  const { products } = order;
+
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();

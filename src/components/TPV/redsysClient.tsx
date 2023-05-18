@@ -29,6 +29,6 @@ export const merchantInfo = {
   DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationPath}`,
   DS_MERCHANT_URLOK: `${endpointRedsys}${successRedirectPath}`,
   DS_MERCHANT_URLKO: `${endpointRedsys}${errorRedirectPath}`,
-  DS_MERCHANT_SHIPPINGADDRESSPYP: "N",
-  DS_MERCHANT_PAYMETHODS: "p",
+  // DS_MERCHANT_SHIPPINGADDRESSPYP: "N",
+  // DS_MERCHANT_PAYMETHODS: "p",
 } as const;

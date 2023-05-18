@@ -34,7 +34,7 @@ import {
 import Decimal from "decimal.js";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../components/TPV";
-import { Paypal } from "../../../components/paypal";
+// import { Paypal } from "../../../components/paypal";
 import { useSupabase } from "../../../components/Context/SupabaseProvider";
 
 interface FormShippingData {
@@ -766,7 +766,7 @@ export default function Checkout({
                         </div>
 
                         {/* Paypal payment method */}
-                        {total > 0 && (
+                        {/* {total > 0 && (
                           <div
                             className="flex w-full items-center justify-center md:items-start md:justify-start"
                             onClick={() => {
@@ -780,7 +780,7 @@ export default function Checkout({
                               billing_info_id={selectedBillingAddress}
                             />
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
 
