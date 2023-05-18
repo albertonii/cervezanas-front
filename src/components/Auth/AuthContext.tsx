@@ -104,7 +104,6 @@ export const AuthContextProvider = ({
       ) {
         router.refresh();
       }
-      console.log(event);
       switch (event) {
         case EVENTS.INITIAL_SESSION:
           setInitial(false);

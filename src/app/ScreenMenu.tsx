@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import i18n from "../lib/translations/i18n";
@@ -18,10 +17,6 @@ export function ScreenMenu() {
   const { user, role } = useAuth();
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const router = useRouter();
 
