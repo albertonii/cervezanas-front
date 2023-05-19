@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
 import { ConsumptionPoints } from "../../../components/customLayout";
-import { ROUTE_SIGNIN } from "../../../config";
 import { VIEWS } from "../../../constants";
 import { IProfile, IConsumptionPoints } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function ProfilePage() {
   const { cps, profile } = await getCPSData();
-  if (!profile) return null;
+  if (!profile) return <></>;
 
   return (
     <>

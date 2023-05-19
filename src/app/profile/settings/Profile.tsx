@@ -11,7 +11,9 @@ interface Props {
 }
 
 export default function Profile({ profile }: Props) {
+  console.log("profile", profile);
   const [loading, setLoading] = useState<boolean>(true);
+  console.log(profile);
 
   const [menuOption, setMenuOption] = useState<string>("account");
 
@@ -44,7 +46,7 @@ export default function Profile({ profile }: Props) {
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
-        <div>{renderSwitch()}</div>
+        <>{renderSwitch()}</>
       )}
     </>
   );

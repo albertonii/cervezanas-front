@@ -84,15 +84,14 @@ export const AuthContextProvider = ({
 
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
-    /*
     async function getActiveSession() {
       const {
         data: { session: activeSession },
       } = await supabase.auth.getSession();
+      // Set role for the user and load different layouts
       setRole(activeSession?.user?.app_metadata?.role);
     }
     getActiveSession();
-    */
 
     const {
       data: { subscription: authListener },

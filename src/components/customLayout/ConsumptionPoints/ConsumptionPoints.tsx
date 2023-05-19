@@ -17,6 +17,7 @@ export function ConsumptionPoints({
   cps,
   profile: { cp_organizer_status },
 }: Props) {
+  console.log("dentro");
   const { t } = useTranslation();
 
   const [cpOrganizerStatus, setCPOrganizerStatus] =

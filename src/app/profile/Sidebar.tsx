@@ -1,12 +1,12 @@
 "use client";
 
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../components/Auth";
 import { Button } from "../../components/common";
 import { useAppContext } from "../../components/Context";
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 
 export function Sidebar() {
   const { sidebar } = useAppContext();
@@ -101,7 +101,7 @@ export function Sidebar() {
           {
             name: t("consumption_points"),
             icon: "location",
-            option: "consumption_points",
+            option: "profile/consumption_points",
           },
         ];
 
@@ -137,7 +137,8 @@ export function Sidebar() {
         className={`
         ${
           open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0 "
-        } absolute z-10 h-full transform bg-white duration-300 ease-in-out lg:relative lg:block`}
+        } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block
+        `}
         aria-label="Sidebar"
         id="default-sidebar"
         ref={sidebarRef}

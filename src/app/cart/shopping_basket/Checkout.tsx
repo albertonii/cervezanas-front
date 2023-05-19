@@ -1,5 +1,9 @@
 "use client";
 
+import Decimal from "decimal.js";
+import ShippingAddressItem from "./ShippingAddressItem";
+import BillingAddressItem from "./BillingAddressItem";
+import ShippingBillingContainer from "./ShippingBillingContainer";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useShoppingCart } from "../../../components/Context/ShoppingCartContext";
@@ -21,13 +25,9 @@ import { useForm } from "react-hook-form";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Button, CustomLoading } from "../../../components/common";
 import { CheckoutItem } from "../../../components/checkout";
-import Decimal from "decimal.js";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../components/TPV";
 import { useSupabase } from "../../../components/Context/SupabaseProvider";
-import ShippingAddressItem from "./ShippingAddressItem";
-import BillingAddressItem from "./BillingAddressItem";
-import ShippingBillingContainer from "./ShippingBillingContainer";
 
 interface FormShippingData {
   shipping_info_id: string;

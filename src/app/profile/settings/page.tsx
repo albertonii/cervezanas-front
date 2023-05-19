@@ -6,7 +6,7 @@ import { VIEWS } from "../../../constants";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
-  if (!profile) return null;
+  if (!profile) return <></>;
 
   return (
     <>

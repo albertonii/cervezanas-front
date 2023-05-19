@@ -12,7 +12,7 @@ import {
   IRefProductLot,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
-import { Spinner } from "../common";
+import {} from "../common";
 
 type AppContextType = {
   filters: any;
@@ -85,7 +85,7 @@ export function AppContextProvider(props: Props) {
       family_styles: [],
     });
 
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
 
   const { refetch } = useFetchNotifications(user?.id ?? "");
 

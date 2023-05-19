@@ -11,11 +11,11 @@ import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../config";
 import { useAuth } from "../components/Auth";
 import { useAppContext, useShoppingCart } from "../components/Context";
-import { Button, Spinner } from "../components/common";
+import { Button } from "../components/common";
 import { Notification } from "../components";
 
 export function MobileMenu() {
-  const { role, user, isLoading } = useAuth();
+  const { role, user } = useAuth();
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -53,8 +53,6 @@ export function MobileMenu() {
 
   const MENU_HEADER_STYLES =
     "text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4";
-
-  if (isLoading) return <Spinner size="medium" color="beer-blonde" />;
 
   return (
     <>
