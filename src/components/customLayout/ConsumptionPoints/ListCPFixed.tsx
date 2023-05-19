@@ -144,10 +144,10 @@ export default function ListCPFixed({
     if (error) throw error;
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!selectedCP) return;
 
-    handleRemoveCP();
+    await handleRemoveCP();
     removeFromFixedList(selectedCP.id);
     setIsDeleteModal(false);
   };

@@ -384,7 +384,7 @@ export default function Checkout({
                       {t("customer_s_cart")}
                     </p>
                     {cart.length > 0 ? (
-                      <>
+                      <div className="w-full">
                         {cart.map((product) => {
                           return (
                             <div key={product.id}>
@@ -415,7 +415,7 @@ export default function Checkout({
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     ) : (
                       <>
                         {/* Empty Cart */}

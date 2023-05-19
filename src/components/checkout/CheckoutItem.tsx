@@ -127,44 +127,50 @@ export function CheckoutItem({
             </div>
           )}
         </div>
-        <div className="flex w-full items-start justify-between space-x-8">
-          <p className="text-base leading-6 dark:text-white xl:text-lg">
-            {formatCurrency(product.price)}
-            <span className="text-red-300 line-through"> $45.00</span>
-          </p>
-          <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
-            {quantity === 0 ? (
-              <></>
-            ) : (
-              <span className="flex items-center justify-center">
-                <DecreaseButton
-                  onClick={() => handleDecreaseCartQuantity(product.id)}
-                />
+        <div className="flex w-full flex-col items-start justify-between space-y-2 sm:flex-row sm:space-x-8">
+          <div className="flex w-full items-center justify-between space-x-2 ">
+            <p className="text-base leading-6 dark:text-white xl:text-lg">
+              {formatCurrency(product.price)}
+              <span className="text-red-300 line-through"> $45.00</span>
+            </p>
 
-                <span className="px-2 text-3xl text-black">{quantity}</span>
+            <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
+              {quantity === 0 ? (
+                <></>
+              ) : (
+                <span className="flex items-center justify-center">
+                  <DecreaseButton
+                    onClick={() => handleDecreaseCartQuantity(product.id)}
+                  />
 
-                <IncreaseButton
-                  onClick={() => handleIncreaseCartQuantity(product.id)}
-                />
-              </span>
-            )}
-          </p>
-          <p className="text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-lg">
-            {formatCurrency(productSubtotal)}
-          </p>
+                  <span className="px-2 text-3xl text-black">{quantity}</span>
 
-          <IconButton
-            box
-            danger
-            accent
-            classContainer="py-2"
-            icon={faTrash}
-            color={{ filled: "#fefefe", unfilled: "#fefefe" }}
-            onClick={() => {
-              handleRemoveFromCart(product.id);
-            }}
-            title={""}
-          ></IconButton>
+                  <IncreaseButton
+                    onClick={() => handleIncreaseCartQuantity(product.id)}
+                  />
+                </span>
+              )}
+            </p>
+          </div>
+
+          <div className="flex w-full items-center justify-between space-x-2">
+            <p className="text-md text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-lg">
+              {formatCurrency(productSubtotal)}
+            </p>
+
+            <IconButton
+              box
+              danger
+              accent
+              classContainer="py-2"
+              icon={faTrash}
+              color={{ filled: "#fefefe", unfilled: "#fefefe" }}
+              onClick={() => {
+                handleRemoveFromCart(product.id);
+              }}
+              title={""}
+            ></IconButton>
+          </div>
         </div>
       </div>
     </div>

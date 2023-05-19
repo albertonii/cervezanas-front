@@ -1,0 +1,17 @@
+[1mdiff --git a/src/components/customLayout/ConsumptionPoints/ListCPFixed.tsx b/src/components/customLayout/ConsumptionPoints/ListCPFixed.tsx[m
+[1mindex 057b659..aa574af 100644[m
+[1m--- a/src/components/customLayout/ConsumptionPoints/ListCPFixed.tsx[m
+[1m+++ b/src/components/customLayout/ConsumptionPoints/ListCPFixed.tsx[m
+[36m@@ -144,10 +144,10 @@[m [mexport default function ListCPFixed({[m
+     if (error) throw error;[m
+   };[m
+ [m
+[31m-  const handleDelete = () => {[m
+[32m+[m[32m  const handleDelete = async () => {[m
+     if (!selectedCP) return;[m
+ [m
+[31m-    handleRemoveCP();[m
+[32m+[m[32m    await handleRemoveCP();[m
+     removeFromFixedList(selectedCP.id);[m
+     setIsDeleteModal(false);[m
+   };[m
