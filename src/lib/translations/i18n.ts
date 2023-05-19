@@ -513,7 +513,14 @@ from the beer.`,
   price_starts_at: `Price starts at`,
   no_products: `No products`,
   no_lots: `No lots`,
-
+  add_new_event: `Add new event`,
+  new_event: `New event`,
+  events_info: `Events information`,
+  events_list: `Events list`,
+  error_fetching_events: `Error fetching events`,
+  error_fetching_products: `Error fetching products`,
+  event_advertising: `Event advertising`,
+  cp_mobile_associated: `Associated mobile consumption points`,
 };
 
 const translationsEs = {
@@ -1043,6 +1050,14 @@ desprenden de la cerveza. `,
   price_starts_at: `Precio desde`,
   no_products: `No hay productos`,
   no_lots: `No hay lotes`,
+  add_new_event: `Añadir nuevo evento`,
+  new_event: `Nuevo evento`,
+  events_info: `Información del evento`,
+  events_list: `Lista de eventos`,
+  error_fetching_events: `Error al obtener eventos`,
+  error_fetching_products: `Error al obtener productos`,
+  event_advertising: `Publicidad del evento`,
+  cp_mobile_associated: `Puntos móviles asociados`,
 };
 
 // the translations

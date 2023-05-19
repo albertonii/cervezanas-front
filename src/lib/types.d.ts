@@ -321,6 +321,17 @@ export interface IProfile {
   cp_organizer_status: number;
 }
 
+export interface IEvent {
+  id: string;
+  created_at: Date;
+  name: string;
+  description: string;
+  start_date: Date;
+  end_date: Date;
+  logo: string;
+  promotional_img: string;
+  owner_id: IUser;
+}
 export interface IConsumptionPoints {
   id: string;
   created_at: Date;
@@ -707,6 +718,8 @@ export enum SortBy {
   LAST = "last",
   COUNTRY = "country",
   CREATED_DATE = "created_date",
+  START_DATE = "start_date",
+  END_DATE= "end_date",
 }
 
 declare global {

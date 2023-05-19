@@ -55,7 +55,11 @@ export const AuthContextProvider = ({
   const getUser = async () => {
     const { data: user, error } = await supabase
       .from("users")
-      .select("*")
+      .select(
+        `
+        *
+      `
+      )
       .eq("id", serverSession?.user?.id)
       .single();
 

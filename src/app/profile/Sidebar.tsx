@@ -79,6 +79,16 @@ export function Sidebar() {
             option: "profile/campaigns",
           },
           {
+            name: t("events"),
+            icon: "location",
+            option: "profile/events",
+          },
+          {
+            name: t("consumption_points"),
+            icon: "location",
+            option: "profile/consumption_points",
+          },
+          {
             name: t("factories"),
             icon: "truck",
             option: "profile/factories",
@@ -97,11 +107,6 @@ export function Sidebar() {
             name: t("watchlist"),
             icon: "watchlist",
             option: "profile/likes_history",
-          },
-          {
-            name: t("consumption_points"),
-            icon: "location",
-            option: "profile/consumption_points",
           },
         ];
 
