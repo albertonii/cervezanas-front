@@ -31,6 +31,7 @@ export function SearchCheckboxListCampaign({
   // Insert in supabase the CampaignItems related to the campaign
   const api_handleProductsInCampaign = () => {
     const campaignItems: ICampaignItem[] = getValues("products");
+
     const updateItemsLinkedToCampaign = async (
       campaignItems: ICampaignItem[]
     ) => {
