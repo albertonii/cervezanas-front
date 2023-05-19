@@ -41,7 +41,6 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
   const [address, setAddress] = useState<string>("");
   const [cpList, setCpList] = useState<ICPFixed[]>(cpFixed);
-
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
 
   const [addressInputRequired, setAddressInputRequired] =
@@ -51,7 +50,6 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
   const [selectedEOrganizer, setSelectedEOrganizer] = useState<string>();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
   const getExternalOrganizers = async () => {
@@ -107,20 +105,23 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
 
     const results = await getGeocode({ address });
 
-    const { data, error } = await supabase.from("cp_fixed").insert({
-      cp_name,
-      cp_description,
-      organizer_name,
-      organizer_lastname,
-      organizer_email,
-      organizer_phone,
-      start_date,
-      end_date,
-      address,
-      status: "active",
-      cp_id: cpsId,
-      geoArgs: results,
-    });
+    const { data, error } = await supabase
+      .from("cp_fixed")
+      .insert({
+        cp_name,
+        cp_description,
+        organizer_name,
+        organizer_lastname,
+        organizer_email,
+        organizer_phone,
+        start_date,
+        end_date,
+        address,
+        status: "active",
+        cp_id: cpsId,
+        geoArgs: results,
+      })
+      .select();
 
     if (error) {
       throw error;
@@ -141,7 +142,8 @@ export default function CPFixed({ cpsId, cpFixed }: Props) {
     }
 
     if (data) {
-      const newCPList = [...cpList, data[0]];
+      const newCP = data[0] as ICPFixed;
+      const newCPList = [...cpList, newCP];
       handleCPList(newCPList);
 
       setShowModal(false);

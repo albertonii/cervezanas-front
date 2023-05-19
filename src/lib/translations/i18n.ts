@@ -521,6 +521,7 @@ from the beer.`,
   error_fetching_products: `Error fetching products`,
   event_advertising: `Event advertising`,
   cp_mobile_associated: `Associated mobile consumption points`,
+  phone: `Phone`,
 };
 
 const translationsEs = {
@@ -1058,6 +1059,7 @@ desprenden de la cerveza. `,
   error_fetching_products: `Error al obtener productos`,
   event_advertising: `Publicidad del evento`,
   cp_mobile_associated: `Puntos móviles asociados`,
+  phone: `Teléfono`,
 };
 
 // the translations

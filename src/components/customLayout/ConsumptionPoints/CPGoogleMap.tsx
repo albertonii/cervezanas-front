@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
@@ -112,11 +114,11 @@ const PlacesAutocomplete = ({
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input bg-beer-softFoam border-beer-softBlondeBubble border-2 focus:border-beer-blonde focus:outline-none rounded-md px-2 py-1 text-lg "
+        className="combobox-input rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
         placeholder={t("search_an_address")}
       />
 
-      <ComboboxPopover portal={false} className="absolute max-w-[404px] z-50">
+      <ComboboxPopover portal={false} className="absolute z-50 max-w-[404px]">
         <ComboboxList>
           {status === "OK" &&
             data.map(({ place_id, description }) => (
