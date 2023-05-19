@@ -9,7 +9,7 @@ export default async function EventsPage() {
   const { eventsData } = await getEventsData();
   const [cpsMobile, events] = await Promise.all([cpsMobileData, eventsData]);
   if (!events) return <></>;
-
+  console.log(events);
   return <Events events={events} cpsMobile={cpsMobile} />;
 }
 
@@ -33,7 +33,7 @@ async function getEventsData() {
         cp_mobile (*)
       `
     )
-    .eq("id", session.user.id);
+    .eq("owner_id", session.user.id);
 
   if (eventsError) throw eventsError;
 

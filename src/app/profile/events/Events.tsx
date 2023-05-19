@@ -17,7 +17,6 @@ export default function Events({ events, cpsMobile }: Props) {
   const handleEList = (list: IEvent[]) => {
     setEList(list);
   };
-
   return (
     <>
       <AddNewEvent
