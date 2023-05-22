@@ -3,7 +3,7 @@
 import AddNewEvent from "./AddNewEvent";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ICPMobile, IEvent } from "../../../../lib/types.d";
+import { ICPMobile, IEvent } from "../../../../lib/types";
 import EventList from "./EventList";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   cpsMobile: ICPMobile[];
 }
 
-export default function Events({ events, cpsMobile }: Props) {
+export default function ProfileEvents({ events, cpsMobile }: Props) {
   const { t } = useTranslation();
   const [eList, setEList] = useState<IEvent[]>(events);
   const handleEList = (list: IEvent[]) => {

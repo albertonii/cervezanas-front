@@ -4,7 +4,7 @@ import { VIEWS } from "../../../../../constants";
 import { IEvent } from "../../../../../lib/types";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 
-export default async function EventsPage({ params }: any) {
+export default async function EventPage({ params }: any) {
   const { id } = params;
 
   const eventData = getEvent(id);

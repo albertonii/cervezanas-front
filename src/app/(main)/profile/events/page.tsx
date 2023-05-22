@@ -1,4 +1,4 @@
-import Events from "./Events";
+import ProfileEvents from "./ProfileEvents";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../constants";
@@ -13,7 +13,7 @@ export default async function EventsPage() {
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <Events events={events} cpsMobile={cpsMobile} />;
+        <ProfileEvents events={events} cpsMobile={cpsMobile} />;
       </Suspense>
     </>
   );
