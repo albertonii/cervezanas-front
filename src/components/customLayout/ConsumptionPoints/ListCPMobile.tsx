@@ -8,10 +8,10 @@ import { useTranslation } from "react-i18next";
 import { formatDate } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
-import { ICPMobile } from "../../../lib/types.d";
 import { useAuth } from "../../Auth";
 import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { ICPMobile } from "../../../lib/types.d";
 
 interface Props {
   cpsId: string;
@@ -28,11 +28,7 @@ enum SortBy {
   CREATED_DATE = "created_date",
 }
 
-export default function ListCPMobile({
-  cpsId,
-  cpMobile: cp,
-  handleCPList,
-}: Props) {
+export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -68,8 +64,7 @@ export default function ListCPMobile({
 
   useEffect(() => {
     refetch().then((res) => {
-      // const cpMobile = res.data as ICPMobile[];
-      const cpMobile = res.data as any;
+      const cpMobile = res.data as ICPMobile[];
       setCPMobile(cpMobile);
     });
   }, [currentPage]);
@@ -283,10 +278,6 @@ export default function ListCPMobile({
                   {t("created_date_header")}
                 </th>
 
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
                 <th scope="col" className="px-6 py-3 ">
                   {t("action_header")}
                 </th>
@@ -301,14 +292,15 @@ export default function ListCPMobile({
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/cp_name`}>{cp.cp_name}</Link>
+                      <Link
+                        target={"_blank"}
+                        href={`/consumption_points/mobile?id=${cp.id}`}
+                      >
+                        {cp.cp_name}
+                      </Link>
                     </td>
 
                     <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
 
                     <td className="flex space-x-2 px-6 py-4">
                       <IconButton

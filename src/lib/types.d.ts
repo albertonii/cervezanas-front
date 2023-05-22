@@ -360,6 +360,7 @@ export interface ICPFixed {
   maximum_capacity: number;
   is_booking_required: boolean;
   cp_id: string;
+  cpm_products: ICPFProducts[];
 }
 
 export interface ICPMobile {
@@ -381,8 +382,22 @@ export interface ICPMobile {
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
   cp_id: string;
-
+  cpm_products: ICPMProducts[];
   // TODO: rrss
+}
+
+export interface ICPFProducts {
+  id: string;
+  created_at: Date;
+  cp_id: ICPFixed;
+  product_id: IProduct;
+}
+
+export interface ICPMProducts {
+  id: string;
+  created_at: Date;
+  cp_id: ICPMobile;
+  product_id: IProduct;
 }
 
 export interface IProfileLocation {
@@ -719,7 +734,7 @@ export enum SortBy {
   COUNTRY = "country",
   CREATED_DATE = "created_date",
   START_DATE = "start_date",
-  END_DATE= "end_date",
+  END_DATE = "end_date",
 }
 
 declare global {

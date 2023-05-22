@@ -1,6 +1,6 @@
 import Product from "./Product";
-import { VIEWS } from "../../../constants";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { VIEWS } from "../../../../constants";
+import { createServerClient } from "../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 
 export default async function ProductId({ searchParams }: any) {
@@ -11,7 +11,7 @@ export default async function ProductId({ searchParams }: any) {
     productData,
     marketplaceData,
   ]);
-
+  console.log("hola!");
   const multimedia = product?.product_multimedia;
   const reviews = product?.reviews;
 

@@ -6,12 +6,12 @@ import useFetchCPFixed from "../../../hooks/useFetchCPFixed";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { ICPFixed, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { useAuth } from "../../Auth";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { ICPFixed, SortBy } from "../../../lib/types.d";
 
 interface Props {
   cpsId: string;
@@ -19,11 +19,7 @@ interface Props {
   handleCPList: ComponentProps<any>;
 }
 
-export default function ListCPFixed({
-  cpsId,
-  cpFixed: cp,
-  handleCPList,
-}: Props) {
+export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -248,7 +244,7 @@ export default function ListCPFixed({
 
           <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
+              <tr className="w-full">
                 <th
                   scope="col"
                   className="px-6 py-3 hover:cursor-pointer"
@@ -279,22 +275,23 @@ export default function ListCPFixed({
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="w-full">
               {sortedItems.map((cp) => {
                 return (
                   <tr
                     key={cp.id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="w-full border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/cp_name`}>{cp.cp_name}</Link>
+                      <Link
+                        target={"_blank"}
+                        href={`/consumption_points/fixed?id=${cp.id}`}
+                      >
+                        {cp.cp_name}
+                      </Link>
                     </td>
 
                     <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
 
                     <td className="flex space-x-2 px-6 py-4">
                       <IconButton

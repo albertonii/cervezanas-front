@@ -1,7 +1,6 @@
 "use client";
 
 import CPGoogleMap from "./CPGoogleMap";
-import ListCPFixed from "./ListCPFixed";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -14,6 +13,7 @@ import { useQuery } from "react-query";
 import { useAuth } from "../../Auth";
 import { DisplayInputError } from "../../common";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { ListCPFixed } from "./ListCPFixed";
 
 interface FormData {
   cp_name: string;

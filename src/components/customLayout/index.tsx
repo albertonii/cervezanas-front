@@ -31,3 +31,5 @@ export { CPRejected } from "./ConsumptionPoints/CPRejected";
 export { CPPending } from "./ConsumptionPoints/CPPending";
 export { CPFixed } from "./ConsumptionPoints/CPFixed";
 export { CPMobile } from "./ConsumptionPoints/CPMobile";
+export { ListCPMobile } from "./ConsumptionPoints/ListCPMobile";
+export { ListCPFixed } from "./ConsumptionPoints/ListCPFixed";

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Cookies() {
+export default function CookiesPage() {
   return (
     <div className="container m-auto">
       <div>

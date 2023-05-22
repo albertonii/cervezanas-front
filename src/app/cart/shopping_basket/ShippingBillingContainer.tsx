@@ -12,7 +12,7 @@ import {
   DisplayInputError,
   IconButton,
 } from "../../../components/common";
-import { IBillingAddress, IShippingAddress } from "../../../lib/types";
+import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { useMessage } from "../../../components/message";

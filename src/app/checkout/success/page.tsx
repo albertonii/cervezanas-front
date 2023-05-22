@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../constants";
-import { IOrder } from "../../../lib/types";
+import { IOrder } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
 import SuccessCheckout from "./SuccessCheckout";
