@@ -530,6 +530,10 @@ from the beer.`,
   cp_mobile_associated: `Associated mobile consumption points`,
   phone: `Phone`,
   search_cp: `Search consumption point`,
+  type_header: `Type`,
+  description_header: `Description`,
+  img_header: `Image`,
+  logo_header: `Logo`,
 };
 
 const translationsEs = {
@@ -1070,6 +1074,10 @@ desprenden de la cerveza. `,
   cp_mobile_associated: `Puntos móviles asociados`,
   phone: `Teléfono`,
   search_cp: `Buscar punto de consumo`,
+  type_header: `Tipo`,
+  description_header: `Descripción`,
+  img_header: `Imagen`,
+  logo_header: `Logo`,
 };
 
 // the translations

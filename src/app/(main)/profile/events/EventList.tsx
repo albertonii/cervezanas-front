@@ -1,54 +1,36 @@
 "use client";
 
+import useFetchEvents from "../../../../hooks/useFetchEvents";
+import DeleteModal from "../../../../components/modals/DeleteModal";
 import Link from "next/link";
-import DeleteModal from "../../modals/DeleteModal";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../../utils";
-import { Button, IconButton, Spinner } from "../../common";
-import { Modal } from "../../modals";
-import { useAuth } from "../../Auth";
-import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
-import { useSupabase } from "../../Context/SupabaseProvider";
-import { ICPMobile } from "../../../lib/types.d";
+import { IEvent, SortBy } from "../../../../lib/types.d";
+import { formatDate } from "../../../../utils";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
+import { Modal } from "../../../../components/modals";
+import { Button, IconButton, Spinner } from "../../../../components/common";
 
 interface Props {
-  cpsId: string;
-  cpMobile: ICPMobile[];
-  handleCPList: ComponentProps<any>;
+  events: IEvent[];
+  handleEList: ComponentProps<any>;
 }
 
-enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-}
-
-export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
-  const { user } = useAuth();
-  if (!user) return null;
-
+export default function EventList({ events: es, handleEList }: Props) {
+  const { t } = useTranslation();
   const { supabase } = useSupabase();
 
-  const { t } = useTranslation();
-
-  const [cpMobile, setCPMobile] = useState<ICPMobile[]>(cp);
+  const [events, setEvents] = useState<IEvent[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const mobileCount = cp.length;
+  const fixedCount = es.length;
   const pageRange = 10;
   const finalPage =
-    mobileCount < currentPage * pageRange
-      ? mobileCount
-      : currentPage * pageRange;
+    fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchCPMobile(
-    cpsId,
+  const { isError, isLoading, refetch } = useFetchEvents(
     currentPage,
     pageRange
   );
@@ -60,31 +42,34 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-  const [selectedCP, setSelectedCP] = useState<ICPMobile>();
+  const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
   useEffect(() => {
-    refetch().then((res) => {
-      const cpMobile = res.data as ICPMobile[];
-      setCPMobile(cpMobile);
+    // Initialize events
+    setEvents(es);
+  }, [es]);
+
+  useEffect(() => {
+    refetch().then((res: any) => {
+      const events = res.data as any;
+      setEvents(events);
     });
   }, [currentPage]);
 
-  const filteredItems = useMemo<ICPMobile[]>(() => {
-    return cpMobile.filter((mobile) => {
-      return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
+  const filteredItems = useMemo<IEvent[]>(() => {
+    if (!events) return [];
+    return events.filter((event) => {
+      return event.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpMobile, query]);
-
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
+  }, [events, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
 
-    const compareProperties: Record<string, (cp: ICPMobile) => any> = {
-      [SortBy.NAME]: (cp) => cp.cp_name,
-      [SortBy.CREATED_DATE]: (cp) => cp.created_at,
+    const compareProperties: Record<string, (event: IEvent) => any> = {
+      [SortBy.NAME]: (e) => e.name,
+      [SortBy.CREATED_DATE]: (e) => e.created_at,
+      [SortBy.START_DATE]: (e) => e.start_date,
     };
 
     return filteredItems.toSorted((a, b) => {
@@ -93,69 +78,68 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
     });
   }, [filteredItems, sorting]);
 
-  const handleEditClick = async (cp: ICPMobile) => {
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
+
+  const handleEditClick = async (e: IEvent) => {
     setIsEditModal(true);
-    setSelectedCP(cp);
+    setSelectedEvent(e);
   };
 
-  const handleDeleteClick = async (cp: ICPMobile) => {
+  const handleDeleteClick = async (e: IEvent) => {
     setIsDeleteModal(true);
-    setSelectedCP(cp);
+    setSelectedEvent(e);
   };
 
-  // Remove from mobile list
-  const removeFromMobileList = (id: string) => {
-    const newList = cpMobile.filter((item) => item.id !== id);
-    handleCPList(newList);
+  // Remove from event list
+  const removeFromEventList = (id: string) => {
+    const newList = events.filter((item) => item.id !== id);
+    handleEList(newList);
   };
 
-  // Delete CP Mobile from database
+  // Delete CP event from database
   const handleRemoveCP = async () => {
     const { error } = await supabase
-      .from("cp_mobile")
+      .from("events")
       .delete()
-      .eq("id", selectedCP?.id);
+      .eq("id", selectedEvent?.id);
 
     if (error) throw error;
   };
 
-  // Update to mobile list
-  const updToMobileList = () => {
-    const newList = cpMobile.map((item) => {
-      if (item.id === selectedCP?.id) {
-        return selectedCP;
+  // Update to fixed list
+  const updToFixedList = () => {
+    const newList = events.map((item) => {
+      if (item.id === selectedEvent?.id) {
+        return selectedEvent;
       }
       return item;
     });
 
-    handleCPList(newList);
+    handleEList(newList);
   };
 
-  // Update CP Mobile in database
+  // Update CP Fixed in database
   const handleUpdate = async () => {
     const { error } = await supabase
-      .from("cp_mobile")
+      .from("events")
       .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
+        name: selectedEvent?.name,
+        description: selectedEvent?.description,
+        start_date: selectedEvent?.start_date,
+        end_date: selectedEvent?.end_date,
       })
-      .eq("id", selectedCP?.id);
+      .eq("id", selectedEvent?.id);
 
     if (error) throw error;
   };
 
   const handleDelete = () => {
-    if (!selectedCP) return;
+    if (!selectedEvent) return;
 
-    removeFromMobileList(selectedCP.id);
     handleRemoveCP();
+    removeFromEventList(selectedEvent.id);
     setIsDeleteModal(false);
   };
 
@@ -166,7 +150,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(mobileCount / pageRange)) {
+    if (currentPage < Math.ceil(fixedCount / pageRange)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -180,7 +164,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
           color={editColor}
           handler={async () => {
             handleUpdate();
-            updToMobileList();
+            updToFixedList();
             setIsEditModal(false);
           }}
           handlerClose={() => setIsEditModal(false)}
@@ -212,7 +196,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_products")}
+            {t("error_fetching_events")}
           </p>
         </div>
       )}
@@ -221,11 +205,9 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && cpMobile.length === 0 ? (
+      {!isError && !isLoading && events.length === 0 ? (
         <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            {t("no_cp_mobile")}
-          </p>
+          <p className="text-gray-500 dark:text-gray-400">{t("no_cp_fixed")}</p>
         </div>
       ) : (
         <>
@@ -278,6 +260,10 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
                   {t("created_date_header")}
                 </th>
 
+                <th scope="col" className="px-6 py-3 "></th>
+
+                <th scope="col" className="px-6 py-3 "></th>
+
                 <th scope="col" className="px-6 py-3 ">
                   {t("action_header")}
                 </th>
@@ -285,28 +271,29 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
             </thead>
 
             <tbody>
-              {sortedItems.map((cp: ICPMobile) => {
+              {sortedItems.map((e) => {
                 return (
                   <tr
-                    key={cp.id}
+                    key={e.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link
-                        target={"_blank"}
-                        href={`/consumption_points/mobile/${cp.id}`}
-                      >
-                        {cp.cp_name}
+                      <Link target={"_blank"} href={`/events/${e.id}`}>
+                        {e.name}
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
+                    <td className="px-6 py-4">{formatDate(e.created_at)}</td>
+
+                    <td className="cursor-pointer px-6 py-4"></td>
+
+                    <td className="cursor-pointer px-6 py-4"></td>
 
                     <td className="flex space-x-2 px-6 py-4">
                       <IconButton
                         icon={faEdit}
                         onClick={() => {
-                          handleEditClick(cp);
+                          handleEditClick(e);
                         }}
                         color={editColor}
                         classContainer={
@@ -319,7 +306,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
                       <IconButton
                         icon={faTrash}
                         onClick={() => {
-                          handleDeleteClick(cp);
+                          handleDeleteClick(e);
                         }}
                         color={deleteColor}
                         classContainer={
@@ -345,7 +332,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
               {t("pagination_footer_nums", {
                 from: currentPage,
                 to: finalPage,
-                total: mobileCount,
+                total: fixedCount,
               })}
             </p>
 

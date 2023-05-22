@@ -331,6 +331,8 @@ export interface IEvent {
   logo: string;
   promotional_img: string;
   owner_id: IUser;
+  cp_mobile: ICPMobile[];
+  status: string;
 }
 export interface IConsumptionPoints {
   id: string;

@@ -1,7 +1,6 @@
 export { Breadcrumb } from "./Breadcrumb";
 export { DisplaySimilarProducts } from "./DisplaySimilarProducts";
 export { Footer } from "./Footer";
-export { Header } from "../app/Header";
 export { OwnerInfo } from "./OwnerInfo";
 export { ProductGallery } from "./ProductGallery";
 export { SimilarProduct } from "./SimilarProduct";
