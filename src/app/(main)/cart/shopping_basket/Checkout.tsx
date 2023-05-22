@@ -6,28 +6,28 @@ import BillingAddressItem from "./BillingAddressItem";
 import ShippingBillingContainer from "./ShippingBillingContainer";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useShoppingCart } from "../../../components/Context/ShoppingCartContext";
-import { Spinner } from "../../../components/common/Spinner";
+import { useShoppingCart } from "../../../../components/Context/ShoppingCartContext";
+import { Spinner } from "../../../../components/common/Spinner";
 import {
   IBillingAddress,
   IProduct,
   IShippingAddress,
-} from "../../../lib/types.d";
-import { formatCurrency } from "../../../utils/formatCurrency";
+} from "../../../../lib/types.d";
+import { formatCurrency } from "../../../../utils/formatCurrency";
 import {
   faShoppingCart,
   faCircleExclamation,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "../../../components/Auth/useAuth";
+import { useAuth } from "../../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { Button, CustomLoading } from "../../../components/common";
-import { CheckoutItem } from "../../../components/checkout";
+import { Button, CustomLoading } from "../../../../components/common";
+import { CheckoutItem } from "../../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import { createRedirectForm, merchantInfo } from "../../../components/TPV";
-import { useSupabase } from "../../../components/Context/SupabaseProvider";
+import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 
 interface FormShippingData {
   shipping_info_id: string;

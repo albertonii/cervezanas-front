@@ -3,10 +3,10 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../../components/Auth";
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import { IOrder } from "../../../lib/types.d";
-import { formatCurrency, formatDateString } from "../../../utils";
+import { useAuth } from "../../../../components/Auth";
+import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import { IOrder } from "../../../../lib/types.d";
+import { formatCurrency, formatDateString } from "../../../../utils";
 
 interface Props {
   isError?: boolean;

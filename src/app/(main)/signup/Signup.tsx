@@ -5,9 +5,9 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../components/Auth";
-import { SignUpForm } from "../../components/Auth/SignUpForm";
-import { VIEWS } from "../../constants";
+import { useAuth } from "../../../components/Auth";
+import { SignUpForm } from "../../../components/Auth/SignUpForm";
+import { VIEWS } from "../../../constants";
 
 export default function Signup() {
   const { t } = useTranslation();

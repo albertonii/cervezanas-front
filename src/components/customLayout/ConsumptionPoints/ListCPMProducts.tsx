@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { SearchCheckboxCPProducts } from "../../../app/profile/consumption_points/SearchCheckboxCPProducts";
 import { UseFormReturn } from "react-hook-form";
+import { SearchCheckboxCPProducts } from "../../../app/(main)/profile/consumption_points/SearchCheckboxCPProducts";
 
 interface Props {
   form: UseFormReturn<any, any>;

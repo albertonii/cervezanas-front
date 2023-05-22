@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { ROUTE_SIGNIN } from "../../../config";
-import { VIEWS } from "../../../constants";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { ROUTE_SIGNIN } from "../../../../config";
+import { VIEWS } from "../../../../constants";
+import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function FactoriesPage() {
   //   const {} = await getFactoriesData();

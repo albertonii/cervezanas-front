@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../constants";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../constants";
+import { createServerClient } from "../../../../../utils/supabaseServer";
 import OrderInvoice from "./OrderInvoice";
 
 export default async function OrderInvoicePage({

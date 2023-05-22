@@ -6,11 +6,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../components/Auth";
-import { useMessage } from "../../components/message";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Spinner } from "../../components/common";
+import { Button, Spinner } from "../../../components/common";
+import { useMessage } from "../../../components/message";
+import { useAuth } from "../../../components/Auth";
 
 interface FormData {
   username: string;

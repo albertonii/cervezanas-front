@@ -2,13 +2,13 @@
 
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { ProductList } from "../../../components/customLayout";
+import { ProductList } from "../../../../components/customLayout";
 import {
   AddProduct,
   DeleteProduct,
   UpdateProduct,
-} from "../../../components/modals";
-import { IProduct } from "../../../lib/types.d";
+} from "../../../../components/modals";
+import { IProduct } from "../../../../lib/types.d";
 
 interface Props {
   products: IProduct[];

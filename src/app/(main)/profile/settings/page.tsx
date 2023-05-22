@@ -1,8 +1,8 @@
 import Profile from "./Profile";
-import { IProfile } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { IProfile } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../constants";
+import { VIEWS } from "../../../../constants";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();

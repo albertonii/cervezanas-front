@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { ConsumptionPoints } from "../../../components/customLayout";
-import { VIEWS } from "../../../constants";
-import { IProfile, IConsumptionPoints } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { ConsumptionPoints } from "../../../../components/customLayout";
+import { VIEWS } from "../../../../constants";
+import { IProfile, IConsumptionPoints } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function ProfilePage() {
   const cpsData = getCPSData();

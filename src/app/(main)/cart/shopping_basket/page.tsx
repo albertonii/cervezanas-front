@@ -1,8 +1,8 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../constants";
-import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { VIEWS } from "../../../../constants";
+import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
 import Checkout from "./Checkout";
 
 export default async function CheckoutPage() {

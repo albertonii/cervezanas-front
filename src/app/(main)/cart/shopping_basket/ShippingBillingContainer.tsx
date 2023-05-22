@@ -6,17 +6,17 @@ import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { NewShippingAddress } from "../../../components/checkout";
+import { NewShippingAddress } from "../../../../components/checkout";
 import {
   Button,
   DisplayInputError,
   IconButton,
-} from "../../../components/common";
-import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
-import { formatCurrency } from "../../../utils";
-import { DeleteAddress } from "../../../components/modals/DeleteAddress";
-import { useMessage } from "../../../components/message";
-import { useSupabase } from "../../../components/Context/SupabaseProvider";
+} from "../../../../components/common";
+import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
+import { formatCurrency } from "../../../../utils";
+import { DeleteAddress } from "../../../../components/modals/DeleteAddress";
+import { useMessage } from "../../../../components/message";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 
 interface Props {
   shippingAddresses: IShippingAddress[];

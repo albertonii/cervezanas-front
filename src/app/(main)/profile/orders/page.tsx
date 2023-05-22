@@ -1,8 +1,8 @@
-import { IOrder } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
-import { Orders } from "../../../components/customLayout";
+import { IOrder } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
+import { Orders } from "../../../../components/customLayout";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../constants";
+import { VIEWS } from "../../../../constants";
 
 export default async function OrdersPage() {
   const ordersData = await getOrdersData();

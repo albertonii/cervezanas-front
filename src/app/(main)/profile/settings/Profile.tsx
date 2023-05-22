@@ -1,10 +1,10 @@
 "use client";
 
+import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import HorizontalSections from "../../../components/common/HorizontalSections";
-import { Spinner } from "../../../components/common";
-import { Account, Details, Values } from "../../../components/customLayout";
-import { IProfile } from "../../../lib/types.d";
+import { Spinner } from "../../../../components/common";
+import { Account, Details, Values } from "../../../../components/customLayout";
+import { IProfile } from "../../../../lib/types.d";
 
 interface Props {
   profile: IProfile;

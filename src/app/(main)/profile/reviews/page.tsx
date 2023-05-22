@@ -1,9 +1,9 @@
-import { ROUTE_SIGNIN } from "../../../config";
-import { IReview } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
-import { Reviews } from "../../../components/customLayout";
+import { ROUTE_SIGNIN } from "../../../../config";
+import { IReview } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
+import { Reviews } from "../../../../components/customLayout";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../constants";
+import { VIEWS } from "../../../../constants";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();

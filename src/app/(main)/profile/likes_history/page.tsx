@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { LikesHistory } from "../../../components/customLayout";
-import { ROUTE_SIGNIN } from "../../../config";
-import { VIEWS } from "../../../constants";
-import { ILike } from "../../../lib/types.d";
-import { createServerClient } from "../../../utils/supabaseServer";
+import { LikesHistory } from "../../../../components/customLayout";
+import { ROUTE_SIGNIN } from "../../../../config";
+import { VIEWS } from "../../../../constants";
+import { ILike } from "../../../../lib/types.d";
+import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function LikesPage() {
   const { likes } = await getLikesData();
