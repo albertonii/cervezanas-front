@@ -1,16 +1,22 @@
+import Events from "./Events";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { VIEWS } from "../../../constants";
 import { ICPMobile, IEvent } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
-import Events from "./Events";
 
 export default async function EventsPage() {
-  const { cpsMobileData } = await getCPMobileData();
-  const { eventsData } = await getEventsData();
+  const cpsMobileData = getCPMobileData();
+  const eventsData = getEventsData();
   const [cpsMobile, events] = await Promise.all([cpsMobileData, eventsData]);
   if (!events) return <></>;
-  console.log(events);
-  return <Events events={events} cpsMobile={cpsMobile} />;
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Events events={events} cpsMobile={cpsMobile} />;
+      </Suspense>
+    </>
+  );
 }
 
 async function getEventsData() {
@@ -37,9 +43,7 @@ async function getEventsData() {
 
   if (eventsError) throw eventsError;
 
-  return {
-    eventsData: eventsData as IEvent[],
-  };
+  return eventsData as IEvent[];
 }
 
 async function getCPMobileData() {
@@ -65,7 +69,5 @@ async function getCPMobileData() {
 
   if (cpError) throw cpError;
 
-  return {
-    cpsMobileData: cps[0].cp_mobile as ICPMobile[],
-  };
+  return cps[0].cp_mobile as ICPMobile[];
 }

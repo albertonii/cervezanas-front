@@ -1,7 +1,7 @@
 import React from "react";
 
 // Consumption Point status is in pending for validation by the admin of the platform
-export default function CPPending() {
+export function CPPending() {
   return (
     <div>
       <div className="text-3xl">Petición pendiente de validación</div>

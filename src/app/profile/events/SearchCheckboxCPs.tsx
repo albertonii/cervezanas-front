@@ -40,7 +40,7 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                 type="text"
                 id="input-group-search"
                 className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="Search user"
+                placeholder="Search consumption point"
               />
             </div>
           </div>
@@ -63,7 +63,7 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                       />
                       <label
-                        htmlFor={`products.${index}.value`}
+                        htmlFor={`cps_mobile.${index}.value`}
                         className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
                         {cp.cp_name}

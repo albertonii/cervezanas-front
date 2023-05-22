@@ -1,33 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 import Image from "next/image";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../../lib/types.d";
 import { Button, EditButton, Spinner, UnarchiveButton } from "../../common";
 import { useAuth } from "../../Auth";
-import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 import { useAppContext } from "../../Context";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { formatCurrency } from "../../../utils";
 
 interface Props {
-  handleEditShowModal: Dispatch<SetStateAction<any>>;
-  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
-  handleProductModal: Dispatch<SetStateAction<any>>;
+  handleEditShowModal: ComponentProps<any>;
+  handleDeleteShowModal: ComponentProps<any>;
+  handleProductModal: ComponentProps<any>;
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export default function ProductsArchiveList({
+export function ProductsArchiveList({
   handleEditShowModal,
   handleDeleteShowModal,
   handleProductModal,
@@ -227,7 +222,9 @@ export default function ProductsArchiveList({
                             </Link>
                           </td>
 
-                          <td className="px-6 py-4">{product.price}</td>
+                          <td className="px-6 py-4">
+                            {formatCurrency(product.price)}
+                          </td>
 
                           <td className="px-6 py-4">
                             {product.product_inventory &&

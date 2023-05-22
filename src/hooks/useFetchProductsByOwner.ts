@@ -36,7 +36,7 @@ const fetchProductsByOwner = async (
   return data;
 };
 
-const useFetchProducts = (
+const useFetchProductsByOwner = (
   ownerId: string,
   currentPage: number,
   pageRange: number,
@@ -59,4 +59,4 @@ const useFetchProducts = (
   });
 };
 
-export default useFetchProducts;
+export default useFetchProductsByOwner;

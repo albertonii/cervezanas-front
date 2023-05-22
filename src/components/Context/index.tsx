@@ -1,2 +1,2 @@
-export * from "./AppContext";
-export * from "./ShoppingCartContext";
+export { AppContextProvider, useAppContext } from "./AppContext";
+export { ShoppingCartProvider, useShoppingCart } from "./ShoppingCartContext";

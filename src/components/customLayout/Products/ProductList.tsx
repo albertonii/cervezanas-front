@@ -3,13 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "../../../lib/types.d";
 import { Button, DeleteButton, Spinner } from "../../common";
@@ -18,11 +12,12 @@ import { EditButton } from "../../common/EditButton";
 import { useAuth } from "../../Auth";
 import { useAppContext } from "../../Context";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { formatCurrency } from "../../../utils";
 
 interface Props {
-  handleEditShowModal: Dispatch<SetStateAction<any>>;
-  handleDeleteShowModal: Dispatch<SetStateAction<any>>;
-  handleProductModal: Dispatch<SetStateAction<any>>;
+  handleEditShowModal: ComponentProps<any>;
+  handleDeleteShowModal: ComponentProps<any>;
+  handleProductModal: ComponentProps<any>;
 }
 
 interface ColumnsProps {
@@ -239,7 +234,9 @@ export function ProductList({
                           </Link>
                         </td>
 
-                        <td className="px-6 py-4">{product.price}</td>
+                        <td className="px-6 py-4">
+                          {formatCurrency(product.price)}
+                        </td>
 
                         <td className="px-6 py-4">
                           {product.product_inventory &&

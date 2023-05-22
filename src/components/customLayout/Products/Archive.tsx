@@ -2,16 +2,16 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ProductsArchiveList } from "..";
 import { IProduct } from "../../../lib/types.d";
 import { DeleteProduct, UpdateProduct } from "../../modals";
-import ProductsArchiveList from "./ProductsArchiveList";
 
 /**
  *
  * @returns Products archived are not public and can only be viewed by the seller.
  * Useful to keep track of products that have been sold or are no longer available.
  */
-export default function Archive() {
+export function Archive() {
   const { t } = useTranslation();
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { ModalAddProductProps } from "../../lib/types.d";
 import { formatCurrency } from "../../utils";
-import FilePreview from "../common/FilePreview";
+import { FilePreview } from "../common";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;
@@ -16,7 +16,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
   return (
     <>
       {/* Resumen de las características del producto que se va a crear  */}
-      <div className="flex flex-col gap-2 border p-4 space-y-4">
+      <div className="flex flex-col gap-2 space-y-4 border p-4">
         {/* Public  */}
         <fieldset className="flex flex-row gap-2">
           <label className="text-md font-semibold text-gray-600">
@@ -47,7 +47,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         </fieldset>
 
         {/* ABV Fermentation Color  */}
-        <fieldset className="flex flex-row gap-2 space-x-4 justify-between">
+        <fieldset className="flex flex-row justify-between gap-2 space-x-4">
           <div className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("intensity_label")}
@@ -74,7 +74,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         </fieldset>
 
         {/* Region Family Era  */}
-        <fieldset className="flex flex-row gap-2 space-x-4 justify-between">
+        <fieldset className="flex flex-row justify-between gap-2 space-x-4">
           <div className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("origin_label")}
@@ -101,7 +101,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         </fieldset>
 
         {/* Format Volume Price  */}
-        <fieldset className="flex flex-row gap-2 space-x-4 justify-between">
+        <fieldset className="flex flex-row justify-between gap-2 space-x-4">
           <div className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("format_label")}
@@ -130,7 +130,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         </fieldset>
 
         {/* Stock Quantity and Notification  */}
-        <fieldset className="flex flex-row gap-2 space-x-4 justify-between">
+        <fieldset className="flex flex-row justify-between gap-2 space-x-4">
           <div className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("stock_quantity_label")}
@@ -162,7 +162,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         {getValues("packs").map((pack, index) => (
           <fieldset
             key={index}
-            className="flex flex-col gap-2 space-y-4 border rounded p-2"
+            className="flex flex-col gap-2 space-y-4 rounded border p-2"
           >
             <div className="flex flex-row justify-between">
               <div className="space-x-2">
@@ -222,7 +222,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
         {getValues("awards").map((award, index) => (
           <fieldset
             key={index}
-            className="flex flex-col gap-2 space-y-4 border rounded p-2"
+            className="flex flex-col gap-2 space-y-4 rounded border p-2"
           >
             <div className="flex flex-row justify-between">
               <div className="space-x-2">

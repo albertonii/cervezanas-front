@@ -5,7 +5,7 @@ interface Props {
   file?: any;
 }
 
-const FilePreview = ({ file }: Props) => {
+export function FilePreview({ file }: Props) {
   if (!file) {
     return null;
   }
@@ -25,6 +25,4 @@ const FilePreview = ({ file }: Props) => {
       </div>
     </div>
   );
-};
-
-export default FilePreview;
+}

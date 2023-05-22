@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect, ComponentProps } from "react";
+import { CarouselItem } from ".";
 import { ICarouselItem } from "../../lib/types.d";
-import CarouselItem from "./CarouselItem";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -11,7 +11,7 @@ interface Props {
   handleSetGalleryIndex: ComponentProps<any>;
 }
 
-const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
+export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   const maxScrollWidth = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const carousel = useRef<any>(null);
@@ -65,7 +65,7 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
   };
 
   return (
-    <div className="carousel my-12 mx-auto">
+    <div className="carousel mx-auto my-12">
       <div className="relative overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
@@ -140,6 +140,4 @@ const Carousel = ({ gallery, handleSetGalleryIndex }: Props) => {
       </div>
     </div>
   );
-};
-
-export default Carousel;
+}

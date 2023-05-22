@@ -7,7 +7,7 @@ import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 import { useAppContext } from "../../Context";
 
-export default function Lots() {
+export function Lots() {
   const { t } = useTranslation();
 
   const { products, lots, setLots } = useAppContext();

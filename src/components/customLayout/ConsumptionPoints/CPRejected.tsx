@@ -1,7 +1,7 @@
 import React from "react";
 
 // Consumption Point status is in pending for validation by the admin of the platform
-export default function CPRejected() {
+export function CPRejected() {
   return (
     <div className="space-y-6">
       <div className="text-3xl">Petición denegada</div>

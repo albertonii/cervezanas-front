@@ -1,6 +1,5 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
-import { ROUTE_SIGNIN } from "../../../config";
 import { VIEWS } from "../../../constants";
 import { IBillingAddress, IShippingAddress } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";

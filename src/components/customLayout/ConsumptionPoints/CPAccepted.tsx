@@ -1,17 +1,16 @@
 "use client";
 
+import HorizontalSections from "../../common/HorizontalSections";
 import React, { useState } from "react";
 import { IConsumptionPoints } from "../../../lib/types.d";
-import HorizontalSections from "../../common/HorizontalSections";
-import CPFixed from "./CPFixed";
-import CPMobile from "./CPMobile";
+import { CPFixed, CPMobile } from "..";
 
 interface Props {
   cps: IConsumptionPoints;
 }
 
 // Consumption Point status is in pending for validation by the admin of the platform
-export default function CPAccepted({ cps }: Props) {
+export function CPAccepted({ cps }: Props) {
   const [menuOption, setMenuOption] = useState<string>("cp_fixed");
 
   const renderSwitch = () => {

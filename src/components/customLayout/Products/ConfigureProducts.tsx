@@ -1,11 +1,9 @@
 "use client";
 
-import Lots from "./Lots";
 import HorizontalSections from "../../common/HorizontalSections";
-import Archive from "./Archive";
 import React, { useState } from "react";
 import { Products } from "./Products";
-import { CustomizeSettings } from "..";
+import { Archive, CustomizeSettings, Lots } from "..";
 
 export function ConfigureProducts() {
   const [menuOption, setMenuOption] = useState<string>("products");

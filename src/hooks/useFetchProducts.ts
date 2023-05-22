@@ -10,7 +10,8 @@ const fetchProducts = async (supabase: SupabaseClient<any>) => {
     beers (*),
     product_multimedia (
       p_principal
-    ),product_inventory (
+    ),
+    product_inventory (
       quantity
     )
   `);

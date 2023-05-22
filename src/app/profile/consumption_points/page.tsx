@@ -5,7 +5,9 @@ import { IProfile, IConsumptionPoints } from "../../../lib/types.d";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function ProfilePage() {
-  const { cps, profile } = await getCPSData();
+  const cpsData = getCPSData();
+  const profileData = getProfileData();
+  const [cps, profile] = await Promise.all([cpsData, profileData]);
   if (!profile) return <></>;
 
   return (
@@ -18,7 +20,32 @@ export default async function ProfilePage() {
 async function getCPSData() {
   const supabase = createServerClient();
 
-  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect(VIEWS.ROUTE_SIGNIN);
+  }
+
+  const { data: cps, error: cpsError } = await supabase
+    .from("consumption_points")
+    .select(
+      `
+        *,
+        cp_fixed (*),
+        cp_mobile (*)
+      `
+    )
+    .eq("owner_id", session.user.id);
+  if (cpsError) console.error(cpsError);
+
+  return cps as IConsumptionPoints[];
+}
+
+async function getProfileData() {
+  const supabase = createServerClient();
+
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -38,22 +65,5 @@ async function getCPSData() {
 
   if (profileError) throw profileError;
 
-  // Return different data by role
-
-  const { data: cps, error: cpsError } = await supabase
-    .from("consumption_points")
-    .select(
-      `
-        *,
-        cp_fixed (*),
-        cp_mobile (*)
-      `
-    )
-    .eq("owner_id", session.user.id);
-  if (cpsError) console.error(cpsError);
-
-  return {
-    cps: cps as IConsumptionPoints[],
-    profile: profileData[0] as IProfile,
-  };
+  return profileData[0] as IProfile;
 }

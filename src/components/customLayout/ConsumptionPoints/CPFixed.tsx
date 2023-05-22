@@ -34,7 +34,7 @@ interface Props {
   cpFixed: ICPFixed[];
 }
 
-export default function CPFixed({ cpsId, cpFixed }: Props) {
+export function CPFixed({ cpsId, cpFixed }: Props) {
   const { t } = useTranslation();
   const { supabase } = useSupabase();
   const { user } = useAuth();

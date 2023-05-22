@@ -1,5 +1,5 @@
 export * from "./message.types";
-export * from "./Message";
-export * from "./MessageList";
-export * from "./MessageContext";
-export * from "./useMessage";
+export { Message } from "./Message";
+export { MessageList } from "./MessageList";
+export { MessageContext, MessageProvider } from "./MessageContext";
+export { useMessage } from "./useMessage";

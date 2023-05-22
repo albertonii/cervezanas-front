@@ -11,6 +11,8 @@ const fetchEvents = async (
   pageRange: number,
   supabase: SupabaseClient<any>
 ) => {
+  if (!ownerId) return [];
+
   const { data, error } = await supabase
     .from("events")
     .select(
@@ -32,7 +34,7 @@ const useFetchEvents = (currentPage: number, pageRange: number) => {
 
   return useQuery({
     queryKey: ["cp_fixed"],
-    queryFn: () => fetchEvents(user.id, currentPage, pageRange, supabase),
+    queryFn: () => fetchEvents(user?.id, currentPage, pageRange, supabase),
     enabled: false,
     refetchOnWindowFocus: false,
   });

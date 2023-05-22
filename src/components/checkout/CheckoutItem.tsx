@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,9 +15,9 @@ import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
   product: IProduct;
-  handleIncreaseCartQuantity: (id: string) => void;
-  handleDecreaseCartQuantity: (id: string) => void;
-  handleRemoveFromCart: (id: string) => void;
+  handleIncreaseCartQuantity: ComponentProps<any>;
+  handleDecreaseCartQuantity: ComponentProps<any>;
+  handleRemoveFromCart: ComponentProps<any>;
   quantity: number;
 }
 

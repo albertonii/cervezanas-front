@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { formatCurrency } from "../../utils";
 
 const styles = StyleSheet.create({
   row: {
@@ -85,7 +86,7 @@ export function TableBodyRow({ items }: Props) {
     <View style={styles.row} key={item.code}>
       <Text style={styles.data_cod}>{item.code}</Text>
       <Text style={styles.data_article}>{item.article}</Text>
-      <Text style={styles.data_price}>{item.price}</Text>
+      <Text style={styles.data_price}>{formatCurrency(item.price)}</Text>
       <Text style={styles.data_unit}>{item.unit}</Text>
       <Text style={styles.data_total}>{item.total}</Text>
     </View>

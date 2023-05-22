@@ -3,7 +3,7 @@
 import { Message } from "./Message";
 import { useMessage } from "./useMessage";
 
-const MessageList = () => {
+export const MessageList = () => {
   const { messages } = useMessage();
 
   return (
@@ -14,5 +14,3 @@ const MessageList = () => {
     </div>
   );
 };
-
-export default MessageList;

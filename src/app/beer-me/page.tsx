@@ -5,7 +5,9 @@ import { createServerClient } from "../../utils/supabaseServer";
 import Beerme from "./Beerme";
 
 export default async function BeerMePage() {
-  const { cps } = await getCPsData();
+  const cpsData = getCPsData();
+  const [cps] = await Promise.all([cpsData]);
+
   if (!cps) return null;
 
   return (
@@ -43,5 +45,5 @@ async function getCPsData() {
     );
   if (cpsError) throw cpsError;
 
-  return { cps: cps as IConsumptionPoints[] };
+  return cps as IConsumptionPoints[];
 }
