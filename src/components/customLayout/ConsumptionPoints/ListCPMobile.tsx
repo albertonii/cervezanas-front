@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import DeleteModal from "../../modals/DeleteModal";
+import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,6 @@ import { formatDate } from "../../../utils";
 import { Button, IconButton, Spinner } from "../../common";
 import { Modal } from "../../modals";
 import { useAuth } from "../../Auth";
-import useFetchCPMobile from "../../../hooks/useFetchCPMobile";
 import { useSupabase } from "../../Context/SupabaseProvider";
 import { ICPMobile } from "../../../lib/types.d";
 
@@ -291,7 +291,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
                     key={cp.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
                         target={"_blank"}
                         href={`/consumption_points/mobile/${cp.id}`}

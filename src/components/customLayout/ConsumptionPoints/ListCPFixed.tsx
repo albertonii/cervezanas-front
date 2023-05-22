@@ -278,7 +278,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
                     key={cp.id}
                     className="w-full border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
                         target={"_blank"}
                         href={`/consumption_points/fixed?id=${cp.id}`}

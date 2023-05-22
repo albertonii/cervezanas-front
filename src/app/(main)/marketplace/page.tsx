@@ -1,8 +1,8 @@
 import Marketplace from "./Marketplace";
 import React from "react";
-import { VIEWS } from "../../constants";
-import { createServerClient } from "../../utils/supabaseServer";
-import { IProduct } from "../../lib/types.d";
+import { VIEWS } from "../../../constants";
+import { createServerClient } from "../../../utils/supabaseServer";
+import { IProduct } from "../../../lib/types.d";
 import { redirect } from "next/navigation";
 
 export default async function MarketPlacePage() {

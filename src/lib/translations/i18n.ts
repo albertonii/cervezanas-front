@@ -534,6 +534,8 @@ from the beer.`,
   description_header: `Description`,
   img_header: `Image`,
   logo_header: `Logo`,
+  date_header: `Date`,
+  address_header: `Address`,
 };
 
 const translationsEs = {
@@ -1078,6 +1080,8 @@ desprenden de la cerveza. `,
   description_header: `Descripción`,
   img_header: `Imagen`,
   logo_header: `Logo`,
+  date_header: `Fecha`,
+  address_header: `Dirección`,
 };
 
 // the translations

@@ -78,7 +78,11 @@ export default function DisplayEvent({ event }: Props) {
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("price_header")}
+                  {t("address_header")}
+                </th>
+
+                <th scope="col" className="px-6 py-3 ">
+                  {t("date_header")}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
@@ -117,20 +121,16 @@ const CPMobile = ({ cp }: CPMobileProps) => {
         />
       </td>
 
-      <td className=" space-x-2 px-6 py-4">
+      <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link target={"_blank"} href={`/consumption_points/mobile/${cp.id}`}>
           {cp.cp_name}
         </Link>
       </td>
       <td className="space-x-2 px-6 py-4">{cp.cp_description}</td>
-      <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
-        {cp.address}
-      </td>
-      <td className="space-x-2 px-6 py-4">{cp.maximum_capacity}</td>
+      <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
       <td className="space-x-2 px-6 py-4">
         {formatDate(cp.start_date)} - {formatDate(cp.end_date)}
       </td>
-      <td className="space-x-2 px-6 py-4">{cp.is_booking_required}</td>
       <td className="space-x-2 px-6 py-4">{cp.status}</td>
     </tr>
   );
