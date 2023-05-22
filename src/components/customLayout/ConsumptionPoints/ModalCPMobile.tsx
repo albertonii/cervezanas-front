@@ -112,7 +112,6 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
       end_date,
       product_items,
     } = formValues;
-    console.log("formValues", formValues);
 
     if (!isValidObject(address)) {
       setAddressInputRequired(true);
@@ -141,6 +140,23 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
 
     if (error) {
       throw error;
+    }
+
+    const cpMobileId = data[0].id;
+
+    const pItemsFiltered = product_items.filter((p) => p.id);
+    if (pItemsFiltered) {
+      // Link the product with the consumption Po
+      pItemsFiltered.forEach(async (p) => {
+        const { error } = await supabase.from("cpm_products").insert({
+          cp_id: cpMobileId,
+          product_id: p.id,
+        });
+
+        if (error) {
+          throw error;
+        }
+      });
     }
 
     if (!isInternalOrganizer) {
