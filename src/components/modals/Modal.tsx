@@ -125,23 +125,23 @@ export function Modal(props: Props) {
 
       {showModal && (
         <PortalModal wrapperId="modal-portal">
-          <div className="justify-center items-start pt-16 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden pt-16 outline-none focus:outline-none">
             {/* The modal  */}
             <div
-              className="relative w-auto my-6 mx-4 sm:mx-auto max-w-3xl"
+              className="relative mx-4 my-6 w-auto max-w-3xl sm:mx-auto"
               ref={modalRef}
             >
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
                   <h3 className="text-3xl font-semibold">{t(title)}</h3>
 
                   <button
-                    className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
                     onClick={() => handleClose()}
                   >
-                    <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                    <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
                       <FontAwesomeIcon
                         icon={faXmark}
                         style={{ color: "beer-dark" }}
@@ -153,8 +153,8 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                <div className="relative flex-auto p-6">
+                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
                     {t(description)}
                   </p>
 
@@ -162,7 +162,7 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="flex items-center justify-start p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="border-slate-200 flex items-center justify-around rounded-b border-t border-solid p-6">
                   <Button
                     primary
                     class="mr-4"
