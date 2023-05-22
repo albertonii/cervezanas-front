@@ -40,7 +40,7 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                 type="text"
                 id="input-group-search"
                 className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="Search consumption point"
+                placeholder={t("search_cp") ?? "Search consumption point"}
               />
             </div>
           </div>

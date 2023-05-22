@@ -35,9 +35,8 @@ export function Footer() {
                   className="w-8 "
                   src="/logo_cervezanas.svg"
                   alt="Logo"
-                  width={100}
-                  height={100}
-                  sizes="100px"
+                  width={300}
+                  height={300}
                 />
 
                 <span className="ml-2 text-xl font-bold uppercase tracking-wide text-beer-dark">

@@ -265,10 +265,6 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
                   {t("created_date_header")}
                 </th>
 
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
                 <th scope="col" className="px-6 py-3 ">
                   {t("action_header")}
                 </th>

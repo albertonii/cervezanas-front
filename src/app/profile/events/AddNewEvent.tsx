@@ -74,19 +74,20 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
     if (!event) {
       return;
     }
-    console.log(event);
 
     const { id: eventId } = event[0];
 
+    // Get cp checked from the list
+    const cpsMFiltered = cps_mobile.filter((cp) => cp.id);
+
     // Loop trough all the selected CPs and insert them into the event
-    for (let i = 0; i < cps_mobile.length; i++) {
-      console.log(cps_mobile[i]);
+    for (let i = 0; i < cpsMFiltered.length; i++) {
       const { error: cpError } = await supabase
         .from("cp_mobile")
         .update({
           event: eventId,
         })
-        .eq("id", cps_mobile[i].id);
+        .eq("id", cpsMFiltered[i].id);
 
       if (cpError) {
         throw cpError;
