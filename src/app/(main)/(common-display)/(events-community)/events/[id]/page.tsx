@@ -1,8 +1,8 @@
 import DisplayEvent from "./DisplayEvent";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../constants";
-import { IEvent } from "../../../../../lib/types.d";
-import { createServerClient } from "../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../../constants";
+import { IEvent } from "../../../../../../lib/types";
+import { createServerClient } from "../../../../../../utils/supabaseServer";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { ICPMobile } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../../../constants";
+import { ICPMobile } from "../../../../../../../lib/types";
+import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import DisplayCPMobile from "./DisplayCPMobile";
 
 export default async function CPMobilePage({ params }: any) {

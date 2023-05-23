@@ -14,11 +14,7 @@ import {
   IShippingAddress,
 } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import {
-  faShoppingCart,
-  faCircleExclamation,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
@@ -28,6 +24,7 @@ import { CheckoutItem } from "../../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
+import EmptyCart from "./EmptyCart";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -418,37 +415,7 @@ export default function Checkout({
                       </div>
                     ) : (
                       <>
-                        {/* Empty Cart */}
-                        <div className="container mt-6">
-                          {/* Cart Empty Icon */}
-                          <div className="flex flex-row items-center justify-center">
-                            <div className="mt-4 flex w-1/2 flex-col items-start justify-between">
-                              <h2 className="text-2xl text-gray-500">
-                                {t("your_empty_cart")}
-                              </h2>
-
-                              <div className="flex flex-col items-start justify-start space-y-2">
-                                <div className="text-xl text-gray-500">
-                                  {t("add_products_to_continue")}
-                                </div>
-                              </div>
-                            </div>
-                            <FontAwesomeIcon
-                              icon={faShoppingCart}
-                              style={{ color: "#432a14", height: "6vh" }}
-                              title={t("empty_cart") ?? "empty_cart"}
-                              width={120}
-                              height={120}
-                            />
-                            <FontAwesomeIcon
-                              icon={faCircleExclamation}
-                              style={{ color: "#fdc300", height: "6vh" }}
-                              title={"circle_warning"}
-                              width={120}
-                              height={120}
-                            />
-                          </div>
-                        </div>
+                        <EmptyCart />
                       </>
                     )}
                   </div>

@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { COMMON } from "../../../../../constants";
-import { ICPMobile, IEvent } from "../../../../../lib/types.d";
-import { formatDate } from "../../../../../utils";
+import { COMMON } from "../../../../../../constants";
+import { ICPMobile, IEvent } from "../../../../../../lib/types";
+import { formatDate } from "../../../../../../utils";
 
 interface Props {
   event: IEvent;

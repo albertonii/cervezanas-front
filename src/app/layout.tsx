@@ -13,6 +13,7 @@ import { AuthContextProvider } from "../components/Auth";
 import { createServerClient } from "../utils/supabaseServer";
 import { Header } from "./(main)/Header";
 import { Footer } from "./(main)/components";
+import { EventCartProvider } from "../components/Context/EventCartContext";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -32,37 +33,38 @@ export default async function RootLayout({ children }: LayoutProps) {
     <html lang="en">
       <body>
         <SupabaseProvider>
-          {/* <SupabaseListener /> */}
           <MessageProvider>
             <ReactQueryWrapper>
               <AuthContextProvider serverSession={session}>
                 <AppContextProvider>
                   <ShoppingCartProvider>
-                    <div className="relative flex flex-col bg-beer-foam">
-                      <Header />
+                    <EventCartProvider>
+                      <div className="relative flex flex-col bg-beer-foam">
+                        <Header />
 
-                      <div
-                        className={classNames(
-                          "relative mx-auto mt-[10vh] h-auto w-full"
-                        )}
-                      >
-                        {/* <Breadcrumb /> */}
-                        {/* <Breadcrumb
+                        <div
+                          className={classNames(
+                            "relative mx-auto mt-[10vh] h-auto w-full"
+                          )}
+                        >
+                          {/* <Breadcrumb /> */}
+                          {/* <Breadcrumb
                           getDefaultTextGenerator={(path) => titleize(path)}
                         /> */}
+                        </div>
+
+                        <main
+                          className={classNames(
+                            "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-between pt-20 transition lg:container lg:flex-wrap"
+                          )}
+                        >
+                          <MessageList />
+                          {children}
+                        </main>
+
+                        <Footer />
                       </div>
-
-                      <main
-                        className={classNames(
-                          "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-between pt-20 transition lg:container lg:flex-wrap"
-                        )}
-                      >
-                        <MessageList />
-                        {children}
-                      </main>
-
-                      <Footer />
-                    </div>
+                    </EventCartProvider>
                   </ShoppingCartProvider>
                 </AppContextProvider>
               </AuthContextProvider>

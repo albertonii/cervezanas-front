@@ -58,13 +58,13 @@ export function ScreenMenu() {
                 </Link>
               </li>
 
-              <li className="flex items-center">
+              {/* <li className="flex items-center">
                 <Link href="/community">
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("community").toUpperCase()}
                   </span>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="flex items-center">
                 <Link href="/events">
