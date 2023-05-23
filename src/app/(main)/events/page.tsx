@@ -1,4 +1,4 @@
-import { IEvent } from "../../../lib/types.d";
+import { IEvent } from "../../../lib/types";
 import { createServerClient } from "../../../utils/supabaseServer";
 import Events from "./Events";
 

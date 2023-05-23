@@ -29,7 +29,7 @@ export function CPMobile({ cpsId, cpMobile }: Props) {
       />
 
       {/* Section displaying all the Mobile consumption points created by the organizer  */}
-      <section className="mt-4 flex flex-col space-y-4 ">
+      <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("cp_mobile_list")}</h2>
 
         <ListCPMobile

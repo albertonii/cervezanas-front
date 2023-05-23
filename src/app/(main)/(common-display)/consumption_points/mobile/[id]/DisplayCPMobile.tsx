@@ -119,7 +119,7 @@ const Product = ({ product }: ProductProps) => {
         />
       </td>
 
-      <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+      <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link target={"_blank"} href={`/products/${product.id}`}>
           {product.name}
         </Link>

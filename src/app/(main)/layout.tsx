@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 
                       <main
                         className={classNames(
-                          "relative mx-auto h-auto w-full "
+                          "container relative mx-auto flex h-screen w-full transform items-start justify-between pt-20 transition lg:flex-wrap"
                         )}
                       >
                         <MessageList />

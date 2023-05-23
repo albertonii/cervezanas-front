@@ -401,7 +401,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       </Modal>
 
       {/* Section displaying all the fixed consumption points created by the organizer  */}
-      <section className="mt-4 flex flex-col space-y-4 ">
+      <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
         <ListCPFixed

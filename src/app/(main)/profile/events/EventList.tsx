@@ -45,7 +45,6 @@ export default function EventList({ events: es, handleEList }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
   useEffect(() => {
-    // Initialize events
     setEvents(es);
   }, [es]);
 
@@ -156,7 +155,7 @@ export default function EventList({ events: es, handleEList }: Props) {
   };
 
   return (
-    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
       {isEditModal && (
         <Modal
           title={t("accept")}
@@ -207,7 +206,7 @@ export default function EventList({ events: es, handleEList }: Props) {
 
       {!isError && !isLoading && events.length === 0 ? (
         <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_cp_fixed")}</p>
+          <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
       ) : (
         <>

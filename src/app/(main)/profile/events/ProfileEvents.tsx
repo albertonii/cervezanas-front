@@ -1,10 +1,10 @@
 "use client";
 
+import EventList from "./EventList";
 import AddNewEvent from "./AddNewEvent";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ICPMobile, IEvent } from "../../../../lib/types";
-import EventList from "./EventList";
 
 interface Props {
   events: IEvent[];
@@ -19,7 +19,7 @@ export default function ProfileEvents({ events, cpsMobile }: Props) {
   };
 
   return (
-    <>
+    <div className="px-6 py-4">
       <AddNewEvent
         eList={eList}
         handleEList={handleEList}
@@ -27,11 +27,11 @@ export default function ProfileEvents({ events, cpsMobile }: Props) {
       />
 
       {/* Section displaying all the fixed consumption points created by the organizer  */}
-      <section className="mt-4 flex flex-col space-y-4 ">
+      <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("events_list")}</h2>
 
         <EventList events={events} handleEList={handleEList} />
       </section>
-    </>
+    </div>
   );
 }
