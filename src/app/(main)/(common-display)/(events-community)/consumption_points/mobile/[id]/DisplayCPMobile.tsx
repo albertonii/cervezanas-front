@@ -8,6 +8,13 @@ import { COMMON } from "../../../../../../../constants";
 import { ICPMobile, IProduct } from "../../../../../../../lib/types";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
+import {
+  AddCardButton,
+  DecreaseButton,
+  DeleteButton,
+  IncreaseButton,
+} from "../../../../../../../components/common";
 
 interface Props {
   cpMobile: ICPMobile;
@@ -20,7 +27,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
 
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
-      <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
+      <div className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
         <span
           className={`text-lg font-medium text-white ${
             cpMobile.status === "active" ? "text-green-500" : "text-red-500"
@@ -31,7 +38,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
       </div>
 
       {/* Display all the information inside the Mobile Consumption Point */}
-      <div>
+      <div className="mt-10 grid grid-cols-2">
         <div>
           <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
           <h2 className="mb-4 text-lg text-gray-500">
@@ -96,6 +103,10 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
                   <th scope="col" className="px-6 py-3 ">
                     {t("type_header")}
                   </th>
+
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("action_header")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -121,6 +132,38 @@ interface ProductProps {
 }
 
 const Product = ({ product }: ProductProps) => {
+  const {
+    marketplaceEventItems,
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+    addMarketplaceItems,
+    removeMarketplaceItems,
+  } = useEventCartContext();
+
+  const { id } = product;
+
+  const handleIncreaseToCartItem = () => {
+    increaseCartQuantity(id);
+
+    // Check if the product is already in the marketplace items
+    if (marketplaceEventItems.find((item) => item.id === id)) return;
+
+    addMarketplaceItems(product);
+  };
+
+  const handleDecreaseFromCartItem = () => {
+    decreaseCartQuantity(id);
+    if (getItemQuantity(id) > 1) return;
+    removeMarketplaceItems(id);
+  };
+
+  const handleRemoveFromCart = () => {
+    removeMarketplaceItems(id);
+    removeFromCart(id);
+  };
+
   return (
     <tr
       key={product.id}
@@ -148,6 +191,29 @@ const Product = ({ product }: ProductProps) => {
         {formatCurrency(product.price)}
       </td>
       <td className="space-x-2 px-6 py-4">{product.category}</td>
+      <td className="space-x-2 px-6 py-4">
+        {getItemQuantity(id) === 0 ? (
+          <>
+            <AddCardButton onClick={() => handleIncreaseToCartItem()} />
+          </>
+        ) : (
+          <div className="flex space-x-2">
+            <DecreaseButton onClick={() => handleDecreaseFromCartItem()} />
+
+            <span className="px-2 text-3xl text-black">
+              {getItemQuantity(id)}
+            </span>
+
+            <IncreaseButton onClick={() => handleIncreaseToCartItem()} />
+
+            <DeleteButton
+              onClick={() => {
+                handleRemoveFromCart();
+              }}
+            />
+          </div>
+        )}
+      </td>
     </tr>
   );
 };
@@ -168,7 +234,7 @@ const GoogleMapLocation = ({ cp }: GoogleMapLocationProps) => {
 
 const containerStyle = {
   width: "100%",
-  height: "70vh",
+  height: "40vh",
   borderRadius: "5px",
 };
 

@@ -1,9 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../../../components/common";
+import {
+  Button,
+  DecreaseButton,
+  DeleteButton,
+  IncreaseButton,
+} from "../../../../components/common";
 import { useEventCartContext } from "../../../../components/Context/EventCartContext";
+import { COMMON } from "../../../../constants";
 import EmptyCart from "../../cart/shopping_basket/EmptyCart";
 
 type LayoutProps = {
@@ -14,11 +21,28 @@ export default function layout({ children }: LayoutProps) {
   const { t } = useTranslation();
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
   const {
-    eventItems,
     marketplaceEventItems,
-    addMarketplaceItems,
+    getItemQuantity,
     increaseCartQuantity,
+    decreaseCartQuantity,
+    removeMarketplaceItems,
+    removeFromCart,
   } = useEventCartContext();
+
+  const handleDecreaseFromCartItem = (id: string) => {
+    decreaseCartQuantity(id);
+    if (getItemQuantity(id) > 1) return;
+    removeMarketplaceItems(id);
+  };
+
+  const handleIncreaseToCartItem = (id: string) => {
+    increaseCartQuantity(id);
+  };
+
+  const handleRemoveFromCart = (id: string) => {
+    removeMarketplaceItems(id);
+    removeFromCart(id);
+  };
 
   return (
     <>
@@ -85,9 +109,13 @@ export default function layout({ children }: LayoutProps) {
                     {marketplaceEventItems.map((item) => (
                       <>
                         <li className="flex items-center gap-4">
-                          <img
-                            src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
-                            alt=""
+                          <Image
+                            src={
+                              item.product_multimedia
+                                ? item.product_multimedia[0].p_principal
+                                : COMMON.MARKETPLACE_PRODUCT
+                            }
+                            alt="Thumbnail"
                             className="h-16 w-16 rounded object-cover"
                           />
 
@@ -112,8 +140,7 @@ export default function layout({ children }: LayoutProps) {
                           <div className="flex flex-1 items-center justify-end gap-2">
                             <form>
                               <label htmlFor="Line1Qty" className="sr-only">
-                                {" "}
-                                Quantity{" "}
+                                {}
                               </label>
 
                               <input
@@ -125,24 +152,29 @@ export default function layout({ children }: LayoutProps) {
                               />
                             </form>
 
-                            <button className="text-gray-600 transition hover:text-red-600">
-                              <span className="sr-only">Remove item</span>
+                            <div className="flex space-x-2">
+                              <DecreaseButton
+                                onClick={() =>
+                                  handleDecreaseFromCartItem(item.id)
+                                }
+                              />
 
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="h-4 w-4"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                                />
-                              </svg>
-                            </button>
+                              <span className="px-2 text-3xl text-black">
+                                {getItemQuantity(item.id)}
+                              </span>
+
+                              <IncreaseButton
+                                onClick={() =>
+                                  handleIncreaseToCartItem(item.id)
+                                }
+                              />
+
+                              <DeleteButton
+                                onClick={() => {
+                                  handleRemoveFromCart(item.id);
+                                }}
+                              />
+                            </div>
                           </div>
                         </li>
                       </>

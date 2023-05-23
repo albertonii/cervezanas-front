@@ -83,7 +83,7 @@ export default function layout({ children }: LayoutProps) {
   }, [profileImg]);
 
   return (
-    <div className="flex w-full">
+    <div className="relative flex w-full">
       <Sidebar />
 
       <div className="h-full w-full">

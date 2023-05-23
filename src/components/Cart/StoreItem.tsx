@@ -83,11 +83,6 @@ export function StoreItem({ product, products }: StoreItemProps) {
   const handleIncreaseToCartItem = () => {
     increaseCartQuantity(id);
     if (marketplaceItems.find((item) => item.id === id)) return;
-    const product: IProduct | undefined = marketplaceItems.find(
-      (item) => item.id === id
-    );
-
-    if (product) return;
 
     const product_ = products.find((item) => item.id === id);
     if (!product_) return;
