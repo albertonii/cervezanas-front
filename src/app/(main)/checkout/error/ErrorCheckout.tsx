@@ -265,12 +265,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                     {formatCurrency(order.discount)}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between py-4">
-                  <dt className="text-gray-600">{t("shipping")}</dt>
-                  <dd className="font-medium text-gray-900">
-                    {formatCurrency(order.shipping)}
-                  </dd>
-                </div>
+               
                 <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">{t("tax")}</dt>
                   <dd className="font-medium text-gray-900">
@@ -280,7 +275,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                 <div className="flex items-center justify-between pt-4">
                   <dt className="font-medium text-gray-900">{t("total")}</dt>
                   <dd className="font-medium text-beer-draft">
-                    {formatCurrency(order.subtotal)}
+                    {formatCurrency(order.total)}
                   </dd>
                 </div>
               </dl>

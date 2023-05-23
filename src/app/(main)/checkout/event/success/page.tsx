@@ -1,9 +1,9 @@
+import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
 import { IOrder } from "../../../../../lib/types.d";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../../../utils/utils";
-import SuccessCheckout from "./SuccessCheckout";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -73,14 +73,13 @@ async function getSuccessData(searchParams: any) {
     .select(
       `
       *,
-      shipping_info(id, *),
-      billing_info(id, *),
       products(
         id, 
         name, 
         price,
         product_multimedia(*),
-        order_item(*)
+        order_item(*),
+        beers (*)
       )
     `
     )

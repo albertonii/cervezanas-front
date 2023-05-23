@@ -25,7 +25,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-
   useEffect(() => {
     if (user) {
       setLoading(false);
@@ -227,30 +226,24 @@ export default function SuccessCheckout({ order, isError }: Props) {
                       </div>
                     </div>
 
+                    {/* Timeline  */}
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
                       <h4 className="sr-only">Status</h4>
                       <p className="text-sm font-medium text-gray-900">
-                        {t("preparing_to_ship")}{" "}
-                        <time dateTime="2021-03-24">
-                          {formatDateString(order.issue_date.toString())}{" "}
-                        </time>
+                        {t("status_paid")}
                       </p>
+
                       <div className="mt-6" aria-hidden="true">
                         <div className="overflow-hidden rounded-full bg-gray-200">
                           <div className="h-2 rounded-full bg-beer-blonde"></div>
                         </div>
-                        <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
+
+                        <div className="mt-6 hidden grid-cols-2 text-sm font-medium sm:grid">
                           <div className="text-beer-draft">
-                            {t("order_placed")}
+                            {t("status_paid")}
                           </div>
                           <div className="text-center text-beer-draft">
-                            {t("status_processing")}
-                          </div>
-                          <div className="text-center">
-                            {t("status_shipped")}
-                          </div>
-                          <div className="text-right">
-                            {t("status_delivered")}
+                            {t("status_server")}
                           </div>
                         </div>
                       </div>
@@ -265,66 +258,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <h2 className="sr-only">{t("billing_summary")}</h2>
 
             <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
-              {order.billing_info && (
-                <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
-                  <div>
-                    <dt className="font-medium text-gray-900">
-                      {t("billing_address")}
-                    </dt>
-                    <dd className="mt-3 text-gray-500">
-                      <span className="block">
-                        {order.billing_info.name} {order.billing_info.lastname}
-                      </span>
-                      <span className="block">
-                        {order.billing_info.address}, {order.billing_info.city},
-                        {order.billing_info.state}, {order.billing_info.zipcode}
-                        ,{order.billing_info.country}
-                      </span>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-gray-900">
-                      {t("payment_information")}
-                    </dt>
-                    <div className="mt-3">
-                      <dd className="-ml-4 -mt-4 flex flex-wrap">
-                        <div className="ml-4 mt-4 flex-shrink-0">
-                          <svg
-                            aria-hidden="true"
-                            width="36"
-                            height="24"
-                            viewBox="0 0 36 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-auto"
-                          >
-                            <rect
-                              width="36"
-                              height="24"
-                              rx="4"
-                              fill="#224DBA"
-                            />
-                            <path
-                              d="M10.925 15.673H8.874l-1.538-6c-.073-.276-.228-.52-.456-.635A6.575 6.575 0 005 8.403v-.231h3.304c.456 0 .798.347.855.75l.798 4.328 2.05-5.078h1.994l-3.076 7.5zm4.216 0h-1.937L14.8 8.172h1.937l-1.595 7.5zm4.101-5.422c.057-.404.399-.635.798-.635a3.54 3.54 0 011.88.346l.342-1.615A4.808 4.808 0 0020.496 8c-1.88 0-3.248 1.039-3.248 2.481 0 1.097.969 1.673 1.653 2.02.74.346 1.025.577.968.923 0 .519-.57.75-1.139.75a4.795 4.795 0 01-1.994-.462l-.342 1.616a5.48 5.48 0 002.108.404c2.108.057 3.418-.981 3.418-2.539 0-1.962-2.678-2.077-2.678-2.942zm9.457 5.422L27.16 8.172h-1.652a.858.858 0 00-.798.577l-2.848 6.924h1.994l.398-1.096h2.45l.228 1.096h1.766zm-2.905-5.482l.57 2.827h-1.596l1.026-2.827z"
-                              fill="#fff"
-                            />
-                          </svg>
-                          <p className="sr-only">Visa</p>
-                        </div>
-                        <div className="ml-4 mt-4">
-                          <p className="text-gray-900">
-                            {t("ending_with")} 4242
-                          </p>
-                          <p className="text-gray-600">
-                            {t("expires_at")} 02 / 24
-                          </p>
-                        </div>
-                      </dd>
-                    </div>
-                  </div>
-                </dl>
-              )}
-
-              <dl className="mt-8 divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
+              <dl className="mt-8 items-center divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
                 <div className="flex items-center justify-between pb-4">
                   <dt className="text-gray-600">{t("subtotal")}</dt>
                   <dd className="font-medium text-gray-900">
@@ -338,12 +272,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                     {formatCurrency(order.discount)}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between py-4">
-                  <dt className="text-gray-600">{t("shipping")}</dt>
-                  <dd className="font-medium text-gray-900">
-                    {formatCurrency(order.shipping)}
-                  </dd>
-                </div>
+
                 <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">{t("tax")}</dt>
                   <dd className="font-medium text-gray-900">
@@ -353,7 +282,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 <div className="flex items-center justify-between pt-4">
                   <dt className="font-medium text-gray-900">{t("total")}</dt>
                   <dd className="font-medium text-beer-draft">
-                    {formatCurrency(order.subtotal)}
+                    {formatCurrency(order.total)}
                   </dd>
                 </div>
               </dl>

@@ -226,7 +226,7 @@ export default function Checkout({
       .insert({
         owner_id: user?.id,
         total: total,
-        customer_name: user?.name + user?.lastname,
+        customer_name: `${user?.name} ${user?.lastname}`,
         status: "order_placed",
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),

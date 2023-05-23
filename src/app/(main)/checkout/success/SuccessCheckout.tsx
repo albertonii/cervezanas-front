@@ -353,7 +353,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 <div className="flex items-center justify-between pt-4">
                   <dt className="font-medium text-gray-900">{t("total")}</dt>
                   <dd className="font-medium text-beer-draft">
-                    {formatCurrency(order.subtotal)}
+                    {formatCurrency(order.total)}
                   </dd>
                 </div>
               </dl>
