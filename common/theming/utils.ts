@@ -1,4 +1,3 @@
-import { CssComponent } from "@stitches/core/types/styled-component";
 import { Appearance } from "../../src/lib/types.d";
 import { CLASS_NAMES, PREPENDED_CLASS_NAMES } from "./../../src/constants";
 

@@ -6,7 +6,7 @@ import { IProduct } from "../../../lib/types.d";
 import { redirect } from "next/navigation";
 
 export default async function MarketPlacePage() {
-  const productsData = await getMarketplaceProducts();
+  const productsData = getMarketplaceProducts();
   const [products] = await Promise.all([productsData]);
 
   return (

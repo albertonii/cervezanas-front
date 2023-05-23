@@ -2,6 +2,7 @@ import Product from "./Product";
 import { VIEWS } from "../../../../../constants";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
+import { IProduct } from "../../../../../lib/types";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -13,15 +14,11 @@ export default async function ProductId({ params }: any) {
     productData,
     marketplaceData,
   ]);
-  const multimedia = product?.product_multimedia;
-  const reviews = product?.reviews;
 
   return (
     <>
       <Product
-        product={product[0]}
-        multimedia={multimedia}
-        reviews={reviews}
+        product={product}
         // marketplaceProducts={marketplaceProducts ?? []}
         marketplaceProducts={[]}
       />
@@ -64,9 +61,7 @@ async function getProductData(productId: string) {
 
   if (productError) throw productError;
 
-  if (product == null) return { notFound: true };
-
-  return product[0];
+  return product[0] as IProduct;
 }
 
 async function getMarketplaceData() {

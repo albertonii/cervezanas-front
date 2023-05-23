@@ -5,7 +5,7 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MessageProps } from "./message.types.d";
+import { MessageProps } from "./message.types";
 
 export function Message({ message, type }: MessageProps) {
   return (

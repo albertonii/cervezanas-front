@@ -24,19 +24,12 @@ import {
   Rate,
 } from "../../../../../components/reviews";
 import { SupabaseProps } from "../../../../../constants";
-import {
-  ICarouselItem,
-  IProduct,
-  IProductMultimedia,
-  IReview,
-} from "../../../../../lib/types.d";
+import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 
 interface Props {
-  product: IProduct[];
-  multimedia: IProductMultimedia[];
-  reviews: IReview[];
+  product: IProduct;
   marketplaceProducts: IProduct[];
 }
 
@@ -47,23 +40,21 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 // const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
-export default function Product({
-  product,
-  multimedia,
-  reviews,
-  marketplaceProducts,
-}: Props) {
+export default function Product({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
-  const selectedProduct = product[0];
+  const selectedProduct = product;
 
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
-  const selectedMultimedia = multimedia[0];
+  const selectedMultimedia = product.product_multimedia[0] ?? [];
+  const reviews = product.reviews;
 
   const [loading, setLoading] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
-  const [productReviews, setProductReviews] = useState<IReview[]>(reviews);
+  const [productReviews, setProductReviews] = useState<IReview[]>(
+    product.reviews
+  );
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
     Boolean(selectedProduct?.likes?.length)
@@ -203,14 +194,14 @@ export default function Product({
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ product_id: product[0].id, owner_id: product[0].owner_id }]);
+        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
 
       if (error) throw error;
     } else {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ product_id: product[0].id, owner_id: product[0].owner_id });
+        .match({ product_id: product.id, owner_id: product.owner_id });
 
       if (error) throw error;
     }

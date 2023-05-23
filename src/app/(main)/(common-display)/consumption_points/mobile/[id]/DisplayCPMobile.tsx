@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
@@ -8,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { COMMON } from "../../../../../../constants";
 import { ICPMobile, IProduct } from "../../../../../../lib/types.d";
 import { formatCurrency, formatDate } from "../../../../../../utils";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 interface Props {
   cpMobile: ICPMobile;
