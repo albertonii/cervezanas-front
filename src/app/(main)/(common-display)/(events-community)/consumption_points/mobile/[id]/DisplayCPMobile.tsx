@@ -24,7 +24,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
   const { t } = useTranslation();
 
   const cpm_products = cpMobile.cpm_products;
-
+  console.log(cpm_products);
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <div className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">

@@ -35,7 +35,8 @@ async function getCPMobile(cpId: string) {
             cpm_products (
                 *,
                 product_id (*,
-                    product_multimedia(p_principal)
+                    product_multimedia(p_principal), 
+                    beers (*)
                 )
             )
         `

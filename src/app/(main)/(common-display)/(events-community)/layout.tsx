@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -19,6 +20,8 @@ type LayoutProps = {
 
 export default function layout({ children }: LayoutProps) {
   const { t } = useTranslation();
+  const router = useRouter();
+
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
   const {
     marketplaceEventItems,
@@ -42,6 +45,10 @@ export default function layout({ children }: LayoutProps) {
   const handleRemoveFromCart = (id: string) => {
     removeMarketplaceItems(id);
     removeFromCart(id);
+  };
+
+  const handleCheckout = () => {
+    router.push("/cart/event_basket");
   };
 
   return (
@@ -174,6 +181,9 @@ export default function layout({ children }: LayoutProps) {
               {marketplaceEventItems.length > 0 && (
                 <div className="space-y-4 text-center">
                   <Button
+                    onClick={() => {
+                      handleCheckout();
+                    }}
                     class="hover block  w-full rounded px-5 py-3 text-sm transition"
                     primary
                   >
