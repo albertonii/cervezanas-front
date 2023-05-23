@@ -111,10 +111,12 @@ export default function layout({ children }: LayoutProps) {
                         <li className="flex items-center gap-4">
                           <Image
                             src={
-                              item.product_multimedia
+                              item.product_multimedia[0]
                                 ? item.product_multimedia[0].p_principal
                                 : COMMON.MARKETPLACE_PRODUCT
                             }
+                            width={64}
+                            height={64}
                             alt="Thumbnail"
                             className="h-16 w-16 rounded object-cover"
                           />
@@ -138,20 +140,6 @@ export default function layout({ children }: LayoutProps) {
                           </div>
 
                           <div className="flex flex-1 items-center justify-end gap-2">
-                            <form>
-                              <label htmlFor="Line1Qty" className="sr-only">
-                                {}
-                              </label>
-
-                              <input
-                                type="number"
-                                min="1"
-                                value="1"
-                                id="Line1Qty"
-                                className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                              />
-                            </form>
-
                             <div className="flex space-x-2">
                               <DecreaseButton
                                 onClick={() =>
@@ -183,14 +171,14 @@ export default function layout({ children }: LayoutProps) {
                 )}
               </ul>
 
-              {marketplaceEventItems.length > 0 ?? (
+              {marketplaceEventItems.length > 0 && (
                 <div className="space-y-4 text-center">
-                  <a
-                    href="#"
-                    className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
+                  <Button
+                    class="hover block  w-full rounded px-5 py-3 text-sm transition"
+                    primary
                   >
                     {t("checkout")}
-                  </a>
+                  </Button>
                 </div>
               )}
             </div>
