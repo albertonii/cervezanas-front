@@ -7,13 +7,13 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { getGeocode } from "use-places-autocomplete";
-import { ICPMobile, IProduct, IUser } from "../../../lib/types.d";
-import { isValidObject } from "../../../utils/utils";
-import { Modal } from "../../modals";
-import { DisplayInputError } from "../../common";
-import { useSupabase } from "../../Context/SupabaseProvider";
+import { ICPMobile, IProduct, IUser } from "../../../../lib/types.d";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
+import { useAuth } from "../../../../components/Auth";
+import { isValidObject } from "../../../../utils/utils";
+import { Modal } from "../../../../components/modals";
+import { DisplayInputError } from "../../../../components/common";
 import { useQuery } from "react-query";
-import { useAuth } from "../../Auth";
 
 interface FormData {
   cp_name: string;

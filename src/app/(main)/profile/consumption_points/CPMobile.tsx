@@ -3,8 +3,8 @@
 import ModalCPMobile from "./ModalCPMobile";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ICPMobile } from "../../../lib/types.d";
-import { ListCPMobile } from "..";
+import { ICPMobile } from "../../../../lib/types.d";
+import { ListCPMobile } from "./ListCPMobile";
 
 interface Props {
   cpsId: string;

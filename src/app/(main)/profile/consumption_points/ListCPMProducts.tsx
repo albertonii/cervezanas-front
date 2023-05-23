@@ -2,7 +2,7 @@
 
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { SearchCheckboxCPProducts } from "../../../app/(main)/profile/consumption_points/SearchCheckboxCPProducts";
+import { SearchCheckboxCPProducts } from "./SearchCheckboxCPProducts";
 
 interface Props {
   form: UseFormReturn<any, any>;

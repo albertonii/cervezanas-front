@@ -1,18 +1,18 @@
 "use client";
 
-import CPGoogleMap from "./CPGoogleMap";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Modal } from "../../modals";
+import { Modal } from "../../../../components/modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed, IUser } from "../../../lib/types.d";
+import { ICPFixed, IUser } from "../../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
-import { isValidObject } from "../../../utils/utils";
+import { isValidObject } from "../../../../utils/utils";
 import { useQuery } from "react-query";
-import { useAuth } from "../../Auth";
-import { DisplayInputError } from "../../common";
-import { useSupabase } from "../../Context/SupabaseProvider";
+import { useAuth } from "../../../../components/Auth";
+import { DisplayInputError } from "../../../../components/common";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
+import CPGoogleMap from "./CPGoogleMap";
 import { ListCPFixed } from "./ListCPFixed";
 
 interface FormData {

@@ -1,16 +1,12 @@
 "use client";
 
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { COMMON } from "../../../../../../constants";
-import {
-  IConsumptionPoints,
-  ICPMobile,
-  IProduct,
-} from "../../../../../../lib/types";
+import { ICPMobile, IProduct } from "../../../../../../lib/types.d";
 import { formatCurrency, formatDate } from "../../../../../../utils";
 
 interface Props {
@@ -45,10 +41,10 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
           <div className="mb-4">
             {/* Start and End date */}
             <span className="text-gray-500">
-              Start date: {formatDate(cpMobile.start_date)}
+              {t("start_date")}: {formatDate(cpMobile.start_date)}
             </span>
             <span className="ml-4 text-gray-500">
-              End date: {formatDate(cpMobile.end_date)}
+              {t("end_date")}: {formatDate(cpMobile.end_date)}
             </span>
           </div>
 
@@ -227,6 +223,7 @@ function Map({ cp }: MapsProps) {
   // Loop through CPs and add CP fixed markers in first component render
   useEffect(() => {
     if (map) {
+      if (!cp.geoArgs) return;
       const { lat, lng } = cp.geoArgs[0].geometry.location;
       const marker: google.maps.Marker = new google.maps.Marker({
         position: { lat, lng },
@@ -242,8 +239,8 @@ function Map({ cp }: MapsProps) {
     }
   }, [map]);
 
-  const centerLat = cp.geoArgs[0].geometry.location.lat;
-  const centerLng = cp.geoArgs[0].geometry.location.lng;
+  const centerLat = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lat : 0;
+  const centerLng = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lng : 0;
   const center = useMemo(() => ({ lat: centerLat, lng: centerLng }), []);
 
   return (

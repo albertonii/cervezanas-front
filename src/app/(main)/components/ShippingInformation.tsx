@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IShippingInfo } from "../../../lib/types";
+import { IShippingInfo } from "../../../lib/types.d";
 import { Button } from "../../../components/common";
 
 interface Props {

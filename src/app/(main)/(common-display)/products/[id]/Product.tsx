@@ -9,10 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  DisplaySimilarProducts,
-  ProductGallery,
-} from "../../../../../components";
+
 import {
   Button,
   DeleteButton,
@@ -32,8 +29,9 @@ import {
   IProduct,
   IProductMultimedia,
   IReview,
-} from "../../../../../lib/types";
+} from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
+import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 
 interface Props {
   product: IProduct[];
@@ -56,12 +54,12 @@ export default function Product({
   marketplaceProducts,
 }: Props) {
   const { supabase } = useSupabase();
-
   const selectedProduct = product[0];
 
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
-
   const selectedMultimedia = multimedia[0];
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
@@ -71,13 +69,11 @@ export default function Product({
     Boolean(selectedProduct?.likes?.length)
   );
 
-  const [loading, setLoading] = useState<boolean>(true);
-
   const reviewRef = useRef<any>();
 
   useEffect(() => {
     setLoading(false);
-  }, []);
+  }, [product]);
 
   const productStars = useMemo(() => {
     const sum = reviews.reduce((acc, review) => acc + review.overall, 0);

@@ -5,7 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
-import { ICarouselItem } from "../../../lib/types";
+import { ICarouselItem } from "../../../lib/types.d";
 
 interface Props {
   gallery: ICarouselItem[];

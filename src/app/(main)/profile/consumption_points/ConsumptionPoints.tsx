@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CPAccepted, CPRejected, CPPending } from "..";
-import { IConsumptionPoints, IProfile } from "../../../lib/types.d";
-import { SubmitCPOrganizer } from "../../modals";
+import { IConsumptionPoints, IProfile } from "../../../../lib/types.d";
+import { SubmitCPOrganizer } from "../../../../components/modals";
+import { CPAccepted } from "./CPAccepted";
+import { CPRejected } from "./CPRejected";
+import { CPPending } from "./CPPending";
 
 interface Props {
   cps: IConsumptionPoints[];

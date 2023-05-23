@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import DeleteModal from "../../modals/DeleteModal";
-import useFetchCPFixed from "../../../hooks/useFetchCPFixed";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../../../utils";
-import { Button, IconButton, Spinner } from "../../common";
-import { Modal } from "../../modals";
-import { useAuth } from "../../Auth";
-import { useSupabase } from "../../Context/SupabaseProvider";
-import { ICPFixed, SortBy } from "../../../lib/types.d";
+import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
+import { useSupabase } from "../../../../components/Context/SupabaseProvider";
+import { useAuth } from "../../../../components/Auth";
+import { ICPFixed, SortBy } from "../../../../lib/types.d";
+import { Modal } from "../../../../components/modals";
+import DeleteModal from "../../../../components/modals/DeleteModal";
+import { formatDate } from "../../../../utils";
+import { Button, IconButton, Spinner } from "../../../../components/common";
 
 interface Props {
   cpsId: string;

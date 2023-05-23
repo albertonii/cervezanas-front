@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { IProduct, IProductMultimedia } from "../../../../../../lib/types";
+import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
 import { NewProductReview } from "../../../../../../components/reviews";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
