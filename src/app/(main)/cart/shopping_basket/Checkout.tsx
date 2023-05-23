@@ -226,7 +226,7 @@ export default function Checkout({
       .insert({
         owner_id: user?.id,
         total: total,
-        customer_name: "manolito",
+        customer_name: user?.name + user?.lastname,
         status: "order_placed",
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
@@ -237,6 +237,7 @@ export default function Checkout({
         order_number: orderNumber,
         shipping_info_id: shippingInfoId,
         billing_info_id: billingInfoId,
+        type: "online",
       })
       .select("id");
 

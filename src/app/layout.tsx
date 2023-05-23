@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 
                         <main
                           className={classNames(
-                            "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-between pt-20 transition lg:container lg:flex-wrap"
+                            "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
                           )}
                         >
                           <MessageList />

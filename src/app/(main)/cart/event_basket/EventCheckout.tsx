@@ -20,7 +20,6 @@ export default function Checkout() {
   const { t } = useTranslation();
 
   const { user } = useAuth();
-
   const { supabase } = useSupabase();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -48,6 +47,7 @@ export default function Checkout() {
     removeFromCart,
     marketplaceEventItems,
     addMarketplaceItems,
+    clearCart,
   } = useEventCartContext();
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export default function Checkout() {
       .insert({
         owner_id: user?.id,
         total: total,
-        customer_name: "manolito",
+        customer_name: user?.name + user?.lastname,
         status: "order_placed",
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
@@ -148,6 +148,7 @@ export default function Checkout() {
         ).toISOString(), // 3 days
         payment_method: "credit_card",
         order_number: orderNumber,
+        type: "event",
       })
       .select("id");
 
@@ -164,6 +165,8 @@ export default function Checkout() {
 
       if (orderItemError) throw orderItemError;
     });
+
+    clearCart();
   };
 
   // REDSYS PAYMENT

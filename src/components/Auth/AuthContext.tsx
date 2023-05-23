@@ -1,14 +1,13 @@
 "use client";
 
+import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
 import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
-
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
-import useSWR from "swr";
 
 export interface AuthSession {
   initial: boolean;
