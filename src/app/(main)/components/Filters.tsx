@@ -2,8 +2,8 @@
 
 import React, { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../utils";
-import { useAppContext } from "./Context";
+import { formatCurrency } from "../../../utils";
+import { useAppContext } from "../../../components/Context";
 
 export function Filters() {
   const { t } = useTranslation();

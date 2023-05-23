@@ -1,12 +1,15 @@
-import { IReview } from "../lib/types.d";
-import { IndividualReview } from "./reviews";
+"use client";
+
+import { IReview } from "../../../lib/types";
+import { IndividualReview } from "../../../components/reviews";
+import { ComponentProps } from "react";
 
 interface Props {
   reviews: IReview[];
-  handleSetReviews: React.Dispatch<React.SetStateAction<IReview[]>>;
+  handleSetReviews: ComponentProps<any>;
 }
 
-export default function ProductReviews({ reviews, handleSetReviews }: Props) {
+export function ProductReviews({ reviews, handleSetReviews }: Props) {
   return (
     <div>
       {reviews.map((review) => (

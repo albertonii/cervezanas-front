@@ -3,8 +3,8 @@
 import useFilters from "../../../hooks/useFilters";
 import React from "react";
 import { StoreItem } from "../../../components/Cart";
-import { Filters, MarketplaceHeader } from "../../../components";
 import { IProduct } from "../../../lib/types.d";
+import { Filters, MarketplaceHeader } from "../components";
 
 interface Props {
   products: IProduct[];

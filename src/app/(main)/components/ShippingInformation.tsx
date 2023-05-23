@@ -1,16 +1,16 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IBillingInfo } from "../lib/types.d";
-import { Button } from "./common";
+import { IShippingInfo } from "../../../lib/types";
+import { Button } from "../../../components/common";
 
 interface Props {
-  option: IBillingInfo;
-  handleSetBillingOption: any;
+  option: IShippingInfo;
+  handleSetShippingOption: any;
 }
 
-export default function BillingInformation({
+export default function ShippingInformation({
   option,
-  handleSetBillingOption,
+  handleSetShippingOption,
 }: Props) {
   const { t } = useTranslation();
 
@@ -21,17 +21,17 @@ export default function BillingInformation({
     >
       <input
         type="radio"
-        name="billing"
+        name="shipping"
         value={option.id}
-        id={"billing-" + option.id}
+        id={"shipping-" + option.id}
         onChange={() => {
-          handleSetBillingOption(option.id);
+          handleSetShippingOption(option.id);
         }}
         className={"mt-2"}
         checked={option.is_default}
       />
       <label
-        htmlFor={"billing-" + option.id}
+        htmlFor={"shipping-" + option.id}
         className="text-gray-600 dark:text-gray-300"
       >
         <span className="text-md text-beer-dark">

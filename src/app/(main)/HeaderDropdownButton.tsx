@@ -6,9 +6,9 @@ import React, { useRef, useState } from "react";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import { useOutsideClick } from "../hooks/useOnOutsideClick";
-import { useAppContext } from "./Context";
-import { useAuth } from "./Auth";
+import { useOutsideClick } from "../../hooks/useOnOutsideClick";
+import { useAppContext } from "../../components/Context";
+import { useAuth } from "../../components/Auth";
 
 interface DropdownProps {
   options: string[];

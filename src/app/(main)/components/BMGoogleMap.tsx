@@ -18,8 +18,8 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, ICPFixed } from "../lib/types.d";
-import { formatDate } from "../utils";
+import { IConsumptionPoints, ICPFixed } from "../../../lib/types";
+import { formatDate } from "../../../utils";
 
 const containerStyle = {
   width: "100%",
@@ -96,48 +96,52 @@ function Map({ cps }: Props) {
 
   // Loop through CPs and add CP fixed markers in first component render
   useEffect(() => {
-    getCurrentPosition().then((position: any) => {
-      const { latitude, longitude } = position.coords;
-      const center = { lat: latitude, lng: longitude };
+    if (map) {
+      getCurrentPosition().then((position: any) => {
+        const { latitude, longitude } = position.coords;
+        const center = { lat: latitude, lng: longitude };
 
-      setMap((prev) => {
-        if (prev) {
-          prev.setCenter(center);
-        }
-        return prev;
+        setMap((prev) => {
+          if (prev) {
+            prev.setCenter(center);
+          }
+          return prev;
+        });
       });
-    });
 
-    cps.map((cp) => {
-      cp.cp_fixed.map(async (fixed) => {
-        const { lat, lng } = fixed.geoArgs[0].geometry.location;
-        const marker: google.maps.Marker = new google.maps.Marker({
-          position: { lat, lng },
-          map: map,
-          title: fixed.cp_name,
-          icon: "/icons/fixed_place_48.png",
-          clickable: true,
+      cps.map((cp) => {
+        cp.cp_fixed?.map(async (fixed) => {
+          if (!fixed.geoArgs) return;
+          const { lat, lng } = fixed.geoArgs[0].geometry.location;
+          const marker: google.maps.Marker = new google.maps.Marker({
+            position: { lat, lng },
+            map: map,
+            title: fixed.cp_name,
+            icon: "/icons/fixed_place_48.png",
+            clickable: true,
+          });
+          marker.addListener("click", () => onMarkerFixClick(marker, fixed));
+          marker.setMap(map);
         });
 
-        marker.addListener("click", () => onMarkerFixClick(marker, fixed));
-        marker.setMap(map ?? null);
-      });
+        cp.cp_mobile?.map(async (mobile) => {
+          if (!mobile.geoArgs) return;
 
-      cp.cp_mobile.map(async (mobile) => {
-        const { lat, lng } = mobile.geoArgs[0].geometry.location;
-        const marker: google.maps.Marker = new google.maps.Marker({
-          position: { lat, lng },
-          map: map,
-          title: mobile.cp_name,
-          icon: "/icons/mobile_place_48.png",
-          clickable: true,
+          const { lat, lng } = mobile.geoArgs[0].geometry.location;
+          const marker: google.maps.Marker = new google.maps.Marker({
+            position: { lat, lng },
+            map: map,
+            title: mobile.cp_name,
+            icon: "/icons/mobile_place_48.png",
+            clickable: true,
+          });
+
+          marker.addListener("click", () => onMarkerFixClick(marker, mobile));
+          marker.setMap(map);
         });
-
-        marker.addListener("click", () => onMarkerFixClick(marker, mobile));
-        marker.setMap(map ?? null);
       });
-    });
-  }, []);
+    }
+  }, [map]);
 
   const center = useMemo(() => ({ lat: 40.41, lng: -3.7 }), []);
   const [selected, setSelected] = useState(null);

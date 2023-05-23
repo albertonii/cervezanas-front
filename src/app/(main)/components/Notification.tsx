@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import useOnClickOutside from "../hooks/useOnOutsideClickDOM";
-import React, { useRef } from "react";
+import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
+import React, { ComponentProps, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { INotification } from "../lib/types.d";
-import { useAppContext } from "./Context";
+import { INotification } from "../../../lib/types";
+import { useAppContext } from "../../../components/Context";
 import { useTranslation } from "react-i18next";
-import { getTimeElapsed } from "../utils";
-import { useSupabase } from "./Context/SupabaseProvider";
+import { getTimeElapsed } from "../../../utils";
+import { useSupabase } from "../../../components/Context/SupabaseProvider";
 
 interface Props {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpen: ComponentProps<any>;
 }
 
 export function Notification({ open, setOpen }: Props) {

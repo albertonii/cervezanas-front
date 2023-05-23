@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { SimilarProduct } from ".";
+import { SimilarProducts } from "./SimilarProducts";
 
 export function DisplaySimilarProducts() {
   const { t } = useTranslation();
@@ -14,10 +14,10 @@ export function DisplaySimilarProducts() {
         </h2>
 
         <div className="mt-6 flex flex-row space-x-4">
-          <SimilarProduct />
-          <SimilarProduct />
-          <SimilarProduct />
-          <SimilarProduct />
+          <SimilarProducts />
+          <SimilarProducts />
+          <SimilarProducts />
+          <SimilarProducts />
         </div>
       </div>
     </div>

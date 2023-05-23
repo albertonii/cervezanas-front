@@ -12,7 +12,7 @@ import { ROUTE_SIGNIN } from "../../config";
 import { useAuth } from "../../components/Auth";
 import { useAppContext, useShoppingCart } from "../../components/Context";
 import { Button } from "../../components/common";
-import { Notification } from "../../components";
+import { Notification } from "./components";
 
 export function MobileMenu() {
   const { role, user } = useAuth();

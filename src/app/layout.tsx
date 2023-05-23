@@ -1,18 +1,18 @@
-import "../../styles/globals.css";
+import "../styles/globals.css";
 
-import SupabaseProvider from "../../components/Context/SupabaseProvider";
+import SupabaseProvider from "../components/Context/SupabaseProvider";
 import classNames from "classnames";
-import ReactQueryWrapper from "./ReactQueryWrapper";
+import ReactQueryWrapper from "./(main)/ReactQueryWrapper";
 import {
   AppContextProvider,
   ShoppingCartProvider,
-} from "../../components/Context/index";
-import { Footer } from "../../components";
-import { MessageProvider } from "../../components/message";
-import { MessageList } from "../../components/message";
-import { AuthContextProvider } from "../../components/Auth";
-import { createServerClient } from "../../utils/supabaseServer";
-import { Header } from "./Header";
+} from "../components/Context/index";
+import { MessageProvider } from "../components/message";
+import { MessageList } from "../components/message";
+import { AuthContextProvider } from "../components/Auth";
+import { createServerClient } from "../utils/supabaseServer";
+import { Header } from "./(main)/Header";
+import { Footer } from "./(main)/components";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 
                       <main
                         className={classNames(
-                          "container relative mx-auto flex h-screen w-full transform items-start justify-between pt-20 transition lg:flex-wrap"
+                          "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-between pt-20 transition lg:container lg:flex-wrap"
                         )}
                       >
                         <MessageList />

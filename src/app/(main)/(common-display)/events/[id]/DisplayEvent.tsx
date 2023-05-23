@@ -15,7 +15,6 @@ interface Props {
 export default function DisplayEvent({ event }: Props) {
   const { t } = useTranslation();
 
-  console.log(event);
   const cpMobile: ICPMobile[] = event.cp_mobile;
 
   return (
@@ -37,10 +36,10 @@ export default function DisplayEvent({ event }: Props) {
       <div className="mb-4">
         {/* Start and End date */}
         <span className="text-gray-500">
-          Start date: {formatDate(event.start_date)}
+          {t("start_date")}: {formatDate(event.start_date)}
         </span>
         <span className="ml-4 text-gray-500">
-          End date: {formatDate(event.end_date)}
+          {t("end_date")}: {formatDate(event.end_date)}
         </span>
       </div>
 
@@ -58,46 +57,53 @@ export default function DisplayEvent({ event }: Props) {
       </div> */}
 
       {/* Products linked to this Mobile Consumption Point */}
-      {cpMobile.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
+      <div className="mt-8">
+        {cpMobile.length > 0 ? (
+          <div>
+            <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
 
-          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3 ">
-                  {t("logo_header")}
-                </th>
+            <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+              <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("logo_header")}
+                  </th>
 
-                <th scope="col" className="px-6 py-3 ">
-                  {t("name_header")}
-                </th>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("name_header")}
+                  </th>
 
-                <th scope="col" className="px-6 py-3 ">
-                  {t("description_header")}
-                </th>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("description_header")}
+                  </th>
 
-                <th scope="col" className="px-6 py-3 ">
-                  {t("address_header")}
-                </th>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("address_header")}
+                  </th>
 
-                <th scope="col" className="px-6 py-3 ">
-                  {t("date_header")}
-                </th>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("date_header")}
+                  </th>
 
-                <th scope="col" className="px-6 py-3 ">
-                  {t("status_header")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cpMobile.map((cp) => (
-                <CPMobile key={cp.id} cp={cp} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("status_header")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cpMobile.map((cp) => (
+                  <CPMobile key={cp.id} cp={cp} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <>
+            <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
+            <p className="text-gray-500">{t("no_cp_mobile")}</p>
+          </>
+        )}
+      </div>
     </div>
   );
 }

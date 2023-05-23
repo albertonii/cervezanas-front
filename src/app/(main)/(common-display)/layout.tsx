@@ -6,10 +6,10 @@ type LayoutProps = {
 
 export default function layout({ children }: LayoutProps) {
   return (
-    <div className="relative z-10" role="dialog" aria-modal="true">
+    <>
       <div className="container mx-auto mt-6 flex h-full w-full transform items-center justify-between transition lg:flex-wrap">
         {children}
       </div>
-    </div>
+    </>
   );
 }

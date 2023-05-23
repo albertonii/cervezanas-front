@@ -11,9 +11,7 @@ interface Props {
 }
 
 export default function Profile({ profile }: Props) {
-  console.log("profile", profile);
   const [loading, setLoading] = useState<boolean>(true);
-  console.log(profile);
 
   const [menuOption, setMenuOption] = useState<string>("account");
 

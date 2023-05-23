@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
 import { useAuth } from "../../components/Auth/useAuth";
 import { Button, HeaderDropdownButton } from "../../components/common";
-import { Notification } from "../../components/Notification";
+import { Notification } from "./components/Notification";
 import { useAppContext } from "../../components/Context";
 import { ROUTE_SIGNIN } from "../../config";
 

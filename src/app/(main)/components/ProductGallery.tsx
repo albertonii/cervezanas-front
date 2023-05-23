@@ -1,11 +1,11 @@
 "use client";
 
-import DisplayImageProduct from "./common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Carousel } from "./common";
+import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "./common";
-import { ICarouselItem } from "../lib/types.d";
+import { IconButton } from "../../../components/common";
+import { ICarouselItem } from "../../../lib/types";
 
 interface Props {
   gallery: ICarouselItem[];

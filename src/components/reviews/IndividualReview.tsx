@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/useAuth";
 import { IReview } from "../../lib/types.d";
 import { formatDateString } from "../../utils/formatDate";
-import { OwnerInfo } from "..";
 import { Rate } from ".";
 import { DeleteButton } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { OwnerInfo } from "../../app/(main)/components";
 
 interface Props {
   review: IReview;
