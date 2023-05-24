@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -50,6 +50,10 @@ export default function layout({ children }: LayoutProps) {
   const handleCheckout = () => {
     router.push("/cart/event_basket");
   };
+
+  useEffect(() => {
+    console.log(marketplaceEventItems);
+  }, [marketplaceEventItems]);
 
   return (
     <>
@@ -109,11 +113,11 @@ export default function layout({ children }: LayoutProps) {
 
             <div className="mt-4 space-y-6">
               <ul className="space-y-4">
-                {marketplaceEventItems.length === 0 ? (
+                {marketplaceEventItems?.length === 0 ? (
                   <EmptyCart />
                 ) : (
                   <>
-                    {marketplaceEventItems.map((item) => (
+                    {marketplaceEventItems?.map((item) => (
                       <>
                         <li className="flex items-center gap-4">
                           <Image
@@ -178,7 +182,7 @@ export default function layout({ children }: LayoutProps) {
                 )}
               </ul>
 
-              {marketplaceEventItems.length > 0 && (
+              {marketplaceEventItems?.length > 0 && (
                 <div className="space-y-4 text-center">
                   <Button
                     onClick={() => {

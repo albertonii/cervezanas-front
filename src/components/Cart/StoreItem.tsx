@@ -9,18 +9,12 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct } from "../../lib/types.d";
 import { useRouter } from "next/navigation";
-import {
-  AddCardButton,
-  DecreaseButton,
-  DeleteButton,
-  IconButton,
-  IncreaseButton,
-  Spinner,
-} from "../common";
+import { AddCardButton, IconButton, Spinner } from "../common";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { COMMON } from "../../constants";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useAuth } from "../Auth";
+import MarketCartButtons from "../common/MarketCartButtons";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -56,6 +50,8 @@ export function StoreItem({ product, products }: StoreItemProps) {
     removeMarketplaceItems,
     marketplaceItems,
   } = useShoppingCart();
+
+  const quantity = getItemQuantity(id);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -177,26 +173,22 @@ export function StoreItem({ product, products }: StoreItemProps) {
             </div>
 
             <div className="mt-2 flex items-center  justify-between space-x-2 text-sm font-medium">
-              {getItemQuantity(id) === 0 ? (
+              {quantity === 0 ? (
                 <>
                   <AddCardButton onClick={() => handleIncreaseToCartItem()} />
                 </>
               ) : (
                 <>
-                  <DecreaseButton
-                    onClick={() => handleDecreaseFromCartItem()}
-                  />
-
-                  <span className="px-2 text-3xl text-black">
-                    {getItemQuantity(id)}
-                  </span>
-
-                  <IncreaseButton onClick={() => handleIncreaseToCartItem()} />
-
-                  <DeleteButton
-                    onClick={() => {
-                      handleRemoveFromCart();
-                    }}
+                  <MarketCartButtons
+                    quantity={quantity}
+                    item={product}
+                    handleIncreaseCartQuantity={() =>
+                      handleDecreaseFromCartItem()
+                    }
+                    handleDecreaseCartQuantity={() =>
+                      handleIncreaseToCartItem()
+                    }
+                    handleRemoveFromCart={() => handleRemoveFromCart()}
                   />
                 </>
               )}

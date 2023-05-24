@@ -68,11 +68,11 @@ export function Button({
         ${xxLarge ? "w-80" : ""}
         ${
           primary
-            ? " border-2 border-beer-softBlonde bg-beer-softBlonde hover:bg-beer-blonde"
+            ? " border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde"
             : "shrink-0 hover:bg-beer-softBlonde"
         }
         ${accent ? "border-2 border-beer-blonde bg-beer-foam" : ""}
-        ${danger ? "bg-red-400  hover:bg-red-500 " : ""}
+        ${danger ? "bg-red-500  hover:bg-red-600 " : ""}
         ${className} 
       `}
     >

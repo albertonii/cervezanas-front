@@ -86,9 +86,8 @@ export function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`
-        mt-0 flex items-center justify-center rounded border-2 border-beer-softBlonde transition duration-100 ease-in hover:bg-beer-blonde
+        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde transition duration-100 ease-in 
         ${box ? "h-auto w-10" : ""}
-        ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
         ${disabled ? "cursor-not-allowed opacity-50" : ""}
         ${size === "small" ? "w-24" : ""} 
         ${size === "medium" ? "w-32" : ""}
@@ -97,16 +96,15 @@ export function IconButton({
         ${size === "xxLarge" ? "w-80" : ""}
         ${
           primary
-            ? " bg-beer-softBlonde hover:bg-beer-blonde"
+            ? " border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde"
             : "hover:bg-beer-softBlonde"
         }
-        ${accent ? "bg-beer-foam" : ""}
+        ${accent ? "border-2 border-beer-blonde bg-beer-foam" : ""}
+        ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
         ${classNameContainer} 
       `}
     >
-      <span
-        className={`${children != null ? "mr-1" : ""} h-5 w-5 text-bear-dark`}
-      >
+      <span className={`${children != null ? "mr-1" : ""}  text-bear-dark`}>
         {iconButton}
       </span>
 

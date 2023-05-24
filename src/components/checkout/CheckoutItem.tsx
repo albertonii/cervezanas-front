@@ -7,11 +7,12 @@ import { useTranslation } from "react-i18next";
 import { COMMON, SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { DecreaseButton, IconButton, IncreaseButton } from "../common";
+import { IconButton } from "../common";
 import { Type } from "../../lib/productEnum";
 import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useSupabase } from "../Context/SupabaseProvider";
+import MarketCartButtons from "../common/MarketCartButtons";
 
 interface Props {
   product: IProduct;
@@ -138,17 +139,17 @@ export function CheckoutItem({
               {quantity === 0 ? (
                 <></>
               ) : (
-                <span className="flex items-center justify-center">
-                  <DecreaseButton
-                    onClick={() => handleDecreaseCartQuantity(product.id)}
-                  />
-
-                  <span className="px-2 text-3xl text-black">{quantity}</span>
-
-                  <IncreaseButton
-                    onClick={() => handleIncreaseCartQuantity(product.id)}
-                  />
-                </span>
+                <MarketCartButtons
+                  quantity={quantity}
+                  item={product}
+                  handleIncreaseCartQuantity={() =>
+                    handleIncreaseCartQuantity(product.id)
+                  }
+                  handleDecreaseCartQuantity={() =>
+                    handleDecreaseCartQuantity(product.id)
+                  }
+                  handleRemoveFromCart={() => handleRemoveFromCart(product.id)}
+                />
               )}
             </p>
           </div>

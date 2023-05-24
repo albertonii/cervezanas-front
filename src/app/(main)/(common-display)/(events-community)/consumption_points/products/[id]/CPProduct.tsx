@@ -10,22 +10,34 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Button, IconButton, Spinner } from "../../../../../components/common";
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
-import { useShoppingCart } from "../../../../../components/Context";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import {
+  Button,
+  IconButton,
+  Spinner,
+} from "../../../../../../../components/common";
+import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
+import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
+import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,
   ProductReviews,
   Rate,
-} from "../../../../../components/reviews";
-import { SupabaseProps } from "../../../../../constants";
-import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
-import { formatCurrency } from "../../../../../utils";
-import { DisplaySimilarProducts, ProductGallery } from "../../../components";
+} from "../../../../../../../components/reviews";
+import { SupabaseProps } from "../../../../../../../constants";
+import {
+  ICarouselItem,
+  ICPMProducts,
+  IProduct,
+  IReview,
+} from "../../../../../../../lib/types";
+import { formatCurrency } from "../../../../../../../utils";
+import {
+  DisplaySimilarProducts,
+  ProductGallery,
+} from "../../../../../components";
 
 interface Props {
-  product: IProduct;
+  product: ICPMProducts;
   marketplaceProducts: IProduct[];
 }
 
@@ -36,21 +48,19 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 // const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
-export default function Product({ product, marketplaceProducts }: Props) {
+export default function CPProduct({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
-  const selectedProduct = product;
+  const selectedProduct: IProduct = product.product_id;
 
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
-  const selectedMultimedia = product.product_multimedia[0] ?? [];
-  const reviews = product.reviews;
+  const selectedMultimedia = product.product_id.product_multimedia[0] ?? [];
+  const reviews = product.product_id.reviews;
 
   const [loading, setLoading] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const [emptyReviews, setEmptyReviews] = useState(false);
-  const [productReviews, setProductReviews] = useState<IReview[]>(
-    product.reviews
-  );
+  const [productReviews, setProductReviews] = useState<IReview[]>(reviews);
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
     Boolean(selectedProduct?.likes?.length)
@@ -72,10 +82,10 @@ export default function Product({ product, marketplaceProducts }: Props) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
-    marketplaceItems,
+    marketplaceEventItems,
     addMarketplaceItems,
     removeMarketplaceItems,
-  } = useShoppingCart();
+  } = useEventCartContext();
 
   const quantity = getItemQuantity(selectedProduct.id);
 
@@ -163,10 +173,11 @@ export default function Product({ product, marketplaceProducts }: Props) {
   const handleIncreaseToCartItem = (productId: string) => {
     increaseCartQuantity(productId);
 
-    if (marketplaceItems.some(({ id }) => id === productId)) return;
-
+    if (marketplaceEventItems.some(({ id }) => id === productId)) return;
     const product = marketplaceProducts.find(({ id }) => id === productId);
     if (!product) return;
+    console.log("atakinoyegamoz");
+
     addMarketplaceItems(product);
   };
 
@@ -188,16 +199,19 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
   async function handleLike() {
     if (!isLike) {
-      const { error } = await supabase
-        .from("likes")
-        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
+      const { error } = await supabase.from("likes").insert([
+        {
+          product_id: selectedProduct.id,
+          owner_id: selectedProduct.owner_id,
+        },
+      ]);
 
       if (error) throw error;
     } else {
-      const { error } = await supabase
-        .from("likes")
-        .delete()
-        .match({ product_id: product.id, owner_id: product.owner_id });
+      const { error } = await supabase.from("likes").delete().match({
+        product_id: selectedProduct.id,
+        owner_id: selectedProduct.owner_id,
+      });
 
       if (error) throw error;
     }
@@ -264,6 +278,12 @@ export default function Product({ product, marketplaceProducts }: Props) {
                   </div>
                 </div>
               </section>
+              {/* 
+              <EventCartItem
+                id={selectedProduct.id}
+                quantity={quantity}
+                products={[]}
+              /> */}
 
               <section aria-labelledby="options-heading" className="mt-10">
                 <h3 id="options-heading" className="sr-only">
@@ -271,34 +291,36 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 </h3>
 
                 <form>
-                  <div className="mt-6 flex space-x-2">
+                  <div className="mt-6 flex items-center space-x-2">
                     {quantity === 0 ? (
-                      <IconButton
-                        classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                        classIcon={""}
-                        onClick={() =>
-                          handleIncreaseToCartItem(selectedProduct.id)
-                        }
-                        icon={faCartArrowDown}
-                        isActive={false}
-                        color={{
-                          filled: "#fdc300",
-                          unfilled: "grey",
-                        }}
-                        title={"Add item to cart"}
-                      >
-                        <>{t("add_to_cart")}</>
-                      </IconButton>
+                      <div>
+                        <IconButton
+                          classContainer="mt-0 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
+                          classIcon={""}
+                          onClick={() =>
+                            handleIncreaseToCartItem(selectedProduct.id)
+                          }
+                          icon={faCartArrowDown}
+                          isActive={false}
+                          color={{
+                            filled: "#fdc300",
+                            unfilled: "grey",
+                          }}
+                          title={"Add item to cart"}
+                        >
+                          <>{t("add_to_cart")}</>
+                        </IconButton>
+                      </div>
                     ) : (
                       <>
                         <MarketCartButtons
                           quantity={quantity}
-                          item={product}
+                          item={selectedProduct}
                           handleIncreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem(selectedProduct.id)
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleDecreaseFromCartItem(selectedProduct.id)
                           }
                           handleRemoveFromCart={() =>
                             handleRemoveFromCart(selectedProduct.id)
@@ -311,7 +333,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
                       onClick={() =>
                         handleIncreaseToCartItem(selectedProduct.id)
                       }
-                      class="bg-purple-500 hover:bg-purple-600 mb-2 mt-6 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
+                      class="bg-purple-500 hover:bg-purple-600 mb-0 mt-0 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
                       isActive={false}
                       color={{
                         filled: "",

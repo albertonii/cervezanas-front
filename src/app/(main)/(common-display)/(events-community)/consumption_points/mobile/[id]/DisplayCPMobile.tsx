@@ -9,12 +9,8 @@ import { ICPMobile, IProduct } from "../../../../../../../lib/types";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
-import {
-  AddCardButton,
-  DecreaseButton,
-  DeleteButton,
-  IncreaseButton,
-} from "../../../../../../../components/common";
+import { AddCardButton } from "../../../../../../../components/common";
+import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
 
 interface Props {
   cpMobile: ICPMobile;
@@ -24,7 +20,6 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
   const { t } = useTranslation();
 
   const cpm_products = cpMobile.cpm_products;
-  console.log(cpm_products);
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <div className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
@@ -111,7 +106,11 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
               </thead>
               <tbody>
                 {cpm_products.map((cpm) => (
-                  <Product key={cpm.id} product={cpm.product_id} />
+                  <Product
+                    key={cpm.id}
+                    product={cpm.product_id}
+                    cpmId={cpm.id}
+                  />
                 ))}
               </tbody>
             </table>
@@ -129,9 +128,10 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
 
 interface ProductProps {
   product: IProduct;
+  cpmId: string;
 }
 
-const Product = ({ product }: ProductProps) => {
+const Product = ({ product, cpmId }: ProductProps) => {
   const {
     marketplaceEventItems,
     getItemQuantity,
@@ -141,6 +141,8 @@ const Product = ({ product }: ProductProps) => {
     addMarketplaceItems,
     removeMarketplaceItems,
   } = useEventCartContext();
+
+  const quantity = getItemQuantity(product.id);
 
   const { id } = product;
 
@@ -155,7 +157,7 @@ const Product = ({ product }: ProductProps) => {
 
   const handleDecreaseFromCartItem = () => {
     decreaseCartQuantity(id);
-    if (getItemQuantity(id) > 1) return;
+    if (quantity > 1) return;
     removeMarketplaceItems(id);
   };
 
@@ -180,9 +182,8 @@ const Product = ({ product }: ProductProps) => {
           height={64}
         />
       </td>
-
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link target={"_blank"} href={`/products/${product.id}`}>
+        <Link target={"_blank"} href={`/consumption_points/products/${cpmId}`}>
           {product.name}
         </Link>
       </td>
@@ -192,26 +193,20 @@ const Product = ({ product }: ProductProps) => {
       </td>
       <td className="space-x-2 px-6 py-4">{product.category}</td>
       <td className="space-x-2 px-6 py-4">
-        {getItemQuantity(id) === 0 ? (
+        {quantity === 0 ? (
           <>
             <AddCardButton onClick={() => handleIncreaseToCartItem()} />
           </>
         ) : (
-          <div className="flex space-x-2">
-            <DecreaseButton onClick={() => handleDecreaseFromCartItem()} />
-
-            <span className="px-2 text-3xl text-black">
-              {getItemQuantity(id)}
-            </span>
-
-            <IncreaseButton onClick={() => handleIncreaseToCartItem()} />
-
-            <DeleteButton
-              onClick={() => {
-                handleRemoveFromCart();
-              }}
+          <>
+            <MarketCartButtons
+              quantity={quantity}
+              item={product}
+              handleIncreaseCartQuantity={() => handleDecreaseFromCartItem()}
+              handleDecreaseCartQuantity={() => handleIncreaseToCartItem()}
+              handleRemoveFromCart={() => handleRemoveFromCart()}
             />
-          </div>
+          </>
         )}
       </td>
     </tr>

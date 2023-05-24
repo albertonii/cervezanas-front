@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import MarketCartButtons from "../common/MarketCartButtons";
-import DisplayImageProduct from "../common/DisplayImageProduct";
+import DisplayImageProduct from "../../components/common/DisplayImageProduct";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IProduct } from "../../lib/types.d";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { useTranslation } from "react-i18next";
+import { IProduct } from "../../lib/types";
+import { formatCurrency } from "../../utils/formatCurrency";
+import { useEventCartContext } from "../../components/Context/EventCartContext";
+import MarketCartButtons from "../../components/common/MarketCartButtons";
 
 type CartItemProps = {
   id: string;
@@ -15,7 +15,7 @@ type CartItemProps = {
   products: IProduct[];
 };
 
-export function CartItem({ id, quantity, products }: CartItemProps) {
+export function EventCartItem({ id, quantity, products }: CartItemProps) {
   const { t } = useTranslation();
   const [item, setItem] = useState<IProduct | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
@@ -24,10 +24,10 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeMarketplaceItems,
-    marketplaceItems,
+    marketplaceEventItems,
     addMarketplaceItems,
     getItemQuantity,
-  } = useShoppingCart();
+  } = useEventCartContext();
 
   useEffect(() => {
     const findProducts = async () => {
@@ -50,14 +50,14 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
 
   const handleIncreaseCartQuantity = useCallback(() => {
     increaseCartQuantity(id);
-    if (marketplaceItems.find((item) => item.id === id)) return;
-    const product: IProduct | undefined = marketplaceItems.find(
+    if (marketplaceEventItems.find((item) => item.id === id)) return;
+    const product: IProduct | undefined = marketplaceEventItems.find(
       (item) => item.id === id
     );
     if (product) {
       addMarketplaceItems(product);
     }
-  }, [increaseCartQuantity, marketplaceItems, addMarketplaceItems]);
+  }, [increaseCartQuantity, marketplaceEventItems, addMarketplaceItems]);
 
   const handleDecreaseCartQuantity = useCallback(() => {
     decreaseCartQuantity(id);
@@ -107,6 +107,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
               <p className="text-gray-500">
                 {t("quantity")} {quantity}
               </p>
+
               <MarketCartButtons
                 quantity={quantity}
                 item={item}
