@@ -202,8 +202,8 @@ const Product = ({ product, cpmId }: ProductProps) => {
             <MarketCartButtons
               quantity={quantity}
               item={product}
-              handleIncreaseCartQuantity={() => handleDecreaseFromCartItem()}
-              handleDecreaseCartQuantity={() => handleIncreaseToCartItem()}
+              handleIncreaseCartQuantity={() => handleIncreaseToCartItem()}
+              handleDecreaseCartQuantity={() => handleDecreaseFromCartItem()}
               handleRemoveFromCart={() => handleRemoveFromCart()}
             />
           </>

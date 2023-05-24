@@ -23,7 +23,7 @@ export const notificationPath = "/api/notification";
 
 export const successEventRedirectPath = "/checkout/event/success/";
 export const errorEventRedirectPath = "/checkout/event/error";
-export const notificationEventPath = "/api/event/notification";
+export const notificationEventPath = "/api/notification";
 
 export const merchantInfo = {
   DS_MERCHANT_MERCHANTCODE: "097839427",
