@@ -8,10 +8,11 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../../../components/Auth";
 import { formatDateString } from "../../../../../utils";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { isValidObject } from "../../../../../utils/utils";
 import { IOrder } from "../../../../../lib/types.d";
 import { Button } from "../../../../../components/common";
-1;
+import { COMMON } from "../../../../../constants";
+import { EventOrderTimeline } from "./EventOrderTimeline";
+
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -25,6 +26,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+
   useEffect(() => {
     if (user) {
       setLoading(false);
@@ -118,17 +120,17 @@ export default function SuccessCheckout({ order, isError }: Props) {
                       {/* Product Multimedia  */}
                       <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
                         <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                          {isValidObject(
-                            product.product_multimedia[0].p_principal
-                          ) && (
-                            <DisplayImageProduct
-                              width={120}
-                              height={120}
-                              alt={""}
-                              imgSrc={`${product.product_multimedia[0].p_principal}`}
-                              class="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                            />
-                          )}
+                          <DisplayImageProduct
+                            width={120}
+                            height={120}
+                            alt={""}
+                            imgSrc={`${
+                              product.product_multimedia[0]
+                                ? product.product_multimedia[0].p_principal
+                                : COMMON.MARKETPLACE_PRODUCT
+                            }`}
+                            class="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                          />
                         </div>
                       </div>
 
@@ -227,27 +229,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                     </div>
 
                     {/* Timeline  */}
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-                      <h4 className="sr-only">Status</h4>
-                      <p className="text-sm font-medium text-gray-900">
-                        {t("status_paid")}
-                      </p>
-
-                      <div className="mt-6" aria-hidden="true">
-                        <div className="overflow-hidden rounded-full bg-gray-200">
-                          <div className="h-2 rounded-full bg-beer-blonde"></div>
-                        </div>
-
-                        <div className="mt-6 hidden grid-cols-2 text-sm font-medium sm:grid">
-                          <div className="text-beer-draft">
-                            {t("status_paid")}
-                          </div>
-                          <div className="text-center text-beer-draft">
-                            {t("status_server")}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <EventOrderTimeline order={order} />
                   </div>
                 ))}
             </div>

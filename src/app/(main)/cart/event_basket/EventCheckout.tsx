@@ -12,7 +12,10 @@ import { useAuth } from "../../../../components/Auth/useAuth";
 import { Button, CustomLoading } from "../../../../components/common";
 import { CheckoutItem } from "../../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
+import {
+  createRedirectForm,
+  eventMerchantInfo,
+} from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useEventCartContext } from "../../../../components/Context/EventCartContext";
 
@@ -191,7 +194,7 @@ export default function Checkout() {
     const redsysCurrency = currencyInfo.num;
 
     const form = createRedirectForm({
-      ...merchantInfo,
+      ...eventMerchantInfo,
       DS_MERCHANT_ORDER: orderNumber,
       DS_MERCHANT_AMOUNT: redsysAmount,
       DS_MERCHANT_CURRENCY: redsysCurrency,
@@ -211,7 +214,7 @@ export default function Checkout() {
   }, [isFormReady]);
 
   return (
-    <div className="flex flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+    <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
         action={`https://sis-t.redsys.es:25443/sis/realizarPago`}
         method="POST"
@@ -333,23 +336,14 @@ export default function Checkout() {
 
                           {/* discount */}
                           <div className="flex w-full items-center justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
+                            <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
                               {t("discount")}
-                              <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                              <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
                                 STUDENT
                               </span>
                             </p>
                             <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                               {formatCurrency(discount)} {discount / subtotal}%
-                            </p>
-                          </div>
-
-                          <div className="flex w-full items-center justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
-                              {t("shipping")}
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(shipping)}
                             </p>
                           </div>
 

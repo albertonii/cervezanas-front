@@ -306,7 +306,7 @@ export default function Checkout({
   };
 
   return (
-    <div className="flex flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+    <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
         action={`https://sis-t.redsys.es:25443/sis/realizarPago`}
         method="POST"
