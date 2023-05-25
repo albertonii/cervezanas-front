@@ -39,6 +39,7 @@ export default async function SuccessPage({ searchParams }: any) {
   const { orderData, isError } = await getSuccessData(searchParams);
   const [order] = await Promise.all([orderData]);
   if (!order) return <></>;
+
   return (
     <>
       <SuccessCheckout order={order} isError={isError} />

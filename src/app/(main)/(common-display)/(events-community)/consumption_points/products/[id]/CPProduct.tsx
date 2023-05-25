@@ -176,7 +176,6 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     if (marketplaceEventItems.some(({ id }) => id === productId)) return;
     const product = marketplaceProducts.find(({ id }) => id === productId);
     if (!product) return;
-    console.log("atakinoyegamoz");
 
     addMarketplaceItems(product);
   };
