@@ -1,29 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../../../components/Auth";
-import { formatDateString } from "../../../../../utils";
+import { formatDate } from "../../../../../utils";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { IOrder } from "../../../../../lib/types.d";
-import { Button } from "../../../../../components/common";
-import { COMMON } from "../../../../../constants";
-import { EventOrderTimeline } from "./EventOrderTimeline";
+import { IEventOrder } from "../../../../../lib/types.d";
 import EventProduct from "./EventProduct";
 
 interface Props {
   isError?: boolean;
-  order: IOrder;
+  order: IEventOrder;
 }
 export default function SuccessCheckout({ order, isError }: Props) {
-  const { products } = order;
+  const { event_order_items: eventOrderItems } = order;
 
   const { t } = useTranslation();
-
-  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -36,7 +28,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, products]);
+  }, [user, eventOrderItems]);
 
   const handleInvoicePdf = () => {
     window.open(`/checkout/invoice/${order.order_number}`, "_ blank");
@@ -88,9 +80,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
             </div>
 
             <p className="text-sm text-gray-600">
-              {t("status_order_placed")}{" "}
+              {t("status_order_placed")}
               <time dateTime="2021-03-22" className="font-medium text-gray-900">
-                {formatDateString(order.issue_date.toString())}
+                {formatDate(order.created_at)}
               </time>
             </p>
             <a
@@ -107,13 +99,16 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              {products &&
-                products.map((product) => (
+              {eventOrderItems &&
+                eventOrderItems.map((eventOrderItem) => (
                   <div
-                    key={product.id}
+                    key={eventOrderItem.id}
                     className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
-                    <EventProduct order={order} product={product} />
+                    <EventProduct
+                      order={order}
+                      eventOrderItem={eventOrderItem}
+                    />
                   </div>
                 ))}
             </div>

@@ -18,8 +18,13 @@ import {
 } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useEventCartContext } from "../../../../components/Context/EventCartContext";
+import {
+  EVENT_ORDER_ITEM_STATUS,
+  EVENT_ORDER_STATUS,
+  PAYMENT_METHOD,
+} from "../../../../constants";
 
-export default function Checkout() {
+export default function EventCheckout() {
   const { t } = useTranslation();
 
   const { user } = useAuth();
@@ -138,20 +143,19 @@ export default function Checkout() {
 
   const createOrder = async (orderNumber: string) => {
     const { data: order, error: orderError } = await supabase
-      .from("orders")
+      .from("event_orders")
       .insert({
-        owner_id: user?.id,
+        customer_id: user?.id,
+        status: EVENT_ORDER_STATUS.ORDER_PLACED,
+        updated_at: new Date().toISOString(),
+        // event_id: "123456789",
+        payment_method: PAYMENT_METHOD.CREDIT_CARD,
         total: total,
-        customer_name: `${user?.name} ${user?.lastname}`,
-        status: "order_placed",
-        tracking_id: "123456789",
-        issue_date: new Date().toISOString(),
-        estimated_date: new Date(
-          new Date().getTime() + 1000 * 60 * 60 * 24 * 3
-        ).toISOString(), // 3 days
-        payment_method: "credit_card",
+        currency: "EUR",
+        subtotal: subtotal,
+        // discount: discount,
+        // discount_code: "123456789",
         order_number: orderNumber,
-        type: "event",
       })
       .select("id");
 
@@ -159,11 +163,12 @@ export default function Checkout() {
 
     eventItems.map(async (item) => {
       const { error: orderItemError } = await supabase
-        .from("order_item")
+        .from("event_order_items")
         .insert({
           order_id: order?.[0].id,
           product_id: item.id,
           quantity: item.quantity,
+          status: EVENT_ORDER_ITEM_STATUS.INITIAL,
         });
 
       if (orderItemError) throw orderItemError;

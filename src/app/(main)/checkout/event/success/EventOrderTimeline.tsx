@@ -1,9 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IOrder } from "../../../../../lib/types";
+import { EVENT_ORDER_STATUS } from "../../../../../constants";
+import { IEventOrder } from "../../../../../lib/types";
 
 interface OrderTimelineProps {
-  order: IOrder;
+  order: IEventOrder;
 }
 
 export function EventOrderTimeline({ order }: OrderTimelineProps) {
@@ -17,17 +18,18 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
         <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
           <div
             className={`h-2 w-[10%] rounded-l-full ${
-              order.status === "order_placed" && "bg-beer-blonde"
+              order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
+              "bg-beer-blonde"
             }`}
           ></div>
           <div
             className={`h-2 w-[40%]  ${
-              order.status === "status_paid" && "bg-beer-blonde"
+              order.status === EVENT_ORDER_STATUS.PAID && "bg-beer-blonde"
             }`}
           ></div>
           <div
             className={`h-2 w-[50%] rounded-r-full ${
-              order.status === "status_served" && "bg-beer-blonde"
+              order.status === EVENT_ORDER_STATUS.SERVED && "bg-beer-blonde"
             }`}
           ></div>
         </div>

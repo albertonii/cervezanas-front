@@ -16,12 +16,39 @@ export const EVENTS = {
   INITIAL_SESSION: "INITIAL_SESSION",
 };
 
+export const PAYMENT_METHOD = {
+  CREDIT_CARD: "CREDIT_CARD",
+  DEBIT_CARD: "DEBIT_CARD",
+  CASH: "CASH",
+  TRANSFER: "TRANSFER",
+  CHECK: "CHECK",
+  OTHER: "OTHER",
+  PAYPAL: "PAYPAL",
+};
+
 export const PREPENDED_CLASS_NAMES = "supabase-ui-auth";
 
 export const COMMON = {
   MARKETPLACE_PRODUCT: "/marketplace_product_default.png",
   BG_IMG: "/icons/bg-240.png",
   PROFILE_IMG: "/icons/profile-240.png",
+};
+
+export const MARKETPLACE_ORDER_STATUS = {
+  ORDER_PLACED: "ORDER_PLACED",
+};
+
+export const EVENT_ORDER_STATUS = {
+  ORDER_PLACED: "ORDER_PLACED",
+  PAID: "PAID",
+  SERVED: "SERVED",
+};
+
+export const EVENT_ORDER_ITEM_STATUS = {
+  INITIAL: "INITIAL",
+  WITH_STOCK: "WITH_STOCK",
+  WITHOUT_STOCK: "WITHOUT_STOCK",
+  CONSUMED: "CONSUMED",
 };
 
 /**

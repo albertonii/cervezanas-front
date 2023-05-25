@@ -484,16 +484,45 @@ export interface IOrder {
 }
 
 export interface IOrderItem {
+  id: string;
+  created_at: Date;
   order_id: string;
   product_id: string;
   quantity: number;
   is_reviewed: boolean;
-  created_at: Date;
   product_multimedia: IProductMultimedia[];
   name: string;
   description: string;
-  id: string;
   price: number;
+}
+
+export interface IEventOrder {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  status: string;
+  customer_id: string;
+  payment_method: PaymentCardMethod;
+  total: number;
+  subtotal: number;
+  tax: number;
+  currency: string;
+  discount: number;
+  discount_code: string;
+  event_order_items: IEventOrderItem[];
+  order_number: string;
+  // cp_m_owner: ICPMobile;
+}
+
+export interface IEventOrderItem {
+  id: string;
+  created_at: Date;
+  order_id: string;
+  product_id: IProduct;
+  is_reviewed: boolean;
+  quantity: number;
+  product_multimedia: IProductMultimedia[];
+  cp_m_id: ICPMobile;
 }
 
 export interface IPaymentCardMethod {

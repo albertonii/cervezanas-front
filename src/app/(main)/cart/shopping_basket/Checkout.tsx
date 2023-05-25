@@ -1,6 +1,8 @@
 "use client";
 
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import Decimal from "decimal.js";
+import EmptyCart from "./EmptyCart";
 import ShippingAddressItem from "./ShippingAddressItem";
 import BillingAddressItem from "./BillingAddressItem";
 import ShippingBillingContainer from "./ShippingBillingContainer";
@@ -18,13 +20,12 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Button, CustomLoading } from "../../../../components/common";
 import { CheckoutItem } from "../../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import EmptyCart from "./EmptyCart";
+import { MARKETPLACE_ORDER_STATUS } from "../../../../constants";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -227,7 +228,7 @@ export default function Checkout({
         owner_id: user?.id,
         total: total,
         customer_name: `${user?.name} ${user?.lastname}`,
-        status: "order_placed",
+        status: MARKETPLACE_ORDER_STATUS.ORDER_PLACED,
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
         estimated_date: new Date(

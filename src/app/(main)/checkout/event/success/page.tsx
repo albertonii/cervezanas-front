@@ -1,7 +1,7 @@
 import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../lib/types.d";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../../../utils/utils";
 
@@ -70,17 +70,19 @@ async function getSuccessData(searchParams: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("orders")
+    .from("event_orders")
     .select(
       `
       *,
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_item(*),
-        beers (*)
+      event_order_items (
+        *,
+         product_id (
+          id, 
+          name, 
+          price,
+          product_multimedia(*),
+          beers (*)
+        )
       )
     `
     )
@@ -101,5 +103,5 @@ async function getSuccessData(searchParams: any) {
     };
   }
 
-  return { orderData: orderData[0] as IOrder, isError: false };
+  return { orderData: orderData[0] as IEventOrder, isError: false };
 }

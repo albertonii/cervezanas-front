@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 import QRCode from "react-qr-code";
 
-export default function GenerateQR() {
-  const [qrCodeValue, setQrCodeValue] = useState("");
+interface Props {
+  eventOrderItemId: string;
+}
+
+export default function GenerateProductQR({ eventOrderItemId }: Props) {
+  const productUrl = `http://localhost:3000/barman/product/${eventOrderItemId}`;
+  console.log(productUrl);
+
+  const router = useRouter();
+
+  const handleOnClick = () => {
+    router.push(productUrl);
+  };
 
   return (
-    <div className="">
-      <div className="">Generate QR</div>
-
-      {qrCodeValue != "" && <QRCode value={qrCodeValue} className="" />}
-      <input
-        className=""
-        onChange={(e) => {
-          setQrCodeValue(e.target.value);
-        }}
-      />
+    <div className="w-1/2 hover:scale-105" onClick={() => handleOnClick()}>
+      {<QRCode value={productUrl} className="" />}
     </div>
   );
 }

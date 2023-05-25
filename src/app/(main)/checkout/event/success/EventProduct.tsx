@@ -5,28 +5,30 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../../../components/common";
 import { COMMON } from "../../../../../constants";
-import { IOrderItem, IOrder } from "../../../../../lib/types";
+import { IEventOrderItem, IEventOrder } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  order: IOrder;
-  product: IOrderItem;
+  order: IEventOrder;
+  eventOrderItem: IEventOrderItem;
 }
 
-export default function EventProduct({ order, product }: Props) {
+export default function EventProduct({ order, eventOrderItem }: Props) {
   const { t } = useTranslation();
   const router = useRouter();
-
+  const eventOrderItemId = eventOrderItem.id;
   const handleOnClick = (productId: string) => {
     router.push(`/products/review/${productId}`);
   };
 
+  console.log(eventOrderItem);
+
   return (
     <>
       <div
-        key={product.id}
+        key={eventOrderItemId}
         className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
       >
         <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
@@ -38,8 +40,9 @@ export default function EventProduct({ order, product }: Props) {
                 height={120}
                 alt={""}
                 imgSrc={`${
-                  product.product_multimedia[0]
-                    ? product.product_multimedia[0].p_principal
+                  eventOrderItem.product_multimedia &&
+                  eventOrderItem.product_multimedia[0]
+                    ? eventOrderItem.product_multimedia[0].p_principal
                     : COMMON.MARKETPLACE_PRODUCT
                 }`}
                 class="h-full w-full object-cover object-center sm:h-full sm:w-full"
@@ -50,21 +53,23 @@ export default function EventProduct({ order, product }: Props) {
           {/* Product Information  */}
           <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
             <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-              <Link href={`/products/${product.id}`}>{product.name}</Link>
+              <Link href={`/products/${eventOrderItem.id}`}>
+                {eventOrderItem.product_id.name}
+              </Link>
             </h3>
             <p className="mt-2 text-sm font-medium text-gray-900">
-              {t("price")} - {formatCurrency(product.price)}
+              {t("price")} - {formatCurrency(eventOrderItem.product_id.price)}
             </p>
             <p className="mt-2 text-sm font-medium text-gray-900">
               {t("quantity")} -
             </p>
             <p className="mt-3 text-sm text-gray-500">
-              {t("description")} - {product.description}
+              {t("description")} - {eventOrderItem.product_id.description}
             </p>
           </div>
 
           {/* QR Code generator for barman */}
-          <GenerateQR />
+          <GenerateQR eventOrderItemId={eventOrderItemId} />
 
           {/* Review Product  */}
           <div className="col-span-12 mt-6">
@@ -73,7 +78,7 @@ export default function EventProduct({ order, product }: Props) {
             </span>
 
             <div className="mt-3 space-y-3 text-beer-dark">
-              {product.is_reviewed && (
+              {eventOrderItem.is_reviewed && (
                 <span>{t("product_already_reviewed_condition")}</span>
               )}
 
@@ -83,7 +88,7 @@ export default function EventProduct({ order, product }: Props) {
 
               <Button
                 disabled={
-                  product.is_reviewed || order.status !== "delivered"
+                  eventOrderItem.is_reviewed || order.status !== "delivered"
                     ? true
                     : false
                 }
@@ -91,8 +96,11 @@ export default function EventProduct({ order, product }: Props) {
                 medium
                 class="my-6 font-medium text-beer-draft hover:text-beer-dark "
                 onClick={() => {
-                  if (!product.is_reviewed && order.status === "delivered") {
-                    handleOnClick(product.id);
+                  if (
+                    !eventOrderItem.is_reviewed &&
+                    order.status === "delivered"
+                  ) {
+                    handleOnClick(eventOrderItem.id);
                   }
                 }}
               >
