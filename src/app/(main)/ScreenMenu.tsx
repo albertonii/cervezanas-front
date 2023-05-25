@@ -12,6 +12,7 @@ import { Button, HeaderDropdownButton } from "../../components/common";
 import { Notification } from "./components/Notification";
 import { useAppContext } from "../../components/Context";
 import { ROUTE_SIGNIN } from "../../config";
+import { COMMON } from "../../constants";
 
 export function ScreenMenu() {
   const { user, role } = useAuth();
@@ -119,17 +120,16 @@ export function ScreenMenu() {
               {!user ? (
                 <>
                   <li className="flex items-center">
-                    <Button
-                      onClick={() => handleSignIn()}
-                      title={""}
-                      class={""}
-                    >
-                      <Image
-                        src={"/icons/sign_in.png"}
-                        width={25}
-                        height={25}
-                        alt={"Login"}
-                      />
+                    <Button onClick={() => handleSignIn()} title={""}>
+                      <div className="mx-2 my-1 flex items-center justify-center space-x-2">
+                        <Image
+                          src={COMMON.PROFILE_IMG}
+                          width={25}
+                          height={25}
+                          alt={"Login"}
+                        />
+                        <span>{t("my_account")}</span>
+                      </div>
                     </Button>
                   </li>
                 </>

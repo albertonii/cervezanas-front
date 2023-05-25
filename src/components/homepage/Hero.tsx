@@ -7,8 +7,8 @@ export function Hero() {
     <>
       <div className="h-[60px] bg-[url('/assets/golden_wave_pattern.png')] "></div>
 
-      <div className="flex w-full justify-center bg-beer-blonde pt-10 sm:h-[50vh] md:h-[59vh]">
-        <div className="container gap-10 sm:grid sm:grid-cols-1 lg:grid-cols-2">
+      <div className="flex w-screen justify-center bg-beer-blonde pt-10 sm:h-[50vh] md:h-[59vh]">
+        <div className="container ml-8 gap-10 sm:grid sm:grid-cols-1 lg:grid-cols-2">
           {/* copywriting  */}
           <div className="h-full w-full space-y-8 p-4 sm:p-0">
             {/* Title */}

@@ -81,9 +81,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 <div className="flex flex-col items-start">
                   <div className="flex flex-col">
                     <div className="w-full flex-none text-lg font-bold leading-none text-gray-800 hover:cursor-pointer hover:text-beer-draft">
-                      <Link target={"_blank"} href={`/events/${event.id}`}>
-                        {event.name}
-                      </Link>
+                      <Link href={`/events/${event.id}`}>{event.name}</Link>
                     </div>
 
                     <div className="my-1 flex-auto text-gray-500">
@@ -96,7 +94,7 @@ const EventCard = ({ event }: EventCardProps) => {
 
                 {/* Start date - End date  */}
                 <div className="flex-none text-lg italic leading-none text-gray-600">
-                  <Link target={"_blank"} href={`/events/${event.id}`}>
+                  <Link href={`/events/${event.id}`}>
                     {formatDate(event.start_date)} -{" "}
                     {formatDate(event.end_date)}
                   </Link>
@@ -206,9 +204,7 @@ const EventCard = ({ event }: EventCardProps) => {
 
                 <div>
                   <Button class="flex-no-shrink border-beer-gold-300 ml-4 rounded-full border-2 bg-beer-darkGold px-5 py-2 text-sm font-extrabold tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg">
-                    <Link target={"_blank"} href={`/events/${event.id}`}>
-                      {t("info")}
-                    </Link>
+                    <Link href={`/events/${event.id}`}>{t("info")}</Link>
                   </Button>
                 </div>
               </div>

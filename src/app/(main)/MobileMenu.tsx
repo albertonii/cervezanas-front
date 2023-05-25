@@ -214,12 +214,20 @@ export function MobileMenu() {
                 {user ? (
                   t("my_account").toUpperCase()
                 ) : (
-                  <Image
-                    src={"/icons/sign_in.png"}
-                    width={25}
-                    height={25}
-                    alt={"Login"}
-                  />
+                  <div>
+                    <Button
+                      onClick={() => handleSignIn()}
+                      title={""}
+                      class={""}
+                    >
+                      <Image
+                        src={"/icons/profile.png"}
+                        width={25}
+                        height={25}
+                        alt={"Login"}
+                      />
+                    </Button>
+                  </div>
                 )}
               </li>
 

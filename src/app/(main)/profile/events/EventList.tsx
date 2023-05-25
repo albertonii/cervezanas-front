@@ -277,7 +277,7 @@ export default function EventList({ events: es, handleEList }: Props) {
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link target={"_blank"} href={`/events/${e.id}`}>
+                      <Link href={`/events/${e.id}`}>
                         {e.name}
                       </Link>
                     </td>
