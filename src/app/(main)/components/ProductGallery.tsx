@@ -1,7 +1,7 @@
 "use client";
 
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
@@ -10,7 +10,7 @@ import { ICarouselItem } from "../../../lib/types.d";
 interface Props {
   gallery: ICarouselItem[];
   isLike: boolean;
-  handleSetIsLike: Dispatch<SetStateAction<boolean>>;
+  handleSetIsLike?: ComponentProps<any>;
 }
 
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {

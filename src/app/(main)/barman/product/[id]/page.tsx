@@ -10,9 +10,9 @@ export default async function BarmanProductPage({ params }: any) {
   const [eventOrderItem] = await Promise.all([eventOrderItemData]);
   if (!eventOrderItem) return <></>;
   return (
-    <>
+    <div className="container">
       <ManageEventProduct eventOrderItem={eventOrderItem} />
-    </>
+    </div>
   );
 }
 
@@ -33,7 +33,11 @@ async function getEventOrderItemData(id: string) {
       .from("event_order_items")
       .select(
         `
-        *
+        *,
+        product_id (*,
+          product_multimedia (*,
+            p_principal)
+        )
       `
       )
       .eq("id", id);

@@ -45,10 +45,11 @@ export const EVENT_ORDER_STATUS = {
 };
 
 export const EVENT_ORDER_ITEM_STATUS = {
-  INITIAL: "INITIAL",
-  WITH_STOCK: "WITH_STOCK",
-  WITHOUT_STOCK: "WITHOUT_STOCK",
-  CONSUMED: "CONSUMED",
+  INITIAL: "initial",
+  WITH_STOCK: "with_stock",
+  WITHOUT_STOCK: "without_stock",
+  CONSUMED: "consumed",
+  NOT_SAVED: "not_saved",
 };
 
 /**

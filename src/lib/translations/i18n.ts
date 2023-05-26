@@ -539,6 +539,15 @@ from the beer.`,
   address_header: `Address`,
   status_paid: `Paid`,
   status_served: `Served`,
+  initial: `Initial`,
+  with_stock: `With stock`,
+  without_stock: `Without stock`,
+  consumed: `Consumed`,
+  quantity_to_serve: `Quantity to serve`,
+  quantity_bought: `Quantity bought`,
+  quantity_served: `Quantity served`,
+  quantity_left_to_serve: `Quantity left to serve`,
+  not_saved: `Not saved`,
 };
 
 const translationsEs = {
@@ -1088,6 +1097,15 @@ desprenden de la cerveza. `,
   address_header: `Dirección`,
   status_paid: `Pagado`,
   status_served: `Servido`,
+  initial: `Inicial`,
+  with_stock: `Con stock`,
+  without_stock: `Sin stock`,
+  consumed: `Consumido`,
+  quantity_to_serve: `Cantidad a servir`,
+  quantity_bought: `Cantidad comprada`,
+  quantity_served: `Cantidad servida`,
+  quantity_left_to_serve: `Cantidad restante por servir`,
+  not_saved: `Sin guardar`,
 };
 
 // the translations
