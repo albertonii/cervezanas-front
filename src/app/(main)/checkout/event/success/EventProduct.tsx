@@ -45,7 +45,7 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
               <span className="flex items-center text-2xl">
                 {t("quantity_served")}
                 <p className="ml-2 rounded-full bg-beer-gold px-2 py-2 font-semibold">
-                  {eventOrderItem.quantity_served}
+                  {eventOrderItem.quantity_served} / {eventOrderItem.quantity}
                 </p>
               </span>
             </div>

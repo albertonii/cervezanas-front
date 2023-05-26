@@ -133,15 +133,16 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
         </div>
 
         {/* Input to modify stock quantity server in the Consumption Point  */}
-        <section className="flex w-[12vw] flex-row items-end space-x-4 lg:w-[16vw]">
-          <div className="flex flex-col items-center justify-center">
+        <section className="flex flex-row items-end space-x-4 ">
+          <div className="flex flex-col items-start justify-center">
             <label
               htmlFor="quantity"
-              className="block text-sm font-medium text-gray-700 lg:text-2xl"
+              className="block text-sm font-medium text-gray-700 lg:text-xl"
             >
               {t("quantity_to_serve")}
             </label>
-            <div className="relative mt-1 rounded-md shadow-sm">
+
+            <div className="relative mt-1 w-[12vw] rounded-md shadow-sm lg:w-[14vw]">
               <input
                 type="number"
                 name="quantity"
@@ -163,12 +164,21 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
           </div>
 
           <Button
+            disabled={itemStatus === EVENT_ORDER_ITEM_STATUS.CONSUMED}
             primary
             onClick={() => handleSaveQuantityServed()}
             class="bg-bear-brown hover:bg-bear-brown-light mt-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             {t("save")}
           </Button>
+
+          {itemStatus === EVENT_ORDER_ITEM_STATUS.CONSUMED && (
+            <div>
+              <p className="text-xl text-gray-900">
+                {t("product_has_been_consumed")}
+              </p>
+            </div>
+          )}
         </section>
       </div>
     </>

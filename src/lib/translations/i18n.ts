@@ -548,6 +548,7 @@ from the beer.`,
   quantity_served: `Quantity served`,
   quantity_left_to_serve: `Quantity left to serve`,
   not_saved: `Not saved`,
+  product_has_been_consumed: `The product has been consumed`,
 };
 
 const translationsEs = {
@@ -1106,6 +1107,7 @@ desprenden de la cerveza. `,
   quantity_served: `Cantidad servida`,
   quantity_left_to_serve: `Cantidad restante por servir`,
   not_saved: `Sin guardar`,
+  product_has_been_consumed: `El producto ha sido consumido`,
 };
 
 // the translations
