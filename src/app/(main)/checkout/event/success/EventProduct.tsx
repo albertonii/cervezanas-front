@@ -32,6 +32,25 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
         className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
       >
         <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+          {/* Product status  */}
+          <div className="col-span-12 my-4 mt-6 items-start md:col-span-12 md:mt-6">
+            <div className="flex justify-around space-x-4 ">
+              <span className="flex items-center text-2xl">
+                {t("status")}
+                <p className="ml-2 rounded-full bg-beer-gold px-2 py-2 font-semibold">
+                  {t(eventOrderItem.status)}
+                </p>
+              </span>
+
+              <span className="flex items-center text-2xl">
+                {t("quantity_served")}
+                <p className="ml-2 rounded-full bg-beer-gold px-2 py-2 font-semibold">
+                  {eventOrderItem.quantity_served}
+                </p>
+              </span>
+            </div>
+          </div>
+
           {/* Product Multimedia  */}
           <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
             <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">

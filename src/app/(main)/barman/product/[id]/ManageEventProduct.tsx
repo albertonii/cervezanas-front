@@ -47,7 +47,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
 
     setItemStatus(status);
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("event_order_items")
       .update({ quantity_served: quantityServed, status })
       .eq("id", eventOrderItem.id);
