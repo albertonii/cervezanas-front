@@ -94,7 +94,12 @@ export function Sidebar() {
             option: "profile/factories",
           },
           {
-            name: t("orders"),
+            name: t("event_orders"),
+            icon: "shopping-cart",
+            option: "profile/event_orders",
+          },
+          {
+            name: t("online_orders"),
             icon: "shopping-cart",
             option: "profile/orders",
           },

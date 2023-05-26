@@ -35,13 +35,14 @@ export const COMMON = {
 };
 
 export const MARKETPLACE_ORDER_STATUS = {
-  ORDER_PLACED: "ORDER_PLACED",
+  ORDER_PLACED: "order_placed",
 };
 
 export const EVENT_ORDER_STATUS = {
-  ORDER_PLACED: "ORDER_PLACED",
-  PAID: "PAID",
-  SERVED: "SERVED",
+  ORDER_PLACED: "order_placed",
+  PAID: "paid",
+  WITH_SERVICES_TO_CONSUME: "with_services_to_consume",
+  SERVED: "served",
 };
 
 export const EVENT_ORDER_ITEM_STATUS = {

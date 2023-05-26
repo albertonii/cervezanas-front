@@ -7,6 +7,7 @@ import { formatDate } from "../../../../../utils";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { IEventOrder } from "../../../../../lib/types.d";
 import EventProduct from "./EventProduct";
+import { EventOrderTimeline } from "./EventOrderTimeline";
 
 interface Props {
   isError?: boolean;
@@ -93,6 +94,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
               <span aria-hidden="true"> &rarr;</span>
             </a>
           </div>
+
+          {/* Order timeline  */}
+          <EventOrderTimeline order={order} />
 
           {/* <!-- Products --> */}
           <div className="mt-6">

@@ -7,8 +7,8 @@ import { Button } from "../../../../../components/common";
 import { COMMON } from "../../../../../constants";
 import { IEventOrderItem, IEventOrder } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
-import { EventOrderTimeline } from "./EventOrderTimeline";
 import { useRouter } from "next/navigation";
+import { EventProductTimeline } from "./EventProductTimeline";
 
 interface Props {
   order: IEventOrder;
@@ -22,8 +22,6 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
   const handleOnClick = (productId: string) => {
     router.push(`/products/review/${productId}`);
   };
-
-  console.log(eventOrderItem);
 
   return (
     <>
@@ -130,7 +128,7 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
         </div>
 
         {/* Timeline  */}
-        <EventOrderTimeline order={order} />
+        <EventProductTimeline status={eventOrderItem.status} />
       </div>
     </>
   );

@@ -1,88 +1,80 @@
-import Image from "next/image";
-import useFetchLots from "../../../hooks/useFetchLotsByOwner";
+"use client";
+
+import useFetchEventOrders from "../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { IProductLot } from "../../../lib/types.d";
-import { formatDateString } from "../../../utils";
-import { useAuth } from "../../Auth";
-import { Button, DeleteButton, Spinner } from "../../common";
-import { EditButton } from "../../common/EditButton";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { IEventOrder } from "../../../../lib/types";
+import { Button, IconButton, Spinner } from "../../../../components/common";
+import { formatCurrency } from "../../../../utils";
+import { encodeBase64 } from "../../../../utils/utils";
+import { useAuth } from "../../../../components/Auth";
 
 interface Props {
-  lots: IProductLot[];
-  handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
-  handleProductLotModal: React.Dispatch<React.SetStateAction<any>>;
+  eventOrders: IEventOrder[];
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export function LotList({
-  lots: ls,
-  handleEditShowModal,
-  handleDeleteShowModal,
-  handleProductLotModal,
-}: Props) {
+export function EventOrderList({ eventOrders: os }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
   const { t } = useTranslation();
 
-  const [lots, setLots] = useState<IProductLot[]>(ls);
+  const [orders, setOrders] = useState<IEventOrder[]>(os);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const lotsCount = ls.length;
+  const ordersCount = os.length;
   const pageRange = 10;
   const finalPage =
-    lotsCount < currentPage * pageRange ? lotsCount : currentPage * pageRange;
+    ordersCount < currentPage * pageRange
+      ? ordersCount
+      : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchLots(
+  const router = useRouter();
+
+  const { isError, isLoading, refetch } = useFetchEventOrders(
     user.id,
     currentPage,
     pageRange
   );
 
-  const COLUMNS = [
-    { header: t("product_type_header") },
-    { header: t("lot_number_header") },
-    { header: t("quantity_header") },
-    { header: t("manufacture_date_header") },
-    { header: t("expiration_date_header") },
-    { header: t("action_header") },
-  ];
-
-  const handleClickEdit = (lot: IProductLot) => {
-    handleEditShowModal(true);
-    handleDeleteShowModal(false);
-    handleProductLotModal(lot);
-  };
-
-  const handleClickDelete = (lot: IProductLot) => {
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductLotModal(lot);
-  };
-
   useEffect(() => {
-    setLots(lots);
-  }, [ls]);
-
-  useEffect(() => {
-    refetch().then((res) => {
-      // const lots = res.data as IProductLot[];
-      const lots = res.data as any;
-      setLots(lots);
+    refetch().then((res: any) => {
+      const orders = res.data as IEventOrder[];
+      setOrders(orders);
     });
   }, [currentPage]);
 
-  const filteredItems = useMemo<IProductLot[]>(() => {
-    return lots.filter((lot) => {
-      return lot.lot_name.toLowerCase().includes(query.toLowerCase());
+  const COLUMNS = [
+    { header: t("order_number_header") },
+    { header: t("name_header") },
+    { header: t("price_header") },
+    { header: t("status_header") },
+    { header: t("action_header") },
+  ];
+
+  const handleClickView = (order: IEventOrder) => {
+    const Ds_MerchantParameters = encodeBase64(
+      JSON.stringify({ Ds_Order: order.order_number })
+    );
+
+    router.push(
+      `/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+    );
+  };
+
+  const filteredItemsByStatus = useMemo(() => {
+    if (!orders) return [];
+    return orders.filter((orders) => {
+      return orders.status.includes(query);
     });
-  }, [lots, query]);
+  }, [orders, query]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -91,7 +83,7 @@ export function LotList({
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(lotsCount / pageRange)) {
+    if (currentPage < Math.ceil(ordersCount / pageRange)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -101,7 +93,7 @@ export function LotList({
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_lots")}
+            {t("error_fetching_event_orders")}
           </p>
         </div>
       )}
@@ -110,11 +102,9 @@ export function LotList({
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isLoading && !isError && lots.length === 0 ? (
-        <div className="my-[10vh] flex items-center justify-center">
-          <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_lots")}
-          </p>
+      {!isError && !isLoading && orders && orders.length === 0 ? (
+        <div className="flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
         </div>
       ) : (
         <>
@@ -140,7 +130,7 @@ export function LotList({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Search lot..."
+              placeholder={t("search_order") ?? "Search order..."}
             />
           </div>
 
@@ -158,50 +148,43 @@ export function LotList({
             </thead>
 
             <tbody>
-              {lots &&
-                filteredItems.map((lot) => {
+              {orders &&
+                filteredItemsByStatus.map((order) => {
                   return (
                     <tr
-                      key={lot.id}
+                      key={order.id}
                       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        <Image
-                          width={128}
-                          height={128}
-                          className="h-8 w-8 rounded-full"
-                          src="/icons/beer-240.png"
-                          alt="Beer Type"
+                      <td className="px-6 py-4">{order.order_number}</td>
+
+                      <td className="px-6 py-4">
+                        {order.customer_id?.username ?? " - "}
+                      </td>
+
+                      <td className="px-6 py-4">
+                        {formatCurrency(order.total)}
+                      </td>
+
+                      <td className="px-6 py-4">{t(order.status)}</td>
+
+                      <td className="item-center flex justify-center px-6 py-4">
+                        <IconButton
+                          onClick={() => handleClickView(order)}
+                          icon={faEye}
+                          title={""}
                         />
-                      </th>
-
-                      <td className="px-6 py-4">{lot.lot_name}</td>
-
-                      <td className="px-6 py-4">{lot.quantity}</td>
-
-                      <td className="px-6 py-4">
-                        {formatDateString(lot.manufacture_date.toString())}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        {formatDateString(lot.expiration_date.toString())}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        <div className="flex space-x-1">
-                          <EditButton onClick={() => handleClickEdit(lot)} />
-
-                          <DeleteButton
-                            onClick={() => handleClickDelete(lot)}
-                          />
-                        </div>
                       </td>
                     </tr>
                   );
                 })}
+
+              {!orders && (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center">
+                    {t("no_orders")}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
 
@@ -215,7 +198,7 @@ export function LotList({
               {t("pagination_footer_nums", {
                 from: currentPage,
                 to: finalPage,
-                total: lotsCount,
+                total: ordersCount,
               })}
             </p>
 

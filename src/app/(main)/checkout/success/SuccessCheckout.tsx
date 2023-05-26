@@ -90,7 +90,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
             </div>
 
             <p className="text-sm text-gray-600">
-              {t("status_order_placed")}{" "}
+              {t("status_order_placed")}
               <time dateTime="2021-03-22" className="font-medium text-gray-900">
                 {formatDateString(order.issue_date.toString())}
               </time>

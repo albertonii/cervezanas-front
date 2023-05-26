@@ -17,27 +17,39 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
       <div className="mt-6" aria-hidden="true">
         <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
           <div
-            className={`h-2 w-[10%] rounded-l-full ${
+            className={`h-2 rounded-l-full ${
               order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
-              "bg-beer-blonde"
+              "w-[10%] bg-beer-blonde"
             }`}
           ></div>
+
           <div
-            className={`h-2 w-[40%]  ${
-              order.status === EVENT_ORDER_STATUS.PAID && "bg-beer-blonde"
+            className={`h-2  ${
+              order.status === EVENT_ORDER_STATUS.PAID &&
+              "w-[30%] bg-beer-blonde "
             }`}
           ></div>
+
           <div
-            className={`h-2 w-[50%] rounded-r-full ${
-              order.status === EVENT_ORDER_STATUS.SERVED && "bg-beer-blonde"
+            className={`h-2   ${
+              order.status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
+              "w-[63%] bg-beer-blonde"
+            }`}
+          ></div>
+
+          <div
+            className={`h-2 rounded-r-full ${
+              order.status === EVENT_ORDER_STATUS.SERVED &&
+              "w-[100%] bg-beer-blonde"
             }`}
           ></div>
         </div>
 
-        <div className="mt-6 hidden grid-cols-3 text-sm  sm:grid">
+        <div className="mt-6 hidden grid-cols-4 text-sm  sm:grid">
           <div
             className={`${
-              order.status === "order_placed" && "font-bold text-beer-darkGold"
+              order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
+              "font-bold text-beer-darkGold"
             } `}
           >
             {t("status_order_placed")}
@@ -45,15 +57,26 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
 
           <div
             className={`${
-              order.status === "status_paid" && "text-beer-draft"
-            } text-center`}
+              order.status === EVENT_ORDER_STATUS.PAID &&
+              "font-bold text-beer-darkGold"
+            } text-left`}
           >
             {t("status_paid")}
           </div>
 
           <div
             className={`${
-              order.status === "status_served" && "text-beer-draft"
+              order.status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
+              "font-bold text-beer-darkGold"
+            } text-left`}
+          >
+            {t("status_with_services_to_consume")}
+          </div>
+
+          <div
+            className={`${
+              order.status === EVENT_ORDER_STATUS.SERVED &&
+              "font-bold text-beer-darkGold"
             } text-end`}
           >
             {t("status_served")}

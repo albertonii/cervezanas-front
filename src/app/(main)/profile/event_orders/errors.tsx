@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function errors() {
-  return <div>Error en Event Orders</div>;
+  return <div>Error en Orders</div>;
 }

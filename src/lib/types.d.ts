@@ -501,7 +501,8 @@ export interface IEventOrder {
   created_at: Date;
   updated_at: Date;
   status: string;
-  customer_id: string;
+  customer_id: IUser;
+  event_id: IEvent;
   payment_method: PaymentCardMethod;
   total: number;
   subtotal: number;
