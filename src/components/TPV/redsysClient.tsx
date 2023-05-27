@@ -14,9 +14,9 @@ export const { createRedirectForm, processRestNotification } = createRedsysAPI({
   secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
 });
 
-const port = process.env.PORT || 3000;
-const hostname = process.env.HOSTNAME || `http://localhost`;
-const host = process.env.HOST || `${hostname}:${port}`;
+const port = process.env.NEXT_PUBLIC_PORT || 3000;
+const hostname = process.env.NEXT_PUBLIC_HOSTNAME || `http://localhost`;
+const host = process.env.NEXT_PUBLIC_HOST || `${hostname}:${port}`;
 export const endpointRedsys = `${host}`;
 
 export const successRedirectPath = "/checkout/success/";

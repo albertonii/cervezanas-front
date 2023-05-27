@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function GenerateProductQR({ eventOrderItemId }: Props) {
-  const productUrl = `${process.env.HOST}/barman/product/${eventOrderItemId}`;
+  const productUrl = `${process.env.NEXT_PUBLIC_HOST}/barman/product/${eventOrderItemId}`;
 
   const router = useRouter();
 
