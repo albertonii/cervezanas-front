@@ -384,7 +384,7 @@ export interface ICPMobile {
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
   cp_id: string;
-  cpm_products: ICPMProducts[];
+  cpm_products: IRefCPMProducts[];
   // TODO: rrss
 }
 
@@ -401,6 +401,14 @@ export interface ICPMProducts {
   cp_id: ICPMobile;
   product_id: IProduct;
 }
+
+export interface IRefCPMProducts {
+  id: string;
+  created_at: Date;
+  cp_id: any;
+  product_id: IProduct;
+}
+
 
 export interface IProfileLocation {
   id: string;
