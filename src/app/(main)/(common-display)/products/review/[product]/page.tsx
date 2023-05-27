@@ -42,7 +42,7 @@ async function getProductReview(searchParams: any) {
       `
     )
     .eq("id", productId);
-
+  console.log(product);
   if (productsError) throw productsError;
 
   if (product == null) return { notFound: true };
