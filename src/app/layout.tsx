@@ -2,7 +2,7 @@ import "../styles/globals.css";
 
 import SupabaseProvider from "../components/Context/SupabaseProvider";
 import classNames from "classnames";
-import ReactQueryWrapper from "./(main)/ReactQueryWrapper";
+import ReactQueryWrapper from "./ReactQueryWrapper";
 import {
   AppContextProvider,
   ShoppingCartProvider,
@@ -11,8 +11,8 @@ import { MessageProvider } from "../components/message";
 import { MessageList } from "../components/message";
 import { AuthContextProvider } from "../components/Auth";
 import { createServerClient } from "../utils/supabaseServer";
-import { Header } from "./(main)/Header";
-import { Footer } from "./(main)/components";
+import { Header } from "./Header";
+import { Footer } from "./components";
 import { EventCartProvider } from "../components/Context/EventCartContext";
 
 type LayoutProps = {
