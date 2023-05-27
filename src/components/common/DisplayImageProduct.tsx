@@ -24,10 +24,9 @@ function DisplayImageProduct({
   width,
   height,
 }: Props) {
+  console.log(imgSrc);
   const [src, setSrc] = useState(
-    imgSrc === COMMON.MARKETPLACE_PRODUCT
-      ? COMMON.MARKETPLACE_PRODUCT
-      : BASE_PRODUCTS_ARTICLES_URL + imgSrc
+    imgSrc ? BASE_PRODUCTS_ARTICLES_URL + imgSrc : COMMON.MARKETPLACE_PRODUCT
   );
 
   const memoizedSrc = useMemo(() => src, [src]);

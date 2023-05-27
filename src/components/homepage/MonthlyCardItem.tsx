@@ -155,7 +155,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
                 </span>
               </div>
 
-              <span className="mr-2 text-gray-400">India</span>
+              {/* <span className="mr-2 text-gray-400">India</span> */}
             </div>
 
             <div className="flex w-full min-w-0 items-center justify-between ">

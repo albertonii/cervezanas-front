@@ -10,7 +10,7 @@ interface OrderTimelineProps {
 export function EventOrderTimeline({ order }: OrderTimelineProps) {
   const { t } = useTranslation();
   return (
-    <div className=" border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+    <div className="px-4 py-6 sm:px-6 lg:p-8">
       <p className=" text-lg font-medium text-beer-dark sm:text-xl">
         {t("order_status")}:{" "}
         <span className="text-beer-draft">{t(order.status)} </span>

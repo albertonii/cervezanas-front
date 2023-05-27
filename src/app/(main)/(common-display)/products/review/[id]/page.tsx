@@ -1,22 +1,23 @@
+import ProductReview from "./ProductReview";
 import { redirect } from "next/navigation";
 import { COMMON, VIEWS } from "../../../../../../constants";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
-import ProductReview from "./ProductReview";
+import { IProduct } from "../../../../../../lib/types";
 
-export default async function ReviewProduct({ searchParams }: any) {
-  const productData = await getProductReview(searchParams);
+export default async function ReviewProduct({ params }: any) {
+  const { id } = params;
+
+  const productData = getProductReview(id);
   const [product] = await Promise.all([productData]);
 
   return (
     <>
-      <ProductReview product={product[0]} />
+      <ProductReview product={product} />
     </>
   );
 }
 
-async function getProductReview(searchParams: any) {
-  const { productId } = searchParams;
-
+async function getProductReview(productId: string) {
   // Create authenticated Supabase Client
   const supabase = createServerClient();
 
@@ -42,15 +43,12 @@ async function getProductReview(searchParams: any) {
       `
     )
     .eq("id", productId);
-  console.log(product);
   if (productsError) throw productsError;
-
-  if (product == null) return { notFound: true };
 
   product[0].product_multimedia[0].p_principal = !product[0]
     .product_multimedia[0]?.p_principal
     ? `${COMMON.MARKETPLACE_PRODUCT}`
     : product[0].product_multimedia[0].p_principal;
 
-  return product[0];
+  return product[0] as IProduct;
 }

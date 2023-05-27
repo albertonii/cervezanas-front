@@ -18,7 +18,7 @@ export function OwnerInfo({ user }: Props) {
         <div className="mb-4 flex items-center space-x-4">
           <Image
             className="h-10 w-10 rounded-full"
-            src={`/${COMMON.MARKETPLACE_PRODUCT}`}
+            src={`${COMMON.PROFILE_IMG}`}
             alt=""
             width={40}
             height={40}

@@ -24,10 +24,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
 
   return (
     <>
-      <div
-        key={eventOrderItemId}
-        className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
-      >
+      <div key={eventOrderItemId} className=" ">
         <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
           {/* Product status  */}
           <div className="col-span-12 my-4 mt-6 items-start md:col-span-12 md:mt-6">
@@ -117,7 +114,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
                     !eventOrderItem.is_reviewed &&
                     eventOrderItem.status !== EVENT_ORDER_ITEM_STATUS.INITIAL
                   ) {
-                    handleOnClick(eventOrderItem.id);
+                    handleOnClick(eventOrderItem.product_id.id);
                   }
                 }}
               >

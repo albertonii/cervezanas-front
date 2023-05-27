@@ -149,7 +149,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 <span className="mr-3 mt-2 whitespace-nowrap text-gray-400">
                   {overAll}
                 </span>
-                <span className="mr-2 text-gray-400">India</span>
+                {/* <span className="mr-2 text-gray-400">India</span> */}
               </div>
 
               <div className="flex w-full min-w-0 items-center justify-between ">

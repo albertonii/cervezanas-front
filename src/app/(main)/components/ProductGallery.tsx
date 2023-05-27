@@ -25,13 +25,14 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
-    setMain(gallery[galleryIndex]);
+    console.log(gallery[galleryIndex]);
+    setMain(gallery[galleryIndex] ?? "");
   }, [gallery, galleryIndex]);
 
   const handleSetGalleryIndex = (index: number) => {
     setGalleryIndex(index);
   };
-
+  console.log(gallery);
   return (
     <section className="bg-blueGray-100 rounded-b-10xl mb-6 mt-4 w-full overflow-hidden">
       <div className="container mx-auto px-4">
@@ -55,7 +56,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
             <div className="flex max-h-[540px] w-full justify-center px-10 py-4 lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0">
               {/* Principal Image  */}
               <DisplayImageProduct
-                imgSrc={main?.imageUrl}
+                imgSrc={main?.imageUrl ?? ""}
                 width={350}
                 height={150}
                 alt="Product Gallery Principal Image"

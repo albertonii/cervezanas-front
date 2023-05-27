@@ -1,6 +1,6 @@
 "use client";
 
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
 import React, {
   useCallback,
   useEffect,
@@ -9,9 +9,8 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Button, IconButton, Spinner } from "../../../../../components/common";
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
 import { useShoppingCart } from "../../../../../components/Context";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
@@ -19,7 +18,7 @@ import {
   ProductReviews,
   Rate,
 } from "../../../../../components/reviews";
-import { SupabaseProps } from "../../../../../constants";
+import { COMMON, SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
@@ -98,7 +97,13 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 imageUrl: productsUrl + decodeURIComponent(p_principal),
               },
             ]
-          : []),
+          : [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: COMMON.MARKETPLACE_PRODUCT,
+              },
+            ]),
         ...(p_back
           ? [
               {
@@ -107,7 +112,13 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 imageUrl: productsUrl + decodeURIComponent(p_back),
               },
             ]
-          : []),
+          : [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: COMMON.MARKETPLACE_PRODUCT,
+              },
+            ]),
         ...(p_extra_1
           ? [
               {
@@ -116,7 +127,13 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 imageUrl: productsUrl + decodeURIComponent(p_extra_1),
               },
             ]
-          : []),
+          : [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: COMMON.MARKETPLACE_PRODUCT,
+              },
+            ]),
         ...(p_extra_2
           ? [
               {
@@ -125,17 +142,28 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 imageUrl: productsUrl + decodeURIComponent(p_extra_2),
               },
             ]
-          : []),
+          : [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: COMMON.MARKETPLACE_PRODUCT,
+              },
+            ]),
         ...(p_extra_3
           ? [
               {
                 link: "/",
                 title: "Photo Extra 3",
-                imageUrl:
-                  pExtra3Url + `${selectedProduct.owner_id}/` + p_extra_3,
+                imageUrl: productsUrl + decodeURIComponent(p_extra_3),
               },
             ]
-          : []),
+          : [
+              {
+                link: "/",
+                title: "Principal",
+                imageUrl: COMMON.MARKETPLACE_PRODUCT,
+              },
+            ]),
       ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
     );
   }, [

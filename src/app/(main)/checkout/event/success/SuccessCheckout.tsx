@@ -54,7 +54,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   return (
     <>
       {!loading && (
-        <div className="container mx-auto sm:py-4 lg:py-6">
+        <div className="container mx-auto space-y-6 sm:py-4 lg:py-6">
           <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
             <div className="flex flex-col">
               <div className="flex sm:items-baseline sm:space-x-4">
@@ -92,29 +92,25 @@ export default function SuccessCheckout({ order, isError }: Props) {
           </div>
 
           {/* Order timeline  */}
-          <div className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+          <div className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
             <EventOrderTimeline order={order} />
           </div>
 
           {/* <!-- Products --> */}
-          <div className="mt-6">
-            <h2 className="sr-only">{t("products_purchased")}</h2>
-
-            <div className="space-y-8">
-              {eventOrderItems &&
-                eventOrderItems.map((eventOrderItem) => (
-                  <div
-                    key={eventOrderItem.id}
-                    className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
-                  >
-                    <EventProduct eventOrderItem={eventOrderItem} />
-                  </div>
-                ))}
-            </div>
+          <div className="space-y-8">
+            {eventOrderItems &&
+              eventOrderItems.map((eventOrderItem) => (
+                <div
+                  key={eventOrderItem.id}
+                  className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+                >
+                  <EventProduct eventOrderItem={eventOrderItem} />
+                </div>
+              ))}
           </div>
 
           {/* <!-- Payment info --> */}
-          <div className="mt-16 w-full border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+          <div className="mt-16 w-full border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
             <PaymentInformation order={order} />
           </div>
         </div>
