@@ -29,11 +29,6 @@ interface Props {
 }
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
-// const pPrincipalUrl = `${productsUrl}${SupabaseProps.P_PRINCIPAL_URL}`;
-// const pBackUrl = `${productsUrl}${SupabaseProps.P_BACK_URL}`;
-// const pExtra1Url = `${productsUrl}${SupabaseProps.P_EXTRA_1_URL}`;
-// const pExtra2Url = `${productsUrl}${SupabaseProps.P_EXTRA_2_URL}`;
-const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function Product({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
