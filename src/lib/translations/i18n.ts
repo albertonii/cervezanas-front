@@ -560,6 +560,7 @@ from the beer.`,
   search_order: `Search order`,
   status_with_services_to_consume: `With services to consume`,
   served: `Served`,
+  product_item_order_status: `Product order status`,
 };
 
 const translationsEs = {
@@ -1130,6 +1131,7 @@ desprenden de la cerveza. `,
   search_order: `Buscar pedido`,
   status_with_services_to_consume: `Con servicios por consumir`,
   served: `Servido`,
+   product_item_order_status: `Estado del producto pedido`,
 };
 
 // the translations

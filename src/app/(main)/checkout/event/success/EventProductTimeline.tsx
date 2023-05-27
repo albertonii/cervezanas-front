@@ -11,7 +11,9 @@ export function EventProductTimeline({ status }: OrderTimelineProps) {
   return (
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
       <h4 className="sr-only">{t("status")}</h4>
-      <p className="text-sm font-medium text-gray-900">{t(status)}</p>
+      <p className="text-lg font-medium text-gray-900">
+        {t("product_item_order_status")}: {t(status)}
+      </p>
 
       <div className="mt-6" aria-hidden="true">
         <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
@@ -35,7 +37,7 @@ export function EventProductTimeline({ status }: OrderTimelineProps) {
           ></div>
         </div>
 
-        <div className="mt-6 hidden grid-cols-3 text-sm  sm:grid">
+        <div className="text-md mt-6 hidden grid-cols-3  sm:grid">
           <div
             className={`${
               status === EVENT_ORDER_ITEM_STATUS.INITIAL &&
@@ -47,7 +49,8 @@ export function EventProductTimeline({ status }: OrderTimelineProps) {
 
           <div
             className={`${
-              status === EVENT_ORDER_ITEM_STATUS.WITH_STOCK && "text-beer-draft"
+              status === EVENT_ORDER_ITEM_STATUS.WITH_STOCK &&
+              "font-bold text-beer-darkGold"
             } text-center`}
           >
             {t("with_stock")}
@@ -55,7 +58,8 @@ export function EventProductTimeline({ status }: OrderTimelineProps) {
 
           <div
             className={`${
-              status === EVENT_ORDER_ITEM_STATUS.CONSUMED && "text-beer-draft"
+              status === EVENT_ORDER_ITEM_STATUS.CONSUMED &&
+              "font-bold text-beer-darkGold"
             } text-end`}
           >
             {t("consumed")}

@@ -1,21 +1,20 @@
+import React from "react";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../../../components/common";
-import { COMMON } from "../../../../../constants";
-import { IEventOrderItem, IEventOrder } from "../../../../../lib/types";
+import { COMMON, EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
+import { IEventOrderItem } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 import { useRouter } from "next/navigation";
 import { EventProductTimeline } from "./EventProductTimeline";
 
 interface Props {
-  order: IEventOrder;
   eventOrderItem: IEventOrderItem;
 }
 
-export default function EventProduct({ order, eventOrderItem }: Props) {
+export default function EventProduct({ eventOrderItem }: Props) {
   const { t } = useTranslation();
   const router = useRouter();
   const eventOrderItemId = eventOrderItem.id;
@@ -88,7 +87,7 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
           {/* QR Code generator for barman */}
           <GenerateQR eventOrderItemId={eventOrderItemId} />
 
-          {/* Review Product  */}
+          {/* Review Product button */}
           <div className="col-span-12 mt-6">
             <span className="font-medium text-gray-900">
               {t("review_product")}
@@ -99,13 +98,14 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
                 <span>{t("product_already_reviewed_condition")}</span>
               )}
 
-              {order.status !== "delivered" && (
+              {eventOrderItem.status === EVENT_ORDER_ITEM_STATUS.INITIAL && (
                 <span>{t("write_review_condition")}</span>
               )}
 
               <Button
                 disabled={
-                  eventOrderItem.is_reviewed || order.status !== "delivered"
+                  eventOrderItem.is_reviewed ||
+                  eventOrderItem.status === EVENT_ORDER_ITEM_STATUS.INITIAL
                     ? true
                     : false
                 }
@@ -115,7 +115,7 @@ export default function EventProduct({ order, eventOrderItem }: Props) {
                 onClick={() => {
                   if (
                     !eventOrderItem.is_reviewed &&
-                    order.status === "delivered"
+                    eventOrderItem.status !== EVENT_ORDER_ITEM_STATUS.INITIAL
                   ) {
                     handleOnClick(eventOrderItem.id);
                   }

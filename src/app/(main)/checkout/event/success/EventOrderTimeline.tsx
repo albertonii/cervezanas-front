@@ -10,9 +10,11 @@ interface OrderTimelineProps {
 export function EventOrderTimeline({ order }: OrderTimelineProps) {
   const { t } = useTranslation();
   return (
-    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-      <h4 className="sr-only">Status</h4>
-      <p className="text-sm font-medium text-gray-900">{t(order.status)}</p>
+    <div className=" border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+      <p className=" text-lg font-medium text-beer-dark sm:text-xl">
+        {t("order_status")}:{" "}
+        <span className="text-beer-draft">{t(order.status)} </span>
+      </p>
 
       <div className="mt-6" aria-hidden="true">
         <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
@@ -45,7 +47,7 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
           ></div>
         </div>
 
-        <div className="mt-6 hidden grid-cols-4 text-sm  sm:grid">
+        <div className="text-md mt-6 hidden grid-cols-4 sm:grid">
           <div
             className={`${
               order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
