@@ -125,7 +125,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 imgSrc={
                   product.product_multimedia[0]
                     ? product.product_multimedia[0].p_principal
-                    : `/${COMMON.MARKETPLACE_PRODUCT}`
+                    : `${COMMON.MARKETPLACE_PRODUCT}`
                 }
                 class={
                   "h-full w-full rounded-2xl object-contain hover:cursor-pointer"

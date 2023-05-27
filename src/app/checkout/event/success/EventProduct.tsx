@@ -56,7 +56,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
                   eventOrderItem.product_multimedia &&
                   eventOrderItem.product_multimedia[0]
                     ? eventOrderItem.product_multimedia[0].p_principal
-                    : COMMON.MARKETPLACE_PRODUCT
+                    : `${COMMON.MARKETPLACE_PRODUCT}`
                 }`}
                 class="h-full w-full object-cover object-center sm:h-full sm:w-full"
               />
