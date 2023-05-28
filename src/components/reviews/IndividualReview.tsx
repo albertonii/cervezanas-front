@@ -8,7 +8,7 @@ import { formatDateString } from "../../utils/formatDate";
 import { Rate } from ".";
 import { DeleteButton } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { OwnerInfo } from "../../app/components";
+import { OwnerInfo } from "../../app/[locale]/components";
 
 interface Props {
   review: IReview;

@@ -3,7 +3,7 @@ export { Button } from "./Button";
 export { CustomLoading } from "./CustomLoading";
 export { DecreaseButton } from "./DecreaseButton";
 export { DeleteButton } from "./DeleteButton";
-export { HeaderDropdownButton } from "../../app/HeaderDropdownButton";
+export { HeaderDropdownButton } from "../../app/[locale]/HeaderDropdownButton";
 export { EditButton } from "./EditButton";
 export { ArchiveButton } from "./ArchiveButton";
 export { UnarchiveButton } from "./UnarchiveButton";

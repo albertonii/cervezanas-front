@@ -1,6 +1,6 @@
+import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
 import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export async function middleware(req: NextRequest) {
@@ -27,3 +27,11 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/cart/shopping_basket/:path*", "/profile/:path*"],
 };
+
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ["en", "de"],
+
+  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+  defaultLocale: "en",
+});

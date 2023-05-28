@@ -1131,7 +1131,7 @@ desprenden de la cerveza. `,
   search_order: `Buscar pedido`,
   status_with_services_to_consume: `Con servicios por consumir`,
   served: `Servido`,
-   product_item_order_status: `Estado del producto pedido`,
+  product_item_order_status: `Estado del producto pedido`,
 };
 
 // the translations
@@ -1157,6 +1157,10 @@ i18n
       escapeValue: false, // react already safes from xss
     },
     fallbackLng: "en",
+    supportedLngs: ["en", "es"],
+    fallbackNS: "translation",
+    ns: ["translation"],
+    defaultNS: "translation",
   });
 
 export default i18n;
