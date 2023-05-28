@@ -19,7 +19,7 @@ import {
   Rate,
 } from "../../../../../components/reviews";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types";
+import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 

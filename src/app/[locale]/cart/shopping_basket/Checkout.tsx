@@ -14,7 +14,7 @@ import {
   IBillingAddress,
   IProduct,
   IShippingAddress,
-} from "../../../../lib/types";
+} from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

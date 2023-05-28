@@ -4,7 +4,7 @@ import Link from "next/link";
 import DisplayImageProduct from "../../components/common/DisplayImageProduct";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IProduct } from "../../lib/types";
+import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEventCartContext } from "../../components/Context/EventCartContext";
 import MarketCartButtons from "../../components/common/MarketCartButtons";

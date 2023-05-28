@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { IEventOrder } from "../../../../lib/types";
+import { IEventOrder } from "../../../../lib/types.d";
 import { EventOrderList } from "./EventOrderList";
 
 interface Props {

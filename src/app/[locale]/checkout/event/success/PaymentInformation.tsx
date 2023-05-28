@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IEventOrder } from "../../../../../lib/types";
+import { IEventOrder } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 
 interface Props {

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
-import { ICPFixed, SortBy } from "../../../../lib/types";
+import { ICPFixed, SortBy } from "../../../../lib/types.d";
 import { Modal } from "../../../../components/modals";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import { formatDate } from "../../../../utils";

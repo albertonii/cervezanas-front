@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { IProduct, IProductMultimedia } from "../../../../../../lib/types";
+import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
 import { NewProductReview } from "../../../../../../components/reviews";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";

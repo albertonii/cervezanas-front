@@ -1,6 +1,6 @@
 "use client";
 
-import { IReview } from "../../../lib/types";
+import { IReview } from "../../../lib/types.d";
 import { IndividualReview } from "../../../components/reviews";
 import { ComponentProps } from "react";
 

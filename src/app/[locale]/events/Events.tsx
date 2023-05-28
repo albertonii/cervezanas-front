@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../components/common";
-import { IEvent } from "../../../lib/types";
+import { IEvent } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 
 interface Props {

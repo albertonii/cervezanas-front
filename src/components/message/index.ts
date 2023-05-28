@@ -1,4 +1,4 @@
-export * from "./message.types";
+export * from "./message.types.d";
 export { Message } from "./Message";
 export { MessageList } from "./MessageList";
 export { MessageContext, MessageProvider } from "./MessageContext";

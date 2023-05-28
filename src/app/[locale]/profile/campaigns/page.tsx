@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Campaigns } from "../../../../components/customLayout";
 import { VIEWS } from "../../../../constants";
-import { ICampaign, IProduct } from "../../../../lib/types";
+import { ICampaign, IProduct } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function CampaignPage() {

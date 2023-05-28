@@ -2,7 +2,7 @@ import Product from "./Product";
 import { VIEWS } from "../../../../../constants";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
-import { IProduct } from "../../../../../lib/types";
+import { IProduct } from "../../../../../lib/types.d";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;

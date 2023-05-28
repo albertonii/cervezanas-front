@@ -29,7 +29,7 @@ import {
   ICPMProducts,
   IProduct,
   IReview,
-} from "../../../../../../../lib/types";
+} from "../../../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../../../utils";
 import {
   DisplaySimilarProducts,

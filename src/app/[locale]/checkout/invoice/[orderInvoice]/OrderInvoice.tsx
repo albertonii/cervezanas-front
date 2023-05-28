@@ -13,7 +13,7 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-import { IProduct, IOrder } from "../../../../../lib/types";
+import { IProduct, IOrder } from "../../../../../lib/types.d";
 import { formatDateString } from "../../../../../utils";
 import { Table, TableTotalInvoice } from "../../../../../components/invoice";
 import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";

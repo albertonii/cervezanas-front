@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../../../components/common";
 import { COMMON, EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
-import { IEventOrderItem } from "../../../../../lib/types";
+import { IEventOrderItem } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { useRouter } from "next/navigation";
 import { EventProductTimeline } from "./EventProductTimeline";

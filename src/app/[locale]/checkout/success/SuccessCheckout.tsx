@@ -9,7 +9,7 @@ import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { isValidObject } from "../../../../utils/utils";
-import { IOrder } from "../../../../lib/types";
+import { IOrder } from "../../../../lib/types.d";
 import { Button } from "../../../../components/common";
 1;
 interface Props {

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../../../components/Auth";
 import { formatDate } from "../../../../../utils";
-import { IEventOrder } from "../../../../../lib/types";
+import { IEventOrder } from "../../../../../lib/types.d";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 
 interface Props {
