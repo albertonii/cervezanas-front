@@ -8,7 +8,7 @@ import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
-import { ICPFixed, SortBy } from "../../../../lib/types";
+import { ICPFixed, SortBy } from "../../../../lib/types.d";
 import { Modal } from "../../../../components/modals";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";

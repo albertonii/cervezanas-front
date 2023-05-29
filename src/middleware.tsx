@@ -33,15 +33,15 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareSupabaseClient({ req, res });
 
   // This gives us the user session and also refresh expired session tokens and set new cookie headers.
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  // if (!session) {
-  //   const url = new URL(req.url);
-  //   url.pathname = `/${language}/signin`;
-  //   return NextResponse.redirect(url);
-  // }
+  if (!session) {
+    const url = new URL(req.url);
+    url.pathname = `/${language}/signin`;
+    return NextResponse.redirect(url);
+  }
 
   try {
     // Early return if it is a public file such as an image
