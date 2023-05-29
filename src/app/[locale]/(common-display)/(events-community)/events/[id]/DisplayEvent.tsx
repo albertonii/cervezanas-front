@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../constants";
-import { ICPMobile, IEvent } from "../../../../../../lib/types";
+import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
 import { formatDate } from "../../../../../../utils";
 
 interface Props {

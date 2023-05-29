@@ -3,7 +3,7 @@
 import useFilters from "../../../hooks/useFilters";
 import React from "react";
 import { StoreItem } from "../../../components/Cart";
-import { IProduct } from "../../../lib/types";
+import { IProduct } from "../../../lib/types.d";
 import { Filters, MarketplaceHeader } from "../components";
 
 interface Props {

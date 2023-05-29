@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
 
-import { IProduct } from "../../../../lib/types";
+import { IProduct } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils";
 
 interface ColumnsProps {

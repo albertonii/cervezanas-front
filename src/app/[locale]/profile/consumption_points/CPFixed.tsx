@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Modal } from "../../../../components/modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed, IUser } from "../../../../lib/types";
+import { ICPFixed, IUser } from "../../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../../utils/utils";
 import { useQuery } from "react-query";

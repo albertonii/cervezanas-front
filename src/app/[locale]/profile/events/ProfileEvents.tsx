@@ -4,7 +4,7 @@ import EventList from "./EventList";
 import AddNewEvent from "./AddNewEvent";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../lib/types";
+import { ICPMobile, IEvent } from "../../../../lib/types.d";
 
 interface Props {
   events: IEvent[];

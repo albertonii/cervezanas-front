@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../../constants";
-import { ICPMobile, IProduct } from "../../../../../../../lib/types";
+import { ICPMobile, IProduct } from "../../../../../../../lib/types.d";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";

@@ -18,7 +18,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
-import { IConsumptionPoints, ICPFixed } from "../../../lib/types";
+import { IConsumptionPoints, ICPFixed } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 
 const containerStyle = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../lib/types";
+import { ICPMobile } from "../../../../lib/types.d";
 
 interface Props {
   cpsMobile: ICPMobile[];

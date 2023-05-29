@@ -4,7 +4,7 @@ import Image from "next/image";
 import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import React, { ComponentProps, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { INotification } from "../../../lib/types";
+import { INotification } from "../../../lib/types.d";
 import { useAppContext } from "../../../components/Context";
 import { useTranslations } from "next-intl";
 import { getTimeElapsed } from "../../../utils";

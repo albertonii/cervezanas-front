@@ -6,7 +6,7 @@ import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { ICPMobile } from "../../../../lib/types";
+import { ICPMobile } from "../../../../lib/types.d";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import { Modal } from "../../../../components/modals";

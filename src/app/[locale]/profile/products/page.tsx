@@ -1,5 +1,5 @@
 import { ROUTE_SIGNIN } from "../../../../config";
-import { IProduct } from "../../../../lib/types";
+import { IProduct } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { Products } from "./Products";
 

@@ -1,5 +1,5 @@
 import { ROUTE_SIGNIN } from "../../../../config";
-import { IReview } from "../../../../lib/types";
+import { IReview } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { Reviews } from "../../../../components/customLayout";
 import { redirect } from "next/navigation";

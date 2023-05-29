@@ -6,7 +6,7 @@ import Link from "next/link";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { IEvent, SortBy } from "../../../../lib/types";
+import { IEvent, SortBy } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";

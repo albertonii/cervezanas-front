@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { IEventOrder } from "../../../../lib/types";
+import { IEventOrder } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatCurrency } from "../../../../utils";
 import { encodeBase64 } from "../../../../utils/utils";

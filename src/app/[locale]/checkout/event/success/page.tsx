@@ -1,7 +1,7 @@
 import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IEventOrder } from "../../../../../lib/types";
+import { IEventOrder } from "../../../../../lib/types.d";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../../../utils/utils";
 

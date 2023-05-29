@@ -3,7 +3,6 @@ import {
   UserIdentity,
   UserMetadata,
 } from "@supabase/supabase-js";
-import { IAward, IConsumptionPoints } from "./types.d";
 import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
@@ -408,7 +407,6 @@ export interface IRefCPMProducts {
   cp_id: any;
   product_id: IProduct;
 }
-
 
 export interface IProfileLocation {
   id: string;

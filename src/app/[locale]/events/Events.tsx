@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Button } from "../../../components/common";
-import { IEvent } from "../../../lib/types";
+import { IEvent } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 import { useTranslations } from "next-intl";
 

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
-import { IProfile, IConsumptionPoints } from "../../../../lib/types";
+import { IProfile, IConsumptionPoints } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { ConsumptionPoints } from "./ConsumptionPoints";
 

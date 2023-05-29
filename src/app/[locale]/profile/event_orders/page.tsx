@@ -1,4 +1,4 @@
-import { IEventOrder } from "../../../../lib/types";
+import { IEventOrder } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";

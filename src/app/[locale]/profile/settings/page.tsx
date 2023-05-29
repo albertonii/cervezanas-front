@@ -1,5 +1,5 @@
 import Profile from "./Profile";
-import { IProfile } from "../../../../lib/types";
+import { IProfile } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";

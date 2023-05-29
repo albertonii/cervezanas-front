@@ -1,4 +1,4 @@
-import { IOrder } from "../../../../lib/types";
+import { IOrder } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { Orders } from "../../../../components/customLayout";
 import { redirect } from "next/navigation";

@@ -6,7 +6,7 @@ import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IProduct } from "../../../../lib/types";
+import { IProduct } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { Button, CustomLoading } from "../../../../components/common";
