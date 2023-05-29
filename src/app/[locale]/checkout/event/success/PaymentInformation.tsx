@@ -1,6 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { IEventOrder } from "../../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IEventOrder } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function PaymentInformation({ order }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-1 lg:gap-x-8 lg:px-8 lg:py-8">
       <dl className="mt-8 items-center divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">

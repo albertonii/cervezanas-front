@@ -3,7 +3,7 @@
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -39,7 +39,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const quantity = getItemQuantity(id);
   if (isNaN(quantity)) return <></>;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
 
   const overAll = () => {

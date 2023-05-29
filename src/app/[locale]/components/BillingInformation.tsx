@@ -1,6 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { IBillingInfo } from "../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IBillingInfo } from "../../../lib/types";
 import { Button } from "../../../components/common";
 
 interface Props {
@@ -12,7 +12,7 @@ export default function BillingInformation({
   option,
   handleSetBillingOption,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div

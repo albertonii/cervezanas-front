@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IProduct, IProductMultimedia } from "../../../../../../lib/types";
 import { NewProductReview } from "../../../../../../components/reviews";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
@@ -12,9 +12,8 @@ interface Props {
 }
 
 export default function ProductReview({ product }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
-  console.log(product.product_multimedia);
   const multimedia: IProductMultimedia[] = product.product_multimedia;
 
   return (

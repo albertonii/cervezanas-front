@@ -3,7 +3,7 @@
 import React from "react";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Tooltip } from "./Tooltip";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function InfoTooltip({ content, direction, delay, width }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <Tooltip

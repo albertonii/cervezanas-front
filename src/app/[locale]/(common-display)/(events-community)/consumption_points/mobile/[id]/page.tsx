@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
-import { ICPMobile } from "../../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../../lib/types";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import DisplayCPMobile from "./DisplayCPMobile";
 

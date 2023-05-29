@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../../constants";
-import { ICPMobile, IProduct } from "../../../../../../../lib/types.d";
+import { ICPMobile, IProduct } from "../../../../../../../lib/types";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function DisplayCPMobile({ cpMobile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const cpm_products = cpMobile.cpm_products;
   return (
@@ -238,7 +238,7 @@ interface MapsProps {
 }
 
 function Map({ cp }: MapsProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [map, setMap] = useState<google.maps.Map>();
 

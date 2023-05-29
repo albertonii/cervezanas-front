@@ -5,14 +5,14 @@ import Image from "next/image";
 import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { NewShippingAddress } from "../../../../components/checkout";
 import {
   Button,
   DisplayInputError,
   IconButton,
 } from "../../../../components/common";
-import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
+import { IBillingAddress, IShippingAddress } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils";
 import { DeleteAddress } from "../../../../components/modals/DeleteAddress";
 import { useMessage } from "../../../../components/message";
@@ -42,7 +42,7 @@ export default function ShippingBillingContainer({
   formShipping,
   formBilling,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 

@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Modal } from "../../../../components/modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed, IUser } from "../../../../lib/types.d";
+import { ICPFixed, IUser } from "../../../../lib/types";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../../utils/utils";
 import { useQuery } from "react-query";
@@ -35,7 +35,7 @@ interface Props {
 }
 
 export function CPFixed({ cpsId, cpFixed }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

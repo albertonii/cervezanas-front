@@ -4,13 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../components/Auth";
 import { SignUpForm } from "../../../components/Auth/SignUpForm";
 import { VIEWS } from "../../../constants";
 
 export default function Signup() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { user } = useAuth();
   const router = useRouter();
 

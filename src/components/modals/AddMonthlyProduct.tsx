@@ -3,7 +3,7 @@
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { category_options } from "../../lib/productEnum";
 import { IProduct, SortBy } from "../../lib/types.d";
 import { DisplayInputError, IconButton } from "../common";
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function AddMonthlyProduct({ handleAddProduct }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);

@@ -4,9 +4,9 @@ import Image from "next/image";
 import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import React, { ComponentProps, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { INotification } from "../../../lib/types.d";
+import { INotification } from "../../../lib/types";
 import { useAppContext } from "../../../components/Context";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { getTimeElapsed } from "../../../utils";
 import { useSupabase } from "../../../components/Context/SupabaseProvider";
 
@@ -18,7 +18,7 @@ interface Props {
 export function Notification({ open, setOpen }: Props) {
   const { supabase } = useSupabase();
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const notificationRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
 

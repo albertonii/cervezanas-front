@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { SimilarProducts } from "./SimilarProducts";
 
 export function DisplaySimilarProducts() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="rounded-lg bg-beer-softFoam ">
       <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">

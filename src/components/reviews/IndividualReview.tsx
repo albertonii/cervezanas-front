@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../Auth/useAuth";
 import { IReview } from "../../lib/types.d";
 import { formatDateString } from "../../utils/formatDate";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function IndividualReview(props: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../constants";
-import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
+import { ICPMobile, IEvent } from "../../../../../../lib/types";
 import { formatDate } from "../../../../../../utils";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function DisplayEvent({ event }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const cpMobile: ICPMobile[] = event.cp_mobile;
 

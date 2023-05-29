@@ -3,10 +3,10 @@
 import EventProduct from "./EventProduct";
 import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../../components/Auth";
 import { formatDate } from "../../../../../utils";
-import { IEventOrder } from "../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../lib/types";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 export default function SuccessCheckout({ order, isError }: Props) {
   const { event_order_items: eventOrderItems } = order;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();

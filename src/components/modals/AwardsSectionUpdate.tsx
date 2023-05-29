@@ -1,6 +1,6 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IAward } from "../../lib/types.d";
 import { Button, DisplayInputError } from "../common";
@@ -24,7 +24,7 @@ interface FileProps {
 }
 
 export function AwardsSectionUpdate({ form: { control, register } }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { fields, append, remove } = useFieldArray({
     name: "awards",

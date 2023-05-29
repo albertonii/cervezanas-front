@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface Props {
   activeStep: number;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function ProductStepper(props: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { children, handleSetActiveStep, activeStep } = props;
 
@@ -138,9 +138,9 @@ export function ProductStepper(props: Props) {
     <div className="p-5">
       <div className="mx-4 p-4">
         <div className="flex items-center">
-          <div className="flex items-center text-beer-draft relative">
+          <div className="relative flex items-center text-beer-draft">
             <div
-              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${detailsClass} `}
+              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,7 @@ export function ProductStepper(props: Props) {
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
               </svg>
             </div>
-            <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
+            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("details")}
             </div>
           </div>
@@ -165,9 +165,9 @@ export function ProductStepper(props: Props) {
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
           ></div>
-          <div className="flex items-center text-white relative">
+          <div className="relative flex items-center text-white">
             <div
-              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${awardsClass}`}
+              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${awardsClass}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +187,7 @@ export function ProductStepper(props: Props) {
                 <line x1="23" y1="11" x2="17" y2="11"></line>
               </svg>
             </div>
-            <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
+            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("awards")}
             </div>
           </div>
@@ -195,9 +195,9 @@ export function ProductStepper(props: Props) {
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
           ></div>
-          <div className="flex items-center text-gray-500 relative">
+          <div className="relative flex items-center text-gray-500">
             <div
-              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${multimediaClass}`}
+              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -215,16 +215,16 @@ export function ProductStepper(props: Props) {
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
             </div>
-            <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
+            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("multimedia")}
             </div>
           </div>
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${confirmClass}`}
           ></div>
-          <div className="flex items-center text-gray-500 relative">
+          <div className="relative flex items-center text-gray-500">
             <div
-              className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 ${confirmClass}`}
+              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +243,7 @@ export function ProductStepper(props: Props) {
                 <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
               </svg>
             </div>
-            <div className="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-gray-500">
+            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("confirm")}
             </div>
           </div>
@@ -252,30 +252,30 @@ export function ProductStepper(props: Props) {
       <div className="mt-8 p-4">
         <div>{children}</div>
 
-        <div className="flex p-2 mt-4">
+        <div className="mt-4 flex p-2">
           <button
             disabled={activeStep === 0}
             onClick={() => handleStepper(activeStep - 1)}
-            className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
-        hover:bg-gray-200  
-        bg-gray-100 
+            className="flex cursor-pointer justify-center rounded border border-gray-600 bg-gray-100 px-4 py-2 text-base 
+        font-bold  
         text-gray-700 
-        border duration-200 ease-in-out 
-        border-gray-600 transition"
+        transition 
+        duration-200 ease-in-out hover:scale-110 
+        hover:bg-gray-200 focus:outline-none"
           >
             {t("back")}
           </button>
 
-          <div className="flex-auto flex flex-row-reverse">
+          <div className="flex flex-auto flex-row-reverse">
             {activeStep < 3 && (
               <button
                 onClick={() => handleStepper(activeStep + 1)}
-                className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
-        hover:bg-beer-softBlondeBubble  
-        bg-beer-blonde 
+                className="ml-2  flex  cursor-pointer justify-center rounded border border-beer-draft bg-beer-blonde px-4 py-2 text-base 
+        font-bold  
         text-beer-draft 
-        border duration-200 ease-in-out 
-        border-beer-draft transition"
+        transition 
+        duration-200 ease-in-out hover:scale-110 
+        hover:bg-beer-softBlondeBubble focus:outline-none"
               >
                 {t("next")}
               </button>
@@ -284,12 +284,12 @@ export function ProductStepper(props: Props) {
             {activeStep !== 3 && (
               <button
                 onClick={() => handleStepper(3)}
-                className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
-        hover:bg-bear-blonde  
-        bg-bear-alvine 
+                className="flex cursor-pointer justify-center rounded border border-beer-draft bg-bear-alvine px-4 py-2 text-base 
+        font-bold  
         text-beer-draft 
-        border duration-200 ease-in-out 
-        border-beer-draft transition"
+        transition 
+        duration-200 ease-in-out hover:scale-110 
+        hover:bg-bear-blonde focus:outline-none"
               >
                 {t("skip")}
               </button>

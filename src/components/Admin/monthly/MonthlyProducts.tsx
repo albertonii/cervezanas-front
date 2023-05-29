@@ -3,7 +3,7 @@
 import Link from "next/link";
 import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IMonthlyProduct } from "../../../lib/types.d";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
@@ -19,7 +19,7 @@ interface ColumnsProps {
 }
 
 export default function MonthlyBeers({ mProducts }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { supabase } = useSupabase();
 

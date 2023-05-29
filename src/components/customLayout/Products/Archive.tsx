@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { ProductsArchiveList } from "..";
 import { IProduct } from "../../../lib/types.d";
 import { DeleteProduct, UpdateProduct } from "../../modals";
@@ -12,7 +12,7 @@ import { DeleteProduct, UpdateProduct } from "../../modals";
  * Useful to keep track of products that have been sold or are no longer available.
  */
 export function Archive() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);

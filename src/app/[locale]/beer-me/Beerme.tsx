@@ -1,5 +1,5 @@
 import React from "react";
-import { IConsumptionPoints } from "../../../lib/types.d";
+import { IConsumptionPoints } from "../../../lib/types";
 import BMGoogleMap from "../components/BMGoogleMap";
 
 interface Props {

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface Props {
   list: any[];
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function SearchCheckboxList({ list, form }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { register } = form;
 

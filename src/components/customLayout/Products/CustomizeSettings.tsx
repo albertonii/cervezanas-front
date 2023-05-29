@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { toLowerCase } from "../../../utils";
 import { ChipCard } from "../../common";
 import { useAppContext } from "../../Context";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
 export function CustomizeSettings() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { customizeSettings, setCustomizeSettings } = useAppContext();

@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { ModalAddProductProps } from "../../lib/types.d";
 import { formatCurrency } from "../../utils";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function ProductSummary({ form: { getValues } }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <>

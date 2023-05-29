@@ -1,6 +1,6 @@
 import React, { ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { ICampaign, ICampaignItem, IProduct } from "../../../lib/types.d";
 import { Modal } from "../../modals";
 
@@ -22,7 +22,7 @@ export function SearchCheckboxListCampaign({
   handleShowProductsInCampaignModal,
   handleProductsInCampaign,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 

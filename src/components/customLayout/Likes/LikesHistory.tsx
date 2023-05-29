@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { ILike } from "../../../lib/types.d";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function LikesHistory({ likes }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <>

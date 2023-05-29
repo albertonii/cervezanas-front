@@ -9,7 +9,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 import { generateDownloadableLink } from "../../../utils/utils";
@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default function ListPendingCP({ submittedCPs }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [query, setQuery] = useState("");
 
   const { supabase } = useSupabase();

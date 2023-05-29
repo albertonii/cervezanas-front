@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "../../components/Auth";
 import { Hero } from "../../components/homepage";
 import MonthlyBeers from "../../components/homepage/MonthlyBeers";
-import { IMonthlyProduct } from "../../lib/types.d";
+import { IMonthlyProduct } from "../../lib/types";
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IProfileLocation } from "../../../lib/types.d";
 import { Button, DisplayInputError, Spinner } from "../../common";
 import _ from "lodash";
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export function LocationForm({ profile_location }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

@@ -4,12 +4,12 @@ import Link from "next/link";
 import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { isValidObject } from "../../../../utils/utils";
-import { IOrder } from "../../../../lib/types.d";
+import { IOrder } from "../../../../lib/types";
 import { Button } from "../../../../components/common";
 1;
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 export default function SuccessCheckout({ order, isError }: Props) {
   const { products } = order;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const router = useRouter();
 

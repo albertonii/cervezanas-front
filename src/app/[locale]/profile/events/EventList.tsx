@@ -5,8 +5,8 @@ import DeleteModal from "../../../../components/modals/DeleteModal";
 import Link from "next/link";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
-import { IEvent, SortBy } from "../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IEvent, SortBy } from "../../../../lib/types";
 import { formatDate } from "../../../../utils";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function EventList({ events: es, handleEList }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [events, setEvents] = useState<IEvent[]>([]);

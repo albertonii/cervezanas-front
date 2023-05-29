@@ -5,9 +5,9 @@ import ListCPMProducts from "./ListCPMProducts";
 import React, { ComponentProps, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { ICPMobile, IProduct, IUser } from "../../../../lib/types.d";
+import { ICPMobile, IProduct, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { isValidObject } from "../../../../utils/utils";
@@ -37,7 +37,7 @@ interface Props {
 }
 
 export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

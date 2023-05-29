@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { COMMON } from "../../../constants";
-import { IUser } from "../../../lib/types.d";
+import { IUser } from "../../../lib/types";
 
 interface Props {
   user?: IUser;
 }
 
 export function OwnerInfo({ user }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <>
       {user && (

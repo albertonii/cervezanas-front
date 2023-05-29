@@ -5,7 +5,7 @@ import React, { ComponentProps, useEffect, useState } from "react";
 import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
-import { ICarouselItem } from "../../../lib/types.d";
+import { ICarouselItem } from "../../../lib/types";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -25,14 +25,12 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
-    console.log(gallery[galleryIndex]);
     setMain(gallery[galleryIndex] ?? "");
   }, [gallery, galleryIndex]);
 
   const handleSetGalleryIndex = (index: number) => {
     setGalleryIndex(index);
   };
-  console.log(gallery);
   return (
     <section className="bg-blueGray-100 rounded-b-10xl mb-6 mt-4 w-full overflow-hidden">
       <div className="container mx-auto px-4">

@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import i18n from "../../lib/translations/i18n";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Select } from "@supabase/ui";
 import { useRouter } from "next/navigation";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -17,7 +16,7 @@ import { COMMON } from "../../constants";
 export function ScreenMenu() {
   const { user, role } = useAuth();
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const router = useRouter();
 
@@ -26,7 +25,7 @@ export function ScreenMenu() {
     useAppContext();
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(event.target.value);
+    // i18n.changeLanguage(event.target.value);
   };
 
   const handleSignIn = () => {

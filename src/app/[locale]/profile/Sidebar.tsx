@@ -3,7 +3,7 @@
 import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import { useAppContext } from "../../../components/Context";
@@ -12,7 +12,7 @@ export function Sidebar() {
   const { sidebar } = useAppContext();
 
   const { role } = useAuth();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [open, setOpen] = useState(false);
 

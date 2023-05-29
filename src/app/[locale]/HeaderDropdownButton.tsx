@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../components/Auth";
 import { useAppContext } from "../../components/Context";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
@@ -20,7 +20,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
   const [open, setOpen] = useState(false);
   const dropdown = useRef<HTMLDivElement>(null);
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { signOut } = useAuth();
   const { changeSidebarActive } = useAppContext();

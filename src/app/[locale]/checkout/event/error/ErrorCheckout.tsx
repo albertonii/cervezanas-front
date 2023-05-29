@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../../components/Auth";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import { IOrder } from "../../../../../lib/types.d";
+import { IOrder } from "../../../../../lib/types";
 import { formatCurrency, formatDateString } from "../../../../../utils";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 export default function ErrorCheckout({ order, isError }: Props) {
   const { products } = order;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 

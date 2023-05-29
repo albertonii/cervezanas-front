@@ -2,8 +2,8 @@
 
 import ModalCPMobile from "./ModalCPMobile";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { ICPMobile } from "../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { ICPMobile } from "../../../../lib/types";
 import { ListCPMobile } from "./ListCPMobile";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function CPMobile({ cpsId, cpMobile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [cpList, setCpList] = useState<ICPMobile[]>(cpMobile);
 

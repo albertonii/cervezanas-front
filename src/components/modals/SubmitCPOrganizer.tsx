@@ -2,7 +2,7 @@
 
 import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { isValidObject } from "../../utils/utils";
 import { useAuth } from "../Auth";
 import { useSupabase } from "../Context/SupabaseProvider";
@@ -28,7 +28,7 @@ interface Props {
  */
 }
 export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { user } = useAuth();

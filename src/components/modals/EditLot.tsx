@@ -2,7 +2,7 @@
 
 import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Modal } from ".";
 import { useAuth } from "../Auth";
 import { IRefProductLot } from "../../lib/types.d";
@@ -40,7 +40,7 @@ export function EditLot({
   handleEditShowModal,
   handleSetProductLots,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { user } = useAuth();
   const { supabase } = useSupabase();
 

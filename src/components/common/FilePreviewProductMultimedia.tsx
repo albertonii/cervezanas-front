@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -14,7 +14,7 @@ export const FilePreviewProductMultimedia = ({
   form: { register, setValue },
   registerName,
 }: Props) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   //TODO: Cambiar el tipo de File de any a File
   const [file, setFile] = useState<any>(new File([], ""));

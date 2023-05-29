@@ -4,9 +4,9 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import EmptyCart from "../shopping_basket/EmptyCart";
 import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IProduct } from "../../../../lib/types.d";
+import { IProduct } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { Button, CustomLoading } from "../../../../components/common";
@@ -25,7 +25,7 @@ import {
 } from "../../../../constants";
 
 export default function EventCheckout() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { user } = useAuth();
   const { supabase } = useSupabase();

@@ -1,13 +1,13 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   faCircleExclamation,
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function EmptyCart() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="container mt-6">
       {/* Cart Empty Icon */}

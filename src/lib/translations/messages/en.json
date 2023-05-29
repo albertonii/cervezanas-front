@@ -52,8 +52,7 @@
   "sign_in": "Sign In",
   "sign_up": "Sign Up",
   "history_title": "Origin",
-  "history_description_producer":
-  "All information written in this section will be public for those Cervezanos who visit your profile.",
+  "history_description_producer": "All information written in this section will be public for those Cervezanos who visit your profile.",
   "history_business_title": "Company history",
   "history_business_description": "Tell your origin",
   "history_business_year": "Foundation year",
@@ -72,11 +71,9 @@
   "family_label": "Style Family",
   "era_label": "Era",
   "stock_quantity_label": "Stock Quantity",
-  "stock_limit_notification_label":
-    "Stock limit notification (when stock quantity is less than)",
+  "stock_limit_notification_label": "Stock limit notification (when stock quantity is less than)",
   "title": "Title",
-  "product_description":
-    "Be sure to fill in all required fields to successfully enter the product.",
+  "product_description": "Be sure to fill in all required fields to successfully enter the product.",
   "maltose": "Maltose",
   "bitter": "Bitter",
   "balanced": "Balanced",
@@ -153,22 +150,18 @@
   "format": "Format",
   "isGluten": "Has Gluten?",
   "modal_product_title": "Product",
-  "modal_product_description":
-    "All information described in this section is public.",
+  "modal_product_description": "All information described in this section is public.",
   "modal_product_add": "Add Product",
   "delete_product": "Delete Product",
   "modal_delete_product_title": "Delete Product",
-  "modal_delete_product_description":
-    "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
+  "modal_delete_product_description": "Be careful! You are about to delete a product. This action will delete the information related to it from the database. Are you sure you want to delete the product?",
   "modal_delete_lot_title": "Delete Lot",
-  "modal_delete_lot_description":
-    "Be careful! You are about to delete a product lot. This action will delete the information related to it from the database. Are you sure you want to delete the product lot?",
+  "modal_delete_lot_description": "Be careful! You are about to delete a product lot. This action will delete the information related to it from the database. Are you sure you want to delete the product lot?",
   "modal_product_add_details_title": "Details",
   "modal_product_add_price_title": "Stock information",
   "modal_product_add_lot_title": "Lot",
   "modal_delete_campaign_title": "Delete Campaign",
-  "modal_delete_campaign_description":
-    "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",
+  "modal_delete_campaign_description": "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",
   "beer": "Beer",
   "merchandising": "Merchandising",
   "gift_card": "Gift Card",
@@ -181,8 +174,7 @@
   "false": "False",
   "is_public": "Publish the product",
   "is_public_campaign": "Publish Campaign",
-  "is_public_description":
-    "Toggle the button to the right to make this product visible in the marketplace",
+  "is_public_description": "Toggle the button to the right to make this product visible in the marketplace",
   "modal_lot_add": "Add Lot",
   "modal_lot_title": "Lot",
   "lot_number": "Lot Number",
@@ -204,8 +196,7 @@
   "order_number_header": "Order Number",
   "status_header": "Status",
   "tracking_number_header": "Tracking Number",
-  "no_pending_cp":
-    "There are no pending requests from Cervezanos who want to be Consumption Points organisers.",
+  "no_pending_cp": "There are no pending requests from Cervezanos who want to be Consumption Points organisers.",
   "marketplace": "Marketplace",
   "instock": "In Stock",
   "outstock": "Out of Stock",
@@ -222,8 +213,7 @@
   "not_qualified": "Not reviewed yet",
   "reviews": "Reviews",
   "likes_history": "Favorites",
-  "shipping_and_taxes_calculated_at_checkout":
-    "Shipping and taxes calculated at checkout",
+  "shipping_and_taxes_calculated_at_checkout": "Shipping and taxes calculated at checkout",
   "proceed_to_pay": "Proceed to pay",
   "subtotal": "Subtotal",
   "discount": "Discount",
@@ -331,8 +321,7 @@
   "billing_info": "Billing Information",
   "make_review_product_button": "Make a review",
   "review_product": "Product Review",
-  "write_review_condition":
-    "You will be able to write a product review when the order status is confirmed.",
+  "write_review_condition": "You will be able to write a product review when the order status is confirmed.",
   "product_already_reviewed_condition": "You have already reviewed this product.",
   "order_status": "Order Status",
   "welcome": "Welcome",
@@ -369,12 +358,10 @@
   "reviewed": "Review published",
   "seller_username": "Producer",
   "products_in_campaign": "Products in campaign",
-  "select_products_in_campaign_description":
-    "Select from the above list the products you want to add to the campaign and the discounts related to each product",
+  "select_products_in_campaign_description": "Select from the above list the products you want to add to the campaign and the discounts related to each product",
   "watchlist": "Watchlist",
   "social_cause": "Social Cause",
-  "does_the_campaign_belong_to_a_social_cause":
-    "Does the campaign belong to a social cause?",
+  "does_the_campaign_belong_to_a_social_cause": "Does the campaign belong to a social cause?",
   "campaign_discount": "Campaign Discount",
   "manufacture_date": "Manufacture Date",
   "expiration_date": "Expiration Date",
@@ -399,7 +386,7 @@
   "origin_tooltip": "Region, country or continent of origin of the beer.",
   "family_tooltip": "Styles can be grouped into style families that can be compared and contrasted.",
   "color_tooltip": "SRM (Standard Reference Method) measures the intensity of a given wavelength of light. wavelength of light. These numerical values do not always match our visual perception of the lightness and darkness of the color or hue. visual perception of the lightness and darkness of color or hue. For example, a light yellow beer may have an SRM value of may have an SRM value of 4, while a dark yellow beer may have an SRM value of 8. may have an SRM value of 8. ",
-  "intensity_tooltip": "Beer strength refers to the amount of sugar that has been converted to alcohol. converted to alcohol. The higher the value, the more alcohol the beer has.", 
+  "intensity_tooltip": "Beer strength refers to the amount of sugar that has been converted to alcohol. converted to alcohol. The higher the value, the more alcohol the beer has.",
   "aroma_tooltip": "Beer aroma refers to the perception of the odors emanating from the beer. from the beer.",
   "fermentation_tooltip": "Fermentation is the process by which yeast transforms sugar into alcohol. Ale: fermentation with top-fermenting yeast; Lager: fermentation with bottom-fermenting yeast; Mixed: fermentation with both top-fermenting and bottom-fermenting yeasts. Wild: fermentation with wild yeasts. Lagered: fermentation with bottom-fermenting yeast and subsequent cold storage. Barrel-aged: fermentation with bottom-fermenting yeast and subsequent storage in barrels. ",
   "products_customize_settings_description": "Personaliza las características de aquellos productos que publiques. Puedes añadir familias de estilo que no hemos tenido en cuenta o se salen de los estándares que conocemos, entre otras características. Podrás ver esta información actualizada en la sección de crear Producto.",
@@ -409,8 +396,7 @@
   "add_new_pack": "Add new pack",
   "add_pack": "Add Pack",
   "add_product_pack": "Add Product Pack",
-  "add_product_pack_description":
-    "Click in below button to add a new pack to the product. May be pack of 2, 6, 12, etc.",
+  "add_product_pack_description": "Click in below button to add a new pack to the product. May be pack of 2, 6, 12, etc.",
   "packs": "Packs",
   "pack_quantity": "Pack quantity",
   "pack_price": "Price",
@@ -420,7 +406,6 @@
   "award_name": "Name",
   "award_year": "Year",
   "award_img_url": "Image",
-  "errors": translationsFormErrorsEn,
   "password_updated": "Password updated successfully",
   "signed_id_as": "Signed in as",
   "order_number": "Order number",
@@ -431,8 +416,7 @@
   "user_cancelled": "User cancelled",
   "consumption_points": "Consumption points",
   "apply_cp_organizer": "Apply consumption points to organizer",
-  "form_submit_cp_organizer_title":
-    "Application for registration as an organiser",
+  "form_submit_cp_organizer_title": "Application for registration as an organiser",
   "form_submit_cp_organizer_description": "If you are a willing to create an event, you can apply to become an organiser. Once your application has been validated, you will be able to add your events and consumption points.",
   "form_submit_cp_organizer_cover_letter": "Cover letter",
   "form_submit_cp_organizer_cv": "Curriculum",
@@ -533,5 +517,21 @@
   "search_order": "Search order",
   "status_with_services_to_consume": "With services to consume",
   "served": "Served",
-  "product_item_order_status": "Product order status"
-};
+  "product_item_order_status": "Product order status",
+  "errors": {
+    "input_required": "Field is required",
+    "input_email_invalid": "Email is not valid",
+    "product_modal_20_max_length": "Maximum length of the field is 20 characters",
+    "product_modal_min_0": "Number cannot be negative",
+    "radio_button_required": "You must select an option",
+    "invalid_card_exp_month": "Invalid card expiration month",
+    "invalid_card_exp_year": "Invalid card expiration year",
+    "error_30_max_length": "Maximum length of the field is 30 characters",
+    "error_50_max_length": "Maximum length of the field is 50 characters",
+    "error_0_number_min_length": "Field must be equal or greater than 0",
+    "error_100_number_max_length": "Field must be equal or lower than 100",
+    "error_200_max_length": "Maximum length of the field is 200 characters",
+    "password_match": "Passwords do not match",
+    "select_location_required": "Select a location is required"
+  }
+}

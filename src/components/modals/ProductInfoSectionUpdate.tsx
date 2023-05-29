@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import {
   aroma_options,
@@ -51,7 +51,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     control,
   } = form;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { fields, append, remove } = useFieldArray({
     name: "packs",

@@ -2,9 +2,9 @@
 
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Button, Spinner } from "../../../../../components/common";
-import { IEventOrderItem } from "../../../../../lib/types.d";
+import { IEventOrderItem } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import { EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function ManageEventProduct({ eventOrderItem }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { supabase } = useSupabase();
 

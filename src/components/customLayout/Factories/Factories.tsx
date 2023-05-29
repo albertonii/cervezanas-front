@@ -1,9 +1,9 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export const Factories = () => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <>

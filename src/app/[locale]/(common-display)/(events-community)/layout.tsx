@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   Button,
   DecreaseButton,
@@ -19,7 +19,7 @@ type LayoutProps = {
 };
 
 export default function layout({ children }: LayoutProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
 
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);

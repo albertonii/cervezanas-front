@@ -3,7 +3,7 @@
 import React, { ComponentProps, useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { COMMON, SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -31,7 +31,7 @@ export function CheckoutItem({
 }: Props) {
   const { supabase } = useSupabase();
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [p_principal, setPPrincipal] = useState<string>(
     COMMON.MARKETPLACE_PRODUCT

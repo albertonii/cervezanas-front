@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Modal } from ".";
 import { DisplayInputError, SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
@@ -31,7 +31,7 @@ interface Props {
 }
 
 export function AddLot({ products, handleSetProductLots }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

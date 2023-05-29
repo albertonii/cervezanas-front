@@ -3,8 +3,8 @@
 import Link from "next/link";
 import DisplayImageProduct from "../../components/common/DisplayImageProduct";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { IProduct } from "../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IProduct } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEventCartContext } from "../../components/Context/EventCartContext";
 import MarketCartButtons from "../../components/common/MarketCartButtons";
@@ -16,7 +16,7 @@ type CartItemProps = {
 };
 
 export function EventCartItem({ id, quantity, products }: CartItemProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [item, setItem] = useState<IProduct | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const {

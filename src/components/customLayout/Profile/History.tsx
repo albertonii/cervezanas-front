@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { User } from "@supabase/supabase-js";
 import { HistoryForm } from "./HistoryForm";
 
@@ -11,7 +11,7 @@ interface Props {
 
 export function History(props: Props) {
   const { user } = props;
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [loading, setLoading] = useState(true);
 

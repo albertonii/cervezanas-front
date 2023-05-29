@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import i18n from "../../lib/translations/i18n";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Select } from "@supabase/ui";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -24,7 +23,7 @@ export function MobileMenu() {
   const { cartQuantity, openCart } = useShoppingCart();
   useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [openHamburguer, setOpenHamburger] = useState(false);
   const router = useRouter();
@@ -34,7 +33,7 @@ export function MobileMenu() {
   };
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(event.target.value);
+    // i18n.changeLanguage(event.target.value);
   };
 
   const handleSignIn = () => {

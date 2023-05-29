@@ -1163,4 +1163,4 @@ i18n
     defaultNS: "translation",
   });
 
-export default i18n;
+// export default i18n;

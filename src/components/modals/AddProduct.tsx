@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   aroma_options,
   color_options,
@@ -29,7 +29,7 @@ import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 export function AddProduct() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { customizeSettings, setProducts, products } = useAppContext();

@@ -2,9 +2,9 @@
 
 import React, { ComponentProps, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { ICPMobile, IEvent } from "../../../../lib/types.d";
+import { ICPMobile, IEvent } from "../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common";
 import { Modal } from "../../../../components/modals";
 import { useAuth } from "../../../../components/Auth";
@@ -28,7 +28,7 @@ interface Props {
 }
 
 export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 

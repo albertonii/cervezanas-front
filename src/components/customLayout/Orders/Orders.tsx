@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { OrderList } from "..";
 import { IOrder } from "../../../lib/types.d";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function Orders({ orders }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div className="px-4 py-6" aria-label="Orders">

@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import {
   Button,
@@ -29,7 +29,7 @@ import {
   ICPMProducts,
   IProduct,
   IReview,
-} from "../../../../../../../lib/types.d";
+} from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils";
 import {
   DisplaySimilarProducts,
@@ -58,7 +58,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<IReview[]>(reviews);
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);

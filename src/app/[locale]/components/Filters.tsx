@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useId } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { formatCurrency } from "../../../utils";
 import { useAppContext } from "../../../components/Context";
 
 export function Filters() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { filters, setFilters } = useAppContext();
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   aroma_options,
   color_options,
@@ -44,7 +44,7 @@ const emptyPack: IProductPack = {
 };
 
 export function ProductInfoSection({ form, customizeSettings }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const {
     register,

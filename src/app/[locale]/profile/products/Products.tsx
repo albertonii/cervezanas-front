@@ -8,7 +8,7 @@ import {
   DeleteProduct,
   UpdateProduct,
 } from "../../../../components/modals";
-import { IProduct } from "../../../../lib/types.d";
+import { IProduct } from "../../../../lib/types";
 
 interface Props {
   products: IProduct[];

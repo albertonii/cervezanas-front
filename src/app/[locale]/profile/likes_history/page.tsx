@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { LikesHistory } from "../../../../components/customLayout";
 import { ROUTE_SIGNIN } from "../../../../config";
 import { VIEWS } from "../../../../constants";
-import { ILike } from "../../../../lib/types.d";
+import { ILike } from "../../../../lib/types";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function LikesPage() {

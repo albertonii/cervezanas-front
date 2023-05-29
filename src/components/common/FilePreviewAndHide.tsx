@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { SupabaseProps } from "../../constants";
 import { isValidObject } from "../../utils/utils";
 
@@ -18,7 +18,7 @@ export const FilePreviewAndHide = ({
   registerName,
   storagePath,
 }: Props) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   //TODO: Cambiar el tipo de File de any a File
   const [file, setFile] = useState<any>(
     getValues(registerName)?.size > 0

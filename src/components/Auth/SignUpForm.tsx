@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Spinner } from "../common/Spinner";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { Button, DisplayInputError } from "../common";
@@ -34,7 +34,7 @@ interface FormData {
 }
 
 export const SignUpForm = () => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { signUp, isLoading: loading } = useAuth();
 

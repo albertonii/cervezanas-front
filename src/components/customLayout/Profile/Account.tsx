@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   SecretDataForm,
   LocationForm,
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function Account({ profile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   if (!profile) return null;
 

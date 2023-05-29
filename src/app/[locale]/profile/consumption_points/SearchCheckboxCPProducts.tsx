@@ -5,11 +5,11 @@ import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
 
-import { IProduct } from "../../../../lib/types.d";
+import { IProduct } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils";
 
 interface ColumnsProps {
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export function SearchCheckboxCPProducts({ form }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { user } = useAuth();
 
   const [products, setProducts] = useState<IProduct[]>([]);

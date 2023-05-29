@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   ICampaignFormProps,
   ICampaign,
@@ -23,7 +23,7 @@ interface Props {
 }
 
 export function Campaigns({ campaigns: c, products }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { user } = useAuth();

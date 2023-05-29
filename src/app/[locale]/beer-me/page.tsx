@@ -1,7 +1,7 @@
 import Beerme from "./Beerme";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../constants";
-import { IConsumptionPoints } from "../../../lib/types.d";
+import { IConsumptionPoints } from "../../../lib/types";
 import { createServerClient } from "../../../utils/supabaseServer";
 
 export default async function BeerMePage() {

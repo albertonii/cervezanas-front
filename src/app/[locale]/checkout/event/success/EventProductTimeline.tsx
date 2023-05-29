@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
 
 interface OrderTimelineProps {
@@ -7,7 +7,7 @@ interface OrderTimelineProps {
 }
 
 export function EventProductTimeline({ status }: OrderTimelineProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
       <h4 className="sr-only">{t("status")}</h4>

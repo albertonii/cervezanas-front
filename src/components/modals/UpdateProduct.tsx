@@ -3,7 +3,7 @@
 import _ from "lodash";
 import React, { ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { fermentation_options, product_type_options } from "../../lib/beerEnum";
 import {
   IProduct,
@@ -33,7 +33,7 @@ export function UpdateProduct({
   showModal,
   handleEditShowModal,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { products, setProducts } = useAppContext();
   const { user } = useAuth();

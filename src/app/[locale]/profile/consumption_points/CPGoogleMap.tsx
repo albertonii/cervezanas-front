@@ -17,7 +17,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 const containerStyle = {
   width: "100%",
@@ -83,7 +83,7 @@ const PlacesAutocomplete = ({
   map,
   handleAddress,
 }: PlacesProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const {
     ready,

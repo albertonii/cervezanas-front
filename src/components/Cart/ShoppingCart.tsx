@@ -6,11 +6,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { items, closeCart, marketplaceItems, isOpen } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);

@@ -7,14 +7,14 @@ import ShippingAddressItem from "./ShippingAddressItem";
 import BillingAddressItem from "./BillingAddressItem";
 import ShippingBillingContainer from "./ShippingBillingContainer";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useShoppingCart } from "../../../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../../../components/common/Spinner";
 import {
   IBillingAddress,
   IProduct,
   IShippingAddress,
-} from "../../../../lib/types.d";
+} from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,7 +44,7 @@ export default function Checkout({
   shippingAddresses: shippingAddresses_,
   billingAddresses: billingAddresses_,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { user } = useAuth();
 

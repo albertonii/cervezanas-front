@@ -24,7 +24,6 @@ function DisplayImageProduct({
   width,
   height,
 }: Props) {
-  console.log(imgSrc);
   const [src, setSrc] = useState(
     imgSrc ? BASE_PRODUCTS_ARTICLES_URL + imgSrc : COMMON.MARKETPLACE_PRODUCT
   );

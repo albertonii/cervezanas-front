@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Spinner } from "../../../components/common";
@@ -22,7 +22,7 @@ export default function SignIn() {
   const router = useRouter();
   const { signInWithProvider, signIn, isLoading: loading, user } = useAuth();
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const {
     register,

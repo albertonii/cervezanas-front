@@ -1,7 +1,7 @@
 import React from "react";
 import useFetchProducts from "../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
 type FormValues = {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function LotForm({ handleShowModal }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { supabase } = useSupabase();
 

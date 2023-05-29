@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IReview } from "../../lib/types.d";
 import { ReviewQualification } from "../../lib/beerEnum";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function ProductOverallReview({ reviews, emptyReviews }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [loading, setLoading] = React.useState(false);
 

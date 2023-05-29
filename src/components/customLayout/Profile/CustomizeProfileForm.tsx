@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../constants";
 import { useAppContext } from "../../Context/AppContext";
 import { Spinner } from "../../common/Spinner";
@@ -23,7 +23,7 @@ interface Props {
 }
 
 export function CustomizeProfileForm({ profile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);

@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IRefProductLot } from "../../../lib/types.d";
 import { AddLot, DeleteLot, EditLot } from "../../modals";
 import { LotList } from "./LotList";
 import { useAppContext } from "../../Context";
 
 export function Lots() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { products, lots, setLots } = useAppContext();
 

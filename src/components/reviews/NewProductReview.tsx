@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Rate } from ".";
 import { IReview } from "../../lib/types.d";
 import { Button } from "../common";
@@ -33,7 +33,7 @@ export function NewProductReview({
   handleSetReviews,
   isReady: isReady_,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [loading, setLoading] = useState(false);

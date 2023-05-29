@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IEventOrderItem } from "../../../../../lib/types.d";
+import { IEventOrderItem } from "../../../../../lib/types";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import ManageEventProduct from "./ManageEventProduct";
 

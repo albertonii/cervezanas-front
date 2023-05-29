@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, IProfile } from "../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IConsumptionPoints, IProfile } from "../../../../lib/types";
 import { SubmitCPOrganizer } from "../../../../components/modals";
 import { CPAccepted } from "./CPAccepted";
 import { CPRejected } from "./CPRejected";
@@ -17,7 +17,7 @@ export function ConsumptionPoints({
   cps,
   profile: { cp_organizer_status },
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [cpOrganizerStatus, setCPOrganizerStatus] =
     useState(cp_organizer_status);

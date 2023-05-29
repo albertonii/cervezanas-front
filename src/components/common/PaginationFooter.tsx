@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Button } from "./Button";
 
 interface Props {
@@ -14,7 +14,7 @@ export default function PaginationFooter({
   currentPage,
   setCurrentPage,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const pageRange = 10;
   const finalPage =

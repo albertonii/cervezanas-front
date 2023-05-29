@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IProduct } from "../../../lib/types.d";
 import { Button, DeleteButton, Spinner } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
@@ -35,7 +35,7 @@ export function ProductList({
   const { user } = useAuth();
   if (!user) return null;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const products = ps.filter((product) => !product.is_archived);
 

@@ -1,14 +1,14 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { EVENT_ORDER_STATUS } from "../../../../../constants";
-import { IEventOrder } from "../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../lib/types";
 
 interface OrderTimelineProps {
   order: IEventOrder;
 }
 
 export function EventOrderTimeline({ order }: OrderTimelineProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="px-4 py-6 sm:px-6 lg:p-8">
       <p className=" text-lg font-medium text-beer-dark sm:text-xl">

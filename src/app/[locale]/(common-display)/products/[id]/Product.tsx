@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Button, IconButton, Spinner } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
@@ -19,7 +19,7 @@ import {
   Rate,
 } from "../../../../../components/reviews";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
+import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 
@@ -40,7 +40,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<IReview[]>(
     product.reviews

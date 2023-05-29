@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export function Footer() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <footer className="relative w-full ">

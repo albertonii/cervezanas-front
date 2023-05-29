@@ -2,7 +2,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import Checkout from "./Checkout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
-import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
+import { IBillingAddress, IShippingAddress } from "../../../../lib/types";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function CheckoutPage() {

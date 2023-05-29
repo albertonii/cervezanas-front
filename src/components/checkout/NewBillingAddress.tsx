@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../Auth";
 import { Modal } from "../modals";
@@ -28,7 +28,7 @@ interface Props {
 }
 
 export function NewBillingAddress({ handleBillingAddresses }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { user } = useAuth();

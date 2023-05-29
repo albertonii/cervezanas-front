@@ -1,6 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { IShippingInfo } from "../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IShippingInfo } from "../../../lib/types";
 import { Button } from "../../../components/common";
 
 interface Props {
@@ -12,7 +12,7 @@ export default function ShippingInformation({
   option,
   handleSetShippingOption,
 }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div

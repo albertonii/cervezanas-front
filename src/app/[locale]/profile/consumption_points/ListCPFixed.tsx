@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import DeleteModal from "../../../../components/modals/DeleteModal";
+import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
-import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
+import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
-import { ICPFixed, SortBy } from "../../../../lib/types.d";
+import { ICPFixed, SortBy } from "../../../../lib/types";
 import { Modal } from "../../../../components/modals";
-import DeleteModal from "../../../../components/modals/DeleteModal";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
@@ -23,7 +23,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [cpFixed, setCPFixed] = useState(cp);

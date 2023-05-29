@@ -6,7 +6,7 @@ import { Spinner } from "../../common/Spinner";
 import { Button, DisplayInputError } from "../../common";
 import { IProfile } from "../../../lib/types.d";
 import { formatDateDefaultInput } from "../../../utils";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface FormData {
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export function BasicDataForm({ profile }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { id, username, birthdate, name, lastname, email } = profile;

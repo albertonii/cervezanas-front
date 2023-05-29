@@ -1,7 +1,7 @@
 import Image from "next/image";
 import useFetchLots from "../../../hooks/useFetchLotsByOwner";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IProductLot } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
 import { useAuth } from "../../Auth";
@@ -28,7 +28,7 @@ export function LotList({
   const { user } = useAuth();
   if (!user) return null;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [lots, setLots] = useState<IProductLot[]>(ls);
   const [query, setQuery] = useState("");

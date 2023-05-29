@@ -3,7 +3,7 @@
 import useFetchCPOrders from "../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IOrder } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Button, IconButton, Spinner } from "../../common";
@@ -23,7 +23,7 @@ export function OrderList({ orders: os }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [orders, setOrders] = useState<IOrder[]>(os);
   const [query, setQuery] = useState("");

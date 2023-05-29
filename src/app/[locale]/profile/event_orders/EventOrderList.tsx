@@ -3,9 +3,9 @@
 import useFetchEventOrders from "../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { IEventOrder } from "../../../../lib/types.d";
+import { IEventOrder } from "../../../../lib/types";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatCurrency } from "../../../../utils";
 import { encodeBase64 } from "../../../../utils/utils";
@@ -23,7 +23,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [orders, setOrders] = useState<IEventOrder[]>(os);
   const [query, setQuery] = useState("");

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IReview } from "../../../lib/types.d";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../utils";
 import { Rate } from "../../reviews";
 import { DeleteButton } from "../../common";
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function Reviews({ reviews: r }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { supabase } = useSupabase();
 
   const [reviews, setReviews] = useState<IReview[]>(r);

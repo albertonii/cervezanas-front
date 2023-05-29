@@ -17,8 +17,8 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useTranslation } from "react-i18next";
-import { IConsumptionPoints, ICPFixed } from "../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { IConsumptionPoints, ICPFixed } from "../../../lib/types";
 import { formatDate } from "../../../utils";
 
 const containerStyle = {
@@ -52,7 +52,7 @@ export default function BMGoogleMap({ cps }: Props) {
 }
 
 function Map({ cps }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   // const [fixedMarkers, setFixedMarkers] = useState<google.maps.Marker[]>([]);
   const [map, setMap] = useState<google.maps.Map>();
@@ -182,7 +182,7 @@ const PlacesAutocomplete = ({
   map,
 }: // handleAddress,
 PlacesProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const {
     ready,

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { ICPMobile } from "../../../../lib/types.d";
+import { ICPMobile } from "../../../../lib/types";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import { Modal } from "../../../../components/modals";
@@ -34,7 +34,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
 
   const { supabase } = useSupabase();
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [cpMobile, setCPMobile] = useState<ICPMobile[]>(cp);
   const [query, setQuery] = useState("");

@@ -1,4 +1,4 @@
-import { IMonthlyProduct } from "../../lib/types.d";
+import { IMonthlyProduct } from "../../lib/types";
 import { createServerClient } from "../../utils/supabaseServer";
 import Homepage from "./Homepage";
 

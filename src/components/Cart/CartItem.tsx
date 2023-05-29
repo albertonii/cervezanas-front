@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 type CartItemProps = {
   id: string;
@@ -16,7 +16,7 @@ type CartItemProps = {
 };
 
 export function CartItem({ id, quantity, products }: CartItemProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [item, setItem] = useState<IProduct | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const {

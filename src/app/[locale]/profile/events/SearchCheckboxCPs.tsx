@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { ICPMobile } from "../../../../lib/types.d";
+import { useTranslations } from "next-intl";
+import { ICPMobile } from "../../../../lib/types";
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { register } = form;
 

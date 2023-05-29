@@ -1,7 +1,7 @@
 import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ComponentProps, useCallback, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { PortalModal } from ".";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { Button, IconButton } from "../common";
@@ -41,7 +41,7 @@ export function Modal(props: Props) {
     setShowModal,
   } = props;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const modalRef = useRef<HTMLDivElement>(null);
 

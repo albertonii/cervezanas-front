@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useRouter } from "next/navigation";
 import { PortalModal } from ".";
@@ -16,7 +16,7 @@ interface Props {
 export function SuccessfulReviewModal(props: Props) {
   const { isVisible } = props;
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const router = useRouter();
 
