@@ -28,7 +28,7 @@ async function getEventsData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: eventsData, error: eventsError } = await supabase
@@ -55,7 +55,7 @@ async function getCPMobileData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
   const { data: cps, error: cpError } = await supabase
     .from("consumption_points")

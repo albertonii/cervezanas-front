@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { useRouter } from "next/navigation";
 import { PortalModal } from ".";
@@ -17,6 +17,7 @@ export function SuccessfulReviewModal(props: Props) {
   const { isVisible } = props;
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const router = useRouter();
 
@@ -118,6 +119,7 @@ export function SuccessfulReviewModal(props: Props) {
                     <Link
                       className="text-beer-draft underline hover:font-semibold"
                       href="#"
+                      locale={locale}
                     >
                       Ver condiciones del sorteo{" "}
                     </Link>

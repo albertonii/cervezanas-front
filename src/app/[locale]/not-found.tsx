@@ -1,7 +1,11 @@
+"use client";
+import { useLocale } from "next-intl";
 // 404.js
 import Link from "next/link";
 
 export default function FourOhFour() {
+  const locale = useLocale();
+
   return (
     <>
       <div className="bg-beer-softBlond relative h-[100vh] overflow-hidden">
@@ -67,7 +71,9 @@ export default function FourOhFour() {
             <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></span>
 
             <span className="relative block border border-current bg-beer-softBlonde px-8 py-3 hover:bg-bear-light hover:text-beer-softBlonde">
-              <Link href="/">Go Home</Link>
+              <Link href="/" locale={locale}>
+                Go Home
+              </Link>
             </span>
           </button>
         </main>

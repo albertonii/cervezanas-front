@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { ICPMobile } from "../../../../lib/types.d";
@@ -35,6 +35,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
   const { supabase } = useSupabase();
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const [cpMobile, setCPMobile] = useState<ICPMobile[]>(cp);
   const [query, setQuery] = useState("");
@@ -295,6 +296,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
                       <Link
                         target={"_blank"}
                         href={`/consumption_points/mobile/${cp.id}`}
+                        locale={locale}
                       >
                         {cp.cp_name}
                       </Link>

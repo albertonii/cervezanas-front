@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { COMMON } from "../../../../../../../constants";
 import { ICPMobile, IProduct } from "../../../../../../../lib/types.d";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
@@ -132,6 +132,8 @@ interface ProductProps {
 }
 
 const Product = ({ product, cpmId }: ProductProps) => {
+  const locale = useLocale();
+
   const {
     marketplaceEventItems,
     getItemQuantity,
@@ -183,7 +185,11 @@ const Product = ({ product, cpmId }: ProductProps) => {
         />
       </td>
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link target={"_blank"} href={`/consumption_points/products/${cpmId}`}>
+        <Link
+          target={"_blank"}
+          href={`/consumption_points/products/${cpmId}`}
+          locale={locale}
+        >
           {product.name}
         </Link>
       </td>

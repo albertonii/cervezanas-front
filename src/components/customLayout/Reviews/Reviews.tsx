@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IReview } from "../../../lib/types.d";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { formatDateString } from "../../../utils";
 import { Rate } from "../../reviews";
 import { DeleteButton } from "../../common";
@@ -16,6 +16,7 @@ interface Props {
 
 export function Reviews({ reviews: r }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const { supabase } = useSupabase();
 
   const [reviews, setReviews] = useState<IReview[]>(r);
@@ -78,6 +79,7 @@ export function Reviews({ reviews: r }: Props) {
                           <Link
                             className="hover:text-purple-500 cursor-pointer font-bold text-beer-draft hover:text-beer-blonde"
                             href={`/users/${review.users?.id}`}
+                            locale={locale}
                           >
                             {review.users?.username}
                           </Link>
@@ -103,7 +105,10 @@ export function Reviews({ reviews: r }: Props) {
                             />
 
                             <span className="hover:text-purple-500 mr-auto cursor-pointer truncate text-xl font-bold text-beer-draft transition-all hover:text-beer-blonde dark:text-beer-foam">
-                              <Link href={`/products/${review.products?.id}`}>
+                              <Link
+                                href={`/products/${review.products?.id}`}
+                                locale={locale}
+                              >
                                 {review.products?.name}
                               </Link>
                             </span>

@@ -27,7 +27,7 @@ async function getProductReview(productId: string) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: product, error: productsError } = await supabase

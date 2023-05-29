@@ -24,7 +24,7 @@ async function getCPMobile(cpId: string) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: cpMobile, error: cpMobileError } = await supabase

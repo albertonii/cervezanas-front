@@ -5,7 +5,7 @@ import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
 
@@ -21,6 +21,7 @@ interface Props {
 
 export function SearchCheckboxCPProducts({ form }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const { user } = useAuth();
 
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -126,6 +127,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                           <Link
                             href={`/products/${product.id}`}
                             target={"_blank"}
+                            locale={locale}
                           >
                             {product.name}
                           </Link>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Select } from "@supabase/ui";
 import { useRouter } from "next/navigation";
 import { useShoppingCart } from "../../components/Context/ShoppingCartContext";
@@ -15,7 +15,7 @@ import { COMMON } from "../../constants";
 
 export function ScreenMenu() {
   const { user, role } = useAuth();
-
+  const locale = useLocale();
   const t = useTranslations();
 
   const router = useRouter();
@@ -51,7 +51,7 @@ export function ScreenMenu() {
           <div className="flex w-full items-center justify-center ">
             <ul className="align-center mt-4 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
               <li className="flex items-center">
-                <Link href="/marketplace">
+                <Link href="/marketplace" locale={locale}>
                   <span className={`${MENU_ITEM_STYLES}`}>
                     {t("marketplace").toUpperCase()}
                   </span>
@@ -59,7 +59,7 @@ export function ScreenMenu() {
               </li>
 
               {/* <li className="flex items-center">
-                <Link href="/community">
+                <Link href="/community" locale={locale}>
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("community").toUpperCase()}
                   </span>
@@ -67,7 +67,7 @@ export function ScreenMenu() {
               </li> */}
 
               <li className="flex items-center">
-                <Link href="/events">
+                <Link href="/events" locale={locale}>
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("events").toUpperCase()}
                   </span>
@@ -80,7 +80,7 @@ export function ScreenMenu() {
           <div className="w-full" id="navbar-default">
             <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
               <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-                <Link href={"/"}>
+                <Link href={"/"} locale={locale}>
                   <Image
                     src="/logo_cervezanas.svg"
                     alt="Cervezanas Logo"

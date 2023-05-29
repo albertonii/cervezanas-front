@@ -3,7 +3,7 @@
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -40,6 +40,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   if (isNaN(quantity)) return <></>;
 
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
 
   const overAll = () => {
@@ -160,7 +161,9 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
 
             <div className="flex w-full min-w-0 items-center justify-between ">
               <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate text-lg font-semibold text-beer-draft transition-all hover:text-beer-blonde">
-                <Link href={`/products/${product.id}`}>{product.name}</Link>
+                <Link href={`/products/${product.id}`} locale={locale}>
+                  {product.name}
+                </Link>
               </h2>
             </div>
           </div>

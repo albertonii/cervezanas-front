@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../../components/Auth";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { IOrder } from "../../../../../lib/types.d";
@@ -16,6 +16,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
   const { products } = order;
 
   const t = useTranslations();
+  const locale = useLocale();
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -110,7 +111,10 @@ export default function ErrorCheckout({ order, isError }: Props) {
                       {/* Product Information  */}
                       <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                         <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}>
+                          <Link
+                            href={`/products/${product.id}`}
+                            locale={locale}
+                          >
                             {product.name}
                           </Link>
                         </h3>

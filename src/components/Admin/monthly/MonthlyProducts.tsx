@@ -1,13 +1,13 @@
 "use client";
 
+import DisplayImageProduct from "../../common/DisplayImageProduct";
 import Link from "next/link";
 import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IMonthlyProduct } from "../../../lib/types.d";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
-import DisplayImageProduct from "../../common/DisplayImageProduct";
 import { useSupabase } from "../../Context/SupabaseProvider";
 
 interface Props {
@@ -20,6 +20,7 @@ interface ColumnsProps {
 
 export default function MonthlyBeers({ mProducts }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const { supabase } = useSupabase();
 
@@ -271,7 +272,10 @@ export default function MonthlyBeers({ mProducts }: Props) {
                     </th>
 
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/products/${product.product_id.id}`}>
+                      <Link
+                        href={`/products/${product.product_id.id}`}
+                        locale={locale}
+                      >
                         {product.product_id.name}
                       </Link>
                     </td>

@@ -44,6 +44,7 @@ export default async function RootLayout({
   } catch (error) {
     notFound();
   }
+
   return (
     <html lang={locale}>
       <body>

@@ -1,25 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import DisplayImageProduct from "../common/DisplayImageProduct";
+import MarketCartButtons from "../common/MarketCartButtons";
 
 import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct } from "../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton, Spinner } from "../common";
-import DisplayImageProduct from "../common/DisplayImageProduct";
 import { COMMON } from "../../constants";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useAuth } from "../Auth";
-import MarketCartButtons from "../common/MarketCartButtons";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 export function StoreItem({ product, products }: StoreItemProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
 
@@ -154,7 +155,9 @@ export function StoreItem({ product, products }: StoreItemProps) {
 
               <div className="flex w-full min-w-0 items-center justify-between ">
                 <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate text-lg font-semibold text-beer-draft transition-all hover:text-beer-blonde">
-                  <Link href={`/products/${product.id}`}>{product.name}</Link>
+                  <Link href={`/products/${product.id}`} locale={locale}>
+                    {product.name}
+                  </Link>
                 </h2>
                 {/* {beer.product_inventory[0]?.quantity > 0 ? (
                   <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">

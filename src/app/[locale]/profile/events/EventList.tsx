@@ -5,7 +5,7 @@ import DeleteModal from "../../../../components/modals/DeleteModal";
 import Link from "next/link";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IEvent, SortBy } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
@@ -19,6 +19,7 @@ interface Props {
 
 export default function EventList({ events: es, handleEList }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const { supabase } = useSupabase();
 
   const [events, setEvents] = useState<IEvent[]>([]);
@@ -277,7 +278,8 @@ export default function EventList({ events: es, handleEList }: Props) {
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/events/${e.id}`}>{e.name}</Link>
+                      <Link href={`/events/${e.id}`}
+                      locale={locale}>{e.name}</Link>
                     </td>
 
                     <td className="px-6 py-4">{formatDate(e.created_at)}</td>

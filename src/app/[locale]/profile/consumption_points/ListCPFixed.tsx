@@ -5,7 +5,7 @@ import DeleteModal from "../../../../components/modals/DeleteModal";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { ICPFixed, SortBy } from "../../../../lib/types.d";
@@ -24,6 +24,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
   if (!user) return null;
 
   const t = useTranslations();
+  const locale = useLocale();
   const { supabase } = useSupabase();
 
   const [cpFixed, setCPFixed] = useState(cp);
@@ -282,6 +283,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
                       <Link
                         target={"_blank"}
                         href={`/consumption_points/fixed?id=${cp.id}`}
+                        locale={locale}
                       >
                         {cp.cp_name}
                       </Link>

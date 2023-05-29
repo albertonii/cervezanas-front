@@ -72,6 +72,8 @@ export function Breadcrumb() {
 
 // Each individual "crumb" in the breadcrumbs list
 function Crumb({ href, last = false, title }: CrumbProps) {
+  const locale = useLocale();
+
   // The last crumb is rendered as normal text since we are already on the page
   if (last) {
     return (
@@ -84,7 +86,12 @@ function Crumb({ href, last = false, title }: CrumbProps) {
   // All other crumbs will be rendered as links that can be visited
   return (
     <>
-      <Link color="inherit" className="hover:text-beer-blonde" href={href}>
+      <Link
+        color="inherit"
+        className="hover:text-beer-blonde"
+        href={href}
+        locale={locale}
+      >
         {title}
       </Link>
       {" > "}
@@ -94,6 +101,7 @@ function Crumb({ href, last = false, title }: CrumbProps) {
 
 // Props for the Crumb component
 import { UrlObject } from "url";
+import { useLocale } from "next-intl";
 type Url = string | UrlObject;
 
 interface CrumbProps {

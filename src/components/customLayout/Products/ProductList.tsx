@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../../lib/types.d";
 import { Button, DeleteButton, Spinner } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
@@ -36,6 +36,7 @@ export function ProductList({
   if (!user) return null;
 
   const t = useTranslations();
+   const locale = useLocale();
 
   const products = ps.filter((product) => !product.is_archived);
 
@@ -229,7 +230,8 @@ export function ProductList({
                         </th>
 
                         <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}>
+                          <Link href={`/products/${product.id}`}
+                          locale={locale}>
                             {product.name}
                           </Link>
                         </td>

@@ -32,7 +32,7 @@ async function getProductData(productId: string) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: product, error: productError } = await supabase
@@ -75,7 +75,7 @@ async function getMarketplaceData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: products, error: productsError } = await supabase

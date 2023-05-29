@@ -24,7 +24,7 @@ async function getEvent(eventId: string) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: event, error } = await supabase

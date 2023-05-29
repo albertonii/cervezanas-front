@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
@@ -23,6 +24,7 @@ export default function SignIn() {
   const { signInWithProvider, signIn, isLoading: loading, user } = useAuth();
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const {
     register,
@@ -158,7 +160,11 @@ export default function SignIn() {
 
             <p className="my-2 flex w-full justify-start text-sm text-gray-700">
               {t("not_registered_question")}
-              <Link className="cursor-pointer font-bold" href={"/signup"}>
+              <Link
+                className="cursor-pointer font-bold"
+                href={"/signup"}
+                locale={locale}
+              >
                 <span className="mx-1 text-beer-blonde hover:underline">
                   {t("sign_me_up")}
                 </span>

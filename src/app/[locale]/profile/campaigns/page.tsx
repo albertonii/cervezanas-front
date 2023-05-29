@@ -28,7 +28,7 @@ async function getCampaignData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
   const { data: campaignsData, error: campaignsError } = await supabase
     .from("campaigns")
@@ -53,7 +53,7 @@ async function getProductsData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
   const { data: productsData, error: productsError } = await supabase
     .from("products")

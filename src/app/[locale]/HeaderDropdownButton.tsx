@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../components/Auth";
 import { useAppContext } from "../../components/Context";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
@@ -21,6 +21,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
   const dropdown = useRef<HTMLDivElement>(null);
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const { signOut } = useAuth();
   const { changeSidebarActive } = useAppContext();
@@ -35,7 +36,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
     switch (option) {
       case "profile":
         return (
-          <Link href={{ pathname: `/profile/settings` }}>
+          <Link href={{ pathname: `/profile/settings` }} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -47,7 +48,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "orders":
         return (
-          <Link href={{ pathname: `/profile/${option}` }}>
+          <Link href={{ pathname: `/profile/${option}` }} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -70,7 +71,10 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "submitted_aps":
         return (
-          <Link href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}>
+          <Link
+            href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}
+            locale={locale}
+          >
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -84,6 +88,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
         return (
           <Link
             href={{ pathname: `/profile`, query: { a: `monthly_products` } }}
+            locale={locale}
           >
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"

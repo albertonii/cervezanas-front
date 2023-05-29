@@ -4,14 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../components/Auth";
 import { SignUpForm } from "../../../components/Auth/SignUpForm";
 import { VIEWS } from "../../../constants";
+import { Spinner } from "../../../components/common";
 
 export default function Signup() {
   const t = useTranslations();
-  const { user } = useAuth();
+  const locale = useLocale();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
 
   // If the user is already logged in, then
@@ -20,7 +22,11 @@ export default function Signup() {
     if (user) {
       router.push("/");
     }
-  }, []);
+  }, [user]);
+
+  if (isLoading) {
+    return <Spinner color="beer-gold" size="fullScreen" />;
+  }
 
   return (
     <main className="flex h-full min-h-screen bg-white">
@@ -38,7 +44,8 @@ export default function Signup() {
             {t("already_account")}
             <Link
               className="cursor-pointer font-bold"
-              href={VIEWS.ROUTE_SIGNIN}
+              href={VIEWS.SIGN_IN}
+              locale={locale}
             >
               <span className="mx-1 text-beer-blonde hover:underline">
                 {t("access_account")}

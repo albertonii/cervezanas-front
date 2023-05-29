@@ -66,7 +66,7 @@ async function getSuccessData(searchParams: any) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: orderData, error: orderError } = await supabase

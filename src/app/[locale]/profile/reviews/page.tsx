@@ -25,7 +25,7 @@ async function getReviewsData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: reviewsData, error: reviewsError } = await supabase

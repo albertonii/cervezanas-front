@@ -73,6 +73,7 @@ export type SocialButtonSize = "tiny" | "small" | "medium" | "large" | "xlarge";
 
 export type ViewSignIn = "signin";
 export type ViewSignUp = "signup";
+export type ViewSignOut = "signout";
 export type ViewMagicLink = "magic_link";
 export type ViewForgottenPassword = "forgotten_password";
 export type ViewUpdatePassword = "update_password";

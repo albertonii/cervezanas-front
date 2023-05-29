@@ -3,7 +3,7 @@
 import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../components/Auth";
 import { Button } from "../../../components/common";
 import { useAppContext } from "../../../components/Context";
@@ -13,7 +13,7 @@ export function Sidebar() {
 
   const { role } = useAuth();
   const t = useTranslations();
-
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -171,6 +171,7 @@ export function Sidebar() {
                 <Link
                   href={{ pathname: link.option }}
                   className="mx-4 font-medium"
+                  locale={locale}
                 >
                   {t(link.name)}
                 </Link>

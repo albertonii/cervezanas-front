@@ -9,7 +9,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 import { generateDownloadableLink } from "../../../utils/utils";
@@ -24,7 +24,8 @@ interface Props {
 
 export default function ListPendingCP({ submittedCPs }: Props) {
   const t = useTranslations();
-  const [query, setQuery] = useState("");
+   const locale = useLocale();
+ const [query, setQuery] = useState("");
 
   const { supabase } = useSupabase();
 
@@ -285,7 +286,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 </th>
 
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                  <Link href={`/products/${cp.owner_id.id}`}>
+                  <Link href={`/products/${cp.owner_id.id}`}
+                  locale={locale}>
                     {cp.owner_id.username}
                   </Link>
                 </td>

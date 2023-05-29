@@ -6,11 +6,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart() {
   const t = useTranslations();
+  const locale = useLocale();
   const { items, closeCart, marketplaceItems, isOpen } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);
@@ -128,6 +129,7 @@ export function ShoppingCart() {
                             closeCart();
                           }}
                           className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
+                          locale={locale}
                         >
                           {t("checkout")}
                         </Link>

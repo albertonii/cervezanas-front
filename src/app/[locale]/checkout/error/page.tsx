@@ -67,7 +67,7 @@ async function getCheckoutErrorData(searchParams: any) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   if (Ds_Response === "9915") {

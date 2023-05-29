@@ -25,7 +25,7 @@ async function getCPSData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: cps, error: cpsError } = await supabase
@@ -51,7 +51,7 @@ async function getProfileData() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect(VIEWS.ROUTE_SIGNIN);
+    redirect(VIEWS.SIGN_IN);
   }
 
   const { data: profileData, error: profileError } = await supabase

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../constants";
 import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
 import { formatDate } from "../../../../../../utils";
@@ -113,6 +113,7 @@ interface CPMobileProps {
 }
 
 const CPMobile = ({ cp }: CPMobileProps) => {
+  const locale = useLocale();
   return (
     <tr
       key={cp.id}
@@ -128,7 +129,9 @@ const CPMobile = ({ cp }: CPMobileProps) => {
       </td>
 
       <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link href={`/consumption_points/mobile/${cp.id}`}>{cp.cp_name}</Link>
+        <Link href={`/consumption_points/mobile/${cp.id}`} locale={locale}>
+          {cp.cp_name}
+        </Link>
       </td>
       <td className="space-x-2 px-6 py-4">{cp.cp_description}</td>
       <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>

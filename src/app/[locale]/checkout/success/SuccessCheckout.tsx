@@ -4,7 +4,7 @@ import Link from "next/link";
 import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
@@ -20,6 +20,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { products } = order;
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const router = useRouter();
 
@@ -136,7 +137,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
                       {/* Product Information  */}
                       <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                         <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}>
+                          <Link
+                            href={`/products/${product.id}`}
+                            locale={locale}
+                          >
                             {product.name}
                           </Link>
                         </h3>

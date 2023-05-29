@@ -3,7 +3,7 @@
 import Link from "next/link";
 import DisplayImageProduct from "../../components/common/DisplayImageProduct";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEventCartContext } from "../../components/Context/EventCartContext";
@@ -17,6 +17,8 @@ type CartItemProps = {
 
 export function EventCartItem({ id, quantity, products }: CartItemProps) {
   const t = useTranslations();
+  const locale = useLocale();
+
   const [item, setItem] = useState<IProduct | null>(null);
   const [itemMultimedia, setItemMultimedia] = useState<string>("");
   const {
@@ -95,7 +97,9 @@ export function EventCartItem({ id, quantity, products }: CartItemProps) {
           <div className="ml-4 flex flex-1 flex-col">
             <div className="flex justify-between text-base font-medium text-gray-900">
               <p className="mt-1 text-lg text-gray-500">
-                <Link href={`/products/${item.id}`}>{item.name}</Link>
+                <Link href={`/products/${item.id}`} locale={locale}>
+                  {item.name}
+                </Link>
               </p>
 
               <h3>

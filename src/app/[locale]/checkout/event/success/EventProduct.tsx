@@ -2,7 +2,7 @@ import React from "react";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common";
 import { COMMON, EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
 import { IEventOrderItem } from "../../../../../lib/types.d";
@@ -16,6 +16,7 @@ interface Props {
 
 export default function EventProduct({ eventOrderItem }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const eventOrderItemId = eventOrderItem.id;
   const handleOnClick = (productId: string) => {
@@ -66,7 +67,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
           {/* Product Information  */}
           <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
             <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-              <Link href={`/products/${eventOrderItem.id}`}>
+              <Link href={`/products/${eventOrderItem.id}`} locale={locale}>
                 {eventOrderItem.product_id.name}
               </Link>
             </h3>

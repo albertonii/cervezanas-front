@@ -12,6 +12,7 @@ import { useAuth } from "../../components/Auth";
 import { useAppContext, useShoppingCart } from "../../components/Context";
 import { Button } from "../../components/common";
 import { Notification } from "./components";
+import {useLocale} from "next-intl"
 
 export function MobileMenu() {
   const { role, user } = useAuth();
@@ -24,6 +25,7 @@ export function MobileMenu() {
   useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const [openHamburguer, setOpenHamburger] = useState(false);
   const router = useRouter();
@@ -86,7 +88,7 @@ export function MobileMenu() {
           {/* Logo Cervezanas  */}
           <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
             <div className="absolute flex h-[90px] w-[90px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-              <Link href={"/"}>
+              <Link href={"/"} locale={locale}>
                 <Image
                   src="/logo_cervezanas.svg"
                   alt="Cervezanas Logo"
@@ -183,6 +185,7 @@ export function MobileMenu() {
                 <Link
                   href="/marketplace"
                   onClick={() => setOpenNotification(false)}
+                  locale={locale}
                 >
                   <span className={`${MENU_ITEM_STYLES}`}>
                     {t("marketplace").toUpperCase()}
@@ -194,6 +197,7 @@ export function MobileMenu() {
                 <Link
                   href="/community"
                   onClick={() => setOpenNotification(false)}
+                  locale={locale}
                 >
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("community").toUpperCase()}
@@ -202,7 +206,7 @@ export function MobileMenu() {
               </li>
 
               <li className="flex items-center">
-                <Link href="/events" onClick={() => setOpenNotification(false)}>
+                <Link href="/events" onClick={() => setOpenNotification(false)} locale={locale}>
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("events").toUpperCase()}
                   </span>
@@ -237,6 +241,7 @@ export function MobileMenu() {
                       <Link
                         href="/profile?a=account"
                         onClick={() => setOpenNotification(false)}
+                        locale={locale}
                       >
                         <span
                           className={`${MENU_ITEM_STYLES}`}
@@ -251,6 +256,7 @@ export function MobileMenu() {
                       <Link
                         href="/profile?a=orders"
                         onClick={() => setOpenNotification(false)}
+                        locale={locale}
                       >
                         <span
                           className={`${MENU_ITEM_STYLES}`}
@@ -269,6 +275,7 @@ export function MobileMenu() {
                     <Link
                       href="/profile?a=submitted_aps"
                       onClick={() => setOpenNotification(false)}
+                      locale={locale}
                     >
                       <span
                         className={`${MENU_ITEM_STYLES}`}
@@ -283,6 +290,7 @@ export function MobileMenu() {
                     <Link
                       href="/profile?a=monthly_products"
                       onClick={() => setOpenNotification(false)}
+                      locale={locale}
                     >
                       <span
                         className={`${MENU_ITEM_STYLES}`}
@@ -299,6 +307,7 @@ export function MobileMenu() {
                 <Link
                   href="/profile"
                   onClick={() => setOpenNotification(false)}
+                  locale={locale}
                 >
                   <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
                     {t("profile").toUpperCase()}

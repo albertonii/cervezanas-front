@@ -6,7 +6,7 @@ import React from "react";
 import { Button } from "../../../components/common";
 import { IEvent } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   events: IEvent[];
@@ -39,6 +39,7 @@ interface EventCardProps {
 
 const EventCard = ({ event }: EventCardProps) => {
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <>
@@ -81,7 +82,9 @@ const EventCard = ({ event }: EventCardProps) => {
                 <div className="flex flex-col items-start">
                   <div className="flex flex-col">
                     <div className="w-full flex-none text-lg font-bold leading-none text-gray-800 hover:cursor-pointer hover:text-beer-draft">
-                      <Link href={`/events/${event.id}`}>{event.name}</Link>
+                      <Link href={`/events/${event.id}`} locale={locale}>
+                        {event.name}
+                      </Link>
                     </div>
 
                     <div className="my-1 flex-auto text-gray-500">
@@ -94,7 +97,7 @@ const EventCard = ({ event }: EventCardProps) => {
 
                 {/* Start date - End date  */}
                 <div className="flex-none text-lg italic leading-none text-gray-600">
-                  <Link href={`/events/${event.id}`}>
+                  <Link href={`/events/${event.id}`} locale={locale}>
                     {formatDate(event.start_date)} -{" "}
                     {formatDate(event.end_date)}
                   </Link>
@@ -204,7 +207,9 @@ const EventCard = ({ event }: EventCardProps) => {
 
                 <div>
                   <Button class="flex-no-shrink border-beer-gold-300 ml-4 rounded-full border-2 bg-beer-darkGold px-5 py-2 text-sm font-extrabold tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg">
-                    <Link href={`/events/${event.id}`}>{t("info")}</Link>
+                    <Link href={`/events/${event.id}`} locale={locale}>
+                      {t("info")}
+                    </Link>
                   </Button>
                 </div>
               </div>
