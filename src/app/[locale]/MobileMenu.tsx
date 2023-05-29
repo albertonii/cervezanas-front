@@ -12,7 +12,7 @@ import { useAuth } from "../../components/Auth";
 import { useAppContext, useShoppingCart } from "../../components/Context";
 import { Button } from "../../components/common";
 import { Notification } from "./components";
-import {useLocale} from "next-intl"
+import { useLocale } from "next-intl";
 
 export function MobileMenu() {
   const { role, user } = useAuth();
@@ -128,59 +128,64 @@ export function MobileMenu() {
                 </Select>
 
                 {/* Notification popup  */}
-                <Button
-                  class={
-                    "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent "
-                  }
-                  onClick={() => setOpenNotification(true)}
-                  title={""}
-                >
-                  <div className="relative rounded-full">
-                    <Image
-                      src={"/icons/notification-icon.svg"}
-                      width={45}
-                      height={45}
-                      alt={"Go to Shopping cart"}
-                      className={"rounded-full"}
-                    />
-                    <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                      {notifications?.length || 0}
-                    </div>
-                  </div>
-                </Button>
+                {user && (
+                  <>
+                    <Button
+                      class={
+                        "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent "
+                      }
+                      onClick={() => setOpenNotification(true)}
+                      title={""}
+                    >
+                      <div className="relative rounded-full">
+                        <Image
+                          src={"/icons/notification-icon.svg"}
+                          width={45}
+                          height={45}
+                          alt={"Go to Shopping cart"}
+                          className={"rounded-full"}
+                        />
+                        <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
+                          {notifications?.length || 0}
+                        </div>
+                      </div>
+                    </Button>
 
-                <Notification
-                  open={openNotification}
-                  setOpen={setOpenNotification}
-                />
-
-                {/* Cart  */}
-                <Button
-                  class={
-                    "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
-                  }
-                  onClick={() => openCart()}
-                  title={"Cart Items"}
-                >
-                  <div className="relative rounded-full">
-                    <Image
-                      src={"/icons/shopping-cart.svg"}
-                      width={45}
-                      height={45}
-                      alt={"Go to Shopping cart"}
-                      className={"rounded-full"}
+                    <Notification
+                      open={openNotification}
+                      setOpen={setOpenNotification}
                     />
-                    <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                      {cartQuantity}
-                    </div>
-                  </div>
-                </Button>
+
+                    {/* Cart  */}
+                    <Button
+                      class={
+                        "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
+                      }
+                      onClick={() => openCart()}
+                      title={"Cart Items"}
+                    >
+                      <div className="relative rounded-full">
+                        <Image
+                          src={"/icons/shopping-cart.svg"}
+                          width={45}
+                          height={45}
+                          alt={"Go to Shopping cart"}
+                          className={"rounded-full"}
+                        />
+                        <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
+                          {cartQuantity}
+                        </div>
+                      </div>
+                    </Button>
+                  </>
+                )}
               </li>
 
               <li className={`${MENU_HEADER_STYLES}`}>
                 {t("menu").toUpperCase()}
               </li>
 
+              {/* Marketplace link  */}
               <li className="flex items-center">
                 <Link
                   href="/marketplace"
@@ -193,6 +198,7 @@ export function MobileMenu() {
                 </Link>
               </li>
 
+              {/* Events link  */}
               <li className="flex items-center">
                 <Link
                   href="/community"
@@ -205,13 +211,24 @@ export function MobileMenu() {
                 </Link>
               </li>
 
-              <li className="flex items-center">
-                <Link href="/events" onClick={() => setOpenNotification(false)} locale={locale}>
-                  <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                    {t("events").toUpperCase()}
-                  </span>
-                </Link>
-              </li>
+              {user && (
+                <>
+                  <li className="flex items-center">
+                    <Link
+                      href="/events"
+                      onClick={() => setOpenNotification(false)}
+                      locale={locale}
+                    >
+                      <span
+                        className={`${MENU_ITEM_STYLES}`}
+                        aria-current="page"
+                      >
+                        {t("events").toUpperCase()}
+                      </span>
+                    </Link>
+                  </li>
+                </>
+              )}
 
               <li className={`${MENU_HEADER_STYLES}`}>
                 {user ? (
