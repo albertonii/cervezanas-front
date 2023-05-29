@@ -16,11 +16,10 @@ async function getEvents() {
   const supabase = createServerClient();
   const { data: event, error } = await supabase.from("events").select(
     `
-            *,
-            owner_id (*),
-            cp_mobile (*)
-
-        `
+      *,
+      owner_id (*),
+      cp_mobile (*)
+    `
   );
   if (error) console.error(error);
   return event as IEvent[];
