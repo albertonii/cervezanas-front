@@ -6,6 +6,7 @@ import { RequestCookies } from "next/dist/server/web/spec-extension/cookies";
 import Negotiator from "negotiator";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
+import { VIEWS } from "./constants";
 
 const intlMiddleware = createMiddleware({
   locales: ["es", "en"],
@@ -69,14 +70,14 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareSupabaseClient({ req, res });
 
   // This gives us the user session and also refresh expired session tokens and set new cookie headers.
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  // if (!session) {
-  //   url.pathname = `/${language || defaultLanguage}/signin`;
-  //   return NextResponse.redirect(url);
-  // }
+  if (!session) {
+    url.pathname = `/${language || defaultLanguage}/${VIEWS.ROUTE_SIGNIN}`;
+    return NextResponse.redirect(url);
+  }
 
   try {
     if (PUBLIC_FILE.test(pathname) || pathname.includes("/api")) {
