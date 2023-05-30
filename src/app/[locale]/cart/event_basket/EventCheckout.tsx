@@ -3,14 +3,13 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import EmptyCart from "../shopping_basket/EmptyCart";
 import Decimal from "decimal.js";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Spinner } from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { Button, CustomLoading } from "../../../../components/common";
-import { CheckoutItem } from "../../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import {
   createRedirectForm,
@@ -23,6 +22,7 @@ import {
   EVENT_ORDER_STATUS,
   PAYMENT_METHOD,
 } from "../../../../constants";
+import { EventCheckoutItem } from "../../../../components/checkout/EventCheckoutItem";
 
 export default function EventCheckout() {
   const t = useTranslations();
@@ -46,17 +46,8 @@ export default function EventCheckout() {
 
   const [cart, setCart] = useState<IProduct[]>([]);
 
-  const {
-    eventItems,
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeMarketplaceItems,
-    removeFromCart,
-    marketplaceEventItems,
-    addMarketplaceItems,
-    clearCart,
-  } = useEventCartContext();
+  const { eventItems, marketplaceEventItems, clearCart } =
+    useEventCartContext();
 
   useEffect(() => {
     const awaitProducts = async () => {
@@ -97,36 +88,6 @@ export default function EventCheckout() {
       setTotal(0);
     };
   }, [discount, eventItems, marketplaceEventItems, shipping, subtotal, tax]);
-
-  const handleIncreaseCartQuantity = useCallback(
-    (productId: string) => {
-      increaseCartQuantity(productId);
-      if (marketplaceEventItems.find((item) => item.id === productId)) return;
-      const product: IProduct | undefined = marketplaceEventItems.find(
-        (item) => item.id === productId
-      );
-      if (!product) return;
-      addMarketplaceItems(product);
-    },
-    [addMarketplaceItems, increaseCartQuantity, marketplaceEventItems]
-  );
-
-  const handleDecreaseCartQuantity = useCallback(
-    (productId: string) => {
-      decreaseCartQuantity(productId);
-      if (getItemQuantity(productId) > 1) return;
-      removeMarketplaceItems(productId);
-    },
-    [decreaseCartQuantity, getItemQuantity, removeMarketplaceItems]
-  );
-
-  const handleRemoveFromCart = useCallback(
-    (productId: string) => {
-      removeMarketplaceItems(productId);
-      removeFromCart(productId);
-    },
-    [removeFromCart, removeMarketplaceItems]
-  );
 
   const handleProceedToPay = async () => {
     setLoadingPayment(true);
@@ -279,17 +240,7 @@ export default function EventCheckout() {
                         {cart.map((product) => {
                           return (
                             <div key={product.id}>
-                              <CheckoutItem
-                                product={product}
-                                handleIncreaseCartQuantity={
-                                  handleIncreaseCartQuantity
-                                }
-                                handleDecreaseCartQuantity={
-                                  handleDecreaseCartQuantity
-                                }
-                                handleRemoveFromCart={handleRemoveFromCart}
-                                quantity={getItemQuantity(product.id)}
-                              />
+                              <EventCheckoutItem product={product} />
                             </div>
                           );
                         })}

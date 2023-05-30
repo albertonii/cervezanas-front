@@ -5,7 +5,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { COMMON, SupabaseProps } from "../../constants";
-import { IProduct } from "../../lib/types.d";
+import { IProduct } from "../../lib/types";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { IconButton } from "../common";
 import { Type } from "../../lib/productEnum";
@@ -13,13 +13,13 @@ import { isValidObject } from "../../utils/utils";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useSupabase } from "../Context/SupabaseProvider";
 import MarketCartButtons from "../common/MarketCartButtons";
-import { useShoppingCart } from "../Context";
+import { useEventCartContext } from "../Context/EventCartContext";
 
 interface Props {
   product: IProduct;
 }
 
-export function CheckoutItem({ product }: Props) {
+export function EventCheckoutItem({ product }: Props) {
   const { supabase } = useSupabase();
 
   const t = useTranslations();
@@ -33,10 +33,10 @@ export function CheckoutItem({ product }: Props) {
     decreaseCartQuantity,
     removeMarketplaceItems,
     removeFromCart,
-    marketplaceItems,
+    marketplaceEventItems,
     addMarketplaceItems,
     getItemQuantity,
-  } = useShoppingCart();
+  } = useEventCartContext();
 
   const quantity = getItemQuantity(product.id);
   const productSubtotal = product.price * quantity;
@@ -69,14 +69,14 @@ export function CheckoutItem({ product }: Props) {
   const handleIncreaseCartQuantity = useCallback(
     (productId: string) => {
       increaseCartQuantity(productId);
-      if (marketplaceItems.find((item) => item.id === productId)) return;
-      const product: IProduct | undefined = marketplaceItems.find(
+      if (marketplaceEventItems.find((item) => item.id === productId)) return;
+      const product: IProduct | undefined = marketplaceEventItems.find(
         (item) => item.id === productId
       );
       if (!product) return;
       addMarketplaceItems(product);
     },
-    [addMarketplaceItems, increaseCartQuantity, marketplaceItems]
+    [addMarketplaceItems, increaseCartQuantity, marketplaceEventItems]
   );
 
   const handleDecreaseCartQuantity = useCallback(
