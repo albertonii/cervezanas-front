@@ -135,10 +135,8 @@ export function CheckoutItem({
               <span className="text-red-300 line-through"> $45.00</span>
             </p>
 
-            <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
-              {quantity === 0 ? (
-                <></>
-              ) : (
+            <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
+              {quantity > 0 && (
                 <MarketCartButtons
                   quantity={quantity}
                   item={product}
@@ -151,7 +149,7 @@ export function CheckoutItem({
                   handleRemoveFromCart={() => handleRemoveFromCart(product.id)}
                 />
               )}
-            </p>
+            </div>
           </div>
 
           <div className="flex w-full items-center justify-between space-x-2">

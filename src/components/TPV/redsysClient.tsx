@@ -11,7 +11,7 @@ interface OrderPaymentStatus {
 
 export const { createRedirectForm, processRestNotification } = createRedsysAPI({
   urls: SANDBOX_URLS,
-  secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
+  secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? "",
 });
 
 const port = process.env.NEXT_PUBLIC_PORT || 3000;
@@ -28,15 +28,13 @@ export const errorEventRedirectPath = "/checkout/event/error";
 export const notificationEventPath = "/api/notification";
 
 export const merchantInfo = {
+  DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
   DS_MERCHANT_MERCHANTCODE: "097839427",
+  DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationPath}`,
   DS_MERCHANT_TERMINAL: "1",
   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
-  DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
-  DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationPath}`,
   DS_MERCHANT_URLOK: `${endpointRedsys}${successRedirectPath}`,
   DS_MERCHANT_URLKO: `${endpointRedsys}${errorRedirectPath}`,
-  // DS_MERCHANT_SHIPPINGADDRESSPYP: "N",
-  // DS_MERCHANT_PAYMETHODS: "p",
 } as const;
 
 export const eventMerchantInfo = {
@@ -47,6 +45,4 @@ export const eventMerchantInfo = {
   DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationEventPath}`,
   DS_MERCHANT_URLOK: `${endpointRedsys}${successEventRedirectPath}`,
   DS_MERCHANT_URLKO: `${endpointRedsys}${errorEventRedirectPath}`,
-  // DS_MERCHANT_SHIPPINGADDRESSPYP: "N",
-  // DS_MERCHANT_PAYMETHODS: "p",
 } as const;

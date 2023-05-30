@@ -274,6 +274,7 @@
   "customer": "Customer",
   "addresses": "Addresses",
   "your_empty_cart": "Your cart is empty",
+  "empty_cart": "Empty Cart",
   "add_products_to_continue": "Add products to continue shopping",
   "shipping_checkbox": "Default shipping address for future purchases",
   "billing_checkbox": "Default billing address for future purchases",

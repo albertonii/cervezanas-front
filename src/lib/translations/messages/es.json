@@ -287,6 +287,7 @@
   "customer": "Cliente",
   "addresses": "Direcciones",
   "your_empty_cart": "Tu carrito está vacío",
+  "empty_cart": "Carrito vacío",
   "add_products_to_continue": "Añade productos para continuar con la compra",
   "shipping_checkbox": "Establecer cómo predeterminada (para futuras compras)",
   "billing_checkbox": "Establecer cómo predeterminada (para futuras compras)",

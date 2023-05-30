@@ -276,12 +276,12 @@ export default function Checkout({
 
     // Convert EUR -> 978
     const redsysCurrency = currencyInfo.num;
-
+    alert(redsysAmount);
     const form = createRedirectForm({
       ...merchantInfo,
-      DS_MERCHANT_ORDER: orderNumber,
       DS_MERCHANT_AMOUNT: redsysAmount,
       DS_MERCHANT_CURRENCY: redsysCurrency,
+      DS_MERCHANT_ORDER: orderNumber,
     });
 
     setMerchantParameters(form.body.Ds_MerchantParameters);
