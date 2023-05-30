@@ -14,17 +14,27 @@ export const { createRedirectForm, processRestNotification } = createRedsysAPI({
   secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? "",
 });
 
-const port = process.env.NEXT_PUBLIC_PORT || 3000;
-const hostname = process.env.NEXT_PUBLIC_HOSTNAME || `http://localhost`;
-const host = process.env.NEXT_PUBLIC_HOST || `${hostname}:${port}`;
+const env = process.env.NODE_ENV;
+
+let host = "";
+
+if (env === "production") {
+  host = "http://localhost:3000";
+  // https://cervezanas-front.vercel.app:443/es
+} else if (env === "development") {
+  host = "http://localhost:3000";
+} else {
+  host = "http://localhost:3000";
+}
+
 export const endpointRedsys = `${host}`;
 
-export const successRedirectPath = "/checkout/success/";
-export const errorRedirectPath = "/checkout/error";
+export const successRedirectPath = "/es/checkout/success/";
+export const errorRedirectPath = "/es/checkout/error";
 export const notificationPath = "/api/notification";
 
-export const successEventRedirectPath = "/checkout/event/success/";
-export const errorEventRedirectPath = "/checkout/event/error";
+export const successEventRedirectPath = "/es/checkout/event/success/";
+export const errorEventRedirectPath = "/es/checkout/event/error";
 export const notificationEventPath = "/api/notification";
 
 export const merchantInfo = {
