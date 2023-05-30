@@ -47,7 +47,6 @@ export default function Checkout({
   const t = useTranslations();
 
   const { user } = useAuth();
-
   const { supabase } = useSupabase();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -309,7 +308,7 @@ export default function Checkout({
   return (
     <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
-        action={`https://sis-t.redsys.es:25443/sis/realizarPago`}
+        action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
         method="POST"
         name="form"
         ref={formRef}
