@@ -6,12 +6,13 @@ import { createServerClient } from "../../../utils/supabaseServer";
 // import { processRestNotification } from "../../../components/TPV";
 
 export async function POST(req: NextRequest) {
-  const json = await req.json();
+  // const data = await req.json();
+  const data = await req.formData();
   // const urlNotification = new URL(req.url);
   // const { searchParams } = urlNotification;
-  const signatureVersion = json.Ds_SignatureVersion;
-  const merchantParameters = json.Ds_MerchantParameters;
-  const signature = json.Ds_Signature;
+  const signatureVersion = data.get("Ds_SignatureVersion");
+  const merchantParameters = data.get("Ds_MerchantParameters");
+  const signature = data.get("Ds_Signature");
 
   const body: ResponseJSONSuccess = {
     Ds_Signature: signature as string,
