@@ -3,12 +3,12 @@ import { createServerClient } from "../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../utils/utils";
 
 export async function POST(request: Request) {
-  const { searchParams } = new URL(request.url);
-  console.log(searchParams);
-  const { Ds_MerchantParameters } = searchParams as any;
+  console.log(request);
+  // const { searchParams } = new URL(request.url);
+  // const { Ds_MerchantParameters } = searchParams as any;
 
-  console.log(Ds_MerchantParameters);
-  //  as {
+  // console.log(Ds_MerchantParameters);
+  // //  as {
   //   Ds_MerchantParameters: string;
   //   Ds_SignatureVersion: string;
   //   Ds_Signature: string;
