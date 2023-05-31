@@ -7,9 +7,12 @@ import {
 } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(req: Request) {
-  const res = await req.json();
-  console.log("Notification: ", res);
+export async function POST(req: Request, context: any) {
+  console.log(context);
+
+  // const res = await req.json();
+  // console.log("Notification: ", res);
+
   // const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
