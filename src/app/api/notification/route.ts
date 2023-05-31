@@ -14,12 +14,13 @@ export async function POST(
     body: ThreeDSv1ChallengeNotificationBody;
   }
 ) {
-  const notificationBody = request.body as unknown as ResponseJSONSuccess;
+  console.log(req)
+  // const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
   // Always validate a notification
-  const params = processRestNotification(notificationBody);
-  console.log("Params: ", params);
+  // const params = processRestNotification(notificationBody);
+  // console.log("Params: ", params);
   // console.log("Params: ", params);
   // const orderId = params.Ds_Order;
 
