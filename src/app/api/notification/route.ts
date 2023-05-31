@@ -14,6 +14,7 @@ export async function POST(request: {
 
   // Always validate a notification
   const params = processRestNotification(notificationBody);
+  console.log("Params: ", params);
   // console.log("Params: ", params);
   // const orderId = params.Ds_Order;
 
