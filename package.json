@@ -102,7 +102,7 @@
   "version": "0.1.1",
   "license": "MIT",
   "engines": {
-    "node": "20.2.0",
-    "npm": "9.6.6"
+    "node": "20.X",
+    "pnpm": "7.14.2"
   }
 }
