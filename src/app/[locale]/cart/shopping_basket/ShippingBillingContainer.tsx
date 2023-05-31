@@ -279,7 +279,7 @@ export default function ShippingBillingContainer({
               </div>
             </div>
             <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white">
-              {formatCurrency(8)}
+              {formatCurrency(0)}
             </p>
           </div>
 

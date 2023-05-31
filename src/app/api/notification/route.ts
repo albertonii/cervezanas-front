@@ -14,7 +14,7 @@ export async function POST(
     body: ThreeDSv1ChallengeNotificationBody;
   }
 ) {
-  console.log(req)
+  console.log(res);
   // const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
