@@ -8,49 +8,56 @@ import { createServerClient } from "../../../utils/supabaseServer";
 export async function POST(req: NextRequest) {
   // const data = await req.json();
   const data = await req.formData();
+  console.log(data);
   // const urlNotification = new URL(req.url);
   // const { searchParams } = urlNotification;
-  const signatureVersion = data.get("Ds_SignatureVersion");
-  const merchantParameters = data.get("Ds_MerchantParameters");
-  const signature = data.get("Ds_Signature");
+  // const signatureVersion = data.get("Ds_SignatureVersion");
+  // const merchantParameters = data.get("Ds_MerchantParameters");
+  // const signature = data.get("Ds_Signature");
 
-  const body: ResponseJSONSuccess = {
-    Ds_Signature: signature as string,
-    Ds_SignatureVersion: signatureVersion as string,
-    Ds_MerchantParameters: merchantParameters as string,
-  };
+  // const body: ResponseJSONSuccess = {
+  //   Ds_Signature: signature as string,
+  //   Ds_SignatureVersion: signatureVersion as string,
+  //   Ds_MerchantParameters: merchantParameters as string,
+  // };
+  // console.log(body);
 
-  const restNotification = processRestNotification(body);
-  const responseCode = restNotification.Ds_Response;
-  // Always validate a notification
+  // const restNotification = processRestNotification(body);
+  // console.log("Rest: ", restNotification);
 
-  const orderId = restNotification.Ds_Order;
-  const supabase = createServerClient();
+  // const responseCode = restNotification.Ds_Response;
+  // console.log("responseCode: ", responseCode);
 
-  if (isResponseCodeOk(responseCode)) {
-    console.log(`Payment for order ${orderId} succeded`);
+  // const orderId = restNotification.Ds_Order;
+  // console.log("orderId: ", orderId);
 
-    // Update order status
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: MARKETPLACE_ORDER_STATUS.PAID })
-      .eq("order_number", orderId);
-    if (error) console.error(error);
-    return NextResponse.json({
-      message: `Order number ${orderId} updated successfully`,
-    });
-  } else {
-    console.log(`Payment for order ${orderId} failed`);
+  // const supabase = createServerClient();
 
-    // Update order status
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: MARKETPLACE_ORDER_STATUS.ERROR })
-      .eq("order_number", orderId);
-    if (error) console.error(error);
+  // if (isResponseCodeOk(responseCode)) {
+  //   console.log(`Payment for order ${orderId} succeded`);
 
-    return NextResponse.json({
-      message: `Order number ${orderId} failed with error`,
-    });
-  }
+  //   // Update order status
+  //   const { error } = await supabase
+  //     .from("orders")
+  //     .update({ status: MARKETPLACE_ORDER_STATUS.PAID })
+  //     .eq("order_number", orderId);
+  //   if (error) console.error(error);
+  //   return NextResponse.json({
+  //     message: `Order number ${orderId} updated successfully`,
+  //   });
+  // } else {
+  //   console.log(`Payment for order ${orderId} failed`);
+
+  //   // Update order status
+  //   const { error } = await supabase
+  //     .from("orders")
+  //     .update({ status: MARKETPLACE_ORDER_STATUS.ERROR })
+  //     .eq("order_number", orderId);
+  //   if (error) console.error(error);
+
+  //   return NextResponse.json({
+  //     message: `Order number ${orderId} failed with error`,
+  //   });
+  // }
+  return NextResponse.json({ message: "ok" });
 }
