@@ -46,6 +46,7 @@ export const EVENT_ORDER_STATUS = {
   PAID: "paid",
   WITH_SERVICES_TO_CONSUME: "with_services_to_consume",
   SERVED: "served",
+  ERROR: "error",
 };
 
 export const EVENT_ORDER_ITEM_STATUS = {
