@@ -29,43 +29,39 @@ export async function POST(req: NextRequest) {
     secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
   });
 
-  console.log(merchantParameters);
   const restNotification = processRestNotification(body);
-  console.log("Rest: ", restNotification);
 
   const responseCode = restNotification.Ds_Response;
-  console.log("responseCode: ", responseCode);
 
-  // const orderId = restNotification.Ds_Order;
-  // console.log("orderId: ", orderId);
+  const orderId = restNotification.Ds_Order;
 
-  // const supabase = createServerClient();
+  const supabase = createServerClient();
 
-  // if (isResponseCodeOk(responseCode)) {
-  //   console.log(`Payment for order ${orderId} succeded`);
+  if (isResponseCodeOk(responseCode)) {
+    console.log(`Payment for order ${orderId} succeded`);
 
-  //   // Update order status
-  //   const { error } = await supabase
-  //     .from("orders")
-  //     .update({ status: MARKETPLACE_ORDER_STATUS.PAID })
-  //     .eq("order_number", orderId);
-  //   if (error) console.error(error);
-  //   return NextResponse.json({
-  //     message: `Order number ${orderId} updated successfully`,
-  //   });
-  // } else {
-  //   console.log(`Payment for order ${orderId} failed`);
+    // Update order status
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: MARKETPLACE_ORDER_STATUS.PAID })
+      .eq("order_number", orderId);
+    if (error) console.error(error);
+    return NextResponse.json({
+      message: `Order number ${orderId} updated successfully`,
+    });
+  } else {
+    console.log(`Payment for order ${orderId} failed`);
 
-  //   // Update order status
-  //   const { error } = await supabase
-  //     .from("orders")
-  //     .update({ status: MARKETPLACE_ORDER_STATUS.ERROR })
-  //     .eq("order_number", orderId);
-  //   if (error) console.error(error);
+    // Update order status
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: MARKETPLACE_ORDER_STATUS.ERROR })
+      .eq("order_number", orderId);
+    if (error) console.error(error);
 
-  //   return NextResponse.json({
-  //     message: `Order number ${orderId} failed with error`,
-  //   });
-  // }
+    return NextResponse.json({
+      message: `Order number ${orderId} failed with error`,
+    });
+  }
   return NextResponse.json({ message: "ok" });
 }
