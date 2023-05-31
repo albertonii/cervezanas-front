@@ -26,14 +26,15 @@ export async function POST(req: NextRequest) {
 
   const { processRestNotification } = createRedsysAPI({
     urls: SANDBOX_URLS,
-    secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? "",
+    secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
   });
 
+  console.log(merchantParameters);
   const restNotification = processRestNotification(body);
   console.log("Rest: ", restNotification);
 
-  // const responseCode = restNotification.Ds_Response;
-  // console.log("responseCode: ", responseCode);
+  const responseCode = restNotification.Ds_Response;
+  console.log("responseCode: ", responseCode);
 
   // const orderId = restNotification.Ds_Order;
   // console.log("orderId: ", orderId);
