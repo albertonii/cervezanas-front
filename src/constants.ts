@@ -36,6 +36,9 @@ export const COMMON = {
 
 export const MARKETPLACE_ORDER_STATUS = {
   ORDER_PLACED: "order_placed",
+  PAID: "paid",
+  CANCELED: "canceled",
+  ERROR: "error",
 };
 
 export const EVENT_ORDER_STATUS = {

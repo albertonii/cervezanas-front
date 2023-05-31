@@ -1,44 +1,58 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   isResponseCodeOk,
   ResponseJSONSuccess,
   ThreeDSv1ChallengeNotificationBody,
 } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
+import { MARKETPLACE_ORDER_STATUS } from "../../../constants";
+import { createServerClient } from "../../../utils/supabaseServer";
+// import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(req: Request, context: any) {
-  console.log(context);
+export async function POST(req: NextRequest) {
+  const urlNotification = new URL(req.url);
+  const { searchParams } = urlNotification;
+  const signatureVersion = searchParams.get("Ds_SignatureVersion");
+  const merchantParameters = searchParams.get("Ds_MerchantParameters");
+  const signature = searchParams.get("Ds_Signature");
 
-  // const res = await req.json();
-  // console.log("Notification: ", res);
+  const body: ResponseJSONSuccess = {
+    Ds_Signature: signature as string,
+    Ds_SignatureVersion: signatureVersion as string,
+    Ds_MerchantParameters: merchantParameters as string,
+  };
 
-  // const notificationBody = request.body as unknown as ResponseJSONSuccess;
-  // console.log("Notification: ", notificationBody);
-
+  const restNotification = processRestNotification(body);
+  const responseCode = restNotification.Ds_Response;
   // Always validate a notification
-  // const params = processRestNotification(notificationBody);
-  // console.log("Params: ", params);
-  // console.log("Params: ", params);
-  // const orderId = params.Ds_Order;
 
-  // if (isResponseCodeOk(params.Ds_Response)) {
-  // eslint-disable-next-line no-console
-  // console.log(`Payment for order ${orderId} succeded`);
-  // db.orderPayments.update(orderId, { status: "PAYMENT_SUCCEDED" });
+  const orderId = restNotification.Ds_Order;
+  const supabase = createServerClient();
 
-  // const supabase = createServerClient();
+  if (isResponseCodeOk(responseCode)) {
+    console.log(`Payment for order ${orderId} succeded`);
 
-  // // Update order status
-  // const { data, error } = await supabase.from("orders").select("*");
-  // if (error) console.error(error);
+    // Update order status
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: MARKETPLACE_ORDER_STATUS.PAID })
+      .eq("order_number", orderId);
+    if (error) console.error(error);
+    return NextResponse.json({
+      message: `Order number ${orderId} updated successfully`,
+    });
+  } else {
+    console.log(`Payment for order ${orderId} failed`);
 
-  // console.log(data);
-  // } else {
-  // eslint-disable-next-line no-console
-  // console.log(`Payment for order ${orderId} failed`);
-  // db.orderPayments.update(orderId, { status: "PAYMENT_FAILED" });
-  // }
+    // Update order status
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: MARKETPLACE_ORDER_STATUS.ERROR })
+      .eq("order_number", orderId);
+    if (error) console.error(error);
 
-  return NextResponse.json({ message: "prueba" });
+    return NextResponse.json({
+      message: `Order number ${orderId} failed with error`,
+    });
+  }
 }
