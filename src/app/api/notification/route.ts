@@ -7,14 +7,9 @@ import {
 } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  request: {
-    body: ThreeDSv1ChallengeNotificationBody;
-  }
-) {
-  console.log(res);
+export async function POST(req: Request) {
+  const res = await req.json();
+  console.log("Notification: ", res);
   // const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
