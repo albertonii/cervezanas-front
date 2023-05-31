@@ -1,33 +1,36 @@
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(request: Request) {
-  const notificationBody = request.body as unknown as ResponseJSONSuccess;
-  console.log("Notification: ", notificationBody);
+export async function POST(request: Request, req: NextApiRequest) {
+  // const notificationBody = request.body as unknown as ResponseJSONSuccess;
+  // console.log("Notification: ", notificationBody);
+
+  console.log("Request API: ", req);
 
   // Always validate a notification
-  const params = processRestNotification(notificationBody);
-  console.log("Params: ", params);
-  const orderId = params.Ds_Order;
+  // const params = processRestNotification(notificationBody);
+  // console.log("Params: ", params);
+  // const orderId = params.Ds_Order;
 
-  if (isResponseCodeOk(params.Ds_Response)) {
-    // eslint-disable-next-line no-console
-    console.log(`Payment for order ${orderId} succeded`);
-    // db.orderPayments.update(orderId, { status: "PAYMENT_SUCCEDED" });
+  // if (isResponseCodeOk(params.Ds_Response)) {
+  // eslint-disable-next-line no-console
+  // console.log(`Payment for order ${orderId} succeded`);
+  // db.orderPayments.update(orderId, { status: "PAYMENT_SUCCEDED" });
 
-    // const supabase = createServerClient();
+  // const supabase = createServerClient();
 
-    // // Update order status
-    // const { data, error } = await supabase.from("orders").select("*");
-    // if (error) console.error(error);
+  // // Update order status
+  // const { data, error } = await supabase.from("orders").select("*");
+  // if (error) console.error(error);
 
-    // console.log(data);
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(`Payment for order ${orderId} failed`);
-    // db.orderPayments.update(orderId, { status: "PAYMENT_FAILED" });
-  }
+  // console.log(data);
+  // } else {
+  // eslint-disable-next-line no-console
+  // console.log(`Payment for order ${orderId} failed`);
+  // db.orderPayments.update(orderId, { status: "PAYMENT_FAILED" });
+  // }
 
   return NextResponse.json({ message: "prueba" });
 }
