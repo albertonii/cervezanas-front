@@ -1,13 +1,12 @@
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(request: Request, req: NextApiRequest) {
+export async function POST(request: NextResponse) {
   // const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
-  console.log("Request API: ", req);
+  console.log("Request API: ", request);
 
   // Always validate a notification
   // const params = processRestNotification(notificationBody);
