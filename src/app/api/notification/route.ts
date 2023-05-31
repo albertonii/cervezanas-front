@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
-import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
+import {
+  isResponseCodeOk,
+  ResponseJSONSuccess,
+  ThreeDSv1ChallengeNotificationBody,
+} from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 
-export async function POST(request: NextResponse) {
-  // const notificationBody = request.body as unknown as ResponseJSONSuccess;
+export async function POST(request: {
+  body: ThreeDSv1ChallengeNotificationBody;
+}) {
+  const notificationBody = request.body as unknown as ResponseJSONSuccess;
   // console.log("Notification: ", notificationBody);
 
-  console.log("Request API: ", request);
-
   // Always validate a notification
-  // const params = processRestNotification(notificationBody);
+  const params = processRestNotification(notificationBody);
   // console.log("Params: ", params);
   // const orderId = params.Ds_Order;
 
