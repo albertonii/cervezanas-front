@@ -19,10 +19,9 @@ export async function POST(req: NextRequest) {
     Ds_SignatureVersion: signatureVersion as string,
     Ds_MerchantParameters: merchantParameters as string,
   };
-  console.log(body);
 
-  // const restNotification = processRestNotification(body);
-  // console.log("Rest: ", restNotification);
+  const restNotification = processRestNotification(body);
+  console.log("Rest: ", restNotification);
 
   // const responseCode = restNotification.Ds_Response;
   // console.log("responseCode: ", responseCode);
