@@ -8,19 +8,18 @@ import { createServerClient } from "../../../utils/supabaseServer";
 export async function POST(req: NextRequest) {
   // const data = await req.json();
   const data = await req.formData();
-  console.log(data);
   // const urlNotification = new URL(req.url);
   // const { searchParams } = urlNotification;
-  // const signatureVersion = data.get("Ds_SignatureVersion");
-  // const merchantParameters = data.get("Ds_MerchantParameters");
-  // const signature = data.get("Ds_Signature");
+  const signatureVersion = data.get("Ds_SignatureVersion");
+  const merchantParameters = data.get("Ds_MerchantParameters");
+  const signature = data.get("Ds_Signature");
 
-  // const body: ResponseJSONSuccess = {
-  //   Ds_Signature: signature as string,
-  //   Ds_SignatureVersion: signatureVersion as string,
-  //   Ds_MerchantParameters: merchantParameters as string,
-  // };
-  // console.log(body);
+  const body: ResponseJSONSuccess = {
+    Ds_Signature: signature as string,
+    Ds_SignatureVersion: signatureVersion as string,
+    Ds_MerchantParameters: merchantParameters as string,
+  };
+  console.log(body);
 
   // const restNotification = processRestNotification(body);
   // console.log("Rest: ", restNotification);
