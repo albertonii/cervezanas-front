@@ -20,7 +20,7 @@ let host = "";
 
 if (env === "production") {
   host = "http://localhost:3000";
-  // https://cervezanas-front.vercel.app:443/es
+  // https://cervezanas-front.vercel.app:443
 } else if (env === "development") {
   host = "http://localhost:3000";
 } else {
@@ -40,7 +40,7 @@ export const notificationEventPath = "/api/notification";
 export const merchantInfo = {
   DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
   DS_MERCHANT_MERCHANTCODE: "097839427",
-  DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationPath}`,
+  DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
   DS_MERCHANT_TERMINAL: "1",
   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
   DS_MERCHANT_URLOK: `${endpointRedsys}${successRedirectPath}`,
@@ -52,7 +52,8 @@ export const eventMerchantInfo = {
   DS_MERCHANT_TERMINAL: "1",
   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
   DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
-  DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationEventPath}`,
+  DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
+  // DS_MERCHANT_MERCHANTURL: `${endpointRedsys}${notificationEventPath}`,
   DS_MERCHANT_URLOK: `${endpointRedsys}${successEventRedirectPath}`,
   DS_MERCHANT_URLKO: `${endpointRedsys}${errorEventRedirectPath}`,
 } as const;
