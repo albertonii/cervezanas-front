@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
-import { processRestNotification } from "../../../components/TPV";
+import {
+  createRedsysAPI,
+  isResponseCodeOk,
+  ResponseJSONSuccess,
+  SANDBOX_URLS,
+} from "redsys-easy";
 import { MARKETPLACE_ORDER_STATUS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
 // import { processRestNotification } from "../../../components/TPV";
@@ -19,6 +23,11 @@ export async function POST(req: NextRequest) {
     Ds_SignatureVersion: signatureVersion as string,
     Ds_MerchantParameters: merchantParameters as string,
   };
+
+  const { processRestNotification } = createRedsysAPI({
+    urls: SANDBOX_URLS,
+    secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? "",
+  });
 
   const restNotification = processRestNotification(body);
   console.log("Rest: ", restNotification);
