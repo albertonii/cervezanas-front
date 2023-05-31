@@ -14,16 +14,16 @@ export async function POST(request: Request) {
   //   Ds_Signature: string;
   // };
 
-  const { Ds_Order: orderNumber } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters)
-  );
+  // const { Ds_Order: orderNumber } = JSON.parse(
+  //   decodeBase64(Ds_MerchantParameters)
+  // );
 
-  const supabase = createServerClient();
+  // const supabase = createServerClient();
 
-  // Update order status
-  const { data, error } = await supabase.from("orders").select("*");
-  if (error) console.error(error);
+  // // Update order status
+  // const { data, error } = await supabase.from("orders").select("*");
+  // if (error) console.error(error);
 
-  console.log(data);
+  // console.log(data);
   return NextResponse.json({ message: "prueba" });
 }
