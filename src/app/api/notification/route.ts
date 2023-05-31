@@ -1,20 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  isResponseCodeOk,
-  ResponseJSONSuccess,
-  ThreeDSv1ChallengeNotificationBody,
-} from "redsys-easy";
+import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
 import { processRestNotification } from "../../../components/TPV";
 import { MARKETPLACE_ORDER_STATUS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
 // import { processRestNotification } from "../../../components/TPV";
 
 export async function POST(req: NextRequest) {
-  const urlNotification = new URL(req.url);
-  const { searchParams } = urlNotification;
-  const signatureVersion = searchParams.get("Ds_SignatureVersion");
-  const merchantParameters = searchParams.get("Ds_MerchantParameters");
-  const signature = searchParams.get("Ds_Signature");
+  const json = await req.json();
+  // const urlNotification = new URL(req.url);
+  // const { searchParams } = urlNotification;
+  const signatureVersion = json.Ds_SignatureVersion;
+  const merchantParameters = json.Ds_MerchantParameters;
+  const signature = json.Ds_Signature;
 
   const body: ResponseJSONSuccess = {
     Ds_Signature: signature as string,
