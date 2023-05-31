@@ -8,6 +8,7 @@ import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
+import { useLocale } from "next-intl";
 
 export interface AuthSession {
   initial: boolean;
@@ -44,6 +45,7 @@ export const AuthContextProvider = ({
 }) => {
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
+  const locale = useLocale();
   const router = useRouter();
 
   const { supabase } = useSupabase();
@@ -115,7 +117,7 @@ export const AuthContextProvider = ({
           break;
         case EVENTS.SIGNED_OUT:
           setView(VIEWS.SIGN_IN);
-          router.push(view);
+          router.push(`/${locale}/view`);
           break;
         case EVENTS.USER_UPDATED:
           setView(VIEWS.SIGN_IN);
@@ -171,7 +173,7 @@ export const AuthContextProvider = ({
       return error;
     }
 
-    router.push("/");
+    router.push(`/${locale}`);
 
     // TODO: VOLVER PARA INSERTAR ROLE
     /*

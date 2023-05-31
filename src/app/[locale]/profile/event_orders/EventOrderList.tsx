@@ -3,7 +3,7 @@
 import useFetchEventOrders from "../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { IEventOrder } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
@@ -24,6 +24,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   if (!user) return null;
 
   const t = useTranslations();
+  const locale = useLocale();
 
   const [orders, setOrders] = useState<IEventOrder[]>(os);
   const [query, setQuery] = useState("");
@@ -60,12 +61,14 @@ export function EventOrderList({ eventOrders: os }: Props) {
   ];
 
   const handleClickView = (order: IEventOrder) => {
+    console.log(order);
     const Ds_MerchantParameters = encodeBase64(
       JSON.stringify({ Ds_Order: order.order_number })
     );
+    console.log(Ds_MerchantParameters);
 
     router.push(
-      `/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `/${locale}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

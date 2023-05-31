@@ -53,8 +53,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
       .eq("id", eventOrderItem.id);
 
     if (error) {
-      console.error(error);
-      return;
+      throw error;
     }
   };
 

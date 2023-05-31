@@ -3,7 +3,7 @@
 import useFetchCPOrders from "../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { IOrder } from "../../../lib/types.d";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Button, IconButton, Spinner } from "../../common";
@@ -36,6 +36,7 @@ export function OrderList({ orders: os }: Props) {
       ? ordersCount
       : currentPage * pageRange;
 
+  const locale = useLocale();
   const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchCPOrders(
@@ -66,7 +67,7 @@ export function OrderList({ orders: os }: Props) {
     );
 
     router.push(
-      `/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `/${locale}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

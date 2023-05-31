@@ -131,7 +131,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 class={
                   "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
                 }
-                onClick={() => router.push(`/products/${product.id}`)}
+                onClick={() => router.push(`/${locale}/products/${product.id}`)}
               />
             </div>
           </div>

@@ -9,6 +9,7 @@
   "select_campaign": "Seleccionar Campaña",
   "factories": "Fábricas",
   "orders": "Pedidos",
+  "marketplace_orders": "Pedidos Online",
   "event_orders": "Pedidos en Eventos",
   "online_orders": "Pedidos Online",
   "payments": "Pagos",

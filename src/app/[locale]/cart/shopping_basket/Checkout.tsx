@@ -81,7 +81,7 @@ export default function Checkout({
   const formBilling = useForm<FormBillingData>();
   const { trigger: triggerBilling } = formBilling;
 
-  const { items, marketplaceItems } = useShoppingCart();
+  const { items, marketplaceItems, clearCart } = useShoppingCart();
 
   useEffect(() => {
     const awaitProducts = async () => {
@@ -256,6 +256,8 @@ export default function Checkout({
 
     setMerchantParameters(form.body.Ds_MerchantParameters);
     setMerchantSignature(form.body.Ds_Signature);
+
+    clearCart();
 
     return orderNumber;
   };

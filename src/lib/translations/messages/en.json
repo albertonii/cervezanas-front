@@ -11,6 +11,7 @@
   "payments": "Payments",
   "settings": "Settings",
   "orders": "Orders",
+  "marketplace_orders": "Marketplace Orders",
   "event_orders": "Event Orders",
   "online_orders": "Online Orders",
   "community": "Community",

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Button,
   DecreaseButton,
@@ -20,6 +20,7 @@ type LayoutProps = {
 
 export default function layout({ children }: LayoutProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
 
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
@@ -48,7 +49,7 @@ export default function layout({ children }: LayoutProps) {
   };
 
   const handleCheckout = () => {
-    router.push("/cart/event_basket");
+    router.push(`/${locale}/cart/event_basket`);
   };
 
   return (

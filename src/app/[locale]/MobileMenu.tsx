@@ -39,13 +39,13 @@ export function MobileMenu() {
   };
 
   const handleSignIn = () => {
-    router.push(ROUTE_SIGNIN);
+    router.push(`/${locale}${ROUTE_SIGNIN}`);
     setOpenNotification(false);
   };
 
   // TODO: Cerrar sesión BIEN
   const handleSignOut = () => {
-    router.push(`/signout`);
+    router.push(`/${locale}/signout`);
     setOpenNotification(false);
   };
 

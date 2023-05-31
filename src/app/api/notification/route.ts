@@ -7,13 +7,9 @@ import {
 } from "redsys-easy";
 import { MARKETPLACE_ORDER_STATUS } from "../../../constants";
 import { createServerClient } from "../../../utils/supabaseServer";
-// import { processRestNotification } from "../../../components/TPV";
 
 export async function POST(req: NextRequest) {
-  // const data = await req.json();
   const data = await req.formData();
-  // const urlNotification = new URL(req.url);
-  // const { searchParams } = urlNotification;
   const signatureVersion = data.get("Ds_SignatureVersion");
   const merchantParameters = data.get("Ds_MerchantParameters");
   const signature = data.get("Ds_Signature");

@@ -20,7 +20,7 @@ export default function Signup() {
   // redirect them to home.
   useEffect(() => {
     if (user) {
-      router.push("/");
+      router.push(`/${locale}`);
     }
   }, [user]);
 

@@ -19,8 +19,9 @@ export default function EventProduct({ eventOrderItem }: Props) {
   const locale = useLocale();
   const router = useRouter();
   const eventOrderItemId = eventOrderItem.id;
+
   const handleOnClick = (productId: string) => {
-    router.push(`/products/review/${productId}`);
+    router.push(`/${locale}/products/review/${productId}`);
   };
 
   return (

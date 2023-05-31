@@ -37,7 +37,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (user) router.push("/");
+    if (user) router.push(`/${locale}`);
   }, [user]);
 
   const handleCredentialsSignIn = async () => {

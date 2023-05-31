@@ -6,7 +6,7 @@ import React, { ComponentProps, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { INotification } from "../../../lib/types.d";
 import { useAppContext } from "../../../components/Context";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getTimeElapsed } from "../../../utils";
 import { useSupabase } from "../../../components/Context/SupabaseProvider";
 
@@ -19,6 +19,7 @@ export function Notification({ open, setOpen }: Props) {
   const { supabase } = useSupabase();
 
   const t = useTranslations();
+  const locale = useLocale();
   const notificationRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
 
@@ -32,7 +33,7 @@ export function Notification({ open, setOpen }: Props) {
       .update({ read: true })
       .eq("id", notification?.id)
       .then(() => {
-        router.push(notification.link);
+        router.push(`/${locale}${notification.link}`);
       });
   };
 

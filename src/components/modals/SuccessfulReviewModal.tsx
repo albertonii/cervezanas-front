@@ -35,7 +35,7 @@ export function SuccessfulReviewModal(props: Props) {
 
   const handleAccept = () => {
     handleShowModal(false);
-    router.push(`/profile`);
+    router.push(`/${locale}/profile`);
   };
 
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());

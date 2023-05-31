@@ -38,11 +38,11 @@ export default function SuccessCheckout({ order, isError }: Props) {
   }, [user, products]);
 
   const handleOnClick = (productId: string) => {
-    router.push(`/products/review/${productId}`);
+    router.push(`/${locale}/products/review/${productId}`);
   };
 
   const handleInvoicePdf = () => {
-    window.open(`/checkout/invoice/${order.order_number}`, "_ blank");
+    window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
   };
 
   if (isError) {

@@ -8,6 +8,11 @@ import { useAuth } from "../../../../../components/Auth";
 import { formatDate } from "../../../../../utils";
 import { IEventOrder } from "../../../../../lib/types.d";
 import { EventOrderTimeline } from "./EventOrderTimeline";
+import {
+  EVENT_ORDER_ITEM_STATUS,
+  EVENT_ORDER_STATUS,
+} from "../../../../../constants";
+import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 
 interface Props {
   isError?: boolean;
@@ -20,6 +25,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { supabase } = useSupabase();
 
   useEffect(() => {
     if (user) {
@@ -29,7 +35,50 @@ export default function SuccessCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, eventOrderItems]);
+  }, [user]);
+
+  useEffect(() => {
+    const withStock = eventOrderItems.some(
+      (item) => item.status === EVENT_ORDER_ITEM_STATUS.WITH_STOCK
+    );
+
+    const consumed = eventOrderItems.every(
+      (item) => item.status === EVENT_ORDER_ITEM_STATUS.CONSUMED
+    );
+    console.log(order.status);
+    if (
+      withStock &&
+      order.status !== EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME
+    ) {
+      const updEventOrderStatus = async () => {
+        const { error } = await supabase
+          .from("event_orders")
+          .update({ status: EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME })
+          .eq("id", order.id);
+
+        if (error) throw error;
+
+        order.status = EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME;
+      };
+
+      updEventOrderStatus();
+    }
+
+    if (consumed && order.status !== EVENT_ORDER_STATUS.SERVED) {
+      const updEventOrderStatus = async () => {
+        const { error } = await supabase
+          .from("event_orders")
+          .update({ status: EVENT_ORDER_STATUS.SERVED })
+          .eq("id", order.id);
+
+        if (error) throw error;
+
+        order.status = EVENT_ORDER_STATUS.SERVED;
+      };
+
+      updEventOrderStatus();
+    }
+  }, [eventOrderItems]);
 
   const handleInvoicePdf = () => {
     window.open(`/checkout/invoice/${order.order_number}`, "_ blank");

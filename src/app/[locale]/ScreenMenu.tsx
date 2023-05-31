@@ -29,11 +29,11 @@ export function ScreenMenu() {
   };
 
   const handleSignIn = () => {
-    router.push(ROUTE_SIGNIN);
+    router.push(`/${locale}${ROUTE_SIGNIN}`);
   };
 
   const handleBeerMe = () => {
-    router.push(`/beer-me`);
+    router.push(`/${locale}/beer-me`);
   };
 
   const MENU_ITEM_STYLES =
