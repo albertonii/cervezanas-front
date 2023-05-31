@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const supabase = createServerClient();
 
   if (isResponseCodeOk(responseCode)) {
-    console.log(`Payment for order ${orderId} succeded`);
+    console.info(`Payment for order ${orderId} succeded`);
 
     // Update order status
     const { error } = await supabase
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       message: `Order number ${orderId} updated successfully`,
     });
   } else {
-    console.log(`Payment for order ${orderId} failed`);
+    console.info(`Payment for order ${orderId} failed`);
 
     // Update order status
     const { error } = await supabase
@@ -63,5 +63,4 @@ export async function POST(req: NextRequest) {
       message: `Order number ${orderId} failed with error`,
     });
   }
-  return NextResponse.json({ message: "ok" });
 }
