@@ -333,6 +333,8 @@ export interface IEvent {
   owner_id: IUser;
   cp_mobile: ICPMobile[];
   status: string;
+  address: string;
+  geoArgs: GeocodeResult[];
 }
 export interface IConsumptionPoints {
   id: string;

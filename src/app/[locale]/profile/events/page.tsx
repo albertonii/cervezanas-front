@@ -13,7 +13,7 @@ export default async function EventsPage() {
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <ProfileEvents events={events} cpsMobile={cpsMobile} />;
+        <ProfileEvents events={events} cpsMobile={cpsMobile} />
       </Suspense>
     </>
   );
@@ -40,7 +40,6 @@ async function getEventsData() {
       `
     )
     .eq("owner_id", session.user.id);
-
   if (eventsError) throw eventsError;
 
   return eventsData as IEvent[];

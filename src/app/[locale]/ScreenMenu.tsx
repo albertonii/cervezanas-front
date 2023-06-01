@@ -195,7 +195,7 @@ export function ScreenMenu() {
                       options={
                         role === "admin"
                           ? ["submitted_aps", "monthly_products", "signout"]
-                          : ["profile", "orders", "signout"]
+                          : ["profile", "orders", "event_orders", "signout"]
                       }
                     />
                   </li>

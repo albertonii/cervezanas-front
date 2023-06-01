@@ -41,7 +41,6 @@ export function EventCheckoutItem({ product }: Props) {
   const quantity = getItemQuantity(product.id);
   const productSubtotal = product.price * quantity;
 
-  console.log(quantity);
   useEffect(() => {
     const getPrincipal = async () => {
       if (

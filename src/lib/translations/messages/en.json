@@ -147,6 +147,8 @@
   "origin": "Region of Origin",
   "family": "Style Family",
   "era": "Era",
+  "product_characteristics": "Características del Producto",
+  "has_gluten": "¿Contiene Gluten?",
   "product_type": "Product Type",
   "format": "Format",
   "isGluten": "Has Gluten?",

@@ -10,6 +10,9 @@ import { Modal } from "../../../../components/modals";
 import { useAuth } from "../../../../components/Auth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import { useForm } from "react-hook-form";
+import { getGeocode } from "use-places-autocomplete";
+import CPGoogleMap from "../consumption_points/CPGoogleMap";
+import { isValidObject } from "../../../../utils/utils";
 
 interface FormData {
   name: string;
@@ -33,6 +36,9 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>("");
+  const [addressInputRequired, setAddressInputRequired] =
+    useState<boolean>(false);
 
   const form = useForm<FormData>();
   const {
@@ -53,6 +59,12 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
       cps_mobile,
     } = formValues;
 
+    if (!isValidObject(address)) {
+      setAddressInputRequired(true);
+      return;
+    }
+    const results = await getGeocode({ address });
+
     // Create event
     const { data: event, error: eventError } = await supabase
       .from("events")
@@ -62,6 +74,8 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
         start_date,
         end_date,
         owner_id: user?.id,
+        address: address,
+        geoArgs: results,
       })
       .select();
 
@@ -101,6 +115,10 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
       setShowModal(false);
       reset();
     }
+  };
+
+  const handleAddress = (address: string) => {
+    setAddress(address);
   };
 
   return (
@@ -186,6 +204,20 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
               {/* Logo */}
 
               {/* AD Img  */}
+            </fieldset>
+
+            {/* Location  */}
+            <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+              <legend className="text-2xl">{t("cp_mobile_location")}</legend>
+
+              {addressInputRequired && (
+                <span className="text-red-500">
+                  {t("errors.input_required")}
+                </span>
+              )}
+
+              {/* Address  */}
+              <CPGoogleMap handleAddress={handleAddress} />
             </fieldset>
 
             {/* List of user Consumption Points  */}

@@ -40,7 +40,7 @@ interface EventCardProps {
 const EventCard = ({ event }: EventCardProps) => {
   const t = useTranslations();
   const locale = useLocale();
-
+  // console.log(event);
   return (
     <>
       <div

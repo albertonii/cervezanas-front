@@ -53,7 +53,19 @@ export function HeaderDropdownButton(props: DropdownProps) {
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
-              {t(option)}
+              {t("marketplace_orders")}
+            </span>
+          </Link>
+        );
+
+      case "event_orders":
+        return (
+          <Link href={{ pathname: `/profile/event_orders` }} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t("event_orders")}
             </span>
           </Link>
         );

@@ -404,6 +404,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
           )}
         </fieldset>
 
+        {/* Location  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("cp_mobile_location")}</legend>
 

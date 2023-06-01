@@ -22,6 +22,7 @@ import { COMMON, SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
+import { useAuth } from "../../../../../components/Auth";
 
 interface Props {
   product: IProduct;
@@ -32,6 +33,7 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 
 export default function Product({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
+  const { isLoading } = useAuth();
   const selectedProduct = product;
 
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
@@ -226,6 +228,8 @@ export default function Product({ product, marketplaceProducts }: Props) {
     }
   }
 
+  if (isLoading) return <Spinner color="beer-blonde" size={"medium"} />;
+  console.log(product.beers);
   return (
     <>
       {loading ? (
@@ -272,6 +276,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 </div>
               </div>
 
+              {/* Basic Info  */}
               <section aria-labelledby="information-heading" className="mt-2">
                 <h3 id="information-heading" className="sr-only">
                   {t("product_information")}
@@ -284,6 +289,89 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 <div className="mt-6">
                   <div className="flex min-h-[6vh] items-center pr-6">
                     <p className="text-lg">{selectedProduct.description}</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Experts info  */}
+              <section
+                aria-labelledby="experts-info-heading"
+                className="border-lg border-1 mt-2 grid bg-beer-softFoam p-4"
+              >
+                {/* Display info */}
+                <legend id="experts-info-heading">
+                  {t("product_characteristics")}
+                </legend>
+
+                <div className=" md:grid-cols-2">
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("aroma")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].aroma}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("color")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].color}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("fermentation")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].fermentation}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("era")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].era}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("historic")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].historic}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("intensity")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].intensity} %
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("gluten")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].is_gluten}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("origin")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].origin}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("format")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].format}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-row space-x-2">
+                    <p className="text-lg">{t("volume")}:</p> &nbsp;
+                    <p className="text-lg font-semibold">
+                      {selectedProduct.beers[0].volume}
+                    </p>
                   </div>
                 </div>
               </section>
@@ -318,10 +406,10 @@ export default function Product({ product, marketplaceProducts }: Props) {
                           quantity={quantity}
                           item={product}
                           handleIncreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem(selectedProduct.id)
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleDecreaseFromCartItem(selectedProduct.id)
                           }
                           handleRemoveFromCart={() =>
                             handleRemoveFromCart(selectedProduct.id)
@@ -351,9 +439,9 @@ export default function Product({ product, marketplaceProducts }: Props) {
             </div>
 
             {/* Display Similar Products */}
-            <div className="col-span-12 mx-6">
+            {/* <div className="col-span-12 mx-6">
               <DisplaySimilarProducts />
-            </div>
+            </div> */}
 
             {/* Reviews */}
             <div className="item-center col-span-12 mx-6 flex flex-col justify-center">

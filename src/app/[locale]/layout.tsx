@@ -14,8 +14,10 @@ import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
 import { Footer } from "./components";
 import { EventCartProvider } from "../../components/Context/EventCartContext";
-import { NextIntlClientProvider } from "next-intl";
+import { IntlError, IntlErrorCode, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import { deleteAppClientCache } from "next/dist/server/lib/render-server";
+import IntlMessageContext from "../../components/Context/IntlMessageContext";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -31,24 +33,14 @@ export default async function RootLayout({
   children,
   params: { locale },
 }: LayoutProps) {
-  const supabase = createServerClient();
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  let messages;
-  try {
-    messages = (await import(`../../lib/translations/messages/${locale}.json`))
-      .default;
-  } catch (error) {
-    notFound();
-  }
+  const sessionData = getSession();
+  const messagesData = getMessages(locale);
+  const [session, messages] = await Promise.all([sessionData, messagesData]);
 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <IntlMessageContext locale={locale} messages={messages}>
           <SupabaseProvider>
             <MessageProvider>
               <ReactQueryWrapper>
@@ -88,8 +80,32 @@ export default async function RootLayout({
               </ReactQueryWrapper>
             </MessageProvider>
           </SupabaseProvider>
-        </NextIntlClientProvider>
+        </IntlMessageContext>
       </body>
     </html>
   );
+}
+
+async function getMessages(locale: string) {
+  let messages;
+  try {
+    messages = (await import(`../../lib/translations/messages/${locale}.json`))
+      .default;
+    return messages;
+  } catch (error) {
+    notFound();
+  }
+}
+
+async function getSession() {
+  const supabase = createServerClient();
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+
+  if (error) console.error(error);
+  return session;
 }

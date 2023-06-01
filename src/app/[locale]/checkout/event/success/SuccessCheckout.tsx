@@ -45,7 +45,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
     const consumed = eventOrderItems.every(
       (item) => item.status === EVENT_ORDER_ITEM_STATUS.CONSUMED
     );
-    console.log(order.status);
     if (
       withStock &&
       order.status !== EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME

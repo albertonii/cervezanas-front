@@ -184,10 +184,10 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
                     quantity={quantity}
                     item={product}
                     handleIncreaseCartQuantity={() =>
-                      handleDecreaseFromCartItem()
+                      handleIncreaseToCartItem()
                     }
                     handleDecreaseCartQuantity={() =>
-                      handleIncreaseToCartItem()
+                      handleDecreaseFromCartItem()
                     }
                     handleRemoveFromCart={() => handleRemoveFromCart()}
                   />
