@@ -5,10 +5,7 @@ import {
   ResponseJSONSuccess,
   SANDBOX_URLS,
 } from "redsys-easy";
-import {
-  EVENT_ORDER_STATUS,
-  MARKETPLACE_ORDER_STATUS,
-} from "../../../../constants";
+import { EVENT_ORDER_STATUS } from "../../../../constants";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export async function POST(req: NextRequest) {
@@ -23,6 +20,7 @@ export async function POST(req: NextRequest) {
     Ds_MerchantParameters: merchantParameters as string,
   };
 
+  console.log(process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET);
   const { processRestNotification } = createRedsysAPI({
     urls: SANDBOX_URLS,
     secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",

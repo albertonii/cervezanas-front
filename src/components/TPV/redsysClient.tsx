@@ -20,7 +20,7 @@ let host = "";
 
 if (env === "production") {
   host = "http://localhost:3000";
-  // https://cervezanas-front.vercel.app:443
+  // host = "https://cervezanas-front.vercel.app:443"
 } else if (env === "development") {
   host = "http://localhost:3000";
 } else {
