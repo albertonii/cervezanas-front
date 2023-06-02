@@ -21,7 +21,7 @@ import {
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
-import { DisplaySimilarProducts, ProductGallery } from "../../../components";
+import { ProductGallery } from "../../../components";
 import { useAuth } from "../../../../../components/Auth";
 
 interface Props {

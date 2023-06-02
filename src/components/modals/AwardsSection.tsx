@@ -145,7 +145,10 @@ export const AwardsSection = ({ form }: Props) => {
           </div>
 
           <div className="space-y w-full">
-            <label htmlFor="award_img_url" className="text-sm text-gray-600">
+            <label
+              htmlFor={`awards.${index}.img_url`}
+              className="text-sm text-gray-600"
+            >
               {t("upload_img_url")}
             </label>
 

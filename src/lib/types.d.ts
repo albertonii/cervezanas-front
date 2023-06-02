@@ -164,12 +164,12 @@ export interface IBeer {
   era: string;
   intensity: number;
   awards_id: string[];
-  awards: Award[];
+  awards: IAward[];
   price: number;
   volume: number;
   format: string;
-  reviews: Review[];
-  likes: Like[];
+  reviews: IReview[];
+  likes: ILike[];
   product_id: string;
   is_gluten: boolean;
 }
@@ -630,9 +630,9 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
-  awards: Award[];
+  awards: IAward[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: Merchandising[];
+  merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
   packs: IProductPack[];
@@ -660,11 +660,11 @@ export type ModalUpdateProductProps = {
   origin: string;
   era: string;
   intensity: number;
-  p_principal: File;
-  p_back: File;
-  p_extra_1: File;
-  p_extra_2: File;
-  p_extra_3: File;
+  p_principal: any;
+  p_back: any;
+  p_extra_1: any;
+  p_extra_2: any;
+  p_extra_3: any;
   volume: any;
   price: number;
   pack: any;
@@ -673,12 +673,13 @@ export type ModalUpdateProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
-  awards?: Award[];
+  awards?: IAward[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: Merchandising[];
+  merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
   packs: IProductPack[];
+  category: string;
 };
 
 type BeerModalProps = {
@@ -738,14 +739,14 @@ export interface IProduct {
   product_lot: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
-  reviews: Review[];
-  likes: Like[];
+  reviews: IReview[];
+  likes: ILike[];
   is_public: boolean;
   price: number;
-  beers: Beer[];
+  beers: IBeer[];
   product_variant: IProductVariant[];
-  order_item: OrderItem[];
-  awards: Award[];
+  order_item: IOrderItem[];
+  awards: IAward[];
   is_archived: boolean;
   state: IProductEnum.State;
   status: IProductEnum.Status;

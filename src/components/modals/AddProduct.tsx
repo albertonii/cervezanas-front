@@ -20,11 +20,7 @@ import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { uuid } from "uuidv4";
 import { ProductSummary } from "./ProductSummary";
 import { getFileExtensionByName } from "../../utils";
-import {
-  generateFileName,
-  isNotEmptyArray,
-  isValidObject,
-} from "../../utils/utils";
+import { generateFileName } from "../../utils/utils";
 import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
 
@@ -56,31 +52,31 @@ export function AddProduct() {
   const onSubmit = (formValues: ModalAddProductProps) => {
     const handleProductInsert = async () => {
       const {
+        name,
+        description,
+        type,
+        is_public,
+        price,
+        stock_quantity,
+        stock_limit_notification,
         // campaign,
-        fermentation,
+        format,
+        volume,
         color,
-        intensity,
         aroma,
+        intensity,
         family,
+        fermentation,
         origin,
         era,
         is_gluten,
-        type,
         awards,
+        packs,
         p_principal,
         p_back,
         p_extra_1,
         p_extra_2,
         p_extra_3,
-        is_public,
-        name,
-        description,
-        price,
-        volume,
-        format,
-        stock_quantity,
-        stock_limit_notification,
-        packs,
         category,
       } = formValues;
 
@@ -312,22 +308,13 @@ export function AddProduct() {
         }
 
         // Awards
-        if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
+        if (awards.length > 0) {
           awards.map(async (award) => {
-            if (award.img_url.length > 0) {
+            let productFileUrl = "";
+            alert(JSON.stringify(award.img_url));
+            if (award.img_url) {
               const file = award.img_url[0];
-              const productFileUrl = encodeURIComponent(file.name);
-              const { error: awardsError } = await supabase
-                .from("awards")
-                .insert({
-                  product_id: productId,
-                  name: award.name,
-                  description: award.description,
-                  year: award.year,
-                  img_url: productFileUrl,
-                });
-
-              if (awardsError) throw awardsError;
+              productFileUrl = encodeURIComponent(file.name);
 
               const { error: storageAwardsError } = await supabase.storage
                 .from("products")
@@ -337,6 +324,18 @@ export function AddProduct() {
                 });
               if (storageAwardsError) throw storageAwardsError;
             }
+
+            const { error: awardsError } = await supabase
+              .from("awards")
+              .insert({
+                product_id: productId,
+                name: award.name,
+                description: award.description,
+                year: award.year,
+                img_url: productFileUrl,
+              });
+
+            if (awardsError) throw awardsError;
           });
         }
 

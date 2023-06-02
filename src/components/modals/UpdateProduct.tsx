@@ -10,6 +10,7 @@ import {
   IInventory,
   IAward,
   ModalUpdateProductProps,
+  IBeer,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductStepper } from ".";
@@ -28,13 +29,14 @@ interface Props {
   handleEditShowModal: ComponentProps<any>;
 }
 
-export function UpdateProduct({
+export async function UpdateProduct({
   product,
   showModal,
   handleEditShowModal,
 }: Props) {
   const t = useTranslations();
 
+  console.log(product);
   const { products, setProducts } = useAppContext();
   const { user } = useAuth();
 
@@ -70,6 +72,12 @@ export function UpdateProduct({
       is_gluten: product.beers[0]?.is_gluten ?? false,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_pack,
+      p_principal: product.product_multimedia[0].p_principal,
+      p_back: product.product_multimedia[0].p_back,
+      p_extra_1: product.product_multimedia[0].p_extra_1,
+      p_extra_2: product.product_multimedia[0].p_extra_2,
+      p_extra_3: product.product_multimedia[0].p_extra_3,
+      category: product.category,
     },
   });
 
@@ -234,7 +242,7 @@ export function UpdateProduct({
           .select();
 
         if (beerError) throw beerError;
-        productData.beers = beerData;
+        productData.beers = beerData as IBeer[];
 
         const beer = beerData[0];
         const beerId = beer.id;

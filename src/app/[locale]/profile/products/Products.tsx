@@ -10,11 +10,7 @@ import {
 } from "../../../../components/modals";
 import { IProduct } from "../../../../lib/types.d";
 
-interface Props {
-  products: IProduct[];
-}
-
-export function Products({ products }: Props) {
+export function Products() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
