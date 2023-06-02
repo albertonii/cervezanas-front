@@ -29,7 +29,6 @@ export function AddProduct() {
   const { supabase } = useSupabase();
 
   const { customizeSettings, setProducts, products } = useAppContext();
-
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);

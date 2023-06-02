@@ -9,6 +9,7 @@ import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
 import { useLocale } from "next-intl";
+import { ROUTE_SIGNIN } from "../../config";
 
 export interface AuthSession {
   initial: boolean;
@@ -117,7 +118,7 @@ export const AuthContextProvider = ({
           break;
         case EVENTS.SIGNED_OUT:
           setView(VIEWS.SIGN_IN);
-          router.push(`/${locale}/view`);
+          router.push(`/${locale}/${ROUTE_SIGNIN}`);
           break;
         case EVENTS.USER_UPDATED:
           setView(VIEWS.SIGN_IN);
@@ -145,7 +146,7 @@ export const AuthContextProvider = ({
         clearMessages();
         handleMessage({
           message:
-            "Signup successful. Please check your inbox for a confirmation email!",
+            "Registrado correctamente. Por favor, revisa el mensaje de confirmación que hemos enviado a tu email.",
           type: "success",
         });
       }

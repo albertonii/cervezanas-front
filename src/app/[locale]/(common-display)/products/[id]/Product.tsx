@@ -332,12 +332,12 @@ export default function Product({ product, marketplaceProducts }: Props) {
                     </p>
                   </div>
 
-                  <div className="flex flex-row space-x-2">
+                  {/* <div className="flex flex-row space-x-2">
                     <p className="text-lg">{t("historic")}:</p> &nbsp;
                     <p className="text-lg font-semibold">
                       {selectedProduct.beers[0].historic}
                     </p>
-                  </div>
+                  </div> */}
 
                   <div className="flex flex-row space-x-2">
                     <p className="text-lg">{t("intensity")}:</p> &nbsp;

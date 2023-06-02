@@ -739,11 +739,11 @@ export interface IProduct {
   product_lot: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
-  reviews: IReview[];
+  reviews: any[]; // Any para evitar circular dependency
   likes: ILike[];
   is_public: boolean;
   price: number;
-  beers: IBeer[];
+  beers: any[]; // Any para evitar circular dependency
   product_variant: IProductVariant[];
   order_item: IOrderItem[];
   awards: IAward[];

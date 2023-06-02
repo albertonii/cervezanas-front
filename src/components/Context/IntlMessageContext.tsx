@@ -1,6 +1,6 @@
 "use client";
 
-import { NextIntlClientProvider } from "next-intl";
+import { IntlError, IntlErrorCode, NextIntlClientProvider } from "next-intl";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Spinner } from "../common";
 import { MessageProps } from "../message";
@@ -21,22 +21,40 @@ export default function IntlMessagesProvider({
   messages: any;
   locale: string;
 }) {
-  //   const [messages, setMessages] = useState();
+  function onError(error: IntlError) {
+    if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+      // Missing translations are expected and should only log an error
+      console.error(error);
+    } else {
+      // Other errors indicate a bug in the app and should be reported
+      // reportToErrorTracking(error);
+    }
+  }
 
-  //   useEffect(() => {
-  //     console.log(m);
-  //     setMessages(m);
-  //   }, [m]);
+  function getMessageFallback({
+    namespace,
+    key,
+    error,
+  }: {
+    namespace: string;
+    key: any;
+    error: any;
+  }) {
+    const path = [namespace, key].filter((part) => part != null).join(".");
 
-  //   if (!messages) return <Spinner color="beer-blonde" size="medium" />;
+    if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+      return `${path} is not yet translated`;
+    } else {
+      return `Dear developer, please fix this message: ${path}`;
+    }
+  }
 
   return (
     <NextIntlClientProvider
       locale={locale}
       messages={messages}
-      onError={(e) => {
-        console.error(e);
-      }}
+      onError={onError}
+      // getMessageFallback={getMessageFallback}
     >
       <>{children}</>
     </NextIntlClientProvider>

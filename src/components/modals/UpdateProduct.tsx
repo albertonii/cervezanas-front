@@ -29,14 +29,14 @@ interface Props {
   handleEditShowModal: ComponentProps<any>;
 }
 
-export async function UpdateProduct({
+export function UpdateProduct({
   product,
   showModal,
   handleEditShowModal,
 }: Props) {
   const t = useTranslations();
+  const { supabase } = useSupabase();
 
-  console.log(product);
   const { products, setProducts } = useAppContext();
   const { user } = useAuth();
 
@@ -45,8 +45,6 @@ export async function UpdateProduct({
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
   };
-
-  const { supabase } = useSupabase();
 
   const form = useForm<ModalUpdateProductProps>({
     mode: "onSubmit",

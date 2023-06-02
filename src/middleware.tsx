@@ -5,6 +5,7 @@ import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import { VIEWS } from "./constants";
+import createMiddleware from "next-intl/middleware";
 
 const locales = ["en", "es"];
 
@@ -61,6 +62,14 @@ export async function middleware(req: NextRequest) {
 
   return res;
 }
+
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ["en", "es"],
+
+  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+  defaultLocale: "es",
+});
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],

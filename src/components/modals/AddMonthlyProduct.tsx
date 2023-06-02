@@ -14,7 +14,6 @@ interface FormData {
   category: string;
   month: number;
   year: number;
-  product_id: IProduct;
 }
 
 interface Props {
