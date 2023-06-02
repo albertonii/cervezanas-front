@@ -1,3 +1,4 @@
+import { ConfigureProducts } from "../../../../components/customLayout";
 import { ROUTE_SIGNIN } from "../../../../config";
 import { IProduct } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
@@ -9,7 +10,7 @@ export default async function ProductsPage() {
   return (
     <>
       {/* <Products products={products} /> */}
-      <Products />
+      <ConfigureProducts />
     </>
   );
 }
