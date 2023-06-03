@@ -100,7 +100,7 @@ export function ScreenMenu() {
           <div className="w-full">
             <ul className=" dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-row sm:justify-end sm:p-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
               {/* Language  */}
-              <li className="flex max-w-[50px] items-center">
+              {/* <li className="flex max-w-[50px] items-center">
                 <Select
                   size="tiny"
                   name="language"
@@ -114,7 +114,7 @@ export function ScreenMenu() {
                   <Select.Option value="es">🇪🇸</Select.Option>
                   <Select.Option value="en">🇬🇧</Select.Option>
                 </Select>
-              </li>
+              </li> */}
 
               {!user ? (
                 <>

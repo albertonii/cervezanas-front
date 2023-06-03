@@ -114,7 +114,7 @@ export function MobileMenu() {
             <ul className="space-y-2 pl-4 pt-16">
               <li className="flex items-center justify-center space-x-4">
                 {/* Language  */}
-                <Select
+                {/* <Select
                   size="tiny"
                   name="language"
                   style={{
@@ -125,7 +125,7 @@ export function MobileMenu() {
                 >
                   <Select.Option value="es">🇪🇸</Select.Option>
                   <Select.Option value="en">🇬🇧</Select.Option>
-                </Select>
+                </Select> */}
 
                 {/* Notification popup  */}
                 {user && (
@@ -226,30 +226,13 @@ export function MobileMenu() {
                 </li>
               </>
 
-              <li className={`${MENU_HEADER_STYLES}`}>
-                {user ? (
-                  t("my_account").toUpperCase()
-                ) : (
-                  <div>
-                    <Button
-                      onClick={() => handleSignIn()}
-                      title={""}
-                      class={""}
-                    >
-                      <Image
-                        src={"/icons/profile.png"}
-                        width={25}
-                        height={25}
-                        alt={"Login"}
-                      />
-                    </Button>
-                  </div>
-                )}
-              </li>
-
               {role === "consumer" ||
                 (role === "producer" && (
                   <>
+                    <li className={`${MENU_HEADER_STYLES}`}>
+                      {t("my_account").toUpperCase()}
+                    </li>
+
                     <li className="flex items-center">
                       <Link
                         href="/profile?a=account"
@@ -284,6 +267,10 @@ export function MobileMenu() {
 
               {role === "admin" && (
                 <>
+                  <li className={`${MENU_HEADER_STYLES}`}>
+                    {t("my_account").toUpperCase()}
+                  </li>
+
                   <li className="flex items-center">
                     <Link
                       href="/profile?a=submitted_aps"
@@ -316,25 +303,21 @@ export function MobileMenu() {
                 </>
               )}
 
-              <li className="flex items-center">
-                <Link
-                  href="/profile"
-                  onClick={() => setOpenNotification(false)}
-                  locale={locale}
-                >
-                  <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                    {t("profile").toUpperCase()}
-                  </span>
-                </Link>
-              </li>
-
               {!user ? (
-                <li className="flex items-center">
+                <li className="items-center">
                   <Button
-                    class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark`}
+                    class={`${MENU_ITEM_STYLES}  bg-beer-softBlonde text-beer-dark`}
                     onClick={handleSignIn}
                   >
-                    {t("sign_in").toUpperCase()}
+                    <div className="flex">
+                      <Image
+                        src={"/icons/profile-240.png"}
+                        width={25}
+                        height={25}
+                        alt={"Login"}
+                      />
+                      <p className="ml-2"> {t("sign_in").toUpperCase()} </p>
+                    </div>
                   </Button>
                 </li>
               ) : (
