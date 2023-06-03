@@ -2,7 +2,6 @@ import Negotiator from "negotiator";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import { VIEWS } from "./constants";
 import createMiddleware from "next-intl/middleware";
@@ -16,7 +15,7 @@ function getLocale(request: NextRequest): string | undefined {
 
   // Use negotiator and intl-localematcher to get best locale
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  return matchLocale(languages, locales, i18n.defaultLocale);
+  return matchLocale(languages, locales, "es");
 }
 
 const privateSections = ["profile", "cart", "checkout"];

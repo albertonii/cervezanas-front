@@ -173,7 +173,7 @@ export default function SignIn() {
 
             <br />
 
-            <Button
+            {/* <Button
               accent
               class="mb-2 mr-2 flex w-full flex-row items-center rounded-lg border border-gray-300 bg-white 
               px-3 py-0 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 
@@ -228,7 +228,7 @@ export default function SignIn() {
                   {t("continue_with_google")}
                 </span>
               </div>
-            </Button>
+            </Button> */}
           </div>
         </div>
 

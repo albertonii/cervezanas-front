@@ -14,10 +14,8 @@ import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
 import { Footer } from "./components";
 import { EventCartProvider } from "../../components/Context/EventCartContext";
-import { IntlError, IntlErrorCode, NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import { deleteAppClientCache } from "next/dist/server/lib/render-server";
-import IntlMessageContext from "../../components/Context/IntlMessageContext";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -34,13 +32,29 @@ export default async function RootLayout({
   params: { locale },
 }: LayoutProps) {
   const sessionData = getSession();
-  const messagesData = getMessages(locale);
-  const [session, messages] = await Promise.all([sessionData, messagesData]);
+  // const messagesData = getMessages(locale);
+  const [session] = await Promise.all([sessionData]);
+  // const [session, messages] = await Promise.all([sessionData, messagesData]);
+
+  // const locale = useLocale();
+
+  // // Show a 404 error for unknown locales
+  // if (params.locale !== locale) {
+  //   notFound();
+  // }
+
+  let messages;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
 
   return (
     <html lang={locale}>
       <body>
-        <IntlMessageContext locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {/* <IntlMessageContext locale={locale} messages={messages}> */}
           <SupabaseProvider>
             <MessageProvider>
               <ReactQueryWrapper>
@@ -80,7 +94,8 @@ export default async function RootLayout({
               </ReactQueryWrapper>
             </MessageProvider>
           </SupabaseProvider>
-        </IntlMessageContext>
+          {/* </IntlMessageContext> */}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
@@ -89,8 +104,7 @@ export default async function RootLayout({
 async function getMessages(locale: string) {
   let messages;
   try {
-    messages = (await import(`../../lib/translations/messages/${locale}.json`))
-      .default;
+    messages = (await import(`../../messages/${locale}.json`)).default;
     return messages;
   } catch (error) {
     notFound();

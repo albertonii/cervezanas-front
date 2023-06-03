@@ -74,6 +74,7 @@
   "stock_quantity_label": "Stock Quantity",
   "stock_limit_notification_label": "Stock limit notification (when stock quantity is less than)",
   "title": "Title",
+  "title_cervezanas": "Cervezanas",
   "product_description": "Be sure to fill in all required fields to successfully enter the product.",
   "maltose": "Maltose",
   "bitter": "Bitter",

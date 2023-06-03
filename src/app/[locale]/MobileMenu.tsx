@@ -198,8 +198,8 @@ export function MobileMenu() {
                 </Link>
               </li>
 
-              {/* Events link  */}
-              <li className="flex items-center">
+              {/* Community link  */}
+              {/* <li className="flex items-center">
                 <Link
                   href="/community"
                   onClick={() => setOpenNotification(false)}
@@ -209,26 +209,22 @@ export function MobileMenu() {
                     {t("community").toUpperCase()}
                   </span>
                 </Link>
-              </li>
+              </li> */}
 
-              {user && (
-                <>
-                  <li className="flex items-center">
-                    <Link
-                      href="/events"
-                      onClick={() => setOpenNotification(false)}
-                      locale={locale}
-                    >
-                      <span
-                        className={`${MENU_ITEM_STYLES}`}
-                        aria-current="page"
-                      >
-                        {t("events").toUpperCase()}
-                      </span>
-                    </Link>
-                  </li>
-                </>
-              )}
+              {/* Events link  */}
+              <>
+                <li className="flex items-center">
+                  <Link
+                    href="/events"
+                    onClick={() => setOpenNotification(false)}
+                    locale={locale}
+                  >
+                    <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
+                      {t("events").toUpperCase()}
+                    </span>
+                  </Link>
+                </li>
+              </>
 
               <li className={`${MENU_HEADER_STYLES}`}>
                 {user ? (

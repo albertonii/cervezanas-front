@@ -94,8 +94,28 @@ export const AuthContextProvider = ({
       const {
         data: { session: activeSession },
       } = await supabase.auth.getSession();
+
+      let role;
       // Set role for the user and load different layouts
-      setRole(activeSession?.user?.app_metadata?.role);
+      switch (activeSession?.user?.app_metadata.role) {
+        case "admin":
+          role = ROLE_ENUM.Admin;
+          break;
+        case "consumer":
+          role = ROLE_ENUM.Cervezano;
+          break;
+        case "producer":
+          role = ROLE_ENUM.Productor;
+          break;
+        case "moderator":
+          role = ROLE_ENUM.Moderator;
+          break;
+        default:
+          role = ROLE_ENUM.Cervezano;
+          break;
+      }
+
+      setRole(role);
     }
     getActiveSession();
 
@@ -132,14 +152,20 @@ export const AuthContextProvider = ({
     };
   }, [supabase, serverSession, router]);
 
-  const signUp = async (payload: ISignUp) => {
+  const signUp = async (payload: any) => {
     try {
       // setLoading(true);
-
-      const { error } = await supabase.auth.signUp(
-        payload.userCredentials
-        // payload.options
-      );
+      
+      const { error } = await supabase.auth.signUp({
+        email: payload.userCredentials.email,
+        password: payload.userCredentials.password,
+        options: {
+          data: {
+            username: payload.options.data.username,
+            role: payload.options.data.access_level,
+          },
+        },
+      });
       if (error) {
         handleMessage({ message: error.message, type: "error" });
       } else {

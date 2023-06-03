@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNextIntl = require("next-intl/plugin")(
   // This is the default (also the `src` folder is supported out of the box)
-  "./src/lib/translations/i18n.ts"
+  "./src/messages/i18n.ts"
 );
 
 module.exports = withNextIntl({
@@ -9,6 +9,7 @@ module.exports = withNextIntl({
   experimental: {
     appDir: true,
   },
+
   images: {
     domains: [
       "randomuser.me",
