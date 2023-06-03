@@ -231,7 +231,7 @@ export default function EventCheckout() {
                 {/* Products  */}
                 <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
                   {/* Customer's Car */}
-                  <div className="border-product-softBlonde flex w-[30vw] flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 sm:w-full md:p-6 md:py-6 xl:p-8">
+                  <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 sm:w-[30vw] sm:w-full md:p-6 md:py-6 xl:p-8">
                     <p className="text-md font-semibold leading-6 text-gray-800 dark:text-white sm:text-lg md:text-xl xl:leading-5">
                       {t("customer_s_cart")}
                     </p>
