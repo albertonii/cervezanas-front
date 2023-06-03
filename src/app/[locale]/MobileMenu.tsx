@@ -87,7 +87,7 @@ export function MobileMenu() {
 
           {/* Logo Cervezanas  */}
           <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-            <div className="absolute flex h-[90px] w-[90px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+            <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[123px] sm:w-[131px] sm:p-2 md:h-[153] md:w-[151px]">
               <Link href={"/"} locale={locale}>
                 <Image
                   src="/logo_cervezanas.svg"
