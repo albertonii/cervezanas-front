@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../constants";
 import { ICPMobile } from "../../../../../../../lib/types.d";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import DisplayCPMobile from "./DisplayCPMobile";
@@ -18,14 +16,6 @@ export default async function CPMobilePage({ params }: any) {
 
 async function getCPMobile(cpId: string) {
   const supabase = createServerClient();
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
 
   const { data: cpMobile, error: cpMobileError } = await supabase
     .from("cp_mobile")

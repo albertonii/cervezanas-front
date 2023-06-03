@@ -1,6 +1,5 @@
 import ProductReview from "./ProductReview";
-import { redirect } from "next/navigation";
-import { COMMON, VIEWS } from "../../../../../../constants";
+import { COMMON } from "../../../../../../constants";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { IProduct } from "../../../../../../lib/types.d";
 
@@ -20,15 +19,6 @@ export default async function ReviewProduct({ params }: any) {
 async function getProductReview(productId: string) {
   // Create authenticated Supabase Client
   const supabase = createServerClient();
-
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
 
   const { data: product, error: productsError } = await supabase
     .from("products")
