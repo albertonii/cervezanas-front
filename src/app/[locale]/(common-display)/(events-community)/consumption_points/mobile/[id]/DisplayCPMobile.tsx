@@ -73,7 +73,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
       {/* Products linked to this Mobile Consumption Point */}
       <div className="mt-8">
         {cpm_products.length > 0 ? (
-          <div>
+          <div className="overflow-auto">
             <h3 className="mb-2 text-xl font-bold">Products</h3>
 
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
