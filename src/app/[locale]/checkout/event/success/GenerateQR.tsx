@@ -15,7 +15,7 @@ export default function GenerateProductQR({ eventOrderItemId }: Props) {
   const host =
     environmentState === "development"
       ? "http://localhost:3000"
-      : "https://cervezanas-front.vercel.app";
+      : "https://cervezanas.beer";
 
   const productUrl = `${host}/${locale}/barman/product/${eventOrderItemId}`;
 
