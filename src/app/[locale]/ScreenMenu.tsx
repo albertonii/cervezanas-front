@@ -217,7 +217,6 @@ export function ScreenMenu() {
                     "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
                   }
                 />
-
                 <div className="sm:flex sm:flex-col">
                   <div className="text-right text-beer-foam ">Puntos</div>
                   <div className="text-right text-beer-foam ">Cervezanas</div>
