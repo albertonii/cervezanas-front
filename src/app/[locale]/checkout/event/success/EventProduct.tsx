@@ -67,8 +67,11 @@ export default function EventProduct({ eventOrderItem }: Props) {
 
           {/* Product Information  */}
           <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-            <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-              <Link href={`/products/${eventOrderItem.id}`} locale={locale}>
+            <h3 className="hover:text-semibold text-base font-medium text-gray-900 hover:text-beer-draft">
+              <Link
+                href={`/products/consumption_points/${eventOrderItem.id}`}
+                locale={locale}
+              >
                 {eventOrderItem.product_id.name}
               </Link>
             </h3>
