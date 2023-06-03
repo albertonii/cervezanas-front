@@ -417,7 +417,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
                         />
                       </>
                     )}
-
+                    {/* 
                     <Button
                       onClick={() =>
                         handleIncreaseToCartItem(selectedProduct.id)
@@ -432,7 +432,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
                       primary
                     >
                       <>{t("buy")}</>
-                    </Button>
+                    </Button> */}
                   </div>
                 </form>
               </section>
