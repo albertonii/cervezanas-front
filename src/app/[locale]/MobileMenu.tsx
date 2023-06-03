@@ -228,7 +228,7 @@ export function MobileMenu() {
 
               <li className="flex items-center">
                 <Link
-                  href="/profile/account"
+                  href="/profile/settings"
                   onClick={() => setOpenNotification(false)}
                   locale={locale}
                 >
