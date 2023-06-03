@@ -226,6 +226,18 @@ export function MobileMenu() {
                 </li>
               </>
 
+              <li className="flex items-center">
+                <Link
+                  href="/profile/account"
+                  onClick={() => setOpenNotification(false)}
+                  locale={locale}
+                >
+                  <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
+                    {t("profile").toUpperCase()}
+                  </span>
+                </Link>
+              </li>
+
               {role === "consumer" ||
                 (role === "producer" && (
                   <>
@@ -235,22 +247,7 @@ export function MobileMenu() {
 
                     <li className="flex items-center">
                       <Link
-                        href="/profile?a=account"
-                        onClick={() => setOpenNotification(false)}
-                        locale={locale}
-                      >
-                        <span
-                          className={`${MENU_ITEM_STYLES}`}
-                          aria-current="page"
-                        >
-                          {t("profile").toUpperCase()}
-                        </span>
-                      </Link>
-                    </li>
-
-                    <li className="flex items-center">
-                      <Link
-                        href="/profile?a=orders"
+                        href="/profile/orders"
                         onClick={() => setOpenNotification(false)}
                         locale={locale}
                       >
@@ -273,7 +270,7 @@ export function MobileMenu() {
 
                   <li className="flex items-center">
                     <Link
-                      href="/profile?a=submitted_aps"
+                      href="/profile/submitted_aps"
                       onClick={() => setOpenNotification(false)}
                       locale={locale}
                     >
@@ -288,7 +285,7 @@ export function MobileMenu() {
 
                   <li className="flex items-center">
                     <Link
-                      href="/profile?a=monthly_products"
+                      href="/profile/monthly_products"
                       onClick={() => setOpenNotification(false)}
                       locale={locale}
                     >
