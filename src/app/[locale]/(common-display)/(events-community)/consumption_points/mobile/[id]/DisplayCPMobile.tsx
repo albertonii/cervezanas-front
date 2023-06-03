@@ -33,7 +33,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
       </div>
 
       {/* Display all the information inside the Mobile Consumption Point */}
-      <div className="mt-10 grid grid-cols-2">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2">
         <div>
           <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
           <h2 className="mb-4 text-lg text-gray-500">
