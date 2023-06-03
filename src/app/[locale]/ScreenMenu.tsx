@@ -79,7 +79,7 @@ export function ScreenMenu() {
           {/* Logo Cervezanas  */}
           <div className="w-full" id="navbar-default">
             <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-              <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[123px] sm:w-[131px] sm:p-2 md:h-[153] md:w-[151px] ">
+              <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[110px] sm:w-[124px] sm:p-2 xl:h-[153px] xl:w-[151px] ">
                 <Link href={"/"} locale={locale}>
                   <Image
                     src="/logo_cervezanas.svg"
