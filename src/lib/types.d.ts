@@ -330,7 +330,7 @@ export interface IEvent {
   end_date: Date;
   logo: string;
   promotional_img: string;
-  owner_id: IUser;
+  owner_id: any;
   cp_mobile: ICPMobile[];
   status: string;
   address: string;

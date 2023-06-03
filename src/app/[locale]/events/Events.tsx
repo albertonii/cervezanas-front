@@ -25,7 +25,7 @@ interface EventListProps {
 
 const EventList = ({ events }: EventListProps) => {
   return (
-    <div className="flex w-full flex-col items-center justify-between">
+    <div className="mx-4 flex w-full flex-col items-center justify-between">
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
@@ -44,7 +44,7 @@ const EventCard = ({ event }: EventCardProps) => {
   return (
     <>
       <div
-        className="flex flex-col items-center justify-start bg-cover bg-center "
+        className="flex w-full flex-col items-center justify-start bg-cover bg-center "
         // style={"background-image": url("https://images.unsplash.com/photo-1537565609867-73c2edb961ac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1489&q=80")}
       >
         <div className="absolute inset-0 z-0 opacity-80"></div>
@@ -76,7 +76,7 @@ const EventCard = ({ event }: EventCardProps) => {
             </div>
 
             {/* Event Details  */}
-            <div className="sm:mx-4c w-full flex-auto justify-evenly space-y-4">
+            <div className="flex-auto justify-evenly space-y-4 sm:mx-4">
               <div className="flex items-start justify-between sm:mt-2">
                 {/* Name & Description */}
                 <div className="flex flex-col items-start">
@@ -88,9 +88,9 @@ const EventCard = ({ event }: EventCardProps) => {
                     </div>
 
                     <div className="my-1 flex-auto text-gray-500">
-                      <span className="mr-3 ">UI/UX Designer</span>
+                      <span className="mr-3 ">Música en vivo</span>
                       <span className="mr-3 max-h-0 border-r  border-gray-200"></span>
-                      <span>Cochin, IND</span>
+                      <span>{event.address}</span>
                     </div>
                   </div>
                 </div>
