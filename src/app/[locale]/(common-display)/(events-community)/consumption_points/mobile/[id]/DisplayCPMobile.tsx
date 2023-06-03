@@ -225,7 +225,8 @@ interface GoogleMapLocationProps {
 
 const GoogleMapLocation = ({ cp }: GoogleMapLocationProps) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PLUBIC_GOOGLE_MAPS_API_KEY ?? "",
+    googleMapsApiKey: "AIzaSyAKy3WmKXNpusaPjszA5IZA-jABYT5lHss",
+    // googleMapsApiKey: process.env.NEXT_PLUBIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],
   });
 
