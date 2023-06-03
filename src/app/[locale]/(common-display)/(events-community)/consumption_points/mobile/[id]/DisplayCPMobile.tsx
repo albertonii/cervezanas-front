@@ -79,9 +79,9 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3 ">
+                  {/* <th scope="col" className="px-6 py-3 ">
                     {t("img")}
-                  </th>
+                  </th> */}
 
                   <th scope="col" className="px-6 py-3 ">
                     {t("name_header")}
@@ -95,9 +95,9 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
                     {t("price_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  {/* <th scope="col" className="px-6 py-3 ">
                     {t("type_header")}
-                  </th>
+                  </th> */}
 
                   <th scope="col" className="px-6 py-3 ">
                     {t("action_header")}
@@ -173,7 +173,7 @@ const Product = ({ product, cpmId }: ProductProps) => {
       key={product.id}
       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
     >
-      <td className=" space-x-2 px-6 py-4">
+      {/* <td className=" space-x-2 px-6 py-4">
         <Image
           src={
             product.product_multimedia[0]?.p_principal ??
@@ -183,7 +183,7 @@ const Product = ({ product, cpmId }: ProductProps) => {
           width={64}
           height={64}
         />
-      </td>
+      </td> */}
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link
           target={"_blank"}
@@ -197,7 +197,7 @@ const Product = ({ product, cpmId }: ProductProps) => {
       <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
         {formatCurrency(product.price)}
       </td>
-      <td className="space-x-2 px-6 py-4">{product.category}</td>
+      {/* <td className="space-x-2 px-6 py-4">{product.category}</td> */}
       <td className="space-x-2 px-6 py-4">
         {quantity === 0 ? (
           <>

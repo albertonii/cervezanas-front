@@ -59,7 +59,7 @@ export default function DisplayEvent({ event }: Props) {
       {/* Products linked to this Mobile Consumption Point */}
       <div className="mt-8">
         {cpMobile.length > 0 ? (
-          <div>
+          <div className="overflow-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
 
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
