@@ -203,7 +203,7 @@ export function ScreenMenu() {
               )}
             </ul>
 
-            <Button
+            {/* <Button
               onClick={() => handleBeerMe()}
               title={"Find Cervezanas spots"}
             >
@@ -222,7 +222,7 @@ export function ScreenMenu() {
                   <div className="text-right text-beer-foam ">Cervezanas</div>
                 </div>
               </div>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
