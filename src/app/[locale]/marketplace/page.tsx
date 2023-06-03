@@ -7,6 +7,36 @@ export default async function MarketPlacePage() {
   const productsData = getMarketplaceProducts();
   const [products] = await Promise.all([productsData]);
 
+  // const products: IProduct[] = [
+  //   {
+  //     id: "1",
+  //     name: "Prueba",
+  //     description: "Prueba description",
+  //     created_at: new Date(),
+  //     social_cause_id: "11233",
+  //     category: "beer",
+  //     campaign_id: "12341234",
+  //     owner_id: "afgasfg",
+  //     product_lot: [],
+  //     product_inventory: [],
+  //     product_multimedia: [],
+  //     reviews: [],
+  //     likes: [],
+  //     is_public: false,
+  //     price: 2,
+  //     beers: [], // Any para evitar circular dependency
+  //     product_variant: [],
+  //     order_item: [],
+  //     awards: [],
+  //     is_archived: false,
+  //     state: "",
+  //     status: "",
+  //     type: "",
+  //     product_pack: [],
+  //     is_monthly: false,
+  //   },
+  // ];
+
   return (
     <>
       <Marketplace products={products ?? []} />

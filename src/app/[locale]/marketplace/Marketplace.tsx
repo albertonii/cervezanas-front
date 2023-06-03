@@ -16,15 +16,15 @@ export default function Marketplace({ products }: Props) {
 
   return (
     <>
-      <div className="container mx-auto sm:py-2 lg:py-3 ">
+      <div className="container mx-4 sm:py-2 lg:py-3 ">
         <MarketplaceHeader>
           <Filters />
         </MarketplaceHeader>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
           {filteredProducts &&
             filteredProducts.map((product) => (
-              <div key={product.id} className="container mb-6 h-full px-3">
+              <div key={product.id} className="container mb-6 h-full">
                 <StoreItem products={filteredProducts} product={product} />
               </div>
             ))}

@@ -98,7 +98,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
   };
 
   return (
-    <div className="max-w-sm rounded-xl p-4 shadow-lg">
+    <div className="rounded-xl p-4 shadow-lg sm:max-w-sm">
       {isLoading ? (
         <Spinner color="beer-blonde" size="medium"></Spinner>
       ) : (
