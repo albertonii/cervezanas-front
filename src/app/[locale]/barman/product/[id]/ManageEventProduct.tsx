@@ -67,7 +67,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
           </div>
 
           {/* Product information  */}
-          <div className="col-span-12 flex flex-row space-y-2 lg:col-span-8">
+          <div className="col-span-12 flex flex-col space-y-2 sm:flex-row lg:col-span-8">
             <div
               aria-labelledby="information-heading"
               className="mt-2 flex flex-col"
@@ -132,7 +132,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
         </div>
 
         {/* Input to modify stock quantity server in the Consumption Point  */}
-        <section className="flex flex-row items-end space-x-4 ">
+        <section className="flex flex-col items-start space-y-2 sm:flex-row sm:items-end sm:space-x-4 sm:space-y-0">
           <div className="flex flex-col items-start justify-center">
             <label
               htmlFor="quantity"
@@ -141,7 +141,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
               {t("quantity_to_serve")}
             </label>
 
-            <div className="relative mt-1 w-[12vw] rounded-md shadow-sm lg:w-[14vw]">
+            <div className="relative mt-1 w-[24vw] rounded-md shadow-sm sm:w-[12vw] lg:w-[14vw]">
               <input
                 type="number"
                 name="quantity"
