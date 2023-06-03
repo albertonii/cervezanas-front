@@ -349,9 +349,9 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
             </div>
 
             {/* Display Similar Products */}
-            <div className="col-span-12 mx-6">
+            {/* <div className="col-span-12 mx-6">
               <DisplaySimilarProducts />
-            </div>
+            </div> */}
 
             {/* Reviews */}
             <div className="item-center col-span-12 mx-6 flex flex-col justify-center">

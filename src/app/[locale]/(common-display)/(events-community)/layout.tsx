@@ -55,7 +55,7 @@ export default function layout({ children }: LayoutProps) {
   return (
     <>
       <div
-        className="absolute -top-20 right-10 z-40 rounded-lg  border-2 border-beer-softBlonde bg-beer-softFoam px-4 py-8 shadow-md sm:px-6 lg:px-8"
+        className="absolute -top-20 z-40 rounded-lg border-2  border-beer-softBlonde bg-beer-softFoam px-4 py-8 shadow-md sm:right-10 sm:px-6 lg:px-8"
         aria-modal="true"
         role="dialog"
         tabIndex={-1}

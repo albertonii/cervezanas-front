@@ -19,7 +19,7 @@ export default function DisplayEvent({ event }: Props) {
 
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
-      <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
+      {/* <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
         <span
           className={`text-lg font-medium text-white ${
             event.status === "active" ? "text-green-500" : "text-red-500"
@@ -27,7 +27,7 @@ export default function DisplayEvent({ event }: Props) {
         >
           {event.status === "active" ? "Active" : "Inactive"}
         </span>
-      </div>
+      </div> */}
 
       {/* Display all the information inside the Mobile Consumption Point */}
       <h1 className="mb-2 text-2xl font-bold">{event.name}</h1>
