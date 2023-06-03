@@ -59,10 +59,10 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
 
   return (
     <>
-      <div className="relative flex  h-screen w-full flex-col items-start overflow-hidden rounded-lg bg-white px-6 pb-8 pt-14 shadow-lg sm:pt-8 ">
+      <div className="relative flex h-full w-full flex-col items-start overflow-hidden rounded-lg bg-white px-6 pb-8 pt-14 shadow-lg sm:h-screen sm:pt-8 ">
         <div className="my-6 grid w-full grid-cols-12 items-start gap-y-8 space-x-4 lg:grid-cols-12 ">
           {/* Display image Product  */}
-          <div className="aspect-w-2 aspect-h-3 col-span-12 flex items-center justify-center rounded-lg bg-bear-alvine py-4 md:overflow-hidden lg:col-span-4">
+          <div className="aspect-w-2 aspect-h-3 col-span-12 flex flex-col items-center justify-center rounded-lg bg-bear-alvine py-4 sm:flex-row md:overflow-hidden lg:col-span-4">
             <DisplayImageProduct imgSrc={selectedMultimedia.p_principal} />
           </div>
 
