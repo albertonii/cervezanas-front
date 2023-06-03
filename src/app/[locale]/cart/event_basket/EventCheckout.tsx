@@ -294,9 +294,9 @@ export default function EventCheckout() {
                           <div className="flex w-full items-center justify-between">
                             <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
                               {t("discount")}
-                              <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                              {/* <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
                                 STUDENT
-                              </span>
+                              </span> */}
                             </p>
                             <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                               {formatCurrency(discount)} {discount / subtotal}%

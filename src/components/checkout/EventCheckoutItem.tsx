@@ -162,10 +162,10 @@ export function EventCheckoutItem({ product }: Props) {
         </div>
         <div className="flex w-full flex-col items-start justify-between space-y-2 sm:flex-row sm:space-x-8">
           <div className="flex w-full items-center justify-between space-x-2 ">
-            <p className="text-base leading-6 dark:text-white xl:text-lg">
+            {/* <p className="text-base leading-6 dark:text-white xl:text-lg">
               {formatCurrency(product.price)}
               <span className="text-red-300 line-through"> $45.00</span>
-            </p>
+            </p> */}
 
             <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
               {quantity > 0 && (
