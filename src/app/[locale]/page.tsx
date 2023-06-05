@@ -18,6 +18,7 @@ export default async function Mainpage() {
 }
 
 async function getMonthlyProducts() {
+  return [];
   const supabase = createServerClient();
 
   const { data: monthlyProducts, error: monthlyProductsError } = await supabase

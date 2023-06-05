@@ -172,6 +172,7 @@ export function Footer() {
                     alt="Visa"
                     width={80}
                     height={80}
+                    className={"h-auto w-auto"}
                   />
 
                   {/* Mastercard card image logo  */}
@@ -180,6 +181,7 @@ export function Footer() {
                     alt="Mastercard"
                     width={80}
                     height={80}
+                    className={"h-auto w-auto"}
                   />
                 </div>
               </>
