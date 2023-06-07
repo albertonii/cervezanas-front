@@ -16,6 +16,7 @@ import { Footer } from "./components";
 import { EventCartProvider } from "../../components/Context/EventCartContext";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import CommingSoon from "./commingSoon";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -53,8 +54,8 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {/* <IntlMessageContext locale={locale} messages={messages}> */}
+        <CommingSoon />
+        {/* <NextIntlClientProvider locale={locale} messages={messages}>
           <SupabaseProvider>
             <MessageProvider>
               <ReactQueryWrapper>
@@ -70,10 +71,9 @@ export default async function RootLayout({
                               "relative mx-auto mt-[10vh] h-auto w-full"
                             )}
                           >
-                            {/* <Breadcrumb /> */}
-                            {/* <Breadcrumb
+                            <Breadcrumb
                           getDefaultTextGenerator={(path) => titleize(path)}
-                        /> */}
+                        /> 
                           </div>
 
                           <main
@@ -94,8 +94,7 @@ export default async function RootLayout({
               </ReactQueryWrapper>
             </MessageProvider>
           </SupabaseProvider>
-          {/* </IntlMessageContext> */}
-        </NextIntlClientProvider>
+        </NextIntlClientProvider> */}
       </body>
     </html>
   );
