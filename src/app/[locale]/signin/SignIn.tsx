@@ -21,7 +21,7 @@ interface FormData {
 
 export default function SignIn() {
   const router = useRouter();
-  const { signInWithProvider, signIn, isLoading: loading, user } = useAuth();
+  const { signInWithProvider, signIn, user } = useAuth();
 
   const t = useTranslations();
   const locale = useLocale();
@@ -31,10 +31,16 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({});
+
   const { handleMessage } = useMessage();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPageLoad, setIsPageLoad] = useState(false);
+
+  useEffect(() => {
+    setIsPageLoad(true);
+  }, []);
 
   useEffect(() => {
     if (user) router.push(`/${locale}`);
@@ -67,8 +73,8 @@ export default function SignIn() {
     signInWithProvider("google");
   };
 
-  if (loading) {
-    return <Spinner color="beer-blonde" size={"fullScreen"} />;
+  if (!isPageLoad) {
+    return <Spinner color="beer-blonde" size={"fullScreen"} absolute />;
   }
 
   return (
@@ -89,10 +95,7 @@ export default function SignIn() {
               <fieldset className="space-y-4">
                 {/* email  */}
                 <div className="flex w-full flex-col space-y-3">
-                  <label
-                    htmlFor="email-address"
-                    className="text-sm text-gray-600"
-                  >
+                  <label htmlFor="email" className="text-sm text-gray-600">
                     {t("email")}
                     <input
                       {...register("email", {
@@ -100,8 +103,7 @@ export default function SignIn() {
                         pattern: /^\S+@\S+$/i,
                       })}
                       type="email"
-                      id="email-address"
-                      placeholder="ejemplo@gmail.com"
+                      placeholder="user@cervezanas.com"
                       className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -122,7 +124,6 @@ export default function SignIn() {
                         minLength: 6,
                       })}
                       type="password"
-                      id="password"
                       className="relative flex w-full appearance-none justify-center rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                       placeholder="*****"
                       onChange={(e) => setPassword(e.target.value)}
@@ -165,7 +166,7 @@ export default function SignIn() {
                 href={"/signup"}
                 locale={locale}
               >
-                <span className="mx-1 text-beer-blonde hover:underline">
+                <span className="mx-1 text-beer-darkGold hover:underline">
                   {t("sign_me_up")}
                 </span>
               </Link>
