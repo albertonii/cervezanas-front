@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../components/Auth";
@@ -13,8 +13,14 @@ import { Spinner } from "../../../components/common";
 export default function Signup() {
   const t = useTranslations();
   const locale = useLocale();
-  const { user, isLoading } = useAuth();
+  const [isPageLoad, setIsPageLoad] = useState(false);
+
+  const { user } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsPageLoad(true);
+  }, []);
 
   // If the user is already logged in, then
   // redirect them to home.
@@ -24,8 +30,8 @@ export default function Signup() {
     }
   }, [user]);
 
-  if (isLoading) {
-    return <Spinner color="beer-gold" size="fullScreen" />;
+  if (!isPageLoad) {
+    return <Spinner color="beer-blonde" size={"fullScreen"} absolute />;
   }
 
   return (
@@ -47,13 +53,14 @@ export default function Signup() {
               href={VIEWS.SIGN_IN}
               locale={locale}
             >
-              <span className="mx-1 text-beer-blonde hover:underline">
+              <span className="mx-1 text-beer-darkGold hover:underline">
                 {t("access_account")}
               </span>
             </Link>
           </p>
         </div>
       </div>
+
       <div className="relative hidden w-0 flex-1 lg:block">
         <Image
           width={1000}

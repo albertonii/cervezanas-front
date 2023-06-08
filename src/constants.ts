@@ -80,8 +80,10 @@ export const CLASS_NAMES = {
   message: "ui-message",
 };
 
+// NEXT_PUBLIC_SUPABASE_URL=https://kagzwtkjnykrzxhfnzhq.supabase.co
+
 export const SupabaseProps = {
-  BASE_URL: "https://kvdearmedajqvexxhmrk.supabase.co/",
+  BASE_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/`,
   STORAGE_PRODUCTS_IMG_URL: "storage/v1/object/public/products/",
   STORAGE_PRODUCTS_ARTICLE_IMG_URL:
     "storage/v1/object/public/products/articles/",
@@ -92,12 +94,9 @@ export const SupabaseProps = {
   P_EXTRA_3_URL: "p_extra_3/",
   P_EXTRA_4_URL: "p_extra_4/",
   ARTICLES: "articles/",
-  BASE_AVATARS_URL:
-    "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/avatars/",
-  BASE_PRODUCTS_URL:
-    "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/",
-  BASE_PRODUCTS_ARTICLES_URL:
-    "https://kvdearmedajqvexxhmrk.supabase.co/storage/v1/object/public/products/articles/",
+  BASE_AVATARS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/`,
+  BASE_PRODUCTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/`,
+  BASE_PRODUCTS_ARTICLES_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/`,
   PRODUCT_P_PRINCIPAL: "p_principal/",
   CUSTOM_BG_URL: "custom_bg/",
   PROFILE_PHOTO_URL: "profile_photo/",

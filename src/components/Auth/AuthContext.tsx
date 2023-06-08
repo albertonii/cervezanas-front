@@ -203,9 +203,12 @@ export const AuthContextProvider = ({
     let user = null;
     await supabase.auth.signInWithOAuth({ provider }).then(async (res: any) => {
       user = res.user;
-      isAccessLevel = user.user_metadata.access_level ? true : false;
+      if (user?.user_metadata && user.user_metadata?.access_level) {
+        isAccessLevel = user.user_metadata?.access_level ? true : false;
+      } else {
+        isAccessLevel = false;
+      }
     });
-    // TODO: Volver aquí para introducir el access_level si no existe
 
     // Check if access level is null or invalid
     if (!isAccessLevel && user) {

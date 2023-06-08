@@ -197,9 +197,9 @@ export const SignUpForm = () => {
             onClick={() => {
               onSubmit();
             }}
-            class={"w-96"}
             title={"sign_up"}
             xLarge
+            fullSize
             primary
           >
             {t("sign_up")}

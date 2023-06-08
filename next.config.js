@@ -13,6 +13,7 @@ module.exports = withNextIntl({
     domains: [
       "randomuser.me",
       "kvdearmedajqvexxhmrk.supabase.co",
+      "kagzwtkjnykrzxhfnzhq.supabase.co",
       "images.unsplash.com",
       "tailwindui.com",
       "images.pexels.com",

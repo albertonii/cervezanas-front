@@ -142,6 +142,7 @@ export default function SignIn() {
                   class={
                     "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
                   }
+                  fullSize
                 >
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <FontAwesomeIcon
