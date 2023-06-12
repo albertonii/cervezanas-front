@@ -2,7 +2,13 @@
 
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
+import {
+  Provider,
+  Session,
+  SignInWithPasswordCredentials,
+  SignUpWithPasswordCredentials,
+  SupabaseClient,
+} from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
@@ -16,7 +22,7 @@ export interface AuthSession {
   error: any;
   role: ROLE_ENUM | null;
   isLoading: boolean;
-  signUp: (payload: ISignUp) => void;
+  signUp: (payload: SignUpWithPasswordCredentials) => void;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
@@ -131,14 +137,11 @@ export const AuthContextProvider = ({
     };
   }, [supabase, serverSession, router]);
 
-  const signUp = async (payload: ISignUp) => {
+  const signUp = async (payload: SignInWithPasswordCredentials) => {
     try {
       // setLoading(true);
 
-      const { error } = await supabase.auth.signUp(
-        payload.userCredentials
-        // payload.options
-      );
+      const { error } = await supabase.auth.signUp(payload);
       if (error) {
         handleMessage({ message: error.message, type: "error" });
       } else {

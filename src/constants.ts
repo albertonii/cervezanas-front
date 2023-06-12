@@ -80,8 +80,6 @@ export const CLASS_NAMES = {
   message: "ui-message",
 };
 
-// NEXT_PUBLIC_SUPABASE_URL=https://kagzwtkjnykrzxhfnzhq.supabase.co
-
 export const SupabaseProps = {
   BASE_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/`,
   STORAGE_PRODUCTS_IMG_URL: "storage/v1/object/public/products/",

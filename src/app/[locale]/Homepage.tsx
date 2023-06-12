@@ -16,7 +16,6 @@ export default function Homepage({ monthlyProducts }: Props) {
   if (initial) {
     return <div className="card h-72">Loading...</div>;
   }
-
   return (
     <div className="mt-[10vh] h-full ">
       <Hero />

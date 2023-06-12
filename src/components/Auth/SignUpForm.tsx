@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { Button, DisplayInputError } from "../common";
 import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
+import { SignUpWithPasswordCredentials } from "@supabase/supabase-js";
 
 const ROLE_OPTIONS = [
   {
@@ -87,16 +88,18 @@ export const SignUpForm = () => {
   };
 
   const onSubmit = async () => {
-    const userCredentials: ISignUp = {
-      userCredentials: { email: email, password: password, phone: "" },
+    const signUpInfo: SignUpWithPasswordCredentials = {
+      email: email,
+      password: password,
+      phone: "",
       options: {
-        redirectTo: "",
+        emailRedirectTo: `${location.origin}/api/auth/callback`,
         captchaToken: "",
         data: data,
       },
     };
 
-    signUp(userCredentials);
+    signUp(signUpInfo);
   };
 
   return (

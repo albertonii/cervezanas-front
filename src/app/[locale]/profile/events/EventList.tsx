@@ -110,7 +110,7 @@ export default function EventList({ events: es, handleEList }: Props) {
 
   // Update to fixed list
   const updToFixedList = () => {
-    const newList = events.map((item) => {
+    const newList = events?.map((item) => {
       if (item.id === selectedEvent?.id) {
         return selectedEvent;
       }
@@ -278,8 +278,9 @@ export default function EventList({ events: es, handleEList }: Props) {
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/events/${e.id}`}
-                      locale={locale}>{e.name}</Link>
+                      <Link href={`/events/${e.id}`} locale={locale}>
+                        {e.name}
+                      </Link>
                     </td>
 
                     <td className="px-6 py-4">{formatDate(e.created_at)}</td>

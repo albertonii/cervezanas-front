@@ -927,11 +927,15 @@ export interface IPaymentCard {
 }
 
 export interface ISignUp {
-  userCredentials: { email: string; password: string; phone: string };
-  options: {
-    redirectTo?: string;
-    data?: object;
-    captchaToken?: string;
+  userCredentials: {
+    email: string;
+    password: string;
+    phone: string;
+    options: {
+      emailRedirectTo?: string;
+      data?: object;
+      captchaToken?: string;
+    };
   };
 }
 
