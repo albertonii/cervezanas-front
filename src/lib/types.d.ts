@@ -328,8 +328,8 @@ export interface IEvent {
   description: string;
   start_date: Date;
   end_date: Date;
-  logo: string;
-  promotional_img: string;
+  logo_url: string;
+  promotional_url: string;
   owner_id: IUser;
   cp_mobile: ICPMobile[];
   status: string;
@@ -378,7 +378,7 @@ export interface ICPMobile {
   end_date: Date;
   address: string;
   status: string;
-  logo: string;
+  logo_url: string;
   gallery: string[];
   maximum_capacity: number;
   is_booking_required: boolean;

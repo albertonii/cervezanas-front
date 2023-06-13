@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useRouter } from "next/navigation";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -11,6 +12,7 @@ const fetchProductsByOwner = async (
   isArchived: boolean,
   supabase: SupabaseClient<any>
 ) => {
+  const router = useRouter();
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -33,6 +35,7 @@ const fetchProductsByOwner = async (
 
   if (error) throw error;
 
+  router.refresh();
   return data;
 };
 

@@ -22,11 +22,10 @@ async function getMonthlyProducts() {
 
   const { data: monthlyProducts, error: monthlyProductsError } = await supabase
     .from("monthly_products")
-    .select(
-      `
-      *
-    `
-    );
+    .select(`*`);
+
+  if (monthlyProductsError) throw monthlyProductsError;
+  return monthlyProducts as IMonthlyProduct[];
 
   // const { data: monthlyProducts, error: monthlyProductsError } = await supabase
   //   .from("monthly_products")
@@ -49,7 +48,4 @@ async function getMonthlyProducts() {
   //   )
   // `
   //   );
-
-  if (monthlyProductsError) throw monthlyProductsError;
-  return monthlyProducts as IMonthlyProduct[];
 }

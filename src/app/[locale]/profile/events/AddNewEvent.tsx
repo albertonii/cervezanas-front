@@ -16,8 +16,8 @@ interface FormData {
   description: string;
   start_date: string;
   end_date: string;
-  logo: string;
-  promotional_image: string;
+  logo_url: string;
+  promotional_url: string;
   cps_mobile: ICPMobile[];
 }
 
@@ -48,8 +48,8 @@ export default function AddNewEvent({ eList, handleEList, cpsMobile }: Props) {
       description,
       start_date,
       end_date,
-      logo = "",
-      promotional_image = "",
+      logo_url = "",
+      promotional_url = "",
       cps_mobile,
     } = formValues;
 

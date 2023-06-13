@@ -36,7 +36,7 @@ export function ProductList({
   if (!user) return null;
 
   const t = useTranslations();
-   const locale = useLocale();
+  const locale = useLocale();
 
   const products = ps.filter((product) => !product.is_archived);
 
@@ -230,8 +230,10 @@ export function ProductList({
                         </th>
 
                         <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                          <Link href={`/products/${product.id}`}
-                          locale={locale}>
+                          <Link
+                            href={`/products/${product.id}`}
+                            locale={locale}
+                          >
                             {product.name}
                           </Link>
                         </td>
