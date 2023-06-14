@@ -35,7 +35,7 @@ export default function Signup() {
   }
 
   return (
-    <main className="flex h-full min-h-screen bg-white">
+    <div className="flex h-full min-h-screen w-full bg-white">
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
@@ -46,7 +46,7 @@ export default function Signup() {
 
           <SignUpForm />
 
-          <p className="my-2 flex w-full justify-center text-sm text-gray-700">
+          <p className="my-2 flex w-full justify-start text-sm text-gray-700">
             {t("already_account")}
             <Link
               className="cursor-pointer font-bold"
@@ -70,6 +70,6 @@ export default function Signup() {
           alt=""
         />
       </div>
-    </main>
+    </div>
   );
 }
