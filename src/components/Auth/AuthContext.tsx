@@ -63,7 +63,6 @@ export const AuthContextProvider = ({
   const { handleMessage, clearMessages } = useMessage();
 
   const getUser = async () => {
-    console.log(serverSession);
     const { data: user, error } = await supabase
       .from("users")
       .select(
@@ -89,14 +88,6 @@ export const AuthContextProvider = ({
     mutate,
   } = useSWR(serverSession ? "profile-context" : null, getUser);
 
-  /*
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useFetchProfileContext(serverSession?.user?.id);
-  */
-
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
     async function getActiveSession() {
@@ -104,7 +95,7 @@ export const AuthContextProvider = ({
         data: { session: activeSession },
       } = await supabase.auth.getSession();
       // Set role for the user and load different layouts
-      setRole(activeSession?.user?.app_metadata?.role);
+      setRole(activeSession?.user?.user_metadata?.access_level);
     }
     getActiveSession();
 

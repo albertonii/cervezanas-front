@@ -3,7 +3,6 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
-import { useRouter } from "next/navigation";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -12,7 +11,7 @@ const fetchProductsByOwner = async (
   isArchived: boolean,
   supabase: SupabaseClient<any>
 ) => {
-  const router = useRouter();
+  console.log("dentro dentrito");
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -35,7 +34,6 @@ const fetchProductsByOwner = async (
 
   if (error) throw error;
 
-  router.refresh();
   return data;
 };
 
@@ -48,7 +46,7 @@ const useFetchProductsByOwner = (
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["products_owner"],
+    queryKey: ["productList", ownerId, currentPage, pageRange, isArchived],
     queryFn: () =>
       fetchProductsByOwner(
         ownerId,
@@ -57,7 +55,7 @@ const useFetchProductsByOwner = (
         isArchived,
         supabase
       ),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

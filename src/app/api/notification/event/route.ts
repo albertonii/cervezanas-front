@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
     Ds_MerchantParameters: merchantParameters as string,
   };
 
-  console.log(process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET);
   const { processRestNotification } = createRedsysAPI({
     urls: SANDBOX_URLS,
     secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",

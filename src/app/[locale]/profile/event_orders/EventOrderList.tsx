@@ -61,11 +61,9 @@ export function EventOrderList({ eventOrders: os }: Props) {
   ];
 
   const handleClickView = (order: IEventOrder) => {
-    console.log(order);
     const Ds_MerchantParameters = encodeBase64(
       JSON.stringify({ Ds_Order: order.order_number })
     );
-    console.log(Ds_MerchantParameters);
 
     router.push(
       `/${locale}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
