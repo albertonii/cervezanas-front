@@ -14,7 +14,7 @@ import { useSupabase } from "../Context/SupabaseProvider";
 import { ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ROUTE_SIGNIN } from "../../config";
 
 export interface AuthSession {
@@ -50,6 +50,8 @@ export const AuthContextProvider = ({
   serverSession?: Session | null;
   children: React.ReactNode;
 }) => {
+  const t = useTranslations();
+
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const locale = useLocale();
@@ -61,6 +63,7 @@ export const AuthContextProvider = ({
   const { handleMessage, clearMessages } = useMessage();
 
   const getUser = async () => {
+    console.log(serverSession);
     const { data: user, error } = await supabase
       .from("users")
       .select(
@@ -148,8 +151,7 @@ export const AuthContextProvider = ({
       } else {
         clearMessages();
         handleMessage({
-          message:
-            "Signup successful. Please check your inbox for a confirmation email!",
+          message: t("sign_up_successfully"),
           type: "success",
         });
       }

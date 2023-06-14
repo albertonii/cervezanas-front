@@ -35,8 +35,9 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex h-full min-h-screen w-full bg-white">
-      <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+    <div className="w-full lg:grid lg:grid-cols-2">
+      {/* Signup form  */}
+      <div className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
@@ -61,13 +62,15 @@ export default function Signup() {
         </div>
       </div>
 
-      <div className="relative hidden w-0 flex-1 lg:block">
+      {/* Hero Image */}
+      <div className="hidden w-full justify-center lg:flex">
         <Image
-          width={1000}
-          height={1000}
-          className="absolute inset-0 h-full w-full object-cover"
-          src="/barriles.jpg"
-          alt=""
+          className="inset-0 rounded-3xl lg:w-[30vw]"
+          alt="Cervezanas artesanales"
+          sizes="(max-width: 1024px) 100vw, 1024px"
+          width={1024}
+          height={768}
+          src="/assets/profile_signup.jpg"
         />
       </div>
     </div>
