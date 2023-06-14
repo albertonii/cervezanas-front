@@ -17,7 +17,6 @@ import { MultimediaSection } from "./MultimediaSection";
 import {
   IAward,
   IInventory,
-  IProduct,
   IProductPack,
   ModalAddProductProps,
 } from "../../lib/types.d";
@@ -39,7 +38,7 @@ export function AddProduct() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
-  const { customizeSettings, setProducts } = useAppContext();
+  const { customizeSettings } = useAppContext();
 
   const { user } = useAuth();
 

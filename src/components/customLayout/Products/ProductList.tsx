@@ -3,17 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import React, { ComponentProps, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../../lib/types.d";
 import { Button, DeleteButton, Spinner } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 import { useAuth } from "../../Auth";
-import { useAppContext } from "../../Context";
 import { useSupabase } from "../../Context/SupabaseProvider";
 import { formatCurrency } from "../../../utils";
-import { useRouter } from "next/navigation";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -31,7 +29,6 @@ export function ProductList({
   handleProductModal,
 }: Props) {
   const { supabase } = useSupabase();
-  // const { products: ps, setProducts } = useAppContext();
   const { user } = useAuth();
   if (!user) return null;
 
