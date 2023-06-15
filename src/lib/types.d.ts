@@ -679,6 +679,17 @@ export type ModalUpdateProductProps = {
   packs: IProductPack[];
 };
 
+export type ModalUpdateLotProps = {
+  lot_number: string;
+  lot_name: string;
+  product_id: string;
+  quantity: number;
+  limit_notification: number;
+  expiration_date: Date;
+  manufacture_date: Date;
+  packaging: string;
+};
+
 type BeerModalProps = {
   id: string;
   lot_id: number;

@@ -14,7 +14,8 @@ const fetchLotsByOwner = async (
     .from("product_lot")
     .select(
       `
-        *
+        *,
+        products (id, name)
       `,
       {
         count: "exact",

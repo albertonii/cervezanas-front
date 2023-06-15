@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Modal } from ".";
 import { useAuth } from "../Auth";
-import { IRefProductLot } from "../../lib/types.d";
+import { IRefProductLot } from "../../lib/types";
 import { formatDateDefaultInput } from "../../utils";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { useMutation, useQueryClient } from "react-query";
 
 type FormValues = {
   created_at: Date;
@@ -31,10 +32,15 @@ interface Props {
   handleEditShowModal: ComponentProps<any>;
 }
 
-export function EditLot({ productLot, showModal, handleEditShowModal }: Props) {
+export function UpdateLot({
+  productLot,
+  showModal,
+  handleEditShowModal,
+}: Props) {
   const t = useTranslations();
   const { user } = useAuth();
   const { supabase } = useSupabase();
+  const queryClient = useQueryClient();
 
   const form = useForm<FormValues>({
     mode: "onSubmit",
@@ -54,10 +60,11 @@ export function EditLot({ productLot, showModal, handleEditShowModal }: Props) {
   const {
     register,
     getValues,
+    handleSubmit,
     formState: { errors },
   } = form;
 
-  const handleEditClick = () => {
+  const handleLotUpdate = async () => {
     const lot_number = getValues("lot_number");
     const lot_name = getValues("lot_name");
     const quantity = getValues("quantity");
@@ -67,56 +74,42 @@ export function EditLot({ productLot, showModal, handleEditShowModal }: Props) {
     const manufacture_date = getValues("manufacture_date");
     const packaging = getValues("packaging");
 
-    const handleLotUpdate = async () => {
-      if (productLot) {
-        const { data: productLotData, error } = await supabase
-          .from("product_lot")
-          .update({
-            quantity,
-            lot_number,
-            lot_name,
-            limit_notification,
-            recipe,
-            expiration_date,
-            manufacture_date,
-            packaging,
-            owner_id: user?.id,
-          })
-          .eq("id", productLot.id);
+    if (productLot) {
+      const { error } = await supabase
+        .from("product_lot")
+        .update({
+          quantity,
+          lot_number,
+          lot_name,
+          limit_notification,
+          recipe,
+          expiration_date,
+          manufacture_date,
+          packaging,
+          owner_id: user?.id,
+        })
+        .eq("id", productLot.id);
 
-        if (error) throw error;
+      if (error) throw error;
+    }
 
-        handleEditShowModal(false);
-
-        // handleSetProductLots(
-        //   lots.map((lot) => {
-        //     if (lot.id === productLot.id) {
-        //       return {
-        //         ...lot,
-        //         product_id: productLot.id,
-        //         quantity,
-        //         lot_number,
-        //         lot_name,
-        //         limit_notification,
-        //         recipe,
-        //         expiration_date,
-        //         manufacture_date,
-        //         packaging,
-        //         owner_id: user?.id,
-        //       };
-        //     }
-        //     return lot;
-        //   })
-        // );
-
-        return productLotData;
-      } else {
-        return null;
-      }
-    };
-
-    handleLotUpdate();
     handleEditShowModal(false);
+  };
+
+  const updateLotMutation = useMutation({
+    mutationKey: ["updateLot"],
+    mutationFn: handleLotUpdate,
+    onSuccess: () => {
+      queryClient.invalidateQueries("productLotList");
+    },
+  });
+
+  const onSubmit = () => {
+    try {
+      updateLotMutation.mutate();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -128,9 +121,7 @@ export function EditLot({ productLot, showModal, handleEditShowModal }: Props) {
         title={"config_lot"}
         btnTitle={"edit_lot"}
         description={"modal_product_description"}
-        handler={() => {
-          handleEditClick();
-        }}
+        handler={handleSubmit(onSubmit)}
         handlerClose={() => handleEditShowModal(false)}
         classIcon={""}
         classContainer={""}

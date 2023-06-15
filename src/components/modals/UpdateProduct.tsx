@@ -11,7 +11,7 @@ import {
   IAward,
   ModalUpdateProductProps,
   IProductPack,
-} from "../../lib/types.d";
+} from "../../lib/types";
 import { useAuth } from "../Auth";
 import { Modal, ProductStepper } from ".";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
@@ -35,9 +35,7 @@ export function UpdateProduct({
   handleEditShowModal,
 }: Props) {
   const t = useTranslations();
-
   const { user } = useAuth();
-
   const [activeStep, setActiveStep] = useState(0);
 
   const handleSetActiveStep = (value: number) => {

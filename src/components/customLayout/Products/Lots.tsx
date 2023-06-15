@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { IRefProductLot } from "../../../lib/types.d";
-import { AddLot, DeleteLot, EditLot } from "../../modals";
+import { AddLot, DeleteLot, UpdateLot } from "../../modals";
 import { LotList } from "./LotList";
 
 export function Lots() {
@@ -49,7 +49,7 @@ export function Lots() {
       )}
 
       {isEditShowModal && (
-        <EditLot
+        <UpdateLot
           productLot={lotModal}
           handleEditShowModal={handleEditShowModal}
           showModal={isEditShowModal}
