@@ -1,6 +1,6 @@
 import Image from "next/image";
-import useFetchLots from "../../../hooks/useFetchLotsByOwner";
-import React, { useEffect, useMemo, useState } from "react";
+import useFetchLotsByOwnerAndPagination from "../../../hooks/useFetchLotsByOwner";
+import React, { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { IProductLot } from "../../../lib/types.d";
 import { formatDateString } from "../../../utils";
@@ -9,7 +9,6 @@ import { Button, DeleteButton, Spinner } from "../../common";
 import { EditButton } from "../../common/EditButton";
 
 interface Props {
-  lots: IProductLot[];
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleDeleteShowModal: React.Dispatch<React.SetStateAction<any>>;
   handleProductLotModal: React.Dispatch<React.SetStateAction<any>>;
@@ -20,30 +19,27 @@ interface ColumnsProps {
 }
 
 export function LotList({
-  lots: ls,
   handleEditShowModal,
   handleDeleteShowModal,
   handleProductLotModal,
 }: Props) {
   const { user } = useAuth();
   if (!user) return null;
-
   const t = useTranslations();
 
-  const [lots, setLots] = useState<IProductLot[]>(ls);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const lotsCount = ls.length;
   const pageRange = 10;
+
+  const {
+    data: lots,
+    isError,
+    isLoading,
+  } = useFetchLotsByOwnerAndPagination(user.id, currentPage, pageRange);
+  alert(JSON.stringify(lots));
+  const lotsCount = lots?.length ?? 0;
   const finalPage =
     lotsCount < currentPage * pageRange ? lotsCount : currentPage * pageRange;
-
-  const { isError, isLoading, refetch } = useFetchLots(
-    user.id,
-    currentPage,
-    pageRange
-  );
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -66,20 +62,9 @@ export function LotList({
     handleProductLotModal(lot);
   };
 
-  useEffect(() => {
-    setLots(lots);
-  }, [ls]);
-
-  useEffect(() => {
-    refetch().then((res) => {
-      // const lots = res.data as IProductLot[];
-      const lots = res.data as any;
-      setLots(lots);
-    });
-  }, [currentPage]);
-
-  const filteredItems = useMemo<IProductLot[]>(() => {
-    return lots.filter((lot) => {
+  const filteredItems = useMemo<any[]>(() => {
+    if (!lots) return [];
+    return lots?.filter((lot) => {
       return lot.lot_name.toLowerCase().includes(query.toLowerCase());
     });
   }, [lots, query]);
@@ -110,7 +95,7 @@ export function LotList({
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isLoading && !isError && lots.length === 0 ? (
+      {!isLoading && !isError && lots?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
             {t("no_lots")}

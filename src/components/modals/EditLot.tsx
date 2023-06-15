@@ -26,20 +26,12 @@ type FormValues = {
 };
 
 interface Props {
-  lots: IRefProductLot[];
   productLot: IRefProductLot;
   showModal: boolean;
-  handleSetProductLots: ComponentProps<any>;
   handleEditShowModal: ComponentProps<any>;
 }
 
-export function EditLot({
-  lots,
-  productLot,
-  showModal,
-  handleEditShowModal,
-  handleSetProductLots,
-}: Props) {
+export function EditLot({ productLot, showModal, handleEditShowModal }: Props) {
   const t = useTranslations();
   const { user } = useAuth();
   const { supabase } = useSupabase();
@@ -96,26 +88,26 @@ export function EditLot({
 
         handleEditShowModal(false);
 
-        handleSetProductLots(
-          lots.map((lot) => {
-            if (lot.id === productLot.id) {
-              return {
-                ...lot,
-                product_id: productLot.id,
-                quantity,
-                lot_number,
-                lot_name,
-                limit_notification,
-                recipe,
-                expiration_date,
-                manufacture_date,
-                packaging,
-                owner_id: user?.id,
-              };
-            }
-            return lot;
-          })
-        );
+        // handleSetProductLots(
+        //   lots.map((lot) => {
+        //     if (lot.id === productLot.id) {
+        //       return {
+        //         ...lot,
+        //         product_id: productLot.id,
+        //         quantity,
+        //         lot_number,
+        //         lot_name,
+        //         limit_notification,
+        //         recipe,
+        //         expiration_date,
+        //         manufacture_date,
+        //         packaging,
+        //         owner_id: user?.id,
+        //       };
+        //     }
+        //     return lot;
+        //   })
+        // );
 
         return productLotData;
       } else {

@@ -1,7 +1,7 @@
 "use client";
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
+import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwnerAndPagination";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";

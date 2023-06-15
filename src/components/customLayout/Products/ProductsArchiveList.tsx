@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
+import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwnerAndPagination";
 import Image from "next/image";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";

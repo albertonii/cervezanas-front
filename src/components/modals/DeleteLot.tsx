@@ -1,21 +1,16 @@
 import React, { ComponentProps } from "react";
 import { Modal } from ".";
-import { IProductLot } from "../../lib/types.d";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
-  lots: IProductLot[];
   productLotId: string;
   handleDeleteShowModal: ComponentProps<any>;
-  handleSetProductLots: ComponentProps<any>;
   showModal: boolean;
 }
 
 export function DeleteLot({
-  lots,
   productLotId,
   handleDeleteShowModal,
-  handleSetProductLots,
   showModal,
 }: Props) {
   const { supabase } = useSupabase();
@@ -31,11 +26,11 @@ export function DeleteLot({
 
       handleDeleteShowModal(false);
 
-      handleSetProductLots(
-        lots.filter((l) => {
-          return l.id !== productLotId;
-        })
-      );
+      // handleSetProductLots(
+      //   lots.filter((l) => {
+      //     return l.id !== productLotId;
+      //   })
+      // );
 
       return data;
     };

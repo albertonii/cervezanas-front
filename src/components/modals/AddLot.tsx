@@ -1,14 +1,15 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Modal } from ".";
 import { DisplayInputError, SearchCheckboxList } from "../common";
 import { useAuth } from "../Auth";
-import { IProduct } from "../../lib/types.d";
 import { format_options } from "../../lib/beerEnum";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { useMutation, useQueryClient } from "react-query";
+import useFetchProductsByOwner from "../../hooks/useFetchProductsByOwner";
 
 type FormData = {
   created_at: Date;
@@ -25,17 +26,14 @@ type FormData = {
   products: any[];
 };
 
-interface Props {
-  products: IProduct[];
-  handleSetProductLots: Dispatch<SetStateAction<any>>;
-}
-
-export function AddLot({ products, handleSetProductLots }: Props) {
+export function AddLot() {
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const { data: products } = useFetchProductsByOwner(user?.id);
 
   const form = useForm<FormData>({
     mode: "onSubmit",
@@ -60,8 +58,9 @@ export function AddLot({ products, handleSetProductLots }: Props) {
     formState: { errors },
   } = form;
 
-  const onSubmit = (formValues: FormData) => {
-    ("dentro");
+  const queryClient = useQueryClient();
+
+  const handleInsertLot = async (formValues: any) => {
     const {
       lot_number,
       lot_name,
@@ -74,39 +73,45 @@ export function AddLot({ products, handleSetProductLots }: Props) {
       packaging,
     } = formValues;
 
-    const handleLotInsert = async () => {
-      products.map(async (product: { value: any }) => {
-        if (product.value != false) {
-          const product_id = product.value;
-          const { data: productLotData, error } = await supabase
-            .from("product_lot")
-            .insert({
-              product_id: product_id,
-              created_at: new Date(),
-              quantity,
-              lot_number,
-              lot_name,
-              limit_notification,
-              recipe,
-              expiration_date,
-              manufacture_date,
-              packaging,
-              owner_id: user?.id,
-            });
+    const userId = user?.id;
 
-          if (error) throw error;
-          if (!productLotData) throw new Error("No data");
+    products.map(async (product: { value: any }) => {
+      if (product.value != false) {
+        const product_id = product.value;
+        const { error } = await supabase.from("product_lot").insert({
+          product_id: product_id,
+          created_at: new Date(),
+          quantity,
+          lot_number,
+          lot_name,
+          limit_notification,
+          recipe,
+          expiration_date,
+          manufacture_date,
+          packaging,
+          owner_id: userId,
+        });
 
-          handleSetProductLots((prev: any) => [...prev, productLotData[0]]);
+        if (error) throw error;
+      }
+    });
+  };
 
-          return productLotData;
-        }
-      });
-    };
+  const insertProductLotMutation = useMutation({
+    mutationKey: ["insertProductLot"],
+    mutationFn: handleInsertLot,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["productLotList"] });
+    },
+  });
 
-    handleLotInsert();
+  const onSubmit = (formValues: FormData) => {
+    try {
+      insertProductLotMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
     setShowModal(false);
-
     reset();
   };
 
@@ -300,7 +305,7 @@ export function AddLot({ products, handleSetProductLots }: Props) {
               </div>
             </div>
 
-            <SearchCheckboxList list={products} form={form} />
+            <SearchCheckboxList list={products ?? []} form={form} />
           </div>
         </div>
       </Modal>

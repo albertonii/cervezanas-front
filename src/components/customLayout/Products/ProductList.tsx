@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
+import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwnerAndPagination";
 import React, { ComponentProps, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../../lib/types.d";

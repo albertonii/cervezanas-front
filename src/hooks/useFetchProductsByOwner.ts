@@ -6,12 +6,8 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const fetchProductsByOwner = async (
   ownerId: string,
-  currentPage: number,
-  pageRange: number,
-  isArchived: boolean,
   supabase: SupabaseClient<any>
 ) => {
-  console.log("dentro dentrito");
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -28,33 +24,19 @@ const fetchProductsByOwner = async (
         count: "exact",
       }
     )
-    .eq("owner_id", ownerId)
-    .eq("is_archived", isArchived)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .eq("owner_id", ownerId);
 
   if (error) throw error;
 
   return data;
 };
 
-const useFetchProductsByOwner = (
-  ownerId: string,
-  currentPage: number,
-  pageRange: number,
-  isArchived: boolean
-) => {
+const useFetchProductsByOwner = (ownerId: string) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["productList", ownerId, currentPage, pageRange, isArchived],
-    queryFn: () =>
-      fetchProductsByOwner(
-        ownerId,
-        currentPage,
-        pageRange,
-        isArchived,
-        supabase
-      ),
+    queryKey: ["productListByOwner", ownerId],
+    queryFn: () => fetchProductsByOwner(ownerId, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });
