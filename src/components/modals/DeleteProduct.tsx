@@ -1,9 +1,9 @@
 "use client";
 
 import React, { ComponentProps } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Modal } from ".";
 import { IProduct } from "../../lib/types.d";
-import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
@@ -15,49 +15,53 @@ interface Props {
 export function DeleteProduct(props: Props) {
   const { product, showModal, handleDeleteShowModal } = props;
   const { supabase } = useSupabase();
-  const { products, setProducts } = useAppContext();
 
-  const handleDeleteClick = () => {
-    const handleDelete = async () => {
-      // Delete all storage images from the product
-      if (
-        product?.product_multimedia &&
-        product?.product_multimedia[0]?.p_principal
-      ) {
-        const { error: storageError } = await supabase.storage
-          .from("products")
-          .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
+  const queryClient = useQueryClient();
 
-        if (storageError) throw storageError;
-      }
-
-      const { error: reviewError } = await supabase
-        .from("reviews")
-        .delete()
-        .eq("product_id", product?.id);
-
-      if (reviewError) throw reviewError;
-
-      const { data, error: productError } = await supabase
+  const handleDelete = async () => {
+    // Delete all storage images from the product
+    if (
+      product?.product_multimedia &&
+      product?.product_multimedia[0]?.p_principal
+    ) {
+      const { error: storageError } = await supabase.storage
         .from("products")
-        .delete()
-        .eq("id", product?.id);
+        .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
 
-      if (productError) throw productError;
+      if (storageError) throw storageError;
+    }
 
-      handleDeleteShowModal(false);
+    const { error: reviewError } = await supabase
+      .from("reviews")
+      .delete()
+      .eq("product_id", product?.id);
 
-      // Refresh product list after delete
-      setProducts(
-        products.filter((b) => {
-          return b.id !== product?.id;
-        })
-      );
+    if (reviewError) throw reviewError;
 
-      return data;
-    };
+    const { error: productError } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", product?.id);
 
-    handleDelete();
+    if (productError) throw productError;
+
+    handleDeleteShowModal(false);
+  };
+
+  const deleteProductMutation = useMutation({
+    mutationKey: ["deleteProduct"],
+    mutationFn: handleDelete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
+    },
+  });
+
+  const handleSubmitDelete = () => {
+    try {
+      deleteProductMutation.mutate();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -69,7 +73,7 @@ export function DeleteProduct(props: Props) {
       btnTitle={"delete"}
       description={"modal_delete_product_description"}
       handler={() => {
-        handleDeleteClick();
+        handleSubmitDelete();
       }}
       classIcon={""}
       classContainer={""}
