@@ -36,7 +36,7 @@ export function LotList({
     isError,
     isLoading,
   } = useFetchLotsByOwnerAndPagination(user.id, currentPage, pageRange);
-  alert(JSON.stringify(lots));
+
   const lotsCount = lots?.length ?? 0;
   const finalPage =
     lotsCount < currentPage * pageRange ? lotsCount : currentPage * pageRange;

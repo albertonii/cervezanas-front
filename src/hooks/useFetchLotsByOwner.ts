@@ -23,8 +23,6 @@ const fetchLotsByOwner = async (
     .eq("owner_id", ownerId)
     .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
 
-  console.log(data);
-
   if (error) throw error;
 
   return data;
