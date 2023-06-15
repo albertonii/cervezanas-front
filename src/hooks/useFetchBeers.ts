@@ -15,7 +15,6 @@ const fetchProducts = async (supabase: SupabaseClient<any>) => {
   `);
 
   if (error) throw error;
-
   return data;
 };
 

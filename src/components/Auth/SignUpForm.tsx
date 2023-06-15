@@ -86,8 +86,7 @@ export const SignUpForm = () => {
       password: password,
       phone: "",
       options: {
-        emailRedirectTo: `${location.origin}/`,
-        // emailRedirectTo: `${location.origin}/api/auth/callback`,
+        emailRedirectTo: `${location.origin}/api/auth/callback`,
         captchaToken: "",
         data: data,
       },
