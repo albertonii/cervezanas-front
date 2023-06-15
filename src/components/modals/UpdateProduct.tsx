@@ -10,6 +10,7 @@ import {
   IInventory,
   IAward,
   ModalUpdateProductProps,
+  IProductPack,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductStepper } from ".";
@@ -19,8 +20,8 @@ import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { isNotEmptyArray, isValidObject } from "../../utils/utils";
 import { getFileExtensionByName } from "../../utils";
 import { uuid } from "uuidv4";
-import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
+import { useMutation, useQueryClient } from "react-query";
 
 interface Props {
   product: IProduct;
@@ -35,7 +36,6 @@ export function UpdateProduct({
 }: Props) {
   const t = useTranslations();
 
-  const { products, setProducts } = useAppContext();
   const { user } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -74,281 +74,286 @@ export function UpdateProduct({
   });
 
   const { handleSubmit, reset } = form;
+  const queryClient = useQueryClient();
 
-  const onSubmit = (formValues: ModalUpdateProductProps) => {
-    const handleProductUpdate = async () => {
-      handleEditShowModal(false);
+  const handleUpdateProduct = async (formValues: any) => {
+    const {
+      // campaign,
+      fermentation,
+      color,
+      intensity,
+      aroma,
+      family,
+      origin,
+      era,
+      is_gluten,
+      type,
+      awards,
+      p_principal,
+      p_back,
+      p_extra_1,
+      p_extra_2,
+      p_extra_3,
+      is_public,
+      name,
+      description,
+      price,
+      volume,
+      format,
+      stock_quantity,
+      stock_limit_notification,
+      packs,
+    } = formValues;
 
-      const {
-        // campaign,
-        fermentation,
-        color,
-        intensity,
-        aroma,
-        family,
-        origin,
-        era,
-        is_gluten,
-        type,
-        awards,
-        p_principal,
-        p_back,
-        p_extra_1,
-        p_extra_2,
-        p_extra_3,
-        is_public,
+    const userId = user?.id;
+
+    const { data, error: productError } = await supabase
+      .from("products")
+      .update({
         name,
         description,
+        type,
+        owner_id: userId,
         price,
-        volume,
-        format,
-        stock_quantity,
-        stock_limit_notification,
-        packs,
-      } = formValues;
+        is_public,
+      })
+      .eq("id", product.id)
+      .select();
 
-      const userId = user?.id;
+    if (productError) throw productError;
+    if (!data) throw new Error("No data returned from supabase");
 
-      const { data, error: productError } = await supabase
+    const productData = data[0] as IProduct;
+
+    const productId = product.id;
+
+    // Multimedia
+    const p_principal_url =
+      !_.isEmpty(p_principal?.name) ?? encodeURIComponent(p_principal.name);
+
+    const p_back_url =
+      !_.isEmpty(p_back?.name) ?? encodeURIComponent(p_back.name);
+
+    const p_extra_1_url =
+      !_.isEmpty(p_extra_1?.name) ?? encodeURIComponent(p_extra_1.name);
+
+    const p_extra_2_url =
+      !_.isEmpty(p_extra_2?.name) ?? encodeURIComponent(p_extra_2.name);
+
+    const p_extra_3_url =
+      !_.isEmpty(p_extra_3?.name) ?? encodeURIComponent(p_extra_3.name);
+
+    const { data: product_multimedia, error: multError } = await supabase
+      .from("product_multimedia")
+      .update({
+        p_principal: p_principal_url,
+        p_back: p_back_url,
+        p_extra_1: p_extra_1_url,
+        p_extra_2: p_extra_2_url,
+        p_extra_3: p_extra_3_url,
+      })
+      .eq("product_id", product.id);
+
+    if (multError) throw multError;
+    if (product_multimedia) {
+      productData.product_multimedia = product_multimedia;
+    }
+
+    // Store images in bucket
+    if (p_principal_url) {
+      const { error: pPrincipalError } = await supabase.storage
         .from("products")
+        .update(`/articles/${p_principal_url}`, p_principal, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (pPrincipalError) throw pPrincipalError;
+    }
+
+    if (p_back_url) {
+      const { error: pBackError } = await supabase.storage
+        .from("products")
+        .update(`/articles/${p_back_url}`, p_back.name, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (pBackError) throw pBackError;
+    }
+
+    if (p_extra_1_url) {
+      const { error: pExtra1Error } = await supabase.storage
+        .from("products")
+        .update(`/articles/${p_extra_1}`, p_extra_1.name, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (pExtra1Error) throw pExtra1Error;
+    }
+
+    if (p_extra_2_url) {
+      const { error: pExtra2Error } = await supabase.storage
+        .from("products")
+        .update(`/articles/${p_extra_2_url}`, p_extra_2.name, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (pExtra2Error) throw pExtra2Error;
+    }
+
+    if (p_extra_3_url) {
+      const { error: pExtra3Error } = await supabase.storage
+        .from("products")
+        .update(`/articles/${p_extra_3_url}`, p_extra_3.name, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+      if (pExtra3Error) throw pExtra3Error;
+    }
+
+    setActiveStep(0);
+
+    if (product_type_options[0].label === productData.type) {
+      const { data: beerData, error: beerError } = await supabase
+        .from("beers")
         .update({
-          name,
-          description,
-          type,
-          owner_id: userId,
-          price,
-          is_public,
+          intensity,
+          fermentation,
+          color,
+          aroma,
+          family,
+          origin,
+          era,
+          is_gluten,
+          volume,
+          format,
+          product_id: productId,
         })
-        .eq("id", product.id)
+        .eq("product_id", product.id)
         .select();
 
-      if (productError) throw productError;
-      if (!data) throw new Error("No data returned from supabase");
+      if (beerError) throw beerError;
+      productData.beers = beerData;
 
-      const productData = data[0] as IProduct;
+      const beer = beerData[0];
+      const beerId = beer.id;
 
-      const productId = product.id;
+      // Inventory - Stock
+      const stock: IInventory = {
+        product_id: productId,
+        quantity: stock_quantity,
+        limit_notification: stock_limit_notification,
+      };
 
-      // Multimedia
-      const p_principal_url =
-        !_.isEmpty(p_principal?.name) ?? encodeURIComponent(p_principal.name);
-
-      const p_back_url =
-        !_.isEmpty(p_back?.name) ?? encodeURIComponent(p_back.name);
-
-      const p_extra_1_url =
-        !_.isEmpty(p_extra_1?.name) ?? encodeURIComponent(p_extra_1.name);
-
-      const p_extra_2_url =
-        !_.isEmpty(p_extra_2?.name) ?? encodeURIComponent(p_extra_2.name);
-
-      const p_extra_3_url =
-        !_.isEmpty(p_extra_3?.name) ?? encodeURIComponent(p_extra_3.name);
-
-      const { data: product_multimedia, error: multError } = await supabase
-        .from("product_multimedia")
-        .update({
-          p_principal: p_principal_url,
-          p_back: p_back_url,
-          p_extra_1: p_extra_1_url,
-          p_extra_2: p_extra_2_url,
-          p_extra_3: p_extra_3_url,
-        })
+      const { data: product_inventory, error: stockError } = await supabase
+        .from("product_inventory")
+        .update(stock)
         .eq("product_id", product.id);
+      if (stockError) throw stockError;
 
-      if (multError) throw multError;
-      if (product_multimedia) {
-        productData.product_multimedia = product_multimedia;
+      if (product_inventory) {
+        productData.product_inventory = product_inventory;
       }
 
-      // Store images in bucket
-      if (p_principal_url) {
-        const { error: pPrincipalError } = await supabase.storage
-          .from("products")
-          .update(`/articles/${p_principal_url}`, p_principal, {
-            cacheControl: "3600",
-            upsert: true,
-          });
-        if (pPrincipalError) throw pPrincipalError;
+      // Packs
+      if (packs.length > 0) {
+        packs.map(async (pack: IProductPack) => {
+          pack.randomUUID = isValidObject(pack.randomUUID)
+            ? pack.randomUUID
+            : uuid();
+
+          const { error: packsError } = await supabase
+            .from("product_pack")
+            .upsert({
+              product_id: productId,
+              pack: pack.pack,
+              price: pack.price,
+              name: pack.name,
+              img_url: pack.img_url.name,
+              randomUUID: pack.randomUUID,
+            })
+            .eq("product_id", product.id);
+
+          if (packsError) throw packsError;
+
+          // Upd Img to Store
+          // check if image selected in file input is not empty and is an image
+          if (pack.img_url) {
+            const { error: storagePacksError } = await supabase.storage
+              .from("products")
+              .upload(
+                `articles/${productId}/packs/${
+                  pack.randomUUID
+                }.${getFileExtensionByName(pack.img_url.name)}`,
+                pack.img_url,
+                {
+                  cacheControl: "3600",
+                  upsert: true,
+                }
+              );
+
+            if (storagePacksError) throw storagePacksError;
+          }
+        });
+
+        productData.product_pack = packs;
       }
 
-      if (p_back_url) {
-        const { error: pBackError } = await supabase.storage
-          .from("products")
-          .update(`/articles/${p_back_url}`, p_back.name, {
-            cacheControl: "3600",
-            upsert: true,
-          });
-        if (pBackError) throw pBackError;
-      }
-
-      if (p_extra_1_url) {
-        const { error: pExtra1Error } = await supabase.storage
-          .from("products")
-          .update(`/articles/${p_extra_1}`, p_extra_1.name, {
-            cacheControl: "3600",
-            upsert: true,
-          });
-        if (pExtra1Error) throw pExtra1Error;
-      }
-
-      if (p_extra_2_url) {
-        const { error: pExtra2Error } = await supabase.storage
-          .from("products")
-          .update(`/articles/${p_extra_2_url}`, p_extra_2.name, {
-            cacheControl: "3600",
-            upsert: true,
-          });
-        if (pExtra2Error) throw pExtra2Error;
-      }
-
-      if (p_extra_3_url) {
-        const { error: pExtra3Error } = await supabase.storage
-          .from("products")
-          .update(`/articles/${p_extra_3_url}`, p_extra_3.name, {
-            cacheControl: "3600",
-            upsert: true,
-          });
-        if (pExtra3Error) throw pExtra3Error;
-      }
-
-      setActiveStep(0);
-
-      if (product_type_options[0].label === productData.type) {
-        const { data: beerData, error: beerError } = await supabase
-          .from("beers")
-          .update({
-            intensity,
-            fermentation,
-            color,
-            aroma,
-            family,
-            origin,
-            era,
-            is_gluten,
-            volume,
-            format,
-            product_id: productId,
-          })
-          .eq("product_id", product.id)
-          .select();
-
-        if (beerError) throw beerError;
-        productData.beers = beerData;
-
-        const beer = beerData[0];
-        const beerId = beer.id;
-
-        // Inventory - Stock
-        const stock: IInventory = {
-          product_id: productId,
-          quantity: stock_quantity,
-          limit_notification: stock_limit_notification,
-        };
-
-        const { data: product_inventory, error: stockError } = await supabase
-          .from("product_inventory")
-          .update(stock)
-          .eq("product_id", product.id);
-        if (stockError) throw stockError;
-
-        if (product_inventory) {
-          productData.product_inventory = product_inventory;
-        }
-
-        // Packs
-        if (packs.length > 0) {
-          packs.map(async (pack) => {
-            pack.randomUUID = isValidObject(pack.randomUUID)
-              ? pack.randomUUID
-              : uuid();
-
-            const { error: packsError } = await supabase
-              .from("product_pack")
-              .upsert({
-                product_id: productId,
-                pack: pack.pack,
-                price: pack.price,
-                name: pack.name,
-                img_url: pack.img_url.name,
-                randomUUID: pack.randomUUID,
+      // Awards
+      if (
+        awards &&
+        isNotEmptyArray(awards) &&
+        isValidObject(awards[0].img_url)
+      ) {
+        awards.map(async (award: IAward) => {
+          if (award.img_url.length > 0) {
+            const file = award.img_url[0];
+            const productFileUrl = encodeURIComponent(file.name);
+            const { data, error: awardsError } = await supabase
+              .from("awards")
+              .update({
+                product_id: beerId,
+                name: award.name,
+                description: award.description,
+                year: award.year,
+                img_url: productFileUrl,
               })
               .eq("product_id", product.id);
 
-            if (packsError) throw packsError;
+            if (awardsError) throw awardsError;
+            if (!data) throw new Error("No data returned from awards update");
 
-            // Upd Img to Store
-            // check if image selected in file input is not empty and is an image
-            if (pack.img_url) {
-              const { error: storagePacksError } = await supabase.storage
-                .from("products")
-                .upload(
-                  `articles/${productId}/packs/${
-                    pack.randomUUID
-                  }.${getFileExtensionByName(pack.img_url.name)}`,
-                  pack.img_url,
-                  {
-                    cacheControl: "3600",
-                    upsert: true,
-                  }
-                );
+            const awards = data as IAward[];
+            productData.awards = awards;
 
-              if (storagePacksError) throw storagePacksError;
-            }
-          });
-
-          productData.product_pack = packs;
-        }
-
-        // Awards
-        if (
-          awards &&
-          isNotEmptyArray(awards) &&
-          isValidObject(awards[0].img_url)
-        ) {
-          awards.map(async (award: IAward) => {
-            if (award.img_url.length > 0) {
-              const file = award.img_url[0];
-              const productFileUrl = encodeURIComponent(file.name);
-              const { data, error: awardsError } = await supabase
-                .from("awards")
-                .update({
-                  product_id: beerId,
-                  name: award.name,
-                  description: award.description,
-                  year: award.year,
-                  img_url: productFileUrl,
-                })
-                .eq("product_id", product.id);
-
-              if (awardsError) throw awardsError;
-              if (!data) throw new Error("No data returned from awards update");
-
-              const awards = data as IAward[];
-              productData.awards = awards;
-
-              const { error: storageAwardsError } = await supabase.storage
-                .from("products")
-                .upload(`awards/${productFileUrl}`, file, {
-                  cacheControl: "3600",
-                  upsert: false,
-                });
-              if (storageAwardsError) throw storageAwardsError;
-            }
-          });
-        }
-
-        // Product - Update
-        const index = products.findIndex((p: any) => p.id === productData.id);
-        products[index] = productData;
-
-        // Update previous product list
-        setProducts(products);
-
-        return product;
+            const { error: storageAwardsError } = await supabase.storage
+              .from("products")
+              .upload(`awards/${productFileUrl}`, file, {
+                cacheControl: "3600",
+                upsert: false,
+              });
+            if (storageAwardsError) throw storageAwardsError;
+          }
+        });
       }
-    };
-    handleProductUpdate();
+    }
+  };
+
+  const updateProductMutation = useMutation({
+    mutationKey: ["updateProduct"],
+    mutationFn: handleUpdateProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
+    },
+  });
+
+  const onSubmit = (formValues: ModalUpdateProductProps) => {
+    try {
+      updateProductMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
+
+    handleEditShowModal(false);
     reset();
   };
 

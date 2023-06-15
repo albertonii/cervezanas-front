@@ -60,7 +60,7 @@ export function AddProduct() {
   const { handleSubmit, reset } = form;
   const queryClient = useQueryClient();
 
-  const handleProductInsert = async (formValues: any) => {
+  const handleInsertProduct = async (formValues: any) => {
     const {
       // campaign,
       fermentation,
@@ -356,21 +356,19 @@ export function AddProduct() {
 
   const insertProductMutation = useMutation({
     mutationKey: ["insertProduct"],
-    mutationFn: handleProductInsert,
+    mutationFn: handleInsertProduct,
     onSuccess: () => {
-      alert("todo chachi o k");
       queryClient.invalidateQueries({ queryKey: ["productList"] });
     },
   });
 
   const onSubmit = (formValues: ModalAddProductProps) => {
     try {
-      insertProductMutation.mutateAsync(formValues);
+      insertProductMutation.mutate(formValues);
     } catch (e) {
       console.error(e);
     }
 
-    // handleProductInsert(formValues);
     setShowModal(false);
     reset();
   };
