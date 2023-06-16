@@ -26,7 +26,6 @@ import { v4 as uuidv4 } from "uuid";
 import { ProductSummary } from "./ProductSummary";
 import { getFileExtensionByName } from "../../utils";
 import {
-  generateFileName,
   generateFileNameExtension,
   isFileEmpty,
   isNotEmptyArray,
@@ -427,6 +426,10 @@ export function AddProduct() {
         handler={handleSubmit(onSubmit)}
         classIcon={""}
         classContainer={""}
+        handlerClose={() => {
+          setActiveStep(0);
+          setShowModal(false);
+        }}
       >
         <>
           <ProductStepper

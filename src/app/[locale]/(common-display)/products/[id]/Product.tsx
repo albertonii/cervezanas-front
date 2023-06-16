@@ -81,6 +81,8 @@ export default function Product({ product, marketplaceProducts }: Props) {
   useEffect(() => {
     const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
       selectedMultimedia;
+
+    console.log(selectedMultimedia);
     setGallery(
       [
         ...(p_principal

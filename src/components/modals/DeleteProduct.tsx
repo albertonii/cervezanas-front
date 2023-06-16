@@ -4,7 +4,6 @@ import React, { ComponentProps } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Modal } from ".";
 import { IProduct } from "../../lib/types.d";
-import { useAuth } from "../Auth";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {

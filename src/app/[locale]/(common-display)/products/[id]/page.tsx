@@ -47,7 +47,11 @@ async function getProductData(productId: string) {
         *
       ),
       product_multimedia (
-        p_principal
+        p_principal,
+        p_back,
+        p_extra_1,
+        p_extra_2,
+        p_extra_3
       ),
       reviews (
         *,

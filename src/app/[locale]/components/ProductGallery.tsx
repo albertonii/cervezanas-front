@@ -21,7 +21,6 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   // const [extra_1, setExtra_1] = useState(gallery[galleryIndex + 2]);
   // const [extra_2, setExtra_2] = useState(gallery[galleryIndex + 3]);
   // const [extra_3, setExtra_3] = useState(gallery[galleryIndex + 4]);
-
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
   useEffect(() => {
     setMain(gallery[galleryIndex] ?? "");

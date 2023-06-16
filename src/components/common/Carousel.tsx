@@ -17,6 +17,9 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   const carousel = useRef<any>(null);
 
   const movePrev = () => {
+    console.log(currentIndex);
+    console.log(maxScrollWidth);
+
     if (currentIndex > 0) {
       setCurrentIndex((prevState: number) => prevState - 1);
       handleSetGalleryIndex((prevState: number) => prevState - 1);
@@ -24,6 +27,8 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   };
 
   const moveNext = () => {
+    console.log(currentIndex);
+    console.log(maxScrollWidth);
     if (
       carousel.current !== null &&
       carousel.current.offsetWidth * currentIndex <= maxScrollWidth.current
@@ -60,6 +65,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   }, []);
 
   const handleClick = (index: number) => {
+    console.log(index);
     setCurrentIndex(index);
     handleSetGalleryIndex(index);
   };
@@ -121,7 +127,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
             return (
               <div
                 key={index}
-                className="carousel-item relative snap-start text-center hover:cursor-pointer"
+                className="relative snap-start overflow-hidden text-center hover:cursor-pointer"
                 onClick={() => {
                   handleClick(index);
                 }}

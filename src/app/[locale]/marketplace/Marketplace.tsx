@@ -13,7 +13,6 @@ interface Props {
 export default function Marketplace({ products }: Props) {
   const { filterProducts } = useFilters();
   const filteredProducts = filterProducts(products);
-
   return (
     <>
       <div className="container mx-auto sm:py-2 lg:py-3 ">

@@ -29,6 +29,8 @@ function DisplayImageProduct({
     imgSrc ? imgSrc : COMMON.MARKETPLACE_PRODUCT
   );
 
+  console.log(imgSrc);
+
   const memoizedSrc = useMemo(() => src, [src]);
 
   return (

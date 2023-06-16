@@ -12,18 +12,18 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct } from "../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton, Spinner } from "../common";
-import { COMMON } from "../../constants";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useAuth } from "../Auth";
+import { SupabaseProps } from "../../constants";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function StoreItem({ product, products }: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
-
   const { id } = product;
   const router = useRouter();
 
@@ -124,9 +124,8 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 height={128}
                 alt="Principal Product Image store item"
                 imgSrc={
-                  product.product_multimedia[0]
-                    ? product.product_multimedia[0].p_principal
-                    : `${COMMON.MARKETPLACE_PRODUCT}`
+                  BASE_PRODUCTS_URL +
+                  decodeURIComponent(product.product_multimedia[0].p_principal)
                 }
                 class={
                   "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
