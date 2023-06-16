@@ -35,7 +35,7 @@ async function getProductData(productId: string) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: product, error: productError } = await supabase
+  const { data: productData, error: productError } = await supabase
     .from("cpm_products")
     .select(
       `*,
@@ -62,7 +62,7 @@ async function getProductData(productId: string) {
 
   if (productError) throw productError;
 
-  return product[0] as ICPMProducts;
+  return productData[0] as ICPMProducts;
 }
 
 async function getMarketplaceData() {
@@ -78,7 +78,7 @@ async function getMarketplaceData() {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: products, error: productsError } = await supabase
+  const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(
       `
@@ -93,5 +93,5 @@ async function getMarketplaceData() {
 
   if (productsError) throw productsError;
 
-  return products as IProduct[];
+  return productsData as IProduct[];
 }

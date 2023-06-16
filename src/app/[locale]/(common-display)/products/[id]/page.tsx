@@ -19,8 +19,7 @@ export default async function ProductId({ params }: any) {
     <>
       <Product
         product={product}
-        // marketplaceProducts={marketplaceProducts ?? []}
-        marketplaceProducts={[]}
+        marketplaceProducts={marketplaceProducts ?? []}
       />
     </>
   );
@@ -69,19 +68,9 @@ async function getProductData(productId: string) {
 }
 
 async function getMarketplaceData() {
-  // Create authenticated Supabase Client
   const supabase = createServerClient();
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: products, error: productsError } = await supabase
+  const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(
       `
@@ -96,5 +85,5 @@ async function getMarketplaceData() {
 
   if (productsError) throw productsError;
 
-  return products;
+  return productsData as IProduct[];
 }

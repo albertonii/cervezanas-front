@@ -20,12 +20,15 @@ type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
-export function StoreItem({ product, products }: StoreItemProps) {
+export function StoreItem({
+  product,
+  products: marketplaceProducts,
+}: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
-  const { id } = product;
+  const productId = product.id;
   const router = useRouter();
 
   const overAllCalculation = () => {
@@ -53,7 +56,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
     marketplaceItems,
   } = useShoppingCart();
 
-  const quantity = getItemQuantity(id);
+  const quantity = getItemQuantity(productId);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -61,7 +64,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
+        .insert([{ product_id: productId, owner_id: product.owner_id }]);
 
       if (error) throw error;
 
@@ -70,7 +73,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ product_id: product.id, owner_id: product.owner_id });
+        .match({ product_id: productId, owner_id: product.owner_id });
 
       if (error) throw error;
 
@@ -79,23 +82,23 @@ export function StoreItem({ product, products }: StoreItemProps) {
   }
 
   const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(id);
-    if (marketplaceItems.find((item) => item.id === id)) return;
+    increaseCartQuantity(productId);
+    if (marketplaceItems.find((item) => item.id === productId)) return;
 
-    const product_ = products.find((item) => item.id === id);
+    const product_ = marketplaceProducts.find((item) => item.id === productId);
     if (!product_) return;
     addMarketplaceItems(product_);
   };
 
   const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(id);
-    if (getItemQuantity(id) > 1) return;
-    removeMarketplaceItems(id);
+    decreaseCartQuantity(productId);
+    if (getItemQuantity(productId) > 1) return;
+    removeMarketplaceItems(productId);
   };
 
   const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
-    removeFromCart(id);
+    removeMarketplaceItems(productId);
+    removeFromCart(productId);
   };
 
   return (

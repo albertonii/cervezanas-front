@@ -9,8 +9,11 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { Button, IconButton, Spinner } from "../../../../../components/common";
+import {
+  AddCardButton,
+  Button,
+  Spinner,
+} from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
@@ -49,6 +52,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
   const [isLike, setIsLike] = useState<boolean>(
     Boolean(selectedProduct?.likes?.length)
   );
+  const productId = selectedProduct.id;
 
   const reviewRef = useRef<any>();
 
@@ -183,25 +187,24 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
-  const handleIncreaseToCartItem = (productId: string) => {
+  const handleIncreaseToCartItem = () => {
     increaseCartQuantity(productId);
-
-    if (marketplaceItems.some(({ id }) => id === productId)) return;
-
+    if (marketplaceItems.find((item) => item.id === productId)) return;
+    console.log(marketplaceProducts);
     const product = marketplaceProducts.find(({ id }) => id === productId);
     if (!product) return;
     addMarketplaceItems(product);
   };
 
-  const handleDecreaseFromCartItem = (beerId: string) => {
-    decreaseCartQuantity(beerId);
-    if (getItemQuantity(beerId) > 1) return;
-    removeMarketplaceItems(beerId);
+  const handleDecreaseFromCartItem = () => {
+    decreaseCartQuantity(productId);
+    if (getItemQuantity(productId) > 1) return;
+    removeMarketplaceItems(productId);
   };
 
-  const handleRemoveFromCart = (beerId: string) => {
-    removeMarketplaceItems(beerId);
-    removeFromCart(beerId);
+  const handleRemoveFromCart = () => {
+    removeMarketplaceItems(productId);
+    removeFromCart(productId);
   };
 
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
@@ -296,55 +299,26 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 <form>
                   <div className="mt-6 flex space-x-2">
                     {quantity === 0 ? (
-                      <IconButton
-                        classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                        classIcon={""}
-                        onClick={() =>
-                          handleIncreaseToCartItem(selectedProduct.id)
-                        }
-                        icon={faCartArrowDown}
-                        isActive={false}
-                        color={{
-                          filled: "#fdc300",
-                          unfilled: "grey",
-                        }}
-                        title={"Add item to cart"}
-                      >
-                        <>{t("add_to_cart")}</>
-                      </IconButton>
+                      <>
+                        <AddCardButton
+                          onClick={() => handleIncreaseToCartItem()}
+                        />
+                      </>
                     ) : (
                       <>
                         <MarketCartButtons
                           quantity={quantity}
                           item={product}
                           handleIncreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem()
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
+                            handleDecreaseFromCartItem()
                           }
-                          handleRemoveFromCart={() =>
-                            handleRemoveFromCart(selectedProduct.id)
-                          }
+                          handleRemoveFromCart={() => handleRemoveFromCart()}
                         />
                       </>
                     )}
-
-                    <Button
-                      onClick={() =>
-                        handleIncreaseToCartItem(selectedProduct.id)
-                      }
-                      class="bg-purple-500 hover:bg-purple-600 mb-2 mt-6 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
-                      isActive={false}
-                      color={{
-                        filled: "",
-                        unfilled: "",
-                      }}
-                      title={""}
-                      primary
-                    >
-                      <>{t("buy")}</>
-                    </Button>
                   </div>
                 </form>
               </section>
