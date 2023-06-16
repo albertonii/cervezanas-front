@@ -318,10 +318,10 @@ export default function Product({ product, marketplaceProducts }: Props) {
                           quantity={quantity}
                           item={product}
                           handleIncreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem(selectedProduct.id)
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleDecreaseFromCartItem(selectedProduct.id)
                           }
                           handleRemoveFromCart={() =>
                             handleRemoveFromCart(selectedProduct.id)

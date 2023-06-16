@@ -185,10 +185,10 @@ export function StoreItem({ product, products }: StoreItemProps) {
                     quantity={quantity}
                     item={product}
                     handleIncreaseCartQuantity={() =>
-                      handleDecreaseFromCartItem()
+                      handleIncreaseToCartItem()
                     }
                     handleDecreaseCartQuantity={() =>
-                      handleIncreaseToCartItem()
+                      handleDecreaseFromCartItem()
                     }
                     handleRemoveFromCart={() => handleRemoveFromCart()}
                   />
