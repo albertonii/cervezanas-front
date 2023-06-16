@@ -57,7 +57,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
             <div className="flex w-full justify-center px-10 py-4 lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0">
               {/* Main Image  */}
               <DisplayImageProduct
-                imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(main.imageUrl)}
+                imgSrc={decodeURIComponent(main.imageUrl)}
                 width={350}
                 height={150}
                 alt="Product Gallery Principal Image"
