@@ -39,6 +39,7 @@ export function Filters() {
           max="1000"
           value={filters.minPrice}
           onChange={handleChangeMinPrice}
+          className="bg-beer-foam accent-beer-darkGold"
         />
         <span>{formatCurrency(filters.minPrice)}</span>
       </div>
