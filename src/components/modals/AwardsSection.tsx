@@ -75,9 +75,7 @@ export const AwardsSection = ({ form }: Props) => {
               <input
                 type="text"
                 id="award_name"
-                placeholder={
-                  t("input_product_award_name_placeholder") + "Award name"
-                }
+                placeholder={t("input_product_award_name_placeholder")}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register(`awards.${index}.name`, {
                   required: false,
@@ -109,7 +107,7 @@ export const AwardsSection = ({ form }: Props) => {
             <input
               type="text"
               id="award_description"
-              placeholder={t("description") + "Award description"}
+              placeholder={t("description")}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`awards.${index}.description`, {
                 required: false,
@@ -131,9 +129,9 @@ export const AwardsSection = ({ form }: Props) => {
             <input
               type="number"
               id="award_year"
-              placeholder={t("input_product_award_year_placeholder") + "2021"}
+              placeholder={t("input_product_award_year_placeholder")}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              value="2021"
+              defaultValue={2021}
               {...register(`awards.${index}.year`, {
                 required: false,
                 valueAsNumber: true,

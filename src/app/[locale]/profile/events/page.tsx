@@ -13,7 +13,7 @@ export default async function EventsPage() {
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <ProfileEvents events={events} cpsMobile={cpsMobile} />;
+        <ProfileEvents events={events} cpsMobile={cpsMobile} />
       </Suspense>
     </>
   );
@@ -69,5 +69,5 @@ async function getCPMobileData() {
 
   if (cpError) throw cpError;
 
-  return cps[0].cp_mobile as ICPMobile[];
+  return cps[0]?.cp_mobile as ICPMobile[];
 }

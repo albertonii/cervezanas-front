@@ -154,7 +154,7 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    if (!isFileEmpty(p_principal)) {
+    if (p_principal && !isFileEmpty(p_principal)) {
       const fileName = `/articles/${productId}/p_principal/${randomUUID}`;
 
       // .../articles/1/p_principal/uuid.jpg
@@ -176,7 +176,7 @@ export function AddProduct() {
       if (pPrincipalError) throw pPrincipalError;
     }
 
-    if (!isFileEmpty(p_back)) {
+    if (p_back && !isFileEmpty(p_back)) {
       const fileName = `/articles/${productId}/p_back/${randomUUID}`;
 
       p_back_url =
@@ -198,7 +198,7 @@ export function AddProduct() {
       if (pBackError) throw pBackError;
     }
 
-    if (!isFileEmpty(p_extra_1)) {
+    if (p_extra_1 && !isFileEmpty(p_extra_1)) {
       const fileName = `/articles/${productId}/p_extra_1/${randomUUID}`;
 
       p_extra_1_url =
@@ -220,7 +220,7 @@ export function AddProduct() {
       if (pExtra1Error) throw pExtra1Error;
     }
 
-    if (!isFileEmpty(p_extra_2)) {
+    if (p_extra_2 && !isFileEmpty(p_extra_2)) {
       const fileName = `/articles/${productId}/p_extra_2/${randomUUID}`;
 
       p_extra_2_url =
@@ -242,7 +242,7 @@ export function AddProduct() {
       if (pExtra2Error) throw pExtra2Error;
     }
 
-    if (!isFileEmpty(p_extra_3)) {
+    if (p_extra_3 && !isFileEmpty(p_extra_3)) {
       const fileName = `/articles/${productId}/p_extra_3/${randomUUID}`;
 
       p_extra_3_url =
@@ -277,6 +277,7 @@ export function AddProduct() {
 
     setActiveStep(0);
 
+    // Beer type
     if (product_type_options[0].label === productData[0].type) {
       const { data: beerData, error: beerError } = await supabase
         .from("beers")

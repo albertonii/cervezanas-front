@@ -6,6 +6,7 @@ export function isValidObject(object: any) {
 }
 
 export function isNotEmptyArray(array: any[]) {
+  console.log("array", array);
   return !_.isEmpty(array);
 }
 

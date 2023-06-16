@@ -105,7 +105,7 @@ export function ProductList({
   const filteredItems = useMemo<any[]>(() => {
     if (!products) return [];
     return products.filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
+      return product.name?.toLowerCase().includes(query.toLowerCase());
     });
   }, [products, query]);
 

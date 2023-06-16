@@ -9,7 +9,7 @@ import { Button } from "../../../components/common";
 import { useAppContext } from "../../../components/Context";
 
 export function Sidebar() {
-  const { sidebar } = useAppContext();
+  const { sidebar, changeSidebarActive } = useAppContext();
 
   const { role } = useAuth();
   const t = useTranslations();
@@ -160,7 +160,7 @@ export function Sidebar() {
             {sidebarLinks.map((link) => (
               <li
                 className={`
-                flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
+                flex items-center rounded-lg text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"
@@ -170,8 +170,9 @@ export function Sidebar() {
               >
                 <Link
                   href={{ pathname: link.option }}
-                  className="mx-4 font-medium"
+                  className="w-full p-2 px-4 font-medium"
                   locale={locale}
+                  onClick={() => changeSidebarActive(link.option)}
                 >
                   {t(link.name)}
                 </Link>

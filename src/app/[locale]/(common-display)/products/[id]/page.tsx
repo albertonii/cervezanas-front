@@ -1,7 +1,5 @@
 import Product from "./Product";
-import { VIEWS } from "../../../../../constants";
 import { createServerClient } from "../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
 import { IProduct } from "../../../../../lib/types.d";
 
 export default async function ProductId({ params }: any) {
@@ -26,17 +24,7 @@ export default async function ProductId({ params }: any) {
 }
 
 async function getProductData(productId: string) {
-  // Create authenticated Supabase Client
   const supabase = createServerClient();
-
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
 
   const { data: product, error: productError } = await supabase
     .from("products")

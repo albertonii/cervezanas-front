@@ -105,7 +105,7 @@ export function AppContextProvider(props: Props) {
   );
   const [sidebar, setSidebar] = useLocalStorage<string>(
     "sidebar-option",
-    "profile"
+    "settings"
   );
 
   const [notifications, setNotifications] = useState<INotification[]>([]);
