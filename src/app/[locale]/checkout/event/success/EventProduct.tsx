@@ -64,7 +64,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
                   BASE_PRODUCTS_URL +
                   decodeURIComponent(
                     eventOrderItem.product_multimedia[0].p_principal
-                  )`${COMMON.MARKETPLACE_PRODUCT}`
+                  )
                 }`}
                 class="h-full w-full object-cover object-center sm:h-full sm:w-full"
               />
