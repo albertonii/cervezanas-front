@@ -9,11 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import {
-  AddCardButton,
-  Button,
-  Spinner,
-} from "../../../../../components/common";
+import { AddCardButton, Spinner } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
@@ -301,6 +297,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
                     {quantity === 0 ? (
                       <>
                         <AddCardButton
+                          withText={true}
                           onClick={() => handleIncreaseToCartItem()}
                         />
                       </>
