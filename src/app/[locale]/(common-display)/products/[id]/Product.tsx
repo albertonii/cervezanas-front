@@ -28,7 +28,7 @@ interface Props {
   marketplaceProducts: IProduct[];
 }
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
+const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
 export default function Product({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
@@ -81,7 +81,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
   useEffect(() => {
     const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
       selectedMultimedia;
-
     setGallery(
       [
         ...(p_principal

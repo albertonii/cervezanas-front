@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { VIEWS } from "./constants";
 import { ROUTE_SIGNIN } from "./config";
 
 const locales = ["en", "es"];

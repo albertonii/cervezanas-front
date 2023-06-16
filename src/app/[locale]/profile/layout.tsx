@@ -84,7 +84,7 @@ export default function layout({ children }: LayoutProps) {
 
   return (
     <div className="relative flex w-full">
-      {/* <Sidebar /> */}
+      <Sidebar />
 
       <div className="h-full w-full">
         {role === "admin" && (

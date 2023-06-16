@@ -4,6 +4,7 @@ import React, { ComponentProps } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Modal } from ".";
 import { IProduct } from "../../lib/types.d";
+import { useAuth } from "../Auth";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
@@ -20,15 +21,51 @@ export function DeleteProduct(props: Props) {
 
   const handleDelete = async () => {
     // Delete all storage images from the product
-    if (
-      product?.product_multimedia &&
-      product?.product_multimedia[0]?.p_principal
-    ) {
-      const { error: storageError } = await supabase.storage
-        .from("products")
-        .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
+    if (product?.product_multimedia) {
+      if (product?.product_multimedia[0]?.p_principal) {
+        console.log(
+          decodeURIComponent(product.product_multimedia[0].p_principal)
+        );
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([
+            `${decodeURIComponent(product.product_multimedia[0].p_principal)}`,
+          ]);
 
-      if (storageError) throw storageError;
+        if (storageError) throw storageError;
+      }
+
+      if (product?.product_multimedia[0]?.p_back) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([`${product?.product_multimedia[0].p_back}`]);
+
+        if (storageError) throw storageError;
+      }
+
+      if (product?.product_multimedia[0]?.p_extra_1) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([`${product?.product_multimedia[0].p_extra_1}`]);
+
+        if (storageError) throw storageError;
+      }
+
+      if (product?.product_multimedia[0]?.p_extra_2) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([`${product?.product_multimedia[0].p_extra_2}`]);
+
+        if (storageError) throw storageError;
+      }
+
+      if (product?.product_multimedia[0]?.p_extra_3) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([`${product?.product_multimedia[0].p_extra_3}`]);
+
+        if (storageError) throw storageError;
+      }
     }
 
     const { error: reviewError } = await supabase

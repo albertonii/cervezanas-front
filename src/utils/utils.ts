@@ -41,3 +41,15 @@ export function generateFileName(fName: string) {
   const encodedFileName = encodeURIComponent(fileName);
   return encodedFileName;
 }
+
+export function generateFileNameExtension(fName: string) {
+  if (!fName) return "";
+  const fileExt = fName.split(".").pop();
+  const fileNameExtension = `.${fileExt}`;
+  const encodedFileName = encodeURIComponent(fileNameExtension);
+  return encodedFileName;
+}
+
+export function isFileEmpty(file: FileList) {
+  return file.length === 0;
+}

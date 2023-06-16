@@ -22,3 +22,9 @@ export const i18n = {
 } as const;
 
 export type Locale = (typeof i18n)["locales"][number];
+
+// import { getRequestConfig } from "next-intl/server";
+
+// export default getRequestConfig(async ({ locale }) => ({
+//   messages: (await import(`./messages/${locale}.json`)).default,
+// }));

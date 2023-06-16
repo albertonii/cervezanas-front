@@ -263,11 +263,7 @@ export function ProductList({
             </Button>
 
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: productsCount,
-              })}
+              {t("pagination_footer_nums")}
             </p>
 
             <Button class="" onClick={() => handleNextPage()} small primary>

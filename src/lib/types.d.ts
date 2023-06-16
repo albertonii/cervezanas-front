@@ -615,11 +615,11 @@ export type ModalAddProductProps = {
   origin: number;
   era: number;
   intensity: number;
-  p_principal: File;
-  p_back: File;
-  p_extra_1: File;
-  p_extra_2: File;
-  p_extra_3: File;
+  p_principal: FileList;
+  p_back: FileList;
+  p_extra_1: FileList;
+  p_extra_2: FileList;
+  p_extra_3: FileList;
   volume: any;
   price: number;
   pack: any;

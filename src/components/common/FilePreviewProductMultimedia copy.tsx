@@ -16,47 +16,47 @@ export const FilePreviewProductMultimedia = ({
 }: Props) => {
   const t = useTranslations();
 
-  const [fileList, setFileList] = useState<FileList | null>(null);
+  //TODO: Cambiar el tipo de File de any a File
+  const [file, setFile] = useState<File>(new File([], ""));
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return console.info("No hay archivos");
+    if (e.target.files === null) return console.info("No hay archivos");
 
-    setFileList(e.target.files);
+    const file = e.target.files[0];
+    setFile(file);
     setMessage("");
   };
 
   useEffect(() => {
-    if (fileList && fileList.length > 0) {
+    if (file.size !== 0) {
       setHideDrop(true);
 
       switch (registerName) {
         case "p_principal":
-          setValue("p_principal", fileList);
+          setValue("p_principal", file);
           break;
         case "p_back":
-          setValue("p_back", fileList);
+          setValue("p_back", file);
           break;
         case "p_extra_1":
-          setValue("p_extra_1", fileList);
+          setValue("p_extra_1", file);
           break;
         case "p_extra_2":
-          setValue("p_extra_2", fileList);
+          setValue("p_extra_2", file);
           break;
         case "p_extra_3":
-          setValue("p_extra_3", fileList);
+          setValue("p_extra_3", file);
           break;
         default:
           break;
       }
-    } else {
-      setHideDrop(false);
-    }
-  }, [fileList, registerName, setValue]);
+    } else setHideDrop(false);
+  }, [file, registerName, setValue]);
 
   const removeImage = () => {
-    setFileList(null);
+    setFile(new File([], ""));
   };
 
   return (
@@ -118,7 +118,7 @@ export const FilePreviewProductMultimedia = ({
           <></>
         )}
 
-        {hideDrop && fileList ? (
+        {hideDrop ? (
           <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
             <div className="z-1 relative flex h-full  w-full items-center justify-center bg-gray-200">
               <div className="flex flex-row items-center gap-2">
@@ -127,7 +127,7 @@ export const FilePreviewProductMultimedia = ({
                     width={128}
                     height={128}
                     className="h-full w-full rounded"
-                    src={URL.createObjectURL(fileList[0])}
+                    src={URL.createObjectURL(file)}
                     alt={""}
                   />
                 </div>

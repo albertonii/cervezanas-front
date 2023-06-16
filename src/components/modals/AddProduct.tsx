@@ -22,17 +22,47 @@ import {
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { ProductSummary } from "./ProductSummary";
 import { getFileExtensionByName } from "../../utils";
 import {
   generateFileName,
+  generateFileNameExtension,
+  isFileEmpty,
   isNotEmptyArray,
   isValidObject,
 } from "../../utils/utils";
 import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
+
+interface IFormValues {
+  fermentation: number;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  origin: number;
+  era: number;
+  is_gluten: boolean;
+  type: string;
+  awards: IAward[];
+  p_principal: FileList;
+  p_back: FileList;
+  p_extra_1: FileList;
+  p_extra_2: FileList;
+  p_extra_3: FileList;
+  is_public: boolean;
+  name: string;
+  description: string;
+  price: number;
+  volume: number;
+  format: string;
+  stock_quantity: number;
+  stock_limit_notification: number;
+  packs: IProductPack[];
+  category: string;
+}
 
 export function AddProduct() {
   const t = useTranslations();
@@ -60,7 +90,12 @@ export function AddProduct() {
   const { handleSubmit, reset } = form;
   const queryClient = useQueryClient();
 
-  const handleInsertProduct = async (formValues: any) => {
+  // Genera un UUID único
+  const generateUUID = () => {
+    return uuidv4();
+  };
+
+  const handleInsertProduct = async (formValues: IFormValues) => {
     const {
       // campaign,
       fermentation,
@@ -112,7 +147,7 @@ export function AddProduct() {
     const productId = productData[0].id;
 
     // Multimedia
-    const randomUUID = uuid();
+    const randomUUID = generateUUID();
 
     let p_principal_url = "";
     let p_back_url = "";
@@ -120,22 +155,21 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    if (p_principal) {
+    if (!isFileEmpty(p_principal)) {
+      const fileName = `/articles/${productId}/p_principal/${randomUUID}`;
+      console.log(generateFileNameExtension(p_principal[0].name));
+      // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
-        `/articles/${productId}/p_principal/${randomUUID}.${generateFileName(
-          p_principal.name
-        )}`
+        `${fileName}${generateFileNameExtension(p_principal[0].name)}`
       );
 
       const { error: pPrincipalError } = await supabase.storage
         .from("products")
         .upload(
-          `/articles/${productId}/p_principal/${randomUUID}.${generateFileName(
-            p_principal.name
-          )}`,
-          p_principal,
+          `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
+          p_principal[0],
           {
-            contentType: p_principal.type,
+            contentType: p_principal[0].type,
             cacheControl: "3600",
             upsert: false,
           }
@@ -143,18 +177,20 @@ export function AddProduct() {
       if (pPrincipalError) throw pPrincipalError;
     }
 
-    if (p_back) {
+    if (!isFileEmpty(p_back)) {
+      const fileName = `/articles/${productId}/p_back/${randomUUID}`;
+
       p_back_url =
         p_back &&
         encodeURIComponent(
-          `/articles/${productId}/p_back/${randomUUID}.${p_back?.name}`
+          `${fileName}.${generateFileNameExtension(p_back[0].name)}`
         );
 
       const { error: pBackError } = await supabase.storage
         .from("products")
         .upload(
-          `/articles/${productId}/p_back/${randomUUID}.${p_back.name}`,
-          p_back,
+          `${fileName}.${generateFileNameExtension(p_back[0].name)}`,
+          p_back[0],
           {
             cacheControl: "3600",
             upsert: false,
@@ -163,18 +199,20 @@ export function AddProduct() {
       if (pBackError) throw pBackError;
     }
 
-    if (p_extra_1) {
+    if (!isFileEmpty(p_extra_1)) {
+      const fileName = `/articles/${productId}/p_extra_1/${randomUUID}`;
+
       p_extra_1_url =
         p_extra_1 &&
         encodeURIComponent(
-          `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1?.name}`
+          `${fileName}.${generateFileNameExtension(p_extra_1[0].name)}`
         );
 
       const { error: pExtra1Error } = await supabase.storage
         .from("products")
         .upload(
-          `/articles/${productId}/p_extra_1/${randomUUID}.${p_extra_1.name}`,
-          p_extra_1,
+          `${fileName}.${generateFileNameExtension(p_extra_1[0].name)}`,
+          p_extra_1[0],
           {
             cacheControl: "3600",
             upsert: false,
@@ -183,18 +221,20 @@ export function AddProduct() {
       if (pExtra1Error) throw pExtra1Error;
     }
 
-    if (p_extra_2) {
+    if (!isFileEmpty(p_extra_2)) {
+      const fileName = `/articles/${productId}/p_extra_2/${randomUUID}`;
+
       p_extra_2_url =
         p_extra_2 &&
         encodeURIComponent(
-          `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2?.name}`
+          `${fileName}.${generateFileNameExtension(p_extra_2[0].name)}`
         );
 
       const { error: pExtra2Error } = await supabase.storage
         .from("products")
         .upload(
-          `/articles/${productId}/p_extra_2/${randomUUID}.${p_extra_2.name}`,
-          p_extra_2,
+          `${fileName}.${generateFileNameExtension(p_extra_2[0].name)}`,
+          p_extra_2[0],
           {
             cacheControl: "3600",
             upsert: false,
@@ -203,16 +243,18 @@ export function AddProduct() {
       if (pExtra2Error) throw pExtra2Error;
     }
 
-    if (p_extra_3) {
+    if (!isFileEmpty(p_extra_3)) {
+      const fileName = `/articles/${productId}/p_extra_3/${randomUUID}`;
+
       p_extra_3_url =
         p_extra_3 &&
-        `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3?.name}`;
+        `${fileName}.${generateFileNameExtension(p_extra_3[0].name)}`;
 
       const { error: pExtra3Error } = await supabase.storage
         .from("products")
         .upload(
-          `/articles/${productId}/p_extra_3/${randomUUID}.${p_extra_3.name}`,
-          p_extra_3,
+          `${fileName}.${generateFileNameExtension(p_extra_3[0].name)}`,
+          p_extra_3[0],
           {
             cacheControl: "3600",
             upsert: false,
@@ -402,9 +444,9 @@ export function AddProduct() {
                   customizeSettings={customizeSettings}
                 />
               ) : activeStep === 1 ? (
-                <AwardsSection form={form} />
-              ) : activeStep === 2 ? (
                 <MultimediaSection form={form} />
+              ) : activeStep === 2 ? (
+                <AwardsSection form={form} />
               ) : (
                 <ProductSummary form={form} />
               )}

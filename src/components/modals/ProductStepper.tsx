@@ -35,46 +35,46 @@ export function ProductStepper(props: Props) {
       switch (param) {
         case 0:
           setDetailsClass(statusPresentClass);
-          setAwardsClass(statusFutureClass);
           setMultimediaClass(statusFutureClass);
+          setAwardsClass(statusFutureClass);
           setConfirmClass(statusFutureClass);
 
           setDetailsIconClass(statusPresentIconClass);
-          setAwardsIconClass(statusFutureIconClass);
           setMultimediaIconClass(statusFutureIconClass);
+          setAwardsIconClass(statusFutureIconClass);
           setConfirmIconClass(statusFutureIconClass);
           return "";
         case 1:
           setDetailsClass(statusPastClass);
-          setAwardsClass(statusPresentClass);
-          setMultimediaClass(statusFutureClass);
+          setMultimediaClass(statusPresentClass);
+          setAwardsClass(statusFutureClass);
           setConfirmClass(statusFutureClass);
 
           setDetailsIconClass(statusPastIconClass);
-          setAwardsIconClass(statusPresentIconClass);
-          setMultimediaIconClass(statusFutureIconClass);
+          setMultimediaIconClass(statusPresentIconClass);
+          setAwardsIconClass(statusFutureIconClass);
           setConfirmIconClass(statusFutureIconClass);
           return "";
         case 2:
           setDetailsClass(statusPastClass);
-          setAwardsClass(statusPastClass);
-          setMultimediaClass(statusPresentClass);
+          setMultimediaClass(statusPastClass);
+          setAwardsClass(statusPresentClass);
           setConfirmClass(statusFutureClass);
 
           setDetailsIconClass(statusPastIconClass);
-          setAwardsIconClass(statusPastIconClass);
-          setMultimediaIconClass(statusPresentIconClass);
+          setMultimediaIconClass(statusPastIconClass);
+          setAwardsIconClass(statusPresentIconClass);
           setConfirmIconClass(statusFutureIconClass);
           return "";
         default:
           setDetailsClass(statusPastClass);
-          setAwardsClass(statusPastClass);
           setMultimediaClass(statusPastClass);
+          setAwardsClass(statusPastClass);
           setConfirmClass(statusPresentClass);
 
           setDetailsIconClass(statusPastIconClass);
-          setAwardsIconClass(statusPastIconClass);
           setMultimediaIconClass(statusPastIconClass);
+          setAwardsIconClass(statusPastIconClass);
           setConfirmIconClass(statusPresentIconClass);
           return "";
       }
@@ -89,46 +89,46 @@ export function ProductStepper(props: Props) {
     switch (param) {
       case 0:
         setDetailsClass(statusPresentClass);
-        setAwardsClass(statusFutureClass);
         setMultimediaClass(statusFutureClass);
+        setAwardsClass(statusFutureClass);
         setConfirmClass(statusFutureClass);
 
         setDetailsIconClass(statusPresentIconClass);
-        setAwardsIconClass(statusFutureIconClass);
         setMultimediaIconClass(statusFutureIconClass);
+        setAwardsIconClass(statusFutureIconClass);
         setConfirmIconClass(statusFutureIconClass);
         return "";
       case 1:
         setDetailsClass(statusPastClass);
-        setAwardsClass(statusPresentClass);
-        setMultimediaClass(statusFutureClass);
+        setMultimediaClass(statusPresentClass);
+        setAwardsClass(statusFutureClass);
         setConfirmClass(statusFutureClass);
 
         setDetailsIconClass(statusPastIconClass);
-        setAwardsIconClass(statusPresentIconClass);
-        setMultimediaIconClass(statusFutureIconClass);
+        setMultimediaIconClass(statusPresentIconClass);
+        setAwardsIconClass(statusFutureIconClass);
         setConfirmIconClass(statusFutureIconClass);
         return "";
       case 2:
         setDetailsClass(statusPastClass);
-        setAwardsClass(statusPastClass);
-        setMultimediaClass(statusPresentClass);
+        setMultimediaClass(statusPastClass);
+        setAwardsClass(statusPresentClass);
         setConfirmClass(statusFutureClass);
 
         setDetailsIconClass(statusPastIconClass);
-        setAwardsIconClass(statusPastIconClass);
-        setMultimediaIconClass(statusPresentIconClass);
+        setMultimediaIconClass(statusPastIconClass);
+        setAwardsIconClass(statusPresentIconClass);
         setConfirmIconClass(statusFutureIconClass);
         return "";
       default:
         setDetailsClass(statusPastClass);
-        setAwardsClass(statusPastClass);
         setMultimediaClass(statusPastClass);
+        setAwardsClass(statusPastClass);
         setConfirmClass(statusPresentClass);
 
         setDetailsIconClass(statusPastIconClass);
-        setAwardsIconClass(statusPastIconClass);
         setMultimediaIconClass(statusPastIconClass);
+        setAwardsIconClass(statusPastIconClass);
         setConfirmIconClass(statusPresentIconClass);
         return "";
     }
@@ -163,6 +163,34 @@ export function ProductStepper(props: Props) {
           </div>
 
           <div
+            className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
+          ></div>
+          <div className="relative flex items-center text-gray-500">
+            <div
+              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke={`${multimediaIconClass}`}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-mail "
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+              {t("multimedia")}
+            </div>
+          </div>
+
+          <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
           ></div>
           <div className="relative flex items-center text-white">
@@ -192,33 +220,6 @@ export function ProductStepper(props: Props) {
             </div>
           </div>
 
-          <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
-          ></div>
-          <div className="relative flex items-center text-gray-500">
-            <div
-              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100%"
-                height="100%"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke={`${multimediaIconClass}`}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-mail "
-              >
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </div>
-            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
-              {t("multimedia")}
-            </div>
-          </div>
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${confirmClass}`}
           ></div>
