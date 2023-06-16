@@ -1,18 +1,15 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import DisplayImageProduct from "../common/DisplayImageProduct";
+import MarketCartButtons from "../common/MarketCartButtons";
+import React, { useCallback } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { COMMON, SupabaseProps } from "../../constants";
+import { SupabaseProps } from "../../constants";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { IconButton } from "../common";
 import { Type } from "../../lib/productEnum";
-import { isValidObject } from "../../utils/utils";
-import DisplayImageProduct from "../common/DisplayImageProduct";
-import { useSupabase } from "../Context/SupabaseProvider";
-import MarketCartButtons from "../common/MarketCartButtons";
 import { useShoppingCart } from "../Context";
 
 interface Props {
@@ -22,13 +19,7 @@ interface Props {
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function CheckoutItem({ product }: Props) {
-  const { supabase } = useSupabase();
-
   const t = useTranslations();
-
-  const [p_principal, setPPrincipal] = useState<string>(
-    COMMON.MARKETPLACE_PRODUCT
-  );
 
   const {
     increaseCartQuantity,
@@ -42,30 +33,6 @@ export function CheckoutItem({ product }: Props) {
 
   const quantity = getItemQuantity(product.id);
   const productSubtotal = product.price * quantity;
-
-  useEffect(() => {
-    const getPrincipal = async () => {
-      if (
-        isValidObject(product.product_multimedia[0]) &&
-        product.product_multimedia[0].p_principal !== COMMON.MARKETPLACE_PRODUCT
-      ) {
-        const pPrincipalUrl = `${SupabaseProps.ARTICLES}${product.product_multimedia[0].p_principal}`;
-
-        const { data: p_principal } = supabase.storage
-          .from("products")
-          .getPublicUrl(pPrincipalUrl);
-
-        if (!p_principal) return;
-        setPPrincipal(p_principal.publicUrl);
-      }
-    };
-
-    getPrincipal();
-
-    () => {
-      setPPrincipal(COMMON.MARKETPLACE_PRODUCT);
-    };
-  }, [product.owner_id, product.product_multimedia]);
 
   const handleIncreaseCartQuantity = useCallback(
     (productId: string) => {
@@ -101,11 +68,14 @@ export function CheckoutItem({ product }: Props) {
     <div className="mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8">
       <div className="pb-4 md:pb-8 ">
         <DisplayImageProduct
-          imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(p_principal)}
+          imgSrc={
+            BASE_PRODUCTS_URL +
+            decodeURIComponent(product.product_multimedia[0].p_principal)
+          }
           alt={product.name}
           width={600}
           height={600}
-          class="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40"
+          class="h-24 w-24 rounded md:h-32 md:w-32 lg:h-40 lg:w-40"
         />
       </div>
 

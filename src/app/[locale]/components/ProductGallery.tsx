@@ -6,15 +6,12 @@ import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
 import { ICarouselItem } from "../../../lib/types.d";
-import { SupabaseProps } from "../../../constants";
 
 interface Props {
   gallery: ICarouselItem[];
   isLike: boolean;
   handleSetIsLike?: ComponentProps<any>;
 }
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
