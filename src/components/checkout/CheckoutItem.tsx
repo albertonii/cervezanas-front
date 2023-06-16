@@ -19,6 +19,8 @@ interface Props {
   product: IProduct;
 }
 
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+
 export function CheckoutItem({ product }: Props) {
   const { supabase } = useSupabase();
 
@@ -99,7 +101,7 @@ export function CheckoutItem({ product }: Props) {
     <div className="mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8">
       <div className="pb-4 md:pb-8 ">
         <DisplayImageProduct
-          imgSrc={p_principal}
+          imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(p_principal)}
           alt={product.name}
           width={600}
           height={600}

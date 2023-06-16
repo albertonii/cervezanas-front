@@ -9,6 +9,7 @@ import { IMonthlyProduct } from "../../../lib/types.d";
 import { DeleteButton, EditButton } from "../../common";
 import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
 import { useSupabase } from "../../Context/SupabaseProvider";
+import { SupabaseProps } from "../../../constants";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -17,6 +18,8 @@ interface Props {
 interface ColumnsProps {
   header: string;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function MonthlyBeers({ mProducts }: Props) {
   const t = useTranslations();
@@ -263,7 +266,12 @@ export default function MonthlyBeers({ mProducts }: Props) {
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
                       <DisplayImageProduct
-                        imgSrc={"/icons/beer-240.png"}
+                        imgSrc={
+                          BASE_PRODUCTS_URL +
+                          decodeURIComponent(
+                            product.product_id.product_multimedia[0].p_principal
+                          )
+                        }
                         width={128}
                         height={128}
                         class="h-8 w-8 rounded-full"

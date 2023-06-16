@@ -8,12 +8,15 @@ import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { useLocale, useTranslations } from "next-intl";
+import { SupabaseProps } from "../../constants";
 
 type CartItemProps = {
   id: string;
   quantity: number;
   products: IProduct[];
 };
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function CartItem({ id, quantity, products }: CartItemProps) {
   const t = useTranslations();
@@ -79,6 +82,8 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
     [item?.price]
   );
 
+  console.log(itemMultimedia);
+
   return (
     <>
       {item && (
@@ -87,7 +92,7 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
             <DisplayImageProduct
               width={240}
               height={200}
-              imgSrc={itemMultimedia}
+              imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(itemMultimedia)}
               alt={"Cart Item display image"}
               class="h-full w-full object-cover object-center"
             />

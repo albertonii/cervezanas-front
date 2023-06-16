@@ -12,11 +12,14 @@ import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
 import MarketCartButtons from "../common/MarketCartButtons";
+import { SupabaseProps } from "../../constants";
 
 interface Props {
   mProduct: IMonthlyProduct;
   mProducts: IMonthlyProduct[];
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const { supabase } = useSupabase();
@@ -129,7 +132,10 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
               width={128}
               height={128}
               alt="Principal Product Image"
-              imgSrc={product.product_multimedia[0].p_principal}
+              imgSrc={
+                BASE_PRODUCTS_URL +
+                decodeURIComponent(product.product_multimedia[0].p_principal)
+              }
               class={
                 "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
               }

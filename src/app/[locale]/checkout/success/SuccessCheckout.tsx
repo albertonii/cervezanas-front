@@ -11,11 +11,15 @@ import { formatCurrency } from "../../../../utils/formatCurrency";
 import { isValidObject } from "../../../../utils/utils";
 import { IOrder } from "../../../../lib/types.d";
 import { Button } from "../../../../components/common";
+import { SupabaseProps } from "../../../../constants";
 1;
 interface Props {
   isError?: boolean;
   order: IOrder;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+
 export default function SuccessCheckout({ order, isError }: Props) {
   const { products } = order;
 
@@ -127,7 +131,12 @@ export default function SuccessCheckout({ order, isError }: Props) {
                               width={120}
                               height={120}
                               alt={""}
-                              imgSrc={`${product.product_multimedia[0].p_principal}`}
+                              imgSrc={`${
+                                BASE_PRODUCTS_URL +
+                                decodeURIComponent(
+                                  product.product_multimedia[0].p_principal
+                                )
+                              }`}
                               class="h-full w-full object-cover object-center sm:h-full sm:w-full"
                             />
                           )}

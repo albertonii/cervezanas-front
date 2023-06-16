@@ -7,11 +7,15 @@ import { useAuth } from "../../../../../components/Auth";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { IOrder } from "../../../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../../../utils";
+import { SupabaseProps } from "../../../../../constants";
 
 interface Props {
   isError?: boolean;
   order: IOrder;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+
 export default function ErrorCheckout({ order, isError }: Props) {
   const { products } = order;
 
@@ -100,7 +104,12 @@ export default function ErrorCheckout({ order, isError }: Props) {
                             width={128}
                             height={128}
                             alt="Principal Product Image"
-                            imgSrc={product.product_multimedia[0].p_principal}
+                            imgSrc={
+                              BASE_PRODUCTS_URL +
+                              decodeURIComponent(
+                                product.product_multimedia[0].p_principal
+                              )
+                            }
                             class={
                               "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
                             }

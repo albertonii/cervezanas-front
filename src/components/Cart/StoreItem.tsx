@@ -17,6 +17,7 @@ import { useAuth } from "../Auth";
 import { SupabaseProps } from "../../constants";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
+
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function StoreItem({ product, products }: StoreItemProps) {

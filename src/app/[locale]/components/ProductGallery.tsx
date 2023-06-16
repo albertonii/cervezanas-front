@@ -6,12 +6,15 @@ import { Carousel } from "../../../components/common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
 import { ICarouselItem } from "../../../lib/types.d";
+import { SupabaseProps } from "../../../constants";
 
 interface Props {
   gallery: ICarouselItem[];
   isLike: boolean;
   handleSetIsLike?: ComponentProps<any>;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -54,7 +57,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
             <div className="flex w-full justify-center px-10 py-4 lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0">
               {/* Main Image  */}
               <DisplayImageProduct
-                imgSrc={main.imageUrl}
+                imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(main.imageUrl)}
                 width={350}
                 height={150}
                 alt="Product Gallery Principal Image"

@@ -8,12 +8,15 @@ import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEventCartContext } from "../../components/Context/EventCartContext";
 import MarketCartButtons from "../../components/common/MarketCartButtons";
+import { SupabaseProps } from "../../constants";
 
 type CartItemProps = {
   id: string;
   quantity: number;
   products: IProduct[];
 };
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function EventCartItem({ id, quantity, products }: CartItemProps) {
   const t = useTranslations();
@@ -88,7 +91,7 @@ export function EventCartItem({ id, quantity, products }: CartItemProps) {
             <DisplayImageProduct
               width={240}
               height={200}
-              imgSrc={itemMultimedia}
+              imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(itemMultimedia)}
               alt={"Cart Item display image"}
               class="h-full w-full object-cover object-center"
             />

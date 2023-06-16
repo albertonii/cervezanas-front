@@ -4,7 +4,11 @@ import GenerateQR from "./GenerateQR";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common";
-import { COMMON, EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
+import {
+  COMMON,
+  EVENT_ORDER_ITEM_STATUS,
+  SupabaseProps,
+} from "../../../../../constants";
 import { IEventOrderItem } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { useRouter } from "next/navigation";
@@ -13,6 +17,8 @@ import { EventProductTimeline } from "./EventProductTimeline";
 interface Props {
   eventOrderItem: IEventOrderItem;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function EventProduct({ eventOrderItem }: Props) {
   const t = useTranslations();
@@ -55,10 +61,10 @@ export default function EventProduct({ eventOrderItem }: Props) {
                 height={120}
                 alt={""}
                 imgSrc={`${
-                  eventOrderItem.product_multimedia &&
-                  eventOrderItem.product_multimedia[0]
-                    ? eventOrderItem.product_multimedia[0].p_principal
-                    : `${COMMON.MARKETPLACE_PRODUCT}`
+                  BASE_PRODUCTS_URL +
+                  decodeURIComponent(
+                    eventOrderItem.product_multimedia[0].p_principal
+                  )`${COMMON.MARKETPLACE_PRODUCT}`
                 }`}
                 class="h-full w-full object-cover object-center sm:h-full sm:w-full"
               />
