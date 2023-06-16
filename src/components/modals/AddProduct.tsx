@@ -156,7 +156,7 @@ export function AddProduct() {
 
     if (!isFileEmpty(p_principal)) {
       const fileName = `/articles/${productId}/p_principal/${randomUUID}`;
-      console.log(generateFileNameExtension(p_principal[0].name));
+
       // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
         `${fileName}${generateFileNameExtension(p_principal[0].name)}`

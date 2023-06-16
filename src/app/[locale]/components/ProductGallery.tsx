@@ -22,12 +22,15 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   // const [extra_2, setExtra_2] = useState(gallery[galleryIndex + 3]);
   // const [extra_3, setExtra_3] = useState(gallery[galleryIndex + 4]);
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
+
   useEffect(() => {
     setMain(gallery[galleryIndex] ?? "");
   }, [gallery, galleryIndex]);
+
   const handleSetGalleryIndex = (index: number) => {
     setGalleryIndex(index);
   };
+
   return (
     <section className="bg-blueGray-100 rounded-b-10xl mb-6 mt-4 w-full overflow-hidden">
       <div className="container mx-auto px-4">
@@ -48,22 +51,20 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
           </div>
 
           <div className="flex flex-wrap">
-            <div className="flex max-h-[540px] w-full justify-center px-10 py-4 lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0">
-              {/* Principal Image  */}
+            <div className="flex w-full justify-center px-10 py-4 lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0">
+              {/* Main Image  */}
               <DisplayImageProduct
-                imgSrc={main?.imageUrl ?? ""}
+                imgSrc={main.imageUrl}
                 width={350}
                 height={150}
                 alt="Product Gallery Principal Image"
-                class="rounded"
+                class="h-[500px] rounded"
               />
             </div>
 
             <div className="w-full px-10 py-3 2xl:container 2xl:mx-auto 2xl:px-0">
               <Carousel
                 gallery={gallery}
-                isLike={isLike}
-                handleSetIsLike={handleSetIsLike}
                 handleSetGalleryIndex={handleSetGalleryIndex}
               />
             </div>
