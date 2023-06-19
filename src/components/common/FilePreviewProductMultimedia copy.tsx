@@ -61,7 +61,7 @@ export const FilePreviewImageMultimedia = ({
 
   return (
     <div className="flex w-full items-center justify-center ">
-      <div className=" w-[360px] rounded-md md:w-4/5">
+      <div className=" w-[360px] rounded-md md:w-4/5 lg:w-full">
         <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">
           {message}
         </span>

@@ -24,7 +24,6 @@ import { useAuth } from "../Auth";
 import { Modal, ProductInfoSection, ProductStepper } from ".";
 import { v4 as uuidv4 } from "uuid";
 import { ProductSummary } from "./ProductSummary";
-import { getFileExtensionByName } from "../../utils";
 import {
   generateFileNameExtension,
   isFileEmpty,
@@ -318,8 +317,13 @@ export function AddProduct() {
       if (stockError) throw stockError;
 
       // Packs Stock
-      if (packs.length > 0) {
+      if (isNotEmptyArray(packs)) {
         packs.map(async (pack: IProductPack) => {
+          const filename = `/packs/${productId}/${randomUUID}`;
+          const pack_url = encodeURIComponent(
+            `${filename}${generateFileNameExtension(pack.img_url[0].name)}`
+          );
+
           const { error: packsError } = await supabase
             .from("product_pack")
             .insert({
@@ -327,28 +331,20 @@ export function AddProduct() {
               pack: pack.pack,
               price: pack.price,
               name: pack.name,
-              img_url: `articles/${productId}/packs/${randomUUID}.${getFileExtensionByName(
-                pack.img_url.name
-              )}`,
+              img_url: pack_url,
               randomUUID: randomUUID,
             });
 
           if (packsError) throw packsError;
 
-          // Add Img to Store
-          // check if image selected in file input is not empty and is an image
           if (pack.img_url) {
-            // const file = pack.img_url;
-            // const productFileUrl = encodeURIComponent(file.name);
-
             const { error: storagePacksError } = await supabase.storage
               .from("products")
               .upload(
-                `articles/${productId}/packs/${randomUUID}.${getFileExtensionByName(
-                  pack.img_url.name
-                )}`,
-                pack.img_url,
+                `${filename}${generateFileNameExtension(pack.img_url[0].name)}`,
+                pack.img_url[0],
                 {
+                  contentType: pack.img_url[0].type,
                   cacheControl: "3600",
                   upsert: false,
                 }

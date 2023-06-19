@@ -666,62 +666,66 @@ export const volume_draft_type_options = [
 export const pack_type_options = [
   {
     label: 0,
+    value: Pack_format._1,
+  },
+  {
+    label: 1,
     value: Pack_format._2,
   },
   {
-    label: 0,
+    label: 2,
     value: Pack_format._3,
   },
   {
-    label: 0,
+    label: 3,
     value: Pack_format._4,
   },
   {
-    label: 0,
+    label: 4,
     value: Pack_format._6,
   },
   {
-    label: 0,
+    label: 5,
     value: Pack_format._8,
   },
   {
-    label: 0,
+    label: 6,
     value: Pack_format._10,
   },
   {
-    label: 0,
+    label: 7,
     value: Pack_format._12,
   },
   {
-    label: 0,
+    label: 8,
     value: Pack_format._16,
   },
   {
-    label: 0,
+    label: 9,
     value: Pack_format._18,
   },
   {
-    label: 0,
+    label: 10,
     value: Pack_format._20,
   },
   {
-    label: 0,
+    label: 11,
     value: Pack_format._22,
   },
   {
-    label: 0,
+    label: 12,
     value: Pack_format._24,
   },
   {
-    label: 0,
+    label: 13,
     value: Pack_format._28,
   },
   {
-    label: 0,
+    label: 14,
     value: Pack_format._30,
   },
   {
-    label: 0,
+    label: 15,
     value: Pack_format._36,
   },
 ];

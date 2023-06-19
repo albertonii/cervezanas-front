@@ -14,8 +14,8 @@ export function LikesHistory({ likes }: Props) {
   return (
     <>
       <div className="px-4 py-6 " aria-label="Watchlist">
-        <div className="flex flex-col">
-          <div className="pr-12 text-4xl">{t("watchlist")}</div>
+        <div className="flex flex-col space-y-4">
+          <div className="text-4xl">{t("watchlist")}</div>
           {likes.length > 0 &&
             likes.map((like, index) => {
               return (

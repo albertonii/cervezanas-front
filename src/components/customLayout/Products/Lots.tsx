@@ -28,8 +28,8 @@ export function Lots() {
 
   return (
     <div className="px-4 py-6 " aria-label="Lots">
-      <div className="flex items-center">
-        <div className="pr-12 text-4xl">{t("lots")}</div>
+      <div className="flex flex-col space-y-4">
+        <div className="text-4xl">{t("lots")}</div>
 
         <AddLot />
       </div>

@@ -11,7 +11,7 @@ export function MultimediaSection(props: Props) {
 
   return (
     <section id="Multimedia">
-      <div className="photo_gallery flex w-full">
+      <div className="photo_gallery flex w-full space-x-4">
         <div className="principal w-full">
           <FilePreviewImageMultimedia form={form} registerName="p_principal" />
         </div>

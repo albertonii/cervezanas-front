@@ -94,9 +94,7 @@ export const AwardsSection = ({ form }: Props) => {
             </div>
 
             <div className="ml-4">
-              {fields.length > 1 && (
-                <DeleteButton onClick={() => handleRemoveAward(index)} />
-              )}
+              <DeleteButton onClick={() => handleRemoveAward(index)} />
             </div>
           </div>
 
@@ -155,12 +153,6 @@ export const AwardsSection = ({ form }: Props) => {
               form={form}
               registerName={`awards.${index}.img_url`}
             />
-
-            {/* <FilePreviewAndHide
-              storagePath="products/awards"
-              form={form}
-              registerName={`awards.${index}.img_url`}
-            /> */}
 
             {`errors.awards.${index}.img_url.type` === "required" && (
               <DisplayInputError message="errors.input_required" />

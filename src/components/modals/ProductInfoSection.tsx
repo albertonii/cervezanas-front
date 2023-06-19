@@ -25,7 +25,6 @@ import { capitalizeFirstLetter, formatCurrency } from "../../utils";
 import {
   Button,
   DeleteButton,
-  FilePreviewAndHide,
   FilePreviewImageMultimedia,
   InfoTooltip,
 } from "../common";
@@ -743,7 +742,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           type="text"
                           placeholder={`Pack ${index + 1}`}
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={3}
+                          defaultValue={1}
                           required
                           min="0"
                           {...register(`packs.${index}.name` as const, {
