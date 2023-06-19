@@ -23,7 +23,6 @@ export const FilePreviewAndHide = ({
   const [fileList, setFileList] = useState<FileList | null>(
     getValues(registerName)?.size > 0 ? getValues(registerName) : null
   );
-
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(
     getValues(registerName)?.size > 0 ? true : false
@@ -54,6 +53,8 @@ export const FilePreviewAndHide = ({
   useEffect(() => {
     if (existsPrevImg) setHideDrop(true);
   }, [existsPrevImg]);
+
+  alert(JSON.stringify(fileList));
 
   return (
     <div className="w-[360px] rounded-md md:w-4/5">

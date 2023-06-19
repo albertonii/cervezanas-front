@@ -3,8 +3,12 @@ import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { IAward, ModalAddProductProps } from "../../lib/types.d";
-import { Button, DeleteButton, DisplayInputError } from "../common";
-import { FilePreviewAndHide } from "../common/FilePreviewAndHide";
+import {
+  Button,
+  DeleteButton,
+  DisplayInputError,
+  FilePreviewImageMultimedia,
+} from "../common";
 
 const emptyAward: IAward = {
   id: "",
@@ -147,11 +151,16 @@ export const AwardsSection = ({ form }: Props) => {
               {t("upload_img_url")}
             </label>
 
-            <FilePreviewAndHide
-              storagePath="products/awards"
+            <FilePreviewImageMultimedia
               form={form}
               registerName={`awards.${index}.img_url`}
             />
+
+            {/* <FilePreviewAndHide
+              storagePath="products/awards"
+              form={form}
+              registerName={`awards.${index}.img_url`}
+            /> */}
 
             {`errors.awards.${index}.img_url.type` === "required" && (
               <DisplayInputError message="errors.input_required" />

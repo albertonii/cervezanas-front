@@ -359,12 +359,14 @@ export function AddProduct() {
         });
       }
 
-      // Awards
+      // Award
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
         awards.map(async (award: IAward) => {
-          if (award.img_url.length > 0) {
-            const file = award.img_url[0];
-            const productFileUrl = encodeURIComponent(file.name);
+          if (award && !isFileEmpty(award.img_url)) {
+            const filename = `/awards/${productId}/${randomUUID}`;
+            const award_url = encodeURIComponent(
+              `${filename}${generateFileNameExtension(award.img_url[0].name)}`
+            );
             const { error: awardsError } = await supabase
               .from("awards")
               .insert({
@@ -372,25 +374,28 @@ export function AddProduct() {
                 name: award.name,
                 description: award.description,
                 year: award.year,
-                img_url: productFileUrl,
+                img_url: award_url,
               });
 
             if (awardsError) throw awardsError;
 
             const { error: storageAwardsError } = await supabase.storage
               .from("products")
-              .upload(`awards/${productFileUrl}`, file, {
-                cacheControl: "3600",
-                upsert: false,
-              });
+              .upload(
+                `${filename}${generateFileNameExtension(
+                  award.img_url[0].name
+                )}`,
+                award.img_url[0],
+                {
+                  contentType: award.img_url[0].type,
+                  cacheControl: "3600",
+                  upsert: false,
+                }
+              );
             if (storageAwardsError) throw storageAwardsError;
           }
         });
       }
-
-      // Add new product to the list
-      // const product = productData[0] as IProduct;
-      // setProducts([...products, product]);
 
       return beer;
     }

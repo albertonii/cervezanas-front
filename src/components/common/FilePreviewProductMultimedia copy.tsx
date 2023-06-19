@@ -10,7 +10,7 @@ interface Props {
   registerName: string;
 }
 
-export const FilePreviewProductMultimedia = ({
+export const FilePreviewImageMultimedia = ({
   form: { register, setValue },
   registerName,
 }: Props) => {

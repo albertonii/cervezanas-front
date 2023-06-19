@@ -1,30 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { useAppContext } from "../Context";
 
 interface Props {
   form: UseFormReturn<any, any>;
   registerName: string;
 }
 
-export const FilePreviewProductMultimedia = ({
+export const FilePreviewImageMultimedia = ({
   form: { register, setValue },
   registerName,
 }: Props) => {
   const t = useTranslations();
-
+  const { imageData, addImage, removeImage } = useAppContext();
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(false);
+  const [image, setImage] = useState<File | null>(); // Nuevo estado para almacenar la URL de la imagen
+
+  useEffect(() => {
+    if (imageData[registerName]) {
+      setImage(imageData[registerName]);
+    }
+  }, []);
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return console.info("No hay archivos");
 
     setFileList(e.target.files);
     setMessage("");
+    addImage(registerName, e.target.files[0]);
+    setImage(e.target.files[0]); // Almacenar la URL de la imagen en el estado
   };
 
   useEffect(() => {
@@ -48,15 +58,19 @@ export const FilePreviewProductMultimedia = ({
           setValue("p_extra_3", fileList);
           break;
         default:
+          setValue(registerName, fileList);
           break;
       }
     } else {
       setHideDrop(false);
+      setHideDrop(false);
     }
   }, [fileList, registerName, setValue]);
 
-  const removeImage = () => {
+  const removeImageClick = () => {
     setFileList(null);
+    setImage(null); // Restablecer la URL de la imagen cuando se elimina
+    removeImage(registerName);
   };
 
   return (
@@ -66,7 +80,7 @@ export const FilePreviewProductMultimedia = ({
           {message}
         </span>
 
-        {!hideDrop ? (
+        {!image && (
           <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
             <input
               type="file"
@@ -74,7 +88,7 @@ export const FilePreviewProductMultimedia = ({
               accept="image/png, image/jpeg"
               className="absolute z-10 h-full w-full opacity-0"
             />
-
+            {/* 
             <input
               {...register("p_back", { required: "false" })}
               type="file"
@@ -105,7 +119,7 @@ export const FilePreviewProductMultimedia = ({
               onChange={handleFile}
               accept="image/png, image/jpeg"
               className="absolute z-10 h-full w-full opacity-0"
-            />
+            /> */}
 
             <div className="z-1 absolute top-0 flex h-full w-full items-center justify-center bg-gray-200">
               <div className="flex flex-col px-2">
@@ -114,11 +128,9 @@ export const FilePreviewProductMultimedia = ({
               </div>
             </div>
           </div>
-        ) : (
-          <></>
         )}
 
-        {hideDrop && fileList ? (
+        {image && (
           <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
             <div className="z-1 relative flex h-full  w-full items-center justify-center bg-gray-200">
               <div className="flex flex-row items-center gap-2">
@@ -127,7 +139,7 @@ export const FilePreviewProductMultimedia = ({
                     width={128}
                     height={128}
                     className="h-full w-full rounded"
-                    src={URL.createObjectURL(fileList[0])}
+                    src={URL.createObjectURL(image)}
                     alt={""}
                   />
                 </div>
@@ -135,7 +147,7 @@ export const FilePreviewProductMultimedia = ({
 
               <div
                 onClick={() => {
-                  removeImage();
+                  removeImageClick();
                 }}
                 className="absolute top-0 right-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
               >
@@ -143,8 +155,6 @@ export const FilePreviewProductMultimedia = ({
               </div>
             </div>
           </div>
-        ) : (
-          <></>
         )}
       </div>
     </div>

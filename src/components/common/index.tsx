@@ -9,7 +9,7 @@ export { ArchiveButton } from "./ArchiveButton";
 export { UnarchiveButton } from "./UnarchiveButton";
 export { FilePreview } from "./FilePreview";
 export { FilePreviewAndHide } from "./FilePreviewAndHide";
-export { FilePreviewProductMultimedia } from "./FilePreviewProductMultimedia";
+export { FilePreviewImageMultimedia } from "./FilePreviewImageMultimedia";
 export { IconButton } from "./IconButton";
 export { IncreaseButton } from "./IncreaseButton";
 export { Spinner } from "./Spinner";
