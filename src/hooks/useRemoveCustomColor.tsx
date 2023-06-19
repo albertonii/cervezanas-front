@@ -1,7 +1,7 @@
 "use client";
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const updateColors = async (
@@ -26,12 +26,14 @@ const useUpdateCustomColors = (
   filteredColors: string[]
 ) => {
   const { supabase } = useSupabase();
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: "customSettings",
+    mutationKey: "removeCustomColor",
     mutationFn: () => updateColors(customSettingsId, filteredColors, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
+    onSuccess: () => {
+      queryClient.invalidateQueries("customSettings");
+    },
   });
 };
 
