@@ -54,8 +54,6 @@ export const FilePreviewAndHide = ({
     if (existsPrevImg) setHideDrop(true);
   }, [existsPrevImg]);
 
-  alert(JSON.stringify(fileList));
-
   return (
     <div className="w-[360px] rounded-md md:w-4/5">
       <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">

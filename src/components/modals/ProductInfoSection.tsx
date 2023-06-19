@@ -26,6 +26,7 @@ import {
   Button,
   DeleteButton,
   FilePreviewAndHide,
+  FilePreviewImageMultimedia,
   InfoTooltip,
 } from "../common";
 
@@ -765,8 +766,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           {t("pack_img_url")}
                         </label>
 
-                        <FilePreviewAndHide
-                          storagePath="products"
+                        <FilePreviewImageMultimedia
                           form={form}
                           registerName={`packs.${index}.img_url`}
                         />
