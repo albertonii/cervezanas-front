@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAppContext } from "../Context";
@@ -12,14 +12,13 @@ interface Props {
 }
 
 export const FilePreviewImageMultimedia = ({
-  form: { register, setValue },
+  form: { setValue },
   registerName,
 }: Props) => {
   const t = useTranslations();
   const { imageData, addImage, removeImage } = useAppContext();
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [message, setMessage] = useState("");
-  const [hideDrop, setHideDrop] = useState(false);
   const [image, setImage] = useState<File | null>(); // Nuevo estado para almacenar la URL de la imagen
 
   useEffect(() => {
@@ -39,8 +38,6 @@ export const FilePreviewImageMultimedia = ({
 
   useEffect(() => {
     if (fileList && fileList.length > 0) {
-      setHideDrop(true);
-
       switch (registerName) {
         case "p_principal":
           setValue("p_principal", fileList);
@@ -61,9 +58,6 @@ export const FilePreviewImageMultimedia = ({
           setValue(registerName, fileList);
           break;
       }
-    } else {
-      setHideDrop(false);
-      setHideDrop(false);
     }
   }, [fileList, registerName, setValue]);
 
