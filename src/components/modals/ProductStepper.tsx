@@ -5,12 +5,13 @@ interface Props {
   activeStep: number;
   handleSetActiveStep: React.Dispatch<React.SetStateAction<any>>;
   children: JSX.Element;
+  isSubmitting: boolean;
 }
 
 export function ProductStepper(props: Props) {
   const t = useTranslations();
 
-  const { children, handleSetActiveStep, activeStep } = props;
+  const { children, handleSetActiveStep, activeStep, isSubmitting } = props;
 
   const [detailsClass, setDetailsClass] = useState("");
   const [awardsClass, setAwardsClass] = useState("");
@@ -135,7 +136,7 @@ export function ProductStepper(props: Props) {
   };
 
   return (
-    <div className="p-5">
+    <div className={`p-5 ${isSubmitting && "opacity-50"}`}>
       <div className="mx-4 p-4">
         <div className="flex items-center">
           <div className="relative flex items-center text-beer-draft">

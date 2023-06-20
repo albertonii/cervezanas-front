@@ -66,11 +66,13 @@ export function AddProduct() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
-  const { customizeSettings, removeImage, imageData } = useAppContext();
+  const { customizeSettings, removeImage } = useAppContext();
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<number>(0);
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
@@ -414,8 +416,18 @@ export function AddProduct() {
   const insertProductMutation = useMutation({
     mutationKey: ["insertProduct"],
     mutationFn: handleInsertProduct,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
+      setShowModal(false);
+      setIsSubmitting(false);
+      reset();
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
     },
   });
 
@@ -425,9 +437,6 @@ export function AddProduct() {
     } catch (e) {
       console.error(e);
     }
-
-    setShowModal(false);
-    reset();
   };
 
   return (
@@ -451,6 +460,7 @@ export function AddProduct() {
           <ProductStepper
             activeStep={activeStep}
             handleSetActiveStep={handleSetActiveStep}
+            isSubmitting={isSubmitting}
           >
             <>
               <p className="text-slate-500 my-4 text-lg leading-relaxed">
