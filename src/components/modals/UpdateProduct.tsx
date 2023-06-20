@@ -42,6 +42,8 @@ export function UpdateProduct({
     setActiveStep(value);
   };
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const { supabase } = useSupabase();
 
   const form = useForm<ModalUpdateProductProps>({
@@ -339,8 +341,18 @@ export function UpdateProduct({
   const updateProductMutation = useMutation({
     mutationKey: ["updateProduct"],
     mutationFn: handleUpdateProduct,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
+      handleEditShowModal(false);
+      setIsSubmitting(false);
+      reset();
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
     },
   });
 
@@ -352,7 +364,6 @@ export function UpdateProduct({
     }
 
     handleEditShowModal(false);
-    reset();
   };
 
   return (
@@ -373,6 +384,7 @@ export function UpdateProduct({
           <ProductStepper
             activeStep={activeStep}
             handleSetActiveStep={handleSetActiveStep}
+            isSubmitting={false}
           >
             <>
               <p className="text-slate-500 my-4 text-lg leading-relaxed">
@@ -385,11 +397,11 @@ export function UpdateProduct({
                 </>
               ) : activeStep === 1 ? (
                 <>
-                  <AwardsSectionUpdate form={form} />
+                  <MultimediaSectionUpdate form={form} />
                 </>
               ) : activeStep === 2 ? (
                 <>
-                  <MultimediaSectionUpdate form={form} />
+                  <AwardsSectionUpdate form={form} />
                 </>
               ) : (
                 <></>
