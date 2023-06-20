@@ -47,11 +47,14 @@ export function DeleteProduct(props: Props) {
   };
 
   const deleteAwards = (product?: IProduct) => {
+    console.log(product?.awards);
     if (product && product?.awards) {
       product?.awards.map(async (award: IAward) => {
+        console.log(award);
+        console.log(award.img_url);
         const { error: awardError } = await supabase.storage
           .from("products")
-          .remove([`${decodeURIComponent(award.img_url[0])}`]);
+          .remove([`${decodeURIComponent(award.img_url)}`]);
 
         if (awardError) throw awardError;
       });

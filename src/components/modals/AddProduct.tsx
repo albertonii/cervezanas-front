@@ -318,8 +318,8 @@ export function AddProduct() {
 
       // Packs Stock
       if (isNotEmptyArray(packs)) {
-        packs.map(async (pack: IProductPack) => {
-          const filename = `packs/${productId}/${randomUUID}_${pack.name}`;
+        packs.map(async (pack: IProductPack, index: number) => {
+          const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
             `${filename}${generateFileNameExtension(pack.img_url[0].name)}`
           );
@@ -357,9 +357,9 @@ export function AddProduct() {
 
       // Award
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
-        awards.map(async (award: IAward) => {
+        awards.map(async (award: IAward, index: number) => {
           if (award && !isFileEmpty(award.img_url)) {
-            const filename = `awards/${productId}/${randomUUID}`;
+            const filename = `awards/${productId}/${randomUUID}_${index}`;
             const award_url = encodeURIComponent(
               `${filename}${generateFileNameExtension(award.img_url[0].name)}`
             );
