@@ -12,10 +12,9 @@ import {
   IRefProductLot,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
-import {} from "../common";
 
 // Definir el tipo de datos para el objeto de imágenes
-type ImageData = {
+type ImageDataRecord = {
   [key: string]: File; // O el tipo adecuado para la información de la imagen
 };
 
@@ -37,7 +36,7 @@ type AppContextType = {
   setLots: (newLots: IRefProductLot[]) => void;
   customizeSettings: ICustomizeSettings;
   setCustomizeSettings: (newCustomizeSettings: ICustomizeSettings) => void;
-  imageData: ImageData;
+  imageData: ImageDataRecord;
   addImage: (key: string, image: File) => void;
   removeImage: (key: string) => void;
 };
@@ -96,16 +95,20 @@ export function AppContextProvider(props: Props) {
       family_styles: [],
     });
 
-  const [imageData, setImageData] = useState<ImageData>({});
+  const [imageData, setImageData] = useState<ImageDataRecord>({});
 
   const addImage = (key: string, image: File) => {
+    console.log("addImage", key, image);
     setImageData({ ...imageData, [key]: image });
   };
 
+  useEffect(() => {
+    console.log(imageData);
+  }, [imageData]);
+
   const removeImage = (key: string) => {
-    const updatedData = { ...imageData };
-    delete updatedData[key];
-    setImageData(updatedData);
+    const { [key]: _, ...rest } = imageData;
+    setImageData(rest);
   };
 
   const { user } = useAuth();

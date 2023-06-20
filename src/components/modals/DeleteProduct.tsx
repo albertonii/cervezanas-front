@@ -36,7 +36,10 @@ export function DeleteProduct(props: Props) {
 
   const deleteProductPacksImg = (product?: IProduct) => {
     if (product && product?.product_pack) {
+      console.log(product.product_pack);
       product?.product_pack.map(async (pack) => {
+        console.log(decodeURIComponent(pack.img_url));
+
         const { error: packError } = await supabase.storage
           .from("products")
           .remove([`${decodeURIComponent(pack.img_url)}`]);
@@ -47,11 +50,12 @@ export function DeleteProduct(props: Props) {
   };
 
   const deleteAwards = (product?: IProduct) => {
-    console.log(product?.awards);
     if (product && product?.awards) {
+      console.log(product?.awards);
+
       product?.awards.map(async (award: IAward) => {
         console.log(award);
-        console.log(award.img_url);
+        console.log(decodeURIComponent(award.img_url));
         const { error: awardError } = await supabase.storage
           .from("products")
           .remove([`${decodeURIComponent(award.img_url)}`]);

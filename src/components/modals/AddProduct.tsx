@@ -66,8 +66,7 @@ export function AddProduct() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
-  const { customizeSettings } = useAppContext();
-
+  const { customizeSettings, removeImage, imageData } = useAppContext();
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -173,6 +172,8 @@ export function AddProduct() {
           }
         );
       if (pPrincipalError) throw pPrincipalError;
+
+      removeImage("p_principal");
     }
 
     if (p_back && !isFileEmpty(p_back)) {
@@ -195,6 +196,8 @@ export function AddProduct() {
           }
         );
       if (pBackError) throw pBackError;
+
+      removeImage("p_back");
     }
 
     if (p_extra_1 && !isFileEmpty(p_extra_1)) {
@@ -217,6 +220,8 @@ export function AddProduct() {
           }
         );
       if (pExtra1Error) throw pExtra1Error;
+
+      removeImage("p_extra_1");
     }
 
     if (p_extra_2 && !isFileEmpty(p_extra_2)) {
@@ -239,6 +244,8 @@ export function AddProduct() {
           }
         );
       if (pExtra2Error) throw pExtra2Error;
+
+      removeImage("p_extra_2");
     }
 
     if (p_extra_3 && !isFileEmpty(p_extra_3)) {
@@ -259,6 +266,8 @@ export function AddProduct() {
           }
         );
       if (pExtra3Error) throw pExtra3Error;
+
+      removeImage("p_extra_3");
     }
 
     const { error: multError } = await supabase
@@ -321,7 +330,7 @@ export function AddProduct() {
         packs.map(async (pack: IProductPack, index: number) => {
           const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
-            `${filename}${generateFileNameExtension(pack.img_url[0].name)}`
+            `${filename}${generateFileNameExtension(pack.name)}`
           );
 
           const { error: packsError } = await supabase
@@ -341,7 +350,7 @@ export function AddProduct() {
             const { error: storagePacksError } = await supabase.storage
               .from("products")
               .upload(
-                `${filename}${generateFileNameExtension(pack.img_url[0].name)}`,
+                `${filename}${generateFileNameExtension(pack.name)}`,
                 pack.img_url[0],
                 {
                   contentType: pack.img_url[0].type,
@@ -352,6 +361,8 @@ export function AddProduct() {
 
             if (storagePacksError) throw storagePacksError;
           }
+
+          removeImage(`packs.${index}.img_url`);
         });
       }
 
@@ -390,6 +401,8 @@ export function AddProduct() {
                 }
               );
             if (storageAwardsError) throw storageAwardsError;
+
+            removeImage(`awards.${index}.img_url`);
           }
         });
       }
