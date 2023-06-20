@@ -30,8 +30,6 @@ interface Props {
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
 export default function Product({ product, marketplaceProducts }: Props) {
-  console.log(product);
-
   const { supabase } = useSupabase();
   const selectedProduct = product;
 

@@ -161,7 +161,7 @@ export function UpdateProduct({
     if (p_principal_url) {
       const { error: pPrincipalError } = await supabase.storage
         .from("products")
-        .update(`/articles/${p_principal_url}`, p_principal, {
+        .update(`articles/${p_principal_url}`, p_principal, {
           cacheControl: "3600",
           upsert: true,
         });
@@ -171,7 +171,7 @@ export function UpdateProduct({
     if (p_back_url) {
       const { error: pBackError } = await supabase.storage
         .from("products")
-        .update(`/articles/${p_back_url}`, p_back.name, {
+        .update(`articles/${p_back_url}`, p_back.name, {
           cacheControl: "3600",
           upsert: true,
         });
@@ -181,7 +181,7 @@ export function UpdateProduct({
     if (p_extra_1_url) {
       const { error: pExtra1Error } = await supabase.storage
         .from("products")
-        .update(`/articles/${p_extra_1}`, p_extra_1.name, {
+        .update(`articles/${p_extra_1}`, p_extra_1.name, {
           cacheControl: "3600",
           upsert: true,
         });
@@ -191,7 +191,7 @@ export function UpdateProduct({
     if (p_extra_2_url) {
       const { error: pExtra2Error } = await supabase.storage
         .from("products")
-        .update(`/articles/${p_extra_2_url}`, p_extra_2.name, {
+        .update(`articles/${p_extra_2_url}`, p_extra_2.name, {
           cacheControl: "3600",
           upsert: true,
         });
@@ -201,7 +201,7 @@ export function UpdateProduct({
     if (p_extra_3_url) {
       const { error: pExtra3Error } = await supabase.storage
         .from("products")
-        .update(`/articles/${p_extra_3_url}`, p_extra_3.name, {
+        .update(`articles/${p_extra_3_url}`, p_extra_3.name, {
           cacheControl: "3600",
           upsert: true,
         });

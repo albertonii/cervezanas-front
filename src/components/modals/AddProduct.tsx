@@ -154,7 +154,7 @@ export function AddProduct() {
     let p_extra_3_url = "";
 
     if (p_principal && !isFileEmpty(p_principal)) {
-      const fileName = `/articles/${productId}/p_principal/${randomUUID}`;
+      const fileName = `articles/${productId}/p_principal/${randomUUID}`;
 
       // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
@@ -176,18 +176,18 @@ export function AddProduct() {
     }
 
     if (p_back && !isFileEmpty(p_back)) {
-      const fileName = `/articles/${productId}/p_back/${randomUUID}`;
+      const fileName = `articles/${productId}/p_back/${randomUUID}`;
 
       p_back_url =
         p_back &&
         encodeURIComponent(
-          `${fileName}.${generateFileNameExtension(p_back[0].name)}`
+          `${fileName}${generateFileNameExtension(p_back[0].name)}`
         );
 
       const { error: pBackError } = await supabase.storage
         .from("products")
         .upload(
-          `${fileName}.${generateFileNameExtension(p_back[0].name)}`,
+          `${fileName}${generateFileNameExtension(p_back[0].name)}`,
           p_back[0],
           {
             cacheControl: "3600",
@@ -198,18 +198,18 @@ export function AddProduct() {
     }
 
     if (p_extra_1 && !isFileEmpty(p_extra_1)) {
-      const fileName = `/articles/${productId}/p_extra_1/${randomUUID}`;
+      const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
 
       p_extra_1_url =
         p_extra_1 &&
         encodeURIComponent(
-          `${fileName}.${generateFileNameExtension(p_extra_1[0].name)}`
+          `${fileName}${generateFileNameExtension(p_extra_1[0].name)}`
         );
 
       const { error: pExtra1Error } = await supabase.storage
         .from("products")
         .upload(
-          `${fileName}.${generateFileNameExtension(p_extra_1[0].name)}`,
+          `${fileName}${generateFileNameExtension(p_extra_1[0].name)}`,
           p_extra_1[0],
           {
             cacheControl: "3600",
@@ -220,18 +220,18 @@ export function AddProduct() {
     }
 
     if (p_extra_2 && !isFileEmpty(p_extra_2)) {
-      const fileName = `/articles/${productId}/p_extra_2/${randomUUID}`;
+      const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
 
       p_extra_2_url =
         p_extra_2 &&
         encodeURIComponent(
-          `${fileName}.${generateFileNameExtension(p_extra_2[0].name)}`
+          `${fileName}${generateFileNameExtension(p_extra_2[0].name)}`
         );
 
       const { error: pExtra2Error } = await supabase.storage
         .from("products")
         .upload(
-          `${fileName}.${generateFileNameExtension(p_extra_2[0].name)}`,
+          `${fileName}${generateFileNameExtension(p_extra_2[0].name)}`,
           p_extra_2[0],
           {
             cacheControl: "3600",
@@ -242,16 +242,16 @@ export function AddProduct() {
     }
 
     if (p_extra_3 && !isFileEmpty(p_extra_3)) {
-      const fileName = `/articles/${productId}/p_extra_3/${randomUUID}`;
+      const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
 
       p_extra_3_url =
         p_extra_3 &&
-        `${fileName}.${generateFileNameExtension(p_extra_3[0].name)}`;
+        `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
 
       const { error: pExtra3Error } = await supabase.storage
         .from("products")
         .upload(
-          `${fileName}.${generateFileNameExtension(p_extra_3[0].name)}`,
+          `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`,
           p_extra_3[0],
           {
             cacheControl: "3600",
@@ -319,7 +319,7 @@ export function AddProduct() {
       // Packs Stock
       if (isNotEmptyArray(packs)) {
         packs.map(async (pack: IProductPack) => {
-          const filename = `/packs/${productId}/${randomUUID}`;
+          const filename = `packs/${productId}/${randomUUID}_${pack.name}`;
           const pack_url = encodeURIComponent(
             `${filename}${generateFileNameExtension(pack.img_url[0].name)}`
           );
@@ -359,10 +359,11 @@ export function AddProduct() {
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
         awards.map(async (award: IAward) => {
           if (award && !isFileEmpty(award.img_url)) {
-            const filename = `/awards/${productId}/${randomUUID}`;
+            const filename = `awards/${productId}/${randomUUID}`;
             const award_url = encodeURIComponent(
               `${filename}${generateFileNameExtension(award.img_url[0].name)}`
             );
+
             const { error: awardsError } = await supabase
               .from("awards")
               .insert({

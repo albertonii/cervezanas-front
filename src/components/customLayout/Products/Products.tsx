@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ProductList } from "..";
 import { IProduct } from "../../../lib/types.d";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
+
 export function Products() {
   const t = useTranslations();
   const [loading, setLoading] = useState<boolean>(true);
