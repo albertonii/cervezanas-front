@@ -639,7 +639,7 @@ export type ModalAddProductProps = {
 
 export type IProductPack = {
   id: string;
-  pack: number;
+  quantity: number;
   price: number;
   img_url: any;
   name: string;

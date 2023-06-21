@@ -540,5 +540,7 @@
     "password_match": "Passwords do not match",
     "select_location_required": "Select a location is required"
   },
-  "sign_up_successfully": "Signup successful. Please check your inbox for a confirmation email!"
+  "sign_up_successfully": "Signup successful. Please check your inbox for a confirmation email!",
+  "product_packs": "Product packs",
+  "units": "Units"
 }

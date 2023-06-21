@@ -98,7 +98,6 @@ export function AppContextProvider(props: Props) {
   const [imageData, setImageData] = useState<ImageDataRecord>({});
 
   const addImage = (key: string, image: File) => {
-    console.log("addImage", key, image);
     setImageData({ ...imageData, [key]: image });
   };
 

@@ -265,7 +265,7 @@ export function UpdateProduct({
             .from("product_pack")
             .upsert({
               product_id: productId,
-              pack: pack.pack,
+              quantity: pack.quantity,
               price: pack.price,
               name: pack.name,
               img_url: pack.img_url.name,
@@ -384,7 +384,7 @@ export function UpdateProduct({
           <ProductStepper
             activeStep={activeStep}
             handleSetActiveStep={handleSetActiveStep}
-            isSubmitting={false}
+            isSubmitting={isSubmitting}
           >
             <>
               <p className="text-slate-500 my-4 text-lg leading-relaxed">

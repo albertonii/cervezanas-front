@@ -339,7 +339,7 @@ export function AddProduct() {
             .from("product_pack")
             .insert({
               product_id: productId,
-              pack: pack.pack,
+              quantity: pack.quantity,
               price: pack.price,
               name: pack.name,
               img_url: pack_url,

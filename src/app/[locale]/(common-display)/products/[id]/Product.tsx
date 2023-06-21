@@ -21,6 +21,7 @@ import { COMMON, SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
+import Packs from "./Packs";
 
 interface Props {
   product: IProduct;
@@ -186,7 +187,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
   const handleIncreaseToCartItem = () => {
     increaseCartQuantity(productId);
     if (marketplaceItems.find((item) => item.id === productId)) return;
-    console.log(marketplaceProducts);
     const product = marketplaceProducts.find(({ id }) => id === productId);
     if (!product) return;
     addMarketplaceItems(product);
@@ -285,6 +285,13 @@ export default function Product({ product, marketplaceProducts }: Props) {
                     <p className="text-lg">{selectedProduct.description}</p>
                   </div>
                 </div>
+              </section>
+
+              <section aria-labelledby="packs" className="mt-10">
+                <Packs
+                  product={product}
+                  marketplaceProducts={marketplaceProducts}
+                />
               </section>
 
               <section aria-labelledby="options-heading" className="mt-10">

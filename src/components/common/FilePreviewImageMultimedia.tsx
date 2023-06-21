@@ -82,38 +82,6 @@ export const FilePreviewImageMultimedia = ({
               accept="image/png, image/jpeg"
               className="absolute z-10 h-full w-full opacity-0"
             />
-            {/* 
-            <input
-              {...register("p_back", { required: "false" })}
-              type="file"
-              onChange={handleFile}
-              accept="image/png, image/jpeg"
-              className="absolute z-10 h-full w-full opacity-0"
-            />
-
-            <input
-              {...register("p_extra_1", { required: "false" })}
-              type="file"
-              onChange={handleFile}
-              accept="image/png, image/jpeg"
-              className="absolute z-10 h-full w-full opacity-0"
-            />
-
-            <input
-              {...register("p_extra_2", { required: "false" })}
-              type="file"
-              onChange={handleFile}
-              accept="image/png, image/jpeg"
-              className="absolute z-10 h-full w-full opacity-0"
-            />
-
-            <input
-              {...register("p_extra_3", { required: "false" })}
-              type="file"
-              onChange={handleFile}
-              accept="image/png, image/jpeg"
-              className="absolute z-10 h-full w-full opacity-0"
-            /> */}
 
             <div className="z-1 absolute top-0 flex h-full w-full items-center justify-center bg-gray-200">
               <div className="flex flex-col px-2">

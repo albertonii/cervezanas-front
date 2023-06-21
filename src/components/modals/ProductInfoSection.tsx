@@ -36,7 +36,7 @@ interface Props {
 
 const emptyPack: IProductPack = {
   id: "",
-  pack: 6,
+  quantity: 6,
   price: 0,
   img_url: "",
   name: "",
@@ -681,8 +681,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
                         <select
                           required
-                          id={`packs.${index}.pack`}
-                          {...register(`packs.${index}.pack` as const)}
+                          id={`packs.${index}.quantity`}
+                          {...register(`packs.${index}.quantity` as const)}
                           className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (

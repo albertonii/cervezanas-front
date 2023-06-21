@@ -555,5 +555,7 @@
     "password_match": "Las contraseñas no coinciden",
     "select_location_required": "Debes seleccionar una localización"
   },
-  "sign_up_successfully": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación."
+  "sign_up_successfully": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
+  "product_packs": "Packs de productos",
+  "units": "Unidades"
 }

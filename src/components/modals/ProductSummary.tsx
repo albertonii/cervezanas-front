@@ -180,7 +180,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
                   {t("pack_quantity")}
                 </label>
 
-                <span className="text-md">{pack.pack}</span>
+                <span className="text-md">{pack.quantity}</span>
               </div>
             </div>
 
