@@ -14,6 +14,7 @@ interface Props {
   alt?: string;
   width?: number;
   height?: number;
+  objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
 }
 
 function DisplayImageProduct({
@@ -23,6 +24,7 @@ function DisplayImageProduct({
   alt,
   width,
   height,
+  objectFit,
 }: Props) {
   // const [src, setSrc] = useState(
   //   // imgSrc ? BASE_PRODUCTS_ARTICLES_URL + imgSrc : COMMON.MARKETPLACE_PRODUCT
@@ -41,7 +43,7 @@ function DisplayImageProduct({
       onBlur={() => COMMON.MARKETPLACE_PRODUCT}
       onClick={onClick}
       className={`${class_}`}
-      style={{ objectFit: "cover" }}
+      style={{ objectFit: objectFit ? objectFit : "cover" }}
     />
   );
 }

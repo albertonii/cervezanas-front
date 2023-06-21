@@ -18,7 +18,7 @@ interface Props {
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [main, setMain] = useState(gallery[0]);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -52,7 +52,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
 
             <div className="flex flex-wrap">
               <div
-                className="flex w-full justify-center px-10 py-4 hover:cursor-pointer lg:mb-0 lg:w-4/5 2xl:mx-auto 2xl:px-0"
+                className="flex  w-full justify-center px-10 py-4 hover:cursor-pointer lg:mb-0 2xl:mx-auto 2xl:px-0"
                 onClick={() => setShowModal(true)}
               >
                 {/* Main Image  */}
@@ -61,7 +61,8 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                   width={350}
                   height={150}
                   alt="Product Gallery Principal Image"
-                  class="h-[500px] rounded"
+                  class="h-full max-h-[200px] rounded md:max-h-[280px] lg:max-h-[500px]"
+                  objectFit="contain"
                 />
               </div>
 
@@ -79,7 +80,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
       <ImageModal showModal={showModal} setShowModal={setShowModal}>
         <>
           <Image
-            className=" rounded-md lg:max-h-[600px] lg:max-w-[800px]"
+            className="rounded-md lg:max-h-[600px] lg:max-w-[800px]"
             src={main.imageUrl}
             alt={"Product main image"}
             width={500}
