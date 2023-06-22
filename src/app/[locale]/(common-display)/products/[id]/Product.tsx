@@ -17,7 +17,7 @@ import {
   ProductReviews,
   Rate,
 } from "../../../../../components/reviews";
-import { COMMON, SupabaseProps } from "../../../../../constants";
+import { SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
@@ -85,81 +85,42 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
     setGallery(
       [
-        ...(p_principal
-          ? [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: productsUrl + decodeURIComponent(p_principal),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_back
-          ? [
-              {
-                link: "/",
-                title: "Back",
-                imageUrl: productsUrl + decodeURIComponent(p_back),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_1
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 1",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_1),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_2
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 2",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_2),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_3
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 3",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_3),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
+        ...[
+          {
+            link: "/",
+            title: "Principal",
+            imageUrl:
+              p_principal && productsUrl + decodeURIComponent(p_principal),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Back",
+            imageUrl: p_back && productsUrl + decodeURIComponent(p_back),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 1",
+            imageUrl: p_extra_1 && productsUrl + decodeURIComponent(p_extra_1),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 2",
+            imageUrl: p_extra_2 && productsUrl + decodeURIComponent(p_extra_2),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 3",
+            imageUrl: p_extra_3 && productsUrl + decodeURIComponent(p_extra_3),
+          },
+        ],
       ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
     );
   }, [
@@ -328,11 +289,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
               </section>
             </div>
 
-            {/* Display Similar Products */}
-            <div className="col-span-12 mx-6">
-              <DisplaySimilarProducts />
-            </div>
-
             {/* Reviews */}
             <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
               <ProductOverallReview
@@ -353,6 +309,11 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 />
               </div>
             )}
+
+            {/* Display Similar Products */}
+            <div className="col-span-12 mx-6">
+              <DisplaySimilarProducts />
+            </div>
           </div>
         </div>
       )}

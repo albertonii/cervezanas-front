@@ -99,10 +99,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
           </button>
         </div>
 
-        <div
-          // ref={carousel}
-          className="carousel-container relative z-0 ml-2 flex touch-pan-x snap-x snap-mandatory gap-1 overflow-hidden scroll-smooth"
-        >
+        <div className="carousel-container relative z-0 ml-2 flex touch-pan-x snap-x snap-mandatory gap-1 overflow-hidden scroll-smooth">
           {gallery.map((resource, index) => {
             return (
               <>
