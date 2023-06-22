@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 import { SupabaseProps } from "../../../../../constants";
@@ -77,7 +77,6 @@ export default function PackItem({
         </div>
       </div>
 
-      {/* {quantity > 0 && ( */}
       <MarketCartButtons
         quantity={quantity}
         item={product}
@@ -86,7 +85,6 @@ export default function PackItem({
         handleRemoveFromCart={() => handleRemoveFromCart()}
         displayDelete={false}
       />
-      {/* )} */}
     </div>
   );
 }
