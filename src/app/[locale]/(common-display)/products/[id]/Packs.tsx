@@ -26,21 +26,19 @@ export default function Packs({ product, marketplaceProducts }: Props) {
 
         <fieldset className="mt-4">
           <legend className="sr-only">{t("choose_pack")}</legend>
-          <div className="flex flex-col space-y-4">
-            {product.product_pack.map((p) => (
-              <div key={p.id} className="md:48 w-32 space-y-2 lg:w-56">
-                <PackItem
-                  marketplaceProducts={marketplaceProducts}
-                  product={product}
-                  pack={p}
-                />
-                {/* <PackUnits
-                  product={product}
-                  pack={p}
-                  marketplaceProducts={marketplaceProducts}
-                /> */}
-              </div>
-            ))}
+          <div className="grid grid-cols-1 gap-2 rounded border bg-beer-blonde/20 p-2 sm:grid-cols-2 xl:grid-cols-3">
+            {product.product_pack
+              .slice() // Copy the array to avoid mutating the original
+              .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
+              .map((p) => (
+                <div key={p.id} className="space-y-2 ">
+                  <PackItem
+                    marketplaceProducts={marketplaceProducts}
+                    product={product}
+                    pack={p}
+                  />
+                </div>
+              ))}
           </div>
         </fieldset>
       </div>

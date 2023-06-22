@@ -18,13 +18,8 @@ export default function PackItem({
 }: Props) {
   const t = useTranslations();
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    console.log(isSelected);
-  }, [isSelected]);
 
   const handleIncreaseToCartItem = () => {
     setQuantity(quantity + 1);
@@ -48,47 +43,22 @@ export default function PackItem({
     // removeFromCart(productId);
   };
 
-  useEffect(() => {
-    if (!isSelected) handleIncreaseToCartItem();
-    else handleRemoveFromCart();
-  }, [isSelected]);
-
   return (
-    <>
-      <button
-        className={`relative rounded-md ${
-          isSelected && "bg-beer-softBlondeBubble shadow-sm outline-none"
-        }`}
+    <div className="flex flex-row space-x-4">
+      <div
+        className={`relative rounded-md bg-beer-softBlondeBubble`}
         key={pack.id}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        onClick={() => {
-          setIsSelected(!isSelected);
-        }}
       >
         {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
         <label
           className={`group relative flex cursor-pointer items-center justify-center border py-3 px-4 text-sm font-medium uppercase text-gray-900 hover:opacity-75 focus:outline-none sm:flex-1
      `}
         >
-          <input
-            type="radio"
-            name="size-choice"
-            value="XXS"
-            className="sr-only"
-            aria-labelledby="size-choice-0-label"
-          />
           <span id="size-choice-0-label">
             {pack.quantity} {t("units")}
           </span>
-          {/* <!--
-        Active: "border", Not Active: "border-2"
-        Checked: "border-indigo-500", Not Checked: "border-transparent"
-        --> */}
-          <span
-            className="pointer-events-none absolute -inset-px rounded-md"
-            aria-hidden="true"
-          ></span>
         </label>
 
         <div
@@ -105,17 +75,18 @@ export default function PackItem({
             className={"px-2 py-2 "}
           />
         </div>
-      </button>
+      </div>
 
-      {quantity > 0 && (
-        <MarketCartButtons
-          quantity={quantity}
-          item={product}
-          handleIncreaseCartQuantity={() => handleIncreaseToCartItem()}
-          handleDecreaseCartQuantity={() => handleDecreaseFromCartItem()}
-          handleRemoveFromCart={() => handleRemoveFromCart()}
-        />
-      )}
-    </>
+      {/* {quantity > 0 && ( */}
+      <MarketCartButtons
+        quantity={quantity}
+        item={product}
+        handleIncreaseCartQuantity={() => handleIncreaseToCartItem()}
+        handleDecreaseCartQuantity={() => handleDecreaseFromCartItem()}
+        handleRemoveFromCart={() => handleRemoveFromCart()}
+        displayDelete={false}
+      />
+      {/* )} */}
+    </div>
   );
 }

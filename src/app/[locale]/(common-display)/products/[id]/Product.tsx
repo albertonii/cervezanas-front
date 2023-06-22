@@ -202,15 +202,15 @@ export default function Product({ product, marketplaceProducts }: Props) {
             </div>
 
             <div className="col-span-12 mx-6 lg:col-span-8 ">
-              <div className="flex-column flex">
+              <div className="flex flex-col sm:flex-row sm:justify-between">
                 <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                   {selectedProduct.name}
                 </h2>
 
-                <div>
+                <>
                   <h4 className="sr-only">{t("reviews")}</h4>
 
-                  <div className="flex flex-row items-center justify-end">
+                  <div className="flex flex-col items-end justify-end">
                     <div className="flex items-center">
                       <Rate
                         rating={productStars}
@@ -221,15 +221,17 @@ export default function Product({ product, marketplaceProducts }: Props) {
                       />
                     </div>
 
-                    <p className="sr-only">{productStars} out of 5 stars</p>
-                    <p
-                      onClick={() => executeScroll()}
-                      className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
-                    >
-                      {productReviews.length} {t("reviews")}
-                    </p>
+                    <>
+                      <p className="sr-only">{productStars} out of 5 stars</p>
+                      <p
+                        onClick={() => executeScroll()}
+                        className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
+                      >
+                        {productReviews.length} {t("reviews")}
+                      </p>
+                    </>
                   </div>
-                </div>
+                </>
               </div>
 
               <section aria-labelledby="information-heading" className="mt-2">
