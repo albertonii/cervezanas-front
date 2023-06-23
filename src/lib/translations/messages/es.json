@@ -401,7 +401,7 @@
   "products_archive": "Productos archivados",
   "lots_archive": "Lotes archivados",
   "nif_cif_document_id": "NIF/CIF/Documento Identidad",
-  "era_tooltip": "Cada cerveza tiene un periodo en la que fue elaborada. Era artesanal: desarrollada en la era moderna; Era tradicional: desarrollada antes de la era moderna de la cerveza artesanal; Era historica: de poca producción y no se elaborada en la actualidad. ",
+  "era_tooltip": "Cada cerveza tiene un periodo en el que fue elaborada. Era artesanal: desarrollada en la era moderna; Era tradicional: desarrollada antes de la era moderna de la cerveza artesanal; Era historica: de poca producción y no se elaborada en la actualidad. ",
   "origin_tooltip": "Región, país o continente de origen de la cerveza.",
   "family_tooltip": "Los estilos pueden agruparse en familias de estilo que puedan ser comparadas y contrastadas.",
   "color_tooltip": "SRM (Standard Reference Method) mide la intensidad de una determinada longitud de onda de la luz. Estos valores numéricos no siempre coinciden con nuestra percepción percepción visual de la claridad y oscuridad del color o matiz. Por ejemplo, una cerveza de color amarillo claro puede tener un valor SRM de 4, mientras que una cerveza de color amarillo oscuro puede tener un valor SRM de 8. ",

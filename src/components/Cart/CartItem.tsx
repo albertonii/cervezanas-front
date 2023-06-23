@@ -82,8 +82,6 @@ export function CartItem({ id, quantity, products }: CartItemProps) {
     [item?.price]
   );
 
-  console.log(itemMultimedia);
-
   return (
     <>
       {item && (

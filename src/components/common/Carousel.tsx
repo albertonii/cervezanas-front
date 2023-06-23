@@ -51,7 +51,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   };
 
   return (
-    <div className="carousel mx-auto my-12">
+    <div className="carousel mx-auto my-4 lg:my-6">
       <div className="relative overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button

@@ -19,13 +19,15 @@ export function ShoppingCart() {
   useEffect(() => {
     let total = 0;
 
-    marketplaceItems?.find((product) =>
+    marketplaceItems?.find((product) => {
+      console.log("Product: ", product);
+      console.log("Items in cart: ", items);
       items.find((item) => {
         if (product.id === item.id) {
           total += product.price * item.quantity;
         }
-      })
-    );
+      });
+    });
     setSubTotal(total);
 
     () => {
@@ -73,6 +75,7 @@ export function ShoppingCart() {
                         <Dialog.Title className="text-lg font-medium text-gray-900">
                           {t("shopping_cart")}
                         </Dialog.Title>
+
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"

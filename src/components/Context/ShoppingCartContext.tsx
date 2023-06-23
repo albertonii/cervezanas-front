@@ -8,7 +8,12 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { ICartItem, IProduct } from "../../lib/types.d";
+import {
+  ICartItem,
+  IPackCartItem,
+  IProduct,
+  IProductPack,
+} from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
 
 type ShoppingCartContextType = {
@@ -20,7 +25,7 @@ type ShoppingCartContextType = {
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
-  decreaseCartQuantity: (id: string) => void;
+  decreaseCartQuantity: (id: string, productId: string) => void;
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
@@ -104,13 +109,18 @@ export function ShoppingCartProvider({ children }: Props) {
       const item = currItems.find((item) => item.id === id);
       return item
         ? currItems.map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            item.id === id
+              ? {
+                  ...item,
+                  quantity: item.quantity + 1,
+                }
+              : item
           )
         : [...currItems, { id, quantity: 1 }];
     });
   }, []);
 
-  const decreaseCartQuantity = useCallback((id: string) => {
+  const decreaseCartQuantity = useCallback((id: string, productId: string) => {
     setItems((currItems) => {
       if (currItems.find((item) => item.id === id)?.quantity === 1) {
         return currItems.filter((item) => item.id !== id);

@@ -62,18 +62,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
     return reviews.length ? sum / reviews.length : 0;
   }, [reviews]);
 
-  const {
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    marketplaceItems,
-    addMarketplaceItems,
-    removeMarketplaceItems,
-  } = useShoppingCart();
-
-  const quantity = getItemQuantity(selectedProduct.id);
-
   const executeScroll = useCallback(
     () => reviewRef.current.scrollIntoView(),
     [reviewRef]
@@ -145,25 +133,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
-  const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(productId);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
-    const product = marketplaceProducts.find(({ id }) => id === productId);
-    if (!product) return;
-    addMarketplaceItems(product);
-  };
-
-  const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(productId);
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
-  };
-
-  const handleRemoveFromCart = () => {
-    removeMarketplaceItems(productId);
-    removeFromCart(productId);
-  };
-
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
     setIsLike(value);
     await handleLike();
@@ -186,6 +155,8 @@ export default function Product({ product, marketplaceProducts }: Props) {
     }
   }
 
+  console.log(product);
+
   return (
     <>
       {loading ? (
@@ -193,7 +164,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
       ) : (
         <div className="relative flex w-full items-center overflow-hidden bg-white  pb-8 pt-14 sm:pt-8 ">
           <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-            <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-bear-alvine md:overflow-hidden lg:col-span-4">
+            <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
               <ProductGallery
                 gallery={gallery}
                 isLike={isLike}
@@ -261,33 +232,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 <h3 id="options-heading" className="sr-only">
                   {t("product_options")}
                 </h3>
-
-                <form>
-                  <div className="mt-6 flex space-x-2">
-                    {quantity === 0 ? (
-                      <>
-                        <AddCardButton
-                          withText={true}
-                          onClick={() => handleIncreaseToCartItem()}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <MarketCartButtons
-                          quantity={quantity}
-                          item={product}
-                          handleIncreaseCartQuantity={() =>
-                            handleIncreaseToCartItem()
-                          }
-                          handleDecreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem()
-                          }
-                          handleRemoveFromCart={() => handleRemoveFromCart()}
-                        />
-                      </>
-                    )}
-                  </div>
-                </form>
               </section>
             </div>
 

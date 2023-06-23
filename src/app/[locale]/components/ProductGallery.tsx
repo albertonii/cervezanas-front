@@ -32,7 +32,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
 
   return (
     <>
-      <section className="bg-blueGray-100 rounded-b-10xl mb-6 mt-4 w-full overflow-hidden">
+      <section className="rounded-b-10xl w-full overflow-hidden ">
         <div className="container mx-auto px-4">
           <div className="relative -mx-4 justify-center">
             {/* Add to fav button  */}

@@ -309,7 +309,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="color" className="text-sm text-gray-600">
-                {t("color")} (SRM)
+                {t("color")} 
                 <InfoTooltip
                   content={`${t("color_tooltip")}`}
                   direction="top"

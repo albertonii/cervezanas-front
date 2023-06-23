@@ -484,23 +484,6 @@ export default function Checkout({
                                   {t("proceed_to_pay")}
                                 </Button>
                               </div>
-
-                              {/* Paypal payment method */}
-                              {/* {total > 0 && (
-                          <div
-                            className="flex w-full items-center justify-center md:items-start md:justify-start"
-                            onClick={() => {
-                              checkForm();
-                            }}
-                          >
-                            <Paypal
-                              total={total}
-                              items={items}
-                              shipping_info_id={selectedShippingAddress}
-                              billing_info_id={selectedBillingAddress}
-                            />
-                          </div>
-                        )} */}
                             </div>
                           </div>
 
