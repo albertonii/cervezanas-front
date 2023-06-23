@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -17,17 +17,13 @@ export function ShoppingCart() {
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
+    // TODO: Habría que sumar en los precios de los packs y no en el price del producto
     let total = 0;
 
-    marketplaceItems?.find((product) => {
-      console.log("Product: ", product);
-      console.log("Items in cart: ", items);
-      items.find((item) => {
-        if (product.id === item.id) {
-          total += product.price * item.quantity;
-        }
-      });
+    items.find((item) => {
+      total += item.price * item.quantity;
     });
+
     setSubTotal(total);
 
     () => {
@@ -99,11 +95,7 @@ export function ShoppingCart() {
                             {items &&
                               items.map((item) => (
                                 <li key={item.id} className="flex py-6">
-                                  <CartItem
-                                    key={item.id}
-                                    {...item}
-                                    products={marketplaceItems}
-                                  />
+                                  <CartItem item={item} />
                                 </li>
                               ))}
                           </ul>

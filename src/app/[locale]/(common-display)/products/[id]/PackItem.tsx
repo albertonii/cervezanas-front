@@ -3,63 +3,39 @@ import Image from "next/image";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 import { SupabaseProps } from "../../../../../constants";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../components/Context";
 
 interface Props {
   product: IProduct;
   pack: IProductPack;
   marketplaceProducts: IProduct[];
-  handleItemSelected: (itemId: string) => void;
-  selectedPack: string;
+  handleItemSelected: (item: IProductPack) => void;
+  selectedPackId: string;
 }
 
 export default function PackItem({
-  product,
   pack,
-  marketplaceProducts,
   handleItemSelected,
-  selectedPack,
+  selectedPackId,
 }: Props) {
   const t = useTranslations();
 
-  const productId = product.id;
-
-  const [quantity, setQuantity] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
 
-  const {
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    marketplaceItems,
-    addMarketplaceItems,
-    getItemQuantity,
-    removeMarketplaceItems,
-  } = useShoppingCart();
-
-  const handleIncreaseToCartItem = () => {
-    setQuantity(quantity + 1);
-    increaseCartQuantity(productId, pack);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
-    const p = marketplaceProducts.find(({ id }) => id === productId);
-    if (!p) return;
-    addMarketplaceItems(p);
-  };
-
-  const handleDecreaseFromCartItem = () => {
-    if (quantity > 0) setQuantity(quantity - 1);
-    decreaseCartQuantity(productId, pack.id);
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
-  };
+  // const handleDecreaseFromCartItem = () => {
+  //   if (quantity > 0) setQuantity(quantity - 1);
+  //   decreaseCartQuantity(productId, pack.id);
+  //   if (getItemQuantity(productId) > 1) return;
+  //   removeMarketplaceItems(productId);
+  // };
 
   return (
     <li
       className="flex flex-row space-x-4"
-      onClick={() => handleItemSelected(pack.id)}
+      onClick={() => handleItemSelected(pack)}
     >
       <div
         className={`relative w-full rounded-md ${
-          selectedPack === pack.id &&
+          selectedPackId === pack.id &&
           "bg-beer-softBlondeBubble ring-2 ring-beer-softBlonde"
         }`}
         key={pack.id}

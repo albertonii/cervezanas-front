@@ -42,7 +42,7 @@ export function DeleteLot({
     try {
       deleteLotMutation.mutate();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

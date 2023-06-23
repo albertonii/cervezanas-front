@@ -51,8 +51,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     control,
   } = form;
 
-  console.log(getValues());
-
   const t = useTranslations();
 
   const { fields, append, remove } = useFieldArray({

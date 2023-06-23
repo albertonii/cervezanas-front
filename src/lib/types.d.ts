@@ -646,6 +646,13 @@ export type IProductPack = {
   randomUUID: string;
 };
 
+export type IPackItem = {
+  id: string;
+  quantity: number;
+  price: number;
+  name: string;
+};
+
 export type ModalUpdateProductProps = {
   name: string;
   description: string;
@@ -720,10 +727,13 @@ export interface ICartItem {
   quantity: number;
 }
 
-export interface IPackCartItem {
+export interface IProductPackCartItem {
   id: string; // Product ID
-  packs: IProductPack[];
+  packs: IProductPackItem[];
   quantity: number;
+  name: string;
+  image: string;
+  price: number;
 }
 
 export interface ICarouselItem {

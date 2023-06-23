@@ -155,8 +155,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
     }
   }
 
-  console.log(product);
-
   return (
     <>
       {loading ? (

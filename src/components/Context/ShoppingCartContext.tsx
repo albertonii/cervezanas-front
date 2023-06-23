@@ -8,16 +8,11 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import {
-  ICartItem,
-  IPackCartItem,
-  IProduct,
-  IProductPack,
-} from "../../lib/types.d";
+import { IProductPackCartItem, IProduct, IPackItem } from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
 
 type ShoppingCartContextType = {
-  items: ICartItem[];
+  items: IProductPackCartItem[];
   cartQuantity: number;
   clearMarketplace: () => void;
   clearItems: () => void;
@@ -25,12 +20,14 @@ type ShoppingCartContextType = {
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
+  increasePackCartQuantity(product: IProduct, pack: IPackItem): void;
   decreaseCartQuantity: (id: string, productId: string) => void;
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
   marketplaceItems: IProduct[];
   addMarketplaceItems: (item: IProduct) => void;
+  addShoppingItem: (item: IProductPackCartItem) => void;
   removeMarketplaceItems: (id: string) => void;
   isOpen: boolean;
 };
@@ -44,12 +41,14 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   isInCart: () => false,
   getItemQuantity: () => 0,
   increaseCartQuantity: () => void {},
+  increasePackCartQuantity: () => void {},
   decreaseCartQuantity: () => void {},
   removeFromCart: () => void {},
   openCart: () => void {},
   closeCart: () => void {},
   marketplaceItems: [],
   addMarketplaceItems: () => void {},
+  addShoppingItem: () => void {},
   removeMarketplaceItems: () => void {},
   isOpen: false,
 });
@@ -60,12 +59,20 @@ interface Props {
 
 export function ShoppingCartProvider({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useLocalStorage<ICartItem[]>("shopping-cart", []);
+  const [items, setItems] = useLocalStorage<IProductPackCartItem[]>(
+    "shopping-cart",
+    []
+  );
 
   const [marketplaceItems, setMarketplaceItems] = useLocalStorage<IProduct[]>(
     "marketplace-selected-items",
     []
   );
+
+  const addShoppingItem = (item: IProductPackCartItem) => {
+    if (items.some((i) => i.id === item.id)) return;
+    setItems((items) => [...items, item]);
+  };
 
   const addMarketplaceItems = (item: IProduct) => {
     if (marketplaceItems.some((i) => i.id === item.id)) return;
@@ -105,20 +112,87 @@ export function ShoppingCartProvider({ children }: Props) {
   );
 
   const increaseCartQuantity = useCallback((id: string) => {
-    setItems((currItems) => {
-      const item = currItems.find((item) => item.id === id);
-      return item
-        ? currItems.map((item) =>
-            item.id === id
+    // setItems((currItems) => {
+    //   const item = currItems.find((item) => item.id === id);
+    //   return item
+    //     ? currItems.map((item) =>
+    //         item.id === id
+    //           ? {
+    //               ...item,
+    //               quantity: item.quantity + 1,
+    //             }
+    //           : item
+    //       )
+    //     : [...currItems, { id, quantity: 1 }];
+    // });
+    return [];
+  }, []);
+
+  const increasePackCartQuantity = useCallback(
+    (product: IProduct, pack: IPackItem) => {
+      setItems((currItems) => {
+        const itemFind = currItems.find((item) => item.id === product.id);
+
+        if (itemFind) {
+          // Buscar pack
+          const packFind = itemFind?.packs.find((p) => {
+            console.log(p);
+            return p.id === pack.id;
+          });
+
+          console.log("packFind: ", packFind);
+
+          // Si no existe el pack pero si el producto, lo añadimos
+          if (!packFind) {
+            return [
+              ...currItems,
+              {
+                id: product.id,
+                quantity: 1,
+                packs: [pack],
+                name: product.name,
+                price: product.price,
+                image: product.product_multimedia[0].p_principal,
+              },
+            ];
+          }
+
+          // Si existe el producto y el pack:
+          // Aumentar cantidad al pack
+          const currItemsv2 = currItems.map((item) => {
+            console.log(item);
+            return item.id === product.id
               ? {
                   ...item,
                   quantity: item.quantity + 1,
+                  // Aumentar la cantidad del pack en el producto correspondiente
+                  packs: item.packs.map(
+                    (p) =>
+                      p.id === pack.id && { ...p, quantity: p.quantity + 1 }
+                  ),
                 }
-              : item
-          )
-        : [...currItems, { id, quantity: 1 }];
-    });
-  }, []);
+              : item;
+          });
+
+          return currItemsv2;
+        } else {
+          // Si no existe el product aún en el carrito, lo añadimos
+          return [
+            ...currItems,
+            {
+              id: product.id,
+              quantity: 1,
+              packs: [pack],
+              name: product.name,
+              price: product.price,
+              image: product.product_multimedia[0].p_principal,
+            },
+          ];
+        }
+      });
+    },
+    []
+  );
 
   const decreaseCartQuantity = useCallback((id: string, productId: string) => {
     setItems((currItems) => {
@@ -153,6 +227,7 @@ export function ShoppingCartProvider({ children }: Props) {
       items,
       marketplaceItems,
       addMarketplaceItems,
+      addShoppingItem,
       removeMarketplaceItems,
       clearMarketplace,
       clearItems,
@@ -160,6 +235,7 @@ export function ShoppingCartProvider({ children }: Props) {
       isInCart,
       getItemQuantity,
       increaseCartQuantity,
+      increasePackCartQuantity,
       decreaseCartQuantity,
       removeFromCart,
       openCart,
@@ -171,6 +247,7 @@ export function ShoppingCartProvider({ children }: Props) {
     items,
     marketplaceItems,
     addMarketplaceItems,
+    addShoppingItem,
     removeMarketplaceItems,
     clearMarketplace,
     clearItems,
@@ -178,6 +255,7 @@ export function ShoppingCartProvider({ children }: Props) {
     isInCart,
     getItemQuantity,
     increaseCartQuantity,
+    increasePackCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
     openCart,
