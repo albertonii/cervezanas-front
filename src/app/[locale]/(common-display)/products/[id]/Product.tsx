@@ -1,6 +1,5 @@
 "use client";
 
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
 import React, {
   useCallback,
   useEffect,
@@ -9,8 +8,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { AddCardButton, Spinner } from "../../../../../components/common";
-import { useShoppingCart } from "../../../../../components/Context";
+import {  Spinner } from "../../../../../components/common";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,

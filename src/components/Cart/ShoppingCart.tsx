@@ -12,7 +12,7 @@ import { CartItem } from "./CartItem";
 export function ShoppingCart() {
   const t = useTranslations();
   const locale = useLocale();
-  const { items, closeCart, marketplaceItems, isOpen } = useShoppingCart();
+  const { items, marketplaceItems, isOpen, closeCart } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);
 
@@ -40,6 +40,7 @@ export function ShoppingCart() {
           closeCart();
         }}
       >
+        {/* Transition to apply the backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -55,6 +56,7 @@ export function ShoppingCart() {
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+              {/* Transition to apply to the content */}
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"

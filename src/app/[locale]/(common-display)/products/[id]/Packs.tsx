@@ -6,12 +6,7 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
-import {
-  IPackItem,
-  IProduct,
-  IProductPack,
-  IProductPackCartItem,
-} from "../../../../../lib/types";
+import { IPackItem, IProduct, IProductPack } from "../../../../../lib/types";
 
 interface Props {
   product: IProduct;
@@ -29,11 +24,11 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     removeFromCart,
     marketplaceItems,
     addMarketplaceItems,
-    addShoppingItem,
     removeMarketplaceItems,
   } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
+  const [isPackSelected, setIsPackSelected] = useState(true);
 
   const [selectedPack, setSelectedPack] = useState<IProductPack>();
 
@@ -82,7 +77,12 @@ export default function Packs({ product, marketplaceProducts }: Props) {
   };
 
   const handleAddToCart = () => {
-    if (!selectedPack) return;
+    if (!selectedPack) {
+      setIsPackSelected(false);
+      return;
+    }
+
+    setIsPackSelected(true);
 
     // Comprobamos si existe el producto en el carrito
     const productExistInCart = marketplaceItems.find(
@@ -96,12 +96,17 @@ export default function Packs({ product, marketplaceProducts }: Props) {
       );
 
       if (packExistInCart) {
+        console.log("Pack exist in cart ", packExistInCart);
+
         const packCartItem: IPackItem = {
           id: selectedPack.id,
           quantity: packExistInCart.quantity + packQuantity,
           price: selectedPack.price,
           name: selectedPack.name,
         };
+
+        console.log("Pack quantity ", packQuantity);
+        console.log("Pack cart item ", packCartItem);
 
         // Si existe, aumentamos la cantidad del pack
         increasePackCartQuantity(product, packCartItem);
@@ -183,6 +188,13 @@ export default function Packs({ product, marketplaceProducts }: Props) {
                 </div>
               ))}
           </ul>
+
+          {/* Warning message if pack is not selected  */}
+          {!isPackSelected && (
+            <div className="text-md mt-4 flex flex-1 items-center justify-start text-red-500">
+              {t("select_pack")}
+            </div>
+          )}
 
           <form>
             <div className="mt-6 flex space-x-2">
