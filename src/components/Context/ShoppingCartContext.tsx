@@ -134,13 +134,10 @@ export function ShoppingCartProvider({ children }: Props) {
         const itemFind = currItems.find((item) => item.id === product.id);
 
         if (itemFind) {
-          // Buscar pack
+          // Si existe el producto, buscamos el pack
           const packFind = itemFind?.packs.find((p) => {
-            console.log(p);
             return p.id === pack.id;
           });
-
-          console.log("packFind: ", packFind);
 
           // Si no existe el pack pero si el producto, lo añadimos
           if (!packFind) {
@@ -148,7 +145,7 @@ export function ShoppingCartProvider({ children }: Props) {
               ...currItems,
               {
                 id: product.id,
-                quantity: 1,
+                quantity: pack.quantity,
                 packs: [pack],
                 name: product.name,
                 price: product.price,
@@ -158,18 +155,21 @@ export function ShoppingCartProvider({ children }: Props) {
           }
 
           // Si existe el producto y el pack:
-          // Aumentar cantidad al pack
+          // Aumentar SOLO la cantidad al pack
           const currItemsv2 = currItems.map((item) => {
-            console.log(item);
             return item.id === product.id
               ? {
                   ...item,
-                  quantity: item.quantity + 1,
+                  quantity: item.quantity + pack.quantity,
                   // Aumentar la cantidad del pack en el producto correspondiente
-                  packs: item.packs.map(
-                    (p) =>
-                      p.id === pack.id && { ...p, quantity: p.quantity + 1 }
-                  ),
+                  packs: item.packs.map((p) => {
+                    return (
+                      p.id === pack.id && {
+                        ...p,
+                        quantity: p.quantity + pack.quantity,
+                      }
+                    );
+                  }),
                 }
               : item;
           });
@@ -181,7 +181,7 @@ export function ShoppingCartProvider({ children }: Props) {
             ...currItems,
             {
               id: product.id,
-              quantity: 1,
+              quantity: pack.quantity,
               packs: [pack],
               name: product.name,
               price: product.price,

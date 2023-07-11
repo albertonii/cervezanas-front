@@ -96,21 +96,23 @@ export default function Packs({ product, marketplaceProducts }: Props) {
       );
 
       if (packExistInCart) {
-        console.log("Pack exist in cart ", packExistInCart);
+        alert("con pack en carrito");
 
+        console.log(packExistInCart);
+        console.log(packQuantity);
+        console.log(selectedPack);
         const packCartItem: IPackItem = {
           id: selectedPack.id,
-          quantity: packExistInCart.quantity + packQuantity,
+          quantity: packQuantity,
           price: selectedPack.price,
           name: selectedPack.name,
         };
 
-        console.log("Pack quantity ", packQuantity);
-        console.log("Pack cart item ", packCartItem);
-
         // Si existe, aumentamos la cantidad del pack
         increasePackCartQuantity(product, packCartItem);
       } else {
+        alert("sin pack en carrito");
+
         const packCartItem: IPackItem = {
           id: selectedPack.id,
           quantity: packQuantity,
