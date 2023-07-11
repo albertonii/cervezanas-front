@@ -39,7 +39,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale}>
+    <html lang={locale} style={{overflow:"auto"}}>
       <body>
         <Suspense fallback={<Loading />}>
           <Providers session={session} messages={messages} locale={locale}>
