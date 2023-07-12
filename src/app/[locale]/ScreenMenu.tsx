@@ -12,6 +12,7 @@ import { Notification } from "./components/Notification";
 import { useAppContext } from "../../components/Context";
 import { ROUTE_SIGNIN } from "../../config";
 import { COMMON } from "../../constants";
+import { useEffect, useState } from "react";
 
 export function ScreenMenu() {
   const { user, role } = useAuth();
@@ -20,9 +21,30 @@ export function ScreenMenu() {
 
   const router = useRouter();
 
+  const [animateNotifications, setAnimateNotifications] = useState(false);
+  const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
+
   const { cartQuantity, openCart } = useShoppingCart();
   const { notifications, openNotification, setOpenNotification } =
     useAppContext();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateShoppingCart(true);
+      setTimeout(() => {
+        setAnimateShoppingCart(false);
+      }, 600);
+    }, 300);
+  }, [cartQuantity]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateNotifications(true);
+      setTimeout(() => {
+        setAnimateNotifications(false);
+      }, 600);
+    }, 300);
+  }, [notifications]);
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // i18n.changeLanguage(event.target.value);
@@ -136,7 +158,11 @@ export function ScreenMenu() {
                 <>
                   {/* Cart  */}
                   {role !== "admin" && (
-                    <li className="flex items-center">
+                    <li
+                      className={`items´center flex ${
+                        animateShoppingCart && "animate-wiggle"
+                      }`}
+                    >
                       <Button
                         class={
                           "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
@@ -152,7 +178,10 @@ export function ScreenMenu() {
                             alt={"Go to Shopping cart"}
                             className={"rounded-full"}
                           />
-                          <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
+                          <div
+                            className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
+                          `}
+                          >
                             {cartQuantity}
                           </div>
                         </div>
@@ -161,7 +190,11 @@ export function ScreenMenu() {
                   )}
 
                   {/* Notifications  */}
-                  <li className="relative flex items-center">
+                  <li
+                    className={`relative flex items-center ${
+                      animateNotifications && "animate-wiggle"
+                    }`}
+                  >
                     <Button
                       class={
                         "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
