@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
-import { IPackItem, IProduct, IProductPack } from "../../../../../lib/types";
+import { IProduct, IProductPack } from "../../../../../lib/types";
 
 interface Props {
   product: IProduct;
@@ -18,13 +18,8 @@ export default function Packs({ product, marketplaceProducts }: Props) {
   const productId = product.id;
 
   const {
-    getItemQuantity,
     increasePackCartQuantity,
-    decreaseCartQuantity,
     removeFromCart,
-    items,
-    marketplaceItems,
-    addMarketplaceItems,
     removeMarketplaceItems,
     clearCart,
   } = useShoppingCart();
@@ -42,44 +37,12 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     clearCart();
   }, []);
 
-  // const handleIncreaseToCartItem = () => {
-  //   // increaseCartQuantity(productId, "");
-  //   if (marketplaceItems.find((item) => item.id === productId)) return;
-  //   const product = marketplaceProducts.find(({ id }) => id === productId);
-  //   if (!product) return;
-  //   addMarketplaceItems(product);
-  // };
-
-  // const handleAddToCart = (packId: string) => {
-  //   const pack = product.product_pack.find(({ id }) => id === packId);
-  //   if (!pack) return;
-
-  //   // Make a copy of the product only with one pack
-  //   const productCopy = {
-  //     ...product,
-  //     product_pack: [pack],
-  //   };
-
-  //   increaseCartQuantity(productId);
-  //   addMarketplaceItems(productCopy);
-
-  //   // increaseCartQuantity(productId, "");
-  //   // if (marketplaceItems.find((item) => item.id === productId)) return;
-  //   // const p = marketplaceProducts.find(({ id }) => id === productId);
-  //   // if (!p) return;
-  //   // addMarketplaceItems(p);
-  //   setSelectedPack("");
-  //   setPackQuantity(1);
-  // };
-
-  const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(productId, "");
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
-  };
-
   const handleIncreasePackQuantity = () => {
     setPackQuantity(packQuantity + 1);
+  };
+
+  const handleDecreasePackQuantity = () => {
+    if (packQuantity > 1) setPackQuantity(packQuantity - 1);
   };
 
   const handleAddToCart = () => {
@@ -89,17 +52,6 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     }
 
     setIsPackSelected(true);
-
-    // Comprobamos si existe el producto en el carrito
-    // const productExistInCart = marketplaceItems.find(
-    //   (item) => item.id === productId
-    // );
-
-    /*
-    const productExistInCart = items.find((item: IProductPackCartItem) => {
-      return item.id === productId;
-    });
-    */
 
     const packCartItem: IProductPack = {
       id: selectedPack.id,
@@ -112,80 +64,7 @@ export default function Packs({ product, marketplaceProducts }: Props) {
 
     increasePackCartQuantity(product, packCartItem);
 
-    /*
-    if (productExistInCart) {
-      alert("existe en carrito");
-      // Si existe, comprobamos si existe el pack
-      // const packExistInCart = productExistInCart.product_pack.find((item) => {
-      //   return item.id === selectedPack.id;
-      // });
-
-      const packExistInCart = productExistInCart.packs.find((item) => {
-        return item.id === selectedPack.id;
-      });
-
-      if (packExistInCart) {
-        alert("con pack en carrito");
-        const packCartItem: IPackItem = {
-          id: selectedPack.id,
-          quantity: packQuantity,
-          price: selectedPack.price,
-          name: selectedPack.name,
-        };
-
-        // Si existe, aumentamos la cantidad del pack
-        increasePackCartQuantity(product, packCartItem);
-      } else {
-        alert("sin pack en carrito");
-
-        const packCartItem: IPackItem = {
-          id: selectedPack.id,
-          quantity: packQuantity,
-          price: selectedPack.price,
-          name: selectedPack.name,
-        };
-
-        // Si no existe, añadimos el pack
-        // productExistInCart.product_pack.push(selectedPack);
-        // productExistInCart.packs.push(selectedPack);
-        increasePackCartQuantity(product, packCartItem);
-      }
-    } else {
-      alert("no existe en carrito");
-      // Creamos una copia del producto sin los packs que tenga configurados
-      const productWithoutPacks = { ...product };
-      productWithoutPacks.product_pack = [];
-
-      const itemPack: IProductPack = {
-        id: selectedPack.id,
-        name: selectedPack.name,
-        quantity: packQuantity,
-        price: selectedPack.price,
-        img_url: selectedPack.img_url,
-        randomUUID: selectedPack.randomUUID,
-      };
-
-      // Añadimos el pack al producto
-      productWithoutPacks.product_pack.push(itemPack);
-
-      // Si no existe el producto, añadimos el producto y el pack
-      increasePackCartQuantity(product, itemPack);
-
-      // Añadimos el producto al carrito, de esta manera podemos saber que el producto ya está en el carrito
-      // addMarketplaceItems(productWithoutPacks);
-    }
-    */
-
     setPackQuantity(1);
-    // increaseCartQuantity(productId, pack);
-    // if (marketplaceItems.find((item) => item.id === productId)) return;
-    // const p = marketplaceProducts.find(({ id }) => id === productId);
-    // if (!p) return;
-    // addMarketplaceItems(p);
-  };
-
-  const handleDecreasePackQuantity = () => {
-    if (packQuantity > 1) setPackQuantity(packQuantity - 1);
   };
 
   const handleRemoveFromCart = () => {

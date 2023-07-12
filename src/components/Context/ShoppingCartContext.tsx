@@ -23,11 +23,9 @@ type ShoppingCartContextType = {
   clearCart: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
-  increaseCartQuantity: (id: string) => void;
   increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
-  decreaseCartQuantity: (id: string, productId: string) => void;
   removeFromCart: (id: string) => void;
   openCart: () => void;
   closeCart: () => void;
@@ -46,10 +44,8 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   clearCart: () => void {},
   isInCart: () => false,
   getItemQuantity: () => 0,
-  increaseCartQuantity: () => void {},
   increaseOnePackCartQuantity: () => void {},
   increasePackCartQuantity: () => void {},
-  decreaseCartQuantity: () => void {},
   decreaseOnePackCartQuantity: () => void {},
   removeFromCart: () => void {},
   openCart: () => void {},
@@ -118,96 +114,6 @@ export function ShoppingCartProvider({ children }: Props) {
     },
     [items]
   );
-
-  const increaseCartQuantity = useCallback((id: string) => {
-    // setItems((currItems) => {
-    //   const item = currItems.find((item) => item.id === id);
-    //   return item
-    //     ? currItems.map((item) =>
-    //         item.id === id
-    //           ? {
-    //               ...item,
-    //               quantity: item.quantity + 1,
-    //             }
-    //           : item
-    //       )
-    //     : [...currItems, { id, quantity: 1 }];
-    // });
-    return [];
-  }, []);
-
-  // const increasePackCartQuantity = useCallback(
-  //   (product: IProduct, pack: IPackItem) => {
-  //     setItems((currItems) => {
-  //       const itemFind = currItems.find((item) => item.id === product.id);
-
-  //       if (itemFind) {
-  //         console.log("ITEM FIND: ", itemFind);
-
-  //         // Si existe el producto, buscamos el pack
-  //         const packFind = itemFind.packs.find((p) => {
-  //           return p.id === pack.id;
-  //         });
-
-  //         // Si no existe el pack pero si el producto, lo añadimos
-  //         if (!packFind) {
-  //           alert("No existe el pack");
-  //           return [
-  //             ...currItems,
-  //             {
-  //               id: product.id,
-  //               quantity: pack.quantity,
-  //               packs: [pack],
-  //               name: product.name,
-  //               price: product.price,
-  //               image: product.product_multimedia[0].p_principal,
-  //             },
-  //           ];
-  //         }
-
-  //         alert("Existe el pack");
-
-  //         // Si existe el producto y el pack:
-  //         // Aumentar SOLO la cantidad al pack
-  //         const currItemsv2 = currItems.map((item) => {
-  //           return item.id === product.id
-  //             ? {
-  //                 ...item,
-  //                 quantity: item.quantity + pack.quantity,
-  //                 // Aumentar la cantidad del pack en el producto correspondiente
-  //                 packs: item.packs.map((p) => {
-  //                   return p.id === pack.id
-  //                     ? {
-  //                         ...p,
-  //                         quantity: p.quantity + pack.quantity,
-  //                       }
-  //                     : p;
-  //                 }),
-  //               }
-  //             : item;
-  //         });
-
-  //         return currItemsv2;
-  //       } else {
-  //         // Si no existe el producto aún en el carrito, lo añadimos
-
-  //         alert("El producto no existe en el carrito");
-  //         return [
-  //           ...currItems,
-  //           {
-  //             id: product.id,
-  //             quantity: pack.quantity,
-  //             packs: [pack],
-  //             name: product.name,
-  //             price: product.price,
-  //             image: product.product_multimedia[0].p_principal,
-  //           },
-  //         ];
-  //       }
-  //     });
-  //   },
-  //   []
-  // );
 
   const increasePackCartQuantity = useCallback(
     (product: IProduct, pack: IProductPack) => {
@@ -331,22 +237,6 @@ export function ShoppingCartProvider({ children }: Props) {
     setItems(newItems);
   };
 
-  const decreaseCartQuantity = useCallback((id: string, productId: string) => {
-    setItems((currItems) => {
-      if (currItems.find((item) => item.id === id)?.quantity === 1) {
-        return currItems.filter((item) => item.id !== id);
-      } else {
-        return currItems.map((item) => {
-          if (item.id === id) {
-            return { ...item, quantity: item.quantity - 1 };
-          } else {
-            return item;
-          }
-        });
-      }
-    });
-  }, []);
-
   const removeFromCart = (id: string) => {
     setItems((items) => items.filter((item) => item.id !== id));
   };
@@ -382,9 +272,7 @@ export function ShoppingCartProvider({ children }: Props) {
       clearCart,
       isInCart,
       getItemQuantity,
-      increaseCartQuantity,
       increasePackCartQuantity,
-      decreaseCartQuantity,
       removeFromCart,
       openCart,
       closeCart,
@@ -404,9 +292,7 @@ export function ShoppingCartProvider({ children }: Props) {
     clearCart,
     isInCart,
     getItemQuantity,
-    increaseCartQuantity,
     increasePackCartQuantity,
-    decreaseCartQuantity,
     removeFromCart,
     openCart,
     closeCart,
