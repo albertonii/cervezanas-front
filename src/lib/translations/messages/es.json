@@ -559,5 +559,6 @@
   "product_packs": "Packs de productos",
   "units": "Unidades",
   "product_pack_name": "Pack",
-  "select_pack": "Selecciona un pack"
+  "select_pack": "Selecciona un pack",
+  "choose_pack": "Elige un pack"
 }

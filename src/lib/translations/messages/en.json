@@ -544,5 +544,6 @@
   "product_packs": "Product packs",
   "units": "Units",
   "product_pack_name": "Pack",
-  "select_pack": "Select a pack"
+  "select_pack": "Select a pack",
+  "choose_pack": "Choose a pack"
 }

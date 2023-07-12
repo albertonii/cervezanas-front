@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -13,8 +13,9 @@ export function ShoppingCart() {
   const t = useTranslations();
   const locale = useLocale();
   const { items, isOpen, closeCart } = useShoppingCart();
-
   const [subTotal, setSubTotal] = useState(0);
+  const dialogDivRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let total = 0;
@@ -26,11 +27,18 @@ export function ShoppingCart() {
     });
 
     setSubTotal(total);
-
     () => {
       setSubTotal(0);
     };
   }, [items]);
+
+  // The dialog is loading twice and making dialog layers, so when clicked it dissapears when it shouldn't
+  useEffect(() => {
+    // If page loading complete, display dialog
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) return null;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -40,6 +48,7 @@ export function ShoppingCart() {
         onClose={() => {
           closeCart();
         }}
+        initialFocus={dialogDivRef}
       >
         {/* Transition to apply the backdrop */}
         <Transition.Child
@@ -51,7 +60,8 @@ export function ShoppingCart() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          {/* <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" /> */}
+          <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -68,7 +78,10 @@ export function ShoppingCart() {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <div
+                    className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
+                    ref={dialogDivRef}
+                  >
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-xl font-medium text-gray-900">

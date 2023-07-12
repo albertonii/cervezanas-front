@@ -162,7 +162,7 @@ export function EventCartProvider({ children }: Props) {
   return (
     <EventCartContext.Provider value={value}>
       {children}
-      {eventItems && <ShoppingCart />}
+      {/* {eventItems && <ShoppingCart />} */}
     </EventCartContext.Provider>
   );
 }
