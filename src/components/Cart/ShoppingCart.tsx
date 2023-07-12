@@ -17,12 +17,12 @@ export function ShoppingCart() {
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
-    console.log(items);
-    // TODO: Habría que sumar en los precios de los packs y no en el price del producto
     let total = 0;
 
     items.find((item) => {
-      total += item.price * item.quantity;
+      item.packs.map((pack) => {
+        total += pack.price * pack.quantity;
+      });
     });
 
     setSubTotal(total);
