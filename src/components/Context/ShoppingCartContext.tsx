@@ -238,18 +238,23 @@ export function ShoppingCartProvider({ children }: Props) {
   };
 
   const removeFromCart = (productId: string, packId: string) => {
-    setItems((items) =>
-      items.map((item) => {
+    setItems((items) => {
+      if (!items) return [];
+      if (items.length === 1) return [];
+
+      return items.map((item) => {
         if (item.id === productId) {
           return {
             ...item,
-            packs: item.packs.filter((pack) => pack.id !== packId),
+            packs: item.packs.filter((pack) => {
+              return pack.id !== packId;
+            }),
           };
         } else {
           return item;
         }
-      })
-    );
+      });
+    });
   };
 
   const openCart = () => setIsOpen(true);

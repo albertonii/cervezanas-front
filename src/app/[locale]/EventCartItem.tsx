@@ -78,10 +78,7 @@ export function EventCartItem({ id, quantity, products }: CartItemProps) {
     [removeFromCart, removeMarketplaceItems]
   );
 
-  const formattedPrice = useMemo(
-    () => formatCurrency(item?.price ?? 0),
-    [item?.price]
-  );
+  const formattedPrice = formatCurrency(item?.price ?? 0);
 
   return (
     <>

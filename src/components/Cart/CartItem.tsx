@@ -22,7 +22,6 @@ export function CartItem({ item }: CartItemProps) {
 
   const {
     removeFromCart,
-    // removeMarketplaceItems,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
   } = useShoppingCart();
@@ -42,12 +41,10 @@ export function CartItem({ item }: CartItemProps) {
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
-    // removeMarketplaceItems(itemId);
     removeFromCart(itemId, packId);
   };
 
-  const formattedPrice = (packPrice: number) =>
-    useMemo(() => formatCurrency(packPrice ?? 0), [packPrice]);
+  const formattedPrice = (packPrice: number) => formatCurrency(packPrice ?? 0);
 
   return (
     <>
