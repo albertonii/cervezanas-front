@@ -2,11 +2,16 @@
 
 import PackItem from "./PackItem";
 import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
-import { IPackItem, IProduct, IProductPack } from "../../../../../lib/types";
+import {
+  IPackItem,
+  IProduct,
+  IProductPack,
+  IProductPackCartItem,
+} from "../../../../../lib/types";
 
 interface Props {
   product: IProduct;
@@ -22,9 +27,11 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     increasePackCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    items,
     marketplaceItems,
     addMarketplaceItems,
     removeMarketplaceItems,
+    clearCart,
   } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
@@ -35,6 +42,10 @@ export default function Packs({ product, marketplaceProducts }: Props) {
   const handleItemSelected = (item: IProductPack) => {
     setSelectedPack(item);
   };
+
+  useEffect(() => {
+    clearCart();
+  }, []);
 
   // const handleIncreaseToCartItem = () => {
   //   // increaseCartQuantity(productId, "");
@@ -85,22 +96,41 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     setIsPackSelected(true);
 
     // Comprobamos si existe el producto en el carrito
-    const productExistInCart = marketplaceItems.find(
-      (item) => item.id === productId
-    );
+    // const productExistInCart = marketplaceItems.find(
+    //   (item) => item.id === productId
+    // );
 
+    /*
+    const productExistInCart = items.find((item: IProductPackCartItem) => {
+      return item.id === productId;
+    });
+    */
+
+    const packCartItem: IProductPack = {
+      id: selectedPack.id,
+      quantity: packQuantity,
+      price: selectedPack.price,
+      name: selectedPack.name,
+      img_url: selectedPack.img_url,
+      randomUUID: selectedPack.randomUUID,
+    };
+
+    increasePackCartQuantity(product, packCartItem);
+
+    /*
     if (productExistInCart) {
+      alert("existe en carrito");
       // Si existe, comprobamos si existe el pack
-      const packExistInCart = productExistInCart.product_pack.find(
-        (item) => item.id === selectedPack.id
-      );
+      // const packExistInCart = productExistInCart.product_pack.find((item) => {
+      //   return item.id === selectedPack.id;
+      // });
+
+      const packExistInCart = productExistInCart.packs.find((item) => {
+        return item.id === selectedPack.id;
+      });
 
       if (packExistInCart) {
         alert("con pack en carrito");
-
-        console.log(packExistInCart);
-        console.log(packQuantity);
-        console.log(selectedPack);
         const packCartItem: IPackItem = {
           id: selectedPack.id,
           quantity: packQuantity,
@@ -121,10 +151,12 @@ export default function Packs({ product, marketplaceProducts }: Props) {
         };
 
         // Si no existe, añadimos el pack
-        productExistInCart.product_pack.push(selectedPack);
+        // productExistInCart.product_pack.push(selectedPack);
+        // productExistInCart.packs.push(selectedPack);
         increasePackCartQuantity(product, packCartItem);
       }
     } else {
+      alert("no existe en carrito");
       // Creamos una copia del producto sin los packs que tenga configurados
       const productWithoutPacks = { ...product };
       productWithoutPacks.product_pack = [];
@@ -142,8 +174,12 @@ export default function Packs({ product, marketplaceProducts }: Props) {
       productWithoutPacks.product_pack.push(itemPack);
 
       // Si no existe el producto, añadimos el producto y el pack
-      addMarketplaceItems(productWithoutPacks);
+      increasePackCartQuantity(product, itemPack);
+
+      // Añadimos el producto al carrito, de esta manera podemos saber que el producto ya está en el carrito
+      // addMarketplaceItems(productWithoutPacks);
     }
+    */
 
     setPackQuantity(1);
     // increaseCartQuantity(productId, pack);

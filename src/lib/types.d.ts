@@ -729,7 +729,7 @@ export interface ICartItem {
 
 export interface IProductPackCartItem {
   id: string; // Product ID
-  packs: IProductPackItem[];
+  packs: IProductPack[];
   quantity: number;
   name: string;
   image: string;

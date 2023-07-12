@@ -8,7 +8,11 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { IProductPackCartItem, IProduct, IPackItem } from "../../lib/types.d";
+import {
+  IProductPackCartItem,
+  IProduct,
+  IProductPack,
+} from "../../lib/types.d";
 import { ShoppingCart } from "../Cart/index";
 
 type ShoppingCartContextType = {
@@ -20,7 +24,7 @@ type ShoppingCartContextType = {
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
-  increasePackCartQuantity(product: IProduct, pack: IPackItem): void;
+  increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
   decreaseCartQuantity: (id: string, productId: string) => void;
   removeFromCart: (id: string) => void;
   openCart: () => void;
@@ -128,34 +132,120 @@ export function ShoppingCartProvider({ children }: Props) {
     return [];
   }, []);
 
+  // const increasePackCartQuantity = useCallback(
+  //   (product: IProduct, pack: IPackItem) => {
+  //     setItems((currItems) => {
+  //       const itemFind = currItems.find((item) => item.id === product.id);
+
+  //       if (itemFind) {
+  //         console.log("ITEM FIND: ", itemFind);
+
+  //         // Si existe el producto, buscamos el pack
+  //         const packFind = itemFind.packs.find((p) => {
+  //           return p.id === pack.id;
+  //         });
+
+  //         // Si no existe el pack pero si el producto, lo añadimos
+  //         if (!packFind) {
+  //           alert("No existe el pack");
+  //           return [
+  //             ...currItems,
+  //             {
+  //               id: product.id,
+  //               quantity: pack.quantity,
+  //               packs: [pack],
+  //               name: product.name,
+  //               price: product.price,
+  //               image: product.product_multimedia[0].p_principal,
+  //             },
+  //           ];
+  //         }
+
+  //         alert("Existe el pack");
+
+  //         // Si existe el producto y el pack:
+  //         // Aumentar SOLO la cantidad al pack
+  //         const currItemsv2 = currItems.map((item) => {
+  //           return item.id === product.id
+  //             ? {
+  //                 ...item,
+  //                 quantity: item.quantity + pack.quantity,
+  //                 // Aumentar la cantidad del pack en el producto correspondiente
+  //                 packs: item.packs.map((p) => {
+  //                   return p.id === pack.id
+  //                     ? {
+  //                         ...p,
+  //                         quantity: p.quantity + pack.quantity,
+  //                       }
+  //                     : p;
+  //                 }),
+  //               }
+  //             : item;
+  //         });
+
+  //         return currItemsv2;
+  //       } else {
+  //         // Si no existe el producto aún en el carrito, lo añadimos
+
+  //         alert("El producto no existe en el carrito");
+  //         return [
+  //           ...currItems,
+  //           {
+  //             id: product.id,
+  //             quantity: pack.quantity,
+  //             packs: [pack],
+  //             name: product.name,
+  //             price: product.price,
+  //             image: product.product_multimedia[0].p_principal,
+  //           },
+  //         ];
+  //       }
+  //     });
+  //   },
+  //   []
+  // );
+
   const increasePackCartQuantity = useCallback(
-    (product: IProduct, pack: IPackItem) => {
+    (product: IProduct, pack: IProductPack) => {
+      const newPack: IProductPackCartItem = {
+        id: product.id,
+        quantity: pack.quantity,
+        packs: [pack],
+        name: product.name,
+        price: product.price,
+        image: product.product_multimedia[0].p_principal,
+      };
+
       setItems((currItems) => {
+        // Buscamos el producto en el carrito
         const itemFind = currItems.find((item) => item.id === product.id);
 
         if (itemFind) {
           // Si existe el producto, buscamos el pack
-          const packFind = itemFind?.packs.find((p) => {
+          const packFind = itemFind.packs.find((p) => {
             return p.id === pack.id;
           });
 
           // Si no existe el pack pero si el producto, lo añadimos
           if (!packFind) {
-            return [
-              ...currItems,
-              {
-                id: product.id,
-                quantity: pack.quantity,
-                packs: [pack],
-                name: product.name,
-                price: product.price,
-                image: product.product_multimedia[0].p_principal,
-              },
-            ];
+            alert("No existe el pack -> lo añadimos al producto");
+            // Añadimos el pack al listado de packs del producto
+            itemFind.packs.push(pack);
+
+            // Reemplazar el producto en el listado de productos
+            const currItemsCopy = currItems.map(
+              (item: IProductPackCartItem) => {
+                return item.id === product.id ? itemFind : item;
+              }
+            );
+
+            return [...currItemsCopy];
           }
 
-          // Si existe el producto y el pack:
-          // Aumentar SOLO la cantidad al pack
+          alert("Existe el pack");
+
+          // Si existe el pack en el producto
+          // Aumentamos SOLO la cantidad al pack
           const currItemsv2 = currItems.map((item) => {
             return item.id === product.id
               ? {
@@ -163,12 +253,12 @@ export function ShoppingCartProvider({ children }: Props) {
                   quantity: item.quantity + pack.quantity,
                   // Aumentar la cantidad del pack en el producto correspondiente
                   packs: item.packs.map((p) => {
-                    return (
-                      p.id === pack.id && {
-                        ...p,
-                        quantity: p.quantity + pack.quantity,
-                      }
-                    );
+                    return p.id === pack.id
+                      ? {
+                          ...p,
+                          quantity: p.quantity + pack.quantity,
+                        }
+                      : p;
                   }),
                 }
               : item;
@@ -176,18 +266,9 @@ export function ShoppingCartProvider({ children }: Props) {
 
           return currItemsv2;
         } else {
-          // Si no existe el product aún en el carrito, lo añadimos
-          return [
-            ...currItems,
-            {
-              id: product.id,
-              quantity: pack.quantity,
-              packs: [pack],
-              name: product.name,
-              price: product.price,
-              image: product.product_multimedia[0].p_principal,
-            },
-          ];
+          // Si no existe el producto aún en el carrito, lo añadimos
+          alert("El producto no existe en el carrito");
+          return [...currItems, newPack];
         }
       });
     },
@@ -217,9 +298,20 @@ export function ShoppingCartProvider({ children }: Props) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
+  // const cartQuantity = useMemo(() => {
+  //   if (!items) return 0;
+  //   return items.reduce((acc, item) => acc + item.quantity, 0);
+  // }, [items]);
+
   const cartQuantity = useMemo(() => {
-    if (!items) return 0;
-    return items.reduce((acc, item) => acc + item.quantity, 0);
+    let quantity = 0;
+
+    if (!items) return quantity;
+    items.map((item) => {
+      quantity += item.packs.reduce((acc, pack) => acc + pack.quantity, 0);
+    });
+
+    return quantity;
   }, [items]);
 
   const value = useMemo(() => {

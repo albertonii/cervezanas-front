@@ -55,56 +55,69 @@ export function CartItem({ item }: CartItemProps) {
     [removeFromCart, removeMarketplaceItems]
   );
 
-  const formattedPrice = useMemo(
-    () => formatCurrency(item?.price ?? 0),
-    [item?.price]
-  );
+  const formattedPrice = (packPrice: number) =>
+    useMemo(() => formatCurrency(packPrice ?? 0), [packPrice]);
 
   return (
     <>
       {item && (
         <>
-          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-            <DisplayImageProduct
-              width={240}
-              height={200}
-              imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(item.image)}
-              alt={"Cart Item display image"}
-              class="h-full w-full object-cover object-center"
-            />
-          </div>
+          <span>
+            <p className="font-semibold">{t("product_name")}:</p> {item.name}
+          </span>
+          {item.packs.map((pack) => (
+            <div key={pack.id} className="flex flex-row">
+              <>
+                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                  <DisplayImageProduct
+                    width={240}
+                    height={200}
+                    imgSrc={
+                      BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
+                    }
+                    alt={"Cart Item display image"}
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
 
-          <div className="ml-4 flex flex-1 flex-col">
-            <div className="flex justify-between text-base font-medium text-gray-900">
-              <p className="md:text-md mt-1 text-gray-500 lg:text-lg">
-                <Link href={`/products/${item.id}`} locale={locale}>
-                  {item.name}
-                </Link>
-              </p>
+                <div className="ml-4 flex flex-1 flex-col">
+                  <div className="flex justify-between text-base font-medium text-gray-900">
+                    <p className="md:text-md mt-1 text-gray-500 lg:text-lg">
+                      <Link href={`/products/${item.id}`} locale={locale}>
+                        {pack.name}
+                      </Link>
+                    </p>
 
-              <span>
-                <p className="ml-4">{formattedPrice}</p>
-              </span>
+                    <span>
+                      <p className="ml-4">{formattedPrice(pack.price)}</p>
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col">
+                    {t("product_pack_name")}:<span>{pack.name}</span>
+                  </div>
+
+                  <div className="flex flex-1 items-end justify-between text-sm">
+                    <p className="text-gray-500">
+                      {t("quantity")} {pack.quantity}
+                    </p>
+
+                    <MarketCartButtons
+                      quantity={pack.quantity}
+                      item={item}
+                      handleIncreaseCartQuantity={() =>
+                        handleIncreaseCartQuantity()
+                      }
+                      handleDecreaseCartQuantity={() =>
+                        handleDecreaseCartQuantity()
+                      }
+                      handleRemoveFromCart={() => handleRemoveFromCart(pack.id)}
+                    />
+                  </div>
+                </div>
+              </>
             </div>
-
-            <div className="flex flex-col">
-              {t("product_pack_name")}:<span>{item.packs[0].name}</span>
-            </div>
-
-            <div className="flex flex-1 items-end justify-between text-sm">
-              <p className="text-gray-500">
-                {t("quantity")} {item.quantity}
-              </p>
-
-              <MarketCartButtons
-                quantity={item.quantity}
-                item={item}
-                handleIncreaseCartQuantity={() => handleIncreaseCartQuantity()}
-                handleDecreaseCartQuantity={() => handleDecreaseCartQuantity()}
-                handleRemoveFromCart={() => handleRemoveFromCart(item.id)}
-              />
-            </div>
-          </div>
+          ))}
         </>
       )}
     </>

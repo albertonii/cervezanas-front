@@ -174,7 +174,7 @@ export function ScreenMenu() {
                           src={"/icons/notification-icon.svg"}
                           width={45}
                           height={45}
-                          alt={"Go to Shopping cart"}
+                          alt={"Notification bell"}
                           className={"rounded-full"}
                         />
                         <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">

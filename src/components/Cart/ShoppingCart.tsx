@@ -12,11 +12,12 @@ import { CartItem } from "./CartItem";
 export function ShoppingCart() {
   const t = useTranslations();
   const locale = useLocale();
-  const { items, marketplaceItems, isOpen, closeCart } = useShoppingCart();
+  const { items, isOpen, closeCart } = useShoppingCart();
 
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
+    console.log(items);
     // TODO: Habría que sumar en los precios de los packs y no en el price del producto
     let total = 0;
 
@@ -29,7 +30,7 @@ export function ShoppingCart() {
     () => {
       setSubTotal(0);
     };
-  }, [items, marketplaceItems]);
+  }, [items]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -70,7 +71,7 @@ export function ShoppingCart() {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">
+                        <Dialog.Title className="text-xl font-medium text-gray-900">
                           {t("shopping_cart")}
                         </Dialog.Title>
 
@@ -88,20 +89,18 @@ export function ShoppingCart() {
                         </div>
                       </div>
 
-                      <div className="mt-8">
-                        <div className="flow-root">
-                          <ul
-                            role="list"
-                            className="-my-6 divide-y divide-gray-200"
-                          >
-                            {items &&
-                              items.map((item) => (
-                                <li key={item.id} className="flex py-6">
-                                  <CartItem item={item} />
-                                </li>
-                              ))}
-                          </ul>
-                        </div>
+                      <div className="mt-8 flow-root">
+                        <ul
+                          role="list"
+                          className="-my-6 divide-y divide-gray-200"
+                        >
+                          {items &&
+                            items.map((item) => (
+                              <li key={item.id} className="space-y-6">
+                                <CartItem item={item} />
+                              </li>
+                            ))}
+                        </ul>
                       </div>
                     </div>
 
