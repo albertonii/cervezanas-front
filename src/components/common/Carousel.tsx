@@ -104,7 +104,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
             return (
               <>
                 <div
-                  key={index}
+                  key={resource.title + index}
                   className={`relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer  ${
                     currentIndex === index ? "scale-100" : "opacity-75"
                   }`}

@@ -6,12 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
-import {
-  IPackItem,
-  IProduct,
-  IProductPack,
-  IProductPackCartItem,
-} from "../../../../../lib/types";
+import { IPackItem, IProduct, IProductPack } from "../../../../../lib/types";
 
 interface Props {
   product: IProduct;

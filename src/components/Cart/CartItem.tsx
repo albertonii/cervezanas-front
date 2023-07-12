@@ -3,8 +3,8 @@
 import Link from "next/link";
 import MarketCartButtons from "../common/MarketCartButtons";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import { useCallback, useMemo } from "react";
-import { IProduct, IProductPackCartItem } from "../../lib/types.d";
+import { useMemo } from "react";
+import { IProductPack, IProductPackCartItem } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { useLocale, useTranslations } from "next-intl";
@@ -22,38 +22,29 @@ export function CartItem({ item }: CartItemProps) {
 
   const {
     removeFromCart,
-    increaseCartQuantity,
-    decreaseCartQuantity,
     removeMarketplaceItems,
-    marketplaceItems,
-    addMarketplaceItems,
-    getItemQuantity,
+    increaseOnePackCartQuantity,
+    decreaseOnePackCartQuantity,
   } = useShoppingCart();
 
-  const handleIncreaseCartQuantity = useCallback(() => {
-    increaseCartQuantity(item.id);
-    if (marketplaceItems.find((i) => i.id === item.id)) return;
-    const product: IProduct | undefined = marketplaceItems.find(
-      (i) => i.id === item.id
-    );
-    if (product) {
-      addMarketplaceItems(product);
-    }
-  }, [increaseCartQuantity, marketplaceItems, addMarketplaceItems]);
+  const handleIncreaseCartQuantity = (
+    item: IProductPackCartItem,
+    pack: IProductPack
+  ) => {
+    increaseOnePackCartQuantity(item.id, pack.id);
+  };
 
-  const handleDecreaseCartQuantity = useCallback(() => {
-    // decreaseCartQuantity(id);
-    // if (getItemQuantity(id) > 1) return;
-    // removeMarketplaceItems(id);
-  }, [decreaseCartQuantity, getItemQuantity, removeMarketplaceItems]);
+  const handleDecreaseCartQuantity = (
+    item: IProductPackCartItem,
+    pack: IProductPack
+  ) => {
+    decreaseOnePackCartQuantity(item.id, pack.id);
+  };
 
-  const handleRemoveFromCart = useCallback(
-    (itemId: string) => {
-      removeMarketplaceItems(itemId);
-      removeFromCart(itemId);
-    },
-    [removeFromCart, removeMarketplaceItems]
-  );
+  const handleRemoveFromCart = (itemId: string) => {
+    removeMarketplaceItems(itemId);
+    removeFromCart(itemId);
+  };
 
   const formattedPrice = (packPrice: number) =>
     useMemo(() => formatCurrency(packPrice ?? 0), [packPrice]);
@@ -106,10 +97,10 @@ export function CartItem({ item }: CartItemProps) {
                       quantity={pack.quantity}
                       item={item}
                       handleIncreaseCartQuantity={() =>
-                        handleIncreaseCartQuantity()
+                        handleIncreaseCartQuantity(item, pack)
                       }
                       handleDecreaseCartQuantity={() =>
-                        handleDecreaseCartQuantity()
+                        handleDecreaseCartQuantity(item, pack)
                       }
                       handleRemoveFromCart={() => handleRemoveFromCart(pack.id)}
                     />

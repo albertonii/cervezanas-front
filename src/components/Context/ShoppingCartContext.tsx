@@ -24,7 +24,9 @@ type ShoppingCartContextType = {
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
   increaseCartQuantity: (id: string) => void;
+  increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
+  decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
   decreaseCartQuantity: (id: string, productId: string) => void;
   removeFromCart: (id: string) => void;
   openCart: () => void;
@@ -45,8 +47,10 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   isInCart: () => false,
   getItemQuantity: () => 0,
   increaseCartQuantity: () => void {},
+  increaseOnePackCartQuantity: () => void {},
   increasePackCartQuantity: () => void {},
   decreaseCartQuantity: () => void {},
+  decreaseOnePackCartQuantity: () => void {},
   removeFromCart: () => void {},
   openCart: () => void {},
   closeCart: () => void {},
@@ -275,6 +279,58 @@ export function ShoppingCartProvider({ children }: Props) {
     []
   );
 
+  const increaseOnePackCartQuantity = (productId: string, packId: string) => {
+    const newItems = items.map((item) => {
+      if (item.id === productId) {
+        const newPacks = item.packs.map((pack) => {
+          if (pack.id === packId) {
+            return {
+              ...pack,
+              quantity: pack.quantity + 1,
+            };
+          } else {
+            return pack;
+          }
+        });
+
+        return {
+          ...item,
+          packs: newPacks,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    setItems(newItems);
+  };
+
+  const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
+    const newItems = items.map((item) => {
+      if (item.id === productId) {
+        const newPacks = item.packs.map((pack) => {
+          if (pack.id === packId && pack.quantity > 0) {
+            return {
+              ...pack,
+              quantity: pack.quantity - 1,
+            };
+          } else {
+            return pack;
+          }
+        });
+
+        return {
+          ...item,
+          packs: newPacks,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    setItems(newItems);
+  };
+
   const decreaseCartQuantity = useCallback((id: string, productId: string) => {
     setItems((currItems) => {
       if (currItems.find((item) => item.id === id)?.quantity === 1) {
@@ -334,6 +390,8 @@ export function ShoppingCartProvider({ children }: Props) {
       closeCart,
       cartQuantity,
       isOpen,
+      increaseOnePackCartQuantity,
+      decreaseOnePackCartQuantity,
     };
   }, [
     items,
@@ -354,6 +412,8 @@ export function ShoppingCartProvider({ children }: Props) {
     closeCart,
     cartQuantity,
     isOpen,
+    increaseOnePackCartQuantity,
+    decreaseOnePackCartQuantity,
   ]);
 
   return (
