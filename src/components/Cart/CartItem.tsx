@@ -22,7 +22,7 @@ export function CartItem({ item }: CartItemProps) {
 
   const {
     removeFromCart,
-    removeMarketplaceItems,
+    // removeMarketplaceItems,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
   } = useShoppingCart();
@@ -41,9 +41,9 @@ export function CartItem({ item }: CartItemProps) {
     decreaseOnePackCartQuantity(item.id, pack.id);
   };
 
-  const handleRemoveFromCart = (itemId: string) => {
-    removeMarketplaceItems(itemId);
-    removeFromCart(itemId);
+  const handleRemoveFromCart = (itemId: string, packId: string) => {
+    // removeMarketplaceItems(itemId);
+    removeFromCart(itemId, packId);
   };
 
   const formattedPrice = (packPrice: number) =>
@@ -102,7 +102,10 @@ export function CartItem({ item }: CartItemProps) {
                       handleDecreaseCartQuantity={() =>
                         handleDecreaseCartQuantity(item, pack)
                       }
-                      handleRemoveFromCart={() => handleRemoveFromCart(pack.id)}
+                      handleRemoveFromCart={() =>
+                        handleRemoveFromCart(item.id, pack.id)
+                      }
+                      displayDeleteButton={true}
                     />
                   </div>
                 </div>

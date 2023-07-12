@@ -26,7 +26,7 @@ type ShoppingCartContextType = {
   increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
-  removeFromCart: (id: string) => void;
+  removeFromCart: (productId: string, packId: string) => void;
   openCart: () => void;
   closeCart: () => void;
   marketplaceItems: IProduct[];
@@ -215,7 +215,7 @@ export function ShoppingCartProvider({ children }: Props) {
     const newItems = items.map((item) => {
       if (item.id === productId) {
         const newPacks = item.packs.map((pack) => {
-          if (pack.id === packId && pack.quantity > 0) {
+          if (pack.id === packId && pack.quantity > 1) {
             return {
               ...pack,
               quantity: pack.quantity - 1,
@@ -237,17 +237,23 @@ export function ShoppingCartProvider({ children }: Props) {
     setItems(newItems);
   };
 
-  const removeFromCart = (id: string) => {
-    setItems((items) => items.filter((item) => item.id !== id));
+  const removeFromCart = (productId: string, packId: string) => {
+    setItems((items) =>
+      items.map((item) => {
+        if (item.id === productId) {
+          return {
+            ...item,
+            packs: item.packs.filter((pack) => pack.id !== packId),
+          };
+        } else {
+          return item;
+        }
+      })
+    );
   };
 
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
-
-  // const cartQuantity = useMemo(() => {
-  //   if (!items) return 0;
-  //   return items.reduce((acc, item) => acc + item.quantity, 0);
-  // }, [items]);
 
   const cartQuantity = useMemo(() => {
     let quantity = 0;

@@ -7,7 +7,6 @@ interface Props {
   item: any;
   handleIncreaseCartQuantity: () => void;
   handleDecreaseCartQuantity: () => void;
-  handleRemoveFromCart: (id: string) => void;
   displayDelete?: boolean;
 }
 

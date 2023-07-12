@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import {  Spinner } from "../../../../../components/common";
+import { Spinner } from "../../../../../components/common";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,
@@ -47,7 +47,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
   const [isLike, setIsLike] = useState<boolean>(
     Boolean(selectedProduct?.likes?.length)
   );
-  const productId = selectedProduct.id;
 
   const reviewRef = useRef<any>();
 

@@ -2,7 +2,7 @@
 
 import PackItem from "./PackItem";
 import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../../../components/common";
 import { useShoppingCart } from "../../../../../components/Context";
@@ -15,14 +15,8 @@ interface Props {
 
 export default function Packs({ product, marketplaceProducts }: Props) {
   const t = useTranslations();
-  const productId = product.id;
 
-  const {
-    increasePackCartQuantity,
-    removeFromCart,
-    removeMarketplaceItems,
-    clearCart,
-  } = useShoppingCart();
+  const { increasePackCartQuantity } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
   const [isPackSelected, setIsPackSelected] = useState(true);
@@ -32,10 +26,6 @@ export default function Packs({ product, marketplaceProducts }: Props) {
   const handleItemSelected = (item: IProductPack) => {
     setSelectedPack(item);
   };
-
-  useEffect(() => {
-    clearCart();
-  }, []);
 
   const handleIncreasePackQuantity = () => {
     setPackQuantity(packQuantity + 1);
@@ -65,11 +55,6 @@ export default function Packs({ product, marketplaceProducts }: Props) {
     increasePackCartQuantity(product, packCartItem);
 
     setPackQuantity(1);
-  };
-
-  const handleRemoveFromCart = () => {
-    removeMarketplaceItems(productId);
-    removeFromCart(productId);
   };
 
   return (
@@ -115,7 +100,6 @@ export default function Packs({ product, marketplaceProducts }: Props) {
                 item={product}
                 handleIncreaseCartQuantity={() => handleIncreasePackQuantity()}
                 handleDecreaseCartQuantity={() => handleDecreasePackQuantity()}
-                handleRemoveFromCart={() => handleRemoveFromCart()}
               />
 
               <AddCardButton
