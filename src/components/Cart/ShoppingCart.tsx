@@ -82,7 +82,7 @@ export function ShoppingCart() {
                     className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
                     ref={dialogDivRef}
                   >
-                    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                    <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-xl font-medium text-gray-900">
                           {t("shopping_cart")}

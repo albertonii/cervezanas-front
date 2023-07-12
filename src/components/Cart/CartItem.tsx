@@ -61,8 +61,7 @@ export function CartItem({ item }: CartItemProps) {
             <div
               key={pack.id}
               className={`flex flex-row ${
-                animateRemove &&
-                "animate-ping overflow-hidden overflow-x-hidden"
+                animateRemove && "animate-ping overflow-hidden "
               }`}
             >
               <>
