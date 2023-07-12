@@ -138,7 +138,6 @@ export function ShoppingCartProvider({ children }: Props) {
 
           // Si no existe el pack pero si el producto, lo añadimos
           if (!packFind) {
-            alert("No existe el pack -> lo añadimos al producto");
             // Añadimos el pack al listado de packs del producto
             itemFind.packs.push(pack);
 
@@ -151,8 +150,6 @@ export function ShoppingCartProvider({ children }: Props) {
 
             return [...currItemsCopy];
           }
-
-          alert("Existe el pack");
 
           // Si existe el pack en el producto
           // Aumentamos SOLO la cantidad al pack
@@ -177,7 +174,6 @@ export function ShoppingCartProvider({ children }: Props) {
           return currItemsv2;
         } else {
           // Si no existe el producto aún en el carrito, lo añadimos
-          alert("El producto no existe en el carrito");
           return [...currItems, newPack];
         }
       });

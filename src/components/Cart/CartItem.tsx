@@ -3,7 +3,7 @@
 import Link from "next/link";
 import MarketCartButtons from "../common/MarketCartButtons";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import { useMemo } from "react";
+import { useState } from "react";
 import { IProductPack, IProductPackCartItem } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -19,6 +19,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 export function CartItem({ item }: CartItemProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const [animateRemove, setAnimateRemove] = useState(false);
 
   const {
     removeFromCart,
@@ -41,7 +42,10 @@ export function CartItem({ item }: CartItemProps) {
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
-    removeFromCart(itemId, packId);
+    setAnimateRemove(true);
+    setTimeout(() => {
+      removeFromCart(itemId, packId);
+    }, 500);
   };
 
   const formattedPrice = (packPrice: number) => formatCurrency(packPrice ?? 0);
@@ -54,7 +58,13 @@ export function CartItem({ item }: CartItemProps) {
             <p className="font-semibold">{t("product_name")}:</p> {item.name}
           </span>
           {item.packs.map((pack) => (
-            <div key={pack.id} className="flex flex-row">
+            <div
+              key={pack.id}
+              className={`flex flex-row ${
+                animateRemove &&
+                "animate-ping overflow-hidden overflow-x-hidden"
+              }`}
+            >
               <>
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <DisplayImageProduct
