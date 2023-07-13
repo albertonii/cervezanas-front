@@ -237,7 +237,7 @@ export function ShoppingCartProvider({ children }: Props) {
     setItems((items) => {
       if (!items) return [];
 
-      return items.map((item) => {
+      const itemsReturned = items.map((item) => {
         if (item.id === productId) {
           return {
             ...item,
@@ -248,6 +248,11 @@ export function ShoppingCartProvider({ children }: Props) {
         } else {
           return item;
         }
+      });
+
+      // Eliminar el producto si no tiene packs
+      return itemsReturned.filter((item) => {
+        return item.packs.length > 0;
       });
     });
   };

@@ -57,6 +57,7 @@ export function CartItem({ item }: CartItemProps) {
           <span>
             <p className="font-semibold">{t("product_name")}:</p> {item.name}
           </span>
+
           {item.packs.map((pack) => (
             <div
               key={pack.id}

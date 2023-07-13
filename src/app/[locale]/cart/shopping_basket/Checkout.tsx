@@ -275,7 +275,6 @@ export default function Checkout({
   };
 
   if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
-  if (!cart.length) return <EmptyCart />;
 
   return (
     <>
