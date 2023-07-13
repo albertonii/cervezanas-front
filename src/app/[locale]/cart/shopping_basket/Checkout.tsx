@@ -83,47 +83,27 @@ export default function Checkout({
   const formBilling = useForm<FormBillingData>();
   const { trigger: triggerBilling } = formBilling;
 
-  const { items: cart, marketplaceItems, clearCart } = useShoppingCart();
+  const { items: cart, clearCart } = useShoppingCart();
 
-  // useEffect(()=>{},[subtotal])
+  useEffect(() => {
+    let subtotal = 0;
+    cart.map((item) => {
+      item.packs.map((pack) => {
+        subtotal += pack.price * pack.quantity;
+      });
+    });
 
-  // useEffect(() => {
-  //   const awaitProducts = async () => {
-  //     // const promises = faCartFlatbedSuitcase.map(async (item) => {
-  //     //   // Finds the product in the marketplaceItems array
-  //     //   const product = marketplaceItems.find(
-  //     //     (m_item) => m_item.id === item.id
-  //     //   );
-  //     //   if (!product) return null;
+    setSubtotal(subtotal);
+    setTotal(() => subtotal - discount + shipping + tax);
 
-  //     //   setSubtotal((subtotal) => subtotal + product.price * item.quantity);
-  //     //   return product;
-  //     // });
-
-  //     // const awaitedProducts = await Promise.all(promises);
-  //     // const ps = awaitedProducts.filter(
-  //     //   (product) => product !== null
-  //     // ) as IProduct[];
-
-  //     setTotal(() => subtotal - discount + shipping + tax);
-  //     setLoading(false);
-  //   };
-
-  //   setLoading(true);
-  //   const ac = new AbortController();
-
-  //   awaitProducts();
-
-  //   return () => {
-  //     setLoading(false);
-  //     ac.abort();
-  //     setSubtotal(0);
-  //     setShipping(0);
-  //     setTax(0);
-  //     setDiscount(0);
-  //     setTotal(0);
-  //   };
-  // }, [discount, cart, marketplaceItems, shipping, subtotal, tax]);
+    return () => {
+      setSubtotal(0);
+      setShipping(0);
+      setTax(0);
+      setDiscount(0);
+      setTotal(0);
+    };
+  }, [discount, cart, shipping, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -131,10 +111,6 @@ export default function Checkout({
       btnRef.current && btnRef.current.click();
     }
   }, [isFormReady]);
-
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
 
   const handleShippingAddresses = (address: IShippingAddress) => {
     setShippingAddresses((shippingAddresses) => [
