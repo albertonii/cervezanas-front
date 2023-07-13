@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import MarketCartButtons from "../common/MarketCartButtons";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import {
-  IProduct,
-  IProductPack,
-  IProductPackCartItem,
-} from "../../lib/types.d";
+import { IProduct, IProductPack } from "../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton, Spinner } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
@@ -25,10 +20,7 @@ type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
-export function StoreItem({
-  product,
-  products: marketplaceProducts,
-}: StoreItemProps) {
+export function StoreItem({ product }: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
@@ -39,7 +31,6 @@ export function StoreItem({
   const packs = product.product_packs;
 
   const [selectedPack, setSelectedPack] = useState<IProductPack>(packs[0]);
-  const [selectedPackError, setSelectedPackError] = useState(false);
   const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
@@ -57,16 +48,8 @@ export function StoreItem({
     product.likes.length > 0 ? true : false
   );
 
-  const {
-    getItemQuantity,
-    removeFromCart,
-    addMarketplaceItems,
-    removeMarketplaceItems,
-    marketplaceItems,
-    increasePackCartQuantity,
-  } = useShoppingCart();
+  const { increasePackCartQuantity } = useShoppingCart();
 
-  const quantity = getItemQuantity(productId);
   const [packQuantity, setPackQuantity] = useState(1);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
@@ -91,25 +74,6 @@ export function StoreItem({
       setIsLike(false);
     }
   }
-
-  const handleIncreaseToCartItem = () => {
-    // increaseCartQuantity(productId);
-    // if (marketplaceItems.find((item) => item.id === productId)) return;
-    // const product_ = marketplaceProducts.find((item) => item.id === productId);
-    // if (!product_) return;
-    // addMarketplaceItems(product_);
-  };
-
-  const handleDecreaseFromCartItem = () => {
-    // decreaseCartQuantity(productId);
-    // if (getItemQuantity(productId) > 1) return;
-    // removeMarketplaceItems(productId);
-  };
-
-  const handleRemoveFromCart = () => {
-    // removeMarketplaceItems(productId);
-    // removeFromCart(productId);
-  };
 
   const handleIncreasePackQuantity = () => {
     setPackQuantity(packQuantity + 1);
@@ -192,7 +156,6 @@ export function StoreItem({
                 <span className="mr-3 mt-2 whitespace-nowrap text-gray-400">
                   {overAll}
                 </span>
-                {/* <span className="mr-2 text-gray-400">India</span> */}
               </div>
 
               <div className="flex w-full min-w-0 items-center justify-between ">
@@ -261,26 +224,6 @@ export function StoreItem({
                   onClick={() => handleAddToCart()}
                 />
               </div>
-
-              {/* {quantity === 0 ? (
-                <>
-                  <AddCardButton onClick={() => handleIncreaseToCartItem()} />
-                </>
-              ) : (
-                <>
-                  <MarketCartButtons
-                    quantity={quantity}
-                    item={product}
-                    handleIncreaseCartQuantity={() =>
-                      handleIncreaseToCartItem()
-                    }
-                    handleDecreaseCartQuantity={() =>
-                      handleDecreaseFromCartItem()
-                    }
-                    handleRemoveFromCart={() => handleRemoveFromCart()}
-                  />
-                </>
-              )} */}
             </div>
           </div>
         </>
