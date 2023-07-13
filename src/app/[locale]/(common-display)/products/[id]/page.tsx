@@ -6,19 +6,13 @@ export default async function ProductId({ params }: any) {
   const { id } = params;
 
   const productData = await getProductData(id);
-  const marketplaceData = await getMarketplaceData();
+  // const marketplaceData = await getMarketplaceData();
 
-  const [product, marketplaceProducts] = await Promise.all([
-    productData,
-    marketplaceData,
-  ]);
+  const [product] = await Promise.all([productData]);
 
   return (
     <>
-      <Product
-        product={product}
-        marketplaceProducts={marketplaceProducts ?? []}
-      />
+      <Product product={product} />
     </>
   );
 }
@@ -40,7 +34,7 @@ async function getProductData(productId: string) {
         p_extra_2,
         p_extra_3
       ),
-      product_pack (*),
+      product_packs (*),
       reviews (
         *,
         users (

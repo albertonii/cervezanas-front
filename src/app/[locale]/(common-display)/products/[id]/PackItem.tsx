@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 interface Props {
   product: IProduct;
   pack: IProductPack;
-  marketplaceProducts: IProduct[];
   handleItemSelected: (item: IProductPack) => void;
   selectedPackId: string;
 }

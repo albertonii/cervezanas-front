@@ -336,7 +336,7 @@ export function AddProduct() {
           );
 
           const { error: packsError } = await supabase
-            .from("product_pack")
+            .from("product_packs")
             .insert({
               product_id: productId,
               quantity: pack.quantity,

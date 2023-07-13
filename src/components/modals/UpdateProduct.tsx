@@ -69,7 +69,7 @@ export function UpdateProduct({
       era: product.beers[0]?.era ?? "",
       is_gluten: product.beers[0]?.is_gluten ?? false,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
-      packs: product.product_pack,
+      packs: product.product_packs,
     },
   });
 
@@ -262,7 +262,7 @@ export function UpdateProduct({
             : uuid();
 
           const { error: packsError } = await supabase
-            .from("product_pack")
+            .from("product_packs")
             .upsert({
               product_id: productId,
               quantity: pack.quantity,
@@ -295,7 +295,7 @@ export function UpdateProduct({
           }
         });
 
-        productData.product_pack = packs;
+        productData.product_packs = packs;
       }
 
       // Awards

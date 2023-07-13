@@ -558,6 +558,7 @@
   "sign_up_successfully": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
   "product_packs": "Packs de productos",
   "units": "Unidades",
+  "unit": "Unidad",
   "product_pack_name": "Pack",
   "select_pack": "Selecciona un pack",
   "choose_pack": "Elige un pack"

@@ -236,7 +236,6 @@ export function ShoppingCartProvider({ children }: Props) {
   const removeFromCart = (productId: string, packId: string) => {
     setItems((items) => {
       if (!items) return [];
-      if (items.length === 1) return [];
 
       return items.map((item) => {
         if (item.id === productId) {

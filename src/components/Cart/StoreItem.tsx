@@ -4,17 +4,22 @@ import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons from "../common/MarketCartButtons";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IProduct } from "../../lib/types.d";
+import {
+  IProduct,
+  IProductPack,
+  IProductPackCartItem,
+} from "../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton, Spinner } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useAuth } from "../Auth";
 import { SupabaseProps } from "../../constants";
+import MarketCartButtons2 from "../common/MarketCartButtons2";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -30,6 +35,12 @@ export function StoreItem({
   const { isLoading } = useAuth();
   const productId = product.id;
   const router = useRouter();
+
+  const packs = product.product_packs;
+
+  const [selectedPack, setSelectedPack] = useState<IProductPack>(packs[0]);
+  const [selectedPackError, setSelectedPackError] = useState(false);
+  const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
     let overAll_sum = 0;
@@ -48,15 +59,15 @@ export function StoreItem({
 
   const {
     getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
     removeFromCart,
     addMarketplaceItems,
     removeMarketplaceItems,
     marketplaceItems,
+    increasePackCartQuantity,
   } = useShoppingCart();
 
   const quantity = getItemQuantity(productId);
+  const [packQuantity, setPackQuantity] = useState(1);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -82,23 +93,51 @@ export function StoreItem({
   }
 
   const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(productId);
-    if (marketplaceItems.find((item) => item.id === productId)) return;
-
-    const product_ = marketplaceProducts.find((item) => item.id === productId);
-    if (!product_) return;
-    addMarketplaceItems(product_);
+    // increaseCartQuantity(productId);
+    // if (marketplaceItems.find((item) => item.id === productId)) return;
+    // const product_ = marketplaceProducts.find((item) => item.id === productId);
+    // if (!product_) return;
+    // addMarketplaceItems(product_);
   };
 
   const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(productId);
-    if (getItemQuantity(productId) > 1) return;
-    removeMarketplaceItems(productId);
+    // decreaseCartQuantity(productId);
+    // if (getItemQuantity(productId) > 1) return;
+    // removeMarketplaceItems(productId);
   };
 
   const handleRemoveFromCart = () => {
-    removeMarketplaceItems(productId);
-    removeFromCart(productId);
+    // removeMarketplaceItems(productId);
+    // removeFromCart(productId);
+  };
+
+  const handleIncreasePackQuantity = () => {
+    setPackQuantity(packQuantity + 1);
+  };
+
+  const handleDecreasePackQuantity = () => {
+    if (packQuantity > 1) setPackQuantity(packQuantity - 1);
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedPack) {
+      setIsPackSelected(false);
+      return;
+    }
+
+    setIsPackSelected(true);
+
+    const packCartItem: IProductPack = {
+      id: selectedPack.id,
+      quantity: packQuantity,
+      price: selectedPack.price,
+      name: selectedPack.name,
+      img_url: selectedPack.img_url,
+      randomUUID: selectedPack.randomUUID,
+    };
+
+    increasePackCartQuantity(product, packCartItem);
+    setPackQuantity(1);
   };
 
   return (
@@ -174,12 +213,56 @@ export function StoreItem({
               </div>
             </div>
 
-            <div className="mt-1 text-xl font-semibold text-bear-dark">
-              {formatCurrency(product.price)}
+            {/* Información sobre el pack seleccionado detallada y minimalista  */}
+            <div className="mt-1 text-lg font-semibold text-bear-dark">
+              {selectedPack?.quantity}{" "}
+              {selectedPack?.quantity > 1 ? t("units") : t("unit")}/
+              {formatCurrency(selectedPack?.price)}
             </div>
 
-            <div className="mt-2 flex items-center  justify-between space-x-2 text-sm font-medium">
-              {quantity === 0 ? (
+            <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
+
+            <div className="w mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
+              <select
+                className="text-md w-full rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none"
+                id="is_external_organizer"
+                onClick={(e: any) => {
+                  const value = e.target.value;
+                  const pack = packs.find((pack) => pack.id === value);
+                  setSelectedPack(pack as IProductPack);
+                }}
+              >
+                {packs &&
+                  packs.map((pack: IProductPack) => (
+                    <option key={pack.id} value={pack.id}>
+                      {pack.name}
+                    </option>
+                  ))}
+              </select>
+
+              {/* Añadir al carrito */}
+              <div
+                className="mt-6 flex w-full justify-between space-x-2
+              "
+              >
+                <MarketCartButtons2
+                  quantity={packQuantity}
+                  item={product}
+                  handleIncreaseCartQuantity={() =>
+                    handleIncreasePackQuantity()
+                  }
+                  handleDecreaseCartQuantity={() =>
+                    handleDecreasePackQuantity()
+                  }
+                />
+
+                <AddCardButton
+                  withText={true}
+                  onClick={() => handleAddToCart()}
+                />
+              </div>
+
+              {/* {quantity === 0 ? (
                 <>
                   <AddCardButton onClick={() => handleIncreaseToCartItem()} />
                 </>
@@ -197,7 +280,7 @@ export function StoreItem({
                     handleRemoveFromCart={() => handleRemoveFromCart()}
                   />
                 </>
-              )}
+              )} */}
             </div>
           </div>
         </>

@@ -10,10 +10,9 @@ import { IProduct, IProductPack } from "../../../../../lib/types";
 
 interface Props {
   product: IProduct;
-  marketplaceProducts: IProduct[];
 }
 
-export default function Packs({ product, marketplaceProducts }: Props) {
+export default function Packs({ product }: Props) {
   const t = useTranslations();
 
   const { increasePackCartQuantity } = useShoppingCart();
@@ -70,13 +69,12 @@ export default function Packs({ product, marketplaceProducts }: Props) {
         <fieldset className="mt-4">
           <legend className="sr-only">{t("choose_pack")}</legend>
           <ul className="grid grid-cols-1 gap-2 rounded border bg-beer-blonde/20 p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
-            {product.product_pack
+            {product.product_packs
               .slice() // Copy the array to avoid mutating the original
               .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
               .map((p) => (
                 <div key={p.id} className="space-y-2">
                   <PackItem
-                    marketplaceProducts={marketplaceProducts}
                     product={product}
                     pack={p}
                     handleItemSelected={handleItemSelected}

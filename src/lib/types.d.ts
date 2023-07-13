@@ -775,7 +775,7 @@ export interface IProduct {
   state: IProductEnum.State;
   status: IProductEnum.Status;
   type: IProductEnum.Type;
-  product_pack: IProductPack[];
+  product_packs: IProductPack[];
   is_monthly: boolean;
 }
 

@@ -35,8 +35,8 @@ export function DeleteProduct(props: Props) {
   };
 
   const deleteProductPacksImg = (product?: IProduct) => {
-    if (product && product?.product_pack) {
-      product?.product_pack.map(async (pack) => {
+    if (product && product?.product_packs) {
+      product?.product_packs.map(async (pack) => {
         const { error: packError } = await supabase.storage
           .from("products")
           .remove([`${decodeURIComponent(pack.img_url)}`]);

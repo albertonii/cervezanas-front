@@ -70,7 +70,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     // Remove pack from database
     if (packId) {
       const { error } = await supabase
-        .from("product_pack")
+        .from("product_packs")
         .delete()
         .eq("id", packId);
 

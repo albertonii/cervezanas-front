@@ -34,7 +34,8 @@ async function getMarketplaceProducts() {
       id
     ), reviews (
       overall
-    )
+    ),
+    product_packs (*)
   `
     )
     .eq("is_public", true);

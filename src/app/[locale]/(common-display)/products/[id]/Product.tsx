@@ -23,12 +23,11 @@ import Packs from "./Packs";
 
 interface Props {
   product: IProduct;
-  marketplaceProducts: IProduct[];
 }
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
-export default function Product({ product, marketplaceProducts }: Props) {
+export default function Product({ product }: Props) {
   const { supabase } = useSupabase();
   const selectedProduct = product;
 
@@ -217,10 +216,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
               </section>
 
               <section aria-labelledby="packs" className="mt-10">
-                <Packs
-                  product={product}
-                  marketplaceProducts={marketplaceProducts}
-                />
+                <Packs product={product} />
               </section>
 
               <section aria-labelledby="options-heading" className="mt-10">
