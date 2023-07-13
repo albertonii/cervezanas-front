@@ -1,5 +1,5 @@
 import React from "react";
-import useFetchProducts from "../../../hooks/useFetchBeers";
+import useFetchBeers from "../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../Context/SupabaseProvider";
@@ -19,7 +19,7 @@ export default function LotForm({ handleShowModal }: Props) {
 
   const { supabase } = useSupabase();
 
-  const { data: productsLot, isSuccess } = useFetchProducts();
+  const { data: productsLot, isSuccess } = useFetchBeers();
 
   const {
     register,

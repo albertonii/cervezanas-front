@@ -13,10 +13,14 @@ import { Spinner } from "../../../../components/common/Spinner";
 import {
   IBillingAddress,
   IProduct,
+  IProductPackCartItem,
   IShippingAddress,
 } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartFlatbedSuitcase,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { useForm } from "react-hook-form";
@@ -66,8 +70,6 @@ export default function Checkout({
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
 
-  const [cart, setCart] = useState<IProduct[]>([]);
-
   const [shippingAddresses, setShippingAddresses] = useState<
     IShippingAddress[]
   >(shippingAddresses_ || []);
@@ -81,47 +83,47 @@ export default function Checkout({
   const formBilling = useForm<FormBillingData>();
   const { trigger: triggerBilling } = formBilling;
 
-  const { items, marketplaceItems, clearCart } = useShoppingCart();
+  const { items: cart, marketplaceItems, clearCart } = useShoppingCart();
 
-  useEffect(() => {
-    const awaitProducts = async () => {
-      const promises = items.map(async (item) => {
-        // Finds the product in the marketplaceItems array
-        const product = marketplaceItems.find(
-          (m_item) => m_item.id === item.id
-        );
-        if (!product) return null;
+  // useEffect(()=>{},[subtotal])
 
-        setSubtotal((subtotal) => subtotal + product.price * item.quantity);
-        return product;
-      });
+  // useEffect(() => {
+  //   const awaitProducts = async () => {
+  //     // const promises = faCartFlatbedSuitcase.map(async (item) => {
+  //     //   // Finds the product in the marketplaceItems array
+  //     //   const product = marketplaceItems.find(
+  //     //     (m_item) => m_item.id === item.id
+  //     //   );
+  //     //   if (!product) return null;
 
-      const awaitedProducts = await Promise.all(promises);
-      const ps = awaitedProducts.filter(
-        (product) => product !== null
-      ) as IProduct[];
-      setCart(ps);
+  //     //   setSubtotal((subtotal) => subtotal + product.price * item.quantity);
+  //     //   return product;
+  //     // });
 
-      setTotal(() => subtotal - discount + shipping + tax);
-      setLoading(false);
-    };
+  //     // const awaitedProducts = await Promise.all(promises);
+  //     // const ps = awaitedProducts.filter(
+  //     //   (product) => product !== null
+  //     // ) as IProduct[];
 
-    setLoading(true);
-    const ac = new AbortController();
+  //     setTotal(() => subtotal - discount + shipping + tax);
+  //     setLoading(false);
+  //   };
 
-    awaitProducts();
+  //   setLoading(true);
+  //   const ac = new AbortController();
 
-    return () => {
-      setCart([]);
-      setLoading(false);
-      ac.abort();
-      setSubtotal(0);
-      setShipping(0);
-      setTax(0);
-      setDiscount(0);
-      setTotal(0);
-    };
-  }, [discount, items, marketplaceItems, shipping, subtotal, tax]);
+  //   awaitProducts();
+
+  //   return () => {
+  //     setLoading(false);
+  //     ac.abort();
+  //     setSubtotal(0);
+  //     setShipping(0);
+  //     setTax(0);
+  //     setDiscount(0);
+  //     setTotal(0);
+  //   };
+  // }, [discount, cart, marketplaceItems, shipping, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -130,7 +132,9 @@ export default function Checkout({
     }
   }, [isFormReady]);
 
-  if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
   const handleShippingAddresses = (address: IShippingAddress) => {
     setShippingAddresses((shippingAddresses) => [
@@ -214,7 +218,7 @@ export default function Checkout({
 
     if (orderError) throw orderError;
 
-    items.map(async (item) => {
+    cart.map(async (item) => {
       const { error: orderItemError } = await supabase
         .from("order_item")
         .insert({
@@ -269,6 +273,9 @@ export default function Checkout({
   const handleOnClickBilling = (addressId: string) => {
     setSelectedBillingAddress(addressId);
   };
+
+  if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <>
@@ -353,10 +360,10 @@ export default function Checkout({
                           </p>
                           {cart.length > 0 ? (
                             <div className="w-full">
-                              {cart.map((product) => {
+                              {cart.map((productPack) => {
                                 return (
-                                  <div key={product.id}>
-                                    <CheckoutItem product={product} />
+                                  <div key={productPack.id}>
+                                    <CheckoutItem productPack={productPack} />
                                   </div>
                                 );
                               })}
