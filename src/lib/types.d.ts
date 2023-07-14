@@ -911,6 +911,40 @@ export interface IModalAddProduct {
   lot_quantity: number;
 }
 
+export interface IModalShippingAddress {
+  owner_id: string;
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+  shipping_checked: boolean;
+}
+
+export interface IModalBillingAddress {
+  owner_id: string;
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+  billing_checked: boolean;
+}
+
 export interface IShippingAddress {
   id: string;
   name: string;
