@@ -196,11 +196,13 @@ export function StoreItem({ product }: StoreItemProps) {
                 }}
               >
                 {packs &&
-                  packs.map((pack: IProductPack) => (
-                    <option key={pack.id} value={pack.id}>
-                      {pack.name}
-                    </option>
-                  ))}
+                  packs
+                    .sort((a, b) => a.quantity - b.quantity)
+                    .map((pack: IProductPack) => (
+                      <option key={pack.id} value={pack.id}>
+                        {pack.name}
+                      </option>
+                    ))}
               </select>
 
               {/* Añadir al carrito */}
