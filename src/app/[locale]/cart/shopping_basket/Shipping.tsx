@@ -10,6 +10,7 @@ import { DeleteAddress } from "../../../../components/modals/DeleteAddress";
 import { useMessage } from "../../../../components/message";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, useQueryClient } from "react-query";
 
 interface Props {
   selectedShippingAddress: string;
@@ -36,34 +37,49 @@ export default function Shipping({
 
   const { handleMessage } = useMessage();
   const { supabase } = useSupabase();
+  const queryClient = useQueryClient();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
-  const handleResponseDeleteModal = (value: boolean) => {
-    // Remove Shipping Address
-    const handleRemoveShippingAddress = async () => {
-      const shippingAddressId = selectedShippingAddress;
+  // Remove Shipping Address
+  const handleRemoveShippingAddress = async () => {
+    const shippingAddressId = selectedShippingAddress;
 
-      const { error: shippingAddressError } = await supabase
-        .from("shipping_info")
-        .delete()
-        .eq("id", shippingAddressId);
+    const { error: shippingAddressError } = await supabase
+      .from("shipping_info")
+      .delete()
+      .eq("id", shippingAddressId);
 
-      if (shippingAddressError) throw shippingAddressError;
+    if (shippingAddressError) throw shippingAddressError;
 
-      handleShippingAddresses(
-        shippingAddresses.filter((c) => {
-          return c.id !== shippingAddressId;
-        })
-      );
+    handleMessage({
+      type: "success",
+      message: `${t("shipping_address_removed_successfully")}`,
+    });
+  };
 
-      handleMessage({
-        type: "success",
-        message: `${t("shipping_address_removed_successfully")}`,
-      });
-    };
+  const deleteShippingAddress = useMutation({
+    mutationKey: ["deleteShippingAddress"],
+    mutationFn: handleRemoveShippingAddress,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("shippingAddresses");
+      setIsSubmitting(false);
+    },
+    onError: (error: any) => {
+      console.log(error);
+      setIsSubmitting(false);
+    },
+  });
 
-    handleRemoveShippingAddress();
-    // handleOnClickShipping(address);
+  const onSubmit = async (data: any) => {
+    try {
+      deleteShippingAddress.mutate(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -152,7 +168,7 @@ export default function Shipping({
 
       {showDeleteModal && (
         <DeleteAddress
-          handleResponseModal={handleResponseDeleteModal}
+          handleResponseModal={onSubmit}
           showModal={showDeleteModal}
           setShowModal={setShowDeleteModal}
         />
