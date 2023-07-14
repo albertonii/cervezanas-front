@@ -22,6 +22,8 @@ import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../constants";
+import useFetchShippingByOwnerId from "../../../../hooks/useFetchShippingByOwnerId";
+import useFetchBillingByOwnerId from "../../../../hooks/useFetchBillingByOwnerId";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -31,15 +33,7 @@ interface FormBillingData {
   billing_info_id: string;
 }
 
-interface Props {
-  shippingAddresses: IShippingAddress[];
-  billingAddresses: IBillingAddress[];
-}
-
-export default function Checkout({
-  shippingAddresses: shippingAddresses_,
-  billingAddresses: billingAddresses_,
-}: Props) {
+export default function Checkout() {
   const t = useTranslations();
 
   const { user, isLoading } = useAuth();
@@ -61,12 +55,17 @@ export default function Checkout({
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
 
-  const [shippingAddresses, setShippingAddresses] = useState<
-    IShippingAddress[]
-  >(shippingAddresses_ || []);
-  const [billingAddresses, setBillingAddresses] = useState<IBillingAddress[]>(
-    billingAddresses_ || []
-  );
+  const {
+    data: shippingAddresses,
+    error: shippingAddressesError,
+    isLoading: shippingAddressesLoading,
+  } = useFetchShippingByOwnerId(user?.id as string);
+
+  const {
+    data: billingAddresses,
+    error: billingAddressesError,
+    isLoading: billingAddressesLoading,
+  } = useFetchBillingByOwnerId(user?.id as string);
 
   const formShipping = useForm<FormShippingData>();
   const { trigger: triggerShipping } = formShipping;
@@ -103,17 +102,6 @@ export default function Checkout({
     }
   }, [isFormReady]);
 
-  const handleShippingAddresses = (address: IShippingAddress) => {
-    setShippingAddresses((shippingAddresses) => [
-      ...shippingAddresses,
-      address,
-    ]);
-  };
-
-  const handleBillingAddresses = (address: IBillingAddress) => {
-    setBillingAddresses((billingAddresses) => [...billingAddresses, address]);
-  };
-
   const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
     const billingInfoId = selectedBillingAddress;
@@ -128,11 +116,11 @@ export default function Checkout({
 
     if (resultBillingInfoId === false || resultShippingInfoId === false) return;
 
-    const shippingInfo = shippingAddresses.find(
+    const shippingInfo = shippingAddresses?.find(
       (address) => address.id === shippingInfoId
     );
 
-    const billingInfo = billingAddresses.find(
+    const billingInfo = billingAddresses?.find(
       (address) => address.id === billingInfoId
     );
 
@@ -352,18 +340,18 @@ export default function Checkout({
                       </div>
 
                       {/* Shipping & Billing Container */}
-                      <ShippingBillingContainer
-                        shippingAddresses={shippingAddresses}
-                        handleShippingAddresses={handleShippingAddresses}
-                        billingAddresses={billingAddresses}
-                        handleBillingAddresses={handleBillingAddresses}
-                        handleOnClickShipping={handleOnClickShipping}
-                        handleOnClickBilling={handleOnClickBilling}
-                        formShipping={formShipping}
-                        formBilling={formBilling}
-                        selectedShippingAddress={selectedShippingAddress}
-                        selectedBillingAddress={selectedBillingAddress}
-                      />
+                      {shippingAddresses && billingAddresses && (
+                        <ShippingBillingContainer
+                          shippingAddresses={shippingAddresses}
+                          billingAddresses={billingAddresses}
+                          handleOnClickShipping={handleOnClickShipping}
+                          handleOnClickBilling={handleOnClickBilling}
+                          formShipping={formShipping}
+                          formBilling={formBilling}
+                          selectedShippingAddress={selectedShippingAddress}
+                          selectedBillingAddress={selectedBillingAddress}
+                        />
+                      )}
                     </div>
 
                     {/* Order summary  */}
@@ -471,7 +459,7 @@ export default function Checkout({
                                 </p>
 
                                 <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                                  {shippingAddresses.map((address) => {
+                                  {shippingAddresses?.map((address) => {
                                     if (
                                       address.id === selectedShippingAddress
                                     ) {
@@ -493,7 +481,7 @@ export default function Checkout({
                                 </p>
 
                                 <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                                  {billingAddresses.map((address) => {
+                                  {/* {billingAddresses?.map((address) => {
                                     if (address.id === selectedBillingAddress)
                                       return (
                                         <div key={address.id}>
@@ -502,7 +490,7 @@ export default function Checkout({
                                           />
                                         </div>
                                       );
-                                  })}
+                                  })} */}
                                 </div>
                               </div>
                             </div>

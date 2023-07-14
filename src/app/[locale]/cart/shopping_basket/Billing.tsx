@@ -10,13 +10,13 @@ import { DeleteAddress } from "../../../../components/modals/DeleteAddress";
 import { useMessage } from "../../../../components/message";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, useQueryClient } from "react-query";
 
 interface Props {
   selectedBillingAddress: string;
   formBilling: UseFormReturn<any, any>;
   billingAddresses: IBillingAddress[];
   handleOnClickBilling: ComponentProps<any>;
-  handleBillingAddresses: ComponentProps<any>;
 }
 
 export default function Billing({
@@ -24,7 +24,6 @@ export default function Billing({
   billingAddresses,
   selectedBillingAddress,
   handleOnClickBilling,
-  handleBillingAddresses,
 }: Props) {
   const t = useTranslations();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -36,34 +35,48 @@ export default function Billing({
 
   const { handleMessage } = useMessage();
   const { supabase } = useSupabase();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
-  const handleResponseDeleteModal = (value: boolean) => {
-    // Remove Billing Address
-    const handleRemoveBillingAddress = async () => {
-      const billingAddressId = selectedBillingAddress;
+  const handleRemoveBillingAddress = async () => {
+    const billingAddressId = selectedBillingAddress;
 
-      const { error: billingAddressError } = await supabase
-        .from("billing_info")
-        .delete()
-        .eq("id", billingAddressId);
+    const { error: billingAddressError } = await supabase
+      .from("billing_info")
+      .delete()
+      .eq("id", billingAddressId);
 
-      if (billingAddressError) throw billingAddressError;
+    if (billingAddressError) throw billingAddressError;
 
-      handleBillingAddresses(
-        billingAddresses.filter((c) => {
-          return c.id !== billingAddressId;
-        })
-      );
+    handleMessage({
+      type: "success",
+      message: `${t("billing_address_removed_successfully")}`,
+    });
+  };
 
-      handleMessage({
-        type: "success",
-        message: `${t("billing_address_removed_successfully")}`,
-      });
-    };
+  const deleteBillingAddress = useMutation({
+    mutationKey: ["deleteBillingAddress"],
+    mutationFn: handleRemoveBillingAddress,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("billingAddresses");
+      setIsSubmitting(false);
+    },
+    onError: (error: any) => {
+      console.log(error);
+      setIsSubmitting(false);
+    },
+  });
 
-    handleRemoveBillingAddress();
-    // handleOnClickBilling(address);
+  const onSubmit = async (data: any) => {
+    try {
+      deleteBillingAddress.mutate(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -146,13 +159,11 @@ export default function Billing({
       </ul>
 
       {/* Add Billing Information */}
-      {billingAddresses.length < 5 && (
-        <NewBillingAddress handleBillingAddresses={handleBillingAddresses} />
-      )}
+      {billingAddresses.length < 5 && <NewBillingAddress />}
 
       {showDeleteModal && (
         <DeleteAddress
-          handleResponseModal={handleResponseDeleteModal}
+          handleResponseModal={onSubmit}
           showModal={showDeleteModal}
           setShowModal={setShowDeleteModal}
         />

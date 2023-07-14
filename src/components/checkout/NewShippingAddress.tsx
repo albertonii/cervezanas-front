@@ -6,14 +6,10 @@ import { useAuth } from "../Auth";
 import { Modal } from "../modals";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { IModalShippingAddress, IShippingAddress } from "../../lib/types.d";
+import { IModalShippingAddress } from "../../lib/types.d";
 import { useMutation, useQueryClient } from "react-query";
 
-interface Props {
-  handleShippingAddresses: (s: IShippingAddress) => void;
-}
-
-export function NewShippingAddress({ handleShippingAddresses }: Props) {
+export function NewShippingAddress() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
@@ -48,29 +44,23 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
       shipping_checked,
     } = formValues;
 
-    const { data, error } = await supabase
-      .from("shipping_info")
-      .insert({
-        owner_id: user?.id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        address_extra,
-        address_observations,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default: shipping_checked,
-      })
-      .select();
+    const { error } = await supabase.from("shipping_info").insert({
+      owner_id: user?.id,
+      name,
+      lastname,
+      document_id,
+      phone,
+      address,
+      address_extra,
+      address_observations,
+      country,
+      zipcode,
+      city,
+      state,
+      is_default: shipping_checked,
+    });
 
     if (error) throw error;
-    if (!data) throw new Error("No data returned from supabase");
-
-    handleShippingAddresses(data[0]);
   };
 
   const insertShippingMutation = useMutation({

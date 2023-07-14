@@ -17,7 +17,6 @@ interface Props {
   formShipping: UseFormReturn<any, any>;
   shippingAddresses: IShippingAddress[];
   handleOnClickShipping: ComponentProps<any>;
-  handleShippingAddresses: ComponentProps<any>;
 }
 
 export default function Shipping({
@@ -25,7 +24,6 @@ export default function Shipping({
   shippingAddresses,
   selectedShippingAddress,
   handleOnClickShipping,
-  handleShippingAddresses,
 }: Props) {
   const t = useTranslations();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -162,9 +160,7 @@ export default function Shipping({
       </ul>
 
       {/* Add Shipping Information */}
-      {shippingAddresses.length < 5 && (
-        <NewShippingAddress handleShippingAddresses={handleShippingAddresses} />
-      )}
+      {shippingAddresses.length < 5 && <NewShippingAddress />}
 
       {showDeleteModal && (
         <DeleteAddress

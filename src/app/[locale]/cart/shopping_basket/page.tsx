@@ -6,12 +6,12 @@ import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export default async function CheckoutPage() {
-  const { shippingAddresses, billingAddresses } = await getCheckout();
+  // const { shippingAddresses, billingAddresses } = await getCheckout();
   return (
     <>
       <Checkout
-        shippingAddresses={shippingAddresses ?? []}
-        billingAddresses={billingAddresses ?? []}
+      // shippingAddresses={shippingAddresses ?? []}
+      // billingAddresses={billingAddresses ?? []}
       />
     </>
   );

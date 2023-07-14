@@ -8,41 +8,27 @@ import { useAuth } from "../Auth";
 import { Modal } from "../modals";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { IBillingAddress } from "../../lib/types.d";
+import { useMutation, useQueryClient } from "react-query";
+import { IModalBillingAddress } from "../../lib/types";
 
-interface FormData {
-  name: string;
-  lastname: string;
-  document_id: string;
-  phone: string;
-  address: string;
-  country: string;
-  state: string;
-  city: string;
-  zipcode: string;
-  billing_checked: boolean;
-}
-
-interface Props {
-  handleBillingAddresses: (s: IBillingAddress) => void;
-}
-
-export function NewBillingAddress({ handleBillingAddresses }: Props) {
+export function NewBillingAddress() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
-  } = useForm<FormData>();
+  } = useForm<IModalBillingAddress>();
 
-  const onSubmit = (formValues: FormData) => {
+  const handleAddBillingAddress = async (formValues: IModalBillingAddress) => {
     const {
       name,
       lastname,
@@ -56,32 +42,48 @@ export function NewBillingAddress({ handleBillingAddresses }: Props) {
       billing_checked,
     } = formValues;
 
-    const handleAddBillingAddress = async () => {
-      const { data, error } = await supabase.from("billing_info").insert({
-        owner_id: user?.id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default: billing_checked,
-      });
+    const { error } = await supabase.from("billing_info").insert({
+      owner_id: user?.id,
+      name,
+      lastname,
+      document_id,
+      phone,
+      address,
+      country,
+      zipcode,
+      city,
+      state,
+      is_default: billing_checked,
+    });
 
-      if (error) throw error;
-      if (!data) throw new Error("No data returned from supabase");
-
-      handleBillingAddresses(data[0]);
-
-      reset();
-    };
-
-    handleAddBillingAddress();
-
+    if (error) throw error;
     setShowModal(false);
+  };
+
+  const insertBillingMutation = useMutation({
+    mutationKey: ["insertBilling"],
+    mutationFn: handleAddBillingAddress,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["billingAddresses"] });
+      setShowModal(false);
+      setIsSubmitting(false);
+      reset();
+    },
+    onError: (error) => {
+      console.log(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmit = (formValues: IModalBillingAddress) => {
+    try {
+      insertBillingMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

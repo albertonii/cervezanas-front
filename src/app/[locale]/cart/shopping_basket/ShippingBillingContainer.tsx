@@ -12,9 +12,7 @@ import Billing from "./Billing";
 
 interface Props {
   shippingAddresses: IShippingAddress[];
-  handleShippingAddresses: ComponentProps<any>;
   billingAddresses: IBillingAddress[];
-  handleBillingAddresses: ComponentProps<any>;
   handleOnClickShipping: ComponentProps<any>;
   handleOnClickBilling: ComponentProps<any>;
   selectedShippingAddress: string;
@@ -25,13 +23,11 @@ interface Props {
 
 export default function ShippingBillingContainer({
   shippingAddresses,
-  handleShippingAddresses,
-  handleBillingAddresses,
-  selectedShippingAddress,
   billingAddresses,
+  selectedShippingAddress,
+  selectedBillingAddress,
   handleOnClickShipping,
   handleOnClickBilling,
-  selectedBillingAddress,
   formShipping,
   formBilling,
 }: Props) {
@@ -51,7 +47,6 @@ export default function ShippingBillingContainer({
             shippingAddresses={shippingAddresses}
             handleOnClickShipping={handleOnClickShipping}
             selectedShippingAddress={selectedShippingAddress}
-            handleShippingAddresses={handleShippingAddresses}
           />
 
           {/* Billing */}
@@ -60,7 +55,6 @@ export default function ShippingBillingContainer({
             selectedBillingAddress={selectedBillingAddress}
             billingAddresses={billingAddresses}
             handleOnClickBilling={handleOnClickBilling}
-            handleBillingAddresses={handleBillingAddresses}
           />
 
           <div className="flex w-full items-start justify-between">
