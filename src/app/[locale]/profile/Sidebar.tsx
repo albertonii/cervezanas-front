@@ -66,52 +66,52 @@ export function Sidebar() {
           {
             name: t("profile"),
             icon: "user",
-            option: "profile/settings",
+            option: "settings",
           },
           {
             name: t("products"),
             icon: "box",
-            option: "profile/products",
+            option: "products",
           },
           {
             name: t("campaigns"),
             icon: "gift",
-            option: "profile/campaigns",
+            option: "campaigns",
           },
           {
             name: t("events"),
             icon: "location",
-            option: "profile/events",
+            option: "events",
           },
           {
             name: t("consumption_points"),
             icon: "location",
-            option: "profile/consumption_points",
+            option: "consumption_points",
           },
           {
             name: t("factories"),
             icon: "truck",
-            option: "profile/factories",
+            option: "factories",
           },
           {
             name: t("event_orders"),
             icon: "shopping-cart",
-            option: "profile/event_orders",
+            option: "event_orders",
           },
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "profile/orders",
+            option: "orders",
           },
           {
             name: t("reviews"),
             icon: "review",
-            option: "profile/reviews",
+            option: "reviews",
           },
           {
             name: t("watchlist"),
             icon: "watchlist",
-            option: "profile/likes_history",
+            option: "likes_history",
           },
         ];
 
@@ -172,7 +172,13 @@ export function Sidebar() {
                   href={{ pathname: link.option }}
                   className="w-full p-2 px-4 font-medium"
                   locale={locale}
-                  onClick={() => changeSidebarActive(link.option)}
+                  onClick={() => {
+                    console.log(link.option);
+                    console.log(sidebar);
+                    if (link.option !== sidebar) {
+                      changeSidebarActive(link.option);
+                    }
+                  }}
                 >
                   {t(link.name)}
                 </Link>

@@ -206,7 +206,7 @@ export default function EventList({ events: es, handleEList }: Props) {
       )}
 
       {!isError && !isLoading && events.length === 0 ? (
-        <div className="flex items-center justify-center">
+        <div className="flex h-40 items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
       ) : (

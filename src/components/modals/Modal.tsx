@@ -128,7 +128,7 @@ export function Modal(props: Props) {
           <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden pt-16 outline-none focus:outline-none">
             {/* The modal  */}
             <div
-              className="relative mx-4 my-6 w-auto max-w-3xl sm:mx-auto"
+              className="relative mx-4 my-6 w-4/5 max-w-3xl sm:mx-auto md:w-2/3 lg:w-1/2"
               ref={modalRef}
             >
               {/*content*/}
@@ -162,7 +162,7 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="border-slate-200 flex items-center justify-around rounded-b border-t border-solid p-6">
+                <div className="border-slate-200 grid grid-cols-1 items-center justify-around gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
                   <Button
                     primary
                     class="mr-4"

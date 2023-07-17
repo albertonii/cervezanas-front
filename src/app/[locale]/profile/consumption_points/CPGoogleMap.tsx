@@ -20,7 +20,6 @@ import usePlacesAutocomplete, {
 import { useTranslations } from "next-intl";
 
 const containerStyle = {
-  width: "100%",
   height: "400px",
   borderRadius: "5px",
 };
@@ -30,8 +29,10 @@ interface Props {
 }
 
 export default function CPGoogleMap({ handleAddress }: Props) {
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
+
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
+    googleMapsApiKey: googleMapsApiKey,
     libraries: ["places"],
   });
 
@@ -114,7 +115,7 @@ const PlacesAutocomplete = ({
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
+        className="combobox-input w-full rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
         placeholder={t("search_an_address")}
       />
 

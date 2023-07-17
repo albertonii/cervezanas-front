@@ -184,7 +184,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       >
         <form>
           {/* Event Information  */}
-          <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+          <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4 sm:grid-cols-2">
             <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
             {/* Event name  */}
@@ -214,7 +214,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
             )}
 
             {/* Start date and end date  */}
-            <div className="flex flex-row space-x-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <div className="flex w-full  flex-col">
                 <label htmlFor="start_date">{t("start_date")}</label>
                 <input
@@ -278,7 +278,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
             {isInternalOrganizer && (
               <>
                 {/* Organizer name and lastname  */}
-                <div className="flex flex-row space-x-2 ">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 ">
                   <div className="flex w-full flex-col">
                     <label htmlFor="organizer_name">{t("name")}</label>
                     <input
@@ -306,10 +306,8 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
                       <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
-                </div>
 
-                {/* Email and phone  */}
-                <div className="flex flex-row space-x-2">
+                  {/* Email and phone  */}
                   <div className="flex flex-col">
                     <label htmlFor="organizer_email">{t("email")}</label>
                     <input
