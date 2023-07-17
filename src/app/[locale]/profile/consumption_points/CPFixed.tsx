@@ -8,7 +8,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { ICPFixed, IUser } from "../../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../../utils/utils";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAuth } from "../../../../components/Auth";
 import { DisplayInputError } from "../../../../components/common";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
@@ -52,6 +52,9 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
   const getExternalOrganizers = async () => {
     return await supabase
       .from("users")
@@ -81,7 +84,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
     setCpList(cps);
   };
 
-  const onSubmit = async (formValues: FormData) => {
+  const handleInsertCPFixed = async (formValues: FormData) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
@@ -145,9 +148,6 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       const newCP = data[0] as ICPFixed;
       const newCPList = [...cpList, newCP];
       handleCPList(newCPList);
-
-      setShowModal(false);
-      reset();
     }
   };
 
@@ -164,6 +164,32 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       loadExternalOrganizer();
 
       setIsInternalOrganizer(false);
+    }
+  };
+
+  const insertCPFixedMutation = useMutation({
+    mutationKey: "insertCPFixed",
+    mutationFn: handleInsertCPFixed,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
+      setShowModal(false);
+      setIsSubmitting(false);
+      reset();
+    },
+    onError: (error: any) => {
+      setIsSubmitting(false);
+      console.error(error);
+    },
+  });
+
+  const onSubmit = (formValues: FormData) => {
+    try {
+      insertCPFixedMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -184,7 +210,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       >
         <form>
           {/* Event Information  */}
-          <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4 sm:grid-cols-2">
+          <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
             <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
             {/* Event name  */}
@@ -402,11 +428,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
-        <ListCPFixed
-          cpFixed={cpList}
-          cpsId={cpsId}
-          handleCPList={handleCPList}
-        />
+        <ListCPFixed cpFixed={cpList} cpsId={cpsId} />
       </section>
     </>
   );

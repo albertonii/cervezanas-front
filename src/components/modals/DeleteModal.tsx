@@ -12,7 +12,7 @@ interface Props {
   setShowModal: (b: boolean) => void;
 }
 
-export default function AddCPFixed({
+export default function DeleteModal({
   title,
   description,
   handler,

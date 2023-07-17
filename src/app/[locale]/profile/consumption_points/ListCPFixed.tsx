@@ -3,7 +3,7 @@
 import Link from "next/link";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
@@ -12,35 +12,38 @@ import { ICPFixed, SortBy } from "../../../../lib/types.d";
 import { Modal } from "../../../../components/modals";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
+import { useMutation, useQueryClient } from "react-query";
 
 interface Props {
   cpsId: string;
   cpFixed: ICPFixed[];
-  handleCPList: ComponentProps<any>;
 }
 
-export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
+export function ListCPFixed({ cpsId }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const [cpFixed, setCPFixed] = useState(cp);
+  const queryClient = useQueryClient();
+
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fixedCount = cp.length;
+  const fixedCount = 10;
   const pageRange = 10;
   const finalPage =
     fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchCPFixed(
+  const { data, isError, isLoading, refetch } = useFetchCPFixed(
     cpsId,
     currentPage,
     pageRange
   );
+  const [cpFixed, setCPFixed] = useState(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -53,17 +56,17 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      // const cpFixed = res.data as ICPFixed;
       const cpFixed = res.data as any;
       setCPFixed(cpFixed);
     });
   }, [currentPage]);
 
   const filteredItems = useMemo<ICPFixed[]>(() => {
-    return cpFixed.filter((fixed) => {
+    if (!data) return [];
+    return data.filter((fixed) => {
       return fixed.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpFixed, query]);
+  }, [data, cpFixed, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -93,34 +96,6 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
     setSelectedCP(cp);
   };
 
-  // Remove from fixed list
-  const removeFromFixedList = (id: string) => {
-    const newList = cpFixed.filter((item) => item.id !== id);
-    handleCPList(newList);
-  };
-
-  // Delete CP Fixed from database
-  const handleRemoveCP = async () => {
-    const { error } = await supabase
-      .from("cp_fixed")
-      .delete()
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  // Update to fixed list
-  const updToFixedList = () => {
-    const newList = cpFixed.map((item) => {
-      if (item.id === selectedCP?.id) {
-        return selectedCP;
-      }
-      return item;
-    });
-
-    handleCPList(newList);
-  };
-
   // Update CP Fixed in database
   const handleUpdate = async () => {
     const { error } = await supabase
@@ -141,12 +116,22 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
     if (error) throw error;
   };
 
-  const handleDelete = async () => {
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(fixedCount / pageRange)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Delete CP Fixed from database
+  const handleRemoveCP = async () => {
     if (!selectedCP) return;
 
-    await handleRemoveCP();
-    removeFromFixedList(selectedCP.id);
-    setIsDeleteModal(false);
+    const { error } = await supabase
+      .from("cp_fixed")
+      .delete()
+      .eq("id", selectedCP?.id);
+
+    if (error) throw error;
   };
 
   const handlePrevPage = () => {
@@ -155,9 +140,28 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
     }
   };
 
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / pageRange)) {
-      setCurrentPage(currentPage + 1);
+  const deleteCPFixedMutation = useMutation({
+    mutationKey: ["deleteCPFixed"],
+    mutationFn: handleRemoveCP,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
+      setIsSubmitting(false);
+      setIsDeleteModal(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmitDelete = () => {
+    try {
+      deleteCPFixedMutation.mutate();
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -169,9 +173,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
           icon={faCheck}
           color={editColor}
           handler={async () => {
-            handleUpdate();
-            updToFixedList();
-            setIsEditModal(false);
+            onSubmitDelete();
           }}
           handlerClose={() => setIsEditModal(false)}
           description={"accept_cp_description_modal"}
@@ -188,8 +190,8 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
       {isDeleteModal && (
         <DeleteModal
           title={t("delete")}
-          handler={async () => {
-            handleDelete();
+          handler={() => {
+            onSubmitDelete();
           }}
           handlerClose={() => setIsDeleteModal(false)}
           description={t("delete_cp_description_modal")}

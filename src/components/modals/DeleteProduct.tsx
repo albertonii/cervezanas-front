@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Modal } from ".";
 import { IAward, IProduct } from "../../lib/types.d";
@@ -15,6 +15,7 @@ interface Props {
 export function DeleteProduct(props: Props) {
   const { product, showModal, handleDeleteShowModal } = props;
   const { supabase } = useSupabase();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -115,12 +116,20 @@ export function DeleteProduct(props: Props) {
   const deleteProductMutation = useMutation({
     mutationKey: ["deleteProduct"],
     mutationFn: handleDelete,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
+      setIsSubmitting(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      setIsSubmitting(false);
     },
   });
 
-  const handleSubmitDelete = () => {
+  const onSubmitDelete = () => {
     try {
       deleteProductMutation.mutate();
     } catch (e) {
@@ -137,7 +146,7 @@ export function DeleteProduct(props: Props) {
       btnTitle={"delete"}
       description={"modal_delete_product_description"}
       handler={() => {
-        handleSubmitDelete();
+        onSubmitDelete();
       }}
       classIcon={""}
       classContainer={""}
