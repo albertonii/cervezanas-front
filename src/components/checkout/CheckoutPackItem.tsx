@@ -125,6 +125,7 @@ export default function CheckoutPackItem({
             </div>
           )}
         </div>
+
         <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-x-8">
           <div className="flex w-full items-center justify-between space-x-2 ">
             <p className="text-base leading-6 dark:text-white xl:text-lg">
