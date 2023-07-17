@@ -4,13 +4,13 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import Decimal from "decimal.js";
 import EmptyCart from "./EmptyCart";
 import ShippingAddressItem from "./ShippingAddressItemInfo";
-import BillingAddressItem from "./BillingAddressItemInfo";
 import ShippingBillingContainer from "./ShippingBillingContainer";
+import useFetchShippingByOwnerId from "../../../../hooks/useFetchShippingByOwnerId";
+import useFetchBillingByOwnerId from "../../../../hooks/useFetchBillingByOwnerId";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useShoppingCart } from "../../../../components/Context/ShoppingCartContext";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,9 +22,7 @@ import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../constants";
-import useFetchShippingByOwnerId from "../../../../hooks/useFetchShippingByOwnerId";
-import useFetchBillingByOwnerId from "../../../../hooks/useFetchBillingByOwnerId";
-
+import { useMutation, useQueryClient } from "react-query";
 interface FormShippingData {
   shipping_info_id: string;
 }
@@ -33,7 +31,7 @@ interface FormBillingData {
   billing_info_id: string;
 }
 
-export default function Checkout() {
+export function Checkout() {
   const t = useTranslations();
 
   const { user, isLoading } = useAuth();
@@ -55,6 +53,8 @@ export default function Checkout() {
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const {
     data: shippingAddresses,
     error: shippingAddressesError,
@@ -74,6 +74,7 @@ export default function Checkout() {
   const { trigger: triggerBilling } = formBilling;
 
   const { items: cart, clearCart } = useShoppingCart();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     let subtotal = 0;
@@ -138,15 +139,14 @@ export default function Checkout() {
 
     try {
       const orderNumber = await proceedPaymentRedsys();
-      createOrder(billingInfoId, shippingInfoId, orderNumber);
-      setIsFormReady(true);
+      handleInsertOrder(billingInfoId, shippingInfoId, orderNumber);
     } catch (error) {
       console.error(error);
       setLoadingPayment(false);
     }
   };
 
-  const createOrder = async (
+  const handleInsertOrder = async (
     billingInfoId: string,
     shippingInfoId: string,
     orderNumber: string
@@ -165,8 +165,8 @@ export default function Checkout() {
         ).toISOString(), // 3 days
         payment_method: "credit_card",
         order_number: orderNumber,
-        shipping_info_id: shippingInfoId,
-        billing_info_id: billingInfoId,
+        shipping_info: shippingInfoId,
+        billing_info: billingInfoId,
         type: "online",
       })
       .select("id");
@@ -184,6 +184,8 @@ export default function Checkout() {
 
       if (orderItemError) throw orderItemError;
     });
+
+    setIsFormReady(true);
   };
 
   // REDSYS PAYMENT
@@ -216,9 +218,30 @@ export default function Checkout() {
     setMerchantParameters(form.body.Ds_MerchantParameters);
     setMerchantSignature(form.body.Ds_Signature);
 
-    clearCart();
-
     return orderNumber;
+  };
+
+  const insertOrderMutation = useMutation({
+    mutationKey: ["insertOrder"],
+    mutationFn: handleProceedToPay,
+    onMutate: () => setIsSubmitting(true),
+    onSuccess: () => {
+      queryClient.invalidateQueries("orders");
+      setIsSubmitting(false);
+      clearCart();
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmit = () => {
+    try {
+      insertOrderMutation.mutate();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleOnClickShipping = (addressId: string) => {
@@ -436,7 +459,7 @@ export default function Checkout() {
                                 title={""}
                                 disabled={cart.length === 0}
                                 onClick={() => {
-                                  handleProceedToPay();
+                                  onSubmit();
                                 }}
                               >
                                 {t("proceed_to_pay")}

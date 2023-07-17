@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import { IProduct, IProductPack } from "../../../../../lib/types";
-import { COMMON, SupabaseProps } from "../../../../../constants";
-import { useTranslations } from "next-intl";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import React, { useState } from "react";
+import { IProduct, IProductPack } from "../../../../../lib/types";
+import { SupabaseProps } from "../../../../../constants";
+import { useTranslations } from "next-intl";
 
 interface Props {
   product: IProduct;
@@ -71,10 +70,8 @@ export default function PackItem({
 
             <DisplayImageProduct
               imgSrc={
-                pack.img_url
-                  ? SupabaseProps.BASE_PRODUCTS_URL +
-                    decodeURIComponent(pack.img_url)
-                  : COMMON.NO_BEER
+                SupabaseProps.BASE_PRODUCTS_URL +
+                decodeURIComponent(pack.img_url)
               }
               alt={pack.name}
               width={600}

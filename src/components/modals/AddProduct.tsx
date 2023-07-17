@@ -413,6 +413,20 @@ export function AddProduct() {
     }
   };
 
+  const insertOrderMutation = useMutation({
+    mutationKey: ["insertOrder"],
+    mutationFn: handleInsertProduct,
+    onMutate: () => setIsSubmitting(true),
+    onSuccess: () => {
+      queryClient.invalidateQueries("orders");
+      setIsSubmitting(false);
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
   const insertProductMutation = useMutation({
     mutationKey: ["insertProduct"],
     mutationFn: handleInsertProduct,

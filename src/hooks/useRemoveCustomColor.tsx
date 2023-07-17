@@ -29,7 +29,7 @@ const useUpdateCustomColors = (
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: "removeCustomColor",
+    mutationKey: ["removeCustomColor"],
     mutationFn: () => updateColors(customSettingsId, filteredColors, supabase),
     onSuccess: () => {
       queryClient.invalidateQueries("customSettings");

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { COMMON } from "../../constants";
 
 // const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
@@ -26,7 +26,8 @@ function DisplayImageProduct({
   height,
   objectFit,
 }: Props) {
-  const memoizedSrc = useMemo(() => imgSrc, [imgSrc]);
+  const [imgSrc_, setImgSrc_] = useState<string>(imgSrc);
+  const memoizedSrc = useMemo(() => imgSrc_, [imgSrc_]);
 
   return (
     <Image
@@ -34,7 +35,7 @@ function DisplayImageProduct({
       height={height ?? 120}
       alt={alt ?? "image"}
       src={memoizedSrc}
-      onError={() => COMMON.NO_BEER}
+      onError={() => setImgSrc_(COMMON.NO_BEER)}
       onBlur={() => COMMON.MARKETPLACE_PRODUCT}
       onClick={onClick}
       className={`${class_}`}
