@@ -30,7 +30,11 @@ export function StoreItem({ product }: StoreItemProps) {
 
   const packs = product.product_packs;
 
-  const [selectedPack, setSelectedPack] = useState<IProductPack>(packs[0]);
+  // Selecte pack that has lowest quantity
+  const [selectedPack, setSelectedPack] = useState<IProductPack>(
+    packs.sort((a, b) => a.quantity - b.quantity)[0] ?? packs[0]
+  );
+
   const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
