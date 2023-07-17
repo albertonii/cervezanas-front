@@ -29,7 +29,8 @@ export const PAYMENT_METHOD = {
 export const PREPENDED_CLASS_NAMES = "supabase-ui-auth";
 
 export const COMMON = {
-  MARKETPLACE_PRODUCT: "/marketplace_product_default.png",
+  MARKETPLACE_PRODUCT: "/assets/marketplace_product_default.png",
+  NO_BEER: "/assets/nobeer.png",
   BG_IMG: "/icons/bg-240.png",
   PROFILE_IMG: "/icons/profile-240.png",
 };

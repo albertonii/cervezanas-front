@@ -26,11 +26,6 @@ function DisplayImageProduct({
   height,
   objectFit,
 }: Props) {
-  // const [src, setSrc] = useState(
-  //   // imgSrc ? BASE_PRODUCTS_ARTICLES_URL + imgSrc : COMMON.MARKETPLACE_PRODUCT
-  //   imgSrc ? imgSrc : COMMON.MARKETPLACE_PRODUCT
-  // );
-
   const memoizedSrc = useMemo(() => imgSrc, [imgSrc]);
 
   return (
@@ -39,7 +34,7 @@ function DisplayImageProduct({
       height={height ?? 120}
       alt={alt ?? "image"}
       src={memoizedSrc}
-      onError={() => COMMON.MARKETPLACE_PRODUCT}
+      onError={() => COMMON.NO_BEER}
       onBlur={() => COMMON.MARKETPLACE_PRODUCT}
       onClick={onClick}
       className={`${class_}`}

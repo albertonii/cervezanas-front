@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { IProduct, IProductPack } from "../../../../../lib/types";
-import { SupabaseProps } from "../../../../../constants";
+import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useTranslations } from "next-intl";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 
 interface Props {
   product: IProduct;
@@ -68,17 +69,17 @@ export default function PackItem({
               {pack.price} €
             </span>
 
-            <Image
-              src={`${
+            <DisplayImageProduct
+              imgSrc={
                 pack.img_url
                   ? SupabaseProps.BASE_PRODUCTS_URL +
                     decodeURIComponent(pack.img_url)
-                  : "/assets/nobeer.png"
-              }`}
-              width={1300}
-              height={1300}
-              alt={`Product pack - ${pack.quantity}`}
-              className={"w-[30vw] px-2 py-2 sm:w-[25vw] lg:w-[10vw]"}
+                  : COMMON.NO_BEER
+              }
+              alt={pack.name}
+              width={600}
+              height={600}
+              class="w-[30vw] px-2 py-2 sm:w-[25vw] md:w-[20vw] lg:w-[10vw]"
             />
           </div>
         </div>
