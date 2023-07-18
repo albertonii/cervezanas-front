@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
+import EditCPMobileModal from "./EditCPMobileModal";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import React, { useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { ICPMobile } from "../../../../lib/types.d";
-import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
 import { useMutation, useQueryClient } from "react-query";
@@ -60,8 +60,8 @@ export function ListCPMobile({ cpsId }: Props) {
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
 
-  const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedCP, setSelectedCP] = useState<ICPMobile>();
@@ -99,58 +99,13 @@ export function ListCPMobile({ cpsId }: Props) {
   };
 
   const handleEditClick = async (cp: ICPMobile) => {
-    setIsEditModal(true);
     setSelectedCP(cp);
+    handleEditModal(true);
   };
 
   const handleDeleteClick = async (cp: ICPMobile) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
-  };
-
-  // Update CP Mobile in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("cp_mobile")
-      .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
-      })
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  const updateCPMobileMutation = useMutation({
-    mutationKey: ["updateCPMobile"],
-    mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
-      setIsEditModal(false);
-      setIsSubmitting(false);
-    },
-    onError: (e: any) => {
-      console.error(e);
-      setIsSubmitting(false);
-    },
-  });
-
-  const onSubmitEdit = () => {
-    try {
-      updateCPMobileMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   // Delete CP Mobile from database
@@ -202,26 +157,38 @@ export function ListCPMobile({ cpsId }: Props) {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {isEditModal && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            onSubmitEdit();
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+      {selectedCP && (
+        <>
+          <EditCPMobileModal
+            cpsId={cpsId}
+            selectedCP={selectedCP}
+            isEditModal={isEditModal}
+            handleEditModal={handleEditModal}
+          />
+          {/* // <Modal
+        //   title={t("accept")}
+        //   icon={faCheck}
+        //   color={editColor}
+        //   handler={async () => {
+        //     onSubmitEdit();
+        //   }}
+        //   handlerClose={() => setIsEditModal(false)}
+        //   description={"accept_cp_description_modal"}
+        //   classIcon={""}
+        //   classContainer={""}
+        //   btnTitle={t("accept")}
+        //   showModal={isEditModal}
+        //   setShowModal={setIsEditModal}
+        // >
+        //   <></>
+        // </Modal> */}
+        </>
       )}
 
       {isDeleteModal && (

@@ -1,5 +1,6 @@
 "use client";
 
+import CPGoogleMap from "./CPGoogleMap";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -12,7 +13,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAuth } from "../../../../components/Auth";
 import { DisplayInputError } from "../../../../components/common";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import CPGoogleMap from "./CPGoogleMap";
 import { ListCPFixed } from "./ListCPFixed";
 import ListCPMProducts from "./ListCPMProducts";
 
@@ -121,6 +121,7 @@ export function CPFixed({ cpsId }: Props) {
         status: "active",
         cp_id: cpsId,
         geoArgs: results,
+        is_internal_organizer: isInternalOrganizer,
       })
       .select();
 

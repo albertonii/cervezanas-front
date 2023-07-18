@@ -1,6 +1,6 @@
 "use client";
 
-import ModalCPMobile from "./ModalCPMobile";
+import ModalCPMobile from "./AddCPMobileModal";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { ListCPMobile } from "./ListCPMobile";

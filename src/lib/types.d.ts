@@ -363,6 +363,7 @@ export interface ICPFixed {
   is_booking_required: boolean;
   cp_id: string;
   cpm_products: ICPFProducts[];
+  is_internal_organizer: boolean;
 }
 
 export interface ICPMobile {
@@ -385,6 +386,7 @@ export interface ICPMobile {
   geoArgs: GeocodeResult[];
   cp_id: string;
   cpm_products: IRefCPMProducts[];
+  is_internal_organizer: boolean
   // TODO: rrss
 }
 

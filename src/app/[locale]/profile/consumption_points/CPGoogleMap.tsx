@@ -14,6 +14,7 @@ import {
 import "@reach/combobox/styles.css";
 
 import usePlacesAutocomplete, {
+  GeocodeResult,
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
@@ -25,10 +26,16 @@ const containerStyle = {
 };
 
 interface Props {
+  defaultLocation?: string;
+  defaultGeoArgs?: GeocodeResult[];
   handleAddress: ComponentProps<any>;
 }
 
-export default function CPGoogleMap({ handleAddress }: Props) {
+export default function CPGoogleMap({
+  defaultLocation,
+  defaultGeoArgs,
+  handleAddress,
+}: Props) {
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
 
   const { isLoaded } = useLoadScript({
@@ -37,12 +44,24 @@ export default function CPGoogleMap({ handleAddress }: Props) {
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map handleAddress={handleAddress} />;
+  return (
+    <Map
+      defaultLocation={defaultLocation}
+      defaultGeoArgs={defaultGeoArgs}
+      handleAddress={handleAddress}
+    />
+  );
 }
 
-function Map({ handleAddress }: Props) {
-  const center = useMemo(() => ({ lat: 40.41, lng: -3.7 }), []);
-  const [selected, setSelected] = useState(null);
+function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
+  const location = defaultGeoArgs?.[0]?.geometry?.location;
+  const latLng = {
+    lat: location ? location?.lat : 40.41,
+    lng: location ? location?.lng : -3.7,
+  };
+
+  const center = useMemo(() => latLng, []);
+  const [selected, setSelected] = useState(defaultLocation ?? null);
 
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -54,6 +73,7 @@ function Map({ handleAddress }: Props) {
             setSelected={setSelected}
             map={map}
             handleAddress={handleAddress}
+            defaultLocation={defaultLocation}
           />
         )}
       </div>
@@ -77,12 +97,14 @@ interface PlacesProps {
   setSelected: ComponentProps<any>;
   map: google.maps.Map;
   handleAddress: ComponentProps<any>;
+  defaultLocation?: string;
 }
 
 const PlacesAutocomplete = ({
   setSelected,
   map,
   handleAddress,
+  defaultLocation,
 }: PlacesProps) => {
   const t = useTranslations();
 
@@ -93,6 +115,10 @@ const PlacesAutocomplete = ({
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete();
+
+  useEffect(() => {
+    if (defaultLocation) setValue(defaultLocation);
+  }, [defaultLocation]);
 
   useEffect(() => {
     handleAddress(value);

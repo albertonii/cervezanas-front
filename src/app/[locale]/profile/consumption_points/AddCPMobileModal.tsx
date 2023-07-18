@@ -7,7 +7,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { IProduct, IUser } from "../../../../lib/types.d";
+import { IProduct, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { isValidObject } from "../../../../utils/utils";
@@ -34,7 +34,7 @@ interface Props {
   cpsId: string;
 }
 
-export default function ModalCPMobile({ cpsId }: Props) {
+export default function AddCPMobileModal({ cpsId }: Props) {
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
@@ -120,6 +120,7 @@ export default function ModalCPMobile({ cpsId }: Props) {
         status: "active",
         cp_id: cpsId,
         geoArgs: results,
+        is_internal_organizer: isInternalOrganizer,
       })
       .select();
 
