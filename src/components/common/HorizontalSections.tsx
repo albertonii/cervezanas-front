@@ -20,7 +20,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
 
   return (
     <div className="" aria-label="">
-      <ul className="hidden divide-x divide-gray-200 rounded-lg pb-6 pl-72 pr-6 text-center text-sm font-medium text-gray-500 shadow dark:divide-gray-700 dark:text-gray-400 sm:flex">
+      <ul className="flex divide-x divide-gray-200 rounded-lg pb-6 pl-72 pr-6 text-center text-sm font-medium text-gray-500 shadow dark:divide-gray-700 dark:text-gray-400">
         {tabs.map((tab, index) => (
           <li
             key={index}

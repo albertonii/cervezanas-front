@@ -162,7 +162,7 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="border-slate-200 grid grid-cols-1 items-center justify-around gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                <div className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
                   <Button
                     primary
                     class="mr-4"

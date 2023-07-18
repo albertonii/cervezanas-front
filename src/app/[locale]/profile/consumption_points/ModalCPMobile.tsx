@@ -2,18 +2,18 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { ComponentProps, useState } from "react";
+import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { ICPMobile, IProduct, IUser } from "../../../../lib/types.d";
+import { IProduct, IUser } from "../../../../lib/types.d";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { isValidObject } from "../../../../utils/utils";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface FormData {
   cp_name: string;
@@ -32,11 +32,9 @@ interface FormData {
 
 interface Props {
   cpsId: string;
-  cpList: ICPMobile[];
-  handleCPList: ComponentProps<any>;
 }
 
-export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
+export default function ModalCPMobile({ cpsId }: Props) {
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
@@ -52,14 +50,8 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const form = useForm<FormData>();
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-  } = form;
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
     return await supabase
@@ -75,27 +67,20 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
     enabled: false,
   });
 
-  const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
-      const loadExternalOrganizer = async () => {
-        const { data } = await query.refetch();
-        const externalOrganizers = data?.data as any[];
-        setExternalOrganizers(externalOrganizers);
-      };
+  const form = useForm<FormData>();
 
-      loadExternalOrganizer();
-
-      setIsInternalOrganizer(false);
-    }
-  };
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    reset,
+  } = form;
 
   const handleAddress = (address: string) => {
     setAddress(address);
   };
 
-  const onSubmit = async (formValues: FormData) => {
+  const handleInsertCPFixed = async (formValues: FormData) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
@@ -172,14 +157,47 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
         throw error;
       }
     }
+  };
 
-    if (data) {
-      const newCP = data[0] as ICPMobile;
-      const newCPList = [...cpList, newCP];
-      handleCPList(newCPList);
+  const handleIsInternalOrganizer = (e: any) => {
+    if (e.target.value === "true") {
+      setIsInternalOrganizer(true);
+    } else {
+      const loadExternalOrganizer = async () => {
+        const { data } = await query.refetch();
+        const externalOrganizers = data?.data as any[];
+        setExternalOrganizers(externalOrganizers);
+      };
 
+      loadExternalOrganizer();
+
+      setIsInternalOrganizer(false);
+    }
+  };
+
+  const insertCPMobileMutation = useMutation({
+    mutationKey: "insertCPMobile",
+    mutationFn: handleInsertCPFixed,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
       setShowModal(false);
+      setIsSubmitting(false);
       reset();
+    },
+    onError: (error: any) => {
+      setIsSubmitting(false);
+      console.log(error);
+    },
+  });
+
+  const onSubmit = (formValues: FormData) => {
+    try {
+      insertCPMobileMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -198,7 +216,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
       classContainer={""}
     >
       <form>
-        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+        <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
 
           {/* Event name  */}
@@ -211,6 +229,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
               {...register("cp_name", { required: true })}
             />
           </div>
+
           {errors.cp_name && (
             <DisplayInputError message="errors.input_required" />
           )}
@@ -223,13 +242,14 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
               {...register("cp_description", { required: true })}
             />
           </div>
+
           {errors.cp_description && (
             <DisplayInputError message="errors.input_required" />
           )}
 
           {/* Start date and end date  */}
-          <div className="flex flex-row space-x-2">
-            <div className="flex w-full  flex-col">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="flex w-full flex-col">
               <label htmlFor="start_date">{t("start_date")}</label>
               <input
                 type="date"
@@ -296,7 +316,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
           {isInternalOrganizer && (
             <>
               {/* Organizer name and lastname  */}
-              <div className="flex flex-row space-x-2 ">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <div className="flex w-full flex-col">
                   <label htmlFor="organizer_name">{t("name")}</label>
                   <input
@@ -327,8 +347,8 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
               </div>
 
               {/* Email and phone  */}
-              <div className="flex flex-row space-x-2">
-                <div className="flex flex-col">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="flex w-full flex-col">
                   <label htmlFor="organizer_email">{t("email")}</label>
                   <input
                     className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
@@ -342,7 +362,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
                   )}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex w-full flex-col">
                   <label htmlFor="organizer_phone">{t("phone")}</label>
                   <input
                     className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
@@ -415,7 +435,7 @@ export default function ModalCPMobile({ cpsId, cpList, handleCPList }: Props) {
           <CPGoogleMap handleAddress={handleAddress} />
         </fieldset>
 
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+        <fieldset className="mt-4 flex flex-col space-y-4">
           <legend className="text-2xl">{t("cp_mobile_products")}</legend>
 
           {/* List of selectable products that the owner can use */}

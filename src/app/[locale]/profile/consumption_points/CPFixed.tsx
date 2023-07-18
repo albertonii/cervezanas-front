@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Modal } from "../../../../components/modals";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { ICPFixed, IUser } from "../../../../lib/types.d";
+import { IProduct, IUser } from "../../../../lib/types.d";
 import { getGeocode } from "use-places-autocomplete";
 import { isValidObject } from "../../../../utils/utils";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -14,6 +14,7 @@ import { DisplayInputError } from "../../../../components/common";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import CPGoogleMap from "./CPGoogleMap";
 import { ListCPFixed } from "./ListCPFixed";
+import ListCPMProducts from "./ListCPMProducts";
 
 interface FormData {
   cp_name: string;
@@ -27,22 +28,20 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
+  product_items: IProduct[];
 }
 
 interface Props {
   cpsId: string;
-  cpFixed: ICPFixed[];
 }
 
-export function CPFixed({ cpsId, cpFixed }: Props) {
+export function CPFixed({ cpsId }: Props) {
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
 
   const [address, setAddress] = useState<string>("");
-  const [cpList, setCpList] = useState<ICPFixed[]>(cpFixed);
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
-
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
 
@@ -69,6 +68,8 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
     enabled: false,
   });
 
+  const form = useForm<FormData>();
+
   const {
     formState: { errors },
     handleSubmit,
@@ -78,10 +79,6 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
 
   const handleAddress = (address: string) => {
     setAddress(address);
-  };
-
-  const handleCPList = (cps: ICPFixed[]) => {
-    setCpList(cps);
   };
 
   const handleInsertCPFixed = async (formValues: FormData) => {
@@ -99,6 +96,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       organizer_phone,
       start_date,
       end_date,
+      product_items,
     } = formValues;
 
     if (!isValidObject(address)) {
@@ -130,6 +128,23 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       throw error;
     }
 
+    const cpFixedId = data[0].id;
+
+    const pItemsFiltered = product_items.filter((p) => p.id);
+    if (pItemsFiltered) {
+      // Link the product with the consumption Po
+      pItemsFiltered.forEach(async (p) => {
+        const { error } = await supabase.from("cpm_products").insert({
+          cp_id: cpFixedId,
+          product_id: p.id,
+        });
+
+        if (error) {
+          throw error;
+        }
+      });
+    }
+
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
       const { error } = await supabase.from("notifications").insert({
@@ -142,12 +157,6 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       if (error) {
         throw error;
       }
-    }
-
-    if (data) {
-      const newCP = data[0] as ICPFixed;
-      const newCPList = [...cpList, newCP];
-      handleCPList(newCPList);
     }
   };
 
@@ -168,7 +177,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
   };
 
   const insertCPFixedMutation = useMutation({
-    mutationKey: "insertCPFixed",
+    mutationKey: ["insertCPFixed"],
     mutationFn: handleInsertCPFixed,
     onMutate: () => {
       setIsSubmitting(true);
@@ -223,6 +232,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
                 {...register("cp_name", { required: true })}
               />
             </div>
+
             {errors.cp_name && (
               <DisplayInputError message="errors.input_required" />
             )}
@@ -235,13 +245,14 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
                 {...register("cp_description", { required: true })}
               />
             </div>
+
             {errors.cp_description && (
               <DisplayInputError message="errors.input_required" />
             )}
 
             {/* Start date and end date  */}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <div className="flex w-full  flex-col">
+              <div className="flex w-full flex-col">
                 <label htmlFor="start_date">{t("start_date")}</label>
                 <input
                   type="date"
@@ -304,7 +315,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
             {isInternalOrganizer && (
               <>
                 {/* Organizer name and lastname  */}
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 ">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <div className="flex w-full flex-col">
                     <label htmlFor="organizer_name">{t("name")}</label>
                     <input
@@ -332,8 +343,10 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
                       <DisplayInputError message="errors.input_required" />
                     )}
                   </div>
+                </div>
 
-                  {/* Email and phone  */}
+                {/* Email and phone  */}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <div className="flex flex-col">
                     <label htmlFor="organizer_email">{t("email")}</label>
                     <input
@@ -421,6 +434,13 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
             {/* Address  */}
             <CPGoogleMap handleAddress={handleAddress} />
           </fieldset>
+
+          <fieldset className="mt-4 flex flex-col space-y-4">
+            <legend className="text-2xl">{t("cp_mobile_products")}</legend>
+
+            {/* List of selectable products that the owner can use */}
+            <ListCPMProducts form={form} />
+          </fieldset>
         </form>
       </Modal>
 
@@ -428,7 +448,7 @@ export function CPFixed({ cpsId, cpFixed }: Props) {
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("cp_fixed_list")}</h2>
 
-        <ListCPFixed cpFixed={cpList} cpsId={cpsId} />
+        <ListCPFixed cpsId={cpsId} />
       </section>
     </>
   );

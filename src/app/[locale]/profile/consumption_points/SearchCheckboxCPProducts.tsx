@@ -42,6 +42,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
   useEffect(() => {
     refetch().then((res) => {
       const products = res.data as IProduct[];
+      console.log(products);
       setProducts(products);
     });
   }, [currentPage]);

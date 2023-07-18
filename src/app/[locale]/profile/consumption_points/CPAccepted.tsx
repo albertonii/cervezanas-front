@@ -17,9 +17,9 @@ export function CPAccepted({ cps }: Props) {
   const renderSwitch = () => {
     switch (menuOption) {
       case "cp_fixed":
-        return <CPFixed cpFixed={cps.cp_fixed} cpsId={cps.id} />;
+        return <CPFixed cpsId={cps.id} />;
       case "cp_mobile":
-        return <CPMobile cpsId={cps.id} cpMobile={cps.cp_mobile} />;
+        return <CPMobile cpsId={cps.id} />;
     }
   };
 

@@ -37,7 +37,7 @@ async function getProductsData() {
         likes (*),
         product_lot (*),
         beers (*), 
-        product_pack (*)
+        product_packs (*)
       `
     )
     .eq("owner_id", session.user.id);

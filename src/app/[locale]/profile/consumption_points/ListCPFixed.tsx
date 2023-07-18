@@ -16,22 +16,22 @@ import { useMutation, useQueryClient } from "react-query";
 
 interface Props {
   cpsId: string;
-  cpFixed: ICPFixed[];
 }
 
 export function ListCPFixed({ cpsId }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
+  const { supabase } = useSupabase();
+
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const queryClient = useQueryClient();
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const fixedCount = 10;
   const pageRange = 10;
@@ -43,6 +43,7 @@ export function ListCPFixed({ cpsId }: Props) {
     currentPage,
     pageRange
   );
+
   const [cpFixed, setCPFixed] = useState(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
@@ -116,9 +117,28 @@ export function ListCPFixed({ cpsId }: Props) {
     if (error) throw error;
   };
 
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / pageRange)) {
-      setCurrentPage(currentPage + 1);
+  const updateCPFixedMutation = useMutation({
+    mutationKey: ["updateCPFixed"],
+    mutationFn: handleUpdate,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
+      setIsSubmitting(false);
+      setIsEditModal(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmitEdit = () => {
+    try {
+      updateCPFixedMutation.mutate();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -129,15 +149,9 @@ export function ListCPFixed({ cpsId }: Props) {
     const { error } = await supabase
       .from("cp_fixed")
       .delete()
-      .eq("id", selectedCP?.id);
+      .eq("id", selectedCP.id);
 
     if (error) throw error;
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
   };
 
   const deleteCPFixedMutation = useMutation({
@@ -165,6 +179,18 @@ export function ListCPFixed({ cpsId }: Props) {
     }
   };
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(fixedCount / pageRange)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {isEditModal && (
@@ -173,7 +199,7 @@ export function ListCPFixed({ cpsId }: Props) {
           icon={faCheck}
           color={editColor}
           handler={async () => {
-            onSubmitDelete();
+            onSubmitEdit();
           }}
           handlerClose={() => setIsEditModal(false)}
           description={"accept_cp_description_modal"}
@@ -275,7 +301,7 @@ export function ListCPFixed({ cpsId }: Props) {
             </thead>
 
             <tbody className="w-full">
-              {sortedItems.map((cp) => {
+              {sortedItems.map((cp: ICPFixed) => {
                 return (
                   <tr
                     key={cp.id}
