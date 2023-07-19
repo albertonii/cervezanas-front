@@ -46,7 +46,7 @@ async function getInvoiceData(slug: any) {
         name, 
         price,
         product_multimedia(*),
-        order_item(*)
+        order_items (*)
       )
     `
     )

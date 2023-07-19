@@ -173,16 +173,18 @@ export function Checkout() {
 
     if (orderError) throw orderError;
 
-    cart.map(async (item) => {
-      const { error: orderItemError } = await supabase
-        .from("order_item")
-        .insert({
-          order_id: order?.[0].id,
-          product_id: item.id,
-          quantity: item.quantity,
-        });
+    cart.map((product) => {
+      product.packs.map(async (pack) => {
+        const { error: orderItemError } = await supabase
+          .from("order_items")
+          .insert({
+            order_id: order?.[0].id,
+            product_pack_id: pack.id,
+            quantity: pack.quantity,
+          });
 
-      if (orderItemError) throw orderItemError;
+        if (orderItemError) throw orderItemError;
+      });
     });
 
     setIsFormReady(true);

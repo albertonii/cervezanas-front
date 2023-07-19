@@ -21,7 +21,7 @@ const fetchCPOrders = async (
         name, 
         price,
         product_multimedia(*),
-        order_item(*)
+        order_items (*)
       )
     `
     )

@@ -8,11 +8,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { isValidObject } from "../../../../utils/utils";
 import { IOrder } from "../../../../lib/types.d";
 import { Button } from "../../../../components/common";
 import { SupabaseProps } from "../../../../constants";
-1;
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -21,8 +19,9 @@ interface Props {
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function SuccessCheckout({ order, isError }: Props) {
-  const { products } = order;
-
+  const { order_items } = order;
+  const { product_pack_id } = order_items[0];
+  const { product_id: product } = product_pack_id;
   const t = useTranslations();
   const locale = useLocale();
 
@@ -39,7 +38,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, products]);
+  }, [user, order_items]);
 
   const handleOnClick = (productId: string) => {
     router.push(`/${locale}/products/review/${productId}`);
@@ -114,55 +113,104 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              {products &&
-                products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
-                  >
-                    <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
-                      {/* Product Multimedia  */}
-                      <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
-                        <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                          {isValidObject(
-                            product.product_multimedia[0].p_principal
-                          ) && (
-                            <DisplayImageProduct
-                              width={120}
-                              height={120}
-                              alt={""}
-                              imgSrc={`${
-                                BASE_PRODUCTS_URL +
-                                decodeURIComponent(
-                                  product.product_multimedia[0].p_principal
-                                )
-                              }`}
-                              class="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                            />
-                          )}
+              <div className="border border-gray-200 bg-white p-4 shadow-sm sm:rounded-lg sm:border">
+                {/* Product Information  */}
+                <div className="col-span-12 mx-6 mt-6 md:col-span-4 md:mt-6">
+                  <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                    <Link href={`/products/${product.id}`} locale={locale}>
+                      {product.name}
+                    </Link>
+                  </h3>
+
+                  <p className="mt-3 text-sm text-gray-500">
+                    {t("description")} - {product.description}
+                  </p>
+                </div>
+
+                {order_items &&
+                  order_items.map((item) => (
+                    <div key={item.id}>
+                      <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 lg:gap-x-8">
+                        <div className="relative p-8 px-4 py-6 sm:px-6 lg:p-8">
+                          {/* Product Multimedia  */}
+                          <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
+                            <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
+                              {
+                                <DisplayImageProduct
+                                  width={120}
+                                  height={120}
+                                  alt={""}
+                                  imgSrc={`${
+                                    BASE_PRODUCTS_URL +
+                                    decodeURIComponent(product_pack_id.img_url)
+                                  }`}
+                                  class="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                                />
+                              }
+                            </div>
+                          </div>
+
+                          {/* Product Information  */}
+                          <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
+                            <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                              <Link
+                                href={`/products/${product.id}`}
+                                locale={locale}
+                              >
+                                {product_pack_id.name}
+                              </Link>
+                            </h3>
+                            <p className="mt-2 text-sm font-medium text-gray-900">
+                              {t("price")} -{" "}
+                              {formatCurrency(product_pack_id.price)}
+                            </p>
+                            <p className="mt-2 text-sm font-medium text-gray-900">
+                              {t("quantity")} - {product_pack_id.quantity}
+                            </p>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Product Information  */}
-                      <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-                        <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                          <Link
-                            href={`/products/${product.id}`}
-                            locale={locale}
-                          >
-                            {product.name}
-                          </Link>
-                        </h3>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("price")} - {formatCurrency(product.price)}
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("quantity")} -
-                        </p>
-                        <p className="mt-3 text-sm text-gray-500">
-                          {t("description")} - {product.description}
-                        </p>
-                      </div>
+                      {/* .sort((a, b) => a.quantity - b.quantity)
+                           .map((pack) => (
+                             <>
+                               <div className="relative p-8 px-4 py-6 sm:px-6 lg:p-8">
+                                 <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
+                                   <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
+                                     {
+                                       <DisplayImageProduct
+                                         width={120}
+                                         height={120}
+                                         alt={""}
+                                         imgSrc={`${
+                                           BASE_PRODUCTS_URL +
+                                           decodeURIComponent(pack.img_url)
+                                         }`}
+                                         class="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                                       />
+                                     }
+                                   </div>
+                                 </div>
+
+                                 <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
+                                   <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                                     <Link
+                                       href={`/products/${product.id}`}
+                                       locale={locale}
+                                     >
+                                       {pack.name}
+                                     </Link>
+                                   </h3>
+                                   <p className="mt-2 text-sm font-medium text-gray-900">
+                                     {t("price")} - {formatCurrency(pack.price)}
+                                   </p>
+                                   <p className="mt-2 text-sm font-medium text-gray-900">
+                                     {t("quantity")} - {pack.quantity}
+                                   </p>
+                                 </div>
+                               </div>
+                             </>
+                           ))} */}
 
                       {/* Shipping Information  */}
                       {order.shipping_info && (
@@ -205,7 +253,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                         </span>
 
                         <div className="mt-3 space-y-3 text-beer-dark">
-                          {product.is_reviewed && (
+                          {item.is_reviewed && (
                             <span>
                               {t("product_already_reviewed_condition")}
                             </span>
@@ -217,8 +265,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
                           <Button
                             disabled={
-                              product.is_reviewed ||
-                              order.status !== "delivered"
+                              item.is_reviewed || order.status !== "delivered"
                                 ? true
                                 : false
                             }
@@ -227,7 +274,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                             class="my-6 font-medium text-beer-draft hover:text-beer-dark "
                             onClick={() => {
                               if (
-                                !product.is_reviewed &&
+                                !item.is_reviewed &&
                                 order.status === "delivered"
                               ) {
                                 handleOnClick(product.id);
@@ -238,38 +285,38 @@ export default function SuccessCheckout({ order, isError }: Props) {
                           </Button>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-                      <h4 className="sr-only">Status</h4>
-                      <p className="text-sm font-medium text-gray-900">
-                        {t("preparing_to_ship")}{" "}
-                        <time dateTime="2021-03-24">
-                          {formatDateString(order.issue_date.toString())}{" "}
-                        </time>
-                      </p>
-                      <div className="mt-6" aria-hidden="true">
-                        <div className="overflow-hidden rounded-full bg-gray-200">
-                          <div className="h-2 rounded-full bg-beer-blonde"></div>
-                        </div>
-                        <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-                          <div className="text-beer-draft">
-                            {t("order_placed")}
+                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+                        <h4 className="sr-only">Status</h4>
+                        <p className="text-sm font-medium text-gray-900">
+                          {t("preparing_to_ship")}{" "}
+                          <time dateTime="2021-03-24">
+                            {formatDateString(order.issue_date.toString())}{" "}
+                          </time>
+                        </p>
+                        <div className="mt-6" aria-hidden="true">
+                          <div className="overflow-hidden rounded-full bg-gray-200">
+                            <div className="h-2 rounded-full bg-beer-blonde"></div>
                           </div>
-                          <div className="text-center text-beer-draft">
-                            {t("status_processing")}
-                          </div>
-                          <div className="text-center">
-                            {t("status_shipped")}
-                          </div>
-                          <div className="text-right">
-                            {t("status_delivered")}
+                          <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
+                            <div className="text-beer-draft">
+                              {t("order_placed")}
+                            </div>
+                            <div className="text-center text-beer-draft">
+                              {t("status_processing")}
+                            </div>
+                            <div className="text-center">
+                              {t("status_shipped")}
+                            </div>
+                            <div className="text-right">
+                              {t("status_delivered")}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
 

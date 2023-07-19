@@ -386,7 +386,7 @@ export interface ICPMobile {
   geoArgs: GeocodeResult[];
   cp_id: string;
   cpm_products: IRefCPMProducts[];
-  is_internal_organizer: boolean
+  is_internal_organizer: boolean;
   // TODO: rrss
 }
 
@@ -490,6 +490,7 @@ export interface IOrder {
   discount_code: string;
   products: IOrderItem[];
   order_number: string;
+  order_items: IOrderItem[];
 }
 
 export interface IOrderItem {
@@ -503,6 +504,8 @@ export interface IOrderItem {
   name: string;
   description: string;
   price: number;
+  product_packs: IProductPack[];
+  product_pack_id: IProductPack;
 }
 
 export interface IEventOrder {
@@ -641,11 +644,12 @@ export type ModalAddProductProps = {
 
 export type IProductPack = {
   id: string;
-  quantity: number;
-  price: number;
-  img_url: any;
   name: string;
+  price: number;
+  quantity: number;
+  img_url: any;
   randomUUID: string;
+  product_id: IProduct;
 };
 
 export type IPackItem = {
@@ -771,7 +775,7 @@ export interface IProduct {
   price: number;
   beers: Beer[];
   product_variant: IProductVariant[];
-  order_item: OrderItem[];
+  order_items: OrderItem[];
   awards: Award[];
   is_archived: boolean;
   state: IProductEnum.State;

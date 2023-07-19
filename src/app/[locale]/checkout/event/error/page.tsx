@@ -94,7 +94,7 @@ async function getCheckoutErrorData(searchParams: any) {
         name, 
         price,
         product_multimedia(*),
-        order_item(*)
+        order_items (*)
       )
     `
     )
