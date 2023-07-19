@@ -13,6 +13,7 @@ import { ICPMobile } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
 import { useMutation, useQueryClient } from "react-query";
+import DeleteCPMobileModal from "../../../../components/modals/DeleteCPMobileModal";
 
 interface Props {
   cpsId: string;
@@ -108,43 +109,6 @@ export function ListCPMobile({ cpsId }: Props) {
     setSelectedCP(cp);
   };
 
-  // Delete CP Mobile from database
-  const handleRemoveCP = async () => {
-    if (!selectedCP) return;
-
-    const { error } = await supabase
-      .from("cp_mobile")
-      .delete()
-      .eq("id", selectedCP.id);
-
-    if (error) throw error;
-  };
-
-  const deleteCPMobileMutation = useMutation({
-    mutationKey: ["deleteCPMobile"],
-    mutationFn: handleRemoveCP,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
-      setIsSubmitting(false);
-      setIsDeleteModal(false);
-    },
-    onError: (e: any) => {
-      console.error(e);
-      setIsSubmitting(false);
-    },
-  });
-
-  const onSubmitDelete = () => {
-    try {
-      deleteCPMobileMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -173,17 +137,11 @@ export function ListCPMobile({ cpsId }: Props) {
         </>
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={async () => {
-            onSubmitDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedCP && (
+        <DeleteCPMobileModal
+          selectedCPId={selectedCP.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={setIsDeleteModal}
         />
       )}
 
