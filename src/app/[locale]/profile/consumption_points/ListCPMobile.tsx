@@ -10,7 +10,7 @@ import { useAuth } from "../../../../components/Auth";
 import { ICPMobile } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
-import DeleteCPMobileModal from "../../../../components/modals/DeleteCPMobileModal";
+import DeleteCPMobileModal from "./DeleteCPMobileModal";
 
 interface Props {
   cpsId: string;

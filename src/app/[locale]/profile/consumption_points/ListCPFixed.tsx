@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
+import EditCPFixedModal from "./EditCPFixedModal";
+import DeleteCPFixedModal from "./DeleteCPFixedModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
@@ -9,8 +11,6 @@ import { useAuth } from "../../../../components/Auth";
 import { ICPFixed, SortBy } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
-import EditCPFixedModal from "./EditCPFixedModal";
-import DeleteCPFixedModal from "../../../../components/modals/DeleteCPFixedModal";
 
 interface Props {
   cpsId: string;

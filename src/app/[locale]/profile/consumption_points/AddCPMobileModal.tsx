@@ -80,7 +80,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     setAddress(address);
   };
 
-  const handleInsertCPFixed = async (formValues: FormData) => {
+  const handleInsertCPMobile = async (formValues: FormData) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
@@ -128,22 +128,22 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       throw error;
     }
 
-    const cpMobileId = data[0].id;
+    // const cpMobileId = data[0].id;
 
-    const pItemsFiltered = product_items.filter((p) => p.id);
-    if (pItemsFiltered) {
-      // Link the product with the consumption Po
-      pItemsFiltered.forEach(async (p) => {
-        const { error } = await supabase.from("cpm_products").insert({
-          cp_id: cpMobileId,
-          product_id: p.id,
-        });
+    // const pItemsFiltered = product_items.filter((p) => p.id);
+    // if (pItemsFiltered) {
+    //   // Link the product with the consumption Po
+    //   pItemsFiltered.forEach(async (p) => {
+    //     const { error } = await supabase.from("cpm_products").insert({
+    //       cp_id: cpMobileId,
+    //       product_id: p.id,
+    //     });
 
-        if (error) {
-          throw error;
-        }
-      });
-    }
+    //     if (error) {
+    //       throw error;
+    //     }
+    //   });
+    // }
 
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
@@ -171,14 +171,13 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       };
 
       loadExternalOrganizer();
-
       setIsInternalOrganizer(false);
     }
   };
 
   const insertCPMobileMutation = useMutation({
     mutationKey: "insertCPMobile",
-    mutationFn: handleInsertCPFixed,
+    mutationFn: handleInsertCPMobile,
     onMutate: () => {
       setIsSubmitting(true);
     },

@@ -129,22 +129,23 @@ export function CPFixed({ cpsId }: Props) {
       throw error;
     }
 
-    const cpFixedId = data[0].id;
+    // const cpFixedId = data[0].id;
 
-    const pItemsFiltered = product_items.filter((p) => p.id);
-    if (pItemsFiltered) {
-      // Link the product with the consumption Po
-      pItemsFiltered.forEach(async (p) => {
-        const { error } = await supabase.from("cpm_products").insert({
-          cp_id: cpFixedId,
-          product_id: p.id,
-        });
+    // const pItemsFiltered = product_items.filter((p) => p.id);
 
-        if (error) {
-          throw error;
-        }
-      });
-    }
+    // if (pItemsFiltered) {
+    //   // Link the product with the consumption Po
+    //   pItemsFiltered.forEach(async (p) => {
+    //     const { error } = await supabase.from("cpm_products").insert({
+    //       cp_id: cpFixedId,
+    //       product_id: p.id,
+    //     });
+
+    //     if (error) {
+    //       throw error;
+    //     }
+    //   });
+    // }
 
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
@@ -172,7 +173,6 @@ export function CPFixed({ cpsId }: Props) {
       };
 
       loadExternalOrganizer();
-
       setIsInternalOrganizer(false);
     }
   };
