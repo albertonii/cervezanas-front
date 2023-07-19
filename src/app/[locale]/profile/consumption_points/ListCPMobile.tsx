@@ -3,16 +3,13 @@
 import Link from "next/link";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
 import EditCPMobileModal from "./EditCPMobileModal";
-import DeleteModal from "../../../../components/modals/DeleteModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { ICPMobile } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
-import { useMutation, useQueryClient } from "react-query";
 import DeleteCPMobileModal from "../../../../components/modals/DeleteCPMobileModal";
 
 interface Props {
@@ -32,16 +29,11 @@ export function ListCPMobile({ cpsId }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
-  const { supabase } = useSupabase();
-
   const t = useTranslations();
   const locale = useLocale();
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const queryClient = useQueryClient();
 
   const mobileCount = 10;
   const pageRange = 10;
