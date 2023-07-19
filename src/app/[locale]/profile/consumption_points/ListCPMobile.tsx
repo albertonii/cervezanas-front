@@ -166,7 +166,6 @@ export function ListCPMobile({ cpsId }: Props) {
       {selectedCP && (
         <>
           <EditCPMobileModal
-            cpsId={cpsId}
             selectedCP={selectedCP}
             isEditModal={isEditModal}
             handleEditModal={handleEditModal}

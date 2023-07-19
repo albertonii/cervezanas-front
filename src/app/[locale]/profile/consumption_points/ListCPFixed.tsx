@@ -1,18 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import DeleteModal from "../../../../components/modals/DeleteModal";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
 import React, { useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { ICPFixed, SortBy } from "../../../../lib/types.d";
-import { Modal } from "../../../../components/modals";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
-import { useMutation, useQueryClient } from "react-query";
+import EditCPFixedModal from "./EditCPFixedModal";
+import DeleteCPFixedModal from "../../../../components/modals/DeleteCPFixedModal";
 
 interface Props {
   cpsId: string;
@@ -22,16 +20,11 @@ export function ListCPFixed({ cpsId }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
-  const { supabase } = useSupabase();
-
   const t = useTranslations();
   const locale = useLocale();
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const queryClient = useQueryClient();
 
   const fixedCount = 10;
   const pageRange = 10;
@@ -97,88 +90,6 @@ export function ListCPFixed({ cpsId }: Props) {
     setSelectedCP(cp);
   };
 
-  // Update CP Fixed in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("cp_fixed")
-      .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
-      })
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  const updateCPFixedMutation = useMutation({
-    mutationKey: ["updateCPFixed"],
-    mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
-      setIsEditModal(false);
-    },
-    onError: (error) => {
-      console.error(error);
-      setIsSubmitting(false);
-    },
-  });
-
-  const onSubmitEdit = () => {
-    try {
-      updateCPFixedMutation.mutate();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Delete CP Fixed from database
-  const handleRemoveCP = async () => {
-    if (!selectedCP) return;
-
-    const { error } = await supabase
-      .from("cp_fixed")
-      .delete()
-      .eq("id", selectedCP.id);
-
-    if (error) throw error;
-  };
-
-  const deleteCPFixedMutation = useMutation({
-    mutationKey: ["deleteCPFixed"],
-    mutationFn: handleRemoveCP,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
-      setIsDeleteModal(false);
-    },
-    onError: (error) => {
-      console.error(error);
-      setIsSubmitting(false);
-    },
-  });
-
-  const onSubmitDelete = () => {
-    try {
-      deleteCPFixedMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -191,39 +102,25 @@ export function ListCPFixed({ cpsId }: Props) {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {isEditModal && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            onSubmitEdit();
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+      {selectedCP && isEditModal && (
+        <EditCPFixedModal
+          selectedCP={selectedCP}
+          isEditModal={isEditModal}
+          handleEditModal={handleEditModal}
+        />
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={() => {
-            onSubmitDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedCP && (
+        <DeleteCPFixedModal
+          selectedCPId={selectedCP.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={setIsDeleteModal}
         />
       )}
 

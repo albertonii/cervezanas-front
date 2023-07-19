@@ -6,7 +6,7 @@ import React, { ComponentProps, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, IProduct, IUser } from "../../../../lib/types";
+import { ICPFixed, IProduct, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { Modal } from "../../../../components/modals";
@@ -33,12 +33,12 @@ interface FormData {
 }
 
 interface Props {
-  selectedCP: ICPMobile;
+  selectedCP: ICPFixed;
   isEditModal: boolean;
   handleEditModal: ComponentProps<any>;
 }
 
-export default function EditCPMobileModal({
+export default function EditCPFixedModal({
   selectedCP,
   isEditModal,
   handleEditModal,
@@ -118,7 +118,7 @@ export default function EditCPMobileModal({
     }
   };
 
-  // Update CP Mobile in database
+  // Update CP Fixed in database
   const handleUpdate = async (formValues: FormData) => {
     const {
       cp_name,
@@ -135,7 +135,7 @@ export default function EditCPMobileModal({
     } = formValues;
 
     const { error } = await supabase
-      .from("cp_mobile")
+      .from("cp_fixed")
       .update({
         cp_name,
         cp_description,
@@ -153,14 +153,14 @@ export default function EditCPMobileModal({
     if (error) throw error;
   };
 
-  const updateCPMobileMutation = useMutation({
-    mutationKey: ["updateCPMobile"],
+  const updateCPFixedMutation = useMutation({
+    mutationKey: ["updateCPFixed"],
     mutationFn: handleUpdate,
     onMutate: () => {
       setIsSubmitting(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
+      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
       setIsSubmitting(false);
       handleEditModal(false);
     },
@@ -172,7 +172,7 @@ export default function EditCPMobileModal({
 
   const onSubmit = (formValues: FormData) => {
     try {
-      updateCPMobileMutation.mutate(formValues);
+      updateCPFixedMutation.mutate(formValues);
     } catch (e) {
       console.error(e);
     }
@@ -183,8 +183,8 @@ export default function EditCPMobileModal({
       showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
-      title={t("edit_new_cp_mobile")}
-      btnTitle={t("edit_cp_mobile_config")}
+      title={t("edit_new_cp_fixed")}
+      btnTitle={t("edit_cp_fixed_config")}
       description={""}
       icon={faAdd}
       handler={handleSubmit(onSubmit)}
@@ -197,7 +197,7 @@ export default function EditCPMobileModal({
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
+          <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
           {/* Event name  */}
           <div className="flex flex-col space-y-2">
@@ -405,7 +405,7 @@ export default function EditCPMobileModal({
         </fieldset>
 
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_mobile_location")}</legend>
+          <legend className="text-2xl">{t("cp_fixed_location")}</legend>
 
           {addressInputRequired && (
             <span className="text-red-500">{t("errors.input_required")}</span>
@@ -420,7 +420,7 @@ export default function EditCPMobileModal({
         </fieldset>
 
         <fieldset className="mt-4 flex flex-col space-y-4">
-          <legend className="text-2xl">{t("cp_mobile_products")}</legend>
+          <legend className="text-2xl">{t("cp_fixed_products")}</legend>
 
           {/* List of selectable products that the owner can use */}
           <ListCPMProducts form={form} />
