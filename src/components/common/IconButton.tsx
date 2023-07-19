@@ -86,7 +86,7 @@ export function IconButton({
       onClick={onClick}
       color={hoverColor}
       className={`
-        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde transition duration-100 ease-in 
+        xmt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-2 transition duration-100 ease-in
         ${box ? "h-auto w-10" : ""}
         ${disabled ? "cursor-not-allowed opacity-50" : ""}
         ${size === "small" ? "w-24" : ""} 

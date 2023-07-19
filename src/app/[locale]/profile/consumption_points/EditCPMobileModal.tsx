@@ -13,7 +13,6 @@ import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
-import { formatDateTypeDefaultInput } from "../../../../utils";
 
 interface FormData {
   cp_name: string;
@@ -29,6 +28,8 @@ interface FormData {
   is_internal_organizer: boolean;
   product_items: IProduct[];
   geoArgs: GeocodeResult[];
+  is_booking_required: boolean;
+  maximum_capacity: number;
 }
 
 interface Props {
@@ -120,19 +121,34 @@ export default function EditCPMobileModal({
   };
 
   // Update CP Mobile in database
-  const handleUpdate = async () => {
+  const handleUpdate = async (formValues: FormData) => {
+    const {
+      cp_name,
+      cp_description,
+      organizer_name,
+      organizer_lastname,
+      organizer_email,
+      organizer_phone,
+      address,
+      is_internal_organizer,
+      product_items,
+      is_booking_required,
+      maximum_capacity,
+    } = formValues;
+
     const { error } = await supabase
       .from("cp_mobile")
       .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
+        cp_name,
+        cp_description,
+        organizer_name,
+        organizer_lastname,
+        organizer_email,
+        organizer_phone,
+        address,
+        is_internal_organizer,
+        is_booking_required,
+        maximum_capacity,
       })
       .eq("id", selectedCP?.id);
 
@@ -148,6 +164,7 @@ export default function EditCPMobileModal({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
       setIsSubmitting(false);
+      handleEditModal(false);
     },
     onError: (e: any) => {
       console.error(e);
@@ -155,9 +172,9 @@ export default function EditCPMobileModal({
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = (formValues: FormData) => {
     try {
-      updateCPMobileMutation.mutate();
+      updateCPMobileMutation.mutate(formValues);
     } catch (e) {
       console.error(e);
     }

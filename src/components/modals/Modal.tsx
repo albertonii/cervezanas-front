@@ -1,10 +1,16 @@
 import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ComponentProps, useCallback, useEffect, useRef } from "react";
+import React, {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTranslations } from "next-intl";
 import { PortalModal } from ".";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import { Button, IconButton } from "../common";
+import { Button, IconButton, Spinner } from "../common";
 
 interface Props {
   showBtn?: boolean;
@@ -43,6 +49,8 @@ export function Modal(props: Props) {
 
   const t = useTranslations();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleShowModal = (b: boolean) => {
@@ -55,7 +63,13 @@ export function Modal(props: Props) {
   };
 
   const handleAccept = async () => {
-    handler();
+    setIsLoading(true);
+    setTimeout(() => {
+      handler().then(() => {
+        handleShowModal(false);
+        setIsLoading(false);
+      });
+    }, 300);
   };
 
   const handleClose = () => {
@@ -125,14 +139,22 @@ export function Modal(props: Props) {
 
       {showModal && (
         <PortalModal wrapperId="modal-portal">
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden pt-16 outline-none focus:outline-none">
+          <div
+            className={`${
+              isLoading
+                ? "overflow-hidden overscroll-none"
+                : "overflow-y-auto overflow-x-hidden"
+            } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none`}
+          >
             {/* The modal  */}
             <div
-              className="relative mx-4 my-6 w-4/5 max-w-3xl sm:mx-auto md:w-2/3 lg:w-1/2"
+              className={`relative mx-4 my-6 w-4/5 max-w-3xl sm:mx-auto md:w-2/3 lg:w-1/2`}
               ref={modalRef}
             >
               {/*content*/}
-              <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
+              <div
+                className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
+              >
                 {/*header*/}
                 <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
                   <h3 className="text-3xl font-semibold">{t(title)}</h3>
@@ -183,7 +205,26 @@ export function Modal(props: Props) {
                     {t("close")}
                   </Button>
                 </div>
+
+                {isLoading && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <Spinner
+                      size="large"
+                      color="blonde-beer"
+                      center={true}
+                      absolute={true}
+                      class="z-50"
+                    />
+                  </div>
+                )}
               </div>
+
+              <div
+                className={`${
+                  isLoading &&
+                  "absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75"
+                }`}
+              ></div>
             </div>
           </div>
         </PortalModal>

@@ -171,23 +171,6 @@ export function ListCPMobile({ cpsId }: Props) {
             isEditModal={isEditModal}
             handleEditModal={handleEditModal}
           />
-          {/* // <Modal
-        //   title={t("accept")}
-        //   icon={faCheck}
-        //   color={editColor}
-        //   handler={async () => {
-        //     onSubmitEdit();
-        //   }}
-        //   handlerClose={() => setIsEditModal(false)}
-        //   description={"accept_cp_description_modal"}
-        //   classIcon={""}
-        //   classContainer={""}
-        //   btnTitle={t("accept")}
-        //   showModal={isEditModal}
-        //   setShowModal={setIsEditModal}
-        // >
-        //   <></>
-        // </Modal> */}
         </>
       )}
 
