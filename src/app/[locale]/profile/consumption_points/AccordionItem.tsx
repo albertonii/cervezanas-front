@@ -7,14 +7,17 @@ import { Format, FormatName } from "../../../../lib/beerEnum";
 import { formatCurrency } from "../../../../utils";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
   product: IProduct;
+  form: UseFormReturn<any, any>;
 }
 
-const AccordionItem: React.FC<Props> = ({ product }) => {
+const AccordionItem: React.FC<Props> = ({ product, form }) => {
   const t = useTranslations();
   const { user } = useAuth();
+  const { register } = form;
 
   const [showAccordion, setShowAccordion] = useState(false);
 
@@ -61,7 +64,7 @@ const AccordionItem: React.FC<Props> = ({ product }) => {
         <div className="flex items-center justify-center space-x-2">
           <FontAwesomeIcon
             icon={faChevronCircleDown}
-            style={{ color: "#432a14" }}
+            style={{ color: showAccordion ? "#90470b" : "#EE9900" }}
             title={"chevron_circle_down"}
             width={20}
             height={20}
@@ -118,14 +121,16 @@ const AccordionItem: React.FC<Props> = ({ product }) => {
                     <input
                       id={`checkbox-pack-${pack.id}`}
                       type="checkbox"
+                      {...register(`product_items.${pack.id}.id`)}
+                      value={pack.id}
                       checked={selectedPacks[product.id]?.includes(pack.id)}
-                      onChange={(e) =>
-                        handleCheckboxChange(
-                          product.id,
-                          pack.id,
-                          e.target.checked
-                        )
-                      }
+                      // onChange={(e) =>
+                      //   handleCheckboxChange(
+                      //     product.id,
+                      //     pack.id,
+                      //     e.target.checked
+                      //   )
+                      // }
                       className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                     />
                     <div>

@@ -66,7 +66,7 @@ export default function Billing({
       setIsSubmitting(false);
     },
     onError: (error: any) => {
-      console.log(error);
+      console.error(error);
       setIsSubmitting(false);
     },
   });
@@ -75,7 +75,7 @@ export default function Billing({
     try {
       deleteBillingAddress.mutate(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

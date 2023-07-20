@@ -17,7 +17,6 @@ export default function PackItem({
   selectedPackId,
 }: Props) {
   const t = useTranslations();
-  console.log(pack.img_url);
   const [isHovering, setIsHovering] = useState(false);
 
   // const handleDecreaseFromCartItem = () => {

@@ -7,13 +7,14 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { IProduct, IUser } from "../../../../lib/types";
+import { IProduct, IProductPack, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { isValidObject } from "../../../../utils/utils";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { parseFilterArgs } from "react-query/types/core/utils";
 
 interface FormData {
   cp_name: string;
@@ -128,22 +129,34 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       throw error;
     }
 
-    // const cpMobileId = data[0].id;
+    const cpMobileId = data[0].id;
 
-    // const pItemsFiltered = product_items.filter((p) => p.id);
-    // if (pItemsFiltered) {
-    //   // Link the product with the consumption Po
-    //   pItemsFiltered.forEach(async (p) => {
-    //     const { error } = await supabase.from("cpm_products").insert({
-    //       cp_id: cpMobileId,
-    //       product_id: p.id,
-    //     });
+    const cleanObject = (obj: any) => {
+      const cleanedObj: any = {};
+      Object.keys(obj).forEach((key) => {
+        if (obj[key] && obj[key].id !== false) {
+          cleanedObj[key] = obj[key];
+        }
+      });
+      return cleanedObj;
+    };
 
-    //     if (error) {
-    //       throw error;
-    //     }
-    //   });
-    // }
+    const pItemsFiltered = cleanObject(product_items);
+
+    if (pItemsFiltered) {
+      // Link the pack with the consumption Point
+      pItemsFiltered.map(async (pack: any) => {
+        console.log(pack);
+        const { error } = await supabase.from("cpm_products").insert({
+          cp_id: cpMobileId,
+          product_pack_id: pack.id,
+        });
+
+        if (error) {
+          throw error;
+        }
+      });
+    }
 
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
@@ -189,7 +202,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     },
     onError: (error: any) => {
       setIsSubmitting(false);
-      console.log(error);
+      console.error(error);
     },
   });
 

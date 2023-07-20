@@ -183,7 +183,7 @@ export default function EditCPMobileModal({
       showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
-      title={t("edit_new_cp_mobile")}
+      title={t("edit_cp_mobile_config")}
       btnTitle={t("edit_cp_mobile_config")}
       description={""}
       icon={faAdd}

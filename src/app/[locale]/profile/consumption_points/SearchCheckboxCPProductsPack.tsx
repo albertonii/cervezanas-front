@@ -44,8 +44,6 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
     return <Spinner color="beer-blonde" size="xLarge" absolute center />;
   }
 
-  console.log(products);
-
   return (
     <>
       <div className="my-6 w-full">
@@ -78,7 +76,7 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
             </div>
           </div>
 
-          <ProductAccordion products={products} />
+          <ProductAccordion products={products} form={form} />
 
           <PaginationFooter
             counter={fixedCount}

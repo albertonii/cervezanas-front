@@ -101,10 +101,6 @@ export function AppContextProvider(props: Props) {
     setImageData({ ...imageData, [key]: image });
   };
 
-  // useEffect(() => {
-  //   console.log(imageData);
-  // }, [imageData]);
-
   const removeImage = (key: string) => {
     const { [key]: _, ...rest } = imageData;
     setImageData(rest);

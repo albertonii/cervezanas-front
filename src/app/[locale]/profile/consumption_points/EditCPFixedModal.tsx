@@ -74,6 +74,8 @@ export default function EditCPFixedModal({
     enabled: false,
   });
 
+  console.log(selectedCP);
+
   const form = useForm<FormData>({
     defaultValues: {
       cp_name: selectedCP?.cp_name,
@@ -183,7 +185,7 @@ export default function EditCPFixedModal({
       showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
-      title={t("edit_new_cp_fixed")}
+      title={t("edit_cp_fixed_config")}
       btnTitle={t("edit_cp_fixed_config")}
       description={""}
       icon={faAdd}

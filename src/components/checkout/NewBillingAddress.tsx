@@ -73,7 +73,7 @@ export function NewBillingAddress() {
       reset();
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       setIsSubmitting(false);
     },
   });

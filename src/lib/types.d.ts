@@ -288,6 +288,23 @@ export interface IReview {
   products?: IProduct;
 }
 
+export interface IRefReview {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  owner_id: string;
+  product_id: string;
+  comment: string;
+  aroma: number;
+  appearance: number;
+  taste: number;
+  bitterness: number;
+  mouthfeel: number;
+  overall: number;
+  users?: User;
+  products?: any;
+}
+
 export interface IProfile {
   id: string;
   created_at: Date;
@@ -362,8 +379,8 @@ export interface ICPFixed {
   maximum_capacity: number;
   is_booking_required: boolean;
   cp_id: string;
-  cpm_products: ICPFProducts[];
   is_internal_organizer: boolean;
+  cpm_products: ICPFProducts[];
 }
 
 export interface ICPMobile {
@@ -652,6 +669,16 @@ export type IProductPack = {
   product_id?: IProduct;
 };
 
+export type IRefProductPack = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  img_url: any;
+  randomUUID: string;
+  product_id?: any;
+};
+
 export type IPackItem = {
   id: string;
   quantity: number;
@@ -769,7 +796,7 @@ export interface IProduct {
   product_lot: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
-  reviews: IReview[];
+  reviews: IRefReview[];
   likes: ILike[];
   is_public: boolean;
   price: number;
@@ -781,7 +808,7 @@ export interface IProduct {
   state: IProductEnum.State;
   status: IProductEnum.Status;
   type: IProductEnum.Type;
-  product_packs: IProductPack[];
+  product_packs: IRefProductPack[];
   is_monthly: boolean;
 }
 

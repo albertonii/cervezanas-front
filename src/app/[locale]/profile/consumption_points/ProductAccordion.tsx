@@ -1,15 +1,16 @@
-// components/ProductAccordion.js
+import AccordionItem from "./AccordionItem";
 import React from "react";
 import { IProduct } from "../../../../lib/types";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
-import AccordionItem from "./AccordionItem";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
   products: IProduct[];
+  form: UseFormReturn<any, any>;
 }
 
-const ProductAccordion: React.FC<Props> = ({ products }) => {
+const ProductAccordion: React.FC<Props> = ({ products, form }) => {
   const { user } = useAuth();
 
   if (!products || products.length === 0) {
@@ -31,7 +32,7 @@ const ProductAccordion: React.FC<Props> = ({ products }) => {
           key={product.id}
           className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
         >
-          <AccordionItem product={product} />
+          <AccordionItem product={product} form={form} />
         </div>
       ))}
     </div>

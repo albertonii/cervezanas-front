@@ -67,7 +67,7 @@ export default function Shipping({
       setIsSubmitting(false);
     },
     onError: (error: any) => {
-      console.log(error);
+      console.error(error);
       setIsSubmitting(false);
     },
   });
@@ -76,7 +76,7 @@ export default function Shipping({
     try {
       deleteShippingAddress.mutate(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

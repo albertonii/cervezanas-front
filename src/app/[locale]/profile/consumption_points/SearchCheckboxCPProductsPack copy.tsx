@@ -41,8 +41,6 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
   useEffect(() => {
     refetch().then((res) => {
       const products = res.data as IProduct[];
-      console.log(products);
-      setProducts(products);
     });
   }, [currentPage]);
 
@@ -53,18 +51,9 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
     { header: t("capacity_header") },
   ];
 
-  const PACK_COLUMNS = [
-    { header: "" },
-    { header: t("name_header") },
-    { header: t("quantity_header") },
-    { header: t("price_header") },
-  ];
-
   if (isLoading) {
     return <Spinner color="beer-blonde" size="xLarge" absolute center />;
   }
-
-  console.log(products);
 
   return (
     <>

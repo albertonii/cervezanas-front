@@ -173,8 +173,6 @@ export function Sidebar() {
                   className="w-full p-2 px-4 font-medium"
                   locale={locale}
                   onClick={() => {
-                    console.log(link.option);
-                    console.log(sidebar);
                     if (link.option !== sidebar) {
                       changeSidebarActive(link.option);
                     }
