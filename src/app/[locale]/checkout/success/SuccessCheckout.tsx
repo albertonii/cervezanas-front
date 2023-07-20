@@ -1,22 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { IOrder } from "../../../../lib/types.d";
-import { Button } from "../../../../components/common";
-import { SupabaseProps } from "../../../../constants";
 interface Props {
   isError?: boolean;
   order: IOrder;
 }
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function SuccessCheckout({ order, isError }: Props) {
   const { order_items } = order;
@@ -24,8 +19,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { product_id: product } = product_pack_id;
   const t = useTranslations();
   const locale = useLocale();
-
-  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -39,10 +32,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
       setLoading(true);
     };
   }, [user, order_items]);
-
-  const handleOnClick = (productId: string) => {
-    router.push(`/${locale}/products/review/${productId}`);
-  };
 
   const handleInvoicePdf = () => {
     window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
@@ -113,9 +102,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              <div className="border border-gray-200 bg-white p-4 shadow-sm sm:rounded-lg sm:border">
+              <div className="m-2 border border-gray-200 bg-white p-2 shadow-sm sm:rounded-lg sm:border lg:m-6 lg:p-6">
                 {/* Product Information  */}
-                <div className="col-span-12 mx-6 mt-6 md:col-span-4 md:mt-6">
+                <div className="col-span-12 md:col-span-4">
                   <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                     <Link href={`/products/${product.id}`} locale={locale}>
                       {product.name}
@@ -129,191 +118,13 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
                 {order_items &&
                   order_items.map((item) => (
-                    <div key={item.id}>
-                      <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 lg:gap-x-8">
-                        <div className="relative p-8 px-4 py-6 sm:px-6 lg:p-8">
-                          {/* Product Multimedia  */}
-                          <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
-                            <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                              {
-                                <DisplayImageProduct
-                                  width={120}
-                                  height={120}
-                                  alt={""}
-                                  imgSrc={`${
-                                    BASE_PRODUCTS_URL +
-                                    decodeURIComponent(product_pack_id.img_url)
-                                  }`}
-                                  class="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                                />
-                              }
-                            </div>
-                          </div>
-
-                          {/* Product Information  */}
-                          <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-                            <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                              <Link
-                                href={`/products/${product.id}`}
-                                locale={locale}
-                              >
-                                {product_pack_id.name}
-                              </Link>
-                            </h3>
-                            <p className="mt-2 text-sm font-medium text-gray-900">
-                              {t("price")} -{" "}
-                              {formatCurrency(product_pack_id.price)}
-                            </p>
-                            <p className="mt-2 text-sm font-medium text-gray-900">
-                              {t("quantity")} - {product_pack_id.quantity}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* .sort((a, b) => a.quantity - b.quantity)
-                           .map((pack) => (
-                             <>
-                               <div className="relative p-8 px-4 py-6 sm:px-6 lg:p-8">
-                                 <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
-                                   <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                                     {
-                                       <DisplayImageProduct
-                                         width={120}
-                                         height={120}
-                                         alt={""}
-                                         imgSrc={`${
-                                           BASE_PRODUCTS_URL +
-                                           decodeURIComponent(pack.img_url)
-                                         }`}
-                                         class="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                                       />
-                                     }
-                                   </div>
-                                 </div>
-
-                                 <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-                                   <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                                     <Link
-                                       href={`/products/${product.id}`}
-                                       locale={locale}
-                                     >
-                                       {pack.name}
-                                     </Link>
-                                   </h3>
-                                   <p className="mt-2 text-sm font-medium text-gray-900">
-                                     {t("price")} - {formatCurrency(pack.price)}
-                                   </p>
-                                   <p className="mt-2 text-sm font-medium text-gray-900">
-                                     {t("quantity")} - {pack.quantity}
-                                   </p>
-                                 </div>
-                               </div>
-                             </>
-                           ))} */}
-
-                      {/* Shipping Information  */}
-                      {order.shipping_info && (
-                        <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
-                          <dt className="font-medium text-gray-900">
-                            {t("shipping_address")}
-                          </dt>
-
-                          <dd className="mt-3 text-gray-500">
-                            <span className="block">
-                              {order.shipping_info.name}{" "}
-                              {order.shipping_info.lastname}
-                            </span>
-                            <span className="block">
-                              {order.shipping_info.address},{" "}
-                              {order.shipping_info.city},
-                              {order.shipping_info.state},{" "}
-                              {order.shipping_info.zipcode},
-                              {order.shipping_info.country}
-                            </span>
-
-                            {order.shipping_info.address_extra && (
-                              <>
-                                <span className="block">
-                                  {order.shipping_info.address_extra}
-                                </span>
-                                <span className="block">
-                                  {order.shipping_info.address_observation}
-                                </span>
-                              </>
-                            )}
-                          </dd>
-                        </div>
-                      )}
-
-                      {/* Review Product  */}
-                      <div className="col-span-12 mt-6">
-                        <span className="font-medium text-gray-900">
-                          {t("review_product")}
-                        </span>
-
-                        <div className="mt-3 space-y-3 text-beer-dark">
-                          {item.is_reviewed && (
-                            <span>
-                              {t("product_already_reviewed_condition")}
-                            </span>
-                          )}
-
-                          {order.status !== "delivered" && (
-                            <span>{t("write_review_condition")}</span>
-                          )}
-
-                          <Button
-                            disabled={
-                              item.is_reviewed || order.status !== "delivered"
-                                ? true
-                                : false
-                            }
-                            primary
-                            medium
-                            class="my-6 font-medium text-beer-draft hover:text-beer-dark "
-                            onClick={() => {
-                              if (
-                                !item.is_reviewed &&
-                                order.status === "delivered"
-                              ) {
-                                handleOnClick(product.id);
-                              }
-                            }}
-                          >
-                            {t("make_review_product_button")}
-                          </Button>
-                        </div>
-                      </div>
-
-                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-                        <h4 className="sr-only">Status</h4>
-                        <p className="text-sm font-medium text-gray-900">
-                          {t("preparing_to_ship")}{" "}
-                          <time dateTime="2021-03-24">
-                            {formatDateString(order.issue_date.toString())}{" "}
-                          </time>
-                        </p>
-                        <div className="mt-6" aria-hidden="true">
-                          <div className="overflow-hidden rounded-full bg-gray-200">
-                            <div className="h-2 rounded-full bg-beer-blonde"></div>
-                          </div>
-                          <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-                            <div className="text-beer-draft">
-                              {t("order_placed")}
-                            </div>
-                            <div className="text-center text-beer-draft">
-                              {t("status_processing")}
-                            </div>
-                            <div className="text-center">
-                              {t("status_shipped")}
-                            </div>
-                            <div className="text-right">
-                              {t("status_delivered")}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <div key={item.id} className="space-y-6">
+                      <OrderItem
+                        item={item}
+                        productPack={product_pack_id}
+                        product={product}
+                        order={order}
+                      />
                     </div>
                   ))}
               </div>
