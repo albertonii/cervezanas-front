@@ -547,5 +547,9 @@
   "address_observations": "Address observations",
   "product_pack_name": "Pack",
   "select_pack": "Select a pack",
-  "choose_pack": "Choose a pack"
+  "choose_pack": "Choose a pack",
+  "cp_fixed_products": "Fixed consumption point products",
+  "brand_header": "Brand",
+  "format_header": "Format",
+  "capacity_header": "Capacity"
 }

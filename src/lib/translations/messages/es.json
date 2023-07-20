@@ -562,5 +562,9 @@
   "address_observations": "Observaciones de la dirección",
   "product_pack_name": "Pack",
   "select_pack": "Selecciona un pack",
-  "choose_pack": "Elige un pack"
+  "choose_pack": "Elige un pack",
+  "cp_fixed_products": "Productos del punto fijo",
+  "brand_header": "Marca",
+  "format_header": "Formato",
+  "capacity_header": "Capacidad"
 }

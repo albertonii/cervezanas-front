@@ -171,6 +171,12 @@ export enum Format {
   draft, // barril
 }
 
+export enum FormatName {
+  can = "can", // lata
+  bottle = "bottle", // cristal
+  draft = "draft", // barril
+}
+
 export enum ReviewQualification {
   need_to_improve = "need_to_improve",
   fair = "fair",

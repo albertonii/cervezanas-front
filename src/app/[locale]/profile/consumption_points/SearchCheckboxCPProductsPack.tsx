@@ -8,9 +8,9 @@ import { UseFormReturn } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
-
-import { IProduct } from "../../../../lib/types.d";
-import { formatCurrency } from "../../../../utils";
+import { IProduct } from "../../../../lib/types";
+import { Format } from "../../../../lib/beerEnum";
+import ProductAccordion from "./ProductAccordion";
 
 interface ColumnsProps {
   header: string;
@@ -19,7 +19,7 @@ interface Props {
   form: UseFormReturn<any, any>;
 }
 
-export function SearchCheckboxCPProducts({ form }: Props) {
+export function SearchCheckboxCPProductsPack({ form }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const { user } = useAuth();
@@ -48,14 +48,17 @@ export function SearchCheckboxCPProducts({ form }: Props) {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: "" },
     { header: t("name_header") },
-    { header: t("price_header") },
+    { header: t("brand_header") },
+    { header: t("format_header") },
+    { header: t("capacity_header") },
   ];
 
   if (isLoading) {
     return <Spinner color="beer-blonde" size="xLarge" absolute center />;
   }
+
+  console.log(products);
 
   return (
     <>
@@ -89,60 +92,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
             </div>
           </div>
 
-          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 ">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {COLUMNS.map((column: ColumnsProps, index: number) => {
-                  return (
-                    <th key={index} scope="col" className="px-6 py-3">
-                      {column.header}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-
-            <tbody>
-              {products &&
-                products.map((product, index) => {
-                  return (
-                    <tr
-                      key={product.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <>
-                        <th
-                          scope="row"
-                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                        >
-                          <input
-                            id="checkbox-item"
-                            type="checkbox"
-                            {...register(`product_items.${index}.id`)}
-                            value={product.id}
-                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                          />
-                        </th>
-
-                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                          <Link
-                            href={`/products/${product.id}`}
-                            target={"_blank"}
-                            locale={locale}
-                          >
-                            {product.name}
-                          </Link>
-                        </td>
-
-                        <td className="px-6 py-4">
-                          {formatCurrency(product.price)}
-                        </td>
-                      </>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+          <ProductAccordion products={products} />
 
           <PaginationFooter
             counter={fixedCount}

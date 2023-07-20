@@ -15,7 +15,7 @@ export function SearchCheckboxList({ list, form }: Props) {
   const { register } = form;
 
   return (
-    <div className="space-y my-6 w-full">
+    <div className="my-6 w-full">
       <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
         <div className="p-3">
           <label className="sr-only">{t("search")}</label>

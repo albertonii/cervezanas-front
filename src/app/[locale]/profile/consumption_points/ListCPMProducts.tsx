@@ -2,7 +2,7 @@
 
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { SearchCheckboxCPProducts } from "./SearchCheckboxCPProducts";
+import { SearchCheckboxCPProductsPack } from "./SearchCheckboxCPProductsPack";
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -11,7 +11,7 @@ interface Props {
 export default function ListCPMProducts({ form }: Props) {
   return (
     <>
-      <SearchCheckboxCPProducts form={form} />
+      <SearchCheckboxCPProductsPack form={form} />
     </>
   );
 }

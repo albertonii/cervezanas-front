@@ -108,7 +108,7 @@ export default function LotForm({ handleShowModal }: Props) {
             </div>
           </div>
 
-          <div className="space-y my-6 w-full">
+          <div className="my-6 w-full">
             <div>
               <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
                 <div className="p-3">

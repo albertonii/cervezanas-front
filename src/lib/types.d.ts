@@ -649,7 +649,7 @@ export type IProductPack = {
   quantity: number;
   img_url: any;
   randomUUID: string;
-  product_id: IProduct;
+  product_id?: IProduct;
 };
 
 export type IPackItem = {
@@ -769,14 +769,14 @@ export interface IProduct {
   product_lot: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
-  reviews: Review[];
-  likes: Like[];
+  reviews: IReview[];
+  likes: ILike[];
   is_public: boolean;
   price: number;
-  beers: Beer[];
+  beers: IBeer[];
   product_variant: IProductVariant[];
   order_items: OrderItem[];
-  awards: Award[];
+  awards: IAward[];
   is_archived: boolean;
   state: IProductEnum.State;
   status: IProductEnum.Status;

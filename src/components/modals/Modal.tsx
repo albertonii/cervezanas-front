@@ -148,7 +148,7 @@ export function Modal(props: Props) {
           >
             {/* The modal  */}
             <div
-              className={`relative mx-4 my-6 w-4/5 max-w-3xl sm:mx-auto md:w-2/3 lg:w-1/2`}
+              className={`relative mx-4 my-6 w-4/5 sm:mx-auto md:w-2/3 md:max-w-3xl lg:w-1/2 lg:max-w-none`}
               ref={modalRef}
             >
               {/*content*/}

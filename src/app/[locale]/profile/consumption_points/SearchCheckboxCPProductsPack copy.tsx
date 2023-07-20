@@ -8,9 +8,8 @@ import { UseFormReturn } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
-
-import { IProduct } from "../../../../lib/types.d";
-import { formatCurrency } from "../../../../utils";
+import { IProduct } from "../../../../lib/types";
+import { Format } from "../../../../lib/beerEnum";
 
 interface ColumnsProps {
   header: string;
@@ -19,7 +18,7 @@ interface Props {
   form: UseFormReturn<any, any>;
 }
 
-export function SearchCheckboxCPProducts({ form }: Props) {
+export function SearchCheckboxCPProductsPack({ form }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const { user } = useAuth();
@@ -48,14 +47,24 @@ export function SearchCheckboxCPProducts({ form }: Props) {
   }, [currentPage]);
 
   const COLUMNS = [
+    { header: t("name_header") },
+    { header: t("brand_header") },
+    { header: t("format_header") },
+    { header: t("capacity_header") },
+  ];
+
+  const PACK_COLUMNS = [
     { header: "" },
     { header: t("name_header") },
+    { header: t("quantity_header") },
     { header: t("price_header") },
   ];
 
   if (isLoading) {
     return <Spinner color="beer-blonde" size="xLarge" absolute center />;
   }
+
+  console.log(products);
 
   return (
     <>
@@ -106,12 +115,12 @@ export function SearchCheckboxCPProducts({ form }: Props) {
               {products &&
                 products.map((product, index) => {
                   return (
-                    <tr
-                      key={product.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <>
-                        <th
+                    <>
+                      <tr
+                        key={product.id}
+                        className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                      >
+                        {/* <th
                           scope="row"
                           className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
@@ -122,9 +131,9 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                             value={product.id}
                             className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                           />
-                        </th>
+                        </th> */}
 
-                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                        <td className="px-6 py-4 font-semibold text-beer-gold hover:text-beer-draft">
                           <Link
                             href={`/products/${product.id}`}
                             target={"_blank"}
@@ -134,11 +143,59 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                           </Link>
                         </td>
 
+                        <td className="px-6 py-4">[Marca del producto]</td>
+
                         <td className="px-6 py-4">
-                          {formatCurrency(product.price)}
+                          {t(product.beers[0]?.format ?? "")}
                         </td>
-                      </>
-                    </tr>
+
+                        <td className="text-balan px-6 py-4">
+                          {t(product.beers[0]?.volume ?? "")}{" "}
+                          {product.beers[0]?.format === Format.draft.toString()
+                            ? "l"
+                            : "ml"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          {/* Product packs is displays: Pack name, quantity of packs, price */}
+
+                          {product.product_packs
+                            .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
+                            .map((pack) => {
+                              return (
+                                <div key={pack.id}>
+                                  <input
+                                    id={`checkbox-pack-${pack.id}`}
+                                    type="checkbox"
+                                    {...register(`product_items.${index}.id`)}
+                                    value={product.id}
+                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                    // checked={selectedPacks[product.id]?.includes(
+                                    //   pack.id
+                                    // )}
+                                    // onChange={(e) =>
+                                    //   handleCheckboxChange(
+                                    //     product.id,
+                                    //     pack.id,
+                                    //     e.target.checked
+                                    //   )
+                                    // }
+                                  />
+
+                                  <label
+                                    htmlFor={`checkbox-pack-${pack.id}`}
+                                    className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                                  >
+                                    {pack.name}
+                                  </label>
+                                </div>
+                              );
+                            })}
+                        </td>
+                      </tr>
+                    </>
                   );
                 })}
             </tbody>
