@@ -566,5 +566,8 @@
   "cp_fixed_products": "Productos del punto fijo",
   "brand_header": "Marca",
   "format_header": "Formato",
-  "capacity_header": "Capacidad"
+  "capacity_header": "Capacidad",
+  "available_packs": "Packs disponibles",
+  "edit_cp_fixed_config": "Editar Punto Fijo",
+  "edit_cp_mobile_config": "Editar Punto Móvil"
 }

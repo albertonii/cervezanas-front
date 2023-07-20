@@ -551,5 +551,8 @@
   "cp_fixed_products": "Fixed consumption point products",
   "brand_header": "Brand",
   "format_header": "Format",
-  "capacity_header": "Capacity"
+  "capacity_header": "Capacity",
+  "available_packs": "Available packs",
+  "edit_cp_fixed_config": "Edit fixed consumption point",
+  "edit_cp_mobile_config": "Edit mobile consumption point"
 }
