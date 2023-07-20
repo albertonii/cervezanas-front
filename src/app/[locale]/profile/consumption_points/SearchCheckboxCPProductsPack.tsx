@@ -2,26 +2,20 @@
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwnerAndPagination";
-import Link from "next/link";
+import ProductAccordion from "./ProductAccordion";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { Spinner } from "../../../../components/common";
 import { IProduct } from "../../../../lib/types";
-import { Format } from "../../../../lib/beerEnum";
-import ProductAccordion from "./ProductAccordion";
 
-interface ColumnsProps {
-  header: string;
-}
 interface Props {
   form: UseFormReturn<any, any>;
 }
 
 export function SearchCheckboxCPProductsPack({ form }: Props) {
   const t = useTranslations();
-  const locale = useLocale();
   const { user } = useAuth();
 
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -42,17 +36,9 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
   useEffect(() => {
     refetch().then((res) => {
       const products = res.data as IProduct[];
-      console.log(products);
       setProducts(products);
     });
   }, [currentPage]);
-
-  const COLUMNS = [
-    { header: t("name_header") },
-    { header: t("brand_header") },
-    { header: t("format_header") },
-    { header: t("capacity_header") },
-  ];
 
   if (isLoading) {
     return <Spinner color="beer-blonde" size="xLarge" absolute center />;
@@ -100,35 +86,6 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
-
-          {/* <ul
-            className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownSearchButton"
-          >
-            {products.map((product, index) => {
-              return (
-                <li key={product.id}>
-                  <div className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <div>
-                      <input
-                        id="checkbox-item-11"
-                        type="checkbox"
-                        {...register(`products.${index}.id`)}
-                        value={product.id}
-                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                      />
-                      <label
-                        htmlFor={`products.${index}.value`}
-                        className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        {product.name}
-                      </label>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul> */}
         </div>
       </div>
     </>
