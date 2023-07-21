@@ -1,6 +1,6 @@
 "use client";
 
-import ModalCPMobile from "./AddCPMobileModal";
+import AddCPMobileModal from "./AddCPMobileModal";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { ListCPMobile } from "./ListCPMobile";
@@ -14,7 +14,7 @@ export function CPMobile({ cpsId }: Props) {
 
   return (
     <>
-      <ModalCPMobile cpsId={cpsId} />
+      <AddCPMobileModal cpsId={cpsId} />
 
       {/* Section displaying all the Mobile consumption points created by the organizer  */}
       <section className="mt-4 flex flex-col space-y-4">

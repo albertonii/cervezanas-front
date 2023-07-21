@@ -24,8 +24,6 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
   const fixedCount = products.length;
   const pageRange = 10;
 
-  const { register } = form;
-
   const { isLoading, refetch } = useFetchProductsByOwner(
     user?.id,
     currentPage,

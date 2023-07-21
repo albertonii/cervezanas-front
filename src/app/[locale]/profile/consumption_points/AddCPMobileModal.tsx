@@ -7,14 +7,13 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { IProduct, IProductPack, IUser } from "../../../../lib/types";
+import { IProduct, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { isValidObject } from "../../../../utils/utils";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { parseFilterArgs } from "react-query/types/core/utils";
 
 interface FormData {
   cp_name: string;
@@ -87,6 +86,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       return;
     }
 
+    console.log("Product items: ", formValues.product_items);
+
     const {
       cp_name,
       cp_description,
@@ -106,7 +107,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
     const results = await getGeocode({ address });
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("cp_mobile")
       .insert({
         cp_name,
@@ -129,12 +130,10 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       throw error;
     }
 
-    const cpMobileId = data[0].id;
-
     const cleanObject = (obj: any) => {
       const cleanedObj: any = {};
       Object.keys(obj).forEach((key) => {
-        if (obj[key] && obj[key].id !== false) {
+        if (obj[key] && (obj[key].id !== false || obj[key].id.length > 1)) {
           cleanedObj[key] = obj[key];
         }
       });
@@ -144,16 +143,32 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     const pItemsFiltered = cleanObject(product_items);
 
     if (pItemsFiltered) {
-      // Link the pack with the consumption Point
-      pItemsFiltered.map(async (pack: any) => {
-        console.log(pack);
-        const { error } = await supabase.from("cpm_products").insert({
-          cp_id: cpMobileId,
-          product_pack_id: pack.id,
-        });
+      // Convert pItemsFiltered JSON objects to array
+      const pItemsFilteredArray = Object.values(pItemsFiltered);
 
-        if (error) {
-          throw error;
+      // Link the pack with the consumption Point
+      pItemsFilteredArray.map(async (pack: any) => {
+        // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
+        if (typeof pack.id === "object") {
+          pack.id.map(async (packId: string) => {
+            const { error } = await supabase.from("cpm_products").insert({
+              cp_id: cpsId,
+              product_pack_id: packId,
+            });
+
+            if (error) {
+              throw error;
+            }
+          });
+        } else {
+          const { error } = await supabase.from("cpm_products").insert({
+            cp_id: cpsId,
+            product_pack_id: pack.id,
+          });
+
+          if (error) {
+            throw error;
+          }
         }
       });
     }
