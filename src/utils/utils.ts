@@ -53,3 +53,13 @@ export function generateFileNameExtension(fName: string) {
 export function isFileEmpty(file: FileList) {
   return file.length === 0;
 }
+
+export function cleanObject(obj: any) {
+  const cleanedObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] && (obj[key].id !== false || obj[key].id.length > 1)) {
+      cleanedObj[key] = obj[key];
+    }
+  });
+  return cleanedObj;
+}

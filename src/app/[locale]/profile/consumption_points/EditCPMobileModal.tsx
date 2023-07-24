@@ -18,6 +18,7 @@ import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
+import { cleanObject, isValidObject } from "../../../../utils/utils";
 
 interface FormData {
   cp_name: string;
@@ -51,7 +52,9 @@ export default function EditCPMobileModal({
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
-  const { data: packsInProduct } = useFetchCPMobilePacks(selectedCP.id);
+  const { data: packsInProduct, refetch } = useFetchCPMobilePacks(
+    selectedCP.id
+  );
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -108,12 +111,13 @@ export default function EditCPMobileModal({
 
   useEffect(() => {
     if (packsInProduct) {
-      // TODO: Añadir el pack al checkbox del productpack
-      // Recorrer el array de data y obtener el productPack
-      // y añadirlo al array de productItems
       packsInProduct.map((item: ICPMProductsEditCPMobileModal) => {
         const productPackId: string = item.product_pack_id;
-        setProductItems((current) => [...current, productPackId]);
+        setProductItems((current) => {
+          if (!current.includes(productPackId))
+            return [...current, productPackId];
+          return current;
+        });
       });
     }
   }, [packsInProduct]);
@@ -139,6 +143,11 @@ export default function EditCPMobileModal({
 
   // Update CP Mobile in database
   const handleUpdate = async (formValues: FormData) => {
+    if (!selectedEOrganizer && !isInternalOrganizer) {
+      setErrorOnSelectEOrganizer(true);
+      return;
+    }
+
     const {
       cp_name,
       cp_description,
@@ -148,10 +157,15 @@ export default function EditCPMobileModal({
       organizer_phone,
       address,
       is_internal_organizer,
-      product_items,
       is_booking_required,
       maximum_capacity,
+      product_items,
     } = formValues;
+
+    if (!isValidObject(address)) {
+      setAddressInputRequired(true);
+      return;
+    }
 
     const { error } = await supabase
       .from("cp_mobile")
@@ -166,11 +180,55 @@ export default function EditCPMobileModal({
         is_internal_organizer,
         is_booking_required,
         maximum_capacity,
-        product_items,
       })
       .eq("id", selectedCP?.id);
 
     if (error) throw error;
+
+    const { error: errorDelete } = await supabase
+      .from("cpm_products")
+      .delete()
+      .eq("cp_id", selectedCP?.id);
+
+    if (errorDelete) throw errorDelete;
+
+    // Insert product items in cpm_products table
+    const pItemsFiltered = cleanObject(product_items);
+
+    if (pItemsFiltered) {
+      // Convert pItemsFiltered JSON objects to array
+      const pItemsFilteredArray = Object.values(pItemsFiltered);
+
+      const cpMobileId = selectedCP.id;
+
+      // Link the pack with the consumption Point
+      pItemsFilteredArray.map(async (pack: any) => {
+        // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
+        if (typeof pack.id === "object") {
+          pack.id.map(async (packId: string) => {
+            const { error } = await supabase.from("cpm_products").insert({
+              cp_id: cpMobileId,
+              product_pack_id: packId,
+            });
+
+            if (error) {
+              throw error;
+            }
+          });
+        } else {
+          const { error } = await supabase.from("cpm_products").insert({
+            cp_id: cpMobileId,
+            product_pack_id: pack.id,
+          });
+
+          if (error) {
+            throw error;
+          }
+        }
+      });
+
+      refetch();
+    }
   };
 
   const updateCPMobileMutation = useMutation({

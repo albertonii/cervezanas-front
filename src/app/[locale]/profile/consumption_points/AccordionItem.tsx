@@ -18,7 +18,7 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
   const t = useTranslations();
   const { register } = form;
 
-  const selectedPacks = productItems;
+  const [selectedPacks, setSelectedPacks] = useState(productItems);
 
   const [showAccordion, setShowAccordion] = useState(false);
 
@@ -33,20 +33,17 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
       : "/icons/format/bottle.svg";
   const volume = product.beers[0]?.volume ?? "";
 
-  // const handleCheckboxChange = (
-  //   productId: string,
-  //   packId: string,
-  //   isChecked: boolean
-  // ) => {
-  //   setSelectedPacks((prevSelectedPacks) => ({
-  //     ...prevSelectedPacks,
-  //     [productId]: isChecked
-  //       ? [...(prevSelectedPacks[productId] || []), packId]
-  //       : (prevSelectedPacks[productId] || []).filter((id) => id !== packId),
-  //   }));
+  const handleCheckboxChange = (packId: string, isChecked: boolean) => {
+    setSelectedPacks((prevSelectedPacks) => {
+      if (isChecked) {
+        return [...(prevSelectedPacks || []), packId];
+      } else {
+        return (prevSelectedPacks || []).filter((id) => id !== packId);
+      }
+    });
 
-  //   register(`product_items.${productId}.id`);
-  // };
+    // setValue(`product_items.${product.id}.id`, selectedPacks);
+  };
 
   return (
     <div className="mx-4 my-2 rounded-lg border border-gray-200 pb-4">
@@ -117,13 +114,9 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
                     {...register(`product_items.${product.id}.id`)}
                     value={pack.id}
                     checked={selectedPacks?.includes(pack.id)}
-                    // onChange={(e) =>
-                    //   handleCheckboxChange(
-                    //     product.id,
-                    //     pack.id,
-                    //     e.target.checked
-                    //   )
-                    // }
+                    onChange={(e) =>
+                      handleCheckboxChange(pack.id, e.target.checked)
+                    }
                     className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                   />
                   <div>

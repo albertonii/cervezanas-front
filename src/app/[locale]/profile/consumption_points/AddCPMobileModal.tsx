@@ -10,7 +10,7 @@ import { getGeocode } from "use-places-autocomplete";
 import { IProduct, IUser } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
-import { isValidObject } from "../../../../utils/utils";
+import { cleanObject, isValidObject } from "../../../../utils/utils";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -127,16 +127,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     if (error) {
       throw error;
     }
-
-    const cleanObject = (obj: any) => {
-      const cleanedObj: any = {};
-      Object.keys(obj).forEach((key) => {
-        if (obj[key] && (obj[key].id !== false || obj[key].id.length > 1)) {
-          cleanedObj[key] = obj[key];
-        }
-      });
-      return cleanedObj;
-    };
 
     const pItemsFiltered = cleanObject(product_items);
 
