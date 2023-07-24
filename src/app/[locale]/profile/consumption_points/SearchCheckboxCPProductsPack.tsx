@@ -12,9 +12,10 @@ import { IProduct } from "../../../../lib/types";
 
 interface Props {
   form: UseFormReturn<any, any>;
+  productItems?: string[];
 }
 
-export function SearchCheckboxCPProductsPack({ form }: Props) {
+export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
   const t = useTranslations();
   const { user } = useAuth();
 
@@ -74,7 +75,11 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
             </div>
           </div>
 
-          <ProductAccordion products={products} form={form} />
+          <ProductAccordion
+            products={products}
+            form={form}
+            productItems={productItems}
+          />
 
           <PaginationFooter
             counter={fixedCount}

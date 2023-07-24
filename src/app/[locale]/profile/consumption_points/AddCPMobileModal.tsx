@@ -86,8 +86,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       return;
     }
 
-    console.log("Product items: ", formValues.product_items);
-
     const {
       cp_name,
       cp_description,

@@ -50,7 +50,7 @@ const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
   const { supabase } = useSupabase();
-  const selectedProduct: IProduct = product.product_id;
+  const selectedProduct: IProduct = product.product_pack_id;
 
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
   const selectedMultimedia = product.product_id.product_multimedia[0] ?? [];

@@ -5,7 +5,11 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { COMMON } from "../../../../../../../constants";
-import { ICPMobile, IProduct } from "../../../../../../../lib/types.d";
+import {
+  ICPMobile,
+  IProduct,
+  IProductPack,
+} from "../../../../../../../lib/types.d";
 import { formatCurrency, formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
@@ -108,7 +112,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
                 {cpm_products.map((cpm) => (
                   <Product
                     key={cpm.id}
-                    product={cpm.product_id}
+                    product={cpm.product_pack_id}
                     cpmId={cpm.id}
                   />
                 ))}
@@ -127,7 +131,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
 }
 
 interface ProductProps {
-  product: IProduct;
+  product: IProductPack;
   cpmId: string;
 }
 
@@ -154,7 +158,7 @@ const Product = ({ product, cpmId }: ProductProps) => {
     // Check if the product is already in the marketplace items
     if (marketplaceEventItems.find((item) => item.id === id)) return;
 
-    addMarketplaceItems(product);
+    // addMarketplaceItems(product);
   };
 
   const handleDecreaseFromCartItem = () => {
@@ -175,10 +179,7 @@ const Product = ({ product, cpmId }: ProductProps) => {
     >
       <td className=" space-x-2 px-6 py-4">
         <Image
-          src={
-            product.product_multimedia[0]?.p_principal ??
-            COMMON.MARKETPLACE_PRODUCT
-          }
+          src={product.img_url ?? COMMON.MARKETPLACE_PRODUCT}
           alt={product.name}
           width={64}
           height={64}
@@ -193,11 +194,11 @@ const Product = ({ product, cpmId }: ProductProps) => {
           {product.name}
         </Link>
       </td>
-      <td className="space-x-2 px-6 py-4">{product.description}</td>
+      {/* <td className="space-x-2 px-6 py-4">{product.description}</td> */}
       <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
         {formatCurrency(product.price)}
       </td>
-      <td className="space-x-2 px-6 py-4">{product.category}</td>
+      {/* <td className="space-x-2 px-6 py-4">{product.category}</td> */}
       <td className="space-x-2 px-6 py-4">
         {quantity === 0 ? (
           <>

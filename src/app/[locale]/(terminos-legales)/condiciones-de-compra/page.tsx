@@ -8,20 +8,20 @@ export default function PurchaseConditions() {
       <div>
         Las presentes Condiciones Generales de Contratación - ahora en adelante
         CGC -, regulan las condiciones de compra de los diferentes productos
-        ofrecidos en nuestra web: www.cervezanas.com, de propriedad de
+        ofrecidos en nuestra web: www.cervezanas.beer, de propriedad de
         Cervezanas M&M S.L (ahora en adelante Cervezanas), sociedad española,
         con NIF B88139878, y ubicado en la Calle Cañón del Río Lobos 7C, 1ºA
         Madrid 28030 – España. Los usuarios que realicen compras en
-        www.cervezanas.com aceptan plenamente las presentes CGC y quedaran
+        www.cervezanas.beer aceptan plenamente las presentes CGC y quedaran
         vinculados por estas, tal y como si fueran escritas en el momento de
         contratación/compra. Sera requisito indispensable la lectura y la
         aceptación de las CGC, con carácter previo a la compra de cualquier
-        producto a través de www.cervezanas.com Cervezanas se reserva el derecho
-        de modificar las CGC en cualquier momento y sin previo aviso. Las CGC
-        estarán siempre accesibles a partir del sitio web, para que el usuario
-        pueda consultarlas o imprimirlas en cualquier momento. Los precios y
-        condiciones de venta tienen un carácter meramente informativo y pueden
-        ser modificados en atención a las fluctuaciones del mercado. No
+        producto a través de www.cervezanas.beer Cervezanas se reserva el
+        derecho de modificar las CGC en cualquier momento y sin previo aviso.
+        Las CGC estarán siempre accesibles a partir del sitio web, para que el
+        usuario pueda consultarlas o imprimirlas en cualquier momento. Los
+        precios y condiciones de venta tienen un carácter meramente informativo
+        y pueden ser modificados en atención a las fluctuaciones del mercado. No
         obstante, la realización del pedido mediante la cumplimentación del
         formulario de compra, implica la conformidad con el precio ofertado y
         con las condiciones generales de venta vigentes en ese concreto momento.
@@ -33,7 +33,7 @@ export default function PurchaseConditions() {
         formalizar el contrato. El documento electrónico en que se formalice el
         contrato se archivará y el usuario tendrá acceso a él en su zona de
         cliente. Cervezanas se reserva el derecho de denegar y/o suspender el
-        acceso a los servicios prestados en www.cervezanas.com por razones de
+        acceso a los servicios prestados en www.cervezanas.beer por razones de
         vulneración de la buena fe contractual, incumplimiento de la legislación
         de aplicación, de las presentes Condiciones Generales de Compra y/o en
         supuestos de fraude detectados por esta empresa y/o cualquiera de sus
@@ -160,16 +160,16 @@ export default function PurchaseConditions() {
         del plazo establecido legalmente para ejercer el derecho de
         desistimiento (14 días naturales desde su entrega) hasta los siguientes
         30 días naturales desde tu compra. Servicio disponible solo en productos
-        nuevos y reacondicionados, y no aplicable a compras realizadas a
-        vendedores asociados a nuestro marketplace. Con el fín de poder evitar
-        cualquier tipo de daño en el envío, toda mercancía debe ser devuelta en
-        sus condiciones originales, en perfecto estado y protegida, evitando
-        pegatinas, precintos o cintas adhesivas directamente sobre la superficie
-        o embalaje del artículo. Una vez rellenada y enviada la solicitud de
-        devolución, recibirás las instrucciones para que nos lo hagas llegar a
-        nuestras instalaciones en tu correo electrónico. Deberás enviar los
-        bienes sin ninguna demora y siempre dentro del plazo máximo de 30 días
-        naturales desde que recibiste tu pedido. Una vez recibida la mercancía y
+        nuevos, y no aplicable a compras realizadas a vendedores asociados a
+        nuestro marketplace. Con el fín de poder evitar cualquier tipo de daño
+        en el envío, toda mercancía debe ser devuelta en sus condiciones
+        originales, en perfecto estado y protegida, evitando pegatinas,
+        precintos o cintas adhesivas directamente sobre la superficie o embalaje
+        del artículo. Una vez rellenada y enviada la solicitud de devolución,
+        recibirás las instrucciones para que nos lo hagas llegar a nuestras
+        instalaciones en tu correo electrónico. Deberás enviar los bienes sin
+        ninguna demora y siempre dentro del plazo máximo de 30 días naturales
+        desde que recibiste tu pedido. Una vez recibida la mercancía y
         comprobada que está en perfectas condiciones, se tramitará la devolución
         del importe. Te devolveremos el pago recibido, incluido el gasto de
         entrega con la excepción de los gastos adicionales resultantes de la
@@ -234,7 +234,7 @@ export default function PurchaseConditions() {
         por copia privada, PC COMPONENTES Y MULTIMEDIA, S.L.U. tendrá que
         cobrar, en los casos que proceda, una compensación por la venta de
         aquellos productos o aparatos no tipográficos, puestos a la venta en
-        www.cervezanas.com que, destinados exclusivamente al uso privado, no
+        www.cervezanas.beer que, destinados exclusivamente al uso privado, no
         profesional ni empresarial, que reproduzcan obras (libros o
         publicaciones asimiladas, fonogramas y videogramas) titularidad de
         terceros (editores, productores de fonogramas y videogramas, artistas

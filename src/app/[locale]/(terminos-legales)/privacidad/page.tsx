@@ -167,7 +167,7 @@ export default function Privacy() {
         seguirnos gratuitamente. En estas redes sociales los usuarios podrán
         conocer de nuestras actividades, opiniones, acceder a las fotos y
         vídeos. Los usuarios de estas redes sociales deben ser conscientes de
-        que este lugar es independiente de la web www.cervezanas.com y está
+        que este lugar es independiente de la web www.cervezanas.beer y está
         abierto, es decir, es visible para todos sus usuarios, y las políticas
         de privacidad a aplicar a estos contenidos son las fijadas por Facebook,
         Twitter o Youtube. Cervezanas no es titular de las redes sociales.

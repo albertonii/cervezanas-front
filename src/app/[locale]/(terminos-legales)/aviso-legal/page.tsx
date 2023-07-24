@@ -1,4 +1,3 @@
-
 export default function LegalNotice() {
   return (
     <>
@@ -18,7 +17,7 @@ export default function LegalNotice() {
           a los efectos de la presente información en la Calle Cañón del Río
           Lobos 7C, 1ºA Madrid 28030 - España, y es en la actualidad la
           encargada de la explotación, gestión y funcionamiento del sitio web
-          www.cervezanas.com. Otros datos de contacto que ponemos a su
+          www.cervezanas.beer. Otros datos de contacto que ponemos a su
           disposición: Centro de Soporte, Quiero enviar una consulta.
         </div>
 
@@ -38,7 +37,7 @@ export default function LegalNotice() {
           aquí reflejadas. Las citadas Condiciones serán de aplicación
           independientemente de las Condiciones Generales de Contratación que en
           su caso resulten de obligado cumplimiento. Uso del portal
-          www.cervezanas.com proporciona el acceso a multitud de productos,
+          www.cervezanas.beer proporciona el acceso a multitud de productos,
           informaciones, servicios, programas o datos (en adelante, &quot;los
           contenidos&quot;) en Internet pertenecientes a Cervezanas, o a
           terceros a los que el USUARIO puede tener acceso. El USUARIO asume la

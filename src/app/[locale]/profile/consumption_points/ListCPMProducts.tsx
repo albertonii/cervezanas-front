@@ -6,12 +6,13 @@ import { SearchCheckboxCPProductsPack } from "./SearchCheckboxCPProductsPack";
 
 interface Props {
   form: UseFormReturn<any, any>;
+  productItems?: string[];
 }
 
-export default function ListCPMProducts({ form }: Props) {
+export default function ListCPMProducts({ form, productItems }: Props) {
   return (
     <>
-      <SearchCheckboxCPProductsPack form={form} />
+      <SearchCheckboxCPProductsPack form={form} productItems={productItems} />
     </>
   );
 }

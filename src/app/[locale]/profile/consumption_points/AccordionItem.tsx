@@ -11,11 +11,14 @@ import { UseFormReturn } from "react-hook-form";
 interface Props {
   product: IProduct;
   form: UseFormReturn<any, any>;
+  productItems?: string[];
 }
 
-const AccordionItem: React.FC<Props> = ({ product, form }) => {
+const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
   const t = useTranslations();
   const { register } = form;
+
+  const selectedPacks = productItems;
 
   const [showAccordion, setShowAccordion] = useState(false);
 
@@ -30,26 +33,23 @@ const AccordionItem: React.FC<Props> = ({ product, form }) => {
       : "/icons/format/bottle.svg";
   const volume = product.beers[0]?.volume ?? "";
 
-  const [selectedPacks, setSelectedPacks] = useState<{
-    [productId: string]: string[];
-  }>({});
+  // const handleCheckboxChange = (
+  //   productId: string,
+  //   packId: string,
+  //   isChecked: boolean
+  // ) => {
+  //   setSelectedPacks((prevSelectedPacks) => ({
+  //     ...prevSelectedPacks,
+  //     [productId]: isChecked
+  //       ? [...(prevSelectedPacks[productId] || []), packId]
+  //       : (prevSelectedPacks[productId] || []).filter((id) => id !== packId),
+  //   }));
 
-  const handleCheckboxChange = (
-    productId: string,
-    packId: string,
-    isChecked: boolean
-  ) => {
-    setSelectedPacks((prevSelectedPacks) => ({
-      ...prevSelectedPacks,
-      [productId]: isChecked
-        ? [...(prevSelectedPacks[productId] || []), packId]
-        : (prevSelectedPacks[productId] || []).filter((id) => id !== packId),
-    }));
+  //   register(`product_items.${productId}.id`);
+  // };
 
-    register(`product_items.${productId}.id`);
-  };
   return (
-    <div className="mx-4 my-2 rounded-lg border border-gray-200">
+    <div className="mx-4 my-2 rounded-lg border border-gray-200 pb-4">
       <div
         className={`${
           showAccordion ? "bg-gray-100 text-beer-draft" : "text-beer-gold"
@@ -108,23 +108,22 @@ const AccordionItem: React.FC<Props> = ({ product, form }) => {
                 <div
                   key={pack.id}
                   className={`${
-                    selectedPacks[product.id]?.includes(pack.id) &&
-                    "bg-beer-softFoam"
-                  } mr-2 flex items-center rounded-lg border p-1`}
+                    selectedPacks?.includes(pack.id) && "bg-beer-softFoam"
+                  } mr-2 flex items-center space-x-2 rounded-lg border p-1`}
                 >
                   <input
                     id={`checkbox-pack-${pack.id}`}
                     type="checkbox"
                     {...register(`product_items.${product.id}.id`)}
                     value={pack.id}
-                    // checked={selectedPacks[product.id]?.includes(pack.id)}
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        product.id,
-                        pack.id,
-                        e.target.checked
-                      )
-                    }
+                    checked={selectedPacks?.includes(pack.id)}
+                    // onChange={(e) =>
+                    //   handleCheckboxChange(
+                    //     product.id,
+                    //     pack.id,
+                    //     e.target.checked
+                    //   )
+                    // }
                     className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                   />
                   <div>

@@ -2,11 +2,16 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { ComponentProps, useState } from "react";
+import useFetchCPMobilePacks from "../../../../hooks/useFetchCPMobilePacks";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, IProduct, IUser } from "../../../../lib/types";
+import {
+  ICPMobile,
+  ICPMProductsEditCPMobileModal,
+  IUser,
+} from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { Modal } from "../../../../components/modals";
@@ -26,7 +31,7 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  product_items: string[];
   geoArgs: GeocodeResult[];
   is_booking_required: boolean;
   maximum_capacity: number;
@@ -46,6 +51,10 @@ export default function EditCPMobileModal({
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
+
+  const { data } = useFetchCPMobilePacks(selectedCP.cp_id);
+
+  const [productItems, setProductItems] = useState<string[]>([]);
 
   const [address, setAddress] = useState<string>(selectedCP?.address ?? "");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
@@ -84,10 +93,10 @@ export default function EditCPMobileModal({
       organizer_phone: selectedCP?.organizer_phone,
       address: selectedCP?.address,
       is_internal_organizer: selectedCP.is_internal_organizer,
-      product_items: selectedCP?.cpm_products,
       geoArgs: selectedCP?.geoArgs,
       start_date: selectedCP?.start_date,
       end_date: selectedCP?.end_date,
+      product_items: productItems,
       // is_booking_required: selectedCP?.is_booking_required,
     },
   });
@@ -97,6 +106,18 @@ export default function EditCPMobileModal({
     handleSubmit,
     register,
   } = form;
+
+  useEffect(() => {
+    if (data) {
+      // TODO: Añadir el pack al checkbox del productpack
+      // Recorrer el array de data y obtener el productPack
+      // y añadirlo al array de productItems
+      data.map((item: ICPMProductsEditCPMobileModal) => {
+        const productPackId: string = item.product_pack_id;
+        setProductItems((current) => [...current, productPackId]);
+      });
+    }
+  }, [data]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
@@ -113,7 +134,6 @@ export default function EditCPMobileModal({
       };
 
       loadExternalOrganizer();
-
       setIsInternalOrganizer(false);
     }
   };
@@ -147,6 +167,7 @@ export default function EditCPMobileModal({
         is_internal_organizer,
         is_booking_required,
         maximum_capacity,
+        product_items,
       })
       .eq("id", selectedCP?.id);
 
@@ -423,7 +444,7 @@ export default function EditCPMobileModal({
           <legend className="text-2xl">{t("cp_mobile_products")}</legend>
 
           {/* List of selectable products that the owner can use */}
-          <ListCPMProducts form={form} />
+          <ListCPMProducts form={form} productItems={productItems} />
         </fieldset>
       </form>
     </Modal>

@@ -74,7 +74,6 @@ export default function EditCPFixedModal({
     enabled: false,
   });
 
-  console.log(selectedCP);
 
   const form = useForm<FormData>({
     defaultValues: {

@@ -7,9 +7,14 @@ import { UseFormReturn } from "react-hook-form";
 interface Props {
   products: IProduct[];
   form: UseFormReturn<any, any>;
+  productItems?: string[];
 }
 
-const ProductAccordion: React.FC<Props> = ({ products, form }) => {
+const ProductAccordion: React.FC<Props> = ({
+  products,
+  form,
+  productItems,
+}) => {
   if (!products || products.length === 0) {
     return <div>No products found.</div>;
   }
@@ -25,7 +30,11 @@ const ProductAccordion: React.FC<Props> = ({ products, form }) => {
           key={product.id}
           className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
         >
-          <AccordionItem product={product} form={form} />
+          <AccordionItem
+            product={product}
+            form={form}
+            productItems={productItems}
+          />
         </div>
       ))}
     </div>

@@ -418,14 +418,27 @@ export interface ICPMProducts {
   id: string;
   created_at: Date;
   cp_id: ICPMobile;
-  product_id: IProduct;
+  product_pack_id: IProductPack;
+  stock: number;
+  stock_consumed: number;
 }
 
 export interface IRefCPMProducts {
   id: string;
   created_at: Date;
   cp_id: any;
-  product_id: IProduct;
+  product_pack_id: IProductPack;
+  stock: number;
+  stock_consumed: number;
+}
+
+export interface ICPMProductsEditCPMobileModal {
+  id: string;
+  created_at: Date;
+  cp_id: any;
+  product_pack_id: string;
+  stock: number;
+  stock_consumed: number;
 }
 
 export interface IProfileLocation {

@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
+import DeleteCPMobileModal from "./DeleteCPMobileModal";
 import EditCPMobileModal from "./EditCPMobileModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../components/Auth";
 import { ICPMobile } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
-import DeleteCPMobileModal from "./DeleteCPMobileModal";
 
 interface Props {
   cpsId: string;
@@ -26,9 +25,6 @@ enum SortBy {
 }
 
 export function ListCPMobile({ cpsId }: Props) {
-  const { user } = useAuth();
-  if (!user) return null;
-
   const t = useTranslations();
   const locale = useLocale();
 

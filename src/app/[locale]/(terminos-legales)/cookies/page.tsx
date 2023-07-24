@@ -27,7 +27,7 @@ export default function CookiesPage() {
       </div>
 
       <div>
-        <h2> ¿Qué tipos de cookies utiliza www.cervezanas.com?</h2>
+        <h2> ¿Qué tipos de cookies utiliza www.cervezanas.beer?</h2>
         Según el plazo de tiempo que permanecen activas las cookies pueden ser:
         Cookies de sesión: diseñadas para recabar y almacenar datos mientras el
         usuario accede a una página web. Se suelen emplear para almacenar
@@ -45,7 +45,7 @@ export default function CookiesPage() {
         sitio. Cookies de terceros: Son aquellas que se envían al dispositivo
         del usuario desde un equipo o dominio que no es gestionado por nosotros
         sino por otra entidad, que tratará los datos obtenidos. Cuando navegues
-        por www.cervezanas.com se pueden instalar en tu dispositivo las
+        por www.cervezanas.beer se pueden instalar en tu dispositivo las
         siguientes cookies: Cookies de registro: Cuando el usuario entra en
         nuestra web e inicia sesión se instala una cookie propia y temporal para
         que pueda navegar por su zona de usuario sin tener que introducir sus
@@ -97,7 +97,7 @@ export default function CookiesPage() {
 
       <div>
         <h2>Actualización de cookies</h2>
-        Las cookies dewww.cervezanas.com pueden ser actualizadas por lo que
+        Las cookies dewww.cervezanas.beer pueden ser actualizadas por lo que
         aconsejamos que revisen nuestra política de forma periódica.
       </div>
     </div>
