@@ -441,6 +441,15 @@ export interface ICPMProductsEditCPMobileModal {
   stock_consumed: number;
 }
 
+export interface ICPMProductsEditCPFixedModal {
+  id: string;
+  created_at: Date;
+  cp_id: any;
+  product_pack_id: string;
+  stock: number;
+  stock_consumed: number;
+}
+
 export interface IProfileLocation {
   id: string;
   created_at: Date;

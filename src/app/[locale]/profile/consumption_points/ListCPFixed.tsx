@@ -7,8 +7,7 @@ import DeleteCPFixedModal from "./DeleteCPFixedModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../components/Auth";
-import { ICPFixed, SortBy } from "../../../../lib/types.d";
+import { ICPFixed } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
@@ -16,10 +15,16 @@ interface Props {
   cpsId: string;
 }
 
-export function ListCPFixed({ cpsId }: Props) {
-  const { user } = useAuth();
-  if (!user) return null;
+enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  NAME = "name",
+  LAST = "last",
+  COUNTRY = "country",
+  CREATED_DATE = "created_date",
+}
 
+export function ListCPFixed({ cpsId }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -37,7 +42,7 @@ export function ListCPFixed({ cpsId }: Props) {
     pageRange
   );
 
-  const [cpFixed, setCPFixed] = useState(data ?? []);
+  const [cpFixed, setCPFixed] = useState<ICPFixed[]>(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -50,7 +55,7 @@ export function ListCPFixed({ cpsId }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      const cpFixed = res.data as any;
+      const cpFixed = res.data as ICPFixed[];
       setCPFixed(cpFixed);
     });
   }, [currentPage]);
@@ -81,8 +86,8 @@ export function ListCPFixed({ cpsId }: Props) {
   };
 
   const handleEditClick = async (cp: ICPFixed) => {
-    setIsEditModal(true);
     setSelectedCP(cp);
+    setIsEditModal(true);
   };
 
   const handleDeleteClick = async (cp: ICPFixed) => {
@@ -108,7 +113,8 @@ export function ListCPFixed({ cpsId }: Props) {
 
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {selectedCP && isEditModal && (
+      {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
+      {isEditModal && selectedCP && (
         <EditCPFixedModal
           selectedCP={selectedCP}
           isEditModal={isEditModal}

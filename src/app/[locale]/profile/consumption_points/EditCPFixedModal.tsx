@@ -2,17 +2,23 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPFixed, IProduct, IUser } from "../../../../lib/types";
+import {
+  ICPFixed,
+  ICPMProductsEditCPFixedModal,
+  IUser,
+} from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { useAuth } from "../../../../components/Auth";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
+import useFetchCPFidexPacks from "../../../../hooks/useFetchCPFixedPacks";
+import { cleanObject, isValidObject } from "../../../../utils/utils";
 
 interface FormData {
   cp_name: string;
@@ -26,7 +32,7 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  product_items: string[];
   geoArgs: GeocodeResult[];
   is_booking_required: boolean;
   maximum_capacity: number;
@@ -46,6 +52,10 @@ export default function EditCPFixedModal({
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
+
+  const { data: packsInProduct, refetch } = useFetchCPFidexPacks(selectedCP.id);
+
+  const [productItems, setProductItems] = useState<string[]>([]);
 
   const [address, setAddress] = useState<string>(selectedCP?.address ?? "");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
@@ -74,7 +84,6 @@ export default function EditCPFixedModal({
     enabled: false,
   });
 
-
   const form = useForm<FormData>({
     defaultValues: {
       cp_name: selectedCP?.cp_name,
@@ -85,10 +94,10 @@ export default function EditCPFixedModal({
       organizer_phone: selectedCP?.organizer_phone,
       address: selectedCP?.address,
       is_internal_organizer: selectedCP.is_internal_organizer,
-      product_items: selectedCP?.cpm_products,
       geoArgs: selectedCP?.geoArgs,
       start_date: selectedCP?.start_date,
       end_date: selectedCP?.end_date,
+      product_items: productItems,
       // is_booking_required: selectedCP?.is_booking_required,
     },
   });
@@ -98,6 +107,19 @@ export default function EditCPFixedModal({
     handleSubmit,
     register,
   } = form;
+
+  useEffect(() => {
+    if (packsInProduct) {
+      packsInProduct.map((item: ICPMProductsEditCPFixedModal) => {
+        const productPackId: string = item.product_pack_id;
+        setProductItems((current) => {
+          if (!current.includes(productPackId))
+            return [...current, productPackId];
+          return current;
+        });
+      });
+    }
+  }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
@@ -112,15 +134,18 @@ export default function EditCPFixedModal({
         const externalOrganizers = data?.data as any[];
         setExternalOrganizers(externalOrganizers);
       };
-
       loadExternalOrganizer();
-
       setIsInternalOrganizer(false);
     }
   };
 
   // Update CP Fixed in database
   const handleUpdate = async (formValues: FormData) => {
+    if (!selectedEOrganizer && !isInternalOrganizer) {
+      setErrorOnSelectEOrganizer(true);
+      return;
+    }
+
     const {
       cp_name,
       cp_description,
@@ -130,10 +155,15 @@ export default function EditCPFixedModal({
       organizer_phone,
       address,
       is_internal_organizer,
-      product_items,
       is_booking_required,
       maximum_capacity,
+      product_items,
     } = formValues;
+
+    if (!isValidObject(address)) {
+      setAddressInputRequired(true);
+      return;
+    }
 
     const { error } = await supabase
       .from("cp_fixed")
@@ -152,6 +182,51 @@ export default function EditCPFixedModal({
       .eq("id", selectedCP?.id);
 
     if (error) throw error;
+
+    const { error: errorDelete } = await supabase
+      .from("cpf_products")
+      .delete()
+      .eq("cp_id", selectedCP?.id);
+
+    if (errorDelete) throw errorDelete;
+
+    // Insert product items in cpm_products table
+    const pItemsFiltered = cleanObject(product_items);
+
+    if (pItemsFiltered) {
+      // Convert pItemsFiltered JSON objects to array
+      const pItemsFilteredArray = Object.values(pItemsFiltered);
+
+      const cpFixedId = selectedCP.id;
+
+      // Link the pack with the consumption Point
+      pItemsFilteredArray.map(async (pack: any) => {
+        // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
+        if (typeof pack.id === "object") {
+          pack.id.map(async (packId: string) => {
+            const { error } = await supabase.from("cpf_products").insert({
+              cp_id: cpFixedId,
+              product_pack_id: packId,
+            });
+
+            if (error) {
+              throw error;
+            }
+          });
+        } else {
+          const { error } = await supabase.from("cpf_products").insert({
+            cp_id: cpFixedId,
+            product_pack_id: pack.id,
+          });
+
+          if (error) {
+            throw error;
+          }
+        }
+      });
+
+      refetch();
+    }
   };
 
   const updateCPFixedMutation = useMutation({
@@ -424,7 +499,7 @@ export default function EditCPFixedModal({
           <legend className="text-2xl">{t("cp_fixed_products")}</legend>
 
           {/* List of selectable products that the owner can use */}
-          <ListCPMProducts form={form} />
+          <ListCPMProducts form={form} productItems={productItems} />
         </fieldset>
       </form>
     </Modal>
