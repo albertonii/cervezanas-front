@@ -51,8 +51,7 @@ export default function EditCPMobileModal({
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();
-
-  const { data } = useFetchCPMobilePacks(selectedCP.cp_id);
+  const { data: packsInProduct } = useFetchCPMobilePacks(selectedCP.id);
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -108,16 +107,16 @@ export default function EditCPMobileModal({
   } = form;
 
   useEffect(() => {
-    if (data) {
+    if (packsInProduct) {
       // TODO: Añadir el pack al checkbox del productpack
       // Recorrer el array de data y obtener el productPack
       // y añadirlo al array de productItems
-      data.map((item: ICPMProductsEditCPMobileModal) => {
+      packsInProduct.map((item: ICPMProductsEditCPMobileModal) => {
         const productPackId: string = item.product_pack_id;
         setProductItems((current) => [...current, productPackId]);
       });
     }
-  }, [data]);
+  }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
     setAddress(address);

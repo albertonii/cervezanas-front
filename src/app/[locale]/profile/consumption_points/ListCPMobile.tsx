@@ -49,8 +49,8 @@ export function ListCPMobile({ cpsId }: Props) {
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
 
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedCP, setSelectedCP] = useState<ICPMobile>();
@@ -115,7 +115,8 @@ export function ListCPMobile({ cpsId }: Props) {
 
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {selectedCP && (
+      {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
+      {isEditModal && selectedCP && (
         <>
           <EditCPMobileModal
             selectedCP={selectedCP}

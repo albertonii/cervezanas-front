@@ -105,7 +105,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
     const results = await getGeocode({ address });
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("cp_mobile")
       .insert({
         cp_name,
@@ -144,13 +144,15 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       // Convert pItemsFiltered JSON objects to array
       const pItemsFilteredArray = Object.values(pItemsFiltered);
 
+      const cpMobileId = data[0].id;
+
       // Link the pack with the consumption Point
       pItemsFilteredArray.map(async (pack: any) => {
         // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
         if (typeof pack.id === "object") {
           pack.id.map(async (packId: string) => {
             const { error } = await supabase.from("cpm_products").insert({
-              cp_id: cpsId,
+              cp_id: cpMobileId,
               product_pack_id: packId,
             });
 
@@ -160,7 +162,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           });
         } else {
           const { error } = await supabase.from("cpm_products").insert({
-            cp_id: cpsId,
+            cp_id: cpMobileId,
             product_pack_id: pack.id,
           });
 
