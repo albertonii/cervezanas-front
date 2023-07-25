@@ -21,7 +21,8 @@ const fetchEvents = async (
     `
     )
     .eq("owner_id", ownerId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .select();
 
   if (error) throw error;
 
@@ -33,9 +34,9 @@ const useFetchEvents = (currentPage: number, pageRange: number) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["cp_fixed"],
+    queryKey: ["events", user?.id, currentPage, pageRange],
     queryFn: () => fetchEvents(user?.id, currentPage, pageRange, supabase),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

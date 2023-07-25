@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 
 interface Props {
@@ -17,10 +17,6 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
     setActiveTab(tab);
     handleMenuClick(tab);
   };
-
-  useEffect(() => {
-    console.log("activeTab", activeTab);
-  }, [activeTab]);
 
   return (
     <div className="" aria-label="">

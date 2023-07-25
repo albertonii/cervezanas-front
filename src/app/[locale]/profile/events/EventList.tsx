@@ -1,9 +1,9 @@
 "use client";
 
-import useFetchEvents from "../../../../hooks/useFetchEvents";
+import useFetchEventsByOwnerId from "../../../../hooks/useFetchEventsByOwnerId";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import Link from "next/link";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { IEvent, SortBy } from "../../../../lib/types.d";
@@ -12,29 +12,25 @@ import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
-interface Props {
-  events: IEvent[];
-  handleEList: ComponentProps<any>;
-}
-
-export default function EventList({ events: es, handleEList }: Props) {
+export default function EventList() {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
 
-  const [events, setEvents] = useState<IEvent[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fixedCount = es.length;
+  const fixedCount = 1;
   const pageRange = 10;
   const finalPage =
     fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchEvents(
+  const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,
     pageRange
   );
+
+  const [events, setEvents] = useState<IEvent[]>(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -46,10 +42,6 @@ export default function EventList({ events: es, handleEList }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
   useEffect(() => {
-    setEvents(es);
-  }, [es]);
-
-  useEffect(() => {
     refetch().then((res: any) => {
       const events = res.data as any;
       setEvents(events);
@@ -57,11 +49,11 @@ export default function EventList({ events: es, handleEList }: Props) {
   }, [currentPage]);
 
   const filteredItems = useMemo<IEvent[]>(() => {
-    if (!events) return [];
-    return events.filter((event) => {
+    if (!data) return [];
+    return data.filter((event) => {
       return event.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [events, query]);
+  }, [data, events, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -92,12 +84,6 @@ export default function EventList({ events: es, handleEList }: Props) {
     setSelectedEvent(e);
   };
 
-  // Remove from event list
-  const removeFromEventList = (id: string) => {
-    const newList = events.filter((item) => item.id !== id);
-    handleEList(newList);
-  };
-
   // Delete CP event from database
   const handleRemoveCP = async () => {
     const { error } = await supabase
@@ -106,18 +92,6 @@ export default function EventList({ events: es, handleEList }: Props) {
       .eq("id", selectedEvent?.id);
 
     if (error) throw error;
-  };
-
-  // Update to fixed list
-  const updToFixedList = () => {
-    const newList = events?.map((item) => {
-      if (item.id === selectedEvent?.id) {
-        return selectedEvent;
-      }
-      return item;
-    });
-
-    handleEList(newList);
   };
 
   // Update CP Fixed in database
@@ -139,7 +113,6 @@ export default function EventList({ events: es, handleEList }: Props) {
     if (!selectedEvent) return;
 
     handleRemoveCP();
-    removeFromEventList(selectedEvent.id);
     setIsDeleteModal(false);
   };
 
@@ -164,7 +137,6 @@ export default function EventList({ events: es, handleEList }: Props) {
           color={editColor}
           handler={async () => {
             handleUpdate();
-            updToFixedList();
             setIsEditModal(false);
           }}
           handlerClose={() => setIsEditModal(false)}

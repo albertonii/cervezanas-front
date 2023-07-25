@@ -31,7 +31,7 @@ export function ListCPMobile({ cpsId }: Props) {
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const mobileCount = 10;
+  const mobileCount = 1;
   const pageRange = 10;
   const finalPage =
     mobileCount < currentPage * pageRange
