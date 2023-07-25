@@ -554,5 +554,6 @@
   "capacity_header": "Capacity",
   "available_packs": "Available packs",
   "edit_cp_fixed_config": "Edit fixed consumption point",
-  "edit_cp_mobile_config": "Edit mobile consumption point"
+  "edit_cp_mobile_config": "Edit mobile consumption point",
+  "delete_event_description_modal": "Are you sure you want to delete the event? This action can not be undone."
 }

@@ -11,6 +11,7 @@ import { formatDate } from "../../../../utils";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
+import DeleteCEventModal from "./DeleteEventModal";
 
 export default function EventList() {
   const t = useTranslations();
@@ -128,9 +129,17 @@ export default function EventList() {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
+  const handlDeleteModal = (isDelete: boolean) => {
+    setIsDeleteModal(isDelete);
+  };
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-      {isEditModal && (
+      {isEditModal && selectedEvent && (
         <Modal
           title={t("accept")}
           icon={faCheck}
@@ -151,17 +160,11 @@ export default function EventList() {
         </Modal>
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={async () => {
-            handleDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedEvent && (
+        <DeleteCEventModal
+          selectedEventId={selectedEvent.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={handlDeleteModal}
         />
       )}
 
