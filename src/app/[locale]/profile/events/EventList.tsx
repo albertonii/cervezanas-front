@@ -3,19 +3,21 @@
 import useFetchEventsByOwnerId from "../../../../hooks/useFetchEventsByOwnerId";
 import DeleteCEventModal from "./DeleteEventModal";
 import Link from "next/link";
+import EditEventModal from "./EditEventModal";
 import React, { useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { IEvent, SortBy } from "../../../../lib/types.d";
+import { ICPMobile, IEvent, SortBy } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
-export default function EventList() {
+interface Props {
+  cpsMobile: ICPMobile[];
+}
+
+export default function EventList({ cpsMobile }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,38 +86,6 @@ export default function EventList() {
     setSelectedEvent(e);
   };
 
-  // Delete CP event from database
-  const handleRemoveCP = async () => {
-    const { error } = await supabase
-      .from("events")
-      .delete()
-      .eq("id", selectedEvent?.id);
-
-    if (error) throw error;
-  };
-
-  // Update CP Fixed in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("events")
-      .update({
-        name: selectedEvent?.name,
-        description: selectedEvent?.description,
-        start_date: selectedEvent?.start_date,
-        end_date: selectedEvent?.end_date,
-      })
-      .eq("id", selectedEvent?.id);
-
-    if (error) throw error;
-  };
-
-  const handleDelete = () => {
-    if (!selectedEvent) return;
-
-    handleRemoveCP();
-    setIsDeleteModal(false);
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -139,24 +109,12 @@ export default function EventList() {
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {isEditModal && selectedEvent && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            handleUpdate();
-            setIsEditModal(false);
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+        <EditEventModal
+          selectedEvent={selectedEvent}
+          isEditModal={isEditModal}
+          handleEditModal={handleEditModal}
+          cpsMobile={cpsMobile}
+        />
       )}
 
       {isDeleteModal && selectedEvent && (

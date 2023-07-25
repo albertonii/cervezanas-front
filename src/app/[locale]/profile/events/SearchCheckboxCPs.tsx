@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../lib/types.d";
+import { ICPMobile, ICPM_events } from "../../../../lib/types.d";
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -11,7 +11,9 @@ interface Props {
 export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
   const t = useTranslations();
 
-  const { register } = form;
+  const { register, getValues } = form;
+
+  const selectedCPS: ICPM_events[] = getValues("cps_mobile");
 
   return (
     <>
@@ -49,7 +51,8 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
             className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownSearchButton"
           >
-            {cpsMobile &&
+            {selectedCPS &&
+              cpsMobile &&
               cpsMobile.map((cp, index) => {
                 return (
                   <li key={cp.id}>
@@ -60,6 +63,9 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                           id="checkbox-item-11"
                           type="checkbox"
                           {...register(`cps_mobile.${index}.id`)}
+                          checked={selectedCPS.some(
+                            (selectedCP) => selectedCP.cp_id === cp.id
+                          )}
                           value={cp.id}
                           className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                         />

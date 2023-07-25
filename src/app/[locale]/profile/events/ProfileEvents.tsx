@@ -21,7 +21,7 @@ export default function ProfileEvents({ cpsMobile }: Props) {
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("events_list")}</h2>
 
-        <EventList />
+        <EventList cpsMobile={cpsMobile} />
       </section>
     </div>
   );

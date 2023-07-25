@@ -30,9 +30,11 @@ async function getMarketplaceProducts() {
     ),
     product_inventory (
       quantity
-    ),likes (
+    ),
+    likes (
       id
-    ), reviews (
+    ), 
+    reviews (
       overall
     ),
     product_packs (*)

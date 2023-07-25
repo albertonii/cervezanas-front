@@ -450,6 +450,12 @@ export interface ICPMProductsEditCPFixedModal {
   stock_consumed: number;
 }
 
+export interface ICPM_events {
+  cp_id: string;
+  event_id: string;
+  is_active: boolean;
+}
+
 export interface IProfileLocation {
   id: string;
   created_at: Date;

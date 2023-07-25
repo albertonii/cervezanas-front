@@ -84,12 +84,11 @@ export default function AddEvent({ cpsMobile }: Props) {
 
     // Loop trough all the selected CPs and insert them into the event
     for (let i = 0; i < cpsMFiltered.length; i++) {
-      const { error: cpError } = await supabase
-        .from("cp_mobile")
-        .update({
-          event: eventId,
-        })
-        .eq("id", cpsMFiltered[i].id);
+      const { error: cpError } = await supabase.from("cpm_events").insert({
+        event_id: eventId,
+        cp_id: cpsMFiltered[i].id,
+        is_active: false,
+      });
 
       if (cpError) {
         throw cpError;
