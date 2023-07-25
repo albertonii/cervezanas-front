@@ -146,7 +146,7 @@ export function ListCPMobile({ cpsId }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && cpMobile.length === 0 ? (
+      {!isError && !isLoading && sortedItems.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
             {t("no_cp_mobile")}

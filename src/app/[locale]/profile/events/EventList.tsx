@@ -1,7 +1,7 @@
 "use client";
 
 import useFetchEventsByOwnerId from "../../../../hooks/useFetchEventsByOwnerId";
-import DeleteModal from "../../../../components/modals/DeleteModal";
+import DeleteCEventModal from "./DeleteEventModal";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,6 @@ import { formatDate } from "../../../../utils";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
-import DeleteCEventModal from "./DeleteEventModal";
 
 export default function EventList() {
   const t = useTranslations();
@@ -138,7 +137,7 @@ export default function EventList() {
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {isEditModal && selectedEvent && (
         <Modal
           title={t("accept")}
@@ -180,7 +179,7 @@ export default function EventList() {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && events.length === 0 ? (
+      {!isError && !isLoading && sortedItems.length === 0 ? (
         <div className="flex h-40 items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
@@ -246,7 +245,7 @@ export default function EventList() {
             </thead>
 
             <tbody>
-              {sortedItems.map((e) => {
+              {sortedItems.map((e: IEvent) => {
                 return (
                   <tr
                     key={e.id}
