@@ -112,11 +112,11 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
                     id={`checkbox-pack-${pack.id}`}
                     type="checkbox"
                     {...register(`product_items.${product.id}.id`)}
-                    value={pack.id}
                     checked={selectedPacks?.includes(pack.id)}
                     onChange={(e) =>
                       handleCheckboxChange(pack.id, e.target.checked)
                     }
+                    value={pack.id}
                     className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                   />
                   <div>

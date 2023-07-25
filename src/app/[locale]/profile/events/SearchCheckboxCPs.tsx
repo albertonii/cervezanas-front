@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ICPMobile, ICPM_events } from "../../../../lib/types.d";
@@ -11,9 +11,39 @@ interface Props {
 export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
   const t = useTranslations();
 
-  const { register, getValues } = form;
+  const { register, getValues, setValue } = form;
 
-  const selectedCPS: ICPM_events[] = getValues("cps_mobile");
+  const formCPS: ICPM_events[] = getValues("cps_mobile");
+  const [selectedCPS, setSelectedCPs] = useState<string[]>();
+
+  useEffect(() => {
+    if (!formCPS) return;
+    setSelectedCPs(formCPS.map((cps) => cps.cp_id));
+  }, [formCPS]);
+
+  useEffect(() => {
+    console.log(selectedCPS);
+    if (!selectedCPS) return;
+  }, [selectedCPS]);
+
+  const handleCheckboxChange = (
+    cpId: string,
+    isChecked: boolean,
+    index: number
+  ) => {
+    if (!selectedCPS) return;
+    const CPSChecked = () => {
+      if (isChecked) {
+        // setValue(`cps_mobile.${index}.id`, cpId);
+        return [...(selectedCPS || []), cpId];
+      } else {
+        // setValue(`cps_mobile.${index}.id`, false);
+        return (selectedCPS || []).filter((id) => id !== cpId);
+      }
+    };
+
+    setSelectedCPs(CPSChecked);
+  };
 
   return (
     <>
@@ -64,8 +94,11 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                           type="checkbox"
                           {...register(`cps_mobile.${index}.id`)}
                           checked={selectedCPS.some(
-                            (selectedCP) => selectedCP.cp_id === cp.id
+                            (cps_event) => cps_event === cp.id
                           )}
+                          onChange={(e) =>
+                            handleCheckboxChange(cp.id, e.target.checked, index)
+                          }
                           value={cp.id}
                           className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                         />

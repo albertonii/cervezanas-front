@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -84,13 +84,17 @@ export default function EditEventModal({
         end_date,
         logo_url,
         promotional_url,
-        cps_mobile,
       })
       .eq("id", selectedEvent?.id);
 
     if (error) throw error;
 
     // Actualizar listado de CPs que estén asociados al evento
+    console.log(cps_mobile);
+
+    // Eliminar todos los CPs asociados al evento
+
+    // Insertar los nuevos CPs asociados al evento
   };
 
   const updateEventMutation = useMutation({
