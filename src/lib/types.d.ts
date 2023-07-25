@@ -380,7 +380,7 @@ export interface ICPFixed {
   is_booking_required: boolean;
   cp_id: string;
   is_internal_organizer: boolean;
-  cpm_products: ICPFProducts[];
+  cpf_products: ICPFProducts[];
 }
 
 export interface ICPMobile {

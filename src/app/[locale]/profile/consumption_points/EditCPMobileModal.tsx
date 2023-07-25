@@ -53,9 +53,11 @@ export default function EditCPMobileModal({
   const { supabase } = useSupabase();
   const { user } = useAuth();
 
-  const { data: packsInProduct, refetch } = useFetchCPMobilePacks(
-    selectedCP.id
-  );
+  const {
+    data: packsInProduct,
+    refetch,
+    isLoading: isFetchLoading,
+  } = useFetchCPMobilePacks(selectedCP.id);
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -255,6 +257,8 @@ export default function EditCPMobileModal({
       console.error(e);
     }
   };
+
+  if (isFetchLoading) return <></>;
 
   return (
     <Modal

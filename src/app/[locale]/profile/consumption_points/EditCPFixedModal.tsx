@@ -2,6 +2,7 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
+import useFetchCPFixedPacks from "../../../../hooks/useFetchCPFixedPacks";
 import React, { ComponentProps, useEffect, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,6 @@ import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
-import useFetchCPFidexPacks from "../../../../hooks/useFetchCPFixedPacks";
 import { cleanObject, isValidObject } from "../../../../utils/utils";
 
 interface FormData {
@@ -53,7 +53,11 @@ export default function EditCPFixedModal({
   const { supabase } = useSupabase();
   const { user } = useAuth();
 
-  const { data: packsInProduct, refetch } = useFetchCPFidexPacks(selectedCP.id);
+  const {
+    data: packsInProduct,
+    refetch,
+    isLoading: isFetchLoading,
+  } = useFetchCPFixedPacks(selectedCP.id);
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -253,6 +257,8 @@ export default function EditCPFixedModal({
       console.error(e);
     }
   };
+
+  if (isFetchLoading) return <></>;
 
   return (
     <Modal

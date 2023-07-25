@@ -10,7 +10,7 @@ const fetchCPFixedPacks = async (
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
-    .from("cpm_products")
+    .from("cpf_products")
     .select(
       `
        *)
@@ -23,7 +23,7 @@ const fetchCPFixedPacks = async (
   return data as ICPMProductsEditCPMobileModal[];
 };
 
-const useFetchCPFidexPacks = (cpId: string) => {
+const useFetchCPFixedPacks = (cpId: string) => {
   const { supabase } = useSupabase();
 
   return useQuery({
@@ -34,4 +34,4 @@ const useFetchCPFidexPacks = (cpId: string) => {
   });
 };
 
-export default useFetchCPFidexPacks;
+export default useFetchCPFixedPacks;
