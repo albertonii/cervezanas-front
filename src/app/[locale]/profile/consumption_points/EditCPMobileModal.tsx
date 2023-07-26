@@ -19,6 +19,7 @@ import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
 import { cleanObject, isValidObject } from "../../../../utils/utils";
+import { formatDateDefaultInput } from "../../../../utils/formatDate";
 
 interface FormData {
   cp_name: string;
@@ -99,8 +100,8 @@ export default function EditCPMobileModal({
       address: selectedCP?.address,
       is_internal_organizer: selectedCP.is_internal_organizer,
       geoArgs: selectedCP?.geoArgs,
-      start_date: selectedCP?.start_date,
-      end_date: selectedCP?.end_date,
+      start_date: formatDateDefaultInput(selectedCP?.start_date.toString()),
+      end_date: formatDateDefaultInput(selectedCP?.end_date.toString()),
       product_items: productItems,
       // is_booking_required: selectedCP?.is_booking_required,
     },

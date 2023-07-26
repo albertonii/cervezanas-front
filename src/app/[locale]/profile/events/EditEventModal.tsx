@@ -11,6 +11,7 @@ import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQueryClient } from "react-query";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import useFetchCPsMobileByEventId from "../../../../hooks/useFetchCPsMobileByEventId";
+import { formatDateDefaultInput } from "../../../../utils/formatDate";
 
 interface FormData {
   name: string;
@@ -49,8 +50,8 @@ export default function EditEventModal({
     defaultValues: {
       name: selectedEvent.name,
       description: selectedEvent.description,
-      start_date: selectedEvent.start_date.toString(),
-      // end_date: selectedEvent.end_date,
+      start_date: formatDateDefaultInput(selectedEvent.start_date.toString()),
+      end_date: formatDateDefaultInput(selectedEvent.end_date.toString()),
       logo_url: selectedEvent.logo_url ?? "",
       promotional_url: selectedEvent.promotional_url ?? "",
       cps_mobile: selectedCPs,
