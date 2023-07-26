@@ -113,6 +113,10 @@ export function ListCPMobile({ cpsId }: Props) {
     setIsEditModal(isEdit);
   };
 
+  const handleDeleteModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
@@ -130,7 +134,7 @@ export function ListCPMobile({ cpsId }: Props) {
         <DeleteCPMobileModal
           selectedCPId={selectedCP.id}
           isDeleteModal={isDeleteModal}
-          handleDeleteModal={setIsDeleteModal}
+          handleDeleteModal={handleDeleteModal}
         />
       )}
 

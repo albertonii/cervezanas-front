@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { useAuth } from "../components/Auth";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
-const fetchEvents = async (
+const fetchEventsByOwnerId = async (
   ownerId: string,
   currentPage: number,
   pageRange: number,
@@ -25,20 +25,20 @@ const fetchEvents = async (
     .select();
 
   if (error) throw error;
-
   return data;
 };
 
-const useFetchEvents = (currentPage: number, pageRange: number) => {
+const useFetchEventsByOwnerId = (currentPage: number, pageRange: number) => {
   const { user } = useAuth();
   const { supabase } = useSupabase();
 
   return useQuery({
     queryKey: ["events", user?.id, currentPage, pageRange],
-    queryFn: () => fetchEvents(user?.id, currentPage, pageRange, supabase),
+    queryFn: () =>
+      fetchEventsByOwnerId(user?.id, currentPage, pageRange, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });
 };
 
-export default useFetchEvents;
+export default useFetchEventsByOwnerId;

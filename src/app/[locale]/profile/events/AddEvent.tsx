@@ -27,6 +27,7 @@ interface Props {
 }
 
 export default function AddEvent({ cpsMobile }: Props) {
+  console.log(cpsMobile);
   const t = useTranslations();
   const { supabase } = useSupabase();
   const { user } = useAuth();

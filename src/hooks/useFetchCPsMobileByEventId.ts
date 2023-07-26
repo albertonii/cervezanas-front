@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
+import { ICPM_events } from "../lib/types";
 
 const fetchCPSMobileByEventId = async (
   eventId: string,
@@ -14,27 +15,26 @@ const fetchCPSMobileByEventId = async (
     .from("cpm_events")
     .select(
       `
-      *,
-      cp_id (id, name)
-    `
+      *
+      `
     )
     .eq("event_id", eventId)
     .select();
 
   if (error) throw error;
 
-  return data;
+  return data as ICPM_events[];
 };
 
-const useFetchEvents = (eventId: string) => {
+const useFetchCPSMobileByEventsId = (eventId: string) => {
   const { supabase } = useSupabase();
 
   return useQuery({
     queryKey: ["cpm_events"],
     queryFn: () => fetchCPSMobileByEventId(eventId, supabase),
-    enabled: true,
+    enabled: false,
     refetchOnWindowFocus: false,
   });
 };
 
-export default useFetchEvents;
+export default useFetchCPSMobileByEventsId;

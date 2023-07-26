@@ -6,44 +6,48 @@ import { ICPMobile, ICPM_events } from "../../../../lib/types.d";
 interface Props {
   cpsMobile: ICPMobile[];
   form: UseFormReturn<any, any>;
+  checkedCPs: ICPM_events[];
+  selectedEventId: string;
 }
 
-export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
+export function SearchCheckboxCPs({
+  cpsMobile,
+  form,
+  checkedCPs,
+  selectedEventId,
+}: Props) {
   const t = useTranslations();
 
-  const { register, getValues, setValue } = form;
+  const { register, setValue } = form;
 
-  const formCPS: ICPM_events[] = getValues("cps_mobile");
-  const [selectedCPS, setSelectedCPs] = useState<string[]>();
+  const [checkedCPsState, setCheckedCPsState] =
+    useState<ICPM_events[]>(checkedCPs);
 
-  useEffect(() => {
-    if (!formCPS) return;
-    setSelectedCPs(formCPS.map((cps) => cps.cp_id));
-  }, [formCPS]);
+  const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
+    if (!checkedCPs) return;
 
-  useEffect(() => {
-    console.log(selectedCPS);
-    if (!selectedCPS) return;
-  }, [selectedCPS]);
+    if (isChecked) {
+      // Verify if the CP is already in the array
+      if (checkedCPsState.some((item) => item.cp_id === cpId)) return;
 
-  const handleCheckboxChange = (
-    cpId: string,
-    isChecked: boolean,
-    index: number
-  ) => {
-    if (!selectedCPS) return;
-    const CPSChecked = () => {
-      if (isChecked) {
-        // setValue(`cps_mobile.${index}.id`, cpId);
-        return [...(selectedCPS || []), cpId];
-      } else {
-        // setValue(`cps_mobile.${index}.id`, false);
-        return (selectedCPS || []).filter((id) => id !== cpId);
-      }
-    };
-
-    setSelectedCPs(CPSChecked);
+      const cp_check: ICPM_events = {
+        cp_id: cpId,
+        event_id: selectedEventId,
+        is_active: false,
+      };
+      setCheckedCPsState([...checkedCPsState, cp_check]);
+    } else {
+      setCheckedCPsState(checkedCPsState.filter((item) => item.cp_id !== cpId));
+    }
   };
+
+  useEffect(() => {
+    setCheckedCPsState(checkedCPs);
+  }, [checkedCPs]);
+
+  useEffect(() => {
+    setValue("cps_mobile", checkedCPsState);
+  }, [checkedCPsState]);
 
   return (
     <>
@@ -81,9 +85,8 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
             className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownSearchButton"
           >
-            {selectedCPS &&
-              cpsMobile &&
-              cpsMobile.map((cp, index) => {
+            {cpsMobile &&
+              cpsMobile.map((cp: ICPMobile, index) => {
                 return (
                   <li key={cp.id}>
                     <div className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -93,11 +96,11 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
                           id="checkbox-item-11"
                           type="checkbox"
                           {...register(`cps_mobile.${index}.id`)}
-                          checked={selectedCPS.some(
-                            (cps_event) => cps_event === cp.id
+                          checked={checkedCPsState?.some(
+                            (cps_event) => cps_event.cp_id === cp.id
                           )}
                           onChange={(e) =>
-                            handleCheckboxChange(cp.id, e.target.checked, index)
+                            handleCheckboxChange(cp.id, e.target.checked)
                           }
                           value={cp.id}
                           className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"

@@ -1,16 +1,16 @@
 "use client";
 
-import React, { ComponentProps, useState } from "react";
+import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../lib/types";
+import { ICPMobile, ICPM_events, IEvent } from "../../../../lib/types";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { Modal } from "../../../../components/modals";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQueryClient } from "react-query";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import useFetchCPsMobileByEventId from "../../../../hooks/useFetchCPsMobileByEventId";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
 
 interface FormData {
@@ -20,7 +20,7 @@ interface FormData {
   end_date: string;
   logo_url: string;
   promotional_url: string;
-  cps_mobile: ICPMobile[];
+  cps_mobile: ICPM_events[];
 }
 
 interface Props {
@@ -42,9 +42,15 @@ export default function EditEventModal({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const { data: selectedCPs, isLoading } = useFetchCPsMobileByEventId(
-    selectedEvent.id
-  );
+  const {
+    data: checkedCPs,
+    isLoading,
+    refetch,
+  } = useFetchCPSMobileByEventsId(selectedEvent.id);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const form = useForm<FormData>({
     defaultValues: {
@@ -54,7 +60,6 @@ export default function EditEventModal({
       end_date: formatDateDefaultInput(selectedEvent.end_date.toString()),
       logo_url: selectedEvent.logo_url ?? "",
       promotional_url: selectedEvent.promotional_url ?? "",
-      cps_mobile: selectedCPs,
     },
   });
 
@@ -90,12 +95,31 @@ export default function EditEventModal({
 
     if (error) throw error;
 
-    // Actualizar listado de CPs que estén asociados al evento
-    console.log(cps_mobile);
+    // // Obtener los CPs asociados al evento
+    const cpsToUpdate = cpsMobile.filter((item) =>
+      cps_mobile.map((cp) => cp.cp_id).includes(item.id)
+    );
 
     // Eliminar todos los CPs asociados al evento
+    checkedCPs?.forEach(async (cp) => {
+      await supabase
+        .from("cpm_events")
+        .delete()
+        .eq("cp_id", cp.cp_id)
+        .eq("event_id", selectedEvent.id);
+    });
 
     // Insertar los nuevos CPs asociados al evento
+    cpsToUpdate.forEach(async (item) => {
+      const { error } = await supabase.from("cpm_events").insert({
+        cp_id: item.id,
+        event_id: selectedEvent.id,
+        is_active: false,
+      });
+      if (error) {
+        throw error;
+      }
+    });
   };
 
   const updateEventMutation = useMutation({
@@ -123,7 +147,7 @@ export default function EditEventModal({
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <Modal
@@ -211,7 +235,12 @@ export default function EditEventModal({
           <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
 
           {/* List of CPs  */}
-          <SearchCheckboxCPs cpsMobile={cpsMobile} form={form} />
+          <SearchCheckboxCPs
+            cpsMobile={cpsMobile}
+            form={form}
+            checkedCPs={checkedCPs ?? []}
+            selectedEventId={selectedEvent.id}
+          />
         </fieldset>
       </form>
     </Modal>
