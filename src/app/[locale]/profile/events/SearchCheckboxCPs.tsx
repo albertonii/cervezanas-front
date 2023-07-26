@@ -6,8 +6,8 @@ import { ICPMobile, ICPM_events } from "../../../../lib/types.d";
 interface Props {
   cpsMobile: ICPMobile[];
   form: UseFormReturn<any, any>;
-  checkedCPs: ICPM_events[];
-  selectedEventId: string;
+  checkedCPs?: ICPM_events[];
+  selectedEventId?: string;
 }
 
 export function SearchCheckboxCPs({
@@ -20,8 +20,9 @@ export function SearchCheckboxCPs({
 
   const { register, setValue } = form;
 
-  const [checkedCPsState, setCheckedCPsState] =
-    useState<ICPM_events[]>(checkedCPs);
+  const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
+    checkedCPs ?? []
+  );
 
   const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
     if (!checkedCPs) return;
@@ -32,7 +33,7 @@ export function SearchCheckboxCPs({
 
       const cp_check: ICPM_events = {
         cp_id: cpId,
-        event_id: selectedEventId,
+        event_id: selectedEventId ?? "",
         is_active: false,
       };
       setCheckedCPsState([...checkedCPsState, cp_check]);
@@ -42,7 +43,7 @@ export function SearchCheckboxCPs({
   };
 
   useEffect(() => {
-    setCheckedCPsState(checkedCPs);
+    setCheckedCPsState(checkedCPs ?? []);
   }, [checkedCPs]);
 
   useEffect(() => {
