@@ -1,8 +1,8 @@
+import DisplayCPMobile from "./DisplayCPMobile";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { ICPMobile } from "../../../../../../../lib/types.d";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
-import DisplayCPMobile from "./DisplayCPMobile";
 
 export default async function CPMobilePage({ params }: any) {
   const { id } = params;
@@ -31,17 +31,23 @@ async function getCPMobile(cpId: string) {
     .from("cp_mobile")
     .select(
       `
+        *,
+        cpm_products (
             *,
-            cpm_products (
-                *,
-                product_id (*,
-                    product_multimedia(p_principal), 
-                    beers (*)
-                )
+            product_pack_id (
+              *, 
+              product_id (
+                description,
+                type,
+                beers (
+*                )
+              )
             )
+        )
         `
     )
     .eq("id", cpId);
+
   if (cpMobileError) console.error(cpMobileError);
 
   return cpMobile as ICPMobile[];

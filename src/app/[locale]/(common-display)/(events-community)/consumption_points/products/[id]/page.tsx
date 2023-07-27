@@ -22,7 +22,7 @@ export default async function ProductId({ params }: any) {
   );
 }
 
-async function getProductData(productId: string) {
+async function getProductData(cpId: string) {
   // Create authenticated Supabase Client
   const supabase = createServerClient();
 
@@ -35,34 +35,19 @@ async function getProductData(productId: string) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: productData, error: productError } = await supabase
+  const { data: cpmProducts, error: productError } = await supabase
     .from("cpm_products")
     .select(
       `*,
-      product_id (
-        *,
-        beers (
-          *
-        ),
-        product_multimedia (
-          p_principal
-        ),
-        reviews (
-          *,
-          users (
-            created_at,
-            username
-          )
-        )
-      ),
+      product_pack_id (*),
       cp_id (*)
       `
     )
-    .eq("id", productId);
+    .eq("cp_id", cpId);
 
   if (productError) throw productError;
-
-  return productData[0] as ICPMProducts;
+  console.log(cpmProducts);
+  return cpmProducts as any[];
 }
 
 async function getMarketplaceData() {

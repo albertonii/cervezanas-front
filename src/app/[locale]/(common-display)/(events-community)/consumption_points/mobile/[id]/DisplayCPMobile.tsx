@@ -1,20 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { COMMON } from "../../../../../../../constants";
-import {
-  ICPMobile,
-  IProduct,
-  IProductPack,
-} from "../../../../../../../lib/types.d";
-import { formatCurrency, formatDate } from "../../../../../../../utils";
+import { useTranslations } from "next-intl";
+import { ICPMobile } from "../../../../../../../lib/types.d";
+import { formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
-import { AddCardButton } from "../../../../../../../components/common";
-import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
 
 interface Props {
   cpMobile: ICPMobile;
@@ -22,8 +13,8 @@ interface Props {
 
 export default function DisplayCPMobile({ cpMobile }: Props) {
   const t = useTranslations();
-
   const cpm_products = cpMobile.cpm_products;
+
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <div className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
@@ -78,7 +69,7 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
       <div className="mt-8">
         {cpm_products.length > 0 ? (
           <div>
-            <h3 className="mb-2 text-xl font-bold">Products</h3>
+            <h3 className="mb-2 text-xl font-bold"> {t("products")}</h3>
 
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -108,11 +99,12 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {cpm_products.map((cpm) => (
-                  <Product
+                  <CPMProduct
                     key={cpm.id}
-                    product={cpm.product_pack_id}
+                    pack={cpm.product_pack_id}
                     cpmId={cpm.id}
                   />
                 ))}
@@ -129,96 +121,6 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
     </div>
   );
 }
-
-interface ProductProps {
-  product: IProductPack;
-  cpmId: string;
-}
-
-const Product = ({ product, cpmId }: ProductProps) => {
-  const locale = useLocale();
-
-  const {
-    marketplaceEventItems,
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    addMarketplaceItems,
-    removeMarketplaceItems,
-  } = useEventCartContext();
-
-  const quantity = getItemQuantity(product.id);
-
-  const { id } = product;
-
-  const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(id);
-
-    // Check if the product is already in the marketplace items
-    if (marketplaceEventItems.find((item) => item.id === id)) return;
-
-    // addMarketplaceItems(product);
-  };
-
-  const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(id);
-    if (quantity > 1) return;
-    removeMarketplaceItems(id);
-  };
-
-  const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
-    removeFromCart(id);
-  };
-
-  return (
-    <tr
-      key={product.id}
-      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <td className=" space-x-2 px-6 py-4">
-        <Image
-          src={product.img_url ?? COMMON.MARKETPLACE_PRODUCT}
-          alt={product.name}
-          width={64}
-          height={64}
-        />
-      </td>
-      <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link
-          target={"_blank"}
-          href={`/consumption_points/products/${cpmId}`}
-          locale={locale}
-        >
-          {product.name}
-        </Link>
-      </td>
-      {/* <td className="space-x-2 px-6 py-4">{product.description}</td> */}
-      <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
-        {formatCurrency(product.price)}
-      </td>
-      {/* <td className="space-x-2 px-6 py-4">{product.category}</td> */}
-      <td className="space-x-2 px-6 py-4">
-        {quantity === 0 ? (
-          <>
-            <AddCardButton onClick={() => handleIncreaseToCartItem()} />
-          </>
-        ) : (
-          <>
-            <MarketCartButtons
-              quantity={quantity}
-              item={product}
-              handleIncreaseCartQuantity={() => handleIncreaseToCartItem()}
-              handleDecreaseCartQuantity={() => handleDecreaseFromCartItem()}
-              handleRemoveFromCart={() => handleRemoveFromCart()}
-            />
-          </>
-        )}
-      </td>
-    </tr>
-  );
-};
 
 interface GoogleMapLocationProps {
   cp: ICPMobile;
