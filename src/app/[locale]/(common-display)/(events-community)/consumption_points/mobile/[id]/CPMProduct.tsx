@@ -1,13 +1,13 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
+import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
+import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
 import { IProductPack } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils";
 import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
 import { SupabaseProps } from "../../../../../../../constants";
-import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
 
 interface ProductProps {
   pack: IProductPack;
@@ -17,15 +17,24 @@ interface ProductProps {
 export default function CPMProduct({ pack, cpmId }: ProductProps) {
   const t = useTranslations();
   const locale = useLocale();
-  const [packQuantity, setPackQuantity] = useState(0);
 
   const {
+    eventItems,
+    getPackQuantity,
     increasePackCartQuantity,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
   } = useEventCart();
 
   const { name, price, product_id } = pack;
+  const [packQuantity, setPackQuantity] = useState<number>(
+    getPackQuantity(pack.id)
+  );
+
+  // Synch pack with cart
+  useEffect(() => {
+    setPackQuantity(getPackQuantity(pack.id));
+  }, [eventItems]);
 
   const handleAddToCart = () => {
     if (!pack) {
@@ -34,7 +43,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
 
     const packCartItem: IProductPack = {
       id: pack.id,
-      quantity: packQuantity,
+      quantity: packQuantity + 1,
       price: pack.price,
       name: pack.name,
       img_url: pack.img_url,
@@ -102,7 +111,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
       <td className="space-x-2 px-6 py-4">
         {packQuantity === 0 ? (
           <>
-            <AddCardButton withText={true} onClick={() => handleAddToCart()} />{" "}
+            <AddCardButton withText={true} onClick={() => handleAddToCart()} />
           </>
         ) : (
           <>

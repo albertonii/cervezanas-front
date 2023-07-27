@@ -21,6 +21,7 @@ type EventCartContextType = {
   clearCart: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
+  getPackQuantity: (id: string) => number;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
   increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
@@ -37,6 +38,7 @@ const EventCartContext = createContext<EventCartContextType>({
   clearCart: () => void {},
   isInCart: () => false,
   getItemQuantity: () => 0,
+  getPackQuantity: () => 0,
   removeFromCart: () => void {},
   increaseOnePackCartQuantity: () => void {},
   increasePackCartQuantity: () => void {},
@@ -77,6 +79,23 @@ export function EventCartProvider({ children }: Props) {
     (id: string) => {
       const item = eventItems?.find((item) => item?.id === id);
       return item?.quantity || 0;
+    },
+    [eventItems]
+  );
+
+  const getPackQuantity = useCallback(
+    (packId: string) => {
+      let packFind: IProductPack | undefined;
+
+      // Get the pack quantity from the cart product
+      eventItems?.map(
+        (item) =>
+          (packFind = item?.packs.find((pack) => {
+            return pack.id === packId;
+          }))
+      );
+
+      return packFind ? packFind.quantity : 0;
     },
     [eventItems]
   );
@@ -279,6 +298,7 @@ export function EventCartProvider({ children }: Props) {
       clearCart,
       isInCart,
       getItemQuantity,
+      getPackQuantity,
       removeFromCart,
       openCart,
       closeCart,
@@ -294,6 +314,7 @@ export function EventCartProvider({ children }: Props) {
     clearCart,
     isInCart,
     getItemQuantity,
+    getPackQuantity,
     removeFromCart,
     openCart,
     closeCart,
