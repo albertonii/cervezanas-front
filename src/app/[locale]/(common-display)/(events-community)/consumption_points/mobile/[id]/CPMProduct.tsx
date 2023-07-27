@@ -1,13 +1,13 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
+import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
 import { IProductPack } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils";
 import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
-import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons2";
 import { SupabaseProps } from "../../../../../../../constants";
 import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
+import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
 
 interface ProductProps {
   pack: IProductPack;
@@ -17,38 +17,50 @@ interface ProductProps {
 export default function CPMProduct({ pack, cpmId }: ProductProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const [packQuantity, setPackQuantity] = useState(0);
 
   const {
-    marketplaceEventItems,
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    removeMarketplaceItems,
-  } = useEventCartContext();
+    increasePackCartQuantity,
+    increaseOnePackCartQuantity,
+    decreaseOnePackCartQuantity,
+  } = useEventCart();
 
-  const quantity = getItemQuantity(pack.id);
+  const { name, price, product_id } = pack;
 
-  const { id, name, price, product_id } = pack;
+  const handleAddToCart = () => {
+    if (!pack) {
+      return;
+    }
 
-  const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(id);
+    const packCartItem: IProductPack = {
+      id: pack.id,
+      quantity: packQuantity,
+      price: pack.price,
+      name: pack.name,
+      img_url: pack.img_url,
+      randomUUID: pack.randomUUID,
+    };
 
-    // Check if the product is already in the marketplace items
-    if (marketplaceEventItems.find((item) => item.id === id)) return;
+    const product = pack.product_id;
+    if (!product) return;
 
-    // addMarketplaceItems(product);
+    increasePackCartQuantity(product, packCartItem);
+    setPackQuantity(1);
   };
 
-  const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(id);
-    if (quantity > 1) return;
-    removeMarketplaceItems(id);
+  const handleIncreaseCartQuantity = (pack: IProductPack) => {
+    if (!product_id) return;
+    setPackQuantity(packQuantity + 1);
+    increaseOnePackCartQuantity(product_id.id, pack.id);
   };
 
-  const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
-    removeFromCart(id);
+  const handleDecreaseCartQuantity = (pack: IProductPack) => {
+    if (!product_id) return;
+
+    if (packQuantity > 1) {
+      setPackQuantity(packQuantity - 1);
+      decreaseOnePackCartQuantity(product_id.id, pack.id);
+    }
   };
 
   return (
@@ -88,17 +100,20 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
       </td>
 
       <td className="space-x-2 px-6 py-4">
-        {quantity === 0 ? (
+        {packQuantity === 0 ? (
           <>
-            <AddCardButton onClick={() => handleIncreaseToCartItem()} />
+            <AddCardButton withText={true} onClick={() => handleAddToCart()} />{" "}
           </>
         ) : (
           <>
-            <MarketCartButtons
-              quantity={quantity}
-              item={pack}
-              handleIncreaseCartQuantity={() => handleIncreaseToCartItem()}
-              handleDecreaseCartQuantity={() => handleDecreaseFromCartItem()}
+            <MarketCartButtons2
+              quantity={packQuantity}
+              handleIncreaseCartQuantity={() =>
+                handleIncreaseCartQuantity(pack)
+              }
+              handleDecreaseCartQuantity={() =>
+                handleDecreaseCartQuantity(pack)
+              }
             />
           </>
         )}

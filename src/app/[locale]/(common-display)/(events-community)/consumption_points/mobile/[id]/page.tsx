@@ -1,4 +1,4 @@
-import DisplayCPMobile from "./DisplayCPMobile";
+import InfoCPMobile from "./InfoCPMobile";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { ICPMobile } from "../../../../../../../lib/types.d";
@@ -11,7 +11,7 @@ export default async function CPMobilePage({ params }: any) {
   const [cpMobile] = await Promise.all([cpMobileData]);
   return (
     <>
-      <DisplayCPMobile cpMobile={cpMobile[0]} />
+      <InfoCPMobile cpMobile={cpMobile[0]} />
     </>
   );
 }
@@ -39,8 +39,8 @@ async function getCPMobile(cpId: string) {
               product_id (
                 description,
                 type,
-                beers (
-*                )
+                beers (*),
+                product_multimedia (p_principal)
               )
             )
         )

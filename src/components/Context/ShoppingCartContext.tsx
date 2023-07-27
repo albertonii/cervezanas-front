@@ -18,28 +18,22 @@ import { ShoppingCart } from "../Cart/index";
 type ShoppingCartContextType = {
   items: IProductPackCartItem[];
   cartQuantity: number;
-  clearMarketplace: () => void;
   clearItems: () => void;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
-  increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
+  increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
   removeFromCart: (productId: string, packId: string) => void;
   openCart: () => void;
   closeCart: () => void;
-  marketplaceItems: IProduct[];
-  addMarketplaceItems: (item: IProduct) => void;
-  addShoppingItem: (item: IProductPackCartItem) => void;
-  removeMarketplaceItems: (id: string) => void;
   isOpen: boolean;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
   items: [],
   cartQuantity: 0,
-  clearMarketplace: () => void {},
   clearItems: () => void {},
   clearCart: () => void {},
   isInCart: () => false,
@@ -50,10 +44,6 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   removeFromCart: () => void {},
   openCart: () => void {},
   closeCart: () => void {},
-  marketplaceItems: [],
-  addMarketplaceItems: () => void {},
-  addShoppingItem: () => void {},
-  removeMarketplaceItems: () => void {},
   isOpen: false,
 });
 
@@ -68,35 +58,11 @@ export function ShoppingCartProvider({ children }: Props) {
     []
   );
 
-  const [marketplaceItems, setMarketplaceItems] = useLocalStorage<IProduct[]>(
-    "marketplace-selected-items",
-    []
-  );
-
-  const addShoppingItem = (item: IProductPackCartItem) => {
-    if (items.some((i) => i.id === item.id)) return;
-    setItems((items) => [...items, item]);
-  };
-
-  const addMarketplaceItems = (item: IProduct) => {
-    if (marketplaceItems.some((i) => i.id === item.id)) return;
-    setMarketplaceItems((items) => [...items, item]);
-  };
-
-  const removeMarketplaceItems = (id: string) => {
-    setMarketplaceItems((items) => items.filter((item) => item.id !== id));
-  };
-
-  const clearMarketplace = () => {
-    setMarketplaceItems([]);
-  };
-
   const clearItems = () => {
     setItems([]);
   };
 
   const clearCart = () => {
-    clearMarketplace();
     clearItems();
   };
 
@@ -274,31 +240,21 @@ export function ShoppingCartProvider({ children }: Props) {
   const value = useMemo(() => {
     return {
       items,
-      marketplaceItems,
-      addMarketplaceItems,
-      addShoppingItem,
-      removeMarketplaceItems,
-      clearMarketplace,
       clearItems,
       clearCart,
       isInCart,
       getItemQuantity,
-      increasePackCartQuantity,
       removeFromCart,
       openCart,
       closeCart,
       cartQuantity,
       isOpen,
+      increasePackCartQuantity,
       increaseOnePackCartQuantity,
       decreaseOnePackCartQuantity,
     };
   }, [
     items,
-    marketplaceItems,
-    addMarketplaceItems,
-    addShoppingItem,
-    removeMarketplaceItems,
-    clearMarketplace,
     clearItems,
     clearCart,
     isInCart,

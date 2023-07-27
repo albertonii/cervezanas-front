@@ -28,24 +28,18 @@ export function CartPackItem({ item, pack }: Props) {
     decreaseOnePackCartQuantity,
   } = useShoppingCart();
 
-  const handleIncreaseCartQuantity = (
-    item: IProductPackCartItem,
-    pack: IProductPack
-  ) => {
+  const handleIncreaseCartQuantity = () => {
     increaseOnePackCartQuantity(item.id, pack.id);
   };
 
-  const handleDecreaseCartQuantity = (
-    item: IProductPackCartItem,
-    pack: IProductPack
-  ) => {
+  const handleDecreaseCartQuantity = () => {
     decreaseOnePackCartQuantity(item.id, pack.id);
   };
 
-  const handleRemoveFromCart = (itemId: string, packId: string) => {
+  const handleRemoveFromCart = () => {
     setAnimateRemove(true);
     setTimeout(() => {
-      removeFromCart(itemId, packId);
+      removeFromCart(item.id, pack.id);
     }, 500);
   };
 
@@ -97,14 +91,12 @@ export function CartPackItem({ item, pack }: Props) {
                     quantity={pack.quantity}
                     item={item}
                     handleIncreaseCartQuantity={() =>
-                      handleIncreaseCartQuantity(item, pack)
+                      handleIncreaseCartQuantity()
                     }
                     handleDecreaseCartQuantity={() =>
-                      handleDecreaseCartQuantity(item, pack)
+                      handleDecreaseCartQuantity()
                     }
-                    handleRemoveFromCart={() =>
-                      handleRemoveFromCart(item.id, pack.id)
-                    }
+                    handleRemoveFromCart={() => handleRemoveFromCart()}
                     displayDeleteButton={true}
                   />
                 </div>

@@ -3,7 +3,7 @@
 import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../../lib/types";
 import { formatDate } from "../../../../../../../utils";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
@@ -11,9 +11,9 @@ interface Props {
   cpMobile: ICPMobile;
 }
 
-export default function DisplayCPMobile({ cpMobile }: Props) {
+export default function InfoCPMobile({ cpMobile }: Props) {
   const t = useTranslations();
-  const cpm_products = cpMobile.cpm_products;
+  const { cpm_products } = cpMobile;
 
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
@@ -48,13 +48,14 @@ export default function DisplayCPMobile({ cpMobile }: Props) {
           {/* Organizer information */}
           <div className="mb-4">
             <span className="text-gray-500">
-              Organizer: {cpMobile.organizer_name} {cpMobile.organizer_lastname}
+              {t("organizer")}: {cpMobile.organizer_name}{" "}
+              {cpMobile.organizer_lastname}
             </span>
             <span className="ml-4 text-gray-500">
-              Email: {cpMobile.organizer_email}
+              {t("email")}: {cpMobile.organizer_email}
             </span>
             <span className="ml-4 text-gray-500">
-              Phone: {cpMobile.organizer_phone}
+              {t("phone")}: {cpMobile.organizer_phone}
             </span>
           </div>
         </div>

@@ -16,7 +16,7 @@ import {
   Spinner,
 } from "../../../../../../../components/common";
 import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
-import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
+import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,
@@ -87,7 +87,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     marketplaceEventItems,
     addMarketplaceItems,
     removeMarketplaceItems,
-  } = useEventCartContext();
+  } = useEventCart();
 
   const quantity = getItemQuantity(selectedPack.id);
 

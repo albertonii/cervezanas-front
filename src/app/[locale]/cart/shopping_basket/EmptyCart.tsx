@@ -21,6 +21,7 @@ export default function EmptyCart() {
             </div>
           </div>
         </div>
+
         <FontAwesomeIcon
           icon={faShoppingCart}
           style={{ color: "#432a14", height: "6vh" }}

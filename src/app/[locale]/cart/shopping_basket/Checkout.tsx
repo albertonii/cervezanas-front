@@ -35,7 +35,6 @@ export function Checkout() {
   const t = useTranslations();
 
   const { user, isLoading } = useAuth();
-
   const { supabase } = useSupabase();
 
   const formRef = useRef<HTMLFormElement>(null);

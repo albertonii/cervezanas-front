@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import DisplayImageProduct from "../../components/common/DisplayImageProduct";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../lib/types.d";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { useEventCartContext } from "../../components/Context/EventCartContext";
+import { useEventCart } from "../../components/Context/EventCartContext";
 import MarketCartButtons from "../../components/common/MarketCartButtons";
 import { SupabaseProps } from "../../constants";
 
@@ -32,7 +32,7 @@ export function EventCartItem({ id, quantity, products }: CartItemProps) {
     marketplaceEventItems,
     addMarketplaceItems,
     getItemQuantity,
-  } = useEventCartContext();
+  } = useEventCart();
 
   useEffect(() => {
     const findProducts = async () => {

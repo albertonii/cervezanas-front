@@ -5,8 +5,6 @@ import EmptyCart from "../shopping_basket/EmptyCart";
 import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Spinner } from "../../../../components/common/Spinner";
-import { IProduct } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useAuth } from "../../../../components/Auth/useAuth";
 import { Button, CustomLoading } from "../../../../components/common";
@@ -16,13 +14,14 @@ import {
   eventMerchantInfo,
 } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { useEventCartContext } from "../../../../components/Context/EventCartContext";
+import { useEventCart } from "../../../../components/Context/EventCartContext";
 import {
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
   PAYMENT_METHOD,
 } from "../../../../constants";
 import { EventCheckoutItem } from "../../../../components/checkout/EventCheckoutItem";
+import { useMutation, useQueryClient } from "react-query";
 
 export default function EventCheckout() {
   const t = useTranslations();
@@ -40,69 +39,46 @@ export default function EventCheckout() {
   const [total, setTotal] = useState(subtotal - discount + shipping + tax);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [isFormReady, setIsFormReady] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [merchantParameters, setMerchantParameters] = useState("");
   const [merchantSignature, setMerchantSignature] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const [cart, setCart] = useState<IProduct[]>([]);
-
-  const { eventItems, marketplaceEventItems, clearCart } =
-    useEventCartContext();
+  const { eventItems: cart, clearCart } = useEventCart();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    const awaitProducts = async () => {
-      const promises = eventItems.map(async (item) => {
-        // Finds the product in the marketplaceItems array
-        const product = marketplaceEventItems.find(
-          (m_item) => m_item.id === item.id
-        );
-        if (!product) return null;
-
-        setSubtotal((subtotal) => subtotal + product.price * item.quantity);
-        return product;
+    let subtotal = 0;
+    cart.map((item) => {
+      item.packs.map((pack) => {
+        subtotal += pack.price * pack.quantity;
       });
+    });
 
-      const awaitedProducts = await Promise.all(promises);
-      const ps = awaitedProducts.filter(
-        (product) => product !== null
-      ) as IProduct[];
-      setCart(ps);
-
-      setTotal(() => subtotal - discount + shipping + tax);
-      setLoading(false);
-    };
-
-    setLoading(true);
-    const ac = new AbortController();
-
-    awaitProducts();
+    setSubtotal(subtotal);
+    setTotal(() => subtotal - discount + shipping + tax);
 
     return () => {
-      setCart([]);
-      setLoading(false);
-      ac.abort();
       setSubtotal(0);
       setShipping(0);
       setTax(0);
       setDiscount(0);
       setTotal(0);
     };
-  }, [discount, eventItems, marketplaceEventItems, shipping, subtotal, tax]);
+  }, [discount, cart, shipping, subtotal, tax]);
 
   const handleProceedToPay = async () => {
     setLoadingPayment(true);
 
     try {
       const orderNumber = await proceedPaymentRedsys();
-      createOrder(orderNumber);
-      setIsFormReady(true);
+      handleInsertOrder(orderNumber);
     } catch (error) {
       console.error(error);
       setLoadingPayment(false);
     }
   };
 
-  const createOrder = async (orderNumber: string) => {
+  const handleInsertOrder = async (orderNumber: string) => {
     const { data: order, error: orderError } = await supabase
       .from("event_orders")
       .insert({
@@ -122,7 +98,7 @@ export default function EventCheckout() {
 
     if (orderError) throw orderError;
 
-    eventItems.map(async (item) => {
+    cart.map(async (item) => {
       const { error: orderItemError } = await supabase
         .from("event_order_items")
         .insert({
@@ -135,7 +111,7 @@ export default function EventCheckout() {
       if (orderItemError) throw orderItemError;
     });
 
-    clearCart();
+    setIsFormReady(true);
   };
 
   // REDSYS PAYMENT
@@ -170,6 +146,29 @@ export default function EventCheckout() {
     setMerchantSignature(form.body.Ds_Signature);
 
     return orderNumber;
+  };
+
+  const insertOrderMutation = useMutation({
+    mutationKey: ["insertEventOrder"],
+    mutationFn: handleProceedToPay,
+    onMutate: () => setIsSubmitting(true),
+    onSuccess: () => {
+      queryClient.invalidateQueries("eventOrders");
+      setIsSubmitting(false);
+      clearCart();
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmit = () => {
+    try {
+      insertOrderMutation.mutate();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -217,140 +216,136 @@ export default function EventCheckout() {
         <CustomLoading message={`${t("loading")}`} />
       ) : (
         <>
-          {loading ? (
-            <Spinner color="product-blonde" size="medium" />
-          ) : (
-            <div className="container sm:py-4 lg:py-6">
-              <div className="flex items-center justify-start space-x-2 space-y-2">
-                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                  {t("checkout")}
-                </h1>
-              </div>
+          <div className="container sm:py-4 lg:py-6">
+            <div className="flex items-center justify-start space-x-2 space-y-2">
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                {t("checkout")}
+              </h1>
+            </div>
 
-              <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
-                {/* Products  */}
-                <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                  {/* Customer's Car */}
-                  <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
-                    <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
-                      {t("customer_s_cart")}
-                    </p>
-                    {cart.length > 0 ? (
-                      <div className="w-full">
-                        {cart.map((product) => {
-                          return (
-                            <div key={product.id}>
-                              <EventCheckoutItem product={product} />
-                            </div>
-                          );
-                        })}
+            <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+              {/* Products  */}
+              <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
+                {/* Customer's Car */}
+                <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
+                  <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
+                    {t("customer_s_cart")}
+                  </p>
+                  {cart.length > 0 ? (
+                    <div className="w-full">
+                      {cart.map((productPack) => {
+                        return (
+                          <div key={productPack.id}>
+                            <EventCheckoutItem productPack={productPack} />
+                          </div>
+                        );
+                      })}
 
-                        {/* Subtotal */}
-                        <div className="mt-4 flex w-full flex-row items-center justify-between">
-                          <div className="flex flex-col items-start justify-start space-y-2">
-                            <div className="text-2xl text-gray-500">
-                              {t("subtotal")}
+                      {/* Subtotal */}
+                      <div className="mt-4 flex w-full flex-row items-center justify-between">
+                        <div className="flex flex-col items-start justify-start space-y-2">
+                          <div className="text-2xl text-gray-500">
+                            {t("subtotal")}
 
-                              <span className="ml-6 font-semibold text-gray-800">
-                                {formatCurrency(subtotal)}
-                              </span>
-                            </div>
+                            <span className="ml-6 font-semibold text-gray-800">
+                              {formatCurrency(subtotal)}
+                            </span>
                           </div>
                         </div>
                       </div>
-                    ) : (
-                      <>
-                        <EmptyCart />
-                      </>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <>
+                      <EmptyCart />
+                    </>
+                  )}
                 </div>
+              </div>
 
-                {/* Order summary  */}
-                <div className="border-product-softBlonde flex w-full flex-col items-center justify-between border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
-                  <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                    {t("customer")}
-                  </h3>
+              {/* Order summary  */}
+              <div className="border-product-softBlonde flex w-full flex-col items-center justify-between border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
+                <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
+                  {t("customer")}
+                </h3>
 
-                  <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
-                    {/* Summary */}
-                    <div className="flex flex-shrink-0 flex-col items-start justify-start">
-                      <div className="flex w-full flex-col space-y-6 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
-                        <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                          {t("summary")}
-                        </h3>
+                <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
+                  {/* Summary */}
+                  <div className="flex flex-shrink-0 flex-col items-start justify-start">
+                    <div className="flex w-full flex-col space-y-6 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
+                      <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
+                        {t("summary")}
+                      </h3>
 
-                        <div className="flex w-full flex-col items-center justify-center space-y-6 border-b border-gray-200 pb-4">
-                          <div className="flex w-full justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
-                              {t("subtotal")}
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(subtotal)}
-                            </p>
-                          </div>
-
-                          {/* discount */}
-                          <div className="flex w-full items-center justify-between">
-                            <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
-                              {t("discount")}
-                              <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
-                                STUDENT
-                              </span>
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(discount)} {discount / subtotal}%
-                            </p>
-                          </div>
-
-                          {/* taxes  */}
-                          <div className="flex w-full items-center justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
-                              {t("tax")}
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(tax)}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex w-full items-center justify-between">
-                          <div className="flex items-center">
-                            <p className="text-base font-semibold leading-4 text-gray-800 dark:text-white">
-                              {t("total")}
-                            </p>
-                            <p className="pl-2 text-base text-gray-600 dark:text-gray-300">
-                              ({t("with_taxes_included")})
-                            </p>
-                          </div>
-
-                          <p className="text-base font-semibold leading-4 text-gray-600 dark:text-gray-300">
-                            {formatCurrency(total)}
+                      <div className="flex w-full flex-col items-center justify-center space-y-6 border-b border-gray-200 pb-4">
+                        <div className="flex w-full justify-between">
+                          <p className="text-base leading-4 text-gray-800 dark:text-white">
+                            {t("subtotal")}
+                          </p>
+                          <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                            {formatCurrency(subtotal)}
                           </p>
                         </div>
 
-                        {/* Proceed to pay */}
-                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
-                          <Button
-                            large
-                            primary
-                            class={`font-semibold`}
-                            title={""}
-                            disabled={cart.length === 0}
-                            onClick={() => {
-                              handleProceedToPay();
-                            }}
-                          >
-                            {t("proceed_to_pay")}
-                          </Button>
+                        {/* discount */}
+                        <div className="flex w-full items-center justify-between">
+                          <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
+                            {t("discount")}
+                            <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                              STUDENT
+                            </span>
+                          </p>
+                          <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                            {formatCurrency(discount)} {discount / subtotal}%
+                          </p>
                         </div>
+
+                        {/* taxes  */}
+                        <div className="flex w-full items-center justify-between">
+                          <p className="text-base leading-4 text-gray-800 dark:text-white">
+                            {t("tax")}
+                          </p>
+                          <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                            {formatCurrency(tax)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex w-full items-center justify-between">
+                        <div className="flex items-center">
+                          <p className="text-base font-semibold leading-4 text-gray-800 dark:text-white">
+                            {t("total")}
+                          </p>
+                          <p className="pl-2 text-base text-gray-600 dark:text-gray-300">
+                            ({t("with_taxes_included")})
+                          </p>
+                        </div>
+
+                        <p className="text-base font-semibold leading-4 text-gray-600 dark:text-gray-300">
+                          {formatCurrency(total)}
+                        </p>
+                      </div>
+
+                      {/* Proceed to pay */}
+                      <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                        <Button
+                          large
+                          primary
+                          class={`font-semibold`}
+                          title={""}
+                          disabled={cart.length === 0}
+                          onClick={() => {
+                            onSubmit();
+                          }}
+                        >
+                          {t("proceed_to_pay")}
+                        </Button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </>
       )}
     </div>

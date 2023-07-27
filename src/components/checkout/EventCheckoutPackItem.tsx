@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons from "../common/MarketCartButtons";
-import { SupabaseProps } from "../../constants";
-import {
-  IProduct,
-  IProductPack,
-  IProductPackCartItem,
-} from "../../lib/types.d";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { Type } from "../../lib/productEnum";
-import { useShoppingCart } from "../Context";
+import React, { useState } from "react";
+import { IProduct, IProductPack, IProductPackCartItem } from "../../lib/types";
+import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { useTranslations } from "next-intl";
+import { formatCurrency } from "../../utils";
+import { Type } from "../../lib/productEnum";
+import { SupabaseProps } from "../../constants";
+import { useEventCart } from "../Context/EventCartContext";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -21,7 +17,7 @@ interface Props {
   pack: IProductPack;
 }
 
-export default function CheckoutPackItem({
+export default function EventCheckoutPackItem({
   productPack,
   productWithInfo,
   pack,
@@ -34,7 +30,7 @@ export default function CheckoutPackItem({
     removeFromCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
-  } = useShoppingCart();
+  } = useEventCart();
 
   const handleIncreaseCartQuantity = (
     item: IProductPackCartItem,
@@ -63,7 +59,7 @@ export default function CheckoutPackItem({
         animateRemove && "animate-ping overflow-hidden"
       } mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
     >
-      <div className="pb-4 md:pb-8">
+      <div className="pb-4 md:pb-8 ">
         <DisplayImageProduct
           imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)}
           alt={pack.name}
@@ -72,7 +68,6 @@ export default function CheckoutPackItem({
           class="h-24 w-24 rounded md:h-32 md:w-32 lg:h-40 lg:w-40"
         />
       </div>
-
       <div className="flex w-full flex-col items-start justify-between space-y-4 border-b border-gray-200 pb-8 md:flex-row md:space-y-0">
         <div className="flex w-full flex-col items-start justify-start space-y-8">
           <h3 className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">

@@ -216,7 +216,6 @@ export function StoreItem({ product }: StoreItemProps) {
               >
                 <MarketCartButtons2
                   quantity={packQuantity}
-                  item={product}
                   handleIncreaseCartQuantity={() =>
                     handleIncreasePackQuantity()
                   }

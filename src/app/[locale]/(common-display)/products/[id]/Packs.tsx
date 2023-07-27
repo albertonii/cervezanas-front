@@ -95,7 +95,6 @@ export default function Packs({ product }: Props) {
             <div className="mt-6 flex space-x-2">
               <MarketCartButtons2
                 quantity={packQuantity}
-                item={product}
                 handleIncreaseCartQuantity={() => handleIncreasePackQuantity()}
                 handleDecreaseCartQuantity={() => handleDecreasePackQuantity()}
               />

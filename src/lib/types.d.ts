@@ -783,11 +783,6 @@ export type ICampaignFormProps = {
   campaigns: Campaign[];
 };
 
-export interface ICartItem {
-  id: string; // Product ID
-  quantity: number;
-}
-
 export interface IProductPackCartItem {
   id: string; // Product ID
   packs: IProductPack[];

@@ -4,7 +4,6 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   quantity: number;
-  item: any;
   handleIncreaseCartQuantity: () => void;
   handleDecreaseCartQuantity: () => void;
   displayDelete?: boolean;
