@@ -5,7 +5,7 @@ import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../../components/Auth";
-import { formatDate, formatDateString } from "../../../../../utils";
+import { formatDateString } from "../../../../../utils";
 import { IEventOrder } from "../../../../../lib/types.d";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 import {

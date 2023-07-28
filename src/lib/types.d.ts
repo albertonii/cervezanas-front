@@ -542,7 +542,7 @@ export interface IOrderItem {
   id: string;
   created_at: Date;
   order_id: string;
-  product_id: string;
+  product_id: IProduct;
   product_pack_id: IRefProductPack;
   is_reviewed: boolean;
   product_multimedia: IProductMultimedia[];

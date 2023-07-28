@@ -50,6 +50,7 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
+  /*
   const { supabase } = useSupabase();
   const selectedPack: IProductPack = product.product_pack_id;
 
@@ -216,9 +217,11 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
       if (error) throw error;
     }
   }
+  */
 
   return (
     <>
+      {/*
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
@@ -278,12 +281,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                   </div>
                 </div>
               </section>
-              {/* 
-              <EventCartItem
-                id={selectedPack.id}
-                quantity={quantity}
-                products={[]}
-              /> */}
+             
 
               <section aria-labelledby="options-heading" className="mt-10">
                 <h3 id="options-heading" className="sr-only">
@@ -350,20 +348,20 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
             </div>
 
             {/* Display Similar Products */}
-            <div className="col-span-12 mx-6">
-              <DisplaySimilarProducts />
-            </div>
+      {/*    <div className="col-span-12 mx-6">
+        <DisplaySimilarProducts />
+      </div>
 
-            {/* Reviews */}
-            <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
-              <ProductOverallReview
-                reviews={productReviews}
-                emptyReviews={emptyReviews}
-              />
-            </div>
+      {/* Reviews */}
+      {/*  <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
+        <ProductOverallReview
+          reviews={productReviews}
+          emptyReviews={emptyReviews}
+        />
+      </div>
 
-            {/* See user reviews */}
-            {!emptyReviews && (
+      {/* See user reviews */}
+      {/* {!emptyReviews && (
               <div
                 className="item-center col-span-12 mx-6 flex flex-col justify-center"
                 ref={reviewRef}
@@ -377,6 +375,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
           </div>
         </div>
       )}
+            */}
     </>
   );
 }

@@ -81,12 +81,12 @@ function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
       <div className="">
         <GoogleMap
           zoom={12}
-          center={center}
+          // TODO: center={center}
           mapContainerClassName="map-container"
           mapContainerStyle={containerStyle}
           onLoad={(map) => setMap(map)}
         >
-          {selected && <Marker position={selected} />}
+          {/* TODO: {selected && <Marker position={selected} />} */}
         </GoogleMap>
       </div>
     </div>

@@ -33,10 +33,6 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
     getItemQuantity,
     // decreaseCartQuantity,
     removeFromCart,
-    removeMarketplaceItems,
-    // increaseCartQuantity,
-    marketplaceItems,
-    addMarketplaceItems,
   } = useShoppingCart();
 
   const quantity = getItemQuantity(id);
@@ -102,7 +98,6 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   };
 
   const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
     // removeFromCart(id);
   };
 

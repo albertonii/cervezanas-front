@@ -3,7 +3,7 @@ import Product from "./CPProduct";
 import { VIEWS } from "../../../../../../../constants";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
-import { ICPMProducts, IProduct } from "../../../../../../../lib/types.d";
+import { IProduct } from "../../../../../../../lib/types.d";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -17,7 +17,7 @@ export default async function ProductId({ params }: any) {
 
   return (
     <>
-      <Product product={product} marketplaceProducts={marketplaceProducts} />
+      {/* <Product product={product} marketplaceProducts={marketplaceProducts} /> */}
     </>
   );
 }
