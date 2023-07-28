@@ -543,14 +543,15 @@ export interface IOrderItem {
   created_at: Date;
   order_id: string;
   product_id: string;
-  quantity: number;
+  product_pack_id: IRefProductPack;
   is_reviewed: boolean;
   product_multimedia: IProductMultimedia[];
-  name: string;
-  description: string;
-  price: number;
-  product_packs: IProductPack[];
-  product_pack_id: IProductPack;
+  quantity: number;
+  status: string;
+  // name: string;
+  // description: string;
+  // price: number;
+  // product_packs: IProductPack[];
 }
 
 export interface IEventOrder {

@@ -5,32 +5,22 @@ import { useRouter } from "next/navigation";
 import { SupabaseProps } from "../../../../constants";
 import { formatCurrency, formatDateString } from "../../../../utils";
 import { Button } from "../../../../components/common";
-import {
-  IOrder,
-  IOrderItem,
-  IProduct,
-  IProductPack,
-} from "../../../../lib/types";
+import { IOrder, IOrderItem, } from "../../../../lib/types";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
-  item: IOrderItem;
-  productPack: IProductPack;
-  product: IProduct;
+  orderItem: IOrderItem;
   order: IOrder;
 }
 
-export default function OrderItem({
-  item,
-  productPack,
-  product,
-  order,
-}: Props) {
+export default function OrderItem({ orderItem, order }: Props) {
   const t = useTranslations();
-
+  
   const locale = useLocale();
   const router = useRouter();
+
+  const { product_pack_id: productPack } = orderItem;
 
   const handleOnClick = (productId: string) => {
     router.push(`/${locale}/products/review/${productId}`);
@@ -108,7 +98,7 @@ export default function OrderItem({
         <span className="font-medium text-gray-900">{t("review_product")}</span>
 
         <div className="mt-3 space-y-3 text-beer-dark">
-          {item.is_reviewed && (
+          {orderItem.is_reviewed && (
             <span>{t("product_already_reviewed_condition")}</span>
           )}
 
@@ -118,14 +108,16 @@ export default function OrderItem({
 
           <Button
             disabled={
-              item.is_reviewed || order.status !== "delivered" ? true : false
+              orderItem.is_reviewed || order.status !== "delivered"
+                ? true
+                : false
             }
             primary
             medium
             class="my-6 font-medium text-beer-draft hover:text-beer-dark "
             onClick={() => {
-              if (!item.is_reviewed && order.status === "delivered") {
-                handleOnClick(product.id);
+              if (!orderItem.is_reviewed && order.status === "delivered") {
+                handleOnClick(orderItem.id);
               }
             }}
           >

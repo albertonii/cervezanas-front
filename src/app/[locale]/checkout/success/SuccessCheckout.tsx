@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
@@ -14,9 +13,11 @@ interface Props {
 }
 
 export default function SuccessCheckout({ order, isError }: Props) {
-  const { order_items } = order;
-  const { product_pack_id } = order_items[0];
-  const { product_id: product } = product_pack_id;
+  const { order_items: orderItems } = order;
+
+  // const { product_pack_id } = order_items[0];
+  // const { product_id: product } = product_pack_id;
+
   const t = useTranslations();
   const locale = useLocale();
 
@@ -31,7 +32,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, order_items]);
+  }, [user]);
 
   const handleInvoicePdf = () => {
     window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
@@ -40,11 +41,11 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (isError) {
     return (
       <div className="container mx-auto sm:py-4 lg:py-6">
-        <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+        <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex flex-col">
             <div className="flex sm:items-baseline sm:space-x-4">
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                Order Error
+                {t("order_erorr")}
               </h1>
             </div>
           </div>
@@ -98,13 +99,26 @@ export default function SuccessCheckout({ order, isError }: Props) {
           </div>
 
           {/* <!-- Products --> */}
-          <div className="mt-6">
+          <div className="space-y-8">
+            {orderItems &&
+              orderItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+                >
+                  <OrderItem orderItem={item} order={order} />
+                </div>
+              ))}
+          </div>
+
+          {/* <!-- Products --> */}
+          {/* <div className="mt-6">
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              <div className="m-2 border border-gray-200 bg-white p-2 shadow-sm sm:rounded-lg sm:border lg:m-6 lg:p-6">
-                {/* Product Information  */}
-                <div className="col-span-12 md:col-span-4">
+              <div className="m-2 border border-gray-200 bg-white p-2 shadow-sm sm:rounded-lg sm:border lg:m-6 lg:p-6"> */}
+          {/* Product Information  */}
+          {/* <div className="col-span-12 md:col-span-4">
                   <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                     <Link href={`/products/${product.id}`} locale={locale}>
                       {product.name}
@@ -129,7 +143,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                   ))}
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <!-- Billing --> */}
           <div className="mt-16">

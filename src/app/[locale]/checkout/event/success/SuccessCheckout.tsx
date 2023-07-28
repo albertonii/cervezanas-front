@@ -5,7 +5,7 @@ import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../../components/Auth";
-import { formatDate } from "../../../../../utils";
+import { formatDate, formatDateString } from "../../../../../utils";
 import { IEventOrder } from "../../../../../lib/types.d";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 import {
@@ -87,7 +87,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (isError) {
     return (
       <div className="container mx-auto sm:py-4 lg:py-6">
-        <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+        <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex flex-col">
             <div className="flex sm:items-baseline sm:space-x-4">
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
@@ -121,13 +121,18 @@ export default function SuccessCheckout({ order, isError }: Props) {
               </div>
             </div>
 
-            <p className="text-xl text-gray-600">
+            {/* Order Status  */}
+            <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
+              <p className=" text-lg font-medium text-beer-dark sm:text-xl">
+                {t("order_status")}:{" "}
+                <span className="text-beer-draft">{t(order.status)} </span>
+              </p>
+            </div>
+
+            <p className="text-sm text-gray-600">
               {t("status_order_placed")}
-              <time
-                dateTime="2021-03-22"
-                className="ml-2 font-medium text-gray-900"
-              >
-                {formatDate(order.created_at)}
+              <time dateTime="2021-03-22" className="font-medium text-gray-900">
+                {formatDateString(order.created_at.toString())}
               </time>
             </p>
 
