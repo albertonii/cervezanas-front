@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common";
 import {
-  COMMON,
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
 } from "../../../../../constants";
@@ -29,6 +28,8 @@ export default function EventProduct({ eventOrderItem }: Props) {
   const handleOnClick = (productId: string) => {
     router.push(`/${locale}/products/review/${productId}`);
   };
+
+  const { product_pack_id: pack, product_id: product } = eventOrderItem;
 
   return (
     <>
@@ -61,10 +62,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
                 height={120}
                 alt={""}
                 imgSrc={`${
-                  BASE_PRODUCTS_URL +
-                  decodeURIComponent(
-                    eventOrderItem.product_multimedia[0].p_principal
-                  )
+                  BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
                 }`}
                 class="h-full w-full object-cover object-center sm:h-full sm:w-full"
               />
@@ -72,20 +70,36 @@ export default function EventProduct({ eventOrderItem }: Props) {
           </div>
 
           {/* Product Information  */}
-          <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-            <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-              <Link href={`/products/${eventOrderItem.id}`} locale={locale}>
-                {eventOrderItem.product_id.name}
+          <div className="col-span-12 mt-6 space-y-4 md:col-span-4 md:mt-6">
+            <h3 className="text-base  text-gray-900">
+              <span className="font-medium">{t("product")}: </span>
+              <Link
+                className="hover:text-beer-draft"
+                href={`/products/${eventOrderItem.id}`}
+                locale={locale}
+              >
+                {product.name}
               </Link>
             </h3>
-            <p className="mt-2 text-sm font-medium text-gray-900">
-              {t("price")} - {formatCurrency(eventOrderItem.product_id.price)}
+
+            <h3 className="space-x-2 text-sm text-gray-900">
+              <span className="font-medium">{t("pack")}: </span>
+              <span>{pack.name}</span>
+            </h3>
+
+            <h4 className="space-x-2 text-sm text-gray-900">
+              <span className="font-medium">{t("price")}:</span>
+              <span>{formatCurrency(pack.price)}</span>
+            </h4>
+
+            <p className="space-x-2 text-sm text-gray-900">
+              <span className="font-medium">{t("quantity")}:</span>
+              <span>{pack.quantity}</span>
             </p>
-            <p className="mt-2 text-sm font-medium text-gray-900">
-              {t("quantity")} -
-            </p>
-            <p className="mt-3 text-sm text-gray-500">
-              {t("description")} - {eventOrderItem.product_id.description}
+
+            <p className="space-x-2 text-sm text-gray-900">
+              <span className="font-medium">{t("total")}:</span>
+              <span>{formatCurrency(pack.quantity * pack.price)}</span>
             </p>
           </div>
 
@@ -122,7 +136,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
                     !eventOrderItem.is_reviewed &&
                     eventOrderItem.status !== EVENT_ORDER_ITEM_STATUS.INITIAL
                   ) {
-                    handleOnClick(eventOrderItem.product_id.id);
+                    handleOnClick(product.id);
                   }
                 }}
               >

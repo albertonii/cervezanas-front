@@ -99,16 +99,19 @@ export default function EventBasket() {
     if (orderError) throw orderError;
 
     cart.map(async (item) => {
-      const { error: orderItemError } = await supabase
-        .from("event_order_items")
-        .insert({
-          order_id: order?.[0].id,
-          product_id: item.id,
-          quantity: item.quantity,
-          status: EVENT_ORDER_ITEM_STATUS.INITIAL,
-        });
+      item.packs.map(async (pack) => {
+        const { error: orderItemError } = await supabase
+          .from("event_order_items")
+          .insert({
+            order_id: order?.[0].id,
+            product_pack_id: pack.id,
+            product_id: item.id,
+            quantity: pack.quantity,
+            status: EVENT_ORDER_ITEM_STATUS.INITIAL,
+          });
 
-      if (orderItemError) throw orderItemError;
+        if (orderItemError) throw orderItemError;
+      });
     });
 
     setIsFormReady(true);
