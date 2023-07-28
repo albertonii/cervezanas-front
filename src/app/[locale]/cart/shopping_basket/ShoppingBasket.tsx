@@ -23,6 +23,7 @@ import { createRedirectForm, merchantInfo } from "../../../../components/TPV";
 import { useSupabase } from "../../../../components/Context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
+
 interface FormShippingData {
   shipping_info_id: string;
 }
@@ -31,7 +32,7 @@ interface FormBillingData {
   billing_info_id: string;
 }
 
-export function Checkout() {
+export function ShoppingBasket() {
   const t = useTranslations();
 
   const { user, isLoading } = useAuth();

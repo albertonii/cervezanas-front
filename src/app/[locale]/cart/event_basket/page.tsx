@@ -1,10 +1,10 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import EventCheckout from "./EventCheckout";
+import EventBasket from "./EventBasket";
 
-export default async function EventCheckoutPage() {
+export default async function EventBasketPage() {
   return (
     <>
-      <EventCheckout />
+      <EventBasket />
     </>
   );
 }

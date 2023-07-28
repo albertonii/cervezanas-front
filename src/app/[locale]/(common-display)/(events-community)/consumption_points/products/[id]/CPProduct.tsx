@@ -50,7 +50,6 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
-  console.log("PRODUCTO", product);
   const { supabase } = useSupabase();
   const selectedPack: IProductPack = product.product_pack_id;
 

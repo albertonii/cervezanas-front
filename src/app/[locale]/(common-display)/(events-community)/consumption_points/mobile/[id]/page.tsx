@@ -37,9 +37,12 @@ async function getCPMobile(cpId: string) {
             product_pack_id (
               *, 
               product_id (
+                id,
+                name,
                 description,
                 type,
                 beers (*),
+                price,
                 product_multimedia (p_principal)
               )
             )

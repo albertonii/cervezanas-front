@@ -46,7 +46,6 @@ async function getProductData(cpId: string) {
     .eq("cp_id", cpId);
 
   if (productError) throw productError;
-  console.log(cpmProducts);
   return cpmProducts as any[];
 }
 

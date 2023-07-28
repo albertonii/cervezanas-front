@@ -23,7 +23,7 @@ import {
 import { EventCheckoutItem } from "../../../../components/checkout/EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
 
-export default function EventCheckout() {
+export default function EventBasket() {
   const t = useTranslations();
 
   const { user } = useAuth();
@@ -231,7 +231,7 @@ export default function EventCheckout() {
                   <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                     {t("customer_s_cart")}
                   </p>
-                  {cart.length > 0 ? (
+                  {cart?.length > 0 ? (
                     <div className="w-full">
                       {cart.map((productPack) => {
                         return (
@@ -290,9 +290,9 @@ export default function EventCheckout() {
                         <div className="flex w-full items-center justify-between">
                           <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
                             {t("discount")}
-                            <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                            {/* <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
                               STUDENT
-                            </span>
+                            </span> */}
                           </p>
                           <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                             {formatCurrency(discount)} {discount / subtotal}%
@@ -332,7 +332,7 @@ export default function EventCheckout() {
                           primary
                           class={`font-semibold`}
                           title={""}
-                          disabled={cart.length === 0}
+                          disabled={cart?.length === 0}
                           onClick={() => {
                             onSubmit();
                           }}

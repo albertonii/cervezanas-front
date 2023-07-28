@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
 import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
-import { Checkout } from "./Checkout";
+import { ShoppingBasket } from "./ShoppingBasket";
 
 export default async function CheckoutPage() {
   // const { shippingAddresses, billingAddresses } = await getCheckout();
   return (
     <>
-      <Checkout
+      <ShoppingBasket
       // shippingAddresses={shippingAddresses ?? []}
       // billingAddresses={billingAddresses ?? []}
       />

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons from "../common/MarketCartButtons";
 import { SupabaseProps } from "../../constants";

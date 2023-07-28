@@ -2,7 +2,6 @@ import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons from "../common/MarketCartButtons";
 import React, { useState } from "react";
 import { IProduct, IProductPack, IProductPackCartItem } from "../../lib/types";
-import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "../../utils";
 import { Type } from "../../lib/productEnum";
