@@ -12,7 +12,11 @@ import {
   IRefProductLot,
 } from "../../lib/types.d";
 import { useAuth } from "../Auth";
-import {} from "../common";
+
+// Definir el tipo de datos para el objeto de imágenes
+type ImageDataRecord = {
+  [key: string]: File; // O el tipo adecuado para la información de la imagen
+};
 
 type AppContextType = {
   filters: any;
@@ -32,6 +36,9 @@ type AppContextType = {
   setLots: (newLots: IRefProductLot[]) => void;
   customizeSettings: ICustomizeSettings;
   setCustomizeSettings: (newCustomizeSettings: ICustomizeSettings) => void;
+  imageData: ImageDataRecord;
+  addImage: (key: string, image: File) => void;
+  removeImage: (key: string) => void;
 };
 
 const AppContext = createContext<AppContextType>({
@@ -57,6 +64,9 @@ const AppContext = createContext<AppContextType>({
     family_styles: [],
   },
   setCustomizeSettings: () => void {},
+  imageData: {},
+  addImage: (key: string, image: File) => void {},
+  removeImage: (key: string) => void {},
 });
 
 interface Props {
@@ -85,6 +95,17 @@ export function AppContextProvider(props: Props) {
       family_styles: [],
     });
 
+  const [imageData, setImageData] = useState<ImageDataRecord>({});
+
+  const addImage = (key: string, image: File) => {
+    setImageData({ ...imageData, [key]: image });
+  };
+
+  const removeImage = (key: string) => {
+    const { [key]: _, ...rest } = imageData;
+    setImageData(rest);
+  };
+
   const { user } = useAuth();
 
   const { refetch } = useFetchNotifications(user?.id ?? "");
@@ -105,7 +126,7 @@ export function AppContextProvider(props: Props) {
   );
   const [sidebar, setSidebar] = useLocalStorage<string>(
     "sidebar-option",
-    "profile"
+    "settings"
   );
 
   const [notifications, setNotifications] = useState<INotification[]>([]);
@@ -116,7 +137,7 @@ export function AppContextProvider(props: Props) {
 
   useEffect(() => {
     if (!user?.id) return;
-    refetch().then((res) => {
+    refetch().then(() => {
       // TODO: VOLVER AQUI!
       // const notifications: INotification[] = res.data;
       // setNotifications(notifications);
@@ -141,6 +162,9 @@ export function AppContextProvider(props: Props) {
     setLots,
     customizeSettings,
     setCustomizeSettings,
+    imageData,
+    addImage,
+    removeImage,
   };
 
   return (

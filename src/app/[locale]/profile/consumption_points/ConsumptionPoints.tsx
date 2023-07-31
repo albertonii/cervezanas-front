@@ -28,8 +28,8 @@ export function ConsumptionPoints({
 
   return (
     <div className="px-6 py-4" aria-label="ConsumptionPoints">
-      <div className="flex flex-col">
-        <div className="mb-8 pr-12 text-4xl">{t("consumption_points")}</div>
+      <div className="flex flex-col space-y-4">
+        <div className="text-4xl">{t("consumption_points")}</div>
 
         {cpOrganizerStatus === -1 ? (
           <div>

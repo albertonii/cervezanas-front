@@ -1,2 +1,2 @@
 export * from "./useFetchProducts";
-export * from "./useFetchProductsByOwner";
+export * from "./useFetchProductsByOwnerAndPagination";

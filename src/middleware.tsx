@@ -1,10 +1,10 @@
 import Negotiator from "negotiator";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { VIEWS } from "./constants";
 import createMiddleware from "next-intl/middleware";
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { match as matchLocale } from "@formatjs/intl-localematcher";
+import { ROUTE_SIGNIN } from "./config";
 
 const locales = ["en", "es"];
 
@@ -48,13 +48,15 @@ export async function middleware(req: NextRequest) {
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
     // Comprueba si el usuario tiene la sesión iniciada
-    const supabase = createMiddlewareSupabaseClient({ req, res });
+    const supabase = createMiddlewareClient({ req, res });
+
+    // This will update our cookie with the user session so we can know in protected routes if user is logged in
     const {
       data: { session },
     } = await supabase.auth.getSession();
 
     if (!session) {
-      url.pathname = `${VIEWS.SIGN_IN}`;
+      url.pathname = `${ROUTE_SIGNIN}`;
       return NextResponse.redirect(url);
     }
   }

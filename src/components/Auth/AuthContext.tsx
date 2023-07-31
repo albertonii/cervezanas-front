@@ -2,13 +2,19 @@
 
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
+import {
+  Provider,
+  Session,
+  SignInWithPasswordCredentials,
+  SignUpWithPasswordCredentials,
+  SupabaseClient,
+} from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
+import { ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ROUTE_SIGNIN } from "../../config";
 
 export interface AuthSession {
@@ -17,7 +23,7 @@ export interface AuthSession {
   error: any;
   role: ROLE_ENUM | null;
   isLoading: boolean;
-  signUp: (payload: ISignUp) => void;
+  signUp: (payload: SignUpWithPasswordCredentials) => void;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
@@ -44,6 +50,8 @@ export const AuthContextProvider = ({
   serverSession?: Session | null;
   children: React.ReactNode;
 }) => {
+  const t = useTranslations();
+
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const locale = useLocale();
@@ -80,14 +88,6 @@ export const AuthContextProvider = ({
     mutate,
   } = useSWR(serverSession ? "profile-context" : null, getUser);
 
-  /*
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useFetchProfileContext(serverSession?.user?.id);
-  */
-
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
     async function getActiveSession() {
@@ -97,25 +97,7 @@ export const AuthContextProvider = ({
 
       let role;
       // Set role for the user and load different layouts
-      switch (activeSession?.user?.app_metadata.role) {
-        case "admin":
-          role = ROLE_ENUM.Admin;
-          break;
-        case "consumer":
-          role = ROLE_ENUM.Cervezano;
-          break;
-        case "producer":
-          role = ROLE_ENUM.Productor;
-          break;
-        case "moderator":
-          role = ROLE_ENUM.Moderator;
-          break;
-        default:
-          role = ROLE_ENUM.Cervezano;
-          break;
-      }
-
-      setRole(role);
+      setRole(activeSession?.user?.user_metadata?.access_level);
     }
     getActiveSession();
 
@@ -152,27 +134,17 @@ export const AuthContextProvider = ({
     };
   }, [supabase, serverSession, router]);
 
-  const signUp = async (payload: any) => {
+  const signUp = async (payload: SignInWithPasswordCredentials) => {
     try {
       // setLoading(true);
-      
-      const { error } = await supabase.auth.signUp({
-        email: payload.userCredentials.email,
-        password: payload.userCredentials.password,
-        options: {
-          data: {
-            username: payload.options.data.username,
-            role: payload.options.data.access_level,
-          },
-        },
-      });
+
+      const { error } = await supabase.auth.signUp(payload);
       if (error) {
         handleMessage({ message: error.message, type: "error" });
       } else {
         clearMessages();
         handleMessage({
-          message:
-            "Registrado correctamente. Por favor, revisa el mensaje de confirmación que hemos enviado a tu email.",
+          message: t("sign_up_successfully"),
           type: "success",
         });
       }
@@ -230,9 +202,12 @@ export const AuthContextProvider = ({
     let user = null;
     await supabase.auth.signInWithOAuth({ provider }).then(async (res: any) => {
       user = res.user;
-      isAccessLevel = user.user_metadata.access_level ? true : false;
+      if (user?.user_metadata && user.user_metadata?.access_level) {
+        isAccessLevel = user.user_metadata?.access_level ? true : false;
+      } else {
+        isAccessLevel = false;
+      }
     });
-    // TODO: Volver aquí para introducir el access_level si no existe
 
     // Check if access level is null or invalid
     if (!isAccessLevel && user) {

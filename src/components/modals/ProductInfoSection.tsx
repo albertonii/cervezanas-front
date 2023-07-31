@@ -25,7 +25,7 @@ import { capitalizeFirstLetter, formatCurrency } from "../../utils";
 import {
   Button,
   DeleteButton,
-  FilePreviewAndHide,
+  FilePreviewImageMultimedia,
   InfoTooltip,
 } from "../common";
 
@@ -36,7 +36,7 @@ interface Props {
 
 const emptyPack: IProductPack = {
   id: "",
-  pack: 6,
+  quantity: 6,
   price: 0,
   img_url: "",
   name: "",
@@ -309,7 +309,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="color" className="text-sm text-gray-600">
-                {t("color")} (SRM)
+                {t("color")} 
                 <InfoTooltip
                   content={`${t("color_tooltip")}`}
                   direction="top"
@@ -681,8 +681,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
                         <select
                           required
-                          id={`packs.${index}.pack`}
-                          {...register(`packs.${index}.pack` as const)}
+                          id={`packs.${index}.quantity`}
+                          {...register(`packs.${index}.quantity` as const)}
                           className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         >
                           {pack_type_options.map((option) => (
@@ -742,7 +742,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           type="text"
                           placeholder={`Pack ${index + 1}`}
                           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={3}
+                          defaultValue={1}
                           required
                           min="0"
                           {...register(`packs.${index}.name` as const, {
@@ -765,8 +765,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                           {t("pack_img_url")}
                         </label>
 
-                        <FilePreviewAndHide
-                          storagePath="products"
+                        <FilePreviewImageMultimedia
                           form={form}
                           registerName={`packs.${index}.img_url`}
                         />

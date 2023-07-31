@@ -25,7 +25,7 @@ interface EventListProps {
 
 const EventList = ({ events }: EventListProps) => {
   return (
-    <div className="mx-4 flex w-full flex-col items-center justify-between">
+    <div className="flex w-full flex-col items-center justify-between">
       {events?.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}

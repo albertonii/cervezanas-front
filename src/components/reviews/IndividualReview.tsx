@@ -38,7 +38,7 @@ export function IndividualReview(props: Props) {
         prev.filter((review) => review.id !== reviewId)
       );
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   };
 

@@ -24,8 +24,8 @@ interface Props {
 
 export default function ListPendingCP({ submittedCPs }: Props) {
   const t = useTranslations();
-   const locale = useLocale();
- const [query, setQuery] = useState("");
+  const locale = useLocale();
+  const [query, setQuery] = useState("");
 
   const { supabase } = useSupabase();
 
@@ -220,7 +220,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          placeholder="Search products..."
+          placeholder={t("search_products")}
         />
       </div>
 
@@ -286,8 +286,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 </th>
 
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                  <Link href={`/products/${cp.owner_id.id}`}
-                  locale={locale}>
+                  <Link href={`/products/${cp.owner_id.id}`} locale={locale}>
                     {cp.owner_id.username}
                   </Link>
                 </td>

@@ -5,10 +5,7 @@ import {
   ResponseJSONSuccess,
   SANDBOX_URLS,
 } from "redsys-easy";
-import {
-  EVENT_ORDER_STATUS,
-  MARKETPLACE_ORDER_STATUS,
-} from "../../../../constants";
+import { EVENT_ORDER_STATUS } from "../../../../constants";
 import { createServerClient } from "../../../../utils/supabaseServer";
 
 export async function POST(req: NextRequest) {

@@ -9,7 +9,7 @@ import { Button } from "../../../components/common";
 import { useAppContext } from "../../../components/Context";
 
 export function Sidebar() {
-  const { sidebar } = useAppContext();
+  const { sidebar, changeSidebarActive } = useAppContext();
 
   const { role } = useAuth();
   const t = useTranslations();
@@ -66,52 +66,52 @@ export function Sidebar() {
           {
             name: t("profile"),
             icon: "user",
-            option: "profile/settings",
+            option: "settings",
           },
           {
             name: t("products"),
             icon: "box",
-            option: "profile/products",
+            option: "products",
           },
           {
             name: t("campaigns"),
             icon: "gift",
-            option: "profile/campaigns",
+            option: "campaigns",
           },
           {
             name: t("events"),
             icon: "location",
-            option: "profile/events",
+            option: "events",
           },
           {
             name: t("consumption_points"),
             icon: "location",
-            option: "profile/consumption_points",
+            option: "consumption_points",
           },
           {
             name: t("factories"),
             icon: "truck",
-            option: "profile/factories",
+            option: "factories",
           },
           {
             name: t("event_orders"),
             icon: "shopping-cart",
-            option: "profile/event_orders",
+            option: "event_orders",
           },
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "profile/orders",
+            option: "orders",
           },
           {
             name: t("reviews"),
             icon: "review",
-            option: "profile/reviews",
+            option: "reviews",
           },
           {
             name: t("watchlist"),
             icon: "watchlist",
-            option: "profile/likes_history",
+            option: "likes_history",
           },
         ];
 
@@ -160,7 +160,7 @@ export function Sidebar() {
             {sidebarLinks.map((link) => (
               <li
                 className={`
-                flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
+                flex items-center rounded-lg text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"
@@ -170,8 +170,13 @@ export function Sidebar() {
               >
                 <Link
                   href={{ pathname: link.option }}
-                  className="mx-4 font-medium"
+                  className="w-full p-2 px-4 font-medium"
                   locale={locale}
+                  onClick={() => {
+                    if (link.option !== sidebar) {
+                      changeSidebarActive(link.option);
+                    }
+                  }}
                 >
                   {t(link.name)}
                 </Link>

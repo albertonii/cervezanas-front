@@ -82,7 +82,8 @@ async function getSuccessData(searchParams: any) {
           price,
           product_multimedia(*),
           beers (*)
-        )
+        ),
+        product_pack_id (*)
       )
     `
     )

@@ -1,9 +1,9 @@
+import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
 import { IOrder } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
 import { decodeBase64 } from "../../../../utils/utils";
-import SuccessCheckout from "./SuccessCheckout";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -38,6 +38,7 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function SuccessPage({ searchParams }: any) {
   const { orderData, isError } = await getSuccessData(searchParams);
   const [order] = await Promise.all([orderData]);
+
   if (!order) return <></>;
   return (
     <>
@@ -73,14 +74,22 @@ async function getSuccessData(searchParams: any) {
     .select(
       `
       *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_item(*)
+      shipping_info (id, *),
+      billing_info (id, *),
+      order_items (
+        created_at,
+        order_id,
+        is_reviewed,
+        product_pack_id (
+          name,
+          price,
+          quantity,
+          img_url,
+          product_id (
+            name,
+            description
+          )
+        )
       )
     `
     )

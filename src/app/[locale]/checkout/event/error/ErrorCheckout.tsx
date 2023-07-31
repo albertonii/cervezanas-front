@@ -7,13 +7,17 @@ import { useAuth } from "../../../../../components/Auth";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { IOrder } from "../../../../../lib/types.d";
 import { formatCurrency, formatDateString } from "../../../../../utils";
+import { SupabaseProps } from "../../../../../constants";
 
 interface Props {
   isError?: boolean;
   order: IOrder;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+
 export default function ErrorCheckout({ order, isError }: Props) {
-  const { products } = order;
+  const { order_items: orderItems } = order;
 
   const t = useTranslations();
   const locale = useLocale();
@@ -28,7 +32,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, products]);
+  }, [user]);
 
   if (isError) {
     return (
@@ -86,10 +90,10 @@ export default function ErrorCheckout({ order, isError }: Props) {
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              {products &&
-                products.map((product) => (
+              {orderItems &&
+                orderItems.map((item) => (
                   <div
-                    key={product.id}
+                    key={item.id}
                     className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
                     <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
@@ -100,7 +104,10 @@ export default function ErrorCheckout({ order, isError }: Props) {
                             width={128}
                             height={128}
                             alt="Principal Product Image"
-                            imgSrc={product.product_multimedia[0].p_principal}
+                            imgSrc={
+                              BASE_PRODUCTS_URL +
+                              decodeURIComponent(item.product_pack_id.img_url)
+                            }
                             class={
                               "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
                             }
@@ -112,21 +119,22 @@ export default function ErrorCheckout({ order, isError }: Props) {
                       <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                         <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                           <Link
-                            href={`/products/${product.id}`}
+                            href={`/products/${item.product_pack_id.id}`}
                             locale={locale}
                           >
-                            {product.name}
+                            {item.product_pack_id.name}
                           </Link>
                         </h3>
                         <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("price")} - {formatCurrency(product.price)}
+                          {t("price")} -{" "}
+                          {formatCurrency(item.product_pack_id.price)}
                         </p>
                         <p className="mt-2 text-sm font-medium text-gray-900">
                           {t("quantity")} -
                         </p>
-                        <p className="mt-3 text-sm text-gray-500">
-                          {t("description")} - {product.description}
-                        </p>
+                        {/* <p className="mt-3 text-sm text-gray-500">
+                          {t("description")} - {item.product_pack_id.description}
+                        </p> */}
                       </div>
 
                       {/* Shipping Information  */}

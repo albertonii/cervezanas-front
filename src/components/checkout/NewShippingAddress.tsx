@@ -6,43 +6,29 @@ import { useAuth } from "../Auth";
 import { Modal } from "../modals";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { IShippingAddress } from "../../lib/types.d";
+import { IModalShippingAddress } from "../../lib/types.d";
+import { useMutation, useQueryClient } from "react-query";
 
-interface FormData {
-  name: string;
-  lastname: string;
-  document_id: string;
-  phone: string;
-  address: string;
-  address_extra: string;
-  address_observations: string;
-  country: string;
-  state: string;
-  city: string;
-  zipcode: string;
-  shipping_checked: boolean;
-}
-
-interface Props {
-  handleShippingAddresses: (s: IShippingAddress) => void;
-}
-
-export function NewShippingAddress({ handleShippingAddresses }: Props) {
+export function NewShippingAddress() {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
-  } = useForm<FormData>();
+  } = useForm<IModalShippingAddress>();
 
-  const onSubmit = async (formValues: FormData) => {
+  const handleAddShippingAddress = async (
+    formValues: IModalShippingAddress
+  ) => {
     const {
       name,
       lastname,
@@ -58,34 +44,49 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
       shipping_checked,
     } = formValues;
 
-    const handleAddShippingAddress = async () => {
-      const { data, error } = await supabase.from("shipping_info").insert({
-        owner_id: user?.id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        address_extra,
-        address_observations,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default: shipping_checked,
-      });
+    const { error } = await supabase.from("shipping_info").insert({
+      owner_id: user?.id,
+      name,
+      lastname,
+      document_id,
+      phone,
+      address,
+      address_extra,
+      address_observations,
+      country,
+      zipcode,
+      city,
+      state,
+      is_default: shipping_checked,
+    });
 
-      if (error) throw error;
-      if (!data) throw new Error("No data returned from supabase");
+    if (error) throw error;
+  };
 
-      handleShippingAddresses(data[0]);
-
+  const insertShippingMutation = useMutation({
+    mutationKey: ["insertShipping"],
+    mutationFn: handleAddShippingAddress,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shippingAddresses"] });
+      setShowModal(false);
+      setIsSubmitting(false);
       reset();
-    };
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
 
-    handleAddShippingAddress();
-
-    setShowModal(false);
+  const onSubmit = (formValues: IModalShippingAddress) => {
+    try {
+      insertShippingMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -100,7 +101,7 @@ export function NewShippingAddress({ handleShippingAddresses }: Props) {
       handler={handleSubmit(onSubmit)}
       btnSize={"large"}
       classIcon={"w-6 h-6"}
-      classContainer={"!w-1/2"}
+      classContainer={`!w-1/2 ${isSubmitting && "opacity-50"}`}
     >
       <form className="w-full">
         <>

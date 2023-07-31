@@ -7,6 +7,7 @@ interface Props {
   handleIncreaseCartQuantity: () => void;
   handleDecreaseCartQuantity: () => void;
   handleRemoveFromCart: (id: string) => void;
+  displayDeleteButton?: boolean;
 }
 
 export default function MarketCartButtons({
@@ -15,6 +16,7 @@ export default function MarketCartButtons({
   handleIncreaseCartQuantity,
   handleDecreaseCartQuantity,
   handleRemoveFromCart,
+  displayDeleteButton,
 }: Props) {
   return (
     <>
@@ -26,7 +28,9 @@ export default function MarketCartButtons({
 
           <IncreaseButton onClick={() => handleIncreaseCartQuantity()} />
 
-          <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+          {displayDeleteButton && (
+            <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+          )}
         </div>
       </div>
     </>

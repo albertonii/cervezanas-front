@@ -1,46 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import DeleteModal from "../../../../components/modals/DeleteModal";
 import useFetchCPFixed from "../../../../hooks/useFetchCPFixed";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import EditCPFixedModal from "./EditCPFixedModal";
+import DeleteCPFixedModal from "./DeleteCPFixedModal";
+import React, { useEffect, useMemo, useState } from "react";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { useAuth } from "../../../../components/Auth";
-import { ICPFixed, SortBy } from "../../../../lib/types.d";
-import { Modal } from "../../../../components/modals";
+import { ICPFixed } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
 interface Props {
   cpsId: string;
-  cpFixed: ICPFixed[];
-  handleCPList: ComponentProps<any>;
 }
 
-export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
-  const { user } = useAuth();
-  if (!user) return null;
+enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  NAME = "name",
+  LAST = "last",
+  COUNTRY = "country",
+  CREATED_DATE = "created_date",
+}
 
+export function ListCPFixed({ cpsId }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
 
-  const [cpFixed, setCPFixed] = useState(cp);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fixedCount = cp.length;
+  const fixedCount = 10;
   const pageRange = 10;
   const finalPage =
     fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchCPFixed(
+  const { data, isError, isLoading, refetch } = useFetchCPFixed(
     cpsId,
     currentPage,
     pageRange
   );
+
+  const [cpFixed, setCPFixed] = useState<ICPFixed[]>(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -53,17 +55,17 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      // const cpFixed = res.data as ICPFixed;
-      const cpFixed = res.data as any;
+      const cpFixed = res.data as ICPFixed[];
       setCPFixed(cpFixed);
     });
   }, [currentPage]);
 
   const filteredItems = useMemo<ICPFixed[]>(() => {
-    return cpFixed.filter((fixed) => {
+    if (!data) return [];
+    return data.filter((fixed) => {
       return fixed.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpFixed, query]);
+  }, [data, cpFixed, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -84,69 +86,13 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
   };
 
   const handleEditClick = async (cp: ICPFixed) => {
-    setIsEditModal(true);
     setSelectedCP(cp);
+    setIsEditModal(true);
   };
 
   const handleDeleteClick = async (cp: ICPFixed) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
-  };
-
-  // Remove from fixed list
-  const removeFromFixedList = (id: string) => {
-    const newList = cpFixed.filter((item) => item.id !== id);
-    handleCPList(newList);
-  };
-
-  // Delete CP Fixed from database
-  const handleRemoveCP = async () => {
-    const { error } = await supabase
-      .from("cp_fixed")
-      .delete()
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  // Update to fixed list
-  const updToFixedList = () => {
-    const newList = cpFixed.map((item) => {
-      if (item.id === selectedCP?.id) {
-        return selectedCP;
-      }
-      return item;
-    });
-
-    handleCPList(newList);
-  };
-
-  // Update CP Fixed in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("cp_fixed")
-      .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
-      })
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  const handleDelete = async () => {
-    if (!selectedCP) return;
-
-    await handleRemoveCP();
-    removeFromFixedList(selectedCP.id);
-    setIsDeleteModal(false);
   };
 
   const handlePrevPage = () => {
@@ -161,41 +107,26 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {isEditModal && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            handleUpdate();
-            updToFixedList();
-            setIsEditModal(false);
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+      {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
+      {isEditModal && selectedCP && (
+        <EditCPFixedModal
+          selectedCP={selectedCP}
+          isEditModal={isEditModal}
+          handleEditModal={handleEditModal}
+        />
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={async () => {
-            handleDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedCP && (
+        <DeleteCPFixedModal
+          selectedCPId={selectedCP.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={setIsDeleteModal}
         />
       )}
 
@@ -211,7 +142,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && cpFixed.length === 0 ? (
+      {!isError && !isLoading && sortedItems.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_cp_fixed")}</p>
         </div>
@@ -239,7 +170,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Search by name..."
+              placeholder={t("search_by_name")}
             />
           </div>
 
@@ -273,7 +204,7 @@ export function ListCPFixed({ cpsId, cpFixed: cp, handleCPList }: Props) {
             </thead>
 
             <tbody className="w-full">
-              {sortedItems.map((cp) => {
+              {sortedItems.map((cp: ICPFixed) => {
                 return (
                   <tr
                     key={cp.id}

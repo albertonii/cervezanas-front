@@ -40,8 +40,8 @@ export function Reviews({ reviews: r }: Props) {
   return (
     <>
       <div className="px-4 py-6 " aria-label="Reviews">
-        <div className="flex flex-col">
-          <div className="pr-12 text-4xl">{t("reviews")}</div>
+        <div className="flex flex-col space-y-4">
+          <div className="text-4xl">{t("reviews")}</div>
           {reviews &&
             reviews.length > 0 &&
             reviews.map((review, index) => {

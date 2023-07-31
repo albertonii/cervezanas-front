@@ -23,7 +23,7 @@ import { ModalUpdateProductProps, IProductPack } from "../../lib/types.d";
 import {
   Button,
   DeleteButton,
-  FilePreviewAndHide,
+  FilePreviewImageMultimedia,
   InfoTooltip,
 } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
@@ -34,7 +34,7 @@ interface Props {
 
 const emptyPack: IProductPack = {
   id: "",
-  pack: 6,
+  quantity: 6,
   price: 0,
   img_url: "",
   name: "",
@@ -70,7 +70,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     // Remove pack from database
     if (packId) {
       const { error } = await supabase
-        .from("product_pack")
+        .from("product_packs")
         .delete()
         .eq("id", packId);
 
@@ -656,8 +656,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                         <select
                           required
                           id={`packs.${index}.pack`}
-                          {...register(`packs.${index}.pack` as const, {
-                            value: getValues(`packs.${index}.pack`),
+                          {...register(`packs.${index}.quantity` as const, {
+                            value: getValues(`packs.${index}.quantity`),
                             required: true,
                           })}
                           className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -746,8 +746,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                           {t("pack_img_url")}
                         </label>
 
-                        <FilePreviewAndHide
-                          storagePath="products"
+                        <FilePreviewImageMultimedia
                           form={form}
                           registerName={`packs.${index}.img_url`}
                         />

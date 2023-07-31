@@ -7,11 +7,16 @@ import { Button, Spinner } from "../../../../../components/common";
 import { IEventOrderItem } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
-import { EVENT_ORDER_ITEM_STATUS } from "../../../../../constants";
+import {
+  EVENT_ORDER_ITEM_STATUS,
+  SupabaseProps,
+} from "../../../../../constants";
 
 interface Props {
   eventOrderItem: IEventOrderItem;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ManageEventProduct({ eventOrderItem }: Props) {
   const t = useTranslations();
@@ -62,8 +67,13 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
       <div className="relative flex h-full w-full flex-col items-start overflow-hidden rounded-lg bg-white px-6 pb-8 pt-14 shadow-lg sm:h-screen sm:pt-8 ">
         <div className="my-6 grid w-full grid-cols-12 items-start gap-y-8 space-x-4 lg:grid-cols-12 ">
           {/* Display image Product  */}
-          <div className="aspect-w-2 aspect-h-3 col-span-12 flex flex-col items-center justify-center rounded-lg bg-bear-alvine py-4 sm:flex-row md:overflow-hidden lg:col-span-4">
-            <DisplayImageProduct imgSrc={selectedMultimedia.p_principal} />
+          <div className="aspect-w-2 aspect-h-3 col-span-12 flex items-center justify-center rounded-lg bg-bear-alvine py-4 md:overflow-hidden lg:col-span-4">
+            <DisplayImageProduct
+              imgSrc={
+                BASE_PRODUCTS_URL +
+                decodeURIComponent(selectedMultimedia.p_principal)
+              }
+            />
           </div>
 
           {/* Product information  */}

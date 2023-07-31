@@ -18,7 +18,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
-import { IConsumptionPoints, ICPFixed } from "../../../lib/types.d";
+import { IConsumptionPoints, ICPFixed, ICPMobile } from "../../../lib/types.d";
 import { formatDate } from "../../../utils";
 
 const containerStyle = {
@@ -43,8 +43,7 @@ const getCurrentPosition = async () => {
 
 export default function BMGoogleMap({ cps }: Props) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyAKy3WmKXNpusaPjszA5IZA-jABYT5lHss",
-    // googleMapsApiKey: process.env.NEXT_PLUBIC_GOOGLE_MAPS_API_KEY ?? "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],
   });
 
@@ -84,6 +83,48 @@ function Map({ cps }: Props) {
     }</p> 
               <p class="text-sm">Teléfono: ${fixed.organizer_phone}</p>
               <p class="text-sm">Email: ${fixed.organizer_email}</p>
+            </div>
+          </div>
+        </div>`;
+
+    const infowindow = new google.maps.InfoWindow({
+      content,
+    });
+
+    infowindow.open(map, marker);
+  };
+
+  const onMarkerMobileClick = (
+    marker: google.maps.Marker,
+    mobile: ICPMobile
+  ) => {
+    const content = `<div class="flex flex-col items-center space-y-4">
+          <div class="flex flex-row space-x-2">
+            <p class="text-md">Fecha inicio: ${formatDate(
+              mobile.start_date
+            )}</p>
+            <p class="text-md">Fecha fin: ${formatDate(mobile.end_date)}</p>
+          </div>
+
+          <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
+          <p class="text-sm">${mobile.cp_description}</p>
+          <p class="text-sm">Dirección: ${mobile.address}</p>
+          <p class="text-sm">¿Necesario reserva?: ${
+            mobile.is_booking_required ? t("yes") : t("no")
+          }</p>
+         
+
+          <div class="flex flex-col items-center">
+            <div class="text-lg font-semibold"> 
+            Contacto de la persona encargada
+            </div>
+
+            <div class="flex flex-row space-x-2">
+              <p class="text-sm">Nombre: ${mobile.organizer_name} ${
+      mobile.organizer_lastname
+    }</p> 
+              <p class="text-sm">Teléfono: ${mobile.organizer_phone}</p>
+              <p class="text-sm">Email: ${mobile.organizer_email}</p>
             </div>
           </div>
         </div>`;
@@ -137,7 +178,9 @@ function Map({ cps }: Props) {
             clickable: true,
           });
 
-          marker.addListener("click", () => onMarkerFixClick(marker, mobile));
+          marker.addListener("click", () =>
+            onMarkerMobileClick(marker, mobile)
+          );
           marker.setMap(map);
         });
       });

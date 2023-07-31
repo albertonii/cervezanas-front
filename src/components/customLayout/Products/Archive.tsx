@@ -33,8 +33,8 @@ export function Archive() {
   return (
     <>
       <div className="px-4 py-6 " aria-label="Products">
-        <div className="flex items-center">
-          <div className="pr-12 text-4xl">{t("products_archive")}</div>
+        <div className="flex flex-col space-y-4">
+          <div className="text-4xl">{t("products_archive")}</div>
         </div>
 
         <ProductsArchiveList

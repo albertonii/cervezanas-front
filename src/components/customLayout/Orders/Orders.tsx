@@ -13,8 +13,8 @@ export function Orders({ orders }: Props) {
 
   return (
     <div className="px-4 py-6" aria-label="Orders">
-      <div className="flex flex-col">
-        <div className="pr-12 text-4xl">{t("marketplace_orders")}</div>
+      <div className="flex flex-col space-y-4">
+        <div className="text-4xl">{t("marketplace_orders")}</div>
       </div>
       {orders && orders.length > 0 && <OrderList orders={orders} />}
     </div>

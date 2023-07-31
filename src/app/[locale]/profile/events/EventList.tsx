@@ -1,40 +1,38 @@
 "use client";
 
-import useFetchEvents from "../../../../hooks/useFetchEvents";
-import DeleteModal from "../../../../components/modals/DeleteModal";
+import useFetchEventsByOwnerId from "../../../../hooks/useFetchEventsByOwnerId";
+import DeleteCEventModal from "./DeleteEventModal";
 import Link from "next/link";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import EditEventModal from "./EditEventModal";
+import React, { useEffect, useMemo, useState } from "react";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { IEvent, SortBy } from "../../../../lib/types.d";
+import { ICPMobile, IEvent, SortBy } from "../../../../lib/types.d";
 import { formatDate } from "../../../../utils";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { Modal } from "../../../../components/modals";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 
 interface Props {
-  events: IEvent[];
-  handleEList: ComponentProps<any>;
+  cpsMobile: ICPMobile[];
 }
 
-export default function EventList({ events: es, handleEList }: Props) {
+export default function EventList({ cpsMobile }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
 
-  const [events, setEvents] = useState<IEvent[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fixedCount = es.length;
+  const fixedCount = 1;
   const pageRange = 10;
   const finalPage =
     fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchEvents(
+  const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,
     pageRange
   );
+
+  const [events, setEvents] = useState<IEvent[]>(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -46,10 +44,6 @@ export default function EventList({ events: es, handleEList }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
   useEffect(() => {
-    setEvents(es);
-  }, [es]);
-
-  useEffect(() => {
     refetch().then((res: any) => {
       const events = res.data as any;
       setEvents(events);
@@ -57,11 +51,11 @@ export default function EventList({ events: es, handleEList }: Props) {
   }, [currentPage]);
 
   const filteredItems = useMemo<IEvent[]>(() => {
-    if (!events) return [];
-    return events.filter((event) => {
+    if (!data) return [];
+    return data.filter((event) => {
       return event.name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [events, query]);
+  }, [data, events, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -92,57 +86,6 @@ export default function EventList({ events: es, handleEList }: Props) {
     setSelectedEvent(e);
   };
 
-  // Remove from event list
-  const removeFromEventList = (id: string) => {
-    const newList = events.filter((item) => item.id !== id);
-    handleEList(newList);
-  };
-
-  // Delete CP event from database
-  const handleRemoveCP = async () => {
-    const { error } = await supabase
-      .from("events")
-      .delete()
-      .eq("id", selectedEvent?.id);
-
-    if (error) throw error;
-  };
-
-  // Update to fixed list
-  const updToFixedList = () => {
-    const newList = events.map((item) => {
-      if (item.id === selectedEvent?.id) {
-        return selectedEvent;
-      }
-      return item;
-    });
-
-    handleEList(newList);
-  };
-
-  // Update CP Fixed in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("events")
-      .update({
-        name: selectedEvent?.name,
-        description: selectedEvent?.description,
-        start_date: selectedEvent?.start_date,
-        end_date: selectedEvent?.end_date,
-      })
-      .eq("id", selectedEvent?.id);
-
-    if (error) throw error;
-  };
-
-  const handleDelete = () => {
-    if (!selectedEvent) return;
-
-    handleRemoveCP();
-    removeFromEventList(selectedEvent.id);
-    setIsDeleteModal(false);
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -155,41 +98,30 @@ export default function EventList({ events: es, handleEList }: Props) {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
+  const handlDeleteModal = (isDelete: boolean) => {
+    setIsDeleteModal(isDelete);
+  };
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-      {isEditModal && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            handleUpdate();
-            updToFixedList();
-            setIsEditModal(false);
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+      {isEditModal && selectedEvent && (
+        <EditEventModal
+          selectedEvent={selectedEvent}
+          isEditModal={isEditModal}
+          handleEditModal={handleEditModal}
+          cpsMobile={cpsMobile}
+        />
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={async () => {
-            handleDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedEvent && (
+        <DeleteCEventModal
+          selectedEventId={selectedEvent.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={handlDeleteModal}
         />
       )}
 
@@ -205,8 +137,8 @@ export default function EventList({ events: es, handleEList }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && events.length === 0 ? (
-        <div className="flex items-center justify-center">
+      {!isError && !isLoading && sortedItems.length === 0 ? (
+        <div className="flex h-40 items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
       ) : (
@@ -233,7 +165,7 @@ export default function EventList({ events: es, handleEList }: Props) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Search by name..."
+              placeholder={t("search_by_name")}
             />
           </div>
 
@@ -271,15 +203,16 @@ export default function EventList({ events: es, handleEList }: Props) {
             </thead>
 
             <tbody>
-              {sortedItems.map((e) => {
+              {sortedItems.map((e: IEvent) => {
                 return (
                   <tr
                     key={e.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/events/${e.id}`}
-                      locale={locale}>{e.name}</Link>
+                      <Link href={`/events/${e.id}`} locale={locale}>
+                        {e.name}
+                      </Link>
                     </td>
 
                     <td className="px-6 py-4">{formatDate(e.created_at)}</td>

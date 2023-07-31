@@ -1,21 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../lib/types.d";
+import { ICPMobile, ICPM_events } from "../../../../lib/types.d";
 
 interface Props {
   cpsMobile: ICPMobile[];
   form: UseFormReturn<any, any>;
+  checkedCPs?: ICPM_events[];
+  selectedEventId?: string;
 }
 
-export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
+export function SearchCheckboxCPs({
+  cpsMobile,
+  form,
+  checkedCPs,
+  selectedEventId,
+}: Props) {
   const t = useTranslations();
 
-  const { register } = form;
+  const { register, setValue } = form;
+
+  const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
+    checkedCPs ?? []
+  );
+
+  const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
+    // if (!checkedCPs) return;
+
+    if (isChecked) {
+      // Verify if the CP is already in the array
+      if (checkedCPsState.some((item) => item.cp_id === cpId)) return;
+
+      const cp_check: ICPM_events = {
+        cp_id: cpId,
+        event_id: selectedEventId ?? "",
+        is_active: false,
+      };
+      setCheckedCPsState([...checkedCPsState, cp_check]);
+    } else {
+      setCheckedCPsState(checkedCPsState.filter((item) => item.cp_id !== cpId));
+    }
+  };
+
+  useEffect(() => {
+    setValue("cps_mobile", checkedCPsState);
+  }, [checkedCPsState]);
 
   return (
     <>
-      <div className="space-y my-6 w-full">
+      <div className="my-6 w-full">
         <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
           <div className="p-3">
             <label className="sr-only">{t("search")}</label>
@@ -49,30 +82,36 @@ export function SearchCheckboxCPs({ cpsMobile, form }: Props) {
             className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownSearchButton"
           >
-            {cpsMobile.map((cp, index) => {
-              return (
-                <li key={cp.id}>
-                  <div className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            {cpsMobile &&
+              cpsMobile.map((cp: ICPMobile) => {
+                return (
+                  <li
+                    key={cp.id}
+                    className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
                     {/* Checkbox Name  */}
-                    <div>
-                      <input
-                        id="checkbox-item-11"
-                        type="checkbox"
-                        {...register(`cps_mobile.${index}.id`)}
-                        value={cp.id}
-                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                      />
-                      <label
-                        htmlFor={`cps_mobile.${index}.value`}
-                        className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        {cp.cp_name}
-                      </label>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
+                    <input
+                      id={`checkbox-item-${cp.id}`}
+                      type="checkbox"
+                      {...register(`cps_mobile.${cp.id}.cp_id`)}
+                      checked={checkedCPsState?.some(
+                        (cps_event) => cps_event.cp_id === cp.id
+                      )}
+                      onChange={(e) =>
+                        handleCheckboxChange(cp.id, e.target.checked)
+                      }
+                      value={cp.id}
+                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                    />
+                    <label
+                      htmlFor={`checkbox-item-${cp.id}`}
+                      className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {cp.cp_name}
+                    </label>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>

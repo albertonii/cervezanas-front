@@ -2,15 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwner";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import useFetchProductsByOwner from "../../../hooks/useFetchProductsByOwnerAndPagination";
+import React, { ComponentProps, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../../lib/types.d";
 import { Button, DeleteButton, Spinner } from "../../common";
 import { ArchiveButton } from "../../common/ArchiveButton";
 import { EditButton } from "../../common/EditButton";
 import { useAuth } from "../../Auth";
-import { useAppContext } from "../../Context";
 import { useSupabase } from "../../Context/SupabaseProvider";
 import { formatCurrency } from "../../../utils";
 
@@ -30,32 +29,30 @@ export function ProductList({
   handleProductModal,
 }: Props) {
   const { supabase } = useSupabase();
-  const { products: ps, setProducts } = useAppContext();
-
   const { user } = useAuth();
   if (!user) return null;
 
   const t = useTranslations();
   const locale = useLocale();
 
-  const products = ps.filter((product) => !product.is_archived);
-
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const productsCount = ps.filter((product) => !product.is_archived).length;
   const pageRange = 10;
+
+  const {
+    data: ps,
+    isError,
+    isLoading,
+  } = useFetchProductsByOwner(user?.id, currentPage, pageRange, false);
+
+  const products = ps?.filter((product) => !product.is_archived);
+
+  const productsCount =
+    ps?.filter((product) => !product.is_archived).length ?? 0;
   const finalPage =
     productsCount < currentPage * pageRange
       ? productsCount
       : currentPage * pageRange;
-
-  const { isError, isLoading, refetch } = useFetchProductsByOwner(
-    user.id,
-    currentPage,
-    pageRange,
-    false
-  );
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -97,16 +94,6 @@ export function ProductList({
       .select();
 
     if (error) throw error;
-
-    // Update products state
-    const updatedProducts = products.map((product) => {
-      if (product.id === product.id) {
-        return updatedProduct;
-      }
-      return product;
-    });
-
-    setProducts(updatedProducts);
   };
 
   const handleDeleteClick = (product: IProduct) => {
@@ -115,22 +102,10 @@ export function ProductList({
     handleProductModal(product);
   };
 
-  // Update products state when products props changes
-  useEffect(() => {
-    setProducts(ps);
-  }, [ps]);
-
-  useEffect(() => {
-    refetch().then((res) => {
-      // const products = res.data as IProduct[];
-      const products = res.data as any;
-      setProducts(products);
-    });
-  }, [currentPage]);
-
-  const filteredItems = useMemo<IProduct[]>(() => {
+  const filteredItems = useMemo<any[]>(() => {
+    if (!products) return [];
     return products.filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
+      return product.name?.toLowerCase().includes(query.toLowerCase());
     });
   }, [products, query]);
 
@@ -160,7 +135,7 @@ export function ProductList({
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && products.length === 0 ? (
+      {!isError && !isLoading && products?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
             {t("no_products")}
@@ -190,7 +165,7 @@ export function ProductList({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Search products..."
+              placeholder={t("search_products")}
             />
           </div>
 
@@ -288,11 +263,7 @@ export function ProductList({
             </Button>
 
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: productsCount,
-              })}
+              {t("pagination_footer_nums")}
             </p>
 
             <Button class="" onClick={() => handleNextPage()} small primary>

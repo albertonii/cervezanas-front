@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
@@ -12,26 +12,33 @@ import { CartItem } from "./CartItem";
 export function ShoppingCart() {
   const t = useTranslations();
   const locale = useLocale();
-  const { items, closeCart, marketplaceItems, isOpen } = useShoppingCart();
-
+  const { items, isOpen, closeCart } = useShoppingCart();
   const [subTotal, setSubTotal] = useState(0);
+  const dialogDivRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let total = 0;
 
-    marketplaceItems?.find((product) =>
-      items.find((item) => {
-        if (product.id === item.id) {
-          total += product.price * item.quantity;
-        }
-      })
-    );
-    setSubTotal(total);
+    items.find((item) => {
+      item.packs.map((pack) => {
+        total += pack.price * pack.quantity;
+      });
+    });
 
+    setSubTotal(total);
     () => {
       setSubTotal(0);
     };
-  }, [items, marketplaceItems]);
+  }, [items]);
+
+  // The dialog is loading twice and making dialog layers, so when clicked it dissapears when it shouldn't
+  useEffect(() => {
+    // If page loading complete, display dialog
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) return null;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -41,7 +48,9 @@ export function ShoppingCart() {
         onClose={() => {
           closeCart();
         }}
+        initialFocus={dialogDivRef}
       >
+        {/* Transition to apply the backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -51,12 +60,14 @@ export function ShoppingCart() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          {/* <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" /> */}
+          <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+              {/* Transition to apply to the content */}
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -67,12 +78,16 @@ export function ShoppingCart() {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                  <div
+                    className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
+                    ref={dialogDivRef}
+                  >
+                    <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">
+                        <Dialog.Title className="text-xl font-medium text-gray-900">
                           {t("shopping_cart")}
                         </Dialog.Title>
+
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
@@ -87,24 +102,18 @@ export function ShoppingCart() {
                         </div>
                       </div>
 
-                      <div className="mt-8">
-                        <div className="flow-root">
-                          <ul
-                            role="list"
-                            className="-my-6 divide-y divide-gray-200"
-                          >
-                            {items &&
-                              items.map((item) => (
-                                <li key={item.id} className="flex py-6">
-                                  <CartItem
-                                    key={item.id}
-                                    {...item}
-                                    products={marketplaceItems}
-                                  />
-                                </li>
-                              ))}
-                          </ul>
-                        </div>
+                      <div className="mt-8 flow-root">
+                        <ul
+                          role="list"
+                          className="-my-6 divide-y divide-gray-200"
+                        >
+                          {items &&
+                            items.map((item) => (
+                              <li key={item.id} className="space-y-6">
+                                <CartItem item={item} />
+                              </li>
+                            ))}
+                        </ul>
                       </div>
                     </div>
 

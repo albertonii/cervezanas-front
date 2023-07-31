@@ -1,6 +1,5 @@
 "use client";
 
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
 import React, {
   useCallback,
   useEffect,
@@ -9,29 +8,27 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { Button, IconButton, Spinner } from "../../../../../components/common";
-import { useShoppingCart } from "../../../../../components/Context";
+import { Spinner } from "../../../../../components/common";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,
   ProductReviews,
   Rate,
 } from "../../../../../components/reviews";
-import { COMMON, SupabaseProps } from "../../../../../constants";
+import { SupabaseProps } from "../../../../../constants";
 import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils";
-import { ProductGallery } from "../../../components";
+import { DisplaySimilarProducts, ProductGallery } from "../../../components";
+import Packs from "./Packs";
 import { useAuth } from "../../../../../components/Auth";
 
 interface Props {
   product: IProduct;
-  marketplaceProducts: IProduct[];
 }
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
+const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
-export default function Product({ product, marketplaceProducts }: Props) {
+export default function Product({ product }: Props) {
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
   const selectedProduct = product;
@@ -63,18 +60,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
     return reviews.length ? sum / reviews.length : 0;
   }, [reviews]);
 
-  const {
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    marketplaceItems,
-    addMarketplaceItems,
-    removeMarketplaceItems,
-  } = useShoppingCart();
-
-  const quantity = getItemQuantity(selectedProduct.id);
-
   const executeScroll = useCallback(
     () => reviewRef.current.scrollIntoView(),
     [reviewRef]
@@ -86,81 +71,42 @@ export default function Product({ product, marketplaceProducts }: Props) {
 
     setGallery(
       [
-        ...(p_principal
-          ? [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: productsUrl + decodeURIComponent(p_principal),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_back
-          ? [
-              {
-                link: "/",
-                title: "Back",
-                imageUrl: productsUrl + decodeURIComponent(p_back),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_1
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 1",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_1),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_2
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 2",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_2),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
-        ...(p_extra_3
-          ? [
-              {
-                link: "/",
-                title: "Photo Extra 3",
-                imageUrl: productsUrl + decodeURIComponent(p_extra_3),
-              },
-            ]
-          : [
-              {
-                link: "/",
-                title: "Principal",
-                imageUrl: COMMON.MARKETPLACE_PRODUCT,
-              },
-            ]),
+        ...[
+          {
+            link: "/",
+            title: "Principal",
+            imageUrl:
+              p_principal && productsUrl + decodeURIComponent(p_principal),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Back",
+            imageUrl: p_back && productsUrl + decodeURIComponent(p_back),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 1",
+            imageUrl: p_extra_1 && productsUrl + decodeURIComponent(p_extra_1),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 2",
+            imageUrl: p_extra_2 && productsUrl + decodeURIComponent(p_extra_2),
+          },
+        ],
+        ...[
+          {
+            link: "/",
+            title: "Photo Extra 3",
+            imageUrl: p_extra_3 && productsUrl + decodeURIComponent(p_extra_3),
+          },
+        ],
       ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
     );
   }, [
@@ -184,27 +130,6 @@ export default function Product({ product, marketplaceProducts }: Props) {
   };
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
-
-  const handleIncreaseToCartItem = (productId: string) => {
-    increaseCartQuantity(productId);
-
-    if (marketplaceItems.some(({ id }) => id === productId)) return;
-
-    const product = marketplaceProducts.find(({ id }) => id === productId);
-    if (!product) return;
-    addMarketplaceItems(product);
-  };
-
-  const handleDecreaseFromCartItem = (beerId: string) => {
-    decreaseCartQuantity(beerId);
-    if (getItemQuantity(beerId) > 1) return;
-    removeMarketplaceItems(beerId);
-  };
-
-  const handleRemoveFromCart = (beerId: string) => {
-    removeMarketplaceItems(beerId);
-    removeFromCart(beerId);
-  };
 
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
     setIsLike(value);
@@ -237,7 +162,7 @@ export default function Product({ product, marketplaceProducts }: Props) {
       ) : (
         <div className="relative flex w-full items-center overflow-hidden bg-white  pb-8 pt-14 sm:pt-8 ">
           <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-            <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-bear-alvine md:overflow-hidden lg:col-span-4">
+            <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
               <ProductGallery
                 gallery={gallery}
                 isLike={isLike}
@@ -246,15 +171,15 @@ export default function Product({ product, marketplaceProducts }: Props) {
             </div>
 
             <div className="col-span-12 mx-6 lg:col-span-8 ">
-              <div className="flex-column flex">
+              <div className="flex flex-col sm:flex-row sm:justify-between">
                 <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                   {selectedProduct.name}
                 </h2>
 
-                <div>
+                <>
                   <h4 className="sr-only">{t("reviews")}</h4>
 
-                  <div className="flex flex-row items-center justify-end">
+                  <div className="flex flex-col items-end justify-end">
                     <div className="flex items-center">
                       <Rate
                         rating={productStars}
@@ -265,15 +190,17 @@ export default function Product({ product, marketplaceProducts }: Props) {
                       />
                     </div>
 
-                    <p className="sr-only">{productStars} out of 5 stars</p>
-                    <p
-                      onClick={() => executeScroll()}
-                      className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
-                    >
-                      {productReviews.length} {t("reviews")}
-                    </p>
+                    <>
+                      <p className="sr-only">{productStars} out of 5 stars</p>
+                      <p
+                        onClick={() => executeScroll()}
+                        className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
+                      >
+                        {productReviews.length} {t("reviews")}
+                      </p>
+                    </>
                   </div>
-                </div>
+                </>
               </div>
 
               {/* Basic Info  */}
@@ -293,155 +220,16 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 </div>
               </section>
 
-              {/* Experts info  */}
-              <section
-                aria-labelledby="experts-info-heading"
-                className="border-lg border-1 mt-2 grid bg-beer-softFoam p-4"
-              >
-                {/* Display info */}
-                <legend id="experts-info-heading">
-                  {t("product_characteristics")}
-                </legend>
-
-                <div className=" md:grid-cols-2">
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("aroma")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].aroma}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("color")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].color}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("fermentation")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].fermentation}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("era")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].era}
-                    </p>
-                  </div>
-
-                  {/* <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("historic")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].historic}
-                    </p>
-                  </div> */}
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("intensity")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].intensity} %
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("gluten")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].is_gluten}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("origin")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].origin}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("format")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].format}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-row space-x-2">
-                    <p className="text-lg">{t("volume")}:</p> &nbsp;
-                    <p className="text-lg font-semibold">
-                      {selectedProduct.beers[0].volume}
-                    </p>
-                  </div>
-                </div>
+              <section aria-labelledby="packs" className="mt-10">
+                <Packs product={product} />
               </section>
 
               <section aria-labelledby="options-heading" className="mt-10">
                 <h3 id="options-heading" className="sr-only">
                   {t("product_options")}
                 </h3>
-
-                <form>
-                  <div className="mt-6 flex space-x-2">
-                    {quantity === 0 ? (
-                      <IconButton
-                        classContainer="mt-6 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                        classIcon={""}
-                        onClick={() =>
-                          handleIncreaseToCartItem(selectedProduct.id)
-                        }
-                        icon={faCartArrowDown}
-                        isActive={false}
-                        color={{
-                          filled: "#fdc300",
-                          unfilled: "grey",
-                        }}
-                        title={"Add item to cart"}
-                      >
-                        <>{t("add_to_cart")}</>
-                      </IconButton>
-                    ) : (
-                      <>
-                        <MarketCartButtons
-                          quantity={quantity}
-                          item={product}
-                          handleIncreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
-                          }
-                          handleDecreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
-                          }
-                          handleRemoveFromCart={() =>
-                            handleRemoveFromCart(selectedProduct.id)
-                          }
-                        />
-                      </>
-                    )}
-                    {/* 
-                    <Button
-                      onClick={() =>
-                        handleIncreaseToCartItem(selectedProduct.id)
-                      }
-                      class="bg-purple-500 hover:bg-purple-600 mb-2 mt-6 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
-                      isActive={false}
-                      color={{
-                        filled: "",
-                        unfilled: "",
-                      }}
-                      title={""}
-                      primary
-                    >
-                      <>{t("buy")}</>
-                    </Button> */}
-                  </div>
-                </form>
               </section>
             </div>
-
-            {/* Display Similar Products */}
-            {/* <div className="col-span-12 mx-6">
-              <DisplaySimilarProducts />
-            </div> */}
 
             {/* Reviews */}
             <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
@@ -463,6 +251,11 @@ export default function Product({ product, marketplaceProducts }: Props) {
                 />
               </div>
             )}
+
+            {/* Display Similar Products */}
+            <div className="col-span-12 mx-6">
+              <DisplaySimilarProducts />
+            </div>
           </div>
         </div>
       )}

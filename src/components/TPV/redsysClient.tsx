@@ -19,8 +19,8 @@ const env = process.env.NODE_ENV;
 let host = "";
 
 if (env === "production") {
-  host = "https://cervezanas.beer";
-  // https://cervezanas-front.vercel.app:443
+  host = "http://localhost:3000";
+  // host = "https://cervezanas-front.vercel.app:443"
 } else if (env === "development") {
   host = "http://localhost:3000";
 } else {

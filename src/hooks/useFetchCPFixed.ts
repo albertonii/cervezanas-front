@@ -18,7 +18,8 @@ const fetchCPFixed = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .select();
 
   if (error) throw error;
 
@@ -33,9 +34,9 @@ const useFetchCPFixed = (
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["cp_fixed"],
+    queryKey: ["cpFixed", cpId, currentPage, pageRange],
     queryFn: () => fetchCPFixed(cpId, currentPage, pageRange, supabase),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

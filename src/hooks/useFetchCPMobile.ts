@@ -18,7 +18,8 @@ const fetchCPMobile = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .select();
 
   if (error) throw error;
 
@@ -33,9 +34,9 @@ const useFetchCPMobile = (
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["cp_fixed"],
+    queryKey: ["cpMobile", cpId, currentPage, pageRange],
     queryFn: () => fetchCPMobile(cpId, currentPage, pageRange, supabase),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

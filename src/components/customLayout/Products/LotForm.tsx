@@ -1,5 +1,5 @@
 import React from "react";
-import useFetchProducts from "../../../hooks/useFetchBeers";
+import useFetchBeers from "../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../Context/SupabaseProvider";
@@ -19,7 +19,7 @@ export default function LotForm({ handleShowModal }: Props) {
 
   const { supabase } = useSupabase();
 
-  const { data: productsLot, isSuccess } = useFetchProducts();
+  const { data: productsLot, isSuccess } = useFetchBeers();
 
   const {
     register,
@@ -108,7 +108,7 @@ export default function LotForm({ handleShowModal }: Props) {
             </div>
           </div>
 
-          <div className="space-y my-6 w-full">
+          <div className="my-6 w-full">
             <div>
               <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
                 <div className="p-3">
@@ -134,7 +134,7 @@ export default function LotForm({ handleShowModal }: Props) {
                       type="text"
                       id="input-group-search"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      placeholder="Search lot"
+                      placeholder={t("search_lots")}
                     />
                   </div>
                 </div>

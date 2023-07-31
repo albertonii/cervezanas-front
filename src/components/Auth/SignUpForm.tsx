@@ -4,7 +4,10 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { Button, DisplayInputError } from "../common";
-import { ISignUp, ROLE_ENUM } from "../../lib/types.d";
+import { ROLE_ENUM } from "../../lib/types.d";
+import { SignUpWithPasswordCredentials } from "@supabase/supabase-js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 const ROLE_OPTIONS = [
   {
@@ -65,38 +68,31 @@ export const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState(ROLE_ENUM.Cervezano);
 
-  const data = {
-    access_level: role,
-    name: "",
-    lastname: "",
-    username: username,
-    password: "",
-    email: "",
-    avatar_url: "",
-    email_verified: false,
-    full_name: "",
-    iss: "",
-    picture: "",
-    provider_id: "",
-    sub: "",
-  };
-
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
     setRole(value);
   };
 
   const onSubmit = async () => {
-    const userCredentials: ISignUp = {
-      userCredentials: { email: email, password: password, phone: "" },
+    const data = {
+      access_level: role,
+      username: username,
+      email: email,
+      email_verified: false,
+    };
+
+    const signUpInfo: SignUpWithPasswordCredentials = {
+      email: email,
+      password: password,
+      phone: "",
       options: {
-        redirectTo: "",
+        emailRedirectTo: `${location.origin}/api/auth/callback`,
         captchaToken: "",
         data: data,
       },
     };
 
-    signUp(userCredentials);
+    signUp(signUpInfo);
   };
 
   return (
@@ -194,14 +190,21 @@ export const SignUpForm = () => {
       ) : (
         <>
           <Button
-            onClick={() => {
-              onSubmit();
-            }}
-            class={"w-96"}
             title={"sign_up"}
-            xLarge
-            primary
+            btnType="submit"
+            class={
+              "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+            }
+            fullSize
           >
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <FontAwesomeIcon
+                icon={faLock}
+                style={{ color: "bear-dark" }}
+                title={"Lock"}
+                className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+              />
+            </span>
             {t("sign_up")}
           </Button>
         </>

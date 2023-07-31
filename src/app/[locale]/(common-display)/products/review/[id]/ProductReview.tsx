@@ -6,10 +6,13 @@ import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
 import { NewProductReview } from "../../../../../../components/reviews";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
+import { SupabaseProps } from "../../../../../../constants";
 
 interface Props {
   product: IProduct;
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ProductReview({ product }: Props) {
   const t = useTranslations();
@@ -31,7 +34,10 @@ export default function ProductReview({ product }: Props) {
         <div className="mt-6 flex flex-col">
           <div className="flex flex-row">
             <DisplayImageProduct
-              imgSrc={multimedia[0].p_principal}
+              imgSrc={
+                BASE_PRODUCTS_URL +
+                decodeURIComponent(multimedia[0].p_principal)
+              }
               alt={"Product to be review"}
             />
 

@@ -1,22 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { faCheck, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../components/Auth";
-import { useSupabase } from "../../../../components/Context/SupabaseProvider";
-import { ICPMobile } from "../../../../lib/types.d";
 import useFetchCPMobile from "../../../../hooks/useFetchCPMobile";
-import DeleteModal from "../../../../components/modals/DeleteModal";
-import { Modal } from "../../../../components/modals";
+import DeleteCPMobileModal from "./DeleteCPMobileModal";
+import EditCPMobileModal from "./EditCPMobileModal";
+import React, { useEffect, useMemo, useState } from "react";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useLocale, useTranslations } from "next-intl";
+import { ICPMobile } from "../../../../lib/types.d";
 import { Button, IconButton, Spinner } from "../../../../components/common";
 import { formatDate } from "../../../../utils";
 
 interface Props {
   cpsId: string;
-  cpMobile: ICPMobile[];
-  handleCPList: ComponentProps<any>;
 }
 
 enum SortBy {
@@ -28,31 +24,27 @@ enum SortBy {
   CREATED_DATE = "created_date",
 }
 
-export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
-  const { user } = useAuth();
-  if (!user) return null;
-
-  const { supabase } = useSupabase();
-
+export function ListCPMobile({ cpsId }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const [cpMobile, setCPMobile] = useState<ICPMobile[]>(cp);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const mobileCount = cp.length;
+  const mobileCount = 1;
   const pageRange = 10;
   const finalPage =
     mobileCount < currentPage * pageRange
       ? mobileCount
       : currentPage * pageRange;
 
-  const { isError, isLoading, refetch } = useFetchCPMobile(
+  const { data, isError, isLoading, refetch } = useFetchCPMobile(
     cpsId,
     currentPage,
     pageRange
   );
+
+  const [cpMobile, setCPMobile] = useState<ICPMobile[]>(data ?? []);
 
   const editColor = { filled: "#90470b", unfilled: "grey" };
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -71,14 +63,11 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
   }, [currentPage]);
 
   const filteredItems = useMemo<ICPMobile[]>(() => {
-    return cpMobile.filter((mobile) => {
+    if (!data) return [];
+    return data.filter((mobile) => {
       return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpMobile, query]);
-
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
+  }, [data, cpMobile, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -94,70 +83,18 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
     });
   }, [filteredItems, sorting]);
 
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
+
   const handleEditClick = async (cp: ICPMobile) => {
-    setIsEditModal(true);
     setSelectedCP(cp);
+    handleEditModal(true);
   };
 
   const handleDeleteClick = async (cp: ICPMobile) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
-  };
-
-  // Remove from mobile list
-  const removeFromMobileList = (id: string) => {
-    const newList = cpMobile.filter((item) => item.id !== id);
-    handleCPList(newList);
-  };
-
-  // Delete CP Mobile from database
-  const handleRemoveCP = async () => {
-    const { error } = await supabase
-      .from("cp_mobile")
-      .delete()
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  // Update to mobile list
-  const updToMobileList = () => {
-    const newList = cpMobile.map((item) => {
-      if (item.id === selectedCP?.id) {
-        return selectedCP;
-      }
-      return item;
-    });
-
-    handleCPList(newList);
-  };
-
-  // Update CP Mobile in database
-  const handleUpdate = async () => {
-    const { error } = await supabase
-      .from("cp_mobile")
-      .update({
-        cp_name: selectedCP?.cp_name,
-        cp_description: selectedCP?.cp_description,
-        organizer_name: selectedCP?.organizer_name,
-        organizer_lastname: selectedCP?.organizer_lastname,
-        organizer_email: selectedCP?.organizer_email,
-        organizer_phone: selectedCP?.organizer_phone,
-        address: selectedCP?.address,
-        is_booking_required: selectedCP?.is_booking_required,
-        maximum_capacity: selectedCP?.maximum_capacity,
-      })
-      .eq("id", selectedCP?.id);
-
-    if (error) throw error;
-  };
-
-  const handleDelete = () => {
-    if (!selectedCP) return;
-
-    removeFromMobileList(selectedCP.id);
-    handleRemoveCP();
-    setIsDeleteModal(false);
   };
 
   const handlePrevPage = () => {
@@ -172,41 +109,32 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
     }
   };
 
+  const handleEditModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
+  const handleDeleteModal = (isEdit: boolean) => {
+    setIsEditModal(isEdit);
+  };
+
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
-      {isEditModal && (
-        <Modal
-          title={t("accept")}
-          icon={faCheck}
-          color={editColor}
-          handler={async () => {
-            handleUpdate();
-            updToMobileList();
-            setIsEditModal(false);
-          }}
-          handlerClose={() => setIsEditModal(false)}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
-          showModal={isEditModal}
-          setShowModal={setIsEditModal}
-        >
-          <></>
-        </Modal>
+      {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
+      {isEditModal && selectedCP && (
+        <>
+          <EditCPMobileModal
+            selectedCP={selectedCP}
+            isEditModal={isEditModal}
+            handleEditModal={handleEditModal}
+          />
+        </>
       )}
 
-      {isDeleteModal && (
-        <DeleteModal
-          title={t("delete")}
-          handler={async () => {
-            handleDelete();
-          }}
-          handlerClose={() => setIsDeleteModal(false)}
-          description={t("delete_cp_description_modal")}
-          btnTitle={t("accept")}
-          showModal={isDeleteModal}
-          setShowModal={setIsDeleteModal}
+      {isDeleteModal && selectedCP && (
+        <DeleteCPMobileModal
+          selectedCPId={selectedCP.id}
+          isDeleteModal={isDeleteModal}
+          handleDeleteModal={handleDeleteModal}
         />
       )}
 
@@ -222,7 +150,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && cpMobile.length === 0 ? (
+      {!isError && !isLoading && sortedItems.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
             {t("no_cp_mobile")}
@@ -252,7 +180,7 @@ export function ListCPMobile({ cpsId, cpMobile: cp, handleCPList }: Props) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Search by name..."
+              placeholder={t("search_by_name")}
             />
           </div>
 

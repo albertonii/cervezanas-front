@@ -288,6 +288,23 @@ export interface IReview {
   products?: IProduct;
 }
 
+export interface IRefReview {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  owner_id: string;
+  product_id: string;
+  comment: string;
+  aroma: number;
+  appearance: number;
+  taste: number;
+  bitterness: number;
+  mouthfeel: number;
+  overall: number;
+  users?: User;
+  products?: any;
+}
+
 export interface IProfile {
   id: string;
   created_at: Date;
@@ -328,9 +345,9 @@ export interface IEvent {
   description: string;
   start_date: Date;
   end_date: Date;
-  logo: string;
-  promotional_img: string;
-  owner_id: any;
+  logo_url: string;
+  promotional_url: string;
+  owner_id: IUser;
   cp_mobile: ICPMobile[];
   status: string;
   address: string;
@@ -364,7 +381,8 @@ export interface ICPFixed {
   maximum_capacity: number;
   is_booking_required: boolean;
   cp_id: string;
-  cpm_products: ICPFProducts[];
+  is_internal_organizer: boolean;
+  cpf_products: ICPFProducts[];
 }
 
 export interface ICPMobile {
@@ -380,13 +398,14 @@ export interface ICPMobile {
   end_date: Date;
   address: string;
   status: string;
-  logo: string;
+  logo_url: string;
   gallery: string[];
   maximum_capacity: number;
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
   cp_id: string;
   cpm_products: IRefCPMProducts[];
+  is_internal_organizer: boolean;
   // TODO: rrss
 }
 
@@ -401,14 +420,42 @@ export interface ICPMProducts {
   id: string;
   created_at: Date;
   cp_id: ICPMobile;
-  product_id: IProduct;
+  product_pack_id: IProductPack;
+  stock: number;
+  stock_consumed: number;
 }
 
 export interface IRefCPMProducts {
   id: string;
   created_at: Date;
   cp_id: any;
-  product_id: IProduct;
+  product_pack_id: IProductPack;
+  stock: number;
+  stock_consumed: number;
+}
+
+export interface ICPMProductsEditCPMobileModal {
+  id: string;
+  created_at: Date;
+  cp_id: any;
+  product_pack_id: string;
+  stock: number;
+  stock_consumed: number;
+}
+
+export interface ICPMProductsEditCPFixedModal {
+  id: string;
+  created_at: Date;
+  cp_id: any;
+  product_pack_id: string;
+  stock: number;
+  stock_consumed: number;
+}
+
+export interface ICPM_events {
+  cp_id: string;
+  event_id: string;
+  is_active: boolean;
 }
 
 export interface IProfileLocation {
@@ -490,19 +537,23 @@ export interface IOrder {
   discount_code: string;
   products: IOrderItem[];
   order_number: string;
+  order_items: IOrderItem[];
 }
 
 export interface IOrderItem {
   id: string;
   created_at: Date;
   order_id: string;
-  product_id: string;
-  quantity: number;
+  product_id: IProduct;
+  product_pack_id: IRefProductPack;
   is_reviewed: boolean;
   product_multimedia: IProductMultimedia[];
-  name: string;
-  description: string;
-  price: number;
+  quantity: number;
+  status: string;
+  // name: string;
+  // description: string;
+  // price: number;
+  // product_packs: IProductPack[];
 }
 
 export interface IEventOrder {
@@ -529,6 +580,7 @@ export interface IEventOrderItem {
   created_at: Date;
   order_id: string;
   product_id: IProduct;
+  product_pack_id: IRefProductPack;
   is_reviewed: boolean;
   product_multimedia: IProductMultimedia[];
   cp_m_id: ICPMobile;
@@ -617,11 +669,11 @@ export type ModalAddProductProps = {
   origin: number;
   era: number;
   intensity: number;
-  p_principal: File;
-  p_back: File;
-  p_extra_1: File;
-  p_extra_2: File;
-  p_extra_3: File;
+  p_principal: FileList;
+  p_back: FileList;
+  p_extra_1: FileList;
+  p_extra_2: FileList;
+  p_extra_3: FileList;
   volume: any;
   price: number;
   pack: any;
@@ -641,11 +693,29 @@ export type ModalAddProductProps = {
 
 export type IProductPack = {
   id: string;
-  pack: number;
-  price: number;
-  img_url: any;
   name: string;
+  price: number;
+  quantity: number;
+  img_url: any;
   randomUUID: string;
+  product_id?: IProduct;
+};
+
+export type IRefProductPack = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  img_url: any;
+  randomUUID: string;
+  product_id?: any;
+};
+
+export type IPackItem = {
+  id: string;
+  quantity: number;
+  price: number;
+  name: string;
 };
 
 export type ModalUpdateProductProps = {
@@ -682,6 +752,17 @@ export type ModalUpdateProductProps = {
   category: string;
 };
 
+export type ModalUpdateLotProps = {
+  lot_number: string;
+  lot_name: string;
+  product_id: string;
+  quantity: number;
+  limit_notification: number;
+  expiration_date: Date;
+  manufacture_date: Date;
+  packaging: string;
+};
+
 type BeerModalProps = {
   id: string;
   lot_id: number;
@@ -707,9 +788,13 @@ export type ICampaignFormProps = {
   campaigns: Campaign[];
 };
 
-export interface ICartItem {
-  id: string;
+export interface IProductPackCartItem {
+  id: string; // Product ID
+  packs: IProductPack[];
   quantity: number;
+  name: string;
+  image: string;
+  price: number;
 }
 
 export interface ICarouselItem {
@@ -739,19 +824,19 @@ export interface IProduct {
   product_lot: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
-  reviews: any[]; // Any para evitar circular dependency
+  reviews: IRefReview[];
   likes: ILike[];
   is_public: boolean;
   price: number;
   beers: any[]; // Any para evitar circular dependency
   product_variant: IProductVariant[];
-  order_item: IOrderItem[];
+  order_items: OrderItem[];
   awards: IAward[];
   is_archived: boolean;
   state: IProductEnum.State;
   status: IProductEnum.Status;
   type: IProductEnum.Type;
-  product_pack: IProductPack[];
+  product_packs: IRefProductPack[];
   is_monthly: boolean;
 }
 
@@ -887,6 +972,40 @@ export interface IModalAddProduct {
   lot_quantity: number;
 }
 
+export interface IModalShippingAddress {
+  owner_id: string;
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+  shipping_checked: boolean;
+}
+
+export interface IModalBillingAddress {
+  owner_id: string;
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+  billing_checked: boolean;
+}
+
 export interface IShippingAddress {
   id: string;
   name: string;
@@ -930,11 +1049,15 @@ export interface IPaymentCard {
 }
 
 export interface ISignUp {
-  userCredentials: { email: string; password: string; phone: string };
-  options: {
-    redirectTo?: string;
-    data?: object;
-    captchaToken?: string;
+  userCredentials: {
+    email: string;
+    password: string;
+    phone: string;
+    options: {
+      emailRedirectTo?: string;
+      data?: object;
+      captchaToken?: string;
+    };
   };
 }
 

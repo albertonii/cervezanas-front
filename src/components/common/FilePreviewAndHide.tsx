@@ -14,16 +14,14 @@ interface Props {
 }
 
 export const FilePreviewAndHide = ({
-  form: { setValue, getValues },
+  form: { setValue, getValues, register },
   registerName,
   storagePath,
 }: Props) => {
   const t = useTranslations();
-  //TODO: Cambiar el tipo de File de any a File
-  const [file, setFile] = useState<any>(
-    getValues(registerName)?.size > 0
-      ? getValues(registerName)
-      : new File([], "")
+
+  const [fileList, setFileList] = useState<FileList | null>(
+    getValues(registerName)?.size > 0 ? getValues(registerName) : null
   );
   const [message, setMessage] = useState("");
   const [hideDrop, setHideDrop] = useState(
@@ -36,20 +34,19 @@ export const FilePreviewAndHide = ({
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return console.info("No hay archivos");
 
-    const file = e.target.files[0];
-    setFile(file);
+    setFileList(e.target.files);
     setMessage("");
   };
 
   useEffect(() => {
-    if (file.size > 0) {
+    if (fileList && fileList.length > 0) {
       setHideDrop(true);
-      setValue(registerName, file);
+      setValue(registerName, fileList);
     } else setHideDrop(false);
-  }, [file, registerName, setValue]);
+  }, [fileList, registerName, setValue]);
 
   const removeImage = () => {
-    setFile(new File([], ""));
+    setFileList(null);
     setExistsPrevImg(false);
   };
 
@@ -58,12 +55,12 @@ export const FilePreviewAndHide = ({
   }, [existsPrevImg]);
 
   return (
-    <div className="w-[360px] rounded-md md:w-4/5">
+    <div className="w-[360px] rounded-md md:w-4/5 lg:w-full">
       <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">
         {message}
       </span>
 
-      {hideDrop ? (
+      {hideDrop && fileList ? (
         <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
           <div className="z-1 relative flex h-full  w-full items-center justify-center bg-gray-200">
             <div className="flex flex-row items-center gap-2">
@@ -85,7 +82,7 @@ export const FilePreviewAndHide = ({
                     width={128}
                     height={128}
                     className="h-full w-full rounded"
-                    src={URL.createObjectURL(file)}
+                    src={URL.createObjectURL(fileList[0])}
                     alt={""}
                   />
                 )}
@@ -105,7 +102,7 @@ export const FilePreviewAndHide = ({
       ) : (
         <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
           <input
-            id={registerName}
+            {...register(registerName)}
             type="file"
             onChange={handleFile}
             accept="image/png, image/jpeg"

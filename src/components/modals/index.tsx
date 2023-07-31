@@ -3,7 +3,7 @@ export * from "./AddProduct";
 export * from "./AwardsSection";
 export * from "./DeleteProduct";
 export * from "./DeleteLot";
-export * from "./EditLot";
+export * from "./UpdateLot";
 export * from "./ProductInfoSection";
 export * from "./Modal";
 export * from "./PortalModal";

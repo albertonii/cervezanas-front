@@ -6,6 +6,10 @@ export function formatDateString(dateString: string) {
   });
 }
 
+export function formatDateTypeDefaultInput(date: Date) {
+  return date.toISOString().substring(0, 10);
+}
+
 export function formatDateDefaultInput(date: string) {
   return new Date(date).toISOString().substring(0, 10);
 }

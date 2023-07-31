@@ -12,11 +12,14 @@ import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
 import MarketCartButtons from "../common/MarketCartButtons";
+import { SupabaseProps } from "../../constants";
 
 interface Props {
   mProduct: IMonthlyProduct;
   mProducts: IMonthlyProduct[];
 }
+
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const { supabase } = useSupabase();
@@ -28,12 +31,8 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
 
   const {
     getItemQuantity,
-    decreaseCartQuantity,
+    // decreaseCartQuantity,
     removeFromCart,
-    removeMarketplaceItems,
-    increaseCartQuantity,
-    marketplaceItems,
-    addMarketplaceItems,
   } = useShoppingCart();
 
   const quantity = getItemQuantity(id);
@@ -84,26 +83,22 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   }
 
   const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(id);
-
-    if (marketplaceItems.find((item) => item.id === id)) return;
-
-    const pMarketplace = marketplaceItems.find((item) => item.id === id);
-    if (pMarketplace) return;
-
-    const pMonthly = mProducts.find((item) => item.product_id.id === id);
-    if (pMonthly) addMarketplaceItems(pMonthly.product_id);
+    // increaseCartQuantity(id);
+    // if (marketplaceItems.find((item) => item.id === id)) return;
+    // const pMarketplace = marketplaceItems.find((item) => item.id === id);
+    // if (pMarketplace) return;
+    // const pMonthly = mProducts.find((item) => item.product_id.id === id);
+    // if (pMonthly) addMarketplaceItems(pMonthly.product_id);
   };
 
   const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(id);
-    if (getItemQuantity(id) > 1) return;
-    removeMarketplaceItems(id);
+    // decreaseCartQuantity(id);
+    // if (getItemQuantity(id) > 1) return;
+    // removeMarketplaceItems(id);
   };
 
   const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
-    removeFromCart(id);
+    // removeFromCart(id);
   };
 
   return (
@@ -129,7 +124,10 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
               width={128}
               height={128}
               alt="Principal Product Image"
-              imgSrc={product.product_multimedia[0].p_principal}
+              imgSrc={
+                BASE_PRODUCTS_URL +
+                decodeURIComponent(product.product_multimedia[0].p_principal)
+              }
               class={
                 "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
               }

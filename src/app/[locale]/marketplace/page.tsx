@@ -60,33 +60,19 @@ async function getMarketplaceProducts() {
     ),
     product_inventory (
       quantity
-    ),likes (
+    ),
+    likes (
       id
-    ), reviews (
+    ), 
+    reviews (
       overall
-    )
+    ),
+    product_packs (*)
   `
     )
     .eq("is_public", true);
 
   if (productsError) throw productsError;
-
-  /*
-  productsData?.map(async (product: IProduct, index: number) => {
-    if (
-      !product.product_multimedia[0] ||
-      !product.product_multimedia[0].p_principal
-    )
-      return;
-
-    product.product_multimedia[0].p_principal =
-      !product.product_multimedia || !product.product_multimedia[0].p_principal
-        ? `${COMMON.MARKETPLACE_PRODUCT}`
-        : `${product.product_multimedia[0].p_principal}`;
-
-    productsData[index] = product;
-  });
-  */
 
   return productsData as IProduct[];
 }

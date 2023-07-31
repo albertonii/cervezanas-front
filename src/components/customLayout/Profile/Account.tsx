@@ -14,9 +14,9 @@ interface Props {
 }
 
 export function Account({ profile }: Props) {
-  const t = useTranslations();
+  if (!profile) return <></>;
 
-  if (!profile) return null;
+  const t = useTranslations();
 
   return (
     <>

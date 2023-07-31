@@ -131,6 +131,8 @@ module.exports = {
         bubbles_beer: "bubbles_beer 9s infinite linear",
         bubble_strech: "bubble_strech 3s infinite ease-in-out",
         bubbles: "bubbles 5s infinite linear",
+        spin_slow: "spin 5s linear infinite",
+        ping_slow: "ping 5s cubic-bezier(1, 1, 0.2, 1) infinite",
       },
     },
     colors: {

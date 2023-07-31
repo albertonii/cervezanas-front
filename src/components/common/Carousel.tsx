@@ -1,63 +1,49 @@
 "use client";
 
-import { useState, useRef, useEffect, ComponentProps } from "react";
+import { useState, useEffect, ComponentProps } from "react";
 import { CarouselItem } from ".";
 import { ICarouselItem } from "../../lib/types.d";
 
 interface Props {
   gallery: ICarouselItem[];
-  isLike: boolean;
-  handleSetIsLike: ComponentProps<any>;
   handleSetGalleryIndex: ComponentProps<any>;
 }
 
 export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
-  const maxScrollWidth = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const carousel = useRef<any>(null);
 
   const movePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevState: number) => prevState - 1);
-      handleSetGalleryIndex((prevState: number) => prevState - 1);
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+      handleSetGalleryIndex((prevIndex: number) => prevIndex - 1);
     }
   };
 
   const moveNext = () => {
-    if (
-      carousel.current !== null &&
-      carousel.current.offsetWidth * currentIndex <= maxScrollWidth.current
-    ) {
-      setCurrentIndex((prevState: number) => prevState + 1);
-      handleSetGalleryIndex((prevState: number) => prevState + 1);
+    if (currentIndex < gallery.length - 1) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+      handleSetGalleryIndex((prevIndex: number) => prevIndex + 1);
     }
   };
 
-  const isDisabled = (direction: any) => {
+  const isDisabled = (direction: "prev" | "next") => {
     if (direction === "prev") {
       return currentIndex <= 0;
     }
 
-    if (direction === "next" && carousel.current !== null) {
-      return (
-        carousel.current.offsetWidth * currentIndex >= maxScrollWidth.current
-      );
+    if (direction === "next") {
+      return currentIndex >= gallery.length - 1;
     }
 
     return false;
   };
 
   useEffect(() => {
-    if (carousel !== null && carousel.current !== null) {
-      carousel.current.scrollLeft = carousel.current.offsetWidth * currentIndex;
+    const carousel = document.getElementById("carousel");
+    if (carousel) {
+      carousel.scrollLeft = carousel.offsetWidth * currentIndex;
     }
   }, [currentIndex]);
-
-  useEffect(() => {
-    maxScrollWidth.current = carousel.current
-      ? carousel.current.scrollWidth - carousel.current.offsetWidth
-      : 0;
-  }, []);
 
   const handleClick = (index: number) => {
     setCurrentIndex(index);
@@ -65,12 +51,12 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   };
 
   return (
-    <div className="carousel mx-auto my-12">
+    <div className="carousel mx-auto my-4 lg:my-6">
       <div className="relative overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
             onClick={movePrev}
-            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-blue-900/75 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-beer-gold hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
             disabled={isDisabled("prev")}
           >
             <svg
@@ -92,7 +78,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
 
           <button
             onClick={moveNext}
-            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-blue-900/75 hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
+            className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-beer-gold hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
             disabled={isDisabled("next")}
           >
             <svg
@@ -113,27 +99,28 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
           </button>
         </div>
 
-        <div
-          ref={carousel}
-          className="carousel-container relative z-0 ml-2 flex touch-pan-x snap-x snap-mandatory gap-1 overflow-hidden scroll-smooth"
-        >
+        <div className="carousel-container relative z-0 ml-2 flex touch-pan-x snap-x snap-mandatory gap-1 overflow-hidden scroll-smooth">
           {gallery.map((resource, index) => {
             return (
-              <div
-                key={index}
-                className="carousel-item relative snap-start text-center hover:cursor-pointer"
-                onClick={() => {
-                  handleClick(index);
-                }}
-              >
-                <CarouselItem
-                  resource={{
-                    link: resource.link,
-                    imageUrl: resource.imageUrl,
-                    title: resource.title,
+              <>
+                <div
+                  key={resource.title + index}
+                  className={`relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer  ${
+                    currentIndex === index ? "scale-100" : "opacity-75"
+                  }`}
+                  onClick={() => {
+                    handleClick(index);
                   }}
-                />
-              </div>
+                >
+                  <CarouselItem
+                    resource={{
+                      link: resource.link,
+                      imageUrl: resource.imageUrl,
+                      title: resource.title,
+                    }}
+                  />
+                </div>
+              </>
             );
           })}
         </div>

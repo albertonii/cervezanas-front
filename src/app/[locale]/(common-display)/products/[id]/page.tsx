@@ -1,43 +1,24 @@
 import Product from "./Product";
-import { VIEWS } from "../../../../../constants";
 import { createServerClient } from "../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
 import { IProduct } from "../../../../../lib/types.d";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
 
   const productData = await getProductData(id);
-  const marketplaceData = await getMarketplaceData();
+  // const marketplaceData = await getMarketplaceData();
 
-  const [product, marketplaceProducts] = await Promise.all([
-    productData,
-    marketplaceData,
-  ]);
+  const [product] = await Promise.all([productData]);
 
   return (
     <>
-      <Product
-        product={product}
-        // marketplaceProducts={marketplaceProducts ?? []}
-        marketplaceProducts={[]}
-      />
+      <Product product={product} />
     </>
   );
 }
 
 async function getProductData(productId: string) {
-  // Create authenticated Supabase Client
   const supabase = createServerClient();
-
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
 
   const { data: product, error: productError } = await supabase
     .from("products")
@@ -47,8 +28,13 @@ async function getProductData(productId: string) {
         *
       ),
       product_multimedia (
-        p_principal
+        p_principal,
+        p_back,
+        p_extra_1,
+        p_extra_2,
+        p_extra_3
       ),
+      product_packs (*),
       reviews (
         *,
         users (
@@ -65,19 +51,9 @@ async function getProductData(productId: string) {
 }
 
 async function getMarketplaceData() {
-  // Create authenticated Supabase Client
   const supabase = createServerClient();
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: products, error: productsError } = await supabase
+  const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(
       `
@@ -92,5 +68,5 @@ async function getMarketplaceData() {
 
   if (productsError) throw productsError;
 
-  return products;
+  return productsData as IProduct[];
 }

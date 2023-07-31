@@ -1,29 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { IRefProductLot } from "../../../lib/types.d";
-import { AddLot, DeleteLot, EditLot } from "../../modals";
+import { AddLot, DeleteLot, UpdateLot } from "../../modals";
 import { LotList } from "./LotList";
-import { useAppContext } from "../../Context";
 
 export function Lots() {
   const t = useTranslations();
-
-  const { products, lots, setLots } = useAppContext();
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
   const [lotModal, setProductLotModal] = useState<any>(null);
-
-  const handleSetProductLots = (value: IRefProductLot[]) => {
-    setLots(value);
-  };
-
-  useEffect(() => {
-    setLots(lots);
-  }, [lots]);
 
   const handleEditShowModal = (value: boolean) => {
     setIsEditShowModal(value);
@@ -39,17 +28,13 @@ export function Lots() {
 
   return (
     <div className="px-4 py-6 " aria-label="Lots">
-      <div className="flex items-center">
-        <div className="pr-12 text-4xl">{t("lots")}</div>
+      <div className="flex flex-col space-y-4">
+        <div className="text-4xl">{t("lots")}</div>
 
-        <AddLot
-          products={products}
-          handleSetProductLots={handleSetProductLots}
-        />
+        <AddLot />
       </div>
 
       <LotList
-        lots={lots}
         handleEditShowModal={handleEditShowModal}
         handleDeleteShowModal={handleDeleteShowModal}
         handleProductLotModal={handleProductLotModal}
@@ -57,20 +42,16 @@ export function Lots() {
 
       {isDeleteShowModal && (
         <DeleteLot
-          lots={lots}
           productLotId={lotModal.id}
           showModal={isDeleteShowModal}
           handleDeleteShowModal={handleDeleteShowModal}
-          handleSetProductLots={handleSetProductLots}
         />
       )}
 
       {isEditShowModal && (
-        <EditLot
-          lots={lots}
+        <UpdateLot
           productLot={lotModal}
           handleEditShowModal={handleEditShowModal}
-          handleSetProductLots={handleSetProductLots}
           showModal={isEditShowModal}
         />
       )}

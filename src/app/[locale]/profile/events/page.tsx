@@ -3,46 +3,19 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../constants";
 import { createServerClient } from "../../../../utils/supabaseServer";
-import { ICPMobile, IEvent } from "../../../../lib/types.d";
+import { ICPMobile } from "../../../../lib/types.d";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();
-  const eventsData = getEventsData();
-  const [cpsMobile, events] = await Promise.all([cpsMobileData, eventsData]);
-  if (!events) return <></>;
+  const [cpsMobile] = await Promise.all([cpsMobileData]);
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <ProfileEvents events={events} cpsMobile={cpsMobile} />
+        <ProfileEvents cpsMobile={cpsMobile} />
       </Suspense>
     </>
   );
-}
-
-async function getEventsData() {
-  const supabase = createServerClient();
-
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: eventsData, error: eventsError } = await supabase
-    .from("events")
-    .select(
-      `
-        *,
-        cp_mobile (*)
-      `
-    )
-    .eq("owner_id", session.user.id);
-  if (eventsError) throw eventsError;
-
-  return eventsData as IEvent[];
 }
 
 async function getCPMobileData() {
@@ -56,6 +29,7 @@ async function getCPMobileData() {
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
+
   const { data: cps, error: cpError } = await supabase
     .from("consumption_points")
     .select(
@@ -68,5 +42,5 @@ async function getCPMobileData() {
 
   if (cpError) throw cpError;
 
-  return cps[0].cp_mobile as ICPMobile[];
+  return cps[0]?.cp_mobile as ICPMobile[];
 }

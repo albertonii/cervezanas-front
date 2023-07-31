@@ -6,9 +6,6 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 
 const fetchProductsByOwner = async (
   ownerId: string,
-  currentPage: number,
-  pageRange: number,
-  isArchived: boolean,
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
@@ -28,34 +25,20 @@ const fetchProductsByOwner = async (
         count: "exact",
       }
     )
-    .eq("owner_id", ownerId)
-    .eq("is_archived", isArchived)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .eq("owner_id", ownerId);
 
   if (error) throw error;
 
   return data;
 };
 
-const useFetchProductsByOwner = (
-  ownerId: string,
-  currentPage: number,
-  pageRange: number,
-  isArchived: boolean
-) => {
+const useFetchProductsByOwner = (ownerId: string) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["products_owner"],
-    queryFn: () =>
-      fetchProductsByOwner(
-        ownerId,
-        currentPage,
-        pageRange,
-        isArchived,
-        supabase
-      ),
-    enabled: false,
+    queryKey: ["productListByOwner", ownerId],
+    queryFn: () => fetchProductsByOwner(ownerId, supabase),
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

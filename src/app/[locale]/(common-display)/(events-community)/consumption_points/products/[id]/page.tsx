@@ -1,7 +1,9 @@
 import Product from "./CPProduct";
 
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
-import { ICPMProducts, IProduct } from "../../../../../../../lib/types.d";
+import { redirect } from "next/navigation";
+import { IProduct } from "../../../../../../../lib/types.d";
+import { VIEWS } from "../../../../../../../constants";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -15,50 +17,52 @@ export default async function ProductId({ params }: any) {
 
   return (
     <>
-      <Product product={product} marketplaceProducts={marketplaceProducts} />
+      {/* <Product product={product} marketplaceProducts={marketplaceProducts} /> */}
     </>
   );
 }
 
-async function getProductData(productId: string) {
+async function getProductData(cpId: string) {
   // Create authenticated Supabase Client
   const supabase = createServerClient();
 
-  const { data: product, error: productError } = await supabase
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect(VIEWS.SIGN_IN);
+  }
+
+  const { data: cpmProducts, error: productError } = await supabase
     .from("cpm_products")
     .select(
       `*,
-      product_id (
-        *,
-        beers (
-          *
-        ),
-        product_multimedia (
-          p_principal
-        ),
-        reviews (
-          *,
-          users (
-            created_at,
-            username
-          )
-        )
-      ),
+      product_pack_id (*),
       cp_id (*)
       `
     )
-    .eq("id", productId);
+    .eq("cp_id", cpId);
 
   if (productError) throw productError;
-
-  return product[0] as ICPMProducts;
+  return cpmProducts as any[];
 }
 
 async function getMarketplaceData() {
   // Create authenticated Supabase Client
   const supabase = createServerClient();
 
-  const { data: products, error: productsError } = await supabase
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect(VIEWS.SIGN_IN);
+  }
+
+  const { data: productsData, error: productsError } = await supabase
     .from("products")
     .select(
       `
@@ -73,5 +77,5 @@ async function getMarketplaceData() {
 
   if (productsError) throw productsError;
 
-  return products as IProduct[];
+  return productsData as IProduct[];
 }

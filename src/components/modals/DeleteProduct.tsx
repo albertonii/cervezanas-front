@@ -1,9 +1,9 @@
 "use client";
 
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { Modal } from ".";
-import { IProduct } from "../../lib/types.d";
-import { useAppContext } from "../Context";
+import { IAward, IProduct } from "../../lib/types.d";
 import { useSupabase } from "../Context/SupabaseProvider";
 
 interface Props {
@@ -15,49 +15,126 @@ interface Props {
 export function DeleteProduct(props: Props) {
   const { product, showModal, handleDeleteShowModal } = props;
   const { supabase } = useSupabase();
-  const { products, setProducts } = useAppContext();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleDeleteClick = () => {
-    const handleDelete = async () => {
-      // Delete all storage images from the product
-      if (
-        product?.product_multimedia &&
-        product?.product_multimedia[0]?.p_principal
-      ) {
+  const queryClient = useQueryClient();
+
+  const handleDelete = async () => {
+    // Delete multimedia in storage
+    deleteMultimedia(product);
+    deleteAwards(product);
+    deleteProductPacksImg(product);
+
+    const { error: productError } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", product?.id);
+
+    if (productError) throw productError;
+
+    handleDeleteShowModal(false);
+  };
+
+  const deleteProductPacksImg = (product?: IProduct) => {
+    if (product && product?.product_packs) {
+      product?.product_packs.map(async (pack) => {
+        const { error: packError } = await supabase.storage
+          .from("products")
+          .remove([`${decodeURIComponent(pack.img_url)}`]);
+
+        if (packError) throw packError;
+      });
+    }
+  };
+
+  const deleteAwards = (product?: IProduct) => {
+    if (product && product?.awards) {
+      product?.awards.map(async (award: IAward) => {
+        const { error: awardError } = await supabase.storage
+          .from("products")
+          .remove([`${decodeURIComponent(award.img_url)}`]);
+
+        if (awardError) throw awardError;
+      });
+    }
+  };
+
+  const deleteMultimedia = async (product?: IProduct) => {
+    if (product && product?.product_multimedia) {
+      if (product?.product_multimedia[0]?.p_principal) {
         const { error: storageError } = await supabase.storage
           .from("products")
-          .remove([`/articles/${product?.product_multimedia[0].p_principal}`]);
+          .remove([
+            `${decodeURIComponent(product.product_multimedia[0].p_principal)}`,
+          ]);
 
         if (storageError) throw storageError;
       }
 
-      const { error: reviewError } = await supabase
-        .from("reviews")
-        .delete()
-        .eq("product_id", product?.id);
+      if (product?.product_multimedia[0]?.p_back) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([
+            `${decodeURIComponent(product?.product_multimedia[0].p_back)}`,
+          ]);
 
-      if (reviewError) throw reviewError;
+        if (storageError) throw storageError;
+      }
 
-      const { data, error: productError } = await supabase
-        .from("products")
-        .delete()
-        .eq("id", product?.id);
+      if (product?.product_multimedia[0]?.p_extra_1) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([
+            `${decodeURIComponent(product?.product_multimedia[0].p_extra_1)}`,
+          ]);
 
-      if (productError) throw productError;
+        if (storageError) throw storageError;
+      }
 
-      handleDeleteShowModal(false);
+      if (product?.product_multimedia[0]?.p_extra_2) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([
+            `${decodeURIComponent(product?.product_multimedia[0].p_extra_2)}`,
+          ]);
 
-      // Refresh product list after delete
-      setProducts(
-        products.filter((b) => {
-          return b.id !== product?.id;
-        })
-      );
+        if (storageError) throw storageError;
+      }
 
-      return data;
-    };
+      if (product?.product_multimedia[0]?.p_extra_3) {
+        const { error: storageError } = await supabase.storage
+          .from("products")
+          .remove([
+            `${decodeURIComponent(product?.product_multimedia[0].p_extra_3)}`,
+          ]);
 
-    handleDelete();
+        if (storageError) throw storageError;
+      }
+    }
+  };
+
+  const deleteProductMutation = useMutation({
+    mutationKey: ["deleteProduct"],
+    mutationFn: handleDelete,
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      setIsSubmitting(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmitDelete = () => {
+    try {
+      deleteProductMutation.mutate();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -69,7 +146,7 @@ export function DeleteProduct(props: Props) {
       btnTitle={"delete"}
       description={"modal_delete_product_description"}
       handler={() => {
-        handleDeleteClick();
+        onSubmitDelete();
       }}
       classIcon={""}
       classContainer={""}

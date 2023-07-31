@@ -16,7 +16,7 @@ import {
   Spinner,
 } from "../../../../../../../components/common";
 import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
-import { useEventCartContext } from "../../../../../../../components/Context/EventCartContext";
+import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import {
   ProductOverallReview,
@@ -28,6 +28,7 @@ import {
   ICarouselItem,
   ICPMProducts,
   IProduct,
+  IProductPack,
   IReview,
 } from "../../../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../../../utils";
@@ -49,11 +50,12 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
+  /*
   const { supabase } = useSupabase();
-  const selectedProduct: IProduct = product.product_id;
+  const selectedPack: IProductPack = product.product_pack_id;
 
-  if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
-  const selectedMultimedia = product.product_id.product_multimedia[0] ?? [];
+  if (!selectedPack) return <Spinner color={"beer-blonde"} size="medium" />;
+  const selectedMultimedia = product. ?? [];
   const reviews = product.product_id.reviews;
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -63,7 +65,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
   const [productReviews, setProductReviews] = useState<IReview[]>(reviews);
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
   const [isLike, setIsLike] = useState<boolean>(
-    Boolean(selectedProduct?.likes?.length)
+    Boolean(selectedPack?.likes?.length)
   );
 
   const reviewRef = useRef<any>();
@@ -85,9 +87,9 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     marketplaceEventItems,
     addMarketplaceItems,
     removeMarketplaceItems,
-  } = useEventCartContext();
+  } = useEventCart();
 
-  const quantity = getItemQuantity(selectedProduct.id);
+  const quantity = getItemQuantity(selectedPack.id);
 
   const executeScroll = useCallback(
     () => reviewRef.current.scrollIntoView(),
@@ -142,7 +144,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                 link: "/",
                 title: "Photo Extra 3",
                 imageUrl:
-                  pExtra3Url + `${selectedProduct.owner_id}/` + p_extra_3,
+                  pExtra3Url + `${selectedPack.owner_id}/` + p_extra_3,
               },
             ]
           : []),
@@ -154,7 +156,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     selectedMultimedia.p_extra_2,
     selectedMultimedia.p_extra_3,
     selectedMultimedia.p_principal,
-    selectedProduct.owner_id,
+    selectedPack.owner_id,
   ]);
 
   useEffect(() => {
@@ -200,24 +202,26 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     if (!isLike) {
       const { error } = await supabase.from("likes").insert([
         {
-          product_id: selectedProduct.id,
-          owner_id: selectedProduct.owner_id,
+          product_id: selectedPack.id,
+          owner_id: selectedPack.owner_id,
         },
       ]);
 
       if (error) throw error;
     } else {
       const { error } = await supabase.from("likes").delete().match({
-        product_id: selectedProduct.id,
-        owner_id: selectedProduct.owner_id,
+        product_id: selectedPack.id,
+        owner_id: selectedPack.owner_id,
       });
 
       if (error) throw error;
     }
   }
+  */
 
   return (
     <>
+      {/*
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
@@ -234,7 +238,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
             <div className="col-span-12 mx-6 lg:col-span-8 ">
               <div className="flex-column flex">
                 <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                  {selectedProduct.name}
+                  {selectedPack.name}
                 </h2>
 
                 <div>
@@ -268,21 +272,16 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                 </h3>
 
                 <p className="text-2xl text-gray-900">
-                  {formatCurrency(selectedProduct.price)}
+                  {formatCurrency(selectedPack.price)}
                 </p>
 
                 <div className="mt-6">
                   <div className="flex min-h-[6vh] items-center pr-6">
-                    <p className="text-lg">{selectedProduct.description}</p>
+                    <p className="text-lg">{selectedPack.description}</p>
                   </div>
                 </div>
               </section>
-              {/* 
-              <EventCartItem
-                id={selectedProduct.id}
-                quantity={quantity}
-                products={[]}
-              /> */}
+             
 
               <section aria-labelledby="options-heading" className="mt-10">
                 <h3 id="options-heading" className="sr-only">
@@ -297,7 +296,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                           classContainer="mt-0 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
                           classIcon={""}
                           onClick={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem(selectedPack.id)
                           }
                           icon={faCartArrowDown}
                           isActive={false}
@@ -314,23 +313,23 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                       <>
                         <MarketCartButtons
                           quantity={quantity}
-                          item={selectedProduct}
+                          item={selectedPack}
                           handleIncreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedProduct.id)
+                            handleIncreaseToCartItem(selectedPack.id)
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedProduct.id)
+                            handleDecreaseFromCartItem(selectedPack.id)
                           }
                           handleRemoveFromCart={() =>
-                            handleRemoveFromCart(selectedProduct.id)
+                            handleRemoveFromCart(selectedPack.id)
                           }
                         />
                       </>
                     )}
-                    {/* 
+
                     <Button
                       onClick={() =>
-                        handleIncreaseToCartItem(selectedProduct.id)
+                        handleIncreaseToCartItem(selectedPack.id)
                       }
                       class="bg-purple-500 hover:bg-purple-600 mb-0 mt-0 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
                       isActive={false}
@@ -342,27 +341,27 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                       primary
                     >
                       <>{t("buy")}</>
-                    </Button> */}
+                    </Button>
                   </div>
                 </form>
               </section>
             </div>
 
             {/* Display Similar Products */}
-            {/* <div className="col-span-12 mx-6">
-              <DisplaySimilarProducts />
-            </div> */}
+      {/*    <div className="col-span-12 mx-6">
+        <DisplaySimilarProducts />
+      </div>
 
-            {/* Reviews */}
-            <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
-              <ProductOverallReview
-                reviews={productReviews}
-                emptyReviews={emptyReviews}
-              />
-            </div>
+      {/* Reviews */}
+      {/*  <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
+        <ProductOverallReview
+          reviews={productReviews}
+          emptyReviews={emptyReviews}
+        />
+      </div>
 
-            {/* See user reviews */}
-            {!emptyReviews && (
+      {/* See user reviews */}
+      {/* {!emptyReviews && (
               <div
                 className="item-center col-span-12 mx-6 flex flex-col justify-center"
                 ref={reviewRef}
@@ -376,6 +375,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
           </div>
         </div>
       )}
+            */}
     </>
   );
 }

@@ -1,11 +1,13 @@
 "use client";
 
-import { t } from "i18next";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ProductList } from "..";
 import { IProduct } from "../../../lib/types.d";
 import { AddProduct, DeleteProduct, UpdateProduct } from "../../modals/index";
+
 export function Products() {
+  const t = useTranslations();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -33,9 +35,9 @@ export function Products() {
   }
 
   return (
-    <div className="px-4 py-6 " aria-label="Products">
-      <div className="flex items-center">
-        <div className="pr-12 text-4xl">{t("products")}</div>
+    <div className="px-4 py-6" aria-label="Products">
+      <div className="flex flex-col space-y-4">
+        <div className="text-4xl">{t("products")}</div>
 
         <AddProduct />
       </div>

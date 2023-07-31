@@ -1,28 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../components/Auth";
 import { formatDateString } from "../../../../utils";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { isValidObject } from "../../../../utils/utils";
 import { IOrder } from "../../../../lib/types.d";
-import { Button } from "../../../../components/common";
-1;
 interface Props {
   isError?: boolean;
   order: IOrder;
 }
+
 export default function SuccessCheckout({ order, isError }: Props) {
-  const { products } = order;
+  const { order_items: orderItems } = order;
 
   const t = useTranslations();
   const locale = useLocale();
-
-  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -35,11 +29,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     return () => {
       setLoading(true);
     };
-  }, [user, products]);
-
-  const handleOnClick = (productId: string) => {
-    router.push(`/${locale}/products/review/${productId}`);
-  };
+  }, [user]);
 
   const handleInvoicePdf = () => {
     window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
@@ -48,11 +38,11 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (isError) {
     return (
       <div className="container mx-auto sm:py-4 lg:py-6">
-        <div className=" space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+        <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex flex-col">
             <div className="flex sm:items-baseline sm:space-x-4">
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                Order Error
+                {t("order_erorr")}
               </h1>
             </div>
           </div>
@@ -106,163 +96,51 @@ export default function SuccessCheckout({ order, isError }: Props) {
           </div>
 
           {/* <!-- Products --> */}
-          <div className="mt-6">
+          <div className="space-y-8">
+            {orderItems &&
+              orderItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+                >
+                  <OrderItem orderItem={item} order={order} />
+                </div>
+              ))}
+          </div>
+
+          {/* <!-- Products --> */}
+          {/* <div className="mt-6">
             <h2 className="sr-only">{t("products_purchased")}</h2>
 
             <div className="space-y-8">
-              {products &&
-                products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
-                  >
-                    <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
-                      {/* Product Multimedia  */}
-                      <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
-                        <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                          {isValidObject(
-                            product.product_multimedia[0].p_principal
-                          ) && (
-                            <DisplayImageProduct
-                              width={120}
-                              height={120}
-                              alt={""}
-                              imgSrc={`${product.product_multimedia[0].p_principal}`}
-                              class="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                            />
-                          )}
-                        </div>
-                      </div>
+              <div className="m-2 border border-gray-200 bg-white p-2 shadow-sm sm:rounded-lg sm:border lg:m-6 lg:p-6"> */}
+          {/* Product Information  */}
+          {/* <div className="col-span-12 md:col-span-4">
+                  <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                    <Link href={`/products/${product.id}`} locale={locale}>
+                      {product.name}
+                    </Link>
+                  </h3>
 
-                      {/* Product Information  */}
-                      <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-                        <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                          <Link
-                            href={`/products/${product.id}`}
-                            locale={locale}
-                          >
-                            {product.name}
-                          </Link>
-                        </h3>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("price")} - {formatCurrency(product.price)}
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("quantity")} -
-                        </p>
-                        <p className="mt-3 text-sm text-gray-500">
-                          {t("description")} - {product.description}
-                        </p>
-                      </div>
+                  <p className="mt-3 text-sm text-gray-500">
+                    {t("description")} - {product.description}
+                  </p>
+                </div>
 
-                      {/* Shipping Information  */}
-                      {order.shipping_info && (
-                        <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
-                          <dt className="font-medium text-gray-900">
-                            {t("shipping_address")}
-                          </dt>
-
-                          <dd className="mt-3 text-gray-500">
-                            <span className="block">
-                              {order.shipping_info.name}{" "}
-                              {order.shipping_info.lastname}
-                            </span>
-                            <span className="block">
-                              {order.shipping_info.address},{" "}
-                              {order.shipping_info.city},
-                              {order.shipping_info.state},{" "}
-                              {order.shipping_info.zipcode},
-                              {order.shipping_info.country}
-                            </span>
-
-                            {order.shipping_info.address_extra && (
-                              <>
-                                <span className="block">
-                                  {order.shipping_info.address_extra}
-                                </span>
-                                <span className="block">
-                                  {order.shipping_info.address_observation}
-                                </span>
-                              </>
-                            )}
-                          </dd>
-                        </div>
-                      )}
-
-                      {/* Review Product  */}
-                      <div className="col-span-12 mt-6">
-                        <span className="font-medium text-gray-900">
-                          {t("review_product")}
-                        </span>
-
-                        <div className="mt-3 space-y-3 text-beer-dark">
-                          {product.is_reviewed && (
-                            <span>
-                              {t("product_already_reviewed_condition")}
-                            </span>
-                          )}
-
-                          {order.status !== "delivered" && (
-                            <span>{t("write_review_condition")}</span>
-                          )}
-
-                          <Button
-                            disabled={
-                              product.is_reviewed ||
-                              order.status !== "delivered"
-                                ? true
-                                : false
-                            }
-                            primary
-                            medium
-                            class="my-6 font-medium text-beer-draft hover:text-beer-dark "
-                            onClick={() => {
-                              if (
-                                !product.is_reviewed &&
-                                order.status === "delivered"
-                              ) {
-                                handleOnClick(product.id);
-                              }
-                            }}
-                          >
-                            {t("make_review_product_button")}
-                          </Button>
-                        </div>
-                      </div>
+                {order_items &&
+                  order_items.map((item) => (
+                    <div key={item.id} className="space-y-6">
+                      <OrderItem
+                        item={item}
+                        productPack={product_pack_id}
+                        product={product}
+                        order={order}
+                      />
                     </div>
-
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-                      <h4 className="sr-only">Status</h4>
-                      <p className="text-sm font-medium text-gray-900">
-                        {t("preparing_to_ship")}{" "}
-                        <time dateTime="2021-03-24">
-                          {formatDateString(order.issue_date.toString())}{" "}
-                        </time>
-                      </p>
-                      <div className="mt-6" aria-hidden="true">
-                        <div className="overflow-hidden rounded-full bg-gray-200">
-                          <div className="h-2 rounded-full bg-beer-blonde"></div>
-                        </div>
-                        <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-                          <div className="text-beer-draft">
-                            {t("order_placed")}
-                          </div>
-                          <div className="text-center text-beer-draft">
-                            {t("status_processing")}
-                          </div>
-                          <div className="text-center">
-                            {t("status_shipped")}
-                          </div>
-                          <div className="text-right">
-                            {t("status_delivered")}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <!-- Billing --> */}
           <div className="mt-16">

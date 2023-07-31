@@ -2,30 +2,40 @@
 
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-import MarketCartButtons from "../common/MarketCartButtons";
 
 import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IProduct } from "../../lib/types.d";
+import { IProduct, IProductPack } from "../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton, Spinner } from "../common";
-import { COMMON } from "../../constants";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useAuth } from "../Auth";
+import { SupabaseProps } from "../../constants";
+import MarketCartButtons2 from "../common/MarketCartButtons2";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
-export function StoreItem({ product, products }: StoreItemProps) {
+const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+
+export function StoreItem({ product }: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
-
-  const { id } = product;
+  const productId = product.id;
   const router = useRouter();
+
+  const packs = product.product_packs;
+
+  // Selecte pack that has lowest quantity
+  const [selectedPack, setSelectedPack] = useState<IProductPack>(
+    packs.sort((a, b) => a.quantity - b.quantity)[0] ?? packs[0]
+  );
+
+  const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
     let overAll_sum = 0;
@@ -42,17 +52,9 @@ export function StoreItem({ product, products }: StoreItemProps) {
     product.likes.length > 0 ? true : false
   );
 
-  const {
-    getItemQuantity,
-    increaseCartQuantity,
-    decreaseCartQuantity,
-    removeFromCart,
-    addMarketplaceItems,
-    removeMarketplaceItems,
-    marketplaceItems,
-  } = useShoppingCart();
+  const { increasePackCartQuantity } = useShoppingCart();
 
-  const quantity = getItemQuantity(id);
+  const [packQuantity, setPackQuantity] = useState(1);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -60,7 +62,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
+        .insert([{ product_id: productId, owner_id: product.owner_id }]);
 
       if (error) throw error;
 
@@ -69,7 +71,7 @@ export function StoreItem({ product, products }: StoreItemProps) {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ product_id: product.id, owner_id: product.owner_id });
+        .match({ product_id: productId, owner_id: product.owner_id });
 
       if (error) throw error;
 
@@ -77,28 +79,37 @@ export function StoreItem({ product, products }: StoreItemProps) {
     }
   }
 
-  const handleIncreaseToCartItem = () => {
-    increaseCartQuantity(id);
-    if (marketplaceItems.find((item) => item.id === id)) return;
-
-    const product_ = products.find((item) => item.id === id);
-    if (!product_) return;
-    addMarketplaceItems(product_);
+  const handleIncreasePackQuantity = () => {
+    setPackQuantity(packQuantity + 1);
   };
 
-  const handleDecreaseFromCartItem = () => {
-    decreaseCartQuantity(id);
-    if (getItemQuantity(id) > 1) return;
-    removeMarketplaceItems(id);
+  const handleDecreasePackQuantity = () => {
+    if (packQuantity > 1) setPackQuantity(packQuantity - 1);
   };
 
-  const handleRemoveFromCart = () => {
-    removeMarketplaceItems(id);
-    removeFromCart(id);
+  const handleAddToCart = () => {
+    if (!selectedPack) {
+      setIsPackSelected(false);
+      return;
+    }
+
+    setIsPackSelected(true);
+
+    const packCartItem: IProductPack = {
+      id: selectedPack.id,
+      quantity: packQuantity,
+      price: selectedPack.price,
+      name: selectedPack.name,
+      img_url: selectedPack.img_url,
+      randomUUID: selectedPack.randomUUID,
+    };
+
+    increasePackCartQuantity(product, packCartItem);
+    setPackQuantity(1);
   };
 
   return (
-    <div className="rounded-xl p-4 shadow-lg sm:max-w-sm">
+    <div className="rounded-xl p-4 shadow-lg">
       {isLoading ? (
         <Spinner color="beer-blonde" size="medium"></Spinner>
       ) : (
@@ -124,9 +135,8 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 height={128}
                 alt="Principal Product Image store item"
                 imgSrc={
-                  product.product_multimedia[0]
-                    ? product.product_multimedia[0].p_principal
-                    : `${COMMON.MARKETPLACE_PRODUCT}`
+                  BASE_PRODUCTS_URL +
+                  decodeURIComponent(product.product_multimedia[0].p_principal)
                 }
                 class={
                   "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
@@ -150,7 +160,6 @@ export function StoreItem({ product, products }: StoreItemProps) {
                 <span className="mr-3 mt-2 whitespace-nowrap text-gray-400">
                   {overAll}
                 </span>
-                {/* <span className="mr-2 text-gray-400">India</span> */}
               </div>
 
               <div className="flex w-full min-w-0 items-center justify-between ">
@@ -171,30 +180,55 @@ export function StoreItem({ product, products }: StoreItemProps) {
               </div>
             </div>
 
-            <div className="mt-1 text-xl font-semibold text-bear-dark">
-              {formatCurrency(product.price)}
+            {/* Información sobre el pack seleccionado detallada y minimalista  */}
+            <div className="mt-1 text-lg font-semibold text-bear-dark">
+              {selectedPack?.quantity}{" "}
+              {selectedPack?.quantity > 1 ? t("units") : t("unit")}/
+              {formatCurrency(selectedPack?.price)}
             </div>
 
-            <div className="mt-2 flex items-center  justify-between space-x-2 text-sm font-medium">
-              {quantity === 0 ? (
-                <>
-                  <AddCardButton onClick={() => handleIncreaseToCartItem()} />
-                </>
-              ) : (
-                <>
-                  <MarketCartButtons
-                    quantity={quantity}
-                    item={product}
-                    handleIncreaseCartQuantity={() =>
-                      handleIncreaseToCartItem()
-                    }
-                    handleDecreaseCartQuantity={() =>
-                      handleDecreaseFromCartItem()
-                    }
-                    handleRemoveFromCart={() => handleRemoveFromCart()}
-                  />
-                </>
-              )}
+            <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
+
+            <div className="w mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
+              <select
+                className="text-md w-full rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none"
+                id="is_external_organizer"
+                onClick={(e: any) => {
+                  const value = e.target.value;
+                  const pack = packs.find((pack) => pack.id === value);
+                  setSelectedPack(pack as IProductPack);
+                }}
+              >
+                {packs &&
+                  packs
+                    .sort((a, b) => a.quantity - b.quantity)
+                    .map((pack: IProductPack) => (
+                      <option key={pack.id} value={pack.id}>
+                        {pack.name}
+                      </option>
+                    ))}
+              </select>
+
+              {/* Añadir al carrito */}
+              <div
+                className="mt-6 flex w-full justify-between space-x-2
+              "
+              >
+                <MarketCartButtons2
+                  quantity={packQuantity}
+                  handleIncreaseCartQuantity={() =>
+                    handleIncreasePackQuantity()
+                  }
+                  handleDecreaseCartQuantity={() =>
+                    handleDecreasePackQuantity()
+                  }
+                />
+
+                <AddCardButton
+                  withText={true}
+                  onClick={() => handleAddToCart()}
+                />
+              </div>
             </div>
           </div>
         </>

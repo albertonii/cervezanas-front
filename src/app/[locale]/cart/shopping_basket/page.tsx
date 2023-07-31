@@ -1,17 +1,17 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import Checkout from "./Checkout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../constants";
 import { IBillingAddress, IShippingAddress } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
+import { ShoppingBasket } from "./ShoppingBasket";
 
 export default async function CheckoutPage() {
-  const { shippingAddresses, billingAddresses } = await getCheckout();
+  // const { shippingAddresses, billingAddresses } = await getCheckout();
   return (
     <>
-      <Checkout
-        shippingAddresses={shippingAddresses ?? []}
-        billingAddresses={billingAddresses ?? []}
+      <ShoppingBasket
+      // shippingAddresses={shippingAddresses ?? []}
+      // billingAddresses={billingAddresses ?? []}
       />
     </>
   );

@@ -15,9 +15,7 @@ const fetchLotsByOwner = async (
     .select(
       `
         *,
-        products (
-          *
-        )
+        products (id, name)
       `,
       {
         count: "exact",
@@ -31,19 +29,18 @@ const fetchLotsByOwner = async (
   return data;
 };
 
-const useFetchLots = (
+const useFetchLotsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
   pageRange: number
 ) => {
   const { supabase } = useSupabase();
-
   return useQuery({
-    queryKey: ["lots_owner"],
+    queryKey: ["productLotList", ownerId, currentPage, pageRange],
     queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange, supabase),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };
 
-export default useFetchLots;
+export default useFetchLotsByOwnerAndPagination;

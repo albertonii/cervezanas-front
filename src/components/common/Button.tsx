@@ -19,6 +19,7 @@ interface ButtonProps {
   accent?: boolean;
   btnType?: string;
   form?: string;
+  fullSize?: boolean;
 }
 
 export function Button({
@@ -38,6 +39,7 @@ export function Button({
   accent,
   btnType,
   form,
+  fullSize,
 }: ButtonProps) {
   const hoverColor = isActive ? "filled" : "unfilled";
 
@@ -66,6 +68,7 @@ export function Button({
         ${large ? "w-52" : ""}
         ${xLarge ? "w-64" : ""}
         ${xxLarge ? "w-80" : ""}
+        ${fullSize ? "w-full" : ""}
         ${
           primary
             ? " border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde"

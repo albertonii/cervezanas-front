@@ -8,8 +8,8 @@ export const Factories = () => {
   return (
     <>
       <div className="px-4 py-6 " aria-label="Factories">
-        <div className="flex flex-col">
-          <div className="pr-12 text-4xl">{t("factories")}</div>
+        <div className="flex flex-col space-y-4">
+          <div className="text-4xl">{t("factories")}</div>
         </div>
       </div>
     </>

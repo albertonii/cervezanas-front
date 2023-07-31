@@ -1,22 +1,14 @@
 import "../../styles/globals.css";
 
-import SupabaseProvider from "../../components/Context/SupabaseProvider";
+import Providers from "./providers";
 import classNames from "classnames";
-import ReactQueryWrapper from "./ReactQueryWrapper";
-import {
-  AppContextProvider,
-  ShoppingCartProvider,
-} from "../../components/Context/index";
-import { MessageProvider } from "../../components/message";
+import { Suspense } from "react";
 import { MessageList } from "../../components/message";
-import { AuthContextProvider } from "../../components/Auth";
 import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
 import { Footer } from "./components";
-import { EventCartProvider } from "../../components/Context/EventCartContext";
-import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import CommingSoon from "./commingSoon";
+import Loading from "./loading";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -46,55 +38,44 @@ export default async function RootLayout({
 
   let messages;
   try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
+    messages = (await import(`../../lib/translations/messages/${locale}.json`))
+      .default;
   } catch (error) {
     notFound();
   }
 
   return (
-    <html lang={locale}>
+    <html lang={locale} style={{ overflow: "auto" }}>
       <body>
-        <CommingSoon />
-        {/* <NextIntlClientProvider locale={locale} messages={messages}>
-          <SupabaseProvider>
-            <MessageProvider>
-              <ReactQueryWrapper>
-                <AuthContextProvider serverSession={session}>
-                  <AppContextProvider>
-                    <ShoppingCartProvider>
-                      <EventCartProvider>
-                        <div className="relative flex flex-col bg-beer-foam">
-                          <Header />
+        <Suspense fallback={<Loading />}>
+          <Providers session={session} messages={messages} locale={locale}>
+            <div className="relative flex flex-col bg-beer-foam">
+              <Header />
 
-                          <div
-                            className={classNames(
-                              "relative mx-auto mt-[10vh] h-auto w-full"
-                            )}
-                          >
-                            <Breadcrumb
+              <div
+                className={classNames(
+                  "relative mx-auto mt-[10vh] h-auto w-full"
+                )}
+              >
+                {/* <Breadcrumb /> */}
+                {/* <Breadcrumb
                           getDefaultTextGenerator={(path) => titleize(path)}
-                        /> 
-                          </div>
+                        /> */}
+              </div>
 
-                          <main
-                            className={classNames(
-                              "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
-                            )}
-                          >
-                            <MessageList />
-                            {children}
-                          </main>
+              <main
+                className={classNames(
+                  "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
+                )}
+              >
+                <MessageList />
+                {children}
+              </main>
 
-                          <Footer />
-                        </div>
-                      </EventCartProvider>
-                    </ShoppingCartProvider>
-                  </AppContextProvider>
-                </AuthContextProvider>
-              </ReactQueryWrapper>
-            </MessageProvider>
-          </SupabaseProvider>
-        </NextIntlClientProvider> */}
+              <Footer />
+            </div>
+          </Providers>
+        </Suspense>
       </body>
     </html>
   );
