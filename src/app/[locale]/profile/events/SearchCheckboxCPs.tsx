@@ -25,7 +25,7 @@ export function SearchCheckboxCPs({
   );
 
   const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
-    if (!checkedCPs) return;
+    // if (!checkedCPs) return;
 
     if (isChecked) {
       // Verify if the CP is already in the array
@@ -41,10 +41,6 @@ export function SearchCheckboxCPs({
       setCheckedCPsState(checkedCPsState.filter((item) => item.cp_id !== cpId));
     }
   };
-
-  useEffect(() => {
-    setCheckedCPsState(checkedCPs ?? []);
-  }, [checkedCPs]);
 
   useEffect(() => {
     setValue("cps_mobile", checkedCPsState);
@@ -87,33 +83,32 @@ export function SearchCheckboxCPs({
             aria-labelledby="dropdownSearchButton"
           >
             {cpsMobile &&
-              cpsMobile.map((cp: ICPMobile, index) => {
+              cpsMobile.map((cp: ICPMobile) => {
                 return (
-                  <li key={cp.id}>
-                    <div className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-                      {/* Checkbox Name  */}
-                      <div>
-                        <input
-                          id="checkbox-item-11"
-                          type="checkbox"
-                          {...register(`cps_mobile.${index}.id`)}
-                          checked={checkedCPsState?.some(
-                            (cps_event) => cps_event.cp_id === cp.id
-                          )}
-                          onChange={(e) =>
-                            handleCheckboxChange(cp.id, e.target.checked)
-                          }
-                          value={cp.id}
-                          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                        />
-                        <label
-                          htmlFor={`cps_mobile.${index}.value`}
-                          className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                          {cp.cp_name}
-                        </label>
-                      </div>
-                    </div>
+                  <li
+                    key={cp.id}
+                    className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
+                    {/* Checkbox Name  */}
+                    <input
+                      id={`checkbox-item-${cp.id}`}
+                      type="checkbox"
+                      {...register(`cps_mobile.${cp.id}.cp_id`)}
+                      checked={checkedCPsState?.some(
+                        (cps_event) => cps_event.cp_id === cp.id
+                      )}
+                      onChange={(e) =>
+                        handleCheckboxChange(cp.id, e.target.checked)
+                      }
+                      value={cp.id}
+                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                    />
+                    <label
+                      htmlFor={`checkbox-item-${cp.id}`}
+                      className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {cp.cp_name}
+                    </label>
                   </li>
                 );
               })}

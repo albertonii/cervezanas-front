@@ -29,6 +29,7 @@ async function getCPMobileData() {
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
+
   const { data: cps, error: cpError } = await supabase
     .from("consumption_points")
     .select(

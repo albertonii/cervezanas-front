@@ -79,21 +79,21 @@ export default function AddEvent({ cpsMobile }: Props) {
 
     const { id: eventId } = event[0];
 
-    // Get cp checked from the list
-    const cpsMFiltered = cps_mobile.filter((cp) => cp.id);
+    // Get CP checked from the list
+    const cpsMFiltered = cps_mobile.filter((cp) => cp.cp_id);
 
     // Loop trough all the selected CPs and insert them into the event
-    for (let i = 0; i < cpsMFiltered.length; i++) {
+    cpsMFiltered.map(async (cp) => {
       const { error: cpError } = await supabase.from("cpm_events").insert({
+        cp_id: cp.cp_id,
         event_id: eventId,
-        cp_id: cpsMFiltered[i].id,
         is_active: false,
       });
 
       if (cpError) {
         throw cpError;
       }
-    }
+    });
   };
 
   const insertEventMutation = useMutation({
