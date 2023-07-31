@@ -2,177 +2,474 @@ import React from "react";
 
 export default function Privacy() {
   return (
-    <div className="container m-auto">
-      <div>
-        La visita a este sitio Web no implica que el usuario esté obligado a
-        facilitar ninguna información. En el caso de que el usuario facilite
-        alguna información de carácter personal, los datos recogidos en este
-        sitio web serán tratados de forma leal y lícita con sujeción en todo
-        momento a los principios y derechos recogidos en el Reglamento (UE)
-        2016/679, de 27 de abril, General de Protección de Datos (RGPD) y demás
-        normativa aplicable. En cumplimiento de lo dispuesto en el artículo 13
-        del RGPD te informamos de lo siguiente: Responsable Cervezanas M&M S.L
-        (en adelante, Cervezanas) en la Calle Cañón del Río Lobos 7C, 1ºA Madrid
-        28030 - España, Teléfono de contacto: +34 687 859 655*
+    <div className="container m-auto space-y-24">
+      <div className="m-auto space-y-12">
+        <span className="text-3xl">PROTECCIÓN DE DATOS</span>
+
+        <section className="">
+          <div>
+            En Cervezanas M&M S.L. (en adelante CERVEZANAS) trabajamos para
+            ofrecerte a través de nuestros productos y servicios la mejor
+            experiencia posible. En algunos casos, es necesario recabar
+            información para conseguirlo. Nos importa tu privacidad y creemos
+            que debemos ser transparentes al respecto.
+          </div>
+          <div>
+            Por ello, y a efectos de lo previsto en el REGLAMENTO (UE) 2016/679
+            DEL PARLAMENTO EUROPEO Y DEL CONSEJO de 27 de abril de 2016 (en
+            adelante, “RGPD”) relativo a la protección de las personas físicas
+            en lo que respecta al tratamiento de datos personales, y a la libre
+            circulación de estos datos, y la LEY 34/2002, de 11 de julio, de
+            Servicios de la Sociedad de la información y de comercio electrónico
+            (en adelante, “LSSI”), CERVEZANAS informa al usuario que, como
+            responsable del tratamiento, incorporará los datos de carácter
+            personal facilitados por los usuarios en un fichero automatizado.
+          </div>
+
+          <div>
+            Nuestro compromiso empieza por explicarte lo siguiente:
+            <ul>
+              <li>
+                Se recogen tus datos para que la experiencia de usuario mejore,
+                atendiendo a tus intereses y necesidades.
+              </li>
+
+              <li>
+                Somos transparentes en relación a los datos que obtenemos acerca
+                de ti y la razón por la que lo hacemos.
+              </li>
+
+              <li>
+                Nuestra intención es ofrecerte la mejor experiencia posible. Por
+                ello, cuando vayamos a usar tu información personal lo haremos
+                siempre cumpliendo la normativa, y cuando sea necesario,
+                solicitaremos tu consentimiento.
+              </li>
+
+              <li>
+                Entendemos que tus datos te pertenecen. Por tanto, si decides no
+                autorizarnos a procesarlos puedes solicitarnos que dejemos de
+                tratarlos.
+              </li>
+
+              <li>
+                Nuestra prioridad consiste en garantizar tu seguridad y tratar
+                tus datos de acuerdo con la normativa europea.
+              </li>
+
+              <li>
+                Si deseas obtener más información sobre el tratamiento de tus
+                datos, consulta los distintos apartados de la política de
+                privacidad que se encuentran a continuación:
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section className="">
+          <span className="text-xl font-semibold">
+            ¿Quién es el responsable del tratamiento de sus datos personales?
+          </span>
+          <div>Identidad: Cervezanas M&M S.L</div>
+          <div>
+            Domicilio social: Calle Cañón del Río Lobos 7C,1ºA. 28030 Madrid.
+          </div>
+          <div>C.I.F. nº: B88139878</div>
+
+          <div>Email: info@cervezanas.eu</div>
+
+          <div>
+            CERVEZANAS ha designado un Responsable de Protección de Datos dentro
+            de su organización. Si deseas hacer una consulta en relación al
+            tratamiento de tus datos personales, puedes ponerte en contacto con
+            él mediante el correo info@cervezanas.eu
+          </div>
+        </section>
+
+        <section className="">
+          <span className="text-xl font-semibold">
+            ¿Qué datos personales recopilamos?
+          </span>
+          <div>
+            Los datos personales que el usuario puede llegar a proporcionar y
+            que variaran en función de su relación con la empresa y el uso de la
+            página web, son:
+          </div>
+          <div>
+            <ul>
+              <li>Nombre, dirección, DNI o CIF y fecha de nacimiento.</li>
+              <li>Número de teléfono y dirección de correo electrónico.</li>
+              <li>Ubicación (web)</li>
+              <li>
+                Información relativa a pagos y devoluciones u otro tipo de
+                información bancaria.
+              </li>
+              <li>
+                Dirección IP, fecha y hora en la que has accedido a nuestros
+                servicios, navegador de internet que uses y datos sobre el
+                sistema operativo del dispositivo.
+              </li>
+              <li>
+                Cualquier otra información o datos que decidas compartir con
+                nosotros.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            En algunos casos, es obligatoria la cumplimentación del formulario
+            de registro para acceder y disfrutar de determinados servicios
+            ofrecidos en la web; asimismo, no facilitar los datos personales
+            solicitados o el no aceptar la presente política de protección de
+            datos supone la imposibilidad de suscribirse, registrarse o
+            participar en cualquiera de las promociones en las que se soliciten
+            datos carácter personal, si las hubiese.
+          </div>
+        </section>
       </div>
 
-      <div className="mt-12 mb-4 text-xl">
-        ¿Qué hacemos con tus datos? - Apartado &quot;Nuevo Cliente&quot;
-      </div>
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Por qué y para qué tratamos tus datos?
+        </span>
+        <div>
+          En CERVEZANAS tratamos la información que nos facilitan las personas
+          interesadas con las siguientes finalidades:
+        </div>
 
-      <div>
-        La principal finalidad de dicho tratamiento es la gestión de los
-        usuarios registrados en nuestra web, así como el envío de publicidad
-        relativa a los productos y servicios comercializados por Cervezanas o
-        para el envío de publicidad, descuentos y promociones de productos y
-        servicios de otras entidades.Cervezanas asegura la confidencialidad de
-        los datos aportados y garantiza que, en ningún caso, serán cedidos para
-        ningún otro uso sin mediar consentimiento previo y expreso de nuestros
-        usuarios. Sólo le pediremos aquellos datos necesarios para la prestación
-        del servicio requerido y únicamente serán empleados para este fin.
-      </div>
+        <div>
+          <ul>
+            <li>
+              Gestionar la contratación y prestación de nuestros servicios.
+            </li>
+            <li>Gestionar el envío de la información que nos soliciten.</li>
+            <li>
+              Desarrollar acciones comerciales y realizar el mantenimiento y
+              gestión de la relación con el usuario, así como la gestión de los
+              servicios ofrecidos a través del sitio web.
+            </li>
+            <li>
+              Desarrollar y gestionar los concursos, sorteos u otras actividades
+              promocionales que se puedan organizar a través del sitio web.
+            </li>
+            <li>
+              En algunos casos será necesario facilitar información a las
+              Autoridades o terceras empresas por motivos de auditoría, así como
+              manejar datos personales de facturas, contratos y documentos para
+              responder a reclamaciones de clientes o de las Administraciones
+              Públicas
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <div className="mt-12 mb-4 text-xl">
-        - Apartado &quot;Realizar Compra&quot;
-      </div>
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Cuál es la legitimación para el tratamiento de tus datos?
+        </span>
+        <div>
+          El tratamiento de tus datos puede fundamentarse en las siguientes
+          bases legales:
+        </div>
 
-      <div>
-        Al igual que indicamos en nuestra política de privacidad, la principal
-        finalidad del tratamiento de los datos es mantener la relación
-        contractual con nuestros clientes, facilitar la tramitación de los
-        pedidos, la realización de estudios estadísticos, envío de publicidad
-        relativa a los productos y servicios comercializados por Cervezanas o
-        para el envío de publicidad, descuentos y promociones de productos y
-        servicios de otras entidades, y además para el estudio de financiación
-        de compras y obtención de créditos al consumo, así como para el
-        descubrimiento y prevención del fraude, y minimización del riesgo de su
-        comisión, en base al interés legítimo reconocido por la normativa
-        vigente.
-      </div>
+        <div>
+          <ul>
+            <li>
+              Consentimiento del interesado para la contratación de servicios y
+              productos, para los formularios de contacto, las solicitudes de
+              información o alta en newsletters.
+            </li>
+            <li>
+              Existencia de una relación contractual comercial y/o de prestación
+              de servicios.
+            </li>
+            <li>
+              Interés legítimo para el tratamiento de datos de nuestros clientes
+              en acciones de marketing directo.
+            </li>
+            <li>
+              Cumplimiento de obligaciones legales para prevención del fraude,
+              comunicación con Autoridades públicas y reclamaciones de terceros.
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <div className="mt-12 mb-4 text-xl">
-        - Apartado &quot;Boletín ofertas&quot; y &quot;Ofertas Express&quot;
-      </div>
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Cuánto tiempo conservamos tus datos?
+        </span>
 
-      <div>
-        El e-mail facilitado será objeto de tratamiento por parte de Cervezanas
-        con la finalidad de enviar el boletín de ofertas. Este Boletín tiene
-        carácter exclusivamente informativo. - Acciones de Marketing. Cervezanas
-        podrá utilizar dichos datos para informar sobre futuras promociones,
-        ofertas y otras acciones comerciales en los casos en los que Vd. sea ya
-        cliente o si no lo es, cuando Vd. nos haya proporcionado su
-        consentimiento en el correspondiente apartado.
-      </div>
+        <div>
+          El tratamiento de los datos con las finalidades descritas se mantendrá
+          durante el tiempo necesario para cumplir con la finalidad de su
+          recogida (por ejemplo, mientras dure la relación comercial), así como
+          para el cumplimiento de las obligaciones legales que se deriven del
+          tratamiento de los datos.
+        </div>
+      </section>
 
-      <div className="mt-12 mb-4 text-xl">
-        - Apartado &quot;Formulario de Contacto y Centro de Soporte de
-        Cervezanas&quot;
-      </div>
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿A qué destinatarios se comunican tus datos?
+        </span>
 
-      <div>
-        Recogeremos datos con el fin de gestionar el centro de soporte de
-        Cervezanas y el contacto con el cliente vía ticket a fin de poder
-        atender su petición. Uso de los tickets Cada usuario puede acceder a sus
-        tickets mediante usuario y contraseña. Las contraseñas son personales e
-        intransferibles y el usuario es responsable del uso de sus contraseñas y
-        de su comunicación a terceros. La información que contiene los tickets
-        es de carácter confidencial. Cervezanas prohíbe la publicación de los
-        tickets a terceros y de su divulgación en foros, redes sociales y
-        cualquier sitio web.
-      </div>
+        <div>
+          En algunos casos, solo cuando sea necesario para la prestación del
+          servicio, CERVEZANAS podrá proporcionar datos de los usuarios a
+          terceros. Estos terceros o proveedores de servicios externos con los
+          que CERVEZANAS trabaje pueden usar los datos para proporcionar los
+          servicios correspondientes, sin embargo no usarán dicha información
+          para fines propios o para cesión a terceros.
+        </div>
 
-      <div className="mt-12 mb-4 text-xl">
-        - Apartado &quot;Formulario RMA&quot;
-      </div>
+        <div>
+          CERVEZANAS procura garantizar la seguridad de los datos personales
+          cuando se envían fuera de la empresa y se asegura que los terceros
+          proveedores de servicio respetan la confidencialidad y cuentan con las
+          medidas adecuadas para proteger los datos personales. Dichos terceros
+          tienen la obligación de garantizar que la información se trata
+          conforme con la normativa de privacidad de datos.
+        </div>
 
-      <div>
-        La principal finalidad de este tratamiento es la gestión del RMA (Uso de
-        garantía de su producto).Sus datos pueden ser comunicados a los
-        fabricantes en el supuesto de productos averiados o defectuosos. -
-        Información recogida orientada a mejoras web Para mejorar nuestros
-        servicios y la compra on-line estamos analizando el portal de Cervezanas
-        y la correcta navegación del usuario. Esta información será confidencial
-        y únicamente será utilizada para mejorar la seguridad y funcionamiento
-        de nuestra tienda on-line y para fines estadísticos. Base jurídica de
-        los tratamientos Para el registro, compra y la gestión de las garantías
-        basaremos el tratamiento de los datos en la ejecución del contrato de
-        compra o en el marco de la relación precontractual. Para el envío de
-        información comercial basaremos el tratamiento en su consentimiento
-        aunque si Vd. ya es cliente podremos enviarle información sobre
-        productos similares proporcionándole siempre un medio sencillo y
-        gratuito para darse de baja. El consentimiento aquí prestado por el
-        Titular para comunicación de datos a terceros tiene carácter revocable
-        en todo momento, sin efectos retroactivos. Destinatarios Con motivo de
-        la compra sus datos pueden ser comunicados a los siguientes
-        destinatarios: Entidades bancarias para el pago las compras mediante
-        tarjeta y/o estudio de financiación de compras y obtención de créditos
-        al consumo. Entidades que prestan servicios de investigación,
-        descubrimiento y prevención del fraude, así como la minimización del
-        riesgo de su comisión, en base al interés legítimo reconocido por la
-        normativa vigente. Entidades y empresas del sector de la energía, previo
-        consentimiento. A la Oficina de consumidores y usuarios en caso de
-        existir alguna reclamación. A los fabricantes, Servicios técnicos y/o
-        mayoristas en el caso de garantías o reparaciones. A aquellas empresas
-        transportistas que puedan tener encargado el envío a los clientes de los
-        pedidos correspondientes. Estos destinatarios pueden estar ubicados
-        dentro del territorio español como en fuera del mismo, en función del
-        producto y/o servicio adquirido. En los supuestos legalmente
-        establecidos, como es el caso de las Fuerzas y Cuerpos de Seguridad. A
-        las administraciones públicas a las que tengamos que facilitar
-        información con motivo del cumplimiento de nuestras obligaciones
-        legales. Para el envío de newsletters o boletines de noticias es posible
-        que utilicemos la herramienta Mailchimp que pertenece a la compañía
-        estadounidense The Rocket Science Group, LLC. Por lo tanto, estaríamos
-        ante una transferencia internacional de sus datos para prestar
-        únicamente este servicio. Puedes encontrar información sobre esta
-        compañía y su política de privacidad aquí. Además, esta compañía se
-        encuentra adherida al protocolo Privacy Shield que permite las
-        transferencias internacionales de datos entre la Unión Europea y Estados
-        Unidos. El uso de Mailchimp no es una cesión de datos, sino que los
-        datos sólo se usarán por esta plataforma única y exclusivamente para
-        remitir los boletines y siempre con su consentimiento. Cervezanas
-        asegura la confidencialidad de los datos aportados y garantiza que, en
-        ningún caso, serán cedidos para ningún otro uso sin mediar
-        consentimiento previo y expreso de nuestros clientes. Sólo le pediremos
-        aquellos datos necesarios para la prestación del servicio requerido y
-        únicamente serán empleados para este fin. Derechos de los interesados El
-        interesado tiene los siguientes derechos: Podrá solicitar información
-        sobre los datos de carácter personal almacenados que le conciernan
-        (acceso) Podrá solicitar que se corrija la inexactitud de sus datos
-        personales. (rectificación) Podrá solicitar la eliminación o limitación
-        del tratamiento de sus datos personales y (supresión y limitación)
-        También podrá solicitar que se le pongan a disposición sus datos
-        personales en un formato estructurado, corriente y de lectura
-        mecánica.(portabilidad) Para ello deberá dirigirse por escrito
-        adjuntando una copia del DNI o documento que le identifique, a la
-        dirección la Calle Cañón del Río Lobos 7C, 1ºA Madrid 28030 - España
-        también a través de nuestro formulario o al correo electrónico
-        info@cervezanas.eu. Cervezanas. El interesado también tiene derecho a
-        presentar una reclamación ante las autoridades de protección de datos
-        (Agencia Española de Protección de Datos). No obstante, cualquier
-        cuestión relacionada con los datos le invitamos a contactar con nosotros
-        para solucionarla. Delegado de protección de datos Hemos designado un
-        delegado de protección de datos (DPO) para cualquier cuestión
-        relacionada con sus datos personales. Puede contactar con él a través de
-        la dirección info@cervezanas.eu Calidad de los datos Los usuarios
-        deberán garantizar la veracidad, exactitud, autenticidad y vigencia de
-        los datos de carácter personal que les hayan sido recogidos. Protección
-        de los menores No recogemos datos personales de menores. Es
-        responsabilidad del padre/madre/tutor legal velar por para la privacidad
-        de los menores, haciendo todo lo posible para asegurar que han
-        autorizado la recogida y el uso de los datos personales del menor. Redes
-        Sociales A través de nuestra página web puede acceder a las redes
-        sociales Facebook, Twitter o Youtube de acceso abierto a todos los
-        usuarios. Se trata de sitios web donde el usuario puede registrase y
-        seguirnos gratuitamente. En estas redes sociales los usuarios podrán
-        conocer de nuestras actividades, opiniones, acceder a las fotos y
-        vídeos. Los usuarios de estas redes sociales deben ser conscientes de
-        que este lugar es independiente de la web www.cervezanas.beer y está
-        abierto, es decir, es visible para todos sus usuarios, y las políticas
-        de privacidad a aplicar a estos contenidos son las fijadas por Facebook,
-        Twitter o Youtube. Cervezanas no es titular de las redes sociales.
-        Actualizado: 20 de febrero de 2023
-      </div>
+        <div>
+          En algunos casos, la ley puede exigir que se revelen datos personales
+          a organismos públicos u otras partes, solo se revelará lo
+          estrictamente necesario para el cumplimiento de dichas obligaciones
+          legales.
+        </div>
+
+        <div>
+          Los datos personales obtenidos también podrán ser compartidos con
+          otras empresas del grupo si las hubiese.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Dónde se almacenan tus datos?
+        </span>
+
+        <div>
+          Con carácter general, los datos se almacenan dentro de la UE. Los
+          datos que se envíen a terceros que no pertenezcan a la UE, nos
+          aseguraremos de que ofrezcan un nivel de protección suficiente, ya sea
+          porque se trate de países considerados seguros o porque cuentan con
+          Normas Corporativas Vinculantes (BCR).
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Qué derechos te asisten y cómo puedes ejercerlos?
+        </span>
+
+        <div>
+          Puedes dirigir tus comunicaciones y ejercitar tus derechos mediante
+          una petición en el siguiente correo electrónico: info@cervezanas.eu
+        </div>
+
+        <div>
+          En virtud de lo que establece el RGPD puedes solicitar:
+          <ul>
+            <li>
+              Derecho de acceso: puedes pedir información de aquellos datos
+              personales que dispongamos acerca de ti.
+            </li>
+            <li>
+              Derecho de rectificación: puedes comunicar cualquier cambio en tus
+              datos personales.
+            </li>
+
+            <li>
+              Derecho de supresión y al olvido: puedes solicitar la eliminación
+              previo bloqueo de los datos personales.
+            </li>
+
+            <li>
+              Derecho de limitación al tratamiento: supone la restricción del
+              tratamiento de los datos personales.
+            </li>
+
+            <li>
+              Derecho de oposición: puedes retirar el consentimiento del
+              tratamiento de los datos, oponiéndose a que se sigan tratando.
+            </li>
+
+            <li>
+              Derecho a la portabilidad: en algunos casos, puedes pedir una
+              copia de los datos personales en un formato estructurado, de uso
+              común y lectura mecánica para su transmisión a otro responsable.
+            </li>
+
+            <li>
+              Derecho a no ser objeto de decisiones individualizadas: puedes
+              solicitar que no se tomen decisiones que se basen únicamente en el
+              tratamiento automatizado, incluyendo la elaboración de perfiles,
+              que produzca efectos jurídicos o afecte significativamente al
+              interesado.
+            </li>
+          </ul>
+          <span>
+            En algunos casos, se podrá rechazar la solicitud si solicitas que se
+            eliminen datos necesarios para el cumplimiento de obligaciones
+            legales.
+          </span>
+        </div>
+
+        <div>
+          Asimismo, si tienes alguna queja sobre el tratamiento de los datos
+          puedes presentar una reclamación a la autoridad de protección de
+          datos.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Quién es el responsable de la exactitud y veracidad de los datos
+          facilitados?
+        </span>
+
+        <div>
+          El usuario es el único responsable de la veracidad y corrección de los
+          datos incluidos, exonerando a CERVEZANAS de cualquier responsabilidad
+          al respecto. Los usuarios garantizan y responden, en cualquier caso,
+          de la exactitud, vigencia y autenticidad de los datos personales
+          facilitados, y se comprometen a mantenerlos debidamente actualizados.
+          El usuario acepta proporcionar información completa y correcta en el
+          formulario de registro o suscripción. CERVEZANAS se reserva el derecho
+          de finalizar los servicios contratados que se hubiera celebrado con
+          los usuarios, en caso de que los datos que haya facilitado sean
+          falsos, incompletos, inexactos o no estén actualizados.
+        </div>
+
+        <div>
+          CERVEZANAS no responde de la veracidad de las informaciones que no
+          sean de elaboración propia y de las que se indique otra fuente, por lo
+          que tampoco asume responsabilidad alguna en cuanto a hipotéticos
+          perjuicios que pudieran originarse por el uso de dicha información.
+        </div>
+
+        <div>
+          CERVEZANAS se reserva el derecho a actualizar, modificar o eliminar la
+          información contenida en sus páginas web pudiendo incluso limitar o no
+          permitir el acceso a dicha información. Se exonera a CERVEZANAS de
+          responsabilidad ante cualquier daño o perjuicio que pudiera sufrir el
+          usuario como consecuencia de errores, defectos u omisiones, en la
+          información facilitada por CERVEZANAS. siempre que proceda de fuentes
+          ajenas a la misma.
+        </div>
+
+        <div>
+          Asimismo, el usuario certifica que es mayor de 14 años y que posee la
+          capacidad legal necesaria para la prestación del consentimiento en
+          cuanto al tratamiento de sus datos de carácter personal.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Cómo tratamos los datos personales de los menores de edad?
+        </span>
+
+        <div>
+          En principio nuestros servicios no van dirigidos específicamente a
+          menores de edad. Sin embargo, en el supuesto de que alguno de ellos se
+          dirija a menores de catorce años, de conformidad con el artículo 8 del
+          RGPD y el artículo 7 de la LO 3/2018, de 5 de diciembre (LOPDGDD),
+          CERVEZANAS exigirá el consentimiento válido, libre, inequívoco,
+          específico e informado de sus tutores legales para tratar los datos
+          personales de los menores. En este caso, se exigirá el DNI u otra
+          forma de identificación de quien preste el consentimiento.
+        </div>
+
+        <div>
+          En el caso de mayores de catorce años podrá procederse al tratamiento
+          de los datos con el consentimiento del usuario, exceptuando aquellos
+          casos en los que la Ley exija la asistencia de los titulares de la
+          patria potestad o tutela.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Qué medidas de seguridad aplicamos para proteger tus datos
+          personales?
+        </span>
+
+        <div>
+          CERVEZANAS ha adoptado los niveles de seguridad de protección de los
+          Datos Personales legalmente requeridos, y procura instalar aquellos
+          otros medios y medidas técnicas adicionales a su alcance para evitar
+          la pérdida, mal uso, alteración, acceso no autorizado y robo de los
+          Datos Personales facilitados a CERVEZANAS.
+        </div>
+
+        <div>
+          CERVEZANAS no es responsable de hipotéticos daños o perjuicios que se
+          pudieran derivar de interferencias, omisiones, interrupciones, virus
+          informáticos, averías telefónicas o desconexiones en el funcionamiento
+          operativo de este sistema electrónico, motivadas por causas ajenas a
+          CERVEZANAS; de retrasos o bloqueos en el uso del presente sistema
+          electrónico causados por deficiencias o sobrecargas de líneas
+          telefónicas o sobrecargas en el Centro de Procesos de Datos, en el
+          sistema de Internet o en otros sistemas electrónicos, así como de
+          daños que puedan ser causados por terceras personas mediante
+          intromisiones ilegítimas fuera del control de CERVEZANAS. Ello no
+          obstante, el usuario debe ser consciente de que las medidas de
+          seguridad en Internet no son inexpugnables.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          Enlaces a otros sitios web
+        </span>
+
+        <div>
+          En el sitio web cervezanas.eu puede haber enlaces a otras páginas web.
+          Al clicar en uno de estos enlaces y acceder a un sitio web externo, la
+          visita estará sujeta a la política de privacidad de dicho sitio web,
+          quedando CERVEZANAS desvinculada de cualquier tipo de responsabilidad
+          acerca de su política de privacidad.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Cómo utilizamos las cookies?
+        </span>
+
+        <div>
+          El sitio web de CERVEZANAS utiliza cookies, a los efectos de optimizar
+          y personalizar su navegación por el mismo. Las cookies son ficheros
+          físicos de información que se alojan en el propio terminal del
+          usuario, la información recogida mediante las cookies sirve para
+          facilitar la navegación del usuario por el portal y optimizar la
+          experiencia de navegación. Los datos recopilados mediante las cookies
+          pueden ser compartidos con los creadores de las mismas, pero en ningún
+          caso la información obtenida por las mismas será asociada a datos
+          personales ni a datos que puedan identificar al usuario.
+        </div>
+
+        <div>
+          Sin embargo, si el usuario no desea que se instalen cookies en su
+          disco duro, tiene la posibilidad de configurarlas o rechazarlas de tal
+          modo que se impida la instalación de aquellas que no le interesen.
+          Para obtener más información consulte nuestra Política de Cookies.
+        </div>
+      </section>
+
+      <section className="">
+        <span className="text-xl font-semibold">
+          ¿Puede modificarse la política de privacidad?
+        </span>
+
+        <div>
+          Esta política de privacidad puede modificarse. Te recomendamos que
+          revises la política de privacidad con cierta periodicidad.
+        </div>
+      </section>
     </div>
   );
 }
