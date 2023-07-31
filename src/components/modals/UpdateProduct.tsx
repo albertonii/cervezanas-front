@@ -35,8 +35,6 @@ export function UpdateProduct({
   handleEditShowModal,
 }: Props) {
   const t = useTranslations();
-
-  const { products, setProducts } = useAppContext();
   const { user } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -234,7 +232,7 @@ export function UpdateProduct({
         .select();
 
       if (beerError) throw beerError;
-      productData.beers = beerData as IBeer[];
+      productData.beers = beerData;
 
       const beer = beerData[0];
       const beerId = beer.id;
