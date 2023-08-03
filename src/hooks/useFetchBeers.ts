@@ -12,9 +12,12 @@ const fetchBeers = async (supabase: SupabaseClient<any>) => {
     ),product_inventory (
       quantity
     )
-  `);
+  `)
+
+  
 
   if (error) throw error;
+  
   return data;
 };
 

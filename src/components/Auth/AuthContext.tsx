@@ -2,13 +2,7 @@
 
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import {
-  Provider,
-  Session,
-  SignInWithPasswordCredentials,
-  SignUpWithPasswordCredentials,
-  SupabaseClient,
-} from "@supabase/supabase-js";
+import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { ROLE_ENUM } from "../../lib/types.d";
@@ -17,6 +11,24 @@ import { EVENTS, VIEWS } from "../../constants";
 import { useLocale, useTranslations } from "next-intl";
 import { ROUTE_SIGNIN } from "../../config";
 
+export type SignUpWithPasswordCredentials = {
+  /** The user's email address. */
+  email: string;
+  /** The user's password. */
+  password: string;
+  options?: {
+    /** The redirect url embedded in the email link */
+    emailRedirectTo?: string;
+    /**
+     * A custom data object to store the user's metadata. This maps to the `auth.users.user_metadata` column.
+     *
+     * The `data` should be a JSON object that includes user-specific info, such as their first and last name.
+     */
+    data?: object;
+    /** Verification token received when the user completes the captcha on the site. */
+    captchaToken?: string;
+  };
+};
 export interface AuthSession {
   initial: boolean;
   user: any;
@@ -132,9 +144,33 @@ export const AuthContextProvider = ({
     };
   }, [supabase, serverSession, router]);
 
-  const signUp = async (payload: SignInWithPasswordCredentials) => {
+  const signUp = async (payload: SignUpWithPasswordCredentials) => {
     try {
-      // setLoading(true);
+      // Check if user exists
+      const { data: user, error: emailError } = await supabase
+        .from("users")
+        .select(
+          `
+          *
+        `
+        )
+        .eq("email", payload.email);
+
+      if (user && user.length > 0) {
+        handleMessage({
+          message: t("user_already_registered"),
+          type: "error",
+        });
+        return;
+      }
+
+      if (emailError) {
+        handleMessage({
+          message: emailError.message,
+          type: "error",
+        });
+        return;
+      }
 
       const { error } = await supabase.auth.signUp(payload);
       if (error) {
@@ -148,17 +184,13 @@ export const AuthContextProvider = ({
       }
     } catch (error: any) {
       handleMessage({
-        message: error.error_description || error,
+        message: error.error_description ?? error,
         type: "error",
       });
-    } finally {
-      // setLoading(false);
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    // setLoading(true);
-
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -166,7 +198,6 @@ export const AuthContextProvider = ({
 
     if (error) {
       handleMessage({ message: error.message, type: "error" });
-      // setLoading(false);
       return error;
     }
 

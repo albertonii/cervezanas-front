@@ -62,6 +62,19 @@ export function Sidebar() {
             option: "profile/monthly_beers",
           },
         ]
+      : role === "distributor"
+      ? [
+          {
+            name: t("profile"),
+            icon: "user",
+            option: "settings",
+          },
+          {
+            name: t("online_orders"),
+            icon: "box",
+            option: "online_orders",
+          },
+        ]
       : [
           {
             name: t("profile"),

@@ -218,6 +218,18 @@ export default function layout({ children }: LayoutProps) {
             </div>
           </>
         )}
+
+        {role === "distributor" && (
+          <>
+            {/* Client Information */}
+            <div
+              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
+              aria-label="Container Client Information"
+            >
+              {children}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

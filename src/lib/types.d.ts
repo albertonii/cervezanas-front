@@ -541,11 +541,11 @@ export interface IOrder {
 export interface IOrderItem {
   id: string;
   created_at: Date;
-  order_id: string;
+  business_order_id: IBusinessOrders;
   product_id: IProduct;
   product_pack_id: IRefProductPack;
   is_reviewed: boolean;
-  product_multimedia: IProductMultimedia[];
+  // product_multimedia: IProductMultimedia[];
   quantity: number;
   status: string;
   // name: string;
@@ -1089,5 +1089,60 @@ export enum ROLE_ENUM {
   Cervezano = "consumer",
   Productor = "producer",
   Moderator = "moderator",
+  Distributor = "distributor",
   Admin = "admin",
+}
+
+export interface IDistributorUser {
+  id: string;
+  created_at: string;
+  nif: string;
+  bank_account: string;
+  user: IUser;
+  location: IProfileLocation;
+}
+
+export interface IBusinessOrder {
+  id: string;
+  created_at: string;
+  order_id: IOrder;
+}
+
+export interface IBusinessOrderRef {
+  id: string;
+  created_at: string;
+  order_id: IOrder;
+}
+
+export interface IDistribution {
+  id: string;
+  created_at: string;
+  business_order_id: IBusinessOrder;
+  origin_distribution: IDistributorUser;
+  type: string;
+  price: quantity;
+  estimated_time;
+  shipment_date: string;
+  delivery_date: string;
+  order_status: string;
+  feedback: string;
+}
+
+export interface ICoverageArea {
+  id: string;
+  distributor_id: IDistributorUser;
+  locals: ILocal[];
+  cities: string[];
+  regions: string[];
+  provinces: string[];
+  europe: string[];
+  international: string[];
+}
+
+export interface ILocal {
+  id: string;
+  coverage_area_id: ICoverageArea;
+  country: string;
+  from: number; // CP From
+  to: number; // CP To [35600 - 35699]
 }

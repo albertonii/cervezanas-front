@@ -1,13 +1,13 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { Spinner } from "../common/Spinner";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { Button, DisplayInputError } from "../common";
 import { ROLE_ENUM } from "../../lib/types.d";
-import { SignUpWithPasswordCredentials } from "@supabase/supabase-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { SignUpWithPasswordCredentials } from "./AuthContext";
 
 const ROLE_OPTIONS = [
   {
@@ -17,6 +17,9 @@ const ROLE_OPTIONS = [
   {
     label: "Productor",
     value: ROLE_ENUM.Productor,
+  },{
+    label: "Distribuidor",
+    value: ROLE_ENUM.Distributor,
   },
 ];
 
@@ -40,6 +43,9 @@ export const SignUpForm = () => {
   const t = useTranslations();
 
   const { signUp, isLoading: loading } = useAuth();
+
+
+
 
   const {
     register,
@@ -84,7 +90,6 @@ export const SignUpForm = () => {
     const signUpInfo: SignUpWithPasswordCredentials = {
       email: email,
       password: password,
-      phone: "",
       options: {
         emailRedirectTo: `${location.origin}/api/auth/callback`,
         captchaToken: "",
