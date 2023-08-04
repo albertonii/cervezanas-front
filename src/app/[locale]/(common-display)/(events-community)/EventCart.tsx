@@ -1,5 +1,5 @@
 import EventProduct from "./EventProduct";
-import EmptyCart from "../../cart/shopping_basket/EmptyCart";
+import EmptyCart from "../cart/shopping_basket/EmptyCart";
 import React, { useEffect, useState } from "react";
 import { Button } from "../../../../components/common";
 import { useEventCart } from "../../../../components/Context/EventCartContext";

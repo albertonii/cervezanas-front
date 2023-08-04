@@ -338,6 +338,25 @@ export interface IProfile {
   cp_organizer_status: number;
 }
 
+export interface IDistributorProfile {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  owner_id: string;
+  name: string;
+  lastname: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  email: string;
+  role: string;
+  username: string;
+  profile_location: IProfileLocation[];
+}
+
 export interface IEvent {
   id: string;
   created_at: Date;

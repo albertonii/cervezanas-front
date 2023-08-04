@@ -571,5 +571,6 @@
   "edit_cp_fixed_config": "Editar Punto Fijo",
   "edit_cp_mobile_config": "Editar Punto Móvil",
   "delete_event_description_modal": "¿Está seguro de que desea eliminar el evento? Esta acción no se puede deshacer.",
-  "edit_event": "Editar evento"
+  "edit_event": "Editar evento",
+  "logistics": "Logística"
 }
