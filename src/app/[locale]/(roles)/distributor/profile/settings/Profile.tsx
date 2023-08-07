@@ -3,8 +3,8 @@
 import HorizontalSections from "../../../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "../../../../../../components/common";
-import { Account } from "../../../../../../components/customLayout";
 import { IDistributorProfile } from "../../../../../../lib/types";
+import { Account } from "../../../consumer/profile/settings/Account";
 
 interface Props {
   profile: IDistributorProfile;

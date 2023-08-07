@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ConfigureProducts } from "../../../../../../components/customLayout";
+import { ConfigureProducts } from "../../../producer/profile/products/ConfigureProducts";
 
 export function Products() {
   const [loading, setLoading] = useState<boolean>(true);

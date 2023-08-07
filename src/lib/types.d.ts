@@ -491,6 +491,22 @@ export interface IProfileLocation {
   address_2: string;
 }
 
+export interface ILocation {
+  id: string;
+  created_at: Date;
+  name: string;
+  lastname: string;
+  document_id: string;
+  company: string;
+  phone: string;
+  postalcode: number;
+  country: string;
+  province: string;
+  town: string;
+  address_1: string;
+  address_2: string;
+}
+
 export interface ILike {
   id: string;
   created_at: Date;
@@ -998,7 +1014,7 @@ export interface IModalShippingAddress {
   address_extra: string;
   address_observations: string;
   country: string;
-  zipcode: string;
+  zipcode: any;
   city: string;
   state: string;
   is_default: boolean;

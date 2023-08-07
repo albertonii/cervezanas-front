@@ -3,10 +3,10 @@
 import HorizontalSections from "../../../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "../../../../../../components/common";
-import { Values } from "../../../../../../components/customLayout";
 import { IProfile } from "../../../../../../lib/types";
 import { Account } from "./Account";
 import { Details } from "./Details";
+import { Values } from "./Values";
 
 interface Props {
   profile: IProfile;

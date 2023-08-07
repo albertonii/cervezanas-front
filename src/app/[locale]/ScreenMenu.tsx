@@ -228,6 +228,8 @@ export function ScreenMenu() {
                       options={
                         role === "admin"
                           ? ["submitted_aps", "monthly_products", "signout"]
+                          : role === "distributor"
+                          ? ["profile"]
                           : ["profile", "orders", "signout"]
                       }
                     />

@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { LikesHistory } from "../../../../../../components/customLayout";
 import { VIEWS } from "../../../../../../constants";
 import { ILike } from "../../../../../../lib/types";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { LikesHistory } from "./LikesHistory";
 
 export default async function LikesPage() {
   const { likes } = await getLikesData();

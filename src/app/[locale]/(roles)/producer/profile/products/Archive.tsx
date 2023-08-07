@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { ProductsArchiveList } from "../../../../../../components/customLayout";
 import { IProduct } from "../../../../../../lib/types";
 import {
   DeleteProduct,
   UpdateProduct,
 } from "../../../../../../components/modals";
+import { ProductsArchiveList } from "./ProductsArchiveList";
 
 /**
  *

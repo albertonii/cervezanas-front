@@ -14,11 +14,10 @@ interface DropdownProps {
   options: string[];
 }
 
-export function HeaderDropdownButton(props: DropdownProps) {
-  const { options } = props;
-
+export function HeaderDropdownButton({ options }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const dropdown = useRef<HTMLDivElement>(null);
+  const { role } = useAuth();
 
   const t = useTranslations();
   const locale = useLocale();
@@ -36,7 +35,7 @@ export function HeaderDropdownButton(props: DropdownProps) {
     switch (option) {
       case "profile":
         return (
-          <Link href={{ pathname: `/profile/settings` }} locale={locale}>
+          <Link href={{ pathname: `${role}/profile/settings` }} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -48,7 +47,10 @@ export function HeaderDropdownButton(props: DropdownProps) {
 
       case "orders":
         return (
-          <Link href={{ pathname: `/profile/${option}` }} locale={locale}>
+          <Link
+            href={{ pathname: `${role}/profile/${option}` }}
+            locale={locale}
+          >
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -72,7 +74,10 @@ export function HeaderDropdownButton(props: DropdownProps) {
       case "submitted_aps":
         return (
           <Link
-            href={{ pathname: `/profile`, query: { a: `submitted_aps` } }}
+            href={{
+              pathname: `${role}/profile`,
+              query: { a: `submitted_aps` },
+            }}
             locale={locale}
           >
             <span
@@ -87,7 +92,10 @@ export function HeaderDropdownButton(props: DropdownProps) {
       case "monthly_products":
         return (
           <Link
-            href={{ pathname: `/profile`, query: { a: `monthly_products` } }}
+            href={{
+              pathname: `${role}/profile`,
+              query: { a: `monthly_products` },
+            }}
             locale={locale}
           >
             <span

@@ -1,21 +1,20 @@
-import { IOrder } from "../../../../../../lib/types";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
-import { Orders } from "../../../../../../components/customLayout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
+import CoverageLayout from "./CoverageLayout";
 
 export default async function OrdersPage() {
-  const ordersData = await getOrdersData();
-  const [orders] = await Promise.all([ordersData]);
+  const coverageAreaData = await getCoverageAreaData();
+  const [coverageArea] = await Promise.all([coverageAreaData]);
 
   return (
     <>
-      <Orders orders={orders} />
+      <CoverageLayout coverageArea={coverageArea} />
     </>
   );
 }
 
-async function getOrdersData() {
+async function getCoverageAreaData() {
   const supabase = createServerClient();
 
   // Check if we have a session
@@ -27,15 +26,15 @@ async function getOrdersData() {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: ordersData, error: ordersError } = await supabase
-    .from("orders")
+  const { data: coverage_area, error: ordersError } = await supabase
+    .from("coverage_area")
     .select(
       `
         *
       `
     )
-    .eq("owner_id", session.user.id);
+    .eq("distributor_id", session.user.id);
   if (ordersError) throw ordersError;
 
-  return ordersData as IOrder[];
+  return coverage_area;
 }
