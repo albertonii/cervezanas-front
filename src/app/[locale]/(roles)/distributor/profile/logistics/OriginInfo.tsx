@@ -3,6 +3,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, DisplayInputError } from "../../../../../../components/common";
+import InputForm from "../../../../components/InputForm";
+import Label from "../../../../components/Label";
 
 interface FormData {
   id: string;
@@ -76,117 +78,109 @@ export default function OriginInfo() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="w-full space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-        <legend className="m-2 text-2xl">{t("origin_location")}</legend>
+        <legend className="text-2xl">{t("origin_location")}</legend>
 
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
-          <label className="my-3 flex h-12 flex-col items-start space-y-2 rounded border border-bear-alvine ">
-            <input
-              {...register("name", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("name")}*`}
-              required
-            />
+          <Label>
+            <InputForm register={register} inputName="name" required={true} />
 
             {errors.name?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="space-y-2rounded my-3 flex h-12 flex-col items-start  border border-bear-alvine ">
-            <input
-              {...register("lastname", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("lastname")}*`}
-              required
+          <Label>
+            <InputForm
+              register={register}
+              inputName="lastname"
+              required={true}
             />
+
             {errors.lastname?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="space-y-2rounded my-3 flex h-12 flex-col items-start  border border-bear-alvine ">
-            <input
-              {...register("document_id", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("document_id")}*`}
+          <Label>
+            <InputForm
+              register={register}
+              inputName="document_id"
+              required={true}
             />
+
             {errors.document_id?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="my-3 flex h-12 flex-col items-start space-y-2 rounded border border-bear-alvine ">
-            <input
-              {...register("phone", { required: true })}
-              type="tel"
-              className="mr-6 w-full border-none px-3 focus:outline-none"
-              placeholder={`${t("loc_phone")}*`}
+          <Label>
+            <InputForm
+              register={register}
+              inputName="phone"
+              required={true}
+              type={"tel"}
             />
+
             {errors.phone?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="my-3 flex h-12 flex-col items-start space-y-2 rounded border border-bear-alvine ">
-            <input
-              {...register("address_1", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("address_1")}*`}
-              required
+          <Label>
+            <InputForm
+              register={register}
+              inputName="address_1"
+              required={true}
             />
 
             {errors.address_1?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="space-y-2rounded my-3 flex h-12 flex-col items-start  border border-bear-alvine ">
-            <input
-              {...register("town", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("town")}*`}
-              required
-            />
+          <Label>
+            <InputForm register={register} inputName="town" required={true} />
+
             {errors.town?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="space-y-2rounded my-3 flex h-12 flex-col items-start  border border-bear-alvine ">
-            <input
-              {...register("province", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("province")}*`}
+          <Label>
+            <InputForm
+              register={register}
+              inputName="province"
+              required={true}
             />
+
             {errors.province?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="my-3 flex h-12 flex-col items-start space-y-2 rounded border border-bear-alvine ">
-            <input
-              {...register("country", { required: true })}
-              type="tel"
-              className="mr-6 w-full border-none px-3 focus:outline-none"
-              placeholder={`${t("country")}*`}
+          <Label>
+            <InputForm
+              register={register}
+              inputName="country"
+              required={true}
             />
+
             {errors.country?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
 
-          <label className="flex h-12 flex-col items-start space-y-2 rounded  border border-bear-alvine">
-            <input
-              {...register("postalcode", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("postalcode")}*`}
-              required
+          <Label>
+            <InputForm
+              register={register}
+              inputName="postalcode"
+              required={true}
             />
 
             {errors.postalcode?.type === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}
-          </label>
+          </Label>
         </div>
 
         <Button btnType="submit" class="" primary medium>
