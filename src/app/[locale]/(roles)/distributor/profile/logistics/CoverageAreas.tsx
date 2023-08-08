@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { DistributionType } from "../../../../../../lib/enums";
 import HorizontalMenu from "./HorizontalMenu";
+import React, { useState } from "react";
+import { useTranslations } from "next-intl";
+import { DistributionType } from "../../../../../../lib/enums";
+import LocalDistribution from "./LocalDistribution";
 
 export default function CoverageAreas() {
+  const t = useTranslations();
   const [menuOption, setMenuOption] = useState<string>("products");
 
   const renderSwitch = () => {
     switch (menuOption) {
       case DistributionType.LOCAL:
-        return <span>Local</span>;
+        return <LocalDistribution />;
       case DistributionType.CITY:
         return <span>Cities</span>;
       case DistributionType.PROVINCE:
@@ -30,7 +33,10 @@ export default function CoverageAreas() {
       <HorizontalMenu setMenuOption={setMenuOption} />
 
       {/* Coverage Area content  */}
-      {renderSwitch()}
+      <div>
+        <span>{t("distribution_type")}</span>
+        {renderSwitch()}
+      </div>
 
       {/* Map Area Content  */}
     </div>

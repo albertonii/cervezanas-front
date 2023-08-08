@@ -1181,3 +1181,8 @@ export interface ILocal {
   from: number; // CP From
   to: number; // CP To [35600 - 35699]
 }
+
+export interface IPCRangesProps {
+  from: number;
+  to: number;
+}

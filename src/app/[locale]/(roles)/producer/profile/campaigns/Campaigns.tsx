@@ -8,14 +8,14 @@ import {
   ICampaign,
   ICampaignItem,
   IProduct,
-} from "../../../lib/types.d";
-import { useAuth } from "../../Auth";
-import { Button } from "../../common";
-import { useSupabase } from "../../Context/SupabaseProvider";
-import { useMessage } from "../../message/useMessage";
-import { DeleteCampaign } from "../../modals/DeleteCampaign";
+} from "../../../../../../lib/types";
 import { CampaignForm } from "./CampaignForm";
 import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
+import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useAuth } from "../../../../../../components/Auth";
+import { useMessage } from "../../../../../../components/message/useMessage";
+import { Button } from "../../../../../../components/common";
+import { DeleteCampaign } from "../../../../../../components/modals/DeleteCampaign";
 
 interface Props {
   campaigns: ICampaign[];
