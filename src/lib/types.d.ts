@@ -1166,7 +1166,7 @@ export interface IDistribution {
 export interface ICoverageArea {
   id: string;
   distributor_id: IDistributorUser;
-  locals: ILocal[];
+  local_distribution: ILocal[];
   cities: string[];
   regions: string[];
   provinces: string[];

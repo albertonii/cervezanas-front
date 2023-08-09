@@ -19,8 +19,8 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
   };
 
   return (
-    <div className="" aria-label="">
-      <ul className="flex divide-x divide-gray-200 rounded-lg pb-6 pl-72 pr-6 text-center text-sm font-medium text-gray-500 shadow dark:divide-gray-700 dark:text-gray-400">
+    <>
+      <ul className="text-md flex divide-x divide-gray-200 rounded-lg pb-6 pl-72 pr-6 text-center font-medium text-gray-500 dark:divide-gray-700 dark:text-gray-400">
         {tabs.map((tab, index) => (
           <li
             key={index}
@@ -28,13 +28,13 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
           ${activeTab === tab ? "bg-gray-100  text-beer-gold" : "bg-beer-foam"}
           ${index === 0 ? "rounded-l-lg" : ""}
           ${index === tabs.length - 1 ? "rounded-r-lg" : ""}
-          active flex w-full items-center justify-center p-4 hover:cursor-pointer hover:bg-gray-50 hover:text-beer-draft focus:outline-none focus:ring-4 focus:ring-beer-blonde dark:bg-gray-700 dark:text-white`}
+          active flex w-full items-center justify-center p-4 shadow hover:cursor-pointer hover:bg-gray-50 hover:text-beer-draft focus:outline-none focus:ring-4 focus:ring-beer-blonde dark:bg-gray-700 dark:text-white`}
             onClick={() => handleClick(tab)}
           >
             {t(tab)}
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }

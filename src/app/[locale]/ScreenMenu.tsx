@@ -229,7 +229,7 @@ export function ScreenMenu() {
                         role === "admin"
                           ? ["submitted_aps", "monthly_products", "signout"]
                           : role === "distributor"
-                          ? ["profile"]
+                          ? ["profile", "signout"]
                           : ["profile", "orders", "signout"]
                       }
                     />

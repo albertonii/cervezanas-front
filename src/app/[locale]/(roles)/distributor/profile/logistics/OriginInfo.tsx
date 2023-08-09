@@ -78,7 +78,9 @@ export default function OriginInfo() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="w-full space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-        <legend className="text-2xl">{t("origin_location")}</legend>
+        <legend className="text-2xl font-medium text-beer-dark">
+          {t("origin_location")}
+        </legend>
 
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
           <Label>
@@ -130,6 +132,7 @@ export default function OriginInfo() {
             <InputForm
               register={register}
               inputName="address_1"
+              placeholder="address"
               required={true}
             />
 
@@ -174,6 +177,7 @@ export default function OriginInfo() {
             <InputForm
               register={register}
               inputName="postalcode"
+              placeholder="postal_code"
               required={true}
             />
 

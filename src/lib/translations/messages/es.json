@@ -572,5 +572,15 @@
   "edit_cp_mobile_config": "Editar Punto Móvil",
   "delete_event_description_modal": "¿Está seguro de que desea eliminar el evento? Esta acción no se puede deshacer.",
   "edit_event": "Editar evento",
-  "logistics": "Logística"
+  "logistics": "Logística",
+  "town": "Población",
+  "province": "Provincia",
+  "postal_code": "Código postal",
+  "local": "Local",
+  "region": "Región",
+  "europe": "Europa",
+  "international": "Internacional",
+  "origin_location": "Localización de origen",
+  "add_range": "Añadir rango",
+  "distribution_type": "Tipo de distribución"
 }

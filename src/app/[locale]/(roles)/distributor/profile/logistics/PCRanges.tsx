@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { IPCRangesProps } from "../../../../../../lib/types";
+import InputForm from "../../../../components/InputForm";
 import Label from "../../../../components/Label";
 
 interface Props {
@@ -24,30 +25,26 @@ export default function PCRanges({ item, index, register }: Props) {
   };
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-2 space-x-4">
       <Label>
-        <input
-          type="number"
-          id="end"
-          {...register(`ranges.${index}.from` as const, {
-            required: true,
-            valueAsNumber: true,
-          })}
+        <InputForm
+          register={register}
+          inputName={`ranges.${index}.from`}
+          required={true}
+          type={"number"}
+          id={`${index}-from`}
           defaultValue={item.from}
-          required
         />
       </Label>
 
       <Label>
-        <input
-          type="number"
-          id="end"
-          {...register(`ranges.${index}.to` as const, {
-            required: true,
-            valueAsNumber: true,
-          })}
+        <InputForm
+          register={register}
+          inputName={`ranges.${index}.to`}
+          required={true}
+          type={"number"}
+          id={`${index}-to`}
           defaultValue={item.to}
-          required
         />
       </Label>
     </div>
