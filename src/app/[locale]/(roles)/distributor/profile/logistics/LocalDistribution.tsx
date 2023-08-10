@@ -35,7 +35,14 @@ export default function LocalDistribution({
   const [displayCountry, setDisplayCountry] = useState(
     esLocale.countries["ES"]
   );
-  console.log(locals);
+
+  const defaultRanges = locals.map((local) => {
+    return {
+      from: local.from,
+      to: local.to,
+    };
+  });
+
   const {
     register,
     formState: { errors },
@@ -44,7 +51,7 @@ export default function LocalDistribution({
   } = useForm({
     defaultValues: {
       country: countryOption,
-      ranges: [{ from: 35000, to: 35999 }],
+      ranges: defaultRanges,
     },
   });
 
@@ -69,18 +76,33 @@ export default function LocalDistribution({
   const handleUpdateLocalDistribution = async (form: FormData) => {
     const { country, ranges } = form;
 
-    const { data, error } = await supabase
+    // Delete all ranges in local distribution
+    const { error: errorDelete } = await supabase
       .from("local_distribution")
-      .update({
-        country,
-        ranges,
-        coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
-      })
-      .select();
+      .delete()
+      .eq("coverage_area_id", "5804f470-2710-4ee4-93f5-51940f5a004a");
 
-    if (error) {
-      console.error(error);
+    if (errorDelete) {
+      console.error(errorDelete);
     }
+
+    // Insert new ranges
+    ranges.map(async (range) => {
+      const { error: errorLocal } = await supabase
+        .from("local_distribution")
+        .insert({
+          country,
+          from: range.from,
+          to: range.to,
+          coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
+        })
+        .eq("from", range.from)
+        .select();
+
+      if (errorLocal) {
+        console.error(errorLocal);
+      }
+    });
   };
 
   const updateLocalDistributionMutation = useMutation({
@@ -98,9 +120,21 @@ export default function LocalDistribution({
     },
   });
 
+  const onSubmit = (formValues: FormData) => {
+    try {
+      updateLocalDistributionMutation.mutate(formValues);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Button btnType="submit" class="" primary medium>
+          {t("save")}
+        </Button>
+
         {/* Country  */}
         <div className="w-60">
           <span>{displayCountry}</span>
@@ -130,6 +164,7 @@ export default function LocalDistribution({
                     className="grid w-full grid-cols-2 space-x-4 rounded-md border-2 border-beer-gold p-4"
                   >
                     <PCRanges register={register} item={item} index={index} />
+
                     {/* Delete range  */}
                     <IconButton
                       btnType="button"
@@ -157,10 +192,6 @@ export default function LocalDistribution({
 
           {/* Map displaying ranges */}
           <LogisticMap locals={locals} />
-
-          <Button btnType="submit" class="" primary medium>
-            {t("save")}
-          </Button>
         </div>
       </form>
     </section>

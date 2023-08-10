@@ -106,6 +106,24 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
             </span>
           </Link>
         );
+
+      case "logistics":
+        return (
+          <Link
+            href={{
+              pathname: `${role}/profile`,
+              query: { a: `logistics` },
+            }}
+            locale={locale}
+          >
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
     }
   };
 

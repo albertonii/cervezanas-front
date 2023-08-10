@@ -1,18 +1,28 @@
+import LocalDistribution from "./LocalDistribution";
+import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
 import HorizontalMenu from "./HorizontalMenu";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { DistributionType } from "../../../../../../lib/enums";
-import LocalDistribution from "./LocalDistribution";
-import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
+import CityDistribution from "./CityDistribution";
 
 export default function CoverageAreas() {
   const t = useTranslations();
-  const [menuOption, setMenuOption] = useState<string>("products");
+  const [menuOption, setMenuOption] = useState<string>("local");
 
-  const { data: distribution, error } = useFetchDistributionByOwnerId();
+  const {
+    data: distribution,
+    error,
+    isLoading,
+    isFetching,
+  } = useFetchDistributionByOwnerId();
 
   if (error) {
     console.error(error);
+  }
+
+  if (isLoading || isFetching) {
+    return <span>Loading...</span>;
   }
 
   const renderSwitch = () => {
@@ -22,13 +32,21 @@ export default function CoverageAreas() {
           <>
             {distribution && (
               <LocalDistribution
-                localDistribution={distribution.local_distribution}
+                localDistribution={
+                  distribution.coverage_area[0].local_distribution
+                }
               />
             )}
           </>
         );
       case DistributionType.CITY:
-        return <span>Cities</span>;
+        return (
+          <>
+            {distribution && (
+              <CityDistribution cities={distribution.coverage_area[0].cities} />
+            )}
+          </>
+        );
       case DistributionType.PROVINCE:
         return <span>Provinces</span>;
       case DistributionType.REGION:

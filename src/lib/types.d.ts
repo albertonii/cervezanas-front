@@ -1161,6 +1161,7 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
+  coverage_area: ICoverageArea[];
 }
 
 export interface ICoverageArea {

@@ -2,7 +2,6 @@
 
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-
 import {
   Combobox,
   ComboboxInput,
@@ -10,10 +9,9 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-
 import "@reach/combobox/styles.css";
-
 import usePlacesAutocomplete, {
+  GeocodeResult,
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
@@ -46,19 +44,21 @@ export default function LogisticMap({ locals }: Props) {
     libraries: ["places"],
   });
 
-  console.log(locals);
-
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map />;
+
+  return <Map locals={locals} />;
 }
 
-function Map() {
-  const t = useTranslations();
+interface MapProps {
+  locals: ILocal[];
+}
+
+function Map({ locals }: MapProps) {
+  const [isMapReady, setIsMapReady] = useState(false);
 
   // const [fixedMarkers, setFixedMarkers] = useState<google.maps.Marker[]>([]);
   const [map, setMap] = useState<google.maps.Map>();
 
-  // Loop through CPs and add CP fixed markers in first component render
   useEffect(() => {
     if (map) {
       getCurrentPosition().then((position: any) => {
@@ -71,12 +71,36 @@ function Map() {
           }
           return prev;
         });
+
+        setIsMapReady(true);
       });
     }
   }, [map]);
 
+  if (!isMapReady) return <div>Loading...</div>;
+
   const center = useMemo(() => ({ lat: 40.41, lng: -3.7 }), []);
   const [selected, setSelected] = useState(null);
+
+  const featureLayer: google.maps.FeatureLayer = map!.getFeatureLayer(
+    google.maps.FeatureType.LOCALITY
+  );
+
+  const featureStyleOptions: google.maps.FeatureStyleOptions = {
+    strokeColor: "#810FCB",
+    strokeOpacity: 1.0,
+    strokeWeight: 3.0,
+    fillColor: "#810FCB",
+    fillOpacity: 0.5,
+  };
+
+  // Apply the style to a single boundary.
+  // featureLayer.style = (options: { feature: { placeId: string } }) => {
+  //   if (options.feature.placeId == "ChIJ0zQtYiWsVHkRk8lRoB1RNPo") {
+  //     // Hana, HI
+  //     return featureStyleOptions;
+  //   }
+  // };
 
   return (
     <div className="relative space-y-4">

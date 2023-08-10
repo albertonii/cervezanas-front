@@ -11,18 +11,19 @@ interface Props {
 }
 
 export default function PCRanges({ item, index, register }: Props) {
-  const [from, setFrom] = useState(35000);
-  const [to, setTo] = useState(35999);
+  // console.log(item);
+  // const [from, setFrom] = useState(item?.from ?? 35600);
+  // const [to, setTo] = useState(item?.to ?? 35699);
 
-  const handleStart = (e: string) => {
-    const value = parseInt(e);
-    setFrom(value);
-  };
+  // const handleStart = (e: string) => {
+  //   const value = parseInt(e);
+  //   setFrom(value);
+  // };
 
-  const handleEnd = (e: string) => {
-    const value = parseInt(e);
-    setTo(value);
-  };
+  // const handleEnd = (e: string) => {
+  //   const value = parseInt(e);
+  //   setTo(value);
+  // };
 
   return (
     <div className="grid grid-cols-2 space-x-4">
