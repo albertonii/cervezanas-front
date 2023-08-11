@@ -1,10 +1,10 @@
-import LocalDistribution from "./LocalDistribution";
 import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
+import CityDistribution from "./(city)/CityDistribution";
+import LocalDistribution from "./(local)/LocalDistribution";
 import HorizontalMenu from "./HorizontalMenu";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { DistributionType } from "../../../../../../lib/enums";
-import CityDistribution from "./CityDistribution";
 
 export default function CoverageAreas() {
   const t = useTranslations();
@@ -61,7 +61,7 @@ export default function CoverageAreas() {
   };
 
   return (
-    <fieldset className="rounded-md border-2 border-beer-softBlondeBubble p-4">
+    <fieldset className="w-full rounded-md border-2 border-beer-softBlondeBubble p-4">
       <legend className="text-2xl font-medium text-beer-dark">
         {t("distribution_type")}
       </legend>

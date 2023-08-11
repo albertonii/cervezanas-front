@@ -8,7 +8,7 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchEventsByOwnerId = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: SupabaseClient<any>
 ) => {
   if (!ownerId) return [];
@@ -21,21 +21,24 @@ const fetchEventsByOwnerId = async (
     `
     )
     .eq("owner_id", ownerId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
     .select();
 
   if (error) throw error;
   return data;
 };
 
-const useFetchEventsByOwnerId = (currentPage: number, pageRange: number) => {
+const useFetchEventsByOwnerId = (
+  currentPage: number,
+  resultsPerPage: number
+) => {
   const { user } = useAuth();
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["events", user?.id, currentPage, pageRange],
+    queryKey: ["events", user?.id, currentPage, resultsPerPage],
     queryFn: () =>
-      fetchEventsByOwnerId(user?.id, currentPage, pageRange, supabase),
+      fetchEventsByOwnerId(user?.id, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });

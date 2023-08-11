@@ -28,14 +28,14 @@ export function SearchCheckboxCPProducts({ form }: Props) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const fixedCount = products.length;
-  const pageRange = 10;
+  const resultsPerPage = 10;
 
   const { register } = form;
 
   const { isLoading, refetch } = useFetchProductsByOwner(
     user?.id,
     currentPage,
-    pageRange,
+    resultsPerPage,
     false
   );
 
@@ -115,7 +115,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                           className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
                           <input
-                            id="checkbox-item"
+                            id={`checkbox-item-${product.id}`}
                             type="checkbox"
                             {...register(`product_items.${index}.id`)}
                             value={product.id}
@@ -145,7 +145,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
 
           <PaginationFooter
             counter={fixedCount}
-            pageRange={pageRange}
+            resultsPerPage={resultsPerPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />

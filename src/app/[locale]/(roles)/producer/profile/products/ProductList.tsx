@@ -41,7 +41,7 @@ export function ProductList({
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const pageRange = 10;
+  const resultsPerPage = 10;
 
   const {
     data: ps,
@@ -50,7 +50,7 @@ export function ProductList({
   } = useFetchProductsByOwnerAndPagination(
     user?.id,
     currentPage,
-    pageRange,
+    resultsPerPage,
     false
   );
 
@@ -59,9 +59,9 @@ export function ProductList({
   const productsCount =
     ps?.filter((product) => !product.is_archived).length ?? 0;
   const finalPage =
-    productsCount < currentPage * pageRange
+    productsCount < currentPage * resultsPerPage
       ? productsCount
-      : currentPage * pageRange;
+      : currentPage * resultsPerPage;
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -125,7 +125,7 @@ export function ProductList({
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(productsCount / pageRange)) {
+    if (currentPage < Math.ceil(productsCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

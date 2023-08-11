@@ -7,7 +7,7 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchProductsByOwner = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   isArchived: boolean,
   supabase: SupabaseClient<any>
 ) => {
@@ -30,7 +30,10 @@ const fetchProductsByOwner = async (
     )
     .eq("owner_id", ownerId)
     .eq("is_archived", isArchived)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
 
@@ -40,18 +43,18 @@ const fetchProductsByOwner = async (
 const useFetchProductsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   isArchived: boolean
 ) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["productList", ownerId, currentPage, pageRange, isArchived],
+    queryKey: ["productList", ownerId, currentPage, resultsPerPage, isArchived],
     queryFn: () =>
       fetchProductsByOwner(
         ownerId,
         currentPage,
-        pageRange,
+        resultsPerPage,
         isArchived,
         supabase
       ),

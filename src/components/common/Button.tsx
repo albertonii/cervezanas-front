@@ -20,6 +20,7 @@ interface ButtonProps {
   btnType?: string;
   form?: string;
   fullSize?: boolean;
+  isLoading?: boolean;
 }
 
 export function Button({
@@ -40,6 +41,7 @@ export function Button({
   btnType,
   form,
   fullSize,
+  isLoading,
 }: ButtonProps) {
   const hoverColor = isActive ? "filled" : "unfilled";
 
@@ -76,6 +78,10 @@ export function Button({
         }
         ${accent ? "border-2 border-beer-blonde bg-beer-foam" : ""}
         ${danger ? "bg-red-500  hover:bg-red-600 " : ""}
+        ${
+          isLoading &&
+          "border-2 border-beer-foam bg-beer-softFoam text-beer-dark"
+        } 
         ${className} 
       `}
     >

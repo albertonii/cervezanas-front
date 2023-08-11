@@ -1,18 +1,18 @@
-import Label from "../../../../components/Label";
+import Label from "../../../../../components/Label";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import esLocale from "i18n-iso-countries/langs/es.json";
 import countries from "i18n-iso-countries";
-import PCRanges from "./PCRanges";
 import React, { useEffect, useState } from "react";
 import { CountryDropdown } from "react-country-region-selector";
 import { useTranslations } from "next-intl";
-import { Button, IconButton } from "../../../../../../components/common";
+import { Button, IconButton } from "../../../../../../../components/common";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ILocal, IPCRangesProps } from "../../../../../../lib/types";
+import { ILocal, IPCRangesProps } from "../../../../../../../lib/types";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import LogisticMap from "./LogisticMap";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
+import PCRanges from "./PCRanges";
+import LocalMap from "./LocalMap";
 
 interface FormData {
   country: string;
@@ -116,7 +116,7 @@ export default function LocalDistribution({
       console.log("onSuccess");
     },
     onError: () => {
-      console.log("onError");
+      console.error("onError");
     },
   });
 
@@ -124,7 +124,7 @@ export default function LocalDistribution({
     try {
       updateLocalDistributionMutation.mutate(formValues);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -191,7 +191,7 @@ export default function LocalDistribution({
           </div>
 
           {/* Map displaying ranges */}
-          <LogisticMap locals={locals} />
+          <LocalMap locals={locals} />
         </div>
       </form>
     </section>

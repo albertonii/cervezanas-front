@@ -91,7 +91,7 @@ export default function layout({ children }: LayoutProps) {
           <>
             {/* Client Information */}
             <div
-              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
+              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}
@@ -152,7 +152,7 @@ export default function layout({ children }: LayoutProps) {
 
             {/* Client Information */}
             <div
-              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
+              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}
@@ -211,7 +211,7 @@ export default function layout({ children }: LayoutProps) {
 
             {/* Client Information */}
             <div
-              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
+              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}
@@ -223,7 +223,7 @@ export default function layout({ children }: LayoutProps) {
           <>
             {/* Client Information */}
             <div
-              className="sm: bg-beer-softFoam pt-[5vh] md:pt-[5vh]"
+              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Client Information"
             >
               {children}

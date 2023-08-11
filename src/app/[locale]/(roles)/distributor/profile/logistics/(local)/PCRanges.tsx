@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { IPCRangesProps } from "../../../../../../lib/types";
-import InputForm from "../../../../components/InputForm";
-import Label from "../../../../components/Label";
+import { IPCRangesProps } from "../../../../../../../lib/types";
+import InputForm from "../../../../../components/InputForm";
+import Label from "../../../../../components/Label";
 
 interface Props {
   item: IPCRangesProps;

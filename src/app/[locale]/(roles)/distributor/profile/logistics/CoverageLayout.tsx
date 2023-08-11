@@ -11,7 +11,7 @@ interface Props {
 
 export default function CoverageArea({ coverageArea }: Props) {
   return (
-    <div className="container space-y-20 px-20 py-16">
+    <div className="container space-y-4 px-6 py-4 lg:space-y-20 lg:px-20 lg:py-16">
       <OriginInfo />
       <CoverageAreas />
     </div>

@@ -7,7 +7,7 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
@@ -22,7 +22,10 @@ const fetchLotsByOwner = async (
       }
     )
     .eq("owner_id", ownerId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
 
@@ -32,12 +35,13 @@ const fetchLotsByOwner = async (
 const useFetchLotsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
   const { supabase } = useSupabase();
   return useQuery({
-    queryKey: ["productLotList", ownerId, currentPage, pageRange],
-    queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange, supabase),
+    queryKey: ["productLotList", ownerId, currentPage, resultsPerPage],
+    queryFn: () =>
+      fetchLotsByOwner(ownerId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });

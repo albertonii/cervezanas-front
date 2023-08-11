@@ -48,16 +48,16 @@ export function ProductsArchiveList({
 
   const productsCount = ps.filter((product) => product.is_archived).length;
 
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    productsCount < currentPage * pageRange
+    productsCount < currentPage * resultsPerPage
       ? productsCount
-      : currentPage * pageRange;
+      : currentPage * resultsPerPage;
 
   const { isError, isLoading, refetch } = useFetchProductsByOwner(
     user.id,
     currentPage,
-    pageRange,
+    resultsPerPage,
     true
   );
 
@@ -133,7 +133,7 @@ export function ProductsArchiveList({
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(productsCount / pageRange)) {
+    if (currentPage < Math.ceil(productsCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

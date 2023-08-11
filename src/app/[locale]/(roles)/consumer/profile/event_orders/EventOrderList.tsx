@@ -35,18 +35,18 @@ export function EventOrderList({ eventOrders: os }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const ordersCount = os.length;
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    ordersCount < currentPage * pageRange
+    ordersCount < currentPage * resultsPerPage
       ? ordersCount
-      : currentPage * pageRange;
+      : currentPage * resultsPerPage;
 
   const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchEventOrders(
     user.id,
     currentPage,
-    pageRange
+    resultsPerPage
   );
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(ordersCount / pageRange)) {
+    if (currentPage < Math.ceil(ordersCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

@@ -34,11 +34,11 @@ export function OrderList({ orders: os }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const ordersCount = os.length;
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    ordersCount < currentPage * pageRange
+    ordersCount < currentPage * resultsPerPage
       ? ordersCount
-      : currentPage * pageRange;
+      : currentPage * resultsPerPage;
 
   const locale = useLocale();
   const router = useRouter();
@@ -46,7 +46,7 @@ export function OrderList({ orders: os }: Props) {
   const { isError, isLoading, refetch } = useFetchCPOrders(
     user.id,
     currentPage,
-    pageRange
+    resultsPerPage
   );
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export function OrderList({ orders: os }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(ordersCount / pageRange)) {
+    if (currentPage < Math.ceil(ordersCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

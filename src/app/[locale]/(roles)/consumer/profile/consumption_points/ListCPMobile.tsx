@@ -36,16 +36,16 @@ export function ListCPMobile({ cpsId }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const mobileCount = 1;
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    mobileCount < currentPage * pageRange
+    mobileCount < currentPage * resultsPerPage
       ? mobileCount
-      : currentPage * pageRange;
+      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchCPMobile(
     cpsId,
     currentPage,
-    pageRange
+    resultsPerPage
   );
 
   const [cpMobile, setCPMobile] = useState<ICPMobile[]>(data ?? []);
@@ -108,7 +108,7 @@ export function ListCPMobile({ cpsId }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(mobileCount / pageRange)) {
+    if (currentPage < Math.ceil(mobileCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

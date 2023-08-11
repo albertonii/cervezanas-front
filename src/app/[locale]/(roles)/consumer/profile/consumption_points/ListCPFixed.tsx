@@ -36,14 +36,16 @@ export function ListCPFixed({ cpsId }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fixedCount = 10;
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
+    fixedCount < currentPage * resultsPerPage
+      ? fixedCount
+      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchCPFixed(
     cpsId,
     currentPage,
-    pageRange
+    resultsPerPage
   );
 
   const [cpFixed, setCPFixed] = useState<ICPFixed[]>(data ?? []);
@@ -106,7 +108,7 @@ export function ListCPFixed({ cpsId }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / pageRange)) {
+    if (currentPage < Math.ceil(fixedCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

@@ -7,7 +7,7 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchCPMobile = async (
   cpId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
@@ -18,7 +18,7 @@ const fetchCPMobile = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
     .select();
 
   if (error) throw error;
@@ -29,13 +29,13 @@ const fetchCPMobile = async (
 const useFetchCPMobile = (
   cpId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["cpMobile", cpId, currentPage, pageRange],
-    queryFn: () => fetchCPMobile(cpId, currentPage, pageRange, supabase),
+    queryKey: ["cpMobile", cpId, currentPage, resultsPerPage],
+    queryFn: () => fetchCPMobile(cpId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });

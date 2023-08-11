@@ -11,12 +11,11 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, {
-  GeocodeResult,
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
-import { ILocal } from "../../../../../../lib/types";
+import { ILocal } from "../../../../../../../lib/types";
 
 const containerStyle = {
   width: "100%",
@@ -38,7 +37,7 @@ interface Props {
   locals: ILocal[];
 }
 
-export default function LogisticMap({ locals }: Props) {
+export default function LocalMap({ locals }: Props) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],

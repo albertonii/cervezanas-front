@@ -27,13 +27,15 @@ export default function EventList({ cpsMobile }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fixedCount = 1;
-  const pageRange = 10;
+  const resultsPerPage = 10;
   const finalPage =
-    fixedCount < currentPage * pageRange ? fixedCount : currentPage * pageRange;
+    fixedCount < currentPage * resultsPerPage
+      ? fixedCount
+      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,
-    pageRange
+    resultsPerPage
   );
 
   const [events, setEvents] = useState<IEvent[]>(data ?? []);
@@ -97,7 +99,7 @@ export default function EventList({ cpsMobile }: Props) {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / pageRange)) {
+    if (currentPage < Math.ceil(fixedCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

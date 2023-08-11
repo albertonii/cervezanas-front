@@ -33,17 +33,19 @@ export function LotList({
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const pageRange = 10;
+  const resultsPerPage = 10;
 
   const {
     data: lots,
     isError,
     isLoading,
-  } = useFetchLotsByOwnerAndPagination(user.id, currentPage, pageRange);
+  } = useFetchLotsByOwnerAndPagination(user.id, currentPage, resultsPerPage);
 
   const lotsCount = lots?.length ?? 0;
   const finalPage =
-    lotsCount < currentPage * pageRange ? lotsCount : currentPage * pageRange;
+    lotsCount < currentPage * resultsPerPage
+      ? lotsCount
+      : currentPage * resultsPerPage;
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -80,7 +82,7 @@ export function LotList({
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(lotsCount / pageRange)) {
+    if (currentPage < Math.ceil(lotsCount / resultsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };

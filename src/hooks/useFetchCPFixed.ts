@@ -7,7 +7,7 @@ import { useSupabase } from "../components/Context/SupabaseProvider";
 const fetchCPFixed = async (
   cpId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
@@ -18,7 +18,7 @@ const fetchCPFixed = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
+    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
     .select();
 
   if (error) throw error;
@@ -29,13 +29,13 @@ const fetchCPFixed = async (
 const useFetchCPFixed = (
   cpId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["cpFixed", cpId, currentPage, pageRange],
-    queryFn: () => fetchCPFixed(cpId, currentPage, pageRange, supabase),
+    queryKey: ["cpFixed", cpId, currentPage, resultsPerPage],
+    queryFn: () => fetchCPFixed(cpId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });
