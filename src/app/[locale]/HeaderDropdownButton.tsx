@@ -111,7 +111,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         return (
           <Link
             href={{
-              pathname: `${role}/profile`,
+              pathname: `${role}/profile/logistics`,
               query: { a: `logistics` },
             }}
             locale={locale}

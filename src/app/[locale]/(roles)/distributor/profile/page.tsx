@@ -6,7 +6,6 @@ export default async function ServerProfilePage() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log(session);
   if (!session) {
     redirect("/unauthenticated");
   }

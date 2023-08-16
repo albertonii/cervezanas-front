@@ -1,4 +1,5 @@
-import { useTranslations } from "next-intl";
+import CityMap from "./CityMap";
+import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
 import {
   Country,
@@ -11,8 +12,8 @@ import {
 import { useForm } from "react-hook-form";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
-import { Button } from "../../../../../../../components/common";
+import { Button, Spinner } from "../../../../../../../components/common";
+import { useTranslations } from "next-intl";
 
 type Props = {
   cities: string[];
@@ -33,6 +34,8 @@ export default function CityDistribution({ cities }: Props) {
   const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
   const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
+
+  const [isRegionLoading, setIsRegionLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
@@ -62,23 +65,31 @@ export default function CityDistribution({ cities }: Props) {
     setCounter(cityData.length);
   }, [addressRegion, currentPage]);
 
-  useEffect(() => {
-    // console.log(listOfCities);
-  }, [listOfCities]);
+  // useEffect(() => {
+  //   setListOfCities([]);
+  // }, [currentPage]);
 
   const handleAddressRegion = (e: any) => {
-    setAddressRegion(e);
-    setCurrentPage(1);
+    setIsRegionLoading(true);
+
+    setTimeout(() => {
+      setAddressRegion(e);
+      setCurrentPage(1);
+      setIsRegionLoading(false);
+    }, 500);
+  };
+
+  const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAddressCountry(e.target.value);
+    setListOfCities([]);
   };
 
   const handleUpdateCityDistribution = async (form: FormData) => {
     const { country, region, cities } = form;
 
-    console.log(cities);
     // Filter cities
     const filteredCities = cities.filter((city) => city.name);
 
-    console.log(filteredCities);
     // const { data, error } = await supabase
     //   .from("city_distribution")
     //   .select("*")
@@ -126,9 +137,6 @@ export default function CityDistribution({ cities }: Props) {
   };
 
   const isChecked = (city: ICity) => {
-    // console.log(selectedCities);
-    console.log(city.name);
-    // console.log(selectedCities?.includes(city.name));
     return selectedCities?.includes(city.name);
   };
 
@@ -144,8 +152,6 @@ export default function CityDistribution({ cities }: Props) {
         {t("save")}
       </Button>
 
-      {/* Select country  */}
-      {/* List of cities in the country  */}
       <div className="flex flex-col items-end space-x-3 space-y-4">
         <div className="grid w-full grid-cols-2 gap-4">
           <div>
@@ -158,8 +164,14 @@ export default function CityDistribution({ cities }: Props) {
               name="addressCountry"
               id="addressCountry"
               className="mt-2 w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-              onChange={(e) => setAddressCountry(e.target.value)}
+              onChange={(e) => handleAddressCountry(e)}
             >
+              <option key={"ES"} value={"ES"}>
+                Spain
+              </option>
+
+              <span className="h-2" />
+
               {countryData.map((country: ICountry) => (
                 <option key={country.isoCode} value={country.isoCode}>
                   {country.name}
@@ -190,74 +202,106 @@ export default function CityDistribution({ cities }: Props) {
           </div>
         </div>
 
+        {/* Map with all cities in the country selected */}
         <div className="w-full">
-          {/* Display selectable table with all cities in the country selected */}
           <label htmlFor="addressCity" className="text-sm text-gray-600">
             {t("loc_city")}
           </label>
 
-          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 ">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  {t("select")}
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  {t("city")}
-                </th>
-              </tr>
-            </thead>
+          <div className="h-96 w-full sm:h-full">
+            <CityMap cities={cities} />
+          </div>
+        </div>
 
-            <tbody>
-              {listOfCities?.map((city: ICity, index: number) => {
-                const startIndex = (currentPage - 1) * resultsPerPage;
-                const globalIndex = startIndex + index; // Donde startIndex es (currentPage - 1) * resultsPerPage
+        {/* List of cities in the country  */}
+        {isRegionLoading ? (
+          <div className="w-full">
+            <Spinner size={"medium"} color={"beer-blonde"} center />
+          </div>
+        ) : (
+          <>
+            {listOfCities &&
+              listOfRegions &&
+              listOfCities.length > 0 &&
+              listOfRegions.length > 0 && (
+                <>
+                  <div className="w-full">
+                    {/* Display selectable table with all cities in the country selected */}
+                    <label
+                      htmlFor="addressCity"
+                      className="text-sm text-gray-600"
+                    >
+                      {t("loc_city")}
+                    </label>
 
-                return (
-                  <tr
-                    key={city.name}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
-                    <>
-                      <th
-                        scope="row"
-                        className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        <input
-                          id={`checkbox-item-${globalIndex}` as string}
-                          type="checkbox"
-                          {...register(`cities.${globalIndex}.name`)}
-                          value={city.name}
-                          checked={isChecked(city)}
-                          onChange={(e) => {
-                            handleCheckbox(e, city.name);
-                          }}
-                          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                        />
-                      </th>
+                    <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 ">
+                      <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                          <th scope="col" className="px-6 py-3">
+                            {t("select")}
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            {t("city")}
+                          </th>
+                        </tr>
+                      </thead>
 
-                      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                        {city.name}
-                      </td>
-                    </>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      <tbody>
+                        {listOfCities?.map((city: ICity, index: number) => {
+                          const startIndex = (currentPage - 1) * resultsPerPage;
+                          const globalIndex = startIndex + index;
 
-          <PaginationFooter
-            counter={counter}
-            resultsPerPage={resultsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+                          return (
+                            <tr
+                              key={city.name}
+                              className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                            >
+                              <>
+                                <th
+                                  scope="row"
+                                  className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                >
+                                  <input
+                                    id={
+                                      `checkbox-item-${globalIndex}` as string
+                                    }
+                                    type="checkbox"
+                                    {...register(`cities.${globalIndex}.name`)}
+                                    value={city.name}
+                                    checked={isChecked(city)}
+                                    onChange={(e) => {
+                                      handleCheckbox(e, city.name);
+                                    }}
+                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                  />
+                                </th>
 
-          {/* 
+                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                  {city.name}
+                                </td>
+                              </>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+
+                    <PaginationFooter
+                      counter={counter}
+                      resultsPerPage={resultsPerPage}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+
+                    {/* 
           {errors.addressCountry?.type === "required" && (
             <DisplayInputError message="errors.input_required" />
           )} */}
-        </div>
+                  </div>
+                </>
+              )}
+          </>
+        )}
       </div>
     </section>
   );
