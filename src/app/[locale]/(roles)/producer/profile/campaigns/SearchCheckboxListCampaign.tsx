@@ -1,8 +1,12 @@
 import React, { ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICampaign, ICampaignItem, IProduct } from "../../../lib/types.d";
-import { Modal } from "../../modals";
+import {
+  ICampaign,
+  ICampaignItem,
+  IProduct,
+} from "../../../../../../lib/types";
+import { Modal } from "../../../../../../components/modals";
 
 interface Props {
   index: number;

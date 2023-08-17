@@ -191,7 +191,7 @@ export default function LocalDistribution({
           </div>
 
           {/* Map displaying ranges */}
-          <LocalMap locals={locals} />
+          {/* <LocalMap locals={locals} /> */}
         </div>
       </form>
     </section>

@@ -94,7 +94,6 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
 
         <div className={``}>
           <span className="mb-4 text-lg font-semibold">
-            {" "}
             {t("available_packs")}:
           </span>
 

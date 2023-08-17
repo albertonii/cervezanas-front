@@ -29,11 +29,12 @@ export default function CityDistribution({ cities }: Props) {
   const t = useTranslations();
 
   const [addressCountry, setAddressCountry] = useState<string>();
-  const [addressRegion, setAddressRegion] = useState<string>("");
+  const [addressRegion, setAddressRegion] = useState<string>();
   const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
   const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
   const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
   const [isRegionLoading, setIsRegionLoading] = useState(false);
 
@@ -51,9 +52,16 @@ export default function CityDistribution({ cities }: Props) {
   const { handleSubmit, register } = form;
 
   useEffect(() => {
+    const country = Country.getCountryByCode("ES");
+    setAddressCountry(country?.isoCode ?? "");
+  }, []);
+
+  useEffect(() => {
+    if (!addressCountry) return;
     const regionData = State.getStatesOfCountry(addressCountry);
     setListOfRegions(regionData);
     setRegionIsEnable(regionData.length > 0);
+    setAddressRegion(regionData[0].isoCode);
   }, [addressCountry]);
 
   useEffect(() => {
@@ -63,11 +71,12 @@ export default function CityDistribution({ cities }: Props) {
     const endIndex = startIndex + resultsPerPage;
     setListOfCities(cityData.slice(startIndex, endIndex));
     setCounter(cityData.length);
-  }, [addressRegion, currentPage]);
 
-  // useEffect(() => {
-  //   setListOfCities([]);
-  // }, [currentPage]);
+    // Update selectAllCurrentPage based on whether all cities on this page are selected
+    setSelectAllCurrentPage(
+      listOfCities?.every((city) => selectedCities.includes(city.name)) ?? false
+    );
+  }, [addressRegion, currentPage, listOfCities, selectedCities]);
 
   const handleAddressRegion = (e: any) => {
     setIsRegionLoading(true);
@@ -106,11 +115,11 @@ export default function CityDistribution({ cities }: Props) {
     mutationKey: "updateCityDistribution",
     mutationFn: handleUpdateCityDistribution,
     onMutate: () => {
-      console.log("onMutate");
+      console.info("onMutate");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distribution"] });
-      console.log("onSuccess");
+      console.info("onSuccess");
     },
     onError: () => {
       console.error("onError");
@@ -140,8 +149,29 @@ export default function CityDistribution({ cities }: Props) {
     return selectedCities?.includes(city.name);
   };
 
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      // Add all cities from the current page to selectedCities
+      setSelectedCities((prevSelectedCities) => [
+        ...prevSelectedCities,
+        ...(listOfCities?.map((city) => city.name) ?? []),
+      ]);
+    } else {
+      // Filter out cities from the current page from selectedCities
+      setSelectedCities((prevSelectedCities) =>
+        prevSelectedCities.filter(
+          (checkedCity) =>
+            !listOfCities?.map((city) => city.name).includes(checkedCity)
+        )
+      );
+    }
+
+    // Update the state of selectAllCurrentPage
+    setSelectAllCurrentPage(e.target.checked);
+  };
+
   return (
-    <section>
+    <section className="space-y-4">
       <Button
         btnType="submit"
         onClick={handleSubmit(onSubmit)}
@@ -163,8 +193,9 @@ export default function CityDistribution({ cities }: Props) {
             <select
               name="addressCountry"
               id="addressCountry"
-              className="mt-2 w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+              className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
               onChange={(e) => handleAddressCountry(e)}
+              value={addressCountry}
             >
               <option key={"ES"} value={"ES"}>
                 Spain
@@ -189,7 +220,7 @@ export default function CityDistribution({ cities }: Props) {
             <select
               name="addressRegion"
               id="addressRegion"
-              className={`mt-2 w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0`}
+              className={`w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0`}
               disabled={regionIsEnable === false}
               onChange={(e) => handleAddressRegion(e.target.value)}
             >
@@ -203,7 +234,7 @@ export default function CityDistribution({ cities }: Props) {
         </div>
 
         {/* Map with all cities in the country selected */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <label htmlFor="addressCity" className="text-sm text-gray-600">
             {t("loc_city")}
           </label>
@@ -211,7 +242,7 @@ export default function CityDistribution({ cities }: Props) {
           <div className="h-96 w-full sm:h-full">
             <CityMap cities={cities} />
           </div>
-        </div>
+        </div> */}
 
         {/* List of cities in the country  */}
         {isRegionLoading ? (
@@ -238,7 +269,14 @@ export default function CityDistribution({ cities }: Props) {
                       <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                           <th scope="col" className="px-6 py-3">
-                            {t("select")}
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                handleSelectAll(e);
+                              }}
+                              checked={selectAllCurrentPage}
+                              className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                            />
                           </th>
                           <th scope="col" className="px-6 py-3">
                             {t("city")}
