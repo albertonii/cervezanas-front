@@ -32,14 +32,14 @@ export default function CityDistribution({ cities }: Props) {
   const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
   const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
   const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
-  const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
-
-  // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
-  const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] = useState(false);
   const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
     ICity[] | undefined
   >();
+
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
+  // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
+  const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] = useState(false);
 
   const [isRegionLoading, setIsRegionLoading] = useState(false);
 
@@ -66,7 +66,7 @@ export default function CityDistribution({ cities }: Props) {
     const regionData = State.getStatesOfCountry(addressCountry);
     setListOfRegions(regionData);
     setRegionIsEnable(regionData.length > 0);
-    setAddressRegion(regionData[0].isoCode);
+    setAddressRegion(regionData[0]?.isoCode);
   }, [addressCountry]);
 
   useEffect(() => {
@@ -159,29 +159,25 @@ export default function CityDistribution({ cities }: Props) {
     e: React.ChangeEvent<HTMLInputElement>,
     city: string
   ) => {
-    if (e.target.checked) {
-      setSelectedCities([...selectedCities, city]);
-    } else {
-      setSelectedCities(selectedCities.filter((item) => item !== city));
-    }
+    const updatedSelectedCities = e.target.checked
+      ? [...selectedCities, city]
+      : selectedCities.filter((item) => item !== city);
+
+    setSelectedCities(updatedSelectedCities);
   };
 
   const isChecked = (city: ICity) => {
-    return selectedCities?.includes(city.name);
+    return selectedCities.includes(city.name);
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let updatedSelectedCities = [...selectedCities];
-    if (e.target.checked) {
-      updatedSelectedCities.push(
-        ...(listOfCities?.map((city) => city.name) ?? [])
-      );
-    } else {
-      updatedSelectedCities = updatedSelectedCities.filter(
-        (checkedCity) =>
-          !listOfCities?.map((city) => city.name).includes(checkedCity)
-      );
-    }
+    const listOfCityNames = listOfCities?.map((city) => city.name) || [];
+
+    const updatedSelectedCities = e.target.checked
+      ? [...selectedCities, ...listOfCityNames]
+      : selectedCities.filter(
+          (checkedCity) => !listOfCityNames.includes(checkedCity)
+        );
 
     setSelectedCities(updatedSelectedCities);
     setSelectAllCurrentPage(e.target.checked);
@@ -219,6 +215,23 @@ export default function CityDistribution({ cities }: Props) {
       >
         {t("save")}
       </Button>
+
+      {/* List with all cities selected  */}
+      {/* <div>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-600">{t("selected_cities")}</span>
+          <span className="text-sm text-gray-600">{selectedCities.length}</span>
+        </div>
+
+        <div className="space-x-2">
+          {selectedCities.length > 0 &&
+            selectedCities.map((city) => (
+              <span key={city} className="text-sm text-gray-600">
+                {city}
+              </span>
+            ))}
+        </div>
+      </div> */}
 
       <div className="flex flex-col items-start space-y-4">
         <div className="grid w-full grid-cols-2 gap-4">

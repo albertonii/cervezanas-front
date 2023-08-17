@@ -20,7 +20,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
 
   return (
     <>
-      <ul className="text-md grid grid-cols-2 divide-x divide-gray-200 rounded-lg pb-6 text-center font-medium text-gray-500 dark:divide-gray-700 dark:text-gray-400 sm:grid-cols-3 md:flex lg:pr-6 lg:pl-72">
+      <ul className="text-md grid grid-cols-2 divide-x divide-gray-200 rounded-lg pb-6 text-center font-medium text-gray-500 dark:divide-gray-700 dark:text-gray-400 sm:grid-cols-3 lg:pr-6 lg:pl-72 xl:flex">
         {tabs.map((tab, index) => (
           <li
             key={index}

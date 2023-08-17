@@ -5,6 +5,7 @@ import HorizontalMenu from "./HorizontalMenu";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { DistributionType } from "../../../../../../lib/enums";
+import ProvinceDistribution from "./(province)/ProvinceDistribution";
 
 export default function CoverageAreas() {
   const t = useTranslations();
@@ -48,9 +49,17 @@ export default function CoverageAreas() {
           </>
         );
       case DistributionType.PROVINCE:
-        return <span>Provinces</span>;
+        return (
+          <>
+            {distribution && (
+              <ProvinceDistribution
+                provinces={distribution?.coverage_area[0].provinces}
+              />
+            )}
+          </>
+        );
       case DistributionType.REGION:
-        return <span>Regions</span>;
+        return <span>asdf</span>;
       case DistributionType.EUROPE:
         return <span>Europe</span>;
       case DistributionType.INTERNATIONAL:
