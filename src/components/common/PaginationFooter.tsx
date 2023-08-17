@@ -19,7 +19,7 @@ export default function PaginationFooter({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const finalElementPage =
+  const lastElementPage =
     counter < currentPage * resultsPerPage
       ? counter
       : currentPage * resultsPerPage;
@@ -27,7 +27,7 @@ export default function PaginationFooter({
   const finalPage = Math.ceil(counter / resultsPerPage);
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
+    if (!isLoading && currentPage > 1) {
       setIsLoading(true);
       setTimeout(() => {
         setCurrentPage(currentPage - 1);
@@ -37,7 +37,7 @@ export default function PaginationFooter({
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(counter / resultsPerPage)) {
+    if (!isLoading && currentPage < Math.ceil(counter / resultsPerPage)) {
       setIsLoading(true);
       setTimeout(() => {
         setCurrentPage(currentPage + 1);
@@ -46,76 +46,35 @@ export default function PaginationFooter({
     }
   };
 
-  if (isLoading)
-    return (
-      <>
-        {/* Prev and Next button for pagination  */}
-        <div className="my-4 flex items-center justify-around py-4">
-          <Button
-            class=""
-            onClick={() => handlePrevPage()}
-            small
-            primary
-            disabled
-            isLoading={true}
-          >
-            {t("prev")}
-          </Button>
+  const renderPaginationButtons = () => (
+    <div className="my-4 flex items-center justify-around py-4">
+      <Button
+        onClick={() => handlePrevPage()}
+        small
+        primary
+        disabled={isLoading || currentPage === 1}
+      >
+        {t("prev")}
+      </Button>
 
-          <p className="text-sm text-gray-400 dark:text-gray-400">
-            {t("pagination_footer_nums", {
-              from: currentPage,
-              to: finalElementPage,
-              total: counter,
-            })}
-          </p>
+      <p className="text-sm text-gray-400 dark:text-gray-400">
+        {t("pagination_footer_nums", {
+          from: currentPage,
+          to: lastElementPage,
+          total: counter,
+        })}
+      </p>
 
-          <Button
-            class=""
-            onClick={() => handleNextPage()}
-            small
-            primary
-            disabled
-            isLoading={true}
-          >
-            {t("next")}
-          </Button>
-        </div>
-      </>
-    );
-
-  return (
-    <>
-      {/* Prev and Next button for pagination  */}
-      <div className="my-4 flex  items-center justify-around py-4">
-        <Button
-          class=""
-          onClick={() => handlePrevPage()}
-          small
-          primary
-          disabled={currentPage === 1}
-        >
-          {t("prev")}
-        </Button>
-
-        <p className="text-sm text-gray-700 dark:text-gray-400">
-          {t("pagination_footer_nums", {
-            from: currentPage,
-            to: finalElementPage,
-            total: counter,
-          })}
-        </p>
-
-        <Button
-          class=""
-          onClick={() => handleNextPage()}
-          small
-          primary
-          disabled={currentPage === finalPage}
-        >
-          {t("next")}
-        </Button>
-      </div>
-    </>
+      <Button
+        onClick={() => handleNextPage()}
+        small
+        primary
+        disabled={isLoading || currentPage === finalPage}
+      >
+        {t("next")}
+      </Button>
+    </div>
   );
+
+  return <>{renderPaginationButtons()}</>;
 }

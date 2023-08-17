@@ -56,7 +56,7 @@ export function Button({
 
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || isLoading}
       type={`${getButtonType()}`}
       onClick={onClick}
       color={hoverColor}

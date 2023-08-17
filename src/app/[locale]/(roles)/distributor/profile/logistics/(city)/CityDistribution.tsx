@@ -1,4 +1,3 @@
-import CityMap from "./CityMap";
 import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
 import {
@@ -36,6 +35,12 @@ export default function CityDistribution({ cities }: Props) {
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
+  // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
+  const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] = useState(false);
+  const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
+    ICity[] | undefined
+  >();
+
   const [isRegionLoading, setIsRegionLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,14 +74,30 @@ export default function CityDistribution({ cities }: Props) {
     const cityData = City.getCitiesOfState(addressCountry, addressRegion);
     const startIndex = (currentPage - 1) * resultsPerPage;
     const endIndex = startIndex + resultsPerPage;
-    setListOfCities(cityData.slice(startIndex, endIndex));
+
+    const lOfCities = cityData.slice(startIndex, endIndex);
+
+    setListOfCities(lOfCities);
     setCounter(cityData.length);
+
+    setListOfAllCitiesByRegion(cityData);
 
     // Update selectAllCurrentPage based on whether all cities on this page are selected
     setSelectAllCurrentPage(
-      listOfCities?.every((city) => selectedCities.includes(city.name)) ?? false
+      lOfCities?.every((city) => selectedCities.includes(city.name)) ?? false
     );
-  }, [addressRegion, currentPage, listOfCities, selectedCities]);
+
+    // console.log(addressRegion);
+    // console.log(listOfAllCitiesByRegion);
+    // console.log(selectedCities);
+
+    // // Update selectAllCities based on whether all cities in the region are selected
+    // setSelectAllCitiesByRegion(
+    //   listOfAllCitiesByRegion?.every((city) =>
+    //     selectedCities.includes(city.name)
+    //   ) ?? false
+    // );
+  }, [addressRegion, currentPage, selectedCities]);
 
   const handleAddressRegion = (e: any) => {
     setIsRegionLoading(true);
@@ -150,24 +171,41 @@ export default function CityDistribution({ cities }: Props) {
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let updatedSelectedCities = [...selectedCities];
     if (e.target.checked) {
-      // Add all cities from the current page to selectedCities
-      setSelectedCities((prevSelectedCities) => [
-        ...prevSelectedCities,
-        ...(listOfCities?.map((city) => city.name) ?? []),
-      ]);
+      updatedSelectedCities.push(
+        ...(listOfCities?.map((city) => city.name) ?? [])
+      );
     } else {
-      // Filter out cities from the current page from selectedCities
-      setSelectedCities((prevSelectedCities) =>
-        prevSelectedCities.filter(
-          (checkedCity) =>
-            !listOfCities?.map((city) => city.name).includes(checkedCity)
-        )
+      updatedSelectedCities = updatedSelectedCities.filter(
+        (checkedCity) =>
+          !listOfCities?.map((city) => city.name).includes(checkedCity)
       );
     }
 
-    // Update the state of selectAllCurrentPage
+    setSelectedCities(updatedSelectedCities);
     setSelectAllCurrentPage(e.target.checked);
+  };
+
+  const handleSelectAllCitiesByRegion = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let updatedSelectedCities = [...selectedCities];
+    if (e.target.checked) {
+      updatedSelectedCities.push(
+        ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? [])
+      );
+    } else {
+      updatedSelectedCities = updatedSelectedCities.filter(
+        (selectedCity) =>
+          !listOfAllCitiesByRegion
+            ?.map((city) => city.name)
+            .includes(selectedCity)
+      );
+    }
+
+    setSelectedCities(updatedSelectedCities);
+    setSelectAllCitiesByRegion(e.target.checked);
   };
 
   return (
@@ -182,7 +220,7 @@ export default function CityDistribution({ cities }: Props) {
         {t("save")}
       </Button>
 
-      <div className="flex flex-col items-end space-x-3 space-y-4">
+      <div className="flex flex-col items-start space-y-4">
         <div className="grid w-full grid-cols-2 gap-4">
           <div>
             <label htmlFor="addressCountry" className="text-sm text-gray-600">
@@ -200,8 +238,6 @@ export default function CityDistribution({ cities }: Props) {
               <option key={"ES"} value={"ES"}>
                 Spain
               </option>
-
-              <span className="h-2" />
 
               {countryData.map((country: ICountry) => (
                 <option key={country.isoCode} value={country.isoCode}>
@@ -256,6 +292,27 @@ export default function CityDistribution({ cities }: Props) {
               listOfCities.length > 0 &&
               listOfRegions.length > 0 && (
                 <>
+                  <div className="">
+                    <label
+                      htmlFor="allCitiesByRegion"
+                      className="space-x-2 text-lg text-gray-600"
+                    >
+                      <input
+                        id="allCitiesByRegion"
+                        type="checkbox"
+                        onChange={(e) => {
+                          handleSelectAllCitiesByRegion(e);
+                        }}
+                        checked={selectAllCitiesByRegion}
+                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                      />
+
+                      <span className="text-sm text-gray-600">
+                        {t("select_all_cities_by_region")}
+                      </span>
+                    </label>
+                  </div>
+
                   <div className="w-full">
                     {/* Display selectable table with all cities in the country selected */}
                     <label
@@ -332,9 +389,10 @@ export default function CityDistribution({ cities }: Props) {
                     />
 
                     {/* 
-          {errors.addressCountry?.type === "required" && (
-            <DisplayInputError message="errors.input_required" />
-          )} */}
+                    {errors.addressCountry?.type === "required" && (
+                      <DisplayInputError message="errors.input_required" />
+                    )} 
+                    */}
                   </div>
                 </>
               )}

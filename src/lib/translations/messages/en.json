@@ -569,5 +569,6 @@
   "international": "International",
   "origin_location": "Origin location",
   "add_range": "Add range",
-  "distribution_type": "Distribution type"
+  "distribution_type": "Distribution type",
+  "select_all_cities_by_region": "Select all cities by region"
 }
