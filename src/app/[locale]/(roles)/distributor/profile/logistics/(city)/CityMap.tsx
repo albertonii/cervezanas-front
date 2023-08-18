@@ -83,7 +83,6 @@ export default function CityMap({ cities }: Props) {
     // Apply the style to a single boundary.
     // @ts-ignore
     featureLayer.style = (options: { feature: { placeId: string } }) => {
-      console.log(placeId);
       if (options.feature.placeId == placeId) {
         return featureStyleOptions;
       }

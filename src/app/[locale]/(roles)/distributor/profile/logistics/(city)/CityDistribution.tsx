@@ -1,18 +1,26 @@
 import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
+import useFetchAllCountries from "../useFetchAllCountries";
+import useFetchStatesByCountry from "../useFetchStatesByCountry";
+import useFetchCitiesOfState from "../useFetchCitiesOfState";
 import React, { useEffect, useState } from "react";
-import {
-  Country,
-  State,
-  City,
-  ICountry,
-  IState,
-  ICity,
-} from "country-state-city";
-import { useForm } from "react-hook-form";
+import { Country, State, City, IState, ICity } from "country-state-city";
+import { useForm, UseFormRegister } from "react-hook-form";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, Spinner } from "../../../../../../../components/common";
 import { useTranslations } from "next-intl";
+
+interface ICountry {
+  id: string;
+  name: string;
+  iso2: string;
+}
+
+interface IRegion {
+  id: string;
+  name: string;
+  iso2: string;
+}
 
 type Props = {
   cities: string[];
@@ -43,6 +51,17 @@ export default function CityDistribution({ cities }: Props) {
 
   const [isRegionLoading, setIsRegionLoading] = useState(false);
 
+  const { refetch: getCountries } = useFetchAllCountries();
+
+  const { refetch: getStates } = useFetchStatesByCountry({
+    countryIsoCode: addressCountry ?? "ES",
+  });
+
+  const { refetch: getCities } = useFetchCitiesOfState({
+    country: addressCountry ?? "ES",
+    state: addressRegion ?? "",
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
@@ -50,46 +69,85 @@ export default function CityDistribution({ cities }: Props) {
   const { supabase } = useSupabase();
   const queryClient = useQueryClient();
 
-  const countryData = Country.getAllCountries();
+  const [countryData, setCountryData] = useState<ICountry[]>([]);
 
   const form = useForm<FormData>();
 
   const { handleSubmit, register } = form;
 
+  // Get all the countries
   useEffect(() => {
+    const getAllCountries = async () => {
+      return await getCountries().then((res) => {
+        const { data, error } = res;
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+        setCountryData(data ?? []);
+      });
+    };
+
+    getAllCountries();
+
     const country = Country.getCountryByCode("ES");
-    setAddressCountry(country?.isoCode ?? "");
+    setAddressCountry(country?.iso2 ?? "");
   }, []);
 
+  // Get all the states of selected country and set the first one as default in select input
   useEffect(() => {
     if (!addressCountry) return;
-    const regionData = State.getStatesOfCountry(addressCountry);
-    setListOfRegions(regionData);
-    setRegionIsEnable(regionData.length > 0);
-    setAddressRegion(regionData[0]?.isoCode);
+
+    const getStatesByCountry = async () => {
+      return await getStates(addressCountry).then((res) => {
+        const { data: regionData, error } = res;
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+        setListOfRegions(regionData ?? []);
+        setRegionIsEnable(regionData.length > 0);
+        setAddressRegion(regionData[0]?.iso2);
+      });
+    };
+
+    getStatesByCountry();
   }, [addressCountry]);
 
+  // Get all the cities of selected state
   useEffect(() => {
     if (!addressCountry || !addressRegion) return;
-    const cityData = City.getCitiesOfState(addressCountry, addressRegion);
-    const startIndex = (currentPage - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
 
-    const lOfCities = cityData.slice(startIndex, endIndex);
+    const getCitiesByStateAndCountry = async () => {
+      return await getCities(addressCountry, addressRegion).then((res) => {
+        const { data: cityData, error } = res;
 
-    setListOfCities(lOfCities);
-    setCounter(cityData.length);
+        if (error) {
+          console.error(error);
+          return;
+        }
 
-    setListOfAllCitiesByRegion(cityData);
+        const startIndex = (currentPage - 1) * resultsPerPage;
+        const endIndex = startIndex + resultsPerPage;
 
-    // Update selectAllCurrentPage based on whether all cities on this page are selected
-    setSelectAllCurrentPage(
-      lOfCities?.every((city) => selectedCities.includes(city.name)) ?? false
-    );
+        const lOfCities = cityData?.slice(startIndex, endIndex);
 
-    // console.log(addressRegion);
-    // console.log(listOfAllCitiesByRegion);
-    // console.log(selectedCities);
+        setListOfCities(lOfCities);
+        setCounter(cityData.length);
+
+        setListOfAllCitiesByRegion(cityData);
+
+        // Update selectAllCurrentPage based on whether all cities on this page are selected
+        setSelectAllCurrentPage(
+          lOfCities?.every((city) => selectedCities.includes(city.name)) ??
+            false
+        );
+      });
+    };
+
+    getCitiesByStateAndCountry();
 
     // // Update selectAllCities based on whether all cities in the region are selected
     // setSelectAllCitiesByRegion(
@@ -252,11 +310,12 @@ export default function CityDistribution({ cities }: Props) {
                 Spain
               </option>
 
-              {countryData.map((country: ICountry) => (
-                <option key={country.isoCode} value={country.isoCode}>
-                  {country.name}
-                </option>
-              ))}
+              {countryData &&
+                countryData.map((country: ICountry) => (
+                  <option key={country.iso2} value={country.iso2}>
+                    {country.name}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -274,7 +333,7 @@ export default function CityDistribution({ cities }: Props) {
               onChange={(e) => handleAddressRegion(e.target.value)}
             >
               {listOfRegions?.map((state: IState) => (
-                <option key={state.isoCode} value={state.isoCode}>
+                <option key={state.iso2} value={state.iso2}>
                   {state.name}
                 </option>
               ))}
@@ -361,32 +420,17 @@ export default function CityDistribution({ cities }: Props) {
 
                           return (
                             <tr
-                              key={city.name}
+                              key={city.name + currentPage}
                               className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                             >
                               <>
-                                <th
-                                  scope="row"
-                                  className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                >
-                                  <input
-                                    id={
-                                      `checkbox-item-${globalIndex}` as string
-                                    }
-                                    type="checkbox"
-                                    {...register(`cities.${globalIndex}.name`)}
-                                    value={city.name}
-                                    checked={isChecked(city)}
-                                    onChange={(e) => {
-                                      handleCheckbox(e, city.name);
-                                    }}
-                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                  />
-                                </th>
-
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                  {city.name}
-                                </td>
+                                <CityRow
+                                  city={city}
+                                  globalIndex={globalIndex}
+                                  selectedCities={selectedCities}
+                                  handleCheckbox={handleCheckbox}
+                                  register={register}
+                                />
                               </>
                             </tr>
                           );
@@ -415,3 +459,51 @@ export default function CityDistribution({ cities }: Props) {
     </section>
   );
 }
+
+interface CityRowProps {
+  city: ICity;
+  globalIndex: number;
+  selectedCities: string[];
+  handleCheckbox: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    name: string
+  ) => void;
+  register: UseFormRegister<any>;
+}
+
+const CityRow = ({
+  city,
+  globalIndex,
+  handleCheckbox,
+  register,
+  selectedCities,
+}: CityRowProps) => {
+  const isChecked = (city: ICity) => {
+    return selectedCities.includes(city.name);
+  };
+
+  return (
+    <>
+      <th
+        scope="row"
+        className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+      >
+        <input
+          id={`checkbox-item-${globalIndex}` as string}
+          type="checkbox"
+          {...register(`cities.${globalIndex}.name`)}
+          value={city.name}
+          checked={isChecked(city)}
+          onChange={(e) => {
+            handleCheckbox(e, city.name);
+          }}
+          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+        />
+      </th>
+
+      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+        {city.name}
+      </td>
+    </>
+  );
+};

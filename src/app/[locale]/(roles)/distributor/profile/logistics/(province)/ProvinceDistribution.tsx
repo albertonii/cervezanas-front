@@ -1,12 +1,12 @@
+import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
-import { Country, State, ICountry, IState } from "country-state-city";
-import { useForm } from "react-hook-form";
+import { Country, ICountry, IState } from "country-state-city";
+import { useForm, UseFormRegister } from "react-hook-form";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, Spinner } from "../../../../../../../components/common";
 import { useTranslations } from "next-intl";
-import useFetchStatesByCountry from "../useFetchStatesByCountry";
 
 type Props = {
   provinces: string[];
@@ -96,12 +96,12 @@ export default function ProvinceDistribution({ provinces }: Props) {
 
     setListOfProvinces(lOfProvinces);
 
-    // // Update selectAllCurrentPage based on whether all provinces on this page are selected
-    // setSelectAllCurrentPage(
-    //   lOfProvinces?.every((province) =>
-    //     selectedProvinces.includes(province.name)
-    //   ) ?? false
-    // );
+    // Update selectAllCurrentPage based on whether all provinces on this page are selected
+    setSelectAllCurrentPage(
+      lOfProvinces?.every((province) =>
+        selectedProvinces.includes(province.name)
+      ) ?? false
+    );
   }, [currentPage]);
 
   const handleAddressRegion = (e: any) => {
@@ -169,10 +169,6 @@ export default function ProvinceDistribution({ provinces }: Props) {
       : selectedProvinces.filter((item) => item !== province);
 
     setSelectedProvinces(updatedSelectedProvinces);
-  };
-
-  const isChecked = (province: IState) => {
-    return selectedProvinces.includes(province.name);
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -316,35 +312,16 @@ export default function ProvinceDistribution({ provinces }: Props) {
 
                           return (
                             <tr
-                              key={province.name}
+                              key={province.name + currentPage}
                               className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                             >
-                              <>
-                                <th
-                                  scope="row"
-                                  className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                >
-                                  <input
-                                    id={
-                                      `checkbox-item-${globalIndex}` as string
-                                    }
-                                    type="checkbox"
-                                    {...register(
-                                      `provinces.${globalIndex}.name`
-                                    )}
-                                    value={province.name}
-                                    checked={isChecked(province)}
-                                    onChange={(e) => {
-                                      handleCheckbox(e, province.name);
-                                    }}
-                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                  />
-                                </th>
-
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                  {province.name}
-                                </td>
-                              </>
+                              <ProvinceRow
+                                province={province}
+                                globalIndex={0}
+                                selectedProvinces={selectedProvinces}
+                                handleCheckbox={handleCheckbox}
+                                register={register}
+                              />
                             </tr>
                           );
                         }
@@ -358,12 +335,6 @@ export default function ProvinceDistribution({ provinces }: Props) {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                   />
-
-                  {/* 
-                    {errors.addressCountry?.type === "required" && (
-                      <DisplayInputError message="errors.input_required" />
-                    )} 
-                    */}
                 </div>
               </>
             )}
@@ -373,3 +344,51 @@ export default function ProvinceDistribution({ provinces }: Props) {
     </section>
   );
 }
+
+interface ProvinceRowProps {
+  province: IState;
+  globalIndex: number;
+  selectedProvinces: string[];
+  handleCheckbox: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    name: string
+  ) => void;
+  register: UseFormRegister<any>;
+}
+
+const ProvinceRow = ({
+  province,
+  globalIndex,
+  handleCheckbox,
+  register,
+  selectedProvinces,
+}: ProvinceRowProps) => {
+  const isChecked = (province: IState) => {
+    return selectedProvinces.includes(province.name);
+  };
+
+  return (
+    <>
+      <th
+        scope="row"
+        className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+      >
+        <input
+          id={`checkbox-item-${globalIndex}` as string}
+          type="checkbox"
+          {...register(`provinces.${globalIndex}.name`)}
+          value={province.name}
+          checked={isChecked(province)}
+          onChange={(e) => {
+            handleCheckbox(e, province.name);
+          }}
+          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+        />
+      </th>
+
+      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+        {province.name}
+      </td>
+    </>
+  );
+};
