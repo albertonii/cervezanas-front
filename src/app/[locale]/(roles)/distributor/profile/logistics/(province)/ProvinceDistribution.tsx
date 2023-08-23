@@ -28,9 +28,7 @@ export default function ProvinceDistribution({
   const [isLoading, setIsLoading] = useState(false);
 
   const [addressCountry, setAddressCountry] = useState<string>();
-  const [listOfProvinces, setListOfProvinces] = useState<IState[] | undefined>(
-    []
-  );
+  const [tenProvinces, setTenProvinces] = useState<IState[] | undefined>([]);
   const [listOfAllProvincesByRegion, setListOfAllProvincesByRegion] = useState<
     IState[] | undefined
   >([]);
@@ -84,7 +82,7 @@ export default function ProvinceDistribution({
         setListOfAllProvincesByRegion(provinceData ?? []);
         setCounter(provinceData?.length ?? 0);
 
-        setListOfProvinces(lOfProvinces);
+        setTenProvinces(lOfProvinces);
       });
     };
 
@@ -102,7 +100,7 @@ export default function ProvinceDistribution({
       startIndex,
       endIndex
     );
-    setListOfProvinces(lOfProvinces);
+    setTenProvinces(lOfProvinces);
 
     // Update selectAllCurrentPage based on whether all provinces on this page are selected
     setSelectAllCurrentPage(
@@ -114,7 +112,7 @@ export default function ProvinceDistribution({
 
   const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAddressCountry(e.target.value);
-    setListOfProvinces([]);
+    setTenProvinces([]);
   };
 
   const handleUpdatePronvicesDistribution = async () => {
@@ -124,7 +122,7 @@ export default function ProvinceDistribution({
       .eq("id", coverageAreaId);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
   };
@@ -170,7 +168,7 @@ export default function ProvinceDistribution({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const listOfCityNames =
-      listOfProvinces?.map((province) => province.name) || [];
+      tenProvinces?.map((province) => province.name) || [];
 
     const updatedSelectedProvinces = e.target.checked
       ? [...selectedProvinces, ...listOfCityNames]
@@ -245,7 +243,7 @@ export default function ProvinceDistribution({
         </div>
 
         {/* List of provinces in the country  */}
-        {listOfProvinces && listOfProvinces.length > 0 && (
+        {tenProvinces && tenProvinces.length > 0 && (
           <>
             <div className="">
               <label
@@ -294,7 +292,7 @@ export default function ProvinceDistribution({
                 </thead>
 
                 <tbody>
-                  {listOfProvinces?.map((province: IState, index: number) => {
+                  {tenProvinces?.map((province: IState, index: number) => {
                     const startIndex = currentPage * resultsPerPage;
                     const globalIndex = startIndex + index;
 

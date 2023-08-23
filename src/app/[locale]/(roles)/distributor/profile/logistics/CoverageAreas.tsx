@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { DistributionType } from "../../../../../../lib/enums";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
 import InternationalDistribution from "./(international)/InternationalDistribution";
+import EuropeDistribution from "./(europe)/EuropeDistribution";
 
 export default function CoverageAreas() {
   const t = useTranslations();
@@ -57,11 +58,29 @@ export default function CoverageAreas() {
           </>
         );
       case DistributionType.REGION:
-        return <span>asdf</span>;
+        return <span>Region</span>;
       case DistributionType.EUROPE:
-        return <span>Europe</span>;
+        return (
+          <>
+            {distribution && (
+              <EuropeDistribution
+                countries={distribution?.coverage_area[0].europe}
+                coverageAreaId={distribution.coverage_area[0].id}
+              />
+            )}
+          </>
+        );
       case DistributionType.INTERNATIONAL:
-        return <InternationalDistribution provinces={[]} coverageAreaId={""} />
+        return (
+          <>
+            {distribution && (
+              <InternationalDistribution
+                countries={distribution?.coverage_area[0].international}
+                coverageAreaId={distribution.coverage_area[0].id}
+              />
+            )}
+          </>
+        );
       default:
         return <span>local</span>;
     }

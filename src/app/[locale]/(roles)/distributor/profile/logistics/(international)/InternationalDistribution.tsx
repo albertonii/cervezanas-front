@@ -1,4 +1,5 @@
 import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
+import useFetchAllCountries from "../useFetchAllCountries";
 import React, { useEffect, useState } from "react";
 import { Country } from "country-state-city";
 import { useForm, UseFormRegister } from "react-hook-form";
@@ -6,7 +7,6 @@ import { useSupabase } from "../../../../../../../components/Context/SupabasePro
 import { useMutation, useQueryClient } from "react-query";
 import { Button } from "../../../../../../../components/common";
 import { useTranslations } from "next-intl";
-import useFetchAllCountries from "../useFetchAllCountries";
 
 interface ICountry {
   id: string;
@@ -25,7 +25,7 @@ interface FormData {
   countrys: ICountry[];
 }
 
-export default function CountryDistribution({
+export default function InternationalDistribution({
   countries,
   coverageAreaId,
 }: Props) {
@@ -134,12 +134,12 @@ export default function CountryDistribution({
   const handleSelectAllCurrentPage = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const lOfCountries = listOfCountries?.map((country) => country.name) || [];
+    const tenCountries_aux = tenCountries?.map((country) => country.name) || [];
 
     const updatedSelectedCountrys = e.target.checked
-      ? [...selectedCountries, ...lOfCountries]
+      ? [...selectedCountries, ...tenCountries_aux]
       : selectedCountries.filter(
-          (checkedCountry) => !lOfCountries.includes(checkedCountry)
+          (checkedCountry) => !tenCountries_aux.includes(checkedCountry)
         );
 
     setSelectedCountries(updatedSelectedCountrys);

@@ -1,6 +1,5 @@
 "use client";
 
-import { IState } from "country-state-city";
 import { useQuery } from "react-query";
 
 interface ICountry {
