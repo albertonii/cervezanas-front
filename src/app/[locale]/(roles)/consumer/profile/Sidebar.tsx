@@ -85,7 +85,7 @@ export function Sidebar() {
             option: "feedback",
           },
         ]
-      : role === "consumer"
+      : role === "producer"
       ? [
           {
             name: t("profile"),
@@ -93,9 +93,29 @@ export function Sidebar() {
             option: "settings",
           },
           {
+            name: t("products"),
+            icon: "box",
+            option: "products",
+          },
+          {
+            name: t("distributors_associated"),
+            icon: "truck",
+            option: "distributors",
+          },
+          {
+            name: t("campaigns"),
+            icon: "gift",
+            option: "campaigns",
+          },
+          {
             name: t("events"),
             icon: "location",
             option: "events",
+          },
+          {
+            name: t("consumption_points"),
+            icon: "location",
+            option: "consumption_points",
           },
           {
             name: t("event_orders"),
@@ -105,7 +125,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "orders",
+            option: "online_orders",
           },
           {
             name: t("reviews"),
@@ -125,29 +145,19 @@ export function Sidebar() {
             option: "settings",
           },
           {
-            name: t("products"),
-            icon: "box",
-            option: "products",
-          },
-          {
-            name: t("campaigns"),
-            icon: "gift",
-            option: "campaigns",
-          },
-          {
-            name: t("events"),
-            icon: "location",
-            option: "events",
-          },
-          {
-            name: t("consumption_points"),
-            icon: "location",
-            option: "consumption_points",
+            name: t("distributors_associated"),
+            icon: "truck",
+            option: "distributors",
           },
           {
             name: t("factories"),
             icon: "truck",
             option: "factories",
+          },
+          {
+            name: t("consumption_points"),
+            icon: "location",
+            option: "consumption_points",
           },
           {
             name: t("event_orders"),
@@ -157,7 +167,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "orders",
+            option: "online_orders",
           },
           {
             name: t("reviews"),

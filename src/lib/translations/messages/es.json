@@ -585,5 +585,6 @@
   "origin_location": "Localización de origen",
   "add_range": "Añadir rango",
   "distribution_type": "Tipo de distribución",
-  "select_all_cities_by_region": "Seleccionar todas las ciudades de la región"
+  "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
+  "distributors_associated": "Distribuidores asociado"
 }

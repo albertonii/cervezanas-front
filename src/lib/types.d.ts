@@ -1130,11 +1130,12 @@ export enum ROLE_ENUM {
 
 export interface IDistributorUser {
   id: string;
-  created_at: string;
+  created_at: Date;
   nif: string;
   bank_account: string;
   user: IUser;
   location: IProfileLocation;
+  coverage_area: ICoverageArea[];
 }
 
 export interface IBusinessOrder {
@@ -1161,7 +1162,7 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
-  coverage_area: ICoverageArea[];
+  // coverage_area: ICoverageArea[];
 }
 
 export interface ICoverageArea {

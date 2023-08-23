@@ -230,7 +230,20 @@ export function ScreenMenu() {
                           ? ["submitted_aps", "monthly_products", "signout"]
                           : role === "distributor"
                           ? ["profile", "logistics", "signout"]
-                          : ["profile", "orders", "signout"]
+                          : role === "producer"
+                          ? [
+                              "profile",
+                              "online_orders",
+                              "event_orders",
+                              "campaigns",
+                              "signout",
+                            ]
+                          : [
+                              "profile",
+                              "online_orders",
+                              "event_orders",
+                              "signout",
+                            ]
                       }
                     />
                   </li>

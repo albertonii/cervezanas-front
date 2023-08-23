@@ -1,7 +1,6 @@
 import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
 import useFetchAllCountries from "../useFetchAllCountries";
 import React, { useEffect, useState } from "react";
-import { Country } from "country-state-city";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
