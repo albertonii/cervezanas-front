@@ -1,17 +1,17 @@
 import React from "react";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
+import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
-import { Button } from "../../../../../components/common";
+import { useRouter } from "next/navigation";
+import { EventProductTimeline } from "./EventProductTimeline";
+import { IEventOrderItem } from "../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../constants";
-import { IEventOrderItem } from "../../../../../lib/types.d";
-import { formatCurrency } from "../../../../../utils";
-import { useRouter } from "next/navigation";
-import { EventProductTimeline } from "./EventProductTimeline";
+} from "../../../../../../constants";
+import { formatCurrency } from "../../../../../../utils";
+import { Button } from "../../../../../../components/common";
 
 interface Props {
   eventOrderItem: IEventOrderItem;

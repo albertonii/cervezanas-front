@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 
 interface Props {
-  message: string;
+  message?: string;
 }
 
 export function DisplayInputError({ message }: Props) {

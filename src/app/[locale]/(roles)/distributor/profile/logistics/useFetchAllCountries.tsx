@@ -3,6 +3,12 @@
 import { IState } from "country-state-city";
 import { useQuery } from "react-query";
 
+interface ICountry {
+  id: string;
+  name: string;
+  iso2: string;
+}
+
 const headers = new Headers();
 headers.append(
   "X-CSCAPI-KEY",
@@ -22,8 +28,8 @@ const fetchAllCountries = async () => {
   )
     .then((response) => response.text())
     .then((result) => {
-      const states: IState[] = JSON.parse(result);
-      return states.sort((a: IState, b: IState) =>
+      const states: ICountry[] = JSON.parse(result);
+      return states.sort((a: ICountry, b: ICountry) =>
         a.name.localeCompare(b.name)
       ); // Ordenar alfabéticamente
     })

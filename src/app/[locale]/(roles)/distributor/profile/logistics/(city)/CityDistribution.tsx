@@ -135,7 +135,7 @@ export default function CityDistribution({ cities }: Props) {
         const lOfCities = cityData?.slice(startIndex, endIndex);
 
         setListOfCities(lOfCities);
-        setCounter(cityData.length);
+        setCounter(cityData?.length);
 
         setListOfAllCitiesByRegion(cityData);
 
@@ -222,10 +222,6 @@ export default function CityDistribution({ cities }: Props) {
       : selectedCities.filter((item) => item !== city);
 
     setSelectedCities(updatedSelectedCities);
-  };
-
-  const isChecked = (city: ICity) => {
-    return selectedCities.includes(city.name);
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -489,9 +485,9 @@ const CityRow = ({
         className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
       >
         <input
-          id={`checkbox-item-${globalIndex}` as string}
           type="checkbox"
-          {...register(`cities.${globalIndex}.name`)}
+          {...register(`cities`)}
+          id={`cities.${globalIndex}.${city.name}}`}
           value={city.name}
           checked={isChecked(city)}
           onChange={(e) => {

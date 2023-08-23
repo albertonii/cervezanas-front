@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { VIEWS } from "../../../../../constants";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 
 export default async function ServerProfilePage() {
@@ -6,8 +7,9 @@ export default async function ServerProfilePage() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
+
   if (!session) {
-    redirect("/unauthenticated");
+    redirect(VIEWS.SIGN_IN);
   }
 
   return (

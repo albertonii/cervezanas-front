@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../../components/Auth";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import { IOrder } from "../../../../../lib/types.d";
-import { formatCurrency, formatDateString } from "../../../../../utils";
-import { SupabaseProps } from "../../../../../constants";
+import { useAuth } from "../../../../../../components/Auth";
+import { IOrder } from "../../../../../../lib/types";
+import { SupabaseProps } from "../../../../../../constants";
+import { formatCurrency, formatDateString } from "../../../../../../utils";
 
 interface Props {
   isError?: boolean;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { EVENT_ORDER_STATUS } from "../../../../../constants";
-import { IEventOrder } from "../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../../lib/types";
+import { EVENT_ORDER_STATUS } from "../../../../../../constants";
 
 interface OrderTimelineProps {
   order: IEventOrder;

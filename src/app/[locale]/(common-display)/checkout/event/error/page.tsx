@@ -1,10 +1,10 @@
 import ErrorCheckout from "./ErrorCheckout";
 import React from "react";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types.d";
-import { createServerClient } from "../../../../../utils/supabaseServer";
-import { decodeBase64 } from "../../../../../utils/utils";
+import { decodeBase64 } from "../../../../../../utils/utils";
+import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../../constants";
+import { IOrder } from "../../../../../../lib/types";
 
 export async function generateMetadata({ searchParams }: any) {
   try {

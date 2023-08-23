@@ -1,11 +1,11 @@
 import React from "react";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { SupabaseProps } from "../../../../constants";
-import { formatCurrency, formatDateString } from "../../../../utils";
-import { Button } from "../../../../components/common";
-import { IOrder, IOrderItem, } from "../../../../lib/types";
+import { SupabaseProps } from "../../../../../constants";
+import { IOrder, IOrderItem } from "../../../../../lib/types";
+import { Button } from "../../../../../components/common";
+import { formatCurrency, formatDateString } from "../../../../../utils";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -16,7 +16,7 @@ interface Props {
 
 export default function OrderItem({ orderItem, order }: Props) {
   const t = useTranslations();
-  
+
   const locale = useLocale();
   const router = useRouter();
 

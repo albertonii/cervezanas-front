@@ -39,7 +39,7 @@ export function Button({
   primary = false,
   accent = false,
   btnType = "",
-  form = "",
+  form, // If set to empty string, the button will not be a submit button
   fullSize = false,
   isLoading = false,
 }: ButtonProps) {

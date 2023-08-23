@@ -1,13 +1,17 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { Spinner } from "../common/Spinner";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from ".";
 import { Button, DisplayInputError } from "../common";
 import { ROLE_ENUM } from "../../lib/types.d";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpWithPasswordCredentials } from "./AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
+import { useMutation } from "react-query";
+import { useMessage } from "../message";
 
 const ROLE_OPTIONS = [
   {
@@ -17,7 +21,8 @@ const ROLE_OPTIONS = [
   {
     label: "Productor",
     value: ROLE_ENUM.Productor,
-  },{
+  },
+  {
     label: "Distribuidor",
     value: ROLE_ENUM.Distributor,
   },
@@ -28,58 +33,81 @@ interface FormData {
   username: string;
   email: string;
   password: string;
-  avatar_url: string;
-  email_verified: boolean;
-  full_name: string;
-  iss: string;
-  name: string;
-  lastname: string;
-  picture: string;
-  provider_id: string;
-  sub: string;
+  confirm_password: string;
+  // avatar_url: string;
+  // email_verified: boolean;
+  // full_name: string;
+  // iss: string;
+  // name: string;
+  // lastname: string;
+  // picture: string;
+  // provider_id: string;
+  // sub: string;
 }
+
+const schema: ZodType<FormData> = z
+  .object({
+    access_level: z.string(),
+    username: z.string().min(5, { message: "Required" }),
+    email: z
+      .string()
+      .email({
+        message: "Must be a valid email",
+      })
+      .min(5, { message: "Required" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be atleast 8 characters" }),
+    confirm_password: z
+      .string()
+      .min(8, { message: "Password must be atleast 8 characters" }),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Password don't match",
+  });
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export const SignUpForm = () => {
   const t = useTranslations();
 
   const { signUp, isLoading: loading } = useAuth();
 
-
-
-
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       access_level: ROLE_ENUM.Cervezano,
       username: "",
       email: "",
       password: "",
-      avatar_url: "",
-      email_verified: false,
-      full_name: "",
-      iss: "",
-      name: "",
-      lastname: "",
-      picture: "",
-      provider_id: "",
-      sub: "",
+      // avatar_url: "",
+      // email_verified: false,
+      // full_name: "",
+      // iss: "",
+      // name: "",
+      // lastname: "",
+      // picture: "",
+      // provider_id: "",
+      // sub: "",
     },
   });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [role, setRole] = useState(ROLE_ENUM.Cervezano);
+  const { handleMessage } = useMessage();
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
     setRole(value);
   };
 
-  const onSubmit = async () => {
+  const handleCredentialsSignUp = async (form: ValidationSchema) => {
+    const { username, email, password } = form;
+
     const data = {
       access_level: role,
       username: username,
@@ -98,6 +126,34 @@ export const SignUpForm = () => {
     };
 
     signUp(signUpInfo);
+  };
+
+  const handleCredentialsMutation = useMutation({
+    mutationKey: "credentialsSignUp",
+    mutationFn: handleCredentialsSignUp,
+    onMutate: () => {
+      console.info("onMutate");
+    },
+    onSuccess: () => {
+      // handleMessage({
+      //   type: "success",
+      //   message: t("sign_up_success"),
+      // });
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = (formValues: FormData) => {
+    try {
+      handleCredentialsMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -126,17 +182,13 @@ export const SignUpForm = () => {
         </label>
 
         <input
-          {...register("username", {
-            required: true,
-          })}
+          {...register("username")}
           type="text"
           id="username"
           autoComplete="username"
           placeholder="user_123"
           required
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
         />
 
         {errors.username?.type === "required" && (
@@ -149,20 +201,16 @@ export const SignUpForm = () => {
           {t("email")}
         </label>
         <input
-          {...register("email", { required: true })}
+          {...register("email")}
           type="email"
           id="email-address"
           autoComplete="username"
           placeholder="ejemplo@gmail.com"
           required
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
 
-        {errors.email?.type === "required" && (
-          <DisplayInputError message="errors.input_required" />
-        )}
+        {errors.email && <DisplayInputError message={errors.email.message} />}
       </div>
 
       <div className="flex w-full flex-col space-y-2 ">
@@ -170,21 +218,36 @@ export const SignUpForm = () => {
           {t("password")}
         </label>
         <input
-          {...register("password", {
-            required: true,
-          })}
+          {...register("password")}
           type="password"
           id="password"
           autoComplete="new-password"
           required
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           placeholder="*****"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
 
-        {errors.password?.type === "required" && (
-          <DisplayInputError message="errors.input_required" />
+        {errors.password && (
+          <DisplayInputError message={errors.password.message} />
+        )}
+      </div>
+
+      <div className="flex w-full flex-col space-y-2 ">
+        <label htmlFor="confirm_password" className="text-sm text-gray-600">
+          {t("confirm_password")}
+        </label>
+        <input
+          {...register("confirm_password")}
+          type="password"
+          id="confirm_password"
+          autoComplete="confirm_password"
+          required
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          placeholder="*****"
+        />
+
+        {errors.confirm_password && (
+          <DisplayInputError message={errors.confirm_password.message} />
         )}
       </div>
 

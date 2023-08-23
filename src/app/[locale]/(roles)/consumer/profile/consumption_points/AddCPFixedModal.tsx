@@ -80,6 +80,21 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     setAddress(address);
   };
 
+  const handleIsInternalOrganizer = (e: any) => {
+    if (e.target.value === "true") {
+      setIsInternalOrganizer(true);
+    } else {
+      const loadExternalOrganizer = async () => {
+        const { data } = await query.refetch();
+        const externalOrganizers = data?.data as any[];
+        setExternalOrganizers(externalOrganizers);
+      };
+
+      loadExternalOrganizer();
+      setIsInternalOrganizer(false);
+    }
+  };
+
   const handleInsertCPFixed = async (formValues: FormData) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
@@ -175,21 +190,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       if (error) {
         throw error;
       }
-    }
-  };
-
-  const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
-      const loadExternalOrganizer = async () => {
-        const { data } = await query.refetch();
-        const externalOrganizers = data?.data as any[];
-        setExternalOrganizers(externalOrganizers);
-      };
-
-      loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 

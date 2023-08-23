@@ -3,10 +3,9 @@
 import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../components/Auth";
-import { formatDateString } from "../../../../utils";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { IOrder } from "../../../../lib/types.d";
+import { useAuth } from "../../../../../components/Auth";
+import { IOrder } from "../../../../../lib/types";
+import { formatCurrency, formatDateString } from "../../../../../utils";
 interface Props {
   isError?: boolean;
   order: IOrder;

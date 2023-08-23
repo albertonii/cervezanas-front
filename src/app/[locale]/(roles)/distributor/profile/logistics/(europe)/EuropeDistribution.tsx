@@ -5,7 +5,7 @@ import { Country, ICountry, IState } from "country-state-city";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../../../components/common";
+import { Button, Spinner } from "../../../../../../../components/common";
 import { useTranslations } from "next-intl";
 
 type Props = {

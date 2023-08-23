@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { DistributionType } from "../../../../../../lib/enums";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
+import InternationalDistribution from "./(international)/InternationalDistribution";
 
 export default function CoverageAreas() {
   const t = useTranslations();
@@ -20,10 +21,6 @@ export default function CoverageAreas() {
 
   if (error) {
     console.error(error);
-  }
-
-  if (isLoading || isFetching) {
-    return <span>Loading...</span>;
   }
 
   const renderSwitch = () => {
@@ -54,6 +51,7 @@ export default function CoverageAreas() {
             {distribution && (
               <ProvinceDistribution
                 provinces={distribution?.coverage_area[0].provinces}
+                coverageAreaId={distribution.coverage_area[0].id}
               />
             )}
           </>
@@ -63,7 +61,7 @@ export default function CoverageAreas() {
       case DistributionType.EUROPE:
         return <span>Europe</span>;
       case DistributionType.INTERNATIONAL:
-        return <span>international</span>;
+        return <InternationalDistribution provinces={[]} coverageAreaId={""} />
       default:
         return <span>local</span>;
     }
