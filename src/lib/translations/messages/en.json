@@ -571,5 +571,9 @@
   "add_range": "Add range",
   "distribution_type": "Distribution type",
   "select_all_cities_by_region": "Select all cities by region",
-  "distributors_associated": "Associated distributors"
+  "distributors_associated": "Associated distributors",
+  "distributors_list": "Distributors list",
+  "form_submit_contract_description": "Select from the list of available distributors and create a contract to start working with them. Once the contract is validated by the distributor and Cervezanas you will be able to start working with him.",
+  "form_submit_contract_title": "Contract with distributor",
+  "apply_contract": "Apply contract"
 }

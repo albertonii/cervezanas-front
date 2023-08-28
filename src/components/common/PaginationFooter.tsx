@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "./Button";
-
+import { faChevronCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface Props {
   counter: number;
   resultsPerPage: number;
@@ -51,10 +52,18 @@ export default function PaginationFooter({
       <Button
         onClick={() => handlePrevPage()}
         small
+        box
         primary
         disabled={isLoading || currentPage === 1}
       >
-        {t("prev")}
+        <FontAwesomeIcon
+          icon={faChevronCircleRight}
+          style={{ color: "#432a14" }}
+          title={"chevron_circle_left"}
+          width={20}
+          height={20}
+          className={`rotate-180`}
+        />
       </Button>
 
       <p className="text-sm text-gray-400 dark:text-gray-400">
@@ -67,11 +76,19 @@ export default function PaginationFooter({
 
       <Button
         onClick={() => handleNextPage()}
+        box
         small
         primary
         disabled={isLoading || currentPage === finalPage}
       >
-        {t("next")}
+        <FontAwesomeIcon
+          icon={faChevronCircleRight}
+          style={{ color: "#432a14" }}
+          title={"chevron_circle_right"}
+          width={30}
+          height={30}
+          className={``}
+        />
       </Button>
     </div>
   );

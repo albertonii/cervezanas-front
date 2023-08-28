@@ -7,7 +7,7 @@ import DeleteCPFixedModal from "./DeleteCPFixedModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed } from "../../../../../../lib/types";
+import { ICPFixed, SortBy } from "../../../../../../lib/types";
 import { formatDate } from "../../../../../../utils";
 import {
   Button,
@@ -17,15 +17,6 @@ import {
 
 interface Props {
   cpsId: string;
-}
-
-enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
 }
 
 export function ListCPFixed({ cpsId }: Props) {

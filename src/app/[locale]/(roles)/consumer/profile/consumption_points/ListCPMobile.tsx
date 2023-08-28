@@ -7,7 +7,7 @@ import EditCPMobileModal from "./EditCPMobileModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPMobile, SortBy } from "../../../../../../lib/types";
 import {
   Button,
   IconButton,
@@ -17,15 +17,6 @@ import { formatDate } from "../../../../../../utils";
 
 interface Props {
   cpsId: string;
-}
-
-enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
 }
 
 export function ListCPMobile({ cpsId }: Props) {

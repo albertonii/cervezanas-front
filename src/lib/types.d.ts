@@ -1128,14 +1128,31 @@ export enum ROLE_ENUM {
   Admin = "admin",
 }
 
-export interface IDistributorUser {
+export interface IDistributorUser_Profile {
   id: string;
+  created_at: Date;
+  avatar_url: string;
+  bg_url: string;
+  birthdate: Date;
+  cp_organizer_status: number;
+  email: string;
+  name: string;
+  lastname: string;
+  role: string;
+  username: string;
+  distributor_user: IDistributorUser;
+  profile_location: IProfileLocation[]
+}
+
+export interface IDistributorUser {
+  user: string; // ID
   created_at: Date;
   nif: string;
   bank_account: string;
   user: IUser;
-  location: IProfileLocation;
+  profile_location: IProfileLocation[];
   coverage_area: ICoverageArea[];
+  company_name: string;
 }
 
 export interface IBusinessOrder {

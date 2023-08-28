@@ -27,6 +27,9 @@ interface Props {
   color?: { filled: string; unfilled: string };
   btnSize?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
   setShowModal: (b: boolean) => void;
+  showFooter?: boolean;
+  btnCancelTitle?: string;
+  handleCustomClose?: () => void;
 }
 
 export function Modal(props: Props) {
@@ -45,6 +48,9 @@ export function Modal(props: Props) {
     showBtn,
     showModal,
     setShowModal,
+    showFooter,
+    btnCancelTitle,
+    handleCustomClose: hCustomCLose,
   } = props;
 
   const t = useTranslations();
@@ -75,6 +81,10 @@ export function Modal(props: Props) {
   const handleClose = () => {
     handleShowModal(false);
     if (handlerClose) handlerClose();
+  };
+
+  const handleCustomClose = () => {
+    if (hCustomCLose) hCustomCLose();
   };
 
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());
@@ -184,27 +194,43 @@ export function Modal(props: Props) {
                 </div>
 
                 {/*footer*/}
-                <div className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
-                  <Button
-                    primary
-                    class="mr-4"
-                    medium
-                    btnType="submit"
-                    onClick={handleAccept}
-                  >
-                    {t(btnTitle)}
-                  </Button>
+                {showFooter && (
+                  <div className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                    <Button
+                      primary
+                      class="mr-4"
+                      medium
+                      btnType="submit"
+                      onClick={handleAccept}
+                    >
+                      {t(btnTitle)}
+                    </Button>
 
-                  <Button
-                    accent
-                    class=""
-                    btnType="button"
-                    medium
-                    onClick={handleClose}
-                  >
-                    {t("close")}
-                  </Button>
-                </div>
+                    {btnCancelTitle ? (
+                      <>
+                        <Button
+                          accent
+                          class=""
+                          btnType="button"
+                          medium
+                          onClick={handleCustomClose}
+                        >
+                          {t(btnCancelTitle)}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        accent
+                        class=""
+                        btnType="button"
+                        medium
+                        onClick={handleClose}
+                      >
+                        {t("close")}
+                      </Button>
+                    )}
+                  </div>
+                )}
 
                 {isLoading && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center">

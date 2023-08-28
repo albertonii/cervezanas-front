@@ -68,9 +68,6 @@ export default function SignIn() {
 
   const handleCredentialsSignIn = async (form: ValidationSchema) => {
     const { email, password } = form;
-
-    // Validate form data
-
     signIn(email, password);
   };
 

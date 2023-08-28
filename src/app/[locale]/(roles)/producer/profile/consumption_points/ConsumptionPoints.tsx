@@ -40,7 +40,7 @@ export function ConsumptionPoints({
             <div>
               <p>
                 Date de alta a través de nuestro formulario para obtener el
-                título de organizador de puntos cervezanas.{" "}
+                título de organizador de puntos cervezanas.
               </p>
               <p>
                 Con él tendrás la potestad de organizar eventos y promociones

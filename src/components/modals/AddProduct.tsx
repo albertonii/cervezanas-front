@@ -34,7 +34,7 @@ import { useAppContext } from "../Context";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 
-interface IFormValues {
+interface FormData {
   fermentation: number;
   color: number;
   intensity: number;
@@ -94,7 +94,7 @@ export function AddProduct() {
     return uuidv4();
   };
 
-  const handleInsertProduct = async (formValues: IFormValues) => {
+  const handleInsertProduct = async (formValues: FormData) => {
     const {
       // campaign,
       fermentation,
