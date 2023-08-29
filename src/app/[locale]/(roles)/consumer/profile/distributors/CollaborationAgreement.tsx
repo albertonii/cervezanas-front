@@ -1,6 +1,13 @@
 import React from "react";
 
 export default function CollaborationAgreement() {
+  const today = new Date();
+  const date = today.toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <section className="border-1 rounded-medium space-y-8 border p-2">
       <section className="space-y-4">
@@ -137,9 +144,11 @@ export default function CollaborationAgreement() {
           electrónicamente en la fecha de abajo.
         </div>
 
-        <time>
-          Fecha: <i>[Fecha de Firma]</i>
-        </time>
+        <div>
+          <time>
+            Fecha: <i>{date}</i>
+          </time>
+        </div>
       </section>
     </section>
   );

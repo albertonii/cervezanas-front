@@ -1141,7 +1141,7 @@ export interface IDistributorUser_Profile {
   role: string;
   username: string;
   distributor_user: IDistributorUser;
-  profile_location: IProfileLocation[]
+  profile_location: IProfileLocation[];
 }
 
 export interface IDistributorUser {
@@ -1152,6 +1152,29 @@ export interface IDistributorUser {
   user: IUser;
   profile_location: IProfileLocation[];
   coverage_area: ICoverageArea[];
+  company_name: string;
+}
+
+export interface IProducerUser_Profile {
+  id: string;
+  created_at: Date;
+  avatar_url: string;
+  bg_url: string;
+  birthdate: Date;
+  cp_organizer_status: number;
+  email: string;
+  name: string;
+  lastname: string;
+  role: string;
+  username: string;
+  distributor_user: IProducerUser;
+  profile_location: IProfileLocation[];
+}
+
+export interface IProducerUser {
+  user: string; // ID
+  created_at: Date;
+  profile_location: IProfileLocation[];
   company_name: string;
 }
 

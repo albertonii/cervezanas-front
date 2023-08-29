@@ -48,7 +48,7 @@ export default function PaginationFooter({
   };
 
   const renderPaginationButtons = () => (
-    <div className="my-4 flex items-center justify-around py-4">
+    <div className="max-1/2 lg:max-w-3/4 my-4 flex items-center justify-center gap-4 py-4">
       <Button
         onClick={() => handlePrevPage()}
         small
@@ -66,7 +66,7 @@ export default function PaginationFooter({
         />
       </Button>
 
-      <p className="text-sm text-gray-400 dark:text-gray-400">
+      <p className="text-lg text-gray-400 dark:text-gray-400">
         {t("pagination_footer_nums", {
           from: currentPage,
           to: lastElementPage,

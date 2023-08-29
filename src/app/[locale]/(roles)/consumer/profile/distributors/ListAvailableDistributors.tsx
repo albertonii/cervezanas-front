@@ -1,11 +1,8 @@
-import { faBan, faFileSignature } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
+import { useLocale, useTranslations } from "next-intl";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
+import { IconButton, Spinner } from "../../../../../../components/common";
 import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
 import { IDistributorUser_Profile } from "../../../../../../lib/types";
@@ -28,6 +25,7 @@ export default function ListAvailableDistributors({
   handleDistributor,
 }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -116,9 +114,9 @@ export default function ListAvailableDistributors({
 
   return (
     <div className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
-      <p className="text-slate-500 my-4 text-lg leading-relaxed">
+      <span className="text-slate-500 my-4 text-lg leading-relaxed">
         {t("form_submit_contract_description")}
-      </p>
+      </span>
 
       <h2 className="text-2xl">{t("distributors_list")}</h2>
 
@@ -168,7 +166,7 @@ export default function ListAvailableDistributors({
         </div>
       ) : (
         <>
-          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+          <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th
@@ -204,14 +202,14 @@ export default function ListAvailableDistributors({
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                      {distributor.username}
+                      <Link href={`/d-info/${distributor.id}`} locale={locale}>
+                        {distributor.username}
+                      </Link>
                     </td>
-
                     <td className="px-6 py-4">
                       {formatDate(distributor.created_at)}
                     </td>
-
-                    <td className="flex space-x-2 px-6 py-4">
+                    <td className="flex items-center justify-center px-6 py-4">
                       <IconButton
                         icon={faFileSignature}
                         onClick={() => {
