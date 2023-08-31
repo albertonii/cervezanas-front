@@ -757,6 +757,7 @@ export interface Database {
       distributor_user: {
         Row: {
           bank_account: string | null
+          company_description: string | null
           company_name: string | null
           created_at: string | null
           location_id: string | null
@@ -765,6 +766,7 @@ export interface Database {
         }
         Insert: {
           bank_account?: string | null
+          company_description?: string | null
           company_name?: string | null
           created_at?: string | null
           location_id?: string | null
@@ -773,6 +775,7 @@ export interface Database {
         }
         Update: {
           bank_account?: string | null
+          company_description?: string | null
           company_name?: string | null
           created_at?: string | null
           location_id?: string | null
@@ -1369,20 +1372,32 @@ export interface Database {
       producer_user: {
         Row: {
           " company_name": string | null
+          company_description: string | null
           created_at: string
+          location_id: string | null
           user: string
         }
         Insert: {
           " company_name"?: string | null
+          company_description?: string | null
           created_at?: string
+          location_id?: string | null
           user: string
         }
         Update: {
           " company_name"?: string | null
+          company_description?: string | null
           created_at?: string
+          location_id?: string | null
           user?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "producer_user_location_id_fkey"
+            columns: ["location_id"]
+            referencedRelation: "profile_location"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "producer_user_user_fkey"
             columns: ["user"]

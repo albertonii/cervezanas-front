@@ -77,7 +77,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "box",
-            option: "online_orders",
+            option: "orders",
           },
           {
             name: t("feedback"),
@@ -125,7 +125,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "online_orders",
+            option: "orders",
           },
           {
             name: t("reviews"),
@@ -167,7 +167,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "shopping-cart",
-            option: "online_orders",
+            option: "orders",
           },
           {
             name: t("reviews"),

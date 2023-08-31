@@ -47,10 +47,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "online_orders":
         return (
-          <Link
-            href={{ pathname: `${role}/profile/${option}` }}
-            locale={locale}
-          >
+          <Link href={{ pathname: `${role}/profile/orders` }} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"

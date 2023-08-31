@@ -1,3 +1,4 @@
+import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
@@ -9,7 +10,6 @@ import React, {
 } from "react";
 import { useTranslations } from "next-intl";
 import { PortalModal } from ".";
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { Button, IconButton, Spinner } from "../common";
 
 interface Props {
@@ -19,8 +19,7 @@ interface Props {
   btnTitle: string;
   description: string;
   children: JSX.Element;
-  handler: ComponentProps<any>;
-  handlerClose?: () => void;
+
   icon?: IconDefinition;
   classIcon: string;
   classContainer: string;
@@ -29,6 +28,8 @@ interface Props {
   setShowModal: (b: boolean) => void;
   showFooter?: boolean;
   btnCancelTitle?: string;
+  handler: ComponentProps<any>;
+  handlerClose?: () => void;
   handleCustomClose?: () => void;
 }
 
@@ -48,7 +49,7 @@ export function Modal(props: Props) {
     showBtn,
     showModal,
     setShowModal,
-    showFooter,
+    showFooter: showFooter = true,
     btnCancelTitle,
     handleCustomClose: hCustomCLose,
   } = props;
@@ -70,11 +71,16 @@ export function Modal(props: Props) {
 
   const handleAccept = async () => {
     setIsLoading(true);
+
     setTimeout(() => {
-      handler().then(() => {
-        handleShowModal(false);
-        setIsLoading(false);
-      });
+      handler()
+        .then(() => {
+          handleShowModal(false);
+          setIsLoading(false);
+        })
+        .catch((e: Error) => {
+          console.error(e);
+        });
     }, 300);
   };
 

@@ -590,5 +590,8 @@
   "distributors_list": "Listado de distribuidores",
   "form_submit_contract_description": "Selecciona del listado los distribuidores disponibles y crea un contrato para poder empezar a trabajar con él. Una vez esté validado el contrato por parte del distribuidor y Cervezanas podrás comenzar a operar con él.",
   "form_submit_contract_title": "Solicitud de contrato",
-  "apply_contract": "Solicitar contrato"
+  "apply_contract": "Solicitar contrato",
+  "contract_with_distributor": "Contrato con distribuidor",
+  "agree_terms_and_conditions_contract_distribution": "Acepto los términos y condiciones del contrato de distribución",
+  "message_to_distributor_contract_distribution": "Mensaje al distribuidor"
 }

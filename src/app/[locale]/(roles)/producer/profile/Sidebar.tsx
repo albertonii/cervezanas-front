@@ -77,7 +77,7 @@ export function Sidebar() {
           {
             name: t("online_orders"),
             icon: "box",
-            option: "online_orders",
+            option: "orders",
           },
           {
             name: t("feedback"),

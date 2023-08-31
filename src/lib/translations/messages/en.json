@@ -575,5 +575,8 @@
   "distributors_list": "Distributors list",
   "form_submit_contract_description": "Select from the list of available distributors and create a contract to start working with them. Once the contract is validated by the distributor and Cervezanas you will be able to start working with him.",
   "form_submit_contract_title": "Contract with distributor",
-  "apply_contract": "Apply contract"
+  "apply_contract": "Apply contract",
+  "contract_with_distributor": "Contract with distributor",
+  "agree_terms_and_conditions_contract_distribution": "I agree to the terms and conditions of the contract",
+  "message_to_distributor_contract_distribution": "Message to distributor"
 }
