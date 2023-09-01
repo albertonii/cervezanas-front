@@ -1145,14 +1145,15 @@ export interface IDistributorUser_Profile {
 }
 
 export interface IDistributorUser {
-  user: string; // ID
+  user: any; // ID
   created_at: Date;
   nif: string;
   bank_account: string;
-  user: IUser;
-  profile_location: IProfileLocation[];
   coverage_area: ICoverageArea[];
   company_name: string;
+  company_description: string;
+  location_id: IProfileLocation[];
+  users: IUser; // To access embeded information we need to get into the table and the look for data
 }
 
 export interface IProducerUser_Profile {
@@ -1168,14 +1169,25 @@ export interface IProducerUser_Profile {
   role: string;
   username: string;
   distributor_user: IProducerUser;
-  profile_location: IProfileLocation[];
+  location_id: IProfileLocation[];
 }
 
 export interface IProducerUser {
-  user: string; // ID
+  user: any; // ID
   created_at: Date;
-  profile_location: IProfileLocation[];
   company_name: string;
+  company_description: string;
+  location_id: IProfileLocation[];
+}
+
+export interface IDistributionContract {
+  producer_id: IProducerUser;
+  distributor_id: IDistributorUser;
+  created_at: Date;
+  status: string;
+  producer_accepted: boolean;
+  distributor_accepted: boolean;
+  message: string;
 }
 
 export interface IBusinessOrder {

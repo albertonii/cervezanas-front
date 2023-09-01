@@ -10,8 +10,6 @@ import { useMessage } from "../../../../../../components/message";
 import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useUser } from "@supabase/ui/dist/cjs/components/Auth/UserContext";
-import { useAuth } from "../../../../../../components/Auth";
 
 type FormData = {
   message: string;
@@ -30,11 +28,14 @@ const schema: ZodType<FormData> = z
     path: ["is_signed"],
   });
 
-export default function LinkDistributor() {
+interface Props {
+  producerId: string;
+}
+
+export default function LinkDistributor({ producerId }: Props) {
   const t = useTranslations();
 
   const { supabase } = useSupabase();
-  const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showFooter, setShowFooter] = useState<boolean>(false);
@@ -66,14 +67,13 @@ export default function LinkDistributor() {
   const { handleMessage } = useMessage();
 
   const handleAddContract = async (formValues: FormData) => {
-    if (!selectedDistributor || !user) return null;
-    console.log(formValues);
+    if (!selectedDistributor || !producerId) return null;
 
     const { message, is_signed } = formValues;
 
     const { error } = await supabase.from("distribution_contracts").insert({
       distributor_id: selectedDistributor.id,
-      producer_id: user?.id,
+      producer_id: producerId,
       message: message,
       producer_accepted: is_signed,
       status: "pending",

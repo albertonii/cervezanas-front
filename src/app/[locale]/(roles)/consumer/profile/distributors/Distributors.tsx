@@ -1,20 +1,21 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import React from "react";
 import LinkDistributor from "./LinkDistributor";
 import ListAssociatedDistributors from "./ListAssociatedDistributors";
+import React from "react";
+import { useAuth } from "../../../../../../components/Auth";
 
 export default function Distributors() {
-  const t = useTranslations();
+  const { user } = useAuth();
+  if (!user) return null;
 
   return (
     <>
-      <LinkDistributor />
+      <LinkDistributor producerId={user.id} />
 
       {/* Section displaying all asociated distributors */}
       <section className="mt-4 flex flex-col space-y-4">
-        <ListAssociatedDistributors />
+        <ListAssociatedDistributors producerId={user.id} />
       </section>
     </>
   );

@@ -706,8 +706,8 @@ export interface Database {
           {
             foreignKeyName: "distribution_origin_distributor_fkey"
             columns: ["origin_distributor"]
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedRelation: "awards"
+            referencedColumns: ["id"]
           }
         ]
       }

@@ -11,11 +11,10 @@ const fetchDistributors = async (supabase: SupabaseClient<any>) => {
     .select(
       `
         *,
-        distributor_user (*)
+        distributor_user!distributor_user_user_fkey (*)
       `
     )
     .eq("role", "distributor");
-
   if (error) throw error;
 
   return data as IDistributorUser_Profile[];

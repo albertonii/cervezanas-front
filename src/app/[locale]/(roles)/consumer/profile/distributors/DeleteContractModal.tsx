@@ -5,30 +5,32 @@ import { useMutation, useQueryClient } from "react-query";
 import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
 
 interface Props {
-  selectedDistributor: string;
+  distributor_id: string;
+  producer_id: string;
   isDeleteModal: boolean;
   handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCPMobileModal({
-  selectedDistributor,
+export default function DeleteContractModal({
+  distributor_id,
+  producer_id,
   isDeleteModal,
   handleDeleteModal,
 }: Props) {
   const t = useTranslations();
-
   const { supabase } = useSupabase();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const handleRemoveDistributor = async () => {
-    if (!selectedDistributor) return;
+    if (!distributor_id || !producer_id) return;
 
     const { error } = await supabase
       .from(" ")
       .delete()
-      .eq("id", selectedDistributor);
+      .eq("distributor_id", distributor_id)
+      .eq("producer_id", producer_id);
 
     if (error) throw error;
   };
@@ -50,6 +52,8 @@ export default function DeleteCPMobileModal({
     },
   });
 
+  console.log(isDeleteModal);
+
   const onSubmitDelete = () => {
     try {
       deleteDistributorMutation.mutate();
@@ -67,7 +71,7 @@ export default function DeleteCPMobileModal({
       handlerClose={() => handleDeleteModal(false)}
       description={t("delete_cp_description_modal")}
       btnTitle={t("accept")}
-      showModal={isDeleteModal}
+      showModal={true}
       setShowModal={handleDeleteModal}
     />
   );

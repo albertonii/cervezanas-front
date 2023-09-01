@@ -1,12 +1,12 @@
-import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import DeleteContractModal from "./DeleteContractModal";
+import useFetchDistributionContractsByProducerId from "../../../../../../hooks/useFetchDistributionContractsByProducerId";
 import React, { useEffect, useMemo, useState } from "react";
 import { IconButton, Spinner } from "../../../../../../components/common";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
-import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
-import { IDistributorUser_Profile } from "../../../../../../lib/types";
+import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
+import { IDistributionContract } from "../../../../../../lib/types";
 import { formatDate } from "../../../../../../utils";
-import DeleteDistributorModal from "./DeleteDistributorModal";
 
 enum SortBy {
   NONE = "none",
@@ -17,15 +17,19 @@ enum SortBy {
   CREATED_DATE = "created_date",
 }
 
-export default function ListAssociatedDistributors() {
+interface Props {
+  producerId: string;
+}
+
+export default function ListAssociatedDistributors({ producerId }: Props) {
   const t = useTranslations();
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const [query, setQuery] = useState("");
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-  const [selectedDistributor, setSelectedDistributor] =
-    useState<IDistributorUser_Profile>();
+  const [selectedContract, setSelectedContract] =
+    useState<IDistributionContract>();
 
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -39,40 +43,43 @@ export default function ListAssociatedDistributors() {
 
   /* Fetch the distributors that the user can be associated  */
   const {
-    data: distributors,
+    data: distributionContracts,
     isError,
     isLoading,
     refetch,
-  } = useFetchDistributors();
-  const [listDistributors, setListDistributors] = useState(distributors ?? []);
+  } = useFetchDistributionContractsByProducerId(producerId);
+
+  const [listDistributionContracts, setListDistributionContracts] = useState<
+    IDistributionContract[]
+  >(distributionContracts ?? []);
 
   useEffect(() => {
     refetch().then((res: any) => {
       const ds = res.data ?? [];
-      setListDistributors(ds);
+      setListDistributionContracts(ds);
     });
   }, [currentPage]);
 
-  const filteredItems = useMemo<IDistributorUser_Profile[]>(() => {
-    if (!distributors) return [];
-    return distributors.filter((d) => {
-      return d.username.toLowerCase().includes(query.toLowerCase());
+  const filteredItems = useMemo<IDistributionContract[]>(() => {
+    if (!distributionContracts) return [];
+    return distributionContracts.filter((d: IDistributionContract) => {
+      return d.distributor_id?.users.username
+        .toLowerCase()
+        .includes(query?.toLowerCase());
     });
-  }, [distributors, query]);
+  }, [distributionContracts, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
 
-    const compareProperties: Record<
-      string,
-      (d: IDistributorUser_Profile) => any
-    > = {
-      [SortBy.USERNAME]: (d) => d.username,
-      [SortBy.CREATED_DATE]: (d) => d.created_at,
-    };
+    const compareProperties: Record<string, (d: IDistributionContract) => any> =
+      {
+        [SortBy.USERNAME]: (d) => d.distributor_id.users.id,
+        [SortBy.CREATED_DATE]: (d) => d.created_at,
+      };
 
     return filteredItems.toSorted(
-      (a: IDistributorUser_Profile, b: IDistributorUser_Profile) => {
+      (a: IDistributionContract, b: IDistributionContract) => {
         const extractProperty = compareProperties[sorting];
         return extractProperty(a).localeCompare(extractProperty(b));
       }
@@ -83,9 +90,9 @@ export default function ListAssociatedDistributors() {
     setSorting(sort);
   };
 
-  const handleDeleteClick = async (distributor: IDistributorUser_Profile) => {
+  const handleDeleteClick = async (contract: IDistributionContract) => {
     setIsDeleteModal(true);
-    setSelectedDistributor(distributor);
+    setSelectedContract(contract);
   };
 
   const handlePrevPage = () => {
@@ -104,19 +111,16 @@ export default function ListAssociatedDistributors() {
     setIsDeleteModal(isDelete);
   };
 
-  const handleCancelContractClick = async (
-    distributor: IDistributorUser_Profile
-  ) => {
+  const handleCancelContractClick = async (contract: IDistributionContract) => {
     setIsDeleteModal(true);
   };
 
   return (
     <div className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
-      <h2 className="text-2xl">{t("distributors_list")}</h2>
-
-      {isDeleteModal && selectedDistributor && (
-        <DeleteDistributorModal
-          selectedDistributor={selectedDistributor.id}
+      {isDeleteModal && selectedContract && (
+        <DeleteContractModal
+          distributor_id={selectedContract.distributor_id.user}
+          producer_id={selectedContract.producer_id.user}
           isDeleteModal={isDeleteModal}
           handleDeleteModal={() => setIsDeleteModal(false)}
         />
@@ -134,15 +138,11 @@ export default function ListAssociatedDistributors() {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && filteredItems.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            {t("no_distributors")}
-          </p>
-        </div>
-      ) : (
+      {!isError && !isLoading && filteredItems.length > 0 && (
         <>
           <div className="relative w-full">
+            <h2 className="text-2xl">{t("distributors_list")}</h2>
+
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 aria-hidden="true"
@@ -201,18 +201,18 @@ export default function ListAssociatedDistributors() {
             </thead>
 
             <tbody>
-              {filteredItems.map((distributor: IDistributorUser_Profile) => {
+              {filteredItems.map((contract: IDistributionContract) => {
                 return (
                   <tr
-                    key={distributor.id}
+                    key={contract.distributor_id + "-" + contract.producer_id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                      {distributor.username}
+                      {contract.distributor_id?.users.username}
                     </td>
 
                     <td className="px-6 py-4">
-                      {formatDate(distributor.created_at)}
+                      {formatDate(contract.created_at)}
                     </td>
 
                     <td className="px-6 py-4">{"estado del contrato"}</td>
@@ -221,7 +221,7 @@ export default function ListAssociatedDistributors() {
                       <IconButton
                         icon={faTrash}
                         onClick={() => {
-                          handleDeleteClick(distributor);
+                          handleDeleteClick(contract);
                         }}
                         color={deleteColor}
                         classContainer={
@@ -235,7 +235,7 @@ export default function ListAssociatedDistributors() {
                       <IconButton
                         icon={faBan}
                         onClick={() => {
-                          handleCancelContractClick(distributor);
+                          handleCancelContractClick(contract);
                         }}
                         color={deleteColor}
                         classContainer={
