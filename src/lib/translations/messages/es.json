@@ -368,6 +368,7 @@
   "status_shipped": "Enviado",
   "status_delivered": "Entregado",
   "status_started": "Iniciado",
+  "status_pending": "Pendiente",
   "payment_information": "Información de pago",
   "ending_with": "Terminada en ",
   "expires_at": "Caduca el ",
@@ -593,5 +594,9 @@
   "apply_contract": "Solicitar contrato",
   "contract_with_distributor": "Contrato con distribuidor",
   "agree_terms_and_conditions_contract_distribution": "Acepto los términos y condiciones del contrato de distribución",
-  "message_to_distributor_contract_distribution": "Mensaje al distribuidor"
+  "message_to_distributor_contract_distribution": "Mensaje al distribuidor",
+  "delete_contract_description_modal": "¿Está seguro de que desea eliminar el contrato? Esta acción no se puede deshacer.",
+  "cancel_contract_description_modal": "¿Está seguro de que desea cancelar el contrato? Esta acción no se puede deshacer.",
+  "cancel_contract": "Cancelar contrato",
+  "come_back": "Volver"
 }

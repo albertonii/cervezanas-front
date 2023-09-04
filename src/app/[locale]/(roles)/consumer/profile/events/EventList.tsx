@@ -227,7 +227,7 @@ export default function EventList({ cpsMobile }: Props) {
 
                     <td className="cursor-pointer px-6 py-4"></td>
 
-                    <td className="flex space-x-2 px-6 py-4">
+                    <td className="flex items-center justify-center px-6 py-4">
                       <IconButton
                         icon={faEdit}
                         onClick={() => {

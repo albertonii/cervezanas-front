@@ -355,6 +355,7 @@
   "status_shipped": "Shipped",
   "status_delivered": "Delivered",
   "status_started": "Started",
+  "status_pending": "Pending",
   "payment_information": "Payment Information",
   "ending_with": "Ending with ",
   "expires_at": "Expires ",
@@ -578,5 +579,9 @@
   "apply_contract": "Apply contract",
   "contract_with_distributor": "Contract with distributor",
   "agree_terms_and_conditions_contract_distribution": "I agree to the terms and conditions of the contract",
-  "message_to_distributor_contract_distribution": "Message to distributor"
+  "message_to_distributor_contract_distribution": "Message to distributor",
+  "delete_contract_description_modal": "Are you sure you want to delete the contract? This action can not be undone.",
+  "cancel_contract_description_modal": "Are you sure you want to cancel the contract? This action can not be undone.",
+  "cancel_contract": "Cancel contract",
+  "come_back": "Come back"
 }

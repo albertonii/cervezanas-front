@@ -7,14 +7,12 @@ import { useSupabase } from "../../../../../../components/Context/SupabaseProvid
 interface Props {
   distributor_id: string;
   producer_id: string;
-  isDeleteModal: boolean;
   handleDeleteModal: ComponentProps<any>;
 }
 
 export default function DeleteContractModal({
   distributor_id,
   producer_id,
-  isDeleteModal,
   handleDeleteModal,
 }: Props) {
   const t = useTranslations();
@@ -23,11 +21,11 @@ export default function DeleteContractModal({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const handleRemoveDistributor = async () => {
+  const handleRemoveContract = async () => {
     if (!distributor_id || !producer_id) return;
 
     const { error } = await supabase
-      .from(" ")
+      .from("distribution_contracts")
       .delete()
       .eq("distributor_id", distributor_id)
       .eq("producer_id", producer_id);
@@ -35,14 +33,14 @@ export default function DeleteContractModal({
     if (error) throw error;
   };
 
-  const deleteDistributorMutation = useMutation({
-    mutationKey: ["deleteDistributor"],
-    mutationFn: handleRemoveDistributor,
+  const deleteContractMutation = useMutation({
+    mutationKey: ["deleteContract"],
+    mutationFn: handleRemoveContract,
     onMutate: () => {
       setIsSubmitting(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
+      queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
       setIsSubmitting(false);
       handleDeleteModal(false);
     },
@@ -52,11 +50,9 @@ export default function DeleteContractModal({
     },
   });
 
-  console.log(isDeleteModal);
-
   const onSubmitDelete = () => {
     try {
-      deleteDistributorMutation.mutate();
+      deleteContractMutation.mutate();
     } catch (e) {
       console.error(e);
     }
@@ -68,11 +64,11 @@ export default function DeleteContractModal({
       handler={() => {
         onSubmitDelete();
       }}
-      handlerClose={() => handleDeleteModal(false)}
-      description={t("delete_cp_description_modal")}
+      description={t("delete_contract_description_modal")}
       btnTitle={t("accept")}
       showModal={true}
-      setShowModal={handleDeleteModal}
+      setShowModal={() => {}}
+      handlerClose={handleDeleteModal}
     />
   );
 }

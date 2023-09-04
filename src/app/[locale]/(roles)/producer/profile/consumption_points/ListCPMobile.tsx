@@ -227,7 +227,7 @@ export function ListCPMobile({ cpsId }: Props) {
 
                     <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
 
-                    <td className="flex space-x-2 px-6 py-4">
+                    <td className="flex items-center justify-center px-6 py-4">
                       <IconButton
                         icon={faEdit}
                         onClick={() => {

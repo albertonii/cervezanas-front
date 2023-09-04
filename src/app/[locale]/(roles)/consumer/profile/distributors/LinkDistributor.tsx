@@ -7,9 +7,10 @@ import { SubmitContract } from "./SubmitContract";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMessage } from "../../../../../../components/message";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { DistributionStatus } from "../../../../../../lib/enums";
 
 type FormData = {
   message: string;
@@ -62,8 +63,9 @@ export default function LinkDistributor({ producerId }: Props) {
     resolver: zodResolver(schema),
   });
 
-  const { handleSubmit, reset } = form;
+  const queryClient = useQueryClient();
 
+  const { handleSubmit, reset } = form;
   const { handleMessage } = useMessage();
 
   const handleAddContract = async (formValues: FormData) => {
@@ -76,7 +78,7 @@ export default function LinkDistributor({ producerId }: Props) {
       producer_id: producerId,
       message: message,
       producer_accepted: is_signed,
-      status: "pending",
+      status: DistributionStatus.PENDING,
     });
 
     if (error) {
@@ -89,10 +91,12 @@ export default function LinkDistributor({ producerId }: Props) {
     mutationKey: ["addContract"],
     mutationFn: handleAddContract,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
       handleMessage({
         type: "success",
         message: t("contract_sent_to_distributor_success"),
       });
+
       reset();
     },
     onError: (error: Error) => {

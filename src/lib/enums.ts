@@ -6,3 +6,11 @@ export enum DistributionType {
   EUROPE = "europe",
   INTERNATIONAL = "international",
 }
+
+export enum DistributionStatus {
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  DONE = "done",
+  CANCELLED = "cancelled",
+  ERROR = "error",
+}
