@@ -15,7 +15,7 @@ const fetchDistributionByOwnerId = async (
     .from("distributor_user")
     .select(
       `*,
-      coverage_area (*,
+      coverage_areas (*,
         local_distribution(*))
       `
     )

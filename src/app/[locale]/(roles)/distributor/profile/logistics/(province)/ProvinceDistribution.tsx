@@ -117,7 +117,7 @@ export default function ProvinceDistribution({
 
   const handleUpdatePronvicesDistribution = async () => {
     const { error } = await supabase
-      .from("coverage_area")
+      .from("coverage_areas")
       .update({ provinces: selectedProvinces })
       .eq("id", coverageAreaId);
 

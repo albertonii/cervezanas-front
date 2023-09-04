@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
-import { memo, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { COMMON } from "../../constants";
 
 // const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
@@ -28,6 +28,10 @@ function DisplayImageProduct({
 }: Props) {
   const [imgSrc_, setImgSrc_] = useState<string>(imgSrc);
   const memoizedSrc = useMemo(() => imgSrc_, [imgSrc_]);
+
+  useEffect(() => {
+    setImgSrc_(imgSrc);
+  }, [imgSrc]);
 
   return (
     <Image

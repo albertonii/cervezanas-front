@@ -2,12 +2,12 @@ import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistr
 import CityDistribution from "./(city)/CityDistribution";
 import LocalDistribution from "./(local)/LocalDistribution";
 import HorizontalMenu from "./HorizontalMenu";
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { DistributionType } from "../../../../../../lib/enums";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
 import InternationalDistribution from "./(international)/InternationalDistribution";
 import EuropeDistribution from "./(europe)/EuropeDistribution";
+import React, { useState } from "react";
+import { useTranslations } from "next-intl";
+import { DistributionType } from "../../../../../../lib/enums";
 
 export default function CoverageAreas() {
   const t = useTranslations();
@@ -32,7 +32,7 @@ export default function CoverageAreas() {
             {distribution && (
               <LocalDistribution
                 localDistribution={
-                  distribution.coverage_area[0].local_distribution
+                  distribution.coverage_areas[0].local_distribution
                 }
               />
             )}
@@ -42,7 +42,9 @@ export default function CoverageAreas() {
         return (
           <>
             {distribution && (
-              <CityDistribution cities={distribution.coverage_area[0].cities} />
+              <CityDistribution
+                cities={distribution.coverage_areas[0].cities}
+              />
             )}
           </>
         );
@@ -51,8 +53,8 @@ export default function CoverageAreas() {
           <>
             {distribution && (
               <ProvinceDistribution
-                provinces={distribution?.coverage_area[0].provinces}
-                coverageAreaId={distribution.coverage_area[0].id}
+                provinces={distribution?.coverage_areas[0].provinces}
+                coverageAreaId={distribution.coverage_areas[0].id}
               />
             )}
           </>
@@ -64,8 +66,8 @@ export default function CoverageAreas() {
           <>
             {distribution && (
               <EuropeDistribution
-                countries={distribution?.coverage_area[0].europe}
-                coverageAreaId={distribution.coverage_area[0].id}
+                countries={distribution?.coverage_areas[0].europe}
+                coverageAreaId={distribution.coverage_areas[0].id}
               />
             )}
           </>
@@ -75,8 +77,8 @@ export default function CoverageAreas() {
           <>
             {distribution && (
               <InternationalDistribution
-                countries={distribution?.coverage_area[0].international}
-                coverageAreaId={distribution.coverage_area[0].id}
+                countries={distribution?.coverage_areas[0].international}
+                coverageAreaId={distribution.coverage_areas[0].id}
               />
             )}
           </>

@@ -337,7 +337,7 @@ export interface Database {
           }
         ]
       }
-      coverage_area: {
+      coverage_areas: {
         Row: {
           cities: string[] | null
           created_at: string | null
@@ -370,7 +370,7 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "coverage_area_distributor_id_fkey"
+            foreignKeyName: "coverage_areas_distributor_id_fkey"
             columns: ["distributor_id"]
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
@@ -1172,7 +1172,7 @@ export interface Database {
           {
             foreignKeyName: "local_distribution_coverage_area_id_fkey"
             columns: ["coverage_area_id"]
-            referencedRelation: "coverage_area"
+            referencedRelation: "coverage_areas"
             referencedColumns: ["id"]
           }
         ]

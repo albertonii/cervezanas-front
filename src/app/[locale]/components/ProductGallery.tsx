@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { ComponentProps, useEffect, useState } from "react";
 import { Carousel } from "../../../components/common";
@@ -7,7 +8,6 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../../../components/common";
 import { ICarouselItem } from "../../../lib/types.d";
 import { ImageModal } from "../../../components/modals/ImageModal";
-import Image from "next/image";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -23,12 +23,19 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   useEffect(() => {
-    setMain(gallery[galleryIndex] ?? "");
+    if (gallery.length === 0) return;
+    gallery[galleryIndex].imageUrl = decodeURIComponent(
+      gallery[galleryIndex].imageUrl
+    );
+
+    setMain(gallery[galleryIndex]);
   }, [gallery, galleryIndex]);
 
   const handleSetGalleryIndex = (index: number) => {
     setGalleryIndex(index);
   };
+
+  if (!main) return null;
 
   return (
     <>
@@ -57,7 +64,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
               >
                 {/* Main Image  */}
                 <DisplayImageProduct
-                  imgSrc={decodeURIComponent(main.imageUrl)}
+                  imgSrc={main.imageUrl}
                   width={350}
                   height={150}
                   alt="Product Gallery Principal Image"

@@ -6,7 +6,7 @@ import CoverageAreas from "./CoverageAreas";
 import OriginInfo from "./OriginInfo";
 
 interface Props {
-  coverageArea: Database["public"]["Tables"]["coverage_area"]["Row"];
+  coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
 }
 
 export default function CoverageArea({ coverageArea }: Props) {

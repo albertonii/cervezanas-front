@@ -87,7 +87,7 @@ export default function InternationalDistribution({
 
   const handleUpdateInternationalDistribution = async () => {
     // const { error } = await supabase
-    //   .from("coverage_area")
+    //   .from("coverage_areas")
     //   .update({ countrys: selectedCountrys })
     //   .eq("id", coverageAreaId);
     // if (error) {

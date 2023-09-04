@@ -1149,7 +1149,7 @@ export interface IDistributorUser {
   created_at: Date;
   nif: string;
   bank_account: string;
-  coverage_area: ICoverageArea[];
+  coverage_areas: ICoverageArea[];
   company_name: string;
   company_description: string;
   location_id: IProfileLocation[];
@@ -1214,7 +1214,7 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
-  // coverage_area: ICoverageArea[];
+  coverage_areas: ICoverageArea[];
 }
 
 export interface ICoverageArea {

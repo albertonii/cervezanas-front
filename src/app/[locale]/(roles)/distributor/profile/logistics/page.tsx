@@ -27,7 +27,7 @@ async function getCoverageAreaData() {
   }
 
   const { data: coverage_area, error: ordersError } = await supabase
-    .from("coverage_area")
+    .from("coverage_areas")
     .select(
       `
         *
