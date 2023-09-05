@@ -48,95 +48,58 @@ export function Sidebar() {
     }
   }, [handleKeyPress, open]);
 
-  const sidebarLinks =
-    role === "admin"
-      ? [
-          {
-            name: t("submitted_aps"),
-            icon: "user",
-            option: "profile/submitted_aps",
-          },
-          {
-            name: t("monthly_beers"),
-            icon: "beer",
-            option: "profile/monthly_beers",
-          },
-        ]
-      : role === "distributor"
-      ? [
-          {
-            name: t("profile"),
-            icon: "user",
-            option: "settings",
-          },
-          {
-            name: t("logistics"),
-            icon: "box",
-            option: "logistics",
-          },
-          {
-            name: t("online_orders"),
-            icon: "box",
-            option: "orders",
-          },
-          {
-            name: t("feedback"),
-            icon: "box",
-            option: "feedback",
-          },
-        ]
-      : [
-          {
-            name: t("profile"),
-            icon: "user",
-            option: "settings",
-          },
-          {
-            name: t("products"),
-            icon: "box",
-            option: "products",
-          },
-          {
-            name: t("campaigns"),
-            icon: "gift",
-            option: "campaigns",
-          },
-          {
-            name: t("events"),
-            icon: "location",
-            option: "events",
-          },
-          {
-            name: t("consumption_points"),
-            icon: "location",
-            option: "consumption_points",
-          },
-          {
-            name: t("factories"),
-            icon: "truck",
-            option: "factories",
-          },
-          {
-            name: t("event_orders"),
-            icon: "shopping-cart",
-            option: "event_orders",
-          },
-          {
-            name: t("online_orders"),
-            icon: "shopping-cart",
-            option: "orders",
-          },
-          {
-            name: t("reviews"),
-            icon: "review",
-            option: "reviews",
-          },
-          {
-            name: t("watchlist"),
-            icon: "watchlist",
-            option: "likes_history",
-          },
-        ];
+  const sidebarLinks = [
+    {
+      name: t("profile"),
+      icon: "user",
+      option: "settings",
+    },
+    {
+      name: t("products"),
+      icon: "box",
+      option: "products",
+    },
+    {
+      name: t("distributors_associated"),
+      icon: "truck",
+      option: "distributors",
+    },
+    {
+      name: t("campaigns"),
+      icon: "gift",
+      option: "campaigns",
+    },
+    {
+      name: t("events"),
+      icon: "location",
+      option: "events",
+    },
+    {
+      name: t("consumption_points"),
+      icon: "location",
+      option: "consumption_points",
+    },
+    {
+      name: t("event_orders"),
+      icon: "shopping-cart",
+      option: "event_orders",
+    },
+    {
+      name: t("online_orders"),
+      icon: "shopping-cart",
+      option: "orders",
+    },
+    {
+      name: t("reviews"),
+      icon: "review",
+      option: "reviews",
+    },
+    {
+      name: t("watchlist"),
+      icon: "watchlist",
+      option: "likes_history",
+    },
+  ];
 
   return (
     <>
