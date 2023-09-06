@@ -106,6 +106,13 @@ export const AuthContextProvider = ({
       const {
         data: { session: activeSession },
       } = await supabase.auth.getSession();
+
+      // If the user login with the provider the role is going to be consumer
+      if (activeSession?.user?.app_metadata?.provider?.includes("google")) {
+        setRole(ROLE_ENUM.Cervezano);
+        return;
+      }
+
       // Set role for the user and load different layouts
       setRole(activeSession?.user?.user_metadata?.access_level);
     }
@@ -121,6 +128,7 @@ export const AuthContextProvider = ({
       ) {
         router.refresh();
       }
+
       switch (event) {
         case EVENTS.INITIAL_SESSION:
           setInitial(false);
@@ -229,25 +237,40 @@ export const AuthContextProvider = ({
   const signInWithProvider = async (provider: Provider) => {
     let isAccessLevel = false;
     let user = null;
-    await supabase.auth.signInWithOAuth({ provider }).then(async (res: any) => {
-      user = res.user;
-      if (user?.user_metadata && user.user_metadata?.access_level) {
-        isAccessLevel = user.user_metadata?.access_level ? true : false;
-      } else {
-        isAccessLevel = false;
-      }
-    });
 
-    // Check if access level is null or invalid
-    if (!isAccessLevel && user) {
-      // Send user role producer to the server
-      await supabase.rpc("set_claim", {
-        // uid: user.id,
-        uid: "",
-        claim: "access_level",
-        value: ROLE_ENUM.Cervezano,
+    // Si acceden con Google, por defecto son consumidores
+    // Google does not send out a refresh token by default, so you will need to pass
+    // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
+    await supabase.auth
+      .signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/${locale}`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      })
+      .then(async (res: any) => {
+        // user = res.user;
+        // if (user?.user_metadata && user.user_metadata?.access_level) {
+        //   isAccessLevel = user.user_metadata?.access_level ? true : false;
+        // } else {
+        //   isAccessLevel = false;
+        // }
       });
-    }
+
+    // // Check if access level is null or invalid
+    // if (!isAccessLevel && user) {
+    //   // Send user role producer to the server
+    //   await supabase.rpc("set_claim", {
+    //     // uid: user.id,
+    //     uid: "",
+    //     claim: "access_level",
+    //     value: ROLE_ENUM.Cervezano,
+    //   });
+    // }
   };
 
   const signOut = async () => {

@@ -583,5 +583,6 @@
   "delete_contract_description_modal": "Are you sure you want to delete the contract? This action can not be undone.",
   "cancel_contract_description_modal": "Are you sure you want to cancel the contract? This action can not be undone.",
   "cancel_contract": "Cancel contract",
-  "come_back": "Come back"
+  "come_back": "Come back",
+  "sign_in_success": "Sign in success"
 }

@@ -44,6 +44,8 @@ export default function SignIn() {
   const { signInWithProvider, signIn, user } = useAuth();
 
   const t = useTranslations();
+  const signInMessage = t("sign_in_success");
+
   const locale = useLocale();
 
   const {
@@ -74,16 +76,11 @@ export default function SignIn() {
   const handleCredentialsMutation = useMutation({
     mutationKey: "credentialsSignIn",
     mutationFn: handleCredentialsSignIn,
-    onMutate: () => {
-      // handleMessage({
-      //   type: "loading",
-      //   message: t("signing_in"),
-      // });
-    },
+    onMutate: () => {},
     onSuccess: () => {
       handleMessage({
         type: "success",
-        message: t("sign_in_success"),
+        message: signInMessage,
       });
     },
     onError: (error: Error) => {

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { Sidebar } from "./Sidebar";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import DisplayImageProfile from "../../../../../components/common/DisplayImageProfile";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -117,13 +118,9 @@ export default function layout({ children }: LayoutProps) {
                 <div className="absolute bottom-20">
                   <div className="w-64  ">
                     <div className="relative" onClick={() => handleClick()}>
-                      <Image
-                        className="absolute h-36 w-36 rounded-full"
-                        src={profileImg_}
-                        onError={() => setProfileImg_(COMMON.PROFILE_IMG)}
-                        alt=""
-                        width={240}
-                        height={240}
+                      <DisplayImageProfile
+                        imgSrc={profileImg_}
+                        class={"absolute h-36 w-36 rounded-full"}
                       />
 
                       <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
