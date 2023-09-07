@@ -17,6 +17,7 @@ module.exports = withNextIntl({
       "tailwindui.com",
       "images.pexels.com",
       "i.ibb.co",
+      "lh3.googleusercontent.com",
     ],
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 60,

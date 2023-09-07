@@ -5,7 +5,7 @@ import React, { useEffect, useState, createContext, useMemo } from "react";
 import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../Context/SupabaseProvider";
-import { ROLE_ENUM } from "../../lib/types.d";
+import { IUserProfile, PROVIDER_TYPE, ROLE_ENUM } from "../../lib/types.d";
 import { useMessage } from "../message";
 import { EVENTS, VIEWS } from "../../constants";
 import { useLocale, useTranslations } from "next-intl";
@@ -33,13 +33,14 @@ export interface AuthSession {
   initial: boolean;
   user: any;
   error: any;
-  role: ROLE_ENUM | null;
   isLoading: boolean;
   signUp: (payload: SignUpWithPasswordCredentials) => void;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
   supabase: SupabaseClient | null;
+  role: ROLE_ENUM | null;
+  provider: PROVIDER_TYPE | null;
 }
 
 export const AuthContext = createContext<AuthSession>({
@@ -53,6 +54,7 @@ export const AuthContext = createContext<AuthSession>({
   signInWithProvider: async () => void {},
   signOut: async () => void {},
   supabase: null,
+  provider: null,
 });
 
 export const AuthContextProvider = ({
@@ -72,6 +74,8 @@ export const AuthContextProvider = ({
   const { supabase } = useSupabase();
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
+  const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
+
   const { handleMessage, clearMessages } = useMessage();
 
   const getUser = async () => {
@@ -89,7 +93,7 @@ export const AuthContextProvider = ({
       console.error(error);
       return null;
     } else {
-      return user;
+      return user as IUserProfile;
     }
   };
 
@@ -108,8 +112,13 @@ export const AuthContextProvider = ({
       } = await supabase.auth.getSession();
 
       // If the user login with the provider the role is going to be consumer
-      if (activeSession?.user?.app_metadata?.provider?.includes("google")) {
+      if (
+        activeSession?.user?.app_metadata?.provider?.includes(
+          PROVIDER_TYPE.GOOGLE
+        )
+      ) {
         setRole(ROLE_ENUM.Cervezano);
+        setProvider(PROVIDER_TYPE.GOOGLE);
         return;
       }
 
@@ -290,6 +299,7 @@ export const AuthContextProvider = ({
       signInWithProvider,
       signOut,
       supabase,
+      provider,
     };
   }, [
     initial,
@@ -303,6 +313,7 @@ export const AuthContextProvider = ({
     signInWithProvider,
     signOut,
     supabase,
+    provider,
   ]);
 
   return <AuthContext.Provider value={value}> {children}</AuthContext.Provider>;

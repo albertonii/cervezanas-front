@@ -1905,6 +1905,7 @@ export interface Database {
           created_at: string | null
           email: string | null
           id: string
+          isProvider: boolean | null
           lastname: string | null
           name: string | null
           role: string | null
@@ -1919,6 +1920,7 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id: string
+          isProvider?: boolean | null
           lastname?: string | null
           name?: string | null
           role?: string | null
@@ -1933,6 +1935,7 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id?: string
+          isProvider?: boolean | null
           lastname?: string | null
           name?: string | null
           role?: string | null

@@ -75,10 +75,22 @@ interface Props {
 }
 
 export function AppContextProvider(props: Props) {
+  const { user, provider } = useAuth();
+
+  if (!user) return <>{props.children}</>;
+
   const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+
+  const decodeUriProfileImg = provider
+    ? user.avatar_url
+    : decodeURIComponent(`${fullProfilePhotoUrl}${user.id}`);
+  console.log(user);
+  const decodeUriCustomImg = provider
+    ? user.bg_url
+    : decodeURIComponent(`${fullCustomUrl}${user.id}`);
 
   const [filters, setFilters] = useState({
     category: "all",
@@ -106,17 +118,9 @@ export function AppContextProvider(props: Props) {
     setImageData(rest);
   };
 
-  const { user } = useAuth();
-
   const { refetch } = useFetchNotifications(user?.id ?? "");
 
   const [openNotification, setOpenNotification] = useState(false);
-
-  const decodeUriProfileImg = decodeURIComponent(
-    `${fullProfilePhotoUrl}${user?.id}`
-  );
-
-  const decodeUriCustomImg = decodeURIComponent(`${fullCustomUrl}${user?.id}`);
 
   const [bgImg, setBgImg] = useState(
     decodeUriCustomImg ?? `/icons/profile-240.png`
@@ -136,13 +140,14 @@ export function AppContextProvider(props: Props) {
   };
 
   useEffect(() => {
-    if (!user?.id) return;
-    refetch().then(() => {
-      // TODO: VOLVER AQUI!
-      // const notifications: INotification[] = res.data;
-      // setNotifications(notifications);
-    });
-  }, []);
+    if (!user) return;
+
+    // refetch().then(() => {
+    // TODO: VOLVER AQUI!
+    // const notifications: INotification[] = res.data;
+    // setNotifications(notifications);
+    // });
+  }, [user]);
 
   const value = {
     filters,

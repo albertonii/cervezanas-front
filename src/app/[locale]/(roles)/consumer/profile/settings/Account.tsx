@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { IProfile } from "../../../../../../lib/types";
 import { BasicDataForm } from "./BasicDataForm";
+import { CustomizeProfileForm } from "./CustomizeProfileForm";
 import { SecretDataForm } from "./SecretDataForm";
 
 interface Props {
@@ -30,6 +31,7 @@ export function Account({ profile }: Props) {
           <BasicDataForm profile={profile} />
           <SecretDataForm />
           {/* <LocationForm profile_location={profile.profile_location} /> */}
+          <CustomizeProfileForm profile={profile} />
         </div>
       </div>
     </>

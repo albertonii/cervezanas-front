@@ -1120,12 +1120,32 @@ export interface IUser {
   consumption_points: IConsumptionPoints;
 }
 
+export interface IUserProfile {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  lastname: string;
+  role: string;
+  updated_at: string;
+  isProvider: boolean;
+  created_at: string;
+  cp_organizer_status: number;
+  birthdate: string;
+  bg_url: string;
+  avatar_url: string;
+}
+
 export enum ROLE_ENUM {
   Cervezano = "consumer",
   Productor = "producer",
   Moderator = "moderator",
   Distributor = "distributor",
   Admin = "admin",
+}
+
+export enum PROVIDER_TYPE {
+  GOOGLE = "google",
 }
 
 export interface IDistributorUser_Profile {
