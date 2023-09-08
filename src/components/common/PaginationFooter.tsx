@@ -48,7 +48,7 @@ export default function PaginationFooter({
   };
 
   const renderPaginationButtons = () => (
-    <div className="max-1/2 lg:max-w-3/4 my-4 flex items-center justify-center gap-4 py-4">
+    <footer className="max-1/2 lg:max-w-3/4 my-4 flex items-center justify-center gap-4 py-4">
       <Button
         onClick={() => handlePrevPage()}
         small
@@ -90,7 +90,7 @@ export default function PaginationFooter({
           className={``}
         />
       </Button>
-    </div>
+    </footer>
   );
 
   return <>{renderPaginationButtons()}</>;

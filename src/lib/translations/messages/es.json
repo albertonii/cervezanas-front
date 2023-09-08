@@ -369,6 +369,8 @@
   "status_delivered": "Entregado",
   "status_started": "Iniciado",
   "status_pending": "Pendiente",
+  "status_accepted": "Aceptado",
+  "status_rejected": "Rechazado",
   "payment_information": "Información de pago",
   "ending_with": "Terminada en ",
   "expires_at": "Caduca el ",
@@ -599,5 +601,10 @@
   "cancel_contract_description_modal": "¿Está seguro de que desea cancelar el contrato? Esta acción no se puede deshacer.",
   "cancel_contract": "Cancelar contrato",
   "come_back": "Volver",
-  "sign_in_success": "Sesión iniciada correctamente"
+  "sign_in_success": "Sesión iniciada correctamente",
+  "contracts": "Contratos",
+  "created_at": "Fecha de creación",
+  "contract_info": "Información del contrato",
+  "approve_contract": "Aprobar contrato",
+  "reject_contract": "Rechazar contrato"
 }

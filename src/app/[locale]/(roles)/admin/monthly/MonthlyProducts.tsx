@@ -1,15 +1,15 @@
 "use client";
 
-import DisplayImageProduct from "../../common/DisplayImageProduct";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import Link from "next/link";
-import AddMonthlyProduct from "../../modals/AddMonthlyProduct";
+import AddMonthlyProduct from "../../../../../components/modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IMonthlyProduct } from "../../../lib/types.d";
-import { DeleteButton, EditButton } from "../../common";
-import { DeleteMonthlyProduct } from "../../modals/DeleteMonthlyProduct";
-import { useSupabase } from "../../Context/SupabaseProvider";
-import { SupabaseProps } from "../../../constants";
+import { IMonthlyProduct } from "../../../../../lib/types";
+import { DeleteButton, EditButton } from "../../../../../components/common";
+import { DeleteMonthlyProduct } from "../../../../../components/modals/DeleteMonthlyProduct";
+import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import { SupabaseProps } from "../../../../../constants";
 
 interface Props {
   mProducts: IMonthlyProduct[];

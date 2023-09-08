@@ -14,6 +14,7 @@ import {
   Spinner,
 } from "../../../../../../components/common";
 import { formatDate } from "../../../../../../utils";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   cpsId: string;
@@ -28,10 +29,6 @@ export function ListCPMobile({ cpsId }: Props) {
 
   const mobileCount = 1;
   const resultsPerPage = 10;
-  const finalPage =
-    mobileCount < currentPage * resultsPerPage
-      ? mobileCount
-      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchCPMobile(
     cpsId,
@@ -90,18 +87,6 @@ export function ListCPMobile({ cpsId }: Props) {
   const handleDeleteClick = async (cp: ICPMobile) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(mobileCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
   };
 
   const handleEditModal = (isEdit: boolean) => {
@@ -260,24 +245,12 @@ export function ListCPMobile({ cpsId }: Props) {
             </tbody>
           </table>
 
-          {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: mobileCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
-          </div>
+          <PaginationFooter
+            counter={mobileCount}
+            resultsPerPage={resultsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </>
       )}
     </div>

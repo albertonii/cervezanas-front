@@ -87,7 +87,6 @@ export function AppContextProvider(props: Props) {
   const decodeUriProfileImg = provider
     ? user.avatar_url
     : decodeURIComponent(`${fullProfilePhotoUrl}${user.id}`);
-  console.log(user);
   const decodeUriCustomImg = provider
     ? user.bg_url
     : decodeURIComponent(`${fullCustomUrl}${user.id}`);

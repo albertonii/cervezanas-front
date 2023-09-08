@@ -10,13 +10,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
-import { IConsumptionPoints, SortBy } from "../../../lib/types.d";
-import { formatDate } from "../../../utils";
-import { generateDownloadableLink } from "../../../utils/utils";
-import { IconButton } from "../../common";
-import { Modal } from "../../modals";
-import { useAuth } from "../../Auth";
-import { useSupabase } from "../../Context/SupabaseProvider";
+import { IConsumptionPoints, SortBy } from "../../../../../lib/types";
+import { formatDate } from "../../../../../utils";
+import { generateDownloadableLink } from "../../../../../utils/utils";
+import { IconButton } from "../../../../../components/common";
+import { Modal } from "../../../../../components/modals";
+import { useAuth } from "../../../../../components/Auth";
+import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -52,10 +52,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     });
   }, [submittedList, query]);
 
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
-
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
 
@@ -68,6 +64,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       return extractProperty(a).localeCompare(extractProperty(b));
     });
   }, [filteredItems, sorting]);
+
+  const handleChangeSort = (sort: SortBy) => {
+    setSorting(sort);
+  };
 
   // Remove from submitted list after accepting or rejecting
   const removeFromSubmittedList = (id: string) => {
@@ -319,7 +319,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   />
                 </td>
 
-                <td className="flex px-6 py-4 ">
+                <td className="flex items-center justify-center px-6 py-4">
                   <IconButton
                     icon={faCheck}
                     onClick={() => handleApproveClick(cp)}

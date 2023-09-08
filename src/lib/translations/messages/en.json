@@ -356,6 +356,8 @@
   "status_delivered": "Delivered",
   "status_started": "Started",
   "status_pending": "Pending",
+  "status_accepted": "Accepted",
+  "status_rejected": "Rejected",
   "payment_information": "Payment Information",
   "ending_with": "Ending with ",
   "expires_at": "Expires ",
@@ -584,5 +586,10 @@
   "cancel_contract_description_modal": "Are you sure you want to cancel the contract? This action can not be undone.",
   "cancel_contract": "Cancel contract",
   "come_back": "Come back",
-  "sign_in_success": "Sign in success"
+  "sign_in_success": "Sign in success",
+  "contracts": "Contracts",
+  "created_at": "Created at",
+  "contract_info": "Contract information",
+  "approve_contract": "Approve contract",
+  "reject_contract": "Reject contract"
 }

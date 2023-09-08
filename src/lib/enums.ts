@@ -10,7 +10,8 @@ export enum DistributionType {
 export enum DistributionStatus {
   PENDING = "pending",
   IN_PROGRESS = "in_progress",
-  DONE = "done",
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
   CANCELLED = "cancelled",
   ERROR = "error",
 }

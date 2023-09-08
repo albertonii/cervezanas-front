@@ -1198,6 +1198,7 @@ export interface IProducerUser {
   company_name: string;
   company_description: string;
   location_id: IProfileLocation[];
+  users: IUser; // To access embeded information we need to get into the table and the look for data
 }
 
 export interface IDistributionContract {

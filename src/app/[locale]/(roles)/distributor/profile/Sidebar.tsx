@@ -75,6 +75,11 @@ export function Sidebar() {
             option: "logistics",
           },
           {
+            name: t("contracts"),
+            icon: "box",
+            option: "contracts",
+          },
+          {
             name: t("online_orders"),
             icon: "box",
             option: "orders",
