@@ -40,10 +40,6 @@ export default function EventList({ cpsMobile }: Props) {
 
   const counter = 1;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,

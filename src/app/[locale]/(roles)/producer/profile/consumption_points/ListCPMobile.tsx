@@ -40,10 +40,6 @@ export function ListCPMobile({ cpsId }: Props) {
 
   const counter = 1;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchCPMobile(
     cpsId,

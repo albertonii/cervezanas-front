@@ -39,10 +39,6 @@ export default function ListAvailableDistributors({
 
   const counter = 1;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   /* Fetch the distributors that the user can be associated  */
   const {

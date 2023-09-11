@@ -37,10 +37,6 @@ export function EventOrderList({ eventOrders: os }: Props) {
 
   const counter = os.length;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const router = useRouter();
 

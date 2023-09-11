@@ -58,10 +58,6 @@ export function ProductList({
   const products = ps?.filter((product) => !product.is_archived);
 
   const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const COLUMNS = [
     { header: t("product_type_header") },

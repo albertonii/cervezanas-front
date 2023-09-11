@@ -36,10 +36,6 @@ export function OrderList({ orders: os }: Props) {
 
   const counter = os.length;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const locale = useLocale();
   const router = useRouter();

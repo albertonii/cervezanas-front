@@ -1,46 +1,35 @@
 "use client";
 
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../../../../../components/Auth";
+import { useLocale, useTranslations } from "next-intl";
 import { IEventOrder } from "../../../../../../lib/types";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
+import { IconButton, Spinner } from "../../../../../../components/common";
 import { formatCurrency } from "../../../../../../utils";
 import { encodeBase64 } from "../../../../../../utils/utils";
-import { useAuth } from "../../../../../../components/Auth";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
-
-interface Props {
-  eventOrders: IEventOrder[];
-}
 
 interface ColumnsProps {
   header: string;
 }
 
-export function EventOrderList({ eventOrders: os }: Props) {
+export function EventOrderList() {
   const { user } = useAuth();
   if (!user) return null;
+
+  const [isReady, setIsReady] = useState(false);
 
   const t = useTranslations();
   const locale = useLocale();
 
-  const [orders, setOrders] = useState<IEventOrder[]>(os);
+  const [orders, setOrders] = useState<IEventOrder[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const ordersCount = os.length;
   const resultsPerPage = 10;
-  const finalPage =
-    ordersCount < currentPage * resultsPerPage
-      ? ordersCount
-      : currentPage * resultsPerPage;
 
   const router = useRouter();
 
@@ -54,8 +43,11 @@ export function EventOrderList({ eventOrders: os }: Props) {
     refetch().then((res: any) => {
       const orders = res.data as IEventOrder[];
       setOrders(orders);
+      setIsReady(true);
     });
   }, [currentPage]);
+
+  useEffect(() => {}, [isReady]);
 
   const COLUMNS = [
     { header: t("order_number_header") },
@@ -81,6 +73,8 @@ export function EventOrderList({ eventOrders: os }: Props) {
       return orders.status.includes(query);
     });
   }, [orders, query]);
+
+  if (!isReady) return <Spinner color="beer-blonde" size="xLarge" center />;
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -185,7 +179,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
             <PaginationFooter
-              counter={ordersCount}
+              counter={orders.length}
               resultsPerPage={resultsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

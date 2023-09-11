@@ -41,10 +41,6 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
 
   const counter = 1;
   const resultsPerPage = 10;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   /* Fetch the distributors that the user can be associated  */
   const {

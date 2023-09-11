@@ -40,10 +40,6 @@ export function ListCPFixed({ cpsId }: Props) {
 
   const fixedCount = 10;
   const resultsPerPage = 10;
-  const finalPage =
-    fixedCount < currentPage * resultsPerPage
-      ? fixedCount
-      : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchCPFixed(
     cpsId,

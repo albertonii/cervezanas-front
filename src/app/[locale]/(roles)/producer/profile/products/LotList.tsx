@@ -43,10 +43,6 @@ export function LotList({
   } = useFetchLotsByOwnerAndPagination(user.id, currentPage, resultsPerPage);
 
   const counter = lots?.length ?? 0;
-  const finalPage =
-    counter < currentPage * resultsPerPage
-      ? counter
-      : currentPage * resultsPerPage;
 
   const COLUMNS = [
     { header: t("product_type_header") },

@@ -35,10 +35,10 @@ const useFetchCPOrders = (
   const { supabase } = useSupabase();
 
   return useQuery({
-    queryKey: ["orders"],
+    queryKey: ["event_orders"],
     queryFn: () =>
       fetchCPOrders(ownerId, currentPage, resultsPerPage, supabase),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };
