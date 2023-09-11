@@ -15,14 +15,7 @@ const fetchCPOrders = async (
       `
       *,
       shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_items (*)
-      )
+      billing_info(id, *)
     `
     )
     .eq("owner_id", ownerId)

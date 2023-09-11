@@ -568,7 +568,7 @@ export interface IOrder {
   currency: string;
   discount: number;
   discount_code: string;
-  products: IOrderItem[];
+  // products: IOrderItem[];
   order_number: string;
   order_items: IOrderItem[];
 }

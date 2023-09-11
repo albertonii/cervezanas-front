@@ -1,46 +1,39 @@
 "use client";
 
-import useFetchCPOrders from "../../../../../../hooks/useFetchOrders";
+import useFetchOrders from "../../../../../../hooks/useFetchOrders";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
+import { IconButton, Spinner } from "../../../../../../components/common";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../../../components/Auth";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
-
-interface Props {
-  orders: IOrder[];
-}
 
 interface ColumnsProps {
   header: string;
 }
 
-export function OrderList({ orders: os }: Props) {
+export function OrderList() {
   const { user } = useAuth();
   if (!user) return null;
 
+  const [isReady, setIsReady] = useState(false);
+
   const t = useTranslations();
 
-  const [orders, setOrders] = useState<IOrder[]>(os);
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const counter = os.length;
   const resultsPerPage = 10;
 
   const locale = useLocale();
   const router = useRouter();
 
-  const { isError, isLoading, refetch } = useFetchCPOrders(
+  const { isError, isLoading, refetch } = useFetchOrders(
     user.id,
     currentPage,
     resultsPerPage
@@ -50,12 +43,12 @@ export function OrderList({ orders: os }: Props) {
     refetch().then((res) => {
       const orders = res.data as IOrder[];
       setOrders(orders);
+      setIsReady(true);
     });
   }, [currentPage]);
 
   const COLUMNS = [
     { header: t("order_number_header") },
-    { header: t("name_header") },
     { header: t("price_header") },
     { header: t("status_header") },
     { header: t("tracking_number_header") },
@@ -78,6 +71,8 @@ export function OrderList({ orders: os }: Props) {
       return orders.status.includes(query);
     });
   }, [orders, query]);
+
+  if (!isReady) return <Spinner color="beer-blonde" size="xLarge" center />;
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -148,8 +143,6 @@ export function OrderList({ orders: os }: Props) {
                     >
                       <td className="px-6 py-4">{order.order_number}</td>
 
-                      <td className="px-6 py-4">{order.customer_name}</td>
-
                       <td className="px-6 py-4">
                         {formatCurrency(order.total)}
                       </td>
@@ -181,7 +174,7 @@ export function OrderList({ orders: os }: Props) {
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
             <PaginationFooter
-              counter={counter}
+              counter={orders?.length}
               resultsPerPage={resultsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

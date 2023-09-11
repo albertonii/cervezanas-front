@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types";
 import { EventOrderList } from "./EventOrderList";
 
 export function EventOrders() {
