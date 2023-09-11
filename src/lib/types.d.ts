@@ -591,11 +591,11 @@ export interface IOrderItem {
 
 export interface IEventOrder {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   status: string;
-  customer_id: IUser;
-  event_id: IEvent;
+  customer_id: string;
+  event_id: string;
   payment_method: PaymentCardMethod;
   total: number;
   subtotal: number;
@@ -605,6 +605,8 @@ export interface IEventOrder {
   discount_code: string;
   event_order_items: IEventOrderItem[];
   order_number: string;
+  users: IUser;
+  events: IEvent;
   // cp_m_owner: ICPMobile;
 }
 

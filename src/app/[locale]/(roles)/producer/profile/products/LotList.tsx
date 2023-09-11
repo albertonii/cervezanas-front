@@ -11,6 +11,7 @@ import {
   Spinner,
 } from "../../../../../../components/common";
 import { formatDateString } from "../../../../../../utils";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
@@ -41,10 +42,10 @@ export function LotList({
     isLoading,
   } = useFetchLotsByOwnerAndPagination(user.id, currentPage, resultsPerPage);
 
-  const lotsCount = lots?.length ?? 0;
+  const counter = lots?.length ?? 0;
   const finalPage =
-    lotsCount < currentPage * resultsPerPage
-      ? lotsCount
+    counter < currentPage * resultsPerPage
+      ? counter
       : currentPage * resultsPerPage;
 
   const COLUMNS = [
@@ -74,18 +75,6 @@ export function LotList({
       return lot.lot_name.toLowerCase().includes(query.toLowerCase());
     });
   }, [lots, query]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(lotsCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -198,21 +187,12 @@ export function LotList({
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: lotsCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={counter}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

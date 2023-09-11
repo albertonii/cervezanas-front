@@ -189,7 +189,29 @@ export const AuthContextProvider = ({
         return;
       }
 
-      const { error } = await supabase.auth.signUp(payload);
+      const { error, data } = await supabase.auth.signUp(payload);
+      console.log(data);
+      // Get access_level from the user
+      const access_level = data?.user_metadata?.access_level;
+      console.log(access_level);
+      if (access_level === ROLE_ENUM.Productor) {
+        console.log(access_level);
+
+        const { error: roleError } = await supabase
+          .from("producer_user")
+          .insert({
+            user: data?.id,
+          });
+
+        if (roleError) {
+          handleMessage({
+            message: roleError.message,
+            type: "error",
+          });
+          return;
+        }
+      }
+
       if (error) {
         handleMessage({ message: error.message, type: "error" });
       } else {

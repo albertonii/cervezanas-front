@@ -16,6 +16,7 @@ import {
   Spinner,
 } from "../../../../../../components/common";
 import { formatCurrency } from "../../../../../../utils";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -56,11 +57,10 @@ export function ProductList({
 
   const products = ps?.filter((product) => !product.is_archived);
 
-  const productsCount =
-    ps?.filter((product) => !product.is_archived).length ?? 0;
+  const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
   const finalPage =
-    productsCount < currentPage * resultsPerPage
-      ? productsCount
+    counter < currentPage * resultsPerPage
+      ? counter
       : currentPage * resultsPerPage;
 
   const COLUMNS = [
@@ -117,18 +117,6 @@ export function ProductList({
       return product.name?.toLowerCase().includes(query.toLowerCase());
     });
   }, [products, query]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(productsCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -267,17 +255,12 @@ export function ProductList({
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums")}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={counter}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

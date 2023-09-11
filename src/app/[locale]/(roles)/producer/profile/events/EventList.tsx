@@ -14,6 +14,7 @@ import {
   IconButton,
   Spinner,
 } from "../../../../../../components/common";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 enum SortBy {
   NONE = "none",
@@ -37,11 +38,11 @@ export default function EventList({ cpsMobile }: Props) {
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fixedCount = 1;
+  const counter = 1;
   const resultsPerPage = 10;
   const finalPage =
-    fixedCount < currentPage * resultsPerPage
-      ? fixedCount
+    counter < currentPage * resultsPerPage
+      ? counter
       : currentPage * resultsPerPage;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
@@ -101,18 +102,6 @@ export default function EventList({ cpsMobile }: Props) {
   const handleDeleteClick = async (e: IEvent) => {
     setIsDeleteModal(true);
     setSelectedEvent(e);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
   };
 
   const handleEditModal = (isEdit: boolean) => {
@@ -273,21 +262,12 @@ export default function EventList({ cpsMobile }: Props) {
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: fixedCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={counter}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

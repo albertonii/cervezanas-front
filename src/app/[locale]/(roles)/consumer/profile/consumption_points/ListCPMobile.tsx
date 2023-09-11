@@ -8,11 +8,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPMobile, SortBy } from "../../../../../../lib/types";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
+import { IconButton, Spinner } from "../../../../../../components/common";
 import { formatDate } from "../../../../../../utils";
 import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 

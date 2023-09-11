@@ -239,7 +239,7 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
                       />
 
                       {/* If the contract is not beign signed yet, we can cancel it  */}
-                      {contract.status !== DistributionStatus.DONE && (
+                      {contract.status !== DistributionStatus.ACCEPTED && (
                         <IconButton
                           icon={faBan}
                           onClick={() => {

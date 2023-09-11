@@ -32,10 +32,11 @@ async function getEventOrdersData() {
     .select(
       `
         *,
-        customer_id (*)
+        users!event_orders_customer_id_fkey (id, email, username)
       `
     )
     .eq("customer_id", session.user.id);
+
   if (eventOrdersError) throw eventOrdersError;
 
   return eventOrdersData as IEventOrder[];

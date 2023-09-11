@@ -14,6 +14,7 @@ import {
   IconButton,
   Spinner,
 } from "../../../../../../components/common";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   cpsId: string;
@@ -101,18 +102,6 @@ export function ListCPFixed({ cpsId }: Props) {
   const handleDeleteClick = async (cp: ICPFixed) => {
     setIsDeleteModal(true);
     setSelectedCP(cp);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(fixedCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
   };
 
   const handleEditModal = (isEdit: boolean) => {
@@ -265,21 +254,12 @@ export function ListCPFixed({ cpsId }: Props) {
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: fixedCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={fixedCount}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

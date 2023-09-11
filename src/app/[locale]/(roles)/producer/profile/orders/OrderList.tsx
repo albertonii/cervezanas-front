@@ -14,6 +14,7 @@ import {
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../../../components/Auth";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   orders: IOrder[];
@@ -33,11 +34,11 @@ export function OrderList({ orders: os }: Props) {
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const ordersCount = os.length;
+  const counter = os.length;
   const resultsPerPage = 10;
   const finalPage =
-    ordersCount < currentPage * resultsPerPage
-      ? ordersCount
+    counter < currentPage * resultsPerPage
+      ? counter
       : currentPage * resultsPerPage;
 
   const locale = useLocale();
@@ -81,18 +82,6 @@ export function OrderList({ orders: os }: Props) {
       return orders.status.includes(query);
     });
   }, [orders, query]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(ordersCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -195,21 +184,12 @@ export function OrderList({ orders: os }: Props) {
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: ordersCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={counter}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

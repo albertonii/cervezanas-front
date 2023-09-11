@@ -16,6 +16,7 @@ import { useAuth } from "../../../../../../components/Auth";
 import { useAppContext } from "../../../../../../components/Context";
 import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
 import { formatCurrency } from "../../../../../../utils";
+import PaginationFooter from "../../../../../../components/common/PaginationFooter";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -46,12 +47,12 @@ export function ProductsArchiveList({
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const productsCount = ps.filter((product) => product.is_archived).length;
+  const counter = ps.filter((product) => product.is_archived).length;
 
   const resultsPerPage = 10;
   const finalPage =
-    productsCount < currentPage * resultsPerPage
-      ? productsCount
+    counter < currentPage * resultsPerPage
+      ? counter
       : currentPage * resultsPerPage;
 
   const { isError, isLoading, refetch } = useFetchProductsByOwner(
@@ -125,18 +126,6 @@ export function ProductsArchiveList({
       return product.name.toLowerCase().includes(query.toLowerCase());
     });
   }, [products, query]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(productsCount / resultsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -280,21 +269,12 @@ export function ProductsArchiveList({
 
           {/* Prev and Next button for pagination  */}
           <div className="my-4 flex items-center justify-around">
-            <Button class="" onClick={() => handlePrevPage()} small primary>
-              {t("prev")}
-            </Button>
-
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {t("pagination_footer_nums", {
-                from: currentPage,
-                to: finalPage,
-                total: productsCount,
-              })}
-            </p>
-
-            <Button class="" onClick={() => handleNextPage()} small primary>
-              {t("next")}
-            </Button>
+            <PaginationFooter
+              counter={counter}
+              resultsPerPage={resultsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </>
       )}

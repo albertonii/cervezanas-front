@@ -85,15 +85,6 @@ export const SignUpForm = () => {
       username: "",
       email: "",
       password: "",
-      // avatar_url: "",
-      // email_verified: false,
-      // full_name: "",
-      // iss: "",
-      // name: "",
-      // lastname: "",
-      // picture: "",
-      // provider_id: "",
-      // sub: "",
     },
   });
 
