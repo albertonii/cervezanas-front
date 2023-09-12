@@ -22,6 +22,7 @@ import {
 } from "../../../../../constants";
 import { EventCheckoutItem } from "../../../../../components/checkout/EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
+import { IProductPackCartItem } from "../../../../../lib/types";
 
 export default function EventBasket() {
   const t = useTranslations();
@@ -49,7 +50,7 @@ export default function EventBasket() {
   useEffect(() => {
     let subtotal = 0;
     cart.map((item) => {
-      item.packs.map((pack) => {
+      item.packs.map((pack: IProductPackCartItem) => {
         subtotal += pack.price * pack.quantity;
       });
     });
@@ -99,7 +100,7 @@ export default function EventBasket() {
     if (orderError) throw orderError;
 
     cart.map(async (item) => {
-      item.packs.map(async (pack) => {
+      item.packs.map(async (pack: IProductPackCartItem) => {
         const { error: orderItemError } = await supabase
           .from("event_order_items")
           .insert({
@@ -234,6 +235,7 @@ export default function EventBasket() {
                   <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                     {t("customer_s_cart")}
                   </p>
+
                   {cart?.length > 0 ? (
                     <div className="w-full">
                       {cart.map((productPack) => {

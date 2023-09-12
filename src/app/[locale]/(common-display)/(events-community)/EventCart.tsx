@@ -28,17 +28,14 @@ export default function EventCart() {
 
   return (
     <div
-      className="absolute -top-20 right-10 z-40 rounded-lg  border-2 border-beer-softBlonde bg-beer-softFoam px-4 py-8 shadow-md sm:px-6 lg:px-8"
+      className={`absolute -top-20 right-10 z-40 rounded-lg  border-2 border-beer-softBlonde bg-beer-softFoam px-4 py-8 shadow-md sm:px-6 lg:px-8`}
       aria-modal="true"
       role="dialog"
       tabIndex={-1}
     >
       {isMinimized ? (
         <>
-          <Button
-            class="end-4 absolute top-4 text-gray-600 transition hover:scale-110"
-            onClick={() => setIsMinimized(false)}
-          >
+          <Button class="" onClick={() => setIsMinimized(false)}>
             <span className="sr-only">Open cart</span>
 
             <svg
@@ -47,7 +44,7 @@ export default function EventCart() {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="h-5 w-5"
+              className="h-8 w-8"
             >
               <path
                 strokeLinecap="round"
@@ -58,11 +55,12 @@ export default function EventCart() {
           </Button>
         </>
       ) : (
-        <div className="w-screen max-w-sm ">
-          <Button
-            class="end-4 absolute top-4 text-gray-600 transition hover:scale-110"
-            onClick={() => setIsMinimized(true)}
-          >
+        <div
+          className={`flex w-screen max-w-sm flex-col items-end transition-all ${
+            isMinimized && ""
+          }`}
+        >
+          <Button onClick={() => setIsMinimized(true)} class="">
             <span className="sr-only">{t("close_cart")}</span>
 
             <svg
@@ -71,7 +69,7 @@ export default function EventCart() {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="h-5 w-5"
+              className="h-8 w-8"
             >
               <path
                 strokeLinecap="round"
@@ -81,7 +79,7 @@ export default function EventCart() {
             </svg>
           </Button>
 
-          <div className="mt-4 space-y-6">
+          <div className="w-full space-y-6">
             <div className="space-y-4">
               {items?.length === 0 ? (
                 <EmptyCart />

@@ -4,10 +4,10 @@ import MarketCartButtons2 from "../../../../../../../components/common/MarketCar
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
-import { IProductPack } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils";
 import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
 import { SupabaseProps } from "../../../../../../../constants";
+import { IProductPack } from "../../../../../../../lib/types";
 
 interface ProductProps {
   pack: IProductPack;
@@ -48,6 +48,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
       name: pack.name,
       img_url: pack.img_url,
       randomUUID: pack.randomUUID,
+      product_id: pack.product_id,
     };
 
     const product = pack.product_id;
@@ -88,6 +89,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
           class="w-[10vw] px-2 py-2 sm:w-[15vw] md:w-[20vw] lg:w-[6vw]"
         />
       </td>
+
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link
           target={"_blank"}
