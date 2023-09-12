@@ -19,7 +19,7 @@ export function DeleteLot({
 
   const handleDelete = async () => {
     const { data, error } = await supabase
-      .from("product_lot")
+      .from("product_lots")
       .delete()
       .eq("id", productLotId);
 

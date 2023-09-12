@@ -16,7 +16,7 @@ const fetchProductsByOwner = async (
           product_multimedia (*),
           product_inventory (*),
           likes (*),
-          product_lot (*),
+          product_lots (*),
           beers (*),
           product_packs (*)
         `,

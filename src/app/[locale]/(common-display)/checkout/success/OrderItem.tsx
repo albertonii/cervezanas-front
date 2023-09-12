@@ -16,7 +16,6 @@ interface Props {
 
 export default function OrderItem({ orderItem, order }: Props) {
   const t = useTranslations();
-
   const locale = useLocale();
   const router = useRouter();
 
@@ -29,7 +28,7 @@ export default function OrderItem({ orderItem, order }: Props) {
   return (
     <>
       <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 lg:gap-x-8">
-        <div className="relative p-4">
+        <div className="relative">
           {/* Product Multimedia  */}
           <div className="col-span-12 flex justify-center md:col-span-2">
             <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-auto lg:w-32">

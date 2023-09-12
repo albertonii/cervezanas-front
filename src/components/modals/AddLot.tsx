@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "react-query";
 import useFetchProductsByOwner from "../../hooks/useFetchProductsByOwner";
 
 type FormData = {
-  created_at: Date;
+  created_at: string;
   lot_id: string;
   lot_number: string;
   lot_name: string;
@@ -78,7 +78,7 @@ export function AddLot() {
     products.map(async (product: { value: any }) => {
       if (product.value != false) {
         const product_id = product.value;
-        const { error } = await supabase.from("product_lot").insert({
+        const { error } = await supabase.from("product_lots").insert({
           product_id: product_id,
           created_at: new Date(),
           quantity,

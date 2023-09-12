@@ -11,7 +11,7 @@ const fetchLotsByOwner = async (
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
-    .from("product_lot")
+    .from("product_lots")
     .select(
       `
         *,

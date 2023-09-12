@@ -9,7 +9,7 @@ import { useSupabase } from "../Context/SupabaseProvider";
 import { Modal } from "./Modal";
 
 type FormValues = {
-  created_at: Date;
+  created_at: string;
   cover_letter_file: File[];
   cv_file: File[];
 };

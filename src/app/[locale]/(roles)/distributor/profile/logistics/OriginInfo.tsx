@@ -8,7 +8,7 @@ import Label from "../../../../components/Label";
 
 interface FormData {
   id: string;
-  created_at: Date;
+  created_at: string;
   name: string;
   lastname: string;
   document_id: string;

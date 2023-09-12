@@ -5,7 +5,6 @@ import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsByO
 import Image from "next/image";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types";
 import {
   Button,
   EditButton,
@@ -17,6 +16,7 @@ import { useAppContext } from "../../../../../../components/Context";
 import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
 import { formatCurrency } from "../../../../../../utils";
 import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { IProduct } from "../../../../../../lib/types";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -94,7 +94,7 @@ export function ProductsArchiveList({
     delete updatedProduct.beers;
     delete updatedProduct.likes;
     delete updatedProduct.product_inventory;
-    delete updatedProduct.product_lot;
+    delete updatedProduct.product_lots;
     delete updatedProduct.product_multimedia;
 
     // Send product to supabase database
@@ -228,9 +228,9 @@ export function ProductsArchiveList({
                           </td>
 
                           <td className="px-6 py-4">
-                            {product.product_lot &&
-                            product.product_lot[0]?.lot_id
-                              ? product.product_lot[0]?.lot_id
+                            {product.product_lots &&
+                            product.product_lots[0]?.lot_id
+                              ? product.product_lots[0]?.lot_id
                               : "-"}
                           </td>
 

@@ -3,7 +3,7 @@
 import { useQuery } from "react-query";
 import { useSupabase } from "../components/Context/SupabaseProvider";
 
-const fetchCPOrders = async (
+const fetchOrders = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
@@ -15,7 +15,16 @@ const fetchCPOrders = async (
       `
       *,
       shipping_info(id, *),
-      billing_info(id, *)
+      billing_info(id, *),
+      business_orders!business_orders_order_id_fkey (
+        *,
+        order_items (
+          *,
+          product_pack_id (
+            *
+          )
+        )
+      )
     `
     )
     .eq("owner_id", ownerId)
@@ -28,7 +37,7 @@ const fetchCPOrders = async (
   return data;
 };
 
-const useFetchCPOrders = (
+const useFetchOrders = (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number
@@ -37,11 +46,10 @@ const useFetchCPOrders = (
 
   return useQuery({
     queryKey: ["orders"],
-    queryFn: () =>
-      fetchCPOrders(ownerId, currentPage, resultsPerPage, supabase),
+    queryFn: () => fetchOrders(ownerId, currentPage, resultsPerPage, supabase),
     enabled: false,
     refetchOnWindowFocus: false,
   });
 };
 
-export default useFetchCPOrders;
+export default useFetchOrders;

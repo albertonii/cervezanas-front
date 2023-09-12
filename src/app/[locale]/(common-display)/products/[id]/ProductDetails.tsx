@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Rate } from "../../../../../components/reviews";
 import { SupabaseProps } from "../../../../../constants";
-import { ICarouselItem, IProduct, IReview } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils";
 import { ProductGallery } from "../../../components";
 import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
 import DistributionInformation from "./DistributionInformation";
+import { ICarouselItem, IProduct } from "../../../../../lib/types";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -114,15 +114,15 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
   return (
     <>
-      <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
+      <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
         <ProductGallery
           gallery={gallery}
           isLike={isLike}
           handleSetIsLike={handleSetIsLike}
         />
-      </div>
+      </section>
 
-      <div className="col-span-12 mx-6 lg:col-span-8 ">
+      <section className="col-span-12 mx-6 space-y-4 lg:col-span-8">
         <section className="flex flex-col sm:flex-row sm:justify-between">
           <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
             {product.name}
@@ -155,15 +155,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
           </>
         </section>
 
-        {/* Distribution Information  */}
-        <section aria-labelledby="distribution-information-heading">
-          <h3 id="distribution-heading" className="sr-only">
-            {t("distribution_information")}
-          </h3>
-
-          <DistributionInformation product={product} />
-        </section>
-
         <section aria-labelledby="information-heading" className="">
           <h3 id="information-heading" className="sr-only">
             {t("product_information")}
@@ -184,12 +175,15 @@ export default function ProductDetails({ product, reviewRef }: Props) {
           <Packs product={product} />
         </section>
 
-        <section aria-labelledby="options-heading" className="">
-          <h3 id="options-heading" className="sr-only">
-            {t("product_options")}
+        {/* Distribution Information  */}
+        <section aria-labelledby="distribution-information-heading">
+          <h3 id="distribution-heading" className="sr-only">
+            {t("distribution_information")}
           </h3>
+
+          <DistributionInformation product={product} />
         </section>
-      </div>
+      </section>
     </>
   );
 }

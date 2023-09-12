@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Modal } from ".";
 import { useAuth } from "../Auth";
-import { IRefProductLot } from "../../lib/types";
 import { formatDateDefaultInput } from "../../utils";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../Context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
+import { IRefProductLot } from "../../lib/types";
 
 type FormValues = {
-  created_at: Date;
+  created_at: string;
   lot_id: string;
   lot_number: string;
   lot_name: string;
@@ -76,7 +76,7 @@ export function UpdateLot({
 
     if (productLot) {
       const { error } = await supabase
-        .from("product_lot")
+        .from("product_lots")
         .update({
           quantity,
           lot_number,

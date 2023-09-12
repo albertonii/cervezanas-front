@@ -42,7 +42,7 @@ export default function LotForm({ handleShowModal }: Props) {
       products.map(async (product: { value: any }) => {
         if (product.value != false) {
           const product_id = product.value;
-          const { error } = await supabase.from("product_lot").insert({
+          const { error } = await supabase.from("product_lots").insert({
             product_id: product_id,
             num_lot_id: lot_number,
             created_at: new Date(),

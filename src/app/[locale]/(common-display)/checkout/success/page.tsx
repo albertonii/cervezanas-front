@@ -1,9 +1,9 @@
 import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../constants";
-import { IOrder } from "../../../../lib/types.d";
-import { createServerClient } from "../../../../utils/supabaseServer";
-import { decodeBase64 } from "../../../../utils/utils";
+import { decodeBase64 } from "../../../../../utils/utils";
+import { createServerClient } from "../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../constants";
+import { IOrder } from "../../../../../lib/types";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -76,18 +76,19 @@ async function getSuccessData(searchParams: any) {
       *,
       shipping_info (id, *),
       billing_info (id, *),
-      order_items (
-        created_at,
-        order_id,
-        is_reviewed,
-        product_pack_id (
-          name,
-          price,
-          quantity,
-          img_url,
-          product_id (
-            name,
-            description
+      business_orders!business_orders_order_id_fkey (
+        *,
+        order_items (
+          *,
+          product_pack_id (
+            *,
+            product_id (
+              id, 
+              name, 
+              description, 
+              type, 
+              beers (aroma, color, era, family, fermentation, format, intensity, origin, volume)
+            )
           )
         )
       )

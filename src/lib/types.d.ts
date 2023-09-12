@@ -185,7 +185,7 @@ export interface IMerchandising {
 
 export interface IProductLot {
   id: string;
-  created_at: Date;
+  created_at: string;
   lot_id: string;
   lot_number: string;
   lot_name: string;
@@ -200,7 +200,7 @@ export interface IProductLot {
 
 export interface IRefProductLot {
   id: string;
-  created_at: Date;
+  created_at: string;
   lot_id: string;
   lot_number: string;
   lot_name: string;
@@ -216,7 +216,7 @@ export interface IRefProductLot {
 
 export interface ICustomizeSettings {
   id: string;
-  created_at: Date;
+  created_at: string;
   colors: string[];
   family_styles: string[];
 }
@@ -226,7 +226,7 @@ export interface IInventory {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  created_at?: Date;
+  created_at?: string;
 }
 
 export interface IAward {
@@ -253,7 +253,7 @@ export interface IProductMultimedia {
 
 interface IProductMultimediaItem {
   id: string;
-  created_at: Date;
+  created_at: string;
   name: string;
   bucket_url: string;
 }
@@ -307,8 +307,8 @@ export interface IRefReview {
 
 export interface IProfile {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   name: string;
   lastname: string;
@@ -340,8 +340,8 @@ export interface IProfile {
 
 export interface IDistributorProfile {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   name: string;
   lastname: string;
@@ -359,11 +359,11 @@ export interface IDistributorProfile {
 
 export interface IEvent {
   id: string;
-  created_at: Date;
+  created_at: string;
   name: string;
   description: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   logo_url: string;
   promotional_url: string;
   owner_id: IUser;
@@ -372,7 +372,7 @@ export interface IEvent {
 }
 export interface IConsumptionPoints {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_fixed: ICPFixed[];
   cp_mobile: ICPMobile[];
   cp_organizer_status: number;
@@ -383,15 +383,15 @@ export interface IConsumptionPoints {
 
 export interface ICPFixed {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_name: string;
   cp_description: string;
   organizer_name: string;
   organizer_lastname: string;
   organizer_email: string;
   organizer_phone: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   address: string;
   geoArgs: GeocodeResult[];
   status: string;
@@ -404,15 +404,15 @@ export interface ICPFixed {
 
 export interface ICPMobile {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_name: string;
   cp_description: string;
   organizer_name: string;
   organizer_lastname: string;
   organizer_email: string;
   organizer_phone: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   address: string;
   status: string;
   logo_url: string;
@@ -428,14 +428,14 @@ export interface ICPMobile {
 
 export interface ICPFProducts {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_id: ICPFixed;
   product_id: IProduct;
 }
 
 export interface ICPMProducts {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_id: ICPMobile;
   product_pack_id: IProductPack;
   stock: number;
@@ -444,7 +444,7 @@ export interface ICPMProducts {
 
 export interface IRefCPMProducts {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_id: any;
   product_pack_id: IProductPack;
   stock: number;
@@ -453,7 +453,7 @@ export interface IRefCPMProducts {
 
 export interface ICPMProductsEditCPMobileModal {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_id: any;
   product_pack_id: string;
   stock: number;
@@ -462,7 +462,7 @@ export interface ICPMProductsEditCPMobileModal {
 
 export interface ICPMProductsEditCPFixedModal {
   id: string;
-  created_at: Date;
+  created_at: string;
   cp_id: any;
   product_pack_id: string;
   stock: number;
@@ -477,7 +477,7 @@ export interface ICPM_events {
 
 export interface IProfileLocation {
   id: string;
-  created_at: Date;
+  created_at: string;
   name: string;
   lastname: string;
   document_id: string;
@@ -493,7 +493,7 @@ export interface IProfileLocation {
 
 export interface ILocation {
   id: string;
-  created_at: Date;
+  created_at: string;
   name: string;
   lastname: string;
   document_id: string;
@@ -509,8 +509,8 @@ export interface ILocation {
 
 export interface ILike {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   product_id: string;
 }
@@ -519,7 +519,7 @@ export interface ISocialCause {
   id: string;
   name: string;
   description: string;
-  created_at: Date;
+  created_at: string;
   owner_id: string;
   img_url: any;
   is_public: boolean;
@@ -530,14 +530,14 @@ export interface ICampaign {
   id: string;
   name: string;
   description: string;
-  created_at: Date;
+  created_at: string;
   owner_id: string;
   img_url: any;
   is_public: boolean;
   slogan: string;
   goal: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   status: string;
   products?: ICampaignItem[];
 }
@@ -550,8 +550,8 @@ export interface ICampaignItem {
 
 export interface IOrder {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   status: string;
   shipping_info: ShippingInfo;
@@ -559,8 +559,8 @@ export interface IOrder {
   payment_method: PaymentCardMethod;
   customer_name: string;
   tracking_id: string;
-  issue_date: Date;
-  estimated_date: Date;
+  issue_date: string;
+  estimated_date: string;
   total: number;
   subtotal: number;
   shipping: number;
@@ -568,25 +568,17 @@ export interface IOrder {
   currency: string;
   discount: number;
   discount_code: string;
-  // products: IOrderItem[];
   order_number: string;
-  order_items: IOrderItem[];
+  business_orders: IBusinessOrders;
 }
 
 export interface IOrderItem {
-  id: string;
-  created_at: Date;
+  created_at: string;
   business_order_id: IBusinessOrders;
-  product_id: IProduct;
-  product_pack_id: IRefProductPack;
+  // product_id: IProduct;
+  product_pack_id: IProductPack;
   is_reviewed: boolean;
-  // product_multimedia: IProductMultimedia[];
   quantity: number;
-  status: string;
-  // name: string;
-  // description: string;
-  // price: number;
-  // product_packs: IProductPack[];
 }
 
 export interface IEventOrder {
@@ -612,7 +604,7 @@ export interface IEventOrder {
 
 export interface IEventOrderItem {
   id: string;
-  created_at: Date;
+  created_at: string;
   order_id: string;
   product_id: IProduct;
   product_pack_id: IRefProductPack;
@@ -651,8 +643,8 @@ export interface IPaymentStandardTransferMethod {
 
 export interface IShippingInfo {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   name: string;
   lastname: string;
@@ -670,8 +662,8 @@ export interface IShippingInfo {
 
 export interface IBillingInfo {
   id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
   name: string;
   lastname: string;
@@ -733,7 +725,7 @@ export type IProductPack = {
   quantity: number;
   img_url: any;
   randomUUID: string;
-  product_id?: IProduct;
+  product_id: IProduct;
 };
 
 export type IRefProductPack = {
@@ -792,8 +784,8 @@ export type ModalUpdateLotProps = {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  expiration_date: Date;
-  manufacture_date: Date;
+  expiration_date: string;
+  manufacture_date: string;
   packaging: string;
 };
 
@@ -839,7 +831,7 @@ export interface ICarouselItem {
 
 export type FileImg = {
   lastModified: number;
-  lastModifiedDate: Date;
+  lastModifiedDate: string;
   name: string;
   size: number;
   type: string;
@@ -850,8 +842,7 @@ export interface IProduct {
   id: string;
   name: string;
   description: string;
-  created_at: Date;
-  social_cause_id: string;
+  created_at: string;
   category: string;
   campaign_id: string;
   owner_id: string;
@@ -872,6 +863,8 @@ export interface IProduct {
   type: IProductEnum.Type;
   product_packs: IRefProductPack[];
   is_monthly: boolean;
+  discount_code: string;
+  discount_percent: number;
 }
 
 export interface IProductVariant {
@@ -919,7 +912,7 @@ export enum MarkerType {
 
 export interface INotification {
   id: string;
-  created_at: Date;
+  created_at: string;
   user_id: string;
   message: string;
   link: string;
@@ -969,7 +962,7 @@ export type CartItem = {
 
 export type FileImg = {
   lastModified: number;
-  lastModifiedDate: Date;
+  lastModifiedDate: string;
   name: string;
   size: number;
   type: string;
@@ -1152,10 +1145,10 @@ export enum PROVIDER_TYPE {
 
 export interface IDistributorUser_Profile {
   id: string;
-  created_at: Date;
+  created_at: string;
   avatar_url: string;
   bg_url: string;
-  birthdate: Date;
+  birthdate: string;
   cp_organizer_status: number;
   email: string;
   name: string;
@@ -1168,7 +1161,7 @@ export interface IDistributorUser_Profile {
 
 export interface IDistributorUser {
   user: any; // ID
-  created_at: Date;
+  created_at: string;
   nif: string;
   bank_account: string;
   coverage_areas: ICoverageArea[];
@@ -1180,10 +1173,10 @@ export interface IDistributorUser {
 
 export interface IProducerUser_Profile {
   id: string;
-  created_at: Date;
+  created_at: string;
   avatar_url: string;
   bg_url: string;
-  birthdate: Date;
+  birthdate: string;
   cp_organizer_status: number;
   email: string;
   name: string;
@@ -1196,7 +1189,7 @@ export interface IProducerUser_Profile {
 
 export interface IProducerUser {
   user: any; // ID
-  created_at: Date;
+  created_at: string;
   company_name: string;
   company_description: string;
   location_id: IProfileLocation[];
@@ -1206,7 +1199,7 @@ export interface IProducerUser {
 export interface IDistributionContract {
   producer_id: IProducerUser;
   distributor_id: IDistributorUser;
-  created_at: Date;
+  created_at: string;
   status: string;
   producer_accepted: boolean;
   distributor_accepted: boolean;
