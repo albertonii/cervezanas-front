@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { IProductPackCartItem, IProduct, IProductPack } from "../lib/types";
+import { IProductPackCartItem, IProduct, IProductPack } from "../lib/types.d";
 import { ShoppingCart } from "../app/[locale]/components/Cart/index";
 
 type ShoppingCartContextType = {

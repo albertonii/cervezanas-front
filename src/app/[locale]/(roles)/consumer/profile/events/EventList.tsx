@@ -1,16 +1,16 @@
 "use client";
 
-import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
-import DeleteCEventModal from "./DeleteEventModal";
 import Link from "next/link";
 import EditEventModal from "./EditEventModal";
+import DeleteCEventModal from "./DeleteEventModal";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
+import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types";
-import { Button, IconButton, Spinner } from "../../../../components/common";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
+import { IconButton, Spinner } from "../../../../components/common";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types.d";
 
 interface Props {
   cpsMobile: ICPMobile[];

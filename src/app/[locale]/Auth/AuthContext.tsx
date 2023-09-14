@@ -5,7 +5,7 @@ import React, { useEffect, useState, createContext, useMemo } from "react";
 import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useSupabase } from "../../../context/SupabaseProvider";
-import { IUserProfile } from "../../../lib/types";
+import { IUserProfile } from "../../../lib/types.d";
 import { EVENTS, VIEWS } from "../../../constants";
 import { useLocale, useTranslations } from "next-intl";
 import { ROUTE_SIGNIN } from "../../../config";

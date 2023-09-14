@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfileLocation } from "../../../../../../lib/types";
+import { IProfileLocation } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import {

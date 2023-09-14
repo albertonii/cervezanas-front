@@ -6,7 +6,7 @@ import { Spinner } from "../../../components/common";
 import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";
 import { ProductReviews } from "../../../components/reviews/ProductReviews";
 import { DisplaySimilarProducts } from "../../../components/DisplaySimilarProducts";
-import { IProduct, IReview } from "../../../../../lib/types";
+import { IProduct, IReview } from "../../../../../lib/types.d";
 
 interface Props {
   product: IProduct;

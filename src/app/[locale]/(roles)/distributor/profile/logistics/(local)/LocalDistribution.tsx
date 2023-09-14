@@ -7,7 +7,7 @@ import { CountryDropdown } from "react-country-region-selector";
 import { useTranslations } from "next-intl";
 import { Button, IconButton } from "../../../../../components/common";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ILocal, IPCRangesProps } from "../../../../../../../lib/types";
+import { ILocal, IPCRangesProps } from "../../../../../../../lib/types.d";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";

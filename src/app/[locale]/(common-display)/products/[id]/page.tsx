@@ -1,5 +1,5 @@
 import Product from "./Product";
-import { IProduct } from "../../../../../lib/types";
+import { IProduct } from "../../../../../lib/types.d";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 
 export default async function ProductId({ params }: any) {
@@ -44,8 +44,6 @@ async function getProductData(productId: string) {
       )`
     )
     .eq("id", productId);
-
-  console.log(product);
 
   if (productError) throw productError;
 

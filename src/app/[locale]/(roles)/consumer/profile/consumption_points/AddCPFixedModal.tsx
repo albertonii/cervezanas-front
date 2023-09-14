@@ -13,7 +13,7 @@ import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { IProduct, IUser } from "../../../../../../lib/types";
+import { IProduct, IUser } from "../../../../../../lib/types.d";
 
 interface FormData {
   cp_name: string;

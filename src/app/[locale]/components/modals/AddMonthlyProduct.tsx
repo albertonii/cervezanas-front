@@ -5,7 +5,7 @@ import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { category_options } from "../../../../lib/productEnum";
-import { IProduct, SortBy } from "../../../../lib/types";
+import { IProduct, SortBy } from "../../../../lib/types.d";
 import { DisplayInputError, IconButton } from "../common";
 import { Modal } from "./Modal";
 import { useSupabase } from "../../../../context/SupabaseProvider";

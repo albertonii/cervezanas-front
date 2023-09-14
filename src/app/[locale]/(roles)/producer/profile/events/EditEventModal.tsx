@@ -5,7 +5,7 @@ import React, { ComponentProps, useEffect, useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types";
+import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common";

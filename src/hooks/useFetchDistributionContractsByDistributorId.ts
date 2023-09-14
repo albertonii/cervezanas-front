@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { IDistributionContract } from "../lib/types";
+import { IDistributionContract } from "../lib/types.d";
 
 const fetchDistributionContracts = async (
   distributorId: string,

@@ -5,7 +5,7 @@ import DisplayImageProduct from "../../../../components/common/DisplayImageProdu
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { IOrder } from "../../../../../../lib/types";
+import { IOrder } from "../../../../../../lib/types.d";
 import { SupabaseProps } from "../../../../../../constants";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { formatDateString } from "../../../../../../utils/formatDate";

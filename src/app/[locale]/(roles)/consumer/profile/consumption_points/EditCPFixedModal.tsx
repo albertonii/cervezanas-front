@@ -11,7 +11,7 @@ import {
   ICPFixed,
   ICPMProductsEditCPFixedModal,
   IUser,
-} from "../../../../../../lib/types";
+} from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Modal } from "../../../../components/modals/Modal";

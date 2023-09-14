@@ -7,7 +7,7 @@ import { useAuth } from "../../Auth/useAuth";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { IRefProductLot } from "../../../../lib/types";
+import { IRefProductLot } from "../../../../lib/types.d";
 import { Modal } from "./Modal";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
 

@@ -10,7 +10,7 @@ import {
   INotification,
   IProduct,
   IRefProductLot,
-} from "../lib/types";
+} from "../lib/types.d";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 // Definir el tipo de datos para el objeto de imágenes

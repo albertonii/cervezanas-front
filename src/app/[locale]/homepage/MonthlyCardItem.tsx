@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IMonthlyProduct } from "../../../lib/types";
+import { IMonthlyProduct } from "../../../lib/types.d";
 import { useRouter } from "next/navigation";
 import { AddCardButton, IconButton } from "../components/common";
 import { useSupabase } from "../../../context/SupabaseProvider";

@@ -1,4 +1,4 @@
-import { IShippingAddress } from "../../../../lib/types";
+import { IShippingAddress } from "../../../../lib/types.d";
 import { useAuth } from "../../Auth/useAuth";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";

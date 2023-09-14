@@ -6,7 +6,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Spinner } from "../../../components/common/Spinner";
-import { IProductPackCartItem } from "../../../../../lib/types";
+import { IProductPackCartItem } from "../../../../../lib/types.d";
 
 interface Props {
   productPack: IProductPackCartItem;

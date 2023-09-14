@@ -5,7 +5,7 @@ import { Button } from "../../components/common";
 import { useEventCart } from "../../../../context/EventCartContext";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types";
+import { IProductPackCartItem } from "../../../../lib/types.d";
 
 export default function EventCart() {
   const t = useTranslations();

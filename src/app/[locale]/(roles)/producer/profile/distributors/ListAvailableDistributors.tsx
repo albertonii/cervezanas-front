@@ -5,7 +5,7 @@ import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IconButton, Spinner } from "../../../../components/common";
-import { IDistributorUser_Profile } from "../../../../../../lib/types";
+import { IDistributorUser_Profile } from "../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {

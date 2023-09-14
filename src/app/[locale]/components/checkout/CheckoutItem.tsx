@@ -7,7 +7,7 @@ import useFetchProductById from "../../../../hooks/useFetchProductById";
 import React, { useEffect } from "react";
 import { Spinner } from "../common";
 import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types";
+import { IProductPackCartItem } from "../../../../lib/types.d";
 import ShippingAddress from "./ShippingAddress";
 
 interface Props {

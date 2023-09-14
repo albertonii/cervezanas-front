@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../../utils/utils";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { VIEWS } from "../../../../../../constants";
-import { IOrder } from "../../../../../../lib/types";
+import { IOrder } from "../../../../../../lib/types.d";
 
 export async function generateMetadata({ searchParams }: any) {
   try {

@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { IPCRangesProps } from "../../../../../../../lib/types";
+import { IPCRangesProps } from "../../../../../../../lib/types.d";
 import InputForm from "../../../../../components/InputForm";
 import Label from "../../../../../components/Label";
 

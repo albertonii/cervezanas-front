@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../../utils/utils";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { VIEWS } from "../../../../../../constants";
-import { IEventOrder } from "../../../../../../lib/types";
+import { IEventOrder } from "../../../../../../lib/types.d";
 
 export async function generateMetadata({ searchParams }: any) {
   try {

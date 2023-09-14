@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
-import { IProducerUser_Profile } from "../../../../../lib/types";
+import { IProducerUser_Profile } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
 

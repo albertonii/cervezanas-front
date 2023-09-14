@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types";
+import { IProfile } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
   Button,

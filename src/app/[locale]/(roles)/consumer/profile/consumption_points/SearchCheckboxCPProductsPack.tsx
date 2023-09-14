@@ -8,7 +8,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Spinner } from "../../../../components/common";
-import { IProduct } from "../../../../../../lib/types";
+import { IProduct } from "../../../../../../lib/types.d";
 
 interface Props {
   form: UseFormReturn<any, any>;

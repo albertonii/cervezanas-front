@@ -20,7 +20,7 @@ import {
   ICustomizeSettings,
   IProductPack,
   ModalAddProductProps,
-} from "../../../../lib/types";
+} from "../../../../lib/types.d";
 import {
   Button,
   DeleteButton,

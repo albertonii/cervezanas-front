@@ -19,7 +19,7 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
-import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types";
+import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types.d";
 import {
   Button,
   DeleteButton,

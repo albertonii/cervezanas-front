@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPMobile } from "../../../../../../lib/types.d";
 import { DisplayInputError } from "../../../../components/common";
 import { Modal } from "../../../../components/modals/Modal";
 import { useAuth } from "../../../../Auth/useAuth";

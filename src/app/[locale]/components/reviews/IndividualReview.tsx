@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { IReview } from "../../../../lib/types";
+import { IReview } from "../../../../lib/types.d";
 import { formatDateString } from "../../../../utils/formatDate";
 import { Rate } from ".";
 import { DeleteButton } from "../common";

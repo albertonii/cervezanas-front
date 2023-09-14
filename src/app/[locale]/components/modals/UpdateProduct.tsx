@@ -14,7 +14,7 @@ import {
   IAward,
   ModalUpdateProductProps,
   IProductPack,
-} from "../../../../lib/types";
+} from "../../../../lib/types.d";
 import { useAuth } from "../../Auth/useAuth";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { AwardsSectionUpdate } from "./AwardsSectionUpdate";

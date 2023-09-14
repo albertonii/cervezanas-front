@@ -4,7 +4,7 @@ import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NewBillingAddress } from "../../../components/checkout";
 import { DisplayInputError, IconButton } from "../../../components/common";
 import { UseFormReturn } from "react-hook-form";
-import { IBillingAddress } from "../../../../../lib/types";
+import { IBillingAddress } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { useSupabase } from "../../../../../context/SupabaseProvider";

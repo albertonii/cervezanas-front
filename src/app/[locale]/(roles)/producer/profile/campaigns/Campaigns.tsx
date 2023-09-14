@@ -8,7 +8,7 @@ import {
   ICampaign,
   ICampaignItem,
   IProduct,
-} from "../../../../../../lib/types";
+} from "../../../../../../lib/types.d";
 import { CampaignForm } from "./CampaignForm";
 import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";

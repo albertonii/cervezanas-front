@@ -2,7 +2,7 @@ import DisplayImageProduct from "../../components/common/DisplayImageProduct";
 import MarketCartButtons from "../../components/common/MarketCartButtons";
 import React, { useState } from "react";
 import { SupabaseProps } from "../../../../constants";
-import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
+import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
 import { useEventCart } from "../../../../context/EventCartContext";
 
 interface Props {

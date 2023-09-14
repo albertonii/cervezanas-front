@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IConsumptionPoints, IProfile } from "../../../../../../lib/types";
+import { IConsumptionPoints, IProfile } from "../../../../../../lib/types.d";
 import { SubmitCPOrganizer } from "../../../../components/modals/SubmitCPOrganizer";
 import { CPAccepted } from "./CPAccepted";
 import { CPRejected } from "./CPRejected";

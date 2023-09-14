@@ -7,7 +7,7 @@ import { useEventCart } from "../../../../../../../context/EventCartContext";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 import { AddCardButton } from "../../../../../components/common/AddCartButton";
 import { SupabaseProps } from "../../../../../../../constants";
-import { IProductPack } from "../../../../../../../lib/types";
+import { IProductPack } from "../../../../../../../lib/types.d";
 
 interface ProductProps {
   pack: IProductPack;
@@ -27,11 +27,10 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     decreaseOnePackCartQuantity,
   } = useEventCart();
 
-  const { name, price, product_id } = pack;
+  const { name, price, product_id, products } = pack;
   const [packQuantity, setPackQuantity] = useState<number>(
     getPackQuantity(pack.id)
   );
-
   // Synch pack with cart
   useEffect(() => {
     setPackQuantity(getPackQuantity(pack.id));
@@ -44,15 +43,17 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
 
     const packCartItem: IProductPack = {
       id: pack.id,
+      created_at: pack.created_at,
       quantity: packQuantity + 1,
       price: pack.price,
       name: pack.name,
       img_url: pack.img_url,
       randomUUID: pack.randomUUID,
       product_id: pack.product_id,
+      products: pack.products,
     };
 
-    const product = pack.product_id;
+    const product = pack.products;
     if (!product) return;
 
     increasePackCartQuantity(product, packCartItem);
@@ -62,7 +63,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
   const handleIncreaseCartQuantity = (pack: IProductPack) => {
     if (!product_id) return;
     setPackQuantity(packQuantity + 1);
-    increaseOnePackCartQuantity(product_id.id, pack.id);
+    increaseOnePackCartQuantity(product_id, pack.id);
   };
 
   const handleDecreaseCartQuantity = (pack: IProductPack) => {
@@ -70,12 +71,12 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
 
     if (packQuantity > 1) {
       setPackQuantity(packQuantity - 1);
-      decreaseOnePackCartQuantity(product_id.id, pack.id);
+      decreaseOnePackCartQuantity(product_id, pack.id);
     }
   };
 
   const handleRemoveFromCart = (pack: IProductPack) => {
-    removeFromCart(product_id.id, pack.id);
+    removeFromCart(product_id, pack.id);
   };
 
   return (
@@ -105,15 +106,13 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
         </Link>
       </td>
 
-      <td className="space-x-2 px-6 py-4">{product_id?.description}</td>
+      <td className="space-x-2 px-6 py-4">{products?.description}</td>
 
       <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
         {formatCurrency(price)}
       </td>
 
-      <td className="space-x-2 px-6 py-4">
-        {t(product_id?.type.toLowerCase())}
-      </td>
+      <td className="space-x-2 px-6 py-4">{t(products?.type.toLowerCase())}</td>
 
       <td className="space-x-2 px-6 py-4">
         {packQuantity === 0 ? (

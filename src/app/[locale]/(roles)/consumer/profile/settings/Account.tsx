@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types";
+import { IProfile } from "../../../../../../lib/types.d";
 import { BasicDataForm } from "./BasicDataForm";
 import { CustomizeProfileForm } from "./CustomizeProfileForm";
 import { SecretDataForm } from "./SecretDataForm";

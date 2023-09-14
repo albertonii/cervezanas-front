@@ -5,7 +5,7 @@ import Image from "next/image";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../components/common";
-import { IBillingAddress, IShippingAddress } from "../../../../../lib/types";
+import { IBillingAddress, IShippingAddress } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import Shipping from "./Shipping";
 import Billing from "./Billing";

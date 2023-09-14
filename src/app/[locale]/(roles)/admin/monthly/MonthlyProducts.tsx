@@ -5,7 +5,7 @@ import Link from "next/link";
 import AddMonthlyProduct from "../../../components/modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IMonthlyProduct } from "../../../../../lib/types";
+import { IMonthlyProduct } from "../../../../../lib/types.d";
 import { DeleteButton, EditButton } from "../../../components/common";
 import { DeleteMonthlyProduct } from "../../../components/modals/DeleteMonthlyProduct";
 import { useSupabase } from "../../../../../context/SupabaseProvider";

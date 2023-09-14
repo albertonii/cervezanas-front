@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types";
+import { IEventOrder } from "../../../../../../lib/types.d";
 import { EventOrderList } from "./EventOrderList";
 
 interface Props {

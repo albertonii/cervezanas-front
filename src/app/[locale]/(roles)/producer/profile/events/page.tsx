@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../../../constants";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPMobile } from "../../../../../../lib/types.d";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();

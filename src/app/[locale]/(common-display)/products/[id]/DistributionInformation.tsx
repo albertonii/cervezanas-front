@@ -7,7 +7,7 @@ import {
   IDistributorUser,
   IProduct,
   IShippingAddress,
-} from "../../../../../lib/types";
+} from "../../../../../lib/types.d";
 
 interface Props {
   product: IProduct;
@@ -47,7 +47,7 @@ export default function DistributionInformation({ product }: Props) {
         </h2>
 
         <select
-          className="text-md w-full rounded-md border-2 border-beer-softBlondeBubble px-2 py-1 after:absolute after:top-4 after:right-4 after:w-36  focus:border-beer-blonde focus:bg-beer-softFoam focus:outline-none "
+          className="text-md w-full rounded-md border-2 border-beer-softBlondeBubble px-2 py-1 after:absolute after:right-4 after:top-4 after:w-36  focus:border-beer-blonde focus:bg-beer-softFoam focus:outline-none "
           id="is_external_organizer"
           onClick={(e: any) => {
             const value = e.target.value;

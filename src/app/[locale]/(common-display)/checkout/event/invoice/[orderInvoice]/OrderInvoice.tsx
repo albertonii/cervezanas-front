@@ -14,7 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import { Table, TableTotalInvoice } from "../../../../../components/invoice";
 import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
-import { IOrder, IProduct } from "../../../../../../../lib/types";
+import { IOrder, IProduct } from "../../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 
 // Create styles

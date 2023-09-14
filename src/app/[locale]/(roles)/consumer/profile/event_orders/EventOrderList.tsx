@@ -7,7 +7,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types";
+import { IEventOrder } from "../../../../../../lib/types.d";
 import { IconButton, Spinner } from "../../../../components/common";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";

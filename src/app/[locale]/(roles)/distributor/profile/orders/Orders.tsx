@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types";
+import { IOrder } from "../../../../../../lib/types.d";
 import { OrderList } from "./OrderList";
 
 interface Props {

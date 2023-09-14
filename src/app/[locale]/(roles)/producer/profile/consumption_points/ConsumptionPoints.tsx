@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { CPPending } from "./CPPending";
 import { CPAccepted } from "./CPAccepted";
 import { CPRejected } from "./CPRejected";
-import { IConsumptionPoints, IProfile } from "../../../../../../lib/types";
+import { IConsumptionPoints, IProfile } from "../../../../../../lib/types.d";
 import { SubmitCPOrganizer } from "../../../../components/modals/SubmitCPOrganizer";
 
 interface Props {

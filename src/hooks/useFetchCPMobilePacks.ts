@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { ICPMProductsEditCPMobileModal } from "../lib/types";
+import { ICPMProductsEditCPMobileModal } from "../lib/types.d";
 
 const fetchCPMobile = async (cpId: string, supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase

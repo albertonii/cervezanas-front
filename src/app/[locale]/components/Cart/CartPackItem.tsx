@@ -4,7 +4,7 @@ import Link from "next/link";
 import MarketCartButtons from "../common/MarketCartButtons";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useState } from "react";
-import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
+import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import { useLocale, useTranslations } from "next-intl";

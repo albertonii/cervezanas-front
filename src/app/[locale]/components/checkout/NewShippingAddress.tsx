@@ -6,7 +6,7 @@ import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "../modals/Modal";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../../../../context/SupabaseProvider";
-import { IModalShippingAddress } from "../../../../lib/types";
+import { IModalShippingAddress } from "../../../../lib/types.d";
 import { useMutation, useQueryClient } from "react-query";
 
 export function NewShippingAddress() {

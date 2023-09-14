@@ -12,7 +12,7 @@ import {
   UnarchiveButton,
 } from "../../../../components/common";
 import { useAuth } from "../../../../Auth/useAuth";
-import { IProduct } from "../../../../../../lib/types";
+import { IProduct } from "../../../../../../lib/types.d";
 import { useAppContext } from "../../../../../../context";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";

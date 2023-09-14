@@ -6,7 +6,7 @@ import { Rate } from "../../../components/reviews";
 import { SupabaseProps } from "../../../../../constants";
 import { ProductGallery } from "../../../components/ProductGallery";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
-import { ICarouselItem, IProduct } from "../../../../../lib/types";
+import { ICarouselItem, IProduct } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;

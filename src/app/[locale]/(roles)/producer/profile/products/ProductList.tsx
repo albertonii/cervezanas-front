@@ -15,7 +15,7 @@ import {
   Spinner,
 } from "../../../../components/common";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IProduct } from "../../../../../../lib/types";
+import { IProduct } from "../../../../../../lib/types.d";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;

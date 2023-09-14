@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { AddCardButton } from "../../../components/common";
 import { useShoppingCart } from "../../../../../context";
-import { IProduct, IProductPack } from "../../../../../lib/types";
+import { IProduct, IProductPack } from "../../../../../lib/types.d";
 
 interface Props {
   product: IProduct;

@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { ICPM_events } from "../lib/types";
+import { ICPM_events } from "../lib/types.d";
 
 const fetchCPSMobileByEventId = async (
   eventId: string,

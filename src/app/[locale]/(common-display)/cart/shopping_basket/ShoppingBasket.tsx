@@ -23,7 +23,7 @@ import { createRedirectForm, merchantInfo } from "../../../components/TPV";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
-import { IOrder } from "../../../../../lib/types";
+import { IOrder } from "../../../../../lib/types.d";
 
 interface FormShippingData {
   shipping_info_id: string;

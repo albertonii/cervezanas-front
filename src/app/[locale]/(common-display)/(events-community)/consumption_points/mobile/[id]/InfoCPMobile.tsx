@@ -3,7 +3,7 @@
 import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../../lib/types";
+import { ICPMobile } from "../../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
@@ -105,7 +105,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
                 {cpm_products.map((cpm) => (
                   <CPMProduct
                     key={cpm.id}
-                    pack={cpm.product_pack_id}
+                    pack={cpm.product_packs}
                     cpmId={cpm.id}
                   />
                 ))}
@@ -158,7 +158,9 @@ function Map({ cp }: MapsProps) {
             <p class="text-md">Fecha inicio: ${formatDateString(
               mobile.start_date
             )}</p>
-            <p class="text-md">Fecha fin: ${formatDateString(mobile.end_date)}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(
+              mobile.end_date
+            )}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>

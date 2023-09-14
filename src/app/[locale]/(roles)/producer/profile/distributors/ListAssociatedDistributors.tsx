@@ -5,7 +5,7 @@ import useFetchDistributionContractsByProducerId from "../../../../../../hooks/u
 import React, { useEffect, useMemo, useState } from "react";
 import { IconButton, Spinner } from "../../../../components/common";
 import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
-import { IDistributionContract } from "../../../../../../lib/types";
+import { IDistributionContract } from "../../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";

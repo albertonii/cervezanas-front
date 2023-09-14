@@ -1661,7 +1661,7 @@ export interface Database {
           category: string | null
           created_at: string | null
           description: string | null
-          discount_code: number | null
+          discount_code: string | null
           discount_percent: number | null
           id: string
           is_archived: boolean | null
@@ -1677,7 +1677,7 @@ export interface Database {
           category?: string | null
           created_at?: string | null
           description?: string | null
-          discount_code?: number | null
+          discount_code?: string | null
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null
@@ -1693,7 +1693,7 @@ export interface Database {
           category?: string | null
           created_at?: string | null
           description?: string | null
-          discount_code?: number | null
+          discount_code?: string | null
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null

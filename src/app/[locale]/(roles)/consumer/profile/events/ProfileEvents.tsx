@@ -4,7 +4,7 @@ import EventList from "./EventList";
 import AddEvent from "./AddEvent";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPMobile } from "../../../../../../lib/types.d";
 
 interface Props {
   cpsMobile: ICPMobile[];

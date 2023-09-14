@@ -1,6 +1,6 @@
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
-import { IProduct, IProductPack } from "../../../../../lib/types";
+import { IProduct, IProductPack } from "../../../../../lib/types.d";
 import { SupabaseProps } from "../../../../../constants";
 import { useTranslations } from "next-intl";
 
@@ -42,7 +42,7 @@ export default function PackItem({
       >
         {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
         <label
-          className={`group relative flex cursor-pointer items-center justify-center border py-3 px-4 text-sm font-medium uppercase text-gray-900 hover:opacity-75 focus:outline-none sm:flex-1
+          className={`group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm font-medium uppercase text-gray-900 hover:opacity-75 focus:outline-none sm:flex-1
      `}
         >
           <input

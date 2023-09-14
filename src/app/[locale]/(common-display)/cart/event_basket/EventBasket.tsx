@@ -19,7 +19,7 @@ import {
 } from "../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPackCartItem } from "../../../../../lib/types";
+import { IProductPackCartItem } from "../../../../../lib/types.d";
 
 export default function EventBasket() {
   const t = useTranslations();

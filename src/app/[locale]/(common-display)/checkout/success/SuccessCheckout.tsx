@@ -5,7 +5,7 @@ import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
-import { IOrder, IOrderItem } from "../../../../../lib/types";
+import { IOrder, IOrderItem } from "../../../../../lib/types.d";
 import { formatDateString } from "../../../../../utils/formatDate";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 interface Props {
@@ -17,8 +17,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
   const orderItems = bOrders && (bOrders[0].order_items as IOrderItem[]);
   const { product_id: productDetails } = orderItems[0].product_pack_id;
-  console.log(orderItems);
-  console.log(productDetails);
 
   const t = useTranslations();
   const locale = useLocale();

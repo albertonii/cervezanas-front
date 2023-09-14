@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
-import { IConsumptionPoints, SortBy } from "../../../../../lib/types";
+import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
 import { generateDownloadableLink } from "../../../../../utils/utils";
 import { IconButton } from "../../../components/common";
 import { Modal } from "../../../components/modals/Modal";

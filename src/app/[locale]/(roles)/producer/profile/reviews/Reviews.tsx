@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Rate } from "../../../../components/reviews";
 import { useLocale, useTranslations } from "next-intl";
-import { IReview } from "../../../../../../lib/types";
+import { IReview } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DeleteButton } from "../../../../components/common";
 import { formatDateString } from "../../../../../../utils/formatDate";

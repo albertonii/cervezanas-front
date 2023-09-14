@@ -4,7 +4,7 @@ import Link from "next/link";
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IOrder, IOrderItem } from "../../../../../lib/types";
+import { IOrder, IOrderItem } from "../../../../../lib/types.d";
 import { SupabaseProps } from "../../../../../constants";
 import { useAuth } from "../../../Auth/useAuth";
 import { formatCurrency } from "../../../../../utils/formatCurrency";

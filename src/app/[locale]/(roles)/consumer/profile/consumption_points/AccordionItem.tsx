@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IProduct, IRefProductPack } from "../../../../../../lib/types";
+import { IProduct, IRefProductPack } from "../../../../../../lib/types.d";
 import { Format, FormatName } from "../../../../../../lib/beerEnum";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

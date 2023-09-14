@@ -7,7 +7,7 @@ import React, { useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IconButton } from "../../../../components/common";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { IDistributionContract } from "../../../../../../lib/types";
+import { IDistributionContract } from "../../../../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import RejectContractModal from "./RejectContractModal";
 import { formatDateString } from "../../../../../../utils/formatDate";

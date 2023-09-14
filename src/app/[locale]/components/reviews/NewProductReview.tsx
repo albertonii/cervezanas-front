@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Rate } from ".";
-import { IReview } from "../../../../lib/types";
+import { IReview } from "../../../../lib/types.d";
 import { Button } from "../common";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMessage } from "../message/useMessage";

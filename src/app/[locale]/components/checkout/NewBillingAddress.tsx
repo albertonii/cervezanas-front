@@ -8,7 +8,7 @@ import { useAuth } from "../../Auth/useAuth";
 import { DisplayInputError } from "../common";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { IModalBillingAddress } from "../../../../lib/types";
+import { IModalBillingAddress } from "../../../../lib/types.d";
 import { Modal } from "../modals/Modal";
 
 export function NewBillingAddress() {

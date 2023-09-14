@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { IProduct, IProductPack, IProductPackCartItem } from "../lib/types";
+import { IProduct, IProductPack, IProductPackCartItem } from "../lib/types.d";
 
 type EventCartContextType = {
   eventItems: IProductPackCartItem[];

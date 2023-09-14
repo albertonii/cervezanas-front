@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Spinner } from "../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAuth } from ".";
 import { Button, DisplayInputError } from "../components/common";
-import { ROLE_ENUM } from "../../../lib/types";
+import { ROLE_ENUM } from "../../../lib/types.d";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpWithPasswordCredentials } from "./AuthContext";
@@ -12,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { useMutation } from "react-query";
 import { useMessage } from "../components/message/useMessage";
+import { useAuth } from "./useAuth";
 
 const ROLE_OPTIONS = [
   {

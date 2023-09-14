@@ -5,7 +5,7 @@ import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { EventOrderTimeline } from "./EventOrderTimeline";
-import { IEventOrder } from "../../../../../../lib/types";
+import { IEventOrder } from "../../../../../../lib/types.d";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {

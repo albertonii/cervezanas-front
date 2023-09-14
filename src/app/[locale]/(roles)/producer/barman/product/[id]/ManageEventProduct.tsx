@@ -4,7 +4,7 @@ import DisplayImageProduct from "../../../../../components/common/DisplayImagePr
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button, Spinner } from "../../../../../components/common";
-import { IEventOrderItem } from "../../../../../../../lib/types";
+import { IEventOrderItem } from "../../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import {
   EVENT_ORDER_ITEM_STATUS,

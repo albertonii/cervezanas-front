@@ -1,6 +1,6 @@
 import EventPackItem from "./EventPackItem";
 import React, { useEffect, useState } from "react";
-import { IProductPackCartItem, IProductPack } from "../../../../lib/types";
+import { IProductPackCartItem, IProductPack } from "../../../../lib/types.d";
 
 interface Props {
   item: IProductPackCartItem;

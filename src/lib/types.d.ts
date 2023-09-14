@@ -153,25 +153,36 @@ export interface IAuth {
 
 export interface IBeer {
   id: string;
-  lot_id: number;
-  feedback_id: number;
+  created_at: string;
   category: string;
   fermentation: string;
-  aroma: string;
   color: string;
-  origin: string;
   family: string;
   era: string;
-  intensity: number;
-  awards_id: string[];
-  awards: Award[];
-  price: number;
-  volume: number;
-  format: string;
-  reviews: Review[];
-  likes: Like[];
-  product_id: string;
+  aroma: string;
   is_gluten: boolean;
+  format: string;
+  volume: number;
+  sku: string;
+  weight: number;
+  intensity: number;
+  product_id: string;
+  origin: string;
+  country: string;
+  composition: string;
+  srm: number;
+  og: number;
+  fg: number;
+
+  // products: IProduct;
+
+  // lot_id: number;
+  // feedback_id: number;
+  // awards_id: string[];
+  // awards: Award[];
+  // price: number;
+  // reviews: Review[];
+  // likes: Like[];
 }
 
 export interface IMerchandising {
@@ -405,6 +416,7 @@ export interface ICPFixed {
 export interface ICPMobile {
   id: string;
   created_at: string;
+  cp_id: string;
   cp_name: string;
   cp_description: string;
   organizer_name: string;
@@ -416,12 +428,10 @@ export interface ICPMobile {
   address: string;
   status: string;
   logo_url: string;
-  gallery: string[];
   maximum_capacity: number;
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
-  cp_id: string;
-  cpm_products: IRefCPMProducts[];
+  cpm_products: ICPMProducts[];
   is_internal_organizer: boolean;
   // TODO: rrss
 }
@@ -436,10 +446,12 @@ export interface ICPFProducts {
 export interface ICPMProducts {
   id: string;
   created_at: string;
-  cp_id: ICPMobile;
-  product_pack_id: IProductPack;
   stock: number;
   stock_consumed: number;
+  cp_id: string;
+  product_pack_id: string;
+  product_packs: IProductPack;
+  // cp_mobile: ICPMobile;
 }
 
 export interface IRefCPMProducts {
@@ -720,16 +732,19 @@ export type ModalAddProductProps = {
 
 export type IProductPack = {
   id: string;
-  name: string;
-  price: number;
+  created_at: string;
   quantity: number;
+  price: number;
   img_url: any;
+  name: string;
   randomUUID: string;
-  product_id: IProduct;
+  product_id: string;
+  products: IProduct;
 };
 
 export type IRefProductPack = {
   id: string;
+  created_at: string;
   name: string;
   price: number;
   quantity: number;
@@ -840,31 +855,36 @@ export type FileImg = {
 
 export interface IProduct {
   id: string;
+  created_at: string;
   name: string;
   description: string;
-  created_at: string;
-  category: string;
-  campaign_id: string;
-  owner_id: string;
-  product_lots: IProductLot[];
-  product_inventory: Inventory[];
-  product_multimedia: IProductMultimedia[];
-  reviews: IRefReview[];
-  likes: ILike[];
-  is_public: boolean;
-  price: number;
-  beers: IBeer[];
-  product_variant: IProductVariant[];
-  order_items: OrderItem[];
-  awards: IAward[];
-  is_archived: boolean;
-  state: IProductEnum.State;
-  status: IProductEnum.Status;
   type: IProductEnum.Type;
-  product_packs: IRefProductPack[];
-  is_monthly: boolean;
-  discount_code: string;
+  is_public: boolean;
   discount_percent: number;
+  discount_code: string;
+  price: number;
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+  beers: IBeer[];
+
+  // product_multimedia: IProductMultimedia[];
+
+  // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
+  // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
+  // product_lots: IProductLot[];
+  // product_inventory: Inventory[];
+  // reviews: IRefReview[];
+  // likes: ILike[];
+  // beers: IBeer[];
+  // product_variant: IProductVariant[];
+  // order_items: OrderItem[];
+  // awards: IAward[];
+  // state: IProductEnum.State;
+  // status: IProductEnum.Status;
+  // product_packs: IRefProductPack[];
 }
 
 export interface IProductVariant {

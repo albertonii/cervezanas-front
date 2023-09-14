@@ -15,7 +15,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
-import { ILocal } from "../../../../../../../lib/types";
+import { ILocal } from "../../../../../../../lib/types.d";
 
 const containerStyle = {
   width: "100%",

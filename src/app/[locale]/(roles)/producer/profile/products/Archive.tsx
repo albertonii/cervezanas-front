@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types";
+import { IProduct } from "../../../../../../lib/types.d";
 import { ProductsArchiveList } from "./ProductsArchiveList";
 import { UpdateProduct } from "../../../../components/modals/UpdateProduct";
 import { DeleteProduct } from "../../../../components/modals/DeleteProduct";

@@ -5,7 +5,7 @@ import {
   ICampaign,
   ICampaignItem,
   IProduct,
-} from "../../../../../../lib/types";
+} from "../../../../../../lib/types.d";
 import { Modal } from "../../../../components/modals/Modal";
 
 interface Props {

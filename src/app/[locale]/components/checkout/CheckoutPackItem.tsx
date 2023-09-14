@@ -6,7 +6,7 @@ import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../lib/types";
+} from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { Type } from "../../../../lib/productEnum";
 import { useShoppingCart } from "../../../../context";

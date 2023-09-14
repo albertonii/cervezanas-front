@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
 import OrderInvoice from "./OrderInvoice";
+import { redirect } from "next/navigation";
+import { VIEWS } from "../../../../../../../constants";
+import { createServerClient } from "../../../../../../../utils/supabaseServer";
 
 export default async function OrderInvoicePage({
   params,

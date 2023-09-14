@@ -2,7 +2,7 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { IAward, ModalAddProductProps } from "../../../../lib/types";
+import { IAward, ModalAddProductProps } from "../../../../lib/types.d";
 import {
   Button,
   DeleteButton,
