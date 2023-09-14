@@ -21,6 +21,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
   const {
     eventItems,
     getPackQuantity,
+    removeFromCart,
     increasePackCartQuantity,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
@@ -73,6 +74,10 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     }
   };
 
+  const handleRemoveFromCart = (pack: IProductPack) => {
+    removeFromCart(product_id.id, pack.id);
+  };
+
   return (
     <tr
       key={pack.id}
@@ -118,6 +123,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
         ) : (
           <>
             <MarketCartButtons2
+              item={pack}
               quantity={packQuantity}
               handleIncreaseCartQuantity={() =>
                 handleIncreaseCartQuantity(pack)
@@ -125,9 +131,36 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
               handleDecreaseCartQuantity={() =>
                 handleDecreaseCartQuantity(pack)
               }
+              handleRemoveFromCart={() => {
+                handleRemoveFromCart(pack);
+              }}
+              displayDeleteButton={true}
             />
           </>
         )}
+
+        {/* {packQuantity === 0 ? (
+          <>
+            <AddCardButton withText={true} onClick={() => handleAddToCart()} />
+          </>
+        ) : (
+          <>
+            <MarketCartButtons
+              item={pack}
+              quantity={packQuantity}
+              handleIncreaseCartQuantity={() =>
+                handleIncreaseCartQuantity(pack)
+              }
+              handleDecreaseCartQuantity={() =>
+                handleDecreaseCartQuantity(pack)
+              }
+              handleRemoveFromCart={() => {
+                handleRemoveFromCart(pack);
+              }}
+              displayDeleteButton={true}
+            />
+          </>
+        )} */}
       </td>
     </tr>
   );

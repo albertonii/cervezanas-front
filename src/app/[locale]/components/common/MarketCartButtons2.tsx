@@ -1,18 +1,23 @@
 import React from "react";
-import { IconButton } from ".";
+import { DeleteButton, IconButton } from ".";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   quantity: number;
+  item: any;
   handleIncreaseCartQuantity: () => void;
   handleDecreaseCartQuantity: () => void;
-  displayDelete?: boolean;
+  handleRemoveFromCart: (id: string) => void;
+  displayDeleteButton?: boolean;
 }
 
 export default function MarketCartButtons({
   quantity,
+  item,
   handleIncreaseCartQuantity,
   handleDecreaseCartQuantity,
+  handleRemoveFromCart,
+  displayDeleteButton,
 }: Props) {
   return (
     <>
@@ -40,6 +45,10 @@ export default function MarketCartButtons({
             ></IconButton>
           </div>
         </div>
+
+        {displayDeleteButton && (
+          <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+        )}
       </div>
     </>
   );
