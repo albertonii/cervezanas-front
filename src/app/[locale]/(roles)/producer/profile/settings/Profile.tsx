@@ -1,8 +1,8 @@
 "use client";
 
-import HorizontalSections from "../../../../../../components/common/HorizontalSections";
+import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../../../../components/common";
+import { Spinner } from "../../../../components/common";
 import { IProfile } from "../../../../../../lib/types";
 import { Account } from "./Account";
 import { Details } from "./Details";

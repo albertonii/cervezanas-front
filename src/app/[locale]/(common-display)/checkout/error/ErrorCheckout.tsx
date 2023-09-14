@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IOrder } from "../../../../../lib/types";
+import { IOrder, IOrderItem } from "../../../../../lib/types";
 import { SupabaseProps } from "../../../../../constants";
-import { useAuth } from "../../../../../components/Auth";
-import { formatCurrency, formatDateString } from "../../../../../utils";
+import { useAuth } from "../../../Auth/useAuth";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
   isError?: boolean;
@@ -91,9 +92,9 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
             <div className="space-y-8">
               {orderItems &&
-                orderItems.map((item) => (
+                orderItems.map((item: IOrderItem) => (
                   <div
-                    key={item.product_id.id}
+                    key={item.product_pack_id.id}
                     className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
                     <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
@@ -119,7 +120,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                       <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                         <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                           <Link
-                            href={`/products/${item.product_id.id}`}
+                            href={`/products/${item.product_pack_id.id}`}
                             locale={locale}
                           >
                             {item.product_pack_id.name}
@@ -133,7 +134,8 @@ export default function ErrorCheckout({ order, isError }: Props) {
                           {t("quantity")} -
                         </p>
                         <p className="mt-3 text-sm text-gray-500">
-                          {t("description")} - {item.product_id.description}
+                          {t("description")} -{" "}
+                          {item.product_pack_id.product_id.description}
                         </p>
                       </div>
 

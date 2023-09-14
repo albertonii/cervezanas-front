@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { ICPMobile } from "../../../../../../lib/types";
-import { DisplayInputError } from "../../../../../../components/common";
-import { Modal } from "../../../../../../components/modals";
-import { useAuth } from "../../../../../../components/Auth";
+import { DisplayInputError } from "../../../../components/common";
+import { Modal } from "../../../../components/modals";
+import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";

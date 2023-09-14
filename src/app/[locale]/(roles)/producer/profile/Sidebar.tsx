@@ -4,9 +4,9 @@ import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../../components/Auth";
-import { Button } from "../../../../../components/common";
-import { useAppContext } from "../../../../../components/Context";
+import { useAuth } from "../../../Auth/useAuth";
+import { Button } from "../../../components/common";
+import { useAppContext } from "../../../../../context";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();

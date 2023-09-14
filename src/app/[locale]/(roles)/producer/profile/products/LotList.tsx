@@ -1,17 +1,16 @@
 import Image from "next/image";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
+import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
 import React, { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAuth } from "../../../../../../components/Auth";
-import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
+import { useAuth } from "../../../../Auth/useAuth";
 import { IProductLot } from "../../../../../../lib/types";
 import {
-  Button,
   DeleteButton,
   EditButton,
   Spinner,
-} from "../../../../../../components/common";
-import { formatDateString } from "../../../../../../utils";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+} from "../../../../components/common";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
@@ -159,11 +158,11 @@ export function LotList({
                       <td className="px-6 py-4">{lot.quantity}</td>
 
                       <td className="px-6 py-4">
-                        {formatDateString(lot.manufacture_date.toString())}
+                        {formatDateString(lot.manufacture_date)}
                       </td>
 
                       <td className="px-6 py-4">
-                        {formatDateString(lot.expiration_date.toString())}
+                        {formatDateString(lot.expiration_date)}
                       </td>
 
                       <td className="px-6 py-4">

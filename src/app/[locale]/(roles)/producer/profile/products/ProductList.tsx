@@ -2,20 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 import React, { ComponentProps, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAuth } from "../../../../../../components/Auth";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
 import {
   ArchiveButton,
-  Button,
   DeleteButton,
   EditButton,
   Spinner,
-} from "../../../../../../components/common";
-import { formatCurrency } from "../../../../../../utils";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+} from "../../../../components/common";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IProduct } from "../../../../../../lib/types";
 
 interface Props {

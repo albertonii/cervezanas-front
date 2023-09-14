@@ -4,13 +4,13 @@ import Link from "next/link";
 import ApproveContractModal from "./ApproveContractModal";
 import useFetchDistributionContractsByDistributorId from "../../../../../../hooks/useFetchDistributionContractsByDistributorId";
 import React, { useMemo, useState } from "react";
-import { useAuth } from "../../../../../../components/Auth";
-import { formatDate } from "../../../../../../utils";
-import { IconButton } from "../../../../../../components/common";
+import { useAuth } from "../../../../Auth/useAuth";
+import { IconButton } from "../../../../components/common";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { IDistributionContract } from "../../../../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import RejectContractModal from "./RejectContractModal";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {
   NONE = "none",
@@ -206,7 +206,9 @@ export default function ListOfContracts() {
                   </Link>
                 </td>
 
-                <td className="px-6 py-4">{formatDate(contract.created_at)}</td>
+                <td className="px-6 py-4">
+                  {formatDateString(contract.created_at)}
+                </td>
 
                 <td className="px-6 py-4">{t(contract.status)}</td>
 

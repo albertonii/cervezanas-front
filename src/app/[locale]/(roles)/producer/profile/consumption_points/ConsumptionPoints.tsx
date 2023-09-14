@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IConsumptionPoints, IProfile } from "../../../../../../lib/types";
-import { SubmitCPOrganizer } from "../../../../../../components/modals";
+import { CPPending } from "./CPPending";
 import { CPAccepted } from "./CPAccepted";
 import { CPRejected } from "./CPRejected";
-import { CPPending } from "./CPPending";
+import { IConsumptionPoints, IProfile } from "../../../../../../lib/types";
+import { SubmitCPOrganizer } from "../../../../components/modals/SubmitCPOrganizer";
 
 interface Props {
   cps: IConsumptionPoints[];

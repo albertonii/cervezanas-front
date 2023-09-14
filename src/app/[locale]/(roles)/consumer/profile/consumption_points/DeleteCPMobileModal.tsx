@@ -1,8 +1,8 @@
 import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import DeleteModal from "../../../../../../components/modals/DeleteModal";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import DeleteModal from "../../../../components/modals/DeleteModal";
 
 interface Props {
   selectedCPId: string;

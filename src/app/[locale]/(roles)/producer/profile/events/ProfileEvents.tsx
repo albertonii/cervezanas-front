@@ -13,6 +13,8 @@ interface Props {
 export default function ProfileEvents({ cpsMobile }: Props) {
   const t = useTranslations();
 
+  console.log(cpsMobile);
+
   return (
     <div className="px-6 py-4">
       <AddEvent cpsMobile={cpsMobile} />

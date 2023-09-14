@@ -846,7 +846,7 @@ export interface IProduct {
   category: string;
   campaign_id: string;
   owner_id: string;
-  product_lot: IProductLot[];
+  product_lots: IProductLot[];
   product_inventory: Inventory[];
   product_multimedia: IProductMultimedia[];
   reviews: IRefReview[];
@@ -1009,11 +1009,11 @@ export interface IModalShippingAddress {
   address_extra: string;
   address_observations: string;
   country: string;
-  zipcode: any;
+  zipcode: string;
   city: string;
   state: string;
   is_default: boolean;
-  shipping_checked: boolean;
+  is_default: boolean;
 }
 
 export interface IModalBillingAddress {
@@ -1030,7 +1030,7 @@ export interface IModalBillingAddress {
   city: string;
   state: string;
   is_default: boolean;
-  billing_checked: boolean;
+  is_default: boolean;
 }
 
 export interface IShippingAddress {
@@ -1046,7 +1046,7 @@ export interface IShippingAddress {
   state: string;
   city: string;
   zipcode: string;
-  shipping_checked: boolean;
+  is_default: boolean;
 }
 
 export interface IBillingAddress {
@@ -1060,7 +1060,7 @@ export interface IBillingAddress {
   state: string;
   city: string;
   zipcode: string;
-  billing_checked: boolean;
+  is_default: boolean;
 }
 
 export interface IPaymentCard {

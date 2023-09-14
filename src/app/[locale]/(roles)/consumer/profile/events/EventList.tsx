@@ -8,13 +8,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types";
-import { formatDate } from "../../../../../../utils";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { Button, IconButton, Spinner } from "../../../../components/common";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -29,7 +25,6 @@ export default function EventList({ cpsMobile }: Props) {
 
   const counter = 1;
   const resultsPerPage = 10;
-  
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,
@@ -207,7 +202,9 @@ export default function EventList({ cpsMobile }: Props) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">{formatDate(e.created_at)}</td>
+                    <td className="px-6 py-4">
+                      {formatDateString(e.created_at)}
+                    </td>
 
                     <td className="cursor-pointer px-6 py-4"></td>
 

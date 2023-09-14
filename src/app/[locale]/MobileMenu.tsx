@@ -8,10 +8,10 @@ import { Select } from "@supabase/ui";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
-import { useAuth } from "../../components/Auth";
-import { useAppContext, useShoppingCart } from "../../components/Context";
-import { Button } from "../../components/common";
-import { Notification } from "./components";
+import { useAuth } from "./Auth/useAuth";
+import { useAppContext, useShoppingCart } from "../../context";
+import { Button } from "./components/common";
+import { Notification } from "./components/Notification";
 import { useLocale } from "next-intl";
 
 export function MobileMenu() {

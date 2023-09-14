@@ -1,8 +1,8 @@
 import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { Modal } from "../../../../../../components/modals";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { Modal } from "../../../../components/modals/Modal";
 
 interface Props {
   distributor_id: string;

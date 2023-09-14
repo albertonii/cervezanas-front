@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import useFetchBeers from "../../../../../../hooks/useFetchBeers";
 
 type FormValues = {

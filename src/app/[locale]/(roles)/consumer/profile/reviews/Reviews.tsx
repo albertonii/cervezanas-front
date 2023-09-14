@@ -5,10 +5,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IReview } from "../../../../../../lib/types";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { DeleteButton } from "../../../../../../components/common";
-import { formatDateString } from "../../../../../../utils";
-import { Rate } from "../../../../../../components/reviews";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { DeleteButton } from "../../../../components/common";
+import { Rate } from "../../../../components/reviews";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   reviews: IReview[];

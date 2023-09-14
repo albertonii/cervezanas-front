@@ -6,21 +6,18 @@ import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { useAuth } from "../../../../../components/Auth/useAuth";
-import { Button, CustomLoading } from "../../../../../components/common";
+import { useAuth } from "../../../Auth/useAuth";
+import { Button, CustomLoading } from "../../../components/common";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import {
-  createRedirectForm,
-  eventMerchantInfo,
-} from "../../../../../components/TPV";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
-import { useEventCart } from "../../../../../components/Context/EventCartContext";
+import { createRedirectForm, eventMerchantInfo } from "../../../components/TPV";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { useEventCart } from "../../../../../context/EventCartContext";
 import {
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
   PAYMENT_METHOD,
 } from "../../../../../constants";
-import { EventCheckoutItem } from "../../../../../components/checkout/EventCheckoutItem";
+import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
 import { IProductPackCartItem } from "../../../../../lib/types";
 

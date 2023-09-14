@@ -1,16 +1,16 @@
 "use client";
 
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../../../../../components/Auth";
+import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
 import { IEventOrder } from "../../../../../../lib/types";
-import { IconButton, Spinner } from "../../../../../../components/common";
-import { formatCurrency } from "../../../../../../utils";
+import { IconButton, Spinner } from "../../../../components/common";
 import { encodeBase64 } from "../../../../../../utils/utils";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface ColumnsProps {
   header: string;

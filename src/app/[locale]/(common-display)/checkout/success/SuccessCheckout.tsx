@@ -4,9 +4,10 @@ import Link from "next/link";
 import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../../components/Auth";
+import { useAuth } from "../../../Auth/useAuth";
 import { IOrder, IOrderItem } from "../../../../../lib/types";
-import { formatCurrency, formatDateString } from "../../../../../utils";
+import { formatDateString } from "../../../../../utils/formatDate";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
 interface Props {
   isError?: boolean;
   order: IOrder;

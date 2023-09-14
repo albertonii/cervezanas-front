@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAppContext } from "../../../../../../components/Context";
-import { toLowerCase } from "../../../../../../utils";
-import { ChipCard } from "../../../../../../components/common";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAppContext } from "../../../../../../context";
+import { ChipCard } from "../../../../components/common";
+import { toLowerCase } from "../../../../../../utils/formatWords";
 
 export function CustomizeSettings() {
   const t = useTranslations();

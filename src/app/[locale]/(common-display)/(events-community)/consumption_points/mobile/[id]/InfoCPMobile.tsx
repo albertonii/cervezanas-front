@@ -4,7 +4,7 @@ import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../../lib/types";
-import { formatDate } from "../../../../../../../utils";
+import { formatDateString } from "../../../../../../../utils/formatDate";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 interface Props {
@@ -38,10 +38,10 @@ export default function InfoCPMobile({ cpMobile }: Props) {
           <div className="mb-4">
             {/* Start and End date */}
             <span className="text-gray-500">
-              {t("start_date")}: {formatDate(cpMobile.start_date)}
+              {t("start_date")}: {formatDateString(cpMobile.start_date)}
             </span>
             <span className="ml-4 text-gray-500">
-              {t("end_date")}: {formatDate(cpMobile.end_date)}
+              {t("end_date")}: {formatDateString(cpMobile.end_date)}
             </span>
           </div>
 
@@ -155,10 +155,10 @@ function Map({ cp }: MapsProps) {
   const onMarkerFixClick = (marker: google.maps.Marker, mobile: ICPMobile) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDate(
+            <p class="text-md">Fecha inicio: ${formatDateString(
               mobile.start_date
             )}</p>
-            <p class="text-md">Fecha fin: ${formatDate(mobile.end_date)}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(mobile.end_date)}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>

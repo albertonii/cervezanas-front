@@ -4,17 +4,13 @@ import Link from "next/link";
 import useFetchCPFixed from "../../../../../../hooks/useFetchCPFixed";
 import EditCPFixedModal from "./EditCPFixedModal";
 import DeleteCPFixedModal from "./DeleteCPFixedModal";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPFixed } from "../../../../../../lib/types";
-import { formatDate } from "../../../../../../utils";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { IconButton, Spinner } from "../../../../components/common";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   cpsId: string;
@@ -213,7 +209,9 @@ export function ListCPFixed({ cpsId }: Props) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
+                    <td className="px-6 py-4">
+                      {formatDateString(cp.created_at)}
+                    </td>
 
                     <td className="flex items-center justify-center px-6 py-4">
                       <IconButton

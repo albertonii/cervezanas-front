@@ -3,7 +3,7 @@
 import LinkDistributor from "./LinkDistributor";
 import ListAssociatedDistributors from "./ListAssociatedDistributors";
 import React from "react";
-import { useAuth } from "../../../../../../components/Auth";
+import { useAuth } from "../../../../Auth/useAuth";
 
 export default function Distributors() {
   const { user } = useAuth();

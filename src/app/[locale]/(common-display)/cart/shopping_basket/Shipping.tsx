@@ -1,19 +1,16 @@
 import React, { ComponentProps, useState } from "react";
 
 import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { NewShippingAddress } from "../../../../../components/checkout";
-import {
-  DisplayInputError,
-  IconButton,
-} from "../../../../../components/common";
+import { NewShippingAddress } from "../../../components/checkout";
+import { DisplayInputError, IconButton } from "../../../components/common";
 import { UseFormReturn } from "react-hook-form";
 import { IShippingAddress } from "../../../../../lib/types";
 import { useTranslations } from "next-intl";
-import { DeleteAddress } from "../../../../../components/modals/DeleteAddress";
-import { useMessage } from "../../../../../components/message";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import { DeleteAddress } from "../../../components/modals/DeleteAddress";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "react-query";
+import { useMessage } from "../../../components/message/useMessage";
 
 interface Props {
   selectedShippingAddress: string;

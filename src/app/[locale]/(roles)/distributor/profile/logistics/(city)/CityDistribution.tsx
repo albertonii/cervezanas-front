@@ -1,13 +1,13 @@
-import PaginationFooter from "../../../../../../../components/common/PaginationFooter";
+import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import useFetchAllCountries from "../useFetchAllCountries";
 import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import useFetchCitiesOfState from "../useFetchCitiesOfState";
 import React, { useEffect, useState } from "react";
 import { Country, State, City, IState, ICity } from "country-state-city";
 import { useForm, UseFormRegister } from "react-hook-form";
-import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { Button, Spinner } from "../../../../../../../components/common";
+import { Button, Spinner } from "../../../../../components/common";
 import { useTranslations } from "next-intl";
 
 interface ICountry {

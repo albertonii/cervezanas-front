@@ -6,9 +6,9 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Sidebar } from "./Sidebar";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { useAuth } from "../../../../../components/Auth";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
-import { useAppContext } from "../../../../../components/Context";
+import { useAuth } from "../../../Auth/useAuth";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { useAppContext } from "../../../../../context";
 
 type LayoutProps = {
   children: React.ReactNode;

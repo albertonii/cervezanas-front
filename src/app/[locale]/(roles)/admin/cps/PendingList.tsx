@@ -11,12 +11,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
 import { IConsumptionPoints, SortBy } from "../../../../../lib/types";
-import { formatDate } from "../../../../../utils";
 import { generateDownloadableLink } from "../../../../../utils/utils";
-import { IconButton } from "../../../../../components/common";
-import { Modal } from "../../../../../components/modals";
-import { useAuth } from "../../../../../components/Auth";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import { IconButton } from "../../../components/common";
+import { Modal } from "../../../components/modals/Modal";
+import { useAuth } from "../../../Auth/useAuth";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -291,7 +291,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   </Link>
                 </td>
 
-                <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
+                <td className="px-6 py-4">{formatDateString(cp.created_at)}</td>
 
                 <td className="cursor-pointer px-6 py-4">
                   <FontAwesomeIcon

@@ -2,14 +2,11 @@
 
 import { NextIntlClientProvider } from "next-intl";
 import React from "react";
-import { AuthContextProvider } from "../../components/Auth";
-import {
-  AppContextProvider,
-  ShoppingCartProvider,
-} from "../../components/Context";
-import { EventCartProvider } from "../../components/Context/EventCartContext";
-import SupabaseProvider from "../../components/Context/SupabaseProvider";
-import { MessageProvider } from "../../components/message";
+import { AppContextProvider, ShoppingCartProvider } from "../../context";
+import { EventCartProvider } from "../../context/EventCartContext";
+import SupabaseProvider from "../../context/SupabaseProvider";
+import { AuthContextProvider } from "./Auth/AuthContext";
+import { MessageProvider } from "./components/message/MessageContext";
 import ReactQueryWrapper from "./ReactQueryWrapper";
 
 interface Props {

@@ -2,7 +2,6 @@
 
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-
 import {
   Combobox,
   ComboboxInput,
@@ -10,16 +9,14 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-
 import "@reach/combobox/styles.css";
-
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
 import { IConsumptionPoints, ICPFixed, ICPMobile } from "../../../lib/types.d";
-import { formatDate } from "../../../utils";
+import { formatDateString } from "../../../utils/formatDate";
 
 const containerStyle = {
   width: "100%",
@@ -60,8 +57,12 @@ function Map({ cps }: Props) {
   const onMarkerFixClick = (marker: google.maps.Marker, fixed: ICPFixed) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDate(fixed.start_date)}</p>
-            <p class="text-md">Fecha fin: ${formatDate(fixed.end_date)}</p>
+            <p class="text-md">Fecha inicio: ${formatDateString(
+              fixed.start_date
+            )}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(
+              fixed.end_date
+            )}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
@@ -100,10 +101,12 @@ function Map({ cps }: Props) {
   ) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDate(
+            <p class="text-md">Fecha inicio: ${formatDateString(
               mobile.start_date
             )}</p>
-            <p class="text-md">Fecha fin: ${formatDate(mobile.end_date)}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(
+              mobile.end_date
+            )}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>

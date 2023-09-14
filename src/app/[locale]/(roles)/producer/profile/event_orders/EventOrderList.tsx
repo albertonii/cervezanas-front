@@ -1,20 +1,16 @@
 "use client";
 
 import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../../../Auth/useAuth";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { IEventOrder } from "../../../../../../lib/types";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
-import { formatCurrency } from "../../../../../../utils";
+import { IconButton, Spinner } from "../../../../components/common";
 import { encodeBase64 } from "../../../../../../utils/utils";
-import { useAuth } from "../../../../../../components/Auth";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   eventOrders: IEventOrder[];

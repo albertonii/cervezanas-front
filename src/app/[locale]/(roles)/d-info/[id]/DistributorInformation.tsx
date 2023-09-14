@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import React from "react";
-import DisplayImageProfile from "../../../../../components/common/DisplayImageProfile";
+import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 import { IDistributorUser_Profile } from "../../../../../lib/types";
-import { formatDate } from "../../../../../utils";
 import { useTranslations } from "next-intl";
+import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
   distributor: IDistributorUser_Profile;
@@ -13,7 +13,7 @@ interface Props {
 
 export default function DistributorInformation({ distributor }: Props) {
   const t = useTranslations();
-  const accountCreatedDate = formatDate(distributor.created_at);
+  const accountCreatedDate = formatDateString(distributor.created_at);
 
   return (
     <div className="container mx-auto my-5 p-5">
@@ -40,11 +40,11 @@ export default function DistributorInformation({ distributor }: Props) {
               non deserunt
             </p>
 
-            <ul className="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+            <ul className="mt-3 divide-y rounded bg-gray-100 px-3 py-2 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
               <li className="flex items-center py-3">
                 <span>Status</span>
                 <span className="ml-auto">
-                  <span className="rounded bg-green-500 py-1 px-2 text-sm text-white">
+                  <span className="rounded bg-green-500 px-2 py-1 text-sm text-white">
                     Active
                   </span>
                 </span>

@@ -4,13 +4,13 @@ import Link from "next/link";
 import useFetchCPMobile from "../../../../../../hooks/useFetchCPMobile";
 import DeleteCPMobileModal from "./DeleteCPMobileModal";
 import EditCPMobileModal from "./EditCPMobileModal";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPMobile, SortBy } from "../../../../../../lib/types";
-import { IconButton, Spinner } from "../../../../../../components/common";
-import { formatDate } from "../../../../../../utils";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { IconButton, Spinner } from "../../../../components/common";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   cpsId: string;
@@ -206,7 +206,9 @@ export function ListCPMobile({ cpsId }: Props) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">{formatDate(cp.created_at)}</td>
+                    <td className="px-6 py-4">
+                      {formatDateString(cp.created_at)}
+                    </td>
 
                     <td className="flex items-center justify-center px-6 py-4">
                       <IconButton

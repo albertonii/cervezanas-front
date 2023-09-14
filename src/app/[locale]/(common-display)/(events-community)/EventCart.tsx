@@ -1,8 +1,8 @@
 import EventProduct from "./EventProduct";
 import EmptyCart from "../cart/shopping_basket/EmptyCart";
 import React, { useEffect, useState } from "react";
-import { Button } from "../../../../components/common";
-import { useEventCart } from "../../../../components/Context/EventCartContext";
+import { Button } from "../../components/common";
+import { useEventCart } from "../../../../context/EventCartContext";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { IProductPackCartItem } from "../../../../lib/types";

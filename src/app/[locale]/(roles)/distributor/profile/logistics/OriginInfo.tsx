@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { Button, DisplayInputError } from "../../../../../../components/common";
+import { Button, DisplayInputError } from "../../../../components/common";
 import InputForm from "../../../../components/InputForm";
 import Label from "../../../../components/Label";
 

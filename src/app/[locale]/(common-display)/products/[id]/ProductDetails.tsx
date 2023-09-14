@@ -1,13 +1,13 @@
 import Packs from "./Packs";
+import DistributionInformation from "./DistributionInformation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Rate } from "../../../../../components/reviews";
+import { Rate } from "../../../components/reviews";
 import { SupabaseProps } from "../../../../../constants";
-import { formatCurrency } from "../../../../../utils";
-import { ProductGallery } from "../../../components";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
-import DistributionInformation from "./DistributionInformation";
+import { ProductGallery } from "../../../components/ProductGallery";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { ICarouselItem, IProduct } from "../../../../../lib/types";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 

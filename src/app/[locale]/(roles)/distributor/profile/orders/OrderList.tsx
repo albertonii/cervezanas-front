@@ -6,15 +6,11 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
+import { Button, IconButton, Spinner } from "../../../../components/common";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
-import { useAuth } from "../../../../../../components/Auth";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { useAuth } from "../../../../Auth/useAuth";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 
 interface Props {
   orders: IOrder[];

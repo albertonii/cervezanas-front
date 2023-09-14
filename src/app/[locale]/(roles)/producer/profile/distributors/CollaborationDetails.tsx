@@ -1,7 +1,6 @@
 import React from "react";
-import { useAuth } from "../../../../../../components/Auth";
+import { useAuth } from "../../../../Auth/useAuth";
 import useFetchDistributorById from "../../../../../../hooks/useFetchDistributorById";
-import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
 
 interface Props {
   distributorId: string;

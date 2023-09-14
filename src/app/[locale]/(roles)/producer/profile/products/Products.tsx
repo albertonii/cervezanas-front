@@ -3,11 +3,10 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { IProduct } from "../../../../../../lib/types";
-import {
-  AddProduct,
-  DeleteProduct,
-  UpdateProduct,
-} from "../../../../../../components/modals/index";
+import { AddProduct } from "../../../../components/modals/AddProduct";
+import { DeleteProduct } from "../../../../components/modals/DeleteProduct";
+import { UpdateProduct } from "../../../../components/modals/UpdateProduct";
+
 import { ProductList } from "./ProductList";
 
 export function Products() {

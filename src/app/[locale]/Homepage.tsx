@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "../../components/Auth";
-import { Hero } from "../../components/homepage";
-import MonthlyBeers from "../../components/homepage/MonthlyBeers";
+import { useAuth } from "./Auth/useAuth";
+import { Hero } from "./homepage";
+import MonthlyBeers from "./homepage/MonthlyBeers";
 import { IMonthlyProduct } from "../../lib/types.d";
 
 interface Props {

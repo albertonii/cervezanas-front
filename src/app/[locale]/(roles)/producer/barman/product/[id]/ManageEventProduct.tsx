@@ -1,16 +1,16 @@
 "use client";
 
-import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Button, Spinner } from "../../../../../../../components/common";
+import { Button, Spinner } from "../../../../../components/common";
 import { IEventOrderItem } from "../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../utils";
-import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
 } from "../../../../../../../constants";
+import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 
 interface Props {
   eventOrderItem: IEventOrderItem;

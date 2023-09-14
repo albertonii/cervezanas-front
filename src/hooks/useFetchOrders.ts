@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useSupabase } from "../context/SupabaseProvider";
 
 const fetchOrders = async (
   ownerId: string,

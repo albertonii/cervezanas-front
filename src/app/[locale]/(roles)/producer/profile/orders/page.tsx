@@ -31,7 +31,8 @@ async function getOrdersData() {
     .from("orders")
     .select(
       `
-        *
+        *,
+        business_orders (*)
       `
     )
     .eq("owner_id", session.user.id);

@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import AddCPFixedModal from "./AddCPFixedModal";
 import { useTranslations } from "next-intl";
 import { ListCPFixed } from "./ListCPFixed";
-import AddCPFixedModal from "./AddCPFixedModal";
 
 interface Props {
   cpsId: string;

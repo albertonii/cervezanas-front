@@ -5,10 +5,10 @@ import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import React, { ComponentProps, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { INotification } from "../../../lib/types.d";
-import { useAppContext } from "../../../components/Context";
+import { useAppContext } from "../../../context";
 import { useLocale, useTranslations } from "next-intl";
-import { getTimeElapsed } from "../../../utils";
-import { useSupabase } from "../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../context/SupabaseProvider";
+import { getTimeElapsed } from "../../../utils/formatDate";
 
 interface Props {
   open: boolean;

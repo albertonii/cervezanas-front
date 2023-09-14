@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../../../components/Auth";
+import { useAuth } from "../../../Auth/useAuth";
 import useFetchDistributionContractsByProducerId from "../../../../../hooks/useFetchDistributionContractsByProducerId";
 import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOwnerId";
 import {

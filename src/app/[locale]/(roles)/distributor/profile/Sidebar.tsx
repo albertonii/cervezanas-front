@@ -3,10 +3,10 @@
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAppContext } from "../../../../../components/Context";
-import { useAuth } from "../../../../../components/Auth";
+import { useAppContext } from "../../../../../context";
+import { useAuth } from "../../../Auth/useAuth";
 import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
-import { Button } from "../../../../../components/common";
+import { Button } from "../../../components/common";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();

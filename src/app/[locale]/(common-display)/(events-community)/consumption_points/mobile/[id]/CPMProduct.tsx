@@ -1,11 +1,11 @@
 import Link from "next/link";
-import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
-import { formatCurrency } from "../../../../../../../utils";
-import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
+import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import { AddCardButton } from "../../../../../components/common/AddCartButton";
 import { SupabaseProps } from "../../../../../../../constants";
 import { IProductPack } from "../../../../../../../lib/types";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
-import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { EventProductTimeline } from "./EventProductTimeline";
@@ -10,8 +10,8 @@ import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
 } from "../../../../../../constants";
-import { formatCurrency } from "../../../../../../utils";
-import { Button } from "../../../../../../components/common";
+import { Button } from "../../../../components/common";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   eventOrderItem: IEventOrderItem;

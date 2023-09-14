@@ -1,16 +1,16 @@
 import ListAvailableDistributors from "./ListAvailableDistributors";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal } from "../../../../../../components/modals";
+import { Modal } from "../../../../components/modals/Modal";
 import { IDistributorUser_Profile } from "../../../../../../lib/types";
 import { SubmitContract } from "./SubmitContract";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMessage } from "../../../../../../components/message";
 import { useMutation, useQueryClient } from "react-query";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DistributionStatus } from "../../../../../../lib/enums";
+import { useMessage } from "../../../../components/message/useMessage";
 
 type FormData = {
   message: string;

@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "./common/DisplayImageProduct";
 import React, { ComponentProps, useEffect, useState } from "react";
-import { Carousel } from "../../../components/common";
+import { Carousel } from "./common";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "../../../components/common";
+import { IconButton } from "./common";
 import { ICarouselItem } from "../../../lib/types.d";
-import { ImageModal } from "../../../components/modals/ImageModal";
+import { ImageModal } from "./modals/ImageModal";
 
 interface Props {
   gallery: ICarouselItem[];

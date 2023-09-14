@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { IBillingInfo } from "../../../lib/types.d";
-import { Button } from "../../../components/common";
+import { Button } from "./common";
 
 interface Props {
   option: IBillingInfo;

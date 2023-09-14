@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Button } from "../../../../components/common";
+import { Button } from "../../components/common";
 import { IEvent } from "../../../../lib/types";
-import { formatDate } from "../../../../utils";
 import { useLocale, useTranslations } from "next-intl";
+import { formatDateString } from "../../../../utils/formatDate";
 
 interface Props {
   events: IEvent[];
@@ -98,8 +98,8 @@ const EventCard = ({ event }: EventCardProps) => {
                 {/* Start date - End date  */}
                 <div className="flex-none text-lg italic leading-none text-gray-600">
                   <Link href={`/events/${event.id}`} locale={locale}>
-                    {formatDate(event.start_date)} -{" "}
-                    {formatDate(event.end_date)}
+                    {formatDateString(event.start_date)} -{" "}
+                    {formatDateString(event.end_date)}
                   </Link>
                 </div>
               </div>

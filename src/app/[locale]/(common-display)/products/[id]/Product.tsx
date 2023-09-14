@@ -1,16 +1,12 @@
 "use client";
 
 import ProductDetails from "./ProductDetails";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Spinner } from "../../../../../components/common";
-import {
-  ProductOverallReview,
-  ProductReviews,
-} from "../../../../../components/reviews";
-import { DisplaySimilarProducts } from "../../../components";
+import React, { useEffect, useRef, useState } from "react";
+import { Spinner } from "../../../components/common";
+import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";
+import { ProductReviews } from "../../../components/reviews/ProductReviews";
+import { DisplaySimilarProducts } from "../../../components/DisplaySimilarProducts";
 import { IProduct, IReview } from "../../../../../lib/types";
-import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOwnerId";
-import { useAuth } from "../../../../../components/Auth";
 
 interface Props {
   product: IProduct;

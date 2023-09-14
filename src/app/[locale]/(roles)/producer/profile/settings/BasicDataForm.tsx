@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { IProfile } from "../../../../../../lib/types";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
   Button,
   DisplayInputError,
   Spinner,
-} from "../../../../../../components/common";
+} from "../../../../components/common";
 
 interface FormData {
   name: string;

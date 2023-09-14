@@ -1,14 +1,14 @@
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import DeleteContractModal from "./DeleteContractModal";
+import CancelContractModal from "./CancelContractModal";
 import useFetchDistributionContractsByProducerId from "../../../../../../hooks/useFetchDistributionContractsByProducerId";
 import React, { useEffect, useMemo, useState } from "react";
-import { IconButton, Spinner } from "../../../../../../components/common";
+import { IconButton, Spinner } from "../../../../components/common";
 import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
 import { IDistributionContract } from "../../../../../../lib/types";
-import { formatDate } from "../../../../../../utils";
 import { useTranslations } from "next-intl";
-import CancelContractModal from "./CancelContractModal";
 import { DistributionStatus } from "../../../../../../lib/enums";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {
   NONE = "none",
@@ -215,7 +215,7 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
                     </td>
 
                     <td className="px-6 py-4">
-                      {formatDate(contract.created_at)}
+                      {formatDateString(contract.created_at)}
                     </td>
 
                     <td className="px-6 py-4">{t(contract.status)}</td>

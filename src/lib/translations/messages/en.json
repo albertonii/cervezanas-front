@@ -591,5 +591,7 @@
   "created_at": "Created at",
   "contract_info": "Contract information",
   "approve_contract": "Approve contract",
-  "reject_contract": "Reject contract"
+  "reject_contract": "Reject contract",
+  "send_to": "Send to",
+  "select": "Select"
 }

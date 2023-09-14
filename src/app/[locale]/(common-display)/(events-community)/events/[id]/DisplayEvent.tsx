@@ -6,7 +6,7 @@ import React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../constants";
 import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
-import { formatDate } from "../../../../../../utils";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   event: IEvent;
@@ -36,10 +36,10 @@ export default function DisplayEvent({ event }: Props) {
       <div className="mb-4">
         {/* Start and End date */}
         <span className="text-gray-500">
-          {t("start_date")}: {formatDate(event.start_date)}
+          {t("start_date")}: {formatDateString(event.start_date)}
         </span>
         <span className="ml-4 text-gray-500">
-          {t("end_date")}: {formatDate(event.end_date)}
+          {t("end_date")}: {formatDateString(event.end_date)}
         </span>
       </div>
 
@@ -136,7 +136,7 @@ const CPMobile = ({ cp }: CPMobileProps) => {
       <td className="space-x-2 px-6 py-4">{cp.cp_description}</td>
       <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
       <td className="space-x-2 px-6 py-4">
-        {formatDate(cp.start_date)} - {formatDate(cp.end_date)}
+        {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
       </td>
       <td className="space-x-2 px-6 py-4">{cp.status}</td>
     </tr>

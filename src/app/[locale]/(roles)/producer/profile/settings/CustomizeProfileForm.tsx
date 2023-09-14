@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { IProfile } from "../../../../../../lib/types";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAppContext } from "../../../../../../components/Context";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAppContext } from "../../../../../../context";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import {
   Button,
   FilePreviewAndHide,
   Spinner,
-} from "../../../../../../components/common";
+} from "../../../../components/common";
 
 type FormValues = {
   bg_url: any;

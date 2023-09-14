@@ -5,10 +5,10 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../components/Auth";
-import { SignUpForm } from "../../../../components/Auth/SignUpForm";
+import { useAuth } from "../../Auth/useAuth";
+import { SignUpForm } from "../../Auth/SignUpForm";
 import { VIEWS } from "../../../../constants";
-import { Spinner } from "../../../../components/common";
+import { Spinner } from "../../components/common";
 
 export default function Signup() {
   const t = useTranslations();

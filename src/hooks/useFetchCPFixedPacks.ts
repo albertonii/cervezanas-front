@@ -2,7 +2,7 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useSupabase } from "../context/SupabaseProvider";
 import { ICPMProductsEditCPMobileModal } from "../lib/types";
 
 const fetchCPFixedPacks = async (

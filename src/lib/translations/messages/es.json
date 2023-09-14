@@ -606,5 +606,7 @@
   "created_at": "Fecha de creación",
   "contract_info": "Información del contrato",
   "approve_contract": "Aprobar contrato",
-  "reject_contract": "Rechazar contrato"
+  "reject_contract": "Rechazar contrato",
+  "send_to": "Enviar a",
+  "select": "Seleccionar"
 }

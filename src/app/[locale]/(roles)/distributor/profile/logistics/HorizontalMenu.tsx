@@ -1,5 +1,5 @@
 import React from "react";
-import HorizontalSections from "../../../../../../components/common/HorizontalSections";
+import HorizontalSections from "../../../../components/common/HorizontalSections";
 import { DistributionType } from "../../../../../../lib/enums";
 
 type Props = {

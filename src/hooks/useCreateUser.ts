@@ -2,7 +2,7 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useMutation } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useSupabase } from "../context/SupabaseProvider";
 
 interface User {
   email: string;

@@ -1,11 +1,12 @@
 import React from "react";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { SupabaseProps } from "../../../../../constants";
 import { IOrder, IOrderItem } from "../../../../../lib/types";
-import { Button } from "../../../../../components/common";
-import { formatCurrency, formatDateString } from "../../../../../utils";
+import { Button } from "../../../components/common";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { formatDateString } from "../../../../../utils/formatDate";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

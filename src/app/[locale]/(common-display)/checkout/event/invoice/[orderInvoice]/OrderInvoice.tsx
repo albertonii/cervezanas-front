@@ -12,13 +12,10 @@ import {
   Svg,
   Line,
 } from "@react-pdf/renderer";
-import {
-  Table,
-  TableTotalInvoice,
-} from "../../../../../../../components/invoice";
-import { FooterInvoice } from "../../../../../../../components/invoice/FooterInvoice";
-import { formatDateString } from "../../../../../../../utils";
+import { Table, TableTotalInvoice } from "../../../../../components/invoice";
+import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
 import { IOrder, IProduct } from "../../../../../../../lib/types";
+import { formatDateString } from "../../../../../../../utils/formatDate";
 
 // Create styles
 const styles = StyleSheet.create({

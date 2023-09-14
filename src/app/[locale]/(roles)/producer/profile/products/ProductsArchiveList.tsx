@@ -3,20 +3,19 @@
 import Link from "next/link";
 import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 import Image from "next/image";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
-  Button,
   EditButton,
   Spinner,
   UnarchiveButton,
-} from "../../../../../../components/common";
-import { useAuth } from "../../../../../../components/Auth";
-import { useAppContext } from "../../../../../../components/Context";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { formatCurrency } from "../../../../../../utils";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+} from "../../../../components/common";
+import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types";
+import { useAppContext } from "../../../../../../context";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;

@@ -6,13 +6,13 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import _ from "lodash";
 import { IProfileLocation } from "../../../../../../lib/types";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAuth } from "../../../../../../components/Auth";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
 import {
   Button,
   DisplayInputError,
   Spinner,
-} from "../../../../../../components/common";
+} from "../../../../components/common";
 
 interface FormProps {
   addressName: string;

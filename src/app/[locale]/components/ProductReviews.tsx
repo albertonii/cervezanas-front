@@ -1,7 +1,7 @@
 "use client";
 
 import { IReview } from "../../../lib/types.d";
-import { IndividualReview } from "../../../components/reviews";
+import { IndividualReview } from "./reviews";
 import { ComponentProps } from "react";
 
 interface Props {

@@ -6,7 +6,7 @@ import {
   ICampaignItem,
   IProduct,
 } from "../../../../../../lib/types";
-import { Modal } from "../../../../../../components/modals";
+import { Modal } from "../../../../components/modals/Modal";
 
 interface Props {
   index: number;

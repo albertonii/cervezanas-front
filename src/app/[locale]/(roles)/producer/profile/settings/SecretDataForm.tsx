@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useMessage } from "../../../../../../components/message";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
   Button,
   DisplayInputError,
   Spinner,
-} from "../../../../../../components/common";
+} from "../../../../components/common";
+import { useMessage } from "../../../../components/message/useMessage";
 
 interface FormProps {
   oldPassword: string;

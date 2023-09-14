@@ -3,12 +3,12 @@ import "../../styles/globals.css";
 import Providers from "./providers";
 import classNames from "classnames";
 import { Suspense } from "react";
-import { MessageList } from "../../components/message";
 import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
-import { Footer } from "./components";
+import { Footer } from "./components/Footer";
 import { notFound } from "next/navigation";
 import Loading from "./loading";
+import { MessageList } from "./components/message/MessageList";
 
 type LayoutProps = {
   children: React.ReactNode;

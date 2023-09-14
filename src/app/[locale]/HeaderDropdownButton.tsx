@@ -6,9 +6,9 @@ import React, { useRef, useState } from "react";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../components/Auth";
-import { useAppContext } from "../../components/Context";
+import { useAppContext } from "../../context";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
+import { useAuth } from "./Auth/useAuth";
 
 interface DropdownProps {
   options: string[];
@@ -17,12 +17,11 @@ interface DropdownProps {
 export function HeaderDropdownButton({ options }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const dropdown = useRef<HTMLDivElement>(null);
-  const { role, user } = useAuth();
+  const { role, user, signOut } = useAuth();
 
   const t = useTranslations();
   const locale = useLocale();
 
-  const { signOut } = useAuth();
   const { changeSidebarActive } = useAppContext();
 
   const handleOpenCallback = () => {

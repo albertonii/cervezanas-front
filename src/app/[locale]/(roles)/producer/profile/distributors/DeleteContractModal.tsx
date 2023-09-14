@@ -1,8 +1,8 @@
-import DeleteModal from "../../../../../../components/modals/DeleteModal";
+import DeleteModal from "../../../../components/modals/DeleteModal";
 import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 
 interface Props {
   distributor_id: string;

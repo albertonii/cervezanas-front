@@ -2,9 +2,10 @@
 
 import useFilters from "../../../../hooks/useFilters";
 import React from "react";
-import { StoreItem } from "../../../../components/Cart";
+import { StoreItem } from "../../components/Cart";
 import { IProduct } from "../../../../lib/types";
-import { Filters, MarketplaceHeader } from "../../components";
+import { Filters } from "../../components/Filters";
+import { MarketplaceHeader } from "../../components/MarketplaceHeader";
 
 interface Props {
   products: IProduct[];

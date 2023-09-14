@@ -4,14 +4,14 @@ import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ICampaign, ICampaignItem } from "../../../../../../lib/types";
-import { useAuth } from "../../../../../../components/Auth";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useMessage } from "../../../../../../components/message";
+import { useAuth } from "../../../../Auth/useAuth";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
   Button,
   DeleteButton,
   DisplayInputError,
-} from "../../../../../../components/common";
+} from "../../../../components/common";
+import { useMessage } from "../../../../components/message/useMessage";
 
 enum CampaignStatus {
   uninitialized = "uninitialized",

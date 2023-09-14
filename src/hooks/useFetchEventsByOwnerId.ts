@@ -2,8 +2,8 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useAuth } from "../components/Auth";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { useSupabase } from "../context/SupabaseProvider";
 
 const fetchEventsByOwnerId = async (
   ownerId: string,

@@ -2,7 +2,8 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useSupabase } from "../context/SupabaseProvider";
+import { IProduct } from "../lib/types";
 
 const fetchProductById = async (
   productId: string,
@@ -22,11 +23,12 @@ const fetchProductById = async (
     )
   `
     )
-    .eq("id", productId);
+    .eq("id", productId)
+    .single();
 
   if (error) throw error;
 
-  return data;
+  return data as IProduct;
 };
 
 const useFetchProductById = (productId: string) => {

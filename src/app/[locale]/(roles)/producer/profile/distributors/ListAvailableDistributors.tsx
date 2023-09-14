@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
-import { useLocale, useTranslations } from "next-intl";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { IconButton, Spinner } from "../../../../../../components/common";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
+import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { IconButton, Spinner } from "../../../../components/common";
 import { IDistributorUser_Profile } from "../../../../../../lib/types";
-import { formatDate } from "../../../../../../utils";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {
   NONE = "none",
@@ -208,7 +208,7 @@ export default function ListAvailableDistributors({
                       </Link>
                     </td>
                     <td className="px-6 py-4">
-                      {formatDate(distributor.created_at)}
+                      {formatDateString(distributor.created_at)}
                     </td>
                     <td className="flex items-center justify-center px-6 py-4">
                       <IconButton

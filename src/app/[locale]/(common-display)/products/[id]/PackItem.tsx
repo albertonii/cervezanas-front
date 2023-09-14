@@ -1,4 +1,4 @@
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 import { SupabaseProps } from "../../../../../constants";

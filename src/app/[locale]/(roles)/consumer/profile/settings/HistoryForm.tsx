@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { Spinner } from "../../../../../../components/common";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { Spinner } from "../../../../components/common";
 
 export function HistoryForm(props: any) {
   const t = useTranslations();

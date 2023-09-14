@@ -10,19 +10,15 @@ import React, {
 } from "react";
 import { useTranslations } from "next-intl";
 
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../../components/common";
-import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
-import { useEventCart } from "../../../../../../../components/Context/EventCartContext";
-import { useSupabase } from "../../../../../../../components/Context/SupabaseProvider";
+import { Button, IconButton, Spinner } from "../../../../../components/common";
+import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
+import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import {
   ProductOverallReview,
   ProductReviews,
   Rate,
-} from "../../../../../../../components/reviews";
+} from "../../../../../components/reviews";
 import { SupabaseProps } from "../../../../../../../constants";
 import {
   ICarouselItem,
@@ -31,11 +27,6 @@ import {
   IProductPack,
   IReview,
 } from "../../../../../../../lib/types.d";
-import { formatCurrency } from "../../../../../../../utils";
-import {
-  DisplaySimilarProducts,
-  ProductGallery,
-} from "../../../../../components";
 
 interface Props {
   product: ICPMProducts;

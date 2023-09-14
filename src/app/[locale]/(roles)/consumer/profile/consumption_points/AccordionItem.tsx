@@ -1,12 +1,12 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IProduct, IProductPack } from "../../../../../../lib/types";
+import { IProduct, IRefProductPack } from "../../../../../../lib/types";
 import { Format, FormatName } from "../../../../../../lib/beerEnum";
-import { formatCurrency } from "../../../../../../utils";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UseFormReturn } from "react-hook-form";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   product: IProduct;
@@ -100,7 +100,7 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
           <div className="grid grid-cols-1 space-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {product.product_packs
               .sort((a, b) => a.quantity - b.quantity)
-              .map((pack: IProductPack) => (
+              .map((pack: IRefProductPack) => (
                 <div
                   key={pack.id}
                   className={`${

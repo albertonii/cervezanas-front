@@ -9,23 +9,21 @@ import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOw
 import useFetchBillingByOwnerId from "../../../../../hooks/useFetchBillingByOwnerId";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../components/Context/ShoppingCartContext";
-import { Spinner } from "../../../../../components/common/Spinner";
+import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
+import { Spinner } from "../../../components/common/Spinner";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "../../../../../components/Auth/useAuth";
+import { useAuth } from "../../../Auth/useAuth";
 import { useForm } from "react-hook-form";
-import { Button, CustomLoading } from "../../../../../components/common";
-import { CheckoutItem } from "../../../../../components/checkout";
+import { Button, CustomLoading } from "../../../components/common";
+import { CheckoutItem } from "../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import {
-  createRedirectForm,
-  merchantInfo,
-} from "../../../../../components/TPV";
-import { useSupabase } from "../../../../../components/Context/SupabaseProvider";
+import { createRedirectForm, merchantInfo } from "../../../components/TPV";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
+import { IOrder } from "../../../../../lib/types";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -172,16 +170,19 @@ export function ShoppingBasket() {
         billing_info: billingInfoId,
         type: "online",
       })
-      .select("id");
+      .select("id")
+      .single();
 
     if (orderError) throw orderError;
+
+    if (!order) return;
 
     cart.map((product) => {
       product.packs.map(async (pack) => {
         const { error: orderItemError } = await supabase
           .from("order_items")
           .insert({
-            order_id: order?.[0].id,
+            business_order_id: order.id,
             product_pack_id: pack.id,
             quantity: pack.quantity,
           });
@@ -265,7 +266,7 @@ export function ShoppingBasket() {
         <Spinner color="beer-blonde" size="medium" />
       ) : (
         <>
-          <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+          <div className="flex w-full flex-row items-center justify-center sm:my-2 ">
             <form
               action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
               method="POST"
@@ -383,7 +384,7 @@ export function ShoppingBasket() {
                     </div>
 
                     {/* Order summary  */}
-                    <div className="border-product-softBlonde flex w-full flex-col items-center justify-between border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
+                    <div className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                         {t("customer")}
                       </h3>
@@ -391,7 +392,7 @@ export function ShoppingBasket() {
                       <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
                         {/* Summary */}
                         <div className="flex flex-shrink-0 flex-col items-start justify-start">
-                          <div className="flex w-full flex-col space-y-6 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
+                          <div className="flex w-full flex-col space-y-6 bg-gray-50  dark:bg-gray-800">
                             <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                               {t("summary")}
                             </h3>

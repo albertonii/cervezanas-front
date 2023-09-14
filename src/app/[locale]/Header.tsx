@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "../../components/Auth";
+import { useAuth } from "./Auth/useAuth";
 import { MobileMenu } from "./MobileMenu";
 import { ScreenMenu } from "./ScreenMenu";
 

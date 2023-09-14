@@ -4,11 +4,11 @@ import React, { ComponentProps } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { IDistributionContract } from "../../../../../../lib/types";
-import { Modal } from "../../../../../../components/modals";
+import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQueryClient } from "react-query";
-import { formatDate } from "../../../../../../utils";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DistributionStatus } from "../../../../../../lib/enums";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   selectedContract: IDistributionContract;
@@ -94,7 +94,7 @@ export default function RejectContractModal({
         <div className="flex flex-col space-y-2">
           <label htmlFor="created_at">{t("created_at")}</label>
 
-          <p>{formatDate(selectedContract.created_at)} </p>
+          <p>{formatDateString(selectedContract.created_at)} </p>
         </div>
       </fieldset>
     </Modal>

@@ -1,20 +1,16 @@
 "use client";
 
-import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
-import DeleteCEventModal from "./DeleteEventModal";
 import Link from "next/link";
+import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
+import DeleteCEventModal from "./DeleteEventModal";
 import EditEventModal from "./EditEventModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPMobile, IEvent } from "../../../../../../lib/types";
-import { formatDate } from "../../../../../../utils";
-import {
-  Button,
-  IconButton,
-  Spinner,
-} from "../../../../../../components/common";
-import PaginationFooter from "../../../../../../components/common/PaginationFooter";
+import { IconButton, Spinner } from "../../../../components/common";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {
   NONE = "none",
@@ -217,7 +213,9 @@ export default function EventList({ cpsMobile }: Props) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">{formatDate(e.created_at)}</td>
+                    <td className="px-6 py-4">
+                      {formatDateString(e.created_at)}
+                    </td>
 
                     <td className="cursor-pointer px-6 py-4"></td>
 

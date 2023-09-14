@@ -1,11 +1,11 @@
 "use client";
 
 import PackItem from "./PackItem";
-import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
+import MarketCartButtons2 from "../../../components/common/MarketCartButtons2";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { AddCardButton } from "../../../../../components/common";
-import { useShoppingCart } from "../../../../../components/Context";
+import { AddCardButton } from "../../../components/common";
+import { useShoppingCart } from "../../../../../context";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 
 interface Props {

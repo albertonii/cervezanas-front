@@ -7,11 +7,11 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAuth } from "../../../../../../components/Auth";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { Modal } from "../../../../../../components/modals";
-import { DisplayInputError } from "../../../../../../components/common";
+import { Modal } from "../../../../components/modals";
+import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IProduct, IUser } from "../../../../../../lib/types";
 

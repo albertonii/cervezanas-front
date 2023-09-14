@@ -11,11 +11,11 @@ import {
 } from "../../../../../../lib/types";
 import { CampaignForm } from "./CampaignForm";
 import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
-import { useSupabase } from "../../../../../../components/Context/SupabaseProvider";
-import { useAuth } from "../../../../../../components/Auth";
-import { useMessage } from "../../../../../../components/message/useMessage";
-import { Button } from "../../../../../../components/common";
-import { DeleteCampaign } from "../../../../../../components/modals/DeleteCampaign";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
+import { useMessage } from "../../../../components/message/useMessage";
+import { Button } from "../../../../components/common";
+import { DeleteCampaign } from "../../../../components/modals/DeleteCampaign";
 
 interface Props {
   campaigns: ICampaign[];
@@ -34,9 +34,9 @@ export function Campaigns({ campaigns: c, products }: Props) {
     description: "",
     img_url: "",
     is_public: false,
-    created_at: new Date(),
-    start_date: new Date(),
-    end_date: new Date(),
+    created_at: "",
+    start_date: "",
+    end_date: "",
     owner_id: user?.id ?? "",
     slogan: "",
     goal: "",

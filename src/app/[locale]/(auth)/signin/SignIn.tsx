@@ -9,16 +9,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  DisplayInputError,
-  Spinner,
-} from "../../../../components/common";
-import { useMessage } from "../../../../components/message";
-import { useAuth } from "../../../../components/Auth";
+import { Button, DisplayInputError, Spinner } from "../../components/common";
+import { useAuth } from "../../Auth/useAuth";
 import { useMutation } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
+import { useMessage } from "../../components/message/useMessage";
 
 type FormData = {
   email: string;

@@ -2,7 +2,7 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery, UseQueryResult } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useSupabase } from "../context/SupabaseProvider";
 import { ICustomizeSettings } from "../lib/types";
 
 const fetchCustomSettingsById = async (
