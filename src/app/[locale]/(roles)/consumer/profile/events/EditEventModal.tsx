@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import { Modal } from "../../../../components/modals";
+import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common";
 import { useMutation, useQueryClient } from "react-query";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";

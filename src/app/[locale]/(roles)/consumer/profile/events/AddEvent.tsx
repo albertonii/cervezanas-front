@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import { ICPMobile } from "../../../../../../lib/types";
-import { DisplayInputError } from "../../../../components/common";
-import { Modal } from "../../../../components/modals";
 import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import { useForm } from "react-hook-form";
+import { ICPMobile } from "../../../../../../lib/types";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
+import { Modal } from "../../../../components/modals/Modal";
+import { DisplayInputError } from "../../../../components/common";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
 
 interface FormData {
   name: string;
