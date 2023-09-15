@@ -68,6 +68,14 @@ export function ShoppingBasket() {
     isLoading: billingAddressesLoading,
   } = useFetchBillingByOwnerId(user?.id as string);
 
+  if (billingAddressesError) {
+    throw billingAddressesError;
+  }
+
+  if (shippingAddressesError) {
+    throw shippingAddressesError;
+  }
+
   const formShipping = useForm<FormShippingData>();
   const { trigger: triggerShipping } = formShipping;
 

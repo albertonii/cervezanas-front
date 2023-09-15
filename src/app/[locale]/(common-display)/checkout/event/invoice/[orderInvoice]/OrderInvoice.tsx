@@ -105,6 +105,7 @@ export default function OrderInvoice({ order, products }: Props) {
   const items = products.map((product) => {
     const { order_number: code } = order;
     const { id, name: article, price, order_items } = product;
+
     const { quantity: unit } = order_items[0];
     const total = unit * price;
 
@@ -212,7 +213,7 @@ export default function OrderInvoice({ order, products }: Props) {
                   <Text>
                     Fecha: {formatDateString(order.issue_date.toString())}
                   </Text>
-                  <Text>Forma de pago: {order.payment_method.type}</Text>
+                  {/* <Text>Forma de pago: {order.payment_method.type}</Text> */}
                 </View>
 
                 {/* Albarán del pedido  */}

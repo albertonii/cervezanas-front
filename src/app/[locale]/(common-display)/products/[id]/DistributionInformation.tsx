@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../Auth/useAuth";
 import useFetchDistributionContractsByProducerId from "../../../../../hooks/useFetchDistributionContractsByProducerId";
 import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOwnerId";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../../Auth/useAuth";
 import {
   ICoverageArea,
   IDistributorUser,
@@ -33,7 +33,7 @@ export default function DistributionInformation({ product }: Props) {
 
   useEffect(() => {
     if (!contracts) return;
-    setDistributor(contracts[0].distributor_id);
+    setDistributor(contracts[0].distributor_user[0]);
   }, [contracts]);
 
   if (!contracts) return null;

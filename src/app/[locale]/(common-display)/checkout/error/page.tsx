@@ -4,7 +4,12 @@ import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../utils/utils";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types.d";
+import {
+  IBillingInfo,
+  IBusinessOrder,
+  IOrder,
+  IShippingInfo,
+} from "../../../../../lib/types.d";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -87,18 +92,56 @@ async function getCheckoutErrorData(searchParams: any) {
     .select(
       `
       *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
+      shipping_info_id,
+      billing_info_id,
+      shipping_info!orders_shipping_info_id_fkey (
+        id,
+        created_at,
+        updated_at,
+        owner_id,
+        name,
+        lastname,
+        document_id,
+        phone,
+        address,
+        address_extra,
+        address_observations,
+        country,
+        zipcode,
+        city,
+        state,
+        is_default
+      ),
+      billing_info!orders_billing_info_id_fkey (
+        id,
+        created_at,
+        updated_at,
+        owner_id,
+        name,
+        lastname,
+        document_id,
+        phone,
+        address,
+        country,
+        zipcode,
+        city,
+        state,
+        is_default
+      ),
+      products (
         id, 
         name, 
         price,
         product_multimedia(*),
         order_items (*)
+      ),
+      business_orders!business_orders_order_id_fkey (
+        *
       )
     `
     )
-    .eq("order_number", orderId);
+    .eq("order_number", orderId)
+    .single();
 
   if (orderError) {
     console.error(orderError.message);
@@ -108,12 +151,15 @@ async function getCheckoutErrorData(searchParams: any) {
     };
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData) {
     return {
       orderData: null,
       isError: true,
     };
   }
 
-  return { orderData: orderData[0] as IOrder, isError: false };
+  return {
+    orderData: orderData as IOrder,
+    isError: false,
+  };
 }

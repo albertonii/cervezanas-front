@@ -18,7 +18,8 @@ interface Props {
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ErrorCheckout({ order, isError }: Props) {
-  const { order_items: orderItems } = order;
+  const { business_orders } = order;
+  const { order_items: orderItems } = business_orders[0];
 
   const t = useTranslations();
   const locale = useLocale();
@@ -135,7 +136,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         </p>
                         <p className="mt-3 text-sm text-gray-500">
                           {t("description")} -{" "}
-                          {item.product_pack_id.product_id.description}
+                          {item.product_pack_id.products.description}
                         </p>
                       </div>
 
@@ -165,7 +166,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                   {order.shipping_info.address_extra}
                                 </span>
                                 <span className="block">
-                                  {order.shipping_info.address_observation}
+                                  {order.shipping_info.address_observations}
                                 </span>
                               </>
                             )}

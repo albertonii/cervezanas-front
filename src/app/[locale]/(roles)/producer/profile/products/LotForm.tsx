@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import useFetchBeers from "../../../../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import useFetchBeers from "../../../../../../hooks/useFetchBeers";
+import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
+import { useAuth } from "../../../../Auth/useAuth";
 
 type FormValues = {
   lot_number: string;
@@ -15,11 +17,21 @@ interface Props {
 }
 
 export default function LotForm({ handleShowModal }: Props) {
+  const { supabase } = useSupabase();
+  const { user } = useAuth();
+
+  if (!user) return null;
+
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const [currentPage, setCurrentPage] = useState(1);
+  const resultsPerPage = 10;
 
-  const { data: productsLot, isSuccess } = useFetchBeers();
+  const { data: productsLot, isSuccess } = useFetchLotsByOwnerAndPagination(
+    user?.id,
+    currentPage,
+    resultsPerPage
+  );
 
   const {
     register,
@@ -45,7 +57,6 @@ export default function LotForm({ handleShowModal }: Props) {
           const { error } = await supabase.from("product_lots").insert({
             product_id: product_id,
             num_lot_id: lot_number,
-            created_at: new Date(),
             quantity: lot_quantity,
           });
 
@@ -143,22 +154,22 @@ export default function LotForm({ handleShowModal }: Props) {
                   className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownSearchButton"
                 >
-                  {productsLot.map((product, index: number) => {
+                  {productsLot.map((lot, index: number) => {
                     return (
-                      <li key={product.id}>
+                      <li key={lot.id}>
                         <div className="flex items-center rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
                           <input
                             id="checkbox-item-11"
                             type="checkbox"
                             {...register(`products.${index}.value`)}
-                            value={productsLot[index].id}
-                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600"
+                            value={lot.id}
+                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-gold focus:ring-2 focus:ring-beer-darkGold dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-darkGold"
                           />
                           <label
                             htmlFor={`products.${index}.value`}
                             className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                           >
-                            {product.lot_name}
+                            {lot.lot_name}
                           </label>
                         </div>
                       </li>

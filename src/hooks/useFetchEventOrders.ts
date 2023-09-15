@@ -2,6 +2,7 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IEventOrder } from "../lib/types";
 
 const fetchCPOrders = async (
   ownerId: string,
@@ -24,7 +25,7 @@ const fetchCPOrders = async (
     );
 
   if (error) throw error;
-  return data;
+  return data as IEventOrder[];
 };
 
 const useFetchCPOrders = (

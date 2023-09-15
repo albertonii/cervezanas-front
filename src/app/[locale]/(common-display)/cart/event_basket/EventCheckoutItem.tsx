@@ -48,7 +48,7 @@ export function EventCheckoutItem({ productPack }: Props) {
               <div key={pack.id}>
                 <EventCheckoutPackItem
                   productPack={productPack}
-                  productWithInfo={productWithInfo[0]}
+                  productWithInfo={productWithInfo}
                   pack={pack}
                 />
               </div>

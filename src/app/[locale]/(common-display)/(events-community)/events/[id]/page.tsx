@@ -31,13 +31,15 @@ async function getEvent(eventId: string) {
     .from("events")
     .select(
       `
-            *,
-            owner_id (*),
-            cp_mobile (*)
-
-        `
+        *,
+        owner_id,
+        cp_mobile (*)
+      `
     )
     .eq("id", eventId);
+
+  // users!events_owner_id_fkey (*),
+
   if (error) console.error(error);
 
   return event as IEvent[];

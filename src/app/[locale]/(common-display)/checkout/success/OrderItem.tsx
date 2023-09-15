@@ -85,7 +85,7 @@ export default function OrderItem({ orderItem, order }: Props) {
                   {order.shipping_info.address_extra}
                 </span>
                 <span className="block">
-                  {order.shipping_info.address_observation}
+                  {order.shipping_info.address_observations}
                 </span>
               </>
             )}

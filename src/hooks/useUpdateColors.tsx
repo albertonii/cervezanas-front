@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useMutation, UseMutationResult } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { ICustomizeSettings } from "../lib/types";
 
 const updateColors = async (
   colors: string[],
@@ -14,10 +15,11 @@ const updateColors = async (
     .update({
       colors: colors,
     })
-    .eq("id", customSettingsId);
+    .eq("id", customSettingsId)
+    .single();
 
   if (error) throw error;
-  return data;
+  return data as ICustomizeSettings;
 };
 
 const useUpdateColors = (

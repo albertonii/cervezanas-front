@@ -13,22 +13,22 @@ const fetchDistributionContracts = async (
     .from("distribution_contracts")
     .select(
       `
-        producer_id (
-          *,
-          users (*)
-        ),
+        producer_id,
+        distributor_id,
         created_at,
         status,
         producer_accepted,
         distributor_accepted,
         message,
-        distributor_id
+        producer_user!distribution_contracts_producer_id_fkey (
+          *
+        )
       `
     )
     .eq("distributor_id", distributorId);
 
   if (error) throw error;
-  return data as any[] as IDistributionContract[];
+  return data as IDistributionContract[];
 };
 
 const useFetchDistributionContractsByDistributorId = (

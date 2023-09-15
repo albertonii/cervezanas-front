@@ -79,8 +79,7 @@ export function AddLot() {
       if (product.value != false) {
         const product_id = product.value;
         const { error } = await supabase.from("product_lots").insert({
-          product_id: product_id,
-          created_at: new Date(),
+          product_id,
           quantity,
           lot_number,
           lot_name,

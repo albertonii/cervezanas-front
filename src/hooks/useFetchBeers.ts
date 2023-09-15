@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IBeer } from "../lib/types";
 
 const fetchBeers = async (supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase.from("beers").select(`
@@ -16,7 +17,7 @@ const fetchBeers = async (supabase: SupabaseClient<any>) => {
 
   if (error) throw error;
 
-  return data;
+  return data as IBeer[];
 };
 
 const useFetchBeers = () => {

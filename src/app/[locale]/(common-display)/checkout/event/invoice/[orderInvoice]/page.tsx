@@ -2,6 +2,7 @@ import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
+import { IOrder } from "../../../../../../../lib/types";
 
 export default async function OrderInvoicePage({
   params,
@@ -15,7 +16,7 @@ export default async function OrderInvoicePage({
 
   return (
     <>
-      <OrderInvoice order={order[0]} products={products} />
+      <OrderInvoice order={order} products={products} />
     </>
   );
 }
@@ -38,17 +39,68 @@ async function getInvoiceData(slug: any) {
     .from("orders")
     .select(
       `
-      *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_items (*)
-      )
-    `
+        id,
+        created_at,
+        updated_at,
+        owner_id,
+        status,
+        customer_name, 
+        tracking_id,
+        issue_date,
+        estimated_date,
+        total,
+        subtotal,
+        shipping,
+        tax,
+        currency,
+        discount,
+        discount_code,
+        order_number,
+        shipping_info_id,
+        billing_info_id,
+        shipping_info!orders_shipping_info_id_fkey (
+          id,
+          created_at,
+          updated_at,
+          owner_id,
+          name,
+          lastname,
+          document_id,
+          phone,
+          address,
+          address_extra,
+          address_observations,
+          country,
+          zipcode,
+          city,
+          state,
+          is_default
+        ),
+        billing_info!orders_billing_info_id_fkey (
+          id,
+          created_at,
+          updated_at,
+          owner_id,
+          name,
+          lastname,
+          document_id,
+          phone,
+          address,
+          country,
+          zipcode,
+          city,
+          state,
+          is_default
+        ),
+        business_orders!business_orders_order_id_fkey (*),
+        products(
+          id, 
+          name, 
+          price,
+          product_multimedia(*),
+          order_items (*)
+        )
+      `
     )
     .eq("order_number", orderId);
 
@@ -56,12 +108,11 @@ async function getInvoiceData(slug: any) {
     throw new Error(orderError.message);
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData) {
     return {
       order: null,
-      products: [],
     };
   }
 
-  return orderData[0];
+  return orderData as IOrder;
 }

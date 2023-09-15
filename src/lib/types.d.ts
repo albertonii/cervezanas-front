@@ -377,9 +377,12 @@ export interface IEvent {
   end_date: string;
   logo_url: string;
   promotional_url: string;
-  owner_id: IUser;
-  cp_mobile: ICPMobile[];
   status: string;
+  geoArgs: GeocodeResult[];
+  address: string;
+  owner_id: string;
+  cp_mobile: ICPMobile[];
+  users: IUserTable;
 }
 export interface IConsumptionPoints {
   id: string;
@@ -566,9 +569,8 @@ export interface IOrder {
   updated_at: string;
   owner_id: string;
   status: string;
-  shipping_info: ShippingInfo;
-  billing_info: BillingInfo;
-  payment_method: PaymentCardMethod;
+  shipping_info_id: string;
+  billing_info_id: string;
   customer_name: string;
   tracking_id: string;
   issue_date: string;
@@ -581,16 +583,18 @@ export interface IOrder {
   discount: number;
   discount_code: string;
   order_number: string;
-  business_orders: IBusinessOrders;
+  business_orders: IBusinessOrder[];
+  shipping_info: IShippingInfo;
+  billing_info: IBillingInfo;
 }
 
 export interface IOrderItem {
-  created_at: string;
-  business_order_id: IBusinessOrders;
+  business_order_id: IBusinessOrder;
   // product_id: IProduct;
   product_pack_id: IProductPack;
-  is_reviewed: boolean;
+  created_at: string;
   quantity: number;
+  is_reviewed: boolean;
 }
 
 export interface IEventOrder {
@@ -600,7 +604,7 @@ export interface IEventOrder {
   status: string;
   customer_id: string;
   event_id: string;
-  payment_method: PaymentCardMethod;
+  payment_method: IPaymentCardMethod;
   total: number;
   subtotal: number;
   tax: number;
@@ -639,7 +643,8 @@ export interface IPaymentCardMethod {
   card_expiration_year: number;
   card_cvc: number;
   card_name: string;
-  checkSave: boolean;
+  save_card: boolean;
+  order_id: IOrder;
 }
 
 export interface IPaymentStandardTransferMethod {
@@ -664,11 +669,11 @@ export interface IShippingInfo {
   phone: string;
   address: string;
   address_extra: string;
-  address_observation: string;
+  address_observations: string;
   country: string;
-  state: string;
-  city: string;
   zipcode: string;
+  city: string;
+  state: string;
   is_default: boolean;
 }
 
@@ -682,8 +687,6 @@ export interface IBillingInfo {
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
-  address_observation: string;
   country: string;
   zipcode: string;
   city: string;
@@ -869,18 +872,17 @@ export interface IProduct {
   is_monthly: boolean;
   owner_id: string;
   beers: IBeer[];
-
-  // product_multimedia: IProductMultimedia[];
+  product_multimedia: IProductMultimedia[];
+  order_items: OrderItem[];
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
-  // product_lots: IProductLot[];
-  // product_inventory: Inventory[];
+  product_lots: IProductLot[];
+  product_inventory: Inventory[];
   // reviews: IRefReview[];
   // likes: ILike[];
   // beers: IBeer[];
   // product_variant: IProductVariant[];
-  // order_items: OrderItem[];
   // awards: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
@@ -1044,7 +1046,6 @@ export interface IModalBillingAddress {
   phone: string;
   address: string;
   address_extra: string;
-  address_observations: string;
   country: string;
   zipcode: string;
   city: string;
@@ -1135,6 +1136,22 @@ export interface IUser {
   consumption_points: IConsumptionPoints;
 }
 
+export interface IUserTable {
+  id: string;
+  created_at: string;
+  name: string;
+  lastname: string;
+  email: string;
+  username: string;
+  role: string;
+  avatar_url: string;
+  bg_url: string;
+  updated_at: string;
+  birtdate: string;
+  cp_organizer_status: number;
+  is_provider: boolean;
+}
+
 export interface IUserProfile {
   id: string;
   username: string;
@@ -1208,28 +1225,32 @@ export interface IProducerUser_Profile {
 }
 
 export interface IProducerUser {
-  user: any; // ID
+  user: string; // ID
   created_at: string;
   company_name: string;
   company_description: string;
   location_id: IProfileLocation[];
-  users: IUser; // To access embeded information we need to get into the table and the look for data
+  // users: IUser; // To access embeded information we need to get into the table and the look for data
 }
 
 export interface IDistributionContract {
-  producer_id: IProducerUser;
-  distributor_id: IDistributorUser;
+  producer_id: string;
+  distributor_id: string;
   created_at: string;
   status: string;
   producer_accepted: boolean;
   distributor_accepted: boolean;
   message: string;
+  producer_user: IProducerUser[];
+  distributor_user: IDistributorUser[];
 }
 
 export interface IBusinessOrder {
   id: string;
   created_at: string;
-  order_id: IOrder;
+  order_id: string;
+  orders?: IOrder;
+  order_items?: IOrderItem[];
 }
 
 export interface IBusinessOrderRef {

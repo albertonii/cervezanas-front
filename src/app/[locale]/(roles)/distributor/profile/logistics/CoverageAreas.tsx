@@ -13,12 +13,7 @@ export default function CoverageAreas() {
   const t = useTranslations();
   const [menuOption, setMenuOption] = useState<string>("local");
 
-  const {
-    data: distribution,
-    error,
-    isLoading,
-    isFetching,
-  } = useFetchDistributionByOwnerId();
+  const { data: distribution, error } = useFetchDistributionByOwnerId();
 
   if (error) {
     console.error(error);

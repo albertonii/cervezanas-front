@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IBillingInfo } from "../lib/types";
 
 const fetchBillingByOwnerId = async (
   ownerId: string,
@@ -15,7 +16,7 @@ const fetchBillingByOwnerId = async (
 
   if (error) throw error;
 
-  return data;
+  return data as IBillingInfo[];
 };
 
 const useFetchBillingByOwnerId = (ownerId: string) => {

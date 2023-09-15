@@ -4,7 +4,7 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery, UseQueryResult } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { useSupabase } from "../context/SupabaseProvider";
-import { IDistribution } from "../lib/types.d";
+import { IDistribution, IDistributorUser } from "../lib/types.d";
 
 const fetchDistributionByOwnerId = async (
   userId: string,
@@ -19,10 +19,11 @@ const fetchDistributionByOwnerId = async (
         local_distribution(*))
       `
     )
-    .eq("user", userId);
+    .eq("user", userId)
+    .single();
 
   if (error) throw error;
-  return data[0];
+  return data as IDistributorUser;
 };
 
 const useFetchDistributionByOwnerId = (): UseQueryResult<

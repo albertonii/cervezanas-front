@@ -19,7 +19,7 @@ import {
 } from "../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPackCartItem } from "../../../../../lib/types.d";
+import { IProductPack, IProductPackCartItem } from "../../../../../lib/types.d";
 
 export default function EventBasket() {
   const t = useTranslations();
@@ -47,7 +47,7 @@ export default function EventBasket() {
   useEffect(() => {
     let subtotal = 0;
     cart.map((item) => {
-      item.packs.map((pack: IProductPackCartItem) => {
+      item.packs.map((pack: IProductPack) => {
         subtotal += pack.price * pack.quantity;
       });
     });
@@ -97,7 +97,7 @@ export default function EventBasket() {
     if (orderError) throw orderError;
 
     cart.map(async (item) => {
-      item.packs.map(async (pack: IProductPackCartItem) => {
+      item.packs.map(async (pack: IProductPack) => {
         const { error: orderItemError } = await supabase
           .from("event_order_items")
           .insert({

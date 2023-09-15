@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IProduct } from "../lib/types";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -37,7 +38,7 @@ const fetchProductsByOwner = async (
 
   if (error) throw error;
 
-  return data;
+  return data as IProduct[];
 };
 
 const useFetchProductsByOwnerAndPagination = (

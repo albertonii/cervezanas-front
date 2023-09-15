@@ -37,33 +37,50 @@ async function getCPMobile(cpId: string) {
           cp_id,
           product_pack_id,
           product_packs!cpm_products_product_pack_id_fkey (
-            *,
-            product_id,
-            products!product_packs_product_id_fkey (
-              id,
-              created_at,
-              name,
-              description,
-              type,
-              is_public,
-              discount_percent,
-              discount_code,
-              price,
-              campaign_id,
-              is_archived,
-              category,
-              is_monthly,
-              owner_id,
-              beers!beers_product_id_fkey (
-                *
-              ),
-              product_multimedia!product_multimedia_product_id_fkey (p_principal)
-            )
+            *
           )
         )
       `
     )
     .eq("id", cpId);
+
+    // const { data: cpsMobile, error: cpMobileError } = await supabase
+    // .from("cp_mobile")
+    // .select(
+    //   `
+    //     *,
+    //     cpm_products!cpm_products_cp_id_fkey (
+    //       *,
+    //       cp_id,
+    //       product_pack_id,
+    //       product_packs!cpm_products_product_pack_id_fkey (
+    //         *,
+    //         product_id,
+    //         products!product_packs_product_id_fkey (
+    //           id,
+    //           created_at,
+    //           name,
+    //           description,
+    //           type,
+    //           is_public,
+    //           discount_percent,
+    //           discount_code,
+    //           price,
+    //           campaign_id,
+    //           is_archived,
+    //           category,
+    //           is_monthly,
+    //           owner_id,
+    //           beers!beers_product_id_fkey (
+    //             *
+    //           ),
+    //           product_multimedia!product_multimedia_product_id_fkey (*, p_principal)
+    //         )
+    //       )
+    //     )
+    //   `
+    // )
+    // .eq("id", cpId);
 
   if (cpMobileError) console.error(cpMobileError);
 

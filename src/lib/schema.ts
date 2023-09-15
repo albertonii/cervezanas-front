@@ -1283,7 +1283,7 @@ export interface Database {
       }
       orders: {
         Row: {
-          billing_info: string | null
+          billing_info_id: string | null
           created_at: string | null
           currency: string | null
           customer_name: string | null
@@ -1294,9 +1294,8 @@ export interface Database {
           issue_date: string | null
           order_number: string | null
           owner_id: string | null
-          payment_method: string | null
           shipping: number | null
-          shipping_info: string | null
+          shipping_info_id: string | null
           status: string | null
           subtotal: number | null
           tax: number | null
@@ -1306,7 +1305,7 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
-          billing_info?: string | null
+          billing_info_id?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -1317,9 +1316,8 @@ export interface Database {
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
-          payment_method?: string | null
           shipping?: number | null
-          shipping_info?: string | null
+          shipping_info_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -1329,7 +1327,7 @@ export interface Database {
           updated_at?: string | null
         }
         Update: {
-          billing_info?: string | null
+          billing_info_id?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -1340,9 +1338,8 @@ export interface Database {
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
-          payment_method?: string | null
           shipping?: number | null
-          shipping_info?: string | null
+          shipping_info_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -1353,8 +1350,8 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "orders_billing_info_fkey"
-            columns: ["billing_info"]
+            foreignKeyName: "orders_billing_info_id_fkey"
+            columns: ["billing_info_id"]
             referencedRelation: "billing_info"
             referencedColumns: ["id"]
           },
@@ -1365,9 +1362,58 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "orders_shipping_info_fkey"
-            columns: ["shipping_info"]
+            foreignKeyName: "orders_shipping_info_id_fkey"
+            columns: ["shipping_info_id"]
             referencedRelation: "shipping_info"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      payment_method_card: {
+        Row: {
+          card_cvc: number | null
+          card_expiration_month: number | null
+          card_expiration_year: number | null
+          card_name: string | null
+          card_number: number | null
+          created_at: string
+          id: string
+          order_id: string | null
+          save_card: boolean | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          card_cvc?: number | null
+          card_expiration_month?: number | null
+          card_expiration_year?: number | null
+          card_name?: string | null
+          card_number?: number | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          save_card?: boolean | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          card_cvc?: number | null
+          card_expiration_month?: number | null
+          card_expiration_year?: number | null
+          card_name?: string | null
+          card_number?: number | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          save_card?: boolean | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_method_card_order_id_fkey"
+            columns: ["order_id"]
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           }
         ]

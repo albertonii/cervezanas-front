@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IProductLot } from "../lib/types";
 
 const fetchLotsByOwner = async (
   ownerId: string,
@@ -29,7 +30,7 @@ const fetchLotsByOwner = async (
 
   if (error) throw error;
 
-  return data;
+  return data as IProductLot[];
 };
 
 const useFetchLotsByOwnerAndPagination = (

@@ -16,7 +16,7 @@ interface Props {
 export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
   const orderItems = bOrders && (bOrders[0].order_items as IOrderItem[]);
-  const { product_id: productDetails } = orderItems[0].product_pack_id;
+  const { products: productDetails } = orderItems[0].product_pack_id;
 
   const t = useTranslations();
   const locale = useLocale();

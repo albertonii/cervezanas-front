@@ -12,10 +12,11 @@ const fetchCustomSettingsById = async (
   const { data, error } = await supabase
     .from("customize_settings")
     .select("*")
-    .eq("owner_id", userId);
+    .eq("owner_id", userId)
+    .single();
 
   if (error) throw error;
-  return data;
+  return data as ICustomizeSettings;
 };
 
 const useFetchCustomSettings = (

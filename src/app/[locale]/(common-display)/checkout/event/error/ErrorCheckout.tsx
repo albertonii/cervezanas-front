@@ -5,7 +5,7 @@ import DisplayImageProduct from "../../../../components/common/DisplayImageProdu
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { IOrder } from "../../../../../../lib/types.d";
+import { IOrder, IOrderItem } from "../../../../../../lib/types.d";
 import { SupabaseProps } from "../../../../../../constants";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { formatDateString } from "../../../../../../utils/formatDate";
@@ -18,7 +18,8 @@ interface Props {
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ErrorCheckout({ order, isError }: Props) {
-  const { order_items: orderItems } = order;
+  const { business_orders } = order;
+  const { order_items: orderItems } = business_orders[0];
 
   const t = useTranslations();
   const locale = useLocale();
@@ -92,9 +93,9 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
             <div className="space-y-8">
               {orderItems &&
-                orderItems.map((item) => (
+                orderItems.map((item: IOrderItem) => (
                   <div
-                    key={item.id}
+                    key={item.business_order_id.id + "-" + item.product_pack_id}
                     className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
                     <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
@@ -164,7 +165,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                   {order.shipping_info.address_extra}
                                 </span>
                                 <span className="block">
-                                  {order.shipping_info.address_observation}
+                                  {order.shipping_info.address_observations}
                                 </span>
                               </>
                             )}

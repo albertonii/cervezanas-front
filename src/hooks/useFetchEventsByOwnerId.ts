@@ -4,6 +4,7 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IEvent } from "../lib/types";
 
 const fetchEventsByOwnerId = async (
   ownerId: string,
@@ -25,7 +26,7 @@ const fetchEventsByOwnerId = async (
     .select();
 
   if (error) throw error;
-  return data;
+  return data as IEvent[];
 };
 
 const useFetchEventsByOwnerId = (

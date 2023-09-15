@@ -95,7 +95,8 @@ async function getCheckoutErrorData(searchParams: any) {
         price,
         product_multimedia(*),
         order_items (*)
-      )
+      ),
+      business_orders (*)
     `
     )
     .eq("order_number", orderId);

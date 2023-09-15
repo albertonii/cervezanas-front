@@ -2,6 +2,7 @@
 
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { IOrder } from "../lib/types";
 
 const fetchOrders = async (
   ownerId: string,
@@ -34,7 +35,7 @@ const fetchOrders = async (
     );
 
   if (error) throw error;
-  return data;
+  return data as IOrder[];
 };
 
 const useFetchOrders = (

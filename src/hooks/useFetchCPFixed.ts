@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
+import { ICPFixed } from "../lib/types";
 
 const fetchCPFixed = async (
   cpId: string,
@@ -18,12 +19,14 @@ const fetchCPFixed = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
-    .select();
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
 
-  return data;
+  return data as ICPFixed[];
 };
 
 const useFetchCPFixed = (

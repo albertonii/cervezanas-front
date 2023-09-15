@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import useFetchCPFixed from "../../../../../../hooks/useFetchCPFixed";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
 import EditCPFixedModal from "./EditCPFixedModal";
 import DeleteCPFixedModal from "./DeleteCPFixedModal";
 import React, { useEffect, useMemo, useState } from "react";
@@ -9,7 +10,6 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPFixed } from "../../../../../../lib/types.d";
 import { IconButton, Spinner } from "../../../../components/common";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
