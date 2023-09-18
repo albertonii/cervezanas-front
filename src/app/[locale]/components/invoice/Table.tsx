@@ -11,10 +11,11 @@ const styles = StyleSheet.create({
 interface Props {
   data: {
     items: {
+      id: string;
       code: string;
       article: string;
       price: number;
-      unit: number;
+      quantity: number;
       total: number;
     }[];
     itemsHeader: {

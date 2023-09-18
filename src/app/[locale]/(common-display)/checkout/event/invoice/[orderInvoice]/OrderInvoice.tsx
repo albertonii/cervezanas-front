@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -14,7 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import { Table, TableTotalInvoice } from "../../../../../components/invoice";
 import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
-import { IOrder, IProduct } from "../../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 
 // Create styles
@@ -98,25 +98,30 @@ const styles = StyleSheet.create({
 
 interface Props {
   order: IOrder;
-  products: IProduct[];
 }
 
-export default function OrderInvoice({ order, products }: Props) {
-  const items = products.map((product) => {
-    const { order_number: code } = order;
-    const { id, name: article, price, order_items } = product;
+export default function OrderInvoice({ order }: Props) {
+  const [items, setItems] = useState(() => {
+    const { order_items } = order.business_orders[0];
 
-    const { quantity: unit } = order_items[0];
-    const total = unit * price;
+    if (!order_items) return [];
 
-    return {
-      id,
-      code,
-      article,
-      price,
-      unit,
-      total,
-    };
+    return order_items.map((item) => {
+      const { order_number: code } = order;
+      const { quantity } = item;
+      const { id, name: article, price } = item.product_pack_id;
+
+      const total = quantity * price;
+
+      return {
+        id,
+        code,
+        article,
+        price,
+        quantity,
+        total,
+      };
+    });
   });
 
   const itemsHeader = [

@@ -1,8 +1,8 @@
 import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
-import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import { IOrder } from "../../../../../../../lib/types";
+import { createServerClient } from "../../../../../../../utils/supabaseServer";
 
 export default async function OrderInvoicePage({
   params,
@@ -12,13 +12,8 @@ export default async function OrderInvoicePage({
   const { slug } = params;
   const orderData = await getInvoiceData(slug);
   const [order] = await Promise.all([orderData]);
-  const products = order?.products;
 
-  return (
-    <>
-      <OrderInvoice order={order} products={products} />
-    </>
-  );
+  return <>{order && <OrderInvoice order={order} />}</>;
 }
 
 async function getInvoiceData(slug: any) {
@@ -102,16 +97,15 @@ async function getInvoiceData(slug: any) {
         )
       `
     )
-    .eq("order_number", orderId);
+    .eq("order_number", orderId)
+    .single();
 
   if (orderError) {
     throw new Error(orderError.message);
   }
 
   if (!orderData) {
-    return {
-      order: null,
-    };
+    return null;
   }
 
   return orderData as IOrder;

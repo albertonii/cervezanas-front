@@ -73,10 +73,11 @@ const styles = StyleSheet.create({
 
 interface Props {
   items: {
+    id: string;
     code: string;
     article: string;
     price: number;
-    unit: number;
+    quantity: number;
     total: number;
   }[];
 }
@@ -87,7 +88,7 @@ export function TableBodyRow({ items }: Props) {
       <Text style={styles.data_cod}>{item.code}</Text>
       <Text style={styles.data_article}>{item.article}</Text>
       <Text style={styles.data_price}>{formatCurrency(item.price)}</Text>
-      <Text style={styles.data_unit}>{item.unit}</Text>
+      <Text style={styles.data_unit}>{item.quantity}</Text>
       <Text style={styles.data_total}>{item.total}</Text>
     </View>
   ));

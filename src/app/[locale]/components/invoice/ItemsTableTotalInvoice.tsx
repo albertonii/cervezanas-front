@@ -18,7 +18,7 @@ interface Props {
     code: string;
     article: string;
     price: number;
-    unit: number;
+    quantity: number;
     total: number;
   }[];
   itemsHeaderTotal: {
