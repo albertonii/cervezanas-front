@@ -40,11 +40,7 @@ export default async function SuccessPage({ searchParams }: any) {
   const [order] = await Promise.all([orderData]);
 
   if (!order) return <></>;
-  return (
-    <>
-      <SuccessCheckout order={order} isError={isError} />
-    </>
-  );
+  return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
 }
 
 async function getSuccessData(searchParams: any) {
@@ -76,25 +72,28 @@ async function getSuccessData(searchParams: any) {
       *,
       shipping_info (id, *),
       billing_info (id, *),
-      business_orders!business_orders_order_id_fkey (
-        *,
-        order_items (
-          *,
-          product_pack_id (
-            *,
-            product_id (
-              id, 
-              name, 
-              description, 
-              type, 
-              beers (aroma, color, era, family, fermentation, format, intensity, origin, volume)
-            )
-          )
-        )
-      )
+      business_orders!business_orders_order_id_fkey (*),
+      payment_method_card!orders_payment_method_id_fkey (*),
+      payment_method_id
     `
     )
-    .eq("order_number", orderNumber);
+    .eq("order_number", orderNumber)
+    .single();
+
+  // const { data: orderData, error: orderError } = await supabase
+  //   .from("orders")
+  //   .select(
+  //     `
+  //       *,
+  //       shipping_info (id, *),
+  //       billing_info (id, *),
+  //       business_orders!business_orders_order_id_fkey (*),
+  //       payment_method_card!orders_payment_method_id_fkey (*),
+  //       payment_method_id
+  //     `
+  //   )
+  //   .eq("order_number", orderNumber)
+  //   .single();
 
   if (orderError) {
     console.error(orderError.message);
@@ -104,12 +103,12 @@ async function getSuccessData(searchParams: any) {
     };
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData) {
     return {
       orderData: null,
       isError: true,
     };
   }
 
-  return { orderData: orderData[0] as IOrder, isError: false };
+  return { orderData: orderData as IOrder, isError: false };
 }

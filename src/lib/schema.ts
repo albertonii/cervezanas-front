@@ -863,6 +863,7 @@ export interface Database {
           id: string
           order_number: string | null
           payment_method: string | null
+          payment_method_id: string | null
           status: string | null
           subtotal: number | null
           tax: number | null
@@ -879,6 +880,7 @@ export interface Database {
           id?: string
           order_number?: string | null
           payment_method?: string | null
+          payment_method_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -895,6 +897,7 @@ export interface Database {
           id?: string
           order_number?: string | null
           payment_method?: string | null
+          payment_method_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -912,6 +915,12 @@ export interface Database {
             foreignKeyName: "event_orders_event_id_fkey"
             columns: ["event_id"]
             referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_orders_payment_method_id_fkey"
+            columns: ["payment_method_id"]
+            referencedRelation: "payment_method_card"
             referencedColumns: ["id"]
           }
         ]
@@ -1294,6 +1303,7 @@ export interface Database {
           issue_date: string | null
           order_number: string | null
           owner_id: string | null
+          payment_method_id: string | null
           shipping: number | null
           shipping_info_id: string | null
           status: string | null
@@ -1316,6 +1326,7 @@ export interface Database {
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
+          payment_method_id?: string | null
           shipping?: number | null
           shipping_info_id?: string | null
           status?: string | null
@@ -1338,6 +1349,7 @@ export interface Database {
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
+          payment_method_id?: string | null
           shipping?: number | null
           shipping_info_id?: string | null
           status?: string | null
@@ -1362,6 +1374,12 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "orders_payment_method_id_fkey"
+            columns: ["payment_method_id"]
+            referencedRelation: "payment_method_card"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "orders_shipping_info_id_fkey"
             columns: ["shipping_info_id"]
             referencedRelation: "shipping_info"
@@ -1378,7 +1396,6 @@ export interface Database {
           card_number: number | null
           created_at: string
           id: string
-          order_id: string | null
           save_card: boolean | null
           status: string | null
           type: string | null
@@ -1391,7 +1408,6 @@ export interface Database {
           card_number?: number | null
           created_at?: string
           id?: string
-          order_id?: string | null
           save_card?: boolean | null
           status?: string | null
           type?: string | null
@@ -1404,19 +1420,11 @@ export interface Database {
           card_number?: number | null
           created_at?: string
           id?: string
-          order_id?: string | null
           save_card?: boolean | null
           status?: string | null
           type?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "payment_method_card_order_id_fkey"
-            columns: ["order_id"]
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       producer_user: {
         Row: {

@@ -40,10 +40,11 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Error({ searchParams }: any) {
   const { orderData, isError } = await getCheckoutErrorData(searchParams);
   const [order] = await Promise.all([orderData]);
-  if (!order) return <></>;
   return (
     <>
+    {order && (
       <ErrorCheckout order={order} isError={isError} />
+    )}
     </>
   );
 }
@@ -99,7 +100,7 @@ async function getCheckoutErrorData(searchParams: any) {
       business_orders (*)
     `
     )
-    .eq("order_number", orderId);
+    .eq("order_number", orderId).single()
 
   if (orderError) {
     console.error(orderError.message);
@@ -109,12 +110,12 @@ async function getCheckoutErrorData(searchParams: any) {
     };
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData ) {
     return {
       orderData: null,
       isError: true,
     };
   }
 
-  return { orderData: orderData[0] as IOrder, isError: false };
+  return { orderData: orderData as IOrder, isError: false };
 }

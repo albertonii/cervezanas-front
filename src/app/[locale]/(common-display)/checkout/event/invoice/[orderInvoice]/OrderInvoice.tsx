@@ -102,6 +102,8 @@ interface Props {
 
 export default function OrderInvoice({ order }: Props) {
   const [items, setItems] = useState(() => {
+    if (!order.business_orders) return [];
+
     const { order_items } = order.business_orders[0];
 
     if (!order_items) return [];

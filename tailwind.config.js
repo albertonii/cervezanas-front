@@ -6,7 +6,7 @@ const colors = require("tailwindcss/colors");
 const forms = require("@tailwindcss/forms");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const lineClamp = require("@tailwindcss/line-clamp");
+// const lineClamp = require("@tailwindcss/line-clamp");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultTheme = require("tailwindcss/defaultTheme");
@@ -172,5 +172,6 @@ module.exports = {
     border: ["hover"],
     borderColor: ["hover"],
   },
-  plugins: [forms, lineClamp],
+  plugins: [forms],
+  // plugins: [forms, lineClamp],
 };

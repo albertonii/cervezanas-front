@@ -1,9 +1,9 @@
 import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
+import { VIEWS } from "../../../../../../constants";
+import { IEventOrder } from "../../../../../../lib/types";
 import { decodeBase64 } from "../../../../../../utils/utils";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
-import { VIEWS } from "../../../../../../constants";
-import { IEventOrder } from "../../../../../../lib/types.d";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -38,13 +38,8 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function SuccessPage({ searchParams }: any) {
   const { orderData, isError } = await getSuccessData(searchParams);
   const [order] = await Promise.all([orderData]);
-  if (!order) return <></>;
 
-  return (
-    <>
-      <SuccessCheckout order={order} isError={isError} />
-    </>
-  );
+  return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
 }
 
 async function getSuccessData(searchParams: any) {
@@ -73,10 +68,22 @@ async function getSuccessData(searchParams: any) {
     .from("event_orders")
     .select(
       `
-      *,
+      id, 
+      created_at,
+      updated_at,,
+      customer_id,
+      event_id,
+      status,
+      total,
+      subtotal,
+      tax,
+      currency,
+      discount,
+      discount_code,
+      order_number,
       event_order_items (
         *,
-         product_id (
+        product_id (
           id, 
           name, 
           price,
@@ -84,10 +91,16 @@ async function getSuccessData(searchParams: any) {
           beers (*)
         ),
         product_pack_id (*)
+      ),
+      users (*),
+      events (*),
+      payment_method (
+        *
       )
     `
     )
-    .eq("order_number", orderNumber);
+    .eq("order_number", orderNumber)
+    .single();
 
   if (orderError) {
     console.error(orderError.message);
@@ -97,12 +110,12 @@ async function getSuccessData(searchParams: any) {
     };
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData) {
     return {
       orderData: null,
       isError: true,
     };
   }
 
-  return { orderData: orderData[0] as IEventOrder, isError: false };
+  return { orderData: orderData as unknown as IEventOrder, isError: false };
 }

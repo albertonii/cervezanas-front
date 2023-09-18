@@ -583,9 +583,10 @@ export interface IOrder {
   discount: number;
   discount_code: string;
   order_number: string;
-  business_orders: IBusinessOrder[];
   shipping_info: IShippingInfo;
   billing_info: IBillingInfo;
+  business_orders?: IBusinessOrder[];
+  // payment_method_card: IPaymentCardMethod[];
 }
 
 export interface IOrderItem {
@@ -611,8 +612,8 @@ export interface IEventOrder {
   currency: string;
   discount: number;
   discount_code: string;
-  event_order_items: IEventOrderItem[];
   order_number: string;
+  event_order_items: IEventOrderItem[];
   users: IUser;
   events: IEvent;
   // cp_m_owner: ICPMobile;
@@ -644,7 +645,6 @@ export interface IPaymentCardMethod {
   card_cvc: number;
   card_name: string;
   save_card: boolean;
-  order_id: IOrder;
 }
 
 export interface IPaymentStandardTransferMethod {
