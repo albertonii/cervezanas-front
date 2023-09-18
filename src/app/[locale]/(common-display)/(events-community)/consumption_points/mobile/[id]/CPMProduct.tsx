@@ -31,6 +31,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
   const [packQuantity, setPackQuantity] = useState<number>(
     getPackQuantity(pack.id)
   );
+
   // Synch pack with cart
   useEffect(() => {
     setPackQuantity(getPackQuantity(pack.id));

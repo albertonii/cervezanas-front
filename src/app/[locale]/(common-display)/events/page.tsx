@@ -1,6 +1,6 @@
+import Events from "./Events";
 import { IEvent } from "../../../../lib/types.d";
 import { createServerClient } from "../../../../utils/supabaseServer";
-import Events from "./Events";
 
 export default async function EventsPage() {
   const eventsData = getEvents();
@@ -18,7 +18,11 @@ async function getEvents() {
     `
       *,
       owner_id (*),
-      cp_mobile (*)
+      cp_mobile (
+        *,
+        cpm_products (*)
+      ),
+      users (*)
     `
   );
   if (error) console.error(error);

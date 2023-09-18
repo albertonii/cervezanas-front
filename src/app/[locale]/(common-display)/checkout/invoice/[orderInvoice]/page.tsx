@@ -1,7 +1,7 @@
+import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
-import OrderInvoice from "./OrderInvoice";
 
 export default async function OrderInvoicePage({
   params,
@@ -11,13 +11,8 @@ export default async function OrderInvoicePage({
   const { slug } = params;
   const orderData = await getInvoiceData(slug);
   const [order] = await Promise.all([orderData]);
-  const products = order?.products;
 
-  return (
-    <>
-      <OrderInvoice order={order[0]} products={products} />
-    </>
-  );
+  return <>{order ?? <OrderInvoice order={order} />}</>;
 }
 
 async function getInvoiceData(slug: any) {
@@ -47,21 +42,22 @@ async function getInvoiceData(slug: any) {
         price,
         product_multimedia(*),
         order_items (*)
-      )
+      ),
+      payment_method_id
     `
     )
-    .eq("order_number", orderId);
+    .eq("order_number", orderId)
+    .single();
 
   if (orderError) {
     throw new Error(orderError.message);
   }
 
-  if (!orderData || orderData.length === 0) {
+  if (!orderData) {
     return {
       order: null,
-      products: [],
     };
   }
 
-  return orderData[0];
+  return orderData;
 }

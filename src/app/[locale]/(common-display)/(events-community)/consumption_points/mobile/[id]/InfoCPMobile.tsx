@@ -3,7 +3,7 @@
 import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../../lib/types.d";
+import { ICPMobile, ICPMProducts } from "../../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
@@ -68,7 +68,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
 
       {/* Products linked to this Mobile Consumption Point */}
       <div className="mt-8">
-        {cpm_products.length > 0 ? (
+        {cpm_products && cpm_products.length > 0 ? (
           <div>
             <h3 className="mb-2 text-xl font-bold"> {t("products")}</h3>
 
@@ -102,12 +102,16 @@ export default function InfoCPMobile({ cpMobile }: Props) {
               </thead>
 
               <tbody>
-                {cpm_products.map((cpm) => (
-                  <CPMProduct
-                    key={cpm.id}
-                    pack={cpm.product_packs}
-                    cpmId={cpm.id}
-                  />
+                {cpm_products.map((cpm: ICPMProducts) => (
+                  <>
+                    {cpm.product_packs && (
+                      <CPMProduct
+                        key={cpm.id}
+                        pack={cpm.product_packs}
+                        cpmId={cpm.id}
+                      />
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>

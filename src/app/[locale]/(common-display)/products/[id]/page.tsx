@@ -23,11 +23,13 @@ async function getProductData(productId: string) {
   const { data: product, error: productError } = await supabase
     .from("products")
     .select(
-      `*,
+      `
+      *,
       beers (
         *
       ),
       product_multimedia (
+        *,
         p_principal,
         p_back,
         p_extra_1,
@@ -41,13 +43,15 @@ async function getProductData(productId: string) {
           created_at,
           username
         )
-      )`
+      )
+      `
     )
-    .eq("id", productId);
+    .eq("id", productId)
+    .single();
 
   if (productError) throw productError;
 
-  return product[0] as IProduct;
+  return product as IProduct;
 }
 
 async function getMarketplaceData() {

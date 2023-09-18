@@ -21,24 +21,27 @@ async function getMarketplaceProducts() {
     .from("products")
     .select(
       `
-    *,
-    beers (
-      *
-    ),
-    product_multimedia (
-      p_principal
-    ),
-    product_inventory (
-      quantity
-    ),
-    likes (
-      id
-    ), 
-    reviews (
-      overall
-    ),
-    product_packs (*)
-  `
+        *,
+        beers (
+          *
+        ),
+        product_multimedia (
+          *,
+          p_principal
+        ),
+        product_inventory (
+          quantity
+        ),
+        likes (
+          *,
+          id
+        ), 
+        reviews (
+          *,
+          overall
+        ),
+        product_packs (*)
+      `
     )
     .eq("is_public", true);
 

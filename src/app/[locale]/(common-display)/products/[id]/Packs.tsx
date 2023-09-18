@@ -15,7 +15,7 @@ interface Props {
 export default function Packs({ product }: Props) {
   const t = useTranslations();
 
-  const { increasePackCartQuantity } = useShoppingCart();
+  const { increasePackCartQuantity, removeFromCart } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
   const [isPackSelected, setIsPackSelected] = useState(true);
@@ -44,6 +44,8 @@ export default function Packs({ product }: Props) {
 
     const packCartItem: IProductPack = {
       id: selectedPack.id,
+      created_at: selectedPack.created_at,
+      product_id: selectedPack.product_id,
       quantity: packQuantity,
       price: selectedPack.price,
       name: selectedPack.name,
@@ -58,55 +60,63 @@ export default function Packs({ product }: Props) {
 
   return (
     <>
-      {/* <!-- Sizes --> */}
-      <div className="mt-10">
-        <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-gray-900">
-            {t("product_packs")}
-          </h4>
+      {product && product.product_packs && (
+        <div className="mt-10">
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-medium text-gray-900">
+              {t("product_packs")}
+            </h4>
+          </div>
+
+          <fieldset className="mt-4">
+            <legend className="sr-only">{t("choose_pack")}</legend>
+            <ul className="grid grid-cols-1 gap-2 rounded border bg-beer-blonde/20 p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
+              {product.product_packs
+                .slice() // Copy the array to avoid mutating the original
+                .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
+                .map((p) => (
+                  <div key={p.id} className="space-y-2">
+                    <PackItem
+                      product={product}
+                      pack={p}
+                      handleItemSelected={handleItemSelected}
+                      selectedPackId={selectedPack?.id ?? ""}
+                    />
+                  </div>
+                ))}
+            </ul>
+
+            {/* Warning message if pack is not selected  */}
+            {!isPackSelected && (
+              <div className="text-md mt-4 flex flex-1 items-center justify-start text-red-500">
+                {t("select_pack")}
+              </div>
+            )}
+
+            <form>
+              <div className="mt-6 flex space-x-2">
+                <MarketCartButtons2
+                  item={product.product_packs[0]}
+                  quantity={packQuantity}
+                  handleIncreaseCartQuantity={() =>
+                    handleIncreasePackQuantity()
+                  }
+                  handleDecreaseCartQuantity={() =>
+                    handleDecreasePackQuantity()
+                  }
+                  handleRemoveFromCart={() => {}}
+                  displayDeleteButton={false}
+                />
+
+                <AddCardButton
+                  withText={true}
+                  onClick={() => handleAddToCart()}
+                />
+              </div>
+            </form>
+          </fieldset>
         </div>
-
-        <fieldset className="mt-4">
-          <legend className="sr-only">{t("choose_pack")}</legend>
-          <ul className="grid grid-cols-1 gap-2 rounded border bg-beer-blonde/20 p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
-            {product.product_packs
-              .slice() // Copy the array to avoid mutating the original
-              .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
-              .map((p) => (
-                <div key={p.id} className="space-y-2">
-                  <PackItem
-                    product={product}
-                    pack={p}
-                    handleItemSelected={handleItemSelected}
-                    selectedPackId={selectedPack?.id ?? ""}
-                  />
-                </div>
-              ))}
-          </ul>
-
-          {/* Warning message if pack is not selected  */}
-          {!isPackSelected && (
-            <div className="text-md mt-4 flex flex-1 items-center justify-start text-red-500">
-              {t("select_pack")}
-            </div>
-          )}
-
-          <form>
-            <div className="mt-6 flex space-x-2">
-              <MarketCartButtons2
-                quantity={packQuantity}
-                handleIncreaseCartQuantity={() => handleIncreasePackQuantity()}
-                handleDecreaseCartQuantity={() => handleDecreasePackQuantity()}
-              />
-
-              <AddCardButton
-                withText={true}
-                onClick={() => handleAddToCart()}
-              />
-            </div>
-          </form>
-        </fieldset>
-      </div>
+      )}
     </>
   );
 }

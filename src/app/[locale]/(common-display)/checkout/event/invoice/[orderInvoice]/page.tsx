@@ -13,7 +13,7 @@ export default async function OrderInvoicePage({
   const orderData = await getInvoiceData(slug);
   const [order] = await Promise.all([orderData]);
 
-  return <>{order && <OrderInvoice order={order} />}</>;
+  return <>{order ?? <OrderInvoice order={order} />}</>;
 }
 
 async function getInvoiceData(slug: any) {
@@ -94,7 +94,8 @@ async function getInvoiceData(slug: any) {
           price,
           product_multimedia(*),
           order_items (*)
-        )
+        ),
+        payment_method_id
       `
     )
     .eq("order_number", orderId)
@@ -105,7 +106,9 @@ async function getInvoiceData(slug: any) {
   }
 
   if (!orderData) {
-    return null;
+    return {
+      order: null,
+    };
   }
 
   return orderData as IOrder;

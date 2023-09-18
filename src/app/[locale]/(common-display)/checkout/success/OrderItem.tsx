@@ -117,7 +117,7 @@ export default function OrderItem({ orderItem, order }: Props) {
             class="my-6 font-medium text-beer-draft hover:text-beer-dark "
             onClick={() => {
               if (!orderItem.is_reviewed && order.status === "delivered") {
-                handleOnClick(orderItem.id);
+                handleOnClick(orderItem.product_pack_id.product_id);
               }
             }}
           >

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -12,7 +12,7 @@ import {
   Svg,
   Line,
 } from "@react-pdf/renderer";
-import { IOrder, IProduct } from "../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../lib/types.d";
 import { Table, TableTotalInvoice } from "../../../../components/invoice";
 import { FooterInvoice } from "../../../../components/invoice/FooterInvoice";
 import { formatDateString } from "../../../../../../utils/formatDate";
@@ -98,24 +98,32 @@ const styles = StyleSheet.create({
 
 interface Props {
   order: IOrder;
-  products: IProduct[];
 }
 
-export default function OrderInvoice({ order, products }: Props) {
-  const items = products.map((product) => {
-    const { order_number: code } = order;
-    const { id, name: article, price, order_items } = product;
-    const { quantity: unit } = order_items[0];
-    const total = unit * price;
+export default function OrderInvoice({ order }: Props) {
+  const [items, setItems] = useState(() => {
+    if (!order.business_orders) return [];
 
-    return {
-      id,
-      code,
-      article,
-      price,
-      unit,
-      total,
-    };
+    const { order_items } = order.business_orders[0];
+
+    if (!order_items) return [];
+
+    return order_items.map((item) => {
+      const { order_number: code } = order;
+      const { quantity } = item;
+      const { id, name: article, price } = item.product_pack_id;
+
+      const total = quantity * price;
+
+      return {
+        id,
+        code,
+        article,
+        price,
+        quantity,
+        total,
+      };
+    });
   });
 
   const itemsHeader = [
@@ -212,7 +220,7 @@ export default function OrderInvoice({ order, products }: Props) {
                   <Text>
                     Fecha: {formatDateString(order.issue_date.toString())}
                   </Text>
-                  <Text>Forma de pago: {order.payment_method.type}</Text>
+                  <Text>Forma de pago: {order.payment_method_card?.type}</Text>
                 </View>
 
                 {/* Albarán del pedido  */}

@@ -38,17 +38,22 @@ async function getProductReview(productId: string) {
         *
       ),
       product_multimedia (
+        *,
         p_principal
       )
       `
     )
-    .eq("id", productId);
+    .eq("id", productId)
+    .single();
+
   if (productsError) throw productsError;
 
-  product[0].product_multimedia[0].p_principal = !product[0]
-    .product_multimedia[0]?.p_principal
-    ? `${COMMON.MARKETPLACE_PRODUCT}`
-    : product[0].product_multimedia[0].p_principal;
+  if (!product) throw new Error("Product not found");
 
-  return product[0] as IProduct;
+  product.product_multimedia[0].p_principal = !product.product_multimedia[0]
+    ?.p_principal
+    ? `${COMMON.MARKETPLACE_PRODUCT}`
+    : product.product_multimedia[0].p_principal;
+
+  return product as IProduct;
 }

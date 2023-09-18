@@ -16,6 +16,9 @@ interface Props {
 export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
   const orderItems = bOrders && (bOrders[0].order_items as IOrderItem[]);
+
+  if (!orderItems) return <></>;
+
   const { products: productDetails } = orderItems[0].product_pack_id;
 
   const t = useTranslations();
@@ -103,13 +106,13 @@ export default function SuccessCheckout({ order, isError }: Props) {
             {/* Product Information  */}
             <div className="col-span-12 md:col-span-4">
               <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                <Link href={`/products/${productDetails.id}`} locale={locale}>
-                  {productDetails.name}
+                <Link href={`/products/${productDetails?.id}`} locale={locale}>
+                  {productDetails?.name}
                 </Link>
               </h3>
 
               <p className="mt-3 text-sm text-gray-500">
-                {t("description")} - {productDetails.description}
+                {t("description")} - {productDetails?.description}
               </p>
             </div>
 

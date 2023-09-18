@@ -434,7 +434,7 @@ export interface ICPMobile {
   maximum_capacity: number;
   is_booking_required: boolean;
   geoArgs: GeocodeResult[];
-  cpm_products: ICPMProducts[];
+  cpm_products?: ICPMProducts[];
   is_internal_organizer: boolean;
   // TODO: rrss
 }
@@ -453,7 +453,7 @@ export interface ICPMProducts {
   stock_consumed: number;
   cp_id: string;
   product_pack_id: string;
-  product_packs: IProductPack;
+  product_packs?: IProductPack;
   // cp_mobile: ICPMobile;
 }
 
@@ -586,7 +586,8 @@ export interface IOrder {
   shipping_info: IShippingInfo;
   billing_info: IBillingInfo;
   business_orders?: IBusinessOrder[];
-  // payment_method_card: IPaymentCardMethod[];
+  payment_method_id: string;
+  payment_method_card?: IPaymentCardMethod;
 }
 
 export interface IOrderItem {
@@ -605,7 +606,6 @@ export interface IEventOrder {
   status: string;
   customer_id: string;
   event_id: string;
-  payment_method: IPaymentCardMethod;
   total: number;
   subtotal: number;
   tax: number;
@@ -616,6 +616,8 @@ export interface IEventOrder {
   event_order_items: IEventOrderItem[];
   users: IUser;
   events: IEvent;
+  payment_method_card?: IPaymentCardMethod;
+  payment_method_id: string;
   // cp_m_owner: ICPMobile;
 }
 
@@ -635,10 +637,9 @@ export interface IEventOrderItem {
 
 export interface IPaymentCardMethod {
   id: string;
-  created_at: number;
+  created_at: string;
   status: string;
   type: string;
-  order_id: string;
   card_number: number;
   card_expiration_month: number;
   card_expiration_year: number;
@@ -649,7 +650,7 @@ export interface IPaymentCardMethod {
 
 export interface IPaymentStandardTransferMethod {
   id: string;
-  created_at: number;
+  created_at: string;
   status: string;
   iban: string;
   concept: string;
@@ -742,7 +743,7 @@ export type IProductPack = {
   name: string;
   randomUUID: string;
   product_id: string;
-  products: IProduct;
+  products?: IProduct;
 };
 
 export type IRefProductPack = {
@@ -873,20 +874,22 @@ export interface IProduct {
   owner_id: string;
   beers: IBeer[];
   product_multimedia: IProductMultimedia[];
-  order_items: OrderItem[];
+  order_items?: OrderItem[];
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
-  product_lots: IProductLot[];
-  product_inventory: Inventory[];
+  product_lots?: IProductLot[];
+  product_inventory?: Inventory[];
+  reviews?: IReview[];
   // reviews: IRefReview[];
-  // likes: ILike[];
-  // beers: IBeer[];
+  likes?: ILike[];
+  beers: IBeer[];
   // product_variant: IProductVariant[];
   // awards: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
   // product_packs: IRefProductPack[];
+  product_packs?: IProductPack[];
 }
 
 export interface IProductVariant {
@@ -1147,7 +1150,7 @@ export interface IUserTable {
   avatar_url: string;
   bg_url: string;
   updated_at: string;
-  birtdate: string;
+  birthdate: string;
   cp_organizer_status: number;
   is_provider: boolean;
 }

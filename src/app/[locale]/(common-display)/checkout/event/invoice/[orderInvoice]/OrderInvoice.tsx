@@ -217,9 +217,7 @@ export default function OrderInvoice({ order }: Props) {
                 {/* Nº factura; fecha; forma de pago */}
                 <View style={styles.recipe_container}>
                   <Text>Nº factura: {order.order_number}</Text>
-                  <Text>
-                    Fecha: {formatDateString(order.issue_date.toString())}
-                  </Text>
+                  <Text>Fecha: {formatDateString(order.issue_date)}</Text>
                   {/* <Text>Forma de pago: {order.payment_method.type}</Text> */}
                 </View>
 

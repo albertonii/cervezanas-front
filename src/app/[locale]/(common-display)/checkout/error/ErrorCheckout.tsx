@@ -139,7 +139,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         </p>
                         <p className="mt-3 text-sm text-gray-500">
                           {t("description")} -{" "}
-                          {item.product_pack_id.products.description}
+                          {item.product_pack_id.products?.description}
                         </p>
                       </div>
 
