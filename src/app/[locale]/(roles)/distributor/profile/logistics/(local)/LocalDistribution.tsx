@@ -88,16 +88,22 @@ export default function LocalDistribution({
 
     // Insert new ranges
     ranges.map(async (range) => {
+      const local = {
+        coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
+        country: country,
+        from: range.from,
+        to: range.to,
+      };
+
       const { error: errorLocal } = await supabase
         .from("local_distribution")
         .insert({
-          country,
+          coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
+          country: country,
           from: range.from,
           to: range.to,
-          coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
         })
-        .eq("from", range.from)
-        .select();
+        .eq("from", range.from);
 
       if (errorLocal) {
         console.error(errorLocal);

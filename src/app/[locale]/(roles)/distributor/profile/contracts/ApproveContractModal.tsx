@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { IDistributionContract } from "../../../../../../lib/types.d";
@@ -34,7 +34,7 @@ export default function ApproveContractModal({
         status: DistributionStatus.ACCEPTED,
       })
       .eq("distributor_id", selectedContract.distributor_id)
-      .eq("producer_id", selectedContract.producer_id.user);
+      .eq("producer_id", selectedContract.producer_user[0].user);
 
     if (error) {
       console.error(error);

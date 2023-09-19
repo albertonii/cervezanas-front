@@ -7,11 +7,7 @@ export default async function OrdersPage() {
   const coverageAreaData = await getCoverageAreaData();
   const [coverageArea] = await Promise.all([coverageAreaData]);
 
-  return (
-    <>
-      <CoverageLayout coverageArea={coverageArea} />
-    </>
-  );
+  return <>{/* <CoverageLayout coverageArea={coverageArea} /> */}</>;
 }
 
 async function getCoverageAreaData() {

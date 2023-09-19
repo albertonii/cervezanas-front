@@ -8,15 +8,15 @@ import {
   faFileArrowDown,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocale, useTranslations } from "next-intl";
-import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
-import { generateDownloadableLink } from "../../../../../utils/utils";
-import { IconButton } from "../../../components/common/IconButton";
-import { Modal } from "../../../components/modals/Modal";
 import { useAuth } from "../../../Auth/useAuth";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { useLocale, useTranslations } from "next-intl";
+import { Modal } from "../../../components/modals/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../utils/formatDate";
+import { IconButton } from "../../../components/common/IconButton";
+import { generateDownloadableLink } from "../../../../../utils/utils";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];

@@ -34,7 +34,7 @@ export default function RejectContractModal({
         status: DistributionStatus.REJECTED,
       })
       .eq("distributor_id", selectedContract.distributor_id)
-      .eq("producer_id", selectedContract.producer_id.user);
+      .eq("producer_id", selectedContract.producer_user[0].user);
 
     if (error) {
       console.error(error);

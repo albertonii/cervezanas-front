@@ -28,11 +28,7 @@ const fetchCitiesOfState = async (country: string, state: string) => {
   return res;
 };
 
-interface Props {
-  state: string;
-}
-
-const useFetchCitiesOfState = ({ country, state }: Props) => {
+const useFetchCitiesOfState = (country: string, state: string) => {
   return useQuery({
     queryKey: ["citiesOfState", country, state],
     queryFn: () => fetchCitiesOfState(country, state),

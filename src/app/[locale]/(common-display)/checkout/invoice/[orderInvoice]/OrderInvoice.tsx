@@ -194,26 +194,30 @@ export default function OrderInvoice({ order }: Props) {
               </View>
 
               <View style={styles.row_2}>
-                {/* Datos de facturación  */}
-                <View style={styles.billing_info_container}>
-                  <Text style={styles.billing_info_title}>
-                    Datos de facturación
-                  </Text>
+                {order.billing_info && (
+                  <View style={styles.billing_info_container}>
+                    {/* Datos de facturación  */}
 
-                  <View style={styles.billing_info_container_data}>
-                    <Text>Nombre: {order.billing_info.name}</Text>
-                    <Text>
-                      Dirección: {order.billing_info.address},{" "}
-                      {order.billing_info.city}.
+                    <Text style={styles.billing_info_title}>
+                      Datos de facturación
                     </Text>
-                    <Text>
-                      Población: {order.billing_info.state}.{" "}
-                      {order.billing_info.country}. {order.billing_info.zipcode}
-                    </Text>
-                    <Text>NIF/CIF: {order.billing_info.document_id}</Text>
-                    <Text>Teléfono: {order.billing_info.phone}</Text>
+
+                    <View style={styles.billing_info_container_data}>
+                      <Text>Nombre: {order.billing_info.name}</Text>
+                      <Text>
+                        Dirección: {order.billing_info.address},{" "}
+                        {order.billing_info.city}.
+                      </Text>
+                      <Text>
+                        Población: {order.billing_info.state}.{" "}
+                        {order.billing_info.country}.{" "}
+                        {order.billing_info.zipcode}
+                      </Text>
+                      <Text>NIF/CIF: {order.billing_info.document_id}</Text>
+                      <Text>Teléfono: {order.billing_info.phone}</Text>
+                    </View>
                   </View>
-                </View>
+                )}
 
                 {/* Nº factura; fecha; forma de pago */}
                 <View style={styles.recipe_container}>

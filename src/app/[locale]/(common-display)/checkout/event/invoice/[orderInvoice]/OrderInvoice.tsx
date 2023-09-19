@@ -201,17 +201,18 @@ export default function OrderInvoice({ order }: Props) {
                   </Text>
 
                   <View style={styles.billing_info_container_data}>
-                    <Text>Nombre: {order.billing_info.name}</Text>
+                    <Text>Nombre: {order.billing_info?.name}</Text>
                     <Text>
-                      Dirección: {order.billing_info.address},{" "}
-                      {order.billing_info.city}.
+                      Dirección: {order.billing_info?.address},{" "}
+                      {order.billing_info?.city}.
                     </Text>
                     <Text>
-                      Población: {order.billing_info.state}.{" "}
-                      {order.billing_info.country}. {order.billing_info.zipcode}
+                      Población: {order.billing_info?.state}.{" "}
+                      {order.billing_info?.country}.{" "}
+                      {order.billing_info?.zipcode}
                     </Text>
-                    <Text>NIF/CIF: {order.billing_info.document_id}</Text>
-                    <Text>Teléfono: {order.billing_info.phone}</Text>
+                    <Text>NIF/CIF: {order.billing_info?.document_id}</Text>
+                    <Text>Teléfono: {order.billing_info?.phone}</Text>
                   </View>
                 </View>
 

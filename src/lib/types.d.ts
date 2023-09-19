@@ -407,13 +407,13 @@ export interface ICPFixed {
   start_date: string;
   end_date: string;
   address: string;
-  geoArgs: GeocodeResult[];
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;
   cp_id: string;
   is_internal_organizer: boolean;
   cpf_products: ICPFProducts[];
+  geoArgs: GeocodeResult[];
 }
 
 export interface ICPMobile {
@@ -433,7 +433,7 @@ export interface ICPMobile {
   logo_url: string;
   maximum_capacity: number;
   is_booking_required: boolean;
-  geoArgs: GeocodeResult[];
+  geoArgs: GeoArgs[];
   cpm_products?: ICPMProducts[];
   is_internal_organizer: boolean;
   // TODO: rrss
@@ -442,8 +442,12 @@ export interface ICPMobile {
 export interface ICPFProducts {
   id: string;
   created_at: string;
-  cp_id: ICPFixed;
-  product_id: IProduct;
+  stock: number;
+  stock_consumed: number;
+  cp_id: string;
+  cp_fixed?: ICPFixed;
+  product_pack_id: string;
+  product_packs: IProductPack;
 }
 
 export interface ICPMProducts {
@@ -583,8 +587,8 @@ export interface IOrder {
   discount: number;
   discount_code: string;
   order_number: string;
-  shipping_info: IShippingInfo;
-  billing_info: IBillingInfo;
+  shipping_info?: IShippingInfo;
+  billing_info?: IBillingInfo;
   business_orders?: IBusinessOrder[];
   payment_method_id: string;
   payment_method_card?: IPaymentCardMethod;
@@ -743,7 +747,7 @@ export type IProductPack = {
   name: string;
   randomUUID: string;
   product_id: string;
-  // products?: IProduct;
+  products?: IProduct;
 };
 
 export type IRefProductPack = {
@@ -1154,6 +1158,7 @@ export interface IUserTable {
   birthdate: string;
   cp_organizer_status: number;
   is_provider: boolean;
+  distributor_user?: IDistributorUser;
 }
 
 export interface IUserProfile {
@@ -1164,7 +1169,7 @@ export interface IUserProfile {
   lastname: string;
   role: string;
   updated_at: string;
-  isProvider: boolean;
+  is_provider: boolean;
   created_at: string;
   cp_organizer_status: number;
   birthdate: string;
@@ -1196,7 +1201,7 @@ export interface IDistributorUser_Profile {
   lastname: string;
   role: string;
   username: string;
-  distributor_user: IDistributorUser;
+  distributor_user: IDistributorUser[];
   profile_location: IProfileLocation[];
 }
 
@@ -1208,8 +1213,9 @@ export interface IDistributorUser {
   coverage_areas: ICoverageArea[];
   company_name: string;
   company_description: string;
-  location_id: IProfileLocation[];
-  users: IUser; // To access embeded information we need to get into the table and the look for data
+  location_id: string;
+  profile_location: IProfileLocation[];
+  users: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
 
 export interface IProducerUser_Profile {
@@ -1230,6 +1236,7 @@ export interface IProducerUser_Profile {
 
 export interface IProducerUser {
   user: string; // ID
+  users?: IUserTable;
   created_at: string;
   company_name: string;
   company_description: string;
@@ -1280,8 +1287,9 @@ export interface IDistribution {
 
 export interface ICoverageArea {
   id: string;
-  distributor_id: IDistributorUser;
-  local_distribution: ILocal[];
+  distributor_id: string;
+  distributor_user?: IDistributorUser;
+  local_distribution: ILocal;
   cities: string[];
   regions: string[];
   provinces: string[];
@@ -1291,10 +1299,12 @@ export interface ICoverageArea {
 
 export interface ILocal {
   id: string;
-  coverage_area_id: ICoverageArea;
+  created_at: string;
+  coverage_area_id: string;
   country: string;
   from: number; // CP From
   to: number; // CP To [35600 - 35699]
+  coverage_areas?: ICoverageArea;
 }
 
 export interface IPCRangesProps {

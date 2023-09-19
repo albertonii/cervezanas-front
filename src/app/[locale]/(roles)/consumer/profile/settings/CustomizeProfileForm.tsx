@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types.d";
 import { useAppContext } from "../../../../../../context";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { SupabaseProps } from "../../../../../../constants";
@@ -19,7 +19,7 @@ type FormValues = {
 };
 
 interface Props {
-  profile: IProfile;
+  profile: IUserTable;
 }
 
 export function CustomizeProfileForm({ profile }: Props) {

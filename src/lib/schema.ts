@@ -1157,25 +1157,25 @@ export interface Database {
           country: string | null
           coverage_area_id: string | null
           created_at: string | null
-          from: string | null
+          from: number | null
           id: string
-          to: string | null
+          to: number | null
         }
         Insert: {
           country?: string | null
           coverage_area_id?: string | null
           created_at?: string | null
-          from?: string | null
+          from?: number | null
           id?: string
-          to?: string | null
+          to?: number | null
         }
         Update: {
           country?: string | null
           coverage_area_id?: string | null
           created_at?: string | null
-          from?: string | null
+          from?: number | null
           id?: string
-          to?: string | null
+          to?: number | null
         }
         Relationships: [
           {

@@ -1,5 +1,6 @@
 import React from "react";
-import { DeleteButton, IconButton } from ".";
+import { DeleteButton } from "./DeleteButton";
+import { IconButton } from "./IconButton";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {

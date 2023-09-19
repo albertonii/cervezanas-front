@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, ComponentProps } from "react";
-import { CarouselItem } from ".";
+import { CarouselItem } from "./CarouselItem";
 import { ICarouselItem } from "../../../../lib/types.d";
 
 interface Props {

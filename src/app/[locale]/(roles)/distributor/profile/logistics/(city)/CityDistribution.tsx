@@ -36,7 +36,7 @@ interface FormData {
 export default function CityDistribution({ cities }: Props) {
   const t = useTranslations();
 
-  const [addressCountry, setAddressCountry] = useState<string>();
+  const [addressCountry, setAddressCountry] = useState<string>("ES");
   const [addressRegion, setAddressRegion] = useState<string>();
   const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
   const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
@@ -54,20 +54,20 @@ export default function CityDistribution({ cities }: Props) {
 
   const { refetch: getCountries } = useFetchAllCountries();
 
-  const { refetch: getStates } = useFetchStatesByCountry({
-    countryIsoCode: addressCountry ?? "ES",
-  });
+  const { refetch: getStates } = useFetchStatesByCountry(
+    addressCountry ?? "ES"
+  );
 
-  const { refetch: getCities } = useFetchCitiesOfState({
-    country: addressCountry ?? "ES",
-    state: addressRegion ?? "",
-  });
+  const { refetch: getCities } = useFetchCitiesOfState(
+    addressCountry ?? "ES",
+    addressRegion ?? ""
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
 
-  const { supabase } = useSupabase();
+  // const { supabase } = useSupabase();
   const queryClient = useQueryClient();
 
   const [countryData, setCountryData] = useState<ICountry[]>([]);
@@ -101,13 +101,18 @@ export default function CityDistribution({ cities }: Props) {
     if (!addressCountry) return;
 
     const getStatesByCountry = async () => {
-      return await getStates(addressCountry).then((res) => {
+      return await getStates().then((res) => {
         const { data: regionData, error } = res;
 
         if (error) {
           console.error(error);
           return;
         }
+        if (!regionData || regionData?.length === 0) {
+          setRegionIsEnable(false);
+          return;
+        }
+
         setListOfRegions(regionData ?? []);
         setRegionIsEnable(regionData.length > 0);
         setAddressRegion(regionData[0]?.iso2);
@@ -122,11 +127,17 @@ export default function CityDistribution({ cities }: Props) {
     if (!addressCountry || !addressRegion) return;
 
     const getCitiesByStateAndCountry = async () => {
-      return await getCities(addressCountry, addressRegion).then((res) => {
+      return await getCities().then((res) => {
         const { data: cityData, error } = res;
 
         if (error) {
           console.error(error);
+          return;
+        }
+
+        if (!cityData || cityData?.length === 0) {
+          setListOfCities([]);
+          setCounter(0);
           return;
         }
 

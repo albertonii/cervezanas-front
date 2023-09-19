@@ -28,7 +28,7 @@ async function getReviewsData() {
   }
 
   const { data: reviewsData, error: reviewsError } = await supabase
-    .from("users")
+    .from("reviews")
     .select(
       `
         *,

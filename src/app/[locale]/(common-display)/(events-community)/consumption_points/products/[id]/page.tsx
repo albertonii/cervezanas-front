@@ -1,5 +1,3 @@
-import Product from "./CPProduct";
-
 import { VIEWS } from "../../../../../../../constants";
 import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";

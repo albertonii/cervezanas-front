@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
-import { IDistributorUser_Profile } from "../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
-  distributor: IDistributorUser_Profile;
+  distributor: IDistributorUser;
 }
 
 export default function DistributorInformation({ distributor }: Props) {
@@ -27,11 +26,11 @@ export default function DistributorInformation({ distributor }: Props) {
             </div>
 
             <h1 className="my-1 text-xl font-bold leading-8 text-gray-900">
-              {distributor.username}
+              {distributor.users.username}
             </h1>
 
             <h3 className="font-lg text-semibold leading-6 text-gray-600">
-              {distributor.distributor_user.company_name}
+              {distributor.company_name}
             </h3>
 
             <p className="text-sm leading-6 text-gray-500 hover:text-gray-600">
@@ -152,11 +151,11 @@ export default function DistributorInformation({ distributor }: Props) {
               <div className="grid text-sm md:grid-cols-2">
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("name")}</div>
-                  <div className="px-4 py-2">{distributor.name}</div>
+                  <div className="px-4 py-2">{distributor.users.name}</div>
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("lastname")}</div>
-                  <div className="px-4 py-2">{distributor.lastname}</div>
+                  <div className="px-4 py-2">{distributor.users.lastname}</div>
                 </div>
 
                 <div className="grid grid-cols-2">
@@ -196,9 +195,9 @@ export default function DistributorInformation({ distributor }: Props) {
                   <div className="px-4 py-2">
                     <a
                       className="text-beer-gold hover:text-beer-darkGold"
-                      href={`mailto:${distributor.email}`}
+                      href={`mailto:${distributor.users.email}`}
                     >
-                      {distributor.email}
+                      {distributor.users.email}
                     </a>
                   </div>
                 </div>

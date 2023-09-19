@@ -6,14 +6,14 @@ import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { getGeocode } from "use-places-autocomplete";
-import { IProduct, IUser } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
-import { cleanObject, isValidObject } from "../../../../../../utils/utils";
+import { getGeocode } from "use-places-autocomplete";
 import { Modal } from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { IProduct, IUser } from "../../../../../../lib/types.d";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { cleanObject, isValidObject } from "../../../../../../utils/utils";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {
   cp_name: string;
@@ -103,11 +103,12 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       return;
     }
 
-    const results = await getGeocode({ address });
+    const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
       .from("cp_mobile")
       .insert({
+        cp_id: cpsId,
         cp_name,
         cp_description,
         organizer_name,
@@ -118,9 +119,11 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         end_date,
         address,
         status: "active",
-        cp_id: cpsId,
-        geoArgs: results,
         is_internal_organizer: isInternalOrganizer,
+        logo_url: "",
+        maximum_capacity: 0,
+        is_booking_required: false,
+        geoArgs: results,
       })
       .select();
 

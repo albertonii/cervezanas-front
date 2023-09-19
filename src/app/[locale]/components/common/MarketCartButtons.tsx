@@ -1,5 +1,7 @@
 import React from "react";
-import { DeleteButton, DecreaseButton, IncreaseButton } from ".";
+import { DeleteButton } from "./DeleteButton";
+import { DecreaseButton } from "./DecreaseButton";
+import { IncreaseButton } from "./IncreaseButton";
 
 interface Props {
   quantity: number;

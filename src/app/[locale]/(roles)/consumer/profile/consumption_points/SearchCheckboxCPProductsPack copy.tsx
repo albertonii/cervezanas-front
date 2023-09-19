@@ -150,38 +150,41 @@ export function SearchCheckboxCPProductsPack({ form }: Props) {
                         <td>
                           {/* Product packs is displays: Pack name, quantity of packs, price */}
 
-                          {product.order_items
-                            .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
-                            .map((pack) => {
-                              return (
-                                <div key={pack.id}>
-                                  <input
-                                    id={`checkbox-pack-${pack.id}`}
-                                    type="checkbox"
-                                    {...register(`product_items.${index}w.id`)}
-                                    value={product.id}
-                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                    // checked={selectedPacks[product.id]?.includes(
-                                    //   pack.id
-                                    // )}
-                                    // onChange={(e) =>
-                                    //   handleCheckboxChange(
-                                    //     product.id,
-                                    //     pack.id,
-                                    //     e.target.checked
-                                    //   )
-                                    // }
-                                  />
+                          {product.order_items &&
+                            product.order_items
+                              .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
+                              .map((pack) => {
+                                return (
+                                  <div key={pack.id}>
+                                    <input
+                                      id={`checkbox-pack-${pack.id}`}
+                                      type="checkbox"
+                                      {...register(
+                                        `product_items.${index}w.id`
+                                      )}
+                                      value={product.id}
+                                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                      // checked={selectedPacks[product.id]?.includes(
+                                      //   pack.id
+                                      // )}
+                                      // onChange={(e) =>
+                                      //   handleCheckboxChange(
+                                      //     product.id,
+                                      //     pack.id,
+                                      //     e.target.checked
+                                      //   )
+                                      // }
+                                    />
 
-                                  <label
-                                    htmlFor={`checkbox-pack-${pack.id}`}
-                                    className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
-                                  >
-                                    {pack.name}
-                                  </label>
-                                </div>
-                              );
-                            })}
+                                    <label
+                                      htmlFor={`checkbox-pack-${pack.id}`}
+                                      className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                                    >
+                                      {pack.name}
+                                    </label>
+                                  </div>
+                                );
+                              })}
                         </td>
                       </tr>
                     </>

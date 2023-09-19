@@ -2,21 +2,20 @@
 
 import Link from "next/link";
 import DisplayImageProduct from "../common/DisplayImageProduct";
-
+import MarketCartButtons2 from "../common/MarketCartButtons2";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Spinner } from "../common/Spinner";
+import { useAuth } from "../../Auth/useAuth";
+import { IconButton } from "../common/IconButton";
+import { SupabaseProps } from "../../../../constants";
 import { useLocale, useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
-import { formatCurrency } from "../../../../utils/formatCurrency";
+import { AddCardButton } from "../common/AddCartButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct, IProductPack } from "../../../../lib/types.d";
-import { useRouter } from "next/navigation";
-import { AddCardButton } from "../common/AddCartButton";
-import { IconButton } from "../common/IconButton";
-import { Spinner } from "../common/Spinner";
+import { formatCurrency } from "../../../../utils/formatCurrency";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import { useSupabase } from "../../../../context/SupabaseProvider";
-import { useAuth } from "../../Auth/useAuth";
-import { SupabaseProps } from "../../../../constants";
-import MarketCartButtons2 from "../common/MarketCartButtons2";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -31,27 +30,33 @@ export function StoreItem({ product }: StoreItemProps) {
   const router = useRouter();
 
   const packs = product.product_packs;
+  const lowestPack = packs?.sort(
+    (a, b) => a.quantity - b.quantity
+  )[0] as IProductPack;
 
-  // Selecte pack that has lowest quantity
-  const [selectedPack, setSelectedPack] = useState<IProductPack>(
-    packs.sort((a, b) => a.quantity - b.quantity)[0] ?? packs[0]
-  );
+  // Selected pack that has lowest quantity
+  const [selectedPack, setSelectedPack] = useState<IProductPack>(lowestPack);
 
   const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
     let overAll_sum = 0;
-    product.reviews.map((review) => (overAll_sum += review.overall));
-    const overAll_avg = overAll_sum / product.reviews.length;
+    const reviewsCount = product.reviews;
+    if (!reviewsCount) return t("no_reviews");
+
+    reviewsCount.map((review) => (overAll_sum += review.overall));
+    const overAll_avg = overAll_sum / reviewsCount.length;
     const overAll_toFixed: string = overAll_avg.toFixed(1);
     return overAll_toFixed.toString();
   };
 
   const overAll =
-    product.reviews.length > 0 ? overAllCalculation() : t("no_reviews") ?? "";
+    product.reviews && product.reviews.length > 0
+      ? overAllCalculation()
+      : t("no_reviews");
 
   const [isLike, setIsLike] = useState<boolean>(
-    product.likes.length > 0 ? true : false
+    product.likes && product.likes.length > 0 ? true : false
   );
 
   const { increasePackCartQuantity } = useShoppingCart();
@@ -99,11 +104,13 @@ export function StoreItem({ product }: StoreItemProps) {
 
     const packCartItem: IProductPack = {
       id: selectedPack.id,
+      created_at: selectedPack.created_at,
       quantity: packQuantity,
       price: selectedPack.price,
-      name: selectedPack.name,
       img_url: selectedPack.img_url,
+      name: selectedPack.name,
       randomUUID: selectedPack.randomUUID,
+      product_id: selectedPack.product_id,
     };
 
     increasePackCartQuantity(product, packCartItem);
@@ -197,7 +204,7 @@ export function StoreItem({ product }: StoreItemProps) {
                 id="is_external_organizer"
                 onClick={(e: any) => {
                   const value = e.target.value;
-                  const pack = packs.find((pack) => pack.id === value);
+                  const pack = packs?.find((pack) => pack.id === value);
                   setSelectedPack(pack as IProductPack);
                 }}
               >
@@ -212,25 +219,27 @@ export function StoreItem({ product }: StoreItemProps) {
               </select>
 
               {/* Añadir al carrito */}
-              <div
-                className="mt-6 flex w-full justify-between space-x-2
-              "
-              >
-                <MarketCartButtons2
-                  quantity={packQuantity}
-                  handleIncreaseCartQuantity={() =>
-                    handleIncreasePackQuantity()
-                  }
-                  handleDecreaseCartQuantity={() =>
-                    handleDecreasePackQuantity()
-                  }
-                />
 
-                <AddCardButton
-                  withText={true}
-                  onClick={() => handleAddToCart()}
-                />
-              </div>
+              {product.product_packs && (
+                <div className="mt-6 flex w-full justify-between space-x-2">
+                  <MarketCartButtons2
+                    item={product.product_packs[0]}
+                    quantity={packQuantity}
+                    handleIncreaseCartQuantity={() =>
+                      handleIncreasePackQuantity()
+                    }
+                    handleDecreaseCartQuantity={() =>
+                      handleDecreasePackQuantity()
+                    }
+                    handleRemoveFromCart={() => {}}
+                  />
+
+                  <AddCardButton
+                    withText={true}
+                    onClick={() => handleAddToCart()}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </>

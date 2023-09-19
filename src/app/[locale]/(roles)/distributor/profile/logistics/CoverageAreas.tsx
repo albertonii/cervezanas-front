@@ -24,13 +24,13 @@ export default function CoverageAreas() {
       case DistributionType.LOCAL:
         return (
           <>
-            {distribution && (
+            {/* {distribution && (
               <LocalDistribution
                 localDistribution={
                   distribution.coverage_areas[0].local_distribution
                 }
               />
-            )}
+            )} */}
           </>
         );
       case DistributionType.CITY:

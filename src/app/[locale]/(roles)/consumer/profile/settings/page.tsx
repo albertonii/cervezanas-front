@@ -1,5 +1,5 @@
 import Profile from "./Profile";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types.d";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
@@ -38,9 +38,10 @@ async function getProfileData() {
         profile_location (*)
       `
     )
-    .eq("id", session.user.id);
+    .eq("id", session.user.id)
+    .single();
 
   if (profileError) throw profileError;
 
-  return { profile: profileData[0] as IProfile };
+  return { profile: profileData as IUserTable };
 }

@@ -31,11 +31,7 @@ const fetchStatesByCountry = async (countryIsoCode: string) => {
   return res;
 };
 
-interface Props {
-  countryIsoCode: string;
-}
-
-const useFetchStatesByCountry = ({ countryIsoCode }: Props) => {
+const useFetchStatesByCountry = (countryIsoCode: string) => {
   return useQuery({
     queryKey: ["statesByCountry"],
     queryFn: () => fetchStatesByCountry(countryIsoCode),

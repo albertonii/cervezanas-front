@@ -1,12 +1,12 @@
 "use client";
 
+import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import React from "react";
 import { useTranslations } from "next-intl";
+import { SupabaseProps } from "../../../../../../constants";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
 import { NewProductReview } from "../../../../components/reviews/NewProductReview";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
-import { SupabaseProps } from "../../../../../../constants";
 
 interface Props {
   product: IProduct;

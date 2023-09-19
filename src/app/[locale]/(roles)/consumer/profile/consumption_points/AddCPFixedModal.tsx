@@ -12,7 +12,7 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { IProduct, IUser } from "../../../../../../lib/types.d";
+import { IProductPack, IUser } from "../../../../../../lib/types.d";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {
@@ -27,7 +27,8 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  // product_items: IProductPack[];
+  product_items: any[];
 }
 
 interface Props {
@@ -118,7 +119,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       return;
     }
 
-    const results = await getGeocode({ address });
+    const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
       .from("cp_fixed")
@@ -134,8 +135,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         address,
         status: "active",
         cp_id: cpsId,
-        geoArgs: results,
         is_internal_organizer: isInternalOrganizer,
+        geoArgs: results,
       })
       .select();
 

@@ -53,9 +53,11 @@ export default function ListOfContracts() {
     if (!contracts) return [];
 
     return contracts.filter((contract: IDistributionContract) => {
-      return contract.producer_id.users.username
-        .toLowerCase()
-        .includes(query.toLowerCase());
+      return contract.producer_user[0] && contract.producer_user[0].users
+        ? contract.producer_user[0].users.username
+            .toLowerCase()
+            .includes(query.toLowerCase())
+        : false;
     });
   }, [contracts, query]);
 
@@ -66,7 +68,10 @@ export default function ListOfContracts() {
       string,
       (contract: IDistributionContract) => any
     > = {
-      [SortBy.USERNAME]: (contract) => contract.producer_id.users.username,
+      [SortBy.USERNAME]: (contract) => {
+        if (!contract.producer_user[0].users) return "";
+        return contract.producer_user[0].users.username;
+      },
     };
 
     return filteredItems.toSorted((a, b) => {
@@ -199,10 +204,10 @@ export default function ListOfContracts() {
               >
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link
-                    href={`/p-info/${contract.producer_id.user}`}
+                    href={`/p-info/${contract.producer_user[0].user}`}
                     locale={locale}
                   >
-                    {contract.producer_id.users.username}
+                    {contract?.producer_user[0].users?.username}
                   </Link>
                 </td>
 
