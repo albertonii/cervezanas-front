@@ -725,9 +725,9 @@ export type ModalAddProductProps = {
   stock_limit_notification: number;
   lot_id: number;
   lot_quantity: number;
-  awards: Award[];
+  awards: IAward[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: Merchandising[];
+  merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
   packs: IProductPack[];
@@ -743,7 +743,7 @@ export type IProductPack = {
   name: string;
   randomUUID: string;
   product_id: string;
-  products?: IProduct;
+  // products?: IProduct;
 };
 
 export type IRefProductPack = {
@@ -791,7 +791,7 @@ export type ModalUpdateProductProps = {
   lot_quantity: number;
   awards?: Award[];
   beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: Merchandising[];
+  merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
   packs: IProductPack[];
@@ -885,7 +885,7 @@ export interface IProduct {
   likes?: ILike[];
   beers: IBeer[];
   // product_variant: IProductVariant[];
-  // awards: IAward[];
+  awards?: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
   // product_packs: IRefProductPack[];
@@ -904,7 +904,8 @@ export interface IMonthlyProduct {
   category: string;
   month: number;
   year: number;
-  product_id: IProduct;
+  product_id: string;
+  products?: IProduct;
 }
 
 export enum SortBy {

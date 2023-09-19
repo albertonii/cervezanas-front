@@ -8,12 +8,10 @@ import React, { ComponentProps, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
-import {
-  ArchiveButton,
-  DeleteButton,
-  EditButton,
-  Spinner,
-} from "../../../../components/common";
+import { ArchiveButton } from "../../../../components/common/ArchiveButton";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
+import { EditButton } from "../../../../components/common/EditButton";
+import { Spinner } from "../../../../components/common/Spinner";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IProduct } from "../../../../../../lib/types.d";
 

@@ -3,9 +3,9 @@
 import Image from "next/image";
 import DisplayImageProduct from "./common/DisplayImageProduct";
 import React, { ComponentProps, useEffect, useState } from "react";
-import { Carousel } from "./common";
+import { Carousel } from "./common/Carousel";
+import { IconButton } from "./common/IconButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "./common";
 import { ICarouselItem } from "../../../lib/types.d";
 import { ImageModal } from "./modals/ImageModal";
 

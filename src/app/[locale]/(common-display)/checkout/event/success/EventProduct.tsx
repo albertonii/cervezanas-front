@@ -10,7 +10,7 @@ import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
 } from "../../../../../../constants";
-import { Button } from "../../../../components/common";
+import { Button } from "../../../../components/common/Button";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {

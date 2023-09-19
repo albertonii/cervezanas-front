@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "@react-pdf/renderer";
-import { ItemsTable } from ".";
+import { ItemsTable } from "./ItemsTable";
 
 const styles = StyleSheet.create({
   page: {

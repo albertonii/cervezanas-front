@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "../modals/Modal";
-import { DisplayInputError } from "../common";
+import { DisplayInputError } from "../common/DisplayInputError";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { IModalShippingAddress } from "../../../../lib/types.d";
 import { useMutation, useQueryClient } from "react-query";

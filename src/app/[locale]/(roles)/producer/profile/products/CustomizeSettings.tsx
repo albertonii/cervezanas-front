@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAppContext } from "../../../../../../context";
-import { ChipCard } from "../../../../components/common";
+import { ChipCard } from "../../../../components/common/ChipCard";
 import { toLowerCase } from "../../../../../../utils/formatWords";
 
 export function CustomizeSettings() {

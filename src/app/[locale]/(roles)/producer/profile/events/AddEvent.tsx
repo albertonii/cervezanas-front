@@ -5,7 +5,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { ICPMobile } from "../../../../../../lib/types.d";
-import { DisplayInputError } from "../../../../components/common";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Modal } from "../../../../components/modals/Modal";
 import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";

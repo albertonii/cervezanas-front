@@ -1,5 +1,5 @@
 import React from "react";
-import { IndividualReview } from ".";
+import { IndividualReview } from "./IndividualReview";
 import { IReview } from "../../../../lib/types.d";
 
 interface Props {

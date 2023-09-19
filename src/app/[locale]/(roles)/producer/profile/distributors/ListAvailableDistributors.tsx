@@ -4,7 +4,8 @@ import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
 import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IconButton, Spinner } from "../../../../components/common";
+import { IconButton } from "../../../../components/common/IconButton";
+import { Spinner } from "../../../../components/common/Spinner";
 import { IDistributorUser_Profile } from "../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../utils/formatDate";
 

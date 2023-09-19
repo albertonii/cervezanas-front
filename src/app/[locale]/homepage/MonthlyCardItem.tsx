@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import MarketCartButtons from "../components/common/MarketCartButtons";
 import DisplayImageProduct from "../components/common/DisplayImageProduct";
 import React, { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
-import { formatCurrency } from "../../../utils/formatCurrency";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IMonthlyProduct } from "../../../lib/types.d";
 import { useRouter } from "next/navigation";
-import { AddCardButton, IconButton } from "../components/common";
-import { useSupabase } from "../../../context/SupabaseProvider";
-import MarketCartButtons from "../components/common/MarketCartButtons";
 import { SupabaseProps } from "../../../constants";
+import { IMonthlyProduct } from "../../../lib/types.d";
+import { useLocale, useTranslations } from "next-intl";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { IconButton } from "../components/common/IconButton";
+import { formatCurrency } from "../../../utils/formatCurrency";
+import { useSupabase } from "../../../context/SupabaseProvider";
+import { AddCardButton } from "../components/common/AddCartButton";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -23,7 +24,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const { supabase } = useSupabase();
-  const product = mProduct?.product_id;
+  const { products: product } = mProduct;
 
   if (!product) return null;
 
@@ -43,21 +44,21 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const router = useRouter();
 
   const overAll = () => {
-    if (product.reviews.length === 0) {
-      return t("no_reviews") || "";
+    const countReviews = product.reviews?.length ?? 0;
+
+    if (countReviews) {
+      return t("no_reviews");
     }
 
-    const overAll_sum = product.reviews.reduce(
-      (sum, review) => sum + review.overall,
-      0
-    );
-    const overAll_avg = overAll_sum / product.reviews.length;
+    const overAll_sum =
+      product.reviews?.reduce((sum, review) => sum + review.overall, 0) ?? 0;
+    const overAll_avg = overAll_sum / countReviews;
     const overAll_toFixed = overAll_avg.toFixed(1);
 
     return overAll_toFixed;
   };
 
-  const [isLike, setIsLike] = useState<boolean>(!!product.likes.length);
+  const [isLike, setIsLike] = useState<boolean>(!!product.likes?.length);
 
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
@@ -65,7 +66,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
-        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
+        .insert([{ product_id: product?.id, owner_id: product?.owner_id }]);
 
       if (error) throw error;
 
@@ -74,7 +75,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
       const { error } = await supabase
         .from("likes")
         .delete()
-        .match({ product_id: product.id, owner_id: product.owner_id });
+        .match({ product_id: product?.id, owner_id: product?.owner_id });
 
       if (error) throw error;
 

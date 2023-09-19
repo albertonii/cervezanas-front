@@ -2,7 +2,7 @@ import Packs from "./Packs";
 import DistributionInformation from "./DistributionInformation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Rate } from "../../../components/reviews";
+import { Rate } from "../../../components/reviews/Rate";
 import { SupabaseProps } from "../../../../../constants";
 import { ProductGallery } from "../../../components/ProductGallery";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
@@ -33,8 +33,8 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   };
 
   const productStars = useMemo(() => {
-    const sum = reviews.reduce((acc, review) => acc + review.overall, 0);
-    return reviews.length ? sum / reviews.length : 0;
+    const sum = reviews?.reduce((acc, review) => acc + review.overall, 0) ?? 0;
+    return reviews?.length ? sum / reviews.length : 0;
   }, [reviews]);
 
   const executeScroll = useCallback(
@@ -148,7 +148,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                   onClick={() => executeScroll()}
                   className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
                 >
-                  {reviews.length} {t("reviews")}
+                  {reviews?.length} {t("reviews")}
                 </p>
               </>
             </div>

@@ -12,7 +12,7 @@ import { IProduct, IUser } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { DisplayInputError } from "../../../../components/common";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface FormData {

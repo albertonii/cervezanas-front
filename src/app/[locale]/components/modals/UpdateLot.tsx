@@ -4,7 +4,7 @@ import React, { ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { DisplayInputError } from "../common";
+import { DisplayInputError } from "../common/DisplayInputError";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { IRefProductLot } from "../../../../lib/types.d";

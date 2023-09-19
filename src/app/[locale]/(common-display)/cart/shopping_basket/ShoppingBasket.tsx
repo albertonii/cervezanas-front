@@ -16,14 +16,17 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../../Auth/useAuth";
 import { useForm } from "react-hook-form";
-import { Button, CustomLoading } from "../../../components/common";
+import { Button } from "../../../components/common/Button";
+import { CustomLoading } from "../../../components/common/CustomLoading";
 import { CheckoutItem } from "../../../components/checkout";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import { createRedirectForm, merchantInfo } from "../../../components/TPV";
+import {
+  createRedirectForm,
+  merchantInfo,
+} from "../../../components/TPV/redsysClient";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
-import { IOrder } from "../../../../../lib/types.d";
 
 interface FormShippingData {
   shipping_info_id: string;

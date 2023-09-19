@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../components/common";
+import { Button } from "../../../../../components/common/Button";
 import { useTranslations } from "next-intl";
 
 interface ICountry {

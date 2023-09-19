@@ -2,7 +2,8 @@ import React, { ComponentProps, useState } from "react";
 
 import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NewShippingAddress } from "../../../components/checkout";
-import { DisplayInputError, IconButton } from "../../../components/common";
+import { DisplayInputError } from "../../../components/common/DisplayInputError";
+import { IconButton } from "../../../components/common/IconButton";
 import { UseFormReturn } from "react-hook-form";
 import { IShippingAddress } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";

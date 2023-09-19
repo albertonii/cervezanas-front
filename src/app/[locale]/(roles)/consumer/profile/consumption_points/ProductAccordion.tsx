@@ -1,7 +1,7 @@
 import AccordionItem from "./AccordionItem";
 import React from "react";
 import { IProduct } from "../../../../../../lib/types.d";
-import { Spinner } from "../../../../components/common";
+import { Spinner } from "../../../../components/common/Spinner";
 import { UseFormReturn } from "react-hook-form";
 
 interface Props {

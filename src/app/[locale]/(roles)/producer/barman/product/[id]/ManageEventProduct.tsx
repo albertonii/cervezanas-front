@@ -3,7 +3,8 @@
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Button, Spinner } from "../../../../../components/common";
+import { Button } from "../../../../../components/common/Button";
+import { Spinner } from "../../../../../components/common/Spinner";
 import { IEventOrderItem } from "../../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import {

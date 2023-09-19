@@ -1,12 +1,11 @@
 import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "../common/Button";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
-
 import { useRouter } from "next/navigation";
-import { Button } from "../common";
 import { PortalModal } from "./PortalModal";
 
 interface Props {

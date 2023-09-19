@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { COMMON } from "../../../../constants";
 import { ComponentProps } from "@stitches/core";
 import { memo, useEffect, useMemo, useState } from "react";
-import { COMMON } from "../../../../constants";
 
 // const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
 

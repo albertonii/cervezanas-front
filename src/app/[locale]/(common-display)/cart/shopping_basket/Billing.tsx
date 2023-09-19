@@ -1,6 +1,7 @@
 import React, { ComponentProps, useState } from "react";
 import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { DisplayInputError, IconButton } from "../../../components/common";
+import { DisplayInputError } from "../../../components/common/DisplayInputError";
+import { IconButton } from "../../../components/common/IconButton";
 import { useMutation, useQueryClient } from "react-query";
 import { NewBillingAddress } from "../../../components/checkout";
 import { UseFormReturn } from "react-hook-form";

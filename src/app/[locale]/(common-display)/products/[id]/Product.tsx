@@ -2,7 +2,7 @@
 
 import ProductDetails from "./ProductDetails";
 import React, { useEffect, useRef, useState } from "react";
-import { Spinner } from "../../../components/common";
+import { Spinner } from "../../../components/common/Spinner";
 import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";
 import { ProductReviews } from "../../../components/reviews/ProductReviews";
 import { DisplaySimilarProducts } from "../../../components/DisplaySimilarProducts";
@@ -17,7 +17,7 @@ export default function Product({ product }: Props) {
 
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<IReview[]>(
-    product.reviews
+    product.reviews ?? []
   );
 
   const reviewRef = useRef<any>();

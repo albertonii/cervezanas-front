@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { useAuth } from "./Auth/useAuth";
 import { useAppContext, useShoppingCart } from "../../context";
-import { Button } from "./components/common";
+import { Button } from "./components/common/Button";
 import { Notification } from "./components/Notification";
 import { useLocale } from "next-intl";
 

@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAppContext } from "../../../../../context";
 import { useAuth } from "../../../Auth/useAuth";
-import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
-import { Button } from "../../../components/common";
+import { Button } from "../../../components/common/Button";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();

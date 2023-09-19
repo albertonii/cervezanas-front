@@ -20,9 +20,13 @@ export default async function Mainpage() {
 async function getMonthlyProducts() {
   const supabase = createServerClient();
 
-  const { data: monthlyProducts, error: monthlyProductsError } = await supabase
-    .from("monthly_products")
-    .select(`*`);
+  const { data: monthlyProducts, error: monthlyProductsError } =
+    await supabase.from("monthly_products").select(`
+      id,
+      category,
+      month,
+      year
+    `);
 
   if (monthlyProductsError) throw monthlyProductsError;
   return monthlyProducts as IMonthlyProduct[];

@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { SupabaseProps } from "../../../../../constants";
 import { IOrder, IOrderItem } from "../../../../../lib/types.d";
-import { Button } from "../../../components/common";
+import { Button } from "../../../components/common/Button";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { formatDateString } from "../../../../../utils/formatDate";
 

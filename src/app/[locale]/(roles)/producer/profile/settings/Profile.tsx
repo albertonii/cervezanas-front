@@ -2,7 +2,7 @@
 
 import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../../components/common";
+import { Spinner } from "../../../../components/common/Spinner";
 import { IProfile } from "../../../../../../lib/types.d";
 import { Account } from "./Account";
 import { Details } from "./Details";

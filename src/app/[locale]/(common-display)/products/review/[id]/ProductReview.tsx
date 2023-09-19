@@ -3,7 +3,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
-import { NewProductReview } from "../../../../components/reviews";
+import { NewProductReview } from "../../../../components/reviews/NewProductReview";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import { SupabaseProps } from "../../../../../../constants";

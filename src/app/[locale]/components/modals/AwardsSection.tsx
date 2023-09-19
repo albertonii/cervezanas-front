@@ -3,12 +3,11 @@ import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { IAward, ModalAddProductProps } from "../../../../lib/types.d";
-import {
-  Button,
-  DeleteButton,
-  DisplayInputError,
-  FilePreviewImageMultimedia,
-} from "../common";
+import { Button } from "../common/Button";
+import { DeleteButton } from "../common/DeleteButton";
+import { DisplayInputError } from "../common/DisplayInputError";
+
+import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 
 const emptyAward: IAward = {
   id: "",

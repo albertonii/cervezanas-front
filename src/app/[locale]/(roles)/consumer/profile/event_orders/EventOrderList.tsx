@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
 import { IEventOrder } from "../../../../../../lib/types.d";
-import { IconButton, Spinner } from "../../../../components/common";
+import { IconButton } from "../../../../components/common/IconButton";
+import { Spinner } from "../../../../components/common/Spinner";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 

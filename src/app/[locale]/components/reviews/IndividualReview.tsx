@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { IReview } from "../../../../lib/types.d";
 import { formatDateString } from "../../../../utils/formatDate";
-import { Rate } from ".";
-import { DeleteButton } from "../common";
+import { Rate } from "./Rate";
+import { DeleteButton } from "../common/DeleteButton";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { OwnerInfo } from "../OwnerInfo";
 

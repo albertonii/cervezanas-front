@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Rate } from "../../../../components/reviews";
+import { Rate } from "../../../../components/reviews/Rate";
 import { useLocale, useTranslations } from "next-intl";
 import { IReview } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import { DeleteButton } from "../../../../components/common";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {

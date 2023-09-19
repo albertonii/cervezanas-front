@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Spinner } from "../../../../components/common";
+import { Spinner } from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../../../lib/types.d";
 import { Format } from "../../../../../../lib/beerEnum";
 

@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Modal } from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";

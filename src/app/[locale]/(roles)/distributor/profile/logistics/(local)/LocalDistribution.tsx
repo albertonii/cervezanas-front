@@ -1,3 +1,4 @@
+import PCRanges from "./PCRanges";
 import Label from "../../../../../components/Label";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import esLocale from "i18n-iso-countries/langs/es.json";
@@ -5,14 +6,13 @@ import countries from "i18n-iso-countries";
 import React, { useEffect, useState } from "react";
 import { CountryDropdown } from "react-country-region-selector";
 import { useTranslations } from "next-intl";
-import { Button, IconButton } from "../../../../../components/common";
+import { Button } from "../../../../../components/common/Button";
+import { IconButton } from "../../../../../components/common/IconButton";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ILocal, IPCRangesProps } from "../../../../../../../lib/types.d";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import PCRanges from "./PCRanges";
-import LocalMap from "./LocalMap";
 
 interface FormData {
   country: string;

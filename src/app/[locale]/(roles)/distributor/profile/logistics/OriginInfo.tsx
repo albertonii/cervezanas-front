@@ -1,10 +1,11 @@
-import { useTranslations } from "next-intl";
+import Label from "../../../../components/Label";
+import InputForm from "../../../../components/InputForm";
 import React from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { Button, DisplayInputError } from "../../../../components/common";
-import InputForm from "../../../../components/InputForm";
-import Label from "../../../../components/Label";
+import { Button } from "../../../../components/common/Button";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {
   id: string;

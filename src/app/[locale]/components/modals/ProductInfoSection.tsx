@@ -21,12 +21,10 @@ import {
   IProductPack,
   ModalAddProductProps,
 } from "../../../../lib/types.d";
-import {
-  Button,
-  DeleteButton,
-  FilePreviewImageMultimedia,
-  InfoTooltip,
-} from "../common";
+import { Button } from "../common/Button";
+import { DeleteButton } from "../common/DeleteButton";
+import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
+import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 
@@ -37,11 +35,13 @@ interface Props {
 
 const emptyPack: IProductPack = {
   id: "",
+  created_at: "",
   quantity: 6,
   price: 0,
   img_url: "",
   name: "",
   randomUUID: "",
+  product_id: "",
 };
 
 export function ProductInfoSection({ form, customizeSettings }: Props) {

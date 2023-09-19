@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../Auth/useAuth";
-import { DisplayInputError } from "../common";
+import { DisplayInputError } from "../common/DisplayInputError";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { IModalBillingAddress } from "../../../../lib/types.d";

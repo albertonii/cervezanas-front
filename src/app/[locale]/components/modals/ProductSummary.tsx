@@ -3,7 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ModalAddProductProps } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { FilePreview } from "../common";
+import { FilePreview } from "../common/FilePreview";
 
 interface Props {
   form: UseFormReturn<ModalAddProductProps, any>;

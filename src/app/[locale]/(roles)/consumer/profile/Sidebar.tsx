@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
-import { Button } from "../../../components/common";
+import { Button } from "../../../components/common/Button";
 import { useAppContext } from "../../../../../context";
 
 export function Sidebar() {

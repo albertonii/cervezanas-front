@@ -6,7 +6,8 @@ import AddMonthlyProduct from "../../../components/modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IMonthlyProduct } from "../../../../../lib/types.d";
-import { DeleteButton, EditButton } from "../../../components/common";
+import { DeleteButton } from "../../../components/common/DeleteButton";
+import { EditButton } from "../../../components/common/EditButton";
 import { DeleteMonthlyProduct } from "../../../components/modals/DeleteMonthlyProduct";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { SupabaseProps } from "../../../../../constants";
@@ -64,9 +65,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
     if (!products) return [];
 
     return products.filter((product) => {
-      return product.product_id.name
-        .toLowerCase()
-        .includes(query.toLowerCase());
+      return product.products?.name.toLowerCase().includes(query.toLowerCase());
     });
   }, [products, query]);
 
@@ -75,14 +74,16 @@ export default function MonthlyBeers({ mProducts }: Props) {
       const fetchByMonthAndYear = async () => {
         const { data, error } = await supabase.from("monthly_products").select(
           `
-            *,
-            product_id (id, name)
-            `
+            id,
+            category,
+            month,
+            year          `
         );
 
         if (error) throw error;
 
-        setProducts(data as IMonthlyProduct[]);
+        const mProducts = data as IMonthlyProduct[];
+        setProducts(mProducts);
       };
 
       fetchByMonthAndYear();
@@ -94,15 +95,18 @@ export default function MonthlyBeers({ mProducts }: Props) {
           .from("monthly_products")
           .select(
             `
-            *,
-            product_id (id, name)
+              id,
+              category,
+              month,
+              year  
             `
           )
           .eq("month", month);
 
         if (error) throw error;
 
-        setProducts(data as IMonthlyProduct[]);
+        const mProducts = data as IMonthlyProduct[];
+        setProducts(mProducts);
       };
 
       fetchByMonthAndYear();
@@ -114,15 +118,18 @@ export default function MonthlyBeers({ mProducts }: Props) {
           .from("monthly_products")
           .select(
             `
-            *,
-            product_id (id, name)
+              id,
+              category,
+              month,
+              year
             `
           )
           .eq("year", year);
 
         if (error) throw error;
 
-        setProducts(data as IMonthlyProduct[]);
+        const mProducts = data as IMonthlyProduct[];
+        setProducts(mProducts);
       };
 
       fetchByMonthAndYear();
@@ -134,8 +141,10 @@ export default function MonthlyBeers({ mProducts }: Props) {
           .from("monthly_products")
           .select(
             `
-            *,
-            product_id (id, name)
+              id,
+              category,
+              month,
+              year
             `
           )
           .eq("month", month)
@@ -143,7 +152,8 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
         if (error) throw error;
 
-        setProducts(data as IMonthlyProduct[]);
+        const mProducts = data as IMonthlyProduct[];
+        setProducts(mProducts);
       };
 
       fetchByMonthAndYear();
@@ -254,7 +264,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
           </thead>
 
           <tbody>
-            {products &&
+            {filteredItems &&
               filteredItems.map((product) => {
                 return (
                   <tr
@@ -269,7 +279,8 @@ export default function MonthlyBeers({ mProducts }: Props) {
                         imgSrc={
                           BASE_PRODUCTS_URL +
                           decodeURIComponent(
-                            product.product_id.product_multimedia[0].p_principal
+                            product.products?.product_multimedia[0]
+                              .p_principal ?? ""
                           )
                         }
                         width={128}
@@ -281,10 +292,10 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link
-                        href={`/products/${product.product_id.id}`}
+                        href={`/products/${product.product_id}`}
                         locale={locale}
                       >
-                        {product.product_id.name}
+                        {product.products?.name}
                       </Link>
                     </td>
 

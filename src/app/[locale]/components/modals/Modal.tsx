@@ -9,7 +9,9 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { Button, IconButton, Spinner } from "../common";
+import { Button } from "../common/Button";
+import { IconButton } from "../common/IconButton";
+import { Spinner } from "../common/Spinner";
 import { PortalModal } from "./PortalModal";
 
 interface Props {

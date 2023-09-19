@@ -8,11 +8,9 @@ import { useTranslations } from "next-intl";
 import { IProfileLocation } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
-import {
-  Button,
-  DisplayInputError,
-  Spinner,
-} from "../../../../components/common";
+import { Button } from "../../../../components/common/Button";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { Spinner } from "../../../../components/common/Spinner";
 
 interface FormProps {
   addressName: string;

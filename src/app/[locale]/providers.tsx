@@ -1,13 +1,13 @@
 "use client";
 
-import { NextIntlClientProvider } from "next-intl";
 import React from "react";
+import SupabaseProvider from "../../context/SupabaseProvider";
+import ReactQueryWrapper from "./ReactQueryWrapper";
+import { NextIntlClientProvider } from "next-intl";
 import { AppContextProvider, ShoppingCartProvider } from "../../context";
 import { EventCartProvider } from "../../context/EventCartContext";
-import SupabaseProvider from "../../context/SupabaseProvider";
 import { AuthContextProvider } from "./Auth/AuthContext";
 import { MessageProvider } from "./components/message/MessageContext";
-import ReactQueryWrapper from "./ReactQueryWrapper";
 
 interface Props {
   children: React.ReactNode;

@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
 import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
 import { generateDownloadableLink } from "../../../../../utils/utils";
-import { IconButton } from "../../../components/common";
+import { IconButton } from "../../../components/common/IconButton";
 import { Modal } from "../../../components/modals/Modal";
 import { useAuth } from "../../../Auth/useAuth";
 import { useSupabase } from "../../../../../context/SupabaseProvider";

@@ -8,11 +8,9 @@ import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAppContext } from "../../../../../../context";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
-import {
-  Button,
-  FilePreviewAndHide,
-  Spinner,
-} from "../../../../components/common";
+import { Button } from "../../../../components/common/Button";
+import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
+import { Spinner } from "../../../../components/common/Spinner";
 
 type FormValues = {
   bg_url: any;

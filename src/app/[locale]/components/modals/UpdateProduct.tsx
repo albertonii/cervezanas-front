@@ -15,17 +15,17 @@ import {
   ModalUpdateProductProps,
   IProductPack,
 } from "../../../../lib/types.d";
-import { useAuth } from "../../Auth/useAuth";
-import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
-import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
-import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
-import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
 import { uuid } from "uuidv4";
-import { useSupabase } from "../../../../context/SupabaseProvider";
-import { useMutation, useQueryClient } from "react-query";
-import { ProductStepper } from "./ProductStepper";
 import { Modal } from "./Modal";
+import { useAuth } from "../../Auth/useAuth";
+import { ProductStepper } from "./ProductStepper";
+import { useMutation, useQueryClient } from "react-query";
+import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
+import { useSupabase } from "../../../../context/SupabaseProvider";
+import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
+import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
+import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
 
 interface Props {
   product: IProduct;
@@ -58,9 +58,9 @@ export function UpdateProduct({
       type: product.type ?? "",
       is_public: product.is_public ?? false,
       price: product.price ?? 0,
-      stock_quantity: product.product_inventory[0]?.quantity ?? 0,
+      stock_quantity: product.product_inventory![0].quantity ?? 0,
       stock_limit_notification:
-        product.product_inventory[0]?.limit_notification ?? 0,
+        product.product_inventory![0].limit_notification ?? 0,
       campaign: "-" ?? "",
       format: product.beers[0]?.format ?? "",
       volume: product.beers[0]?.volume ?? 0,
@@ -132,20 +132,25 @@ export function UpdateProduct({
     const productId = product.id;
 
     // Multimedia
-    const p_principal_url =
-      !_.isEmpty(p_principal?.name) && encodeURIComponent(p_principal.name);
+    const p_principal_url = !_.isEmpty(p_principal?.name)
+      ? encodeURIComponent(p_principal.name)
+      : "";
 
-    const p_back_url =
-      !_.isEmpty(p_back?.name) ?? encodeURIComponent(p_back.name);
+    const p_back_url = !_.isEmpty(p_back?.name)
+      ? encodeURIComponent(p_back.name)
+      : "";
 
-    const p_extra_1_url =
-      !_.isEmpty(p_extra_1?.name) ?? encodeURIComponent(p_extra_1.name);
+    const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
+      ? encodeURIComponent(p_extra_1.name)
+      : "";
 
-    const p_extra_2_url =
-      !_.isEmpty(p_extra_2?.name) ?? encodeURIComponent(p_extra_2.name);
+    const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
+      ? encodeURIComponent(p_extra_2.name)
+      : "";
 
-    const p_extra_3_url =
-      !_.isEmpty(p_extra_3?.name) ?? encodeURIComponent(p_extra_3.name);
+    const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
+      ? encodeURIComponent(p_extra_3.name)
+      : "";
 
     const { data: product_multimedia, error: multError } = await supabase
       .from("product_multimedia")

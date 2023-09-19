@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { SignUpForm } from "../../Auth/SignUpForm";
 import { VIEWS } from "../../../../constants";
-import { Spinner } from "../../components/common";
+import { Spinner } from "../../components/common/Spinner";
 
 export default function Signup() {
   const t = useTranslations();

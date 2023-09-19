@@ -5,11 +5,9 @@ import React, { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProductLot } from "../../../../../../lib/types.d";
-import {
-  DeleteButton,
-  EditButton,
-  Spinner,
-} from "../../../../components/common";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
+import { EditButton } from "../../../../components/common/EditButton";
+import { Spinner } from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {

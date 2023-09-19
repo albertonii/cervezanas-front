@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { UseFormRegister, UseFormReturn } from "react-hook-form";
-import { DisplayInputError } from "../../../../components/common";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface Props {
   form: UseFormReturn<any>;

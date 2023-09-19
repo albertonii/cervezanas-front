@@ -8,7 +8,8 @@ import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwn
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { IconButton, Spinner } from "../../../../components/common";
+import { IconButton } from "../../../../components/common/IconButton";
+import { Spinner } from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types.d";
 

@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { category_options } from "../../../../lib/productEnum";
 import { IProduct, SortBy } from "../../../../lib/types.d";
-import { DisplayInputError, IconButton } from "../common";
+import { DisplayInputError } from "../common/DisplayInputError";
+import { IconButton } from "../common/IconButton";
 import { Modal } from "./Modal";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 

@@ -6,10 +6,14 @@ import { useTranslations } from "next-intl";
 import { IProfile } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
-  Button,
-  DisplayInputError,
-  Spinner,
-} from "../../../../components/common";
+  Button
+} from "../../../../components/common/Button";
+import {
+  DisplayInputError
+} from "../../../../components/common/DisplayInputError";
+import {
+  Spinner
+} from "../../../../components/common/Spinner";
 
 interface FormData {
   name: string;

@@ -7,9 +7,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { useAuth } from "../../../Auth/useAuth";
-import { Button, CustomLoading } from "../../../components/common";
+import { Button } from "../../../components/common/Button";
+import { CustomLoading } from "../../../components/common/CustomLoading";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import { createRedirectForm, eventMerchantInfo } from "../../../components/TPV";
+import {
+  createRedirectForm,
+  eventMerchantInfo,
+} from "../../../components/TPV/redsysClient";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useEventCart } from "../../../../../context/EventCartContext";
 import {

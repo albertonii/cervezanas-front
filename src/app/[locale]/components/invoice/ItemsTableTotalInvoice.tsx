@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "@react-pdf/renderer";
-import { TableBodyRowTotalInvoice, TableHeaderRowTotalInvoice } from ".";
+import { TableBodyRowTotalInvoice } from "./TableBodyRowTotalInvoice";
+import { TableHeaderRowTotalInvoice } from "./TableHeaderRowTotalInvoice";
 
 const styles = StyleSheet.create({
   tableContainer: {

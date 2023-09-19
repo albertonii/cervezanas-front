@@ -12,7 +12,8 @@ import {
   Svg,
   Line,
 } from "@react-pdf/renderer";
-import { Table, TableTotalInvoice } from "../../../../../components/invoice";
+import { Table } from "../../../../../components/invoice/Table";
+import { TableTotalInvoice } from "../../../../../components/invoice/TableTotalInvoice";
 import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
 import { IOrder } from "../../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../../utils/formatDate";

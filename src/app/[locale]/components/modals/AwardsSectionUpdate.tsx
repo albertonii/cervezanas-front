@@ -3,7 +3,8 @@ import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types.d";
-import { Button, DisplayInputError } from "../common";
+import { Button } from "../common/Button";
+import { DisplayInputError } from "../common/DisplayInputError";
 
 const emptyAward: IAward = {
   id: "",

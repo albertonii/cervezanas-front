@@ -22,10 +22,16 @@ import {
 import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types.d";
 import {
   Button,
+} from "../common/Button";
+import {
   DeleteButton,
+} from "../common/DeleteButton";
+import {
   FilePreviewImageMultimedia,
+} from "../common/FilePreviewImageMultimedia";
+import {
   InfoTooltip,
-} from "../common";
+} from "../common/InfoTooltip";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 
 interface Props {
@@ -34,11 +40,13 @@ interface Props {
 
 const emptyPack: IProductPack = {
   id: "",
+  created_at: "",
   quantity: 6,
   price: 0,
   img_url: "",
   name: "",
   randomUUID: "",
+  product_id: ""
 };
 
 export function ProductInfoSectionUpdate({ form }: Props) {

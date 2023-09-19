@@ -14,7 +14,7 @@ import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useMessage } from "../../../../components/message/useMessage";
-import { Button } from "../../../../components/common";
+import { Button } from "../../../../components/common/Button";
 import { DeleteCampaign } from "../../../../components/modals/DeleteCampaign";
 
 interface Props {

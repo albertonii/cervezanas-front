@@ -1,6 +1,6 @@
 "use client";
 
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
 import React, {
   useCallback,
   useEffect,
@@ -9,16 +9,15 @@ import React, {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-
-import { Button, IconButton, Spinner } from "../../../../../components/common";
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../../../../../components/common/Button";
+import { IconButton } from "../../../../../components/common/IconButton";
+import { Spinner } from "../../../../../components/common/Spinner";
 import { useEventCart } from "../../../../../../../context/EventCartContext";
 import { useSupabase } from "../../../../../../../context/SupabaseProvider";
-import {
-  ProductOverallReview,
-  ProductReviews,
-  Rate,
-} from "../../../../../components/reviews";
+import { ProductOverallReview } from "../../../../../components/reviews/ProductOverallReview";
+import { ProductReviews } from "../../../../../components/reviews/ProductReviews";
+import { Rate } from "../../../../../components/reviews/Rate";
 import { SupabaseProps } from "../../../../../../../constants";
 import {
   ICarouselItem,
