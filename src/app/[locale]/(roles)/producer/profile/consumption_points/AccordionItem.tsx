@@ -99,42 +99,43 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
           </span>
 
           <div className="grid grid-cols-1 space-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {product.product_packs
-              .sort((a, b) => a.quantity - b.quantity)
-              .map((pack: IRefProductPack) => (
-                <div
-                  key={pack.id}
-                  className={`${
-                    selectedPacks?.includes(pack.id) && "bg-beer-softFoam"
-                  } mr-2 flex items-center space-x-2 rounded-lg border p-1`}
-                >
-                  <input
-                    id={`checkbox-pack-${pack.id}`}
-                    type="checkbox"
-                    {...register(`product_items.${product.id}.id`)}
-                    checked={selectedPacks?.includes(pack.id)}
-                    onChange={(e) =>
-                      handleCheckboxChange(pack.id, e.target.checked)
-                    }
-                    value={pack.id}
-                    className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
-                  />
-                  <div>
-                    <label
-                      htmlFor={`checkbox-pack-${pack.id}`}
-                      className="ml-2 cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      {pack.name}
-                    </label>
+            {product.product_packs &&
+              product.product_packs
+                .sort((a, b) => a.quantity - b.quantity)
+                .map((pack: IRefProductPack) => (
+                  <div
+                    key={pack.id}
+                    className={`${
+                      selectedPacks?.includes(pack.id) && "bg-beer-softFoam"
+                    } mr-2 flex items-center space-x-2 rounded-lg border p-1`}
+                  >
+                    <input
+                      id={`checkbox-pack-${pack.id}`}
+                      type="checkbox"
+                      {...register(`product_items.${product.id}.id`)}
+                      checked={selectedPacks?.includes(pack.id)}
+                      onChange={(e) =>
+                        handleCheckboxChange(pack.id, e.target.checked)
+                      }
+                      value={pack.id}
+                      className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
+                    />
+                    <div>
+                      <label
+                        htmlFor={`checkbox-pack-${pack.id}`}
+                        className="ml-2 cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        {pack.name}
+                      </label>
 
-                    <div className="ml-2 text-xs text-gray-500 dark:text-gray-400">
-                      {pack.quantity}{" "}
-                      {pack.quantity > 1 ? t("units") : t("unit")} {" - "}
-                      {formatCurrency(pack.price)}
+                      <div className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                        {pack.quantity}{" "}
+                        {pack.quantity > 1 ? t("units") : t("unit")} {" - "}
+                        {formatCurrency(pack.price)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
           </div>
         </div>
       </div>

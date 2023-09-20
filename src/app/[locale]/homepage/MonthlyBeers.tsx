@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MonthlyBeers({ monthlyProducts }: Props) {
-  if (monthlyProducts.length === 0 && !monthlyProducts) return null;
+  if (monthlyProducts.length === 0 || !monthlyProducts) return null;
 
   return (
     <div className="w-100% mb-20 flex h-full justify-center bg-beer-foam pt-[48vh] sm:h-full sm:pt-[40vh]">

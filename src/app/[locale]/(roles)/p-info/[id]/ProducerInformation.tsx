@@ -3,12 +3,12 @@
 import Image from "next/image";
 import React from "react";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
-import { IProducerUser_Profile } from "../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
-  producer: IProducerUser_Profile;
+  producer: IProducerUser;
 }
 
 export default function ProducerInformation({ producer }: Props) {
@@ -27,7 +27,7 @@ export default function ProducerInformation({ producer }: Props) {
             </div>
 
             <h1 className="my-1 text-xl font-bold leading-8 text-gray-900">
-              {producer.username}
+              {producer.users?.username}
             </h1>
 
             <h3 className="font-lg text-semibold leading-6 text-gray-600">
@@ -152,11 +152,11 @@ export default function ProducerInformation({ producer }: Props) {
               <div className="grid text-sm md:grid-cols-2">
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("name")}</div>
-                  <div className="px-4 py-2">{producer.name}</div>
+                  <div className="px-4 py-2">{producer.users?.name}</div>
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("lastname")}</div>
-                  <div className="px-4 py-2">{producer.lastname}</div>
+                  <div className="px-4 py-2">{producer.users?.lastname}</div>
                 </div>
 
                 <div className="grid grid-cols-2">
@@ -196,9 +196,9 @@ export default function ProducerInformation({ producer }: Props) {
                   <div className="px-4 py-2">
                     <a
                       className="text-beer-gold hover:text-beer-darkGold"
-                      href={`mailto:${producer.email}`}
+                      href={`mailto:${producer.users?.email}`}
                     >
-                      {producer.email}
+                      {producer.users?.email}
                     </a>
                   </div>
                 </div>

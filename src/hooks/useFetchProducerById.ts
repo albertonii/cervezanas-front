@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { IProducerUser_Profile } from "../lib/types.d";
+import { IProducerUser } from "../lib/types.d";
 
 const fetchProducerById = async (
   supabase: SupabaseClient<any>,
@@ -32,7 +32,7 @@ const fetchProducerById = async (
 
   if (error) throw error;
 
-  return data[0] as IProducerUser_Profile;
+  return data[0] as IProducerUser;
 };
 
 const useFetchProducerById = (producerId: string) => {

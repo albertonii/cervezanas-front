@@ -3,9 +3,9 @@
 import Link from "next/link";
 import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useAuth } from "../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
 import { useAppContext } from "../../../../../context";
-import { useAuth } from "../../../Auth/useAuth";
 import { Button } from "../../../components/common/Button";
 
 export function Sidebar() {

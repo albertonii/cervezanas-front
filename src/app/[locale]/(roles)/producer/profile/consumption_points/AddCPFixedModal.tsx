@@ -27,7 +27,7 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  product_items: any[];
 }
 
 interface Props {
@@ -103,7 +103,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       return;
     }
 
-    const results = await getGeocode({ address });
+    const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
       .from("cp_fixed")
@@ -118,9 +118,10 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         end_date,
         address,
         status: "active",
+        is_booking_required: false,
         cp_id: cpsId,
-        geoArgs: results,
         is_internal_organizer: isInternalOrganizer,
+        geoArgs: results,
       })
       .select();
 

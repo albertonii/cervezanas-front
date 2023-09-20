@@ -349,24 +349,24 @@ export interface IProfile {
   cp_organizer_status: number;
 }
 
-export interface IDistributorProfile {
-  id: string;
-  created_at: string;
-  updated_at: string;
-  owner_id: string;
-  name: string;
-  lastname: string;
-  phone: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
-  email: string;
-  role: string;
-  username: string;
-  profile_location: IProfileLocation[];
-}
+// export interface IDistributorUser {
+//   id: string;
+//   created_at: string;
+//   updated_at: string;
+//   owner_id: string;
+//   name: string;
+//   lastname: string;
+//   phone: string;
+//   address: string;
+//   city: string;
+//   state: string;
+//   zip: string;
+//   country: string;
+//   email: string;
+//   role: string;
+//   username: string;
+//   profile_location: IProfileLocation[];
+// }
 
 export interface IEvent {
   id: string;
@@ -434,8 +434,8 @@ export interface ICPMobile {
   maximum_capacity: number;
   is_booking_required: boolean;
   geoArgs: GeoArgs[];
-  cpm_products?: ICPMProducts[];
   is_internal_organizer: boolean;
+  cpm_products?: ICPMProducts[];
   // TODO: rrss
 }
 
@@ -629,14 +629,17 @@ export interface IEventOrderItem {
   id: string;
   created_at: string;
   order_id: string;
-  product_id: IProduct;
-  product_pack_id: IRefProductPack;
-  is_reviewed: boolean;
-  product_multimedia: IProductMultimedia[];
-  cp_m_id: ICPMobile;
+  product_id: string;
+  product_pack_id: string;
   quantity: number;
   quantity_served: number;
   status: string;
+  is_reviewed: boolean;
+  products?: IProduct;
+  product_packs?: IRefProductPack;
+  product_multimedia?: IProductMultimedia[];
+  orders?: IOrder;
+  // cp_m_id: ICPMobile;
 }
 
 export interface IPaymentCardMethod {
@@ -1189,59 +1192,59 @@ export enum PROVIDER_TYPE {
   GOOGLE = "google",
 }
 
-export interface IDistributorUser_Profile {
-  id: string;
-  created_at: string;
-  avatar_url: string;
-  bg_url: string;
-  birthdate: string;
-  cp_organizer_status: number;
-  email: string;
-  name: string;
-  lastname: string;
-  role: string;
-  username: string;
-  distributor_user: IDistributorUser[];
-  profile_location: IProfileLocation[];
-}
+// export interface IDistributorUser_Profile {
+//   id: string;
+//   created_at: string;
+//   avatar_url: string;
+//   bg_url: string;
+//   birthdate: string;
+//   cp_organizer_status: number;
+//   email: string;
+//   name: string;
+//   lastname: string;
+//   role: string;
+//   username: string;
+//   distributor_user: IDistributorUser[];
+//   profile_location: IProfileLocation[];
+// }
 
 export interface IDistributorUser {
-  user: any; // ID
+  user: string; // ID
   created_at: string;
   nif: string;
   bank_account: string;
-  coverage_areas: ICoverageArea[];
   company_name: string;
   company_description: string;
   location_id: string;
-  profile_location: IProfileLocation[];
-  users: IUserTable; // To access embeded information we need to get into the table and the look for data
+  profile_location?: IProfileLocation[];
+  users?: IUserTable; // To access embeded information we need to get into the table and the look for data
+  coverage_areas?: ICoverageArea[];
 }
 
-export interface IProducerUser_Profile {
-  id: string;
-  created_at: string;
-  avatar_url: string;
-  bg_url: string;
-  birthdate: string;
-  cp_organizer_status: number;
-  email: string;
-  name: string;
-  lastname: string;
-  role: string;
-  username: string;
-  distributor_user: IProducerUser;
-  location_id: IProfileLocation[];
-}
+// export interface IProducerUser {
+//   id: string;
+//   created_at: string;
+//   avatar_url: string;
+//   bg_url: string;
+//   birthdate: string;
+//   cp_organizer_status: number;
+//   email: string;
+//   name: string;
+//   lastname: string;
+//   role: string;
+//   username: string;
+//   distributor_user: IProducerUser;
+//   location_id: IProfileLocation[];
+// }
 
 export interface IProducerUser {
   user: string; // ID
-  users?: IUserTable;
   created_at: string;
   company_name: string;
   company_description: string;
-  location_id: IProfileLocation[];
-  // users: IUser; // To access embeded information we need to get into the table and the look for data
+  location_id: string;
+  profile_location?: IProfileLocation[];
+  users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
 
 export interface IDistributionContract {

@@ -1,7 +1,7 @@
 import React from "react";
-import DistributorInformation from "./ProducerInformation";
-import { createServerClient } from "../../../../../utils/supabaseServer";
 import ProducerInformation from "./ProducerInformation";
+import { createServerClient } from "../../../../../utils/supabaseServer";
+import { IProducerUser } from "../../../../../lib/types";
 
 export default async function page({ params }: any) {
   const { id } = params;
@@ -16,21 +16,32 @@ async function getProducerProfile(producerId: string) {
   const supabase = createServerClient();
 
   const { data: producer, error: producerError } = await supabase
-    .from("users")
+    .from("producer_user")
     .select(
       `
-      *,
-      producer_user (
-        *
-      ),
-      profile_location (
-        *
-      )
+       *
       `
     )
-    .eq("id", producerId);
+    .eq("user", producerId)
+    .single();
+
+  // const { data: producer, error: producerError } = await supabase
+  //   .from("users")
+  //   .select(
+  //     `
+  //   *,
+  //   producer_user (
+  //     *
+  //   ),
+  //   profile_location (
+  //     *
+  //   )
+  //   `
+  //   )
+  //   .eq("id", producerId)
+  //   .single();
 
   if (producerError) throw producerError;
 
-  return producer[0];
+  return producer as IProducerUser;
 }

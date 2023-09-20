@@ -1,11 +1,7 @@
 import React from "react";
 import DistributorInformation from "./DistributorInformation";
 import { createServerClient } from "../../../../../utils/supabaseServer";
-import {
-  IDistributionContract,
-  IDistributorUser,
-  IUserTable,
-} from "../../../../../lib/types";
+import { IDistributorUser } from "../../../../../lib/types";
 
 export default async function page({ params }: any) {
   const { id } = params;
@@ -26,7 +22,7 @@ async function getDistributorProfile(distributorId: string) {
         *
       `
     )
-    .eq("id", distributorId)
+    .eq("user", distributorId)
     .single();
 
   if (distributorError) throw distributorError;

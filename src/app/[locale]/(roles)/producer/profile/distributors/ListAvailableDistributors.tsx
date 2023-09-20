@@ -6,7 +6,7 @@ import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IDistributorUser_Profile } from "../../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {
@@ -33,7 +33,7 @@ export default function ListAvailableDistributors({
   const [query, setQuery] = useState("");
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   // const [selectedDistributor, setSelectedDistributor] =
-  //   useState<IDistributorUser_Profile>();
+  //   useState<IDistributorUser>();
 
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -58,26 +58,23 @@ export default function ListAvailableDistributors({
     });
   }, [currentPage]);
 
-  const filteredItems = useMemo<IDistributorUser_Profile[]>(() => {
+  const filteredItems = useMemo<IDistributorUser[]>(() => {
     if (!distributors) return [];
     return distributors.filter((d) => {
-      return d.username.toLowerCase().includes(query.toLowerCase());
+      return d.users?.username.toLowerCase().includes(query.toLowerCase());
     });
   }, [distributors, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
 
-    const compareProperties: Record<
-      string,
-      (d: IDistributorUser_Profile) => any
-    > = {
-      [SortBy.USERNAME]: (d) => d.username,
+    const compareProperties: Record<string, (d: IDistributorUser) => any> = {
+      [SortBy.USERNAME]: (d) => d.users?.username,
       [SortBy.CREATED_DATE]: (d) => d.created_at,
     };
 
     return filteredItems.toSorted(
-      (a: IDistributorUser_Profile, b: IDistributorUser_Profile) => {
+      (a: IDistributorUser, b: IDistributorUser) => {
         const extractProperty = compareProperties[sorting];
         return extractProperty(a).localeCompare(extractProperty(b));
       }
@@ -88,9 +85,7 @@ export default function ListAvailableDistributors({
     setSorting(sort);
   };
 
-  const handleSignContractlick = async (
-    distributor: IDistributorUser_Profile
-  ) => {
+  const handleSignContractlick = async (distributor: IDistributorUser) => {
     handleDistributor(distributor);
   };
 
@@ -193,19 +188,19 @@ export default function ListAvailableDistributors({
             </thead>
 
             <tbody>
-              {filteredItems.map((distributor: IDistributorUser_Profile) => {
+              {filteredItems.map((distributor: IDistributorUser) => {
                 return (
                   <tr
-                    key={distributor.id}
+                    key={distributor.user}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
-                        href={`/d-info/${distributor.id}`}
+                        href={`/d-info/${distributor.user}`}
                         locale={locale}
                         target="_blank"
                       >
-                        {distributor.username}
+                        {distributor.users?.username}
                       </Link>
                     </td>
                     <td className="px-6 py-4">

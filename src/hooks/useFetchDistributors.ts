@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { IDistributorUser_Profile } from "../lib/types.d";
+import { IDistributorUser } from "../lib/types.d";
 
 const fetchDistributors = async (supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase
@@ -17,7 +17,7 @@ const fetchDistributors = async (supabase: SupabaseClient<any>) => {
     .eq("role", "distributor");
   if (error) throw error;
 
-  return data as IDistributorUser_Profile[];
+  return data as IDistributorUser[];
 };
 
 const useFetchDistributors = () => {

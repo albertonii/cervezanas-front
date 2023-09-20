@@ -35,14 +35,17 @@ async function getEventOrderItemData(id: string) {
         `
         *,
         product_id (*,
-          product_multimedia (*,
-            p_principal)
+          product_multimedia (
+            *,
+            p_principal
+          )
         )
       `
       )
-      .eq("id", id);
+      .eq("id", id)
+      .single();
 
   if (eventOrderItemError) throw eventOrderItemError;
 
-  return eventOrderItemData[0] as IEventOrderItem;
+  return eventOrderItemData as IEventOrderItem;
 }

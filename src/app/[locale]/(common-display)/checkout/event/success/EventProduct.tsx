@@ -29,7 +29,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
     router.push(`/${locale}/products/review/${productId}`);
   };
 
-  const { product_pack_id: pack, product_id: product } = eventOrderItem;
+  const { product_packs: pack, products: product } = eventOrderItem;
 
   return (
     <>
@@ -60,7 +60,9 @@ export default function EventProduct({ eventOrderItem }: Props) {
               width={120}
               height={120}
               alt={""}
-              imgSrc={`${BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)}`}
+              imgSrc={`${
+                BASE_PRODUCTS_URL + decodeURIComponent(pack?.img_url)
+              }`}
               class="h-full w-full object-cover object-center sm:h-full sm:w-full"
             />
           </div>
@@ -75,28 +77,28 @@ export default function EventProduct({ eventOrderItem }: Props) {
               href={`/products/${eventOrderItem.id}`}
               locale={locale}
             >
-              {product.name}
+              {product?.name}
             </Link>
           </h3>
 
           <h3 className="space-x-2 text-sm text-gray-900">
             <span className="font-medium">{t("pack")}: </span>
-            <span>{pack.name}</span>
+            <span>{pack?.name}</span>
           </h3>
 
           <h4 className="space-x-2 text-sm text-gray-900">
             <span className="font-medium">{t("price")}:</span>
-            <span>{formatCurrency(pack.price)}</span>
+            <span>{pack && formatCurrency(pack.price)}</span>
           </h4>
 
           <p className="space-x-2 text-sm text-gray-900">
             <span className="font-medium">{t("quantity")}:</span>
-            <span>{pack.quantity}</span>
+            <span>{pack?.quantity}</span>
           </p>
 
           <p className="space-x-2 text-sm text-gray-900">
             <span className="font-medium">{t("total")}:</span>
-            <span>{formatCurrency(pack.quantity * pack.price)}</span>
+            <span>{pack && formatCurrency(pack.quantity * pack.price)}</span>
           </p>
         </div>
 
@@ -130,6 +132,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
               class="my-6 font-medium text-beer-draft hover:text-beer-dark "
               onClick={() => {
                 if (
+                  product &&
                   !eventOrderItem.is_reviewed &&
                   eventOrderItem.status !== EVENT_ORDER_ITEM_STATUS.INITIAL
                 ) {

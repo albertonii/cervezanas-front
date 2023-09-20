@@ -27,7 +27,7 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  product_items: any[];
 }
 
 interface Props {
@@ -103,7 +103,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       return;
     }
 
-    const results = await getGeocode({ address });
+    const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
       .from("cp_mobile")
@@ -121,6 +121,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         cp_id: cpsId,
         geoArgs: results,
         is_internal_organizer: isInternalOrganizer,
+        is_booking_required: false,
       })
       .select();
 

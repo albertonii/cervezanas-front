@@ -83,14 +83,16 @@ async function getSuccessData(searchParams: any) {
       order_number,
       event_order_items (
         *,
-        product_id (
+        product_id,
+        products (
           id, 
           name, 
           price,
           product_multimedia(*),
           beers (*)
         ),
-        product_pack_id (*)
+        product_pack_id,
+        product_packs (*)
       ),
       users (*),
       events (*),

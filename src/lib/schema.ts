@@ -572,12 +572,6 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "cpm_events_cp_id_fkey"
-            columns: ["cp_id"]
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "cpm_events_event_id_fkey"
             columns: ["event_id"]
             referencedRelation: "events"
@@ -1428,22 +1422,22 @@ export interface Database {
       }
       producer_user: {
         Row: {
-          " company_name": string | null
           company_description: string | null
+          company_name: string | null
           created_at: string
           location_id: string | null
           user: string
         }
         Insert: {
-          " company_name"?: string | null
           company_description?: string | null
+          company_name?: string | null
           created_at?: string
           location_id?: string | null
           user: string
         }
         Update: {
-          " company_name"?: string | null
           company_description?: string | null
+          company_name?: string | null
           created_at?: string
           location_id?: string | null
           user?: string

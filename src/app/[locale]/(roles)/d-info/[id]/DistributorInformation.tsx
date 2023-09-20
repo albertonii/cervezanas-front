@@ -26,7 +26,7 @@ export default function DistributorInformation({ distributor }: Props) {
             </div>
 
             <h1 className="my-1 text-xl font-bold leading-8 text-gray-900">
-              {distributor.users.username}
+              {distributor.users?.username}
             </h1>
 
             <h3 className="font-lg text-semibold leading-6 text-gray-600">
@@ -151,11 +151,11 @@ export default function DistributorInformation({ distributor }: Props) {
               <div className="grid text-sm md:grid-cols-2">
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("name")}</div>
-                  <div className="px-4 py-2">{distributor.users.name}</div>
+                  <div className="px-4 py-2">{distributor.users?.name}</div>
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">{t("lastname")}</div>
-                  <div className="px-4 py-2">{distributor.users.lastname}</div>
+                  <div className="px-4 py-2">{distributor.users?.lastname}</div>
                 </div>
 
                 <div className="grid grid-cols-2">
@@ -163,25 +163,30 @@ export default function DistributorInformation({ distributor }: Props) {
                   <div className="px-4 py-2">+11 998001001</div>
                 </div>
 
-                <div className="grid grid-cols-2">
-                  <div className="px-4 py-2 font-semibold">{t("address")}</div>
-                  <div className="px-4 py-2">
-                    {distributor.profile_location[0].address_1 ??
-                      "" + " " + distributor.profile_location[0].address_2 ??
-                      ""}
+                {distributor.profile_location && (
+                  <div className="grid grid-cols-2">
+                    <div className="px-4 py-2 font-semibold">
+                      {t("address")}
+                    </div>
+                    <div className="px-4 py-2">
+                      {distributor.profile_location[0].address_1 ??
+                        "" + " " + distributor.profile_location[0].address_2 ??
+                        ""}
 
-                    <br />
+                      <br />
 
-                    {distributor.profile_location[0].town ??
-                      "" + ", " + distributor.profile_location[0].province ??
-                      "" + ", " + distributor.profile_location[0].country ??
-                      ""}
+                      {distributor.profile_location[0].town ??
+                        "" + ", " + distributor.profile_location[0].province ??
+                        "" + ", " + distributor.profile_location[0].country ??
+                        ""}
 
-                    <br />
+                      <br />
 
-                    {distributor.profile_location[0].postalcode ?? ""}
+                      {distributor.profile_location[0].postalcode ?? ""}
+                    </div>
                   </div>
-                </div>
+                )}
+
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">
                     Permanant Address
@@ -195,9 +200,9 @@ export default function DistributorInformation({ distributor }: Props) {
                   <div className="px-4 py-2">
                     <a
                       className="text-beer-gold hover:text-beer-darkGold"
-                      href={`mailto:${distributor.users.email}`}
+                      href={`mailto:${distributor.users?.email}`}
                     >
-                      {distributor.users.email}
+                      {distributor.users?.email}
                     </a>
                   </div>
                 </div>

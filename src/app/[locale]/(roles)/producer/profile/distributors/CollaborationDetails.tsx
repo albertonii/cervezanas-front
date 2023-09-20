@@ -1,6 +1,6 @@
 import React from "react";
-import { useAuth } from "../../../../Auth/useAuth";
 import useFetchDistributorById from "../../../../../../hooks/useFetchDistributorById";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   distributorId: string;
@@ -56,20 +56,21 @@ export default function CollaborationDetails({ distributorId }: Props) {
 
           <div className="mx-6 space-y-2">
             <summary>
-              Nombre de la Compañía:{" "}
-              {distributor?.distributor_user.company_name}
+              Nombre de la Compañía: {distributor?.company_name}
             </summary>
 
-            <div className="flex flex-col">
-              <summary>Domicilio Legal:</summary>
-              <i>
-                {distributor?.profile_location[0]?.address_1}{" "}
-                {distributor?.profile_location[0]?.town} -{" "}
-                {distributor?.profile_location[0]?.province} -{" "}
-                {distributor?.profile_location[0]?.country} -{" "}
-                {distributor?.profile_location[0]?.postalcode}
-              </i>
-            </div>
+            {distributor.profile_location && (
+              <>
+              <div className="flex flex-col">
+                <summary>Domicilio Legal:</summary>
+                <i>
+                  {distributor.profile_location[0]?.address_1}{" "}
+                  {distributor.profile_location[0]?.town} -{" "}
+                  {distributor.profile_location[0]?.province} -{" "}
+                  {distributor.profile_location[0]?.country} -{" "}
+                  {distributor.profile_location[0]?.postalcode}
+                </i>
+              </div>
 
             <summary>
               Número de Identificación Fiscal: [Número de Identificación Fiscal
@@ -78,17 +79,20 @@ export default function CollaborationDetails({ distributorId }: Props) {
 
             <summary>
               Representante Legal:{" "}
-              <i>{distributor?.name + " " + distributor?.lastname}</i>
+              <i>{distributor.users?.name + " " + distributor.users?.lastname}</i>
             </summary>
 
             <summary>
-              Correo Electrónico: <i>{distributor?.email}</i>
+              Correo Electrónico: <i>{distributor.users?.email}</i>
             </summary>
 
             <summary>
               Teléfono de Contacto:{" "}
               <i>{distributor?.profile_location[0].phone}</i>
             </summary>
+            </>
+            )}
+
           </div>
         </div>
 

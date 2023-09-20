@@ -1,5 +1,6 @@
 "use client";
 
+import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -10,7 +11,6 @@ import { useAuth } from "../../Auth/useAuth";
 import { format_options } from "../../../../lib/beerEnum";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 
 type FormData = {
   created_at: string;

@@ -14,7 +14,7 @@ export default function PaymentInformation({ order }: Props) {
 
   const subtotal = eventOrderItems.reduce(
     (subtotal, item) =>
-      item.product_pack_id.price * item.product_pack_id.quantity + subtotal,
+      item.product_packs!.price * item.product_packs!.quantity + subtotal,
     0
   );
 

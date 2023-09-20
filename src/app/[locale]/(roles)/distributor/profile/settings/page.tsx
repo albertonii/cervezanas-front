@@ -2,9 +2,10 @@ import Profile from "./Profile";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
+import { IDistributorUser } from "../../../../../../lib/types";
 
 export default async function ProfilePage() {
-  const profile = getProfileData();
+  const profile = await getProfileData();
   if (!profile) return <></>;
 
   return (
@@ -27,16 +28,22 @@ async function getProfileData() {
   }
 
   const { data: profileData, error: profileError } = await supabase
-    .from("users")
+    .from("distributor_user")
     .select(
       `
-        *,
-        profile_location (*)
+        user,
+        created_at,
+        nif,
+        bank_account,
+        company_name,
+        company_description,
+        location_id
+        
       `
     )
-    .eq("id", session.user.id);
+    .eq("id", session.user.id)
+    .single();
 
   if (profileError) throw profileError;
-
-  return profileData;
+  return profileData as IDistributorUser;
 }

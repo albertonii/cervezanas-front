@@ -2,7 +2,7 @@ import ListAvailableDistributors from "./ListAvailableDistributors";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Modal } from "../../../../components/modals/Modal";
-import { IDistributorUser_Profile } from "../../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../../lib/types.d";
 import { SubmitContract } from "./SubmitContract";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,9 +42,9 @@ export default function LinkDistributor({ producerId }: Props) {
   const [showFooter, setShowFooter] = useState<boolean>(false);
 
   const [selectedDistributor, setSelectedDistributor] =
-    useState<IDistributorUser_Profile | null>(null);
+    useState<IDistributorUser | null>(null);
 
-  const handleDistributor = (distributor: IDistributorUser_Profile) => {
+  const handleDistributor = (distributor: IDistributorUser) => {
     setSelectedDistributor(distributor);
   };
 
@@ -74,7 +74,7 @@ export default function LinkDistributor({ producerId }: Props) {
     const { message, is_signed } = formValues;
 
     const { error } = await supabase.from("distribution_contracts").insert({
-      distributor_id: selectedDistributor.id,
+      distributor_id: selectedDistributor.user,
       producer_id: producerId,
       message: message,
       producer_accepted: is_signed,

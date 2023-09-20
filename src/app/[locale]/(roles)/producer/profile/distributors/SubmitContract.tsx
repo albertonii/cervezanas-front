@@ -4,11 +4,11 @@ import React from "react";
 import CollaborationAgreement from "./CollaborationAgreement";
 import CollaborationDetails from "./CollaborationDetails";
 import ValidateContract from "./ValidateContract";
-import { IDistributorUser_Profile } from "../../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../../lib/types.d";
 import { UseFormReturn } from "react-hook-form";
 
 interface Props {
-  distributor: IDistributorUser_Profile;
+  distributor: IDistributorUser;
   form: UseFormReturn<any>;
 }
 
