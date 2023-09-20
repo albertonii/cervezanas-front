@@ -3,13 +3,13 @@
 import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../../lib/types.d";
 import { Account } from "./Account";
 import { Details } from "./Details";
 import { Values } from "./Values";
 
 interface Props {
-  profile: IProfile;
+  profile: IProducerUser;
 }
 
 export default function Profile({ profile }: Props) {

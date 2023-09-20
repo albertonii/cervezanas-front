@@ -32,7 +32,9 @@ async function getEventOrdersData() {
     .select(
       `
         *,
-        users!event_orders_customer_id_fkey (*)
+        users!event_orders_customer_id_fkey (
+          *
+        )
       `
     )
     .eq("customer_id", session.user.id);

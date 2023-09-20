@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../../lib/types.d";
 import { BasicDataForm } from "./BasicDataForm";
 import { SecretDataForm } from "./SecretDataForm";
 
 interface Props {
-  profile: IProfile;
+  profile: IProducerUser;
 }
 
 export function Account({ profile }: Props) {

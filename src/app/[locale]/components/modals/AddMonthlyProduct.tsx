@@ -15,7 +15,8 @@ interface FormData {
   category: string;
   month: number;
   year: number;
-  product_id: IProduct;
+  // product_id: IProduct;
+  product_id: any; // TODO: Any to avoid circular dependency
 }
 
 interface Props {

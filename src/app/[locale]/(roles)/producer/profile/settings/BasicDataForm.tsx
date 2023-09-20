@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../../lib/types.d";
 import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
@@ -17,14 +17,16 @@ interface FormData {
 }
 
 interface Props {
-  profile: IProfile;
+  profile: IProducerUser;
 }
 
 export function BasicDataForm({ profile }: Props) {
   const t = useTranslations();
   const { supabase } = useSupabase();
 
-  const { id, username, name, lastname, email } = profile;
+  if (!profile.users) return <></>;
+
+  const { id, username, name, lastname, email } = profile.users;
 
   const [loading, setLoading] = useState(false);
 

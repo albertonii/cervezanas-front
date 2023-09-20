@@ -5,11 +5,16 @@ import React, { useEffect, useState, createContext, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
-import { IUserProfile } from "../../../lib/types.d";
+import { IUser, IUserProfile } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { useSupabase } from "../../../context/SupabaseProvider";
-import { Provider, Session, SupabaseClient } from "@supabase/supabase-js";
+import {
+  AuthResponse,
+  Provider,
+  Session,
+  SupabaseClient,
+} from "@supabase/supabase-js";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
@@ -201,18 +206,20 @@ export const AuthContextProvider = ({
         return;
       }
 
-      const { error, data } = await supabase.auth.signUp(payload);
+      const { error, data } = (await supabase.auth.signUp(
+        payload
+      )) as AuthResponse;
+
+      if (!data || !data.user) return;
 
       // Get access_level from the user
-      const access_level = data?.user_metadata?.access_level;
+      const access_level = data.user?.user_metadata.access_level;
 
       if (access_level === ROLE_ENUM.Productor) {
-        console.log(access_level);
-
         const { error: roleError } = await supabase
           .from("producer_user")
           .insert({
-            user: data?.id,
+            user: data.user.id,
           });
 
         if (roleError) {

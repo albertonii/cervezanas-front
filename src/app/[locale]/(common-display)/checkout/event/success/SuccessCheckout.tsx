@@ -38,11 +38,11 @@ export default function SuccessCheckout({ order, isError }: Props) {
   }, [user]);
 
   useEffect(() => {
-    const withStock = eventOrderItems.some(
+    const withStock = eventOrderItems?.some(
       (item) => item.status === EVENT_ORDER_ITEM_STATUS.WITH_STOCK
     );
 
-    const consumed = eventOrderItems.every(
+    const consumed = eventOrderItems?.every(
       (item) => item.status === EVENT_ORDER_ITEM_STATUS.CONSUMED
     );
 

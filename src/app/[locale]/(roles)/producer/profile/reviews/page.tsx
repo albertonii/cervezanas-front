@@ -28,7 +28,7 @@ async function getReviewsData() {
   }
 
   const { data: reviewsData, error: reviewsError } = await supabase
-    .from("users")
+    .from("reviews")
     .select(
       `
         *,
@@ -43,5 +43,4 @@ async function getReviewsData() {
   if (reviewsError) throw reviewsError;
 
   return { reviews: reviewsData as IReview[] };
-  // }
 }

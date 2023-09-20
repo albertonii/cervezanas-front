@@ -27,7 +27,8 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: IProduct[];
+  // product_items: IProduct[];
+  product_items: any[]; // TODO: Any para evitar circular dependency
 }
 
 interface Props {

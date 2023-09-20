@@ -145,7 +145,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
                       <td className="px-6 py-4">{order.order_number}</td>
 
                       <td className="px-6 py-4">
-                        {order.users.username ?? " - "}
+                        {order.users?.username ?? " - "}
                       </td>
 
                       <td className="px-6 py-4">

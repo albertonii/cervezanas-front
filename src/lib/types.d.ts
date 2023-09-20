@@ -607,21 +607,21 @@ export interface IEventOrder {
   id: string;
   created_at: string;
   updated_at: string;
-  status: string;
   customer_id: string;
   event_id: string;
+  status: string;
   total: number;
   subtotal: number;
-  tax: number;
   currency: string;
   discount: number;
   discount_code: string;
   order_number: string;
-  event_order_items: IEventOrderItem[];
-  users: IUser;
-  events: IEvent;
-  payment_method_card?: IPaymentCardMethod;
+  tax: number;
   payment_method_id: string;
+  event_order_items?: IEventOrderItem[];
+  users?: IUserTable;
+  events?: IEvent;
+  payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
 
@@ -737,8 +737,9 @@ export type ModalAddProductProps = {
   merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
-  packs: IProductPack[];
   category: string;
+  // packs: IProductPack[];
+  packs: any[]; // TODO: any para evitar circular dependency en AddCPMobileModal
 };
 
 export type IProductPack = {
@@ -801,7 +802,8 @@ export type ModalUpdateProductProps = {
   merchandisings: IMerchandising[];
   is_gluten: boolean;
   is_public: boolean;
-  packs: IProductPack[];
+  // packs: IProductPack[];
+  packs: any[]; // TODO: Any para evitar circular dependency en ProductInfoSectionUpdate.tsx
 };
 
 export type ModalUpdateLotProps = {
@@ -950,7 +952,7 @@ export interface INotification {
   message: string;
   link: string;
   read: boolean;
-  source: IUser;
+  source: IUserTable;
 }
 
 export type UserProps = {

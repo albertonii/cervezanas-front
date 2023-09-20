@@ -12,11 +12,12 @@ export default function PaymentInformation({ order }: Props) {
 
   const { event_order_items: eventOrderItems } = order;
 
-  const subtotal = eventOrderItems.reduce(
-    (subtotal, item) =>
-      item.product_packs!.price * item.product_packs!.quantity + subtotal,
-    0
-  );
+  const subtotal =
+    eventOrderItems?.reduce(
+      (subtotal, item) =>
+        item.product_packs!.price * item.product_packs!.quantity + subtotal,
+      0
+    ) ?? 0;
 
   const { discount_code, discount, tax } = order;
   const total = subtotal + order.tax - order.discount;

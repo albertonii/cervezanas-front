@@ -1,11 +1,11 @@
 import Profile from "./Profile";
-import { IProfile } from "../../../../../../lib/types.d";
+import { IProducerUser, IProfile } from "../../../../../../lib/types.d";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 
 export default async function ProfilePage() {
-  const { profile } = await getProfileData();
+  const profile = await getProfileData();
   if (!profile) return <></>;
 
   return (
@@ -28,19 +28,30 @@ async function getProfileData() {
   }
 
   const { data: profileData, error: profileError } = await supabase
-    .from("users")
+    .from("producer_user")
     .select(
       `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
+        *
       `
     )
-    .eq("id", session.user.id);
+    .eq("id", session.user.id)
+    .single();
+
+  // const { data: profileData, error: profileError } = await supabase
+  //   .from("users")
+  //   .select(
+  //     `
+  //     *,
+  //     orders (*),
+  //     campaigns (*),
+  //     customize_settings (*),
+  //     profile_location (*)
+  //   `
+  //   )
+  //   .eq("id", session.user.id)
+  //   .single();
 
   if (profileError) throw profileError;
 
-  return { profile: profileData[0] as IProfile };
+  return profileData as IProducerUser;
 }
