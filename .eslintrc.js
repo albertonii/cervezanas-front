@@ -19,6 +19,6 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "no-undef": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ignore": true,
+    "@typescript-eslint/ignore": 0,
   },
 };

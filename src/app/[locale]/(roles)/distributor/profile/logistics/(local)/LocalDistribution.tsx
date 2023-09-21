@@ -66,7 +66,11 @@ export default function LocalDistribution({
   }, []);
 
   useEffect(() => {
-    setDisplayCountry(countries.getName(countryOption, "es"));
+    const displayCountry = countries.getName(countryOption, "es", {
+      select: "official",
+    });
+    displayCountry;
+    setDisplayCountry(displayCountry);
   }, [countryOption]);
 
   const handleSelectCountry = (e: string) => {
