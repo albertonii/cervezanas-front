@@ -69,7 +69,7 @@ export default function LocalDistribution({
     const displayCountry = countries.getName(countryOption, "es", {
       select: "official",
     });
-    displayCountry;
+    if (!displayCountry) return setDisplayCountry("Select a country");
     setDisplayCountry(displayCountry);
   }, [countryOption]);
 
