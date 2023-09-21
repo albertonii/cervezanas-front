@@ -20,6 +20,8 @@ export function DeleteProduct(props: Props) {
   const queryClient = useQueryClient();
 
   const handleDelete = async () => {
+    if (!product) return;
+
     // Delete multimedia in storage
     deleteMultimedia(product);
     deleteAwards(product);
@@ -28,7 +30,7 @@ export function DeleteProduct(props: Props) {
     const { error: productError } = await supabase
       .from("products")
       .delete()
-      .eq("id", product?.id);
+      .eq("id", product.id);
 
     if (productError) throw productError;
 

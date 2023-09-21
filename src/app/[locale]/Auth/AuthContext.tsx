@@ -96,6 +96,8 @@ export const AuthContextProvider = ({
   const { handleMessage, clearMessages } = useMessage();
 
   const getUser = async () => {
+    if (!serverSession) return null;
+
     const { data: user, error } = await supabase
       .from("users")
       .select(
@@ -103,7 +105,7 @@ export const AuthContextProvider = ({
         *
       `
       )
-      .eq("id", serverSession?.user?.id)
+      .eq("id", serverSession.user.id)
       .single();
 
     if (error) {

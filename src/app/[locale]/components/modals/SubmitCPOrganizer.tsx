@@ -68,11 +68,13 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
             return res;
           })
           .then(async (res: any) => {
+            if (!user) return null;
+
             // Update user status
             const { error: userError } = await supabase
               .from("users")
               .update({ cp_organizer_status: 0 }) // 0: pending
-              .eq("id", user?.id)
+              .eq("id", user.id)
               .then((res: any) => {
                 handleCPOrganizerStatus(0);
                 return res;

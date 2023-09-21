@@ -4,6 +4,7 @@ import React, { ComponentProps } from "react";
 import { IMonthlyProduct } from "../../../../lib/types.d";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { Modal } from "./Modal";
+import { off } from "process";
 
 interface Props {
   products: IMonthlyProduct[];
@@ -24,10 +25,12 @@ export function DeleteMonthlyProduct({
 
   const handleDeleteClick = () => {
     const handleDelete = async () => {
+      if (!product) return;
+
       const { data, error: productError } = await supabase
         .from("monthly_products")
         .delete()
-        .eq("id", product?.id);
+        .eq("id", product.id);
 
       if (productError) throw productError;
 

@@ -82,6 +82,8 @@ export default function EditEventModal({
       cps_mobile,
     } = formValues;
 
+    if (!selectedEvent) return;
+
     const { error } = await supabase
       .from("events")
       .update({
@@ -92,7 +94,7 @@ export default function EditEventModal({
         logo_url,
         promotional_url,
       })
-      .eq("id", selectedEvent?.id);
+      .eq("id", selectedEvent.id);
 
     if (error) throw error;
 

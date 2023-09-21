@@ -170,67 +170,69 @@ export default function EditCPFixedModal({
       return;
     }
 
-    const { error } = await supabase
-      .from("cp_fixed")
-      .update({
-        cp_name,
-        cp_description,
-        organizer_name,
-        organizer_lastname,
-        organizer_email,
-        organizer_phone,
-        address,
-        is_internal_organizer,
-        is_booking_required,
-        maximum_capacity,
-      })
-      .eq("id", selectedCP?.id);
+    if (selectedCP) {
+      const { error } = await supabase
+        .from("cp_fixed")
+        .update({
+          cp_name,
+          cp_description,
+          organizer_name,
+          organizer_lastname,
+          organizer_email,
+          organizer_phone,
+          address,
+          is_internal_organizer,
+          is_booking_required,
+          maximum_capacity,
+        })
+        .eq("id", selectedCP.id);
 
-    if (error) throw error;
+      if (error) throw error;
 
-    const { error: errorDelete } = await supabase
-      .from("cpf_products")
-      .delete()
-      .eq("cp_id", selectedCP?.id);
+      const { error: errorDelete } = await supabase
+        .from("cpf_products")
+        .delete()
+        .eq("cp_id", selectedCP.id);
 
-    if (errorDelete) throw errorDelete;
+      if (errorDelete) throw errorDelete;
 
-    // Insert product items in cpm_products table
-    const pItemsFiltered = cleanObject(product_items);
+      // Insert product items in cpm_products table
+      const pItemsFiltered = cleanObject(product_items);
 
-    if (pItemsFiltered) {
-      // Convert pItemsFiltered JSON objects to array
-      const pItemsFilteredArray = Object.values(pItemsFiltered);
+      if (pItemsFiltered) {
+        // Convert pItemsFiltered JSON objects to array
+        const pItemsFilteredArray = Object.values(pItemsFiltered);
 
-      const cpFixedId = selectedCP.id;
+        const cpFixedId = selectedCP.id;
 
-      // Link the pack with the consumption Point
-      pItemsFilteredArray.map(async (pack: any) => {
-        // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-        if (typeof pack.id === "object") {
-          pack.id.map(async (packId: string) => {
+        // Link the pack with the consumption Point
+        pItemsFilteredArray.map(async (pack: any) => {
+          // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
+          if (typeof pack.id === "object") {
+            pack.id.map(async (packId: string) => {
+              const { error } = await supabase.from("cpf_products").insert({
+                cp_id: cpFixedId,
+                product_pack_id: packId,
+              });
+
+              if (error) {
+                throw error;
+              }
+            });
+          } else {
             const { error } = await supabase.from("cpf_products").insert({
               cp_id: cpFixedId,
-              product_pack_id: packId,
+              product_pack_id: pack.id,
             });
 
             if (error) {
               throw error;
             }
-          });
-        } else {
-          const { error } = await supabase.from("cpf_products").insert({
-            cp_id: cpFixedId,
-            product_pack_id: pack.id,
-          });
-
-          if (error) {
-            throw error;
           }
-        }
-      });
+        });
 
-      refetch();
+        refetch();
+      }
     }
   };
 

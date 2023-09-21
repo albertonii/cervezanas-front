@@ -139,15 +139,17 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   };
 
   const handleUpdateStatus = async (status: number) => {
+    if (!selectedCP) return;
+
     supabase
       .from("consumption_points")
       .update({ cp_organizer_status: status })
-      .eq("id", selectedCP?.id)
+      .eq("id", selectedCP.id)
       .then(async () => {
         await supabase
           .from("users")
           .update({ cp_organizer_status: status })
-          .eq("id", selectedCP?.owner_id.id);
+          .eq("id", selectedCP.owner_id.id);
       });
   };
 
