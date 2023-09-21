@@ -87,7 +87,7 @@ export default function CityDistribution({ cities }: Props) {
     getAllCountries();
 
     const country = Country.getCountryByCode("ES") as ICountry;
-    setAddressCountry(country?.iso2 ?? "");
+    setAddressCountry(country.isoCode ?? "");
   }, []);
 
   // Get all the states of selected country and set the first one as default in select input

@@ -56,8 +56,8 @@ export default function ProvinceDistribution({
   const { refetch } = useFetchStatesByCountry(addressCountry ?? "ES");
 
   useEffect(() => {
-    const country = Country.getCountryByCode("ES");
-    setAddressCountry(country?.isoCode ?? "");
+    const country = Country.getCountryByCode("ES") as ICountry;
+    setAddressCountry(country.isoCode ?? "");
   }, []);
 
   useEffect(() => {
