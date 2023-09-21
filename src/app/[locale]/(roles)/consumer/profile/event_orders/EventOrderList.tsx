@@ -48,8 +48,6 @@ export function EventOrderList() {
     });
   }, [currentPage]);
 
-  useEffect(() => {}, [isReady]);
-
   const COLUMNS = [
     { header: t("order_number_header") },
     { header: t("name_header") },

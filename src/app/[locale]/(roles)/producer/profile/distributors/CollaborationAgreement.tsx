@@ -13,12 +13,13 @@ export default function CollaborationAgreement() {
       <section className="space-y-4">
         <title>Acuerdo de Colaboración entre Productor y Distribuidor</title>
         <p>
-          Este Acuerdo de Colaboración ("Acuerdo") se establece y entra en vigor
-          a partir de la fecha de firma electrónica por ambas partes, en
-          adelante referidas como el "Productor" y el "Distribuidor". Este
-          Acuerdo tiene como objetivo establecer los términos y condiciones bajo
-          los cuales ambas partes colaborarán en la venta y distribución de
-          cerveza artesanal a través de la plataforma en línea del Productor.
+          Este Acuerdo de Colaboración (`&quot;`Acuerdo`&quot;`) se establece y
+          entra en vigor a partir de la fecha de firma electrónica por ambas
+          partes, en adelante referidas como el `&quot;`Productor`&quot;` y el
+          `&quot;`Distribuidor`&quot;`. Este Acuerdo tiene como objetivo
+          establecer los términos y condiciones bajo los cuales ambas partes
+          colaborarán en la venta y distribución de cerveza artesanal a través
+          de la plataforma en línea del Productor.
         </p>
       </section>
 
@@ -101,8 +102,8 @@ export default function CollaborationAgreement() {
           <summary>
             El Distribuidor se compromete a cumplir con los términos y
             condiciones establecidos en el Acuerdo de Distribución de Cerveza
-            Artesanal ("Acuerdo de Distribución") entre el Productor y la
-            Plataforma en Línea.
+            Artesanal (`&quot;`Acuerdo de Distribución`&quot;`) entre el
+            Productor y la Plataforma en Línea.
           </summary>
 
           <summary>

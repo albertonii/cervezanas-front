@@ -15,7 +15,7 @@ interface Props {
 export default function Packs({ product }: Props) {
   const t = useTranslations();
 
-  const { increasePackCartQuantity, removeFromCart } = useShoppingCart();
+  const { increasePackCartQuantity } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
   const [isPackSelected, setIsPackSelected] = useState(true);
@@ -104,7 +104,7 @@ export default function Packs({ product }: Props) {
                   handleDecreaseCartQuantity={() =>
                     handleDecreasePackQuantity()
                   }
-                  handleRemoveFromCart={() => {}}
+                  handleRemoveFromCart={() => void 0}
                   displayDeleteButton={false}
                 />
 

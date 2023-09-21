@@ -81,12 +81,13 @@ export default function CityMap({ cities }: Props) {
     };
 
     // Apply the style to a single boundary.
-    // @ts-ignore
+    /*
     featureLayer.style = (options: { feature: { placeId: string } }) => {
       if (options.feature.placeId == placeId) {
         return featureStyleOptions;
       }
     };
+    */
 
     // // Apply the style to a single boundary.
     // // @ts-ignore
@@ -325,7 +326,6 @@ function Map({ cities }: MapProps) {
     //   google.maps.FeatureType.LOCALITY
     // );
 
-    //@ts-ignore
     const featureStyleOptions: google.maps.FeatureStyleOptions = {
       strokeColor: "#810FCB",
       strokeOpacity: 1.0,
@@ -335,15 +335,15 @@ function Map({ cities }: MapProps) {
     };
 
     // Apply the style to a single boundary.
-    //@ts-ignore
+    /*
     featureLayer.style = (options: { feature: { placeId: string } }) => {
       if (options.feature.placeId == "ChIJpZqwnQnQVHkR_2aNvwpr6mg") {
         return featureStyleOptions;
       }
     };
+    */
 
     // Apply the style to a single boundary.
-    //@ts-ignore
     // featureLayer.style = (options: { feature: { placeId: string } }) => {
     //   if (options.feature.placeId == placeId) {
     //     // Hana, HI

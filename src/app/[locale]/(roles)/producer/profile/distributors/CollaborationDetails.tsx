@@ -16,7 +16,9 @@ export default function CollaborationDetails({ distributorId }: Props) {
 
   return (
     <section className="border-1 rounded-medium space-y-8 border p-2">
-      <title>Este Acuerdo de Colaboración ("Acuerdo") se celebra entre:</title>
+      <title>
+        Este Acuerdo de Colaboración (`&quot;`Acuerdo`&quot;`) se celebra entre:
+      </title>
 
       <section className="space-y-2">
         <h2 className="font-semibold">PARTES:</h2>
@@ -61,44 +63,47 @@ export default function CollaborationDetails({ distributorId }: Props) {
 
             {distributor.profile_location && (
               <>
-              <div className="flex flex-col">
-                <summary>Domicilio Legal:</summary>
-                <i>
-                  {distributor.profile_location[0]?.address_1}{" "}
-                  {distributor.profile_location[0]?.town} -{" "}
-                  {distributor.profile_location[0]?.province} -{" "}
-                  {distributor.profile_location[0]?.country} -{" "}
-                  {distributor.profile_location[0]?.postalcode}
-                </i>
-              </div>
+                <div className="flex flex-col">
+                  <summary>Domicilio Legal:</summary>
+                  <i>
+                    {distributor.profile_location[0]?.address_1}{" "}
+                    {distributor.profile_location[0]?.town} -{" "}
+                    {distributor.profile_location[0]?.province} -{" "}
+                    {distributor.profile_location[0]?.country} -{" "}
+                    {distributor.profile_location[0]?.postalcode}
+                  </i>
+                </div>
 
-            <summary>
-              Número de Identificación Fiscal: [Número de Identificación Fiscal
-              del Distribuidor]
-            </summary>
+                <summary>
+                  Número de Identificación Fiscal: [Número de Identificación
+                  Fiscal del Distribuidor]
+                </summary>
 
-            <summary>
-              Representante Legal:{" "}
-              <i>{distributor.users?.name + " " + distributor.users?.lastname}</i>
-            </summary>
+                <summary>
+                  Representante Legal:{" "}
+                  <i>
+                    {distributor.users?.name +
+                      " " +
+                      distributor.users?.lastname}
+                  </i>
+                </summary>
 
-            <summary>
-              Correo Electrónico: <i>{distributor.users?.email}</i>
-            </summary>
+                <summary>
+                  Correo Electrónico: <i>{distributor.users?.email}</i>
+                </summary>
 
-            <summary>
-              Teléfono de Contacto:{" "}
-              <i>{distributor?.profile_location[0].phone}</i>
-            </summary>
-            </>
+                <summary>
+                  Teléfono de Contacto:{" "}
+                  <i>{distributor?.profile_location[0].phone}</i>
+                </summary>
+              </>
             )}
-
           </div>
         </div>
 
         <p>
-          En adelante, referidos como "el Productor" y "el Distribuidor"
-          respectivamente.
+          En adelante, referidos como `&quot;`el Productor`&quot;` y `&quot;`el
+          Distribuidor`&quot;` respectivamente.
         </p>
       </section>
     </section>

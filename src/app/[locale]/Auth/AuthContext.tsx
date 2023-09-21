@@ -287,8 +287,8 @@ export const AuthContextProvider = ({
   };
 
   const signInWithProvider = async (provider: Provider) => {
-    let isAccessLevel = false;
-    let user = null;
+    // let isAccessLevel = false;
+    // let user = null;
 
     // Si acceden con Google, por defecto son consumidores
     // Google does not send out a refresh token by default, so you will need to pass

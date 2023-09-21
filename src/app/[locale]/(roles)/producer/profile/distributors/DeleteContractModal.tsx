@@ -67,7 +67,7 @@ export default function DeleteContractModal({
       description={t("delete_contract_description_modal")}
       btnTitle={t("accept")}
       showModal={true}
-      setShowModal={() => {}}
+      setShowModal={() => void 0}
       handlerClose={handleDeleteModal}
     />
   );

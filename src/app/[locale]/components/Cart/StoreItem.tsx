@@ -231,7 +231,7 @@ export function StoreItem({ product }: StoreItemProps) {
                     handleDecreaseCartQuantity={() =>
                       handleDecreasePackQuantity()
                     }
-                    handleRemoveFromCart={() => {}}
+                    handleRemoveFromCart={() => void 0}
                   />
 
                   <AddCardButton

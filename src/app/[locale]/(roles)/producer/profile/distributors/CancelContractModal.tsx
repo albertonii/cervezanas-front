@@ -67,7 +67,7 @@ export default function CancelContractModal({
       description={t("cancel_contract_description_modal")}
       btnTitle={t("accept")}
       showModal={true}
-      setShowModal={() => {}}
+      setShowModal={() => void 0}
       handlerClose={handleCancelModal}
       classIcon={""}
       classContainer={""}
