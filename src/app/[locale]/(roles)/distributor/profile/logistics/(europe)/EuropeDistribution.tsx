@@ -1,17 +1,18 @@
+import useFetchAllCountries from "../useFetchAllCountries";
 import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
-import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../components/common/Button";
 import { useTranslations } from "next-intl";
-import useFetchAllCountries from "../useFetchAllCountries";
+import { useMutation, useQueryClient } from "react-query";
+import { useForm, UseFormRegister } from "react-hook-form";
+import { ICountry } from "country-state-city/lib/interface";
+import { Button } from "../../../../../components/common/Button";
+import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 
-interface ICountry {
-  id: string;
-  name: string;
-  iso2: string;
-}
+// interface ICountry {
+//   id: string;
+//   name: string;
+//   iso2: string;
+// }
 
 type Props = {
   countries: string[];

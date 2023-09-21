@@ -3,19 +3,19 @@ import useFetchAllCountries from "../useFetchAllCountries";
 import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import useFetchCitiesOfState from "../useFetchCitiesOfState";
 import React, { useEffect, useState } from "react";
-import { Country, IState, ICity } from "country-state-city";
+import { IState, ICity, ICountry } from "country-state-city/lib/interface";
 import { useForm, UseFormRegister } from "react-hook-form";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { Button } from "../../../../../components/common/Button";
 import { Spinner } from "../../../../../components/common/Spinner";
 import { useTranslations } from "next-intl";
+import { Country } from "country-state-city";
 
-interface ICountry {
-  id: string;
-  name: string;
-  iso2: string;
-}
+// interface ICountry {
+//   id: string;
+//   name: string;
+//   iso2: string;
+// }
 
 interface IRegion {
   id: string;

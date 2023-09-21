@@ -1,12 +1,13 @@
 "use client";
 
+import { ICountry } from "country-state-city/lib/interface";
 import { useQuery } from "react-query";
 
-interface ICountry {
-  id: string;
-  name: string;
-  iso2: string;
-}
+// interface ICountry {
+//   id: string;
+//   name: string;
+//   iso2: string;
+// }
 
 const headers = new Headers();
 headers.append(
