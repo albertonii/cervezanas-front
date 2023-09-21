@@ -1,12 +1,12 @@
 import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
-import { Country, ICountry, IState } from "country-state-city";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
-import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../components/common/Button";
 import { useTranslations } from "next-intl";
+import { useMutation, useQueryClient } from "react-query";
+import { useForm, UseFormRegister } from "react-hook-form";
+import { Country, ICountry, IState } from "country-state-city";
+import { Button } from "../../../../../components/common/Button";
+import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 
 type Props = {
   provinces: string[];

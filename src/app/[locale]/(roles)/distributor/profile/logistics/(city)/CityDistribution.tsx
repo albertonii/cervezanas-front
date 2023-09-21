@@ -17,12 +17,6 @@ import { Country } from "country-state-city";
 //   iso2: string;
 // }
 
-interface IRegion {
-  id: string;
-  name: string;
-  iso2: string;
-}
-
 type Props = {
   cities: string[];
 };
@@ -92,7 +86,7 @@ export default function CityDistribution({ cities }: Props) {
 
     getAllCountries();
 
-    const country = Country.getCountryByCode("ES");
+    const country = Country.getCountryByCode("ES") as ICountry;
     setAddressCountry(country?.iso2 ?? "");
   }, []);
 
