@@ -38,7 +38,7 @@ export function PortalModal({ children, wrapperId }: Props) {
   };
 
   // portalElement state will be null on the very first render.
-  if (!portalElement) return <></>;
+  if (!portalElement) return null;
 
   return createPortal(children, portalElement);
 }
