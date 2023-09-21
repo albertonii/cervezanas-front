@@ -62,8 +62,8 @@ export function ImageModal(props: Props) {
   return (
     <>
       {showModal && (
-        <PortalModal wrapperId="modal-portal">
-          <>
+        <>
+          <PortalModal wrapperId="modal-portal">
             <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden bg-beer-blonde/40 outline-none focus:outline-none">
               {/* The modal  */}
               <div className="relative mx-4 my-6 h-screen w-screen shadow-lg ">
@@ -85,8 +85,8 @@ export function ImageModal(props: Props) {
                 </div>
               </div>
             </div>
-          </>
-        </PortalModal>
+          </PortalModal>
+        </>
       )}
     </>
   );
