@@ -19,7 +19,7 @@ interface FormData {
   end_date: string;
   logo_url: string;
   promotional_url: string;
-  cps_mobile: ICPMobile[];
+  cps_mobile: any[];
 }
 
 interface Props {
