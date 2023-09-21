@@ -14,7 +14,7 @@ import { Country } from "country-state-city";
 // interface ICountry {
 //   id: string;
 //   name: string;
-//   iso2: string;
+//   isoCode: string;
 // }
 
 type Props = {
@@ -109,7 +109,7 @@ export default function CityDistribution({ cities }: Props) {
 
         setListOfRegions(regionData ?? []);
         setRegionIsEnable(regionData.length > 0);
-        setAddressRegion(regionData[0]?.iso2);
+        setAddressRegion(regionData[0]?.isoCode);
       });
     };
 
@@ -314,7 +314,7 @@ export default function CityDistribution({ cities }: Props) {
 
               {countryData &&
                 countryData.map((country: ICountry) => (
-                  <option key={country.iso2} value={country.iso2}>
+                  <option key={country.isoCode} value={country.isoCode}>
                     {country.name}
                   </option>
                 ))}
@@ -335,7 +335,7 @@ export default function CityDistribution({ cities }: Props) {
               onChange={(e) => handleAddressRegion(e.target.value)}
             >
               {listOfRegions?.map((state: IState) => (
-                <option key={state.iso2} value={state.iso2}>
+                <option key={state.isoCode} value={state.isoCode}>
                   {state.name}
                 </option>
               ))}

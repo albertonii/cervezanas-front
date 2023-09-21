@@ -11,7 +11,7 @@ import { ICountry } from "country-state-city/lib/interface";
 // interface ICountry {
 //   id: string;
 //   name: string;
-//   iso2: string;
+//   isoCode: string;
 // }
 
 type Props = {
