@@ -1,15 +1,15 @@
-import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import useFetchAllCountries from "../useFetchAllCountries";
-import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import useFetchCitiesOfState from "../useFetchCitiesOfState";
+import useFetchStatesByCountry from "../useFetchStatesByCountry";
+import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
-import { IState, ICity, ICountry } from "country-state-city/lib/interface";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../components/common/Button";
-import { Spinner } from "../../../../../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { Country } from "country-state-city";
+import { useMutation, useQueryClient } from "react-query";
+import { useForm, UseFormRegister } from "react-hook-form";
+import { Button } from "../../../../../components/common/Button";
+import { Spinner } from "../../../../../components/common/Spinner";
+import { IState, ICity, ICountry } from "country-state-city/lib/interface";
 
 // interface ICountry {
 //   id: string;
