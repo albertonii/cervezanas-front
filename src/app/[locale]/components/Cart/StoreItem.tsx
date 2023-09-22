@@ -14,8 +14,8 @@ import { AddCardButton } from "../common/AddCartButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct, IProductPack } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import { useSupabase } from "../../../../context/SupabaseProvider";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 

@@ -4,7 +4,6 @@ import React, { ComponentProps } from "react";
 import { IMonthlyProduct } from "../../../../lib/types.d";
 import { useSupabase } from "../../../../context/SupabaseProvider";
 import { Modal } from "./Modal";
-import { off } from "process";
 
 interface Props {
   products: IMonthlyProduct[];

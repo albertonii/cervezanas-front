@@ -103,6 +103,7 @@ export function IconButton({
         ${danger ? "bg-red-500 hover:bg-red-600 " : ""}
         ${classNameContainer} 
       `}
+      data-testid={`${title}`}
     >
       <span className={`${children != null ? "mr-1" : ""}  text-bear-dark`}>
         {iconButton}
