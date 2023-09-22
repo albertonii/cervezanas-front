@@ -7,9 +7,9 @@ import {
   useMemo,
   useState,
 } from "react";
+import { ShoppingCart } from "../app/[locale]/components/Cart/ShoppingCart";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { IProductPackCartItem, IProduct, IProductPack } from "../lib/types.d";
-import { ShoppingCart } from "../app/[locale]/components/Cart/index";
 
 type ShoppingCartContextType = {
   items: IProductPackCartItem[];
