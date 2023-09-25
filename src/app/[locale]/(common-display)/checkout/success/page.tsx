@@ -38,7 +38,6 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function SuccessPage({ searchParams }: any) {
   const { orderData, isError } = await getSuccessData(searchParams);
   const [order] = await Promise.all([orderData]);
-
   if (!order) return <></>;
   return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
 }
@@ -72,28 +71,19 @@ async function getSuccessData(searchParams: any) {
       *,
       shipping_info (id, *),
       billing_info (id, *),
-      business_orders!business_orders_order_id_fkey (*),
+      business_orders!business_orders_order_id_fkey (
+        *,
+        order_items (
+          *,
+          product_packs (*)
+        )
+      ),
       payment_method_card!orders_payment_method_id_fkey (*),
       payment_method_id
     `
     )
     .eq("order_number", orderNumber)
     .single();
-
-  // const { data: orderData, error: orderError } = await supabase
-  //   .from("orders")
-  //   .select(
-  //     `
-  //       *,
-  //       shipping_info (id, *),
-  //       billing_info (id, *),
-  //       business_orders!business_orders_order_id_fkey (*),
-  //       payment_method_card!orders_payment_method_id_fkey (*),
-  //       payment_method_id
-  //     `
-  //   )
-  //   .eq("order_number", orderNumber)
-  //   .single();
 
   if (orderError) {
     console.error(orderError.message);

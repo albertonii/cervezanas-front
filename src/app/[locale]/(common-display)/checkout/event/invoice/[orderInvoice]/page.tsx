@@ -54,22 +54,7 @@ async function getInvoiceData(slug: any) {
         shipping_info_id,
         billing_info_id,
         shipping_info!orders_shipping_info_id_fkey (
-          id,
-          created_at,
-          updated_at,
-          owner_id,
-          name,
-          lastname,
-          document_id,
-          phone,
-          address,
-          address_extra,
-          address_observations,
-          country,
-          zipcode,
-          city,
-          state,
-          is_default
+          *
         ),
         billing_info!orders_billing_info_id_fkey (
           id,

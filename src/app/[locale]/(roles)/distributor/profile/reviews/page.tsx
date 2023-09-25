@@ -1,8 +1,8 @@
-import { IReview } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { Reviews } from "./Reviews";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { Reviews } from "./Reviews";
+import { IReview } from "../../../../../../lib/types.d";
+import { createServerClient } from "../../../../../../utils/supabaseServer";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();
@@ -43,5 +43,4 @@ async function getReviewsData() {
   if (reviewsError) throw reviewsError;
 
   return { reviews: reviewsData as IReview[] };
-  // }
 }

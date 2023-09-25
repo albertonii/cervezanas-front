@@ -595,12 +595,13 @@ export interface IOrder {
 }
 
 export interface IOrderItem {
-  business_order_id: IBusinessOrder;
-  // product_id: IProduct;
-  product_pack_id: IProductPack;
+  business_order_id: string;
+  product_pack_id: string;
   created_at: string;
   quantity: number;
   is_reviewed: boolean;
+  business_orders?: IBusinessOrder;
+  product_packs?: IProductPack;
 }
 
 export interface IEventOrder {

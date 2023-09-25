@@ -110,9 +110,20 @@ export default function OrderInvoice({ order }: Props) {
     if (!order_items) return [];
 
     return order_items.map((item) => {
+      if (!item.product_packs) {
+        return {
+          id: "",
+          code: "",
+          article: "",
+          price: 0,
+          quantity: 0,
+          total: 0,
+        };
+      }
+
       const { order_number: code } = order;
       const { quantity } = item;
-      const { id, name: article, price } = item.product_pack_id;
+      const { id, name: article, price } = item.product_packs;
 
       const total = quantity * price;
 
@@ -151,6 +162,8 @@ export default function OrderInvoice({ order }: Props) {
       title: "Total Factura",
     },
   ];
+
+  if (!items) return <></>;
 
   const data = {
     items,

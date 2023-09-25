@@ -119,11 +119,11 @@ export default function LocalDistribution({
     mutationKey: "updateLocalDistribution",
     mutationFn: handleUpdateLocalDistribution,
     onMutate: () => {
-      console.log("onMutate");
+      console.info("onMutate");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distribution"] });
-      console.log("onSuccess");
+      console.info("onSuccess");
     },
     onError: () => {
       console.error("onError");

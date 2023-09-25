@@ -18,8 +18,6 @@ export default function PaginationFooter({
 }: Props) {
   const t = useTranslations();
 
-  console.log(counter);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const lastElementPage =

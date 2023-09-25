@@ -20,7 +20,9 @@ export default function OrderItem({ orderItem, order }: Props) {
   const locale = useLocale();
   const router = useRouter();
 
-  const { product_pack_id: productPack } = orderItem;
+  const { product_packs: productPack } = orderItem;
+
+  if (!productPack) return <></>;
 
   const handleOnClick = (productId: string) => {
     router.push(`/${locale}/products/review/${productId}`);
@@ -117,7 +119,7 @@ export default function OrderItem({ orderItem, order }: Props) {
             class="my-6 font-medium text-beer-draft hover:text-beer-dark "
             onClick={() => {
               if (!orderItem.is_reviewed && order.status === "delivered") {
-                handleOnClick(orderItem.product_pack_id.product_id);
+                handleOnClick(orderItem.product_pack_id);
               }
             }}
           >

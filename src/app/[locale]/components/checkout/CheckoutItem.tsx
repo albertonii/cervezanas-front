@@ -33,7 +33,7 @@ export function CheckoutItem({ productPack }: Props) {
   if (isError) return <div className="text-center text-red-500">Error</div>;
 
   if (!productWithInfo) return null;
-  console.log(productWithInfo);
+
   return (
     <>
       {productPack && (

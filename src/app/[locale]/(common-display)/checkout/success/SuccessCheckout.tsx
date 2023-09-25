@@ -3,8 +3,8 @@
 import Link from "next/link";
 import OrderItem from "./OrderItem";
 import React, { useState, useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
+import { useLocale, useTranslations } from "next-intl";
 import { IOrder, IOrderItem } from "../../../../../lib/types.d";
 import { formatDateString } from "../../../../../utils/formatDate";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
@@ -17,9 +17,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
   const orderItems = bOrders && (bOrders[0].order_items as IOrderItem[]);
 
-  if (!orderItems) return <></>;
+  if (!orderItems || !orderItems[0].product_packs) return <></>;
 
-  const { products: productDetails } = orderItems[0].product_pack_id;
+  const { products: productDetails } = orderItems[0].product_packs;
 
   const t = useTranslations();
   const locale = useLocale();
@@ -119,7 +119,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
             {orderItems &&
               orderItems.map((item: IOrderItem) => (
                 <div
-                  key={item.business_order_id + "-" + item.product_pack_id.id}
+                  key={item.business_order_id + "-" + item.product_pack_id}
                   className=""
                 >
                   <OrderItem orderItem={item} order={order} />

@@ -98,84 +98,86 @@ export default function ErrorCheckout({ order, isError }: Props) {
               {orderItems &&
                 orderItems.map((item: IOrderItem) => (
                   <div
-                    key={item.business_order_id.id + "-" + item.product_pack_id}
+                    key={item.business_order_id + "-" + item.product_pack_id}
                     className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                   >
-                    <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
-                      {/* Product Multimedia  */}
-                      <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
-                        <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
-                          <DisplayImageProduct
-                            width={128}
-                            height={128}
-                            alt="Principal Product Image"
-                            imgSrc={
-                              BASE_PRODUCTS_URL +
-                              decodeURIComponent(item.product_pack_id.img_url)
-                            }
-                            class={
-                              "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
-                            }
-                          />
+                    {item.product_packs && (
+                      <div className="relative grid grid-cols-12 gap-x-8 p-8 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+                        {/* Product Multimedia  */}
+                        <div className="col-span-12 mt-6 flex justify-center sm:ml-6 md:col-span-2 md:mt-6">
+                          <div className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg lg:h-40 lg:w-40">
+                            <DisplayImageProduct
+                              width={128}
+                              height={128}
+                              alt="Principal Product Image"
+                              imgSrc={
+                                BASE_PRODUCTS_URL +
+                                decodeURIComponent(item.product_packs.img_url)
+                              }
+                              class={
+                                "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
+                              }
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Product Information  */}
-                      <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
-                        <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
-                          <Link
-                            href={`/products/${item.product_pack_id.id}`}
-                            locale={locale}
-                          >
-                            {item.product_pack_id.name}
-                          </Link>
-                        </h3>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("price")} -{" "}
-                          {formatCurrency(item.product_pack_id.price)}
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
-                          {t("quantity")} -
-                        </p>
-                        {/* <p className="mt-3 text-sm text-gray-500">
+                        {/* Product Information  */}
+                        <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
+                          <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
+                            <Link
+                              href={`/products/${item.product_packs.id}`}
+                              locale={locale}
+                            >
+                              {item.product_packs.name}
+                            </Link>
+                          </h3>
+                          <p className="mt-2 text-sm font-medium text-gray-900">
+                            {t("price")} -{" "}
+                            {formatCurrency(item.product_packs.price)}
+                          </p>
+                          <p className="mt-2 text-sm font-medium text-gray-900">
+                            {t("quantity")} -
+                          </p>
+                          {/* <p className="mt-3 text-sm text-gray-500">
                           {t("description")} - {item.product_pack_id.description}
                         </p> */}
-                      </div>
-
-                      {/* Shipping Information  */}
-                      {order.shipping_info && (
-                        <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
-                          <dt className="font-medium text-gray-900">
-                            {t("shipping_address")}
-                          </dt>
-
-                          <dd className="mt-3 text-gray-500">
-                            <span className="block">
-                              {order.shipping_info.name}{" "}
-                              {order.shipping_info.lastname}
-                            </span>
-                            <span className="block">
-                              {order.shipping_info.address},{" "}
-                              {order.shipping_info.city},
-                              {order.shipping_info.state},{" "}
-                              {order.shipping_info.zipcode},
-                              {order.shipping_info.country}
-                            </span>
-
-                            {order.shipping_info.address_extra && (
-                              <>
-                                <span className="block">
-                                  {order.shipping_info.address_extra}
-                                </span>
-                                <span className="block">
-                                  {order.shipping_info.address_observations}
-                                </span>
-                              </>
-                            )}
-                          </dd>
                         </div>
-                      )}
-                    </div>
+
+                        {/* Shipping Information  */}
+                        {order.shipping_info && (
+                          <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
+                            <dt className="font-medium text-gray-900">
+                              {t("shipping_address")}
+                            </dt>
+
+                            <dd className="mt-3 text-gray-500">
+                              <span className="block">
+                                {order.shipping_info.name}{" "}
+                                {order.shipping_info.lastname}
+                              </span>
+                              <span className="block">
+                                {order.shipping_info.address},{" "}
+                                {order.shipping_info.city},
+                                {order.shipping_info.state},{" "}
+                                {order.shipping_info.zipcode},
+                                {order.shipping_info.country}
+                              </span>
+
+                              {order.shipping_info.address_extra && (
+                                <>
+                                  <span className="block">
+                                    {order.shipping_info.address_extra}
+                                  </span>
+                                  <span className="block">
+                                    {order.shipping_info.address_observations}
+                                  </span>
+                                </>
+                              )}
+                            </dd>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {/* TODO: VENIR AQUI Y MANEJAR ESTADOS DEL PEDIDO  */}
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">

@@ -572,6 +572,12 @@ export interface Database {
         }
         Relationships: [
           {
+            foreignKeyName: "cpm_events_cp_id_fkey"
+            columns: ["cp_id"]
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "cpm_events_event_id_fkey"
             columns: ["event_id"]
             referencedRelation: "events"
