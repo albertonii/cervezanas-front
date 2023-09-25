@@ -613,15 +613,15 @@ export interface IEventOrder {
   status: string;
   total: number;
   subtotal: number;
+  tax: number;
   currency: string;
   discount: number;
   discount_code: string;
   order_number: string;
-  tax: number;
   payment_method_id: string;
   event_order_items?: IEventOrderItem[];
-  users?: IUserTable;
-  events?: IEvent;
+  // users?: IUserTable;
+  // events?: IEvent;
   payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
@@ -630,13 +630,11 @@ export interface IEventOrderItem {
   id: string;
   created_at: string;
   order_id: string;
-  product_id: string;
   product_pack_id: string;
   quantity: number;
   quantity_served: number;
   status: string;
   is_reviewed: boolean;
-  products?: IProduct;
   product_packs?: IRefProductPack;
   product_multimedia?: IProductMultimedia[];
   orders?: IOrder;

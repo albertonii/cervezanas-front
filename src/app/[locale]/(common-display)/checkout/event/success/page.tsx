@@ -70,7 +70,7 @@ async function getSuccessData(searchParams: any) {
       `
       id, 
       created_at,
-      updated_at,,
+      updated_at,
       customer_id,
       event_id,
       status,
@@ -81,22 +81,15 @@ async function getSuccessData(searchParams: any) {
       discount,
       discount_code,
       order_number,
+      payment_method_id,
       event_order_items (
         *,
-        product_id,
-        products (
-          id, 
-          name, 
-          price,
-          product_multimedia(*),
-          beers (*)
-        ),
         product_pack_id,
         product_packs (*)
       ),
       users (*),
       events (*),
-      payment_method (
+      payment_method_card (
         *
       )
     `
@@ -119,5 +112,5 @@ async function getSuccessData(searchParams: any) {
     };
   }
 
-  return { orderData: orderData as unknown as IEventOrder, isError: false };
+  return { orderData: orderData as IEventOrder, isError: false };
 }

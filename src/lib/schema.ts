@@ -803,7 +803,6 @@ export interface Database {
           id: string | null
           is_reviewed: boolean | null
           order_id: string
-          product_id: string
           product_pack_id: string
           quantity: number | null
           quantity_served: number | null
@@ -814,7 +813,6 @@ export interface Database {
           id?: string | null
           is_reviewed?: boolean | null
           order_id: string
-          product_id: string
           product_pack_id: string
           quantity?: number | null
           quantity_served?: number | null
@@ -825,7 +823,6 @@ export interface Database {
           id?: string | null
           is_reviewed?: boolean | null
           order_id?: string
-          product_id?: string
           product_pack_id?: string
           quantity?: number | null
           quantity_served?: number | null
@@ -836,12 +833,6 @@ export interface Database {
             foreignKeyName: "event_order_items_order_id_fkey"
             columns: ["order_id"]
             referencedRelation: "event_orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_order_items_product_id_fkey"
-            columns: ["product_id"]
-            referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {
@@ -862,7 +853,6 @@ export interface Database {
           event_id: string | null
           id: string
           order_number: string | null
-          payment_method: string | null
           payment_method_id: string | null
           status: string | null
           subtotal: number | null
@@ -879,7 +869,6 @@ export interface Database {
           event_id?: string | null
           id?: string
           order_number?: string | null
-          payment_method?: string | null
           payment_method_id?: string | null
           status?: string | null
           subtotal?: number | null
@@ -896,7 +885,6 @@ export interface Database {
           event_id?: string | null
           id?: string
           order_number?: string | null
-          payment_method?: string | null
           payment_method_id?: string | null
           status?: string | null
           subtotal?: number | null
