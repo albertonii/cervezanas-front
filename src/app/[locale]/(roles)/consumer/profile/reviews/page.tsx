@@ -43,5 +43,4 @@ async function getReviewsData() {
   if (reviewsError) throw reviewsError;
 
   return { reviews: reviewsData as IReview[] };
-  // }
 }

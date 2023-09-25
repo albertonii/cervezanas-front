@@ -1256,8 +1256,8 @@ export interface IDistributionContract {
   producer_accepted: boolean;
   distributor_accepted: boolean;
   message: string;
-  producer_user: IProducerUser[];
-  distributor_user: IDistributorUser[];
+  producer_user?: IProducerUser;
+  distributor_user?: IDistributorUser;
 }
 
 export interface IBusinessOrder {

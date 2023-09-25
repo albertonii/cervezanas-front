@@ -13,7 +13,7 @@ export default function DeliveryError() {
 
       <span className="sm:text-md text-balance text-sm text-red-800 md:text-lg">
         Lo sentimos, este artículo no se puede enviar a la dirección
-        seleccionada. eCambia la dirección de envío o elimina el artículo de tu
+        seleccionada. Cambia la dirección de envío o elimina el artículo de tu
         pedido.
       </span>
     </section>

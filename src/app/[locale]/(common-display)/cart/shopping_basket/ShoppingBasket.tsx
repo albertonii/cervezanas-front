@@ -27,6 +27,7 @@ import {
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
+import { initShipmentLogic } from "./shipmentLogic";
 
 interface FormShippingData {
   shipping_info_id: string;
@@ -77,12 +78,12 @@ export function ShoppingBasket() {
   const formBilling = useForm<FormBillingData>();
   const { trigger: triggerBilling } = formBilling;
 
-  const { items: cart, clearCart } = useShoppingCart();
+  const { items, clearCart } = useShoppingCart();
   const queryClient = useQueryClient();
 
   useEffect(() => {
     let subtotal = 0;
-    cart.map((item) => {
+    items.map((item) => {
       item.packs.map((pack) => {
         subtotal += pack.price * pack.quantity;
       });
@@ -98,7 +99,7 @@ export function ShoppingBasket() {
       setDiscount(0);
       setTotal(0);
     };
-  }, [discount, cart, shipping, subtotal, tax]);
+  }, [discount, items, shipping, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -198,8 +199,8 @@ export function ShoppingBasket() {
     if (businessOrderError) throw businessOrderError;
     if (!businessOrder) return;
 
-    cart.map((product) => {
-      product.packs.map(async (pack) => {
+    items.map((item) => {
+      item.packs.map(async (pack) => {
         const { error: orderItemError } = await supabase
           .from("order_items")
           .insert({
@@ -357,12 +358,17 @@ export function ShoppingBasket() {
                         <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                           {t("customer_s_cart")}
                         </p>
-                        {cart.length > 0 ? (
+                        {items.length > 0 ? (
                           <div className="w-full">
-                            {cart.map((productPack) => {
+                            {items.map((productPack) => {
                               return (
                                 <div key={productPack.id}>
-                                  <CheckoutItem productPack={productPack} />
+                                  <CheckoutItem
+                                    productPack={productPack}
+                                    selectedShippingAddress={
+                                      selectedShippingAddress
+                                    }
+                                  />
                                 </div>
                               );
                             })}
@@ -482,7 +488,7 @@ export function ShoppingBasket() {
                                 primary
                                 class={`font-semibold`}
                                 title={""}
-                                disabled={cart.length === 0}
+                                disabled={items.length === 0}
                                 onClick={() => {
                                   onSubmit();
                                 }}

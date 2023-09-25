@@ -1,19 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import ShippingAddress from "./ShippingAddress";
 import CheckoutPackItem from "./CheckoutPackItem";
+import DeliveryError from "../../(common-display)/cart/DeliveryError";
 import useFetchProductById from "../../../../hooks/useFetchProductById";
 import React, { useEffect } from "react";
 import { Spinner } from "../common/Spinner";
 import { useLocale, useTranslations } from "next-intl";
 import { IProductPackCartItem } from "../../../../lib/types.d";
+import { initShipmentLogic } from "../../(common-display)/cart/shopping_basket/shipmentLogic";
 
 interface Props {
   productPack: IProductPackCartItem;
+  selectedShippingAddress: string;
 }
 
-export function CheckoutItem({ productPack }: Props) {
+export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -27,6 +29,12 @@ export function CheckoutItem({ productPack }: Props) {
   useEffect(() => {
     refetch();
   }, []);
+
+  // If we pick an address -> Check if the product is available for shipping to that address
+  useEffect(() => {
+    if (!productWithInfo) return;
+    initShipmentLogic(selectedShippingAddress, productWithInfo.owner_id);
+  }, [selectedShippingAddress]);
 
   if (isLoading) return <Spinner color={"beer-blonde"} />;
 
@@ -48,7 +56,7 @@ export function CheckoutItem({ productPack }: Props) {
             </p>
           </Link>
 
-          <ShippingAddress />
+          <DeliveryError />
 
           {productPack.packs.map((pack) => (
             <>
