@@ -1,15 +1,10 @@
 import ErrorCheckout from "./ErrorCheckout";
 import React from "react";
 import { redirect } from "next/navigation";
+import { VIEWS } from "../../../../../constants";
+import { IOrder } from "../../../../../lib/types.d";
 import { decodeBase64 } from "../../../../../utils/utils";
 import { createServerClient } from "../../../../../utils/supabaseServer";
-import { VIEWS } from "../../../../../constants";
-import {
-  IBillingInfo,
-  IBusinessOrder,
-  IOrder,
-  IShippingInfo,
-} from "../../../../../lib/types.d";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -128,15 +123,12 @@ async function getCheckoutErrorData(searchParams: any) {
         state,
         is_default
       ),
-      products (
-        id, 
-        name, 
-        price,
-        product_multimedia(*),
-        order_items (*)
-      ),
       business_orders!business_orders_order_id_fkey (
-        *
+         *,
+        order_items (
+          *,
+          product_packs (*)
+        )
       )
     `
     )

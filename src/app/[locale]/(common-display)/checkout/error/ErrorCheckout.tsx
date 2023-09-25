@@ -3,12 +3,12 @@
 import Link from "next/link";
 import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useEffect, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { IOrder, IOrderItem } from "../../../../../lib/types.d";
-import { SupabaseProps } from "../../../../../constants";
 import { useAuth } from "../../../Auth/useAuth";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { useLocale, useTranslations } from "next-intl";
+import { SupabaseProps } from "../../../../../constants";
+import { IOrder, IOrderItem } from "../../../../../lib/types.d";
 import { formatDateString } from "../../../../../utils/formatDate";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 interface Props {
   isError?: boolean;
@@ -19,7 +19,6 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ErrorCheckout({ order, isError }: Props) {
   const { business_orders } = order;
-
   if (!business_orders) return <></>;
 
   const { order_items: orderItems } = business_orders[0];
