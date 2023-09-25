@@ -57,19 +57,11 @@ export function ShoppingBasket() {
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { data: shippingAddresses, error: shippingAddressesError } =
+    useFetchShippingByOwnerId(user?.id as string);
 
-  const {
-    data: shippingAddresses,
-    error: shippingAddressesError,
-    isLoading: shippingAddressesLoading,
-  } = useFetchShippingByOwnerId(user?.id as string);
-
-  const {
-    data: billingAddresses,
-    error: billingAddressesError,
-    isLoading: billingAddressesLoading,
-  } = useFetchBillingByOwnerId(user?.id as string);
+  const { data: billingAddresses, error: billingAddressesError } =
+    useFetchBillingByOwnerId(user?.id as string);
 
   if (billingAddressesError) {
     throw billingAddressesError;
@@ -167,7 +159,6 @@ export function ShoppingBasket() {
       .from("orders")
       .insert({
         owner_id: user?.id,
-        total: total,
         customer_name: `${user?.name} ${user?.lastname}`,
         status: MARKETPLACE_ORDER_STATUS.ORDER_PLACED,
         tracking_id: "123456789",
@@ -175,27 +166,47 @@ export function ShoppingBasket() {
         estimated_date: new Date(
           new Date().getTime() + 1000 * 60 * 60 * 24 * 3
         ).toISOString(), // 3 days
-        payment_method: "credit_card",
+        total: total,
+        subtotal: subtotal,
+        shipping: shipping,
+        discount: discount,
+        discount_code: "none",
+        currency: "EUR",
         order_number: orderNumber,
-        shipping_info: shippingInfoId,
-        billing_info: billingInfoId,
         type: "online",
+        tax: tax,
+        // TODO: Añadir metodo de pago
+        // payment_method_id: "credit_card",
+        shipping_info_id: shippingInfoId,
+        billing_info_id: billingInfoId,
       })
       .select("id")
       .single();
 
     if (orderError) throw orderError;
-
     if (!order) return;
+
+    // Insert Business Order
+    const { data: businessOrder, error: businessOrderError } = await supabase
+      .from("business_orders")
+      .insert({
+        order_id: order.id,
+      })
+      .select("id")
+      .single();
+
+    if (businessOrderError) throw businessOrderError;
+    if (!businessOrder) return;
 
     cart.map((product) => {
       product.packs.map(async (pack) => {
         const { error: orderItemError } = await supabase
           .from("order_items")
           .insert({
-            business_order_id: order.id,
+            business_order_id: businessOrder.id,
             product_pack_id: pack.id,
             quantity: pack.quantity,
+            is_reviewed: false,
           });
 
         if (orderItemError) throw orderItemError;
@@ -241,15 +252,12 @@ export function ShoppingBasket() {
   const insertOrderMutation = useMutation({
     mutationKey: ["insertOrder"],
     mutationFn: handleProceedToPay,
-    onMutate: () => setIsSubmitting(true),
     onSuccess: () => {
       queryClient.invalidateQueries("orders");
-      setIsSubmitting(false);
       clearCart();
     },
     onError: (error: any) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 
