@@ -14,7 +14,7 @@ export function CartItem({ item }: Props) {
   return (
     <>
       {item && (
-        <>
+        <div data-testid={"cart-item"}>
           <span>
             <p className="font-semibold">{t("product_name")}:</p> {item.name}
           </span>
@@ -24,7 +24,7 @@ export function CartItem({ item }: Props) {
               <CartPackItem item={item} pack={pack} />
             </div>
           ))}
-        </>
+        </div>
       )}
     </>
   );

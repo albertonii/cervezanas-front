@@ -4,11 +4,11 @@ import Link from "next/link";
 import MarketCartButtons from "../common/MarketCartButtons";
 import DisplayImageProduct from "../common/DisplayImageProduct";
 import { useState } from "react";
-import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
+import { SupabaseProps } from "../../../../constants";
+import { useLocale, useTranslations } from "next-intl";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useShoppingCart } from "../../../../context/ShoppingCartContext";
-import { useLocale, useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../constants";
+import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
 
 type Props = {
   pack: IProductPack;
@@ -53,6 +53,7 @@ export function CartPackItem({ item, pack }: Props) {
             className={`flex flex-row ${
               animateRemove && "animate-ping overflow-hidden "
             }`}
+            data-testid="cart-pack-item"
           >
             <>
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -62,6 +63,7 @@ export function CartPackItem({ item, pack }: Props) {
                   imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)}
                   alt={"Cart Item display image"}
                   class="h-full w-full object-cover object-center"
+                  data-testid="cart-item-image"
                 />
               </div>
 
