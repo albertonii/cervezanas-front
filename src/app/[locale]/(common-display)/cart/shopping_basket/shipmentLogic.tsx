@@ -1,7 +1,8 @@
 "use client";
 
-import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
+import useFetchCoverageAreaByDistributor from "./useFetchCoverageAreaByDistributor";
 import { createClient } from "../../../../../utils/supabaseBrowser";
+import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -52,13 +53,15 @@ const getListOfDistributorsBasedOnProducerId = async (
     .select(
       `
         *,
-        distributor_id,
-        distributor_user!distributor_user_user_fkey (
-            *
+        distributor_user!distribution_contracts_distributor_id_fkey (
+            *,
+            coverage_areas (*)
         )
     `
     )
     .eq("producer_id", distributionId);
+
+  console.log(contracts);
 
   if (error) throw error;
 
@@ -71,19 +74,26 @@ const canDistributorDeliverToAddress = async (
 ) => {
   // 1. Get coverage areas of the distributor
   console.log(dContract.distributor_user);
-
   if (!dContract.distributor_user || !dContract.distributor_user.coverage_areas)
     return false;
-  console.log(dContract.distributor_user);
 
   const coverageAreas = dContract.distributor_user.coverage_areas[0];
-  console.log(coverageAreas);
 
   // 2. Check if the address is in the coverage area. We need to check by priority order:
   // International -> Europe -> Region -> Province -> City -> Postal Code
 
-  // International
+  // a. International
   canDistributorDeliverToAddressInternational(coverageAreas.international);
+
+  // b. Europe
+
+  // c. Region
+
+  // d. Province
+
+  // e. City
+
+  // f. Postal Code
 
   return true;
 };
@@ -93,5 +103,52 @@ const canDistributorDeliverToAddressInternational = async (
 ) => {
   console.log(international);
 
+  for (const country of international) {
+    const data = fetchShippingByOwnerId(country);
+
+    console.log(data);
+  }
+
   return true;
+};
+
+const fetchShippingByOwnerId = async (address: string) => {
+  console.log(address);
+
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+  // Construye la URL de la solicitud a la API de geocodificación de Google Maps.
+  const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+    address
+  )}&key=${apiKey}`;
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "OK") {
+        console.log(data);
+        const location = data.results[0].geometry.location;
+
+        console.log(location);
+
+        // Verifica si la ubicación está dentro de la zona de envío del vendedor.
+        // Puedes agregar tu lógica de verificación aquí.
+        const isWithinShippingZone = true; // Cambia esto según tu lógica real.
+
+        // if (isWithinShippingZone) {
+        //   document.getElementById("result").textContent =
+        //     "Dirección de envío válida";
+        // } else {
+        //   document.getElementById("result").textContent =
+        //     "Dirección de envío no válida";
+        // }
+      } else {
+        // document.getElementById("result").textContent =
+        //   "No se pudo verificar la dirección";
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+
+  return location;
 };

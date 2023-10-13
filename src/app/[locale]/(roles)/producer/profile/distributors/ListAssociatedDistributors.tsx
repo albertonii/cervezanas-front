@@ -65,8 +65,8 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
   const filteredItems = useMemo<IDistributionContract[]>(() => {
     if (!distributionContracts) return [];
     return distributionContracts.filter((d: IDistributionContract) => {
-      if (!d.distributor_user || !d.distributor_user[0].users) return false;
-      return d.distributor_user[0].users.username
+      if (!d.distributor_user || !d.distributor_user.users) return false;
+      return d.distributor_user.users.username
         .toLowerCase()
         .includes(query?.toLowerCase());
     });
@@ -77,7 +77,7 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
 
     const compareProperties: Record<string, (d: IDistributionContract) => any> =
       {
-        [SortBy.USERNAME]: (d) => d.distributor_user[0].user,
+        [SortBy.USERNAME]: (d) => d.distributor_user?.user,
         [SortBy.CREATED_DATE]: (d) => d.created_at,
       };
 
@@ -117,21 +117,25 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
 
   return (
     <div className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
-      {isDeleteModal && selectedContract && (
-        <DeleteContractModal
-          distributor_id={selectedContract.distributor_user[0].user}
-          producer_id={producerId}
-          handleDeleteModal={() => setIsDeleteModal(false)}
-        />
-      )}
+      {isDeleteModal &&
+        selectedContract &&
+        selectedContract.distributor_user && (
+          <DeleteContractModal
+            distributor_id={selectedContract.distributor_user.user}
+            producer_id={producerId}
+            handleDeleteModal={() => setIsDeleteModal(false)}
+          />
+        )}
 
-      {isCancelModal && selectedContract && (
-        <CancelContractModal
-          distributor_id={selectedContract.distributor_user[0].user}
-          producer_id={producerId}
-          handleCancelModal={() => setIsCancelModal(false)}
-        />
-      )}
+      {isCancelModal &&
+        selectedContract &&
+        selectedContract.distributor_user && (
+          <CancelContractModal
+            distributor_id={selectedContract.distributor_user.user}
+            producer_id={producerId}
+            handleCancelModal={() => setIsCancelModal(false)}
+          />
+        )}
 
       {isError && (
         <div className="flex items-center justify-center">
@@ -213,8 +217,8 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                      {contract.distributor_user[0].users &&
-                        contract.distributor_user[0].users.username}
+                      {contract.distributor_user?.users &&
+                        contract.distributor_user.users.username}
                     </td>
 
                     <td className="px-6 py-4">

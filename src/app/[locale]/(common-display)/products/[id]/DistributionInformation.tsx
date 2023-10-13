@@ -32,8 +32,8 @@ export default function DistributionInformation({ product }: Props) {
   } = useFetchShippingByOwnerId(user?.id);
 
   useEffect(() => {
-    if (!contracts) return;
-    setDistributor(contracts[0].distributor_user[0]);
+    if (!contracts || !contracts[0].distributor_user) return;
+    setDistributor(contracts[0].distributor_user);
   }, [contracts]);
 
   if (!contracts) return null;
