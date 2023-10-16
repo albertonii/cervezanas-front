@@ -2,6 +2,7 @@
 
 import { ICountry } from "country-state-city/lib/interface";
 import { useQuery } from "react-query";
+import { API_METHODS } from "../../../../../../constants";
 
 // interface ICountry {
 //   id: string;
@@ -16,7 +17,7 @@ headers.append(
 );
 
 const requestOptions = {
-  method: "GET",
+  method: API_METHODS.GET,
   headers: headers,
   //   redirect: "follow",
 };

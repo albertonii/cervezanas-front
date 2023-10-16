@@ -101,3 +101,17 @@ export const SupabaseProps = {
   PROFILE_PHOTO_URL: "profile_photo/",
   AWARDS_URL: "awards/",
 };
+
+export const DS_API = {
+  DS_URL: `https://distributionsystemapi-soyd-dev.fl0.io/`,
+  DS_COUNTRIES: "countries/",
+  DS_COMMUNITIES: "communities/",
+  DS_PROVINCES: "provinces/",
+};
+
+export const API_METHODS = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  DELETE: "DELETE",
+};

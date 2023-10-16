@@ -1,18 +1,17 @@
 "use client";
 
 import { useQuery } from "react-query";
+import { API_METHODS, DS_API } from "../../constants";
 
 const isInsideCommunity = async (
   community: string,
   lat: string,
   lng: string
 ) => {
-  const data = fetch(
-    `https://distributionsystemapi-soyd-dev.fl0.io/communities/${community}/inside?lat=${lat}&lng=${lng}`,
-    {
-      method: "GET",
-    }
-  ).then((res) => console.log(res));
+  const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
+  const data = fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+    method: API_METHODS.GET,
+  }).then((res) => console.log(res));
 
   return data;
 };

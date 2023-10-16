@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import DisplayImageProduct from "../common/DisplayImageProduct";
-import MarketCartButtons from "../common/MarketCartButtons";
-import { SupabaseProps } from "../../../../constants";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
+import MarketCartButtons from "../../../components/common/MarketCartButtons";
+import { SupabaseProps } from "../../../../../constants";
 import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../lib/types.d";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { Type } from "../../../../lib/productEnum";
-import { useShoppingCart } from "../../../../context";
+} from "../../../../../lib/types";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { Type } from "../../../../../lib/productEnum";
+import { useShoppingCart } from "../../../../../context";
 import { useTranslations } from "next-intl";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;

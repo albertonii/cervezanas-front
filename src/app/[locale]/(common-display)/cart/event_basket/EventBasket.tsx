@@ -17,6 +17,7 @@ import {
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useEventCart } from "../../../../../context/EventCartContext";
 import {
+  API_METHODS,
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
   PAYMENT_METHOD,
@@ -187,7 +188,7 @@ export default function EventBasket() {
     <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
         action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-        method="POST"
+        method={API_METHODS.GET}
         name="form"
         ref={formRef}
       >

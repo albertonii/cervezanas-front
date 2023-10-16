@@ -1,7 +1,6 @@
 import React, { ComponentProps, useState } from "react";
 
 import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { NewShippingAddress } from "../../../components/checkout";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
 import { IconButton } from "../../../components/common/IconButton";
 import { UseFormReturn } from "react-hook-form";
@@ -12,6 +11,7 @@ import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "react-query";
 import { useMessage } from "../../../components/message/useMessage";
+import { NewShippingAddress } from "./NewShippingAddress";
 
 interface Props {
   selectedShippingAddress: string;
@@ -37,7 +37,6 @@ export default function Shipping({
   const { handleMessage } = useMessage();
   const { supabase } = useSupabase();
   const queryClient = useQueryClient();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
   // Remove Shipping Address
@@ -60,16 +59,11 @@ export default function Shipping({
   const deleteShippingAddress = useMutation({
     mutationKey: ["deleteShippingAddress"],
     mutationFn: handleRemoveShippingAddress,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries("shippingAddresses");
-      setIsSubmitting(false);
     },
     onError: (error: any) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 
@@ -102,7 +96,7 @@ export default function Shipping({
       <ul className="grid w-full gap-6 md:grid-cols-1">
         {shippingAddresses.map((address) => {
           return (
-            <div key={address.id}>
+            <article key={address.id}>
               <li onClick={() => handleOnClickShipping(address.id)}>
                 <input
                   type="radio"
@@ -121,13 +115,13 @@ export default function Shipping({
                                          bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-4 peer-checked:bg-bear-alvine dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                 >
                   <div className="block">
-                    <div className="w-full text-lg font-semibold">
+                    <span className="w-full text-lg font-semibold">
                       {address.name} {address.lastname}
-                    </div>
-                    <div className="w-full">
+                    </span>
+                    <span className="w-full">
                       {address.address}, {address.city}, {address.state},{" "}
                       {address.zipcode}, {address.country}
-                    </div>
+                    </span>
                   </div>
 
                   <div className="space-y-2">
@@ -150,7 +144,7 @@ export default function Shipping({
                   </div>
                 </label>
               </li>
-            </div>
+            </article>
           );
         })}
 

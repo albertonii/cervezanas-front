@@ -18,14 +18,17 @@ import { useAuth } from "../../../Auth/useAuth";
 import { useForm } from "react-hook-form";
 import { Button } from "../../../components/common/Button";
 import { CustomLoading } from "../../../components/common/CustomLoading";
-import { CheckoutItem } from "../../../components/checkout";
+import { CheckoutItem } from "./CheckoutItem";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
-import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
+import {
+  API_METHODS,
+  MARKETPLACE_ORDER_STATUS,
+} from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
 import { initShipmentLogic } from "./shipmentLogic";
 
@@ -289,7 +292,7 @@ export function ShoppingBasket() {
           <div className="flex w-full flex-row items-center justify-center sm:my-2 ">
             <form
               action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-              method="POST"
+              method={API_METHODS.GET}
               name="form"
               ref={formRef}
             >

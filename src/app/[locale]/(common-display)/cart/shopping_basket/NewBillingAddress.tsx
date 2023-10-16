@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../Auth/useAuth";
-import { DisplayInputError } from "../common/DisplayInputError";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { useAuth } from "../../../Auth/useAuth";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { IModalBillingAddress } from "../../../../lib/types.d";
-import { Modal } from "../modals/Modal";
+import { IModalBillingAddress } from "../../../../../lib/types.d";
+import { Modal } from "../../../components/modals/Modal";
+import { DisplayInputError } from "../../../components/common/DisplayInputError";
 
 export function NewBillingAddress() {
   const t = useTranslations();
@@ -18,7 +18,6 @@ export function NewBillingAddress() {
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const {
@@ -63,18 +62,13 @@ export function NewBillingAddress() {
   const insertBillingMutation = useMutation({
     mutationKey: ["insertBilling"],
     mutationFn: handleAddBillingAddress,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["billingAddresses"] });
       setShowModal(false);
-      setIsSubmitting(false);
       reset();
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

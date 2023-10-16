@@ -2,6 +2,7 @@
 
 import { ICity } from "country-state-city";
 import { useQuery } from "react-query";
+import { API_METHODS } from "../../../../../../constants";
 
 const headers = new Headers();
 headers.append(
@@ -10,7 +11,7 @@ headers.append(
 );
 
 const requestOptions = {
-  method: "GET",
+  method: API_METHODS.GET,
   headers: headers,
 };
 

@@ -3,7 +3,6 @@ import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
 import { IconButton } from "../../../components/common/IconButton";
 import { useMutation, useQueryClient } from "react-query";
-import { NewBillingAddress } from "../../../components/checkout";
 import { UseFormReturn } from "react-hook-form";
 import { IBillingAddress } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
@@ -11,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useMessage } from "../../../components/message/useMessage";
+import { NewBillingAddress } from "./NewBillingAddress";
 
 interface Props {
   selectedBillingAddress: string;

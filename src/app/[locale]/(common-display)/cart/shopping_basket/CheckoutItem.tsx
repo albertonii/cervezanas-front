@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import CheckoutPackItem from "./CheckoutPackItem";
-import DeliveryError from "../../(common-display)/cart/DeliveryError";
-import useFetchProductById from "../../../../hooks/useFetchProductById";
+import DeliveryError from "../DeliveryError";
+import useFetchProductById from "../../../../../hooks/useFetchProductById";
 import React, { useEffect } from "react";
-import { Spinner } from "../common/Spinner";
+import { Spinner } from "../../../components/common/Spinner";
 import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types.d";
-import { initShipmentLogic } from "../../(common-display)/cart/shopping_basket/shipmentLogic";
+import { IProductPackCartItem } from "../../../../../lib/types";
+import { initShipmentLogic } from "./shipmentLogic";
 
 interface Props {
   productPack: IProductPackCartItem;
