@@ -30,7 +30,6 @@ import {
   MARKETPLACE_ORDER_STATUS,
 } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
-import { initShipmentLogic } from "./shipmentLogic";
 
 interface FormShippingData {
   shipping_info_id: string;

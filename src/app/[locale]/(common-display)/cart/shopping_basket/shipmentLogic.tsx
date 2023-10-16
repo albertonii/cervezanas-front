@@ -1,8 +1,8 @@
 "use client";
 
-import useFetchCoverageAreaByDistributor from "./useFetchCoverageAreaByDistributor";
 import { createClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
+import { API_METHODS, DS_API } from "../../../../../constants";
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -61,8 +61,6 @@ const getListOfDistributorsBasedOnProducerId = async (
     )
     .eq("producer_id", distributionId);
 
-  console.log(contracts);
-
   if (error) throw error;
 
   return contracts as IDistributionContract[];
@@ -70,20 +68,33 @@ const getListOfDistributorsBasedOnProducerId = async (
 
 const canDistributorDeliverToAddress = async (
   dContract: IDistributionContract,
-  shippingInfo: IShippingInfo
+  clientShippingInfo: IShippingInfo
 ) => {
   // 1. Get coverage areas of the distributor
-  console.log(dContract.distributor_user);
   if (!dContract.distributor_user || !dContract.distributor_user.coverage_areas)
     return false;
 
   const coverageAreas = dContract.distributor_user.coverage_areas[0];
 
-  // 2. Check if the address is in the coverage area. We need to check by priority order:
+  // 2. Get Latitud and Longitud of client shipping address
+  const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
+  const clientLatLng = await convertAddressToLatLng(address);
+
+  // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
   // International -> Europe -> Region -> Province -> City -> Postal Code
 
   // a. International
-  canDistributorDeliverToAddressInternational(coverageAreas.international);
+  if (!clientLatLng) {
+    console.error("Error: Could not convert address to [latitude, longitude]");
+    return false;
+  }
+
+  console.log(coverageAreas);
+
+  canDistributorDeliverToAddressInternational(
+    coverageAreas.international,
+    clientLatLng
+  );
 
   // b. Europe
 
@@ -99,56 +110,62 @@ const canDistributorDeliverToAddress = async (
 };
 
 const canDistributorDeliverToAddressInternational = async (
-  international: string[]
+  international: string[],
+  clientLatLng: google.maps.LatLng
 ) => {
-  console.log(international);
-
   for (const country of international) {
-    const data = fetchShippingByOwnerId(country);
-
-    console.log(data);
+    const lat = clientLatLng.lat;
+    const lng = clientLatLng.lng;
+    isInsideCountry(country, lat, lng);
   }
 
   return true;
 };
 
-const fetchShippingByOwnerId = async (address: string) => {
-  console.log(address);
-
+const convertAddressToLatLng = async (address: string) => {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   // Construye la URL de la solicitud a la API de geocodificación de Google Maps.
   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
     address
   )}&key=${apiKey}`;
-  fetch(apiUrl)
+
+  const response = await fetch(apiUrl)
     .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "OK") {
-        console.log(data);
-        const location = data.results[0].geometry.location;
-
-        console.log(location);
-
-        // Verifica si la ubicación está dentro de la zona de envío del vendedor.
-        // Puedes agregar tu lógica de verificación aquí.
-        const isWithinShippingZone = true; // Cambia esto según tu lógica real.
-
-        // if (isWithinShippingZone) {
-        //   document.getElementById("result").textContent =
-        //     "Dirección de envío válida";
-        // } else {
-        //   document.getElementById("result").textContent =
-        //     "Dirección de envío no válida";
-        // }
-      } else {
-        // document.getElementById("result").textContent =
-        //   "No se pudo verificar la dirección";
-      }
-    })
     .catch((error) => {
       console.error("Error:", error);
     });
 
-  return location;
+  if (response.status === "OK") {
+    const location = response.results[0].geometry.location;
+    return location as google.maps.LatLng;
+  }
+  return null;
+};
+
+const isInsideCountry = async (
+  country: string,
+  lat: () => number,
+  lng: () => number
+) => {
+  console.log(lat);
+  const ds_url = DS_API.DS_URL + DS_API.DS_COUNTRIES + country;
+  const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+    method: API_METHODS.GET,
+  }).then((res) => console.info(res));
+
+  return data;
+};
+
+const isInsideCommunity = async (
+  community: string,
+  lat: number,
+  lng: number
+) => {
+  const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
+  const data = fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+    method: API_METHODS.GET,
+  }).then((res) => console.info(res));
+
+  return data;
 };

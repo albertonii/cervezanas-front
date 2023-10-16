@@ -35,7 +35,6 @@ export default function Billing({
 
   const { handleMessage } = useMessage();
   const { supabase } = useSupabase();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
@@ -58,16 +57,11 @@ export default function Billing({
   const deleteBillingAddress = useMutation({
     mutationKey: ["deleteBillingAddress"],
     mutationFn: handleRemoveBillingAddress,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries("billingAddresses");
-      setIsSubmitting(false);
     },
     onError: (error: any) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 
