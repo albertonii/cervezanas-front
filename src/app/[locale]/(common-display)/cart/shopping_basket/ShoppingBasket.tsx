@@ -360,6 +360,7 @@ export function ShoppingBasket() {
                         <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                           {t("customer_s_cart")}
                         </p>
+
                         {items.length > 0 ? (
                           <div className="w-full">
                             {items.map((productPack) => {

@@ -1,8 +1,8 @@
 "use client";
 
+import { API_METHODS, DS_API } from "../../../../../constants";
 import { createClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
-import { API_METHODS, DS_API } from "../../../../../constants";
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -25,8 +25,10 @@ export const initShipmentLogic = async (
       shippingInfo
     );
 
-    if (canDeliver) return true;
+    if (canDeliver) return canDeliver;
   }
+
+  return false;
 };
 
 const getShippingInfo = async (shippingInfoId: string) => {
@@ -70,6 +72,8 @@ const canDistributorDeliverToAddress = async (
   dContract: IDistributionContract,
   clientShippingInfo: IShippingInfo
 ) => {
+  let canDeliver = false;
+
   // 1. Get coverage areas of the distributor
   if (!dContract.distributor_user || !dContract.distributor_user.coverage_areas)
     return false;
@@ -89,16 +93,26 @@ const canDistributorDeliverToAddress = async (
     return false;
   }
 
-  console.log(coverageAreas);
+  if (coverageAreas.international) {
+    canDeliver = await canDistributorDeliverToAddressInternational(
+      coverageAreas.international,
+      clientLatLng
+    );
 
-  canDistributorDeliverToAddressInternational(
-    coverageAreas.international,
-    clientLatLng
-  );
+    if (canDeliver) return canDeliver;
+  }
 
   // b. Europe
+  if (coverageAreas.europe) {
+    canDeliver = await canDistributorDeliverToAddressEurope(
+      coverageAreas.international,
+      clientLatLng
+    );
 
-  // c. Region
+    if (canDeliver) return canDeliver;
+  }
+
+  // c. Autonomous Communities
 
   // d. Province
 
@@ -106,20 +120,55 @@ const canDistributorDeliverToAddress = async (
 
   // f. Postal Code
 
-  return true;
+  return canDeliver;
 };
 
 const canDistributorDeliverToAddressInternational = async (
   international: string[],
   clientLatLng: google.maps.LatLng
 ) => {
+  let canDeliver = false;
   for (const country of international) {
     const lat = clientLatLng.lat;
     const lng = clientLatLng.lng;
-    isInsideCountry(country, lat, lng);
+    canDeliver = await isInsideCountry(country, lat, lng);
+
+    if (canDeliver) return canDeliver;
   }
 
-  return true;
+  return canDeliver;
+};
+
+const canDistributorDeliverToAddressEurope = async (
+  eruope: string[],
+  clientLatLng: google.maps.LatLng
+) => {
+  let canDeliver = false;
+  for (const country of eruope) {
+    const lat = clientLatLng.lat;
+    const lng = clientLatLng.lng;
+    canDeliver = await isInsideCountry(country, lat, lng);
+
+    if (canDeliver) return canDeliver;
+  }
+
+  return canDeliver;
+};
+
+const canDistributorDeliverToAutonomousCommunity = async (
+  aCommunities: string[],
+  clientLatLng: google.maps.LatLng
+) => {
+  let canDeliver = false;
+  for (const community of aCommunities) {
+    const lat = clientLatLng.lat;
+    const lng = clientLatLng.lng;
+    canDeliver = await isInsideCommunity(community, lat, lng);
+
+    if (canDeliver) return canDeliver;
+  }
+
+  return canDeliver;
 };
 
 const convertAddressToLatLng = async (address: string) => {
@@ -148,24 +197,24 @@ const isInsideCountry = async (
   lat: () => number,
   lng: () => number
 ) => {
-  console.log(lat);
   const ds_url = DS_API.DS_URL + DS_API.DS_COUNTRIES + country;
+
   const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => console.info(res));
+  }).then((res) => res.json());
 
   return data;
 };
 
 const isInsideCommunity = async (
   community: string,
-  lat: number,
-  lng: number
+  lat: () => number,
+  lng: () => number
 ) => {
   const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
   const data = fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => console.info(res));
+  }).then((res) => res.json());
 
   return data;
 };

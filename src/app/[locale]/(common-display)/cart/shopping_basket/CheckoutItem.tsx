@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import CheckoutPackItem from "./CheckoutPackItem";
 import DeliveryError from "../DeliveryError";
+import CheckoutPackItem from "./CheckoutPackItem";
 import useFetchProductById from "../../../../../hooks/useFetchProductById";
-import React, { useEffect } from "react";
-import { Spinner } from "../../../components/common/Spinner";
-import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../../lib/types";
+import React, { useEffect, useState } from "react";
 import { initShipmentLogic } from "./shipmentLogic";
+import { useLocale, useTranslations } from "next-intl";
+import { Spinner } from "../../../components/common/Spinner";
+import { IProductPackCartItem } from "../../../../../lib/types";
 
 interface Props {
   productPack: IProductPackCartItem;
@@ -19,10 +19,13 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
+  const [canDeliver, setCanDeliver] = useState(false);
+  const [isLoadingDelivery, setIsLoadingDelivery] = useState(false);
+
   const {
     data: productWithInfo,
     isError,
-    isLoading,
+    isLoading: isLoadingProduct,
     refetch,
   } = useFetchProductById(productPack.id);
 
@@ -33,10 +36,24 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   // If we pick an address -> Check if the product is available for shipping to that address
   useEffect(() => {
     if (!productWithInfo) return;
-    initShipmentLogic(selectedShippingAddress, productWithInfo.owner_id);
+
+    setIsLoadingDelivery(true);
+
+    const canDeliverFunction = async () => {
+      const res_canDeliver = await initShipmentLogic(
+        selectedShippingAddress,
+        productWithInfo.owner_id
+      );
+
+      setCanDeliver(res_canDeliver);
+      setIsLoadingDelivery(false);
+    };
+
+    canDeliverFunction();
   }, [selectedShippingAddress]);
 
-  if (isLoading) return <Spinner color={"beer-blonde"} />;
+  // if (isLoadingProduct || isLoadingDelivery)
+  //   return <Spinner size={"fullScreen"} color={"beer-blonde"} />;
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 
@@ -44,8 +61,12 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
 
   return (
     <>
+      {isLoadingDelivery && (
+        <Spinner size={"fullScreen"} absolute={true} color={"beer-blonde"} />
+      )}
+
       {productPack && (
-        <div className="mt-4 space-y-4">
+        <article className={`mt-4 space-y-4`}>
           <Link href={`/products/${productWithInfo.id}`} locale={locale}>
             <p className="space-x-2 text-xl">
               <span className="font-semibold ">{t("product_name")}:</span>
@@ -56,20 +77,18 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
             </p>
           </Link>
 
-          <DeliveryError />
+          {!canDeliver && <DeliveryError />}
 
           {productPack.packs.map((pack) => (
-            <>
-              <div key={pack.id}>
-                <CheckoutPackItem
-                  productPack={productPack}
-                  productWithInfo={productWithInfo}
-                  pack={pack}
-                />
-              </div>
-            </>
+            <div key={pack.id}>
+              <CheckoutPackItem
+                productPack={productPack}
+                productWithInfo={productWithInfo}
+                pack={pack}
+              />
+            </div>
           ))}
-        </div>
+        </article>
       )}
     </>
   );

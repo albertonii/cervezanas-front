@@ -11,7 +11,7 @@ export default function DeliveryError() {
         title={"Delivery not allowed"}
       />
 
-      <span className="sm:text-md text-balance text-sm text-red-800 md:text-lg">
+      <span className="sm:text-md text-balance text-sm text-red-800">
         Lo sentimos, este artículo no se puede enviar a la dirección
         seleccionada. Cambia la dirección de envío o elimina el artículo de tu
         pedido.
