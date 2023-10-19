@@ -52,8 +52,8 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
     canDeliverFunction();
   }, [selectedShippingAddress]);
 
-  // if (isLoadingProduct || isLoadingDelivery)
-  //   return <Spinner size={"fullScreen"} color={"beer-blonde"} />;
+  if (isLoadingProduct || isLoadingDelivery)
+    return <Spinner color={"beer-blonde"} />;
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 

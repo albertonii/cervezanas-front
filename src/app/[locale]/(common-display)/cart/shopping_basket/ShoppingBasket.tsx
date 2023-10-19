@@ -504,7 +504,7 @@ export function ShoppingBasket() {
 
                         {/* Addresses */}
                         <div className="mt-6 flex flex-shrink-0 flex-col items-start justify-start space-y-6 pb-4 md:mt-0">
-                          <div className="mb-6 flex w-full flex-col space-y-4 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
+                          <div className="mb-6 flex w-full flex-col space-y-4 bg-gray-50  py-6 dark:bg-gray-800">
                             <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                               {t("addresses")}
                             </h3>

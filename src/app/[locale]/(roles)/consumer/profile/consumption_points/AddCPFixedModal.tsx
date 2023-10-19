@@ -12,7 +12,7 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { IProductPack, IUser } from "../../../../../../lib/types.d";
+import { IUser } from "../../../../../../lib/types.d";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {

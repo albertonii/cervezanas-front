@@ -55,6 +55,7 @@
     "npm": "9.2.0",
     "openapi-typescript": "6.1.0",
     "react": "18.2.0",
+    "react-cool-onclickoutside": "^1.7.0",
     "react-country-region-selector": "3.6.1",
     "react-dom": "18.2.0",
     "react-google-autocomplete": "2.7.3",

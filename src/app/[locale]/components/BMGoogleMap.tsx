@@ -197,7 +197,7 @@ function Map({ cps }: Props) {
     <div className="relative space-y-4">
       <div className="places-container absolute left-1/2 top-0 z-10 mt-2 -translate-x-1/2 transform">
         {map && (
-          <PlacesAutocomplete
+          <AutocompletePlaces
             setSelected={setSelected}
             map={map}
             // handleAddress={handleAddress}
@@ -221,14 +221,9 @@ function Map({ cps }: Props) {
 interface PlacesProps {
   setSelected: ComponentProps<any>;
   map: google.maps.Map;
-  // handleAddress: ComponentProps<any>;
 }
 
-const PlacesAutocomplete = ({
-  setSelected,
-  map,
-}: // handleAddress,
-PlacesProps) => {
+const AutocompletePlaces = ({ setSelected, map }: PlacesProps) => {
   const t = useTranslations();
 
   const {
@@ -238,10 +233,6 @@ PlacesProps) => {
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete();
-
-  // useEffect(() => {
-  //   handleAddress(value);
-  // }, [handleAddress, value]);
 
   const handleSelect = async (address: any) => {
     setValue(address, false);

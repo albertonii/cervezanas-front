@@ -112,9 +112,9 @@ export default function Shipping({
                 <label
                   htmlFor={`shipping-address-${address.id}`}
                   className="dark:peer-checked:text-product-blonde peer-checked:border-product-softBlonde peer-checked:text-product-dark inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200
-                                         bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-4 peer-checked:bg-bear-alvine dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                  bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-4 peer-checked:bg-bear-alvine dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                 >
-                  <div className="block">
+                  <div className="flex flex-col lg:block lg:space-x-4">
                     <span className="w-full text-lg font-semibold">
                       {address.name} {address.lastname}
                     </span>

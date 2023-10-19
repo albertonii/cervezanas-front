@@ -1,6 +1,4 @@
 import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
-import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
   ComponentProps,
   useCallback,
@@ -8,6 +6,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import { Button } from "../common/Button";
 import { IconButton } from "../common/IconButton";
@@ -21,7 +21,6 @@ interface Props {
   btnTitle: string;
   description: string;
   children: JSX.Element;
-
   icon?: IconDefinition;
   classIcon: string;
   classContainer: string;
