@@ -56,16 +56,15 @@ export default function AddressForm({ handler }: Props) {
   useEffect(() => {
     if (!selectedCountry) return;
 
-    console.log(selectedCountry);
     switch (selectedCountry) {
       case "spain":
         setSubRegionType("provinces");
         break;
       case "italy":
-        setSubRegionType("regions");
+        setSubRegionType("provinces");
         break;
-      case "portugal":
-        setSubRegionType("districts");
+      case "france":
+        setSubRegionType("departments");
         break;
       default:
         setSubRegionType("provinces");
@@ -208,8 +207,8 @@ export default function AddressForm({ handler }: Props) {
                     <option key={"IT"} value={"italy"} selected>
                       {t("italy")}
                     </option>
-                    <option key={"PT"} value={"portugal"}>
-                      {t("portugal")}
+                    <option key={"FR"} value={"france"}>
+                      {t("france")}
                     </option>
                   </select>
 
@@ -239,22 +238,32 @@ export default function AddressForm({ handler }: Props) {
               </div>
 
               <div className="flex gap-4">
-                <label className="my-3 flex h-12 w-1/3 items-center rounded border border-bear-alvine py-3">
+                <label
+                  className={`my-3 flex h-12 w-1/3 items-center rounded border border-bear-alvine py-3 ${
+                    !subRegions || (subRegions.length === 0 && "bg-gray-100")
+                  }`}
+                >
                   <input
                     {...register("zipcode", { required: true })}
                     className="mr-6 w-full px-3 focus:outline-none"
                     placeholder={`${t("loc_pc")}*`}
+                    disabled={!subRegions || subRegions.length === 0}
                   />
                   {errors.zipcode?.type === "required" && (
                     <DisplayInputError message="errors.input_required" />
                   )}
                 </label>
 
-                <label className="my-3 flex h-12 w-2/3 items-center rounded border border-bear-alvine py-3">
+                <label
+                  className={`my-3 flex h-12 w-2/3 items-center rounded border border-bear-alvine py-3 ${
+                    !subRegions || (subRegions.length === 0 && "bg-gray-100")
+                  }`}
+                >
                   <input
                     {...register("city", { required: true })}
                     className="mr-6 w-full px-3 focus:outline-none"
                     placeholder={`${t("loc_town")}*`}
+                    disabled={!subRegions || subRegions.length === 0}
                   />
                   {errors.city?.type === "required" && (
                     <DisplayInputError message="errors.input_required" />
