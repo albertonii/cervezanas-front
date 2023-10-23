@@ -1,16 +1,14 @@
 import React, { ComponentProps, useState } from "react";
-import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { IconButton } from "../../../components/common/IconButton";
-import { useMutation, useQueryClient } from "react-query";
-import { UseFormReturn } from "react-hook-form";
-import { IBillingAddress } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DeleteAddress } from "../../../components/modals/DeleteAddress";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
-import { useMessage } from "../../../components/message/useMessage";
+import { UseFormReturn } from "react-hook-form";
+import AddressRadioInput from "./AddressRadioInput";
 import { NewBillingAddress } from "./NewBillingAddress";
+import { useMutation, useQueryClient } from "react-query";
+import { IBillingAddress } from "../../../../../lib/types.d";
+import { useMessage } from "../../../components/message/useMessage";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { DeleteAddress } from "../../../components/modals/DeleteAddress";
+import { DisplayInputError } from "../../../components/common/DisplayInputError";
 
 interface Props {
   selectedBillingAddress: string;
@@ -29,8 +27,8 @@ export default function Billing({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const {
-    register: registerBilling,
-    formState: { errors: errorsBilling },
+    register,
+    formState: { errors },
   } = formBilling;
 
   const { handleMessage } = useMessage();
@@ -96,58 +94,19 @@ export default function Billing({
           return (
             <div key={address.id}>
               <li onClick={() => handleOnClickBilling(address.id)}>
-                <input
-                  type="radio"
-                  id={`billing-address-${address.id}`}
-                  {...registerBilling("billing_info_id", {
-                    required: true,
-                  })}
-                  value={address.id}
-                  className="peer hidden"
-                  required
+                <AddressRadioInput
+                  register={register}
+                  address={address}
+                  addressNameId={"billing"}
+                  setShowDeleteModal={setShowDeleteModal}
                 />
-
-                <label
-                  htmlFor={`billing-address-${address.id}`}
-                  className="dark:peer-checked:text-product-blonde peer-checked:border-product-softBlonde peer-checked:text-product-dark inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200
-                                         bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-4 peer-checked:bg-bear-alvine dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                >
-                  <div className="block">
-                    <div className="w-full text-lg font-semibold">
-                      {address.name} {address.lastname}
-                    </div>
-                    <div className="w-full">
-                      {address.address}, {address.city}, {address.state},{" "}
-                      {address.zipcode}, {address.country}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <IconButton
-                      onClick={() => setShowDeleteModal(true)}
-                      icon={faTrash}
-                      title={"delete_address"}
-                    />
-
-                    <FontAwesomeIcon
-                      icon={faLongArrowRight}
-                      style={{
-                        color: "#fdc300",
-                        width: "25px",
-                      }}
-                      title={"arrow_right"}
-                      width={25}
-                      height={25}
-                    />
-                  </div>
-                </label>
               </li>
             </div>
           );
         })}
 
         {/* Error input displaying */}
-        {errorsBilling.billing_info_id?.type === "required" && (
+        {errors.billing_info_id?.type === "required" && (
           <DisplayInputError message="errors.select_location_required" />
         )}
       </ul>

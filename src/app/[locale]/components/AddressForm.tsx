@@ -1,35 +1,16 @@
 import React, { ComponentProps, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
 import { DisplayInputError } from "./common/DisplayInputError";
-import { AutocompletePlaces } from "./AutocompletePlacesv3";
-import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-export interface IAddressForm {
-  owner_id: string;
-  name: string;
-  lastname: string;
-  document_id: string;
-  phone: string;
-  address: string;
-  address_extra: string;
-  address_observations: string;
-  country: string;
-  zipcode: string;
-  city: string;
-  state: string;
-  is_default: boolean;
-}
-
 interface Props {
-  handler?: ComponentProps<any>;
+  form: ComponentProps<any>;
 }
 
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
-export default function AddressForm({ handler }: Props) {
+export default function AddressForm({ form }: Props) {
   const t = useTranslations();
 
   const [selectedCountry, setSelectCountry] = useState<string>();
@@ -41,17 +22,10 @@ export default function AddressForm({ handler }: Props) {
     fetcher
   );
 
-  // const { data: provincesData, error } = useSWR(
-  //   "/api/provinces?country=spain",
-  //   fetcher
-  // );
-
   const {
     formState: { errors },
-    handleSubmit,
     register,
-    reset,
-  } = useForm<IAddressForm>();
+  } = form;
 
   useEffect(() => {
     if (!selectedCountry) return;

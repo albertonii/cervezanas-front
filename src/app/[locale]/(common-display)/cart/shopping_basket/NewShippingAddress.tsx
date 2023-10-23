@@ -1,3 +1,4 @@
+import AddressForm from "../../../components/AddressForm";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -5,9 +6,8 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../Auth/useAuth";
-import { IModalShippingAddress } from "../../../../../lib/types";
+import { IAddressForm } from "../../../../../lib/types";
 import { Modal } from "../../../components/modals/Modal";
-import AddressForm from "../../../components/AddressForm";
 
 export function NewShippingAddress() {
   const t = useTranslations();
@@ -19,16 +19,10 @@ export function NewShippingAddress() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-  } = useForm<IModalShippingAddress>();
+  const form = useForm<IAddressForm>();
+  const { reset, handleSubmit } = form;
 
-  const handleAddShippingAddress = async (
-    formValues: IModalShippingAddress
-  ) => {
+  const handleAddShippingAddress = async (formValues: IAddressForm) => {
     const {
       name,
       lastname,
@@ -81,7 +75,7 @@ export function NewShippingAddress() {
     },
   });
 
-  const onSubmit = (formValues: IModalShippingAddress) => {
+  const onSubmit = (formValues: IAddressForm) => {
     try {
       insertShippingMutation.mutate(formValues);
     } catch (e) {
@@ -103,7 +97,7 @@ export function NewShippingAddress() {
       classIcon={"w-6 h-6"}
       classContainer={`!w-1/2 ${isSubmitting && "opacity-50"}`}
     >
-      <AddressForm />
+      <AddressForm form={form} />
     </Modal>
   );
 }

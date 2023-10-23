@@ -3,7 +3,7 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 import { useSupabase } from "../context/SupabaseProvider";
-import { IShippingAddress } from "../lib/types";
+import { IAddress } from "../lib/types";
 
 const fetchShippingByOwnerId = async (
   ownerId: string,
@@ -16,7 +16,7 @@ const fetchShippingByOwnerId = async (
 
   if (error) throw error;
 
-  return data as IShippingAddress[];
+  return data as IAddress[];
 };
 
 const useFetchShippingByOwnerId = (ownerId: string) => {

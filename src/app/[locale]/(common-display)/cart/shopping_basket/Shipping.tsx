@@ -1,14 +1,11 @@
+import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
-
-import { faLongArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { IconButton } from "../../../components/common/IconButton";
 import { UseFormReturn } from "react-hook-form";
-import { IShippingAddress } from "../../../../../lib/types.d";
+import { IAddress } from "../../../../../lib/types.d";
 import { useTranslations } from "next-intl";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { useSupabase } from "../../../../../context/SupabaseProvider";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "react-query";
 import { useMessage } from "../../../components/message/useMessage";
 import { NewShippingAddress } from "./NewShippingAddress";
@@ -16,7 +13,7 @@ import { NewShippingAddress } from "./NewShippingAddress";
 interface Props {
   selectedShippingAddress: string;
   formShipping: UseFormReturn<any, any>;
-  shippingAddresses: IShippingAddress[];
+  shippingAddresses: IAddress[];
   handleOnClickShipping: ComponentProps<any>;
 }
 
@@ -30,8 +27,8 @@ export default function Shipping({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const {
-    register: registerShipping,
-    formState: { errors: errorsShipping },
+    register,
+    formState: { errors },
   } = formShipping;
 
   const { handleMessage } = useMessage();
@@ -98,58 +95,19 @@ export default function Shipping({
           return (
             <article key={address.id}>
               <li onClick={() => handleOnClickShipping(address.id)}>
-                <input
-                  type="radio"
-                  id={`shipping-address-${address.id}`}
-                  {...registerShipping("shipping_info_id", {
-                    required: true,
-                  })}
-                  value={address.id}
-                  className="peer hidden"
-                  required
+                <AddressRadioInput
+                  register={register}
+                  address={address}
+                  addressNameId={"shipping"}
+                  setShowDeleteModal={setShowDeleteModal}
                 />
-
-                <label
-                  htmlFor={`shipping-address-${address.id}`}
-                  className="dark:peer-checked:text-product-blonde peer-checked:border-product-softBlonde peer-checked:text-product-dark inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200
-                  bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-4 peer-checked:bg-bear-alvine dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                >
-                  <div className="flex flex-col lg:block lg:space-x-4">
-                    <span className="w-full text-lg font-semibold">
-                      {address.name} {address.lastname}
-                    </span>
-                    <span className="w-full">
-                      {address.address}, {address.city}, {address.state},{" "}
-                      {address.zipcode}, {address.country}
-                    </span>
-                  </div>
-
-                  <div className="space-y-2">
-                    <IconButton
-                      onClick={() => setShowDeleteModal(true)}
-                      icon={faTrash}
-                      title={"delete_address"}
-                    />
-
-                    <FontAwesomeIcon
-                      icon={faLongArrowRight}
-                      style={{
-                        color: "#fdc300",
-                        width: "25px",
-                      }}
-                      title={"arrow_right"}
-                      width={25}
-                      height={25}
-                    />
-                  </div>
-                </label>
               </li>
             </article>
           );
         })}
 
         {/* Error input displaying */}
-        {errorsShipping.shipping_info_id?.type === "required" && (
+        {errors.shipping_info_id?.type === "required" && (
           <DisplayInputError message="errors.select_location_required" />
         )}
       </ul>

@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { IShippingAddress } from "../../../../../lib/types.d";
+import { IAddress } from "../../../../../lib/types.d";
 
 interface Props {
-  address: IShippingAddress;
+  address: IAddress;
 }
 
 export default function ShippingAddressItem({ address }: Props) {

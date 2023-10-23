@@ -7,11 +7,11 @@ import Image from "next/image";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../components/common/Button";
-import { IBillingAddress, IShippingAddress } from "../../../../../lib/types.d";
+import { IBillingAddress, IAddress } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 interface Props {
-  shippingAddresses: IShippingAddress[];
+  shippingAddresses: IAddress[];
   billingAddresses: IBillingAddress[];
   handleOnClickShipping: ComponentProps<any>;
   handleOnClickBilling: ComponentProps<any>;

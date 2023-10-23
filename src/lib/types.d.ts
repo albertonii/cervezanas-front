@@ -701,6 +701,22 @@ export interface IBillingInfo {
   is_default: boolean;
 }
 
+export interface IAddressForm {
+  owner_id: string;
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra: string;
+  address_observations: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+}
+
 export type UserProps = {
   user: User;
   session: Session;
@@ -1066,15 +1082,15 @@ export interface IModalBillingAddress {
   is_default: boolean;
 }
 
-export interface IShippingAddress {
+export interface IAddress {
   id: string;
   name: string;
   lastname: string;
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
-  address_observations: string;
+  address_extra?: string;
+  address_observations?: string;
   country: string;
   state: string;
   city: string;

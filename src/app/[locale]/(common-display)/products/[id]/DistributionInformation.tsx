@@ -6,7 +6,7 @@ import {
   ICoverageArea,
   IDistributorUser,
   IProduct,
-  IShippingAddress,
+  IAddress,
 } from "../../../../../lib/types.d";
 
 interface Props {
@@ -17,7 +17,7 @@ export default function DistributionInformation({ product }: Props) {
   // Get the distribution information from the product
   const { owner_id: producerId } = product;
 
-  const [selectedAddress, setSelectedAddress] = useState<IShippingAddress>();
+  const [selectedAddress, setSelectedAddress] = useState<IAddress>();
 
   const [distributor, setDistributor] = useState<IDistributorUser>();
   const { data: contracts } =
@@ -51,7 +51,7 @@ export default function DistributionInformation({ product }: Props) {
           id="is_external_organizer"
           onClick={(e: any) => {
             const value = e.target.value;
-            shippingAddresses?.find((address: IShippingAddress) => {
+            shippingAddresses?.find((address: IAddress) => {
               if (address.id === value) {
                 setSelectedAddress(address);
               }
@@ -61,7 +61,7 @@ export default function DistributionInformation({ product }: Props) {
           <option key={1} value={1}>
             Select
           </option>
-          {shippingAddresses?.map((address: IShippingAddress) => (
+          {shippingAddresses?.map((address: IAddress) => (
             <option key={address.id} value={address.id}>
               <div className="h-40 gap-2 space-x-2 p-4 ">
                 <span>{address.address} </span>

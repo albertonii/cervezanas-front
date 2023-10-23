@@ -1,3 +1,4 @@
+import Loading from "../../../../../loading";
 import useFetchStatesByCountry from "../useFetchStatesByCountry";
 import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import React, { useEffect, useState } from "react";
@@ -202,126 +203,138 @@ export default function ProvinceDistribution({
 
   return (
     <section className="space-y-4">
-      <Button
-        btnType="submit"
-        onClick={handleSubmit(onSubmit)}
-        class=""
-        primary
-        medium
-      >
-        {t("save")}
-      </Button>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Button
+            btnType="submit"
+            onClick={handleSubmit(onSubmit)}
+            class=""
+            primary
+            medium
+          >
+            {t("save")}
+          </Button>
 
-      <div className="flex flex-col items-start space-y-4">
-        <div className="grid w-full grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="addressCountry" className="text-sm text-gray-600">
-              {t("loc_country")}
-            </label>
+          <div className="flex flex-col items-start space-y-4">
+            <div className="grid w-full grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="addressCountry"
+                  className="text-sm text-gray-600"
+                >
+                  {t("loc_country")}
+                </label>
 
-            {/* Display all countries  */}
-            <select
-              name="addressCountry"
-              id="addressCountry"
-              className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-              onChange={(e) => handleAddressCountry(e)}
-              value={addressCountry}
-            >
-              <option key={"ES"} value={"ES"}>
-                Spain
-              </option>
+                {/* Display all countries  */}
+                <select
+                  name="addressCountry"
+                  id="addressCountry"
+                  className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+                  onChange={(e) => handleAddressCountry(e)}
+                  value={addressCountry}
+                >
+                  <option key={"ES"} value={"ES"}>
+                    Spain
+                  </option>
 
-              {countryData.map((country: ICountry) => (
-                <option key={country.isoCode} value={country.isoCode}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* List of provinces in the country  */}
-        {tenProvinces && tenProvinces.length > 0 && (
-          <>
-            <div className="">
-              <label
-                htmlFor="allProvincesByRegion"
-                className="space-x-2 text-lg text-gray-600"
-              >
-                <input
-                  id="allProvincesByRegion"
-                  type="checkbox"
-                  onChange={(e) => {
-                    handleSelectAllProvincesByRegion(e);
-                  }}
-                  checked={selectAllProvincesByRegion}
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                />
-
-                <span className="text-sm text-gray-600">
-                  {t("select_all_provinces_by_region")}
-                </span>
-              </label>
+                  {countryData.map((country: ICountry) => (
+                    <option key={country.isoCode} value={country.isoCode}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
-            <div className="w-full">
-              {/* Display selectable table with all provinces in the country selected */}
-              <label htmlFor="addressCity" className="text-sm text-gray-600">
-                {t("loc_province")}
-              </label>
+            {/* List of provinces in the country  */}
+            {tenProvinces && tenProvinces.length > 0 && (
+              <>
+                <div className="">
+                  <label
+                    htmlFor="allProvincesByRegion"
+                    className="space-x-2 text-lg text-gray-600"
+                  >
+                    <input
+                      id="allProvincesByRegion"
+                      type="checkbox"
+                      onChange={(e) => {
+                        handleSelectAllProvincesByRegion(e);
+                      }}
+                      checked={selectAllProvincesByRegion}
+                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                    />
 
-              <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      <input
-                        type="checkbox"
-                        onChange={(e) => {
-                          handleSelectAllCurrentPage(e);
-                        }}
-                        checked={selectAllCurrentPage}
-                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                      />
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      {t("province")}
-                    </th>
-                  </tr>
-                </thead>
+                    <span className="text-sm text-gray-600">
+                      {t("select_all_provinces_by_region")}
+                    </span>
+                  </label>
+                </div>
 
-                <tbody>
-                  {tenProvinces?.map((province: IState, index: number) => {
-                    const startIndex = currentPage * resultsPerPage;
-                    const globalIndex = startIndex + index;
+                <div className="w-full">
+                  {/* Display selectable table with all provinces in the country selected */}
+                  <label
+                    htmlFor="addressCity"
+                    className="text-sm text-gray-600"
+                  >
+                    {t("loc_province")}
+                  </label>
 
-                    return (
-                      <tr
-                        key={province.name + currentPage}
-                        className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                      >
-                        <ProvinceRow
-                          province={province}
-                          globalIndex={globalIndex}
-                          selectedProvinces={selectedProvinces}
-                          handleCheckbox={handleCheckbox}
-                          register={register}
-                        />
+                  <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
+                    <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              handleSelectAllCurrentPage(e);
+                            }}
+                            checked={selectAllCurrentPage}
+                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                          />
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          {t("province")}
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
 
-              <PaginationFooter
-                counter={counter}
-                resultsPerPage={resultsPerPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            </div>
-          </>
-        )}
-      </div>
+                    <tbody>
+                      {tenProvinces?.map((province: IState, index: number) => {
+                        const startIndex = currentPage * resultsPerPage;
+                        const globalIndex = startIndex + index;
+
+                        return (
+                          <tr
+                            key={province.name + currentPage}
+                            className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <ProvinceRow
+                              province={province}
+                              globalIndex={globalIndex}
+                              selectedProvinces={selectedProvinces}
+                              handleCheckbox={handleCheckbox}
+                              register={register}
+                            />
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+
+                  <PaginationFooter
+                    counter={counter}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </section>
   );
 }

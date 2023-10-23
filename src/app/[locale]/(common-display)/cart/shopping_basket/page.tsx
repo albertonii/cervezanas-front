@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IBillingAddress, IShippingAddress } from "../../../../../lib/types.d";
+import { IBillingAddress, IAddress } from "../../../../../lib/types.d";
 import { createServerClient } from "../../../../../utils/supabaseServer";
 import { ShoppingBasket } from "./ShoppingBasket";
 
@@ -37,7 +37,7 @@ async function getCheckout() {
   if (usersError) throw usersError;
 
   return {
-    shippingAddresses: userData[0]?.shipping_info as IShippingAddress[],
+    shippingAddresses: userData[0]?.shipping_info as IAddress[],
     billingAddresses: userData[0]?.billing_info as IBillingAddress[],
   };
 }
