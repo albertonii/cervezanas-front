@@ -14,7 +14,7 @@ export function DeleteAddress({
   showModal,
   setShowModal,
 }: Props) {
-  const handleDeleteClick = async () => {
+  const handleDeleteClick = () => {
     handleResponseModal(true);
     setShowModal(false);
   };
@@ -27,7 +27,7 @@ export function DeleteAddress({
       title={"modal_delete_address_title"}
       btnTitle={"delete"}
       description={"modal_delete_address_description"}
-      handler={() => {
+      handler={async () => {
         handleDeleteClick();
       }}
       handlerClose={() => setShowModal(false)}

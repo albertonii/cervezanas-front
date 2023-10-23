@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../../Auth/useAuth";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
+import { Modal } from "../../../components/modals/Modal";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { IModalBillingAddress } from "../../../../../lib/types.d";
-import { Modal } from "../../../components/modals/Modal";
+import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
 
 export function NewBillingAddress() {

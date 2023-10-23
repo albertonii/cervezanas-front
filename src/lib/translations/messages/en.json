@@ -612,5 +612,7 @@
   "poland": "Poland",
   "czech_republic": "Czech Republic",
   "slovakia": "Slovakia",
-  "hungary": "Hungary"
+  "hungary": "Hungary",
+  "modal_delete_address_title": "Delete Address",
+  "modal_delete_address_description": "Are you sure you want to delete the address? This action can not be undone."
 }

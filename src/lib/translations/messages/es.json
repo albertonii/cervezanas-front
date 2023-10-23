@@ -627,5 +627,7 @@
   "poland": "Polonia",
   "czech_republic": "República Checa",
   "slovakia": "Eslovaquia",
-  "hungary": "Hungría"
+  "hungary": "Hungría",
+  "modal_delete_address_title": "Eliminar dirección",
+  "modal_delete_address_description": "¿Está seguro de que desea eliminar la dirección? Esta acción no se puede deshacer."
 }
