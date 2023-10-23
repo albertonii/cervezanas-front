@@ -97,7 +97,7 @@ export function NewShippingAddress() {
       classIcon={"w-6 h-6"}
       classContainer={`!w-1/2 ${isSubmitting && "opacity-50"}`}
     >
-      <AddressForm form={form} />
+      <AddressForm form={form} addressNameId={"shipping"} />
     </Modal>
   );
 }

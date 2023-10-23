@@ -5,12 +5,13 @@ import useSWRMutation from "swr/mutation";
 
 interface Props {
   form: ComponentProps<any>;
+  addressNameId: string;
 }
 
 const fetcher = (arg: any, ...args: any) =>
   fetch(arg, ...args).then((res) => res.json());
 
-export default function AddressForm({ form }: Props) {
+export default function AddressForm({ form, addressNameId }: Props) {
   const t = useTranslations();
 
   const [selectedCountry, setSelectCountry] = useState<string>();
@@ -65,15 +66,17 @@ export default function AddressForm({ form }: Props) {
 
   if (error) return <div>failed to load</div>;
 
+  console.log(addressNameId);
   return (
     <form className="w-full">
       <>
-        {/* Shipping information */}
+        {/* Address Information */}
         <section>
           <fieldset className="mb-3 rounded bg-beer-foam">
             <div className="w-full">
               <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
-                {t("shipping_data")}
+                {/* {t("shipping_data")} */}
+                {t(`${addressNameId}_data`)}
               </h2>
 
               <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
@@ -124,10 +127,10 @@ export default function AddressForm({ form }: Props) {
               </label>
             </div>
 
-            {/* Shipping Address */}
             <div className="mt-6 w-full">
               <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
-                {t("shipping_address")}
+                {/* {t("shipping_address")} */}
+                {t(`${addressNameId}_address`)}
               </h2>
 
               {/* <AutocompletePlaces /> */}
@@ -249,16 +252,17 @@ export default function AddressForm({ form }: Props) {
             <div className="flex items-center">
               <input
                 {...register("is_default", { required: false })}
-                id="shipping-checked-checkbox"
+                id={`${addressNameId}-checked-checkbox`}
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
               />
               <label
-                htmlFor="shipping-checked-checkbox"
+                htmlFor={`${addressNameId}-checked-checkbox`}
                 className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
-                {t("shipping_checkbox")}
+                {/* {t("shipping_checkbox")} */}
+                {t(`${addressNameId}_checkbox`)}
               </label>
             </div>
           </fieldset>
