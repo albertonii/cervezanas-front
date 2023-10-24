@@ -614,5 +614,6 @@
   "slovakia": "Slovakia",
   "hungary": "Hungary",
   "modal_delete_address_title": "Delete Address",
-  "modal_delete_address_description": "Are you sure you want to delete the address? This action can not be undone."
+  "modal_delete_address_description": "Are you sure you want to delete the address? This action can not be undone.",
+  "event_cart": "Event cart"
 }

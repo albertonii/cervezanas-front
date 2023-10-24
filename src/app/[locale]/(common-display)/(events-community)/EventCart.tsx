@@ -1,3 +1,4 @@
+import Image from "next/image";
 import EventProduct from "./EventProduct";
 import EmptyCart from "../cart/shopping_basket/EmptyCart";
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ export default function EventCart() {
 
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
 
-  const { eventItems } = useEventCart();
+  const { eventItems, cartQuantity } = useEventCart();
 
   const [items, setItems] = useState<IProductPackCartItem[]>([]);
 
@@ -28,30 +29,28 @@ export default function EventCart() {
 
   return (
     <div
-      className={`absolute -top-20 right-10 z-40 rounded-lg  border-2 border-beer-softBlonde bg-beer-softFoam px-4 py-8 shadow-md sm:px-6 lg:px-8`}
+      className={`md:right- fixed -top-44 right-10 z-40 rounded-lg border-2 border-beer-softBlonde bg-beer-softFoam px-2 py-2 shadow-md md:absolute md:-top-20 md:left-0 md:right-auto`}
       aria-modal="true"
       role="dialog"
       tabIndex={-1}
     >
       {isMinimized ? (
         <>
-          <Button class="" onClick={() => setIsMinimized(false)}>
-            <span className="sr-only">Open cart</span>
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="h-8 w-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 8h16M4 16h16"
-              />
-            </svg>
+          <Button onClick={() => setIsMinimized(false)}>
+            <div className="flex flex-col items-center justify-center gap-2 p-1">
+              <div className="relative rounded-full">
+                <Image
+                  src={"/icons/shopping-cart.svg"}
+                  width={60}
+                  height={60}
+                  alt={"Go to Shopping cart"}
+                  className={"rounded-full"}
+                />
+                <span className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
+                  {cartQuantity}
+                </span>
+              </div>
+            </div>
           </Button>
         </>
       ) : (

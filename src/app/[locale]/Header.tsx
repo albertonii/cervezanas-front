@@ -10,7 +10,7 @@ export function Header() {
   if (isLoading) return <></>;
 
   return (
-    <header className="header absolute z-40 w-full bg-beer-foam bg-transparent sm:z-30">
+    <header className="header absolute w-full bg-beer-foam bg-transparent">
       <nav>
         <MobileMenu />
         <ScreenMenu />
