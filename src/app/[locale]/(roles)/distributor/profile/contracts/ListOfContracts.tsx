@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import ApproveContractModal from "./ApproveContractModal";
 import RejectContractModal from "./RejectContractModal";
+import ApproveContractModal from "./ApproveContractModal";
 import useFetchDistributionContractsByDistributorId from "../../../../../../hooks/useFetchDistributionContractsByDistributorId";
 import React, { useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
@@ -47,14 +47,16 @@ export default function ListOfContracts() {
     user?.id
   );
 
+  console.log(contracts);
+
   const filteredItems: IDistributionContract[] = useMemo<
     IDistributionContract[]
   >(() => {
     if (!contracts) return [];
 
     return contracts.filter((contract: IDistributionContract) => {
-      return contract.producer_user[0] && contract.producer_user[0].users
-        ? contract.producer_user[0].users.username
+      return contract.producer_user && contract.producer_user.users
+        ? contract.producer_user.users.username
             .toLowerCase()
             .includes(query.toLowerCase())
         : false;
@@ -69,8 +71,8 @@ export default function ListOfContracts() {
       (contract: IDistributionContract) => any
     > = {
       [SortBy.USERNAME]: (contract) => {
-        if (!contract.producer_user[0].users) return "";
-        return contract.producer_user[0].users.username;
+        if (!contract.producer_user || !contract.producer_user.users) return "";
+        return contract.producer_user.users.username;
       },
     };
 
@@ -204,10 +206,10 @@ export default function ListOfContracts() {
               >
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link
-                    href={`/p-info/${contract.producer_user[0].user}`}
+                    href={`/p-info/${contract.producer_user?.user}`}
                     locale={locale}
                   >
-                    {contract?.producer_user[0].users?.username}
+                    {contract?.producer_user?.users?.username}
                   </Link>
                 </td>
 

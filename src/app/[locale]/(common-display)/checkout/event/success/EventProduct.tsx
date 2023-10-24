@@ -29,7 +29,8 @@ export default function EventProduct({ eventOrderItem }: Props) {
     router.push(`/${locale}/products/review/${productId}`);
   };
 
-  const { product_packs: pack, products: product } = eventOrderItem;
+  const { product_packs: pack } = eventOrderItem;
+  const product = pack?.products;
 
   return (
     <>

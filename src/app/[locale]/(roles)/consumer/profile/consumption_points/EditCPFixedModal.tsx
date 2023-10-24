@@ -72,7 +72,6 @@ export default function EditCPFixedModal({
 
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
@@ -239,17 +238,12 @@ export default function EditCPFixedModal({
   const updateCPFixedMutation = useMutation({
     mutationKey: ["updateCPFixed"],
     mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
       handleEditModal(false);
     },
     onError: (e: any) => {
       console.error(e);
-      setIsSubmitting(false);
     },
   });
 

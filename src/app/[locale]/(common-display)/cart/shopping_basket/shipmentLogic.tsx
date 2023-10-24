@@ -65,7 +65,8 @@ const getListOfDistributorsBasedOnProducerId = async (
 
   if (error) throw error;
 
-  return contracts as IDistributionContract[];
+  // return contracts as IDistributionContract[];
+  return contracts as any[];
 };
 
 const canDistributorDeliverToAddress = async (

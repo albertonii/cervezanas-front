@@ -27,6 +27,8 @@ export default function RejectContractModal({
   const queryClient = useQueryClient();
 
   const handleUpdate = async () => {
+    if (!selectedContract.producer_user) return;
+
     const { error } = await supabase
       .from("distribution_contracts")
       .update({
@@ -34,7 +36,7 @@ export default function RejectContractModal({
         status: DistributionStatus.REJECTED,
       })
       .eq("distributor_id", selectedContract.distributor_id)
-      .eq("producer_id", selectedContract.producer_user[0].user);
+      .eq("producer_id", selectedContract.producer_user.user);
 
     if (error) {
       console.error(error);

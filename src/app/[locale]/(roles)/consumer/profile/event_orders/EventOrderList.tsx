@@ -136,7 +136,7 @@ export function EventOrderList() {
 
             <tbody>
               {orders &&
-                filteredItemsByStatus.map((order) => {
+                filteredItemsByStatus.map((order: IEventOrder) => {
                   return (
                     <tr
                       key={order.id}

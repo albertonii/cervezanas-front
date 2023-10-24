@@ -24,7 +24,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
 
   const { supabase } = useSupabase();
 
-  const selectedProduct = eventOrderItem.products;
+  const selectedProduct = eventOrderItem.product_packs?.products;
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
   const selectedMultimedia = selectedProduct.product_multimedia[0] ?? [];
 

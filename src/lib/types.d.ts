@@ -620,7 +620,8 @@ export interface IEventOrder {
   order_number: string;
   payment_method_id: string;
   event_order_items?: IEventOrderItem[];
-  // users?: IUserTable;
+  customer_id: string;
+  users?: IUserTable;
   // events?: IEvent;
   payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
@@ -635,7 +636,7 @@ export interface IEventOrderItem {
   quantity_served: number;
   status: string;
   is_reviewed: boolean;
-  product_packs?: IRefProductPack;
+  product_packs?: IProductPack;
   product_multimedia?: IProductMultimedia[];
   orders?: IOrder;
   // cp_m_id: ICPMobile;
@@ -1259,7 +1260,6 @@ export interface IProducerUser {
   created_at: string;
   company_name: string;
   company_description: string;
-  location_id: string;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
