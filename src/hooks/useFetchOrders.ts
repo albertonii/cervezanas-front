@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { IOrder } from "../lib/types";
 
 const fetchOrders = async (
@@ -43,7 +43,7 @@ const useFetchOrders = (
   currentPage: number,
   resultsPerPage: number
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["orders"],

@@ -11,8 +11,8 @@ import { IconButton } from "../../../../../components/common/IconButton";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ILocal, IPCRangesProps } from "../../../../../../../lib/types.d";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
+import { useAuth } from "../../../../../Auth/useAuth";
 
 interface FormData {
   country: string;
@@ -30,7 +30,7 @@ export default function LocalDistribution({
   const [countryOption, setCountryOption] = useState<any>("ES");
   const queryClient = useQueryClient();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [displayCountry, setDisplayCountry] = useState(
     esLocale.countries["ES"]

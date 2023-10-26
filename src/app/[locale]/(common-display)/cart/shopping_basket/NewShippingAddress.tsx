@@ -7,13 +7,10 @@ import { IAddressForm } from "../../../../../lib/types";
 import { Modal } from "../../../components/modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 
 export function NewShippingAddress() {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-
-  const { user } = useAuth();
+  const { supabase, user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

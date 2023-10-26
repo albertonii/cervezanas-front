@@ -12,14 +12,13 @@ import {
   ICPMProductsEditCPFixedModal,
   IUser,
 } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import { useAuth } from "../../../../Auth/useAuth";
-import { Modal } from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
+import { Modal } from "../../../../components/modals/Modal";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface FormData {
   cp_name: string;
@@ -51,8 +50,7 @@ export default function EditCPFixedModal({
   handleEditModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const {
     data: packsInProduct,

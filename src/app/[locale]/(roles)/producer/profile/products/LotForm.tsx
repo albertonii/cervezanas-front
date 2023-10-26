@@ -1,9 +1,7 @@
+import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
 import React, { useState } from "react";
-import useFetchBeers from "../../../../../../hooks/useFetchBeers";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
 import { useAuth } from "../../../../Auth/useAuth";
 
 type FormValues = {
@@ -17,8 +15,7 @@ interface Props {
 }
 
 export default function LotForm({ handleShowModal }: Props) {
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   if (!user) return null;
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { ICPMProductsEditCPMobileModal } from "../lib/types.d";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchCPMobile = async (cpId: string, supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase
@@ -21,7 +21,7 @@ const fetchCPMobile = async (cpId: string, supabase: SupabaseClient<any>) => {
 };
 
 const useFetchCPMobilePacks = (cpId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["cpMobile", cpId],

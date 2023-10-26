@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 
 interface Props {
@@ -14,7 +14,7 @@ export function DeleteLot({
   handleDeleteShowModal,
   showModal,
 }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   const handleDelete = async () => {

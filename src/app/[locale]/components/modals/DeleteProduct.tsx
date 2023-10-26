@@ -3,7 +3,7 @@
 import React, { ComponentProps, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { IAward, IProduct } from "../../../../lib/types.d";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 
 interface Props {
@@ -14,8 +14,7 @@ interface Props {
 
 export function DeleteProduct(props: Props) {
   const { product, showModal, handleDeleteShowModal } = props;
-  const { supabase } = useSupabase();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { supabase } = useAuth();
 
   const queryClient = useQueryClient();
 
@@ -118,16 +117,11 @@ export function DeleteProduct(props: Props) {
   const deleteProductMutation = useMutation({
     mutationKey: ["deleteProduct"],
     mutationFn: handleDelete,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
-      setIsSubmitting(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

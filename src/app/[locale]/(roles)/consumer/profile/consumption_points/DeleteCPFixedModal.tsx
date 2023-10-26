@@ -1,8 +1,8 @@
-import React, { ComponentProps, useState } from "react";
 import DeleteModal from "../../../../components/modals/DeleteModal";
+import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 
 interface Props {
   selectedCPId: string;
@@ -17,9 +17,8 @@ export default function DeleteCPFixedModal({
 }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Delete CP Fixed from database
@@ -37,17 +36,12 @@ export default function DeleteCPFixedModal({
   const deleteCPFixedMutation = useMutation({
     mutationKey: ["deleteCPFixed"],
     mutationFn: handleRemoveCP,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
       handleDeleteModal(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

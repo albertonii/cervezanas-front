@@ -1,9 +1,9 @@
 "use client";
 
 import React, { ComponentProps } from "react";
-import { IMonthlyProduct } from "../../../../lib/types.d";
-import { useSupabase } from "../../../../context/SupabaseProvider";
 import { Modal } from "./Modal";
+import { useAuth } from "../../Auth/useAuth";
+import { IMonthlyProduct } from "../../../../lib/types.d";
 
 interface Props {
   products: IMonthlyProduct[];
@@ -20,7 +20,7 @@ export function DeleteMonthlyProduct({
   handleDeleteShowModal,
   handleSetProducts,
 }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const handleDeleteClick = () => {
     const handleDelete = async () => {

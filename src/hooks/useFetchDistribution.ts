@@ -1,9 +1,8 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery, UseQueryResult } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { useSupabase } from "../context/SupabaseProvider";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { IDistribution, IDistributorUser } from "../lib/types.d";
 
 const fetchDistributionByOwnerId = async (
@@ -30,9 +29,7 @@ const useFetchDistributionByOwnerId = (): UseQueryResult<
   IDistribution,
   unknown
 > => {
-  const { user } = useAuth();
-
-  const { supabase } = useSupabase();
+  const { user, supabase } = useAuth();
 
   return useQuery({
     queryKey: ["distribution", user?.id],

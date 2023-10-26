@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { IUser } from "../lib/types";
+import { useQuery } from "react-query";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchProfileContext = async (
   supabase: SupabaseClient<any>,
@@ -20,7 +20,7 @@ const fetchProfileContext = async (
 };
 
 const useFetchProfileContext = (userId?: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["profile-context"],

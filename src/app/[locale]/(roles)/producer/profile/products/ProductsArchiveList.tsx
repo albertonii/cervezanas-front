@@ -12,7 +12,6 @@ import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types.d";
 import { useAppContext } from "../../../../../../context";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
@@ -30,10 +29,9 @@ export function ProductsArchiveList({
   handleDeleteShowModal,
   handleProductModal,
 }: Props) {
-  const { supabase } = useSupabase();
+  const { user, supabase } = useAuth();
   const { products: ps, setProducts } = useAppContext();
 
-  const { user } = useAuth();
   if (!user) return null;
 
   const t = useTranslations();

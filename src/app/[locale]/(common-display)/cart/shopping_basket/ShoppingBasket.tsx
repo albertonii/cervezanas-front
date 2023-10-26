@@ -24,7 +24,6 @@ import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import {
   API_METHODS,
   MARKETPLACE_ORDER_STATUS,
@@ -42,8 +41,7 @@ interface FormBillingData {
 export function ShoppingBasket() {
   const t = useTranslations();
 
-  const { user, isLoading } = useAuth();
-  const { supabase } = useSupabase();
+  const { user, isLoading, supabase } = useAuth();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);

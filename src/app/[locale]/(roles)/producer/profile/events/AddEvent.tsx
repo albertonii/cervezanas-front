@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { ICPMobile } from "../../../../../../lib/types.d";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Modal } from "../../../../components/modals/Modal";
@@ -28,12 +27,10 @@ interface Props {
 
 export default function AddEvent({ cpsMobile }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>();
@@ -99,17 +96,12 @@ export default function AddEvent({ cpsMobile }: Props) {
   const insertEventMutation = useMutation({
     mutationKey: "insertEvent",
     mutationFn: handleInsertEvent,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
       setShowModal(false);
-      setIsSubmitting(false);
       reset();
     },
     onError: (error) => {
-      setIsSubmitting(false);
       console.error(error);
     },
   });

@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { IUserTable } from "../../../../../../lib/types.d";
 import { useAppContext } from "../../../../../../context";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import { Button } from "../../../../components/common/Button";
 import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
 import { Spinner } from "../../../../components/common/Spinner";
+import { useAuth } from "../../../../Auth/useAuth";
 
 type FormValues = {
   bg_url: any;
@@ -24,7 +24,7 @@ interface Props {
 
 export function CustomizeProfileForm({ profile }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [loading, setLoading] = useState(false);
 

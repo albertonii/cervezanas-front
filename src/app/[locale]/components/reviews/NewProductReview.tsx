@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
 import { Rate } from "./Rate";
-import { IReview } from "../../../../lib/types.d";
+import { useForm } from "react-hook-form";
 import { Button } from "../common/Button";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../Auth/useAuth";
+import { IReview } from "../../../../lib/types.d";
 import { useMessage } from "../message/useMessage";
 import { SuccessfulReviewModal } from "../modals/SuccessfulReviewModal";
 
@@ -34,7 +34,7 @@ export function NewProductReview({
   isReady: isReady_,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [isReady, setIsReady] = useState(isReady_);

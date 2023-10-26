@@ -1,8 +1,8 @@
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Modal } from "../../../../components/modals/Modal";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   distributor_id: string;
@@ -16,9 +16,8 @@ export default function CancelContractModal({
   handleCancelModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const handleRemoveContract = async () => {
@@ -36,17 +35,12 @@ export default function CancelContractModal({
   const cancelContractMutation = useMutation({
     mutationKey: ["cancelContract"],
     mutationFn: handleRemoveContract,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
-      setIsSubmitting(false);
       handleCancelModal(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

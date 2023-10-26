@@ -6,7 +6,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { ICountry } from "country-state-city/lib/interface";
 import { Button } from "../../../../../components/common/Button";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 
 // interface ICountry {
 //   id: string;
@@ -37,7 +36,6 @@ export default function EuropeDistribution({
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
 
-  const { supabase } = useSupabase();
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>();

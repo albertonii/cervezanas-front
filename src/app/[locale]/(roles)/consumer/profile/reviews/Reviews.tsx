@@ -5,10 +5,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IReview } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { Rate } from "../../../../components/reviews/Rate";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   reviews: IReview[];
@@ -17,7 +17,7 @@ interface Props {
 export function Reviews({ reviews: r }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [reviews, setReviews] = useState<IReview[]>(r);
 

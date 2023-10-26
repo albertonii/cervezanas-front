@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { ICPM_events } from "../lib/types.d";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 const fetchCPSMobileByEventId = async (
   eventId: string,
@@ -27,7 +27,7 @@ const fetchCPSMobileByEventId = async (
 };
 
 const useFetchCPSMobileByEventsId = (eventId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["cpm_events"],

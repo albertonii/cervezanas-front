@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAppContext } from "../../../../../../context";
 import { ChipCard } from "../../../../components/common/ChipCard";
 import { toLowerCase } from "../../../../../../utils/formatWords";
+import { useAuth } from "../../../../Auth/useAuth";
 
 export function CustomizeSettings() {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const { customizeSettings, setCustomizeSettings } = useAppContext();
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { IBeer } from "../lib/types";
+import { useQuery } from "react-query";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchBeers = async (supabase: SupabaseClient<any>) => {
   const { data, error } = await supabase.from("beers").select(`
@@ -21,7 +21,7 @@ const fetchBeers = async (supabase: SupabaseClient<any>) => {
 };
 
 const useFetchBeers = () => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["beers"],

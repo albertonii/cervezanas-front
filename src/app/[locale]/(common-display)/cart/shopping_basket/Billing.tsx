@@ -6,9 +6,9 @@ import { NewBillingAddress } from "./NewBillingAddress";
 import { useMutation, useQueryClient } from "react-query";
 import { IBillingAddress } from "../../../../../lib/types.d";
 import { useMessage } from "../../../components/message/useMessage";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
+import { useAuth } from "../../../Auth/useAuth";
 
 interface Props {
   selectedBillingAddress: string;
@@ -32,7 +32,7 @@ export default function Billing({
   } = formBilling;
 
   const { handleMessage } = useMessage();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion

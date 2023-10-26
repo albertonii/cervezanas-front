@@ -61,7 +61,7 @@ export default function CityDistribution({ cities }: Props) {
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
 
-  // const { supabase } = useSupabase();
+  // const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   const [countryData, setCountryData] = useState<ICountry[]>([]);

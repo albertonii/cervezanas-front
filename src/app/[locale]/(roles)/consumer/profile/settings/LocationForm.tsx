@@ -1,16 +1,15 @@
 "use client";
 
+import _ from "lodash";
 import React, { useState } from "react";
-import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import _ from "lodash";
-import { IProfileLocation } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
+import { IProfileLocation } from "../../../../../../lib/types.d";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormProps {
   addressName: string;
@@ -32,8 +31,7 @@ interface Props {
 
 export function LocationForm({ profile_location }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [loading, setLoading] = useState(false);
 

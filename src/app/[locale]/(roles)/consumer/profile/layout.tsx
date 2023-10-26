@@ -1,15 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Sidebar } from "./Sidebar";
 import { useAuth } from "../../../Auth/useAuth";
 import { useAppContext } from "../../../../../context";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { Sidebar } from "./Sidebar";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
-import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,8 +17,7 @@ type LayoutProps = {
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
-  const { user, role } = useAuth();
-  const { supabase } = useSupabase();
+  const { user, role, supabase } = useAuth();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { IProduct } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -33,7 +33,7 @@ const fetchProductsByOwner = async (
 };
 
 const useFetchProductsByOwner = (ownerId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["productListByOwner", ownerId],

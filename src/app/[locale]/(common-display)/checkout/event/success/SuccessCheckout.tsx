@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { EventOrderTimeline } from "./EventOrderTimeline";
 import { IEventOrder } from "../../../../../../lib/types.d";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import {
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
@@ -24,8 +23,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const t = useTranslations();
 
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
-  const { supabase } = useSupabase();
+  const { supabase, user } = useAuth();
 
   useEffect(() => {
     if (user) {

@@ -12,7 +12,6 @@ import {
   ICPMProductsEditCPFixedModal,
   IUser,
 } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
@@ -51,8 +50,7 @@ export default function EditCPFixedModal({
   handleEditModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const {
     data: packsInProduct,

@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { Rate } from "../../../components/reviews/Rate";
 import { SupabaseProps } from "../../../../../constants";
 import { ProductGallery } from "../../../components/ProductGallery";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { ICarouselItem, IProduct } from "../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { useAuth } from "../../../Auth/useAuth";
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -18,7 +18,7 @@ interface Props {
 
 export default function ProductDetails({ product, reviewRef }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [isLike, setIsLike] = useState<boolean>(Boolean(product.likes?.length));
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);

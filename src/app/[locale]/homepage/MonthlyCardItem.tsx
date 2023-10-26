@@ -11,9 +11,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../components/common/IconButton";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import { useSupabase } from "../../../context/SupabaseProvider";
 import { AddCardButton } from "../components/common/AddCartButton";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { useAuth } from "../Auth/useAuth";
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -23,7 +23,7 @@ interface Props {
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const { products: product } = mProduct;
 
   if (!product) return null;
@@ -33,7 +33,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
   const {
     getItemQuantity,
     // decreaseCartQuantity,
-    removeFromCart,
+    // removeFromCart,
   } = useShoppingCart();
 
   const quantity = getItemQuantity(id);

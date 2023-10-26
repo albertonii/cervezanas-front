@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
 import { IUserTable } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {
   name: string;
@@ -22,7 +22,7 @@ interface Props {
 
 export function BasicDataForm({ profile }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const { id, username, name, lastname, email } = profile;
 

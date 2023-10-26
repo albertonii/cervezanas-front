@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import { Rate } from "./Rate";
+import { OwnerInfo } from "../OwnerInfo";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { IReview } from "../../../../lib/types.d";
-import { formatDateString } from "../../../../utils/formatDate";
-import { Rate } from "./Rate";
 import { DeleteButton } from "../common/DeleteButton";
-import { useSupabase } from "../../../../context/SupabaseProvider";
-import { OwnerInfo } from "../OwnerInfo";
+import { formatDateString } from "../../../../utils/formatDate";
 
 interface Props {
   review: IReview;
@@ -17,8 +16,7 @@ interface Props {
 
 export function IndividualReview(props: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [readMore, setReadMore] = useState(false);
 

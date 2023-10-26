@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { IDistributorUser } from "../lib/types.d";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 const fetchDistributorById = async (
   supabase: SupabaseClient<any>,
@@ -36,7 +36,7 @@ const fetchDistributorById = async (
 };
 
 const useFetchDistributorById = (distributorId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["distributorById", distributorId],

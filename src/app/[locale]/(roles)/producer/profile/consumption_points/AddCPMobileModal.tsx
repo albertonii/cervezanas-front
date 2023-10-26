@@ -7,8 +7,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { IProduct, IUser } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import {  IUser } from "../../../../../../lib/types.d";
 import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { Modal } from "../../../../components/modals/Modal";
@@ -36,8 +35,7 @@ interface Props {
 
 export default function AddCPMobileModal({ cpsId }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [address, setAddress] = useState<string>("");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
@@ -50,7 +48,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
@@ -197,17 +194,12 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   const insertCPMobileMutation = useMutation({
     mutationKey: "insertCPMobile",
     mutationFn: handleInsertCPMobile,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
       setShowModal(false);
-      setIsSubmitting(false);
       reset();
     },
     onError: (error: any) => {
-      setIsSubmitting(false);
       console.error(error);
     },
   });

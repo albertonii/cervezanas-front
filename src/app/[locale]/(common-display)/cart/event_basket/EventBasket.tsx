@@ -6,7 +6,6 @@ import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { useAuth } from "../../../Auth/useAuth";
 import { Button } from "../../../components/common/Button";
 import { CustomLoading } from "../../../components/common/CustomLoading";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
@@ -14,7 +13,6 @@ import {
   createRedirectForm,
   eventMerchantInfo,
 } from "../../../components/TPV/redsysClient";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { useEventCart } from "../../../../../context/EventCartContext";
 import {
   API_METHODS,
@@ -25,12 +23,12 @@ import {
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
 import { IProductPack, IProductPackCartItem } from "../../../../../lib/types.d";
+import { useAuth } from "../../../Auth/useAuth";
 
 export default function EventBasket() {
   const t = useTranslations();
 
-  const { user } = useAuth();
-  const { supabase } = useSupabase();
+  const { user, supabase } = useAuth();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);

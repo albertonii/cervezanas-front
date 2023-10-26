@@ -11,7 +11,6 @@ import {
 } from "../../../../../../lib/types.d";
 import { CampaignForm } from "./CampaignForm";
 import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useMessage } from "../../../../components/message/useMessage";
 import { Button } from "../../../../components/common/Button";
@@ -24,9 +23,8 @@ interface Props {
 
 export function Campaigns({ campaigns: c, products }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
 
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const emptyCampaign: ICampaign = {
     id: "",

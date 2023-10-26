@@ -8,9 +8,9 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
 import { useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { useMessage } from "../../../../components/message/useMessage";
+import { useAuth } from "../../../../Auth/useAuth";
 
 type FormData = {
   message: string;
@@ -36,7 +36,7 @@ interface Props {
 export default function LinkDistributor({ producerId }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showFooter, setShowFooter] = useState<boolean>(false);
@@ -104,6 +104,8 @@ export default function LinkDistributor({ producerId }: Props) {
         type: "error",
         message: t("contract_sent_to_distributor_error"),
       });
+
+      console.error(error);
     },
   });
 

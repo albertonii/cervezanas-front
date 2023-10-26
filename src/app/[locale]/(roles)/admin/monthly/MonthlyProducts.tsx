@@ -9,8 +9,8 @@ import { IMonthlyProduct } from "../../../../../lib/types.d";
 import { DeleteButton } from "../../../components/common/DeleteButton";
 import { EditButton } from "../../../components/common/EditButton";
 import { DeleteMonthlyProduct } from "../../../components/modals/DeleteMonthlyProduct";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { SupabaseProps } from "../../../../../constants";
+import { useAuth } from "../../../Auth/useAuth";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -26,7 +26,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [products, setProducts] = useState<IMonthlyProduct[]>(mProducts);
   const [query, setQuery] = useState("");

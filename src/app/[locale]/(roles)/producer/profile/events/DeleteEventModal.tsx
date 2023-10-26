@@ -1,8 +1,8 @@
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps } from "react";
 import DeleteModal from "../../../../components/modals/DeleteModal";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   selectedEventId: string;
@@ -17,9 +17,8 @@ export default function DeleteCEventModal({
 }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Delete CP Fixed from database
@@ -36,17 +35,12 @@ export default function DeleteCEventModal({
   const deleteEventsMutation = useMutation({
     mutationKey: ["deleteEvents"],
     mutationFn: handleRemoveCP,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
-      setIsSubmitting(false);
       handleDeleteModal(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

@@ -12,14 +12,13 @@ import {
   ICPMProductsEditCPMobileModal,
   IUser,
 } from "../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Modal } from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
+import { Modal } from "../../../../components/modals/Modal";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {
   cp_name: string;
@@ -51,7 +50,7 @@ export default function EditCPMobileModal({
   handleEditModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const { user } = useAuth();
 
   const {
@@ -72,7 +71,6 @@ export default function EditCPMobileModal({
 
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
@@ -239,17 +237,12 @@ export default function EditCPMobileModal({
   const updateCPMobileMutation = useMutation({
     mutationKey: ["updateCPMobile"],
     mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
-      setIsSubmitting(false);
       handleEditModal(false);
     },
     onError: (e: any) => {
       console.error(e);
-      setIsSubmitting(false);
     },
   });
 

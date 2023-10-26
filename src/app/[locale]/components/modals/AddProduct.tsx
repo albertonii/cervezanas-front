@@ -31,7 +31,6 @@ import {
   isValidObject,
 } from "../../../../utils/utils";
 import { useAppContext } from "../../../../context";
-import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
@@ -66,10 +65,9 @@ interface FormData {
 
 export function AddProduct() {
   const t = useTranslations();
-  const { supabase } = useSupabase();
 
   const { customizeSettings, removeImage } = useAppContext();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<number>(0);

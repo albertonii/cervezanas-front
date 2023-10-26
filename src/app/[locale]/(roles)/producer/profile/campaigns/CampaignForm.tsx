@@ -5,7 +5,6 @@ import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ICampaign, ICampaignItem } from "../../../../../../lib/types.d";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { Button } from "../../../../components/common/Button";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
@@ -44,9 +43,7 @@ export function CampaignForm({
 }: Props) {
   const t = useTranslations();
 
-  const { user } = useAuth();
-
-  const { supabase } = useSupabase();
+  const { user, supabase } = useAuth();
 
   const { handleMessage } = useMessage();
 

@@ -6,12 +6,12 @@ import { useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common/Button";
 import { Spinner } from "../../../../../components/common/Spinner";
 import { IEventOrderItem } from "../../../../../../../lib/types.d";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
 } from "../../../../../../../constants";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import { useAuth } from "../../../../../Auth/useAuth";
 
 interface Props {
   eventOrderItem: IEventOrderItem;
@@ -22,7 +22,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 export default function ManageEventProduct({ eventOrderItem }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const selectedProduct = eventOrderItem.product_packs?.products;
   if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;

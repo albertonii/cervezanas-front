@@ -6,7 +6,6 @@ import MarketCartButtons2 from "../common/MarketCartButtons2";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "../common/Spinner";
-import { useAuth } from "../../Auth/useAuth";
 import { IconButton } from "../common/IconButton";
 import { SupabaseProps } from "../../../../constants";
 import { useLocale, useTranslations } from "next-intl";
@@ -14,8 +13,8 @@ import { AddCardButton } from "../common/AddCartButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct, IProductPack } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useShoppingCart } from "../../../../context/ShoppingCartContext";
+import { useAuth } from "../../Auth/useAuth";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -24,8 +23,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 export function StoreItem({ product }: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useSupabase();
-  const { isLoading } = useAuth();
+  const { isLoading, supabase } = useAuth();
   const productId = product.id;
   const router = useRouter();
 

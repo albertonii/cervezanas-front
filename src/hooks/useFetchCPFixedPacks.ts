@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { ICPMProductsEditCPMobileModal } from "../lib/types.d";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchCPFixedPacks = async (
   cpId: string,
@@ -24,7 +24,7 @@ const fetchCPFixedPacks = async (
 };
 
 const useFetchCPFixedPacks = (cpId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["cpFixed", cpId],

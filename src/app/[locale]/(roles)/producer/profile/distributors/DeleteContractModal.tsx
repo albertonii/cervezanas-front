@@ -1,8 +1,8 @@
 import DeleteModal from "../../../../components/modals/DeleteModal";
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   distributor_id: string;
@@ -16,9 +16,8 @@ export default function DeleteContractModal({
   handleDeleteModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const handleRemoveContract = async () => {
@@ -36,17 +35,12 @@ export default function DeleteContractModal({
   const deleteContractMutation = useMutation({
     mutationKey: ["deleteContract"],
     mutationFn: handleRemoveContract,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
-      setIsSubmitting(false);
       handleDeleteModal(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

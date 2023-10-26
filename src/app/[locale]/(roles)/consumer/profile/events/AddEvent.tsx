@@ -10,7 +10,6 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 
 interface FormData {
   name: string;
@@ -20,7 +19,7 @@ interface FormData {
   logo_url: string;
   promotional_url: string;
   // cps_mobile: ICPMobile[];
-  cps_mobile: any[];  // TODO: fix this to avoid circular dependency
+  cps_mobile: any[]; // TODO: fix this to avoid circular dependency
 }
 
 interface Props {
@@ -29,12 +28,10 @@ interface Props {
 
 export default function AddEvent({ cpsMobile }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>();
@@ -51,8 +48,8 @@ export default function AddEvent({ cpsMobile }: Props) {
       description,
       start_date,
       end_date,
-      logo_url = "",
-      promotional_url = "",
+      // logo_url = "",
+      // promotional_url = "",
       cps_mobile,
     } = formValues;
 
@@ -100,17 +97,12 @@ export default function AddEvent({ cpsMobile }: Props) {
   const insertEventMutation = useMutation({
     mutationKey: "insertEvent",
     mutationFn: handleInsertEvent,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
       setShowModal(false);
-      setIsSubmitting(false);
       reset();
     },
     onError: (error) => {
-      setIsSubmitting(false);
       console.error(error);
     },
   });

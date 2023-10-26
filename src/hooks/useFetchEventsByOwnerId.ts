@@ -1,10 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { IEvent } from "../lib/types";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { useSupabase } from "../context/SupabaseProvider";
-import { IEvent } from "../lib/types";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchEventsByOwnerId = async (
   ownerId: string,
@@ -33,8 +32,7 @@ const useFetchEventsByOwnerId = (
   currentPage: number,
   resultsPerPage: number
 ) => {
-  const { user } = useAuth();
-  const { supabase } = useSupabase();
+  const { user, supabase } = useAuth();
 
   return useQuery({
     queryKey: ["events", user?.id, currentPage, resultsPerPage],

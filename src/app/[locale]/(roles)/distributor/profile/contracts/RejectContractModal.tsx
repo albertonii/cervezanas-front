@@ -6,9 +6,9 @@ import { useTranslations } from "next-intl";
 import { IDistributionContract } from "../../../../../../lib/types.d";
 import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   selectedContract: IDistributionContract;
@@ -22,7 +22,7 @@ export default function RejectContractModal({
   handleRejectModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const queryClient = useQueryClient();
 

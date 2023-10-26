@@ -8,13 +8,10 @@ import { EVENTS, VIEWS } from "../../../constants";
 import { IUserProfile } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
-import { useSupabase } from "../../../context/SupabaseProvider";
-import {
-  AuthResponse,
-  Provider,
-  Session,
-  SupabaseClient,
-} from "@supabase/supabase-js";
+import { createClient } from "../../../utils/supabaseBrowser";
+import { Database } from "../../../lib/schema";
+import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { AuthResponse, Provider } from "@supabase/supabase-js";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
@@ -55,10 +52,12 @@ export interface AuthSession {
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
-  supabase: SupabaseClient | null;
+  supabase: SupabaseClient<Database>;
   role: ROLE_ENUM | null;
   provider: PROVIDER_TYPE | null;
 }
+
+const supabaseClient = createClient();
 
 export const AuthContext = createContext<AuthSession>({
   initial: true,
@@ -70,7 +69,7 @@ export const AuthContext = createContext<AuthSession>({
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
   signOut: async () => void {},
-  supabase: null,
+  supabase: supabaseClient,
   provider: null,
 });
 
@@ -88,7 +87,8 @@ export const AuthContextProvider = ({
   const locale = useLocale();
   const router = useRouter();
 
-  const { supabase } = useSupabase();
+  // const { supabase } = useAuth();
+  const [supabase] = useState(() => supabaseClient);
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
@@ -102,8 +102,8 @@ export const AuthContextProvider = ({
       .from("users")
       .select(
         `
-        *
-      `
+          *
+        `
       )
       .eq("id", serverSession.user.id)
       .single();
@@ -152,6 +152,8 @@ export const AuthContextProvider = ({
       async (event: any, currentSession: any) => {
         const session = await supabase.auth.getSession();
 
+        console.log(event);
+        console.log(currentSession);
         console.log(session);
 
         if (
@@ -311,7 +313,6 @@ export const AuthContextProvider = ({
         },
       })
       .then(async (res: any) => {
-        router.refresh();
         // user = res.user;
         // if (user?.user_metadata && user.user_metadata?.access_level) {
         //   isAccessLevel = user.user_metadata?.access_level ? true : false;
@@ -319,6 +320,8 @@ export const AuthContextProvider = ({
         //   isAccessLevel = false;
         // }
       });
+
+    router.push(`/${locale}`);
 
     // // Check if access level is null or invalid
     // if (!isAccessLevel && user) {
@@ -334,6 +337,8 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
+
+    router.push(`/${locale}/${ROUTE_SIGNIN}`);
   };
 
   const value = useMemo(() => {

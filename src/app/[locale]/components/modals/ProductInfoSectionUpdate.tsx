@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-
 import {
   aroma_options,
   color_options,
@@ -19,20 +18,12 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
+import { Button } from "../common/Button";
+import { useAuth } from "../../Auth/useAuth";
+import { InfoTooltip } from "../common/InfoTooltip";
+import { DeleteButton } from "../common/DeleteButton";
 import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types.d";
-import {
-  Button,
-} from "../common/Button";
-import {
-  DeleteButton,
-} from "../common/DeleteButton";
-import {
-  FilePreviewImageMultimedia,
-} from "../common/FilePreviewImageMultimedia";
-import {
-  InfoTooltip,
-} from "../common/InfoTooltip";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductProps, any>;
@@ -46,11 +37,11 @@ const emptyPack: IProductPack = {
   img_url: "",
   name: "",
   randomUUID: "",
-  product_id: ""
+  product_id: "",
 };
 
 export function ProductInfoSectionUpdate({ form }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const {
     register,

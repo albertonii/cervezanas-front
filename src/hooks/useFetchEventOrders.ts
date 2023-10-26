@@ -1,8 +1,8 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { IEventOrder } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 const fetchCPOrders = async (
   ownerId: string,
@@ -33,7 +33,7 @@ const useFetchCPOrders = (
   currentPage: number,
   resultsPerPage: number
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["event_orders"],

@@ -1,13 +1,13 @@
 "use client";
 
 import React, { ComponentProps } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { IDistributionContract } from "../../../../../../lib/types.d";
-import { Modal } from "../../../../components/modals/Modal";
+import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "../../../../components/modals/Modal";
 import { DistributionStatus } from "../../../../../../lib/enums";
+import { IDistributionContract } from "../../../../../../lib/types.d";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
@@ -22,7 +22,7 @@ export default function ApproveContractModal({
   handleApproveModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const queryClient = useQueryClient();
 

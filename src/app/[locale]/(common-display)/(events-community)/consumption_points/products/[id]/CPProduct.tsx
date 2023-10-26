@@ -14,7 +14,6 @@ import { Button } from "../../../../../components/common/Button";
 import { IconButton } from "../../../../../components/common/IconButton";
 import { Spinner } from "../../../../../components/common/Spinner";
 import { useEventCart } from "../../../../../../../context/EventCartContext";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
 import { ProductOverallReview } from "../../../../../components/reviews/ProductOverallReview";
 import { ProductReviews } from "../../../../../components/reviews/ProductReviews";
 import { Rate } from "../../../../../components/reviews/Rate";
@@ -41,7 +40,7 @@ const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
   /*
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const selectedPack: IProductPack = product.product_pack_id;
 
   if (!selectedPack) return <Spinner color={"beer-blonde"} size="medium" />;

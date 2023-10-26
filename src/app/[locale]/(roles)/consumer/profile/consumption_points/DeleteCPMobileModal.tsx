@@ -1,8 +1,8 @@
+import DeleteModal from "../../../../components/modals/DeleteModal";
 import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
-import DeleteModal from "../../../../components/modals/DeleteModal";
+import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {
   selectedCPId: string;
@@ -17,9 +17,8 @@ export default function DeleteCPMobileModal({
 }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Delete CP Mobile from database
@@ -37,17 +36,12 @@ export default function DeleteCPMobileModal({
   const deleteCPMobileMutation = useMutation({
     mutationKey: ["deleteCPMobile"],
     mutationFn: handleRemoveCP,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
-      setIsSubmitting(false);
       handleDeleteModal(false);
     },
     onError: (error) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 

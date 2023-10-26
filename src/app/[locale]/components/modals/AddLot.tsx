@@ -2,15 +2,14 @@
 
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import React, { useState } from "react";
+import { Modal } from "./Modal";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { Modal } from "./Modal";
-import { DisplayInputError } from "../common/DisplayInputError";
-import { SearchCheckboxList } from "../common/SearchCheckboxList";
 import { useAuth } from "../../Auth/useAuth";
 import { format_options } from "../../../../lib/beerEnum";
-import { useSupabase } from "../../../../context/SupabaseProvider";
 import { useMutation, useQueryClient } from "react-query";
+import { DisplayInputError } from "../common/DisplayInputError";
+import { SearchCheckboxList } from "../common/SearchCheckboxList";
 
 type FormData = {
   created_at: string;
@@ -29,8 +28,7 @@ type FormData = {
 
 export function AddLot() {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 

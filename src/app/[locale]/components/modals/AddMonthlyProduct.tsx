@@ -1,15 +1,15 @@
 "use client";
 
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "./Modal";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { category_options } from "../../../../lib/productEnum";
-import { IProduct, SortBy } from "../../../../lib/types.d";
-import { DisplayInputError } from "../common/DisplayInputError";
 import { IconButton } from "../common/IconButton";
-import { Modal } from "./Modal";
-import { useSupabase } from "../../../../context/SupabaseProvider";
+import { IProduct, SortBy } from "../../../../lib/types.d";
+import { category_options } from "../../../../lib/productEnum";
+import { DisplayInputError } from "../common/DisplayInputError";
+import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../Auth/useAuth";
 
 interface FormData {
   category: string;
@@ -25,7 +25,7 @@ interface Props {
 
 export default function AddMonthlyProduct({ handleAddProduct }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedProduct, setSelectedCP] = useState<IProduct>();

@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { Country, ICountry, IState } from "country-state-city";
 import { Button } from "../../../../../components/common/Button";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
+import { useAuth } from "../../../../../Auth/useAuth";
 
 type Props = {
   provinces: string[];
@@ -45,7 +45,7 @@ export default function ProvinceDistribution({
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   const countryData = Country.getAllCountries();

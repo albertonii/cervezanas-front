@@ -1,12 +1,12 @@
 import PaginationFooter from "../../../../../components/common/PaginationFooter";
 import useFetchAllCountries from "../useFetchAllCountries";
 import React, { useEffect, useState } from "react";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { useSupabase } from "../../../../../../../context/SupabaseProvider";
-import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../../components/common/Button";
 import { useTranslations } from "next-intl";
+import { useForm, UseFormRegister } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
 import { ICountry } from "country-state-city/lib/interface";
+import { Button } from "../../../../../components/common/Button";
+import { useAuth } from "../../../../../Auth/useAuth";
 
 // interface ICountry {
 //   id: string;
@@ -43,7 +43,7 @@ export default function InternationalDistribution({
   const [counter, setCounter] = useState(0);
   const resultsPerPage = 10;
 
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>();

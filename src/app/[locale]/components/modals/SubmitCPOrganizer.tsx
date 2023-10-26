@@ -1,12 +1,11 @@
 "use client";
 
 import React, { ComponentProps, useState } from "react";
+import { Modal } from "./Modal";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { isValidObject } from "../../../../utils/utils";
 import { useAuth } from "../../Auth/useAuth";
-import { useSupabase } from "../../../../context/SupabaseProvider";
-import { Modal } from "./Modal";
+import { isValidObject } from "../../../../utils/utils";
 
 type FormValues = {
   created_at: string;
@@ -29,9 +28,8 @@ interface Props {
 }
 export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
 
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 

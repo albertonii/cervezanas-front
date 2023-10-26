@@ -5,15 +5,14 @@ import Link from "next/link";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 import React, { ComponentProps, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { useAuth } from "../../../../Auth/useAuth";
-import { ArchiveButton } from "../../../../components/common/ArchiveButton";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { EditButton } from "../../../../components/common/EditButton";
-import { Spinner } from "../../../../components/common/Spinner";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { useLocale, useTranslations } from "next-intl";
 import { IProduct } from "../../../../../../lib/types.d";
+import { Spinner } from "../../../../components/common/Spinner";
+import { EditButton } from "../../../../components/common/EditButton";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
+import { ArchiveButton } from "../../../../components/common/ArchiveButton";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -30,7 +29,7 @@ export function ProductList({
   handleDeleteShowModal,
   handleProductModal,
 }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const { user } = useAuth();
   if (!user) return null;
 

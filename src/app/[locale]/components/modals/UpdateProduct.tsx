@@ -21,7 +21,6 @@ import { useAuth } from "../../Auth/useAuth";
 import { ProductStepper } from "./ProductStepper";
 import { useMutation, useQueryClient } from "react-query";
 import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
-import { useSupabase } from "../../../../context/SupabaseProvider";
 import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
@@ -39,7 +38,7 @@ export function UpdateProduct({
   handleEditShowModal,
 }: Props) {
   const t = useTranslations();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
 
   const handleSetActiveStep = (value: number) => {
@@ -47,8 +46,6 @@ export function UpdateProduct({
   };
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const { supabase } = useSupabase();
 
   const form = useForm<ModalUpdateProductProps>({
     mode: "onSubmit",

@@ -3,11 +3,11 @@
 import Image from "next/image";
 import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
 import React, { ComponentProps, useRef } from "react";
+import { useAuth } from "../Auth/useAuth";
 import { useRouter } from "next/navigation";
-import { INotification } from "../../../lib/types.d";
 import { useAppContext } from "../../../context";
+import { INotification } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
-import { useSupabase } from "../../../context/SupabaseProvider";
 import { getTimeElapsed } from "../../../utils/formatDate";
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function Notification({ open, setOpen }: Props) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   const t = useTranslations();
   const locale = useLocale();

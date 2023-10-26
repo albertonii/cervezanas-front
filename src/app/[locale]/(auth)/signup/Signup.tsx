@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { SignUpForm } from "../../Auth/SignUpForm";
 import { VIEWS } from "../../../../constants";
+import { SignUpForm } from "../../Auth/SignUpForm";
+import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "../../components/common/Spinner";
 
 export default function Signup() {

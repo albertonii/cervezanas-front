@@ -1,9 +1,9 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useQuery, UseQueryResult } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
 import { ICustomizeSettings } from "../lib/types.d";
+import { useQuery, UseQueryResult } from "react-query";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 const fetchCustomSettingsById = async (
   userId: string,
@@ -22,7 +22,7 @@ const fetchCustomSettingsById = async (
 const useFetchCustomSettings = (
   userId: string
 ): UseQueryResult<ICustomizeSettings, unknown> => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   return useQuery({
     queryKey: ["customSettings", userId],
     queryFn: () => fetchCustomSettingsById(userId, supabase),

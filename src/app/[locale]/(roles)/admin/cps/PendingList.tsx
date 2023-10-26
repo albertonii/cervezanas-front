@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../utils/formatDate";
 import { IconButton } from "../../../components/common/IconButton";
 import { generateDownloadableLink } from "../../../../../utils/utils";
-import { useSupabase } from "../../../../../context/SupabaseProvider";
 import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
 
 interface Props {
@@ -27,9 +26,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const locale = useLocale();
   const [query, setQuery] = useState("");
 
-  const { supabase } = useSupabase();
-
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [submittedList, setSubmittedList] = useState(submittedCPs);
 

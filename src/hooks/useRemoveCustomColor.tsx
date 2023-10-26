@@ -2,7 +2,7 @@
 
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useMutation, useQueryClient } from "react-query";
-import { useSupabase } from "../context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { ICustomizeSettings } from "../lib/types";
 
 const updateColors = async (
@@ -27,7 +27,7 @@ const useUpdateCustomColors = (
   customSettingsId: string,
   filteredColors: string[]
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({

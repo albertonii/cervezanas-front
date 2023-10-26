@@ -9,9 +9,8 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { getGeocode } from "use-places-autocomplete";
 import { Modal } from "../../../../components/modals/Modal";
-import { IProduct, IUser } from "../../../../../../lib/types.d";
+import { IUser } from "../../../../../../lib/types.d";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useSupabase } from "../../../../../../context/SupabaseProvider";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
@@ -37,8 +36,7 @@ interface Props {
 
 export default function AddCPMobileModal({ cpsId }: Props) {
   const t = useTranslations();
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
+  const { user, supabase } = useAuth();
 
   const [address, setAddress] = useState<string>("");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
