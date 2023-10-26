@@ -10,9 +10,9 @@ export function Hero() {
       <div className="flex w-screen justify-center bg-beer-blonde pt-10 sm:h-[50vh] md:h-[59vh]">
         <div className="container ml-8 gap-10 sm:grid sm:grid-cols-1 lg:grid-cols-2">
           {/* copywriting  */}
-          <div className="h-full w-full space-y-8 p-4 sm:p-0">
+          <div className="h-full w-full space-y-8 sm:p-0 md:p-4">
             {/* Title */}
-            <div className="text-3xl font-bold text-beer-dark sm:text-4xl">
+            <div className="nd:text-4xl text-xl font-bold text-beer-dark md:text-3xl">
               <span>Un punto de encuentro</span>
             </div>
 

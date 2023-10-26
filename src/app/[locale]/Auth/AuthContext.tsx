@@ -5,7 +5,7 @@ import React, { useEffect, useState, createContext, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
-import { IUser, IUserProfile } from "../../../lib/types.d";
+import { IUserProfile } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { useSupabase } from "../../../context/SupabaseProvider";
@@ -148,32 +148,38 @@ export const AuthContextProvider = ({
 
     const {
       data: { subscription: authListener },
-    } = supabase.auth.onAuthStateChange((event: any, currentSession: any) => {
-      if (
-        !serverSession ||
-        !currentSession ||
-        currentSession?.access_token !== serverSession?.access_token
-      ) {
-        router.refresh();
-      }
+    } = supabase.auth.onAuthStateChange(
+      async (event: any, currentSession: any) => {
+        const session = await supabase.auth.getSession();
 
-      switch (event) {
-        case EVENTS.INITIAL_SESSION:
-          setInitial(false);
-          break;
-        case EVENTS.PASSWORD_RECOVERY:
-          setView(VIEWS.UPDATE_PASSWORD);
-          break;
-        case EVENTS.SIGNED_OUT:
-          setView(VIEWS.SIGN_IN);
-          router.push(`/${locale}/${ROUTE_SIGNIN}`);
-          break;
-        case EVENTS.USER_UPDATED:
-          setView(VIEWS.SIGN_IN);
-          break;
-        default:
+        console.log(session);
+
+        if (
+          !serverSession ||
+          !currentSession ||
+          currentSession?.access_token !== serverSession?.access_token
+        ) {
+          router.refresh();
+        }
+
+        switch (event) {
+          case EVENTS.INITIAL_SESSION:
+            setInitial(false);
+            break;
+          case EVENTS.PASSWORD_RECOVERY:
+            setView(VIEWS.UPDATE_PASSWORD);
+            break;
+          case EVENTS.SIGNED_OUT:
+            setView(VIEWS.SIGN_IN);
+            router.push(`/${locale}/${ROUTE_SIGNIN}`);
+            break;
+          case EVENTS.USER_UPDATED:
+            setView(VIEWS.SIGN_IN);
+            break;
+          default:
+        }
       }
-    });
+    );
 
     return () => {
       authListener?.unsubscribe();
@@ -305,6 +311,7 @@ export const AuthContextProvider = ({
         },
       })
       .then(async (res: any) => {
+        router.refresh();
         // user = res.user;
         // if (user?.user_metadata && user.user_metadata?.access_level) {
         //   isAccessLevel = user.user_metadata?.access_level ? true : false;

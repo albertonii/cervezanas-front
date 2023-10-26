@@ -241,7 +241,7 @@ export function MobileMenu() {
                       class={""}
                     >
                       <Image
-                        src={"/icons/profile.png"}
+                        src={"/icons/user-profile.svg"}
                         width={25}
                         height={25}
                         alt={"Login"}

@@ -1,10 +1,10 @@
 import Negotiator from "negotiator";
+import { ROUTE_SIGNIN } from "./config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { ROUTE_SIGNIN } from "./config";
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 
 const locales = ["en", "es"];
 
@@ -20,6 +20,8 @@ function getLocale(request: NextRequest): string | undefined {
 
 const privateSections = ["profile", "cart", "checkout"];
 
+// this middleware refreshes the user's session and must be run
+// for any Server Component route that uses `createServerComponentSupabaseClient`
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
