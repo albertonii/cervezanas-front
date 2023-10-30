@@ -27,8 +27,6 @@ export function AutocompletePlaces() {
 
   useEffect(() => {
     init();
-
-    console.log("dentro");
   }, []);
 
   // const [loading] = useGoogleMapsApi({

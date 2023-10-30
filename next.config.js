@@ -5,9 +5,9 @@ const withNextIntl = require("next-intl/plugin")(
 
 module.exports = withNextIntl({
   reactStrictMode: true,
-  experimental: {
-    appDir: true,
-  },
+  // experimental: {
+  //   appDir: true,
+  // },
   images: {
     domains: [
       "randomuser.me",
