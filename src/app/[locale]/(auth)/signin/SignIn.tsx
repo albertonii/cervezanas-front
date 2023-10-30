@@ -62,9 +62,9 @@ export default function SignIn() {
     setIsPageLoad(true);
   }, []);
 
-  useEffect(() => {
-    if (user) router.push(`/${locale}`);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) router.push(`/${locale}`);
+  // }, [user]);
 
   const handleCredentialsSignIn = async (form: ValidationSchema) => {
     const { email, password } = form;

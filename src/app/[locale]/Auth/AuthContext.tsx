@@ -3,15 +3,15 @@
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
 import { IUserProfile } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { createClient } from "../../../utils/supabaseBrowser";
-import { Database } from "../../../lib/schema";
-import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { AuthResponse, Provider } from "@supabase/supabase-js";
+import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
@@ -150,17 +150,12 @@ export const AuthContextProvider = ({
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange(
       async (event: any, currentSession: any) => {
-        const session = await supabase.auth.getSession();
-
-        console.log(event);
-        console.log(currentSession);
-        console.log(session);
-
         if (
           !serverSession ||
           !currentSession ||
           currentSession?.access_token !== serverSession?.access_token
         ) {
+          // trigger a router refresh whenever the current session changes
           router.refresh();
         }
 
@@ -269,7 +264,7 @@ export const AuthContextProvider = ({
       return error;
     }
 
-    router.push(`/${locale}`);
+    // router.push(`/${locale}`);
 
     // TODO: VOLVER PARA INSERTAR ROLE
     /*
@@ -321,7 +316,7 @@ export const AuthContextProvider = ({
         // }
       });
 
-    router.push(`/${locale}`);
+    // router.push(`/${locale}`);
 
     // // Check if access level is null or invalid
     // if (!isAccessLevel && user) {
@@ -337,8 +332,7 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
-
-    router.push(`/${locale}/${ROUTE_SIGNIN}`);
+    // router.push(`/${locale}/${ROUTE_SIGNIN}`);
   };
 
   const value = useMemo(() => {

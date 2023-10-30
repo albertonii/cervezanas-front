@@ -12,7 +12,6 @@ interface Props {
 
 export default function Homepage({ monthlyProducts }: Props) {
   const { initial } = useAuth();
-
   if (initial) {
     return <div className="card h-72">Loading...</div>;
   }
