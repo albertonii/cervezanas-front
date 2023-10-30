@@ -3,20 +3,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { z, ZodType } from "zod";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../../components/common/Button";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Spinner } from "../../components/common/Spinner";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Spinner } from "../../components/common/Spinner";
-import { Button } from "../../components/common/Button";
-import { DisplayInputError } from "../../components/common/DisplayInputError";
-import { useAuth } from "../../Auth/useAuth";
-import { useMutation } from "react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
 import { useMessage } from "../../components/message/useMessage";
+import { DisplayInputError } from "../../components/common/DisplayInputError";
 
 type FormData = {
   email: string;
@@ -38,8 +37,7 @@ const schema: ZodType<FormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 export default function SignIn() {
-  const router = useRouter();
-  const { signInWithProvider, signIn, user } = useAuth();
+  const { signInWithProvider, signIn } = useAuth();
 
   const t = useTranslations();
   const signInMessage = t("sign_in_success");
@@ -61,10 +59,6 @@ export default function SignIn() {
   useEffect(() => {
     setIsPageLoad(true);
   }, []);
-
-  // useEffect(() => {
-  //   if (user) router.push(`/${locale}`);
-  // }, [user]);
 
   const handleCredentialsSignIn = async (form: ValidationSchema) => {
     const { email, password } = form;
@@ -211,6 +205,19 @@ export default function SignIn() {
             >
               <span className="mx-1 text-beer-darkGold hover:underline">
                 {t("sign_me_up")}
+              </span>
+            </Link>
+          </p>
+
+          <p className="my-2 flex w-full justify-start text-sm text-gray-700">
+            {t("forgot_password_question")}
+            <Link
+              className="cursor-pointer font-bold"
+              href={"/reset-password"}
+              locale={locale}
+            >
+              <span className="mx-1 text-beer-darkGold hover:underline">
+                {t("reset_password")}
               </span>
             </Link>
           </p>

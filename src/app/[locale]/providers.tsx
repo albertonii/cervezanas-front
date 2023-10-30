@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-// import SupabaseProvider from "../../Auth/useAuth";
 import ReactQueryWrapper from "./ReactQueryWrapper";
 import { NextIntlClientProvider } from "next-intl";
 import { AppContextProvider, ShoppingCartProvider } from "../../context";
@@ -24,7 +23,6 @@ export default function Providers({
 }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      {/* <SupabaseProvider> */}
       <MessageProvider>
         <ReactQueryWrapper>
           <AuthContextProvider serverSession={session}>
@@ -36,7 +34,6 @@ export default function Providers({
           </AuthContextProvider>
         </ReactQueryWrapper>
       </MessageProvider>
-      {/* </SupabaseProvider> */}
     </NextIntlClientProvider>
   );
 }

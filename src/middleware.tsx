@@ -18,7 +18,15 @@ function getLocale(request: NextRequest): string | undefined {
   return matchLocale(languages, locales, i18n.defaultLocale);
 }
 
-const privateSections = ["profile", "cart", "checkout"];
+const privateSections = [
+  "consumer",
+  "distributor",
+  "producer",
+  "admin",
+  "profile",
+  "cart",
+  "checkout",
+];
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`

@@ -630,5 +630,8 @@
   "hungary": "Hungría",
   "modal_delete_address_title": "Eliminar dirección",
   "modal_delete_address_description": "¿Está seguro de que desea eliminar la dirección? Esta acción no se puede deshacer.",
-  "event_cart": "Carrito de eventos"
+  "event_cart": "Carrito de eventos",
+  "remember_password": "¿Recuerdas la contraseña? Inicia sesión",
+  "forgot_password_question": "¿Has olvidado la contraseña?",
+  "reset_password": "Restablecer contraseña"
 }
