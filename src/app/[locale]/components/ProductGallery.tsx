@@ -8,6 +8,7 @@ import { IconButton } from "./common/IconButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { ICarouselItem } from "../../../lib/types.d";
 import { ImageModal } from "./modals/ImageModal";
+import { useTranslations } from "next-intl";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
+  const t = useTranslations();
+
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [main, setMain] = useState(gallery[0]);
   const [showModal, setShowModal] = useState(false);
@@ -53,7 +56,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                   "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
                 }
                 classIcon={""}
-                title="Add to favorites"
+                title={t("add_to_favs")}
               ></IconButton>
             </div>
 

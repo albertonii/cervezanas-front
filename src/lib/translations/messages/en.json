@@ -618,5 +618,7 @@
   "event_cart": "Event cart",
   "remember_password": "Remember your password? Sign In.",
   "forgot_password_question": "Forgot your password?",
-  "reset_password": "Reset password"
+  "reset_password": "Reset password",
+  "add_to_favs": "Add to favorites",
+  "must_be_logged_in": "You must be logged in to add a product to your favorites"
 }

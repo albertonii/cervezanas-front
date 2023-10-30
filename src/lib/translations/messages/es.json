@@ -633,5 +633,7 @@
   "event_cart": "Carrito de eventos",
   "remember_password": "¿Recuerdas la contraseña? Inicia sesión",
   "forgot_password_question": "¿Has olvidado la contraseña?",
-  "reset_password": "Restablecer contraseña"
+  "reset_password": "Restablecer contraseña",
+  "add_to_favs": "Añadir a favoritos",
+  "must_be_logged_in": "Debes iniciar sesión para añadir productos a favoritos"
 }

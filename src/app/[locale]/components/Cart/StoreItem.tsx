@@ -15,6 +15,7 @@ import { IProduct, IProductPack } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import { useAuth } from "../../Auth/useAuth";
+import { useMessage } from "../message/useMessage";
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -23,7 +24,9 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 export function StoreItem({ product }: StoreItemProps) {
   const t = useTranslations();
   const locale = useLocale();
-  const { isLoading, supabase } = useAuth();
+  const { handleMessage } = useMessage();
+
+  const { isLoading, supabase, isLoggedIn } = useAuth();
   const productId = product.id;
   const router = useRouter();
 
@@ -64,6 +67,15 @@ export function StoreItem({ product }: StoreItemProps) {
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   async function handleLike() {
+    // Check if user is authenticated
+    if (!isLoggedIn) {
+      handleMessage({
+        type: "info",
+        message: "must_be_logged_in",
+      });
+      return;
+    }
+
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
@@ -116,13 +128,13 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   return (
-    <div className="rounded-xl p-4 shadow-lg">
+    <section className="rounded-xl p-4 shadow-lg">
       {isLoading ? (
         <Spinner color="beer-blonde" size="medium"></Spinner>
       ) : (
         <>
-          <div className="relative mb-1 flex justify-center">
-            <div className="absolute right-0 top-0 p-3">
+          <article className="relative mb-1 flex justify-center">
+            <header className="absolute right-0 top-0 p-3">
               <IconButton
                 icon={faHeart}
                 onClick={() => handleLike()}
@@ -132,26 +144,24 @@ export function StoreItem({ product }: StoreItemProps) {
                   " bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
                 }
                 classIcon={""}
-                title="Add to favorites"
+                title={t("add_to_favs")}
               ></IconButton>
-            </div>
+            </header>
 
-            <div className="h-[200px] w-[200px]">
-              <DisplayImageProduct
-                width={128}
-                height={128}
-                alt="Principal Product Image store item"
-                imgSrc={
-                  BASE_PRODUCTS_URL +
-                  decodeURIComponent(product.product_multimedia[0].p_principal)
-                }
-                class={
-                  "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
-                }
-                onClick={() => router.push(`/${locale}/products/${product.id}`)}
-              />
-            </div>
-          </div>
+            <DisplayImageProduct
+              width={128}
+              height={128}
+              alt="Principal Product Image store item"
+              imgSrc={
+                BASE_PRODUCTS_URL +
+                decodeURIComponent(product.product_multimedia[0].p_principal)
+              }
+              class={
+                " h-[200px] w-[200px] rounded-2xl object-contain hover:cursor-pointer"
+              }
+              onClick={() => router.push(`/${locale}/products/${product.id}`)}
+            />
+          </article>
 
           <div className="flex flex-col justify-between ">
             <div className="flex flex-wrap ">
@@ -242,6 +252,6 @@ export function StoreItem({ product }: StoreItemProps) {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

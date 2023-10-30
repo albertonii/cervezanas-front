@@ -101,7 +101,7 @@ export function NewProductReview({
         ]);
 
       handleMessage({
-        message: t("successful_product_review_creation"),
+        message: "successful_product_review_creation",
         type: "success",
       });
 

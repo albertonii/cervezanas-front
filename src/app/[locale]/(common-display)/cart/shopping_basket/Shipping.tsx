@@ -49,7 +49,7 @@ export default function Shipping({
 
     handleMessage({
       type: "success",
-      message: `${t("shipping_address_removed_successfully")}`,
+      message: "shipping_address_removed_successfully",
     });
   };
 

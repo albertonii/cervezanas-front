@@ -1,13 +1,16 @@
-import { Alert } from "@reach/alert";
 import classNames from "classnames";
+import { Alert } from "@reach/alert";
 import {
   faExclamationCircle,
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MessageProps } from "./message.types";
+import { useTranslations } from "next-intl";
 
 export function Message({ message, type }: MessageProps) {
+  const t = useTranslations();
+
   return (
     <Alert
       className={classNames(
@@ -16,6 +19,10 @@ export function Message({ message, type }: MessageProps) {
           ? "bg-red-500 text-white"
           : type === "success"
           ? "bg-green-300 text-gray-800"
+          : type === "warning"
+          ? "bg-yellow-300 text-gray-800"
+          : type === "info"
+          ? "bg-blue-300 text-gray-800"
           : "bg-gray-100 text-gray-800"
       )}
     >
@@ -35,8 +42,8 @@ export function Message({ message, type }: MessageProps) {
           width={80}
           height={80}
         />
-      )}{" "}
-      &nbsp; {message}
+      )}
+      &nbsp; {t(message)}
     </Alert>
   );
 }

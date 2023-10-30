@@ -94,7 +94,7 @@ export default function LinkDistributor({ producerId }: Props) {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
       handleMessage({
         type: "success",
-        message: t("contract_sent_to_distributor_success"),
+        message: "contract_sent_to_distributor_success",
       });
 
       reset();
@@ -102,7 +102,7 @@ export default function LinkDistributor({ producerId }: Props) {
     onError: (error: Error) => {
       handleMessage({
         type: "error",
-        message: t("contract_sent_to_distributor_error"),
+        message: "contract_sent_to_distributor_error",
       });
 
       console.error(error);

@@ -1,4 +1,10 @@
-export type MessageType = "default" | "success" | "error" | "loading";
+export type MessageType =
+  | "default"
+  | "success"
+  | "error"
+  | "loading"
+  | "warning"
+  | "info";
 
 export type MessageProps = {
   type: MessageType;

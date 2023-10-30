@@ -48,7 +48,7 @@ export default function Billing({
 
     handleMessage({
       type: "success",
-      message: `${t("billing_address_removed_successfully")}`,
+      message: "billing_address_removed_successfully",
     });
   };
 

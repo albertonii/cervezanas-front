@@ -55,6 +55,7 @@ export interface AuthSession {
   supabase: SupabaseClient<Database>;
   role: ROLE_ENUM | null;
   provider: PROVIDER_TYPE | null;
+  isLoggedIn: boolean;
 }
 
 const supabaseClient = createClient();
@@ -71,6 +72,7 @@ export const AuthContext = createContext<AuthSession>({
   signOut: async () => void {},
   supabase: supabaseClient,
   provider: null,
+  isLoggedIn: false,
 });
 
 export const AuthContextProvider = ({
@@ -197,7 +199,7 @@ export const AuthContextProvider = ({
 
       if (user && user.length > 0) {
         handleMessage({
-          message: t("user_already_registered"),
+          message: "user_already_registered",
           type: "error",
         });
         return;
@@ -241,7 +243,7 @@ export const AuthContextProvider = ({
       } else {
         clearMessages();
         handleMessage({
-          message: t("sign_up_successfully"),
+          message: "sign_up_successfully",
           type: "success",
         });
       }
@@ -349,6 +351,7 @@ export const AuthContextProvider = ({
       signOut,
       supabase,
       provider,
+      isLoggedIn: !!user,
     };
   }, [
     initial,

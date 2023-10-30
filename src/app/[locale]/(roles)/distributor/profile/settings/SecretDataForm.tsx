@@ -57,7 +57,7 @@ export function SecretDataForm() {
 
         handleMessage({
           type: "success",
-          message: `${t("password_updated")}`,
+          message: "password_updated",
         });
 
         reset();

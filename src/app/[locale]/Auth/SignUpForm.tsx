@@ -127,10 +127,10 @@ export const SignUpForm = () => {
       console.info("onMutate");
     },
     onSuccess: () => {
-      // handleMessage({
-      //   type: "success",
-      //   message: t("sign_up_success"),
-      // });
+      handleMessage({
+        type: "success",
+        message: "sign_up_success",
+      });
     },
     onError: (error: Error) => {
       handleMessage({

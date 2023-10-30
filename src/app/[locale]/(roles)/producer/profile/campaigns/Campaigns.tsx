@@ -108,7 +108,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
 
         handleMessage({
           type: "success",
-          message: `${t("campaign_removed_successfully")}`,
+          message: "campaign_removed_successfully",
         });
       };
 
