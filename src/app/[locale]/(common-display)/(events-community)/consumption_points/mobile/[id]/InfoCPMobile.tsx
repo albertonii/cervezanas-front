@@ -220,5 +220,20 @@ function Map({ cp }: MapsProps) {
   const centerLng = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lng : 0;
   const center = useMemo(() => ({ lat: centerLat, lng: centerLng }), []);
 
-  return <div className="relative space-y-4"></div>;
+  return (
+    <div className="relative space-y-4">
+      <GoogleMap
+        zoom={10}
+        center={center}
+        mapContainerClassName="map-container"
+        mapContainerStyle={containerStyle}
+        onLoad={(map) => {
+          setMap(map);
+        }}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <Marker position={center} />
+      </GoogleMap>
+    </div>
+  );
 }
