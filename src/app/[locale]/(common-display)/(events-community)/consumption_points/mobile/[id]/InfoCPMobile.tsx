@@ -16,7 +16,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
   const { cpm_products } = cpMobile;
 
   return (
-    <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
+    <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <div className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
         <span
           className={`text-lg font-medium text-white ${
@@ -29,11 +29,13 @@ export default function InfoCPMobile({ cpMobile }: Props) {
 
       {/* Display all the information inside the Mobile Consumption Point */}
       <div className="mt-10 grid grid-cols-2">
-        <div>
-          <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
-          <h2 className="mb-4 text-lg text-gray-500">
-            {cpMobile.cp_description}
-          </h2>
+        <article>
+          <header>
+            <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
+            <h2 className="mb-4 text-lg text-gray-500">
+              {cpMobile.cp_description}
+            </h2>
+          </header>
 
           <div className="mb-4">
             {/* Start and End date */}
@@ -46,7 +48,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
           </div>
 
           {/* Organizer information */}
-          <div className="mb-4">
+          <footer className="mb-4">
             <span className="text-gray-500">
               {t("organizer")}: {cpMobile.organizer_name}{" "}
               {cpMobile.organizer_lastname}
@@ -57,13 +59,10 @@ export default function InfoCPMobile({ cpMobile }: Props) {
             <span className="ml-4 text-gray-500">
               {t("phone")}: {cpMobile.organizer_phone}
             </span>
-          </div>
-        </div>
+          </footer>
+        </article>
 
         {/* Google maps location  */}
-        <div>
-          <GoogleMapLocation cp={cpMobile} />
-        </div>
       </div>
 
       {/* Products linked to this Mobile Consumption Point */}
@@ -123,7 +122,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
