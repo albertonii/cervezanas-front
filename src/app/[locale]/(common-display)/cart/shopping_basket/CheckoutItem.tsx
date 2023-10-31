@@ -18,6 +18,7 @@ interface Props {
 export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   const t = useTranslations();
   const locale = useLocale();
+  console.log(selectedShippingAddress);
 
   const [canDeliver, setCanDeliver] = useState(false);
   const [isLoadingDelivery, setIsLoadingDelivery] = useState(false);
@@ -53,7 +54,7 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   }, [selectedShippingAddress]);
 
   if (isLoadingProduct || isLoadingDelivery)
-    return <Spinner color={"beer-blonde"} />;
+    return <Spinner color={"beer-blonde"} size={"medium"} />;
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 
@@ -61,10 +62,6 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
 
   return (
     <>
-      {isLoadingDelivery && (
-        <Spinner size={"fullScreen"} absolute={true} color={"beer-blonde"} />
-      )}
-
       {productPack && (
         <article className={`mt-4 space-y-4`}>
           <Link href={`/products/${productWithInfo.id}`} locale={locale}>
@@ -77,7 +74,7 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
             </p>
           </Link>
 
-          {!canDeliver && <DeliveryError />}
+          {selectedShippingAddress && !canDeliver && <DeliveryError />}
 
           {productPack.packs.map((pack) => (
             <div key={pack.id}>

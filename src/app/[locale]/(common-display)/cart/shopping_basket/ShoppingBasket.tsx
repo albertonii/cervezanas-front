@@ -103,6 +103,7 @@ export function ShoppingBasket() {
 
   useEffect(() => {
     if (isFormReady) {
+      console.log("isFormReady", isFormReady);
       // Call submit form
       btnRef.current && btnRef.current.click();
     }
@@ -286,10 +287,10 @@ export function ShoppingBasket() {
         <Spinner color="beer-blonde" size="medium" />
       ) : (
         <>
-          <div className="flex w-full flex-row items-center justify-center sm:my-2 ">
+          <section className="flex w-full flex-row items-center justify-center sm:my-2 ">
             <form
               action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-              method={API_METHODS.GET}
+              method={API_METHODS.POST}
               name="form"
               ref={formRef}
             >
@@ -323,14 +324,14 @@ export function ShoppingBasket() {
               <CustomLoading message={`${t("loading")}`} />
             ) : (
               <>
-                <div className="container sm:py-4 lg:py-6">
+                <section className="container sm:py-4 lg:py-6">
                   <div className="flex items-center justify-start space-x-2 space-y-2">
-                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                    <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                       {t("checkout")}
-                    </h1>
+                    </header>
 
-                    <div className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
-                      <div className="h-10 w-10 text-yellow-500">
+                    <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
+                      <span className="h-10 w-10 text-yellow-500">
                         <FontAwesomeIcon
                           icon={faInfoCircle}
                           style={{
@@ -342,12 +343,12 @@ export function ShoppingBasket() {
                           width={25}
                           height={25}
                         />
-                      </div>
+                      </span>
 
-                      <div className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
+                      <h3 className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
                         {t("complete_shipping_billing")}
-                      </div>
-                    </div>
+                      </h3>
+                    </figure>
                   </div>
 
                   <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
@@ -360,7 +361,7 @@ export function ShoppingBasket() {
                         </p>
 
                         {items.length > 0 ? (
-                          <div className="w-full">
+                          <section className="w-full">
                             {items.map((productPack) => {
                               return (
                                 <div key={productPack.id}>
@@ -375,18 +376,18 @@ export function ShoppingBasket() {
                             })}
 
                             {/* Subtotal */}
-                            <div className="mt-4 flex w-full flex-row items-center justify-between">
+                            <article className="mt-4 flex w-full flex-row items-center justify-between">
                               <div className="flex flex-col items-start justify-start space-y-2">
-                                <div className="text-2xl text-gray-500">
+                                <p className="text-2xl text-gray-500">
                                   {t("subtotal")}
 
                                   <span className="ml-6 font-semibold text-gray-800">
                                     {formatCurrency(subtotal)}
                                   </span>
-                                </div>
+                                </p>
                               </div>
-                            </div>
-                          </div>
+                            </article>
+                          </section>
                         ) : (
                           <>
                             <EmptyCart />
@@ -410,7 +411,7 @@ export function ShoppingBasket() {
                     </div>
 
                     {/* Order summary  */}
-                    <div className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
+                    <section className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                         {t("customer")}
                       </h3>
@@ -563,12 +564,12 @@ export function ShoppingBasket() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </section>
                   </div>
-                </div>
+                </section>
               </>
             )}
-          </div>
+          </section>
         </>
       )}
     </>
