@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 import {
   Combobox,

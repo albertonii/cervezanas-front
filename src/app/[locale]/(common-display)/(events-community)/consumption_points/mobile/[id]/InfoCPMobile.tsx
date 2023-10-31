@@ -3,7 +3,7 @@
 import CPMProduct from "./CPMProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 import { ICPMobile, ICPMProducts } from "../../../../../../../lib/types.d";
 
@@ -232,7 +232,7 @@ function Map({ cp }: MapsProps) {
         }}
       >
         {/* Child components, such as markers, info windows, etc. */}
-        <></>
+        <Marker position={center} />
       </GoogleMap>
     </div>
   );
