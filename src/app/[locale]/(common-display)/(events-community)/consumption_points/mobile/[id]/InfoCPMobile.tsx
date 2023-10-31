@@ -28,7 +28,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
       </div>
 
       {/* Display all the information inside the Mobile Consumption Point */}
-      <div className="mt-10 grid grid-cols-2">
+      <section className="mt-10 grid grid-cols-2">
         <article>
           <header>
             <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
@@ -63,10 +63,11 @@ export default function InfoCPMobile({ cpMobile }: Props) {
         </article>
 
         {/* Google maps location  */}
-      </div>
+        <GoogleMapLocation cp={cpMobile} />
+      </section>
 
       {/* Products linked to this Mobile Consumption Point */}
-      <div className="mt-8">
+      <section className="mt-8">
         {cpm_products && cpm_products.length > 0 ? (
           <div>
             <h3 className="mb-2 text-xl font-bold"> {t("products")}</h3>
@@ -121,7 +122,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
             <p className="text-gray-500">{t("no_products")}</p>
           </>
         )}
-      </div>
+      </section>
     </section>
   );
 }
@@ -219,20 +220,5 @@ function Map({ cp }: MapsProps) {
   const centerLng = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lng : 0;
   const center = useMemo(() => ({ lat: centerLat, lng: centerLng }), []);
 
-  return (
-    <div className="relative space-y-4">
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerClassName="map-container"
-        mapContainerStyle={containerStyle}
-        onLoad={(map) => {
-          setMap(map);
-        }}
-      >
-        {/* Child components, such as markers, info windows, etc. */}
-        <Marker position={center} />
-      </GoogleMap>
-    </div>
-  );
+  return <div className="relative space-y-4"></div>;
 }
