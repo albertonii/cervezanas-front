@@ -16,8 +16,9 @@ interface DropdownProps {
 
 export function HeaderDropdownButton({ options }: DropdownProps) {
   const [open, setOpen] = useState(false);
-  const dropdown = useRef<HTMLDivElement>(null);
   const { role, signOut } = useAuth();
+
+  const dropdown = useRef<HTMLDivElement>(null);
 
   const t = useTranslations();
   const locale = useLocale();

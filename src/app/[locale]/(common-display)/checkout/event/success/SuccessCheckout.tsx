@@ -145,7 +145,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
           {/* Order timeline  */}
           <div className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
-            <StatusTimeline status={order.status} />
+            <StatusTimeline status={order.status} orderType={"event"} />
           </div>
 
           {/* <!-- Products --> */}

@@ -128,7 +128,7 @@ export default function OrderItem({ orderItem, order }: Props) {
         </div>
       </section>
 
-      <StatusTimeline status={order.status} />
+      <StatusTimeline status={order.status} orderType={"online"} />
     </>
   );
 }
