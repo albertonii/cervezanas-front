@@ -283,261 +283,252 @@ export function ShoppingBasket() {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner color="beer-blonde" size="medium" />
-      ) : (
-        <>
-          <section className="flex w-full flex-row items-center justify-center sm:my-2 ">
-            <form
-              action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-              method={API_METHODS.POST}
-              name="form"
-              ref={formRef}
-            >
-              <input
-                type="hidden"
-                id="Ds_SignatureVersion"
-                name="Ds_SignatureVersion"
-                value="HMAC_SHA256_V1"
-              />
+      <section className="flex w-full flex-row items-center justify-center sm:my-2 ">
+        <form
+          action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
+          method={API_METHODS.POST}
+          name="form"
+          ref={formRef}
+        >
+          <input
+            type="hidden"
+            id="Ds_SignatureVersion"
+            name="Ds_SignatureVersion"
+            value="HMAC_SHA256_V1"
+          />
 
-              <input
-                type="hidden"
-                id="Ds_MerchantParameters"
-                name="Ds_MerchantParameters"
-                value={merchantParameters}
-              />
+          <input
+            type="hidden"
+            id="Ds_MerchantParameters"
+            name="Ds_MerchantParameters"
+            value={merchantParameters}
+          />
 
-              <input
-                type="hidden"
-                id="Ds_Signature"
-                name="Ds_Signature"
-                value={merchantSignature}
-              />
+          <input
+            type="hidden"
+            id="Ds_Signature"
+            name="Ds_Signature"
+            value={merchantSignature}
+          />
 
-              <button ref={btnRef} type="submit" hidden>
-                Submit
-              </button>
-            </form>
+          <button ref={btnRef} type="submit" hidden>
+            Submit
+          </button>
+        </form>
 
-            {loadingPayment ? (
-              <CustomLoading message={`${t("loading")}`} />
-            ) : (
-              <>
-                <section className="container sm:py-4 lg:py-6">
-                  <div className="flex items-center justify-start space-x-2 space-y-2">
-                    <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                      {t("checkout")}
-                    </header>
+        {loadingPayment ? (
+          <CustomLoading message={`${t("loading")}`} />
+        ) : (
+          <>
+            <section className="container sm:py-4 lg:py-6">
+              <div className="flex items-center justify-start space-x-2 space-y-2">
+                <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                  {t("checkout")}
+                </header>
 
-                    <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
-                      <span className="h-10 w-10 text-yellow-500">
-                        <FontAwesomeIcon
-                          icon={faInfoCircle}
-                          style={{
-                            color: "#fdc300",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          title={"circle_warning"}
-                          width={25}
-                          height={25}
-                        />
-                      </span>
+                <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
+                  <span className="h-10 w-10 text-yellow-500">
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      style={{
+                        color: "#fdc300",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      title={"circle_warning"}
+                      width={25}
+                      height={25}
+                    />
+                  </span>
 
-                      <h3 className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
-                        {t("complete_shipping_billing")}
-                      </h3>
-                    </figure>
+                  <h3 className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
+                    {t("complete_shipping_billing")}
+                  </h3>
+                </figure>
+              </div>
+
+              <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+                {/* Products  */}
+                <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
+                  {/* Customer's Car */}
+                  <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
+                    <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
+                      {t("customer_s_cart")}
+                    </p>
+
+                    {items.length > 0 ? (
+                      <section className="w-full">
+                        {items.map((productPack) => {
+                          return (
+                            <div key={productPack.id}>
+                              <CheckoutItem
+                                productPack={productPack}
+                                selectedShippingAddress={
+                                  selectedShippingAddress
+                                }
+                              />
+                            </div>
+                          );
+                        })}
+
+                        {/* Subtotal */}
+                        <article className="mt-4 flex w-full flex-row items-center justify-between">
+                          <div className="flex flex-col items-start justify-start space-y-2">
+                            <p className="text-2xl text-gray-500">
+                              {t("subtotal")}
+
+                              <span className="ml-6 font-semibold text-gray-800">
+                                {formatCurrency(subtotal)}
+                              </span>
+                            </p>
+                          </div>
+                        </article>
+                      </section>
+                    ) : (
+                      <>
+                        <EmptyCart />
+                      </>
+                    )}
                   </div>
 
-                  <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
-                    {/* Products  */}
-                    <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                      {/* Customer's Car */}
-                      <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
-                        <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
-                          {t("customer_s_cart")}
-                        </p>
+                  {/* Shipping & Billing Container */}
+                  {shippingAddresses && billingAddresses && (
+                    <ShippingBillingContainer
+                      shippingAddresses={shippingAddresses}
+                      billingAddresses={billingAddresses}
+                      handleOnClickShipping={handleOnClickShipping}
+                      handleOnClickBilling={handleOnClickBilling}
+                      formShipping={formShipping}
+                      formBilling={formBilling}
+                      selectedShippingAddress={selectedShippingAddress}
+                      selectedBillingAddress={selectedBillingAddress}
+                    />
+                  )}
+                </div>
 
-                        {items.length > 0 ? (
-                          <section className="w-full">
-                            {items.map((productPack) => {
-                              return (
-                                <div key={productPack.id}>
-                                  <CheckoutItem
-                                    productPack={productPack}
-                                    selectedShippingAddress={
-                                      selectedShippingAddress
-                                    }
-                                  />
-                                </div>
-                              );
-                            })}
+                {/* Order summary  */}
+                <section className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
+                  <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
+                    {t("customer")}
+                  </h3>
 
-                            {/* Subtotal */}
-                            <article className="mt-4 flex w-full flex-row items-center justify-between">
-                              <div className="flex flex-col items-start justify-start space-y-2">
-                                <p className="text-2xl text-gray-500">
-                                  {t("subtotal")}
+                  <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
+                    {/* Summary */}
+                    <div className="flex flex-shrink-0 flex-col items-start justify-start">
+                      <div className="flex w-full flex-col space-y-6 bg-gray-50  dark:bg-gray-800">
+                        <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
+                          {t("summary")}
+                        </h3>
 
-                                  <span className="ml-6 font-semibold text-gray-800">
-                                    {formatCurrency(subtotal)}
-                                  </span>
-                                </p>
-                              </div>
-                            </article>
-                          </section>
-                        ) : (
-                          <>
-                            <EmptyCart />
-                          </>
-                        )}
-                      </div>
+                        <div className="flex w-full flex-col items-center justify-center space-y-6 border-b border-gray-200 pb-4">
+                          <div className="flex w-full justify-between">
+                            <p className="text-base leading-4 text-gray-800 dark:text-white">
+                              {t("subtotal")}
+                            </p>
+                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                              {formatCurrency(subtotal)}
+                            </p>
+                          </div>
 
-                      {/* Shipping & Billing Container */}
-                      {shippingAddresses && billingAddresses && (
-                        <ShippingBillingContainer
-                          shippingAddresses={shippingAddresses}
-                          billingAddresses={billingAddresses}
-                          handleOnClickShipping={handleOnClickShipping}
-                          handleOnClickBilling={handleOnClickBilling}
-                          formShipping={formShipping}
-                          formBilling={formBilling}
-                          selectedShippingAddress={selectedShippingAddress}
-                          selectedBillingAddress={selectedBillingAddress}
-                        />
-                      )}
-                    </div>
-
-                    {/* Order summary  */}
-                    <section className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
-                      <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                        {t("customer")}
-                      </h3>
-
-                      <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
-                        {/* Summary */}
-                        <div className="flex flex-shrink-0 flex-col items-start justify-start">
-                          <div className="flex w-full flex-col space-y-6 bg-gray-50  dark:bg-gray-800">
-                            <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                              {t("summary")}
-                            </h3>
-
-                            <div className="flex w-full flex-col items-center justify-center space-y-6 border-b border-gray-200 pb-4">
-                              <div className="flex w-full justify-between">
-                                <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                  {t("subtotal")}
-                                </p>
-                                <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                  {formatCurrency(subtotal)}
-                                </p>
-                              </div>
-
-                              {/* discount */}
-                              <div className="flex w-full items-center justify-between">
-                                <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                  {t("discount")}
-                                  {/* <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                          {/* discount */}
+                          <div className="flex w-full items-center justify-between">
+                            <p className="text-base leading-4 text-gray-800 dark:text-white">
+                              {t("discount")}
+                              {/* <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
                                     STUDENT
                                   </span> */}
-                                </p>
-                                <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                  {formatCurrency(discount)}{" "}
-                                  {discount / subtotal}%
-                                </p>
-                              </div>
+                            </p>
+                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                              {formatCurrency(discount)} {discount / subtotal}%
+                            </p>
+                          </div>
 
-                              <div className="flex w-full items-center justify-between">
-                                <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                  {t("shipping")}
-                                </p>
-                                <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                  {formatCurrency(shipping)}
-                                </p>
-                              </div>
+                          <div className="flex w-full items-center justify-between">
+                            <p className="text-base leading-4 text-gray-800 dark:text-white">
+                              {t("shipping")}
+                            </p>
+                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                              {formatCurrency(shipping)}
+                            </p>
+                          </div>
 
-                              {/* taxes  */}
-                              <div className="flex w-full items-center justify-between">
-                                <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                  {t("tax")}
-                                </p>
-                                <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                  {formatCurrency(tax)}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="flex w-full items-start justify-between">
-                              <div className="flex flex-col items-start">
-                                <p className="text-base font-semibold leading-4 text-gray-800 dark:text-white">
-                                  {t("total")}
-                                </p>
-                                <p className="text-sm text-gray-600 dark:text-gray-300">
-                                  ({t("with_taxes_included")})
-                                </p>
-                              </div>
-
-                              <p className="text-base font-semibold leading-4 text-gray-600 dark:text-gray-300">
-                                {formatCurrency(total)}
-                              </p>
-                            </div>
-
-                            {/* Proceed to pay */}
-                            <div className="flex w-full items-center justify-center md:items-start md:justify-start">
-                              <Button
-                                large
-                                primary
-                                class={`font-semibold`}
-                                title={""}
-                                disabled={items.length === 0}
-                                onClick={() => {
-                                  onSubmit();
-                                }}
-                              >
-                                {t("proceed_to_pay")}
-                              </Button>
-                            </div>
+                          {/* taxes  */}
+                          <div className="flex w-full items-center justify-between">
+                            <p className="text-base leading-4 text-gray-800 dark:text-white">
+                              {t("tax")}
+                            </p>
+                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                              {formatCurrency(tax)}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Addresses */}
-                        <div className="mt-6 flex flex-shrink-0 flex-col items-start justify-start space-y-6 pb-4 md:mt-0">
-                          <div className="mb-6 flex w-full flex-col space-y-4 bg-gray-50  py-6 dark:bg-gray-800">
-                            <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                              {t("addresses")}
-                            </h3>
+                        <div className="flex w-full items-start justify-between">
+                          <div className="flex flex-col items-start">
+                            <p className="text-base font-semibold leading-4 text-gray-800 dark:text-white">
+                              {t("total")}
+                            </p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                              ({t("with_taxes_included")})
+                            </p>
+                          </div>
 
-                            <div className="flex flex-col items-start justify-start space-y-4 sm:items-center md:flex-col md:items-start md:justify-start md:space-y-3 lg:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-8">
-                              <div className="flex flex-col items-start justify-center space-y-4 md:justify-start xl:mt-8">
-                                <p className="text-center text-base font-semibold leading-4 text-gray-800 dark:text-white md:text-left">
-                                  {t("shipping_address")}
-                                </p>
+                          <p className="text-base font-semibold leading-4 text-gray-600 dark:text-gray-300">
+                            {formatCurrency(total)}
+                          </p>
+                        </div>
 
-                                <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                                  {shippingAddresses?.map((address) => {
-                                    if (
-                                      address.id === selectedShippingAddress
-                                    ) {
-                                      return (
-                                        <div key={address.id}>
-                                          <ShippingAddressItem
-                                            address={address}
-                                          />
-                                        </div>
-                                      );
-                                    }
-                                  })}
-                                </div>
-                              </div>
+                        {/* Proceed to pay */}
+                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                          <Button
+                            large
+                            primary
+                            class={`font-semibold`}
+                            title={""}
+                            disabled={items.length === 0}
+                            onClick={() => {
+                              onSubmit();
+                            }}
+                          >
+                            {t("proceed_to_pay")}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
 
-                              <div className="flex flex-col items-start justify-center space-y-4 md:justify-start">
-                                <p className="text-center text-base font-semibold leading-4 text-gray-800 dark:text-white md:text-left">
-                                  {t("billing_address")}
-                                </p>
+                    {/* Addresses */}
+                    <div className="mt-6 flex flex-shrink-0 flex-col items-start justify-start space-y-6 pb-4 md:mt-0">
+                      <div className="mb-6 flex w-full flex-col space-y-4 bg-gray-50  py-6 dark:bg-gray-800">
+                        <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
+                          {t("addresses")}
+                        </h3>
 
-                                <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                                  {/* {billingAddresses?.map((address) => {
+                        <div className="flex flex-col items-start justify-start space-y-4 sm:items-center md:flex-col md:items-start md:justify-start md:space-y-3 lg:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-8">
+                          <div className="flex flex-col items-start justify-center space-y-4 md:justify-start xl:mt-8">
+                            <p className="text-center text-base font-semibold leading-4 text-gray-800 dark:text-white md:text-left">
+                              {t("shipping_address")}
+                            </p>
+
+                            <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
+                              {shippingAddresses?.map((address) => {
+                                if (address.id === selectedShippingAddress) {
+                                  return (
+                                    <div key={address.id}>
+                                      <ShippingAddressItem address={address} />
+                                    </div>
+                                  );
+                                }
+                              })}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center space-y-4 md:justify-start">
+                            <p className="text-center text-base font-semibold leading-4 text-gray-800 dark:text-white md:text-left">
+                              {t("billing_address")}
+                            </p>
+
+                            <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
+                              {/* {billingAddresses?.map((address) => {
                                     if (address.id === selectedBillingAddress)
                                       return (
                                         <div key={address.id}>
@@ -547,31 +538,29 @@ export function ShoppingBasket() {
                                         </div>
                                       );
                                   })} */}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="flex w-full items-center justify-center md:items-start md:justify-start">
-                              <Button
-                                xLarge
-                                accent
-                                class="font-semibold"
-                                title={"Edit Details"}
-                              >
-                                {t("edit_details")}
-                              </Button>
                             </div>
                           </div>
                         </div>
+
+                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                          <Button
+                            xLarge
+                            accent
+                            class="font-semibold"
+                            title={"Edit Details"}
+                          >
+                            {t("edit_details")}
+                          </Button>
+                        </div>
                       </div>
-                    </section>
+                    </div>
                   </div>
                 </section>
-              </>
-            )}
-          </section>
-        </>
-      )}
+              </div>
+            </section>
+          </>
+        )}
+      </section>
     </>
   );
 }

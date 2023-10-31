@@ -21,9 +21,9 @@ export const Spinner = ({
         ${center ? "bottom-[50%] left-1/2 -translate-x-1/2" : ""}
         ${
           size === "fullScreen" &&
-          "spinner-container fixed inset-0 z-10 flex items-center justify-center"
+          "fixed inset-0 z-10 flex items-center justify-center"
         }
-        rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
+        w-fit rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
       `}
     >
       <svg

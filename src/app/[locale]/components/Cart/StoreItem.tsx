@@ -67,11 +67,11 @@ export function StoreItem({ product }: StoreItemProps) {
   const heartColor = { filled: "#fdc300", unfilled: "grey" };
 
   async function handleLike() {
-    // Check if user is authenticated
+    // Notification if user is not logged in
     if (!isLoggedIn) {
       handleMessage({
         type: "info",
-        message: "must_be_logged_in",
+        message: "must_be_logged_in_favs",
       });
       return;
     }
@@ -105,6 +105,15 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   const handleAddToCart = () => {
+    // Notification if user is not logged in
+    if (!isLoggedIn) {
+      handleMessage({
+        type: "info",
+        message: "must_be_logged_in_add_store",
+      });
+      return;
+    }
+
     if (!selectedPack) {
       setIsPackSelected(false);
       return;
@@ -163,9 +172,9 @@ export function StoreItem({ product }: StoreItemProps) {
             />
           </article>
 
-          <div className="flex flex-col justify-between ">
+          <section className="flex flex-col justify-between ">
             <div className="flex flex-wrap ">
-              <div className="flex w-full flex-none items-center text-sm text-gray-600">
+              <figure className="flex w-full flex-none items-center text-sm text-gray-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="mr-1 h-4 w-4 text-beer-blonde"
@@ -177,7 +186,7 @@ export function StoreItem({ product }: StoreItemProps) {
                 <span className="mr-3 mt-2 whitespace-nowrap text-gray-400">
                   {overAll}
                 </span>
-              </div>
+              </figure>
 
               <div className="flex w-full min-w-0 items-center justify-between ">
                 <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate text-lg font-semibold text-beer-draft transition-all hover:text-beer-blonde">
@@ -227,7 +236,6 @@ export function StoreItem({ product }: StoreItemProps) {
               </select>
 
               {/* Añadir al carrito */}
-
               {product.product_packs && (
                 <div className="mt-6 flex w-full justify-between space-x-2">
                   <MarketCartButtons2
@@ -249,7 +257,7 @@ export function StoreItem({ product }: StoreItemProps) {
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </>
       )}
     </section>

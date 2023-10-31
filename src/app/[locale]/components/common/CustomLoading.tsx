@@ -10,8 +10,8 @@ export function CustomLoading(props: Props) {
   const { message } = props;
 
   return (
-    <div className="flex flex-col justifer-center items-center ">
-      <div className="flex justify-center items-center">
+    <section className="justifer-center flex flex-col items-center ">
+      <div className="flex items-center justify-center">
         <Spinner color="beer-blonde" size="medium" />
 
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">
@@ -20,7 +20,7 @@ export function CustomLoading(props: Props) {
       </div>
 
       {/* Checkout Image loading  */}
-      <div className=" flex justify-center mt-8 relative overflow-hidden sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[550px] lg:h-[550px] xl:w-[650px] xl:h-[650px]">
+      <div className=" relative mt-8 flex justify-center overflow-hidden sm:h-[300px] sm:w-[300px] md:h-[400px] md:w-[400px] lg:h-[550px] lg:w-[550px] xl:h-[650px] xl:w-[650px]">
         <Image
           className="rounded-full object-cover"
           src="/assets/beer-bear-1.png"
@@ -28,6 +28,6 @@ export function CustomLoading(props: Props) {
           fill
         />
       </div>
-    </div>
+    </section>
   );
 }

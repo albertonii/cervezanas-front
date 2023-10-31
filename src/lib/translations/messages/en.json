@@ -620,5 +620,6 @@
   "forgot_password_question": "Forgot your password?",
   "reset_password": "Reset password",
   "add_to_favs": "Add to favorites",
-  "must_be_logged_in": "You must be logged in to add a product to your favorites"
+  "must_be_logged_in_favs": "You must be logged in to add a product to your favorites",
+  "must_be_logged_in_add_store": "You must be logged in to add a product to your shopping cart"
 }

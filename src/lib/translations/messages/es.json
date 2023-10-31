@@ -635,5 +635,6 @@
   "forgot_password_question": "¿Has olvidado la contraseña?",
   "reset_password": "Restablecer contraseña",
   "add_to_favs": "Añadir a favoritos",
-  "must_be_logged_in": "Debes iniciar sesión para añadir productos a favoritos"
+  "must_be_logged_in_favs": "Debes iniciar sesión para añadir productos a favoritos",
+  "must_be_logged_in_add_store": "Debes iniciar sesión para añadir un producto al carrito de la compra"
 }
