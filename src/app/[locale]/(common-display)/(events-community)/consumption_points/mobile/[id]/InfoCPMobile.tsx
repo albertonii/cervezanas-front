@@ -230,7 +230,10 @@ function Map({ cp }: MapsProps) {
         onLoad={(map) => {
           setMap(map);
         }}
-      />
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <></>
+      </GoogleMap>
     </div>
   );
 }
