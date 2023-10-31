@@ -17,5 +17,5 @@ export default async function layout({ children }: LayoutProps) {
     redirect("/signin", RedirectType.push);
   }
 
-  return { children };
+  return <>{children}</>;
 }

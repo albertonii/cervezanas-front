@@ -14,7 +14,7 @@ export const Spinner = ({
   center,
 }: Props) => {
   return (
-    <div
+    <section
       role="status"
       className={`
         ${class_} ${absolute ? "absolute" : "relative"} 
@@ -38,7 +38,7 @@ export const Spinner = ({
           ${size === "xxLarge" && "h-28 w-28"}
           ${
             size === "fullScreen" &&
-            "absolute bottom-0 left-0 right-0 top-1/4 mx-auto h-48 w-48"
+            "absolute bottom-0 left-0 right-0 top-1/4 mx-auto h-48 w-48 "
           }
         `}
         viewBox="0 0 100 101"
@@ -54,6 +54,6 @@ export const Spinner = ({
           fill="currentFill"
         />
       </svg>
-    </div>
+    </section>
   );
 };

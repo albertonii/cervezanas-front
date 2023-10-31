@@ -1,48 +1,45 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types.d";
-import { EVENT_ORDER_STATUS } from "../../../../../../constants";
+import { EVENT_ORDER_STATUS } from "../../../constants";
 
 interface OrderTimelineProps {
-  order: IEventOrder;
+  status: string;
 }
 
-export function EventOrderTimeline({ order }: OrderTimelineProps) {
+export function StatusTimeline({ status }: OrderTimelineProps) {
   const t = useTranslations();
   return (
     <div className="px-4 py-6 sm:px-6 lg:p-8">
       <p className=" text-lg font-medium text-beer-dark sm:text-xl">
         {t("order_status")}:{" "}
-        <span className="text-beer-draft">{t(order.status)} </span>
+        <span className="text-beer-draft">{t(status)} </span>
       </p>
 
       <div className="mt-6" aria-hidden="true">
         <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
           <div
             className={`h-2 rounded-l-full ${
-              order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
+              status === EVENT_ORDER_STATUS.ORDER_PLACED &&
               "w-[10%] bg-beer-blonde"
             }`}
           ></div>
 
           <div
             className={`h-2  ${
-              order.status === EVENT_ORDER_STATUS.PAID &&
-              "w-[30%] bg-beer-blonde "
+              status === EVENT_ORDER_STATUS.PAID && "w-[30%] bg-beer-blonde "
             }`}
           ></div>
 
           <div
             className={`h-2   ${
-              order.status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
+              status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
               "w-[63%] bg-beer-blonde"
             }`}
           ></div>
 
           <div
             className={`h-2 rounded-r-full ${
-              order.status === EVENT_ORDER_STATUS.SERVED &&
-              "w-[100%] bg-beer-blonde"
+              status === EVENT_ORDER_STATUS.SERVED && "w-[100%] bg-beer-blonde"
             }`}
           ></div>
         </div>
@@ -50,7 +47,7 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
         <div className="text-md mt-6 hidden grid-cols-4 sm:grid">
           <div
             className={`${
-              order.status === EVENT_ORDER_STATUS.ORDER_PLACED &&
+              status === EVENT_ORDER_STATUS.ORDER_PLACED &&
               "font-bold text-beer-darkGold"
             } `}
           >
@@ -59,7 +56,7 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
 
           <div
             className={`${
-              order.status === EVENT_ORDER_STATUS.PAID &&
+              status === EVENT_ORDER_STATUS.PAID &&
               "font-bold text-beer-darkGold"
             } text-left`}
           >
@@ -68,7 +65,7 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
 
           <div
             className={`${
-              order.status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
+              status === EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME &&
               "font-bold text-beer-darkGold"
             } text-left`}
           >
@@ -77,7 +74,7 @@ export function EventOrderTimeline({ order }: OrderTimelineProps) {
 
           <div
             className={`${
-              order.status === EVENT_ORDER_STATUS.SERVED &&
+              status === EVENT_ORDER_STATUS.SERVED &&
               "font-bold text-beer-darkGold"
             } text-end`}
           >

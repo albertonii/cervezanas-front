@@ -43,17 +43,17 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   if (isError) {
     return (
-      <div className="container mx-auto sm:py-4 lg:py-6">
+      <section className="container mx-auto sm:py-4 lg:py-6">
         <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <div className="flex flex-col">
-            <div className="flex sm:items-baseline sm:space-x-4">
+            <span className="flex sm:items-baseline sm:space-x-4">
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                 {t("order_erorr")}
               </h1>
-            </div>
+            </span>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
@@ -63,7 +63,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
         <section className="mx-auto sm:py-4 lg:py-6">
           <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
             <div className="flex flex-col">
-              <div className="flex sm:items-baseline sm:space-x-4">
+              <span className="flex sm:items-baseline sm:space-x-4">
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
                   {t("order_number")} #{order.order_number}
                 </h1>
@@ -75,13 +75,13 @@ export default function SuccessCheckout({ order, isError }: Props) {
                   {t("view_invoice")}
                   <span aria-hidden="true"> &rarr;</span>
                 </p>
-              </div>
+              </span>
 
               {/* Order Status  */}
               <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
                 <p className=" text-lg font-medium text-beer-dark sm:text-xl">
                   {t("order_status")}:{" "}
-                  <span className="text-beer-draft">{t(order.status)} </span>
+                  <h3 className="text-beer-draft">{t(order.status)} </h3>
                 </p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
           </div>
 
           {/* <!-- Products --> */}
-          <div className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
+          <article className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
             {/* Product Information  */}
             <div className="col-span-12 md:col-span-4">
               <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
@@ -125,7 +125,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                   <OrderItem orderItem={item} order={order} />
                 </div>
               ))}
-          </div>
+          </article>
 
           {/* <!-- Billing --> */}
           <div className="mt-16">
@@ -149,6 +149,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                       </span>
                     </dd>
                   </div>
+
                   <div>
                     <dt className="font-medium text-gray-900">
                       {t("payment_information")}

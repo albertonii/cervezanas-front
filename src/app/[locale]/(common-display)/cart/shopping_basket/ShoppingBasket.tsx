@@ -103,7 +103,6 @@ export function ShoppingBasket() {
 
   useEffect(() => {
     if (isFormReady) {
-      console.log("isFormReady", isFormReady);
       // Call submit form
       btnRef.current && btnRef.current.click();
     }

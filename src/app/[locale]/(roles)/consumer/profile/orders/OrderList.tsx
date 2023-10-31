@@ -76,13 +76,13 @@ export function OrderList() {
   if (!isReady) return <Spinner color="beer-blonde" size="xLarge" center />;
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
+        <span className="flex items-center justify-center">
+          <h2 className="text-gray-500 dark:text-gray-400">
             {t("error_fetching_online_orders")}
-          </p>
-        </div>
+          </h2>
+        </span>
       )}
 
       {isLoading && (
@@ -183,6 +183,6 @@ export function OrderList() {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

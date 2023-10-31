@@ -4,7 +4,6 @@ import EventProduct from "./EventProduct";
 import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { EventOrderTimeline } from "./EventOrderTimeline";
 import { IEventOrder } from "../../../../../../lib/types.d";
 import { useAuth } from "../../../../Auth/useAuth";
 import {
@@ -12,6 +11,7 @@ import {
   EVENT_ORDER_STATUS,
 } from "../../../../../../constants";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { StatusTimeline } from "../../../../components/StatusTimeline";
 
 interface Props {
   isError?: boolean;
@@ -145,7 +145,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
           {/* Order timeline  */}
           <div className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
-            <EventOrderTimeline order={order} />
+            <StatusTimeline status={order.status} />
           </div>
 
           {/* <!-- Products --> */}

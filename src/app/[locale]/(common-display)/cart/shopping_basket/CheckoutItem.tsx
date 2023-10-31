@@ -18,7 +18,6 @@ interface Props {
 export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  console.log(selectedShippingAddress);
 
   const [canDeliver, setCanDeliver] = useState(false);
   const [isLoadingDelivery, setIsLoadingDelivery] = useState(false);
