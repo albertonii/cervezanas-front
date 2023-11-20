@@ -186,6 +186,7 @@
   "no": "No",
   "product_type_header": "Product Type",
   "name_header": "Name",
+  "pack_name_header": "Lot Name",
   "month_year": "Month/Year",
   "price_header": "Price",
   "stock_header": "Stock",

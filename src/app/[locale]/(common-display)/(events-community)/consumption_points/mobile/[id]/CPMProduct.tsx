@@ -3,11 +3,11 @@ import DisplayImageProduct from "../../../../../components/common/DisplayImagePr
 import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEventCart } from "../../../../../../../context/EventCartContext";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import { AddCardButton } from "../../../../../components/common/AddCartButton";
 import { SupabaseProps } from "../../../../../../../constants";
 import { IProductPack } from "../../../../../../../lib/types.d";
+import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { AddCardButton } from "../../../../../components/common/AddCartButton";
 
 interface ProductProps {
   pack: IProductPack;
@@ -27,7 +27,8 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     decreaseOnePackCartQuantity,
   } = useEventCart();
 
-  const { name, price, product_id, products } = pack;
+  const { name, price, product_id, products: product } = pack;
+
   const [packQuantity, setPackQuantity] = useState<number>(
     getPackQuantity(pack.id)
   );
@@ -103,17 +104,21 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
           href={`/consumption_points/products/${cpmId}`}
           locale={locale}
         >
-          {name}
+          {product?.name}
         </Link>
       </td>
 
-      <td className="space-x-2 px-6 py-4">{products?.description}</td>
+      <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+        {name}
+      </td>
+
+      <td className="space-x-2 px-6 py-4">{product?.description}</td>
 
       <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
         {formatCurrency(price)}
       </td>
 
-      <td className="space-x-2 px-6 py-4">{t(products?.type.toLowerCase())}</td>
+      <td className="space-x-2 px-6 py-4">{t(product?.type.toLowerCase())}</td>
 
       <td className="space-x-2 px-6 py-4">
         {packQuantity === 0 ? (

@@ -185,6 +185,7 @@
   "no": "No",
   "product_type_header": "Tipo de producto",
   "name_header": "Nombre",
+  "pack_name_header": "Nombre del lote",
   "username_header": "Username",
   "created_date_header": "Fecha de creación",
   "cover_letter_header": "Carta de presentación",
