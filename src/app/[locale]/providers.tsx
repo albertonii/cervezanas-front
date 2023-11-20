@@ -3,10 +3,11 @@
 import React from "react";
 import ReactQueryWrapper from "./ReactQueryWrapper";
 import { NextIntlClientProvider } from "next-intl";
-import { AppContextProvider, ShoppingCartProvider } from "../../context";
 import { EventCartProvider } from "../../context/EventCartContext";
 import { AuthContextProvider } from "./Auth/AuthContext";
 import { MessageProvider } from "./components/message/MessageContext";
+import { AppContextProvider } from "../../context/AppContext";
+import { ShoppingCartProvider } from "../../context/ShoppingCartContext";
 
 interface Props {
   children: React.ReactNode;

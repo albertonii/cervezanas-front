@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAppContext } from "../../../../../../context";
 import { ChipCard } from "../../../../components/common/ChipCard";
 import { toLowerCase } from "../../../../../../utils/formatWords";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useAppContext } from "../../../../../../context/AppContext";
 
 export function CustomizeSettings() {
   const t = useTranslations();

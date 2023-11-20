@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IDistributorUser } from "../../../../../../lib/types.d";
-import { useAppContext } from "../../../../../../context";
+import { useAuth } from "../../../../Auth/useAuth";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import { Button } from "../../../../components/common/Button";
-import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
 import { Spinner } from "../../../../components/common/Spinner";
-import { useAuth } from "../../../../Auth/useAuth";
+import { IDistributorUser } from "../../../../../../lib/types.d";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
 
 type FormValues = {
   bg_url: any;

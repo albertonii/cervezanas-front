@@ -4,9 +4,9 @@ import PackItem from "./PackItem";
 import MarketCartButtons2 from "../../../components/common/MarketCartButtons2";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { AddCardButton } from "../../../components/common/AddCartButton";
-import { useShoppingCart } from "../../../../../context";
 import { IProduct, IProductPack } from "../../../../../lib/types.d";
+import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
+import { AddCardButton } from "../../../components/common/AddCartButton";
 
 interface Props {
   product: IProduct;

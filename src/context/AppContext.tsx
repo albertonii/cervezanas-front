@@ -117,7 +117,7 @@ export function AppContextProvider(props: Props) {
     setImageData(rest);
   };
 
-  const { refetch } = useFetchNotifications(user?.id ?? "");
+  // const { refetch } = useFetchNotifications(user?.id ?? "");
 
   const [openNotification, setOpenNotification] = useState(false);
 

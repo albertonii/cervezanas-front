@@ -276,7 +276,7 @@ export default function SignIn() {
       </div>
 
       {/* Hero Image */}
-      <div className="hidden w-full justify-center lg:flex">
+      <figure className="hidden w-full justify-center lg:flex">
         <Image
           className="inset-0 rounded-3xl lg:w-[30vw]"
           src="/assets/profile_signin.jpg"
@@ -285,7 +285,7 @@ export default function SignIn() {
           width={1024}
           height={768}
         />
-      </div>
+      </figure>
     </section>
   );
 }

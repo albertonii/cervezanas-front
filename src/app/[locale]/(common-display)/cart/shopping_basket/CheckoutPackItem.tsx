@@ -9,8 +9,8 @@ import {
 } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { Type } from "../../../../../lib/productEnum";
-import { useShoppingCart } from "../../../../../context";
 import { useTranslations } from "next-intl";
+import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

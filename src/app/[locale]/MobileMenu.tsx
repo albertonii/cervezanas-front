@@ -9,10 +9,11 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { useAuth } from "./Auth/useAuth";
-import { useAppContext, useShoppingCart } from "../../context";
 import { Button } from "./components/common/Button";
 import { Notification } from "./components/Notification";
 import { useLocale } from "next-intl";
+import { useAppContext } from "../../context/AppContext";
+import { useShoppingCart } from "../../context/ShoppingCartContext";
 
 export function MobileMenu() {
   const { role, user } = useAuth();

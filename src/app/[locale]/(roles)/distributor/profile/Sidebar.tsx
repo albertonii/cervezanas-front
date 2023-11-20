@@ -5,8 +5,8 @@ import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { useAppContext } from "../../../../../context";
 import { Button } from "../../../components/common/Button";
+import { useAppContext } from "../../../../../context/AppContext";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();
@@ -135,11 +135,6 @@ export function Sidebar() {
             name: t("reviews"),
             icon: "review",
             option: "reviews",
-          },
-          {
-            name: t("watchlist"),
-            icon: "watchlist",
-            option: "likes_history",
           },
         ];
 

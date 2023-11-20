@@ -8,12 +8,12 @@ import { COMMON } from "../../constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
-import { useAppContext } from "../../context";
 import { Button } from "./components/common/Button";
 import { useLocale, useTranslations } from "next-intl";
 import { Notification } from "./components/Notification";
 import { HeaderDropdownButton } from "./HeaderDropdownButton";
 import { useShoppingCart } from "../../context/ShoppingCartContext";
+import { useAppContext } from "../../context/AppContext";
 
 export function ScreenMenu() {
   const { user, role } = useAuth();

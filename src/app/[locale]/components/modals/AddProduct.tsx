@@ -30,10 +30,10 @@ import {
   isNotEmptyArray,
   isValidObject,
 } from "../../../../utils/utils";
-import { useAppContext } from "../../../../context";
 import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
+import { useAppContext } from "../../../../context/AppContext";
 
 interface FormData {
   fermentation: number;

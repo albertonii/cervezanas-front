@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { useAppContext } from "../../../../context";
+import { UseFormReturn } from "react-hook-form";
+import { useAppContext } from "../../../../context/AppContext";
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -111,7 +111,7 @@ export const FilePreviewImageMultimedia = ({
                 onClick={() => {
                   removeImageClick();
                 }}
-                className="absolute top-0 right-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
+                className="absolute right-0 top-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
               >
                 <i className="mdi mdi-trash-can text-[16px] text-white">x</i>
               </div>

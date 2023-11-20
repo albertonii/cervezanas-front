@@ -14,7 +14,8 @@
     "gen-types:prod": "npx supabase gen types typescript --db-url postgresql://postgres:[contraseña]@db.[direccion].supabase.co:5432/postgres > ./src/lib/schema.ts ",
     "gen-link": "cloudflared tunnel --url http://localhost:3000",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "test:vitest": "vitest"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.2.32",
@@ -101,6 +102,7 @@
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-testing-library": "^6.0.1",
+    "happy-dom": "^12.10.3",
     "husky": "8.0.1",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",

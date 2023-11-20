@@ -4,14 +4,12 @@ import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../Auth/useAuth";
 import { Button } from "../../../components/common/Button";
-import { useAppContext } from "../../../../../context";
+import { useAppContext } from "../../../../../context/AppContext";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();
 
-  const { role } = useAuth();
   const t = useTranslations();
   const locale = useLocale();
   const [open, setOpen] = useState(false);
@@ -93,11 +91,6 @@ export function Sidebar() {
       name: t("reviews"),
       icon: "review",
       option: "reviews",
-    },
-    {
-      name: t("watchlist"),
-      icon: "watchlist",
-      option: "likes_history",
     },
   ];
 

@@ -6,13 +6,13 @@ import Image from "next/image";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { EditButton } from "../../../../components/common/EditButton";
-import { Spinner } from "../../../../components/common/Spinner";
-import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types.d";
-import { useAppContext } from "../../../../../../context";
+import { Spinner } from "../../../../components/common/Spinner";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;

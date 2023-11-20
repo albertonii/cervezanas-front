@@ -38,10 +38,9 @@ async function getProfileData() {
         company_name,
         company_description,
         location_id
-        
       `
     )
-    .eq("id", session.user.id)
+    .eq("user", session.user.id)
     .single();
 
   if (profileError) throw profileError;

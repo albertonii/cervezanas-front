@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useAppContext } from "../../../../../context";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { Sidebar } from "./Sidebar";
 import { useAuth } from "../../../Auth/useAuth";
+import { useAppContext } from "../../../../../context/AppContext";
 
 type LayoutProps = {
   children: React.ReactNode;
