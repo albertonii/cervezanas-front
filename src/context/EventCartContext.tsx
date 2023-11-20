@@ -175,7 +175,7 @@ export function EventCartProvider({ children }: Props) {
 
   const increaseOnePackCartQuantity = (productId: string, packId: string) => {
     const newItems = eventItems.map((item) => {
-      if (item.id === productId) {
+      if (item && productId && item.id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId) {
             return {

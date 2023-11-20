@@ -36,7 +36,7 @@ export default function EventPackItem({ pack, item }: Props) {
   };
 
   return (
-    <div
+    <section
       className={`flex items-center space-x-2 ${
         animateRemove && "animate-ping overflow-hidden "
       }`}
@@ -67,24 +67,22 @@ export default function EventPackItem({ pack, item }: Props) {
         </dl>
       </div>
 
-      <div className="flex flex-1 items-center justify-end gap-2">
-        <div className="flex space-x-2">
-          <MarketCartButtons
-            quantity={pack.quantity}
-            item={pack}
-            handleIncreaseCartQuantity={() => {
-              handleIncreaseCartQuantity();
-            }}
-            handleDecreaseCartQuantity={() => {
-              handleDecreaseCartQuantity();
-            }}
-            handleRemoveFromCart={() => {
-              handleRemoveFromCart();
-            }}
-            displayDeleteButton={true}
-          />
-        </div>
+      <div className="flex flex-1 items-center justify-end gap-2 space-x-2">
+        <MarketCartButtons
+          item={pack}
+          quantity={pack.quantity}
+          handleIncreaseCartQuantity={() => {
+            handleIncreaseCartQuantity();
+          }}
+          handleDecreaseCartQuantity={() => {
+            handleDecreaseCartQuantity();
+          }}
+          handleRemoveFromCart={() => {
+            handleRemoveFromCart();
+          }}
+          displayDeleteButton={true}
+        />
       </div>
-    </div>
+    </section>
   );
 }

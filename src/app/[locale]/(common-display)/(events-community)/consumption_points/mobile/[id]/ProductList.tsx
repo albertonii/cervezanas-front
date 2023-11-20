@@ -11,8 +11,6 @@ export default function ProductList({ cpMobile }: Props) {
   const t = useTranslations();
   const { cpm_products } = cpMobile;
 
-  console.log(cpm_products);
-
   return (
     <>
       {cpm_products && cpm_products.length > 0 ? (

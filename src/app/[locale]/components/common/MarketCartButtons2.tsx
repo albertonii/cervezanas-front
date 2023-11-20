@@ -21,36 +21,34 @@ export default function MarketCartButtons({
   displayDeleteButton,
 }: Props) {
   return (
-    <>
-      <div className="mr-2 flex items-center justify-center space-x-2 rounded-md border">
-        <span className="mx-2 text-xl text-beer-draft">{quantity}</span>
+    <section className="mr-2 flex items-center justify-center space-x-2 rounded-md border">
+      <p className="mx-2 text-xl text-beer-draft">{quantity}</p>
 
-        <div className="flex flex-col ">
-          <div className="border">
-            <IconButton
-              onClick={() => handleIncreaseCartQuantity()}
-              classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-              classIcon={""}
-              icon={faChevronUp}
-              title={""}
-            ></IconButton>
-          </div>
-
-          <div className="border">
-            <IconButton
-              onClick={() => handleDecreaseCartQuantity()}
-              classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-              classIcon={""}
-              icon={faChevronDown}
-              title={""}
-            ></IconButton>
-          </div>
+      <div className="flex flex-col ">
+        <div className="border">
+          <IconButton
+            onClick={() => handleIncreaseCartQuantity()}
+            classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
+            classIcon={""}
+            icon={faChevronUp}
+            title={""}
+          ></IconButton>
         </div>
 
-        {displayDeleteButton && (
-          <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
-        )}
+        <div className="border">
+          <IconButton
+            onClick={() => handleDecreaseCartQuantity()}
+            classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
+            classIcon={""}
+            icon={faChevronDown}
+            title={""}
+          ></IconButton>
+        </div>
       </div>
-    </>
+
+      {displayDeleteButton && (
+        <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+      )}
+    </section>
   );
 }

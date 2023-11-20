@@ -39,6 +39,7 @@ async function getCPMobile(cpId: string) {
           product_packs!cpm_products_product_pack_id_fkey (
             *,
             products!product_packs_product_id_fkey (
+              id,
               name,
               description,
               type,

@@ -62,22 +62,22 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     setPackQuantity(1);
   };
 
-  const handleIncreaseCartQuantity = (pack: IProductPack) => {
-    if (!product_id) return;
-    setPackQuantity(packQuantity + 1);
+  const handleIncreaseCartQuantity = () => {
+    // if (!product_id) return;
+    // setPackQuantity(packQuantity + 1);
     increaseOnePackCartQuantity(product_id, pack.id);
   };
 
-  const handleDecreaseCartQuantity = (pack: IProductPack) => {
-    if (!product_id) return;
+  const handleDecreaseCartQuantity = () => {
+    // if (!product_id) return;
 
-    if (packQuantity > 1) {
-      setPackQuantity(packQuantity - 1);
-      decreaseOnePackCartQuantity(product_id, pack.id);
-    }
+    // if (packQuantity > 1) {
+    //   setPackQuantity(packQuantity - 1);
+    decreaseOnePackCartQuantity(product_id, pack.id);
+    // }
   };
 
-  const handleRemoveFromCart = (pack: IProductPack) => {
+  const handleRemoveFromCart = () => {
     removeFromCart(product_id, pack.id);
   };
 
@@ -130,42 +130,15 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
             <MarketCartButtons2
               item={pack}
               quantity={packQuantity}
-              handleIncreaseCartQuantity={() =>
-                handleIncreaseCartQuantity(pack)
-              }
-              handleDecreaseCartQuantity={() =>
-                handleDecreaseCartQuantity(pack)
-              }
+              handleIncreaseCartQuantity={() => handleIncreaseCartQuantity()}
+              handleDecreaseCartQuantity={() => handleDecreaseCartQuantity()}
               handleRemoveFromCart={() => {
-                handleRemoveFromCart(pack);
+                handleRemoveFromCart();
               }}
               displayDeleteButton={true}
             />
           </>
         )}
-
-        {/* {packQuantity === 0 ? (
-          <>
-            <AddCardButton withText={true} onClick={() => handleAddToCart()} />
-          </>
-        ) : (
-          <>
-            <MarketCartButtons
-              item={pack}
-              quantity={packQuantity}
-              handleIncreaseCartQuantity={() =>
-                handleIncreaseCartQuantity(pack)
-              }
-              handleDecreaseCartQuantity={() =>
-                handleDecreaseCartQuantity(pack)
-              }
-              handleRemoveFromCart={() => {
-                handleRemoveFromCart(pack);
-              }}
-              displayDeleteButton={true}
-            />
-          </>
-        )} */}
       </td>
     </tr>
   );
