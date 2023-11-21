@@ -18,7 +18,6 @@ import {
   API_METHODS,
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
-  PAYMENT_METHOD,
 } from "../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
@@ -86,7 +85,7 @@ export default function EventBasket() {
         status: EVENT_ORDER_STATUS.ORDER_PLACED,
         updated_at: new Date().toISOString(),
         // event_id: "123456789",
-        payment_method: PAYMENT_METHOD.CREDIT_CARD,
+        // payment_method: PAYMENT_METHOD.CREDIT_CARD,
         total: total,
         currency: "EUR",
         subtotal: subtotal,
@@ -182,7 +181,7 @@ export default function EventBasket() {
     <section className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
         action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-        method={API_METHODS.GET}
+        method={API_METHODS.POST}
         name="form"
         ref={formRef}
       >
