@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { SupabaseProps } from "../../../../constants";
 import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
 import { useEventCart } from "../../../../context/EventCartContext";
+import { formatCurrency } from "../../../../utils/formatCurrency";
 
 interface Props {
   pack: IProductPack;
@@ -54,6 +55,10 @@ export default function EventPackItem({ pack, item }: Props) {
       <h3 className="text-sm text-gray-900">{pack.name}</h3>
 
       <div className="flex flex-1 items-center justify-end gap-2 space-x-2">
+        <p className="xl:text-md text-base leading-6 dark:text-white">
+          {formatCurrency(pack.price)}
+        </p>
+
         <MarketCartButtons
           item={pack}
           quantity={pack.quantity}
