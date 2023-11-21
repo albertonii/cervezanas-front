@@ -95,13 +95,13 @@ export default function MaxifiedCart({
             </div>
 
             <p className="mt-0.5 text-sm text-gray-500">
-              {t("shipping_and_taxes_calculated_at_checkout")}
+              {t("go_to_checkout_for_final_price")}
             </p>
 
-            <div className="mt-6">
+            <div className="mt-2">
               <Link
                 href={{
-                  pathname: "/cart/shopping_basket",
+                  pathname: "/cart/event_basket",
                   query: { items: JSON.stringify(items) },
                 }}
                 onClick={() => {

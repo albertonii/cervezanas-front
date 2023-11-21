@@ -42,7 +42,6 @@ export default function EventBasket() {
   const [isFormReady, setIsFormReady] = useState(false);
   const [merchantParameters, setMerchantParameters] = useState("");
   const [merchantSignature, setMerchantSignature] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { eventItems: cart, clearCart } = useEventCart();
   const queryClient = useQueryClient();
@@ -155,15 +154,12 @@ export default function EventBasket() {
   const insertOrderMutation = useMutation({
     mutationKey: ["insertEventOrder"],
     mutationFn: handleProceedToPay,
-    onMutate: () => setIsSubmitting(true),
     onSuccess: () => {
       queryClient.invalidateQueries("eventOrders");
-      setIsSubmitting(false);
       clearCart();
     },
     onError: (error: any) => {
       console.error(error);
-      setIsSubmitting(false);
     },
   });
 
@@ -183,7 +179,7 @@ export default function EventBasket() {
   }, [isFormReady]);
 
   return (
-    <div className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+    <section className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
       <form
         action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
         method={API_METHODS.GET}
@@ -353,6 +349,6 @@ export default function EventBasket() {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }
