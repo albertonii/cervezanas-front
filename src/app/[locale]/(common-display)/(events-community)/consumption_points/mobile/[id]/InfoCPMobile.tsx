@@ -23,7 +23,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
       </section>
 
       {/* Display all the information inside the Mobile Consumption Point */}
-      <section className="mt-10 grid grid-cols-2">
+      <section className="mt-10 grid grid-cols-1 md:grid-cols-2">
         <CPDetails cpMobile={cpMobile} />
       </section>
 

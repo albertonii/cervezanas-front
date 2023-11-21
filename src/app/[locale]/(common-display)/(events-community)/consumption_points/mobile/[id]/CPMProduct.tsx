@@ -112,13 +112,17 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
         {name}
       </td>
 
-      <td className="space-x-2 px-6 py-4">{product?.description}</td>
+      <td className="hidden space-x-2 px-6 py-4 md:block">
+        {product?.description}
+      </td>
 
       <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
         {formatCurrency(price)}
       </td>
 
-      <td className="space-x-2 px-6 py-4">{t(product?.type.toLowerCase())}</td>
+      <td className="hidden space-x-2 px-6 py-4 md:block">
+        {t(product?.type.toLowerCase())}
+      </td>
 
       <td className="space-x-2 px-6 py-4">
         {packQuantity === 0 ? (

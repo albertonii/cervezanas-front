@@ -14,7 +14,7 @@ export default function ProductList({ cpMobile }: Props) {
   return (
     <>
       {cpm_products && cpm_products.length > 0 ? (
-        <div>
+        <section className="overflow-x-auto">
           <h3 className="mb-2 text-xl font-bold"> {t("products")}</h3>
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -32,7 +32,7 @@ export default function ProductList({ cpMobile }: Props) {
                   {t("pack_name_header")}
                 </th>
 
-                <th scope="col" className="px-6 py-3 ">
+                <th scope="col" className="hidden px-6 py-3 md:block">
                   {t("description_header")}
                 </th>
 
@@ -40,7 +40,7 @@ export default function ProductList({ cpMobile }: Props) {
                   {t("price_header")}
                 </th>
 
-                <th scope="col" className="px-6 py-3 ">
+                <th scope="col" className="hidden px-6 py-3 md:block">
                   {t("type_header")}
                 </th>
 
@@ -64,7 +64,7 @@ export default function ProductList({ cpMobile }: Props) {
               ))}
             </tbody>
           </table>
-        </div>
+        </section>
       ) : (
         <>
           <h3 className="mb-2 text-xl font-bold">{t("products")}</h3>
