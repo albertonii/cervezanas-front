@@ -46,26 +46,12 @@ export default function EventPackItem({ pack, item }: Props) {
           SupabaseProps.BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
         }
         alt={pack.name}
-        width={600}
-        height={600}
-        class="w-[8vw] px-2 py-2 sm:w-[6vw] md:w-[8vw] lg:w-[6vw]"
+        width={200}
+        height={200}
+        class="w-[6vw] px-2 py-2 sm:w-[5vw] md:w-[6vw] lg:w-[5vw]"
       />
 
-      <div>
-        <h3 className="text-sm text-gray-900">{pack.name}</h3>
-
-        <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
-          <div>
-            <dt className="inline">Size:</dt>
-            <dd className="inline">XXS</dd>
-          </div>
-
-          <div>
-            <dt className="inline">Color:</dt>
-            <dd className="inline">White</dd>
-          </div>
-        </dl>
-      </div>
+      <h3 className="text-sm text-gray-900">{pack.name}</h3>
 
       <div className="flex flex-1 items-center justify-end gap-2 space-x-2">
         <MarketCartButtons

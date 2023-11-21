@@ -14,7 +14,10 @@ export default function EventProduct({ item }: Props) {
   }, [item]);
 
   return (
-    <div className="flex w-full flex-col space-y-2">
+    <figure className="flex w-full flex-col space-y-2 border-2 bg-beer-softBlondeBubble p-2">
+      {/* Display product name */}
+      <h2 className="text-lg text-gray-900">{item.name}</h2>
+
       {packs.map((pack) => {
         return (
           <div key={pack.id}>
@@ -22,6 +25,6 @@ export default function EventProduct({ item }: Props) {
           </div>
         );
       })}
-    </div>
+    </figure>
   );
 }

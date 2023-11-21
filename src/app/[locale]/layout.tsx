@@ -1,13 +1,13 @@
 import "../../styles/globals.css";
 
 import Providers from "./providers";
+import Loading from "./loading";
 import classNames from "classnames";
 import { Suspense } from "react";
 import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
 import { Footer } from "./components/Footer";
 import { notFound } from "next/navigation";
-import Loading from "./loading";
 import { MessageList } from "./components/message/MessageList";
 
 type LayoutProps = {

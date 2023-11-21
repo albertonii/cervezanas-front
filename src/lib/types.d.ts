@@ -7,6 +7,7 @@ import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types.d";
+import { Type as ProductType } from "../../../../../lib/productEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -887,7 +888,7 @@ export interface IProduct {
   created_at: string;
   name: string;
   description: string;
-  type: IProductEnum.Type;
+  type: ProductType;
   is_public: boolean;
   discount_percent: number;
   discount_code: string;
