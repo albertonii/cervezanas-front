@@ -1,7 +1,7 @@
 "use client";
 
 import { API_METHODS, DS_API } from "../../../../../constants";
-import { createClient } from "../../../../../utils/supabaseBrowser";
+import { createBrowserClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
 
 export const initShipmentLogic = async (
@@ -32,7 +32,7 @@ export const initShipmentLogic = async (
 };
 
 const getShippingInfo = async (shippingInfoId: string) => {
-  const supabase = createClient();
+  const supabase = createBrowserClient();
 
   const { data: shipping, error } = await supabase
     .from("shipping_info")
@@ -48,7 +48,7 @@ const getShippingInfo = async (shippingInfoId: string) => {
 const getListOfDistributorsBasedOnProducerId = async (
   distributionId: string
 ) => {
-  const supabase = createClient();
+  const supabase = createBrowserClient();
 
   const { data: contracts, error } = await supabase
     .from("distribution_contracts")

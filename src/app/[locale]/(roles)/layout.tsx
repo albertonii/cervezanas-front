@@ -13,7 +13,9 @@ export default async function layout({ children }: LayoutProps) {
 
   const { data } = await supabase.auth.getSession();
 
-  if (!data.session) {
+  console.log(data);
+
+  if (!data) {
     redirect("/signin", RedirectType.push);
   }
 

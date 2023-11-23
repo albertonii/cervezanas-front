@@ -30,6 +30,7 @@ export default async function RootLayout({
     data: { session },
   } = await supabase.auth.getSession();
 
+  console.log("SERVER SESSION", session);
   let messages;
   try {
     messages = (await import(`../../lib/translations/messages/${locale}.json`))

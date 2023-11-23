@@ -7,9 +7,9 @@ import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
 import { IUserProfile } from "../../../lib/types.d";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
-import { createClient } from "../../../utils/supabaseBrowser";
+import { createBrowserClient } from "../../../utils/supabaseBrowser";
 import { AuthResponse, Provider } from "@supabase/supabase-js";
 import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
@@ -58,7 +58,7 @@ export interface AuthSession {
   isLoggedIn: boolean;
 }
 
-const supabaseClient = createClient();
+const supabaseClient = createBrowserClient();
 
 export const AuthContext = createContext<AuthSession>({
   initial: true,
@@ -75,27 +75,34 @@ export const AuthContext = createContext<AuthSession>({
   isLoggedIn: false,
 });
 
-export const AuthContextProvider = ({
+export const AuthContextProvider = async ({
   serverSession,
   children,
 }: {
   serverSession?: Session | null;
   children: React.ReactNode;
 }) => {
-  const t = useTranslations();
-
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const locale = useLocale();
   const router = useRouter();
 
   // const { supabase } = useAuth();
-  const [supabase] = useState(() => supabaseClient);
+  // const [supabase] = useState(() => supabaseClient); // Not working
+  // const supabase = createBrowserClient();
+  const [supabase] = useState(supabaseClient);
+
+  console.log("CLIENT", supabase);
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
   const { handleMessage, clearMessages } = useMessage();
+
+  useEffect(() => {
+    const loadSupabaseBrowser = async () => await supabaseClient;
+    loadSupabaseBrowser();
+  }, []);
 
   const getUser = async () => {
     if (!serverSession) return null;

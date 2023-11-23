@@ -26,6 +26,7 @@ const privateSections = [
   "profile",
   "cart",
   "checkout",
+  "barman",
 ];
 
 // this middleware refreshes the user's session and must be run
@@ -48,7 +49,7 @@ export async function middleware(req: NextRequest) {
     const locale = getLocale(req);
 
     // e.g. incoming request is /products
-    // The new URL is now /en-US/products
+    // The new URL is now /es/products
     return NextResponse.redirect(new URL(`/${locale}/${pathname}`, req.url));
   }
 
@@ -57,7 +58,7 @@ export async function middleware(req: NextRequest) {
   if (privateSections.includes(urlSection)) {
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
-    // Comprueba si el usuario tiene la sesión iniciada
+    // Checks user session
     const supabase = createMiddlewareClient({ req, res });
 
     // This will update our cookie with the user session so we can know in protected routes if user is logged in
