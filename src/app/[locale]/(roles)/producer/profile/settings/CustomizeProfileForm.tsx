@@ -10,7 +10,7 @@ import { Button } from "../../../../components/common/Button";
 import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
 import { Spinner } from "../../../../components/common/Spinner";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { useAppContext } from "../../../../../../../context/AppContext";
 
 type FormValues = {
   bg_url: any;

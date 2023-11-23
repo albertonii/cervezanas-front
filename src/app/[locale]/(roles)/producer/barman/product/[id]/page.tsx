@@ -2,27 +2,23 @@ import ManageEventProduct from "./ManageEventProduct";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { IEventOrderItem } from "../../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../actions";
 
 export default async function BarmanProductPage({ params }: any) {
   const { id } = params;
   const eventOrderItemData = getEventOrderItemData(id);
   const [eventOrderItem] = await Promise.all([eventOrderItemData]);
   if (!eventOrderItem) return <></>;
-  return (
-    <div className="container">
-      <ManageEventProduct eventOrderItem={eventOrderItem} />
-    </div>
-  );
+  return <ManageEventProduct eventOrderItem={eventOrderItem} />;
 }
 
 async function getEventOrderItemData(eventOrderItemId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -36,7 +32,7 @@ async function getEventOrderItemData(eventOrderItemId: string) {
         *,
         product_packs!event_order_items_product_pack_id_fkey (
           *,
-            product_id (*,
+            products!product_packs_product_id_fkey (*,
               product_multimedia (
                 p_principal
               )
@@ -47,6 +43,21 @@ async function getEventOrderItemData(eventOrderItemId: string) {
       )
       .eq("id", eventOrderItemId)
       .single();
+
+  //  .select(
+  //   `
+  //   *,
+  //   product_packs!event_order_items_product_pack_id_fkey (
+  //     *,
+  //       product_id (*,
+  //         product_multimedia (
+  //           p_principal
+  //         )
+  //       )
+  //   )
+
+  // `
+  // )
 
   if (eventOrderItemError) throw eventOrderItemError;
 

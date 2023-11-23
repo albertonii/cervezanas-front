@@ -12,8 +12,8 @@ import { useAuth } from "./Auth/useAuth";
 import { Button } from "./components/common/Button";
 import { Notification } from "./components/Notification";
 import { useLocale } from "next-intl";
-import { useAppContext } from "../../context/AppContext";
-import { useShoppingCart } from "../../context/ShoppingCartContext";
+import { useAppContext } from "../../../context/AppContext";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
 
 export function MobileMenu() {
   const { role, user } = useAuth();

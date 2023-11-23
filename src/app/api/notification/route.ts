@@ -6,7 +6,7 @@ import {
   SANDBOX_URLS,
 } from "redsys-easy";
 import { MARKETPLACE_ORDER_STATUS } from "../../../constants";
-import { createServerClient } from "../../../utils/supabaseServer";
+import createServerClient from "../../../utils/supabaseServer";
 
 export async function POST(req: NextRequest) {
   const data = await req.formData();
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   const orderId = restNotification.Ds_Order;
 
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   if (isResponseCodeOk(responseCode)) {
     console.info(`Payment for order ${orderId} succeded`);

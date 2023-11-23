@@ -1,14 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { DisplayInputError } from "../../components/common/DisplayInputError";
-import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { VIEWS } from "../../../../constants";
+import { useAuth } from "../../Auth/useAuth";
 
 type FormData = {
   email: string;
@@ -32,7 +32,7 @@ type ValidationSchema = z.infer<typeof schema>;
 export default function ResetPassword() {
   const t = useTranslations();
   const locale = useLocale();
-  const supabase = createClientComponentClient();
+  const { supabase } = useAuth();
 
   const {
     register,

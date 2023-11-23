@@ -1,7 +1,7 @@
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import CoverageLayout from "./CoverageLayout";
+import readUserSession from "../../../../../actions";
 
 export default async function OrdersPage() {
   const coverageAreaData = await getCoverageAreaData();
@@ -11,12 +11,11 @@ export default async function OrdersPage() {
 }
 
 async function getCoverageAreaData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

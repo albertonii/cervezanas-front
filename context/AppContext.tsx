@@ -1,17 +1,17 @@
 "use client";
 
-import useFetchNotifications from "../hooks/useFetchNotifications";
+import useFetchNotifications from "../src/hooks/useFetchNotifications";
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SupabaseProps } from "../constants";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { SupabaseProps } from "../src/constants";
+import { useLocalStorage } from "../src/hooks/useLocalStorage";
 import {
   ICustomizeSettings,
   INotification,
   IProduct,
   IRefProductLot,
-} from "../lib/types.d";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
+} from "../src/lib/types";
+import { useAuth } from "../src/app/[locale]/Auth/useAuth";
 
 // Definir el tipo de datos para el objeto de imágenes
 type ImageDataRecord = {

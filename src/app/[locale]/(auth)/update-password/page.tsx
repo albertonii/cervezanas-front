@@ -1,14 +1,11 @@
 import UpdatePassword from "./UpdatePassword";
-import { cookies } from "next/headers";
+import readUserSession from "../../../actions";
 import { redirect } from "next/navigation";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default async function UpdatePasswordPage() {
-  const supabase = createServerComponentClient({ cookies });
-
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect("/sign-in");

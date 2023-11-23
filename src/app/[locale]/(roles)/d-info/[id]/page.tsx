@@ -1,6 +1,6 @@
 import React from "react";
 import DistributorInformation from "./DistributorInformation";
-import { createServerClient } from "../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../utils/supabaseServer";
 import { IDistributorUser } from "../../../../../lib/types";
 
 export default async function page({ params }: any) {
@@ -13,7 +13,7 @@ export default async function page({ params }: any) {
 }
 
 async function getDistributorProfile(distributorId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: distributor, error: distributorError } = await supabase
     .from("distributor_user")

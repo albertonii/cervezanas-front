@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { ILike } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../actions";
 import { LikesHistory } from "./LikesHistory";
 
 export default async function LikesPage() {
@@ -16,12 +17,11 @@ export default async function LikesPage() {
 }
 
 async function getLikesData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

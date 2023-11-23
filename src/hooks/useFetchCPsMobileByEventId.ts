@@ -2,12 +2,13 @@
 
 import { useQuery } from "react-query";
 import { ICPM_events } from "../lib/types.d";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchCPSMobileByEventId = async (
   eventId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   if (!eventId) return [];
 

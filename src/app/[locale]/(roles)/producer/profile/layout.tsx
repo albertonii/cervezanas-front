@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { Sidebar } from "./Sidebar";
 import { useAuth } from "../../../Auth/useAuth";
-import { useAppContext } from "../../../../../context/AppContext";
+import { useAppContext } from "../../../../../../context/AppContext";
 
 type LayoutProps = {
   children: React.ReactNode;

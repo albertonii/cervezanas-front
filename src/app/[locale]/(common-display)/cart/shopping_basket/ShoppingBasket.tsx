@@ -9,7 +9,7 @@ import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOw
 import useFetchBillingByOwnerId from "../../../../../hooks/useFetchBillingByOwnerId";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
 import { Spinner } from "../../../components/common/Spinner";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";

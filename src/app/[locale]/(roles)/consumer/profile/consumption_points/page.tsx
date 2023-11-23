@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { IProfile, IConsumptionPoints } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../actions";
 import { ConsumptionPoints } from "./ConsumptionPoints";
 
 export default async function ProfilePage() {
@@ -18,11 +19,11 @@ export default async function ProfilePage() {
 }
 
 async function getCPSData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -44,11 +45,11 @@ async function getCPSData() {
 }
 
 async function getProfileData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

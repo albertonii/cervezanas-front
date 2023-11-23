@@ -2,7 +2,8 @@ import DisplayEvent from "./DisplayEvent";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { IEvent } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../actions";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;
@@ -17,11 +18,11 @@ export default async function EventPage({ params }: any) {
 }
 
 async function getEvent(eventId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

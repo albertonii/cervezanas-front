@@ -1,12 +1,13 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { Database } from "../lib/schema";
 import { IProduct } from "../lib/types.d";
 
 const deleteProductImgs = async (
   product: IProduct,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   // 1. Delete product multimedia images
   if (product.product_multimedia[0]) {

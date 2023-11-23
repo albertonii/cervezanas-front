@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function PCRanges({ item, index, register }: Props) {
-  // console.log(item);
   // const [from, setFrom] = useState(item?.from ?? 35600);
   // const [to, setTo] = useState(item?.to ?? 35699);
 

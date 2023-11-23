@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import readUserSession from "../../../actions";
 import SignIn from "./SignIn";
 
 export default async function SignInPage() {
-  const supabase = createServerClient();
+  const {
+    data: { session },
+  } = await readUserSession();
 
-  const { data } = await supabase.auth.getSession();
-  if (data?.session) {
+  if (session) {
     redirect("/es");
   }
 

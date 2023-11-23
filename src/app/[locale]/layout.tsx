@@ -3,8 +3,8 @@ import "../../styles/globals.css";
 import Providers from "./providers";
 import Loading from "./loading";
 import classNames from "classnames";
+import readUserSession from "../actions";
 import { Suspense } from "react";
-import { createServerClient } from "../../utils/supabaseServer";
 import { Header } from "./Header";
 import { Footer } from "./components/Footer";
 import { notFound } from "next/navigation";
@@ -24,13 +24,10 @@ export default async function RootLayout({
   children,
   params: { locale },
 }: LayoutProps) {
-  const supabase = createServerClient();
-
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
-  console.log("SERVER SESSION", session);
   let messages;
   try {
     messages = (await import(`../../lib/translations/messages/${locale}.json`))

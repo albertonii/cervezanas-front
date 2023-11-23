@@ -33,7 +33,7 @@ import {
 import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
-import { useAppContext } from "../../../../context/AppContext";
+import { useAppContext } from "../../../../../context/AppContext";
 
 interface FormData {
   fermentation: number;

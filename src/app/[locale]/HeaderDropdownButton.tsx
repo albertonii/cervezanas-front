@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 import { useAuth } from "./Auth/useAuth";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../../context/AppContext";
 
 interface DropdownProps {
   options: string[];

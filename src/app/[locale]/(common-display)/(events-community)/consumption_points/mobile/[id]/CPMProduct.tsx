@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../../constants";
 import { IProductPack } from "../../../../../../../lib/types.d";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { AddCardButton } from "../../../../../components/common/AddCartButton";
 
 interface ProductProps {

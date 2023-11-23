@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../../components/common/Button";
-import { useAppContext } from "../../../../../context/AppContext";
+import { useAppContext } from "../../../../../../context/AppContext";
 
 export function Sidebar() {
   const { sidebar, changeSidebarActive } = useAppContext();

@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
 const locales = ["en", "es"];
 
@@ -58,8 +59,29 @@ export async function middleware(req: NextRequest) {
   if (privateSections.includes(urlSection)) {
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
+    const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseURL || !supabaseAnonKey) {
+      throw new Error("Missing env variables");
+    }
+    const cookieStore = cookies();
+
     // Checks user session
-    const supabase = createMiddlewareClient({ req, res });
+    // const supabase = createServerClient({ req, res });
+    const supabase = createServerClient(supabaseURL, supabaseAnonKey, {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options: CookieOptions) {
+          cookieStore.delete({ name, ...options });
+        },
+      },
+    });
 
     // This will update our cookie with the user session so we can know in protected routes if user is logged in
     const {

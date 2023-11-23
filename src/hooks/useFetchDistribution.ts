@@ -1,8 +1,8 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useQuery, UseQueryResult } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { IDistribution, IDistributorUser } from "../lib/types.d";
 
 const fetchDistributionByOwnerId = async (

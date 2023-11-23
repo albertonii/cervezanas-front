@@ -1,6 +1,6 @@
 import Marketplace from "./Marketplace";
 import React from "react";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import createServerClient from "../../../../utils/supabaseServer";
 import { IProduct } from "../../../../lib/types.d";
 
 export default async function MarketPlacePage() {
@@ -15,7 +15,7 @@ export default async function MarketPlacePage() {
 }
 
 async function getMarketplaceProducts() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")

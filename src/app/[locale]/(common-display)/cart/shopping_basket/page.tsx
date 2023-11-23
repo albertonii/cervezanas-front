@@ -2,7 +2,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
 import { IBillingAddress, IAddress } from "../../../../../lib/types.d";
-import { createServerClient } from "../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../utils/supabaseServer";
 import { ShoppingBasket } from "./ShoppingBasket";
 
 export default async function CheckoutPage() {
@@ -18,7 +18,7 @@ export default async function CheckoutPage() {
 }
 
 // async function getCheckout() {
-//   const supabase = createServerClient();
+//   const supabase = await createServerClient();
 
 //   // Check if we have a session
 //   const {

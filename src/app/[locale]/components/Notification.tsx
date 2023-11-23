@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { INotification } from "../../../lib/types.d";
 import { useLocale, useTranslations } from "next-intl";
 import { getTimeElapsed } from "../../../utils/formatDate";
-import { useAppContext } from "../../../context/AppContext";
+import { useAppContext } from "../../../../context/AppContext";
 
 interface Props {
   open: boolean;

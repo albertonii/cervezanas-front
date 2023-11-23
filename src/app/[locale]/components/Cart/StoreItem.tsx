@@ -13,7 +13,7 @@ import { AddCardButton } from "../common/AddCartButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IProduct, IProductPack } from "../../../../lib/types.d";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
 import { useAuth } from "../../Auth/useAuth";
 import { useMessage } from "../message/useMessage";
 

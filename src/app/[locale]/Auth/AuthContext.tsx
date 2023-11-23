@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
@@ -10,8 +10,13 @@ import { IUserProfile } from "../../../lib/types.d";
 import { useLocale } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { createBrowserClient } from "../../../utils/supabaseBrowser";
-import { AuthResponse, Provider } from "@supabase/supabase-js";
-import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import {
+  AuthResponse,
+  Provider,
+  Session,
+  SupabaseClient,
+} from "@supabase/supabase-js";
+// import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
@@ -75,7 +80,7 @@ export const AuthContext = createContext<AuthSession>({
   isLoggedIn: false,
 });
 
-export const AuthContextProvider = async ({
+export const AuthContextProvider = ({
   serverSession,
   children,
 }: {
@@ -91,8 +96,6 @@ export const AuthContextProvider = async ({
   // const [supabase] = useState(() => supabaseClient); // Not working
   // const supabase = createBrowserClient();
   const [supabase] = useState(supabaseClient);
-
-  console.log("CLIENT", supabase);
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
@@ -341,6 +344,7 @@ export const AuthContextProvider = async ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    redirect("/signin", RedirectType.push);
     // router.push(`/${locale}/${ROUTE_SIGNIN}`);
   };
 

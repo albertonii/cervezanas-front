@@ -2,8 +2,8 @@
 
 import { useQuery } from "react-query";
 import { ICPFixed } from "../lib/types";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const fetchCPFixed = async (
   cpId: string,

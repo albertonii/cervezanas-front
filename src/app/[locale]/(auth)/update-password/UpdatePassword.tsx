@@ -1,12 +1,13 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { z, ZodType } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DisplayInputError } from "../../components/common/DisplayInputError";
+import { useAuth } from "../../Auth/useAuth";
 
 type FormData = {
   email: string;
@@ -32,7 +33,9 @@ const schema: ZodType<FormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 export default function UpdatePassword() {
-  const supabase = createClientComponentClient();
+  // const supabase = createClientComponentClient();
+  const { supabase } = useAuth();
+
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState(null);
 

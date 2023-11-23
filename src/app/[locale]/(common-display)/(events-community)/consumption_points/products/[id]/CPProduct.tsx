@@ -13,7 +13,7 @@ import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../../../../components/common/Button";
 import { IconButton } from "../../../../../components/common/IconButton";
 import { Spinner } from "../../../../../components/common/Spinner";
-import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { ProductOverallReview } from "../../../../../components/reviews/ProductOverallReview";
 import { ProductReviews } from "../../../../../components/reviews/ProductReviews";
 import { Rate } from "../../../../../components/reviews/Rate";

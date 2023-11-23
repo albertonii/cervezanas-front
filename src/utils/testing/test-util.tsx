@@ -5,14 +5,14 @@ import { NextIntlClientProvider } from "next-intl";
 import { MessageProvider } from "../../app/[locale]/components/message/MessageContext";
 import ReactQueryWrapper from "../../app/[locale]/ReactQueryWrapper";
 import { AuthContextProvider } from "../../app/[locale]/Auth/AuthContext";
-import { AppContextProvider } from "../../context/AppContext";
-import { ShoppingCartProvider } from "../../context/ShoppingCartContext";
-import { EventCartProvider } from "../../context/EventCartContext";
-import { createServerClient } from "../supabaseServer";
+import { AppContextProvider } from "../../../context/AppContext";
+import { ShoppingCartProvider } from "../../../context/ShoppingCartContext";
+import { EventCartProvider } from "../../../context/EventCartContext";
+import createServerClient from "../supabaseServer";
 
 const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
   // const loadSupabase = async () => {
-  //   const supabase = createServerClient();
+  //   const supabase = await createServerClient();
 
   //   const {
   //     data: { session },
