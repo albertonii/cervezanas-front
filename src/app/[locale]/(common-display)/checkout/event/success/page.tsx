@@ -4,6 +4,7 @@ import { VIEWS } from "../../../../../../constants";
 import { IEventOrder } from "../../../../../../lib/types";
 import { decodeBase64 } from "../../../../../../utils/utils";
 import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { headers } from "next/headers";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -36,10 +37,24 @@ export async function generateMetadata({ searchParams }: any) {
 }
 
 export default async function SuccessPage({ searchParams }: any) {
+  const headersList = headers();
+
+  const domain = headersList.get("host"); // to get domain
+
+  if (!domain) {
+    return <></>;
+  }
+
   const { orderData, isError } = await getSuccessData(searchParams);
   const [order] = await Promise.all([orderData]);
 
-  return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
+  return (
+    <>
+      {order && (
+        <SuccessCheckout order={order} isError={isError} domain={domain} />
+      )}
+    </>
+  );
 }
 
 async function getSuccessData(searchParams: any) {

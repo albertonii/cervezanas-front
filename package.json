@@ -15,7 +15,8 @@
     "gen-link": "cloudflared tunnel --url http://localhost:3000",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "test:vitest": "vitest"
+    "test:vitest": "vitest",
+    "dev:local-network": "npx next dev -H 192.168.1.137 -p 5000"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.2.32",

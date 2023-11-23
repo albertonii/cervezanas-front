@@ -22,6 +22,17 @@ It is essentially a managed Postgres environment with additional functionalities
 
 ## JEST + Supertest
 
+## Test in local network
+
+To test the app with different devices inside the same network we need to run the script inside package.json:
+
+```bash
+dev:local-network
+```
+
+This way we can have access to the application through the phone or another device going to linked host (192.168.1.137:5000)
+This is useful for functionalities as QR scan code of products in event.
+
 # Getting started
 
 ## Pre-requisites

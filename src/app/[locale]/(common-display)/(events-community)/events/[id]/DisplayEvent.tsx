@@ -59,7 +59,7 @@ export default function DisplayEvent({ event }: Props) {
       {/* Products linked to this Mobile Consumption Point */}
       <div className="mt-8">
         {cpMobile.length > 0 ? (
-          <div>
+          <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
 
             <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -73,7 +73,7 @@ export default function DisplayEvent({ event }: Props) {
                     {t("name_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="hidden px-6 py-3 md:block">
                     {t("description_header")}
                   </th>
 
@@ -133,7 +133,9 @@ const CPMobile = ({ cp }: CPMobileProps) => {
           {cp.cp_name}
         </Link>
       </td>
-      <td className="space-x-2 px-6 py-4">{cp.cp_description}</td>
+      <td className="hidden space-x-2 px-6 py-4 md:block">
+        {cp.cp_description}
+      </td>
       <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
       <td className="space-x-2 px-6 py-4">
         {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}

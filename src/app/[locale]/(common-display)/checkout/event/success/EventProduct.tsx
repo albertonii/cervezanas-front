@@ -15,11 +15,12 @@ import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   eventOrderItem: IEventOrderItem;
+  domain: string;
 }
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
-export default function EventProduct({ eventOrderItem }: Props) {
+export default function EventProduct({ eventOrderItem, domain }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
@@ -104,7 +105,7 @@ export default function EventProduct({ eventOrderItem }: Props) {
         </div>
 
         {/* QR Code generator for barman */}
-        <GenerateQR eventOrderItemId={eventOrderItemId} />
+        <GenerateQR eventOrderItemId={eventOrderItemId} domain={domain} />
 
         {/* Review Product button */}
         <div className="col-span-12 mt-6">

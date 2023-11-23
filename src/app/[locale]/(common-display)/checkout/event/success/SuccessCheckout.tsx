@@ -16,8 +16,9 @@ import { StatusTimeline } from "../../../../components/StatusTimeline";
 interface Props {
   isError?: boolean;
   order: IEventOrder;
+  domain: string;
 }
-export default function SuccessCheckout({ order, isError }: Props) {
+export default function SuccessCheckout({ order, isError, domain }: Props) {
   const { event_order_items: eventOrderItems } = order;
 
   const t = useTranslations();
@@ -156,7 +157,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
                   key={eventOrderItem.id}
                   className="border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
                 >
-                  <EventProduct eventOrderItem={eventOrderItem} />
+                  <EventProduct
+                    eventOrderItem={eventOrderItem}
+                    domain={domain}
+                  />
                 </div>
               ))}
           </div>

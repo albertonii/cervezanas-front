@@ -4,9 +4,10 @@ import { useLocale } from "next-intl";
 
 interface Props {
   eventOrderItemId: string;
+  domain: string;
 }
 
-export default function GenerateProductQR({ eventOrderItemId }: Props) {
+export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
   const locale = useLocale();
   // const router = useRouter();
 
@@ -14,10 +15,10 @@ export default function GenerateProductQR({ eventOrderItemId }: Props) {
 
   const host =
     environmentState === "development"
-      ? "http://localhost:3000"
+      ? domain
       : "https://cervezanas-front.vercel.app";
 
-  const productUrl = `${host}/${locale}/barman/product/${eventOrderItemId}`;
+  const productUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
 
   const handleOnClick = () => {
     // console.log(productUrl);

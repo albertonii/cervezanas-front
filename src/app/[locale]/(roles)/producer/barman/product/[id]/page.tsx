@@ -16,7 +16,7 @@ export default async function BarmanProductPage({ params }: any) {
   );
 }
 
-async function getEventOrderItemData(id: string) {
+async function getEventOrderItemData(eventOrderItemId: string) {
   const supabase = createServerClient();
 
   // Check if we have a session
@@ -34,15 +34,18 @@ async function getEventOrderItemData(id: string) {
       .select(
         `
         *,
-        product_id (*,
-          product_multimedia (
-            *,
-            p_principal
-          )
+        product_packs!event_order_items_product_pack_id_fkey (
+          *,
+            product_id (*,
+              product_multimedia (
+                p_principal
+              )
+            )
         )
+        
       `
       )
-      .eq("id", id)
+      .eq("id", eventOrderItemId)
       .single();
 
   if (eventOrderItemError) throw eventOrderItemError;
