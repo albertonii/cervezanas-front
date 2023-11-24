@@ -1,19 +1,35 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
+import { useMutation } from "react-query";
 
-interface FormProps {
-  oldPassword: string;
-  newPassword: string;
-  newPassword2: string;
-}
+type FormData = {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+};
+
+const schema: ZodType<FormData> = z
+  .object({
+    old_password: z.string().min(8, { message: "Required" }),
+    new_password: z.string().min(8, { message: "Required" }),
+    confirm_password: z.string().min(8, { message: "Required" }),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Password don't match",
+  });
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function SecretDataForm() {
   const t = useTranslations();
@@ -25,45 +41,61 @@ export function SecretDataForm() {
 
   const {
     formState: { errors },
-    watch,
     handleSubmit,
     register,
     reset,
-  } = useForm<FormProps>({
-    mode: "onSubmit",
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-      newPassword2: "",
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
     },
   });
 
-  const onSubmit = async (formValues: FormProps) => {
+  const handleUpdataPassword = async (form: ValidationSchema) => {
     setLoading(true);
 
     // TODO: Check if old password is correct
 
     // TODO: Update and fix error Not Logged In after update pass
 
-    const { newPassword, newPassword2 } = formValues;
+    const { new_password } = form;
 
-    if (newPassword === newPassword2) {
-      setTimeout(async () => {
-        const { error } = await supabase.auth.updateUser({
-          password: newPassword,
-        });
+    const { error } = await supabase.auth.updateUser({
+      password: new_password,
+    });
 
-        if (error) throw error;
+    if (error) throw error;
+  };
 
-        handleMessage({
-          type: "success",
-          message: "password_updated",
-        });
+  const handleUpdatePasswordMutation = useMutation({
+    mutationKey: "updatePassword",
+    mutationFn: handleUpdataPassword,
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: "password_updated",
+      });
 
-        reset();
+      reset();
+      setLoading(false);
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+  });
 
-        setLoading(false);
-      }, 700);
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdatePasswordMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -84,7 +116,7 @@ export function SecretDataForm() {
             </label>
 
             <input
-              {...register("oldPassword", {
+              {...register("old_password", {
                 required: true,
               })}
               type="password"
@@ -93,19 +125,19 @@ export function SecretDataForm() {
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
 
-            {errors.oldPassword?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.old_password && (
+              <DisplayInputError message={errors.old_password.message} />
             )}
           </div>
         </div>
 
         <div className="w-full ">
-          <label htmlFor="newPassword" className="text-sm text-gray-600">
+          <label htmlFor="new_password" className="text-sm text-gray-600">
             {t("new_password")}
           </label>
 
           <input
-            {...register("newPassword", {
+            {...register("new_password", {
               required: true,
             })}
             type="password"
@@ -114,34 +146,29 @@ export function SecretDataForm() {
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword?.type === "required" && (
-            <DisplayInputError message="errors.input_required" />
+          {errors.new_password && (
+            <DisplayInputError message={errors.new_password.message} />
           )}
         </div>
 
         <div className="w-full ">
-          <label htmlFor="newPassword2" className="text-sm text-gray-600">
+          <label htmlFor="confirm_password" className="text-sm text-gray-600">
             {t("confirm_password")}
           </label>
 
           <input
-            {...register("newPassword2", {
+            {...register("confirm_password", {
               required: true,
-              validate: (val: string) => {
-                if (watch("newPassword") != val) {
-                  return "errors.password_match";
-                }
-              },
             })}
             type="password"
-            id="new_password_2"
+            id="confirm_password"
             placeholder="**********"
             required
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword2?.type === "validate" && (
-            <DisplayInputError message="errors.newPassword2?.message" />
+          {errors.confirm_password && (
+            <DisplayInputError message={errors.confirm_password.message} />
           )}
         </div>
 

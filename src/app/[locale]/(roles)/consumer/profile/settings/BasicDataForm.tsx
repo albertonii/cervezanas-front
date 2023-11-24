@@ -19,8 +19,12 @@ type FormData = {
 };
 
 const schema: ZodType<FormData> = z.object({
-  name: z.string().min(1, { message: "Required" }),
-  lastname: z.string().min(1, { message: "Required" }),
+  name: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The name is too long, max length are 50 characters",
+  }),
+  lastname: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The lastname is too long, max length are 50 characters",
+  }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -137,14 +141,6 @@ export function BasicDataForm({ profile }: Props) {
               })}
               disabled
             />
-
-            {errors.email?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-
-            {errors.email?.type === "pattern" && (
-              <DisplayInputError message="errors.input_email_invalid" />
-            )}
           </div>
         </div>
 
@@ -165,12 +161,7 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.name?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.name?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_30_max_length" />
-            )}
+            {errors.name && <DisplayInputError message={errors.name.message} />}
           </div>
 
           <div className="w-full ">
@@ -189,11 +180,8 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.lastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.lastname?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_50_max_length" />
+            {errors.lastname && (
+              <DisplayInputError message={errors.lastname.message} />
             )}
           </div>
         </div>
