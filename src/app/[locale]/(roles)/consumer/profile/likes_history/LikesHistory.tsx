@@ -25,7 +25,7 @@ export function LikesHistory({ likes }: Props) {
                 >
                   <article className="md:grid md:grid-cols-3 md:gap-8">
                     <div>
-                      <div className="mb-6 flex items-center space-x-4">
+                      <figure className="mb-6 flex items-center space-x-4">
                         <Image
                           className="h-10 w-10 rounded-full"
                           fill
@@ -141,7 +141,7 @@ export function LikesHistory({ likes }: Props) {
                             United States
                           </div>
                         </div>
-                      </div>
+                      </figure>
                       <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
                         <li className="flex items-center">
                           <svg

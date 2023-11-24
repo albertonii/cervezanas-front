@@ -17,6 +17,7 @@ export default async function OrdersPage() {
 }
 
 async function getOrdersData() {
+  // We need to know all the orders related with the producer
   const supabase = await createServerClient();
 
   const {

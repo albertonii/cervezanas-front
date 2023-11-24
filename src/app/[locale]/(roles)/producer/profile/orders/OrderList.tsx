@@ -3,15 +3,11 @@
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchCPOrders from "../../../../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
+import OTableData from "./OTableData";
 
 interface Props {
   orders: IOrder[];
@@ -33,9 +29,6 @@ export function OrderList({ orders: os }: Props) {
 
   const counter = os.length;
   const resultsPerPage = 10;
-
-  const locale = useLocale();
-  const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchCPOrders(
     user.id,
@@ -59,16 +52,6 @@ export function OrderList({ orders: os }: Props) {
     { header: t("action_header") },
   ];
 
-  const handleClickView = (order: IOrder) => {
-    const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
-    );
-
-    router.push(
-      `/${locale}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
-    );
-  };
-
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
     return orders.filter((orders) => {
@@ -77,13 +60,13 @@ export function OrderList({ orders: os }: Props) {
   }, [orders, query]);
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
+        <p className="flex items-center justify-center">
+          <h2 className="text-gray-500 dark:text-gray-400">
             {t("error_fetching_online_orders")}
-          </p>
-        </div>
+          </h2>
+        </p>
       )}
 
       {isLoading && (
@@ -91,9 +74,9 @@ export function OrderList({ orders: os }: Props) {
       )}
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
-        </div>
+        <p className="flex items-center justify-center">
+          <h3 className="text-gray-500 dark:text-gray-400">{t("no_orders")}</h3>
+        </p>
       ) : (
         <>
           <div className="relative w-full">
@@ -138,32 +121,7 @@ export function OrderList({ orders: os }: Props) {
             <tbody>
               {orders &&
                 filteredItemsByStatus.map((order) => {
-                  return (
-                    <tr
-                      key={order.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <td className="px-6 py-4">{order.order_number}</td>
-
-                      <td className="px-6 py-4">{order.customer_name}</td>
-
-                      <td className="px-6 py-4">
-                        {formatCurrency(order.total)}
-                      </td>
-
-                      <td className="px-6 py-4">{t(order.status)}</td>
-
-                      <td className="px-6 py-4">{order.tracking_id}</td>
-
-                      <td className="item-center flex justify-center px-6 py-4">
-                        <IconButton
-                          onClick={() => handleClickView(order)}
-                          icon={faEye}
-                          title={""}
-                        />
-                      </td>
-                    </tr>
-                  );
+                  return <OTableData order={order} key={order.id} />;
                 })}
               {!orders && (
                 <tr>
@@ -176,16 +134,16 @@ export function OrderList({ orders: os }: Props) {
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
+          <footer className="my-4 flex items-center justify-around">
             <PaginationFooter
               counter={counter}
               resultsPerPage={resultsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
-          </div>
+          </footer>
         </>
       )}
-    </div>
+    </section>
   );
 }

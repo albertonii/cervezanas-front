@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 import { IProducerUser } from "../../../../../lib/types";
@@ -16,7 +15,7 @@ export default function ProducerInformation({ producer }: Props) {
   const accountCreatedDate = formatDateString(producer.created_at);
 
   return (
-    <div className="container mx-auto my-5 p-5">
+    <section className="container mx-auto my-5 p-5">
       <div className="no-wrap md:-mx-2 md:flex ">
         {/*  Left Side  */}
         <div className="w-full md:mx-2 md:w-3/12">
@@ -320,6 +319,6 @@ export default function ProducerInformation({ producer }: Props) {
           {/*  End of profile tab  */}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
