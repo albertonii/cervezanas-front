@@ -1,16 +1,12 @@
 "use client";
 
+import OTableData from "./OTableData";
 import useFetchOrders from "../../../../../../hooks/useFetchOrders";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 
 interface ColumnsProps {
@@ -30,9 +26,6 @@ export function OrderList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
-
-  const locale = useLocale();
-  const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchOrders(
     user.id,
@@ -55,16 +48,6 @@ export function OrderList() {
     { header: t("tracking_number_header") },
     { header: t("action_header") },
   ];
-
-  const handleClickView = (order: IOrder) => {
-    const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
-    );
-
-    router.push(
-      `/${locale}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
-    );
-  };
 
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
@@ -90,9 +73,9 @@ export function OrderList() {
       )}
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
-        </div>
+        <p className="flex items-center justify-center">
+          <h3 className="text-gray-500 dark:text-gray-400">{t("no_orders")}</h3>
+        </p>
       ) : (
         <>
           <div className="relative w-full">
@@ -137,30 +120,7 @@ export function OrderList() {
             <tbody>
               {orders &&
                 filteredItemsByStatus.map((order) => {
-                  return (
-                    <tr
-                      key={order.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <td className="px-6 py-4">{order.order_number}</td>
-
-                      <td className="px-6 py-4">
-                        {formatCurrency(order.total)}
-                      </td>
-
-                      <td className="px-6 py-4">{t(order.status)}</td>
-
-                      <td className="px-6 py-4">{order.tracking_id}</td>
-
-                      <td className="item-center flex justify-center px-6 py-4">
-                        <IconButton
-                          onClick={() => handleClickView(order)}
-                          icon={faEye}
-                          title={""}
-                        />
-                      </td>
-                    </tr>
-                  );
+                  return <OTableData key={order.id} order={order} />;
                 })}
               {!orders && (
                 <tr>
