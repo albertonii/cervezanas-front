@@ -1,17 +1,13 @@
 "use client";
 
+import EOTableData from "./EOTableData";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
 import React, { useEffect, useMemo, useState } from "react";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
+import {  useTranslations } from "next-intl";
 import { IEventOrder } from "../../../../../../lib/types";
-import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
-import { encodeBase64 } from "../../../../../../utils/utils";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface ColumnsProps {
   header: string;
@@ -24,15 +20,12 @@ export function EventOrderList() {
   const [isReady, setIsReady] = useState(false);
 
   const t = useTranslations();
-  const locale = useLocale();
 
   const [orders, setOrders] = useState<IEventOrder[]>([]);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
-
-  const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchEventOrders(
     user.id,
@@ -56,16 +49,6 @@ export function EventOrderList() {
     { header: t("action_header") },
   ];
 
-  const handleClickView = (order: IEventOrder) => {
-    const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
-    );
-
-    router.push(
-      `/${locale}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
-    );
-  };
-
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
     return orders.filter((orders) => {
@@ -76,12 +59,12 @@ export function EventOrderList() {
   if (!isReady) return <Spinner color="beer-blonde" size="xLarge" center />;
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
+          <span className="text-gray-500 dark:text-gray-400">
             {t("error_fetching_event_orders")}
-          </p>
+          </span>
         </div>
       )}
 
@@ -90,9 +73,11 @@ export function EventOrderList() {
       )}
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
-        </div>
+        <p className="flex items-center justify-center">
+          <span className="text-gray-500 dark:text-gray-400">
+            {t("no_orders")}
+          </span>
+        </p>
       ) : (
         <>
           <div className="relative w-full">
@@ -137,32 +122,7 @@ export function EventOrderList() {
             <tbody>
               {orders &&
                 filteredItemsByStatus.map((order: IEventOrder) => {
-                  return (
-                    <tr
-                      key={order.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <td className="px-6 py-4">{order.order_number}</td>
-
-                      <td className="px-6 py-4">
-                        {order.users?.username ?? " - "}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        {formatCurrency(order.total)}
-                      </td>
-
-                      <td className="px-6 py-4">{t(order.status)}</td>
-
-                      <td className="item-center flex justify-center px-6 py-4">
-                        <IconButton
-                          onClick={() => handleClickView(order)}
-                          icon={faEye}
-                          title={""}
-                        />
-                      </td>
-                    </tr>
-                  );
+                  return <EOTableData key={order.id} order={order} />;
                 })}
 
               {!orders && (
@@ -176,16 +136,16 @@ export function EventOrderList() {
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
+          <footer className="my-4 flex items-center justify-around">
             <PaginationFooter
               counter={orders.length}
               resultsPerPage={resultsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
-          </div>
+          </footer>
         </>
       )}
-    </div>
+    </section>
   );
 }
