@@ -57,9 +57,6 @@ export function SecretDataForm() {
     setLoading(true);
 
     // TODO: Check if old password is correct
-
-    // TODO: Update and fix error Not Logged In after update pass
-
     const { new_password } = form;
 
     const { error } = await supabase.auth.updateUser({
