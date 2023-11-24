@@ -31,11 +31,42 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
   useOutsideClick(() => handleOpenCallback(), dropdown);
 
+  const generateLink = (option: string) => {
+    switch (option) {
+      case "profile":
+        return `/${role}/profile/settings`;
+
+      case "online_orders":
+        return `/${role}/profile/orders`;
+
+      case "event_orders":
+        return `/${role}/profile/${option}`;
+
+      case "campaigns":
+        return `/${role}/profile/${option}`;
+
+      case "signout":
+        return `${role}/profile/${option}`;
+
+      case "submitted_aps":
+        return `${role}/profile`;
+
+      case "monthly_products":
+        return `${role}/profile`;
+
+      case "logistics":
+        return `${role}/profile/logistics`;
+
+      default:
+        return `${role}/profile/settings`;
+    }
+  };
+
   const handleDropdownButton = (option: string) => {
     switch (option) {
       case "profile":
         return (
-          <Link href={{ pathname: `${role}/profile/settings` }} locale={locale}>
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -47,7 +78,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "online_orders":
         return (
-          <Link href={{ pathname: `${role}/profile/orders` }} locale={locale}>
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -59,10 +90,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "event_orders":
         return (
-          <Link
-            href={{ pathname: `${role}/profile/${option}` }}
-            locale={locale}
-          >
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -74,10 +102,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "campaigns":
         return (
-          <Link
-            href={{ pathname: `${role}/profile/${option}` }}
-            locale={locale}
-          >
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -100,13 +125,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "submitted_aps":
         return (
-          <Link
-            href={{
-              pathname: `${role}/profile`,
-              query: { a: `submitted_aps` },
-            }}
-            locale={locale}
-          >
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -118,13 +137,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "monthly_products":
         return (
-          <Link
-            href={{
-              pathname: `${role}/profile`,
-              query: { a: `monthly_products` },
-            }}
-            locale={locale}
-          >
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -136,13 +149,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "logistics":
         return (
-          <Link
-            href={{
-              pathname: `${role}/profile/logistics`,
-              query: { a: `logistics` },
-            }}
-            locale={locale}
-          >
+          <Link href={generateLink(option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"

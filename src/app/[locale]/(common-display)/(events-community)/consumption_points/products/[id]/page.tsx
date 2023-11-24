@@ -1,7 +1,7 @@
 import { VIEWS } from "../../../../../../../constants";
-import { createServerClient } from "../../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { IProduct } from "../../../../../../../lib/types.d";
+import createServerClient from "../../../../../../../utils/supabaseServer";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -22,7 +22,7 @@ export default async function ProductId({ params }: any) {
 
 async function getProductData(cpId: string) {
   // Create authenticated Supabase Client
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   // Check if we have a session
   const {
@@ -49,7 +49,7 @@ async function getProductData(cpId: string) {
 
 async function getMarketplaceData() {
   // Create authenticated Supabase Client
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   // Check if we have a session
   const {

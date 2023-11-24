@@ -35,9 +35,4 @@ export default async function createServerClient() {
   );
 
   return supabase;
-
-  //  );
-  //  createServerComponentClient<Database>({
-  //   cookies,
-  // });
 }

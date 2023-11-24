@@ -312,7 +312,8 @@ export const AuthContextProvider = ({
       .signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/${locale}`,
+          // redirectTo: `${window.location.origin}/${locale}`,
+          redirectTo: `${window.location.origin}/api/auth/callback`,
           queryParams: {
             access_type: "offline",
             prompt: "consent",
@@ -344,7 +345,7 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    redirect("/signin", RedirectType.push);
+    redirect(VIEWS.SIGN_IN, RedirectType.push);
     // router.push(`/${locale}/${ROUTE_SIGNIN}`);
   };
 

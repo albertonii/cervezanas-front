@@ -20,7 +20,6 @@ export default async function layout({ children }: LayoutProps) {
   const { user, role, supabase } = useAuth();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
-
   const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
   const [profileImg_, setProfileImg_] = useState(
     profileImg ?? COMMON.PROFILE_IMG

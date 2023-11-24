@@ -72,6 +72,7 @@ export async function middleware(req: NextRequest) {
     const supabase = createServerClient(supabaseURL, supabaseAnonKey, {
       cookies: {
         get(name: string) {
+          console.log("GET cookie");
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
