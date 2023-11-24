@@ -175,14 +175,14 @@ export default function ProductDetails({ product, reviewRef }: Props) {
           <Packs product={product} />
         </section>
 
-        {/* Distribution Information  */}
-        <section aria-labelledby="distribution-information-heading">
+        {/* TODO: Volver aquí si fuera necesario comprobación de envío antes de añadir al carrito - Distribution Information  */}
+        {/* <section aria-labelledby="distribution-information-heading">
           <h3 id="distribution-heading" className="sr-only">
             {t("distribution_information")}
           </h3>
 
           <DistributionInformation product={product} />
-        </section>
+        </section> */}
       </section>
     </>
   );

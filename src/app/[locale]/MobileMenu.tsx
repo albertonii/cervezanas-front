@@ -4,8 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useTranslations } from "next-intl";
-import { Select } from "@supabase/ui";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { useAuth } from "./Auth/useAuth";
@@ -14,6 +13,7 @@ import { Notification } from "./components/Notification";
 import { useLocale } from "next-intl";
 import { useAppContext } from "../../../context/AppContext";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { i18n } from "../../lib/translations/i18n";
 
 export function MobileMenu() {
   const { role, user } = useAuth();
@@ -27,6 +27,7 @@ export function MobileMenu() {
 
   const t = useTranslations();
   const locale = useLocale();
+  const pathName = usePathname();
 
   const [openHamburguer, setOpenHamburger] = useState(false);
   const router = useRouter();
@@ -35,8 +36,11 @@ export function MobileMenu() {
     setOpenHamburger(false);
   };
 
-  const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // i18n.changeLanguage(event.target.value);
+  const redirectedPathName = (locale: string) => {
+    if (!pathName) return "/";
+    const segments = pathName.split("/");
+    segments[1] = locale;
+    return segments.join("/");
   };
 
   const handleSignIn = () => {
@@ -115,18 +119,13 @@ export function MobileMenu() {
             <ul className="space-y-2 pl-4 pt-16">
               <li className="flex items-center justify-center space-x-4">
                 {/* Language  */}
-                <Select
-                  size="tiny"
-                  name="language"
-                  style={{
-                    backgroundColor: "transparent",
-                  }}
-                  onChange={onChangeLanguage}
-                  className=""
-                >
-                  <Select.Option value="es">🇪🇸</Select.Option>
-                  <Select.Option value="en">🇬🇧</Select.Option>
-                </Select>
+                {i18n.locales.map((locale) => {
+                  return (
+                    <li key={locale}>
+                      <Link href={redirectedPathName(locale)}>{locale}</Link>
+                    </li>
+                  );
+                })}
 
                 {/* Notification popup  */}
                 {user && (

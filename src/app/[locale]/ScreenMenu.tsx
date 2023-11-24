@@ -49,20 +49,6 @@ export function ScreenMenu() {
     }, 300);
   }, [notifications]);
 
-  const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const redirectedPathName = (locale: string) => {
-      if (!pathName) return "/";
-      const segments = pathName.split("/");
-      segments[1] = locale;
-      return segments.join("/");
-    };
-
-    const language = event.target.value;
-
-    console.log(redirectedPathName(language));
-    // i18n.changeLanguage(language);
-  };
-
   const redirectedPathName = (locale: string) => {
     if (!pathName) return "/";
     const segments = pathName.split("/");

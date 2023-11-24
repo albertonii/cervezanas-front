@@ -7,7 +7,7 @@ import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types.d";
-import { Type as ProductType } from "../../../../../lib/productEnum";
+import { Type as ProductType } from "./productEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
