@@ -16,7 +16,7 @@ interface DropdownProps {
 
 export function HeaderDropdownButton({ options }: DropdownProps) {
   const [open, setOpen] = useState(false);
-  const { role, signOut } = useAuth();
+  const { role, signOut, user } = useAuth();
 
   const dropdown = useRef<HTMLDivElement>(null);
 
@@ -163,11 +163,11 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
   return (
     <div
-      className="relative flex h-full w-12 items-center justify-center font-medium hover:cursor-pointer"
+      className="relative flex h-full w-12 items-center justify-center font-medium hover:cursor-pointer "
       id="profile-dropdown"
       ref={dropdown}
     >
-      <div onClick={() => setOpen(!open)} className="relative">
+      <div onClick={() => setOpen(!open)} className="">
         <Image
           src={"/icons/user-profile.svg"}
           width={45}
@@ -187,17 +187,35 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
       </div>
 
       {/* Dropdow */}
-      <div className="absolute inset-y-8 right-0 z-40 w-44 divide-y divide-gray-100 dark:bg-gray-700 ">
+      <div
+        className={`absolute inset-y-8 right-0 z-40 w-44 border-collapse space-y-2 divide-y divide-gray-100 shadow-lg dark:bg-gray-700
+        ${open ? "block " : "hidden"}`}
+      >
+        {/* Little container with username photo and username  */}
+        <figure className="flex items-center justify-center bg-beer-softBlonde p-1">
+          <Image
+            src={"/icons/user-profile.svg"}
+            width={45}
+            height={45}
+            alt={"Go to Shopping cart"}
+            className={"rounded-full"}
+          />
+
+          <span className="ml-2 text-sm font-medium text-beer-dark dark:text-white">
+            <Link href={generateLink("profile")} locale={locale}>
+              {user?.username}
+            </Link>
+          </span>
+        </figure>
+
         <ul
-          className={`mt-2 overflow-y-auto rounded-lg  bg-white shadow ${
-            open ? "max-h-60 border-2 border-beer-blonde" : "max-h-0"
-          }
+          className={`overflow-y-auto rounded-lg border-4 shadow
             dark:text-gray-200 `}
         >
           {options?.map((option: string, idx: number) => (
             <li
               key={idx}
-              className={`hover:bg-beer-softBlond bg-white-600 p-2 text-sm text-white hover:bg-beer-softBlondeBubble hover:text-white`}
+              className={`hover:bg-beer-softBlond bg-beer-foam p-2 text-sm text-white hover:bg-beer-softBlondeBubble hover:text-white`}
               onClick={() => changeSidebarActive(option)}
             >
               {handleDropdownButton(option)}
