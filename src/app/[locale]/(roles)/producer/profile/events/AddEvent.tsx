@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Modal } from "../../../../components/modals/Modal";
 import { useAuth } from "../../../../Auth/useAuth";

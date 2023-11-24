@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { IUserTable } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import { Spinner } from "../../../../components/common/Spinner";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";

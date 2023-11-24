@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { COMMON } from "../../../constants";
-import { IUser } from "../../../lib/types.d";
+import { IUser } from "../../../lib/types";
 
 interface Props {
   user?: IUser;

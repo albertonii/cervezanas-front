@@ -4,7 +4,7 @@ import EventList from "./EventList";
 import AddEvent from "./AddEvent";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../lib/types";
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -12,7 +12,6 @@ interface Props {
 
 export default function ProfileEvents({ cpsMobile }: Props) {
   const t = useTranslations();
-
 
   return (
     <div className="px-6 py-4">

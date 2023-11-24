@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../utils/utils";
 import createServerClient from "../../../../../utils/supabaseServer";
 import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types.d";
+import { IOrder } from "../../../../../lib/types";
 import readUserSession from "../../../../actions";
 
 export async function generateMetadata({ searchParams }: any) {

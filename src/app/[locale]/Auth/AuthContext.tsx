@@ -6,7 +6,7 @@ import { redirect, RedirectType, useRouter } from "next/navigation";
 import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
-import { IUserProfile } from "../../../lib/types.d";
+import { IUserProfile } from "../../../lib/types";
 import { useLocale } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { createBrowserClient } from "../../../utils/supabaseBrowser";

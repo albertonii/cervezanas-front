@@ -22,7 +22,7 @@ import { Button } from "../common/Button";
 import { useAuth } from "../../Auth/useAuth";
 import { InfoTooltip } from "../common/InfoTooltip";
 import { DeleteButton } from "../common/DeleteButton";
-import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types.d";
+import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 
 interface Props {

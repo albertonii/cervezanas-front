@@ -8,7 +8,7 @@ import { useAuth } from "../../../Auth/useAuth";
 import { Modal } from "../../../components/modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
-import { IModalBillingAddress } from "../../../../../lib/types.d";
+import { IModalBillingAddress } from "../../../../../lib/types";
 
 export function NewBillingAddress() {
   const t = useTranslations();

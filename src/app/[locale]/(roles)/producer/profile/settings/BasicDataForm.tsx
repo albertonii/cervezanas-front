@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProducerUser } from "../../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";

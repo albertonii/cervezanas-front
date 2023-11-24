@@ -5,7 +5,7 @@ import DisplayImageProduct from "../../../../components/common/DisplayImageProdu
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { EventProductTimeline } from "./EventProductTimeline";
-import { IEventOrderItem } from "../../../../../../lib/types.d";
+import { IEventOrderItem } from "../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,

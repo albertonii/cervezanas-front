@@ -1,5 +1,5 @@
 import Events from "./Events";
-import { IEvent } from "../../../../lib/types.d";
+import { IEvent } from "../../../../lib/types";
 import createServerClient from "../../../../utils/supabaseServer";
 
 export default async function EventsPage() {

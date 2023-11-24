@@ -19,7 +19,7 @@ import {
   IInventory,
   IProductPack,
   ModalAddProductProps,
-} from "../../../../lib/types.d";
+} from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";

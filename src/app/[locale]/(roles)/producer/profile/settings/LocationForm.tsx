@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfileLocation } from "../../../../../../lib/types.d";
+import { IProfileLocation } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";

@@ -4,7 +4,7 @@ import MarketCartButtons2 from "../../../../../components/common/MarketCartButto
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../../constants";
-import { IProductPack } from "../../../../../../../lib/types.d";
+import { IProductPack } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { AddCardButton } from "../../../../../components/common/AddCartButton";

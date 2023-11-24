@@ -5,7 +5,7 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";

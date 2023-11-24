@@ -3,7 +3,7 @@
 import CPDetails from "./CPDetails";
 import ProductList from "./ProductList";
 import React from "react";
-import { ICPMobile } from "../../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../../lib/types";
 
 interface Props {
   cpMobile: ICPMobile;

@@ -3,7 +3,7 @@
 import React, { ChangeEvent, ComponentProps, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICampaign, ICampaignItem } from "../../../../../../lib/types.d";
+import { ICampaign, ICampaignItem } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
 import { DeleteButton } from "../../../../components/common/DeleteButton";

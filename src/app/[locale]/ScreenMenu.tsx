@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Select } from "@supabase/ui";
 import { useAuth } from "./Auth/useAuth";
 import { COMMON } from "../../constants";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { Button } from "./components/common/Button";
@@ -14,11 +14,13 @@ import { Notification } from "./components/Notification";
 import { HeaderDropdownButton } from "./HeaderDropdownButton";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { useAppContext } from "../../../context/AppContext";
+import { i18n } from "../../lib/translations/i18n";
 
 export function ScreenMenu() {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();
+  const pathName = usePathname();
 
   const router = useRouter();
 
@@ -48,7 +50,24 @@ export function ScreenMenu() {
   }, [notifications]);
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // i18n.changeLanguage(event.target.value);
+    const redirectedPathName = (locale: string) => {
+      if (!pathName) return "/";
+      const segments = pathName.split("/");
+      segments[1] = locale;
+      return segments.join("/");
+    };
+
+    const language = event.target.value;
+
+    console.log(redirectedPathName(language));
+    // i18n.changeLanguage(language);
+  };
+
+  const redirectedPathName = (locale: string) => {
+    if (!pathName) return "/";
+    const segments = pathName.split("/");
+    segments[1] = locale;
+    return segments.join("/");
   };
 
   const handleSignIn = () => {
@@ -118,7 +137,7 @@ export function ScreenMenu() {
         <section className="w-full ">
           <ul className="py-2 dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-row sm:justify-end sm:p-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             {/* Language  */}
-            <li className="flex max-w-[50px] items-center">
+            {/* <li className="flex max-w-[50px] items-center">
               <Select
                 size="tiny"
                 name="language"
@@ -129,10 +148,22 @@ export function ScreenMenu() {
                 onChange={onChangeLanguage}
                 className=""
               >
-                <Select.Option value="es">🇪🇸</Select.Option>
-                <Select.Option value="en">🇬🇧</Select.Option>
+                <Select.Option value="es">
+                  <Link href={redirectedPathName(locale)}>🇪🇸</Link>
+                </Select.Option>
+                <Select.Option value="en">
+                  <Link href={redirectedPathName(locale)}>🇬🇧</Link>
+                </Select.Option>
               </Select>
-            </li>
+            </li> */}
+
+            {i18n.locales.map((locale) => {
+              return (
+                <li key={locale}>
+                  <Link href={redirectedPathName(locale)}>{locale}</Link>
+                </li>
+              );
+            })}
 
             {!user ? (
               <>

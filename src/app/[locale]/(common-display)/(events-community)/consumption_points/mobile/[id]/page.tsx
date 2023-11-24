@@ -1,7 +1,7 @@
 import InfoCPMobile from "./InfoCPMobile";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
-import { ICPMobile } from "../../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../../lib/types";
 import readUserSession from "../../../../../../actions";
 import createServerClient from "../../../../../../../utils/supabaseServer";
 

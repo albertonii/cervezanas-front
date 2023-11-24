@@ -1,7 +1,7 @@
 import DisplayEvent from "./DisplayEvent";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { IEvent } from "../../../../../../lib/types.d";
+import { IEvent } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import readUserSession from "../../../../../actions";
 

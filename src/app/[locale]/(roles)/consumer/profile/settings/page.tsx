@@ -1,5 +1,5 @@
 import Profile from "./Profile";
-import { IUserTable } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";

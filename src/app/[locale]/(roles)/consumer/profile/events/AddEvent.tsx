@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import { ICPMobile } from "../../../../../../lib/types.d";
+import { ICPMobile } from "../../../../../../lib/types";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { Modal } from "../../../../components/modals/Modal";

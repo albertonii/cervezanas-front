@@ -5,7 +5,7 @@ import React, { ComponentProps, useEffect } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types.d";
+import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types";
 import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";

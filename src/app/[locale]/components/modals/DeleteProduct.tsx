@@ -2,7 +2,7 @@
 
 import React, { ComponentProps, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { IAward, IProduct } from "../../../../lib/types.d";
+import { IAward, IProduct } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 

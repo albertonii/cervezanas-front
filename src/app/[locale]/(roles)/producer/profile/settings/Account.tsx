@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IProducerUser } from "../../../../../../lib/types.d";
+import { IProducerUser } from "../../../../../../lib/types";
 import { BasicDataForm } from "./BasicDataForm";
 import { SecretDataForm } from "./SecretDataForm";
 

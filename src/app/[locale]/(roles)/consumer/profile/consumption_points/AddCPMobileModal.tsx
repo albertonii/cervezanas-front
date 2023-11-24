@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { getGeocode } from "use-places-autocomplete";
 import { Modal } from "../../../../components/modals/Modal";
-import { IUser } from "../../../../../../lib/types.d";
+import { IUser } from "../../../../../../lib/types";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";

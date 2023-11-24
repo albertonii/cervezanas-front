@@ -4,7 +4,7 @@ import EventProduct from "./EventProduct";
 import PaymentInformation from "./PaymentInformation";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import {
   EVENT_ORDER_ITEM_STATUS,

@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IBillingAddress, IAddress } from "../../../../../lib/types.d";
+import { IBillingAddress, IAddress } from "../../../../../lib/types";
 import createServerClient from "../../../../../utils/supabaseServer";
 import { ShoppingBasket } from "./ShoppingBasket";
 

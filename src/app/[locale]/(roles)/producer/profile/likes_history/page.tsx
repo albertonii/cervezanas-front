@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { ILike } from "../../../../../../lib/types.d";
+import { ILike } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { LikesHistory } from "./LikesHistory";
 

@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
-import { IRefProductLot } from "../../../../lib/types.d";
+import { IRefProductLot } from "../../../../lib/types";
 import { Modal } from "./Modal";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
 

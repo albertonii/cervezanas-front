@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { IReview } from "../../../../lib/types.d";
+import { IReview } from "../../../../lib/types";
 import { useMessage } from "../message/useMessage";
 import { SuccessfulReviewModal } from "../modals/SuccessfulReviewModal";
 

@@ -24,7 +24,7 @@ import {
   IProduct,
   IProductPack,
   IReview,
-} from "../../../../../../../lib/types.d";
+} from "../../../../../../../lib/types";
 
 interface Props {
   product: ICPMProducts;

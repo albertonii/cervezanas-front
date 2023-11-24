@@ -21,7 +21,7 @@ import {
 } from "../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPack } from "../../../../../lib/types.d";
+import { IProductPack } from "../../../../../lib/types";
 import { useAuth } from "../../../Auth/useAuth";
 
 export default function EventBasket() {

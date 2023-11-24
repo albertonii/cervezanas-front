@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ModalAddProductProps } from "../../../../lib/types.d";
+import { ModalAddProductProps } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { FilePreview } from "../common/FilePreview";
 

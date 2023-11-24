@@ -1,5 +1,5 @@
 import Beerme from "./Beerme";
-import { IConsumptionPoints } from "../../../../lib/types.d";
+import { IConsumptionPoints } from "../../../../lib/types";
 import createServerClient from "../../../../utils/supabaseServer";
 
 export default async function BeerMePage() {

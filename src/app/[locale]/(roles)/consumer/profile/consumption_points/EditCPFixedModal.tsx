@@ -11,7 +11,7 @@ import {
   ICPFixed,
   ICPMProductsEditCPFixedModal,
   IUser,
-} from "../../../../../../lib/types.d";
+} from "../../../../../../lib/types";
 import { GeocodeResult } from "use-places-autocomplete";
 import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQuery, useQueryClient } from "react-query";

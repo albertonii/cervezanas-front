@@ -6,7 +6,7 @@ import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
-import { IDistributorUser } from "../../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../../lib/types";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 enum SortBy {

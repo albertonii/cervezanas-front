@@ -4,7 +4,7 @@ import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLo
 import React, { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { IProductLot } from "../../../../../../lib/types.d";
+import { IProductLot } from "../../../../../../lib/types";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { EditButton } from "../../../../components/common/EditButton";
 import { Spinner } from "../../../../components/common/Spinner";

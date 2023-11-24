@@ -9,7 +9,7 @@ import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../../lib/types.d";
+} from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;

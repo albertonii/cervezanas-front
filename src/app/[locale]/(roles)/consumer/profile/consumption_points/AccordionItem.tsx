@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Format, FormatName } from "../../../../../../lib/beerEnum";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IProduct, IRefProductPack } from "../../../../../../lib/types.d";
+import { IProduct, IRefProductPack } from "../../../../../../lib/types";
 
 interface Props {
   product: IProduct;

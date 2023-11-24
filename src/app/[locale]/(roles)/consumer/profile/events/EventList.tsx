@@ -11,7 +11,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
-import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types.d";
+import { ICPMobile, IEvent, SortBy } from "../../../../../../lib/types";
 
 interface Props {
   cpsMobile: ICPMobile[];

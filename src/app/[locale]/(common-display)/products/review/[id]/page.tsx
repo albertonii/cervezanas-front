@@ -2,7 +2,7 @@ import ProductReview from "./ProductReview";
 import { redirect } from "next/navigation";
 import { COMMON, VIEWS } from "../../../../../../constants";
 import createServerClient from "../../../../../../utils/supabaseServer";
-import { IProduct } from "../../../../../../lib/types.d";
+import { IProduct } from "../../../../../../lib/types";
 import readUserSession from "../../../../../actions";
 
 export default async function ReviewProduct({ params }: any) {

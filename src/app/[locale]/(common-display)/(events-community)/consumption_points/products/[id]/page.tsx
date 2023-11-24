@@ -1,6 +1,6 @@
 import { VIEWS } from "../../../../../../../constants";
 import { redirect } from "next/navigation";
-import { IProduct } from "../../../../../../../lib/types.d";
+import { IProduct } from "../../../../../../../lib/types";
 import createServerClient from "../../../../../../../utils/supabaseServer";
 
 export default async function ProductId({ params }: any) {

@@ -2,7 +2,7 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, useEffect, useState } from "react";
-import { IAward } from "../../../../lib/types.d";
+import { IAward } from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DisplayInputError } from "../common/DisplayInputError";
 

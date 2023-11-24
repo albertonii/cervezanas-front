@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../utils/formatDate";
 import { IconButton } from "../../../components/common/IconButton";
 import { generateDownloadableLink } from "../../../../../utils/utils";
-import { IConsumptionPoints, SortBy } from "../../../../../lib/types.d";
+import { IConsumptionPoints, SortBy } from "../../../../../lib/types";
 
 interface Props {
   submittedCPs: IConsumptionPoints[];

@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common/Button";
 import { IconButton } from "../../../../../components/common/IconButton";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ILocal, IPCRangesProps } from "../../../../../../../lib/types.d";
+import { ILocal, IPCRangesProps } from "../../../../../../../lib/types";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { useAuth } from "../../../../../Auth/useAuth";

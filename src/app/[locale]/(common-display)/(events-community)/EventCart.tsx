@@ -3,7 +3,7 @@ import MaxifiedCart from "./MaxifiedCart";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types.d";
+import { IProductPackCartItem } from "../../../../lib/types";
 import { useEventCart } from "../../../../../context/EventCartContext";
 
 export default function EventCart() {

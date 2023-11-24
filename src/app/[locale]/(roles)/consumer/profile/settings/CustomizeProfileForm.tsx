@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IUserTable } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import { Button } from "../../../../components/common/Button";

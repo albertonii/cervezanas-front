@@ -6,7 +6,7 @@ import React, { ComponentProps, useEffect, useState } from "react";
 import { Carousel } from "./common/Carousel";
 import { IconButton } from "./common/IconButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { ICarouselItem } from "../../../lib/types.d";
+import { ICarouselItem } from "../../../lib/types";
 import { ImageModal } from "./modals/ImageModal";
 import { useTranslations } from "next-intl";
 

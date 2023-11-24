@@ -2,7 +2,7 @@ import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
 import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
-import { IAddress } from "../../../../../lib/types.d";
+import { IAddress } from "../../../../../lib/types";
 import { useMutation, useQueryClient } from "react-query";
 import { NewShippingAddress } from "./NewShippingAddress";
 import { useMessage } from "../../../components/message/useMessage";

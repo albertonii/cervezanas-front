@@ -8,7 +8,7 @@ import DeleteCPFixedModal from "./DeleteCPFixedModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed } from "../../../../../../lib/types.d";
+import { ICPFixed } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";

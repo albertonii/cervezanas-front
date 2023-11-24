@@ -7,7 +7,7 @@ import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFet
 import React, { ComponentProps, useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types.d";
+import { IProduct } from "../../../../../../lib/types";
 import { Spinner } from "../../../../components/common/Spinner";
 import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";

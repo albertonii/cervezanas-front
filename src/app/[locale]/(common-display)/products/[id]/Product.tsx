@@ -3,7 +3,7 @@
 import ProductDetails from "./ProductDetails";
 import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "../../../components/common/Spinner";
-import { IProduct, IReview } from "../../../../../lib/types.d";
+import { IProduct, IReview } from "../../../../../lib/types";
 import { ProductReviews } from "../../../components/reviews/ProductReviews";
 import { DisplaySimilarProducts } from "../../../components/DisplaySimilarProducts";
 import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";

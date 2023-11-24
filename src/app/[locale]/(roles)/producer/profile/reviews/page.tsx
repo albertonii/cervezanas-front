@@ -1,4 +1,4 @@
-import { IReview } from "../../../../../../lib/types.d";
+import { IReview } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";

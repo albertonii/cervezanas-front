@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ILike } from "../../../../../../lib/types.d";
+import { ILike } from "../../../../../../lib/types";
 
 interface Props {
   likes: ILike[];

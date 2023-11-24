@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
 import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
-import { IDistributionContract } from "../../../../../../lib/types.d";
+import { IDistributionContract } from "../../../../../../lib/types";
 import { useTranslations } from "next-intl";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";

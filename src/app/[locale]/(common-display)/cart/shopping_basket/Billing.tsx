@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
 import { NewBillingAddress } from "./NewBillingAddress";
 import { useMutation, useQueryClient } from "react-query";
-import { IBillingAddress } from "../../../../../lib/types.d";
+import { IBillingAddress } from "../../../../../lib/types";
 import { useMessage } from "../../../components/message/useMessage";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";

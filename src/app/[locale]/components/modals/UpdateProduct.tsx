@@ -14,7 +14,7 @@ import {
   IAward,
   ModalUpdateProductProps,
   IProductPack,
-} from "../../../../lib/types.d";
+} from "../../../../lib/types";
 import { uuid } from "uuidv4";
 import { Modal } from "./Modal";
 import { useAuth } from "../../Auth/useAuth";

@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "../../../../components/modals/Modal";
 import { DistributionStatus } from "../../../../../../lib/enums";
-import { IDistributionContract } from "../../../../../../lib/types.d";
+import { IDistributionContract } from "../../../../../../lib/types";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {

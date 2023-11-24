@@ -3,7 +3,7 @@ import { Spinner } from "../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DisplayInputError } from "../components/common/DisplayInputError";
-import { ROLE_ENUM } from "../../../lib/types.d";
+import { ROLE_ENUM } from "../../../lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpWithPasswordCredentials } from "./AuthContext";

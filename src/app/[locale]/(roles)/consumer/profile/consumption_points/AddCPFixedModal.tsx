@@ -11,7 +11,7 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { Modal } from "../../../../components/modals/Modal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { IUser } from "../../../../../../lib/types.d";
+import { IUser } from "../../../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 interface FormData {

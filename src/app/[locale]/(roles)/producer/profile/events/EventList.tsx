@@ -8,7 +8,7 @@ import EditEventModal from "./EditEventModal";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
+import { ICPMobile, IEvent } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
