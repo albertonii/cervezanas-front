@@ -1,20 +1,29 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { IUserTable } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import { Spinner } from "../../../../components/common/Spinner";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { useMutation } from "react-query";
+import { useMessage } from "../../../../components/message/useMessage";
 
-interface FormData {
+type FormData = {
   name: string;
   lastname: string;
-  username: string;
-  email: string;
-}
+};
+
+const schema: ZodType<FormData> = z.object({
+  name: z.string().min(1, { message: "Required" }),
+  lastname: z.string().min(1, { message: "Required" }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   profile: IUserTable;
@@ -27,50 +36,75 @@ export function BasicDataForm({ profile }: Props) {
   const { id, username, name, lastname, email } = profile;
 
   const [loading, setLoading] = useState(false);
+  const successMessage = t("profile_acc_data_updated");
+
+  const { handleMessage } = useMessage();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
-      username: username,
-      name: name,
-      lastname: lastname,
-      email: email,
+      name,
+      lastname,
+      email,
+      username,
     },
   });
 
-  const onSubmit = async (formValues: FormData) => {
-    setLoading(true);
+  const handleUpdateBasicData = async (form: ValidationSchema) => {
+    const { name, lastname } = form;
 
-    const { name, lastname, username, email } = formValues;
+    const { error } = await supabase
+      .from("users")
+      .update({
+        name,
+        lastname,
+      })
+      .eq("id", id);
 
-    setTimeout(async () => {
-      const { error } = await supabase
-        .from("users")
-        .update({
-          name,
-          lastname,
-          username,
-          email,
-        })
-        .eq("id", id);
+    setLoading(false);
 
-      setLoading(false);
+    if (error) throw error;
+  };
 
-      if (error) throw error;
-    }, 700);
+  const handleUpdateBasicDataMutation = useMutation({
+    mutationKey: "updateBasicData",
+    mutationFn: handleUpdateBasicData,
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: successMessage,
+      });
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdateBasicDataMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
-    <div
+    <section
       id="account_basic_data"
       className="container mb-4 space-y-3 bg-white px-6 py-4"
     >
-      <div id="account-data" className="text-2xl">
+      <span id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}
-      </div>
+      </span>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
@@ -80,13 +114,37 @@ export function BasicDataForm({ profile }: Props) {
             </label>
 
             <input
-              type="text"
-              id="username"
               placeholder="user123"
-              readOnly
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed focus:z-10 sm:text-sm"
               {...register("username")}
+              disabled
             />
+          </div>
+        </div>
+
+        <div className="flex flex-row items-end">
+          <div className="w-full">
+            <label htmlFor="email" className="text-sm text-gray-600">
+              {t("profile_acc_email")}
+            </label>
+
+            <input
+              placeholder="ejemplo@gmail.com"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed focus:z-10 sm:text-sm"
+              {...register("email", {
+                required: true,
+                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+              })}
+              disabled
+            />
+
+            {errors.email?.type === "required" && (
+              <DisplayInputError message="errors.input_required" />
+            )}
+
+            {errors.email?.type === "pattern" && (
+              <DisplayInputError message="errors.input_email_invalid" />
+            )}
           </div>
         </div>
 
@@ -140,30 +198,6 @@ export function BasicDataForm({ profile }: Props) {
           </div>
         </div>
 
-        <div className="flex flex-row items-end">
-          <div className="w-full">
-            <label htmlFor="email" className="text-sm text-gray-600">
-              {t("profile_acc_email")}
-            </label>
-            <input
-              placeholder="ejemplo@gmail.com"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("email", {
-                required: true,
-                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
-              })}
-            />
-
-            {errors.email?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-
-            {errors.email?.type === "pattern" && (
-              <DisplayInputError message="errors.input_email_invalid" />
-            )}
-          </div>
-        </div>
-
         {loading && (
           <Spinner color="beer-blonde" size={"xLarge"} absolute center />
         )}
@@ -172,6 +206,6 @@ export function BasicDataForm({ profile }: Props) {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

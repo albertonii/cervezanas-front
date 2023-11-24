@@ -68,7 +68,6 @@ export default function SignIn() {
   const handleCredentialsMutation = useMutation({
     mutationKey: "credentialsSignIn",
     mutationFn: handleCredentialsSignIn,
-    onMutate: () => void 0,
     onSuccess: () => {
       handleMessage({
         type: "success",

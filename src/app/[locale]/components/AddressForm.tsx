@@ -66,7 +66,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
   if (error) return <div>failed to load</div>;
 
-  console.log(addressNameId);
   return (
     <form className="w-full">
       <>
