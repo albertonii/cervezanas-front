@@ -20,7 +20,7 @@ type LayoutProps = {
 // This will ensure that every time a new route is loaded, our session data in RootLayout will always be up-to-date.
 export const revalidate = 0;
 
-export default async function RootLayout({
+export default async function AppLocaleLayout({
   children,
   params: { locale },
 }: LayoutProps) {
@@ -37,38 +37,32 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} style={{ overflow: "auto" }}>
-      <body>
-        <Suspense fallback={<Loading />}>
-          <Providers session={session} messages={messages} locale={locale}>
-            <div className="relative flex flex-col bg-beer-foam">
-              <Header />
+    <Suspense fallback={<Loading />}>
+      <Providers session={session} messages={messages} locale={locale}>
+        <div className="relative flex flex-col bg-beer-foam">
+          <Header />
 
-              <div
-                className={classNames(
-                  "relative mx-auto mt-[10vh] h-auto w-full"
-                )}
-              >
-                {/* <Breadcrumb /> */}
-                {/* <Breadcrumb
+          <div
+            className={classNames("relative mx-auto mt-[10vh] h-auto w-full")}
+          >
+            {/* <Breadcrumb /> */}
+            {/* <Breadcrumb
                           getDefaultTextGenerator={(path) => titleize(path)}
                         /> */}
-              </div>
+          </div>
 
-              <main
-                className={classNames(
-                  "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
-                )}
-              >
-                <MessageList />
-                {children}
-              </main>
+          <main
+            className={classNames(
+              "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
+            )}
+          >
+            <MessageList />
+            {children}
+          </main>
 
-              <Footer />
-            </div>
-          </Providers>
-        </Suspense>
-      </body>
-    </html>
+          <Footer />
+        </div>
+      </Providers>
+    </Suspense>
   );
 }
