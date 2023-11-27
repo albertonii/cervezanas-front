@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { ILike } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 import { LikesHistory } from "./LikesHistory";
 
 export default async function LikesPage() {

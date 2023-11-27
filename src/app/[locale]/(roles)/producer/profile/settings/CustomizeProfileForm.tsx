@@ -22,6 +22,7 @@ interface Props {
   profile: IProfile;
 }
 
+// TODO: Add Validation ZOD
 export function CustomizeProfileForm({ profile }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();

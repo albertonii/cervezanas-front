@@ -38,9 +38,9 @@ export function Products() {
   }
 
   return (
-    <div className="px-4 py-6" aria-label="Products">
+    <section className="px-4 py-6" aria-label="Products">
       <div className="flex flex-col space-y-4">
-        <div className="text-4xl">{t("products")}</div>
+        <h2 className="text-4xl">{t("products")}</h2>
 
         <AddProduct />
       </div>
@@ -66,6 +66,6 @@ export function Products() {
           handleDeleteShowModal={handleDeleteShowModal}
         />
       )}
-    </div>
+    </section>
   );
 }

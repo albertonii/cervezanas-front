@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
   aroma_options,
@@ -14,12 +16,7 @@ import {
 } from "../../../../lib/beerEnum";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import {
-  IAward,
-  IInventory,
-  IProductPack,
-  ModalAddProductProps,
-} from "../../../../lib/types";
+import { IAward, IInventory, IProductPack } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";
@@ -35,7 +32,7 @@ import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
 import { useAppContext } from "../../../../../context/AppContext";
 
-interface FormData {
+export type ModalAddProductFormData = {
   fermentation: number;
   color: number;
   intensity: number;
@@ -46,11 +43,11 @@ interface FormData {
   is_gluten: boolean;
   type: string;
   awards: IAward[];
-  p_principal: FileList;
-  p_back: FileList;
-  p_extra_1: FileList;
-  p_extra_2: FileList;
-  p_extra_3: FileList;
+  p_principal?: FileList;
+  p_back?: FileList;
+  p_extra_1?: FileList;
+  p_extra_2?: FileList;
+  p_extra_3?: FileList;
   is_public: boolean;
   name: string;
   description: string;
@@ -61,7 +58,95 @@ interface FormData {
   stock_limit_notification: number;
   packs: IProductPack[];
   category: string;
-}
+};
+
+const schema: ZodType<ModalAddProductFormData> = z.object({
+  fermentation: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  color: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  intensity: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  aroma: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  family: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  origin: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  era: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  is_gluten: z.boolean(),
+  type: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  awards: z.array(
+    z.object({
+      name: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      description: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      year: z.number().min(4, { message: "Required" }).max(4, {
+        message: "Required",
+      }),
+      img_url: z.string().min(2, { message: "Required" }),
+    })
+  ),
+  p_principal: z.any(),
+  p_back: z.any(),
+  p_extra_1: z.any(),
+  p_extra_2: z.any(),
+  p_extra_3: z.any(),
+  is_public: z.boolean(),
+  name: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  description: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  price: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  volume: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  format: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  stock_quantity: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  stock_limit_notification: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  packs: z.array(
+    z.object({
+      quantity: z.number().min(0, { message: "Required" }).max(3, {
+        message: "Required",
+      }),
+      price: z.number().min(0, { message: "Required" }).max(3, {
+        message: "Required",
+      }),
+      name: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      img_url: z.any(),
+    })
+  ),
+  category: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function AddProduct() {
   const t = useTranslations();
@@ -78,8 +163,9 @@ export function AddProduct() {
     setActiveStep(value);
   };
 
-  const form = useForm<ModalAddProductProps>({
+  const form = useForm<ValidationSchema>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
       awards: [],
       type: "beer",
@@ -94,7 +180,9 @@ export function AddProduct() {
     return uuidv4();
   };
 
-  const handleInsertProduct = async (formValues: FormData) => {
+  const handleInsertProduct = async (form: ValidationSchema) => {
+    console.log("dentro");
+
     const {
       // campaign,
       fermentation,
@@ -122,7 +210,7 @@ export function AddProduct() {
       stock_limit_notification,
       packs,
       category,
-    } = formValues;
+    } = form;
 
     const userId = user?.id;
 
@@ -431,7 +519,9 @@ export function AddProduct() {
     },
   });
 
-  const onSubmit = (formValues: ModalAddProductProps) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddProductFormData
+  ) => {
     try {
       insertProductMutation.mutate(formValues);
     } catch (e) {

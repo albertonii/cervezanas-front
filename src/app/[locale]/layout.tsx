@@ -3,7 +3,7 @@ import "../../styles/globals.css";
 import Providers from "./providers";
 import Loading from "./loading";
 import classNames from "classnames";
-import readUserSession from "../actions";
+import readUserSession from "../../lib/actions";
 import { Suspense } from "react";
 import { Header } from "./Header";
 import { Footer } from "./components/Footer";

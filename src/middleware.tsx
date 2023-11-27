@@ -33,6 +33,8 @@ const privateSections = [
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
 export async function middleware(req: NextRequest) {
+  "user server";
+
   const res = NextResponse.next();
 
   const { nextUrl } = req;
@@ -72,7 +74,6 @@ export async function middleware(req: NextRequest) {
     const supabase = createServerClient(supabaseURL, supabaseAnonKey, {
       cookies: {
         get(name: string) {
-          console.log("GET cookie");
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {

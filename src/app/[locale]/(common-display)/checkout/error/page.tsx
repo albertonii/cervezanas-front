@@ -5,7 +5,7 @@ import { VIEWS } from "../../../../../constants";
 import { IOrder } from "../../../../../lib/types";
 import { decodeBase64 } from "../../../../../utils/utils";
 import createServerClient from "../../../../../utils/supabaseServer";
-import readUserSession from "../../../../actions";
+import readUserSession from "../../../../../lib/actions";
 
 export async function generateMetadata({ searchParams }: any) {
   try {

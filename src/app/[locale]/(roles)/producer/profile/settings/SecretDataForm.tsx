@@ -15,6 +15,7 @@ interface FormProps {
   newPassword2: string;
 }
 
+// TODO: ADD Validation ZOD
 export function SecretDataForm() {
   const t = useTranslations();
   const { supabase } = useAuth();

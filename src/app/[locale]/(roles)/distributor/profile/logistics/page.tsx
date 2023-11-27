@@ -1,7 +1,7 @@
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
   const coverageAreaData = await getCoverageAreaData();

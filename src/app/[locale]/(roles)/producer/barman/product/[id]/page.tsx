@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { IEventOrderItem } from "../../../../../../../lib/types";
 import createServerClient from "../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../actions";
+import readUserSession from "../../../../../../../lib/actions";
 
 export default async function BarmanProductPage({ params }: any) {
   const { id } = params;

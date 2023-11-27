@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import readUserSession from "../../../actions";
+import readUserSession from "../../../../lib/actions";
 
 export default async function Unauthenticated() {
   const {

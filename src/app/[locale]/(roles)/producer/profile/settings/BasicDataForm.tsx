@@ -19,7 +19,7 @@ interface FormData {
 interface Props {
   profile: IProducerUser;
 }
-
+// TODO: Add Validation ZOD
 export function BasicDataForm({ profile }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();

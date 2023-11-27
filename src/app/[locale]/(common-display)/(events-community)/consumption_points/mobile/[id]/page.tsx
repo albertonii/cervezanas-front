@@ -2,7 +2,7 @@ import InfoCPMobile from "./InfoCPMobile";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { ICPMobile } from "../../../../../../../lib/types";
-import readUserSession from "../../../../../../actions";
+import readUserSession from "../../../../../../../lib/actions";
 import createServerClient from "../../../../../../../utils/supabaseServer";
 
 export default async function CPMobilePage({ params }: any) {

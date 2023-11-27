@@ -3,7 +3,7 @@ import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { Orders } from "./Orders";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
   const ordersData = await getOrdersData();

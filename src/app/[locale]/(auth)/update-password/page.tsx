@@ -1,5 +1,5 @@
 import UpdatePassword from "./UpdatePassword";
-import readUserSession from "../../../actions";
+import readUserSession from "../../../../lib/actions";
 import { redirect } from "next/navigation";
 
 export default async function UpdatePasswordPage() {

@@ -28,7 +28,7 @@ interface FormProps {
 interface Props {
   profile_location: IProfileLocation;
 }
-
+// TODO: Add Validation ZOD
 export function LocationForm({ profile_location }: Props) {
   const t = useTranslations();
   const { supabase, user } = useAuth();

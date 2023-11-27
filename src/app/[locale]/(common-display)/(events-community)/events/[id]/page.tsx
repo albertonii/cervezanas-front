@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { IEvent } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;

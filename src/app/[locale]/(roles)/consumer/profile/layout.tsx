@@ -16,7 +16,7 @@ type LayoutProps = {
 
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
-export default async function layout({ children }: LayoutProps) {
+export default function layout({ children }: LayoutProps) {
   const { user, role, supabase } = useAuth();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();

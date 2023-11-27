@@ -16,20 +16,17 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
-import {
-  ICustomizeSettings,
-  IProductPack,
-  ModalAddProductProps,
-} from "../../../../lib/types";
+import { ICustomizeSettings, IProductPack } from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DeleteButton } from "../common/DeleteButton";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
+import { ModalAddProductFormData } from "./AddProduct";
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<ModalAddProductFormData, any>;
   customizeSettings: ICustomizeSettings;
 }
 
@@ -113,7 +110,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   return (
     <>
       {/* Select product type  */}
-      <div className="relative flex-auto pt-6">
+      <section className="relative flex-auto pt-6">
         <div className="flex w-full flex-col items-end">
           <label
             className="relative inline-flex cursor-pointer items-center"
@@ -160,7 +157,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             ))}
           </select>
         </div>
-      </div>
+      </section>
 
       {/* Beer type */}
       {isBeer && (

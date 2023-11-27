@@ -312,7 +312,6 @@ export const AuthContextProvider = ({
       .signInWithOAuth({
         provider,
         options: {
-          // redirectTo: `${window.location.origin}/${locale}`,
           redirectTo: `${window.location.origin}/api/auth/callback`,
           queryParams: {
             access_type: "offline",

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Select } from "@supabase/ui";
 import { useAuth } from "./Auth/useAuth";
 import { COMMON } from "../../constants";
 import { usePathname, useRouter } from "next/navigation";
@@ -184,7 +183,7 @@ export function ScreenMenu() {
             ) : (
               <>
                 {/* Cart  */}
-                {role !== "admin" && (
+                {role === "consumer" && (
                   <li
                     className={`items´center flex ${
                       animateShoppingCart && "animate-wiggle"

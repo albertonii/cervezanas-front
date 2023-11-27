@@ -2,7 +2,7 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { IAward, ModalAddProductProps } from "../../../../lib/types";
+import { IAward } from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DeleteButton } from "../common/DeleteButton";
 import { DisplayInputError } from "../common/DisplayInputError";
@@ -19,7 +19,7 @@ const emptyAward: IAward = {
 };
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
 interface FileProps {

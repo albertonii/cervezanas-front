@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { VIEWS } from "../../../../../../constants";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { ICPMobile } from "../../../../../../lib/types";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { IProfile, IConsumptionPoints } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../actions";
+import readUserSession from "../../../../../../lib/actions";
 import { ConsumptionPoints } from "./ConsumptionPoints";
 
 export default async function ProfilePage() {

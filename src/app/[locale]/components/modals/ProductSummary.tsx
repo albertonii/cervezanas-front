@@ -1,12 +1,12 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ModalAddProductProps } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { FilePreview } from "../common/FilePreview";
+import { ModalAddProductFormData } from "./AddProduct";
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
 export function ProductSummary({ form: { getValues } }: Props) {

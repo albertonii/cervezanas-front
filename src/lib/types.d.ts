@@ -242,12 +242,12 @@ export interface IInventory {
 }
 
 export interface IAward {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   img_url: any;
   year: number;
-  beer_id: string;
+  beer_id?: string;
 }
 
 export interface IProductMultimedia {
@@ -760,14 +760,14 @@ export type ModalAddProductProps = {
 };
 
 export type IProductPack = {
-  id: string;
-  created_at: string;
+  id?: string;
+  created_at?: string;
   quantity: number;
   price: number;
-  img_url: any;
+  img_url?: any;
   name: string;
-  randomUUID: string;
-  product_id: string;
+  randomUUID?: string;
+  product_id?: string;
   products?: IProduct;
 };
 
