@@ -124,7 +124,7 @@ export function UpdateLot({
         classIcon={""}
         classContainer={""}
       >
-        <div className="relative flex-auto py-6">
+        <section className="relative flex-auto py-6">
           <div className="flex w-full flex-col ">
             {/* Lot Name Lot Number */}
             <div className="flex w-full flex-row space-x-3 ">
@@ -167,6 +167,7 @@ export function UpdateLot({
                 )}
               </div>
             </div>
+
             {/* Quantity & Quantity Notification */}
             <div className="flex w-full flex-row space-x-3 ">
               <div className="space-y w-full ">
@@ -212,6 +213,7 @@ export function UpdateLot({
                 )}
               </div>
             </div>
+
             {/* Manufacture Date & Expiration Date */}
             <div className="flex w-full flex-row space-x-3 ">
               <div className="space-y w-full ">
@@ -259,6 +261,7 @@ export function UpdateLot({
                 )}
               </div>
             </div>
+
             {/* Packaging */}
             <div className="flex w-full flex-row space-x-3 ">
               <div className="space-y w-full ">
@@ -297,7 +300,7 @@ export function UpdateLot({
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </Modal>
     </form>
   );

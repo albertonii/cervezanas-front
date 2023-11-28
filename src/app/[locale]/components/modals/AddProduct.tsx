@@ -16,7 +16,11 @@ import {
 } from "../../../../lib/beerEnum";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import { IAward, IInventory, IModalProductPack } from "../../../../lib/types";
+import {
+  IAward,
+  IInventory,
+  IModalAddProductPack,
+} from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";
@@ -56,7 +60,7 @@ export type ModalAddProductFormData = {
   format: string;
   stock_quantity: number;
   stock_limit_notification: number;
-  packs: IModalProductPack[];
+  packs: IModalAddProductPack[];
   category: string;
 };
 
@@ -64,7 +68,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   fermentation: z.number().min(0, { message: "Required" }).max(3, {
     message: "Required",
   }),
-  color: z.number().min(0, { message: "Required" }).max(3, {
+  color: z.number().min(0, { message: "Required" }).max(30, {
     message: "Required",
   }),
   intensity: z.number().min(0, { message: "Required" }).max(3, {
@@ -73,7 +77,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   aroma: z.number().min(0, { message: "Required" }).max(3, {
     message: "Required",
   }),
-  family: z.number().min(0, { message: "Required" }).max(3, {
+  family: z.number().min(0, { message: "Required" }).max(30, {
     message: "Required",
   }),
   origin: z.number().min(0, { message: "Required" }).max(3, {
@@ -191,8 +195,6 @@ export function AddProduct() {
   }, [errors]);
 
   const handleInsertProduct = async (form: ValidationSchema) => {
-    console.log("dentro handle insert product");
-
     const {
       // campaign,
       fermentation,
@@ -427,7 +429,7 @@ export function AddProduct() {
 
       // Packs Stock
       if (isNotEmptyArray(packs)) {
-        packs.map(async (pack: IModalProductPack, index: number) => {
+        packs.map(async (pack: IModalAddProductPack, index: number) => {
           const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
             `${filename}${generateFileNameExtension(pack.name)}`
@@ -547,9 +549,9 @@ export function AddProduct() {
       title={"add_product"}
       btnTitle={"add_product"}
       description={""}
-      handler={handleSubmit(onSubmit)}
       classIcon={""}
       classContainer={""}
+      handler={handleSubmit(onSubmit)}
       handlerClose={() => {
         setActiveStep(0);
         setShowModal(false);

@@ -58,7 +58,6 @@ export function ScreenMenu() {
 
     const language = event.target.value;
 
-    console.log(redirectedPathName(language));
     // i18n.changeLanguage(language);
   };
 

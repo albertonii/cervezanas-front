@@ -1,8 +1,10 @@
 "use client";
 
+import StockInformationDetails from "./StockInformationDetails";
+import SelectInput from "../common/SelectInput";
 import React, { useState } from "react";
 import { Divider } from "@supabase/ui";
-import { useFieldArray, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
   aroma_options,
@@ -12,50 +14,28 @@ import {
   fermentation_options,
   format_options,
   origin_options,
-  pack_type_options,
   product_type_options,
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
-import { Button } from "../common/Button";
-import { useAuth } from "../../Auth/useAuth";
 import { InfoTooltip } from "../common/InfoTooltip";
-import { DeleteButton } from "../common/DeleteButton";
-import { ModalUpdateProductProps, IProductPack } from "../../../../lib/types";
-import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
+import { ModalUpdateProductFormData } from "../../../../lib/types";
+
+import { DisplayInputError } from "../common/DisplayInputError";
 
 interface Props {
-  form: UseFormReturn<ModalUpdateProductProps, any>;
+  form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
-const emptyPack: IProductPack = {
-  id: "",
-  created_at: "",
-  quantity: 6,
-  price: 0,
-  img_url: "",
-  name: "",
-  randomUUID: "",
-  product_id: "",
-};
-
 export function ProductInfoSectionUpdate({ form }: Props) {
-  const { supabase } = useAuth();
+  const t = useTranslations();
 
   const {
     register,
     formState: { errors },
     getValues,
-    control,
   } = form;
-
-  const t = useTranslations();
-
-  const { fields, append, remove } = useFieldArray({
-    name: "packs",
-    control,
-  });
 
   const [formatOptions, setFormatOptions] = useState<string>(
     format_options[0].label
@@ -65,28 +45,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
     setFormatOptions(event.target.value);
   };
 
-  const handleRemovePack = async (index: number, packId: string) => {
-    // Remove pack from database
-    if (packId) {
-      const { error } = await supabase
-        .from("product_packs")
-        .delete()
-        .eq("id", packId);
-
-      if (error) throw error;
-    }
-
-    remove(index);
-  };
-
-  const handleAddPack = () => {
-    append(emptyPack);
-  };
-
   return (
     <>
       {/* Select product type  */}
-      <div className="relative flex-auto space-y-4 pt-6">
+      <section className="relative flex-auto space-y-4 pt-6">
         <div className="flex w-full flex-col items-end justify-end">
           <label
             className="relative inline-flex cursor-pointer items-center"
@@ -132,11 +94,11 @@ export function ProductInfoSectionUpdate({ form }: Props) {
             ))}
           </select>
         </div>
-      </div>
+      </section>
 
       {/* Beer type */}
       {getValues("type") === "BEER" && (
-        <div className="relative flex-auto space-y-4 pt-6">
+        <section className="relative flex-auto space-y-4 pt-6">
           <p className="text-slate-500 my-4 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
@@ -242,186 +204,92 @@ export function ProductInfoSectionUpdate({ form }: Props) {
             </div>
 
             <div className="w-full ">
-              <label htmlFor="fermentation" className="text-sm text-gray-600">
-                {t("fermentation")}
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"fermentation_tooltip"}
+                options={fermentation_options}
+                label={"fermentation"}
+              />
 
-                <InfoTooltip
-                  content={`${t("fermentation_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
-
-              <select
-                {...register("fermentation", {
-                  required: true,
-                  value: getValues("fermentation"),
-                })}
-                id="fermentation"
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {fermentation_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.fermentation?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.fermentation && (
+                <DisplayInputError message={errors.fermentation.message} />
               )}
             </div>
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="color" className="text-sm text-gray-600">
-                {t("color")}
-                <InfoTooltip
-                  content={`${t("color_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={600}
-                />
-              </label>
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"color_tooltip"}
+                options={color_options}
+                label={"color"}
+              />
 
-              <select
-                id="color"
-                {...register("color", {
-                  value: getValues("color"),
-                })}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {color_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-
-              {errors.color?.type === "required" && (
-                <p>Campo color requerido</p>
+              {errors.color && (
+                <DisplayInputError message={errors.color.message} />
               )}
             </div>
 
             <div className="w-full ">
-              <label htmlFor="origin" className="text-sm text-gray-600">
-                {t("origin")}
-                <InfoTooltip
-                  content={`${t("origin_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={300}
-                />
-              </label>
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"origin_tooltip"}
+                options={origin_options}
+                label={"origin"}
+              />
 
-              <select
-                id="origin"
-                {...register("origin", {
-                  value: getValues("origin"),
-                })}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {origin_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.origin?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.origin && (
+                <DisplayInputError message={errors.origin.message} />
               )}
             </div>
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="family" className="text-sm text-gray-600">
-                {t("family")}
-                <InfoTooltip
-                  content={`${t("family_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={300}
-                />
-              </label>
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"family_tooltip"}
+                options={family_options}
+                label={"family"}
+              />
 
-              <select
-                id="family"
-                {...register("family", {
-                  value: getValues("family"),
-                })}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {family_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-
-              {errors.family?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.family && (
+                <DisplayInputError message={errors.family.message} />
               )}
             </div>
 
             <div className="w-full ">
-              <label htmlFor="era" className="text-sm text-gray-600">
-                {t("era")}
-                <InfoTooltip
-                  content={`${t("era_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={300}
-                />
-              </label>
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"era_tooltip"}
+                options={era_options}
+                label={"era"}
+              />
 
-              <select
-                id="era"
-                {...register("era", {
-                  value: getValues("era"),
-                })}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {era_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.intensity?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.intensity && (
+                <DisplayInputError message={errors.intensity.message} />
               )}
             </div>
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="aroma" className="text-sm text-gray-600">
-                {t("aroma")}
-                <InfoTooltip
-                  content={`${t("aroma_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"aroma_tooltip"}
+                options={aroma_options}
+                label={"aroma"}
+              />
 
-              <select
-                id="aroma"
-                {...register("aroma", {
-                  required: true,
-                  value: getValues("aroma"),
-                })}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {aroma_options.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-
-              {errors.aroma?.type === "required" && (
-                <p>Campo aroma requerido</p>
+              {errors.aroma && (
+                <DisplayInputError message={errors.aroma.message} />
               )}
             </div>
           </div>
@@ -437,7 +305,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 id="isGluten"
                 {...register("is_gluten", {
                   required: true,
-                  value: getValues("is_gluten"),
                 })}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
@@ -448,8 +315,9 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   {t("yes")}
                 </option>
               </select>
-              {errors.is_gluten?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+
+              {errors.is_gluten && (
+                <DisplayInputError message={errors.is_gluten.message} />
               )}
             </div>
           </div>
@@ -476,8 +344,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 ))}
               </select>
 
-              {errors.format?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.format && (
+                <DisplayInputError message={errors.format.message} />
               )}
             </div>
 
@@ -487,9 +355,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               </label>
 
               <select
-                {...register(`volume`, {
-                  value: getValues("volume"),
-                })}
+                {...register(`volume`)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {formatOptions === "can" ? (
@@ -529,7 +395,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="price" className="text-sm text-gray-600">
-                {t("price")}
+                {t("price")} (€)
               </label>
 
               <input
@@ -558,221 +424,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <Divider />
 
           {/* Stock information and Packs */}
-          <div className="container mt-4">
-            <p className="text-slate-500 my-4 text-xl leading-relaxed">
-              {t("modal_product_add_price_title")}
-            </p>
-
-            <div className="flex w-full flex-col space-y-4 ">
-              {/* Stock quantity and Limitation */}
-              <div className="flex w-full flex-row space-x-3 ">
-                <div className="w-full ">
-                  <label
-                    htmlFor="stockQuantity"
-                    className="text-sm text-gray-600"
-                  >
-                    {t("stock_quantity_label")}
-                  </label>
-
-                  <input
-                    id="stockQuantity"
-                    type="number"
-                    placeholder="500"
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    min="0"
-                    {...register(`stock_quantity`, {
-                      value: getValues("stock_quantity"),
-                      required: true,
-                      min: 0,
-                    })}
-                  />
-
-                  {errors.stock_quantity?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
-                  )}
-                  {errors.stock_quantity?.type === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
-                  )}
-                </div>
-
-                <div className="w-full">
-                  <label
-                    htmlFor="stockLimitNotification"
-                    className="text-sm text-gray-600"
-                  >
-                    {t("stock_limit_notification_label")}
-                  </label>
-
-                  <input
-                    id="stockLimitNotification"
-                    type="number"
-                    placeholder="20"
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    min="0"
-                    {...register(`stock_limit_notification`, {
-                      value: getValues("stock_limit_notification"),
-                      required: true,
-                      min: 0,
-                    })}
-                  />
-
-                  {errors.stock_limit_notification?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
-                  )}
-                  {errors.stock_limit_notification?.type === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
-                  )}
-                </div>
-              </div>
-
-              <Divider />
-
-              {/* Packs */}
-              <div className="flex flex-col space-y-2">
-                <span className="text-lg ">{t("add_product_pack")}</span>
-
-                <span className="text-sm ">
-                  {t("add_product_pack_description")}
-                </span>
-              </div>
-
-              {fields.map((field, index) => (
-                <fieldset
-                  className="border border-solid border-gray-300 p-3"
-                  key={field.id}
-                >
-                  <div className="space-y w-full">
-                    {/* Quantity and price  */}
-                    <div className="flex w-full flex-row items-end space-x-3">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.pack`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_quantity")} nº {index + 1}
-                        </label>
-
-                        <select
-                          required
-                          id={`packs.${index}.pack`}
-                          {...register(`packs.${index}.quantity` as const, {
-                            value: getValues(`packs.${index}.quantity`),
-                            required: true,
-                          })}
-                          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                        >
-                          {pack_type_options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.value}
-                            </option>
-                          ))}
-                        </select>
-
-                        {`errors.packs.${index}.pack.type` === "required" && (
-                          <p>{t("errors.input_required")}</p>
-                        )}
-                      </div>
-
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.price`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_price")}
-                        </label>
-
-                        <input
-                          id="price"
-                          type="number"
-                          placeholder="2.5"
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={3}
-                          required
-                          min="0"
-                          {...register(`packs.${index}.price` as const, {
-                            required: true,
-                            min: 0,
-                            value: getValues(`packs.${index}.price`),
-                          })}
-                        />
-
-                        {`errors.packs.${index}.price.type` === "required" && (
-                          <p>{t("errors.input_required")}</p>
-                        )}
-                        {`errors.packs.${index}.price.type` === "min" && (
-                          <p>{t("product_modal_min_0")}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Pack name  */}
-                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.name`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_name")}
-                        </label>
-
-                        <input
-                          id={`packs.${index}.name`}
-                          type="text"
-                          placeholder={`Pack ${index + 1}`}
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={3}
-                          required
-                          min="0"
-                          {...register(`packs.${index}.name` as const, {
-                            required: true,
-                            value: getValues(`packs.${index}.name`),
-                          })}
-                        />
-
-                        {`packs.${index}.name.type` === "required" && (
-                          <p>{t("errors.errors.input_required")}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* File  */}
-                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.img_url`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_img_url")}
-                        </label>
-
-                        <FilePreviewImageMultimedia
-                          form={form}
-                          registerName={`packs.${index}.img_url`}
-                        />
-                      </div>
-
-                      {/* Delete BTN  */}
-                      <div className="flex-grow-0">
-                        <DeleteButton
-                          onClick={() =>
-                            handleRemovePack(
-                              index,
-                              getValues(`packs.${index}.id`)
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-              ))}
-
-              <Button class="" primary medium onClick={() => handleAddPack()}>
-                {t("add_pack")}
-              </Button>
-            </div>
-          </div>
-        </div>
+          <StockInformationDetails form={form} />
+        </section>
       )}
 
       {/* Merchandising type */}

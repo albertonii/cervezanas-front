@@ -8,6 +8,7 @@ import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types.d";
 import { Type as ProductType } from "./productEnum";
+import { Fermentation } from "./beerEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -174,16 +175,7 @@ export interface IBeer {
   srm: number;
   og: number;
   fg: number;
-
-  // products: IProduct;
-
-  // lot_id: number;
-  // feedback_id: number;
-  // awards_id: string[];
-  // awards: Award[];
-  // price: number;
-  // reviews: Review[];
-  // likes: Like[];
+  product_id: string;
 }
 
 export interface IMerchandising {
@@ -736,7 +728,16 @@ export type IProductPack = {
   products?: IProduct;
 };
 
-export type IModalProductPack = {
+export type IModalAddProductPack = {
+  quantity: number;
+  price: number;
+  img_url?: any;
+  name: string;
+  product_id?: string;
+};
+
+export type IModalUpdateProductPack = {
+  id: string;
   quantity: number;
   price: number;
   img_url?: any;
@@ -762,38 +763,34 @@ export type IPackItem = {
   name: string;
 };
 
-export type ModalUpdateProductProps = {
+export type ModalUpdateProductFormData = {
+  id: string;
   name: string;
   description: string;
-  campaign: string;
-  type: string;
-  color: string;
-  aroma: string;
-  family: string;
-  fermentation: string;
-  origin: string;
-  era: string;
-  intensity: number;
-  p_principal: File;
-  p_back: File;
-  p_extra_1: File;
-  p_extra_2: File;
-  p_extra_3: File;
-  volume: any;
   price: number;
-  pack: any;
-  format: any;
+  fermentation: Fermentation;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  origin: number;
+  era: number;
+  is_gluten: boolean;
+  type: string;
+  awards: IAward[];
+  p_principal?: FileList;
+  p_back?: FileList;
+  p_extra_1?: FileList;
+  p_extra_2?: FileList;
+  p_extra_3?: FileList;
+  is_public: boolean;
+  volume: number;
+  format: string;
   stock_quantity: number;
   stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
-  awards?: Award[];
-  beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: IMerchandising[];
-  is_gluten: boolean;
-  is_public: boolean;
-  // packs: IProductPack[];
-  packs: any[]; // TODO: Any para evitar circular dependency en ProductInfoSectionUpdate.tsx
+  packs: IModalUpdateProductPack[];
+  category: string;
+  campaign: string;
 };
 
 export type ModalUpdateLotProps = {
@@ -1016,7 +1013,7 @@ export interface IModalAddProduct {
   p_extra_3: string;
   volume: any;
   price: number;
-  packs: IModalProductPack[];
+  packs: IModalAddProductPack[];
   format: any;
   stock_quantity: number;
   stock_limit_notification: number;

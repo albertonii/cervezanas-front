@@ -1,19 +1,32 @@
 "use client";
 
 import _ from "lodash";
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
+import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Aroma,
+  aroma_options,
+  Color,
+  color_options,
+  Era,
+  era_options,
+  Family,
+  family_options,
+  Fermentation,
   fermentation_options,
+  Origin,
+  origin_options,
   product_type_options,
 } from "../../../../lib/beerEnum";
 import {
   IProduct,
   IInventory,
   IAward,
-  ModalUpdateProductProps,
   IProductPack,
+  ModalUpdateProductFormData,
 } from "../../../../lib/types";
 import { uuid } from "uuidv4";
 import { Modal } from "./Modal";
@@ -25,6 +38,99 @@ import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
 import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
+
+const schema: ZodType<ModalUpdateProductFormData> = z.object({
+  id: z.string(),
+  fermentation: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  color: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  intensity: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  aroma: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  family: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  origin: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  era: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  is_gluten: z.coerce.boolean(),
+  type: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  awards: z.array(
+    z.object({
+      name: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      description: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      year: z.number().min(4, { message: "Required" }).max(4, {
+        message: "Required",
+      }),
+      img_url: z.string().min(2, { message: "Required" }),
+    })
+  ),
+  p_principal: z.any(),
+  p_back: z.any(),
+  p_extra_1: z.any(),
+  p_extra_2: z.any(),
+  p_extra_3: z.any(),
+  is_public: z.boolean(),
+  name: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  description: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  price: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  // TODO: Bug in volume validation when adding product
+  // volume: z.number().min(0, { message: "Required" }).max(50, {
+  //   message: "Required",
+  // }),
+  volume: z.number().min(0, { message: "Required" }),
+  format: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  stock_quantity: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  stock_limit_notification: z.number().min(0, { message: "Required" }).max(3, {
+    message: "Required",
+  }),
+  packs: z.array(
+    z.object({
+      id: z.string(),
+      quantity: z.number().min(0, { message: "Required" }).max(3, {
+        message: "Required",
+      }),
+      price: z.number().min(0, { message: "Required" }).max(3, {
+        message: "Required",
+      }),
+      name: z.string().min(2, { message: "Required" }).max(50, {
+        message: "Required",
+      }),
+      img_url: z.any(),
+    })
+  ),
+  category: z.string().min(2, { message: "Required" }).max(50, {
+    message: "Required",
+  }),
+  campaign: z.string(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   product: IProduct;
@@ -47,8 +153,62 @@ export function UpdateProduct({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const form = useForm<ModalUpdateProductProps>({
+  const { beers } = product;
+  const { color, aroma, family, fermentation, origin, era } = beers[0];
+
+  const colorDefault: {
+    label: string;
+    value: Color;
+  } = color_options.find((c) => c.label === color) ?? {
+    label: "very_light",
+    value: Color.very_light,
+  };
+
+  const aromaDefault: {
+    label: string;
+    value: Aroma;
+  } = aroma_options.find((c) => c.label === aroma) ?? {
+    label: "maltose",
+    value: 0,
+  };
+
+  const familyDefault: {
+    label: string;
+    value: Family;
+  } = family_options.find((c) => c.label === family) ?? {
+    label: "ipa",
+    value: 0,
+  };
+
+  const fermentationDefault: {
+    label: string;
+    value: Fermentation;
+  } = fermentation_options.find((c) => c.label === fermentation) ?? {
+    label: "none",
+    value: 7,
+  };
+
+  const originDefault: {
+    label: string;
+    value: Origin;
+  } = origin_options.find((c) => c.label === origin) ?? {
+    label: "none",
+    value: 7,
+  };
+
+  const eraDefault: {
+    label: string;
+    value: Era;
+  } = era_options.find((c) => c.label === era) ?? {
+    label: "none",
+    value: 5,
+  };
+
+  console.log(fermentationDefault.value);
+
+  const form = useForm<ValidationSchema>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
       name: product.name ?? "",
       description: product.description ?? "",
@@ -58,24 +218,33 @@ export function UpdateProduct({
       stock_quantity: product.product_inventory![0].quantity ?? 0,
       stock_limit_notification:
         product.product_inventory![0].limit_notification ?? 0,
-      campaign: "-" ?? "",
       format: product.beers[0]?.format ?? "",
       volume: product.beers[0]?.volume ?? 0,
-      color: product.beers[0]?.color,
-      aroma: product.beers[0]?.aroma,
+      color: colorDefault.value,
+      aroma: aromaDefault.value,
       intensity: product.beers[0]?.intensity,
-      family: product.beers[0]?.family ?? "",
-      fermentation: fermentation_options[0].label,
-      origin: product.beers[0]?.origin ?? "",
-      era: product.beers[0]?.era ?? "",
+      family: familyDefault.value,
+      fermentation: fermentationDefault.value,
+      origin: originDefault.value,
+      era: eraDefault.value,
       is_gluten: product.beers[0]?.is_gluten ?? false,
       awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_packs,
+      campaign: "-",
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
+
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleUpdateProduct = async (formValues: any) => {
     const {
@@ -362,7 +531,7 @@ export function UpdateProduct({
     },
   });
 
-  const onSubmit = (formValues: ModalUpdateProductProps) => {
+  const onSubmit = (formValues: ModalUpdateProductFormData) => {
     try {
       updateProductMutation.mutate(formValues);
     } catch (e) {
@@ -373,49 +542,47 @@ export function UpdateProduct({
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={false}
-        showModal={showModal}
-        setShowModal={handleEditShowModal}
-        title={"save_product"}
-        btnTitle={"save_product"}
-        description={""}
-        handler={handleSubmit(onSubmit)}
-        handlerClose={() => handleEditShowModal(false)}
-        classIcon={""}
-        classContainer={""}
-      >
-        <>
-          <ProductStepper
-            activeStep={activeStep}
-            handleSetActiveStep={handleSetActiveStep}
-            isSubmitting={isSubmitting}
-          >
-            <>
-              <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                {t("modal_product_description")}
-              </p>
+    <Modal
+      showBtn={false}
+      showModal={showModal}
+      setShowModal={handleEditShowModal}
+      title={"save_product"}
+      btnTitle={"save_product"}
+      description={""}
+      classIcon={""}
+      classContainer={""}
+      handler={handleSubmit(onSubmit)}
+      handlerClose={() => handleEditShowModal(false)}
+    >
+      <form>
+        <ProductStepper
+          activeStep={activeStep}
+          handleSetActiveStep={handleSetActiveStep}
+          isSubmitting={isSubmitting}
+        >
+          <>
+            <p className="text-slate-500 my-4 text-lg leading-relaxed">
+              {t("modal_product_description")}
+            </p>
 
-              {activeStep === 0 ? (
-                <>
-                  <ProductInfoSectionUpdate form={form} />
-                </>
-              ) : activeStep === 1 ? (
-                <>
-                  <MultimediaSectionUpdate form={form} />
-                </>
-              ) : activeStep === 2 ? (
-                <>
-                  <AwardsSectionUpdate form={form} />
-                </>
-              ) : (
-                <></>
-              )}
-            </>
-          </ProductStepper>
-        </>
-      </Modal>
-    </form>
+            {activeStep === 0 ? (
+              <>
+                <ProductInfoSectionUpdate form={form} />
+              </>
+            ) : activeStep === 1 ? (
+              <>
+                <MultimediaSectionUpdate form={form} />
+              </>
+            ) : activeStep === 2 ? (
+              <>
+                <AwardsSectionUpdate form={form} />
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        </ProductStepper>
+      </form>
+    </Modal>
   );
 }
