@@ -9,6 +9,17 @@ interface Props {
   labelTooltip?: string;
   options: { label: string; value: any }[];
   label: string;
+  defaultValue?: any;
+  registerOptions?: {
+    required?: boolean;
+    min?: number;
+    max?: number;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: RegExp;
+    validate?: any;
+    valueAsNumber?: boolean;
+  };
 }
 
 export default function SelectInput({
@@ -17,6 +28,8 @@ export default function SelectInput({
   options,
   label,
   labelTooltip,
+  defaultValue,
+  registerOptions,
 }: Props) {
   const t = useTranslations();
 
@@ -33,11 +46,10 @@ export default function SelectInput({
       </label>
 
       <select
-        {...register(label, {
-          required: true,
-        })}
+        {...register(label, registerOptions)}
         id={label}
         className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+        defaultValue={defaultValue || ""}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

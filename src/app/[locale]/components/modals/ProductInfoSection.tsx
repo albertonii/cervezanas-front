@@ -1,3 +1,4 @@
+import SelectInput from "../common/SelectInput";
 import React, { useEffect, useState } from "react";
 import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
@@ -24,6 +25,7 @@ import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { ModalAddProductFormData } from "./AddProduct";
+import { DisplayInputError } from "../common/DisplayInputError";
 
 interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
@@ -72,7 +74,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     });
     const newSet = [...color_options, ...colorSettings];
 
-    setColorOptions(newSet);
+    // setColorOptions(newSet);
   }, [customizeSettings.colors]);
 
   useEffect(() => {
@@ -81,7 +83,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     });
     const newSet = [...family_options, ...famStyleSettings];
 
-    setFamStyleOptions(newSet);
+    // setFamStyleOptions(newSet);
   }, [customizeSettings.family_styles]);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -193,32 +195,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                   required: true,
                 })}
               />
-              {errors.name?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-              {errors.name?.type === "maxLength" && (
-                <p>{t("product_modal_20_max_length")}</p>
+
+              {errors.name && (
+                <DisplayInputError message={errors.name.message} />
               )}
             </div>
-
-            {/* 
-            <div className="w-full ">
-              <label htmlFor="campaign" className="text-sm text-gray-600">
-                {t("select_campaign")}
-              </label>
-
-              <select
-                {...register("campaign")}
-                value={""}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {campaigns.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div> */}
           </div>
 
           {/* Description  */}
@@ -236,11 +217,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                   required: true,
                 })}
               />
-              {errors.description?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-              {errors.description?.type === "maxLength" && (
-                <p>{t("product_modal_20_max_length")}</p>
+
+              {errors.description && (
+                <DisplayInputError message={errors.description.message} />
               )}
             </div>
           </div>
@@ -273,47 +252,26 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 })}
               />
 
-              {errors.intensity?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-
-              {errors.intensity?.type === "min" && (
-                <p>{t("error_0_number_min_length")}</p>
-              )}
-
-              {errors.intensity?.type === "max" && (
-                <p>{t("error_100_number_max_length")}</p>
+              {errors.intensity && (
+                <DisplayInputError message={errors.intensity.message} />
               )}
             </div>
 
             <div className="w-full ">
-              <label htmlFor="fermentation" className="text-sm text-gray-600">
-                {t("fermentation")}
-
-                <InfoTooltip
-                  content={`${t("fermentation_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
-
-              <select
-                {...register("fermentation", {
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"fermentation_tooltip"}
+                options={fermentation_options}
+                label={"fermentation"}
+                registerOptions={{
                   required: true,
                   valueAsNumber: true,
-                })}
-                defaultValue={fermentation_options[0].value}
-                id="fermentation"
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {fermentation_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.fermentation?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+                }}
+              />
+
+              {errors.fermentation && (
+                <DisplayInputError message={errors.fermentation.message} />
               )}
             </div>
           </div>
@@ -321,66 +279,38 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           {/* Color  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="color" className="text-sm text-gray-600">
-                {t("color")}
-                <InfoTooltip
-                  content={`${t("color_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={600}
-                />
-              </label>
-
-              <select
-                id="color"
-                {...register("color", {
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"color_tooltip"}
+                options={color_options}
+                label={"color"}
+                registerOptions={{
                   required: true,
                   valueAsNumber: true,
-                })}
-                defaultValue={color_options[0].value}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {colorOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
+                }}
+              />
 
-              {errors.color?.type === "required" && (
-                <p>Campo color requerido</p>
+              {errors.color && (
+                <DisplayInputError message={errors.color.message} />
               )}
             </div>
 
             <div className="w-full ">
-              <label htmlFor="origin" className="text-sm text-gray-600">
-                {t("origin")}
-
-                <InfoTooltip
-                  content={`${t("origin_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={300}
-                />
-              </label>
-
-              <select
-                id="origin"
-                {...register("origin", {
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"origin_tooltip"}
+                options={origin_options}
+                label={"origin"}
+                registerOptions={{
                   required: true,
                   valueAsNumber: true,
-                })}
-                defaultValue={origin_options[0].value}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {origin_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.origin?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+                }}
+              />
+
+              {errors.origin && (
+                <DisplayInputError message={errors.origin.message} />
               )}
             </div>
           </div>
@@ -388,6 +318,24 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           {/* Family  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"family_tooltip"}
+                options={family_options}
+                label={"family"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
+              />
+
+              {errors.family && (
+                <DisplayInputError message={errors.family.message} />
+              )}
+
+              {/*
+              TODO: Volver aqui para ver por qué está famStyleOptions
               <label htmlFor="family" className="text-sm text-gray-600">
                 {t("family")}
 
@@ -417,42 +365,24 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               {errors.family?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
-              )}
+              )} */}
             </div>
 
             <div className="w-full ">
-              <label
-                htmlFor="era"
-                className="text-sm text-gray-600 "
-                data-tooltip-target="tooltip-default"
-              >
-                {t("era")}
-
-                <InfoTooltip
-                  content={`${t("era_tooltip")}`}
-                  direction="top"
-                  delay={200}
-                  width={300}
-                />
-              </label>
-
-              <select
-                id="era"
-                {...register("era", {
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"era_tooltip"}
+                options={era_options}
+                label={"era"}
+                registerOptions={{
                   required: true,
                   valueAsNumber: true,
-                })}
-                defaultValue={era_options[0].label}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {era_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
-              {errors.era?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+                }}
+              />
+
+              {errors.intensity && (
+                <DisplayInputError message={errors.intensity.message} />
               )}
             </div>
           </div>
@@ -460,33 +390,20 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           {/* Aroma  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="aroma" className="text-sm text-gray-600">
-                {t("aroma")}
-                <InfoTooltip
-                  content={`${t("aroma_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
-
-              <select
-                id="aroma"
-                {...register("aroma", {
-                  valueAsNumber: true,
+              <SelectInput
+                form={form}
+                hasInfoTooltip={true}
+                labelTooltip={"aroma_tooltip"}
+                options={aroma_options}
+                label={"aroma"}
+                registerOptions={{
                   required: true,
-                })}
-                defaultValue={aroma_options[0].value}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {aroma_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {t(option.label)}
-                  </option>
-                ))}
-              </select>
+                  valueAsNumber: true,
+                }}
+              />
 
-              {errors.aroma?.type === "required" && (
-                <p>Campo aroma requerido</p>
+              {errors.aroma && (
+                <DisplayInputError message={errors.aroma.message} />
               )}
             </div>
           </div>
@@ -513,8 +430,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 </option>
               </select>
 
-              {errors.is_gluten?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.is_gluten && (
+                <DisplayInputError message={errors.is_gluten.message} />
               )}
             </div>
           </div>
@@ -541,8 +458,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 ))}
               </select>
 
-              {errors.format?.type === "required" && (
-                <p>{t("errors.input_requºired")}</p>
+              {errors.format && (
+                <DisplayInputError message={errors.format.message} />
               )}
             </div>
 
@@ -590,8 +507,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 )}
               </select>
 
-              {errors.volume?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.volume && (
+                <DisplayInputError message={errors.volume.message} />
               )}
             </div>
           </div>
@@ -616,12 +533,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 })}
               />
 
-              {errors.price?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-
-              {errors.price?.type === "min" && (
-                <p>{t("error_0_number_min_length")}</p>
+              {errors.price && (
+                <DisplayInputError message={errors.price.message} />
               )}
             </div>
           </div>
@@ -659,11 +572,10 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     })}
                   />
 
-                  {errors.stock_quantity?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
-                  )}
-                  {errors.stock_quantity?.type === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
+                  {errors.stock_quantity && (
+                    <DisplayInputError
+                      message={errors.stock_quantity.message}
+                    />
                   )}
                 </div>
 

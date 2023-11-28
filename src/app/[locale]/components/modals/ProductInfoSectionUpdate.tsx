@@ -118,11 +118,9 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                 })}
               />
-              {errors.name?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-              {errors.name?.type === "maxLength" && (
-                <p>{t("product_modal_20_max_length")}</p>
+
+              {errors.name && (
+                <DisplayInputError message={errors.name.message} />
               )}
             </div>
             {/* 
@@ -159,11 +157,9 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   required: true,
                 })}
               />
-              {errors.description?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-              {errors.description?.type === "maxLength" && (
-                <p>{t("product_modal_20_max_length")}</p>
+
+              {errors.description && (
+                <DisplayInputError message={errors.description.message} />
               )}
             </div>
           </div>
@@ -190,16 +186,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 {...register(`intensity`, { required: true, min: 0, max: 100 })}
               />
 
-              {errors.intensity?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-
-              {errors.intensity?.type === "min" && (
-                <p>{t("error_0_number_min_length")}</p>
-              )}
-
-              {errors.intensity?.type === "max" && (
-                <p>{t("error_100_number_max_length")}</p>
+              {errors.intensity && (
+                <DisplayInputError message={errors.intensity.message} />
               )}
             </div>
 
@@ -210,6 +198,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"fermentation_tooltip"}
                 options={fermentation_options}
                 label={"fermentation"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.fermentation && (
@@ -226,6 +218,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"color_tooltip"}
                 options={color_options}
                 label={"color"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.color && (
@@ -240,6 +236,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"origin_tooltip"}
                 options={origin_options}
                 label={"origin"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.origin && (
@@ -256,6 +256,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"family_tooltip"}
                 options={family_options}
                 label={"family"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.family && (
@@ -270,6 +274,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"era_tooltip"}
                 options={era_options}
                 label={"era"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.intensity && (
@@ -286,6 +294,10 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 labelTooltip={"aroma_tooltip"}
                 options={aroma_options}
                 label={"aroma"}
+                registerOptions={{
+                  required: true,
+                  valueAsNumber: true,
+                }}
               />
 
               {errors.aroma && (
@@ -385,8 +397,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 )}
               </select>
 
-              {errors.volume?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+              {errors.volume && (
+                <DisplayInputError message={errors.volume.message} />
               )}
             </div>
           </div>
@@ -411,12 +423,8 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 })}
               />
 
-              {errors.price?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
-              )}
-
-              {errors.price?.type === "min" && (
-                <p>{t("error_0_number_min_length")}</p>
+              {errors.price && (
+                <DisplayInputError message={errors.price.message} />
               )}
             </div>
           </div>
