@@ -15,3 +15,26 @@ export enum DistributionStatus {
   CANCELLED = "cancelled",
   ERROR = "error",
 }
+
+export enum ROLE_ENUM {
+  Cervezano = "consumer",
+  Productor = "producer",
+  Moderator = "moderator",
+  Distributor = "distributor",
+  Admin = "admin",
+}
+
+export const ROLE_OPTIONS = [
+  {
+    label: "Cervezano",
+    value: ROLE_ENUM.Cervezano,
+  },
+  {
+    label: "Productor",
+    value: ROLE_ENUM.Productor,
+  },
+  {
+    label: "Distribuidor",
+    value: ROLE_ENUM.Distributor,
+  },
+];

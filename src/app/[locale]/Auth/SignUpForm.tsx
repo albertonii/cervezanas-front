@@ -3,7 +3,6 @@ import { Spinner } from "../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DisplayInputError } from "../components/common/DisplayInputError";
-import { ROLE_ENUM } from "../../../lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpWithPasswordCredentials } from "./AuthContext";
@@ -13,21 +12,7 @@ import { useMutation } from "react-query";
 import { useMessage } from "../components/message/useMessage";
 import { useAuth } from "./useAuth";
 import { Button } from "../components/common/Button";
-
-const ROLE_OPTIONS = [
-  {
-    label: "Cervezano",
-    value: ROLE_ENUM.Cervezano,
-  },
-  {
-    label: "Productor",
-    value: ROLE_ENUM.Productor,
-  },
-  {
-    label: "Distribuidor",
-    value: ROLE_ENUM.Distributor,
-  },
-];
+import { ROLE_ENUM, ROLE_OPTIONS } from "../../../lib/enums";
 
 interface FormData {
   access_level: string;

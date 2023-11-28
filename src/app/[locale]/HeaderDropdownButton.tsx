@@ -36,6 +36,12 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
       case "profile":
         return `/${role}/profile/settings`;
 
+      case "products":
+        return `/${role}/profile/products`;
+
+      case "events":
+        return `/${role}/profile/events`;
+
       case "online_orders":
         return `/${role}/profile/orders`;
 
@@ -76,6 +82,30 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
+      case "products":
+        return (
+          <Link href={generateLink(option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
+      case "events":
+        return (
+          <Link href={generateLink(option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
       case "online_orders":
         return (
           <Link href={generateLink(option)} locale={locale}>
@@ -114,13 +144,16 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "signout":
         return (
-          <span
-            className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-            aria-current="page"
-            onClick={() => signOut()}
-          >
-            {t(option)}
-          </span>
+          <>
+            <hr />
+            <span
+              className="text-md mt-4 block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+              onClick={() => signOut()}
+            >
+              {t(option)}
+            </span>
+          </>
         );
 
       case "submitted_aps":

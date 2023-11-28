@@ -353,6 +353,7 @@
   "joined_on": "Se unió el",
   "reviewed_on": "Opinó el",
   "is_public_description": "Esta opinión será visible para todos los usuarios de la web",
+  "is_public_product": "¿Publicar producto?",
   "add_form_campaign": "Añadir campaña",
   "save_form_campaign": "Guardar campaña",
   "remove_form_campaign": "Eliminar campaña",

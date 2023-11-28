@@ -59,6 +59,12 @@ export async function middleware(req: NextRequest) {
   const urlSection = pathname.split("/")[2];
 
   if (privateSections.includes(urlSection)) {
+    let response = NextResponse.next({
+      request: {
+        headers: req.headers,
+      },
+    });
+
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
     const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -77,10 +83,38 @@ export async function middleware(req: NextRequest) {
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options });
+          req.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: req.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          });
         },
         remove(name: string, options: CookieOptions) {
-          cookieStore.delete({ name, ...options });
+          req.cookies.set({
+            name,
+            value: "",
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: req.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value: "",
+            ...options,
+          });
         },
       },
     });

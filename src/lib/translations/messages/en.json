@@ -178,6 +178,7 @@
   "is_public": "Publish the product",
   "is_public_campaign": "Publish Campaign",
   "is_public_description": "Toggle the button to the right to make this product visible in the marketplace",
+  "is_public_product": "Publish Product?",
   "modal_lot_add": "Add Lot",
   "modal_lot_title": "Lot",
   "lot_number": "Lot Number",

@@ -1,12 +1,12 @@
-import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Divider } from "@supabase/ui";
+import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types";
-import { Button } from "../common/Button";
 import { DeleteButton } from "../common/DeleteButton";
+import { ModalAddProductFormData } from "./AddProduct";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { DisplayInputError } from "../common/DisplayInputError";
-
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 
 const emptyAward: IAward = {

@@ -119,14 +119,14 @@ export default function AddEvent({ cpsMobile }: Props) {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={t("add_new_event") ?? "Add new event"}
-      btnTitle={t("new_event")}
+      title={"add_new_event"}
+      btnTitle={"new_event"}
       description={""}
       icon={faAdd}
-      handler={handleSubmit(onSubmit)}
       btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      handler={handleSubmit(onSubmit)}
     >
       <form>
         {/* Event Information  */}

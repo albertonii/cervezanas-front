@@ -136,11 +136,11 @@ export function ProductStepper(props: Props) {
   };
 
   return (
-    <div className={`p-5 ${isSubmitting && "opacity-50"}`}>
+    <section className={`p-5 ${isSubmitting && "opacity-50"}`}>
       <div className="mx-4 p-4">
         <div className="flex items-center">
           <div className="relative flex items-center text-beer-draft">
-            <div
+            <figure
               className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
             >
               <svg
@@ -157,17 +157,17 @@ export function ProductStepper(props: Props) {
               >
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
               </svg>
-            </div>
-            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+            </figure>
+            <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("details")}
-            </div>
+            </h3>
           </div>
 
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
           ></div>
           <div className="relative flex items-center text-gray-500">
-            <div
+            <figure
               className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
             >
               <svg
@@ -185,7 +185,7 @@ export function ProductStepper(props: Props) {
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
-            </div>
+            </figure>
             <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("multimedia")}
             </div>
@@ -194,7 +194,8 @@ export function ProductStepper(props: Props) {
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
           ></div>
-          <div className="relative flex items-center text-white">
+
+          <figure className="relative flex items-center text-white">
             <div
               className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${awardsClass}`}
             >
@@ -219,12 +220,12 @@ export function ProductStepper(props: Props) {
             <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("awards")}
             </div>
-          </div>
+          </figure>
 
           <div
             className={`flex-auto border-t-2 transition duration-500 ease-in-out ${confirmClass}`}
           ></div>
-          <div className="relative flex items-center text-gray-500">
+          <figure className="relative flex items-center text-gray-500">
             <div
               className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
             >
@@ -248,9 +249,10 @@ export function ProductStepper(props: Props) {
             <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
               {t("confirm")}
             </div>
-          </div>
+          </figure>
         </div>
       </div>
+
       <div className="mt-8 p-4">
         <div>{children}</div>
 
@@ -299,6 +301,6 @@ export function ProductStepper(props: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

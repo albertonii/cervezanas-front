@@ -15,7 +15,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
   return (
     <>
       {/* Resumen de las características del producto que se va a crear  */}
-      <div className="flex flex-col gap-2 space-y-4 border p-4">
+      <section className="flex flex-col gap-2 space-y-4 border p-4">
         {/* Public  */}
         <fieldset className="flex flex-row gap-2">
           <label className="text-md font-semibold text-gray-600">
@@ -47,77 +47,77 @@ export function ProductSummary({ form: { getValues } }: Props) {
 
         {/* ABV Fermentation Color  */}
         <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("intensity_label")}
             </label>
 
             <span className="text-md">{getValues("intensity")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("fermentation_label")}
             </label>
 
             <span className="text-md">{getValues("fermentation")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("color_label")}
             </label>
 
             <span className="text-md">{getValues("color")}</span>
-          </div>
+          </h4>
         </fieldset>
 
         {/* Region Family Era  */}
         <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("origin_label")}
             </label>
 
             <span className="text-md">{getValues("origin")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("family_label")}
             </label>
 
             <span className="text-md">{getValues("family")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("era_label")}
             </label>
 
             <span className="text-md">{getValues("era")}</span>
-          </div>
+          </h4>
         </fieldset>
 
         {/* Format Volume Price  */}
         <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("format_label")}
             </label>
 
             <span className="text-md">{t(getValues("format"))}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("volume_label")}
             </label>
 
             <span className="text-md">{getValues("volume")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("price")}
             </label>
@@ -125,20 +125,20 @@ export function ProductSummary({ form: { getValues } }: Props) {
             <span className="text-md">
               {formatCurrency(getValues("price"))}
             </span>
-          </div>
+          </h4>
         </fieldset>
 
         {/* Stock Quantity and Notification  */}
         <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("stock_quantity_label")}
             </label>
 
             <span className="text-md">{getValues("stock_quantity")}</span>
-          </div>
+          </h4>
 
-          <div className="space-x-2">
+          <h4 className="space-x-2">
             <label className="text-md font-semibold text-gray-600">
               {t("stock_limit_notification_label")}
             </label>
@@ -146,16 +146,16 @@ export function ProductSummary({ form: { getValues } }: Props) {
             <span className="text-md">
               {getValues("stock_limit_notification")}
             </span>
-          </div>
+          </h4>
         </fieldset>
 
         {/* Packs */}
         {getValues("packs").length > 0 && (
-          <div className="text-xl text-beer-draft">
+          <h4 className="text-xl text-beer-draft">
             <label className="text-md font-semibold text-gray-600">
               {t("packs")}
             </label>
-          </div>
+          </h4>
         )}
 
         {getValues("packs").map((pack, index) => (
@@ -184,15 +184,15 @@ export function ProductSummary({ form: { getValues } }: Props) {
             </div>
 
             <div className="flex flex-row justify-between">
-              <div className="space-x-2">
+              <h4 className="space-x-2">
                 <label className="text-md font-semibold text-gray-600">
                   {t("pack_price")}
                 </label>
 
                 <span className="text-md">{formatCurrency(pack.price)}</span>
-              </div>
+              </h4>
 
-              <div className="space-x-2">
+              <h4 className="space-x-2">
                 <label className="text-md font-semibold text-gray-600">
                   {t("pack_img_url")}
                 </label>
@@ -204,7 +204,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
                     <FilePreview file={pack.img_url[0]} />
                   )}
                 </span>
-              </div>
+              </h4>
             </div>
           </fieldset>
         ))}
@@ -212,11 +212,11 @@ export function ProductSummary({ form: { getValues } }: Props) {
         {/* Awards */}
         {getValues("awards").length > 0 && (
           <>
-            <div className="text-xl text-beer-draft">
+            <h4 className="text-xl text-beer-draft">
               <label className="text-md font-semibold text-gray-600">
                 {t("awards")}
               </label>
-            </div>
+            </h4>
 
             {getValues("awards").map((award, index) => (
               <fieldset
@@ -270,7 +270,7 @@ export function ProductSummary({ form: { getValues } }: Props) {
             ))}
           </>
         )}
-      </div>
+      </section>
     </>
   );
 }

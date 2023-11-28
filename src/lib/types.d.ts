@@ -724,51 +724,24 @@ export type UserProps = {
   session: Session;
 };
 
-export type ModalAddProductProps = {
-  name: string;
-  description: string;
-  campaign: string;
-  type: string;
-  color: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  intensity: number;
-  p_principal: FileList;
-  p_back: FileList;
-  p_extra_1: FileList;
-  p_extra_2: FileList;
-  p_extra_3: FileList;
-  volume: any;
+export type IProductPack = {
+  id: string;
+  created_at: string;
+  quantity: number;
   price: number;
-  pack: any;
-  format: any;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
-  awards: IAward[];
-  beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: IMerchandising[];
-  is_gluten: boolean;
-  is_public: boolean;
-  category: string;
-  // packs: IProductPack[];
-  packs: any[]; // TODO: any para evitar circular dependency en AddCPMobileModal
+  img_url: any;
+  name: string;
+  randomUUID: string;
+  product_id: string;
+  products?: IProduct;
 };
 
-export type IProductPack = {
-  id?: string;
-  created_at?: string;
+export type IModalProductPack = {
   quantity: number;
   price: number;
   img_url?: any;
   name: string;
-  randomUUID?: string;
   product_id?: string;
-  products?: IProduct;
 };
 
 export type IRefProductPack = {
@@ -918,6 +891,36 @@ export interface IProduct {
   product_packs?: IProductPack[];
 }
 
+export interface IModalProduct {
+  id: string;
+  created_at: string;
+  name: string;
+  description: string;
+  type: ProductType;
+  is_public: boolean;
+  discount_percent: number;
+  discount_code: string;
+  price: number;
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+  beers: IBeer[];
+  product_multimedia: IProductMultimedia[];
+  order_items?: OrderItem[];
+
+  // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
+  // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
+  product_lots?: IProductLot[];
+  product_inventory?: Inventory[];
+  reviews?: IReview[];
+  likes?: ILike[];
+  beers: IBeer[];
+  awards?: IAward[];
+  product_packs?: IProductPack;
+}
+
 export interface IProductVariant {
   id: string;
   product_id: string;
@@ -977,36 +980,6 @@ export type UserProps = {
   session: Session;
 };
 
-export type ModalAddProductProps = {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: IAward[];
-  p_principal: FileImg;
-  p_back: FileImg;
-  p_extra_1: FileImg;
-  p_extra_2: FileImg;
-  p_extra_3: FileImg;
-  volume: any;
-  price: number;
-  pack: any;
-  format: any;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
-};
-
 export type CartItem = {
   id: string;
   quantity: number;
@@ -1043,7 +1016,7 @@ export interface IModalAddProduct {
   p_extra_3: string;
   volume: any;
   price: number;
-  pack: any;
+  packs: IModalProductPack[];
   format: any;
   stock_quantity: number;
   stock_limit_notification: number;
@@ -1197,14 +1170,6 @@ export interface IUserProfile {
   birthdate: string;
   bg_url: string;
   avatar_url: string;
-}
-
-export enum ROLE_ENUM {
-  Cervezano = "consumer",
-  Productor = "producer",
-  Moderator = "moderator",
-  Distributor = "distributor",
-  Admin = "admin",
 }
 
 export enum PROVIDER_TYPE {

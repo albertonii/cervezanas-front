@@ -33,7 +33,6 @@ export function ConfigureProducts() {
         handleMenuClick={handleMenuClick}
         tabs={["products", "lots", "archive", "customizeSettings"]}
       />
-
       {renderSwitch()}
     </>
   );

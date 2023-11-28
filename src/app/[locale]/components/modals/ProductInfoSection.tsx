@@ -48,8 +48,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     register,
     formState: { errors },
     control,
+    setValue,
+    trigger,
   } = form;
 
+  const [volume, setVolume] = useState<number>(0);
   const [isBeer, setIsBeer] = useState(true);
   const [isMerchandising, setIsMerchandising] = useState(false);
   const [colorOptions, setColorOptions] = useState(color_options);
@@ -96,7 +99,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
       setIsMerchandising(true);
     }
 
-    form.setValue("category", category);
+    setValue("category", category);
   };
 
   const handleRemovePack = (index: number) => {
@@ -105,6 +108,12 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
   const handleAddPack = () => {
     append(emptyPack);
+  };
+
+  const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setVolume(parseInt(e.target.value));
+    setValue("volume", parseInt(e.target.value));
+    trigger("volume");
   };
 
   return (
@@ -147,11 +156,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             id="product_type"
             {...register("type")}
             onChange={handleProductType}
-            defaultValue={product_type_options[0].label}
+            defaultValue={product_type_options[0].value}
             className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           >
             {product_type_options.map((option) => (
-              <option key={option.label} value={option.label}>
+              <option key={option.value} value={option.value}>
                 {t(option.value.toLowerCase())}
               </option>
             ))}
@@ -256,7 +265,12 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 defaultValue={0}
                 min="0"
                 max="100"
-                {...register(`intensity`, { required: true, min: 0, max: 100 })}
+                {...register(`intensity`, {
+                  required: true,
+                  min: 0,
+                  max: 100,
+                  valueAsNumber: true,
+                })}
               />
 
               {errors.intensity?.type === "required" && (
@@ -286,8 +300,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               <select
                 {...register("fermentation", {
                   required: true,
+                  valueAsNumber: true,
                 })}
-                defaultValue={fermentation_options[0].label}
+                defaultValue={fermentation_options[0].value}
                 id="fermentation"
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
@@ -318,8 +333,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="color"
-                {...register("color")}
-                defaultValue={color_options[0].label}
+                {...register("color", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+                defaultValue={color_options[0].value}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {colorOptions.map((option) => (
@@ -348,8 +366,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="origin"
-                {...register("origin")}
-                defaultValue={origin_options[0].label}
+                {...register("origin", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+                defaultValue={origin_options[0].value}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {origin_options.map((option) => (
@@ -380,8 +401,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="family"
-                {...register("family")}
-                defaultValue={family_options[0].label}
+                {...register("family", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+                defaultValue={family_options[0].value}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {famStyleOptions.map((option) => (
@@ -414,7 +438,10 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="era"
-                {...register("era")}
+                {...register("era", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 defaultValue={era_options[0].label}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
@@ -444,8 +471,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="aroma"
-                {...register("aroma")}
-                defaultValue={aroma_options[0].label}
+                {...register("aroma", {
+                  valueAsNumber: true,
+                  required: true,
+                })}
+                defaultValue={aroma_options[0].value}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 {aroma_options.map((option) => (
@@ -470,8 +500,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               <select
                 id="isGluten"
-                {...register("is_gluten")}
-                defaultValue="false"
+                {...register("is_gluten", {
+                  required: true,
+                })}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
                 <option key={0} value={"false"}>
@@ -481,6 +512,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                   {t("yes")}
                 </option>
               </select>
+
               {errors.is_gluten?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
               )}
@@ -510,7 +542,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               </select>
 
               {errors.format?.type === "required" && (
-                <p>{t("errors.input_required")}</p>
+                <p>{t("errors.input_requºired")}</p>
               )}
             </div>
 
@@ -520,9 +552,16 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               </label>
 
               <select
-                {...register(`volume`)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                value={"330"}
+                id="volume"
+                {...register(`volume`, {
+                  valueAsNumber: true,
+                  required: true,
+                })}
+                onChange={(e) => {
+                  handleSelectVolume(e);
+                }}
+                value={volume}
               >
                 {formatOptions === "can" ? (
                   <>
@@ -570,7 +609,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 placeholder={formatCurrency(2.5)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 min="0"
-                {...register(`price`, { required: true, min: 0 })}
+                {...register(`price`, {
+                  required: true,
+                  min: 0,
+                  valueAsNumber: true,
+                })}
               />
 
               {errors.price?.type === "required" && (
@@ -609,7 +652,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     min="0"
                     defaultValue={0}
-                    {...register(`stock_quantity`, { required: true, min: 0 })}
+                    {...register(`stock_quantity`, {
+                      required: true,
+                      min: 0,
+                      valueAsNumber: true,
+                    })}
                   />
 
                   {errors.stock_quantity?.type === "required" && (
@@ -638,6 +685,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     {...register(`stock_limit_notification`, {
                       required: true,
                       min: 0,
+                      valueAsNumber: true,
                     })}
                   />
 

@@ -24,12 +24,12 @@ export default async function createServerClient() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options });
-        },
-        remove(name: string, options: CookieOptions) {
-          cookieStore.delete({ name, ...options });
-        },
+        // set(name: string, value: string, options: CookieOptions) {
+        //   cookieStore.set({ name, value, ...options });
+        // },
+        // remove(name: string, options: CookieOptions) {
+        //   cookieStore.delete({ name, ...options });
+        // },
       },
     }
   );

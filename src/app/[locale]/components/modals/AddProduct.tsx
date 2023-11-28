@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,7 +16,7 @@ import {
 } from "../../../../lib/beerEnum";
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
-import { IAward, IInventory, IProductPack } from "../../../../lib/types";
+import { IAward, IInventory, IModalProductPack } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";
@@ -33,6 +33,9 @@ import { ProductInfoSection } from "./ProductInfoSection";
 import { useAppContext } from "../../../../../context/AppContext";
 
 export type ModalAddProductFormData = {
+  name: string;
+  description: string;
+  price: number;
   fermentation: number;
   color: number;
   intensity: number;
@@ -49,14 +52,11 @@ export type ModalAddProductFormData = {
   p_extra_2?: FileList;
   p_extra_3?: FileList;
   is_public: boolean;
-  name: string;
-  description: string;
-  price: number;
   volume: number;
   format: string;
   stock_quantity: number;
   stock_limit_notification: number;
-  packs: IProductPack[];
+  packs: IModalProductPack[];
   category: string;
 };
 
@@ -82,7 +82,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   era: z.number().min(0, { message: "Required" }).max(3, {
     message: "Required",
   }),
-  is_gluten: z.boolean(),
+  is_gluten: z.coerce.boolean(),
   type: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
@@ -115,9 +115,11 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   price: z.number().min(0, { message: "Required" }).max(3, {
     message: "Required",
   }),
-  volume: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
+  // TODO: Bug in volume validation when adding product
+  // volume: z.number().min(0, { message: "Required" }).max(50, {
+  //   message: "Required",
+  // }),
+  volume: z.number().min(0, { message: "Required" }),
   format: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
@@ -169,19 +171,27 @@ export function AddProduct() {
     defaultValues: {
       awards: [],
       type: "beer",
+      is_gluten: false,
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
   const queryClient = useQueryClient();
 
-  // Genera un UUID único
   const generateUUID = () => {
     return uuidv4();
   };
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   const handleInsertProduct = async (form: ValidationSchema) => {
-    console.log("dentro");
+    console.log("dentro handle insert product");
 
     const {
       // campaign,
@@ -417,7 +427,7 @@ export function AddProduct() {
 
       // Packs Stock
       if (isNotEmptyArray(packs)) {
-        packs.map(async (pack: IProductPack, index: number) => {
+        packs.map(async (pack: IModalProductPack, index: number) => {
           const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
             `${filename}${generateFileNameExtension(pack.name)}`
@@ -530,22 +540,22 @@ export function AddProduct() {
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={true}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        title={"add_product"}
-        btnTitle={"add_product"}
-        description={""}
-        handler={handleSubmit(onSubmit)}
-        classIcon={""}
-        classContainer={""}
-        handlerClose={() => {
-          setActiveStep(0);
-          setShowModal(false);
-        }}
-      >
+    <Modal
+      showBtn={true}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={"add_product"}
+      btnTitle={"add_product"}
+      description={""}
+      handler={handleSubmit(onSubmit)}
+      classIcon={""}
+      classContainer={""}
+      handlerClose={() => {
+        setActiveStep(0);
+        setShowModal(false);
+      }}
+    >
+      <form>
         <>
           <ProductStepper
             activeStep={activeStep}
@@ -572,7 +582,7 @@ export function AddProduct() {
             </>
           </ProductStepper>
         </>
-      </Modal>
-    </form>
+      </form>
+    </Modal>
   );
 }

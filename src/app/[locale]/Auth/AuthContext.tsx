@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import React, { useEffect, useState, createContext, useMemo } from "react";
-import { redirect, RedirectType, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
@@ -16,18 +16,11 @@ import {
   Session,
   SupabaseClient,
 } from "@supabase/supabase-js";
+import { ROLE_ENUM } from "../../../lib/enums";
 // import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
-}
-
-enum ROLE_ENUM {
-  Cervezano = "consumer",
-  Productor = "producer",
-  Moderator = "moderator",
-  Distributor = "distributor",
-  Admin = "admin",
 }
 
 export type SignUpWithPasswordCredentials = {
@@ -308,25 +301,24 @@ export const AuthContextProvider = ({
     // Si acceden con Google, por defecto son consumidores
     // Google does not send out a refresh token by default, so you will need to pass
     // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
-    await supabase.auth
-      .signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/api/auth/callback`,
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`,
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
         },
-      })
-      .then(async (res: any) => {
-        // user = res.user;
-        // if (user?.user_metadata && user.user_metadata?.access_level) {
-        //   isAccessLevel = user.user_metadata?.access_level ? true : false;
-        // } else {
-        //   isAccessLevel = false;
-        // }
-      });
+      },
+    });
+    // .then(async (res: any) => {
+    // user = res.user;
+    // if (user?.user_metadata && user.user_metadata?.access_level) {
+    //   isAccessLevel = user.user_metadata?.access_level ? true : false;
+    // } else {
+    //   isAccessLevel = false;
+    // }
+    // });
 
     // router.push(`/${locale}`);
 
@@ -344,8 +336,6 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    redirect(VIEWS.SIGN_IN, RedirectType.push);
-    // router.push(`/${locale}/${ROUTE_SIGNIN}`);
   };
 
   const value = useMemo(() => {

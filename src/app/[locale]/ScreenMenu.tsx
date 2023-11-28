@@ -259,6 +259,8 @@ export function ScreenMenu() {
                         : role === "producer"
                         ? [
                             "profile",
+                            "products",
+                            "events",
                             "online_orders",
                             "event_orders",
                             "campaigns",
