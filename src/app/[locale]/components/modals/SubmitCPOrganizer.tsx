@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { isValidObject } from "../../../../utils/utils";
+import { DisplayInputError } from "../common/DisplayInputError";
 
 type FormValues = {
   created_at: string;
@@ -163,10 +164,9 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                   accept=".pdf,.doc,.docs"
                 />
               </div>
+
               {errors.cover_letter_file && (
-                <p className="text-xs italic text-red-500">
-                  {t("form_submit_cp_organizer_cover_letter_error")}
-                </p>
+                <DisplayInputError message={errors.cover_letter_file.message} />
               )}
             </div>
 
@@ -190,10 +190,9 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                   accept=".pdf,.doc,.docs"
                 />
               </div>
+
               {errors.cv_file && (
-                <p className="text-xs italic text-red-500">
-                  {t("form_submit_cp_organizer_cv_error")}
-                </p>
+                <DisplayInputError message={errors.cv_file.message} />
               )}
             </div>
           </fieldset>

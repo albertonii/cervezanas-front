@@ -9,6 +9,7 @@ import { useAuth } from "../../Auth/useAuth";
 import { IReview } from "../../../../lib/types";
 import { useMessage } from "../message/useMessage";
 import { SuccessfulReviewModal } from "../modals/SuccessfulReviewModal";
+import { DisplayInputError } from "../common/DisplayInputError";
 
 type FormValues = {
   aroma: number;
@@ -211,7 +212,10 @@ export function NewProductReview({
                     })}
                     style={{ resize: "none" }}
                   />
-                  {errors.comment && <p>{errors.comment.message}</p>}
+
+                  {errors.comment && (
+                    <DisplayInputError message={errors.comment.message} />
+                  )}
                 </div>
               </div>
 

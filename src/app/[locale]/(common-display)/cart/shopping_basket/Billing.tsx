@@ -106,8 +106,8 @@ export default function Billing({
         })}
 
         {/* Error input displaying */}
-        {errors.billing_info_id?.type === "required" && (
-          <DisplayInputError message="errors.select_location_required" />
+        {errors.billing_info_id && (
+          <DisplayInputError message={"errors.select_location_required"} />
         )}
       </ul>
 
