@@ -116,9 +116,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   description: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
-  price: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
+  price: z.number().min(0, { message: "Required" }),
   // TODO: Bug in volume validation when adding product
   // volume: z.number().min(0, { message: "Required" }).max(50, {
   //   message: "Required",
