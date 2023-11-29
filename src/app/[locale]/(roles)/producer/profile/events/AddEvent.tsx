@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { z, ZodType } from "zod";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 export type ModalAddEventFormData = {
   name: string;

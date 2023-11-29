@@ -3,9 +3,7 @@
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
 import React, { useState } from "react";
-import { Modal } from "../../../../components/modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
 import { IUser } from "../../../../../../lib/types";
@@ -13,8 +11,12 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-interface FormData {
+interface ModalAddCPFixedFormData {
   cp_name: string;
   cp_description: string;
   organizer_name: string;
@@ -28,6 +30,23 @@ interface FormData {
   is_internal_organizer: boolean;
   product_items: any[];
 }
+
+const schema: ZodType<ModalAddCPFixedFormData> = z.object({
+  cp_name: z.string().nonempty({ message: "errors.input_required" }),
+  cp_description: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_name: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_lastname: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_email: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_phone: z.string().nonempty({ message: "errors.input_required" }),
+  start_date: z.string().nonempty({ message: "errors.input_required" }),
+  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  address: z.string().nonempty({ message: "errors.input_required" }),
+  status: z.string().nonempty({ message: "errors.input_required" }),
+  is_internal_organizer: z.boolean(),
+  product_items: z.any(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   cpsId: string;
@@ -64,7 +83,10 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     enabled: false,
   });
 
-  const form = useForm<FormData>();
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
 
   const {
     formState: { errors },
@@ -77,7 +99,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     setAddress(address);
   };
 
-  const handleInsertCPFixed = async (formValues: FormData) => {
+  const handleInsertCPFixed = async (form: ValidationSchema) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
@@ -93,7 +115,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       start_date,
       end_date,
       product_items,
-    } = formValues;
+    } = form;
 
     if (!isValidObject(address)) {
       setAddressInputRequired(true);
@@ -204,7 +226,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddCPFixedFormData
+  ) => {
     try {
       insertCPFixedMutation.mutate(formValues);
     } catch (e) {
@@ -213,7 +237,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -225,6 +249,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      form={form}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
@@ -242,7 +267,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           </div>
 
           {errors.cp_name && (
-            <DisplayInputError message="errors.input_required" />
+            <DisplayInputError message={errors.cp_name.message} />
           )}
 
           {/* Event description  */}
@@ -255,7 +280,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           </div>
 
           {errors.cp_description && (
-            <DisplayInputError message="errors.input_required" />
+            <DisplayInputError message={errors.cp_description.message} />
           )}
 
           {/* Start date and end date  */}
@@ -271,7 +296,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
               {errors.start_date && (
                 <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
+                  <DisplayInputError message={errors.start_date.message} />
                 </span>
               )}
             </div>
@@ -287,7 +312,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
               {errors.end_date && (
                 <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
+                  <DisplayInputError message={errors.end_date.message} />
                 </span>
               )}
             </div>
@@ -318,7 +343,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
               </select>
 
               {errors.is_internal_organizer && (
-                <DisplayInputError message="errors.input_required" />
+                <DisplayInputError
+                  message={errors.is_internal_organizer.message}
+                />
               )}
             </div>
           </div>
@@ -338,7 +365,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                   />
 
                   {errors.organizer_name && (
-                    <DisplayInputError message="errors.input_required" />
+                    <DisplayInputError
+                      message={errors.organizer_name.message}
+                    />
                   )}
                 </div>
 
@@ -352,7 +381,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                   />
 
                   {errors.organizer_lastname && (
-                    <DisplayInputError message="errors.input_required" />
+                    <DisplayInputError
+                      message={errors.organizer_lastname.message}
+                    />
                   )}
                 </div>
               </div>
@@ -369,7 +400,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                   />
 
                   {errors.organizer_email && (
-                    <DisplayInputError message="errors.input_required" />
+                    <DisplayInputError
+                      message={errors.organizer_email.message}
+                    />
                   )}
                 </div>
 
@@ -383,7 +416,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                   />
 
                   {errors.organizer_phone && (
-                    <DisplayInputError message="errors.input_required" />
+                    <DisplayInputError
+                      message={errors.organizer_phone.message}
+                    />
                   )}
                 </div>
               </div>
@@ -439,7 +474,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <legend className="text-2xl">{t("cp_fixed_location")}</legend>
 
           {addressInputRequired && (
-            <span className="text-red-500">{t("errors.input_required")}</span>
+            <DisplayInputError message="errors.input_required" />
           )}
 
           {/* Address  */}
@@ -453,6 +488,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <ListCPMProducts form={form} />
         </fieldset>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }
