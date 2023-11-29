@@ -52,10 +52,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
   }, [subRegionType]);
 
   useEffect(() => {
-    console.log(subRegions);
-  }, [subRegions]);
-
-  useEffect(() => {
     if (!data) return;
     setSubRegions(data);
   }, [data]);
@@ -81,11 +77,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
               <input
                 {...register("name", { required: true })}
                 className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("name")}*`}
+                placeholder={`${t("name")}`}
                 required
               />
-              {errors.name?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.name && (
+                <DisplayInputError message={errors.name.message} />
               )}
             </label>
 
@@ -93,11 +89,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
               <input
                 {...register("lastname", { required: true })}
                 className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("lastname")}*`}
+                placeholder={`${t("lastname")}`}
                 required
               />
-              {errors.lastname?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.lastname && (
+                <DisplayInputError message={errors.lastname.message} />
               )}
             </label>
 
@@ -105,10 +101,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
               <input
                 {...register("document_id", { required: true })}
                 className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("document_id")}*`}
+                placeholder={`${t("document_id")}`}
               />
-              {errors.document_id?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.document_id && (
+                <DisplayInputError message={errors.document_id.message} />
               )}
             </label>
 
@@ -117,10 +113,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
                 {...register("phone", { required: true })}
                 type="tel"
                 className="mr-6 w-full border-none px-3 focus:outline-none"
-                placeholder={`${t("loc_phone")}*`}
+                placeholder={`${t("loc_phone")}`}
               />
-              {errors.phone?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.phone && (
+                <DisplayInputError message={errors.phone.message} />
               )}
             </label>
           </div>
@@ -137,10 +133,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
               <input
                 {...register("address", { required: true })}
                 className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("address")}*`}
+                placeholder={`${t("address")}`}
               />
-              {errors.address?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.address && (
+                <DisplayInputError message={errors.address.message} />
               )}
             </label>
 
@@ -150,8 +146,8 @@ export default function AddressForm({ form, addressNameId }: Props) {
                 className="mr-6 w-full px-3 focus:outline-none"
                 placeholder={`${t("address")} 2*`}
               />
-              {errors.address_extra?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.address_extra && (
+                <DisplayInputError message={errors.address_extra.message} />
               )}
             </label>
 
@@ -161,8 +157,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
                 className="mr-6 w-full px-3 focus:outline-none"
                 placeholder={`${t("address_observations")}*`}
               />
-              {errors.address_observations?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.address_observations && (
+                <DisplayInputError
+                  message={errors.address_observations.message}
+                />
               )}
             </label>
 
@@ -187,8 +185,8 @@ export default function AddressForm({ form, addressNameId }: Props) {
                   </option>
                 </select>
 
-                {errors.country?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.country && (
+                  <DisplayInputError message={errors.country.message} />
                 )}
               </label>
 
@@ -206,8 +204,8 @@ export default function AddressForm({ form, addressNameId }: Props) {
                     ))}
                 </select>
 
-                {errors.state?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.state && (
+                  <DisplayInputError message={errors.state.message} />
                 )}
               </label>
             </div>
@@ -221,11 +219,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
                 <input
                   {...register("zipcode", { required: true })}
                   className="mr-6 w-full px-3 focus:outline-none"
-                  placeholder={`${t("loc_pc")}*`}
+                  placeholder={`${t("loc_pc")}`}
                   disabled={!subRegions || subRegions.length === 0}
                 />
-                {errors.zipcode?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.zipcode && (
+                  <DisplayInputError message={errors.zipcode.message} />
                 )}
               </label>
 
@@ -237,11 +235,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
                 <input
                   {...register("city", { required: true })}
                   className="mr-6 w-full px-3 focus:outline-none"
-                  placeholder={`${t("loc_town")}*`}
+                  placeholder={`${t("loc_town")}`}
                   disabled={!subRegions || subRegions.length === 0}
                 />
-                {errors.city?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.city && (
+                  <DisplayInputError message={errors.city.message} />
                 )}
               </label>
             </div>

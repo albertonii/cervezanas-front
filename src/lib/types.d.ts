@@ -1028,13 +1028,12 @@ export interface IModalShippingAddress {
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
-  address_observations: string;
+  address_extra?: string;
+  address_observations?: string;
   country: string;
   zipcode: string;
   city: string;
   state: string;
-  is_default: boolean;
   is_default: boolean;
 }
 
@@ -1045,12 +1044,11 @@ export interface IModalBillingAddress {
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
+  address_extra?: string;
   country: string;
   zipcode: string;
   city: string;
   state: string;
-  is_default: boolean;
   is_default: boolean;
 }
 
