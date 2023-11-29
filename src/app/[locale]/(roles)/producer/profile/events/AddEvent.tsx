@@ -1,25 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { z, ZodType } from "zod";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { Modal } from "../../../../components/modals/Modal";
 import { useAuth } from "../../../../Auth/useAuth";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
 
-interface FormData {
+export type ModalAddEventFormData = {
   name: string;
   description: string;
   start_date: string;
   end_date: string;
-  logo_url: string;
-  promotional_url: string;
-  cps_mobile: any[];
-}
+  logo_url?: string;
+  promotional_url?: string;
+  cps_mobile?: any[];
+};
+
+const schema: ZodType<ModalAddEventFormData> = z.object({
+  name: z.string().nonempty({ message: "errors.input_required" }),
+  description: z.string().nonempty({ message: "errors.input_required" }),
+  start_date: z.string().nonempty({ message: "errors.input_required" }),
+  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  logo_url: z.string().optional(),
+  promotional_url: z.string().optional(),
+  cps_mobile: z.any(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -33,7 +47,11 @@ export default function AddEvent({ cpsMobile }: Props) {
 
   const queryClient = useQueryClient();
 
-  const form = useForm<FormData>();
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
+
   const {
     formState: { errors },
     handleSubmit,
@@ -41,16 +59,13 @@ export default function AddEvent({ cpsMobile }: Props) {
     reset,
   } = form;
 
-  const handleInsertEvent = async (formValues: FormData) => {
-    const {
-      name,
-      description,
-      start_date,
-      end_date,
-      logo_url = "",
-      promotional_url = "",
-      cps_mobile,
-    } = formValues;
+  useEffect(() => {
+    // console.log(errors);
+    // console.log(Object.keys(errors).length > 0);
+  }, [errors]);
+
+  const handleInsertEvent = async (form: ValidationSchema) => {
+    const { name, description, start_date, end_date, cps_mobile } = form;
 
     // Create event
     const { data: event, error: eventError } = await supabase
@@ -106,7 +121,9 @@ export default function AddEvent({ cpsMobile }: Props) {
     },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddEventFormData
+  ) => {
     try {
       insertEventMutation.mutate(formValues);
     } catch (error) {
@@ -115,7 +132,7 @@ export default function AddEvent({ cpsMobile }: Props) {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -127,6 +144,7 @@ export default function AddEvent({ cpsMobile }: Props) {
       classIcon={"w-6 h-6"}
       classContainer={""}
       handler={handleSubmit(onSubmit)}
+      form={form}
     >
       <form>
         {/* Event Information  */}
@@ -142,6 +160,7 @@ export default function AddEvent({ cpsMobile }: Props) {
               {...register("name", { required: true })}
             />
           </div>
+
           {errors.name && <DisplayInputError message="errors.input_required" />}
 
           {/* Event description  */}
@@ -203,6 +222,6 @@ export default function AddEvent({ cpsMobile }: Props) {
           <SearchCheckboxCPs cpsMobile={cpsMobile} form={form} />
         </fieldset>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

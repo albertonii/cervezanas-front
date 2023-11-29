@@ -6,12 +6,12 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types";
-import { Modal } from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
 import { useAuth } from "../../../../Auth/useAuth";
+import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
 
 interface FormData {
   name: string;
@@ -149,7 +149,7 @@ export default function EditEventModal({
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={isEditModal}
       setShowModal={handleEditModal}
@@ -161,6 +161,7 @@ export default function EditEventModal({
       btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      form={form}
     >
       <>
         {isLoading || (isFetching && <p>Loading...</p>)}
@@ -250,6 +251,6 @@ export default function EditEventModal({
           </form>
         )}
       </>
-    </Modal>
+    </ModalWithForm>
   );
 }

@@ -7,8 +7,8 @@ import { useAuth } from "../../Auth/useAuth";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
 import { IRefProductLot } from "../../../../lib/types";
-import { Modal } from "./Modal";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
+import { ModalWithForm } from "./ModalWithForm";
 
 type FormValues = {
   created_at: string;
@@ -111,19 +111,20 @@ export function UpdateLot({
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={false}
-        showModal={showModal}
-        setShowModal={handleEditShowModal}
-        title={"config_lot"}
-        btnTitle={"edit_lot"}
-        description={"modal_product_description"}
-        handler={handleSubmit(onSubmit)}
-        handlerClose={() => handleEditShowModal(false)}
-        classIcon={""}
-        classContainer={""}
-      >
+    <ModalWithForm
+      showBtn={false}
+      showModal={showModal}
+      setShowModal={handleEditShowModal}
+      title={"config_lot"}
+      btnTitle={"edit_lot"}
+      description={"modal_product_description"}
+      handler={handleSubmit(onSubmit)}
+      handlerClose={() => handleEditShowModal(false)}
+      classIcon={""}
+      classContainer={""}
+      form={form}
+    >
+      <form>
         <section className="relative flex-auto py-6">
           <div className="flex w-full flex-col ">
             {/* Lot Name Lot Number */}
@@ -301,7 +302,7 @@ export function UpdateLot({
             </div>
           </div>
         </section>
-      </Modal>
-    </form>
+      </form>
+    </ModalWithForm>
   );
 }

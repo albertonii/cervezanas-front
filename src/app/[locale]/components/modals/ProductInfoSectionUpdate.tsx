@@ -1,6 +1,6 @@
 "use client";
 
-import StockInformationDetails from "./StockInformationDetails";
+import StockInformationDetailsAndPacks from "./StockInformationDetails";
 import SelectInput from "../common/SelectInput";
 import React, { useState } from "react";
 import { Divider } from "@supabase/ui";
@@ -183,7 +183,12 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                 defaultValue={0}
                 min="0"
                 max="100"
-                {...register(`intensity`, { required: true, min: 0, max: 100 })}
+                {...register(`intensity`, {
+                  required: true,
+                  min: 0,
+                  max: 100,
+                  valueAsNumber: true,
+                })}
               />
 
               {errors.intensity && (
@@ -420,6 +425,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
                   value: getValues("price"),
                   required: true,
                   min: 0,
+                  valueAsNumber: true,
                 })}
               />
 
@@ -432,7 +438,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <Divider />
 
           {/* Stock information and Packs */}
-          <StockInformationDetails form={form} />
+          <StockInformationDetailsAndPacks form={form} />
         </section>
       )}
 

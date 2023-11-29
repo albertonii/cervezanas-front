@@ -29,7 +29,6 @@ import {
   ModalUpdateProductFormData,
 } from "../../../../lib/types";
 import { uuid } from "uuidv4";
-import { Modal } from "./Modal";
 import { useAuth } from "../../Auth/useAuth";
 import { ProductStepper } from "./ProductStepper";
 import { useMutation, useQueryClient } from "react-query";
@@ -38,6 +37,7 @@ import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
 import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
+import { ModalWithForm } from "./ModalWithForm";
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
   id: z.string(),
@@ -92,9 +92,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   description: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
-  price: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
+  price: z.number().min(0, { message: "Required" }),
   // TODO: Bug in volume validation when adding product
   // volume: z.number().min(0, { message: "Required" }).max(50, {
   //   message: "Required",
@@ -208,6 +206,8 @@ export function UpdateProduct({
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
+      id: product.id,
+      category: product.category ?? "",
       name: product.name ?? "",
       description: product.description ?? "",
       type: product.type ?? "",
@@ -540,7 +540,7 @@ export function UpdateProduct({
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={false}
       showModal={showModal}
       setShowModal={handleEditShowModal}
@@ -551,6 +551,7 @@ export function UpdateProduct({
       classContainer={""}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => handleEditShowModal(false)}
+      form={form}
     >
       <form>
         <ProductStepper
@@ -581,6 +582,6 @@ export function UpdateProduct({
           </>
         </ProductStepper>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

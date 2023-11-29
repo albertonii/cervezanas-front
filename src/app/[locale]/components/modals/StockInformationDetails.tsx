@@ -27,7 +27,7 @@ const emptyPack: IProductPack = {
   product_id: "",
 };
 
-export default function StockInformationDetails({ form }: Props) {
+export default function StockInformationDetailsAndPacks({ form }: Props) {
   const t = useTranslations();
 
   const { supabase } = useAuth();

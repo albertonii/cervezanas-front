@@ -22,7 +22,6 @@ import {
   IModalAddProductPack,
 } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
-import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";
 import { ProductSummary } from "./ProductSummary";
 import {
@@ -35,6 +34,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
 import { useAppContext } from "../../../../../context/AppContext";
+import { ModalWithForm } from "./ModalWithForm";
 
 export type ModalAddProductFormData = {
   name: string;
@@ -540,7 +540,7 @@ export function AddProduct() {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -554,6 +554,7 @@ export function AddProduct() {
         setActiveStep(0);
         setShowModal(false);
       }}
+      form={form}
     >
       <form>
         <>
@@ -583,6 +584,6 @@ export function AddProduct() {
           </ProductStepper>
         </>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

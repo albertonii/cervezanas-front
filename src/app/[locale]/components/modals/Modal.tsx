@@ -32,6 +32,7 @@ interface Props {
   handler: ComponentProps<any>;
   handlerClose?: () => void;
   handleCustomClose?: () => void;
+  hasErrors?: boolean;
 }
 
 export function Modal(props: Props) {
@@ -53,6 +54,7 @@ export function Modal(props: Props) {
     showFooter: showFooter = true,
     btnCancelTitle,
     handleCustomClose: hCustomCLose,
+    hasErrors,
   } = props;
 
   const t = useTranslations();
@@ -66,11 +68,13 @@ export function Modal(props: Props) {
   };
 
   const handleClickOutsideCallback = () => {
-    handleShowModal(false);
     if (handlerClose) handlerClose();
+    handleShowModal(false);
   };
 
   const handleAccept = async () => {
+    if (hasErrors) return;
+
     setIsLoading(true);
 
     setTimeout(() => {
@@ -86,8 +90,8 @@ export function Modal(props: Props) {
   };
 
   const handleClose = () => {
-    handleShowModal(false);
     if (handlerClose) handlerClose();
+    handleShowModal(false);
   };
 
   const handleCustomClose = () => {
