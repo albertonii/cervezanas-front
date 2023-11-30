@@ -880,7 +880,6 @@ export interface IProduct {
   // reviews: IRefReview[];
   likes?: ILike[];
   beers: IBeer[];
-  // product_variant: IProductVariant[];
   awards?: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
@@ -916,13 +915,6 @@ export interface IModalProduct {
   beers: IBeer[];
   awards?: IAward[];
   product_packs?: IProductPack;
-}
-
-export interface IProductVariant {
-  id: string;
-  product_id: string;
-  name: string;
-  product_number: number;
 }
 
 export interface IMonthlyProduct {

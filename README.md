@@ -33,6 +33,15 @@ dev:local-network
 This way we can have access to the application through the phone or another device going to linked host (192.168.1.137:5000)
 This is useful for functionalities as QR scan code of products in event.
 
+# Scripts
+
+## pnpm run gen-link
+
+This command will execute the following code:
+"cloudflared tunnel --url http://localhost:3000"
+creating a tunnel between Cloudfare and our application in localhost. We are going to use this functionality when testing TPV notification PUSH status, etc.
+In the example above we need tunneling because the service is not deployed yet.
+
 # Getting started
 
 ## Pre-requisites

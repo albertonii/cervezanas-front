@@ -11,7 +11,9 @@ interface OrderPaymentStatus {
 
 export const { createRedirectForm, processRestNotification } = createRedsysAPI({
   urls: SANDBOX_URLS,
-  secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? "",
+  secretKey:
+    process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ??
+    "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
 });
 
 const env = process.env.NODE_ENV;
@@ -22,9 +24,10 @@ if (env === "production") {
   host = "http://localhost:3000";
   // host = "https://cervezanas-front.vercel.app:443"
 } else if (env === "development") {
+  // host = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
   host = "http://localhost:3000";
 } else {
-  host = "http://localhost:3000";
+  host = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
 }
 
 export const endpointRedsys = `${host}`;
@@ -40,7 +43,10 @@ export const notificationEventPath = "/api/notification";
 export const merchantInfo = {
   DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
   DS_MERCHANT_MERCHANTCODE: "097839427",
-  DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
+  // DS_MERCHANT_MERCHANTURL: `${endpointRedsys}/api/notification`,
+  // DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
+  // DS_MERCHANT_MERCHANTURL: `192.168.0.39:5000/api/notification`,
+  DS_MERCHANT_MERCHANTURL: `https://accomplish-countries-over-enhancing.trycloudflare.com/api/notification`,
   DS_MERCHANT_TERMINAL: "1",
   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
   DS_MERCHANT_URLOK: `${endpointRedsys}${successRedirectPath}`,

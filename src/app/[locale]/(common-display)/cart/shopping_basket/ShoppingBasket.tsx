@@ -24,10 +24,7 @@ import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
-import {
-  API_METHODS,
-  MARKETPLACE_ORDER_STATUS,
-} from "../../../../../constants";
+import { API_METHODS, ONLINE_ORDER_STATUS } from "../../../../../constants";
 import { useMutation, useQueryClient } from "react-query";
 
 interface FormShippingData {
@@ -161,7 +158,7 @@ export function ShoppingBasket() {
       .insert({
         owner_id: user?.id,
         customer_name: `${user?.name} ${user?.lastname}`,
-        status: MARKETPLACE_ORDER_STATUS.ORDER_PLACED,
+        status: ONLINE_ORDER_STATUS.PENDING,
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
         estimated_date: new Date(
@@ -243,6 +240,9 @@ export function ShoppingBasket() {
       DS_MERCHANT_CURRENCY: redsysCurrency,
       DS_MERCHANT_ORDER: orderNumber,
     });
+
+    console.log(JSON.stringify(form));
+    alert(JSON.stringify(form));
 
     setMerchantParameters(form.body.Ds_MerchantParameters);
     setMerchantSignature(form.body.Ds_Signature);

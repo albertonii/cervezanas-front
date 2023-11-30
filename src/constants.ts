@@ -35,13 +35,13 @@ export const COMMON = {
   PROFILE_IMG: "/icons/profile-240.png",
 };
 
-export const MARKETPLACE_ORDER_STATUS = {
+export const ONLINE_ORDER_STATUS = {
   PENDING: "pending",
+  PAID: "paid",
   PROCESSING: "processing",
   SHIPPED: "shipped",
   DELIVERED: "delivered",
   ORDER_PLACED: "order_placed",
-  PAID: "paid",
   CANCELED: "canceled",
   ERROR: "error",
 };
