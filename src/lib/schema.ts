@@ -1635,34 +1635,6 @@ export interface Database {
           }
         ]
       }
-      product_variant: {
-        Row: {
-          id: string
-          name: string | null
-          product_id: string | null
-          product_number: number | null
-        }
-        Insert: {
-          id?: string
-          name?: string | null
-          product_id?: string | null
-          product_number?: number | null
-        }
-        Update: {
-          id?: string
-          name?: string | null
-          product_id?: string | null
-          product_number?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_variant_product_id_fkey"
-            columns: ["product_id"]
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       product_wishlist: {
         Row: {
           date_added: string | null

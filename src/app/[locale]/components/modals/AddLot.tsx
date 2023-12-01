@@ -1,30 +1,101 @@
 "use client";
 
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Auth/useAuth";
 import { ModalWithForm } from "./ModalWithForm";
 import { format_options } from "../../../../lib/beerEnum";
 import { useMutation, useQueryClient } from "react-query";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { SearchCheckboxList } from "../common/SearchCheckboxList";
+import { useTranslations } from "next-intl";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Type as ProductType } from "../../../../lib/productEnum";
 
-type FormData = {
+// type ModalAddLotFormData = {
+//   created_at: string;
+//   lot_id: string;
+//   lot_number: string;
+//   lot_name: string;
+//   product_id: string;
+//   quantity: number;
+//   limit_notification: number;
+//   recipe: string;
+//   expiration_date: Date;
+//   manufacture_date: Date;
+//   packaging: string;
+//   products: any[];
+// };
+
+type ProductAddLotFormData = {
+  id: string;
   created_at: string;
-  lot_id: string;
-  lot_number: string;
-  lot_name: string;
-  product_id: string;
+  name: string;
+  description: string;
+  type: ProductType;
+  is_public: boolean;
+  discount_percent: number;
+  discount_code: string;
+  price: number;
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+};
+
+type ModalAddLotFormData = {
   quantity: number;
+  lot_name: string;
+  lot_number: string;
+  product_id: string;
   limit_notification: number;
   recipe: string;
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
-  products: any[];
+  // products: ProductAddLotFormData[];
 };
+
+const schema: ZodType<ModalAddLotFormData> = z.object({
+  lot_number: z.string().nonempty({ message: "errors.input_required" }),
+  lot_name: z.string().nonempty({ message: "errors.input_required" }),
+  quantity: z.number().positive({ message: "errors.input_required" }),
+  limit_notification: z.number().positive({ message: "errors.input_required" }),
+  recipe: z.string().nonempty({ message: "errors.input_required" }),
+  expiration_date: z.date(),
+  manufacture_date: z.date(),
+  packaging: z.string().nonempty({ message: "errors.input_required" }),
+  product_id: z.string().nonempty({ message: "errors.input_required" }),
+  // products: z
+  //   .array(
+  //     z.object({
+  //       id: z.string().nonempty({ message: "errors.input_required" }),
+  //       created_at: z.string().nonempty({ message: "errors.input_required" }),
+  //       name: z.string().nonempty({ message: "errors.input_required" }),
+  //       description: z.string().nonempty({ message: "errors.input_required" }),
+  //       type: z.string().nonempty({ message: "errors.input_required" }),
+  //       is_public: z.boolean(),
+  //       discount_percent: z
+  //         .number()
+  //         .positive({ message: "errors.input_required" }),
+  //       discount_code: z
+  //         .string()
+  //         .nonempty({ message: "errors.input_required" }),
+  //       price: z.number().positive({ message: "errors.input_required" }),
+  //       campaign_id: z.string().nonempty({ message: "errors.input_required" }),
+  //       is_archived: z.boolean(),
+  //       category: z.string().nonempty({ message: "errors.input_required" }),
+  //       is_monthly: z.boolean(),
+  //       owner_id: z.string().nonempty({ message: "errors.input_required" }),
+  //     })
+  //   )
+  //   .nonempty({ message: "errors.input_required" }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function AddLot() {
   const t = useTranslations();
@@ -34,19 +105,19 @@ export function AddLot() {
 
   const { data: products } = useFetchProductsByOwner(user?.id);
 
-  const form = useForm<FormData>({
+  const form = useForm<ModalAddLotFormData>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
-      lot_number: "",
-      lot_name: "",
-      product_id: "",
-      quantity: 0,
-      limit_notification: 0,
-      recipe: "",
-      expiration_date: new Date(),
-      manufacture_date: new Date(),
-      packaging: t(format_options[0].label) ?? "",
-      products: [],
+      // lot_number: "",
+      // lot_name: "",
+      // product_id: "",
+      // quantity: 0,
+      // limit_notification: 0,
+      // recipe: "",
+      // expiration_date: new Date(),
+      // manufacture_date: new Date(),
+      // packaging: t(format_options[0].label) ?? "",
     },
   });
 
@@ -57,42 +128,46 @@ export function AddLot() {
     formState: { errors },
   } = form;
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   const queryClient = useQueryClient();
 
-  const handleInsertLot = async (formValues: any) => {
+  const handleInsertLot = async (form: ValidationSchema) => {
     const {
       lot_number,
       lot_name,
       quantity,
-      products,
       limit_notification,
       recipe,
       expiration_date,
       manufacture_date,
       packaging,
-    } = formValues;
+      product_id,
+      // products,
+    } = form;
 
+    console.log(products);
     const userId = user?.id;
 
-    products.map(async (product: { value: any }) => {
-      if (product.value != false) {
-        const product_id = product.value;
-        const { error } = await supabase.from("product_lots").insert({
-          product_id,
-          quantity,
-          lot_number,
-          lot_name,
-          limit_notification,
-          recipe,
-          expiration_date,
-          manufacture_date,
-          packaging,
-          owner_id: userId,
-        });
+    const { error } = await supabase
+      .from("product_lots")
+      .insert({
+        quantity,
+        lot_number,
+        lot_name,
+        limit_notification,
+        recipe,
+        expiration_date,
+        manufacture_date,
+        packaging,
+        product_id,
+        owner_id: userId,
+      })
+      .select();
 
-        if (error) throw error;
-      }
-    });
+    if (error) throw error;
   };
 
   const insertProductLotMutation = useMutation({
@@ -101,9 +176,15 @@ export function AddLot() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productLotList"] });
     },
+    onError: (error: any) => {
+      console.error(error);
+    },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddLotFormData
+  ) => {
+    console.log("dentro");
     try {
       insertProductLotMutation.mutate(formValues);
     } catch (e) {
@@ -144,8 +225,8 @@ export function AddLot() {
                   required: true,
                 })}
               />
-              {errors.lot_name?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.lot_name && (
+                <DisplayInputError message={errors.lot_name.message} />
               )}
             </div>
 
@@ -163,8 +244,9 @@ export function AddLot() {
                   required: true,
                 })}
               />
-              {errors.lot_number?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+
+              {errors.lot_number && (
+                <DisplayInputError message={errors.lot_number.message} />
               )}
             </div>
           </div>
@@ -175,18 +257,20 @@ export function AddLot() {
               <label htmlFor="quantity" className="text-sm text-gray-600">
                 {t("quantity")}
               </label>
+
               <input
                 type="number"
                 id="quantity"
                 placeholder={t("quantity") ?? "Quantity"}
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("quantity", {
-                  required: true,
+                  valueAsNumber: true,
                 })}
                 min="0"
               />
-              {errors.quantity?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+
+              {errors.quantity && (
+                <DisplayInputError message={errors.quantity.message} />
               )}
             </div>
 
@@ -197,18 +281,22 @@ export function AddLot() {
               >
                 {t("limit_notification")}
               </label>
+
               <input
                 id="limit_notification"
                 placeholder={t("limit_notification") ?? "Limit notification"}
                 type="number"
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("limit_notification", {
-                  required: true,
+                  valueAsNumber: true,
                 })}
                 min="0"
               />
-              {errors.limit_notification?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+
+              {errors.limit_notification && (
+                <DisplayInputError
+                  message={errors.limit_notification.message}
+                />
               )}
             </div>
           </div>
@@ -228,11 +316,11 @@ export function AddLot() {
                 placeholder={t("manufacture_date") ?? "Manufacture date"}
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("manufacture_date", {
-                  required: true,
+                  valueAsDate: true,
                 })}
               />
-              {errors.manufacture_date?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.manufacture_date && (
+                <DisplayInputError message={errors.manufacture_date.message} />
               )}
             </div>
 
@@ -249,11 +337,11 @@ export function AddLot() {
                 type="date"
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("expiration_date", {
-                  required: true,
+                  valueAsDate: true,
                 })}
               />
-              {errors.expiration_date?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.expiration_date && (
+                <DisplayInputError message={errors.expiration_date.message} />
               )}
             </div>
           </div>
@@ -277,8 +365,8 @@ export function AddLot() {
                 ))}
               </select>
 
-              {errors.packaging?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.packaging && (
+                <DisplayInputError message={errors.packaging.message} />
               )}
             </div>
           </div>
@@ -297,8 +385,8 @@ export function AddLot() {
                   required: true,
                 })}
               />
-              {errors.recipe?.type === "required" && (
-                <DisplayInputError message="errors.input_required" />
+              {errors.recipe && (
+                <DisplayInputError message={errors.recipe.message} />
               )}
             </div>
           </div>

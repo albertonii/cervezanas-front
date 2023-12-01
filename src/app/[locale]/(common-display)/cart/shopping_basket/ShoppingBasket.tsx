@@ -241,9 +241,6 @@ export function ShoppingBasket() {
       DS_MERCHANT_ORDER: orderNumber,
     });
 
-    console.log(JSON.stringify(form));
-    alert(JSON.stringify(form));
-
     setMerchantParameters(form.body.Ds_MerchantParameters);
     setMerchantSignature(form.body.Ds_Signature);
 
