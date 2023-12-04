@@ -28,7 +28,7 @@ interface ModalAddCPFixedFormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: any[];
+  product_items?: any[];
 }
 
 const schema: ZodType<ModalAddCPFixedFormData> = z.object({

@@ -2,32 +2,17 @@
 
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import React, { useEffect, useState } from "react";
+import { z, ZodType } from "zod";
+import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { ModalWithForm } from "./ModalWithForm";
-import { format_options } from "../../../../lib/beerEnum";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
+import { format_options } from "../../../../lib/beerEnum";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { SearchCheckboxList } from "../common/SearchCheckboxList";
-import { useTranslations } from "next-intl";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { Type as ProductType } from "../../../../lib/productEnum";
-
-// type ModalAddLotFormData = {
-//   created_at: string;
-//   lot_id: string;
-//   lot_number: string;
-//   lot_name: string;
-//   product_id: string;
-//   quantity: number;
-//   limit_notification: number;
-//   recipe: string;
-//   expiration_date: Date;
-//   manufacture_date: Date;
-//   packaging: string;
-//   products: any[];
-// };
 
 type ProductAddLotFormData = {
   id: string;
@@ -56,7 +41,6 @@ type ModalAddLotFormData = {
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
-  // products: ProductAddLotFormData[];
 };
 
 const schema: ZodType<ModalAddLotFormData> = z.object({
@@ -69,30 +53,6 @@ const schema: ZodType<ModalAddLotFormData> = z.object({
   manufacture_date: z.date(),
   packaging: z.string().nonempty({ message: "errors.input_required" }),
   product_id: z.string().nonempty({ message: "errors.input_required" }),
-  // products: z
-  //   .array(
-  //     z.object({
-  //       id: z.string().nonempty({ message: "errors.input_required" }),
-  //       created_at: z.string().nonempty({ message: "errors.input_required" }),
-  //       name: z.string().nonempty({ message: "errors.input_required" }),
-  //       description: z.string().nonempty({ message: "errors.input_required" }),
-  //       type: z.string().nonempty({ message: "errors.input_required" }),
-  //       is_public: z.boolean(),
-  //       discount_percent: z
-  //         .number()
-  //         .positive({ message: "errors.input_required" }),
-  //       discount_code: z
-  //         .string()
-  //         .nonempty({ message: "errors.input_required" }),
-  //       price: z.number().positive({ message: "errors.input_required" }),
-  //       campaign_id: z.string().nonempty({ message: "errors.input_required" }),
-  //       is_archived: z.boolean(),
-  //       category: z.string().nonempty({ message: "errors.input_required" }),
-  //       is_monthly: z.boolean(),
-  //       owner_id: z.string().nonempty({ message: "errors.input_required" }),
-  //     })
-  //   )
-  //   .nonempty({ message: "errors.input_required" }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -109,15 +69,15 @@ export function AddLot() {
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
-      // lot_number: "",
-      // lot_name: "",
-      // product_id: "",
-      // quantity: 0,
-      // limit_notification: 0,
-      // recipe: "",
-      // expiration_date: new Date(),
-      // manufacture_date: new Date(),
-      // packaging: t(format_options[0].label) ?? "",
+      lot_number: "",
+      lot_name: "",
+      product_id: "",
+      quantity: 100,
+      limit_notification: 10,
+      recipe: "",
+      expiration_date: new Date(),
+      manufacture_date: new Date(),
+      packaging: t(format_options[0].label) ?? "",
     },
   });
 
@@ -138,34 +98,28 @@ export function AddLot() {
     const {
       lot_number,
       lot_name,
-      quantity,
       limit_notification,
       recipe,
       expiration_date,
       manufacture_date,
       packaging,
       product_id,
-      // products,
     } = form;
 
-    console.log(products);
     const userId = user?.id;
 
-    const { error } = await supabase
-      .from("product_lots")
-      .insert({
-        quantity,
-        lot_number,
-        lot_name,
-        limit_notification,
-        recipe,
-        expiration_date,
-        manufacture_date,
-        packaging,
-        product_id,
-        owner_id: userId,
-      })
-      .select();
+    const { error } = await supabase.from("product_lots").insert({
+      quantity,
+      lot_number,
+      lot_name,
+      limit_notification,
+      recipe,
+      expiration_date,
+      manufacture_date,
+      packaging,
+      product_id,
+      owner_id: userId,
+    });
 
     if (error) throw error;
   };
