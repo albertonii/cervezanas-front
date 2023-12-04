@@ -269,7 +269,11 @@ export default function ProvinceDistribution({
               </div>
             </div>
 
-            <InputSearch query={query} setQuery={setQuery} />
+            <InputSearch
+              query={query}
+              setQuery={setQuery}
+              searchPlaceholder={"search_by_name"}
+            />
 
             {/* List of provinces in the country  */}
             {tenProvinces && tenProvinces.length > 0 && (

@@ -198,7 +198,11 @@ export default function InternationalDistribution({
           </label>
         </div>
 
-        <InputSearch query={query} setQuery={setQuery} />
+        <InputSearch
+          query={query}
+          setQuery={setQuery}
+          searchPlaceholder={"search_by_name"}
+        />
 
         {/* List of countrys in the country  */}
         {tenCountries && tenCountries.length > 0 && (

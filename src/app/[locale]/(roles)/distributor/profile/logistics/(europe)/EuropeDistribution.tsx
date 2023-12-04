@@ -20,10 +20,7 @@ type Props = {
   coverageAreaId: string;
 };
 
-export default function EuropeDistribution({
-  countries,
-  coverageAreaId,
-}: Props) {
+export default function EuropeDistribution({ coverageAreaId }: Props) {
   const t = useTranslations();
 
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -200,7 +197,11 @@ export default function EuropeDistribution({
           </div>
         </div>
 
-        <InputSearch query={query} setQuery={setQuery} />
+        <InputSearch
+          query={query}
+          setQuery={setQuery}
+          searchPlaceholder={"search_by_name"}
+        />
 
         {/* List of countrys in the country  */}
         {tenCountries && tenCountries.length > 0 && (
