@@ -97,17 +97,6 @@ export default function ListOfContracts() {
   const handleRejectClick = async (contract: IDistributionContract) => {
     setIsRejectModal(true);
     setSelectedContract(contract);
-
-    // await supabase
-    //   .from("consumption_points")
-    //   .update({ cp_organizer_status: 2 })
-    //   .eq("id", cp.id)
-    //   .then(async () => {
-    //     await supabase
-    //       .from("users")
-    //       .update({ cp_organizer_status: 1 })
-    //       .eq("id", cp.owner_id.id);
-    //   });
   };
 
   const handleRejectModal = (value: boolean) => {
