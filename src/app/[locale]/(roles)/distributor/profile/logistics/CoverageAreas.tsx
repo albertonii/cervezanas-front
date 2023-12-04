@@ -1,6 +1,5 @@
 import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
 import CityDistribution from "./(city)/CityDistribution";
-import LocalDistribution from "./(local)/LocalDistribution";
 import HorizontalMenu from "./HorizontalMenu";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
 import InternationalDistribution from "./(international)/InternationalDistribution";
@@ -11,7 +10,7 @@ import { DistributionType } from "../../../../../../lib/enums";
 
 export default function CoverageAreas() {
   const t = useTranslations();
-  const [menuOption, setMenuOption] = useState<string>("local");
+  const [menuOption, setMenuOption] = useState<string>("city");
 
   const { data: distribution, error } = useFetchDistributionByOwnerId();
 

@@ -63,3 +63,27 @@ export function cleanObject(obj: any) {
   });
   return cleanedObj;
 }
+
+// Used in input search fields -> Products, international distribution, etc
+export function filterSearchInputQuery(
+  list: any[],
+  query: string,
+  currentPage: number,
+  resultsPerPage: number
+) {
+  const listToDisplay = list?.filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return slicePaginationResults(listToDisplay, currentPage, resultsPerPage);
+}
+
+export function slicePaginationResults(
+  list: any[],
+  currentPage: number,
+  resultsPerPage: number
+) {
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  return list?.slice(startIndex, endIndex);
+}

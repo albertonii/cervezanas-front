@@ -1,18 +1,19 @@
-import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../lib/actions";
+import CoverageLayout from "./CoverageLayout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
-  const coverageAreaData = await getCoverageAreaData();
-  const [coverageArea] = await Promise.all([coverageAreaData]);
+  await checkSession();
 
-  return <>{/* <CoverageLayout coverageArea={coverageArea} /> */}</>;
+  return (
+    <>
+      <CoverageLayout />
+    </>
+  );
 }
 
-async function getCoverageAreaData() {
-  const supabase = await createServerClient();
-
+async function checkSession() {
   const {
     data: { session },
   } = await readUserSession();
@@ -20,16 +21,4 @@ async function getCoverageAreaData() {
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
-
-  const { data: coverage_area, error: ordersError } = await supabase
-    .from("coverage_areas")
-    .select(
-      `
-        *
-      `
-    )
-    .eq("distributor_id", session.user.id);
-  if (ordersError) throw ordersError;
-
-  return coverage_area;
 }

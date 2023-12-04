@@ -6,7 +6,8 @@ import { useForm, UseFormRegister } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { ICountry } from "country-state-city/lib/interface";
 import { Button } from "../../../../../components/common/Button";
-import { useAuth } from "../../../../../Auth/useAuth";
+import InputSearch from "../../../../../components/common/InputSearch";
+import { filterSearchInputQuery } from "../../../../../../../utils/utils";
 
 // interface ICountry {
 //   id: string;
@@ -41,9 +42,10 @@ export default function InternationalDistribution({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
-  const resultsPerPage = 10;
+  const resultsPerPage = 20;
 
-  const { supabase } = useAuth();
+  const [query, setQuery] = useState("");
+
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>();
@@ -85,6 +87,17 @@ export default function InternationalDistribution({
       ) ?? false
     );
   }, [currentPage]);
+
+  useEffect(() => {
+    const lOfCountries = filterSearchInputQuery(
+      listOfCountries,
+      query,
+      currentPage,
+      resultsPerPage
+    );
+
+    setTenCountries(lOfCountries);
+  }, [query]);
 
   const handleUpdateInternationalDistribution = async () => {
     // const { error } = await supabase
@@ -180,12 +193,12 @@ export default function InternationalDistribution({
 
       <div className="flex flex-col items-start space-y-4">
         <div className="grid w-full grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="addressCountry" className="text-sm text-gray-600">
-              {t("loc_country")}
-            </label>
-          </div>
+          <label htmlFor="addressCountry" className="text-sm text-gray-600">
+            {t("loc_country")}
+          </label>
         </div>
+
+        <InputSearch query={query} setQuery={setQuery} />
 
         {/* List of countrys in the country  */}
         {tenCountries && tenCountries.length > 0 && (

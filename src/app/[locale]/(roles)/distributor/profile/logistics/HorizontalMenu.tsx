@@ -16,7 +16,7 @@ export default function HorizontalMenu({ setMenuOption }: Props) {
       <HorizontalSections
         handleMenuClick={handleMenuClick}
         tabs={[
-          DistributionType.LOCAL,
+          // DistributionType.LOCAL,
           DistributionType.CITY,
           DistributionType.PROVINCE,
           DistributionType.REGION,

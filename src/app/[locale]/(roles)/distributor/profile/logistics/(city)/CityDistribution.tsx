@@ -10,6 +10,7 @@ import { useForm, UseFormRegister } from "react-hook-form";
 import { Button } from "../../../../../components/common/Button";
 import { Spinner } from "../../../../../components/common/Spinner";
 import { IState, ICity, ICountry } from "country-state-city/lib/interface";
+import { slicePaginationResults } from "../../../../../../../utils/utils";
 
 // interface ICountry {
 //   id: string;
@@ -59,7 +60,7 @@ export default function CityDistribution({ cities }: Props) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
-  const resultsPerPage = 10;
+  const resultsPerPage = 20;
 
   // const { supabase } = useAuth();
   const queryClient = useQueryClient();
@@ -135,10 +136,11 @@ export default function CityDistribution({ cities }: Props) {
           return;
         }
 
-        const startIndex = (currentPage - 1) * resultsPerPage;
-        const endIndex = startIndex + resultsPerPage;
-
-        const lOfCities = cityData?.slice(startIndex, endIndex);
+        const lOfCities = slicePaginationResults(
+          cityData,
+          currentPage,
+          resultsPerPage
+        );
 
         setListOfCities(lOfCities);
         setCounter(cityData?.length);

@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from "react-query";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { ICountry } from "country-state-city/lib/interface";
 import { Button } from "../../../../../components/common/Button";
+import InputSearch from "../../../../../components/common/InputSearch";
+import { filterSearchInputQuery } from "../../../../../../../utils/utils";
 
 // interface ICountry {
 //   id: string;
@@ -34,7 +36,9 @@ export default function EuropeDistribution({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
-  const resultsPerPage = 10;
+  const resultsPerPage = 20;
+
+  const [query, setQuery] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -65,9 +69,13 @@ export default function EuropeDistribution({
 
   useEffect(() => {
     if (!listOfCountries) return;
-    const startIndex = (currentPage - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
-    const lOfCountries = listOfCountries?.slice(startIndex, endIndex);
+
+    const lOfCountries = filterSearchInputQuery(
+      listOfCountries,
+      query,
+      currentPage,
+      resultsPerPage
+    );
     setTenCountries(lOfCountries);
 
     // Update selectAllCurrentPage based on whether all countrys on this page are selected
@@ -77,6 +85,19 @@ export default function EuropeDistribution({
       ) ?? false
     );
   }, [currentPage]);
+
+  useEffect(() => {
+    if (!listOfCountries) return;
+
+    const lAllCountries = filterSearchInputQuery(
+      listOfCountries,
+      query,
+      currentPage,
+      resultsPerPage
+    );
+
+    setTenCountries(lAllCountries);
+  }, [query]);
 
   const handleUpdateInternationalDistribution = async () => {
     // const { error } = await supabase
@@ -178,6 +199,8 @@ export default function EuropeDistribution({
             </label>
           </div>
         </div>
+
+        <InputSearch query={query} setQuery={setQuery} />
 
         {/* List of countrys in the country  */}
         {tenCountries && tenCountries.length > 0 && (
