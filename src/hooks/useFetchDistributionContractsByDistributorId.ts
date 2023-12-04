@@ -20,7 +20,13 @@ const fetchDistributionContracts = async (
         status,
         producer_accepted,
         distributor_accepted,
-        message
+        message,
+        producer_user (
+          users (
+            username
+          )
+        )
+
       `
     )
     .eq("distributor_id", distributorId);

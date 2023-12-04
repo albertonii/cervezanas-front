@@ -1213,6 +1213,7 @@ export interface IProducerUser {
   created_at: string;
   company_name: string;
   company_description: string;
+  location_id: string;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }

@@ -47,12 +47,11 @@ export default function ListOfContracts() {
     user?.id
   );
 
-  console.log(contracts);
-
   const filteredItems: IDistributionContract[] = useMemo<
     IDistributionContract[]
   >(() => {
     if (!contracts) return [];
+    console.log(contracts);
 
     return contracts.filter((contract: IDistributionContract) => {
       return contract.producer_user && contract.producer_user.users
@@ -65,7 +64,6 @@ export default function ListOfContracts() {
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
-
     const compareProperties: Record<
       string,
       (contract: IDistributionContract) => any
