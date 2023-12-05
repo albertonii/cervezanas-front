@@ -167,8 +167,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("addressName", { required: true })}
             />
 
-            {errors.addressName?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressName && (
+              <DisplayInputError message={errors.addressName.message} />
             )}
           </div>
 
@@ -184,8 +184,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("addressLastname", { required: true })}
             />
 
-            {errors.addressLastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressLastname && (
+              <DisplayInputError message={errors.addressLastname.message} />
             )}
           </div>
         </div>
@@ -204,8 +204,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("addressDoc", { required: true })}
             />
 
-            {errors.addressDoc?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressDoc && (
+              <DisplayInputError message={errors.addressDoc.message} />
             )}
           </div>
 
@@ -236,8 +236,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("addressPhone", { required: true })}
             />
 
-            {errors.addressPhone?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressPhone && (
+              <DisplayInputError message={errors.addressPhone.message} />
             )}
           </div>
         </div>
@@ -256,8 +256,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("address1", { required: true })}
             />
 
-            {errors.address1?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.address1 && (
+              <DisplayInputError message={errors.address1.message} />
             )}
           </div>
         </div>
@@ -276,8 +276,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("address2")}
             />
 
-            {errors.address2?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.address2 && (
+              <DisplayInputError message={errors.address2.message} />
             )}
           </div>
         </div>
@@ -296,8 +296,8 @@ export function LocationForm({ profile_location }: Props) {
               {...register("addressPC", { required: true })}
             />
 
-            {errors.addressPC?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressPC && (
+              <DisplayInputError message={errors.addressPC.message} />
             )}
           </div>
 
@@ -316,8 +316,8 @@ export function LocationForm({ profile_location }: Props) {
               })}
             />
 
-            {errors.addressTown?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressTown && (
+              <DisplayInputError message={errors.addressTown.message} />
             )}
           </div>
         </div>
@@ -334,8 +334,8 @@ export function LocationForm({ profile_location }: Props) {
               onChange={(val) => selectCountry(val)}
             />
 
-            {errors.addressCountry?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressCountry && (
+              <DisplayInputError message={errors.addressCountry.message} />
             )}
           </div>
 
@@ -351,8 +351,8 @@ export function LocationForm({ profile_location }: Props) {
               onChange={(val) => selectRegion(val)}
             />
 
-            {errors.addressProvince?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressProvince && (
+              <DisplayInputError message={errors.addressProvince.message} />
             )}
           </div>
         </div>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 type FormValues = {
   lot_number: string;
@@ -92,8 +93,8 @@ export default function LotForm({ handleShowModal }: Props) {
                   required: true,
                 })}
               />
-              {errors.lot_number?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+              {errors.lot_number && (
+                <DisplayInputError message={errors.lot_number.message} />
               )}
             </div>
 
@@ -110,8 +111,8 @@ export default function LotForm({ handleShowModal }: Props) {
                   required: true,
                 })}
               />
-              {errors.lot_quantity?.type === "required" && (
-                <p>{t("product_modal_required")}</p>
+              {errors.lot_quantity && (
+                <DisplayInputError message={errors.lot_quantity.message} />
               )}
             </div>
           </div>

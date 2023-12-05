@@ -94,8 +94,8 @@ export function SecretDataForm() {
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
 
-            {errors.oldPassword?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.oldPassword && (
+              <DisplayInputError message={errors.oldPassword.message} />
             )}
           </div>
         </div>
@@ -115,8 +115,8 @@ export function SecretDataForm() {
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword?.type === "required" && (
-            <DisplayInputError message="errors.input_required" />
+          {errors.newPassword && (
+            <DisplayInputError message={errors.newPassword.message} />
           )}
         </div>
 
@@ -141,8 +141,8 @@ export function SecretDataForm() {
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword2?.type === "validate" && (
-            <DisplayInputError message="errors.newPassword2?.message" />
+          {errors.newPassword2 && (
+            <DisplayInputError message={errors.newPassword2.message} />
           )}
         </div>
 

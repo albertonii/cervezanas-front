@@ -1,32 +1,50 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { IDistributorUser } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useMutation } from "react-query";
+import { useMessage } from "../../../../components/message/useMessage";
 
-interface FormData {
+type FormData = {
   name: string;
   lastname: string;
-  username: string;
-  email: string;
-}
+};
+
+const schema: ZodType<FormData> = z.object({
+  name: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The name is too long, max length are 50 characters",
+  }),
+  lastname: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The lastname is too long, max length are 50 characters",
+  }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   profile: IDistributorUser;
 }
 
 export function BasicDataForm({ profile }: Props) {
+  console.log(profile);
   const t = useTranslations();
   const { supabase } = useAuth();
 
   if (!profile || !profile.users) return <></>;
 
   const { id, username, name, lastname, email } = profile.users;
+
+  const successMessage = t("profile_acc_data_updated");
+
+  const { handleMessage } = useMessage();
 
   const [loading, setLoading] = useState(false);
 
@@ -35,44 +53,70 @@ export function BasicDataForm({ profile }: Props) {
     formState: { errors },
     handleSubmit,
   } = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
-      username: username,
-      name: name,
-      lastname: lastname,
-      email: email,
+      username,
+      name,
+      lastname,
+      email,
     },
   });
 
-  const onSubmit = async (formValues: FormData) => {
-    setLoading(true);
+  const handleUpdataBasicData = async (form: ValidationSchema) => {
+    const { name, lastname } = form;
 
-    const { name, lastname, username, email } = formValues;
+    const { error } = await supabase
+      .from("users")
+      .update({
+        name,
+        lastname,
+      })
+      .eq("id", id);
 
-    setTimeout(async () => {
-      const { error } = await supabase
-        .from("users")
-        .update({
-          name,
-          lastname,
-          username,
-          email,
-        })
-        .eq("id", id);
+    if (error) throw error;
+  };
 
+  const handleUpdateBasicDataMutation = useMutation({
+    mutationKey: "updateBasicDataDistributor",
+    mutationFn: handleUpdataBasicData,
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: successMessage,
+      });
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+    onSettled: () => {
       setLoading(false);
+    },
+  });
 
-      if (error) throw error;
-    }, 700);
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdateBasicDataMutation.mutate(formValues);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div
+    <section
       id="account_basic_data"
       className="container mb-4 space-y-3 bg-white px-6 py-4"
     >
-      <div id="account-data" className="text-2xl">
+      <span id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}
-      </div>
+      </span>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
@@ -109,12 +153,7 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.name?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.name?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_30_max_length" />
-            )}
+            {errors.name && <DisplayInputError message={errors.name.message} />}
           </div>
 
           <div className="w-full ">
@@ -133,11 +172,8 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.lastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.lastname?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_50_max_length" />
+            {errors.lastname && (
+              <DisplayInputError message={errors.lastname.message} />
             )}
           </div>
         </div>
@@ -147,21 +183,19 @@ export function BasicDataForm({ profile }: Props) {
             <label htmlFor="email" className="text-sm text-gray-600">
               {t("profile_acc_email")}
             </label>
+
             <input
-              placeholder="ejemplo@gmail.com"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              placeholder="ejemplo@cervezanas.com"
+              readOnly
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("email", {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
               })}
             />
 
-            {errors.email?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-
-            {errors.email?.type === "pattern" && (
-              <DisplayInputError message="errors.input_email_invalid" />
+            {errors.email && (
+              <DisplayInputError message={errors.email.message} />
             )}
           </div>
         </div>
@@ -174,6 +208,6 @@ export function BasicDataForm({ profile }: Props) {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

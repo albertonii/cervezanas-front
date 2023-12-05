@@ -92,7 +92,9 @@ export default function CoverageAreas() {
       <HorizontalMenu setMenuOption={setMenuOption} />
 
       {/* Coverage Area content  */}
-      <div>{renderSwitch()}</div>
+      <section className="border border-b-gray-200 bg-beer-foam  p-4">
+        {renderSwitch()}
+      </section>
 
       {/* Map Area Content  */}
     </fieldset>

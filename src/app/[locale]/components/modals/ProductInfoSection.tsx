@@ -601,11 +601,10 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     })}
                   />
 
-                  {errors.stock_limit_notification?.type === "required" && (
-                    <p>{t("errors.input_required")}</p>
-                  )}
-                  {errors.stock_limit_notification?.type === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
+                  {errors.stock_limit_notification && (
+                    <DisplayInputError
+                      message={errors.stock_limit_notification.message}
+                    />
                   )}
                 </div>
               </div>

@@ -11,6 +11,7 @@ import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia
 import { DeleteButton } from "../common/DeleteButton";
 import { Button } from "../common/Button";
 import { pack_type_options } from "../../../../lib/beerEnum";
+import { DisplayInputError } from "../common/DisplayInputError";
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -89,11 +90,8 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
               })}
             />
 
-            {errors.stock_quantity?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
-            )}
-            {errors.stock_quantity?.type === "min" && (
-              <p>{t("product_modal_min_0")}</p>
+            {errors.stock_quantity && (
+              <DisplayInputError message={errors.stock_quantity.message} />
             )}
           </div>
 
@@ -118,11 +116,10 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
               })}
             />
 
-            {errors.stock_limit_notification?.type === "required" && (
-              <p>{t("errors.input_required")}</p>
-            )}
-            {errors.stock_limit_notification?.type === "min" && (
-              <p>{t("product_modal_min_0")}</p>
+            {errors.stock_limit_notification && (
+              <DisplayInputError
+                message={errors.stock_limit_notification.message}
+              />
             )}
           </div>
         </div>

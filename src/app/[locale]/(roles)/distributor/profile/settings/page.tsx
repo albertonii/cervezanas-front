@@ -37,7 +37,8 @@ async function getProfileData() {
         bank_account,
         company_name,
         company_description,
-        location_id
+        location_id,
+        users (name, lastname, email)
       `
     )
     .eq("user", session.user.id)

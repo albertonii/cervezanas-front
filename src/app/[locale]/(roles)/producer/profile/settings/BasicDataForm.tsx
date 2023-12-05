@@ -109,12 +109,7 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.name?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.name?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_30_max_length" />
-            )}
+            {errors.name && <DisplayInputError message={errors.name.message} />}
           </div>
 
           <div className="w-full ">
@@ -133,11 +128,8 @@ export function BasicDataForm({ profile }: Props) {
               })}
             />
 
-            {errors.lastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {errors.lastname?.type === "maxLength" && (
-              <DisplayInputError message="errors.error_50_max_length" />
+            {errors.lastname && (
+              <DisplayInputError message={errors.lastname.message} />
             )}
           </div>
         </div>
@@ -147,21 +139,19 @@ export function BasicDataForm({ profile }: Props) {
             <label htmlFor="email" className="text-sm text-gray-600">
               {t("profile_acc_email")}
             </label>
+
             <input
-              placeholder="ejemplo@gmail.com"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              placeholder="cervezanas@gmail.com"
+              readOnly
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("email", {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
               })}
             />
 
-            {errors.email?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-
-            {errors.email?.type === "pattern" && (
-              <DisplayInputError message="errors.input_email_invalid" />
+            {errors.email && (
+              <DisplayInputError message={errors.email.message} />
             )}
           </div>
         </div>

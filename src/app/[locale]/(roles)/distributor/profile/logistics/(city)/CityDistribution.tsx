@@ -450,8 +450,8 @@ export default function CityDistribution({ cities }: Props) {
                     />
 
                     {/* 
-                    {errors.addressCountry?.type === "required" && (
-                      <DisplayInputError message="errors.input_required" />
+                    {errors.addressCountry && (
+                      <DisplayInputError message={errors.addressCountry.message} />
                     )} 
                     */}
                   </div>

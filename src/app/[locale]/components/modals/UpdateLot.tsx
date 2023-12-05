@@ -144,8 +144,8 @@ export function UpdateLot({
                     required: true,
                   })}
                 />
-                {errors.lot_name?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.lot_name && (
+                  <DisplayInputError message={errors.lot_name.message} />
                 )}
               </div>
 
@@ -163,8 +163,9 @@ export function UpdateLot({
                     required: true,
                   })}
                 />
-                {errors.lot_number?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+
+                {errors.lot_number && (
+                  <DisplayInputError message={errors.lot_number.message} />
                 )}
               </div>
             </div>
@@ -186,8 +187,8 @@ export function UpdateLot({
                   })}
                   min="0"
                 />
-                {errors.quantity?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.quantity && (
+                  <DisplayInputError message={errors.quantity.message} />
                 )}
               </div>
 
@@ -209,8 +210,10 @@ export function UpdateLot({
                   })}
                   min="0"
                 />
-                {errors.limit_notification?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.limit_notification && (
+                  <DisplayInputError
+                    message={errors.limit_notification.message}
+                  />
                 )}
               </div>
             </div>
@@ -235,8 +238,10 @@ export function UpdateLot({
                     required: true,
                   })}
                 />
-                {errors.manufacture_date?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.manufacture_date && (
+                  <DisplayInputError
+                    message={errors.manufacture_date.message}
+                  />
                 )}
               </div>
 
@@ -257,8 +262,8 @@ export function UpdateLot({
                     required: true,
                   })}
                 />
-                {errors.expiration_date?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.expiration_date && (
+                  <DisplayInputError message={errors.expiration_date.message} />
                 )}
               </div>
             </div>
@@ -279,8 +284,8 @@ export function UpdateLot({
                     required: true,
                   })}
                 />
-                {errors.packaging?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
+                {errors.packaging && (
+                  <DisplayInputError message={errors.packaging.message} />
                 )}
               </div>
             </div>

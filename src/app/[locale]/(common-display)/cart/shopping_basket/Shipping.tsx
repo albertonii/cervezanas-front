@@ -107,8 +107,8 @@ export default function Shipping({
         })}
 
         {/* Error input displaying */}
-        {errors.shipping_info_id?.type === "required" && (
-          <DisplayInputError message="errors.select_location_required" />
+        {errors.shipping_info_id && (
+          <DisplayInputError message={errors.shipping_info_id.message} />
         )}
       </ul>
 

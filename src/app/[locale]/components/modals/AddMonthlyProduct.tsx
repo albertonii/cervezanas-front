@@ -147,8 +147,8 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                 </option>
               ))}
             </select>
-            {errors.category?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.category && (
+              <DisplayInputError message={errors.category.message} />
             )}
           </div>
 

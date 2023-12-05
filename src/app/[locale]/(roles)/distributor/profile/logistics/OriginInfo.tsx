@@ -87,9 +87,7 @@ export default function OriginInfo() {
           <Label>
             <InputForm register={register} inputName="name" required={true} />
 
-            {errors.name?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
+            {errors.name && <DisplayInputError message={errors.name.message} />}
           </Label>
 
           <Label>
@@ -99,8 +97,8 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.lastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.lastname && (
+              <DisplayInputError message={errors.lastname.message} />
             )}
           </Label>
 
@@ -111,8 +109,8 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.document_id?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.document_id && (
+              <DisplayInputError message={errors.document_id.message} />
             )}
           </Label>
 
@@ -124,8 +122,8 @@ export default function OriginInfo() {
               type={"tel"}
             />
 
-            {errors.phone?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.phone && (
+              <DisplayInputError message={errors.phone.message} />
             )}
           </Label>
 
@@ -137,17 +135,15 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.address_1?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.address_1 && (
+              <DisplayInputError message={errors.address_1.message} />
             )}
           </Label>
 
           <Label>
             <InputForm register={register} inputName="town" required={true} />
 
-            {errors.town?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
+            {errors.town && <DisplayInputError message={errors.town.message} />}
           </Label>
 
           <Label>
@@ -157,8 +153,8 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.province?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.province && (
+              <DisplayInputError message={errors.province.message} />
             )}
           </Label>
 
@@ -169,8 +165,8 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.country?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.country && (
+              <DisplayInputError message={errors.country.message} />
             )}
           </Label>
 
@@ -182,8 +178,8 @@ export default function OriginInfo() {
               required={true}
             />
 
-            {errors.postalcode?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.postalcode && (
+              <DisplayInputError message={errors.postalcode.message} />
             )}
           </Label>
         </div>

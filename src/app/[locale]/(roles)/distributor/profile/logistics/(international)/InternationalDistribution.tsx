@@ -32,6 +32,8 @@ export default function InternationalDistribution({
 }: Props) {
   const t = useTranslations();
 
+  const [deliveryCost, setDeliveryCost] = useState<number>(0);
+
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [listOfCountries, setListOfCountries] = useState<ICountry[]>([]);
   const [tenCountries, setTenCountries] = useState<ICountry[]>([]);
@@ -179,6 +181,10 @@ export default function InternationalDistribution({
     setSelectAllCurrentPage(e.target.checked);
   };
 
+  const handleDeliveryCost = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeliveryCost(Number(e.target.value));
+  };
+
   return (
     <section className="space-y-4">
       <Button
@@ -191,12 +197,28 @@ export default function InternationalDistribution({
         {t("save")}
       </Button>
 
+      <div>
+        {/* Indicar el coste de distribución internacional por cada país y el coste de envío por cada país (si es diferente al coste de distribución) */}
+        <label htmlFor="address_doc" className="text-sm text-gray-600">
+          {t("international_distribution_cost") + " (€)"}
+        </label>
+
+        <input
+          type="number"
+          id="address_doc"
+          placeholder="10 €"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          value={deliveryCost}
+          onChange={handleDeliveryCost}
+          min={0}
+          max={1000}
+        />
+      </div>
+
       <div className="flex flex-col items-start space-y-4">
-        <div className="grid w-full grid-cols-2 gap-4">
-          <label htmlFor="addressCountry" className="text-sm text-gray-600">
-            {t("loc_country")}
-          </label>
-        </div>
+        <label htmlFor="addressCountry" className="text-xl text-gray-600">
+          {t("loc_country")}
+        </label>
 
         <InputSearch
           query={query}

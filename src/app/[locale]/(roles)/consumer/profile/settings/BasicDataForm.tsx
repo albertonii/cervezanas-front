@@ -2,16 +2,16 @@
 
 import { z, ZodType } from "zod";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { IUserTable } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import { Spinner } from "../../../../components/common/Spinner";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation } from "react-query";
 import { useMessage } from "../../../../components/message/useMessage";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 type FormData = {
   name: string;
@@ -40,6 +40,7 @@ export function BasicDataForm({ profile }: Props) {
   const { id, username, name, lastname, email } = profile;
 
   const [loading, setLoading] = useState(false);
+
   const successMessage = t("profile_acc_data_updated");
 
   const { handleMessage } = useMessage();
@@ -69,14 +70,15 @@ export function BasicDataForm({ profile }: Props) {
       })
       .eq("id", id);
 
-    setLoading(false);
-
     if (error) throw error;
   };
 
   const handleUpdateBasicDataMutation = useMutation({
     mutationKey: "updateBasicData",
     mutationFn: handleUpdateBasicData,
+    onMutate: () => {
+      setLoading(true);
+    },
     onSuccess: () => {
       handleMessage({
         type: "success",
@@ -88,6 +90,9 @@ export function BasicDataForm({ profile }: Props) {
         type: "error",
         message: error.message,
       });
+    },
+    onSettled: () => {
+      setLoading(false);
     },
   });
 
@@ -133,13 +138,13 @@ export function BasicDataForm({ profile }: Props) {
             </label>
 
             <input
-              placeholder="ejemplo@gmail.com"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed focus:z-10 sm:text-sm"
+              placeholder="ejemplo@cervezanas.com"
+              readOnly
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("email", {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
               })}
-              disabled
             />
           </div>
         </div>
