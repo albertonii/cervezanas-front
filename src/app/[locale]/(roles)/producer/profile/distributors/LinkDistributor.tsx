@@ -7,7 +7,6 @@ import { SubmitContract } from "./SubmitContract";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
-import { useTranslations } from "next-intl";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { useMessage } from "../../../../components/message/useMessage";
 import { useAuth } from "../../../../Auth/useAuth";
@@ -34,8 +33,6 @@ interface Props {
 }
 
 export default function LinkDistributor({ producerId }: Props) {
-  const t = useTranslations();
-
   const { supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);

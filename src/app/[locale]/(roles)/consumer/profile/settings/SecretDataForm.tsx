@@ -2,15 +2,15 @@
 
 import { z, ZodType } from "zod";
 import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
-import { useMutation } from "react-query";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 type FormData = {
   old_password: string;
@@ -45,6 +45,7 @@ export function SecretDataForm() {
     register,
     reset,
   } = useForm<FormData>({
+    mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
       old_password: "",
@@ -53,9 +54,7 @@ export function SecretDataForm() {
     },
   });
 
-  const handleUpdataPassword = async (form: ValidationSchema) => {
-    setLoading(true);
-
+  const handleUpdatePassword = async (form: ValidationSchema) => {
     // TODO: Check if old password is correct
     const { new_password } = form;
 
@@ -68,7 +67,10 @@ export function SecretDataForm() {
 
   const handleUpdatePasswordMutation = useMutation({
     mutationKey: "updatePassword",
-    mutationFn: handleUpdataPassword,
+    mutationFn: handleUpdatePassword,
+    onMutate: () => {
+      setLoading(true);
+    },
     onSuccess: () => {
       handleMessage({
         type: "success",
@@ -83,6 +85,9 @@ export function SecretDataForm() {
         type: "error",
         message: error.message,
       });
+    },
+    onSettled: () => {
+      setLoading(false);
     },
   });
 
