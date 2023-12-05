@@ -76,7 +76,7 @@ export function BasicDataForm({ profile }: Props) {
   };
 
   const handleUpdateBasicDataMutation = useMutation({
-    mutationKey: "updateBasicDataDistributor",
+    mutationKey: ["updateBasicDataDistributor"],
     mutationFn: handleUpdataBasicData,
     onMutate: () => {
       setLoading(true);

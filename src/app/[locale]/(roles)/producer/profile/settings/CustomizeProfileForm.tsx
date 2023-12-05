@@ -133,9 +133,9 @@ export function CustomizeProfileForm({ profile }: Props) {
 
   return (
     <section className="container mb-4 space-y-3 bg-white px-6 py-4">
-      <div id="account-data" className="text-2xl">
+      <h2 id="account-data" className="text-2xl">
         {t("profile_custom")}
-      </div>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex flex-row items-end space-x-3">

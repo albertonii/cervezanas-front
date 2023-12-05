@@ -1,15 +1,27 @@
-import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
+import { z, ZodType } from "zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
+import { useMutation } from "react-query";
+import { useMessage } from "../../../../components/message/useMessage";
 
-type FormValues = {
+type FormData = {
   lot_number: string;
   lot_quantity: number;
   products: any[];
 };
+
+const schema: ZodType<FormData> = z.object({
+  lot_number: z.string().nonempty({ message: "errors.input_required" }),
+  lot_quantity: z.number().min(1, { message: "errors.input_required" }),
+  products: z.array(z.object({ value: z.string() })),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   handleShowModal: React.Dispatch<React.SetStateAction<any>>;
@@ -21,6 +33,8 @@ export default function LotForm({ handleShowModal }: Props) {
   if (!user) return null;
 
   const t = useTranslations();
+  const successMessage = t("insert_product_lots_success");
+  const { handleMessage } = useMessage();
 
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 10;
@@ -36,8 +50,9 @@ export default function LotForm({ handleShowModal }: Props) {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<FormValues>({
+  } = useForm<FormData>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
       lot_number: "",
       lot_quantity: 0,
@@ -45,39 +60,60 @@ export default function LotForm({ handleShowModal }: Props) {
     },
   });
 
-  const onSubmit = (formValues: FormValues) => {
-    const { lot_number, lot_quantity, products } = formValues;
+  const handleInsertProductLots = async (form: FormData) => {
+    const { lot_number, lot_quantity, products } = form;
 
-    const handleLotInsert = () => {
-      products.map(async (product: { value: any }) => {
-        if (product.value != false) {
-          const product_id = product.value;
-          const { error } = await supabase.from("product_lots").insert({
-            product_id: product_id,
-            num_lot_id: lot_number,
-            quantity: lot_quantity,
-          });
+    products.map(async (product: { value: any }) => {
+      if (product.value != false) {
+        const product_id = product.value;
+        const { error } = await supabase.from("product_lots").insert({
+          product_id: product_id,
+          num_lot_id: lot_number,
+          quantity: lot_quantity,
+        });
 
-          if (error) throw error;
-        }
+        if (error) throw error;
+      }
+    });
+
+    handleShowModal(false);
+    reset();
+  };
+
+  const handleInsertProductLotsMutation = useMutation({
+    mutationKey: ["insertProductLots"],
+    mutationFn: handleInsertProductLots,
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: successMessage,
       });
+    },
+    onError: (error: any) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+  });
 
-      handleShowModal(false);
-      reset();
-    };
-
-    handleLotInsert();
+  const onSubmit: SubmitHandler<ValidationSchema> = (formValues: FormData) => {
+    try {
+      handleInsertProductLotsMutation.mutate(formValues);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!isSuccess) return <></>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <div className="relative flex-auto p-6">
-        <p className="text-slate-500 my-4 text-lg leading-relaxed">
-          {t("modal_product_description")}
-        </p>
+    <section className="relative flex-auto p-6">
+      <span className="text-slate-500 my-4 text-lg leading-relaxed">
+        {t("modal_product_description")}
+      </span>
 
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <div className="flex w-full flex-col ">
           <div className="flex w-full flex-row space-x-3 ">
             <div className="space-y w-full ">
@@ -196,7 +232,7 @@ export default function LotForm({ handleShowModal }: Props) {
             {t("close")}
           </button>
         </div>
-      </div>
-    </form>
+      </form>
+    </section>
   );
 }
