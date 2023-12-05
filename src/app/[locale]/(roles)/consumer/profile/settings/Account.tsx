@@ -21,17 +21,16 @@ export function Account({ profile }: Props) {
         <span id="title" className="text-4xl">
           {t("profile_title_my_data")}
         </span>
+
         <span id="rrss" className="text-4xl">
           {t("profile_title_ssnn")}
         </span>
       </div>
 
-      <div>
-        <BasicDataForm profile={profile} />
-        <SecretDataForm />
-        {/* <LocationForm profile_location={profile.profile_location} /> */}
-        <CustomizeProfileForm profile={profile} />
-      </div>
+      <BasicDataForm profile={profile} />
+      <SecretDataForm />
+      {/* <LocationForm profile_location={profile.profile_location} /> */}
+      <CustomizeProfileForm profile={profile} />
     </section>
   );
 }

@@ -18,20 +18,19 @@ export function Account({ profile }: Props) {
   return (
     <section className="px-4 py-6" id="account-container">
       <div className="flex justify-between py-4" id="header">
-        <div id="title" className="text-4xl">
+        <h2 id="title" className="text-4xl">
           {t("profile_title_my_data")}
-        </div>
-        <div id="rrss" className="text-4xl">
+        </h2>
+
+        <h3 id="rrss" className="text-4xl">
           {t("profile_title_ssnn")}
-        </div>
+        </h3>
       </div>
 
-      <div>
-        <BasicDataForm profile={profile} />
-        <SecretDataForm />
-        {/* <LocationForm profile_location={profile.profile_location} /> */}
-        <CustomizeProfileForm profile={profile} />
-      </div>
+      <BasicDataForm profile={profile} />
+      <SecretDataForm />
+      {/* <LocationForm profile_location={profile.profile_location} /> */}
+      <CustomizeProfileForm profile={profile} />
     </section>
   );
 }

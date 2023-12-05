@@ -28,20 +28,21 @@ export function History(props: Props) {
   return (
     <>
       {loading ? (
-        <div>{t("loading")} </div>
+        <span>{t("loading")} </span>
       ) : (
-        <div className="px-4 py-6" id="account-container">
+        <section className="px-4 py-6" id="account-container">
           <div className="flex flex-col justify-between py-4" id="header">
-            <div id="title" className="text-4xl">
+            <h2 id="title" className="text-4xl">
               {t("history_title")}
-            </div>
-            <span id="rrss" className="text-lg">
+            </h2>
+
+            <h3 id="rrss" className="text-lg">
               {t("history_description_producer")}
-            </span>
+            </h3>
           </div>
 
           <HistoryForm />
-        </div>
+        </section>
       )}
     </>
   );
