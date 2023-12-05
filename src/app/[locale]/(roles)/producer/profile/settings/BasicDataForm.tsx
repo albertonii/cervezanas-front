@@ -1,32 +1,48 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { IProducerUser } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
-import { useAuth } from "../../../../Auth/useAuth";
+import { useMessage } from "../../../../components/message/useMessage";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
-interface FormData {
+type FormData = {
   name: string;
   lastname: string;
-  username: string;
-  email: string;
-}
+};
 
 interface Props {
   profile: IProducerUser;
 }
-// TODO: Add Validation ZOD
+
+const schema: ZodType<FormData> = z.object({
+  name: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The name is too long, max length are 50 characters",
+  }),
+  lastname: z.string().min(2, { message: "Required" }).max(50, {
+    message: "The lastname is too long, max length are 50 characters",
+  }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
+
 export function BasicDataForm({ profile }: Props) {
   const t = useTranslations();
+  const successMessage = t("profile_acc_data_updated");
+
   const { supabase } = useAuth();
 
   if (!profile.users) return <></>;
 
   const { id, username, name, lastname, email } = profile.users;
+  const { handleMessage } = useMessage();
 
   const [loading, setLoading] = useState(false);
 
@@ -35,34 +51,50 @@ export function BasicDataForm({ profile }: Props) {
     formState: { errors },
     handleSubmit,
   } = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
-      username: username,
-      name: name,
-      lastname: lastname,
-      email: email,
+      username,
+      name,
+      lastname,
+      email,
     },
   });
 
-  const onSubmit = async (formValues: FormData) => {
-    setLoading(true);
+  const handleUpdateBasicData = async (form: ValidationSchema) => {
+    const { name, lastname } = form;
 
-    const { name, lastname, username, email } = formValues;
+    const { error } = await supabase
+      .from("users")
+      .update({
+        name,
+        lastname,
+      })
+      .eq("id", id);
 
-    setTimeout(async () => {
-      const { error } = await supabase
-        .from("users")
-        .update({
-          name,
-          lastname,
-          username,
-          email,
-        })
-        .eq("id", id);
+    if (error) throw error;
+  };
 
-      setLoading(false);
+  const handleUpdateBasicDataMutation = useMutation({
+    mutationKey: "updateBasicDataProducer",
+    mutationFn: handleUpdateBasicData,
+    onMutate: () => setLoading(true),
+    onSuccess: () => {
+      handleMessage({ type: "success", message: successMessage });
+    },
+    onError: (error: any) => {
+      handleMessage({ type: "error", message: error.message });
+    },
+    onSettled: () => setLoading(false),
+  });
 
-      if (error) throw error;
-    }, 700);
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdateBasicDataMutation.mutate(formValues);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -2,16 +2,16 @@
 
 import { z, ZodType } from "zod";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { IDistributorUser } from "../../../../../../lib/types";
-import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { Spinner } from "../../../../components/common/Spinner";
-import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation } from "react-query";
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "../../../../components/common/Button";
+import { IDistributorUser } from "../../../../../../lib/types";
+import { Spinner } from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
 type FormData = {
   name: string;
@@ -35,13 +35,13 @@ interface Props {
 
 export function BasicDataForm({ profile }: Props) {
   const t = useTranslations();
+  const successMessage = t("profile_acc_data_updated");
+
   const { supabase } = useAuth();
 
   if (!profile || !profile.users) return <></>;
 
   const { id, username, name, lastname, email } = profile.users;
-
-  const successMessage = t("profile_acc_data_updated");
 
   const { handleMessage } = useMessage();
 
