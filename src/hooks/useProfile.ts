@@ -6,7 +6,7 @@ import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { Database } from "../lib/schema";
 
 // NOT USED NOW
-const getProfile = async (supabase: SupabaseClient<Database>, id?: string) => {
+const getProfile = async (supabase: SupabaseClient<Database>, id: string) => {
   const { data, error } = await supabase
     .from("users")
     .select("username, name, lastname, birthdate")
