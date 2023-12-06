@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
     Ds_SignatureVersion: signatureVersion as string,
     Ds_MerchantParameters: merchantParameters as string,
   };
-  console.log("hasta aqui");
 
   // const body: ResponseJSONSuccess = {
   //   Ds_SignatureVersion: "HMAC_SHA256_V1",
@@ -69,7 +68,17 @@ export async function POST(req: NextRequest) {
       .from("orders")
       .update({ status: ONLINE_ORDER_STATUS.PAID })
       .eq("order_number", orderId);
-    if (error) console.error(error);
+
+    console.log("hemos llegado");
+
+    if (error) {
+      console.error(error);
+
+      return NextResponse.json({
+        message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+      });
+    }
+
     return NextResponse.json({
       message: `Order number ${orderId} updated successfully`,
     });
