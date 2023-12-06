@@ -107,7 +107,7 @@ export const SupabaseProps = {
 };
 
 export const DS_API = {
-  DS_URL: `https://distributionsystemapi-soyd-dev.fl0.io/`,
+  DS_URL: `https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io/`,
   DS_COUNTRIES: "countries/",
   DS_COMMUNITIES: "communities/",
   DS_PROVINCES: "provinces/",

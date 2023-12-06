@@ -68,7 +68,7 @@ pnpm run dev
 
 ## Main url
 
-https://distributionsystemapi-soyd-dev.fl0.io/
+https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io
 
 ## GET
 
