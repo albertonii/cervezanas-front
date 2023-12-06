@@ -43,10 +43,11 @@ export const notificationEventPath = "/api/notification";
 export const merchantInfo = {
   DS_MERCHANT_MERCHANTNAME: "Cervezanas M&M SL",
   DS_MERCHANT_MERCHANTCODE: "097839427",
+  DS_MERCHANT_MERCHANTURL: `https://cervezanas-front-git-staging-albertonii.vercel.app/api/notification`,
   // DS_MERCHANT_MERCHANTURL: `${endpointRedsys}/api/notification`,
   // DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
   // DS_MERCHANT_MERCHANTURL: `192.168.0.39:5000/api/notification`,
-  DS_MERCHANT_MERCHANTURL: `https://accomplish-countries-over-enhancing.trycloudflare.com/api/notification`,
+  // DS_MERCHANT_MERCHANTURL: `https://accomplish-countries-over-enhancing.trycloudflare.com/api/notification`,
   DS_MERCHANT_TERMINAL: "1",
   DS_MERCHANT_TRANSACTIONTYPE: TRANSACTION_TYPES.AUTHORIZATION, // '0'
   DS_MERCHANT_URLOK: `${endpointRedsys}${successRedirectPath}`,
