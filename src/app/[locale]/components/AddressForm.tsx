@@ -163,6 +163,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
             )}
           </label>
 
+          {apiCallError && (
+            <DisplayInputError message={errors.address_observations.message} />
+          )}
+
           <div className="flex gap-4">
             <label className="my-3 flex h-12 w-1/2 items-center rounded border border-bear-alvine py-3">
               {/* Display all countries */}
