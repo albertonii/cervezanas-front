@@ -777,7 +777,6 @@ export type ModalUpdateProductFormData = {
   era: number;
   is_gluten: boolean;
   type: string;
-  awards: IAward[];
   p_principal?: FileList;
   p_back?: FileList;
   p_extra_1?: FileList;
@@ -786,11 +785,30 @@ export type ModalUpdateProductFormData = {
   is_public: boolean;
   volume: number;
   format: string;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  packs: IModalUpdateProductPack[];
   category: string;
   campaign: string;
+  stock_quantity: number;
+  stock_limit_notification: number;
+  awards: ModalUpdateProductAwardFormData[];
+  packs: ModalUpdateProductPackFormData[];
+};
+
+type ModalUpdateProductAwardFormData = {
+  id?: string;
+  name: string;
+  description: string;
+  img_url: any;
+  year: number;
+  beer_id?: string;
+};
+
+type ModalUpdateProductPackFormData = {
+  id: string;
+  quantity: number;
+  price: number;
+  img_url?: any;
+  name: string;
+  product_id?: string;
 };
 
 export type ModalUpdateLotProps = {

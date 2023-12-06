@@ -133,10 +133,10 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
           <span className="text-sm ">{t("add_product_pack_description")}</span>
         </div>
 
-        {fields.map((field, index) => (
+        {fields.map((pack, index) => (
           <fieldset
             className="border border-solid border-gray-300 p-3"
-            key={field.id}
+            key={pack.id}
           >
             <div className="space-y w-full">
               {/* Quantity and price  */}
@@ -204,32 +204,30 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
 
               {/* Pack name  */}
               <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                <div className="w-full">
-                  <label
-                    htmlFor={`packs.${index}.name`}
-                    className="text-sm text-gray-600"
-                  >
-                    {t("pack_name")}
-                  </label>
+                <label
+                  htmlFor={`packs.${index}.name`}
+                  className="text-sm text-gray-600"
+                >
+                  {t("pack_name")}
+                </label>
 
-                  <input
-                    id={`packs.${index}.name`}
-                    type="text"
-                    placeholder={`Pack ${index + 1}`}
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    defaultValue={3}
-                    required
-                    min="0"
-                    {...register(`packs.${index}.name` as const, {
-                      required: true,
-                      value: getValues(`packs.${index}.name`),
-                    })}
-                  />
+                <input
+                  id={`packs.${index}.name`}
+                  type="text"
+                  placeholder={`Pack ${index + 1}`}
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  defaultValue={3}
+                  required
+                  min="0"
+                  {...register(`packs.${index}.name` as const, {
+                    required: true,
+                    value: getValues(`packs.${index}.name`),
+                  })}
+                />
 
-                  {`packs.${index}.name.type` === "required" && (
-                    <p>{t("errors.errors.input_required")}</p>
-                  )}
-                </div>
+                {errors.packs?.[index]?.name && (
+                  <DisplayInputError message={"errors.input_required"} />
+                )}
               </div>
 
               {/* File  */}

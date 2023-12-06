@@ -21,7 +21,6 @@ import {
 } from "../../../../lib/beerEnum";
 import { InfoTooltip } from "../common/InfoTooltip";
 import { ModalUpdateProductFormData } from "../../../../lib/types";
-
 import { DisplayInputError } from "../common/DisplayInputError";
 
 interface Props {

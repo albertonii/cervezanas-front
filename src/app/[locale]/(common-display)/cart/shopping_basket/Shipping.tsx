@@ -12,10 +12,10 @@ import { FormShippingData, ValidationSchemaShipping } from "./ShoppingBasket";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
 
 interface Props {
-  selectedShippingAddress: string;
-  formShipping: UseFormReturn<FormShippingData, any>;
   shippingAddresses: IAddress[];
+  selectedShippingAddress: string;
   handleOnClickShipping: ComponentProps<any>;
+  formShipping: UseFormReturn<FormShippingData, any>;
 }
 
 export default function Shipping({
