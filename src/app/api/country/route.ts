@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
+import path from "path";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
@@ -14,7 +15,15 @@ export async function GET(request: NextRequest) {
   const loadFile = async () => {
     const file = await fs
       .readFile(
-        process.cwd() + `/public/data/${country}/${fileName}.json`,
+        path.resolve(
+          process.cwd(),
+          "public",
+          "data",
+          country,
+          fileName + ".json"
+        ),
+        // process.cwd() + `/public/data/${country}/${fileName}.json`,
+        // process.cwd() + `/public/data/${country}/${fileName}.json`,
         "utf8"
       )
       .catch((err) => {
