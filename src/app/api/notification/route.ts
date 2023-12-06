@@ -69,7 +69,8 @@ export async function POST(req: NextRequest) {
       .update({ status: ONLINE_ORDER_STATUS.PAID })
       .eq("order_number", orderId);
 
-    console.log("hemos llegado");
+    console.log("ORDER ID", orderId);
+    console.log("error", error);
 
     if (error) {
       console.error(error);
