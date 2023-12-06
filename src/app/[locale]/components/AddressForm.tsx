@@ -68,7 +68,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
       <fieldset className="mb-3 rounded bg-beer-foam">
         <div className="w-full">
           <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
-            {/* {t("shipping_data")} */}
             {t(`${addressNameId}_data`)}
           </h2>
 

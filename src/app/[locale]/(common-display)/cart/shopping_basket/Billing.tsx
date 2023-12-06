@@ -1,20 +1,21 @@
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../../Auth/useAuth";
 import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
-import { useTranslations } from "next-intl";
-import { UseFormReturn } from "react-hook-form";
 import { NewBillingAddress } from "./NewBillingAddress";
 import { useMutation, useQueryClient } from "react-query";
 import { IBillingAddress } from "../../../../../lib/types";
+import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { useMessage } from "../../../components/message/useMessage";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { useAuth } from "../../../Auth/useAuth";
+import { FormBillingData, ValidationSchemaShipping } from "./ShoppingBasket";
 
 interface Props {
   selectedBillingAddress: string;
-  formBilling: UseFormReturn<any, any>;
   billingAddresses: IBillingAddress[];
   handleOnClickBilling: ComponentProps<any>;
+  formBilling: UseFormReturn<FormBillingData, any>;
 }
 
 export default function Billing({
@@ -63,7 +64,9 @@ export default function Billing({
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
+    data: any
+  ) => {
     try {
       deleteBillingAddress.mutate(data);
     } catch (error) {
@@ -107,7 +110,7 @@ export default function Billing({
 
         {/* Error input displaying */}
         {errors.billing_info_id && (
-          <DisplayInputError message={"errors.select_location_required"} />
+          <DisplayInputError message={errors.billing_info_id.message} />
         )}
       </ul>
 

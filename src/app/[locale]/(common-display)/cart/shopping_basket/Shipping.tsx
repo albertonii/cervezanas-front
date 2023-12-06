@@ -1,18 +1,19 @@
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../../Auth/useAuth";
+import { IAddress } from "../../../../../lib/types";
 import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
-import { useTranslations } from "next-intl";
-import { UseFormReturn } from "react-hook-form";
-import { IAddress } from "../../../../../lib/types";
 import { useMutation, useQueryClient } from "react-query";
 import { NewShippingAddress } from "./NewShippingAddress";
+import { UseFormReturn, SubmitHandler } from "react-hook-form";
 import { useMessage } from "../../../components/message/useMessage";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
+import { FormShippingData, ValidationSchemaShipping } from "./ShoppingBasket";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { useAuth } from "../../../Auth/useAuth";
 
 interface Props {
   selectedShippingAddress: string;
-  formShipping: UseFormReturn<any, any>;
+  formShipping: UseFormReturn<FormShippingData, any>;
   shippingAddresses: IAddress[];
   handleOnClickShipping: ComponentProps<any>;
 }
@@ -36,7 +37,6 @@ export default function Shipping({
   const queryClient = useQueryClient();
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
-  // Remove Shipping Address
   const handleRemoveShippingAddress = async () => {
     const shippingAddressId = selectedShippingAddress;
 
@@ -64,7 +64,9 @@ export default function Shipping({
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
+    data: any
+  ) => {
     try {
       deleteShippingAddress.mutate(data);
     } catch (error) {

@@ -107,9 +107,9 @@ export function SecretDataForm() {
       id="account_secret_data"
       className="mb-4 space-y-3  bg-white px-6 py-4"
     >
-      <div id="password" className="text-2xl">
+      <h2 id="password" className="text-2xl">
         {t("password")}
-      </div>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">

@@ -144,13 +144,10 @@ export function LocationForm({ profile_location }: Props) {
   };
 
   return (
-    <div
-      id="location_data"
-      className="container mb-4 space-y-3 bg-white px-6 py-4"
-    >
-      <div id="location-data-title" className="text-2xl">
+    <section id="location_data" className="mb-4 space-y-3 bg-white px-6 py-4">
+      <h2 id="location-data-title" className="text-2xl">
         {t("location")}
-      </div>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
@@ -365,6 +362,6 @@ export function LocationForm({ profile_location }: Props) {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

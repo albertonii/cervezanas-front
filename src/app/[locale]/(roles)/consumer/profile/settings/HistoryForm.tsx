@@ -64,16 +64,20 @@ export function HistoryForm(props: any) {
   };
 
   return (
-    <div id="history" className="container mb-4 space-y-3 bg-white px-6 py-4">
-      <div id="history-data" className="text-2xl">
+    <section
+      id="history"
+      className="container mb-4 space-y-3 bg-white px-6 py-4"
+    >
+      <h2 id="history-data" className="text-2xl">
         {t("history_business_title")}
-      </div>
+      </h2>
+
       {loading ? (
         <Spinner size="medium" color="beer-blonde" />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
+          <div className="flex w-full flex-row space-x-3">
+            <div className="w-full">
               <label
                 htmlFor="history_description"
                 className="text-sm text-gray-600"
@@ -92,7 +96,7 @@ export function HistoryForm(props: any) {
               />
             </div>
 
-            <div className="w-full ">
+            <div className="w-full">
               <label
                 htmlFor="foundtation_year"
                 className="text-sm text-gray-600"
@@ -111,6 +115,6 @@ export function HistoryForm(props: any) {
           </div>
         </form>
       )}
-    </div>
+    </section>
   );
 }

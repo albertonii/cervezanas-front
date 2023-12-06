@@ -8,32 +8,49 @@ import ShippingBillingContainer from "./ShippingBillingContainer";
 import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOwnerId";
 import useFetchBillingByOwnerId from "../../../../../hooks/useFetchBillingByOwnerId";
 import React, { useState, useEffect, useRef } from "react";
+import { z, ZodType } from "zod";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
-import { Spinner } from "../../../components/common/Spinner";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CheckoutItem } from "./CheckoutItem";
 import { useAuth } from "../../../Auth/useAuth";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "../../../components/common/Button";
-import { CustomLoading } from "../../../components/common/CustomLoading";
-import { CheckoutItem } from "./CheckoutItem";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
+import { Spinner } from "../../../components/common/Spinner";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { CustomLoading } from "../../../components/common/CustomLoading";
+import { API_METHODS, ONLINE_ORDER_STATUS } from "../../../../../constants";
+import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
 import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
-import { API_METHODS, ONLINE_ORDER_STATUS } from "../../../../../constants";
-import { useMutation, useQueryClient } from "react-query";
 
-interface FormShippingData {
+export type FormShippingData = {
   shipping_info_id: string;
-}
+};
 
-interface FormBillingData {
+export type FormBillingData = {
   billing_info_id: string;
-}
+};
+
+const schemaShipping: ZodType<FormShippingData> = z.object({
+  shipping_info_id: z.string().nonempty({
+    message: "You must select a shipping address",
+  }),
+});
+
+const schemaBilling: ZodType<FormBillingData> = z.object({
+  billing_info_id: z.string().nonempty({
+    message: "You must select a billing address",
+  }),
+});
+
+export type ValidationSchemaShipping = z.infer<typeof schemaShipping>;
+export type ValidationSchemaBilling = z.infer<typeof schemaBilling>;
 
 export function ShoppingBasket() {
   const t = useTranslations();
@@ -43,10 +60,10 @@ export function ShoppingBasket() {
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
+  const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [shipping, setShipping] = useState(0);
-  const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(subtotal - discount + shipping + tax);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [isFormReady, setIsFormReady] = useState(false);
@@ -69,10 +86,14 @@ export function ShoppingBasket() {
     throw shippingAddressesError;
   }
 
-  const formShipping = useForm<FormShippingData>();
+  const formShipping = useForm<FormShippingData>({
+    resolver: zodResolver(schemaShipping),
+  });
   const { trigger: triggerShipping } = formShipping;
 
-  const formBilling = useForm<FormBillingData>();
+  const formBilling = useForm<FormBillingData>({
+    resolver: zodResolver(schemaBilling),
+  });
   const { trigger: triggerBilling } = formBilling;
 
   const { items, clearCart } = useShoppingCart();

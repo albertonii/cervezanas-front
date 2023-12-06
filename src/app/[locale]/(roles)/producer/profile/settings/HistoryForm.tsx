@@ -64,10 +64,14 @@ export function HistoryForm(props: any) {
   };
 
   return (
-    <div id="history" className="container mb-4 space-y-3 bg-white px-6 py-4">
-      <div id="history-data" className="text-2xl">
+    <section
+      id="history"
+      className="container mb-4 space-y-3 bg-white px-6 py-4"
+    >
+      <h2 id="history-data" className="text-2xl">
         {t("history_business_title")}
-      </div>
+      </h2>
+
       {loading ? (
         <Spinner size="medium" color="beer-blonde" />
       ) : (
@@ -111,6 +115,6 @@ export function HistoryForm(props: any) {
           </div>
         </form>
       )}
-    </div>
+    </section>
   );
 }
