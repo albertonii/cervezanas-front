@@ -200,8 +200,6 @@ export function UpdateProduct({
     value: 5,
   };
 
-  console.log(fermentationDefault.value);
-
   const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),

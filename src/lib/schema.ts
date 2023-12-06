@@ -337,6 +337,27 @@ export interface Database {
           }
         ]
       }
+      coverage_area_details: {
+        Row: {
+          id: string
+          is_special_packaging: boolean | null
+          places: string[] | null
+          special_packaging_cost: number | null
+        }
+        Insert: {
+          id?: string
+          is_special_packaging?: boolean | null
+          places?: string[] | null
+          special_packaging_cost?: number | null
+        }
+        Update: {
+          id?: string
+          is_special_packaging?: boolean | null
+          places?: string[] | null
+          special_packaging_cost?: number | null
+        }
+        Relationships: []
+      }
       coverage_areas: {
         Row: {
           cities: string[] | null
@@ -1839,6 +1860,96 @@ export interface Database {
             foreignKeyName: "reviews_product_id_fkey"
             columns: ["product_id"]
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      shipping_cost_by_distance: {
+        Row: {
+          coverage_areas_details_fk: string | null
+          distance_measure: string | null
+          id: string
+          minimum_shipping_rate: number | null
+          price_per_distance_measure: number | null
+        }
+        Insert: {
+          coverage_areas_details_fk?: string | null
+          distance_measure?: string | null
+          id?: string
+          minimum_shipping_rate?: number | null
+          price_per_distance_measure?: number | null
+        }
+        Update: {
+          coverage_areas_details_fk?: string | null
+          distance_measure?: string | null
+          id?: string
+          minimum_shipping_rate?: number | null
+          price_per_distance_measure?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipping_cost_by_distance_coverage_areas_details_fk_fkey"
+            columns: ["coverage_areas_details_fk"]
+            referencedRelation: "coverage_area_details"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      shipping_cost_by_flatrate: {
+        Row: {
+          coverage_area_details_fk: string | null
+          id: string
+          rate: number | null
+        }
+        Insert: {
+          coverage_area_details_fk?: string | null
+          id?: string
+          rate?: number | null
+        }
+        Update: {
+          coverage_area_details_fk?: string | null
+          id?: string
+          rate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipping_cost_by_flatrate_coverage_area_details_fk_fkey"
+            columns: ["coverage_area_details_fk"]
+            referencedRelation: "coverage_area_details"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      shipping_cost_by_weight_and_dimensions: {
+        Row: {
+          coverage_area_details_fk: string | null
+          dimension_measure: string | null
+          id: string
+          price_per_dimenssion_measure: number | null
+          price_per_weight_meassure: number | null
+          weight_measure: string | null
+        }
+        Insert: {
+          coverage_area_details_fk?: string | null
+          dimension_measure?: string | null
+          id?: string
+          price_per_dimenssion_measure?: number | null
+          price_per_weight_meassure?: number | null
+          weight_measure?: string | null
+        }
+        Update: {
+          coverage_area_details_fk?: string | null
+          dimension_measure?: string | null
+          id?: string
+          price_per_dimenssion_measure?: number | null
+          price_per_weight_meassure?: number | null
+          weight_measure?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipping_cost_by_weight_and_dimensions_coverage_area_details_fk"
+            columns: ["coverage_area_details_fk"]
+            referencedRelation: "coverage_area_details"
             referencedColumns: ["id"]
           }
         ]

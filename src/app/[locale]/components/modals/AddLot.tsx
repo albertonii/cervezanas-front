@@ -12,24 +12,6 @@ import { format_options } from "../../../../lib/beerEnum";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { SearchCheckboxList } from "../common/SearchCheckboxList";
-import { Type as ProductType } from "../../../../lib/productEnum";
-
-type ProductAddLotFormData = {
-  id: string;
-  created_at: string;
-  name: string;
-  description: string;
-  type: ProductType;
-  is_public: boolean;
-  discount_percent: number;
-  discount_code: string;
-  price: number;
-  campaign_id: string;
-  is_archived: boolean;
-  category: string;
-  is_monthly: boolean;
-  owner_id: string;
-};
 
 type ModalAddLotFormData = {
   quantity: number;
@@ -44,7 +26,7 @@ type ModalAddLotFormData = {
 };
 
 const schema: ZodType<ModalAddLotFormData> = z.object({
-  lot_number: z.string().nonempty({ message: "errors.input_required" }),
+  lot_number: z.string().min(1, { message: "errors.input_required" }),
   lot_name: z.string().nonempty({ message: "errors.input_required" }),
   quantity: z.number().positive({ message: "errors.input_required" }),
   limit_notification: z.number().positive({ message: "errors.input_required" }),
@@ -96,6 +78,7 @@ export function AddLot() {
 
   const handleInsertLot = async (form: ValidationSchema) => {
     const {
+      quantity,
       lot_number,
       lot_name,
       limit_notification,
@@ -106,19 +89,22 @@ export function AddLot() {
       product_id,
     } = form;
 
-    const userId = user?.id;
+    const expirationDateToString = expiration_date?.toISOString();
+    const manufactureDateToString = manufacture_date?.toISOString();
 
+    const userId = user?.id;
+    console.log(quantity);
     const { error } = await supabase.from("product_lots").insert({
       quantity,
       lot_number,
       lot_name,
       limit_notification,
       recipe,
-      expiration_date,
-      manufacture_date,
       packaging,
       product_id,
       owner_id: userId,
+      expiration_date: expirationDateToString,
+      manufacture_date: manufactureDateToString,
     });
 
     if (error) throw error;
@@ -285,6 +271,7 @@ export function AddLot() {
               >
                 {t("expiration_date")}
               </label>
+
               <input
                 id="expiration_date"
                 placeholder={t("expiration_date") ?? "Expiration date"}
