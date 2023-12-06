@@ -5,6 +5,7 @@ import { ONLINE_ORDER_STATUS } from "../../../constants";
 import { processRestNotification } from "../../[locale]/components/TPV/redsysClient";
 
 export async function POST(req: NextRequest) {
+  console.log("req", req);
   const data = await req.formData();
   const signatureVersion = data.get("Ds_SignatureVersion");
   const merchantParameters = data.get("Ds_MerchantParameters");
@@ -15,6 +16,7 @@ export async function POST(req: NextRequest) {
     Ds_SignatureVersion: signatureVersion as string,
     Ds_MerchantParameters: merchantParameters as string,
   };
+  console.log("hasta aqui");
 
   // const body: ResponseJSONSuccess = {
   //   Ds_SignatureVersion: "HMAC_SHA256_V1",
