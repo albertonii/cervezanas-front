@@ -18,7 +18,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
   const [subRegionType, setSubRegionType] = useState<string>();
   const [subRegions, setSubRegions] = useState<string[]>([]);
 
-  const { data, trigger, error } = useSWRMutation(
+  const {
+    data,
+    trigger,
+    error: apiCallError,
+  } = useSWRMutation(
     `/api/country?name=${selectedCountry}&fileName=${subRegionType}`,
     fetcher
   );
@@ -59,8 +63,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
   const handleSelectCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectCountry(e.target.value);
   };
-
-  if (error) return <div>failed to load</div>;
 
   return (
     <form className="w-full">
