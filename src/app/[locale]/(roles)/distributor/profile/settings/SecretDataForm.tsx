@@ -1,19 +1,35 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { Spinner } from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
-import { useAuth } from "../../../../Auth/useAuth";
+import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 
-interface FormProps {
-  oldPassword: string;
-  newPassword: string;
-  newPassword2: string;
-}
+type FormData = {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+};
+
+const schema: ZodType<FormData> = z
+  .object({
+    old_password: z.string().min(8, { message: "Required" }),
+    new_password: z.string().min(8, { message: "Required" }),
+    confirm_password: z.string().min(8, { message: "Required" }),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Password don't match",
+  });
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function SecretDataForm() {
   const t = useTranslations();
@@ -25,50 +41,71 @@ export function SecretDataForm() {
 
   const {
     formState: { errors },
-    watch,
     handleSubmit,
     register,
     reset,
-  } = useForm<FormProps>({
+  } = useForm<FormData>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-      newPassword2: "",
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
     },
   });
 
-  const onSubmit = async (formValues: FormProps) => {
-    setLoading(true);
-
+  const handleUpdatePassword = async (form: ValidationSchema) => {
     // TODO: Check if old password is correct
+    const { new_password } = form;
 
-    // TODO: Update and fix error Not Logged In after update pass
+    const { error } = await supabase.auth.updateUser({
+      password: new_password,
+    });
 
-    const { newPassword, newPassword2 } = formValues;
+    if (error) throw error;
+  };
 
-    if (newPassword === newPassword2) {
-      setTimeout(async () => {
-        const { error } = await supabase.auth.updateUser({
-          password: newPassword,
-        });
+  const handleUpdatePasswordMutation = useMutation({
+    mutationKey: "updatePasswordDistributor",
+    mutationFn: handleUpdatePassword,
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: "password_updated",
+      });
 
-        if (error) throw error;
+      reset();
+      setLoading(false);
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
 
-        handleMessage({
-          type: "success",
-          message: "password_updated",
-        });
-
-        reset();
-
-        setLoading(false);
-      }, 700);
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdatePasswordMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   return (
-    <div id="account_secret_data" className="mb-4 space-y-3 bg-white px-6 py-4">
+    <section
+      id="account_secret_data"
+      className="mb-4 space-y-3 bg-white px-6 py-4"
+    >
       <div id="password" className="text-2xl">
         {t("password")}
       </div>
@@ -81,7 +118,7 @@ export function SecretDataForm() {
             </label>
 
             <input
-              {...register("oldPassword", {
+              {...register("old_password", {
                 required: true,
               })}
               type="password"
@@ -90,8 +127,8 @@ export function SecretDataForm() {
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
 
-            {errors.oldPassword && (
-              <DisplayInputError message={errors.oldPassword.message} />
+            {errors.old_password && (
+              <DisplayInputError message={errors.old_password.message} />
             )}
           </div>
         </div>
@@ -102,7 +139,7 @@ export function SecretDataForm() {
           </label>
 
           <input
-            {...register("newPassword", {
+            {...register("new_password", {
               required: true,
             })}
             type="password"
@@ -111,8 +148,8 @@ export function SecretDataForm() {
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword && (
-            <DisplayInputError message={errors.newPassword.message} />
+          {errors.new_password && (
+            <DisplayInputError message={errors.new_password.message} />
           )}
         </div>
 
@@ -122,23 +159,18 @@ export function SecretDataForm() {
           </label>
 
           <input
-            {...register("newPassword2", {
+            {...register("confirm_password", {
               required: true,
-              validate: (val: string) => {
-                if (watch("newPassword") != val) {
-                  return "errors.password_match";
-                }
-              },
             })}
             type="password"
-            id="new_password_2"
+            id="confirm_password"
             placeholder="**********"
             required
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           />
 
-          {errors.newPassword2 && (
-            <DisplayInputError message={errors.newPassword2.message} />
+          {errors.confirm_password && (
+            <DisplayInputError message={errors.confirm_password.message} />
           )}
         </div>
 
@@ -150,6 +182,6 @@ export function SecretDataForm() {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }
