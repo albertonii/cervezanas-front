@@ -22,8 +22,6 @@ export async function GET(request: NextRequest) {
           country,
           fileName + ".json"
         ),
-        // process.cwd() + `/public/data/${country}/${fileName}.json`,
-        // process.cwd() + `/public/data/${country}/${fileName}.json`,
         "utf8"
       )
       .catch((err) => {

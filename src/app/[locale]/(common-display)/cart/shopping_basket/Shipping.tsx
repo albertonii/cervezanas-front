@@ -80,16 +80,11 @@ export default function Shipping({
         {t("shipping_info")}{" "}
       </h3>
 
-      <div className="flex w-full flex-col items-start justify-start space-y-4">
-        <div className="flex w-full flex-col items-start justify-start space-y-2">
-          <label
-            htmlFor="shipping"
-            className="text-sm font-medium text-gray-500"
-          >
-            {t("shipping")}
-          </label>
-        </div>
-      </div>
+      <span className="flex w-full flex-col items-start justify-start space-y-4">
+        <label className="text-sm font-medium text-gray-500">
+          {t("shipping")}
+        </label>
+      </span>
 
       {/* Radio button for select shipping address */}
       <ul className="grid w-full gap-6 md:grid-cols-1">

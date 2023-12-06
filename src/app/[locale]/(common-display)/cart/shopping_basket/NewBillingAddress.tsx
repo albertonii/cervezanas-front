@@ -7,13 +7,12 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
-import { IModalBillingAddress } from "../../../../../lib/types";
+import { ModalBillingAddressFormData } from "../../../../../lib/types";
 import { ModalWithForm } from "../../../components/modals/ModalWithForm";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const schema: ZodType<IModalBillingAddress> = z.object({
-  owner_id: z.string(),
+const schema: ZodType<ModalBillingAddressFormData> = z.object({
   name: z.string().nonempty({ message: "errors.input_required" }),
   lastname: z.string().nonempty({ message: "errors.input_required" }),
   document_id: z.string().nonempty({ message: "errors.input_required" }),
@@ -97,7 +96,7 @@ export function NewBillingAddress() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: IModalBillingAddress
+    formValues: ModalBillingAddressFormData
   ) => {
     try {
       insertBillingMutation.mutate(formValues);

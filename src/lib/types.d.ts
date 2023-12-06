@@ -1062,6 +1062,35 @@ export interface IModalBillingAddress {
   is_default: boolean;
 }
 
+export interface ModalShippingAddressFormData {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra?: string;
+  address_observations?: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+}
+
+export interface ModalBillingAddressFormData {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra?: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+}
+
 export interface IAddress {
   id: string;
   name: string;

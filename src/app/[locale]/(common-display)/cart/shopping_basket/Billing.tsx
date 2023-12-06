@@ -80,16 +80,11 @@ export default function Billing({
         {t("billing_info")}{" "}
       </h3>
 
-      <div className="flex w-full flex-col items-start justify-start space-y-4">
-        <div className="flex w-full flex-col items-start justify-start space-y-2">
-          <label
-            htmlFor="billing"
-            className="text-sm font-medium text-gray-500"
-          >
-            {t("billing")}
-          </label>
-        </div>
-      </div>
+      <span className="flex w-full flex-col items-start justify-start space-y-4">
+        <label htmlFor="billing" className="text-sm font-medium text-gray-500">
+          {t("billing")}
+        </label>
+      </span>
 
       {/* Radio button for select billing address */}
       <ul className="grid w-full gap-6 md:grid-cols-1">

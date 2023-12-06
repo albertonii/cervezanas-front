@@ -3,15 +3,17 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
-import { IAddressForm, IModalShippingAddress } from "../../../../../lib/types";
+import {
+  IAddressForm,
+  ModalShippingAddressFormData,
+} from "../../../../../lib/types";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { ModalWithForm } from "../../../components/modals/ModalWithForm";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const schema: ZodType<IModalShippingAddress> = z.object({
-  owner_id: z.string(),
+const schema: ZodType<ModalShippingAddressFormData> = z.object({
   name: z.string().nonempty({ message: "errors.input_required" }),
   lastname: z.string().nonempty({ message: "errors.input_required" }),
   document_id: z.string().nonempty({ message: "errors.input_required" }),
@@ -97,7 +99,7 @@ export function NewShippingAddress() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: IModalShippingAddress
+    formValues: ModalShippingAddressFormData
   ) => {
     try {
       insertShippingMutation.mutate(formValues);
