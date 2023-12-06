@@ -1,8 +1,12 @@
 "use client";
 
+import useSWR from "swr";
 import { API_METHODS, DS_API } from "../../../../../constants";
 import { createBrowserClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
+
+const fetcher = (arg: any, ...args: any) =>
+  fetch(arg, ...args).then((res) => res.json());
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -186,11 +190,12 @@ const convertAddressToLatLng = async (address: string) => {
       console.error("Error:", error);
     });
 
-  if (response.status === "OK") {
-    const location = response.results[0].geometry.location;
-    return location as google.maps.LatLng;
+  if (response.status !== "OK") {
+    return null;
   }
-  return null;
+
+  const location = response.results[0].geometry.location;
+  return location as google.maps.LatLng;
 };
 
 const isInsideCountry = async (
@@ -202,7 +207,12 @@ const isInsideCountry = async (
 
   const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error("Error:", error);
+      return false;
+    });
 
   return data;
 };
@@ -213,9 +223,15 @@ const isInsideCommunity = async (
   lng: () => number
 ) => {
   const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
-  const data = fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+
+  const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error("Error:", error);
+      return false;
+    });
 
   return data;
 };
