@@ -58,6 +58,8 @@ export async function POST(req: NextRequest) {
 
   const orderId = restNotification.Ds_Order;
 
+  console.log(restNotification);
+
   const supabase = await createServerClient();
 
   if (isResponseCodeOk(responseCode)) {
