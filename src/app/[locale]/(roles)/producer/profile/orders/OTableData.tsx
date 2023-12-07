@@ -1,25 +1,29 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types";
+import { IBusinessOrder } from "../../../../../../lib/types";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import { encodeBase64 } from "../../../../../../utils/utils";
 
 interface Props {
-  order: IOrder;
+  bOrder: IBusinessOrder;
   key: string;
 }
 
-export default function OTableData({ order, key }: Props) {
+export default function OTableData({ bOrder, key }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
 
-  const handleClickView = (order: IOrder) => {
+  const { orders: order } = bOrder;
+
+  if (!order) return null;
+
+  const handleClickView = (bOrder: IBusinessOrder) => {
     const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
+      JSON.stringify({ Ds_Order: bOrder.orders?.order_number })
     );
 
     router.push(
@@ -44,7 +48,7 @@ export default function OTableData({ order, key }: Props) {
 
       <td className="item-center flex justify-center px-6 py-4">
         <IconButton
-          onClick={() => handleClickView(order)}
+          onClick={() => handleClickView(bOrder)}
           icon={faEye}
           title={""}
         />

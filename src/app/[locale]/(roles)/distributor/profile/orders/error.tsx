@@ -3,5 +3,5 @@
 import React from "react";
 
 export default function ProfileOrdersError() {
-  return <div>Error en Event Orders</div>;
+  return <div>Error en Online Orders</div>;
 }

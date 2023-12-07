@@ -191,22 +191,31 @@ export interface Database {
           created_at: string | null
           id: string
           order_id: string | null
+          producer_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           order_id?: string | null
+          producer_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           order_id?: string | null
+          producer_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "business_orders_order_id_fkey"
             columns: ["order_id"]
             referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_orders_producer_id_fkey"
+            columns: ["producer_id"]
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
