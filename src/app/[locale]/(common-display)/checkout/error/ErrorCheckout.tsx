@@ -68,10 +68,12 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
               {/* Order Status  */}
               <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
-                <p className=" text-lg font-medium text-beer-dark sm:text-xl">
-                  {t("order_status")}:{" "}
-                  <span className="text-beer-draft">{t(order.status)} </span>
-                </p>
+                <span className="text-lg font-medium text-beer-dark sm:text-xl">
+                  {t("order_status")}:
+                  <span className="ml-2 text-beer-draft">
+                    {t(order.status)}{" "}
+                  </span>
+                </span>
               </div>
             </div>
 

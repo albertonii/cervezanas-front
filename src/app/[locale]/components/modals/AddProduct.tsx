@@ -65,43 +65,41 @@ export type ModalAddProductFormData = {
 };
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
-  fermentation: z.number().min(0, { message: "Required" }).max(3, {
+  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_max_5",
+  }),
+  color: z.number().min(0, { message: "errors.input_min_0" }),
+  intensity: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
     message: "Required",
   }),
-  color: z.number().min(0, { message: "Required" }).max(30, {
-    message: "Required",
+  aroma: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
   }),
-  intensity: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
+  family: z.number().min(0, { message: "errors.input_min_0" }).max(30, {
+    message: "errors.error_30_max_length",
   }),
-  aroma: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
+  origin: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
   }),
-  family: z.number().min(0, { message: "Required" }).max(30, {
-    message: "Required",
-  }),
-  origin: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
-  era: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
+  era: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
   }),
   is_gluten: z.coerce.boolean(),
-  type: z.string().min(2, { message: "Required" }).max(50, {
+  type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "Required",
   }),
   awards: z.array(
     z.object({
-      name: z.string().min(2, { message: "Required" }).max(50, {
-        message: "Required",
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
+        message: "errors.input_max_150",
       }),
-      description: z.string().min(2, { message: "Required" }).max(50, {
-        message: "Required",
+      description: z.string().min(2, { message: "errors.input_min_2" }).max(500, {
+        message: "errors.input_max_500",
       }),
-      year: z.number().min(4, { message: "Required" }).max(4, {
-        message: "Required",
+      year: z.number().min(1900, { message: "errors.input_min_1900" }).max(2030, {
+        message: "errors.input_max_2030",
       }),
-      img_url: z.string().min(2, { message: "Required" }),
+      img_url: z.string().min(2, { message: "errors.input_required" }),
     })
   ),
   p_principal: z.any(),
@@ -110,43 +108,37 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   p_extra_2: z.any(),
   p_extra_3: z.any(),
   is_public: z.boolean(),
-  name: z.string().min(2, { message: "Required" }).max(50, {
-    message: "Required",
+  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
   }),
-  description: z.string().min(2, { message: "Required" }).max(50, {
-    message: "Required",
+  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
+    message: "errors.error_2500_max_length",
   }),
-  price: z.number().min(0, { message: "Required" }),
+  price: z.number().min(0, { message: "errors.input_min_0" }),
   // TODO: Bug in volume validation when adding product
   // volume: z.number().min(0, { message: "Required" }).max(50, {
   //   message: "Required",
   // }),
-  volume: z.number().min(0, { message: "Required" }),
-  format: z.string().min(2, { message: "Required" }).max(50, {
-    message: "Required",
+  volume: z.number().min(0, { message: "errors.input_min_0" }),
+  format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
   }),
-  stock_quantity: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
-  stock_limit_notification: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
+  stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
+  stock_limit_notification: z
+    .number()
+    .min(0, { message: "errors.input_required" }),
   packs: z.array(
     z.object({
-      quantity: z.number().min(0, { message: "Required" }).max(3, {
-        message: "Required",
-      }),
-      price: z.number().min(0, { message: "Required" }).max(3, {
-        message: "Required",
-      }),
-      name: z.string().min(2, { message: "Required" }).max(50, {
-        message: "Required",
+      quantity: z.number().min(0, { message: "errors.input_min_0" }),
+      price: z.number().min(0, { message: "errors.input_min_0" }),
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
+        message: "errors.error_100_number_max_length",
       }),
       img_url: z.any(),
     })
   ),
-  category: z.string().min(2, { message: "Required" }).max(50, {
-    message: "Required",
+  category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
   }),
 });
 

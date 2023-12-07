@@ -89,7 +89,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   name: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
-  description: z.string().min(2, { message: "Required" }).max(50, {
+  description: z.string().min(2, { message: "Required" }).max(2500, {
     message: "Required",
   }),
   price: z.number().min(0, { message: "Required" }),
@@ -101,20 +101,14 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   format: z.string().min(2, { message: "Required" }).max(50, {
     message: "Required",
   }),
-  stock_quantity: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
-  stock_limit_notification: z.number().min(0, { message: "Required" }).max(3, {
-    message: "Required",
-  }),
+  stock_quantity: z.number().min(0, { message: "Required" }),
+  stock_limit_notification: z.number().min(0, { message: "Required" }),
   packs: z.array(
     z.object({
       id: z.string(),
-      quantity: z.number().min(0, { message: "Required" }).max(3, {
-        message: "Required",
-      }),
+      quantity: z.number().min(0, { message: "Required" }),
       price: z.number().min(0, { message: "Required" }),
-      name: z.string().min(2, { message: "Required" }).max(50, {
+      name: z.string().min(2, { message: "Required" }).max(100, {
         message: "Required",
       }),
       img_url: z.any(),

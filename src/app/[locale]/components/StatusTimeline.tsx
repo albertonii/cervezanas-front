@@ -14,8 +14,9 @@ export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
   const t = useTranslations();
   return (
     <section className="px-4 py-6 sm:px-6 lg:p-8">
-      <span className=" text-lg font-medium text-beer-dark sm:text-xl">
-        {t("order_status")}: <h3 className="text-beer-draft">{t(status)} </h3>
+      <span className="text-lg font-medium text-beer-dark sm:text-xl">
+        {t("order_status")}:
+        <span className="ml-2 text-beer-draft">{t(status)} </span>
       </span>
 
       {orderType === "online" && (

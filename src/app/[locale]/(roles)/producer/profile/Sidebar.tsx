@@ -78,15 +78,16 @@ export function Sidebar() {
       option: "consumption_points",
     },
     {
-      name: t("event_orders"),
-      icon: "shopping-cart",
-      option: "event_orders",
-    },
-    {
       name: t("online_orders"),
       icon: "shopping-cart",
       option: "orders",
     },
+    {
+      name: t("event_orders"),
+      icon: "shopping-cart",
+      option: "event_orders",
+    },
+
     {
       name: t("reviews"),
       icon: "review",

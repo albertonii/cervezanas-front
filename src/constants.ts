@@ -119,3 +119,12 @@ export const API_METHODS = {
   PUT: "PUT",
   DELETE: "DELETE",
 };
+
+export const APP_URLS = {
+  PRODUCER_ONLINE_ORDER: "producer/online_order/",
+  CONSUMER_ONLINE_ORDER: "consumer/online_order/",
+  DISTRIBUTOR_ONLINE_ORDER: "distributor/online_order/",
+  PRODUCER_EVENT_ORDER: "producer/event_order/",
+  CONSUMER_EVENT_ORDER: "consumer/event_order/",
+  DISTRIBUTOR_EVENT_ORDER: "distributor/event_order/",
+};

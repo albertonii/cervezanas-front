@@ -1,7 +1,7 @@
-import createServerClient from "../../../utils/supabaseServer";
 import { NextRequest, NextResponse } from "next/server";
+import { APP_URLS, ONLINE_ORDER_STATUS } from "../../../constants";
+import createServerClient from "../../../utils/supabaseServer";
 import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
-import { ONLINE_ORDER_STATUS } from "../../../constants";
 import { processRestNotification } from "../../[locale]/components/TPV/redsysClient";
 
 export async function POST(req: NextRequest) {
@@ -44,7 +44,8 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase
       .from("orders")
       .update({ status: ONLINE_ORDER_STATUS.PAID })
-      .eq("order_number", orderId);
+      .eq("order_number", orderId)
+      .select("business_order");
 
     if (error) {
       console.error(`Error in payment for order ${orderId}. Error: ${error}`);
@@ -54,13 +55,32 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Send notification to producer associated
+
+    // Notificación enviada al productor de que el pedido se ha generado con éxito
+    const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderId}. Puedes verlo en la sección de pedidos.`;
+
+    const { error: errorProducerNotification } = await supabase
+      .from("notifications")
+      .insert({
+        source: "",
+        user_id: "",
+        message: producerMessage,
+        link: APP_URLS.PRODUCER_ONLINE_ORDER,
+        read: false,
+      });
+
+    if (errorProducerNotification) {
+      console.error(
+        `Error in payment for order ${orderId}. Error: ${errorProducerNotification}`
+      );
+    }
+
+    // Send notification to distributor associated
+
     return NextResponse.json({
       message: `Order number ${orderId} updated successfully`,
     });
-
-    // Send notification to producer associated
-
-    // Send notification to distributor associated
   } else {
     console.info(`Payment for order ${orderId} failed`);
 
@@ -69,7 +89,14 @@ export async function POST(req: NextRequest) {
       .from("orders")
       .update({ status: ONLINE_ORDER_STATUS.ERROR })
       .eq("order_number", orderId);
-    if (error) console.error(error);
+
+    if (error) {
+      console.error(error);
+
+      return NextResponse.json({
+        message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+      });
+    }
 
     return NextResponse.json({
       message: `Order number ${orderId} failed. Error Code: ${responseCode}`,

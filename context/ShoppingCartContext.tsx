@@ -86,6 +86,7 @@ export function ShoppingCartProvider({ children }: Props) {
         name: product.name,
         price: product.price,
         image: product.product_multimedia[0].p_principal,
+        producer_id: product.owner_id,
       };
 
       setItems((currItems) => {

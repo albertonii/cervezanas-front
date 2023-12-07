@@ -851,9 +851,11 @@ export interface IProductPackCartItem {
   id: string; // Product ID
   packs: IProductPack[];
   quantity: number;
-  name: string;
-  image: string;
   price: number;
+  image: string;
+  name: string;
+  producer_id: string;
+  products?: IProduct;
 }
 
 export interface ICarouselItem {

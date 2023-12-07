@@ -1,11 +1,11 @@
 "use client";
 
 import EventProduct from "./EventProduct";
-import PaymentInformation from "./PaymentInformation";
-import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
+import PaymentInformation from "./PaymentInformation";
+import { IEventOrder } from "../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
@@ -122,8 +122,8 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
 
             {/* Order Status  */}
             <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
-              <p className=" text-lg font-medium text-beer-dark sm:text-xl">
-                {t("order_status")}:{" "}
+              <p className="text-lg font-medium text-beer-dark sm:text-xl">
+                {t("order_status")}
                 <span className="text-beer-draft">{t(order.status)} </span>
               </p>
             </div>

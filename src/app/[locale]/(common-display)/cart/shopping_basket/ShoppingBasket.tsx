@@ -205,20 +205,24 @@ export function ShoppingBasket() {
     if (orderError) throw orderError;
     if (!order) return;
 
-    // Insert Business Order
-    const { data: businessOrder, error: businessOrderError } = await supabase
-      .from("business_orders")
-      .insert({
-        order_id: order.id,
-      })
-      .select("id")
-      .single();
-
-    if (businessOrderError) throw businessOrderError;
-    if (!businessOrder) return;
-
+    // Estoy recorriendo todos los elementos del carrito de la compra,
+    // aquellos que tengan un pack, los inserto en la tabla order_items
+    // además, como son del mismo pack y del mismo producto, los agrupo
+    // y asigno el mismo identificador de pedido para el negocio - business_order_id
     items.map((item) => {
       item.packs.map(async (pack) => {
+        const { data: businessOrder, error: businessOrderError } =
+          await supabase
+            .from("business_orders")
+            .insert({
+              order_id: order.id,
+              producer_id: item.producer_id,
+            })
+            .select("id")
+            .single();
+
+        if (businessOrderError) throw businessOrderError;
+
         const { error: orderItemError } = await supabase
           .from("order_items")
           .insert({
@@ -227,6 +231,8 @@ export function ShoppingBasket() {
             quantity: pack.quantity,
             is_reviewed: false,
           });
+
+        pack.products?.owner_id;
 
         if (orderItemError) throw orderItemError;
       });

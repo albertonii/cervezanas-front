@@ -155,6 +155,7 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
                     {...register(`packs.${index}.quantity` as const, {
                       value: getValues(`packs.${index}.quantity`),
                       required: true,
+                      valueAsNumber: true,
                     })}
                     className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   >
@@ -190,6 +191,7 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
                       required: true,
                       min: 0,
                       value: getValues(`packs.${index}.price`),
+                      valueAsNumber: true,
                     })}
                   />
 
