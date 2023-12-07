@@ -10,6 +10,8 @@ const fetchBillingByOwnerId = async (
   ownerId: string,
   supabase: SupabaseClient<Database>
 ) => {
+  if (!ownerId) throw new Error("ownerId is required");
+
   const { data, error } = await supabase
     .from("billing_info")
     .select(`*`)

@@ -5,7 +5,6 @@ import { ONLINE_ORDER_STATUS } from "../../../constants";
 import { processRestNotification } from "../../[locale]/components/TPV/redsysClient";
 
 export async function POST(req: NextRequest) {
-  console.log("req", req);
   const data = await req.formData();
   const signatureVersion = data.get("Ds_SignatureVersion");
   const merchantParameters = data.get("Ds_MerchantParameters");
@@ -16,28 +15,6 @@ export async function POST(req: NextRequest) {
     Ds_SignatureVersion: signatureVersion as string,
     Ds_MerchantParameters: merchantParameters as string,
   };
-
-  // const body: ResponseJSONSuccess = {
-  //   Ds_SignatureVersion: "HMAC_SHA256_V1",
-  //   Ds_MerchantParameters:
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJEU19NRVJDSEFOVF9BTU9VTlQiOiIxNDUiLCJEU19NRVJDSEFOVF9DVVJSRU5DWSI6Ijk3OCIsIkRTX01FUkNIQU5UX0NWVjIiOiIxMjMiLCJEU19NRVJDSEFOVF9FWFBJUllEQVRFIjoiMTUxMiIsIkRTX01FUkNIQU5UX01FUkNIQU5UQ09ERSI6Ijk5OTAwODg4MSIsIkRTX01FUkNIQU5UX09SREVSIjoiMTQ0NjA2ODU4MSIsIkRTX01FUkNIQU5UX1BBTiI6IjQ1NDg4MSoqKioqKioqMDQiLCJEU19NRVJDSEFOVF9URVJNSU5BTCI6IjEiLCJEU19NRVJDSEFOVF9UUkFOU0FDVElPTlRZUEUiOiIwIn0.0adAyRjZ9lH26EpKXOiyF4uyRbx6TB_HVBdCckiVRoI",
-  //   Ds_Signature: "sq7HjrUOBfKmC576ILgskD5srU870gJ7",
-  // };
-
-  /* Decodificar el parámetro Ds_MerchantParameters en base 64. Sin usar buffer */
-  // const decodeMerchantParameters = Buffer.from(
-  //   body.Ds_MerchantParameters as string,
-  //   "base64"
-  // ).toString("utf-8");
-
-  /* Una vez se ha realizado la llamada a la función
-    “decodeMerchantParameters()”, se puede obtener el valor de
-    cualquier parámetro que sea susceptible de incluirse en la
-    notificación on-line.
-    Vamos a obtener el código de respuesta
-  */
-  // const responseMerchantParametersJSON = JSON.parse(decodeMerchantParameters);
-  // const { DS_RESPONSE } = responseMerchantParametersJSON;
 
   const restNotification = processRestNotification(body);
 
@@ -58,8 +35,6 @@ export async function POST(req: NextRequest) {
 
   const orderId = restNotification.Ds_Order;
 
-  console.log(restNotification);
-
   const supabase = await createServerClient();
 
   if (isResponseCodeOk(responseCode)) {
@@ -72,11 +47,8 @@ export async function POST(req: NextRequest) {
       // .update({ status: ONLINE_ORDER_STATUS.PAID })
       .eq("order_number", orderId);
 
-    console.log("ORDER ID", orderId);
-    console.log("error", error);
-
     if (error) {
-      console.error(error);
+      console.error(`Error in payment for order ${orderId}. Error: ${error}`);
 
       return NextResponse.json({
         message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
@@ -101,7 +73,7 @@ export async function POST(req: NextRequest) {
     if (error) console.error(error);
 
     return NextResponse.json({
-      message: `Order number ${orderId} failed with error`,
+      message: `Order number ${orderId} failed. Error Code: ${responseCode}`,
     });
   }
 }
