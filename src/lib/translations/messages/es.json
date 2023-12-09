@@ -654,5 +654,9 @@
   "reset_password": "Restablecer contraseña",
   "add_to_favs": "Añadir a favoritos",
   "must_be_logged_in_favs": "Debes iniciar sesión para añadir productos a favoritos",
-  "must_be_logged_in_add_store": "Debes iniciar sesión para añadir un producto al carrito de la compra"
+  "must_be_logged_in_add_store": "Debes iniciar sesión para añadir un producto al carrito de la compra",
+  "admin_products": "Productos",
+  "admin_events": "Eventos",
+  "admin_cps": "Puntos de consumo",
+  "admin_campaigns": "Campañas"
 }

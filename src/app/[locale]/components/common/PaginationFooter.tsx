@@ -47,8 +47,6 @@ export default function PaginationFooter({
     }
   };
 
-  console.log(currentPage, finalPage);
-
   const renderPaginationButtons = () => (
     <footer className="max-1/2 lg:max-w-3/4 my-4 flex items-center justify-center gap-4 py-4">
       <Button

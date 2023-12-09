@@ -52,9 +52,6 @@ export default function ResetPassword() {
 
     if (error) {
       console.error(error);
-    } else {
-      // handle success
-      console.log("success");
     }
   }
 

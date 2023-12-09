@@ -258,6 +258,7 @@ export function ProductStepper(props: Props) {
 
         <div className="mt-4 flex p-2">
           <button
+            type="button"
             disabled={activeStep === 0}
             onClick={() => handleStepper(activeStep - 1)}
             className="flex cursor-pointer justify-center rounded border border-gray-600 bg-gray-100 px-4 py-2 text-base 
@@ -273,6 +274,7 @@ export function ProductStepper(props: Props) {
           <div className="flex flex-auto flex-row-reverse">
             {activeStep < 3 && (
               <button
+                type="button"
                 onClick={() => handleStepper(activeStep + 1)}
                 className="ml-2  flex  cursor-pointer justify-center rounded border border-beer-draft bg-beer-blonde px-4 py-2 text-base 
         font-bold  
@@ -287,6 +289,7 @@ export function ProductStepper(props: Props) {
 
             {activeStep !== 3 && (
               <button
+                type="button"
                 onClick={() => handleStepper(3)}
                 className="flex cursor-pointer justify-center rounded border border-beer-draft bg-bear-alvine px-4 py-2 text-base 
         font-bold  

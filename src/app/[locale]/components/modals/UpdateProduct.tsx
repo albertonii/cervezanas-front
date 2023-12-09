@@ -137,6 +137,10 @@ export function UpdateProduct({
   const { user, supabase } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
 
+  useEffect(() => {
+    console.log(activeStep);
+  }, [activeStep]);
+
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
   };

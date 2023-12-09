@@ -93,12 +93,18 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
       name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
         message: "errors.input_max_150",
       }),
-      description: z.string().min(2, { message: "errors.input_min_2" }).max(500, {
-        message: "errors.input_max_500",
-      }),
-      year: z.number().min(1900, { message: "errors.input_min_1900" }).max(2030, {
-        message: "errors.input_max_2030",
-      }),
+      description: z
+        .string()
+        .min(2, { message: "errors.input_min_2" })
+        .max(500, {
+          message: "errors.input_max_500",
+        }),
+      year: z
+        .number()
+        .min(1900, { message: "errors.input_min_1900" })
+        .max(2030, {
+          message: "errors.input_max_2030",
+        }),
       img_url: z.string().min(2, { message: "errors.input_required" }),
     })
   ),

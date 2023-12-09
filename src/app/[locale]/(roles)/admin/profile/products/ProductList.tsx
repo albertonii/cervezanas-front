@@ -56,8 +56,6 @@ export function ProductList({
     }
   }, [isSuccess]);
 
-  console.log(counter);
-
   const COLUMNS = [
     { header: t("product_type_header") },
     { header: t("name_header") },

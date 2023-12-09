@@ -57,9 +57,6 @@ export default function UpdatePassword() {
 
     if (error) {
       console.error(error);
-    } else {
-      // handle success
-      console.log("success");
     }
   }
 

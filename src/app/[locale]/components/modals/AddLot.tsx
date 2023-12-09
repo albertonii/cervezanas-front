@@ -93,7 +93,7 @@ export function AddLot() {
     const manufactureDateToString = manufacture_date?.toISOString();
 
     const userId = user?.id;
-    console.log(quantity);
+
     const { error } = await supabase.from("product_lots").insert({
       quantity,
       lot_number,
