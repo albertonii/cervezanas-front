@@ -64,6 +64,7 @@ export const SignUpForm = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -112,10 +113,8 @@ export const SignUpForm = () => {
       console.info("onMutate");
     },
     onSuccess: () => {
-      handleMessage({
-        type: "success",
-        message: "sign_up_success",
-      });
+      console.info("success sign up");
+      reset();
     },
     onError: (error: Error) => {
       handleMessage({
