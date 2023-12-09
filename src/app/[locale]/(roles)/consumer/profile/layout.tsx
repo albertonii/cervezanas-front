@@ -165,10 +165,9 @@ export default function layout({ children }: LayoutProps) {
               </div>
             </div>
 
-            {/* Client Information */}
             <div
-              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
-              aria-label="Container Client Information"
+              className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
+              aria-label="Container Consumer settings"
             >
               {children}
             </div>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Sidebar } from "../../components/common/Sidebar";
+import { Sidebar } from "../../../../components/common/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -53,10 +53,9 @@ export default function layout({ children }: LayoutProps) {
     <section className="relative flex w-full">
       <Sidebar sidebarLinks={sidebarLinks} />
 
-      {/* Client Information */}
       <div
-        className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
-        aria-label="Container Client Information"
+        className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
+        aria-label="Container Admin settings"
       >
         {children}
       </div>

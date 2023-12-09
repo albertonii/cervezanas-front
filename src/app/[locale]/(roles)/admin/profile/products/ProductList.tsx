@@ -2,18 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { ComponentProps, useMemo, useState } from "react";
-import { useAuth } from "../../../../Auth/useAuth";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types";
 import { Spinner } from "../../../../components/common/Spinner";
-import { EditButton } from "../../../../components/common/EditButton";
+import InputSearch from "../../../../components/common/InputSearch";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { EditButton } from "../../../../components/common/EditButton";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { ArchiveButton } from "../../../../components/common/ArchiveButton";
-import InputSearch from "../../../../components/common/InputSearch";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
+import PaginationFooter from "../../../../components/common/PaginationFooter";
+import useFetchProductsAndPagination from "../../../../../../hooks/useFetchProductsAndPagination";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -30,8 +30,7 @@ export function ProductList({
   handleDeleteShowModal,
   handleProductModal,
 }: Props) {
-  const { supabase } = useAuth();
-  const { user } = useAuth();
+  const { supabase, user } = useAuth();
   if (!user) return null;
 
   const t = useTranslations();
@@ -42,19 +41,22 @@ export function ProductList({
   const resultsPerPage = 10;
 
   const {
-    data: ps,
+    data: products,
     isError,
     isLoading,
-  } = useFetchProductsByOwnerAndPagination(
-    user?.id,
-    currentPage,
-    resultsPerPage,
-    false
-  );
+    isSuccess,
+  } = useFetchProductsAndPagination(currentPage, resultsPerPage);
 
-  const products = ps?.filter((product) => !product.is_archived);
+  // TODO: Arreglar la paginación
+  const [counter, setCounter] = useState(0);
 
-  const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
+  useEffect(() => {
+    if (products) {
+      setCounter(products.length);
+    }
+  }, [isSuccess]);
+
+  console.log(counter);
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -74,7 +76,6 @@ export function ProductList({
 
   const handleArchive = async (product: any) => {
     // Update product state to archived and isPublic to false
-    // Update product
     const updatedProduct = {
       ...product,
       is_archived: true,

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
+import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsAndPagination";
 import Image from "next/image";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";

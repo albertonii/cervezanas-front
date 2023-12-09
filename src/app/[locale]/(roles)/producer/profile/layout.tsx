@@ -5,10 +5,10 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { Sidebar } from "../../../components/common/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../../../context/AppContext";
-import { Sidebar } from "../../../components/common/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -188,10 +188,9 @@ export default function layout({ children }: LayoutProps) {
               </div>
             </div>
 
-            {/* Client Information */}
             <div
-              className="bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
-              aria-label="Container Client Information"
+              className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
+              aria-label="Container Producer settings"
             >
               {children}
             </div>

@@ -1,10 +1,10 @@
 import Negotiator from "negotiator";
+import { cookies } from "next/headers";
 import { ROUTE_SIGNIN } from "./config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { cookies } from "next/headers";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
 const locales = ["en", "es"];
