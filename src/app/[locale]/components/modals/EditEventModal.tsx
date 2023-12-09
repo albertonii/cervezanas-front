@@ -1,17 +1,18 @@
 "use client";
 
-import useFetchCPSMobileByEventsId from "../../../../../../hooks/useFetchCPsMobileByEventId";
 import React, { ComponentProps, useEffect } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ICPMobile, ICPM_events, IEvent } from "../../../../../../lib/types";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
-import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
-import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
-import { useAuth } from "../../../../Auth/useAuth";
-import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
+import { ICPM_events, IEvent } from "../../../../lib/types";
+import { useAuth } from "../../Auth/useAuth";
+import { formatDateDefaultInput } from "../../../../utils/formatDate";
+import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
+import { ModalWithForm } from "./ModalWithForm";
+import { DisplayInputError } from "../common/DisplayInputError";
+import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
+import useFetchConsumptionPoints from "../../../../hooks/useFetchConsumptionPoints";
 
 interface FormData {
   name: string;
@@ -27,14 +28,12 @@ interface Props {
   selectedEvent: IEvent;
   isEditModal: boolean;
   handleEditModal: ComponentProps<any>;
-  cpsMobile: ICPMobile[];
 }
 
 export default function EditEventModal({
   selectedEvent,
   isEditModal,
   handleEditModal,
-  cpsMobile,
 }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
@@ -47,6 +46,8 @@ export default function EditEventModal({
     isFetching,
     refetch,
   } = useFetchCPSMobileByEventsId(selectedEvent.id);
+
+  const { data: cpms } = useFetchConsumptionPoints();
 
   useEffect(() => {
     refetch();
@@ -97,10 +98,12 @@ export default function EditEventModal({
 
     if (error) throw error;
 
-    // // Obtener los CPs asociados al evento
-    const cpsToUpdate = cpsMobile.filter((item) =>
-      cps_mobile.map((cp) => cp.cp_id).includes(item.id)
-    );
+    // Obtener los CPs asociados al evento
+    const cpsToUpdate =
+      cpms &&
+      cpms[0].cp_mobile.filter((item) =>
+        cps_mobile.map((cp) => cp.cp_id).includes(item.id)
+      );
 
     // Eliminar todos los CPs asociados al evento
     checkedCPs?.forEach(async (cp) => {
@@ -116,7 +119,7 @@ export default function EditEventModal({
     });
 
     // Insertar los nuevos CPs asociados al evento
-    cpsToUpdate.forEach(async (item) => {
+    cpsToUpdate?.forEach(async (item) => {
       const { error } = await supabase.from("cpm_events").insert({
         cp_id: item.id,
         event_id: selectedEvent.id,
@@ -237,17 +240,21 @@ export default function EditEventModal({
             </fieldset>
 
             {/* List of user Consumption Points  */}
-            <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-              <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
+            {cpms && (
+              <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                <legend className="text-2xl">
+                  {t("cp_mobile_associated")}
+                </legend>
 
-              {/* List of CPs  */}
-              <SearchCheckboxCPs
-                cpsMobile={cpsMobile}
-                form={form}
-                checkedCPs={checkedCPs}
-                selectedEventId={selectedEvent.id}
-              />
-            </fieldset>
+                {/* List of CPs  */}
+                <SearchCheckboxCPs
+                  cpsMobile={cpms[0].cp_mobile}
+                  form={form}
+                  checkedCPs={checkedCPs}
+                  selectedEventId={selectedEvent.id}
+                />
+              </fieldset>
+            )}
           </form>
         )}
       </>

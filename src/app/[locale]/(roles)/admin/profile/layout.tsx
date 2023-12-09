@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Sidebar } from "../../../../components/common/Sidebar";
+import { Sidebar } from "../../../components/common/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -25,22 +25,22 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("admin_products"),
       icon: "box",
-      option: "admin_products",
+      option: "products",
     },
     {
       name: t("admin_events"),
       icon: "box",
-      option: "admin_events",
+      option: "events",
     },
     {
       name: t("admin_cps"),
       icon: "box",
-      option: "admin_cps",
+      option: "cps",
     },
     {
       name: t("admin_campaigns"),
       icon: "box",
-      option: "admin_campaigns",
+      option: "campaigns",
     },
     {
       name: t("notifications"),

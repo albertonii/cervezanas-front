@@ -1,8 +1,8 @@
 import React, { ComponentProps } from "react";
-import DeleteModal from "../../../../components/modals/DeleteModal";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { useAuth } from "../../../../Auth/useAuth";
+import { useAuth } from "../../Auth/useAuth";
+import DeleteModal from "./DeleteModal";
 
 interface Props {
   selectedEventId: string;

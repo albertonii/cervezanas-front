@@ -14,7 +14,7 @@ const fetchCPMobile = async (
     .from("cpm_products")
     .select(
       `
-       *)
+       *
       `
     )
     .eq("cp_id", cpId)

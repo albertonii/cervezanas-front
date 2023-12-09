@@ -16,7 +16,7 @@ const fetchCPSMobileByEventId = async (
     .from("cpm_events")
     .select(
       `
-      *
+        *
       `
     )
     .eq("event_id", eventId)

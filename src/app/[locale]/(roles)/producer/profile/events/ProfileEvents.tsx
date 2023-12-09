@@ -1,7 +1,7 @@
 "use client";
 
 import EventList from "./EventList";
-import AddEvent from "./AddEvent";
+import AddEvent from "../../../../components/modals/AddEvent";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../lib/types";
