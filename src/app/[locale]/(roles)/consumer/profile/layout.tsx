@@ -3,12 +3,13 @@
 import Image from "next/image";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Sidebar } from "./Sidebar";
 import { useAuth } from "../../../Auth/useAuth";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../../../context/AppContext";
+import { useTranslations } from "next-intl";
+import { Sidebar } from "../../../components/common/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -17,6 +18,8 @@ type LayoutProps = {
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
+  const t = useTranslations();
+
   const { user, supabase } = useAuth();
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
@@ -28,6 +31,34 @@ export default function layout({ children }: LayoutProps) {
   const bg = "/assets/producer_layout.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const sidebarLinks = [
+    {
+      name: t("profile"),
+      icon: "user",
+      option: "settings",
+    },
+    {
+      name: t("event_orders"),
+      icon: "shopping-cart",
+      option: "event_orders",
+    },
+    {
+      name: t("online_orders"),
+      icon: "shopping-cart",
+      option: "orders",
+    },
+    {
+      name: t("reviews"),
+      icon: "review",
+      option: "reviews",
+    },
+    {
+      name: t("watchlist"),
+      icon: "watchlist",
+      option: "likes_history",
+    },
+  ];
 
   const handleClick = () => {
     inputRef.current?.click();
@@ -83,8 +114,8 @@ export default function layout({ children }: LayoutProps) {
   }, [profileImg]);
 
   return (
-    <div className="relative flex w-full">
-      <Sidebar />
+    <section className="relative flex w-full">
+      <Sidebar sidebarLinks={sidebarLinks} />
 
       <div className="h-full w-full">
         {bgImg_ && profileImg_ && (
@@ -144,6 +175,6 @@ export default function layout({ children }: LayoutProps) {
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 }

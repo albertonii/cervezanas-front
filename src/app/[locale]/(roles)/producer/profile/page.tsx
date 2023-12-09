@@ -12,8 +12,8 @@ export default async function ServerProfilePage() {
   }
 
   return (
-    <div>
+    <section>
       <h1>Accede con tu usuario para poder ver esta sección</h1>
-    </div>
+    </section>
   );
 }

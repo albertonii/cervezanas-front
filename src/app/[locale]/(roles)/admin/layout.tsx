@@ -1,8 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import React from "react";
-import { Sidebar } from "../../../components/common/Sidebar";
+import { useTranslations } from "next-intl";
+import { Sidebar } from "../../components/common/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -10,31 +10,42 @@ type LayoutProps = {
 
 export default function layout({ children }: LayoutProps) {
   const t = useTranslations();
+
   const sidebarLinks = [
     {
-      name: t("profile"),
+      name: t("cps"),
       icon: "user",
-      option: "settings",
+      option: "cps",
     },
     {
-      name: t("logistics"),
+      name: t("monthly_products"),
       icon: "box",
-      option: "logistics",
+      option: "monthly_products",
     },
     {
-      name: t("contracts"),
+      name: t("admin_products"),
       icon: "box",
-      option: "contracts",
+      option: "admin_products",
     },
     {
-      name: t("online_orders"),
+      name: t("admin_events"),
       icon: "box",
-      option: "orders",
+      option: "admin_events",
     },
     {
-      name: t("feedback"),
+      name: t("admin_cps"),
       icon: "box",
-      option: "feedback",
+      option: "admin_cps",
+    },
+    {
+      name: t("admin_campaigns"),
+      icon: "box",
+      option: "admin_campaigns",
+    },
+    {
+      name: t("notifications"),
+      icon: "box",
+      option: "notifications",
     },
   ];
 

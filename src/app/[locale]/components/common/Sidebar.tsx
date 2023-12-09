@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import useOnClickOutside from "../../../../../hooks/useOnOutsideClickDOM";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useAuth } from "../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { Button } from "../../../components/common/Button";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { Button } from "../../components/common/Button";
+import { useAppContext } from "../../../../../context/AppContext";
+import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-export function Sidebar() {
+type Props = {
+  sidebarLinks: { name: string; icon: string; option: string }[];
+};
+
+export function Sidebar({ sidebarLinks }: Props) {
   const { sidebar, changeSidebarActive } = useAppContext();
 
-  const { role } = useAuth();
   const t = useTranslations();
   const locale = useLocale();
   const [open, setOpen] = useState(false);
@@ -41,102 +43,14 @@ export function Sidebar() {
     if (open) {
       // attach the event listener if the modal is shown
       document.addEventListener("keydown", handleKeyPress);
-      // remove the event listener
+
       return () => {
         document.removeEventListener("keydown", handleKeyPress);
       };
     }
   }, [handleKeyPress, open]);
 
-  const sidebarLinks =
-    role === "admin"
-      ? [
-          {
-            name: t("submitted_aps"),
-            icon: "user",
-            option: "profile/submitted_aps",
-          },
-          {
-            name: t("monthly_beers"),
-            icon: "beer",
-            option: "profile/monthly_beers",
-          },
-        ]
-      : role === "distributor"
-      ? [
-          {
-            name: t("profile"),
-            icon: "user",
-            option: "settings",
-          },
-          {
-            name: t("logistics"),
-            icon: "box",
-            option: "logistics",
-          },
-          {
-            name: t("contracts"),
-            icon: "box",
-            option: "contracts",
-          },
-          {
-            name: t("online_orders"),
-            icon: "box",
-            option: "orders",
-          },
-          {
-            name: t("feedback"),
-            icon: "box",
-            option: "feedback",
-          },
-        ]
-      : [
-          {
-            name: t("profile"),
-            icon: "user",
-            option: "settings",
-          },
-          {
-            name: t("products"),
-            icon: "box",
-            option: "products",
-          },
-          {
-            name: t("campaigns"),
-            icon: "gift",
-            option: "campaigns",
-          },
-          {
-            name: t("events"),
-            icon: "location",
-            option: "events",
-          },
-          {
-            name: t("consumption_points"),
-            icon: "location",
-            option: "consumption_points",
-          },
-          {
-            name: t("factories"),
-            icon: "truck",
-            option: "factories",
-          },
-          {
-            name: t("event_orders"),
-            icon: "shopping-cart",
-            option: "event_orders",
-          },
-          {
-            name: t("online_orders"),
-            icon: "shopping-cart",
-            option: "orders",
-          },
-          {
-            name: t("reviews"),
-            icon: "review",
-            option: "reviews",
-          },
-        ];
+  const sLinks = sidebarLinks;
 
   return (
     <>
@@ -180,7 +94,7 @@ export function Sidebar() {
           className={`h-full w-56 overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800`}
         >
           <ul className="space-y-2 font-medium">
-            {sidebarLinks.map((link) => (
+            {sLinks.map((link) => (
               <li
                 className={`
                 flex items-center rounded-lg text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
