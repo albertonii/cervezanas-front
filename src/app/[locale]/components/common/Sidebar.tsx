@@ -1,18 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth } from "../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../components/common/Button";
 import { useAppContext } from "../../../../../context/AppContext";
 import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { generateLink } from "../../../../utils/utils";
 
 type Props = {
   sidebarLinks: { name: string; icon: string; option: string }[];
 };
 
 export function Sidebar({ sidebarLinks }: Props) {
+  const sLinks = sidebarLinks;
   const { sidebar, changeSidebarActive } = useAppContext();
+  const { role } = useAuth();
 
   const t = useTranslations();
   const locale = useLocale();
@@ -50,8 +54,6 @@ export function Sidebar({ sidebarLinks }: Props) {
     }
   }, [handleKeyPress, open]);
 
-  const sLinks = sidebarLinks;
-
   return (
     <>
       <Button
@@ -80,48 +82,50 @@ export function Sidebar({ sidebarLinks }: Props) {
         </svg>
       </Button>
 
-      <aside
-        className={`
+      {role && (
+        <aside
+          className={`
         ${
           open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0 "
         } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block
         `}
-        aria-label="Sidebar"
-        id="default-sidebar"
-        ref={sidebarRef}
-      >
-        <div
-          className={`h-full w-56 overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800`}
+          aria-label="Sidebar"
+          id="default-sidebar"
+          ref={sidebarRef}
         >
-          <ul className="space-y-2 font-medium">
-            {sLinks.map((link) => (
-              <li
-                className={`
+          <div
+            className={`h-full w-56 overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800`}
+          >
+            <ul className="space-y-2 font-medium">
+              {sLinks.map((link) => (
+                <li
+                  className={`
                 flex items-center rounded-lg text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"
                     : "text-gray-600"
                 } `}
-                key={link.name}
-              >
-                <Link
-                  href={{ pathname: link.option }}
-                  className="w-full p-2 px-4 font-medium"
-                  locale={locale}
-                  onClick={() => {
-                    if (link.option !== sidebar) {
-                      changeSidebarActive(link.option);
-                    }
-                  }}
+                  key={link.name}
                 >
-                  {t(link.name)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </aside>
+                  <Link
+                    href={generateLink(role, link.option)}
+                    className="w-full p-2 px-4 font-medium"
+                    locale={locale}
+                    onClick={() => {
+                      if (link.option !== sidebar) {
+                        changeSidebarActive(link.option);
+                      }
+                    }}
+                  >
+                    {t(link.name)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      )}
     </>
   );
 }

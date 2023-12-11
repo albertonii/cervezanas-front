@@ -9,6 +9,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 import { useAuth } from "./Auth/useAuth";
 import { useAppContext } from "../../../context/AppContext";
+import { generateLink } from "../../utils/utils";
 
 interface DropdownProps {
   options: string[];
@@ -31,48 +32,13 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
   useOutsideClick(() => handleOpenCallback(), dropdown);
 
-  const generateLink = (option: string) => {
-    switch (option) {
-      case "profile":
-        return `/${role}/profile/settings`;
-
-      case "products":
-        return `/${role}/profile/products`;
-
-      case "events":
-        return `/${role}/profile/events`;
-
-      case "online_orders":
-        return `/${role}/profile/orders`;
-
-      case "event_orders":
-        return `/${role}/profile/${option}`;
-
-      case "campaigns":
-        return `/${role}/profile/${option}`;
-
-      case "signout":
-        return `${role}/profile/${option}`;
-
-      case "submitted_aps":
-        return `${role}/profile`;
-
-      case "monthly_products":
-        return `${role}/profile`;
-
-      case "logistics":
-        return `${role}/profile/logistics`;
-
-      default:
-        return `${role}/profile/settings`;
-    }
-  };
-
   const handleDropdownButton = (option: string) => {
+    if (!role) return;
+
     switch (option) {
       case "profile":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -84,7 +50,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "products":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -96,7 +62,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "events":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -108,7 +74,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "online_orders":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -120,7 +86,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "event_orders":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -132,7 +98,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "campaigns":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -158,7 +124,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "submitted_aps":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -170,7 +136,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "monthly_products":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -182,7 +148,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "logistics":
         return (
-          <Link href={generateLink(option)} locale={locale}>
+          <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -233,12 +199,13 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
             alt={"Go to Shopping cart"}
             className={"rounded-full"}
           />
-
-          <span className="ml-2 text-sm font-medium text-beer-dark dark:text-white">
-            <Link href={generateLink("profile")} locale={locale}>
-              {user?.username}
-            </Link>
-          </span>
+          {role && (
+            <span className="ml-2 text-sm font-medium text-beer-dark dark:text-white">
+              <Link href={generateLink(role, "profile")} locale={locale}>
+                {user?.username}
+              </Link>
+            </span>
+          )}
         </figure>
 
         <ul

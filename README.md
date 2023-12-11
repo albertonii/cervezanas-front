@@ -20,9 +20,19 @@ Distribution System API surge por la necesidad de conocer cuales son los puntos 
 
 It is essentially a managed Postgres environment with additional functionalities such as auth, storage, and real-time capabilities.
 
+### Good to know
+
+A veces es necesario actualizar información interna de supabase. Por ejemplo, si quisieramos cambiar de la tabla interna auth.users la propiedad "access_level" o role del usuario para darle permisos de administrador. Podríamos lograrlo de la siguiente manera:
+
+```bash
+    UPDATE auth.users
+    SET raw_user_meta_data = jsonb_set(raw_user_meta_data, '{access_level}', '"admin"')
+    WHERE raw_user_meta_data ->> 'email' = 'wawogar929@getmola.com';
+```
+
 ## JEST + Supertest
 
-## Test in local network
+### Test in local network
 
 To test the app with different devices inside the same network we need to run the script inside package.json:
 

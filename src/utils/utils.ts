@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { uuid } from "uuidv4";
+import { ROLE_ENUM } from "../lib/enums";
 
 export function isValidObject(object: any) {
   return object != null && object !== "" && !_.isEmpty(object);
@@ -87,3 +88,46 @@ export function slicePaginationResults(
   const endIndex = startIndex + resultsPerPage;
   return list?.slice(startIndex, endIndex);
 }
+
+export const generateLink = (role: ROLE_ENUM, option: string) => {
+  switch (option) {
+    case "profile":
+      return `/${role}/profile/settings`;
+
+    case "products":
+      return `/${role}/profile/products`;
+
+    case "events":
+      return `/${role}/profile/events`;
+
+    case "online_orders":
+      return `/${role}/profile/orders`;
+
+    case "event_orders":
+      return `/${role}/profile/${option}`;
+
+    case "campaigns":
+      return `/${role}/profile/${option}`;
+
+    case "signout":
+      return `/${role}/profile/${option}`;
+
+    case "submitted_aps":
+      return `/${role}/profile`;
+
+    case "monthly_products":
+      return `/${role}/profile/${option}`;
+
+    case "logistics":
+      return `/${role}/profile/${option}`;
+
+    case "notifications":
+      return `/${role}/profile/${option}`;
+
+    case "cps":
+      return `/${role}/profile/${option}`;
+
+    default:
+      return `/${role}/profile/settings`;
+  }
+};
