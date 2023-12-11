@@ -39,13 +39,13 @@ export type FormBillingData = {
 
 const schemaShipping: ZodType<FormShippingData> = z.object({
   shipping_info_id: z.string().nonempty({
-    message: "You must select a shipping address",
+    message: "errors.input_required",
   }),
 });
 
 const schemaBilling: ZodType<FormBillingData> = z.object({
   billing_info_id: z.string().nonempty({
-    message: "You must select a billing address",
+    message: "errors.input_required",
   }),
 });
 

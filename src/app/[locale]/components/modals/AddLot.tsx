@@ -26,7 +26,7 @@ type ModalAddLotFormData = {
 };
 
 const schema: ZodType<ModalAddLotFormData> = z.object({
-  lot_number: z.string().min(1, { message: "errors.input_required" }),
+  lot_number: z.string().min(1, { message: "errors.input_min_1" }),
   lot_name: z.string().nonempty({ message: "errors.input_required" }),
   quantity: z.number().positive({ message: "errors.input_required" }),
   limit_notification: z.number().positive({ message: "errors.input_required" }),

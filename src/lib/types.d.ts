@@ -763,6 +763,35 @@ export type IPackItem = {
   name: string;
 };
 
+export type ModalAddProductFormData = {
+  name: string;
+  description: string;
+  price: number;
+  fermentation: number;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  origin: number;
+  era: number;
+  is_gluten: boolean;
+  type: string;
+  awards: IAward[];
+  p_principal?: FileList;
+  p_back?: FileList;
+  p_extra_1?: FileList;
+  p_extra_2?: FileList;
+  p_extra_3?: FileList;
+  is_public: boolean;
+  volume: number;
+  format: string;
+  stock_quantity: number;
+  stock_limit_notification: number;
+  packs: IModalAddProductPack[];
+  category: string;
+  // campaign: string;
+};
+
 export type ModalUpdateProductFormData = {
   id: string;
   name: string;
@@ -786,7 +815,7 @@ export type ModalUpdateProductFormData = {
   volume: number;
   format: string;
   category: string;
-  campaign: string;
+  // campaign: string;
   stock_quantity: number;
   stock_limit_notification: number;
   awards: ModalUpdateProductAwardFormData[];

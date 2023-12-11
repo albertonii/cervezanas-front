@@ -17,14 +17,17 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
-import { ICustomizeSettings, IProductPack } from "../../../../lib/types";
+import {
+  ICustomizeSettings,
+  IProductPack,
+  ModalAddProductFormData,
+} from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DeleteButton } from "../common/DeleteButton";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { ModalAddProductFormData } from "./AddProduct";
 import { DisplayInputError } from "../common/DisplayInputError";
 
 interface Props {

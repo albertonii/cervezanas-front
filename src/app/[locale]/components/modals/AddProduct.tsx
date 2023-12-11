@@ -20,6 +20,7 @@ import {
   IAward,
   IInventory,
   IModalAddProductPack,
+  ModalAddProductFormData,
 } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
 import { v4 as uuidv4 } from "uuid";
@@ -36,36 +37,15 @@ import { ProductInfoSection } from "./ProductInfoSection";
 import { useAppContext } from "../../../../../context/AppContext";
 import { ModalWithForm } from "./ModalWithForm";
 
-export type ModalAddProductFormData = {
-  name: string;
-  description: string;
-  price: number;
-  fermentation: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  origin: number;
-  era: number;
-  is_gluten: boolean;
-  type: string;
-  awards: IAward[];
-  p_principal?: FileList;
-  p_back?: FileList;
-  p_extra_1?: FileList;
-  p_extra_2?: FileList;
-  p_extra_3?: FileList;
-  is_public: boolean;
-  volume: number;
-  format: string;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  packs: IModalAddProductPack[];
-  category: string;
-};
-
 const schema: ZodType<ModalAddProductFormData> = z.object({
-  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
+    message: "errors.error_2500_max_length",
+  }),
+  price: z.number().min(0, { message: "errors.input_min_0" }),
+  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
     message: "errors.input_max_5",
   }),
   color: z.number().min(0, { message: "errors.input_min_0" }),
@@ -114,13 +94,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   p_extra_2: z.any(),
   p_extra_3: z.any(),
   is_public: z.boolean(),
-  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
-  }),
-  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
-    message: "errors.error_2500_max_length",
-  }),
-  price: z.number().min(0, { message: "errors.input_min_0" }),
+
   // TODO: Bug in volume validation when adding product
   // volume: z.number().min(0, { message: "Required" }).max(50, {
   //   message: "Required",

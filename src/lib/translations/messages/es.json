@@ -569,10 +569,12 @@
     "password_match": "Las contraseñas no coinciden",
     "select_location_required": "Debes seleccionar una localización",
     "input_min_0": "El número no puede ser negativo",
+    "input_min_1": "El número debe ser mayor o igual a 1",
     "input_min_2": "El número debe ser mayor o igual a 2",
     "input_min_1900": "El número debe ser mayor o igual a 1900",
     "input_max_3": "El número debe ser menor o igual a 3",
     "input_max_5": "El número debe ser menor o igual a 5",
+    "input_max_100": "El número debe ser menor o igual a 100",
     "input_max_150": "El número debe ser menor o igual a 150",
     "input_max_500": "El número debe ser menor o igual a 500",
     "input_max_2030": "El número debe ser menor o igual a 2030"

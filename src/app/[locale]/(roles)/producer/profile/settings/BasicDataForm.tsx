@@ -24,10 +24,10 @@ interface Props {
 
 const schema: ZodType<FormData> = z.object({
   name: z.string().min(2, { message: "Required" }).max(50, {
-    message: "The name is too long, max length are 50 characters",
+    message: "errors.error_50_max_length",
   }),
   lastname: z.string().min(2, { message: "Required" }).max(50, {
-    message: "The lastname is too long, max length are 50 characters",
+    message: "errors.error_50_max_length",
   }),
 });
 

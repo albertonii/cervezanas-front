@@ -555,10 +555,12 @@
     "password_match": "Passwords do not match",
     "select_location_required": "Select a location is required",
     "input_min_0": "Number cannot be negative",
+    "input_min_1": "The number must be greater than or equal to 1",
     "input_min_2": "The number must be greater than or equal to 2",
     "input_min_1900": "The number must be greater than or equal to 1900",
     "input_max_3": "The number must be less than or equal to 3",
     "input_max_5": "The number must be less than or equal to 5",
+    "input_max_100": "The number must be less than or equal to 100",
     "input_max_150": "The number must be less than or equal to 150",
     "input_max_500": "The number must be less than or equal to 500",
     "input_max_2030": "The number must be less than or equal to 2030"

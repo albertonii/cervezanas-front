@@ -17,7 +17,7 @@ type FormData = {
 
 const schema: ZodType<FormData> = z.object({
   lot_number: z.string().nonempty({ message: "errors.input_required" }),
-  lot_quantity: z.number().min(1, { message: "errors.input_required" }),
+  lot_quantity: z.number().min(1, { message: "errors.input_min_1" }),
   products: z.array(z.object({ value: z.string() })),
 });
 
@@ -138,6 +138,7 @@ export default function LotForm({ handleShowModal }: Props) {
               <label htmlFor="lot_quantity" className="text-sm text-gray-600">
                 {t("lot_quantity")}
               </label>
+
               <input
                 id="lot_quantity"
                 placeholder={t("lot_quantity") ?? "lot_quantity"}
@@ -145,6 +146,7 @@ export default function LotForm({ handleShowModal }: Props) {
                 className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 {...register("lot_quantity", {
                   required: true,
+                  valueAsNumber: true,
                 })}
               />
               {errors.lot_quantity && (
