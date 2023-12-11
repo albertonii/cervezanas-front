@@ -1,17 +1,17 @@
 "use client";
 
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import Link from "next/link";
-import AddMonthlyProduct from "../../../components/modals/AddMonthlyProduct";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IMonthlyProduct } from "../../../../../lib/types";
-import { DeleteButton } from "../../../components/common/DeleteButton";
-import { EditButton } from "../../../components/common/EditButton";
-import { DeleteMonthlyProduct } from "../../../components/modals/DeleteMonthlyProduct";
-import { SupabaseProps } from "../../../../../constants";
-import { useAuth } from "../../../Auth/useAuth";
-import InputSearch from "../../../components/common/InputSearch";
+import { IMonthlyProduct } from "../../../../../../lib/types";
+import { SupabaseProps } from "../../../../../../constants";
+import { useAuth } from "../../../../Auth/useAuth";
+import AddMonthlyProduct from "../../../../components/modals/AddMonthlyProduct";
+import InputSearch from "../../../../components/common/InputSearch";
+import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import { EditButton } from "../../../../components/common/EditButton";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
+import { DeleteMonthlyProduct } from "../../../../components/modals/DeleteMonthlyProduct";
 
 interface Props {
   mProducts: IMonthlyProduct[];
@@ -163,11 +163,9 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
   return (
     <>
-      <div className="pl-4">
-        <AddMonthlyProduct handleAddProduct={handleAddProduct} />
-      </div>
+      <AddMonthlyProduct handleAddProduct={handleAddProduct} />
 
-      <div className="relative mt-6 space-y-4 overflow-x-auto p-4 shadow-md sm:rounded-lg">
+      <section className="relative mt-6 space-y-4 overflow-x-auto p-4 shadow-md sm:rounded-lg">
         {/* Select month and year to see the products and new monthly product btn */}
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
@@ -315,7 +313,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
             handleSetProducts={handleDeleteProduct}
           />
         )}
-      </div>
+      </section>
     </>
   );
 }
