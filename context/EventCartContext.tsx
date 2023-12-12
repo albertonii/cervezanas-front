@@ -117,6 +117,7 @@ export function EventCartProvider({ children }: Props) {
         price: product.price,
         image: product.product_multimedia[0].p_principal,
         producer_id: product.owner_id,
+        distributor_id: "",
       };
 
       setEventItems((currItems) => {

@@ -189,23 +189,32 @@ export interface Database {
       business_orders: {
         Row: {
           created_at: string | null
+          distributor_id: string | null
           id: string
           order_id: string | null
           producer_id: string | null
         }
         Insert: {
           created_at?: string | null
+          distributor_id?: string | null
           id?: string
           order_id?: string | null
           producer_id?: string | null
         }
         Update: {
           created_at?: string | null
+          distributor_id?: string | null
           id?: string
           order_id?: string | null
           producer_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "business_orders_distributor_id_fkey"
+            columns: ["distributor_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "business_orders_order_id_fkey"
             columns: ["order_id"]

@@ -1,22 +1,22 @@
-import { IOrder } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
+import { BusinessOrders } from "./BusinessOrders";
 import { VIEWS } from "../../../../../../constants";
-import { Orders } from "./Orders";
 import readUserSession from "../../../../../../lib/actions";
+import { IBusinessOrder } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
 
 export default async function OrdersPage() {
-  const ordersData = await getOrdersData();
-  const [orders] = await Promise.all([ordersData]);
+  const bOrdersData = await getBusinessOrdersData();
+  const [bOrders] = await Promise.all([bOrdersData]);
 
   return (
     <>
-      <Orders orders={orders} />
+      <BusinessOrders bOrders={bOrders} />
     </>
   );
 }
 
-async function getOrdersData() {
+async function getBusinessOrdersData() {
   const supabase = await createServerClient();
 
   const {
@@ -28,14 +28,14 @@ async function getOrdersData() {
   }
 
   const { data: ordersData, error: ordersError } = await supabase
-    .from("orders")
+    .from("business_orders")
     .select(
       `
         *
       `
     )
-    .eq("owner_id", session.user.id);
+    .eq("distributor_id", session.user.id);
   if (ordersError) throw ordersError;
 
-  return ordersData as IOrder[];
+  return ordersData as IBusinessOrder[];
 }

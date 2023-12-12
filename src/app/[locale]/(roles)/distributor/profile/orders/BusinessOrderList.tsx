@@ -1,11 +1,10 @@
 "use client";
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchCPOrders from "../../../../../../hooks/useFetchOrders";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types";
+import { IBusinessOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import { Spinner } from "../../../../components/common/Spinner";
@@ -13,22 +12,23 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
+import useFetchBusinessOrdersByDistributorId from "../../../../../../hooks/useFetchBusinessOrderByDistributorId";
 
 interface Props {
-  orders: IOrder[];
+  bOrders: IBusinessOrder[];
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export function OrderList({ orders: os }: Props) {
+export function BusinessOrderList({ bOrders: os }: Props) {
   const { user } = useAuth();
   if (!user) return null;
 
   const t = useTranslations();
 
-  const [orders, setOrders] = useState<IOrder[]>(os);
+  const [bOrders, setBOrders] = useState<IBusinessOrder[]>(os);
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -38,7 +38,7 @@ export function OrderList({ orders: os }: Props) {
   const locale = useLocale();
   const router = useRouter();
 
-  const { isError, isLoading, refetch } = useFetchCPOrders(
+  const { isError, isLoading, refetch } = useFetchBusinessOrdersByDistributorId(
     user.id,
     currentPage,
     resultsPerPage
@@ -46,8 +46,8 @@ export function OrderList({ orders: os }: Props) {
 
   useEffect(() => {
     refetch().then((res) => {
-      const orders = res.data as IOrder[];
-      setOrders(orders);
+      const bOrders = res.data as IBusinessOrder[];
+      setBOrders(bOrders);
     });
   }, [currentPage]);
 
@@ -60,9 +60,11 @@ export function OrderList({ orders: os }: Props) {
     { header: t("action_header") },
   ];
 
-  const handleClickView = (order: IOrder) => {
+  const handleClickView = (order: IBusinessOrder) => {
+    if (!order.orders) return null;
+
     const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
+      JSON.stringify({ Ds_Order: order.orders.order_number })
     );
 
     router.push(
@@ -71,11 +73,11 @@ export function OrderList({ orders: os }: Props) {
   };
 
   const filteredItemsByStatus = useMemo(() => {
-    if (!orders) return [];
-    return orders.filter((orders) => {
-      return orders.status.includes(query);
+    if (!bOrders) return [];
+    return bOrders.filter((bOrders) => {
+      return bOrders.orders?.status.includes(query);
     });
-  }, [orders, query]);
+  }, [bOrders, query]);
 
   return (
     <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -91,7 +93,7 @@ export function OrderList({ orders: os }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && orders && orders.length === 0 ? (
+      {!isError && !isLoading && bOrders && bOrders.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
         </div>
@@ -117,28 +119,34 @@ export function OrderList({ orders: os }: Props) {
             </thead>
 
             <tbody>
-              {orders &&
-                filteredItemsByStatus.map((order) => {
+              {bOrders &&
+                filteredItemsByStatus.map((bOrder) => {
+                  if (!bOrder.orders) return null;
+
                   return (
                     <tr
-                      key={order.id}
+                      key={bOrder.id}
                       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
-                      <td className="px-6 py-4">{order.order_number}</td>
-
-                      <td className="px-6 py-4">{order.customer_name}</td>
-
                       <td className="px-6 py-4">
-                        {formatCurrency(order.total)}
+                        {bOrder.orders.order_number}
                       </td>
 
-                      <td className="px-6 py-4">{t(order.status)}</td>
+                      <td className="px-6 py-4">
+                        {bOrder.orders.customer_name}
+                      </td>
 
-                      <td className="px-6 py-4">{order.tracking_id}</td>
+                      <td className="px-6 py-4">
+                        {formatCurrency(bOrder.orders.total)}
+                      </td>
+
+                      <td className="px-6 py-4">{t(bOrder.orders.status)}</td>
+
+                      <td className="px-6 py-4">{bOrder.orders.tracking_id}</td>
 
                       <td className="item-center flex justify-center px-6 py-4">
                         <IconButton
-                          onClick={() => handleClickView(order)}
+                          onClick={() => handleClickView(bOrder)}
                           icon={faEye}
                           title={""}
                         />
@@ -146,10 +154,10 @@ export function OrderList({ orders: os }: Props) {
                     </tr>
                   );
                 })}
-              {!orders && (
+              {!bOrders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
-                    {t("no_orders")}
+                    {t("no_business_orders")}
                   </td>
                 </tr>
               )}
