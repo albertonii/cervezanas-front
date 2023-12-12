@@ -217,6 +217,7 @@ export function ShoppingBasket() {
             .insert({
               order_id: order.id,
               producer_id: item.producer_id,
+              distributor_id: item.distributor_id,
             })
             .select("id")
             .single();

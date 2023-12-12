@@ -884,6 +884,7 @@ export interface IProductPackCartItem {
   image: string;
   name: string;
   producer_id: string;
+  distributor_id: string;
   products?: IProduct;
 }
 
@@ -911,7 +912,7 @@ export interface IProduct {
   is_public: boolean;
   discount_percent: number;
   discount_code: string;
-  price: number;
+  price: number; // TODO : quitar el price - pq está en product_pack
   campaign_id: string;
   is_archived: boolean;
   category: string;

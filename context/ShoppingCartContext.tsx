@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -25,6 +26,7 @@ type ShoppingCartContextType = {
   openCart: () => void;
   closeCart: () => void;
   isOpen: boolean;
+  updateCartItem: (newItem: IProductPackCartItem) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -41,6 +43,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   openCart: () => void {},
   closeCart: () => void {},
   isOpen: false,
+  updateCartItem: () => void {},
 });
 
 interface Props {
@@ -53,6 +56,10 @@ export function ShoppingCartProvider({ children }: Props) {
     "shopping-cart",
     []
   );
+
+  // useEffect(() => {
+  //   console.log(items);
+  // }, [items]);
 
   const clearItems = () => {
     setItems([]);
@@ -87,6 +94,7 @@ export function ShoppingCartProvider({ children }: Props) {
         price: product.price,
         image: product.product_multimedia[0].p_principal,
         producer_id: product.owner_id,
+        distributor_id: pack.distributor_id ?? "",
       };
 
       setItems((currItems) => {
@@ -220,6 +228,23 @@ export function ShoppingCartProvider({ children }: Props) {
     });
   };
 
+  // Update one item in the cart by identifier
+  const updateCartItem = (newItem: IProductPackCartItem) => {
+    setItems((items) => {
+      if (!items) return [];
+
+      const itemsReturned = items.map((item) => {
+        if (item.id === newItem.id) {
+          return newItem;
+        } else {
+          return item;
+        }
+      });
+
+      return itemsReturned;
+    });
+  };
+
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
@@ -249,6 +274,7 @@ export function ShoppingCartProvider({ children }: Props) {
       increasePackCartQuantity,
       increaseOnePackCartQuantity,
       decreaseOnePackCartQuantity,
+      updateCartItem,
     };
   }, [
     items,
@@ -264,6 +290,7 @@ export function ShoppingCartProvider({ children }: Props) {
     isOpen,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
+    updateCartItem,
   ]);
 
   return (

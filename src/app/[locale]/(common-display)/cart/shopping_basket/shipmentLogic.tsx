@@ -1,12 +1,9 @@
 "use client";
 
-import useSWR from "swr";
 import { API_METHODS, DS_API } from "../../../../../constants";
 import { createBrowserClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
-
-const fetcher = (arg: any, ...args: any) =>
-  fetch(arg, ...args).then((res) => res.json());
+import { DistributionStatus } from "../../../../../lib/enums";
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -20,7 +17,8 @@ export const initShipmentLogic = async (
     producerId
   );
 
-  if (listOfDistributors.length === 0) return false;
+  if (listOfDistributors.length === 0)
+    return { can_deliver: false, distributor_id: "" };
 
   // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
   for (const distributor of listOfDistributors) {
@@ -29,10 +27,15 @@ export const initShipmentLogic = async (
       shippingInfo
     );
 
-    if (canDeliver) return canDeliver;
+    if (canDeliver) {
+      return {
+        can_deliver: canDeliver,
+        distributor_id: distributor.distributor_id,
+      };
+    }
   }
 
-  return false;
+  return { can_deliver: false, distributor_id: "" };
 };
 
 const getShippingInfo = async (shippingInfoId: string) => {
@@ -65,7 +68,8 @@ const getListOfDistributorsBasedOnProducerId = async (
         )
     `
     )
-    .eq("producer_id", distributionId);
+    .eq("producer_id", distributionId)
+    .eq("status", DistributionStatus.ACCEPTED);
 
   if (error) throw error;
 
@@ -89,14 +93,14 @@ const canDistributorDeliverToAddress = async (
   const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
   const clientLatLng = await convertAddressToLatLng(address);
 
-  // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
-  // International -> Europe -> Region -> Province -> City -> Postal Code
-
   // a. International
   if (!clientLatLng) {
     console.error("Error: Could not convert address to [latitude, longitude]");
     return false;
   }
+
+  // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
+  // International -> Europe -> Region -> Province -> City -> Postal Code
 
   if (coverageAreas.international) {
     canDeliver = await canDistributorDeliverToAddressInternational(

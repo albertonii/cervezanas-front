@@ -9,6 +9,7 @@ import { initShipmentLogic } from "./shipmentLogic";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "../../../components/common/Spinner";
 import { IProductPackCartItem } from "../../../../../lib/types";
+import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
 
 interface Props {
   productPack: IProductPackCartItem;
@@ -19,6 +20,7 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
+  const { updateCartItem } = useShoppingCart();
   const [canDeliver, setCanDeliver] = useState(false);
   const [isLoadingDelivery, setIsLoadingDelivery] = useState(false);
 
@@ -40,12 +42,28 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
     setIsLoadingDelivery(true);
 
     const canDeliverFunction = async () => {
-      const res_canDeliver = await initShipmentLogic(
+      const response: {
+        can_deliver: boolean;
+        distributor_id: string;
+      } = await initShipmentLogic(
         selectedShippingAddress,
         productWithInfo.owner_id
       );
 
-      setCanDeliver(res_canDeliver);
+      if (response.can_deliver) {
+        // Si el producto se puede enviar a la dirección seleccionada,
+        // entonces vinculamos el pack del producto con el distribuidor que puede enviarlo
+        // 1. Update the product in the cart with the distributor id
+        const newProductPack: IProductPackCartItem = {
+          ...productPack,
+          distributor_id: response.distributor_id,
+        };
+
+        // 2. Update the product in the cart
+        updateCartItem(newProductPack);
+      }
+
+      setCanDeliver(response.can_deliver);
       setIsLoadingDelivery(false);
     };
 
