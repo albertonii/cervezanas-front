@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsAndPagination";
 import Image from "next/image";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
@@ -14,6 +13,7 @@ import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";
 import InputSearch from "../../../../components/common/InputSearch";
+import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -47,7 +47,7 @@ export function ProductsArchiveList({
 
   const resultsPerPage = 10;
 
-  const { isError, isLoading, refetch } = useFetchProductsByOwner(
+  const { isError, isLoading, refetch } = useFetchProductsByOwnerAndPagination(
     user.id,
     currentPage,
     resultsPerPage,

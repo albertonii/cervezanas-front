@@ -4,15 +4,15 @@ import React, { ComponentProps, useEffect } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../Auth/useAuth";
+import { ModalWithForm } from "./ModalWithForm";
 import { useMutation, useQueryClient } from "react-query";
 import { ICPM_events, IEvent } from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
-import { formatDateDefaultInput } from "../../../../utils/formatDate";
-import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
-import { ModalWithForm } from "./ModalWithForm";
 import { DisplayInputError } from "../common/DisplayInputError";
-import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
+import { formatDateDefaultInput } from "../../../../utils/formatDate";
 import useFetchConsumptionPoints from "../../../../hooks/useFetchConsumptionPoints";
+import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
+import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
 
 interface FormData {
   name: string;

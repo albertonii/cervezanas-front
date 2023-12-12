@@ -3,16 +3,16 @@
 import Link from "next/link";
 import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import DeleteCEventModal from "./DeleteEventModal";
-import EditEventModal from "./EditEventModal";
 import React, { useEffect, useMemo, useState } from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../../../lib/types";
-import { IconButton } from "../../../../components/common/IconButton";
+import { IEvent } from "../../../../../../lib/types";
 import { Spinner } from "../../../../components/common/Spinner";
-import { formatDateString } from "../../../../../../utils/formatDate";
 import InputSearch from "../../../../components/common/InputSearch";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { formatDateString } from "../../../../../../utils/formatDate";
+import { IconButton } from "../../../../components/common/IconButton";
+import EditEventModal from "../../../../components/modals/EditEventModal";
+import DeleteEventModal from "../../../../components/modals/DeleteEventModal";
 
 enum SortBy {
   NONE = "none",
@@ -25,11 +25,7 @@ enum SortBy {
   END_DATE = "end_date",
 }
 
-interface Props {
-  cpsMobile: ICPMobile[];
-}
-
-export default function EventList({ cpsMobile }: Props) {
+export default function EventList() {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -113,12 +109,12 @@ export default function EventList({ cpsMobile }: Props) {
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
-          cpsMobile={cpsMobile}
+          // cpsMobile={cpsMobile}
         />
       )}
 
       {isDeleteModal && selectedEvent && (
-        <DeleteCEventModal
+        <DeleteEventModal
           selectedEventId={selectedEvent.id}
           isDeleteModal={isDeleteModal}
           handleDeleteModal={handlDeleteModal}

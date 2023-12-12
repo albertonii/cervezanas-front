@@ -17,11 +17,10 @@ export default function ProfileEvents({ cpsMobile }: Props) {
     <div className="px-6 py-4">
       <AddEvent cpsMobile={cpsMobile} />
 
-      {/* Section displaying all the fixed consumption points created by the organizer  */}
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("events_list")}</h2>
 
-        <EventList cpsMobile={cpsMobile} />
+        <EventList />
       </section>
     </div>
   );

@@ -1,15 +1,15 @@
 "use client";
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsAndPagination";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Spinner } from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../../../lib/types";
+import { useLocale, useTranslations } from "next-intl";
+import { Spinner } from "../../../../components/common/Spinner";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 
 interface ColumnsProps {
   header: string;
@@ -31,7 +31,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
 
   const { register } = form;
 
-  const { isLoading, refetch } = useFetchProductsByOwner(
+  const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
     user?.id,
     currentPage,
     resultsPerPage,

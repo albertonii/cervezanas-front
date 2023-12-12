@@ -1,7 +1,6 @@
 "use client";
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchProductsByOwner from "../../../../../../hooks/useFetchProductsAndPagination";
 import ProductAccordion from "./ProductAccordion";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -9,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Spinner } from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../../../lib/types";
+import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -25,7 +25,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
   const fixedCount = products.length;
   const resultsPerPage = 10;
 
-  const { isLoading, refetch } = useFetchProductsByOwner(
+  const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
     user?.id,
     currentPage,
     resultsPerPage,

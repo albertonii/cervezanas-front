@@ -2,8 +2,6 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { IEvent } from "../../../../../../lib/types";
-import AddEvent from "./AddEvent";
 import EventList from "./EventList";
 
 export default function ProfileEvents() {
@@ -11,8 +9,6 @@ export default function ProfileEvents() {
 
   return (
     <div className="px-6 py-4">
-      {/* <AddEvent cpsMobile={cpsMobile} /> */}
-
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("events_list")}</h2>
 

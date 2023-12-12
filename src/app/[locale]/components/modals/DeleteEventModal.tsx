@@ -10,7 +10,7 @@ interface Props {
   handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCEventModal({
+export default function DeleteEventModal({
   selectedEventId,
   isDeleteModal,
   handleDeleteModal,

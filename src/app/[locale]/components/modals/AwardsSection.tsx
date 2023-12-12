@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types";
 import { DeleteButton } from "../common/DeleteButton";
-import { ModalAddProductFormData } from "./AddProduct";
+import { ModalAddProductFormData } from "../../../../lib/types";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
