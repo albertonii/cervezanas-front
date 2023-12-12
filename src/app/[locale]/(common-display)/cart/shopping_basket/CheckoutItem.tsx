@@ -61,6 +61,16 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
 
         // 2. Update the product in the cart
         updateCartItem(newProductPack);
+      } else {
+        // Si el producto no se puede enviar, debe de mantenerse el distributor_id en ""
+        // 1. Update the product in the cart with the distributor id
+        const newProductPack: IProductPackCartItem = {
+          ...productPack,
+          distributor_id: "",
+        };
+
+        // 2. Update the product in the cart
+        updateCartItem(newProductPack);
       }
 
       setCanDeliver(response.can_deliver);

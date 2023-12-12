@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -27,6 +26,7 @@ type ShoppingCartContextType = {
   closeCart: () => void;
   isOpen: boolean;
   updateCartItem: (newItem: IProductPackCartItem) => void;
+  checkIsShoppingCartDeliverable: () => boolean;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -44,6 +44,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
   closeCart: () => void {},
   isOpen: false,
   updateCartItem: () => void {},
+  checkIsShoppingCartDeliverable: () => false,
 });
 
 interface Props {
@@ -76,6 +77,17 @@ export function ShoppingCartProvider({ children }: Props) {
     [items]
   );
 
+  // Check if all the products in the cart are deliverable
+  const checkIsShoppingCartDeliverable = useCallback(() => {
+    if (!items) return false;
+
+    const isDeliverable = items.every((item) => {
+      return item.distributor_id !== "";
+    });
+
+    return isDeliverable;
+  }, [items]);
+
   const getItemQuantity = useCallback(
     (id: string) => {
       const item = items?.find((item) => item?.id === id);
@@ -94,7 +106,7 @@ export function ShoppingCartProvider({ children }: Props) {
         price: product.price,
         image: product.product_multimedia[0].p_principal,
         producer_id: product.owner_id,
-        distributor_id: pack.distributor_id ?? "",
+        distributor_id: "",
       };
 
       setItems((currItems) => {
@@ -275,6 +287,7 @@ export function ShoppingCartProvider({ children }: Props) {
       increaseOnePackCartQuantity,
       decreaseOnePackCartQuantity,
       updateCartItem,
+      checkIsShoppingCartDeliverable,
     };
   }, [
     items,
@@ -291,6 +304,7 @@ export function ShoppingCartProvider({ children }: Props) {
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
     updateCartItem,
+    checkIsShoppingCartDeliverable,
   ]);
 
   return (

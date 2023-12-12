@@ -56,6 +56,8 @@ export function ShoppingBasket() {
   const t = useTranslations();
 
   const { user, isLoading, supabase } = useAuth();
+  const { items, clearCart, checkIsShoppingCartDeliverable } =
+    useShoppingCart();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -71,6 +73,8 @@ export function ShoppingBasket() {
   const [merchantSignature, setMerchantSignature] = useState("");
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
+
+  const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
   const { data: shippingAddresses, error: shippingAddressesError } =
     useFetchShippingByOwnerId(user?.id as string);
@@ -96,7 +100,6 @@ export function ShoppingBasket() {
   });
   const { trigger: triggerBilling } = formBilling;
 
-  const { items, clearCart } = useShoppingCart();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -125,6 +128,12 @@ export function ShoppingBasket() {
       btnRef.current && btnRef.current.click();
     }
   }, [isFormReady]);
+
+  useEffect(() => {
+    const canMakeThePayment =
+      checkIsShoppingCartDeliverable() && items.length > 0;
+    setCanMakeThePayment(canMakeThePayment);
+  }, [items, selectedShippingAddress]);
 
   const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
@@ -503,13 +512,15 @@ export function ShoppingBasket() {
                         </div>
 
                         {/* Proceed to pay */}
-                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                        <div
+                          className={`flex w-full items-center justify-center md:items-start md:justify-start`}
+                        >
                           <Button
                             large
                             primary
                             class={`font-semibold`}
                             title={""}
-                            disabled={items.length === 0}
+                            disabled={!canMakeThePayment}
                             onClick={() => {
                               onSubmit();
                             }}
