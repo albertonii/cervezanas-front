@@ -58,10 +58,6 @@ export function ShoppingCartProvider({ children }: Props) {
     []
   );
 
-  // useEffect(() => {
-  //   console.log(items);
-  // }, [items]);
-
   const clearItems = () => {
     setItems([]);
   };

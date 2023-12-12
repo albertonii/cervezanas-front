@@ -131,7 +131,7 @@ export function ShoppingBasket() {
 
   useEffect(() => {
     const canMakeThePayment =
-      checkIsShoppingCartDeliverable() && items.length > 0;
+      checkIsShoppingCartDeliverable() && items.length > 0 && selectedBillingAddress !== "" && selectedShippingAddress !== "";
     setCanMakeThePayment(canMakeThePayment);
   }, [items, selectedShippingAddress]);
 
