@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ComponentProps } from "react";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 
 interface Props {
   handleResponseModal: ComponentProps<any>;

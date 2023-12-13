@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
@@ -96,11 +95,7 @@ export function LocationForm({ profile_location }: Props) {
     } = formValues;
 
     setTimeout(async () => {
-      if (
-        _.isNull(profile_location_id) ||
-        _.isUndefined(profile_location_id) ||
-        profile_location_id === ""
-      ) {
+      if (!profile_location_id || profile_location_id === "") {
         const { error } = await supabase.from("profile_location").insert([
           {
             name: addressName,

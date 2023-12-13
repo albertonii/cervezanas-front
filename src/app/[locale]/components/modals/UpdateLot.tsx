@@ -8,7 +8,9 @@ import { DisplayInputError } from "../common/DisplayInputError";
 import { useMutation, useQueryClient } from "react-query";
 import { IRefProductLot } from "../../../../lib/types";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
-import { ModalWithForm } from "./ModalWithForm";
+import dynamic from "next/dynamic";
+
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 type FormValues = {
   created_at: string;

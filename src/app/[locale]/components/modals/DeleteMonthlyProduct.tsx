@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ComponentProps } from "react";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 import { useAuth } from "../../Auth/useAuth";
 import { IMonthlyProduct } from "../../../../lib/types";
 

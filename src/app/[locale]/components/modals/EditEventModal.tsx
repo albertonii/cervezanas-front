@@ -5,7 +5,6 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { ModalWithForm } from "./ModalWithForm";
 import { useMutation, useQueryClient } from "react-query";
 import { ICPM_events, IEvent } from "../../../../lib/types";
 import { DisplayInputError } from "../common/DisplayInputError";
@@ -13,7 +12,9 @@ import { formatDateDefaultInput } from "../../../../utils/formatDate";
 import useFetchConsumptionPoints from "../../../../hooks/useFetchConsumptionPoints";
 import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
 import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
+import dynamic from "next/dynamic";
 
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 interface FormData {
   name: string;
   description: string;

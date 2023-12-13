@@ -74,6 +74,20 @@ pnpm run dev
 
 ---
 
+# Production
+
+## Optimize
+
+To analyze the final bundle we can use tools to look for optimizations:
+
+### Next Bundle Analyzer
+
+Run the next script to analyze the bundle sizes of the packages created by the build command. We can visualize what can be removed.
+
+```bash
+    pnpm analyze
+```
+
 # Distribution System API Endpoints
 
 ## Main url
@@ -89,5 +103,5 @@ https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io
 # TODO List
 
 [ ] - Sistema de Distribución
-[ ] - TODO 2
+[ ] - Optimizar bundle
 [ ] - TODO 3

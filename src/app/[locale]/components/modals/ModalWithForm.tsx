@@ -36,7 +36,7 @@ interface Props {
   form: UseFormReturn<any, any>;
 }
 
-export function ModalWithForm(props: Props) {
+export default function ModalWithForm(props: Props) {
   const {
     btnTitle,
     title,

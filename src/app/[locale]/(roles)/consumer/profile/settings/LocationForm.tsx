@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -10,6 +9,7 @@ import { Spinner } from "../../../../components/common/Spinner";
 import { IProfileLocation } from "../../../../../../lib/types";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { isEmpty } from "../../../../../../utils/utils";
 
 interface FormProps {
   addressName: string;
@@ -96,11 +96,7 @@ export function LocationForm({ profile_location }: Props) {
     } = formValues;
 
     setTimeout(async () => {
-      if (
-        _.isNull(profile_location_id) ||
-        _.isUndefined(profile_location_id) ||
-        profile_location_id === ""
-      ) {
+      if (!isEmpty(profile_location_id) || profile_location_id === "") {
         const { error } = await supabase.from("profile_location").insert([
           {
             name: addressName,

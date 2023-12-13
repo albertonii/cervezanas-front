@@ -2,7 +2,7 @@
 
 import {
   createServerClient as createServerComponentClient,
-  type CookieOptions,
+  // type CookieOptions,
 } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { Database } from "../lib/schema";

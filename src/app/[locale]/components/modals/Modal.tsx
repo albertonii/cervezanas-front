@@ -35,7 +35,7 @@ interface Props {
   hasErrors?: boolean;
 }
 
-export function Modal(props: Props) {
+export default function Modal(props: Props) {
   const {
     btnTitle,
     title,

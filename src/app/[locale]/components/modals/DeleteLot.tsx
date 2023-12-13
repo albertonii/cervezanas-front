@@ -1,7 +1,7 @@
 import React, { ComponentProps } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useAuth } from "../../Auth/useAuth";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 
 interface Props {
   productLotId: string;

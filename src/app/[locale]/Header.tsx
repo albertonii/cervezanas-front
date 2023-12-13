@@ -4,7 +4,7 @@ import { useAuth } from "./Auth/useAuth";
 import { MobileMenu } from "./MobileMenu";
 import { ScreenMenu } from "./ScreenMenu";
 
-export function Header() {
+export default function Header() {
   const { isLoading } = useAuth();
 
   if (isLoading) return <></>;

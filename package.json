@@ -16,7 +16,8 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:vitest": "vitest",
-    "dev:local-network": "npx next dev -H 192.168.0.39 -p 5000"
+    "dev:local-network": "npx next dev -H 192.168.0.39 -p 5000",
+    "analyse": "ANALYZE=true pnpm run build"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.2.32",
@@ -25,6 +26,7 @@
     "@fortawesome/react-fontawesome": "0.2.0",
     "@headlessui/react": "1.7.15",
     "@heroicons/react": "2.0.13",
+    "@next/bundle-analyzer": "^14.0.4",
     "@reach/alert": "0.18.0",
     "@reach/combobox": "0.18.0",
     "@react-hook/media-query": "1.1.1",
@@ -85,7 +87,6 @@
     "@types/crypto-js": "4.1.1",
     "@types/google.maps": "3.52.6",
     "@types/jest": "^29.5.5",
-    "@types/lodash": "4.14.191",
     "@types/node": "18.7.2",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
@@ -108,7 +109,6 @@
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "lint-staged": "13.0.3",
-    "lodash": "4.17.21",
     "nookies": "2.5.2",
     "postcss": "8.4.16",
     "prettier": "2.7.1",

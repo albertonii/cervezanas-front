@@ -18,7 +18,6 @@ import { TableTotalInvoice } from "../../../../components/invoice/TableTotalInvo
 import { FooterInvoice } from "../../../../components/invoice/FooterInvoice";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
-// Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",

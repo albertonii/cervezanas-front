@@ -8,10 +8,12 @@ import { DisplayInputError } from "../common/DisplayInputError";
 import { useAuth } from "../../Auth/useAuth";
 import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
 import { useMutation, useQueryClient } from "react-query";
-import { ModalWithForm } from "./ModalWithForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 export type ModalAddEventFormData = {
   name: string;

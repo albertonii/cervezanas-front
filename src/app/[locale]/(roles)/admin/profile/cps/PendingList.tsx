@@ -10,13 +10,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { Modal } from "../../../../components/modals/Modal";
+// import Modal  from "../../../../components/modals/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { IconButton } from "../../../../components/common/IconButton";
 import { generateDownloadableLink } from "../../../../../../utils/utils";
 import { IConsumptionPoints, SortBy } from "../../../../../../lib/types";
 import InputSearch from "../../../../components/common/InputSearch";
+import dynamic from "next/dynamic";
+
+const DynamicModal = dynamic(
+  () => import("../../../../components/modals/Modal"),
+  {
+    loading: () => <p>Loading...</p>,
+    ssr: false,
+  }
+);
 
 interface Props {
   submittedCPs: IConsumptionPoints[];
@@ -152,9 +161,9 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   };
 
   return (
-    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+    <section className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {selectedCP && isAcceptModal && (
-        <Modal
+        <DynamicModal
           title={t("accept")}
           icon={faCheck}
           color={acceptColor}
@@ -173,11 +182,11 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           btnTitle={t("accept")}
         >
           <></>
-        </Modal>
+        </DynamicModal>
       )}
 
       {selectedCP && isRejectModal && (
-        <Modal
+        <DynamicModal
           title={t("reject")}
           icon={faCheck}
           color={acceptColor}
@@ -195,7 +204,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           btnTitle={t("accept")}
         >
           <></>
-        </Modal>
+        </DynamicModal>
       )}
 
       <InputSearch
@@ -326,6 +335,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           })}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 }

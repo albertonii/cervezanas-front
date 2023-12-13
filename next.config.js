@@ -20,6 +20,7 @@ module.exports = withNextIntl({
       "lh3.googleusercontent.com",
     ],
     formats: ["image/webp", "image/avif"],
+    // cache optimized images for 60 seconds
     minimumCacheTTL: 60,
   },
   async redirects() {
@@ -32,3 +33,9 @@ module.exports = withNextIntl({
     ];
   },
 });
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+module.exports = withBundleAnalyzer({});

@@ -4,7 +4,7 @@ import React, { ComponentProps } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { IAward, IProduct } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 
 interface Props {
   product: IProduct | undefined;

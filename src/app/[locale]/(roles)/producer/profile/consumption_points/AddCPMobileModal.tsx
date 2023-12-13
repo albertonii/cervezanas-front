@@ -10,7 +10,7 @@ import { getGeocode } from "use-places-autocomplete";
 import { IUser } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { Modal } from "../../../../components/modals/Modal";
+import Modal from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 

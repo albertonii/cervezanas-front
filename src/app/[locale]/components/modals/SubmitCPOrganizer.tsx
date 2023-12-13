@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ComponentProps, useState } from "react";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";

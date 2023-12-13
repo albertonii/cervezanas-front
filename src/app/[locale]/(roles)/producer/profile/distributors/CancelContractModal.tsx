@@ -1,7 +1,7 @@
 import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
-import { Modal } from "../../../../components/modals/Modal";
+import Modal from "../../../../components/modals/Modal";
 import { useAuth } from "../../../../Auth/useAuth";
 
 interface Props {

@@ -8,7 +8,7 @@ import { useAuth } from "../../../Auth/useAuth";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
 import { ModalBillingAddressFormData } from "../../../../../lib/types";
-import { ModalWithForm } from "../../../components/modals/ModalWithForm";
+import ModalWithForm from "../../../components/modals/ModalWithForm";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 

@@ -14,7 +14,7 @@ import {
 } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { GeocodeResult } from "use-places-autocomplete";
-import { Modal } from "../../../../components/modals/Modal";
+import Modal from "../../../../components/modals/Modal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";

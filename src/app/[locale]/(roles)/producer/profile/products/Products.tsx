@@ -34,7 +34,7 @@ export function Products() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <section>Loading...</section>;
   }
 
   return (

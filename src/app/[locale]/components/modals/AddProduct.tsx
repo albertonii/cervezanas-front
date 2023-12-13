@@ -35,7 +35,9 @@ import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
 import { useAppContext } from "../../../../../context/AppContext";
-import { ModalWithForm } from "./ModalWithForm";
+import dynamic from "next/dynamic";
+
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
   name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {

@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import React, { ComponentProps, useEffect, useState } from "react";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -36,8 +35,14 @@ import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
 import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
-import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
-import { ModalWithForm } from "./ModalWithForm";
+import {
+  isEmpty,
+  isNotEmptyArray,
+  isValidObject,
+} from "../../../../utils/utils";
+import dynamic from "next/dynamic";
+
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
   id: z.string(),
@@ -298,23 +303,23 @@ export function UpdateProduct({
     const productId = product.id;
 
     // Multimedia
-    const p_principal_url = !_.isEmpty(p_principal?.name)
+    const p_principal_url = !isEmpty(p_principal?.name)
       ? encodeURIComponent(p_principal.name)
       : "";
 
-    const p_back_url = !_.isEmpty(p_back?.name)
+    const p_back_url = !isEmpty(p_back?.name)
       ? encodeURIComponent(p_back.name)
       : "";
 
-    const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
+    const p_extra_1_url = !isEmpty(p_extra_1?.name)
       ? encodeURIComponent(p_extra_1.name)
       : "";
 
-    const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
+    const p_extra_2_url = !isEmpty(p_extra_2?.name)
       ? encodeURIComponent(p_extra_2.name)
       : "";
 
-    const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
+    const p_extra_3_url = !isEmpty(p_extra_3?.name)
       ? encodeURIComponent(p_extra_3.name)
       : "";
 

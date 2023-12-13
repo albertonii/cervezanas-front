@@ -5,10 +5,17 @@ import Loading from "./loading";
 import classNames from "classnames";
 import readUserSession from "../../lib/actions";
 import { Suspense } from "react";
-import { Header } from "./Header";
-import { Footer } from "./components/Footer";
 import { notFound } from "next/navigation";
 import { MessageList } from "./components/message/MessageList";
+import dynamic from "next/dynamic";
+
+const DynamicHeader = dynamic(() => import("./Header"), {
+  loading: () => <p>Loading...</p>,
+});
+
+const DynamicFooter = dynamic(() => import("./components/Footer"), {
+  loading: () => <p>Loading...</p>,
+});
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -40,7 +47,7 @@ export default async function AppLocaleLayout({
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
         <div className="relative flex flex-col bg-beer-foam">
-          <Header />
+          <DynamicHeader />
 
           <div
             className={classNames("relative mx-auto mt-[10vh] h-auto w-full")}
@@ -60,7 +67,7 @@ export default async function AppLocaleLayout({
             {children}
           </main>
 
-          <Footer />
+          <DynamicFooter />
         </div>
       </Providers>
     </Suspense>

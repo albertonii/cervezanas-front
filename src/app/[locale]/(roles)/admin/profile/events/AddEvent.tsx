@@ -7,7 +7,7 @@ import { ICPMobile } from "../../../../../../lib/types";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
-import { ModalWithForm } from "../../../../components/modals/ModalWithForm";
+import ModalWithForm from "../../../../components/modals/ModalWithForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";

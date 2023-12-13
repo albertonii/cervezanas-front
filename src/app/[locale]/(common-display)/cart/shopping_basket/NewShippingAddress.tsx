@@ -9,7 +9,7 @@ import {
 } from "../../../../../lib/types";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
-import { ModalWithForm } from "../../../components/modals/ModalWithForm";
+import ModalWithForm from "../../../components/modals/ModalWithForm";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 

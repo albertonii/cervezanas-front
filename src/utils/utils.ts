@@ -1,13 +1,21 @@
-import _ from "lodash";
 import { uuid } from "uuidv4";
 import { ROLE_ENUM } from "../lib/enums";
 
 export function isValidObject(object: any) {
-  return object != null && object !== "" && !_.isEmpty(object);
+  return object != null && object !== "" && !isEmpty(object);
 }
 
 export function isNotEmptyArray(array: any[]) {
-  return !_.isEmpty(array);
+  return Array.isArray(array) && !array.length;
+}
+
+export function isEmpty(value: any) {
+  return (
+    value === undefined ||
+    value === null ||
+    (typeof value === "object" && Object.keys(value).length === 0) ||
+    (typeof value === "string" && value.trim().length === 0)
+  );
 }
 
 export function encodeBase64(string: string) {

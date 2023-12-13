@@ -1,5 +1,5 @@
 import React, { ComponentProps } from "react";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {

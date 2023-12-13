@@ -1,7 +1,7 @@
 import ListAvailableDistributors from "./ListAvailableDistributors";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal } from "../../../../components/modals/Modal";
+import Modal from "../../../../components/modals/Modal";
 import { IDistributorUser } from "../../../../../../lib/types";
 import { SubmitContract } from "./SubmitContract";
 import { z, ZodType } from "zod";
