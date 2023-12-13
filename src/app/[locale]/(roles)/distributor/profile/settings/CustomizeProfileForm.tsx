@@ -7,7 +7,7 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import { Button } from "../../../../components/common/Button";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { IDistributorUser } from "../../../../../../lib/types";
 import { useAppContext } from "../../../../../../../context/AppContext";
 import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";

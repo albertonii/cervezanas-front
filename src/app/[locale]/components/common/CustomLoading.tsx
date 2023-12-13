@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Spinner } from "./Spinner";
+import Spinner from "./Spinner";
 
 interface Props {
   message: string;

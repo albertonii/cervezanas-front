@@ -10,7 +10,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-// import Modal  from "../../../../components/modals/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { IconButton } from "../../../../components/common/IconButton";

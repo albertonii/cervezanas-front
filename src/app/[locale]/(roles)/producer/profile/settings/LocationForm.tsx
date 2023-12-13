@@ -8,7 +8,7 @@ import { IProfileLocation } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 
 interface FormProps {
   addressName: string;

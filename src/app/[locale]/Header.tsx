@@ -1,19 +1,29 @@
 "use client";
 
-import { useAuth } from "./Auth/useAuth";
-import { MobileMenu } from "./MobileMenu";
-import { ScreenMenu } from "./ScreenMenu";
+// import { MobileMenu } from "./MobileMenu";
+// import { ScreenMenu } from "./ScreenMenu";
+import dynamic from "next/dynamic";
 
-export default function Header() {
-  const { isLoading } = useAuth();
+const DynamicMobileMenu = dynamic(() => import("./MobileMenu"), {
+  loading: () => <p>Loading...</p>,
+});
+const DynamicScreenMenu = dynamic(() => import("./ScreenMenu"), {
+  loading: () => <p>Loading...</p>,
+});
 
-  if (isLoading) return <></>;
+interface Props {
+  deviceType: string;
+}
 
+export default function Header({ deviceType }: Props) {
   return (
     <header className="header absolute w-full bg-beer-foam bg-transparent">
       <nav>
-        <MobileMenu />
-        <ScreenMenu />
+        {deviceType === "mobile" ? (
+          <DynamicMobileMenu />
+        ) : (
+          <DynamicScreenMenu />
+        )}
       </nav>
     </header>
   );

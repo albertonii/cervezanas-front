@@ -7,7 +7,7 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { IProductLot } from "../../../../../../lib/types";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { EditButton } from "../../../../components/common/EditButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import InputSearch from "../../../../components/common/InputSearch";
 

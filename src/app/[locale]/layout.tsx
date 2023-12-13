@@ -1,4 +1,5 @@
 import "../../styles/globals.css";
+import { headers } from "next/headers";
 
 import Providers from "./providers";
 import Loading from "./loading";
@@ -43,11 +44,13 @@ export default async function AppLocaleLayout({
     notFound();
   }
 
+  const deviceType = getDeviceType();
+
   return (
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
         <div className="relative flex flex-col bg-beer-foam">
-          <DynamicHeader />
+          <DynamicHeader deviceType={deviceType} />
 
           <div
             className={classNames("relative mx-auto mt-[10vh] h-auto w-full")}
@@ -72,4 +75,15 @@ export default async function AppLocaleLayout({
       </Providers>
     </Suspense>
   );
+}
+
+export function getDeviceType() {
+  const headersList = headers();
+  const userAgent = headersList.get("user-agent");
+
+  return userAgent!.match(
+    /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+  )
+    ? "mobile"
+    : "desktop";
 }

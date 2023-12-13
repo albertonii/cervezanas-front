@@ -6,7 +6,7 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IEvent } from "../../../../../../lib/types";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import InputSearch from "../../../../components/common/InputSearch";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { formatDateString } from "../../../../../../utils/formatDate";

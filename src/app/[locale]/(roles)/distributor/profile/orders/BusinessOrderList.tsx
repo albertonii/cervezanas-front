@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { IBusinessOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";

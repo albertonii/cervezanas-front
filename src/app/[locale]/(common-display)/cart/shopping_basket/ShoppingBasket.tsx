@@ -17,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
 import { Button } from "../../../components/common/Button";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
-import { Spinner } from "../../../components/common/Spinner";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
@@ -28,6 +27,14 @@ import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 export type FormShippingData = {
   shipping_info_id: string;
@@ -315,7 +322,7 @@ export function ShoppingBasket() {
     setSelectedBillingAddress(addressId);
   };
 
-  if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
+  if (isLoading) return <DynamicSpinner color="beer-blonde" size="medium" />;
 
   return (
     <>

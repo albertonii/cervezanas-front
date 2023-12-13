@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../components/common/Button";
 import { IDistributorUser } from "../../../../../../lib/types";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 

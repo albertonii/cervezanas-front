@@ -7,9 +7,17 @@ import useFetchProductById from "../../../../../hooks/useFetchProductById";
 import React, { useEffect, useState } from "react";
 import { initShipmentLogic } from "./shipmentLogic";
 import { useLocale, useTranslations } from "next-intl";
-import { Spinner } from "../../../components/common/Spinner";
 import { IProductPackCartItem } from "../../../../../lib/types";
 import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
+
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 interface Props {
   productPack: IProductPackCartItem;
@@ -81,7 +89,7 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
   }, [selectedShippingAddress]);
 
   if (isLoadingProduct || isLoadingDelivery)
-    return <Spinner color={"beer-blonde"} size={"medium"} />;
+    return <DynamicSpinner color={"beer-blonde"} size={"medium"} />;
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 

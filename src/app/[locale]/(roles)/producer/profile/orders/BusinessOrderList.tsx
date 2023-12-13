@@ -4,7 +4,7 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { IBusinessOrder } from "../../../../../../lib/types";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { useAuth } from "../../../../Auth/useAuth";
 import OTableData from "./OTableData";
 import InputSearch from "../../../../components/common/InputSearch";

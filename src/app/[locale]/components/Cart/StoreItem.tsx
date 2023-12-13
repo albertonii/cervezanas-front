@@ -5,7 +5,7 @@ import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons2 from "../common/MarketCartButtons2";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Spinner } from "../common/Spinner";
+import Spinner from "../common/Spinner";
 import { IconButton } from "../common/IconButton";
 import { SupabaseProps } from "../../../../constants";
 import { useLocale, useTranslations } from "next-intl";

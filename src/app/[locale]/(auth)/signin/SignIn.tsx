@@ -11,11 +11,18 @@ import { useAuth } from "../../Auth/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Spinner } from "../../components/common/Spinner";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMessage } from "../../components/message/useMessage";
 import { DisplayInputError } from "../../components/common/DisplayInputError";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 type FormData = {
   email: string;
@@ -117,7 +124,7 @@ export default function SignIn() {
   };
 
   if (!isPageLoad) {
-    return <Spinner color="beer-blonde" size={"fullScreen"} absolute />;
+    return <DynamicSpinner color="beer-blonde" size={"fullScreen"} absolute />;
   }
 
   return (

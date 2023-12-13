@@ -9,7 +9,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { IEventOrder } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import InputSearch from "../../../../components/common/InputSearch";

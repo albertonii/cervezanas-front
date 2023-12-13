@@ -12,7 +12,6 @@ import { useTranslations } from "next-intl";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../../../../components/common/Button";
 import { IconButton } from "../../../../../components/common/IconButton";
-import { Spinner } from "../../../../../components/common/Spinner";
 import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { ProductOverallReview } from "../../../../../components/reviews/ProductOverallReview";
 import { ProductReviews } from "../../../../../components/reviews/ProductReviews";
@@ -25,6 +24,14 @@ import {
   IProductPack,
   IReview,
 } from "../../../../../../../lib/types";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 interface Props {
   product: ICPMProducts;

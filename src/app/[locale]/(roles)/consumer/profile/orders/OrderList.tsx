@@ -6,9 +6,16 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
-import { Spinner } from "../../../../components/common/Spinner";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 interface ColumnsProps {
   header: string;
@@ -57,7 +64,8 @@ export function OrderList() {
     });
   }, [orders, query]);
 
-  if (!isReady) return <Spinner color="beer-blonde" size="xLarge" center />;
+  if (!isReady)
+    return <DynamicSpinner color="beer-blonde" size="xLarge" center />;
 
   return (
     <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
@@ -70,7 +78,7 @@ export function OrderList() {
       )}
 
       {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
+        <DynamicSpinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
       {!isError && !isLoading && orders && orders.length === 0 ? (

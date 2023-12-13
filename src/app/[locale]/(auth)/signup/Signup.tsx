@@ -8,7 +8,14 @@ import { useAuth } from "../../Auth/useAuth";
 import { VIEWS } from "../../../../constants";
 import { SignUpForm } from "../../Auth/SignUpForm";
 import { useLocale, useTranslations } from "next-intl";
-import { Spinner } from "../../components/common/Spinner";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Signup() {
   const t = useTranslations();
@@ -31,11 +38,11 @@ export default function Signup() {
   }, [user]);
 
   if (!isPageLoad) {
-    return <Spinner color="beer-blonde" size={"fullScreen"} absolute />;
+    return <DynamicSpinner color="beer-blonde" size={"fullScreen"} absolute />;
   }
 
   return (
-    <div className="w-full lg:grid lg:grid-cols-2">
+    <section className="w-full lg:grid lg:grid-cols-2">
       {/* Signup form  */}
       <div className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
@@ -73,6 +80,6 @@ export default function Signup() {
           src="/assets/profile_signup.jpg"
         />
       </div>
-    </div>
+    </section>
   );
 }

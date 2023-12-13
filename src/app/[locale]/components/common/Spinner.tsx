@@ -6,13 +6,13 @@ interface Props {
   center?: boolean;
 }
 
-export const Spinner = ({
+export default function Spinner({
   color,
   size,
   class: class_,
   absolute,
   center,
-}: Props) => {
+}: Props) {
   return (
     <section
       role="status"
@@ -56,4 +56,4 @@ export const Spinner = ({
       </svg>
     </section>
   );
-};
+}

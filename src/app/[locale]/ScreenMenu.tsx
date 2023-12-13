@@ -15,7 +15,7 @@ import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { useAppContext } from "../../../context/AppContext";
 import { i18n } from "../../lib/translations/i18n";
 
-export function ScreenMenu() {
+export default function ScreenMenu() {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();

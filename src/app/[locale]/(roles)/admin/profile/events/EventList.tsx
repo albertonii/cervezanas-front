@@ -4,7 +4,6 @@ import Link from "next/link";
 import { IEvent } from "../../../../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useMemo, useState } from "react";
-import { Spinner } from "../../../../components/common/Spinner";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import InputSearch from "../../../../components/common/InputSearch";
 import useFetchEvents from "../../../../../../hooks/useFetchEvents";
@@ -13,6 +12,14 @@ import { formatDateString } from "../../../../../../utils/formatDate";
 import EditEventModal from "../../../../components/modals/EditEventModal";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import DeleteCEventModal from "../../../../components/modals/DeleteEventModal";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 enum SortBy {
   NONE = "none",
@@ -129,7 +136,7 @@ export default function EventList() {
       )}
 
       {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
+        <DynamicSpinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
       {!isError && !isLoading && sortedItems.length === 0 ? (

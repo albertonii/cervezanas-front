@@ -6,7 +6,6 @@ import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types";
-import { Spinner } from "../../../../components/common/Spinner";
 import InputSearch from "../../../../components/common/InputSearch";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { EditButton } from "../../../../components/common/EditButton";
@@ -14,6 +13,14 @@ import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { ArchiveButton } from "../../../../components/common/ArchiveButton";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import useFetchProductsAndPagination from "../../../../../../hooks/useFetchProductsAndPagination";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -121,7 +128,7 @@ export function ProductList({
       )}
 
       {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
+        <DynamicSpinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
       {!isError && !isLoading && products?.length === 0 ? (

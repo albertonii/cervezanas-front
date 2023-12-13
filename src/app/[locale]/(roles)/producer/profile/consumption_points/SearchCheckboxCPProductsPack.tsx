@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../../../lib/types";
 import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 

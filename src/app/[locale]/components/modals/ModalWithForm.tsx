@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import { Button } from "../common/Button";
 import { IconButton } from "../common/IconButton";
-import { Spinner } from "../common/Spinner";
+import Spinner from "../common/Spinner";
 import { PortalModal } from "./PortalModal";
 import { UseFormReturn } from "react-hook-form";
 

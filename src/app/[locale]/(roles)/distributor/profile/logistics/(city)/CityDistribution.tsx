@@ -8,7 +8,7 @@ import { Country } from "country-state-city";
 import { useMutation, useQueryClient } from "react-query";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { Button } from "../../../../../components/common/Button";
-import { Spinner } from "../../../../../components/common/Spinner";
+import Spinner from "../../../../../components/common/Spinner";
 import { IState, ICity, ICountry } from "country-state-city/lib/interface";
 import { slicePaginationResults } from "../../../../../../../utils/utils";
 

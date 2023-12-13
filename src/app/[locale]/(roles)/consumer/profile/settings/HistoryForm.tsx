@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 
 export function HistoryForm(props: any) {
   const t = useTranslations();

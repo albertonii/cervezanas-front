@@ -10,7 +10,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import InputSearch from "../../../../components/common/InputSearch";
 

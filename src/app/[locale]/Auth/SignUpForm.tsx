@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Spinner } from "../components/common/Spinner";
+import Spinner from "../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DisplayInputError } from "../components/common/DisplayInputError";

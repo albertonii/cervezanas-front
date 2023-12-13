@@ -4,7 +4,7 @@ import DisplayImageProduct from "../../../../../components/common/DisplayImagePr
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../../../components/common/Button";
-import { Spinner } from "../../../../../components/common/Spinner";
+import Spinner from "../../../../../components/common/Spinner";
 import { IEventOrderItem } from "../../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,

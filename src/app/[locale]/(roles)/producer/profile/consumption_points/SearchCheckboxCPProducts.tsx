@@ -7,7 +7,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 
