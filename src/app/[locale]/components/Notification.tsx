@@ -68,6 +68,7 @@ export function Notification({ open, setOpen }: Props) {
                         width={36}
                         height={36}
                         src={"/icons/watch-icon.png"}
+                        loader={() => "/icons/watch-icon.png"}
                         alt="read notification"
                         className="rounded-full"
                       />

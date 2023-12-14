@@ -65,7 +65,7 @@ export const AwardsSection = ({ form }: Props) => {
   };
 
   return (
-    <section id="Award">
+    <section id="Award" className="space-y-4">
       {fields.map((field, index) => (
         <div key={field.id} className="relative flex-auto space-y-4 pt-6">
           <div className="flex flex-row items-end">
@@ -161,11 +161,9 @@ export const AwardsSection = ({ form }: Props) => {
         </div>
       ))}
 
-      <div>
-        <Button class="" primary medium onClick={() => handleAddAward()}>
-          {t("modal_product_award_add")}
-        </Button>
-      </div>
+      <Button class="" primary medium onClick={() => handleAddAward()}>
+        {t("modal_product_award_add")}
+      </Button>
     </section>
   );
 };

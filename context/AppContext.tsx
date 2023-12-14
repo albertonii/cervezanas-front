@@ -75,29 +75,13 @@ interface Props {
 }
 
 export function AppContextProvider(props: Props) {
-  const { user, provider } = useAuth();
-
-  if (!user) return <>{props.children}</>;
-
-  const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
-  const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
-  const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
-  const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
-
-  const decodeUriProfileImg = provider
-    ? user.avatar_url
-    : decodeURIComponent(`${fullProfilePhotoUrl}${user.id}`);
-  const decodeUriCustomImg = provider
-    ? user.bg_url
-    : decodeURIComponent(`${fullCustomUrl}${user.id}`);
+  const { user, provider, isLoggedIn } = useAuth();
 
   const [filters, setFilters] = useState({
     category: "all",
     minPrice: 0,
   });
 
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [lots, setLots] = useState<IRefProductLot[]>([]);
   const [customizeSettings, setCustomizeSettings] =
     useState<ICustomizeSettings>({
       id: "",
@@ -106,20 +90,23 @@ export function AppContextProvider(props: Props) {
       family_styles: [],
     });
 
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [lots, setLots] = useState<IRefProductLot[]>([]);
   const [imageData, setImageData] = useState<ImageDataRecord>({});
-
-  const addImage = (key: string, image: File) => {
-    setImageData({ ...imageData, [key]: image });
-  };
-
-  const removeImage = (key: string) => {
-    const { [key]: _, ...rest } = imageData;
-    setImageData(rest);
-  };
-
-  // const { refetch } = useFetchNotifications(user?.id ?? "");
-
   const [openNotification, setOpenNotification] = useState(false);
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+
+  const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
+  const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
+  const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
+  const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+
+  const decodeUriProfileImg = provider
+    ? user.avatar_url
+    : decodeURIComponent(`${fullProfilePhotoUrl}${user?.id}`);
+  const decodeUriCustomImg = provider
+    ? user.bg_url
+    : decodeURIComponent(`${fullCustomUrl}${user?.id}`);
 
   const [bgImg, setBgImg] = useState(
     decodeUriCustomImg ?? `/icons/profile-240.png`
@@ -132,12 +119,6 @@ export function AppContextProvider(props: Props) {
     "settings"
   );
 
-  const [notifications, setNotifications] = useState<INotification[]>([]);
-
-  const changeSidebarActive = (select: string) => {
-    setSidebar(select);
-  };
-
   useEffect(() => {
     if (!user) return;
 
@@ -147,6 +128,21 @@ export function AppContextProvider(props: Props) {
     // setNotifications(notifications);
     // });
   }, [user]);
+
+  if (!isLoggedIn) return <>{props.children}</>;
+
+  const addImage = (key: string, image: File) => {
+    setImageData({ ...imageData, [key]: image });
+  };
+
+  const removeImage = (key: string) => {
+    const { [key]: _, ...rest } = imageData;
+    setImageData(rest);
+  };
+
+  const changeSidebarActive = (select: string) => {
+    setSidebar(select);
+  };
 
   const value = {
     filters,

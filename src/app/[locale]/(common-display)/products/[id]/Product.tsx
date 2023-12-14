@@ -71,10 +71,7 @@ export default function Product({ product }: Props) {
         </div>
       )}
 
-      {/* Display Similar Products */}
-      <div className="col-span-12 mx-6">
-        <DisplaySimilarProducts />
-      </div>
+      <DisplaySimilarProducts />
     </section>
   );
 }

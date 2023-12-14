@@ -20,14 +20,14 @@ export default function Marketplace({ products }: Props) {
         <Filters />
       </MarketplaceHeader>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+      <article className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
         {filteredProducts &&
           filteredProducts.map((product) => (
             <div key={product.id} className="container mb-6 h-full px-3">
               <StoreItem products={filteredProducts} product={product} />
             </div>
           ))}
-      </div>
+      </article>
     </section>
   );
 }

@@ -6,7 +6,7 @@ export function isValidObject(object: any) {
 }
 
 export function isNotEmptyArray(array: any[]) {
-  return Array.isArray(array) && !array.length;
+  return Array.isArray(array) && array.length > 0;
 }
 
 export function isEmpty(value: any) {
@@ -59,7 +59,12 @@ export function generateFileNameExtension(fName: string) {
   return encodedFileName;
 }
 
-export function isFileEmpty(file: FileList) {
+export function isFileEmpty(file: File) {
+  return file.size === 0;
+}
+
+export function isFileListEmpty(file: FileList) {
+  console.log(file.length);
   return file.length === 0;
 }
 

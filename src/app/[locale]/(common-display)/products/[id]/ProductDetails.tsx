@@ -1,5 +1,4 @@
 import Packs from "./Packs";
-import DistributionInformation from "./DistributionInformation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Rate } from "../../../components/reviews/Rate";

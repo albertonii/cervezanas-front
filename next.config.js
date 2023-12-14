@@ -33,6 +33,18 @@ module.exports = withNextIntl({
         port: "*",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        hostname: "tailwindui.com",
+        protocol: "https",
+        port: "*",
+        pathname: "/**",
+      },
+      {
+        hostname: "i.ibb.co",
+        protocol: "https",
+        port: "*",
+        pathname: "/**",
+      },
     ],
     // cache optimized images for 60 seconds
     minimumCacheTTL: 60,

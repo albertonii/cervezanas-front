@@ -16,6 +16,7 @@ export default function MinimizedCart({ setIsMinimized }: Props) {
         <div className="relative rounded-full">
           <Image
             src={"/icons/shopping-cart.svg"}
+            loader={() => "/icons/shopping-cart.svg"}
             alt={"Go to Shopping cart"}
             className={"rounded-full"}
             width={0}

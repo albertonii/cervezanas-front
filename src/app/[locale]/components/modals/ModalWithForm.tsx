@@ -170,7 +170,7 @@ export default function ModalWithForm(props: Props) {
           });
 
           return (
-            <PortalModal wrapperId="modal-portal">
+            <PortalModal wrapperId="form-modal-portal">
               <section
                 className={`${
                   isLoading

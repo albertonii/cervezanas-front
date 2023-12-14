@@ -285,11 +285,12 @@ export default function SignIn() {
       <figure className="hidden w-full justify-center lg:flex">
         <Image
           className="inset-0 rounded-3xl lg:w-[30vw]"
-          src="/assets/profile_signin.jpg"
           alt="Cervezanas artesanales"
           sizes="(max-width: 1024px) 100vw, 1024px"
           width={1024}
           height={768}
+          src={"/assets/profile_signin.jpg"}
+          loader={() => "/assets/profile_signin.jpg"}
         />
       </figure>
     </section>

@@ -127,8 +127,9 @@ export function LotList({
                           width={128}
                           height={128}
                           className="h-8 w-8 rounded-full"
-                          src="/icons/beer-240.png"
                           alt="Beer Type"
+                          src="/icons/beer-240.png"
+                          loader={() => "/icons/beer-240.png"}
                         />
                       </th>
 

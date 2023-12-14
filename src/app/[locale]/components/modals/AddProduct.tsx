@@ -87,14 +87,13 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .max(2030, {
           message: "errors.input_max_2030",
         }),
-      img_url: z.string().min(2, { message: "errors.input_required" }),
+      img_url: z.instanceof(FileList).optional(),
     })
   ),
-  p_principal: z.any(),
-  p_back: z.any(),
-  p_extra_1: z.any(),
-  p_extra_2: z.any(),
-  p_extra_3: z.any(),
+  p_principal: z.instanceof(FileList).optional(),
+  p_back: z.instanceof(FileList).optional(),
+  p_extra_1: z.instanceof(FileList).optional(),
+  p_extra_2: z.instanceof(FileList).optional(),
   is_public: z.boolean(),
 
   // TODO: Bug in volume validation when adding product
@@ -116,7 +115,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
       name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
         message: "errors.error_100_number_max_length",
       }),
-      img_url: z.any(),
+      img_url: z.instanceof(FileList).optional(),
     })
   ),
   category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
@@ -226,9 +225,8 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    if (p_principal && !isFileEmpty(p_principal)) {
+    if (p_principal && !isFileEmpty(p_principal[0])) {
       const fileName = `articles/${productId}/p_principal/${randomUUID}`;
-
       // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
         `${fileName}${generateFileNameExtension(p_principal[0].name)}`
@@ -250,7 +248,7 @@ export function AddProduct() {
       removeImage("p_principal");
     }
 
-    if (p_back && !isFileEmpty(p_back)) {
+    if (p_back && !isFileEmpty(p_back[0])) {
       const fileName = `articles/${productId}/p_back/${randomUUID}`;
 
       p_back_url =
@@ -274,7 +272,7 @@ export function AddProduct() {
       removeImage("p_back");
     }
 
-    if (p_extra_1 && !isFileEmpty(p_extra_1)) {
+    if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
       const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
 
       p_extra_1_url =
@@ -298,7 +296,7 @@ export function AddProduct() {
       removeImage("p_extra_1");
     }
 
-    if (p_extra_2 && !isFileEmpty(p_extra_2)) {
+    if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
       const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
 
       p_extra_2_url =
@@ -322,7 +320,7 @@ export function AddProduct() {
       removeImage("p_extra_2");
     }
 
-    if (p_extra_3 && !isFileEmpty(p_extra_3)) {
+    if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
       const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
 
       p_extra_3_url =
@@ -440,9 +438,11 @@ export function AddProduct() {
         });
       }
 
-      // Award
+      // Awards
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
         awards.map(async (award: IAward, index: number) => {
+          console.log(award);
+
           if (award && !isFileEmpty(award.img_url)) {
             const filename = `awards/${productId}/${randomUUID}_${index}`;
             const award_url = encodeURIComponent(

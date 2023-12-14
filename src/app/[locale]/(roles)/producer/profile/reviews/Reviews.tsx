@@ -70,6 +70,10 @@ export function Reviews({ reviews: r }: Props) {
                               review.users?.avatar_url ??
                               "/icons/profile-240.png"
                             } `}
+                            loader={()=>`${
+                              review.users?.avatar_url ??
+                              "/icons/profile-240.png"
+                            } `}
                             alt=""
                           />
                         </div>
@@ -101,6 +105,12 @@ export function Reviews({ reviews: r }: Props) {
                                 review.products?.product_multimedia[0]
                                   .p_principal ?? "/icons/beer-240.png"
                               } `}
+                              loader={() =>
+                                `${
+                                  review.products?.product_multimedia[0]
+                                    .p_principal ?? "/icons/beer-240.png"
+                                } `
+                              }
                               alt=""
                             />
 

@@ -117,13 +117,14 @@ export default function ScreenMenu() {
             <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
               <Link href={"/"} locale={locale}>
                 <Image
-                  src="/logo_cervezanas.svg"
                   alt="Cervezanas Logo"
                   width={160}
                   height={160}
                   style={{ objectFit: "contain" }}
                   priority={true}
                   sizes="100px"
+                  src={"/logo_cervezanas.svg"}
+                  loader={() => "/logo_cervezanas.svg"}
                 />
               </Link>
               <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
@@ -169,10 +170,11 @@ export default function ScreenMenu() {
                   <Button onClick={() => handleSignIn()} title={""}>
                     <section className="mx-2 my-1 flex items-center justify-center space-x-2">
                       <Image
-                        src={COMMON.PROFILE_IMG}
                         width={25}
                         height={25}
                         alt={"Login"}
+                        src={COMMON.PROFILE_IMG}
+                        loader={() => COMMON.PROFILE_IMG}
                       />
                       <span>{t("my_account")}</span>
                     </section>
@@ -197,12 +199,13 @@ export default function ScreenMenu() {
                     >
                       <section className="relative rounded-full">
                         <Image
-                          src={"/icons/shopping-cart.svg"}
                           alt={"Go to Shopping cart"}
                           className={"rounded-full"}
                           width={0}
                           height={0}
                           style={{ width: "45px", height: "45px" }}
+                          src={"/icons/shopping-cart.svg"}
+                          loader={() => "/icons/shopping-cart.svg"}
                         />
                         <div
                           className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
@@ -230,12 +233,13 @@ export default function ScreenMenu() {
                   >
                     <section className="relative rounded-full">
                       <Image
-                        src={"/icons/notification-icon.svg"}
                         alt={"Notification bell"}
                         className={"rounded-full"}
                         width={0}
                         height={0}
                         style={{ width: "45px", height: "45px" }}
+                        src={"/icons/notification-icon.svg"}
+                        loader={() => "/icons/notification-icon.svg"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length ?? 0}
@@ -293,13 +297,14 @@ export default function ScreenMenu() {
               className="flex flex-col items-center justify-start space-x-4 sm:flex-row sm:rounded-l sm:px-2 sm:py-1"
             >
               <Image
-                src={"/icons/beerme.svg"}
                 width={45}
                 height={45}
                 alt={"Find Cervezanas spots"}
                 className={
                   "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
                 }
+                src={"/icons/beerme.svg"}
+                loader={() => "/icons/beerme.svg"}
               />
 
               <div className="sm:flex sm:flex-col">

@@ -18,6 +18,7 @@ export function FilePreview({ file }: Props) {
             height={64}
             className="h-full w-full rounded"
             src={URL.createObjectURL(file)}
+            loader={() => URL.createObjectURL(file)}
             alt={""}
           />
         </div>

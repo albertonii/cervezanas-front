@@ -9,7 +9,7 @@ interface Props {
 
 export function ProductReviews({ reviews, handleSetReviews }: Props) {
   return (
-    <div>
+    <section>
       {reviews.map((review) => (
         <div key={review.id} className="mb-8">
           <IndividualReview
@@ -18,6 +18,6 @@ export function ProductReviews({ reviews, handleSetReviews }: Props) {
           />
         </div>
       ))}
-    </div>
+    </section>
   );
 }

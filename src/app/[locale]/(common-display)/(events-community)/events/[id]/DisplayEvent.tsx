@@ -122,6 +122,7 @@ const CPMobile = ({ cp }: CPMobileProps) => {
       <td className=" space-x-2 px-6 py-4">
         <Image
           src={cp.logo_url ?? COMMON.PROFILE_IMG}
+          loader={() => cp.logo_url ?? COMMON.PROFILE_IMG}
           alt={cp.cp_name}
           width={64}
           height={64}

@@ -51,6 +51,7 @@ export function Hero() {
             <Image
               priority
               src={"/assets/hero.png"}
+              loader={() => "/assets/hero.png"}
               width={550}
               height={450}
               alt={"hero image"}
@@ -59,6 +60,7 @@ export function Hero() {
             <Image
               priority
               src={"/assets/bg_dots.png"}
+              loader={() => "/assets/bg_dots.png"}
               width={450}
               height={450}
               alt={"hero image"}

@@ -40,9 +40,7 @@ import {
   isNotEmptyArray,
   isValidObject,
 } from "../../../../utils/utils";
-import dynamic from "next/dynamic";
-
-const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+import ModalWithForm from "./ModalWithForm";
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
   id: z.string(),
@@ -76,8 +74,8 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "Required",
   }),
-  p_principal: z.any(),
-  p_back: z.any(),
+  p_principal: z.string(),
+  p_back: z.string(),
   p_extra_1: z.any(),
   p_extra_2: z.any(),
   p_extra_3: z.any(),
@@ -205,6 +203,8 @@ export function UpdateProduct({
     value: 5,
   };
 
+  console.log(product);
+
   const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
@@ -229,7 +229,14 @@ export function UpdateProduct({
       origin: originDefault.value,
       era: eraDefault.value,
       is_gluten: product.beers[0]?.is_gluten ?? false,
-      awards: [{ name: "", description: "", year: 0, img_url: "" }],
+      awards: product.awards ?? [],
+      p_principal: product.product_multimedia[0].p_principal,
+      p_back: product.product_multimedia[0]?.p_back,
+      p_extra_1: product.product_multimedia[0],
+      p_extra_2: product.product_multimedia[0],
+      p_extra_3: product.product_multimedia[0],
+
+      // awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_packs,
       // campaign: "-",
     },

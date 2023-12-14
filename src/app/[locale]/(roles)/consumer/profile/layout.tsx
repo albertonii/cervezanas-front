@@ -129,6 +129,7 @@ export default function layout({ children }: LayoutProps) {
                 src={bgImg_ ?? bg}
                 // onError={() => setBgImg_(COMMON.BG_IMG)}
                 alt={"background custom image"}
+                loader={() => bgImg_ ?? bg}
               />
 
               {/* Profile Image */}

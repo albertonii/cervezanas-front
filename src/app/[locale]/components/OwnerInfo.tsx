@@ -19,6 +19,7 @@ export function OwnerInfo({ user }: Props) {
           <Image
             className="h-10 w-10 rounded-full"
             src={`${COMMON.PROFILE_IMG}`}
+            loader={() => `${COMMON.PROFILE_IMG}`}
             alt=""
             width={40}
             height={40}

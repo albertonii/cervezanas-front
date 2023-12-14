@@ -4,6 +4,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DisplayInputError } from "../common/DisplayInputError";
+import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
+import { SupabaseProps } from "../../../../constants";
 
 const emptyAward: IAward = {
   id: "",
@@ -23,8 +25,13 @@ interface FileProps {
   file: File;
 }
 
-export function AwardsSectionUpdate({ form: { control, register } }: Props) {
+export function AwardsSectionUpdate({ form }: Props) {
   const t = useTranslations();
+
+  const preUrl =
+    SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
+
+  const { control, register } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: "awards",
@@ -47,15 +54,6 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
       }
     });
   }, [selectedFiles]);
-
-  const showPreview = async (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedFiles([...selectedFiles, { index, file: e.target.files[0] }]);
-    }
-  };
 
   const handleRemoveAward = (index: number) => {
     setSelectedFiles((current) =>
@@ -155,16 +153,12 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
               {t("upload_img_url")}
             </label>
 
-            <input
-              type="text"
-              {...register(`awards.${index}.img_url`, {
-                required: false,
-              })}
-              onChange={(e) => showPreview(e, index)}
-              accept="image/png, image/jpeg"
-              id="award_img_url"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+            <FilePreviewImageMultimedia
+              form={form}
+              registerName={`awards.${index}.img_url`}
+              preUrl={preUrl}
             />
+
             {`errors.awards.${index}.img_url.type` === "required" && (
               <DisplayInputError message="errors.input_required" />
             )}

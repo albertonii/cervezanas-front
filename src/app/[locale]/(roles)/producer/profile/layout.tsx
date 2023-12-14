@@ -149,6 +149,7 @@ export default function layout({ children }: LayoutProps) {
                 src={bgImg_ ?? bg}
                 alt={"background custom image"}
                 onError={() => setBgImg_(COMMON.BG_IMG)}
+                loader={() => bgImg_}
               />
 
               {/* Profile Image */}
@@ -162,6 +163,7 @@ export default function layout({ children }: LayoutProps) {
                         alt=""
                         width={240}
                         height={240}
+                        loader={() => profileImg_}
                       />
 
                       <span className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">

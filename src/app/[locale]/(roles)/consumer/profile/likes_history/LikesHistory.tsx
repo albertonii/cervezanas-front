@@ -30,7 +30,10 @@ export function LikesHistory({ likes }: Props) {
                           className="h-10 w-10 rounded-full"
                           fill
                           src="/docs/images/people/profile-picture-5.jpg"
-                          alt=""
+                          loader={() =>
+                            "/docs/images/people/profile-picture-5.jpg"
+                          }
+                          alt="profile picture"
                         />
                         <div className="space-y-1 font-medium dark:text-white">
                           <p>Jese Leos</p>

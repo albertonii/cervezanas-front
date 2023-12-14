@@ -30,6 +30,10 @@ export function StoreItem({ product }: StoreItemProps) {
   const productId = product.id;
   const router = useRouter();
 
+  const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
+    product.product_multimedia[0].p_principal
+  )}`;
+
   const packs = product.product_packs;
   const lowestPack = packs?.sort(
     (a, b) => a.quantity - b.quantity
@@ -148,14 +152,12 @@ export function StoreItem({ product }: StoreItemProps) {
             </header>
 
             <DisplayImageProduct
-              width={128}
-              height={128}
+              width={120}
+              height={120}
               alt="Principal Product Image store item"
-              imgSrc={`${BASE_PRODUCTS_URL}${decodeURIComponent(
-                product.product_multimedia[0].p_principal
-              )}`}
+              imgSrc={src}
               class={
-                " h-[200px] w-[200px] rounded-2xl object-contain hover:cursor-pointer"
+                "h-[200px] w-[200px] rounded-2xl object-contain hover:cursor-pointer"
               }
               onClick={() => router.push(`/${locale}/products/${product.id}`)}
             />

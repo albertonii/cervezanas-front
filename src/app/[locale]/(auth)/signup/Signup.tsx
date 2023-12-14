@@ -77,7 +77,8 @@ export default function Signup() {
           sizes="(max-width: 1024px) 100vw, 1024px"
           width={1024}
           height={768}
-          src="/assets/profile_signup.jpg"
+          src={"/assets/profile_signup.jpg"}
+          loader={() => "/assets/profile_signup.jpg"}
         />
       </div>
     </section>

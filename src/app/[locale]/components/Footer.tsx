@@ -35,7 +35,8 @@ export default function Footer() {
               >
                 <Image
                   className="w-8 "
-                  src="/logo_cervezanas.svg"
+                  src={"/logo_cervezanas.svg"}
+                  loader={() => "/logo_cervezanas.svg"}
                   alt="Logo"
                   width={300}
                   height={300}
@@ -169,7 +170,8 @@ export default function Footer() {
                 <figure className="flex h-auto w-auto space-x-2">
                   {/* Visa card image logo  */}
                   <Image
-                    src="/icons/payments/visa.png"
+                    src={"/icons/payments/visa.png"}
+                    loader={() => "/icons/payments/visa.png"}
                     alt="Visa"
                     width={0}
                     height={0}
@@ -178,7 +180,8 @@ export default function Footer() {
 
                   {/* Mastercard card image logo  */}
                   <Image
-                    src="/icons/payments/mastercard.png"
+                    src={"/icons/payments/mastercard.png"}
+                    loader={() => "/icons/payments/mastercard.png"}
                     alt="Mastercard"
                     width={0}
                     height={0}

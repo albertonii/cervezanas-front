@@ -70,6 +70,10 @@ export function Reviews({ reviews: r }: Props) {
                               review.users?.avatar_url ??
                               "/icons/profile-240.png"
                             } `}
+                            loader={() =>
+                              review.users?.avatar_url ??
+                              "/icons/profile-240.png"
+                            }
                             alt=""
                           />
                         </div>
@@ -102,6 +106,10 @@ export function Reviews({ reviews: r }: Props) {
                                   .p_principal ?? "/icons/beer-240.png"
                               } `}
                               alt=""
+                              loader={() =>
+                                review.products?.product_multimedia[0]
+                                  .p_principal ?? "/icons/beer-240.png"
+                              }
                             />
 
                             <span className="hover:text-purple-500 mr-auto cursor-pointer truncate text-xl font-bold text-beer-draft transition-all hover:text-beer-blonde dark:text-beer-foam">

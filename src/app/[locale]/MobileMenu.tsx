@@ -94,13 +94,14 @@ export default function MobileMenu() {
           <figure className="absolute flex h-[90px] w-[90px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
             <Link href={"/"} locale={locale}>
               <Image
-                src="/logo_cervezanas.svg"
                 alt="Cervezanas Logo"
                 width={100}
                 height={100}
                 style={{ objectFit: "contain" }}
                 priority={true}
                 sizes="100px"
+                src={"/logo_cervezanas.svg"}
+                loader={()=>"/logo_cervezanas.svg"}
               />
             </Link>
             <span className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></span>
@@ -138,12 +139,13 @@ export default function MobileMenu() {
                   >
                     <div className="relative rounded-full">
                       <Image
-                        src={"/icons/notification-icon.svg"}
                         alt={"Notification bell"}
                         className={"rounded-full"}
                         width={0}
                         height={0}
                         style={{ width: "45px", height: "45px" }}
+                        src={"/icons/notification-icon.svg"}
+                        loader={() => "/icons/notification-icon.svg"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length || 0}
@@ -166,12 +168,13 @@ export default function MobileMenu() {
                   >
                     <div className="relative rounded-full">
                       <Image
-                        src={"/icons/shopping-cart.svg"}
                         alt={"Go to Shopping cart"}
                         className={"rounded-full"}
                         width={0}
                         height={0}
                         style={{ width: "45px", height: "45px" }}
+                        src={"/icons/shopping-cart.svg"}
+                        loader={() => "/icons/shopping-cart.svg"}
                       />
                       <span className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {cartQuantity}
@@ -235,11 +238,12 @@ export default function MobileMenu() {
                 <div>
                   <Button onClick={() => handleSignIn()} title={""} class={""}>
                     <Image
-                      src={"/icons/user-profile.svg"}
                       alt={"Login"}
                       width={0}
                       height={0}
                       style={{ width: "25px", height: "25px" }}
+                      src={"/icons/user-profile.svg"}
+                      loader={() => "/icons/user-profile.svg"}
                     />
                   </Button>
                 </div>

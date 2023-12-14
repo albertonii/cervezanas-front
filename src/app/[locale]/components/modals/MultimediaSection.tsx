@@ -6,26 +6,24 @@ export interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
-export function MultimediaSection(props: Props) {
-  const { form } = props;
-
+export function MultimediaSection({ form }: Props) {
   return (
     <section className="photo_gallery flex w-full space-x-4">
-      <div className="principal w-full">
+      <figure className="principal w-full">
         <FilePreviewImageMultimedia form={form} registerName="p_principal" />
-      </div>
-      <div className="back w-full">
+      </figure>
+      <figure className="back w-full">
         <FilePreviewImageMultimedia form={form} registerName="p_back" />
-      </div>
-      <div className="extra_1 w-full">
+      </figure>
+      <figure className="extra_1 w-full">
         <FilePreviewImageMultimedia form={form} registerName="p_extra_1" />
-      </div>
-      <div className="extra_2 w-full">
+      </figure>
+      <figure className="extra_2 w-full">
         <FilePreviewImageMultimedia form={form} registerName="p_extra_2" />
-      </div>
-      <div className="extra_3 w-full">
+      </figure>
+      <figure className="extra_3 w-full">
         <FilePreviewImageMultimedia form={form} registerName="p_extra_3" />
-      </div>
+      </figure>
     </section>
   );
 }
