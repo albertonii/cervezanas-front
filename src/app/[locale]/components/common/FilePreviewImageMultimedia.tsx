@@ -23,7 +23,6 @@ export const FilePreviewImageMultimedia = ({
 
   useEffect(() => {
     if (getValues(registerName)) {
-      console.log(getValues(registerName));
       preUrl
         ? setImage(preUrl + getValues(registerName))
         : setImage(getValues(registerName));

@@ -32,7 +32,7 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("distributors_associated"),
       icon: "truck",
-      option: "distributors",
+      option: "distributors_associated",
     },
     {
       name: t("campaigns"),
@@ -52,7 +52,7 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("online_orders"),
       icon: "shopping-cart",
-      option: "orders",
+      option: "online_orders",
     },
     {
       name: t("event_orders"),

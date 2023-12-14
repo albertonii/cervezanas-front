@@ -441,8 +441,6 @@ export function AddProduct() {
       // Awards
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
         awards.map(async (award: IAward, index: number) => {
-          console.log(award);
-
           if (award && !isFileEmpty(award.img_url)) {
             const filename = `awards/${productId}/${randomUUID}_${index}`;
             const award_url = encodeURIComponent(

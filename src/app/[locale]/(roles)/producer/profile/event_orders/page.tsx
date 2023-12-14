@@ -3,6 +3,7 @@ import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { EventOrders } from "./EventOrders";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
   const eventOrdersData = await getEventOrdersData();
@@ -40,9 +41,4 @@ async function getEventOrdersData() {
   if (eventOrdersError) throw eventOrdersError;
 
   return eventOrdersData as IEventOrder[];
-}
-function readUserSession():
-  | { data: { session: any } }
-  | PromiseLike<{ data: { session: any } }> {
-  throw new Error("Function not implemented.");
 }

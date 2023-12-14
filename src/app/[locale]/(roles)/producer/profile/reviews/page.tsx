@@ -31,14 +31,16 @@ async function getReviewsData() {
     .from("reviews")
     .select(
       `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
+        *
       `
     )
     .eq("id", session.user.id);
+
+  // ,
+  //     orders (*),
+  //     campaigns (*),
+  //     customize_settings (*),
+  //     profile_location (*)
 
   if (reviewsError) throw reviewsError;
 

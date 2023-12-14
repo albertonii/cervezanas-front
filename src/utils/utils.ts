@@ -114,7 +114,7 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
       return `/${role}/profile/events`;
 
     case "online_orders":
-      return `/${role}/profile/orders`;
+      return `/${role}/profile/online_orders`;
 
     case "event_orders":
       return `/${role}/profile/${option}`;
@@ -147,6 +147,12 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
       return `/${role}/profile/${option}`;
 
     case "reviews":
+      return `/${role}/profile/${option}`;
+
+    case "distributors_associated":
+      return `/${role}/profile/${option}`;
+
+    case "consumption_points":
       return `/${role}/profile/${option}`;
 
     default:

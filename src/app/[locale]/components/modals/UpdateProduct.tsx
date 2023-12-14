@@ -203,8 +203,6 @@ export function UpdateProduct({
     value: 5,
   };
 
-  console.log(product);
-
   const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),

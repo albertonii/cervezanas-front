@@ -6,18 +6,29 @@ import { useAuth } from "../app/[locale]/Auth/useAuth";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 const fetchDistributors = async (supabase: SupabaseClient<any>) => {
-  const { data, error } = await supabase
-    .from("users")
-    .select(
-      `
+  const { data, error } = await supabase.from("distributor_user").select(
+    `
         *,
-        distributor_user!distributor_user_user_fkey (*)
+        users (*)
       `
-    )
-    .eq("role", "distributor");
+  );
+  // .eq("role", "distributor");
   if (error) throw error;
 
   return data as IDistributorUser[];
+
+  //  const { data, error } = await supabase
+  //    .from("users")
+  //    .select(
+  //      `
+  //       *,
+  //       distributor_user!distributor_user_user_fkey (*)
+  //     `
+  //    )
+  //    .eq("role", "distributor");
+  //  if (error) throw error;
+
+  //  return data as IUser[];
 };
 
 const useFetchDistributors = () => {
