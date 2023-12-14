@@ -74,11 +74,11 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "Required",
   }),
-  p_principal: z.string(),
-  p_back: z.string(),
-  p_extra_1: z.any(),
-  p_extra_2: z.any(),
-  p_extra_3: z.any(),
+  p_principal: z.instanceof(FileList).optional(),
+  p_back: z.instanceof(FileList).optional(),
+  p_extra_1: z.instanceof(FileList).optional(),
+  p_extra_2: z.instanceof(FileList).optional(),
+  p_extra_3: z.instanceof(FileList).optional(),
   is_public: z.boolean(),
   // TODO: Bug in volume validation when adding product
   // volume: z.number().min(0, { message: "Required" }).max(50, {
@@ -113,7 +113,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         .max(2030, {
           message: "errors.input_max_2030",
         }),
-      img_url: z.string().min(2, { message: "errors.input_required" }),
+      img_url: z.instanceof(FileList).optional(),
     })
   ),
   packs: z.array(
@@ -124,7 +124,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
       name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
         message: "errors.error_100_number_max_length",
       }),
-      img_url: z.any(),
+      img_url: z.instanceof(FileList).optional(),
     })
   ),
 });

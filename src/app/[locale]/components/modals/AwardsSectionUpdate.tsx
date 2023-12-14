@@ -1,6 +1,6 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types";
 import { Button } from "../common/Button";
 import { DisplayInputError } from "../common/DisplayInputError";
@@ -54,6 +54,10 @@ export function AwardsSectionUpdate({ form }: Props) {
       }
     });
   }, [selectedFiles]);
+
+  const handleAddAward = () => {
+    append(emptyAward);
+  };
 
   const handleRemoveAward = (index: number) => {
     setSelectedFiles((current) =>
@@ -168,11 +172,9 @@ export function AwardsSectionUpdate({ form }: Props) {
         </div>
       ))}
 
-      <div>
-        <Button class="" onClick={() => append(emptyAward)}>
-          {t("modal_product_award_add")}
-        </Button>
-      </div>
+      <Button class="" primary medium onClick={() => handleAddAward()}>
+        {t("modal_product_award_save")}
+      </Button>
     </section>
   );
 }

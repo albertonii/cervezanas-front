@@ -36,6 +36,8 @@ const fetchProductsByOwner = async (
       currentPage * resultsPerPage - 1
     );
 
+  console.log(data);
+
   if (error) throw error;
 
   return data as IProduct[];

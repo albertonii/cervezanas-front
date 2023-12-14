@@ -1,19 +1,16 @@
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import React from "react";
-import {
-  IProductPack,
-  ModalUpdateProductFormData,
-} from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
+import { IProductPack, ModalAddProductFormData } from "../../../../lib/types";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { DeleteButton } from "../common/DeleteButton";
 import { Button } from "../common/Button";
 import { pack_type_options } from "../../../../lib/beerEnum";
 import { DisplayInputError } from "../common/DisplayInputError";
+import { SupabaseProps } from "../../../../constants";
 
 interface Props {
-  form: UseFormReturn<ModalUpdateProductFormData, any>;
+  form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
 const emptyPack: IProductPack = {
@@ -27,10 +24,11 @@ const emptyPack: IProductPack = {
   product_id: "",
 };
 
-export default function StockInformationDetailsAndPacks({ form }: Props) {
+export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
   const t = useTranslations();
 
-  const { supabase } = useAuth();
+  const preUrl =
+    SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
   const {
     register,
@@ -44,17 +42,7 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
     control,
   });
 
-  const handleRemovePack = async (index: number, packId: string) => {
-    // Remove pack from database
-    if (packId) {
-      const { error } = await supabase
-        .from("product_packs")
-        .delete()
-        .eq("id", packId);
-
-      if (error) throw error;
-    }
-
+  const handleRemovePack = async (index: number) => {
     remove(index);
   };
 
@@ -244,16 +232,13 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
                   <FilePreviewImageMultimedia
                     form={form}
                     registerName={`packs.${index}.img_url`}
+                    preUrl={preUrl}
                   />
                 </div>
 
                 {/* Delete BTN  */}
                 <div className="flex-grow-0">
-                  <DeleteButton
-                    onClick={() =>
-                      handleRemovePack(index, getValues(`packs.${index}.id`))
-                    }
-                  />
+                  <DeleteButton onClick={() => handleRemovePack(index)} />
                 </div>
               </div>
             </div>

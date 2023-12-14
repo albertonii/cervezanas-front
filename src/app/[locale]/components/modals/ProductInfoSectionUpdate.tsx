@@ -1,6 +1,5 @@
 "use client";
 
-import StockInformationDetailsAndPacks from "./StockInformationDetails";
 import SelectInput from "../common/SelectInput";
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -21,6 +20,7 @@ import {
 import { InfoTooltip } from "../common/InfoTooltip";
 import { ModalUpdateProductFormData } from "../../../../lib/types";
 import { DisplayInputError } from "../common/DisplayInputError";
+import StockInformationDetailsAndPacksUpdate from "./StockInformationDetailsAndPacksUpdate";
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -436,7 +436,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           {/* <Divider /> */}
 
           {/* Stock information and Packs */}
-          <StockInformationDetailsAndPacks form={form} />
+          <StockInformationDetailsAndPacksUpdate form={form} />
         </section>
       )}
 

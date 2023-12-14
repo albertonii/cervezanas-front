@@ -1,6 +1,6 @@
 import SelectInput from "../common/SelectInput";
 import React, { useEffect, useState } from "react";
-import { useFieldArray, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
   aroma_options,
@@ -10,7 +10,6 @@ import {
   fermentation_options,
   format_options,
   origin_options,
-  pack_type_options,
   product_type_options,
   volume_can_type_options,
   volume_draft_type_options,
@@ -18,32 +17,18 @@ import {
 } from "../../../../lib/beerEnum";
 import {
   ICustomizeSettings,
-  IProductPack,
   ModalAddProductFormData,
 } from "../../../../lib/types";
-import { Button } from "../common/Button";
-import { DeleteButton } from "../common/DeleteButton";
-import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { DisplayInputError } from "../common/DisplayInputError";
+import StockInformationDetailsAndPacksAdd from "./StockInformationDetailsAndPacksAdd";
 
 interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
   customizeSettings: ICustomizeSettings;
 }
-
-const emptyPack: IProductPack = {
-  id: "",
-  created_at: "",
-  quantity: 6,
-  price: 0,
-  img_url: "",
-  name: "",
-  randomUUID: "",
-  product_id: "",
-};
 
 export function ProductInfoSection({ form, customizeSettings }: Props) {
   const t = useTranslations();
@@ -51,7 +36,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   const {
     register,
     formState: { errors },
-    control,
     setValue,
     trigger,
   } = form;
@@ -64,11 +48,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   const [formatOptions, setFormatOptions] = useState<string>(
     format_options[0].label
   );
-
-  const { fields, append, remove } = useFieldArray({
-    name: "packs",
-    control,
-  });
 
   useEffect(() => {
     const colorSettings = customizeSettings.colors.map((color) => {
@@ -104,14 +83,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     }
 
     setValue("category", category);
-  };
-
-  const handleRemovePack = (index: number) => {
-    remove(index);
-  };
-
-  const handleAddPack = () => {
-    append(emptyPack);
   };
 
   const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -609,138 +580,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
               {/* <Divider /> */}
 
-              {/* Packs  */}
-              <div className="flex flex-col space-y-2">
-                <span className="text-lg ">{t("add_product_pack")}</span>
-
-                <span className="text-sm ">
-                  {t("add_product_pack_description")}
-                </span>
-              </div>
-
-              {fields.map((field, index) => (
-                <fieldset
-                  className="border border-solid border-gray-300 p-3"
-                  key={field.id}
-                >
-                  <div className="space-y w-full">
-                    {/* Quantity and price  */}
-                    <div className="flex w-full flex-row items-end space-x-3">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.pack`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_quantity")} nº {index + 1}
-                        </label>
-
-                        <select
-                          required
-                          id={`packs.${index}.quantity`}
-                          {...register(`packs.${index}.quantity` as const, {
-                            valueAsNumber: true,
-                          })}
-                          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                        >
-                          {pack_type_options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.value}
-                            </option>
-                          ))}
-                        </select>
-
-                        {`errors.packs.${index}.pack.type` === "required" && (
-                          <p>{t("errors.input_required")}</p>
-                        )}
-                      </div>
-
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.price`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_price")} €
-                        </label>
-
-                        <input
-                          id="price"
-                          type="number"
-                          placeholder={formatCurrency(2.5)}
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          required
-                          min="0"
-                          {...register(`packs.${index}.price` as const, {
-                            required: true,
-                            min: 0,
-                            valueAsNumber: true,
-                          })}
-                        />
-
-                        {`errors.packs.${index}.price.type` === "required" && (
-                          <p>{t("errors.input_required")}</p>
-                        )}
-                        {`errors.packs.${index}.price.type` === "min" && (
-                          <p>{t("product_modal_min_0")}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Pack name and Pack Photo Optional  */}
-                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.name`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_name")}
-                        </label>
-
-                        <input
-                          id={`packs.${index}.name`}
-                          type="text"
-                          placeholder={`Pack ${index + 1}`}
-                          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                          defaultValue={1}
-                          required
-                          min="0"
-                          {...register(`packs.${index}.name` as const, {
-                            required: true,
-                          })}
-                        />
-
-                        {`packs.${index}.name.type` === "required" && (
-                          <p>{t("errors.input_required")}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                      <div className="w-full">
-                        <label
-                          htmlFor={`packs.${index}.img_url`}
-                          className="text-sm text-gray-600"
-                        >
-                          {t("pack_img_url")}
-                        </label>
-
-                        <FilePreviewImageMultimedia
-                          form={form}
-                          registerName={`packs.${index}.img_url`}
-                        />
-                      </div>
-
-                      {/* Delete BTN  */}
-                      <div className="flex-grow-0">
-                        <DeleteButton onClick={() => handleRemovePack(index)} />
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-              ))}
-
-              <Button class="" primary medium onClick={() => handleAddPack()}>
-                {t("add_pack")}
-              </Button>
+              {/* Stock information and Packs */}
+              <StockInformationDetailsAndPacksAdd form={form} />
             </div>
           </div>
         </div>
