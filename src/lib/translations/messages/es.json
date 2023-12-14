@@ -660,5 +660,7 @@
   "admin_products": "Productos",
   "admin_events": "Eventos",
   "admin_cps": "Puntos de consumo",
-  "admin_campaigns": "Campañas"
+  "admin_campaigns": "Campañas",
+  "distributor_feedback": "Feedback",
+  "business_orders": "Pedidos"
 }

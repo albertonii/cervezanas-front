@@ -1,7 +1,7 @@
 "use client";
 
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { z, ZodType } from "zod";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
@@ -72,10 +72,6 @@ export function AddLot() {
     formState: { errors },
   } = form;
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const queryClient = useQueryClient();
 
   const handleInsertLot = async (form: ValidationSchema) => {
@@ -126,7 +122,6 @@ export function AddLot() {
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formValues: ModalAddLotFormData
   ) => {
-    console.log("dentro");
     try {
       insertProductLotMutation.mutate(formValues);
     } catch (e) {

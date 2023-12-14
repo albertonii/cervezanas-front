@@ -8,7 +8,7 @@ import { IBusinessOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import Spinner from "../../../../components/common/Spinner";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
@@ -60,15 +60,25 @@ export function BusinessOrderList({ bOrders: os }: Props) {
     { header: t("action_header") },
   ];
 
-  const handleClickView = (order: IBusinessOrder) => {
-    if (!order.orders) return null;
+  const handleClickViewCompleteOrder = (bOrder: IBusinessOrder) => {
+    if (!bOrder.orders) return null;
 
     const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.orders.order_number })
+      JSON.stringify({ Ds_Order: bOrder.orders.order_number })
     );
 
     router.push(
       `/${locale}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+    );
+  };
+
+  const handleClickViewDistributorOrder = (bOrder: IBusinessOrder) => {
+    if (!bOrder.orders) return null;
+
+    const businessOrder = bOrder.id;
+
+    router.push(
+      `/${locale}/distributor/profile/business_orders/${businessOrder}`
     );
   };
 
@@ -144,10 +154,18 @@ export function BusinessOrderList({ bOrders: os }: Props) {
 
                       <td className="px-6 py-4">{bOrder.orders.tracking_id}</td>
 
-                      <td className="item-center flex justify-center px-6 py-4">
+                      <td className="item-center flex justify-center gap-2 px-6 py-4">
                         <IconButton
-                          onClick={() => handleClickView(bOrder)}
+                          onClick={() => handleClickViewCompleteOrder(bOrder)}
                           icon={faEye}
+                          title={""}
+                        />
+
+                        <IconButton
+                          onClick={() =>
+                            handleClickViewDistributorOrder(bOrder)
+                          }
+                          icon={faTruck}
                           title={""}
                         />
                       </td>
@@ -165,14 +183,14 @@ export function BusinessOrderList({ bOrders: os }: Props) {
           </table>
 
           {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
+          <footer className="my-4 flex items-center justify-around">
             <PaginationFooter
               counter={counter}
               resultsPerPage={resultsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
-          </div>
+          </footer>
         </>
       )}
     </div>

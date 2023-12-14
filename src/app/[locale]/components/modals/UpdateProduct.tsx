@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -148,10 +148,6 @@ export function UpdateProduct({
   const { user, supabase } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
 
-  useEffect(() => {
-    console.log(activeStep);
-  }, [activeStep]);
-
   const handleSetActiveStep = (value: number) => {
     setActiveStep(value);
   };
@@ -239,17 +235,9 @@ export function UpdateProduct({
     },
   });
 
-  const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   const handleUpdateProduct = async (formValues: any) => {
     const {

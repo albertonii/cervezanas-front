@@ -1,4 +1,3 @@
-import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import React from "react";
@@ -124,7 +123,7 @@ export default function StockInformationDetailsAndPacks({ form }: Props) {
           </div>
         </div>
 
-        <Divider />
+        {/* <Divider /> */}
 
         {/* Packs */}
         <div className="flex flex-col space-y-2">

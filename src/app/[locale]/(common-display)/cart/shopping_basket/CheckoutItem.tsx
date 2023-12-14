@@ -12,13 +12,6 @@ import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
 
 import dynamic from "next/dynamic";
 
-const DynamicSpinner = dynamic(
-  () => import("../../../components/common/Spinner"),
-  {
-    ssr: false,
-  }
-);
-
 interface Props {
   productPack: IProductPackCartItem;
   selectedShippingAddress: string;
@@ -88,8 +81,16 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
     canDeliverFunction();
   }, [selectedShippingAddress]);
 
-  if (isLoadingProduct || isLoadingDelivery)
+  if (isLoadingProduct || isLoadingDelivery) {
+    const DynamicSpinner = dynamic(
+      () => import("../../../components/common/Spinner"),
+      {
+        ssr: false,
+      }
+    );
+
     return <DynamicSpinner color={"beer-blonde"} size={"medium"} />;
+  }
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 

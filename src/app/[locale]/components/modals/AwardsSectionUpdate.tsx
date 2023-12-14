@@ -1,5 +1,4 @@
 import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { Divider } from "@supabase/ui";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IAward } from "../../../../lib/types";
@@ -171,7 +170,7 @@ export function AwardsSectionUpdate({ form: { control, register } }: Props) {
             )}
           </div>
 
-          <Divider className="my-6" />
+          {/* <Divider className="my-6" /> */}
         </div>
       ))}
 

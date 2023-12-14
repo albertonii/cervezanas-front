@@ -646,5 +646,7 @@
   "admin_products": "Products",
   "admin_events": "Events",
   "admin_cps": "Consumption Points",
-  "admin_campaigns": "Campaigns"
+  "admin_campaigns": "Campaigns",
+  "distributor_feedback": "Feedback",
+  "business_orders": "Orders"
 }

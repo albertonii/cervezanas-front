@@ -14,7 +14,7 @@ export function Message({ message, type }: MessageProps) {
   return (
     <Alert
       className={classNames(
-        "text-shadow  mt-2 rounded px-3 py-2 shadow-md transition-all",
+        "text-shadow rounded px-3 py-2 shadow-md transition-all",
         type === "error"
           ? "bg-red-500 text-white"
           : type === "success"

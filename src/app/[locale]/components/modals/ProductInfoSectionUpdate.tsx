@@ -3,7 +3,6 @@
 import StockInformationDetailsAndPacks from "./StockInformationDetails";
 import SelectInput from "../common/SelectInput";
 import React, { useState } from "react";
-import { Divider } from "@supabase/ui";
 import { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
@@ -434,7 +433,7 @@ export function ProductInfoSectionUpdate({ form }: Props) {
             </div>
           </div>
 
-          <Divider />
+          {/* <Divider /> */}
 
           {/* Stock information and Packs */}
           <StockInformationDetailsAndPacks form={form} />

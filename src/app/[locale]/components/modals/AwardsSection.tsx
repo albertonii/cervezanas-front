@@ -1,4 +1,3 @@
-import { Divider } from "@supabase/ui";
 import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -158,7 +157,7 @@ export const AwardsSection = ({ form }: Props) => {
             )}
           </div>
 
-          <Divider className="my-6" />
+          {/* <Divider className="my-6" /> */}
         </div>
       ))}
 

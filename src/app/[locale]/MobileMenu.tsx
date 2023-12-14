@@ -139,10 +139,11 @@ export default function MobileMenu() {
                     <div className="relative rounded-full">
                       <Image
                         src={"/icons/notification-icon.svg"}
-                        width={45}
-                        height={45}
                         alt={"Notification bell"}
                         className={"rounded-full"}
+                        width={0}
+                        height={0}
+                        style={{ width: "45px", height: "45px" }}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length || 0}
@@ -166,10 +167,11 @@ export default function MobileMenu() {
                     <div className="relative rounded-full">
                       <Image
                         src={"/icons/shopping-cart.svg"}
-                        width={45}
-                        height={45}
                         alt={"Go to Shopping cart"}
                         className={"rounded-full"}
+                        width={0}
+                        height={0}
+                        style={{ width: "45px", height: "45px" }}
                       />
                       <span className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {cartQuantity}
@@ -234,9 +236,10 @@ export default function MobileMenu() {
                   <Button onClick={() => handleSignIn()} title={""} class={""}>
                     <Image
                       src={"/icons/user-profile.svg"}
-                      width={25}
-                      height={25}
                       alt={"Login"}
+                      width={0}
+                      height={0}
+                      style={{ width: "25px", height: "25px" }}
                     />
                   </Button>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
-import { PortalModal } from "./PortalModal";
+import PortalModal from "./PortalModal";
 
 interface Props {
   showModal: boolean;
@@ -62,31 +62,29 @@ export function ImageModal(props: Props) {
   return (
     <>
       {showModal && (
-        <>
-          <PortalModal wrapperId="modal-portal">
-            <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden bg-beer-blonde/40 outline-none focus:outline-none">
-              {/* The modal  */}
-              <div className="relative mx-4 my-6 h-screen w-screen shadow-lg ">
-                {/* Close modal */}
-                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                  <button
-                    className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
-                    onClick={() => handleClose()}
-                  >
-                    <span className=" fixed right-8 top-6 text-5xl font-bold text-beer-foam">
-                      &times;
-                    </span>
-                  </button>
-                </div>
+        <PortalModal wrapperId="modal-portal">
+          <section className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden bg-beer-blonde/40 outline-none focus:outline-none">
+            {/* The modal  */}
+            <div className="relative mx-4 my-6 h-screen w-screen shadow-lg ">
+              {/* Close modal */}
+              <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
+                <button
+                  className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
+                  onClick={() => handleClose()}
+                >
+                  <span className=" fixed right-8 top-6 text-5xl font-bold text-beer-foam">
+                    &times;
+                  </span>
+                </button>
+              </div>
 
-                {/*body*/}
-                <div className="mt-[5rem] grid grid-cols-1 justify-items-center">
-                  <div ref={modalRef}>{children}</div>
-                </div>
+              {/*body*/}
+              <div className="mt-[5rem] grid grid-cols-1 justify-items-center">
+                <div ref={modalRef}>{children}</div>
               </div>
             </div>
-          </PortalModal>
-        </>
+          </section>
+        </PortalModal>
       )}
     </>
   );

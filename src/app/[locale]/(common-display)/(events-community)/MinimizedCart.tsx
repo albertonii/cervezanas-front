@@ -16,10 +16,11 @@ export default function MinimizedCart({ setIsMinimized }: Props) {
         <div className="relative rounded-full">
           <Image
             src={"/icons/shopping-cart.svg"}
-            width={60}
-            height={60}
             alt={"Go to Shopping cart"}
             className={"rounded-full"}
+            width={0}
+            height={0}
+            style={{ width: "60px", height: "60px" }}
           />
           <span className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
             {cartQuantity}

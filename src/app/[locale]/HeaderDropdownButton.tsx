@@ -157,6 +157,42 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
             </span>
           </Link>
         );
+
+      case "business_orders":
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
+      case "contracts":
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
+      case "distributor_feedback":
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
     }
   };
 
@@ -169,10 +205,11 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
       <div onClick={() => setOpen(!open)} className="">
         <Image
           src={"/icons/user-profile.svg"}
-          width={45}
-          height={45}
           alt={"Go to Shopping cart"}
           className={"rounded-full"}
+          width={0}
+          height={0}
+          style={{ width: "45px", height: "45px" }}
         />
 
         <FontAwesomeIcon
@@ -194,10 +231,11 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         <figure className="flex items-center justify-center bg-beer-softBlonde p-1">
           <Image
             src={"/icons/user-profile.svg"}
-            width={45}
-            height={45}
             alt={"Go to Shopping cart"}
             className={"rounded-full"}
+            width={0}
+            height={0}
+            style={{ width: "45px", height: "45px" }}
           />
           {role && (
             <span className="ml-2 text-sm font-medium text-beer-dark dark:text-white">

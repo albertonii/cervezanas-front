@@ -1,6 +1,5 @@
 import SelectInput from "../common/SelectInput";
 import React, { useEffect, useState } from "react";
-import { Divider } from "@supabase/ui";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
@@ -176,8 +175,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
       {/* Beer type */}
       {isBeer && (
         <div className="relative flex-auto space-y-4 pt-6">
-          <Divider />
-
           <p className="text-slate-500 my-4 text-xl leading-relaxed">
             {t("modal_product_add_details_title")}
           </p>
@@ -542,8 +539,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             </div>
           </div>
 
-          <Divider />
-
           {/* Stock information  */}
           <div className="container mt-4">
             <p className="text-slate-500 my-4 text-xl leading-relaxed">
@@ -612,7 +607,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 </div>
               </div>
 
-              <Divider />
+              {/* <Divider /> */}
 
               {/* Packs  */}
               <div className="flex flex-col space-y-2">

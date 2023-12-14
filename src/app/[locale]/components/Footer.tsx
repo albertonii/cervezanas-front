@@ -39,6 +39,7 @@ export default function Footer() {
                   alt="Logo"
                   width={300}
                   height={300}
+                  priority={true}
                 />
 
                 <span className="ml-2 text-xl font-bold uppercase tracking-wide text-beer-dark">
@@ -165,23 +166,25 @@ export default function Footer() {
                 <p className="font-semibold tracking-wide text-beer-draft">
                   {t("payment_system")}
                 </p>
-                <div className="flex space-x-2">
+                <figure className="flex h-auto w-auto space-x-2">
                   {/* Visa card image logo  */}
                   <Image
                     src="/icons/payments/visa.png"
                     alt="Visa"
-                    width={80}
-                    height={80}
+                    width={0}
+                    height={0}
+                    style={{ width: "80px", height: "80px" }}
                   />
 
                   {/* Mastercard card image logo  */}
                   <Image
                     src="/icons/payments/mastercard.png"
                     alt="Mastercard"
-                    width={80}
-                    height={80}
+                    width={0}
+                    height={0}
+                    style={{ width: "80px", height: "80px" }}
                   />
-                </div>
+                </figure>
               </>
             </div>
           </div>

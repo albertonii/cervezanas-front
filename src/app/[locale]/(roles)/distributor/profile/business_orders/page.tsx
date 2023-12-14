@@ -5,7 +5,7 @@ import readUserSession from "../../../../../../lib/actions";
 import { IBusinessOrder } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 
-export default async function OrdersPage() {
+export default async function BusinessOrdersPage() {
   const bOrdersData = await getBusinessOrdersData();
   const [bOrders] = await Promise.all([bOrdersData]);
 

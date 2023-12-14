@@ -29,12 +29,12 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("online_orders"),
       icon: "box",
-      option: "orders",
+      option: "business_orders",
     },
     {
-      name: t("feedback"),
+      name: t("distributor_feedback"),
       icon: "box",
-      option: "feedback",
+      option: "reviews",
     },
   ];
 

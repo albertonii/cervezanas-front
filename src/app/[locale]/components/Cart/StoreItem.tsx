@@ -38,8 +38,6 @@ export function StoreItem({ product }: StoreItemProps) {
   // Selected pack that has lowest quantity
   const [selectedPack, setSelectedPack] = useState<IProductPack>(lowestPack);
 
-  const [isPackSelected, setIsPackSelected] = useState(true);
-
   const overAllCalculation = () => {
     let overAll_sum = 0;
     const reviewsCount = product.reviews;
@@ -105,7 +103,6 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   const handleAddToCart = () => {
-    // Notification if user is not logged in
     if (!isLoggedIn) {
       handleMessage({
         type: "info",
@@ -113,13 +110,6 @@ export function StoreItem({ product }: StoreItemProps) {
       });
       return;
     }
-
-    if (!selectedPack) {
-      setIsPackSelected(false);
-      return;
-    }
-
-    setIsPackSelected(true);
 
     const packCartItem: IProductPack = {
       id: selectedPack.id,
@@ -161,10 +151,9 @@ export function StoreItem({ product }: StoreItemProps) {
               width={128}
               height={128}
               alt="Principal Product Image store item"
-              imgSrc={
-                BASE_PRODUCTS_URL +
-                decodeURIComponent(product.product_multimedia[0].p_principal)
-              }
+              imgSrc={`${BASE_PRODUCTS_URL}${decodeURIComponent(
+                product.product_multimedia[0].p_principal
+              )}`}
               class={
                 " h-[200px] w-[200px] rounded-2xl object-contain hover:cursor-pointer"
               }

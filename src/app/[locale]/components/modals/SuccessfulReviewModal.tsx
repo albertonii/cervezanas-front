@@ -6,7 +6,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { PortalModal } from "./PortalModal";
+import PortalModal from "./PortalModal";
 
 interface Props {
   isVisible: boolean;
