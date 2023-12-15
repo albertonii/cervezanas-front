@@ -47,14 +47,12 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (isError) {
     return (
       <section className="mx-auto sm:py-4 lg:py-6">
-        <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
-          <div className="flex flex-col">
-            <span className="flex sm:items-baseline sm:space-x-4">
-              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                {t("order_erorr")}
-              </h1>
-            </span>
-          </div>
+        <div className="flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+          <span className="flex sm:items-baseline sm:space-x-4">
+            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+              {t("order_erorr")}
+            </h1>
+          </span>
         </div>
       </section>
     );
@@ -64,6 +62,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
     <>
       {!loading && (
         <section className="m-4 space-y-8 sm:py-4 lg:py-6">
+          {/* TODO: Añadir aquí la barra de estado del pedido en general:
+          Su estado será igual al valor del estado del primer business_order de todos los productos */}
+
           <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
             <div className="flex flex-col">
               <span className="flex sm:items-baseline sm:space-x-4">
@@ -88,6 +89,31 @@ export default function SuccessCheckout({ order, isError }: Props) {
                     {t(order.status)}{" "}
                   </span>
                 </span>
+              </div>
+
+              {/* Información del usuario que ha realizado la compra de manera minimalista y UX/UI friendly */}
+              <div className="mt-4 flex flex-col space-y-2 sm:flex sm:items-baseline sm:space-x-4 sm:space-y-0">
+                <span className="flex items-center space-x-2">
+                  <h1 className="text-lg tracking-tight text-gray-900 sm:text-xl">
+                    {t("customer_info")}
+                  </h1>
+                </span>
+
+                <Link
+                  href={`/c-info/${order.owner_id}`}
+                  locale={locale}
+                  target={"_blank"}
+                >
+                  <span className="flex items-center space-x-2 text-gray-900 hover:cursor-pointer hover:text-beer-draft">
+                    <h1 className="text-sm font-extrabold tracking-tight  sm:text-lg">
+                      {order.shipping_info?.name}{" "}
+                      {order.shipping_info?.lastname}
+                    </h1>
+                    <h1 className="text-sm font-extrabold tracking-tight sm:text-lg">
+                      {order.shipping_info?.phone}
+                    </h1>
+                  </span>
+                </Link>
               </div>
             </div>
 
@@ -146,6 +172,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
               ))}
           </article>
 
+          {/* <!-- Shipping --> */}
           <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
             {order.shipping_info && (
               <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">

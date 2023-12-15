@@ -675,5 +675,6 @@
   "select_all_countries_by_region": "Seleccionar todos los países de la región",
   "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
   "update_order_status": "Actualizar estado del pedido",
-  "error": "Error"
+  "error": "Error",
+  "customer_info": "Información del cliente"
 }

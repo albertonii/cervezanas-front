@@ -92,35 +92,32 @@ async function getSuccessData(searchParams: any) {
     .eq("order_number", orderNumber)
     .single();
 
-  const orderItems = orderData?.business_orders[0].order_items;
-  // TODO: VOLVER Y MOSTRAR SOLO LOS ELEMENTOS QUE PERTENECEN A LA ORDEN DE ESE DISTRIBUIDOR
-  // Filter online the order items that are related to the business order
-  // const orderFiltered: IOrder = {
-  //   ...orderData,
-  //   business_orders: {
-  //     ...orderData?.business_orders,
-  //     order_items:
-  //       orderItems?.filter(
-  //         (orderItem: IOrderItem) =>
-  //           orderItem.business_order_id === orderData?.business_orders[0].id
-  //       ) || [],
-  //   },
-  // };
+  // Vamos a filtrar aquellos businessOrder donde el distribuidor sea el mismo que el que está logueado
+  const businessOrders = orderData?.business_orders?.filter(
+    (bOrder: any) => bOrder.distributor_id === session.user.id
+  );
+
+  if (!businessOrders)
+    return {
+      orderData: null,
+      isError: true,
+    };
+
+  if (!orderData)
+    return {
+      orderData: null,
+      isError: true,
+    };
 
   if (orderError) {
-    console.error(orderError.message);
+    console.error(orderError);
     return {
       orderData: null,
       isError: true,
     };
   }
 
-  if (!orderData) {
-    return {
-      orderData: null,
-      isError: true,
-    };
-  }
+  orderData.business_orders = businessOrders;
 
   return { orderData: orderData as IOrder, isError: false };
 }

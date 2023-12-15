@@ -8,7 +8,7 @@ import { IBusinessOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import Spinner from "../../../../components/common/Spinner";
-import { faEye, faTruck } from "@fortawesome/free-solid-svg-icons";
+import {  faTruck } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
@@ -72,15 +72,6 @@ export function BusinessOrderList({ bOrders: os }: Props) {
     );
   };
 
-  const handleClickViewDistributorOrder = (bOrder: IBusinessOrder) => {
-    if (!bOrder.orders) return null;
-
-    const businessOrder = bOrder.id;
-
-    router.push(
-      `/${locale}/distributor/profile/business_orders/${businessOrder}`
-    );
-  };
 
   const filteredItemsByStatus = useMemo(() => {
     if (!bOrders) return [];
@@ -157,17 +148,10 @@ export function BusinessOrderList({ bOrders: os }: Props) {
                       <td className="item-center flex justify-center gap-2 px-6 py-4">
                         <IconButton
                           onClick={() => handleClickViewCompleteOrder(bOrder)}
-                          icon={faEye}
-                          title={""}
-                        />
-
-                        <IconButton
-                          onClick={() =>
-                            handleClickViewDistributorOrder(bOrder)
-                          }
                           icon={faTruck}
                           title={""}
                         />
+
                       </td>
                     </tr>
                   );

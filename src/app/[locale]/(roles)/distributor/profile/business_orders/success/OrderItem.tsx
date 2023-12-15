@@ -23,8 +23,7 @@ export default function OrderItem({ orderItem, bOrder }: Props) {
   const { supabase } = useAuth();
   const { product_packs: productPack } = orderItem;
   const queryClient = useQueryClient();
-  console.log(orderItem);
-  console.log(orderItem.business_orders?.status);
+
   const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
 
   const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {

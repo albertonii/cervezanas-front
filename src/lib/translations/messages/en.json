@@ -661,5 +661,6 @@
   "select_all_countries_by_region": "Select all countries by region",
   "select_all_cities_by_region": "Select all cities by region",
   "update_order_status": "Update order status",
-  "error": "Error"
+  "error": "Error",
+  "customer_info": "Customer information"
 }
