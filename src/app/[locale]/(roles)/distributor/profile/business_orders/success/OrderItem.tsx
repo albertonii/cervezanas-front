@@ -4,7 +4,7 @@ import {
   DISTRIBUTOR_ONLINE_ORDER_STATUS,
   SupabaseProps,
 } from "../../../../../../../constants";
-import { IOrder, IOrderItem } from "../../../../../../../lib/types";
+import { IBusinessOrder, IOrderItem } from "../../../../../../../lib/types";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 import { StatusTimeline } from "../../../../../components/StatusTimeline";
@@ -15,16 +15,17 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
   orderItem: IOrderItem;
-  order: IOrder;
+  bOrder: IBusinessOrder;
 }
 
-export default function OrderItem({ orderItem, order }: Props) {
+export default function OrderItem({ orderItem, bOrder }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
   const { product_packs: productPack } = orderItem;
   const queryClient = useQueryClient();
-
-  const [bOrderStatus, setBOrderStatus] = React.useState(order.status);
+  console.log(orderItem);
+  console.log(orderItem.business_orders?.status);
+  const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
 
   const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value;
@@ -112,37 +113,6 @@ export default function OrderItem({ orderItem, order }: Props) {
             {t("quantity")} - {productPack.quantity}
           </p>
         </div>
-
-        {/* Shipping Information  */}
-        {order.shipping_info && (
-          <div className="">
-            <dt className="font-semibold text-gray-900">
-              {t("shipping_address")}
-            </dt>
-
-            <dd className="mt-3 text-gray-500">
-              <span className="block font-semibold">
-                {order.shipping_info.name} {order.shipping_info.lastname}
-              </span>
-              <span className="block">
-                {order.shipping_info.address}, {order.shipping_info.city},
-                {order.shipping_info.state}, {order.shipping_info.zipcode},
-                {order.shipping_info.country}
-              </span>
-
-              {order.shipping_info.address_extra && (
-                <>
-                  <span className="block">
-                    {order.shipping_info.address_extra}
-                  </span>
-                  <span className="block">
-                    {order.shipping_info.address_observations}
-                  </span>
-                </>
-              )}
-            </dd>
-          </div>
-        )}
       </section>
 
       <StatusTimeline status={bOrderStatus} orderType={"distributor_online"} />

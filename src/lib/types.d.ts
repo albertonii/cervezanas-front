@@ -1316,6 +1316,7 @@ export interface IBusinessOrder {
   orders?: IOrder;
   order_items?: IOrderItem[];
   producer_id: string;
+  status: string;
 }
 
 export interface IBusinessOrderRef {
