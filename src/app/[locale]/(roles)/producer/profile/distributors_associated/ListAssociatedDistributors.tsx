@@ -61,17 +61,17 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
       const ds = res.data ?? [];
       setListDistributionContracts(ds);
     });
-  }, [currentPage]);
+  }, [currentPage, distributionContracts]);
 
   const filteredItems = useMemo<IDistributionContract[]>(() => {
-    if (!distributionContracts) return [];
-    return distributionContracts.filter((d: IDistributionContract) => {
+    if (!listDistributionContracts) return [];
+    return listDistributionContracts.filter((d: IDistributionContract) => {
       if (!d.distributor_user || !d.distributor_user.users) return false;
       return d.distributor_user.users.username
         .toLowerCase()
         .includes(query?.toLowerCase());
     });
-  }, [distributionContracts, query]);
+  }, [listDistributionContracts, query]);
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
@@ -117,12 +117,12 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
   };
 
   return (
-    <div className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
+    <section className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
       {isDeleteModal &&
         selectedContract &&
         selectedContract.distributor_user && (
           <DeleteContractModal
-            distributor_id={selectedContract.distributor_user.user}
+            distributor_id={selectedContract.distributor_id}
             producer_id={producerId}
             handleDeleteModal={() => setIsDeleteModal(false)}
           />
@@ -139,11 +139,11 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
         )}
 
       {isError && (
-        <div className="flex items-center justify-center">
+        <span className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
             {t("error_fetching_distributors")}
           </p>
-        </div>
+        </span>
       )}
 
       {isLoading && (
@@ -252,6 +252,6 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
           />
         </>
       )}
-    </div>
+    </section>
   );
 }

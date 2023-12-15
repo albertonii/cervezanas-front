@@ -23,10 +23,10 @@ interface Props {
 }
 export function SubmitContract({ distributor, form }: Props) {
   return (
-    <div className="space-y-4">
+    <section className="space-y-4">
       <CollaborationDetails distributorId={distributor.user} />
       <CollaborationAgreement />
       <ValidateContract form={form} />
-    </div>
+    </section>
   );
 }

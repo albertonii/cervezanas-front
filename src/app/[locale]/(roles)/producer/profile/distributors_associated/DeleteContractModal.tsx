@@ -3,6 +3,7 @@ import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useMessage } from "../../../../components/message/useMessage";
 
 interface Props {
   distributor_id: string;
@@ -15,8 +16,12 @@ export default function DeleteContractModal({
   producer_id,
   handleDeleteModal,
 }: Props) {
-  const t = useTranslations();
   const { supabase } = useAuth();
+  const { handleMessage } = useMessage();
+
+  const t = useTranslations();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
 
   const queryClient = useQueryClient();
 
@@ -29,7 +34,20 @@ export default function DeleteContractModal({
       .eq("distributor_id", distributor_id)
       .eq("producer_id", producer_id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
+    }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
+
+    handleDeleteModal(false);
   };
 
   const deleteContractMutation = useMutation({
@@ -37,7 +55,6 @@ export default function DeleteContractModal({
     mutationFn: handleRemoveContract,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
-      handleDeleteModal(false);
     },
     onError: (error) => {
       console.error(error);

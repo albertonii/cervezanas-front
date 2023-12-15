@@ -20,17 +20,16 @@ const fetchDistributionContracts = async (
         status,
         producer_accepted,
         distributor_accepted,
-        message
+        message,
+        distributor_user!distribution_contracts_distributor_id_fkey (
+          users (
+            id,
+            username
+          )
+        )
       `
     )
     .eq("producer_id", producerId);
-
-  /**
-     * ,
-        distributor_user!distribution_contracts_distributor_id_fkey (
-          *
-        )     
-     */
 
   if (error) throw error;
   return data as IDistributionContract[];

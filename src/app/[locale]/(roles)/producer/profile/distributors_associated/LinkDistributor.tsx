@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { useMessage } from "../../../../components/message/useMessage";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useTranslations } from "next-intl";
 
 type FormData = {
   message: string;
@@ -33,6 +34,10 @@ interface Props {
 }
 
 export default function LinkDistributor({ producerId }: Props) {
+  const t = useTranslations();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
+
   const { supabase } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -80,8 +85,18 @@ export default function LinkDistributor({ producerId }: Props) {
 
     if (error) {
       console.error(error);
+
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
       return;
     }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
   };
 
   const handleAddContractMutation = useMutation({
@@ -89,19 +104,9 @@ export default function LinkDistributor({ producerId }: Props) {
     mutationFn: handleAddContract,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
-      handleMessage({
-        type: "success",
-        message: "contract_sent_to_distributor_success",
-      });
-
       reset();
     },
     onError: (error: Error) => {
-      handleMessage({
-        type: "error",
-        message: "contract_sent_to_distributor_error",
-      });
-
       console.error(error);
     },
   });
