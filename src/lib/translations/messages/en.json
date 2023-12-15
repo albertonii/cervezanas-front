@@ -652,5 +652,6 @@
   "messages": {
     "submit_success": "Form submitted successfully",
     "submit_error": "Error submitting form"
-  }
+  },
+  "cancelled": "Cancelled"
 }

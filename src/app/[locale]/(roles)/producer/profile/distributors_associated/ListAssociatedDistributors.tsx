@@ -7,10 +7,11 @@ import { IconButton } from "../../../../components/common/IconButton";
 import Spinner from "../../../../components/common/Spinner";
 import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
 import { IDistributionContract } from "../../../../../../lib/types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import InputSearch from "../../../../components/common/InputSearch";
+import Link from "next/link";
 
 enum SortBy {
   NONE = "none",
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export default function ListAssociatedDistributors({ producerId }: Props) {
+  const locale = useLocale();
   const t = useTranslations();
 
   const deleteColor = { filled: "#90470b", unfilled: "grey" };
@@ -132,7 +134,7 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
         selectedContract &&
         selectedContract.distributor_user && (
           <CancelContractModal
-            distributor_id={selectedContract.distributor_user.user}
+            distributor_id={selectedContract.distributor_id}
             producer_id={producerId}
             handleCancelModal={() => setIsCancelModal(false)}
           />
@@ -198,8 +200,13 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                      {contract.distributor_user?.users &&
-                        contract.distributor_user.users.username}
+                      <Link
+                        href={`/d-info/${contract.distributor_id}`}
+                        locale={locale}
+                        target="_blank"
+                      >
+                        {contract.distributor_user?.users?.username ?? "-"}
+                      </Link>
                     </td>
 
                     <td className="px-6 py-4">

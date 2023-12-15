@@ -174,8 +174,9 @@ export default function ListOfContracts() {
               >
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link
-                    href={`/p-info/${contract.producer_user?.user}`}
+                    href={`/p-info/${contract.producer_id}`}
                     locale={locale}
+                    target="_blank"
                   >
                     {contract?.producer_user?.users?.username}
                   </Link>

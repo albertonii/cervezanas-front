@@ -666,5 +666,6 @@
   "messages": {
     "submit_success": "Formulario enviado correctamente",
     "submit_error": "Error al enviar el formulario"
-  }
+  },
+  "cancelled": "Cancelado"
 }
