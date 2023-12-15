@@ -32,6 +32,7 @@ export default function CoverageAreas() {
             )} */}
           </>
         );
+
       case DistributionType.CITY:
         return (
           <>
@@ -42,6 +43,7 @@ export default function CoverageAreas() {
             )}
           </>
         );
+
       case DistributionType.PROVINCE:
         return (
           <>
@@ -53,8 +55,10 @@ export default function CoverageAreas() {
             )}
           </>
         );
+
       case DistributionType.REGION:
         return <span>Region</span>;
+
       case DistributionType.EUROPE:
         return (
           <>
@@ -66,6 +70,7 @@ export default function CoverageAreas() {
             )}
           </>
         );
+
       case DistributionType.INTERNATIONAL:
         return (
           <>

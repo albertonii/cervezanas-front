@@ -68,7 +68,7 @@ export function BusinessOrderList({ bOrders: os }: Props) {
     );
 
     router.push(
-      `/${locale}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `/${locale}/distributor/profile/business_orders/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

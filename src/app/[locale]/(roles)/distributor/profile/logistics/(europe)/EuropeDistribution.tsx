@@ -222,7 +222,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                 />
 
                 <span className="text-sm text-gray-600">
-                  {t("select_all_countrys_by_region")}
+                  {t("select_all_countries_by_region")}
                 </span>
               </label>
             </div>

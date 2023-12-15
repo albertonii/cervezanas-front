@@ -215,7 +215,7 @@ export const AuthContextProvider = ({
         });
         return;
       }
-
+      console.log(payload);
       const { error, data } = (await supabase.auth.signUp(
         payload
       )) as AuthResponse;
@@ -224,6 +224,8 @@ export const AuthContextProvider = ({
 
       // Get access_level from the user
       const access_level = data.user?.user_metadata.access_level;
+      console.log(access_level);
+      console.log(access_level === "Distributor");
 
       if (access_level === ROLE_ENUM.Productor) {
         const { error: roleError } = await supabase
@@ -239,6 +241,35 @@ export const AuthContextProvider = ({
           });
           return;
         }
+      } else if (access_level === ROLE_ENUM.Distributor) {
+        const { error: roleError } = await supabase
+          .from("distributor_user")
+          .insert({
+            user: data.user.id,
+          });
+
+        if (roleError) {
+          handleMessage({
+            message: roleError.message,
+            type: "error",
+          });
+          return;
+        }
+
+        // Create coverage area linked to distributor user
+        // const { error: coverageAreasError } = await supabase
+        //   .from("coverage_areas")
+        //   .insert({
+        //     distributor_id: data.user.id,
+        //   });
+
+        // if (coverageAreasError) {
+        //   handleMessage({
+        //     message: coverageAreasError.message,
+        //     type: "error",
+        //   });
+        //   return;
+        // }
       }
 
       if (error) {

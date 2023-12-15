@@ -18,6 +18,7 @@ export default async function ReviewsPage() {
 
 async function getReviewsData() {
   const supabase = await createServerClient();
+  //TODO: We need to create a new table for the reviews related to the user talking about the distribution
 
   const {
     data: { session },
@@ -31,11 +32,7 @@ async function getReviewsData() {
     .from("reviews")
     .select(
       `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
+        *
       `
     )
     .eq("id", session.user.id);

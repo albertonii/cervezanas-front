@@ -373,6 +373,9 @@
   "status_started": "Iniciado",
   "status_pending": "Pendiente",
   "status_accepted": "Aceptado",
+  "status_error": "Error",
+  "status_cancelled": "Cancelado",
+  "status_in_transit": "En tránsito",
   "payment_information": "Información de pago",
   "ending_with": "Terminada en ",
   "expires_at": "Caduca el ",
@@ -608,7 +611,6 @@
   "origin_location": "Localización de origen",
   "add_range": "Añadir rango",
   "distribution_type": "Tipo de distribución",
-  "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
   "distributors_associated": "Distribuidores asociados",
   "distributors_list": "Listado de distribuidores",
   "form_submit_contract_description": "Selecciona del listado los distribuidores disponibles y crea un contrato para poder empezar a trabajar con él. Una vez esté validado el contrato por parte del distribuidor y Cervezanas podrás comenzar a operar con él.",
@@ -667,5 +669,11 @@
     "submit_success": "Formulario enviado correctamente",
     "submit_error": "Error al enviar el formulario"
   },
-  "cancelled": "Cancelado"
+  "cancelled": "Cancelado",
+  "in_transit": "En tránsito",
+  "international_distribution_cost": "Coste de distribución internacional",
+  "select_all_countries_by_region": "Seleccionar todos los países de la región",
+  "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
+  "update_order_status": "Actualizar estado del pedido",
+  "error": "Error"
 }

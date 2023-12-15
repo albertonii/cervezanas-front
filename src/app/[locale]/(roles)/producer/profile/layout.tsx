@@ -126,7 +126,6 @@ export default function layout({ children }: LayoutProps) {
 
   useEffect(() => {
     setBgImg_(bgImg ?? COMMON.BG_IMG);
-    console.log(bgImg);
   }, [bgImg]);
 
   useEffect(() => {
@@ -141,7 +140,7 @@ export default function layout({ children }: LayoutProps) {
         {bgImg_ && profileImg_ && (
           <>
             {/* Background Image */}
-            <div className=" bg-bear-alvine " aria-label="Custom Header">
+            <div className="bg-bear-alvine " aria-label="Custom Header">
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}

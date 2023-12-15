@@ -12,7 +12,6 @@ export default async function page({ params }: PageProps) {
   const bOrderData = await getBusinessOrderData(id);
 
   const [bOrder] = await Promise.all([bOrderData]);
-  console.log(bOrder);
 
   return <div>page</div>;
 }

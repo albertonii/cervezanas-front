@@ -17,13 +17,13 @@ export default function Spinner({
     <section
       role="status"
       className={`
-        ${class_} ${absolute ? "absolute" : "relative"} 
+        ${class_} ${absolute ?? "absolute"} 
         ${center ? "bottom-[50%] left-1/2 -translate-x-1/2" : ""}
         ${
           size === "fullScreen" &&
-          "fixed inset-0 z-10 flex items-center justify-center"
+          "fixed inset-0 z-10 flex h-full items-center justify-center"
         }
-        w-fit rounded-lg bg-beer-softBlonde bg-opacity-90 p-4
+        rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 
       `}
     >
       <svg

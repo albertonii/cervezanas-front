@@ -360,6 +360,9 @@
   "status_started": "Started",
   "status_pending": "Pending",
   "status_accepted": "Accepted",
+  "status_error": "Error",
+  "status_cancelled": "Cancelled",
+  "status_in_transit": "In transit",
   "payment_information": "Payment Information",
   "ending_with": "Ending with ",
   "expires_at": "Expires ",
@@ -594,7 +597,6 @@
   "origin_location": "Origin location",
   "add_range": "Add range",
   "distribution_type": "Distribution type",
-  "select_all_cities_by_region": "Select all cities by region",
   "distributors_associated": "Associated distributors",
   "distributors_list": "Distributors list",
   "form_submit_contract_description": "Select from the list of available distributors and create a contract to start working with them. Once the contract is validated by the distributor and Cervezanas you will be able to start working with him.",
@@ -653,5 +655,11 @@
     "submit_success": "Form submitted successfully",
     "submit_error": "Error submitting form"
   },
-  "cancelled": "Cancelled"
+  "cancelled": "Cancelled",
+  "in_transit": "In transit",
+  "international_distribution_cost": "International distribution cost",
+  "select_all_countries_by_region": "Select all countries by region",
+  "select_all_cities_by_region": "Select all cities by region",
+  "update_order_status": "Update order status",
+  "error": "Error"
 }

@@ -53,7 +53,6 @@ export default function ListAvailableDistributors({
 
   useEffect(() => {
     refetch().then((res: any) => {
-      console.log(res);
       const ds = res.data ?? [];
 
       setListDistributors(ds);

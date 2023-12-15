@@ -9,7 +9,7 @@ interface OrderTimelineProps {
 export function EventProductTimeline({ status }: OrderTimelineProps) {
   const t = useTranslations();
   return (
-    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+    <div className="border-t border-gray-200">
       <h4 className="sr-only">{t("status")}</h4>
       <p className="text-lg font-medium text-gray-900">
         {t("product_item_order_status")}: {t(status)}

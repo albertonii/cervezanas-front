@@ -34,10 +34,11 @@ export default function ShippingBillingContainer({
   const t = useTranslations();
 
   return (
-    <section className="border-product-softBlonde flex w-full flex-col items-stretch justify-center space-y-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:flex-row md:space-x-6 md:space-y-0 md:p-6 xl:space-x-8 xl:p-8">
+    <section className="border-product-softBlonde w-full flex-row items-stretch justify-center space-y-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:flex-col">
       <h2 className="text-2xl font-semibold leading-5 text-gray-800 dark:text-white">
         {t("shipping_and_billing_info")}
       </h2>
+
       {/* Shipping */}
       <Shipping
         formShipping={formShipping}
@@ -45,7 +46,7 @@ export default function ShippingBillingContainer({
         handleOnClickShipping={handleOnClickShipping}
         selectedShippingAddress={selectedShippingAddress}
       />
-      Toldo Andrea Madre Sonia
+
       {/* Billing */}
       <Billing
         formBilling={formBilling}
@@ -53,6 +54,7 @@ export default function ShippingBillingContainer({
         billingAddresses={billingAddresses}
         handleOnClickBilling={handleOnClickBilling}
       />
+
       <div className="flex w-full items-start justify-between">
         <div className="flex items-center justify-center space-x-4">
           <figure className="h-8 w-8">

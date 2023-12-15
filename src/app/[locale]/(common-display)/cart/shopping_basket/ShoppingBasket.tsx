@@ -28,6 +28,7 @@ import {
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
 import dynamic from "next/dynamic";
+import BillingAddressItem from "./BillingAddressItemInfo";
 
 const DynamicSpinner = dynamic(
   () => import("../../../components/common/Spinner"),
@@ -142,8 +143,9 @@ export function ShoppingBasket() {
       items.length > 0 &&
       selectedBillingAddress !== "" &&
       selectedShippingAddress !== "";
+
     setCanMakeThePayment(canMakeThePayment);
-  }, [items, selectedShippingAddress]);
+  }, [items, selectedShippingAddress, selectedBillingAddress]);
 
   const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
@@ -390,10 +392,10 @@ export function ShoppingBasket() {
                 </figure>
               </div>
 
-              <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+              <section className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
                 {/* Products  */}
                 <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                  {/* Customer's Car */}
+                  {/* Customer's Cart */}
                   <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
                     <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                       {t("customer_s_cart")}
@@ -573,16 +575,14 @@ export function ShoppingBasket() {
                             </p>
 
                             <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                              {/* {billingAddresses?.map((address) => {
-                                    if (address.id === selectedBillingAddress)
-                                      return (
-                                        <div key={address.id}>
-                                          <BillingAddressItem
-                                            address={address}
-                                          />
-                                        </div>
-                                      );
-                                  })} */}
+                              {billingAddresses?.map((address) => {
+                                if (address.id === selectedBillingAddress)
+                                  return (
+                                    <div key={address.id}>
+                                      <BillingAddressItem address={address} />
+                                    </div>
+                                  );
+                              })}
                             </div>
                           </div>
                         </div>
@@ -601,7 +601,7 @@ export function ShoppingBasket() {
                     </div>
                   </div>
                 </section>
-              </div>
+              </section>
             </section>
           </>
         )}

@@ -42,7 +42,17 @@ export const ONLINE_ORDER_STATUS = {
   SHIPPED: "shipped",
   DELIVERED: "delivered",
   ORDER_PLACED: "order_placed",
-  CANCELED: "canceled",
+  CANCELED: "cancelled",
+  ERROR: "error",
+};
+
+export const DISTRIBUTOR_ONLINE_ORDER_STATUS = {
+  PENDING: "pending",
+  PROCESSING: "processing",
+  IN_TRANSIT: "in_transit",
+  SHIPPED: "shipped",
+  DELIVERED: "delivered",
+  CANCELED: "cancelled",
   ERROR: "error",
 };
 

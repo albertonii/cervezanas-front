@@ -52,7 +52,6 @@ export default function ListOfContracts() {
     IDistributionContract[]
   >(() => {
     if (!contracts) return [];
-    console.log(contracts);
 
     return contracts.filter((contract: IDistributionContract) => {
       return contract.producer_user && contract.producer_user.users

@@ -8,6 +8,8 @@ import { ICountry } from "country-state-city/lib/interface";
 import { Button } from "../../../../../components/common/Button";
 import InputSearch from "../../../../../components/common/InputSearch";
 import { filterSearchInputQuery } from "../../../../../../../utils/utils";
+import { useAuth } from "../../../../../Auth/useAuth";
+import { useMessage } from "../../../../../components/message/useMessage";
 
 // interface ICountry {
 //   id: string;
@@ -31,10 +33,17 @@ export default function InternationalDistribution({
   coverageAreaId,
 }: Props) {
   const t = useTranslations();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
 
+  const { handleMessage } = useMessage();
+
+  const { supabase } = useAuth();
   const [deliveryCost, setDeliveryCost] = useState<number>(0);
 
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+    countries ?? []
+  );
   const [listOfCountries, setListOfCountries] = useState<ICountry[]>([]);
   const [tenCountries, setTenCountries] = useState<ICountry[]>([]);
 
@@ -62,6 +71,7 @@ export default function InternationalDistribution({
         const countries: ICountry[] = res.data || [];
         setCounter(countries.length);
 
+        console.log(countries);
         setListOfCountries(countries);
 
         const startIndex = (currentPage - 1) * resultsPerPage;
@@ -102,14 +112,25 @@ export default function InternationalDistribution({
   }, [query]);
 
   const handleUpdateInternationalDistribution = async () => {
-    // const { error } = await supabase
-    //   .from("coverage_areas")
-    //   .update({ countrys: selectedCountrys })
-    //   .eq("id", coverageAreaId);
-    // if (error) {
-    //   console.log(error);
-    //   return;
-    // }
+    const { error } = await supabase
+      .from("coverage_areas")
+      .update({ international: selectedCountries })
+      .eq("id", coverageAreaId);
+    if (error) {
+      console.log(error);
+
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
+
+      return;
+    }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
   };
 
   const updateInternationalDistributionMutation = useMutation({
@@ -226,10 +247,54 @@ export default function InternationalDistribution({
           searchPlaceholder={"search_by_name"}
         />
 
+        {/* Names of the countries selected by the distributor  */}
+        {selectedCountries && selectedCountries.length > 0 && (
+          <div className="w-full">
+            {/* Minimal and elegant Display the names of the countries  */}
+            <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+              {selectedCountries?.map((country: string, index: number) => {
+                // We can delete from the list one country just by clicking on it
+                return (
+                  <span
+                    key={country + index}
+                    className="flex rounded-full bg-gray-100 px-2 py-1 text-sm text-gray-600 hover:bg-gray-200"
+                  >
+                    {country}
+
+                    <figure
+                      className="ml-2 hover:cursor-pointer "
+                      onClick={() => {
+                        setSelectedCountries(
+                          selectedCountries.filter(
+                            (selectedCountry) => selectedCountry !== country
+                          )
+                        );
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="hover:text-bold h-4 w-4 text-gray-600 transition-all hover:scale-150 hover:text-red-700"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.146a.5.5 0 10-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </figure>
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* List of countrys in the country  */}
         {tenCountries && tenCountries.length > 0 && (
           <>
-            <div className="">
+            <div>
               <label
                 htmlFor="allCountries"
                 className="space-x-2 text-lg text-gray-600"
@@ -245,7 +310,7 @@ export default function InternationalDistribution({
                 />
 
                 <span className="text-sm text-gray-600">
-                  {t("select_all_countrys_by_region")}
+                  {t("select_all_countries_by_region")}
                 </span>
               </label>
             </div>

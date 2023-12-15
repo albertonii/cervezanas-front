@@ -14,7 +14,7 @@ enum CampaignStatus {
   uninitialized = "uninitialized",
   active = "active",
   finished = "finished",
-  canceled = "canceled",
+  cancelled = "cancelled",
   paused = "paused",
 }
 
@@ -160,8 +160,8 @@ export function CampaignForm({
                 ? t("active").toUpperCase()
                 : campaignStatus === CampaignStatus.paused
                 ? t("paused").toUpperCase()
-                : campaignStatus === CampaignStatus.canceled
-                ? t("canceled").toUpperCase()
+                : campaignStatus === CampaignStatus.cancelled
+                ? t("cancelled").toUpperCase()
                 : campaignStatus === CampaignStatus.finished
                 ? t("finished").toUpperCase()
                 : t("uninitialized").toUpperCase()}
@@ -173,7 +173,7 @@ export function CampaignForm({
                   ? "bg-green-500"
                   : campaignStatus === CampaignStatus.paused
                   ? "bg-yellow-500"
-                  : campaignStatus === CampaignStatus.canceled
+                  : campaignStatus === CampaignStatus.cancelled
                   ? "bg-red-500"
                   : campaignStatus === CampaignStatus.finished
                   ? "bg-gray-500"

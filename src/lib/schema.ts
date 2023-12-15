@@ -193,6 +193,7 @@ export interface Database {
           id: string
           order_id: string | null
           producer_id: string | null
+          status: string | null
         }
         Insert: {
           created_at?: string | null
@@ -200,6 +201,7 @@ export interface Database {
           id?: string
           order_id?: string | null
           producer_id?: string | null
+          status?: string | null
         }
         Update: {
           created_at?: string | null
@@ -207,6 +209,7 @@ export interface Database {
           id?: string
           order_id?: string | null
           producer_id?: string | null
+          status?: string | null
         }
         Relationships: [
           {

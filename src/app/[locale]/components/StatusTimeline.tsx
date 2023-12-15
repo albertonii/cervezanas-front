@@ -4,6 +4,8 @@ import EventTimelineStatusBar from "../(common-display)/checkout/event/success/E
 import React from "react";
 import { useTranslations } from "next-intl";
 import OnlineTimelineStatusBar from "../(common-display)/checkout/success/OnlineTimelineStatusBar";
+import DistributorOnlineTimelineStatusBar from "../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusBar";
+import DistributorOnlineTimelineStatusText from "../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusText";
 
 interface OrderTimelineProps {
   orderType: string;
@@ -13,7 +15,7 @@ interface OrderTimelineProps {
 export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
   const t = useTranslations();
   return (
-    <section className="px-4 py-6 sm:px-6 lg:p-8">
+    <section className="">
       <span className="text-lg font-medium text-beer-dark sm:text-xl">
         {t("order_status")}:
         <span className="ml-2 text-beer-draft">{t(status)} </span>
@@ -29,6 +31,12 @@ export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
         <>
           <EventTimelineStatusText status={status} />
           <EventTimelineStatusBar status={status} />
+        </>
+      )}
+      {orderType === "distributor_online" && (
+        <>
+          <DistributorOnlineTimelineStatusBar status={status} />
+          <DistributorOnlineTimelineStatusText status={status} />
         </>
       )}
     </section>

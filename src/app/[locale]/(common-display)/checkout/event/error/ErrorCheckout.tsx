@@ -180,7 +180,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                     )}
 
                     {/* TODO: VENIR AQUI Y MANEJAR ESTADOS DEL PEDIDO  */}
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+                    <div className="border-t border-gray-200">
                       <h4 className="sr-only">Status</h4>
                       <p className="flex justify-between text-sm font-medium text-gray-900">
                         {t("status")}: {t("user_cancelled")}
