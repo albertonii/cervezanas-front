@@ -9,6 +9,7 @@ import Modal from "../../../../components/modals/Modal";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { IDistributionContract } from "../../../../../../lib/types";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { useMessage } from "../../../../components/message/useMessage";
 
 interface Props {
   selectedContract: IDistributionContract;
@@ -23,8 +24,11 @@ export default function ApproveContractModal({
 }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
+  const { handleMessage } = useMessage();
 
   const queryClient = useQueryClient();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
 
   const handleUpdate = async () => {
     if (!selectedContract.producer_user) return;
@@ -36,12 +40,22 @@ export default function ApproveContractModal({
         status: DistributionStatus.ACCEPTED,
       })
       .eq("distributor_id", selectedContract.distributor_id)
-      .eq("producer_id", selectedContract.producer_user.user);
+      .eq("producer_id", selectedContract.producer_id);
 
     if (error) {
       console.error(error);
+
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
       return;
     }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
   };
 
   const updateContractMutation = useMutation({
@@ -79,25 +93,45 @@ export default function ApproveContractModal({
       classIcon={"w-6 h-6"}
       classContainer={""}
     >
-      <fieldset className="grid grid-cols-1 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+      <fieldset className="grid grid-cols-1 space-y-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
         <legend className="m-2 text-2xl">{t("contract_info")}</legend>
 
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="status">{t("status")}</label>
-          <p id="status">{t(selectedContract.status)}</p>
-        </div>
+        <span className="flex flex-row space-x-2">
+          <label htmlFor="created_at">{t("created_at")}</label>
 
-        <div className="flex flex-col space-y-2">
+          <p className="font-bold">
+            {formatDateString(selectedContract.created_at)}{" "}
+          </p>
+        </span>
+
+        <span className="flex flex-row space-x-2">
+          <label htmlFor="status">{t("status")}</label>
+          {selectedContract.status === DistributionStatus.PENDING && (
+            <p id="status" className="font-bold text-beer-gold">
+              {t(selectedContract.status)}
+            </p>
+          )}
+
+          {selectedContract.status === DistributionStatus.ACCEPTED && (
+            <p id="status" className="font-bold text-green-800">
+              {t(selectedContract.status)}
+            </p>
+          )}
+
+          {selectedContract.status === DistributionStatus.CANCELLED ||
+            selectedContract.status === DistributionStatus.REJECTED ||
+            (selectedContract.status === DistributionStatus.ERROR && (
+              <p id="status" className="font-bold text-red-700">
+                {t(selectedContract.status)}
+              </p>
+            ))}
+        </span>
+
+        <span className="flex flex-col space-y-2">
           <label htmlFor="message">{t("description")}</label>
 
           <p>{selectedContract.message}</p>
-        </div>
-
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="created_at">{t("created_at")}</label>
-
-          <p>{formatDateString(selectedContract.created_at)} </p>
-        </div>
+        </span>
       </fieldset>
     </Modal>
   );

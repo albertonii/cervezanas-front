@@ -662,5 +662,9 @@
   "admin_cps": "Puntos de consumo",
   "admin_campaigns": "Campañas",
   "distributor_feedback": "Feedback",
-  "business_orders": "Pedidos"
+  "business_orders": "Pedidos",
+  "messages": {
+    "submit_success": "Formulario enviado correctamente",
+    "submit_error": "Error al enviar el formulario"
+  }
 }

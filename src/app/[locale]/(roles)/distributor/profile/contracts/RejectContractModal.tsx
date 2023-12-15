@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useMessage } from "../../../../components/message/useMessage";
 
 interface Props {
   selectedContract: IDistributionContract;
@@ -23,8 +24,11 @@ export default function RejectContractModal({
 }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
+  const { handleMessage } = useMessage();
 
   const queryClient = useQueryClient();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
 
   const handleUpdate = async () => {
     if (!selectedContract.producer_user) return;
@@ -40,8 +44,18 @@ export default function RejectContractModal({
 
     if (error) {
       console.error(error);
+
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
       return;
     }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
   };
 
   const updateContractMutation = useMutation({

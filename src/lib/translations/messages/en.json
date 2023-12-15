@@ -29,7 +29,7 @@
   "profile_acc_email": "Email",
   "profile_custom_bg_img": "Background profile photo",
   "profile_custom_profile_photo_img": "Profile Photo",
-  "accept": "Aceptar",
+  "accept": "Accept",
   "save": "Save",
   "close": "Close",
   "edit": "Edit",
@@ -648,5 +648,9 @@
   "admin_cps": "Consumption Points",
   "admin_campaigns": "Campaigns",
   "distributor_feedback": "Feedback",
-  "business_orders": "Orders"
+  "business_orders": "Orders",
+  "messages": {
+    "submit_success": "Form submitted successfully",
+    "submit_error": "Error submitting form"
+  }
 }
