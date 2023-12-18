@@ -23,6 +23,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   if (!orderItems || !orderItems[0].product_packs) return <></>;
 
+  useEffect(() => {
+    console.log(orderItems);
+  }, [orderItems]);
+
   const t = useTranslations();
   const locale = useLocale();
 
@@ -64,7 +68,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
           {/* TODO: Añadir aquí la barra de estado del pedido en general:
           Su estado será igual al valor del estado del primer business_order de todos los productos */}
 
-          <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+          <section className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
             <div className="flex flex-col">
               <span className="flex sm:items-baseline sm:space-x-4">
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
@@ -85,7 +89,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 <span className="text-lg font-medium text-beer-dark sm:text-xl">
                   {t("order_status")}:
                   <span className="ml-2 text-beer-draft">
-                    {t(order.status)}{" "}
+                    {t(order.status)}
                   </span>
                 </span>
               </div>
@@ -129,36 +133,20 @@ export default function SuccessCheckout({ order, isError }: Props) {
               {t("view_invoice")}
               <span aria-hidden="true"> &rarr;</span>
             </a>
-          </div>
+          </section>
 
-          {/* <!-- Products --> */}
+          {/* Product and packs information */}
           <article className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
-            {/* {orderItems &&
-              orderItems.map((item: IOrderItem) => (
-                <div
-                  key={item.business_order_id + "-" + item.product_pack_id}
-                  className=""
-                >
-                  <OrderItem orderItem={item} bOrder={bOrder} />
-                </div>
-              ))} */}
-
             {bOrders &&
               bOrders.map((bOrder: IBusinessOrder) => (
                 <div key={bOrder.id}>
-                  {bOrder.order_items?.map((item: IOrderItem) => (
-                    <div
-                      key={item.business_order_id + "-" + item.product_pack_id}
-                    >
-                      <OrderItem orderItem={item} bOrder={bOrder} />
-                    </div>
-                  ))}
+                  <OrderItem bOrder={bOrder} />
                 </div>
               ))}
           </article>
 
           {/* <!-- Shipping --> */}
-          <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+          <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
             {order.shipping_info && (
               <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                 <div>
@@ -190,10 +178,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 </div>
               </dl>
             )}
-          </div>
+          </section>
 
           {/* <!-- Billing --> */}
-          <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+          <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
             {order.billing_info && (
               <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                 <div>
@@ -281,7 +269,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 </dd>
               </div>
             </dl>
-          </div>
+          </section>
         </section>
       )}
     </>

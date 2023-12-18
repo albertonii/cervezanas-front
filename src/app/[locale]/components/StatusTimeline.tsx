@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import OnlineTimelineStatusBar from "../(common-display)/checkout/success/OnlineTimelineStatusBar";
 import DistributorOnlineTimelineStatusBar from "../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusBar";
 import DistributorOnlineTimelineStatusText from "../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusText";
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from "../../../constants";
 
 interface OrderTimelineProps {
   orderType: string;
@@ -16,9 +17,17 @@ export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
   const t = useTranslations();
   return (
     <section className="">
-      <span className="text-lg font-medium text-beer-dark sm:text-xl">
+      <span className={`text-lg font-medium text-beer-dark sm:text-xl`}>
         {t("order_status")}:
-        <span className="ml-2 text-beer-draft">{t(status)} </span>
+        <span
+          className={`
+        ${
+          status === DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED &&
+          "text-green-600"
+        } ml-2 text-beer-draft`}
+        >
+          {t(status)}
+        </span>
       </span>
 
       {orderType === "online" && (

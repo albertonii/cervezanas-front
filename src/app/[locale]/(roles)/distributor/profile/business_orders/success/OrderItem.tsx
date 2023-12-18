@@ -16,23 +16,18 @@ import { useMessage } from "../../../../../components/message/useMessage";
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
-  orderItem: IOrderItem;
   bOrder: IBusinessOrder;
 }
 
-export default function OrderItem({ orderItem, bOrder }: Props) {
+export default function OrderItem({ bOrder }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useAuth();
-  const { product_packs: productPack } = orderItem;
   const queryClient = useQueryClient();
   const { handleMessage } = useMessage();
 
   const submitSuccessMessage = t("messages.updated_successfully");
   const submitErrorMessage = t("messages.updated_error");
-
-  console.log(orderItem);
-  console.log(bOrder);
 
   const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
 
@@ -48,7 +43,7 @@ export default function OrderItem({ orderItem, bOrder }: Props) {
     const { error } = await supabase
       .from("business_orders")
       .update({ status })
-      .eq("id", orderItem.business_order_id)
+      .eq("id", bOrder.id)
       .select();
 
     if (error) {
@@ -67,10 +62,8 @@ export default function OrderItem({ orderItem, bOrder }: Props) {
     });
   };
 
-  if (!productPack) return <></>;
-
   return (
-    <section className="border-1 relative border-separate rounded-lg border p-2">
+    <section className="relative border-separate space-y-8 rounded-lg border p-2">
       {/* Input select que actualizará el estado para ese business_order  */}
       <select
         id="status"
@@ -105,70 +98,83 @@ export default function OrderItem({ orderItem, bOrder }: Props) {
 
       <StatusTimeline status={bOrderStatus} orderType={"distributor_online"} />
 
-      <section className="grid grid-cols-1 gap-x-8 text-start sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-3 lg:gap-x-8">
+      <section className="grid grid-cols-1 space-y-4 text-start sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4">
         {/* Display the product information for this pack  */}
-        <div className="col-span-12 md:col-span-4">
-          <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
-            <Link
-              href={`/products/${orderItem.product_packs?.products?.id}`}
-              locale={locale}
-            >
-              {t("name")}: {orderItem.product_packs?.products?.name}
-            </Link>
-          </h3>
+        {bOrder.order_items && (
+          <div className="col-span-12">
+            <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
+              <Link
+                href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
+                locale={locale}
+              >
+                {t("name")}:{" "}
+                {bOrder.order_items[0].product_packs?.products?.name}
+              </Link>
+            </h3>
 
-          <span className="space-y-1">
-            <p className="text-sm text-gray-500">{t("description")}</p>
-            <p className="truncate">
-              {orderItem.product_packs?.products?.description}
-            </p>
-          </span>
-        </div>
+            <span className="space-y-1">
+              <p className="text-sm text-gray-500">{t("description")}</p>
+              <p className="truncate">
+                {bOrder.order_items[0].product_packs?.products?.description}
+              </p>
+            </span>
+          </div>
+        )}
 
-        {/* Product Multimedia  */}
-        <div className="flex flex-col items-center space-y-2 ">
-          <figure className="aspect-w-1 aspect-h-1 sm:aspect-none h-20 w-20 flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-auto lg:w-32">
-            {
-              <DisplayImageProduct
-                width={120}
-                height={120}
-                alt={""}
-                imgSrc={`${
-                  BASE_PRODUCTS_URL + decodeURIComponent(productPack.img_url)
-                }`}
-                class="h-full w-full object-cover object-center"
-              />
-            }
-          </figure>
-        </div>
+        {bOrder.order_items?.map((orderItem: IOrderItem) => (
+          <article
+            className="grid justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
+            key={orderItem.business_order_id + "-" + orderItem.product_pack_id}
+          >
+            {orderItem.product_packs && (
+              <>
+                <header className="col-span-12">
+                  <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
+                    <p className="text-lg font-medium text-gray-900">
+                      {orderItem.product_packs.name}
+                    </p>
+                  </h3>
+                </header>
 
-        {/* Product Pack Information  */}
-        <div className="">
-          {/* Información del pack del producto */}
-          <p className="text-sm font-medium text-gray-900">
-            {t("product_pack")}
-          </p>
+                <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-4 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-auto ">
+                  {
+                    <DisplayImageProduct
+                      width={120}
+                      height={120}
+                      alt={""}
+                      imgSrc={`${
+                        BASE_PRODUCTS_URL +
+                        decodeURIComponent(orderItem.product_packs.img_url)
+                      }`}
+                      class="h-full w-full object-cover object-center"
+                    />
+                  }
+                </figure>
 
-          <p className="text-lg font-medium text-gray-900">
-            {productPack.name}
-          </p>
-          <p className="text-sm font-medium text-gray-900">
-            {t("price")} - {formatCurrency(productPack.price)}
-          </p>
-          <p className="text-sm font-medium text-gray-900">
-            {t("quantity_in_pack")} - {productPack.quantity}
-          </p>
-        </div>
+                <div className="col-span-8 flex flex-col gap-2">
+                  <p className="text-sm font-medium text-gray-900 ">
+                    {formatCurrency(orderItem.product_packs.price)}
+                  </p>
 
-        {/* Packs Information  */}
-        <div className="">
-          {/* Información del pack del producto */}
-          <p className="text-sm font-medium text-gray-900">{t("packs")}</p>
+                  <span className="text-sm text-gray-900">
+                    <p>{t("quantity_in_pack")}:</p>
 
-          <p className="text-lg font-medium text-gray-900">
-            {t("quantity")} - {orderItem.quantity} {t("packs")}
-          </p>
-        </div>
+                    <p className="font-medium">
+                      {orderItem.product_packs.quantity} {t("units")}
+                    </p>
+                  </span>
+
+                  <span className="text-sm text-gray-900">
+                    <p>{t("quantity_bought")}:</p>
+                    <p className="font-medium">
+                      {orderItem.quantity} {t("packs")}
+                    </p>
+                  </span>
+                </div>
+              </>
+            )}
+          </article>
+        ))}
       </section>
     </section>
   );
