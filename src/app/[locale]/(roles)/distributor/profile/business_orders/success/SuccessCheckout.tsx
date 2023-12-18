@@ -23,7 +23,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   if (!orderItems || !orderItems[0].product_packs) return <></>;
 
-  const { products: productDetails } = orderItems[0].product_packs;
   const t = useTranslations();
   const locale = useLocale();
 
@@ -134,20 +133,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
           {/* <!-- Products --> */}
           <article className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
-            {/* Product Information  */}
-            <div className="col-span-12 md:col-span-4">
-              <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
-                <Link href={`/products/${productDetails?.id}`} locale={locale}>
-                  {t("name")}: {productDetails?.name}
-                </Link>
-              </h3>
-
-              <span className="space-y-1">
-                <p className="text-sm text-gray-500">{t("description")}</p>
-                <p className="truncate"> {productDetails?.description}</p>
-              </span>
-            </div>
-
             {/* {orderItems &&
               orderItems.map((item: IOrderItem) => (
                 <div

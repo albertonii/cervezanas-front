@@ -203,6 +203,7 @@
   "instock": "En Stock",
   "outstock": "Agotado",
   "quantity": "Cantidad",
+  "quantity_in_pack": "Cantidad en el pack",
   "add_to_cart": "Añadir al carrito",
   "shopping_cart": "Carrito de la compra",
   "remove_from_cart": "Remover del carrito",
@@ -667,7 +668,9 @@
   "business_orders": "Pedidos",
   "messages": {
     "submit_success": "Formulario enviado correctamente",
-    "submit_error": "Error al enviar el formulario"
+    "submit_error": "Error al enviar el formulario",
+    "updated_successfully": "Actualizado correctamente",
+    "updated_error": "Error al actualizar"
   },
   "cancelled": "Cancelado",
   "in_transit": "En tránsito",

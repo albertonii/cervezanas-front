@@ -35,3 +35,14 @@ Hay que designar las áreas de cobertura de un distribuidor a partir de otra nue
 
 Entonces, si el distribuidor configura que de 1 - 5kg de paquete cobra 10e por distribución y a partir de 5kg cobrará 15e.
 Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3KG, el coste de envío será --> 15e
+
+---
+
+18 de diciembre
+
+# Sistema de distribución
+
+- [x] Comprobar realización de compra de pedido y creación de business order
+- Visualizar pedido y permitir actualización del estado del pedido. Tanto para el productor como para el consumidor
+- CRUD para indicar coste de distribución por parte del distribuidor
+- Mostrar coste de distribución al consumidor antes de hacer la compra

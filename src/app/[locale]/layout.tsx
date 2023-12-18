@@ -42,29 +42,28 @@ export default async function AppLocaleLayout({
   return (
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
-        <div className="relative flex flex-col bg-beer-foam">
+        <section className="relative flex flex-col bg-beer-foam">
           <Header deviceType={deviceType} />
-
-          <div
-            className={classNames("relative mx-auto mt-[10vh] h-auto w-full")}
+          <section
+            className={classNames(
+              "relative mx-auto mt-[10vh] min-h-0 w-full overflow-auto"
+              // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+            )}
           >
-            {/* <Breadcrumb /> */}
-            {/* <Breadcrumb
-                          getDefaultTextGenerator={(path) => titleize(path)}
-                        /> */}
-          </div>
+            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
+          </section>
 
           <main
             className={classNames(
-              "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
+              "relative mx-auto flex min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
             )}
           >
             <MessageList />
-            {children}
-          </main>
 
+            <div>{children}</div>
+          </main>
           <Footer />
-        </div>
+        </section>
       </Providers>
     </Suspense>
   );

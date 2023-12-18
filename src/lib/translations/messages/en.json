@@ -206,6 +206,7 @@
   "instock": "In Stock",
   "outstock": "Out of Stock",
   "quantity": "Quantity",
+  "quantity_in_pack": "Quantity in pack",
   "add_to_cart": "Add to shopping cart",
   "shopping_cart": "Shopping cart",
   "remove_from_cart": "Remove from cart",
@@ -653,7 +654,9 @@
   "business_orders": "Orders",
   "messages": {
     "submit_success": "Form submitted successfully",
-    "submit_error": "Error submitting form"
+    "submit_error": "Error submitting form",
+    "updated_successfully": "Updated successfully",
+    "updated_error": "Error updating"
   },
   "cancelled": "Cancelled",
   "in_transit": "In transit",
