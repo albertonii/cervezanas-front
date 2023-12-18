@@ -75,7 +75,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
     );
     setTenCountries(lOfCountries);
 
-    // Update selectAllCurrentPage based on whether all countrys on this page are selected
+    // Update selectAllCurrentPage based on whether all countries on this page are selected
     setSelectAllCurrentPage(
       lOfCountries?.every((country) =>
         selectedCountries.includes(country.name)
@@ -99,7 +99,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
   const handleUpdateInternationalDistribution = async () => {
     // const { error } = await supabase
     //   .from("coverage_areas")
-    //   .update({ countrys: selectedCountrys })
+    //   .update({ countries: selectedCountries })
     //   .eq("id", coverageAreaId);
     // if (error) {
     //   console.log(error);
@@ -146,13 +146,13 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
   ) => {
     const lOfCountries = listOfCountries?.map((country) => country.name) || [];
 
-    const updatedSelectedCountrys = e.target.checked
+    const updatedSelectedCountries = e.target.checked
       ? [...selectedCountries, ...lOfCountries]
       : selectedCountries.filter(
           (checkedCountry) => !lOfCountries.includes(checkedCountry)
         );
 
-    setSelectedCountries(updatedSelectedCountrys);
+    setSelectedCountries(updatedSelectedCountries);
     setSelectAllCurrentPage(e.target.checked);
   };
 
@@ -203,7 +203,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
           searchPlaceholder={"search_by_name"}
         />
 
-        {/* List of countrys in the country  */}
+        {/* List of countries in the country  */}
         {tenCountries && tenCountries.length > 0 && (
           <>
             <div className="">
@@ -212,7 +212,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                 className="space-x-2 text-lg text-gray-600"
               >
                 <input
-                  id="allCountrysByRegion"
+                  id="allCountriesByRegion"
                   type="checkbox"
                   onChange={(e) => {
                     handleSelectAllCountries(e);
@@ -228,7 +228,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
             </div>
 
             <div className="w-full">
-              {/* Display selectable table with all countrys in the country selected */}
+              {/* Display selectable table with all countries in the country selected */}
               <label htmlFor="addressCountry" className="text-sm text-gray-600">
                 {t("loc_country")}
               </label>

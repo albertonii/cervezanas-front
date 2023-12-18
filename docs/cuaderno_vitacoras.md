@@ -43,6 +43,8 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 # Sistema de distribución
 
 - [x] Comprobar realización de compra de pedido y creación de business order
-- Visualizar pedido y permitir actualización del estado del pedido. Tanto para el productor como para el consumidor
+- [x] Visualizar pedido para el consumidor
+- [x] Visualizar pedido y permitir actualización del estado del pedido para el productor
 - CRUD para indicar coste de distribución por parte del distribuidor
 - Mostrar coste de distribución al consumidor antes de hacer la compra
+- Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.

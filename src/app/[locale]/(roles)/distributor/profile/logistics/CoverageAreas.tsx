@@ -18,6 +18,17 @@ export default function CoverageAreas() {
     console.error(error);
   }
 
+  // TODO: Hay que buscar una forma de normalizar los nombres de los paises
+  // para puedan estar autoseleccionados al momento de recibir el listado de países que
+  // tiene el distribuidor. Si lo hacemos de la manera de abajo
+  // hay causíticas que no tenemos en cuenta: Bosnia and Herzegovina no se marcaría
+  const internationalCountries =
+    distribution?.coverage_areas[0].international.map((country) => {
+      return country.replace(/\w\S*/g, (txt) => {
+        return txt.replace(/\b\w/g, (v) => v.toUpperCase());
+      });
+    }) ?? [];
+
   const renderSwitch = () => {
     switch (menuOption) {
       case DistributionType.LOCAL:
@@ -76,7 +87,7 @@ export default function CoverageAreas() {
           <>
             {distribution && (
               <InternationalDistribution
-                countries={distribution?.coverage_areas[0].international}
+                countries={internationalCountries}
                 coverageAreaId={distribution.coverage_areas[0].id}
               />
             )}

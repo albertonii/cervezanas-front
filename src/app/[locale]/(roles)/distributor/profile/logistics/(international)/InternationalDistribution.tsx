@@ -10,6 +10,7 @@ import InputSearch from "../../../../../components/common/InputSearch";
 import { filterSearchInputQuery } from "../../../../../../../utils/utils";
 import { useAuth } from "../../../../../Auth/useAuth";
 import { useMessage } from "../../../../../components/message/useMessage";
+import DistributionCost from "../DistributionCost";
 
 // interface ICountry {
 //   id: string;
@@ -25,7 +26,7 @@ type Props = {
 interface FormData {
   country: string;
   region: string;
-  countrys: ICountry[];
+  countries: ICountry[];
 }
 
 export default function InternationalDistribution({
@@ -39,7 +40,6 @@ export default function InternationalDistribution({
   const { handleMessage } = useMessage();
 
   const { supabase } = useAuth();
-  const [deliveryCost, setDeliveryCost] = useState<number>(0);
 
   const [selectedCountries, setSelectedCountries] = useState<string[]>(
     countries ?? []
@@ -71,7 +71,6 @@ export default function InternationalDistribution({
         const countries: ICountry[] = res.data || [];
         setCounter(countries.length);
 
-        console.log(countries);
         setListOfCountries(countries);
 
         const startIndex = (currentPage - 1) * resultsPerPage;
@@ -92,7 +91,7 @@ export default function InternationalDistribution({
     const lOfCountries = listOfCountries?.slice(startIndex, endIndex);
     setTenCountries(lOfCountries);
 
-    // Update selectAllCurrentPage based on whether all countrys on this page are selected
+    // Update selectAllCurrentPage based on whether all countries on this page are selected
     setSelectAllCurrentPage(
       lOfCountries?.every((country) =>
         selectedCountries.includes(country.name)
@@ -172,13 +171,13 @@ export default function InternationalDistribution({
   ) => {
     const tenCountries_aux = tenCountries?.map((country) => country.name) || [];
 
-    const updatedSelectedCountrys = e.target.checked
+    const updatedSelectedCountries = e.target.checked
       ? [...selectedCountries, ...tenCountries_aux]
       : selectedCountries.filter(
           (checkedCountry) => !tenCountries_aux.includes(checkedCountry)
         );
 
-    setSelectedCountries(updatedSelectedCountrys);
+    setSelectedCountries(updatedSelectedCountries);
     setSelectAllCurrentPage(e.target.checked);
   };
 
@@ -202,10 +201,6 @@ export default function InternationalDistribution({
     setSelectAllCurrentPage(e.target.checked);
   };
 
-  const handleDeliveryCost = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryCost(Number(e.target.value));
-  };
-
   return (
     <section className="space-y-4">
       <Button
@@ -218,23 +213,9 @@ export default function InternationalDistribution({
         {t("save")}
       </Button>
 
-      <div>
-        {/* Indicar el coste de distribución internacional por cada país y el coste de envío por cada país (si es diferente al coste de distribución) */}
-        <label htmlFor="address_doc" className="text-sm text-gray-600">
-          {t("international_distribution_cost") + " (€)"}
-        </label>
-
-        <input
-          type="number"
-          id="address_doc"
-          placeholder="10 €"
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          value={deliveryCost}
-          onChange={handleDeliveryCost}
-          min={0}
-          max={1000}
-        />
-      </div>
+      <section>
+        <DistributionCost />
+      </section>
 
       <div className="flex flex-col items-start space-y-4">
         <label htmlFor="addressCountry" className="text-xl text-gray-600">
@@ -291,7 +272,7 @@ export default function InternationalDistribution({
           </div>
         )}
 
-        {/* List of countrys in the country  */}
+        {/* List of countries in the country  */}
         {tenCountries && tenCountries.length > 0 && (
           <>
             <div>
@@ -300,7 +281,7 @@ export default function InternationalDistribution({
                 className="space-x-2 text-lg text-gray-600"
               >
                 <input
-                  id="allCountrysByRegion"
+                  id="allCountriesByRegion"
                   type="checkbox"
                   onChange={(e) => {
                     handleSelectAllCountries(e);
@@ -316,7 +297,7 @@ export default function InternationalDistribution({
             </div>
 
             <div className="w-full">
-              {/* Display selectable table with all countrys in the country selected */}
+              {/* Display selectable table with all countries in the country selected */}
               <label htmlFor="addressCountry" className="text-sm text-gray-600">
                 {t("loc_country")}
               </label>
