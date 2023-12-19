@@ -6,7 +6,7 @@ type Props = {
   setMenuOption: (opt: string) => void;
 };
 
-export default function HorizontalMenu({ setMenuOption }: Props) {
+export default function HorizontalMenuLogistics({ setMenuOption }: Props) {
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
   };

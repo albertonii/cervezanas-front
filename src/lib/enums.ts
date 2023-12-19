@@ -7,6 +7,13 @@ export enum DistributionType {
   INTERNATIONAL = "international",
 }
 
+export enum DistributionCostType {
+  FLATRATE = "flatrate",
+  DISTANCE = "distance",
+  VOLUME_AND_WEIGHT = "volume_and_weight",
+  RANGE = "range",
+}
+
 export enum DistributionStatus {
   PENDING = "pending",
   IN_PROGRESS = "in_progress",

@@ -679,5 +679,9 @@
   "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
   "update_order_status": "Actualizar estado del pedido",
   "error": "Error",
-  "customer_info": "Información del cliente"
+  "customer_info": "Información del cliente",
+  "distribution_cost": "Coste de distribución",
+  "lower_limit": "Límite inferior",
+  "upper_limit": "Límite superior",
+  "shipping_cost": "Coste de envío"
 }

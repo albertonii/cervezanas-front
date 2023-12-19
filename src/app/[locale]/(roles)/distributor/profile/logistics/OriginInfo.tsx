@@ -1,3 +1,5 @@
+"use client";
+
 import Label from "../../../../components/Label";
 import InputForm from "../../../../components/InputForm";
 import React from "react";
@@ -15,7 +17,7 @@ interface FormData {
   document_id: string;
   company: string;
   phone: string;
-  postalcode: number;
+  postalcode: string;
   country: string;
   province: string;
   town: string;
@@ -86,7 +88,8 @@ export default function OriginInfo() {
           {t("origin_location")}
         </legend>
 
-        {/* <Label>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
+          {/* <Label>
             <InputForm register={register} inputName="name" required={true} />
 
             {errors.name && <DisplayInputError message={errors.name.message} />}
@@ -171,31 +174,34 @@ export default function OriginInfo() {
               <DisplayInputError message={errors.country.message} />
             )}
           </Label> */}
-        {/* 
+          {/* 
           <InputForm
-            register={register}
-            inputName="postalcode"
-            placeholder="postal_code"
+            inputName="name"
+            placeholder="name"
             required={true}
-            id="postalcode"
+            register={register}
           /> */}
+          {/* 
+          <InputForm
+            inputName="lastname"
+            placeholder="lastname"
+            required={true}
+            register={register}
+          />
+*/}
 
-        <label htmlFor="postalcode">{t("postalcode")}</label>
-        {/* <input
-            className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-            {...register("postalcode", { required: true, valueAsNumber: true })}
-          /> */}
+          {/* TODO: Volver aquí para saber pq hay hydratation error  */}
+          <InputForm
+            inputName="postalcode"
+            placeholder="postalcode"
+            required={true}
+            register={register}
+          />
+        </div>
 
-        <input
-          id="postalcode"
-          type="text"
-          placeholder="user@cervezanas.com"
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        />
-
-        {errors.postalcode && (
-          <DisplayInputError message={errors.postalcode.message} />
-        )}
+        <Button btnType="submit" class="" primary medium>
+          {t("save")}
+        </Button>
       </fieldset>
     </form>
   );

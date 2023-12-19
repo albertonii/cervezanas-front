@@ -1376,3 +1376,13 @@ export interface IPCRangesProps {
   from: number;
   to: number;
 }
+
+export interface PriceRangeCostFormData {
+  distribution_range_cost: DistributionRangeCost[];
+}
+
+interface DistributionRangeCost {
+  lower: number;
+  upper: number;
+  shippingCost: number;
+}

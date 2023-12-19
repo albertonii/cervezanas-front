@@ -1,6 +1,8 @@
+"use client";
+
 import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
 import CityDistribution from "./(city)/CityDistribution";
-import HorizontalMenu from "./HorizontalMenu";
+import HorizontalMenu from "./HorizontalMenuLogistics";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
 import InternationalDistribution from "./(international)/InternationalDistribution";
 import EuropeDistribution from "./(europe)/EuropeDistribution";
@@ -10,7 +12,7 @@ import { DistributionType } from "../../../../../../lib/enums";
 
 export default function CoverageAreas() {
   const t = useTranslations();
-  const [menuOption, setMenuOption] = useState<string>("city");
+  const [menuOption, setMenuOption] = useState<string>(DistributionType.CITY);
 
   const { data: distribution, error } = useFetchDistributionByOwnerId();
 
@@ -21,7 +23,7 @@ export default function CoverageAreas() {
   // TODO: Hay que buscar una forma de normalizar los nombres de los paises
   // para puedan estar autoseleccionados al momento de recibir el listado de países que
   // tiene el distribuidor. Si lo hacemos de la manera de abajo
-  // hay causíticas que no tenemos en cuenta: Bosnia and Herzegovina no se marcaría
+  // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
   const internationalCountries =
     distribution?.coverage_areas[0].international.map((country) => {
       return country.replace(/\w\S*/g, (txt) => {
@@ -99,7 +101,7 @@ export default function CoverageAreas() {
   };
 
   return (
-    <fieldset className="w-full rounded-md border-2 border-beer-softBlondeBubble p-4">
+    <fieldset className="w-full  rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
       <legend className="text-2xl font-medium text-beer-dark">
         {t("distribution_type")}
       </legend>
@@ -108,9 +110,7 @@ export default function CoverageAreas() {
       <HorizontalMenu setMenuOption={setMenuOption} />
 
       {/* Coverage Area content  */}
-      <section className="border border-b-gray-200 bg-beer-foam  p-4">
-        {renderSwitch()}
-      </section>
+      <section>{renderSwitch()}</section>
 
       {/* Map Area Content  */}
     </fieldset>
