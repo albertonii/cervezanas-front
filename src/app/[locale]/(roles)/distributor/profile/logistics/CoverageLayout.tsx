@@ -8,11 +8,11 @@ import CoverageAreas from "./CoverageAreas";
 //   coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
 // }
 
-export default function CoverageArea() {
+export default function CoverageLayout() {
   return (
-    <div className="container space-y-4 px-6 py-4 lg:space-y-20 lg:px-20 lg:py-16">
+    <section className="container space-y-4 px-6 py-4 lg:space-y-20 lg:px-20 lg:py-16">
       <OriginInfo />
-      <CoverageAreas />
-    </div>
+      {/* <CoverageAreas /> */}
+    </section>
   );
 }

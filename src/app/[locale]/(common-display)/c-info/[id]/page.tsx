@@ -1,18 +1,18 @@
 import React from "react";
 import createServerClient from "../../../../../utils/supabaseServer";
-import { IUser } from "../../../../../lib/types";
+import { IUserTable } from "../../../../../lib/types";
 import ConsumerInformation from "./ConsumerInformation";
 
 export default async function page({ params }: any) {
   const { id } = params;
 
-  const consumerData = await getDistributorProfile(id);
+  const consumerData = await getConsumerProfile(id);
   const [consumer] = await Promise.all([consumerData]);
 
   return <ConsumerInformation consumer={consumer} />;
 }
 
-async function getDistributorProfile(consumerId: string) {
+async function getConsumerProfile(consumerId: string) {
   const supabase = await createServerClient();
 
   const { data: consumer, error: consumerError } = await supabase
@@ -27,5 +27,5 @@ async function getDistributorProfile(consumerId: string) {
 
   if (consumerError) throw consumerError;
 
-  return consumer as IUser;
+  return consumer as IUserTable;
 }

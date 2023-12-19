@@ -6,11 +6,7 @@ import { VIEWS } from "../../../../../../constants";
 export default async function OrdersPage() {
   await checkSession();
 
-  return (
-    <>
-      <CoverageLayout />
-    </>
-  );
+  return <CoverageLayout />;
 }
 
 async function checkSession() {

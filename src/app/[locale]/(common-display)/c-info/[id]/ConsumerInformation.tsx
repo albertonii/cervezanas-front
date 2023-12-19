@@ -2,12 +2,12 @@
 
 import React from "react";
 import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
-import { IUser } from "../../../../../lib/types";
+import { IUserTable } from "../../../../../lib/types";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
 
 interface Props {
-  consumer: IUser;
+  consumer: IUserTable;
 }
 
 export default function ConsumerInformation({ consumer }: Props) {

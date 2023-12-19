@@ -205,7 +205,6 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
       <div onClick={() => setOpen(!open)} className="">
         <Image
           src={"/icons/user-profile.svg"}
-          loader={() => "/icons/user-profile.svg"}
           alt={"Go to Shopping cart"}
           className={"rounded-full"}
           width={0}
@@ -232,7 +231,6 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         <figure className="flex items-center justify-center bg-beer-softBlonde p-1">
           <Image
             src={"/icons/user-profile.svg"}
-            loader={() => "/icons/user-profile.svg"}
             alt={"Go to Shopping cart"}
             className={"rounded-full"}
             width={0}

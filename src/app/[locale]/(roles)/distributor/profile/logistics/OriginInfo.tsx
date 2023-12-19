@@ -36,55 +36,57 @@ export default function OriginInfo() {
     reset,
   } = form;
 
-  const handleOriginAddress = async (formValues: FormData) => {
-    const {
-      id,
-      created_at,
-      name,
-      lastname,
-      document_id,
-      company,
-      phone,
-      postalcode,
-      country,
-      province,
-      town,
-      address_1,
-      address_2,
-    } = formValues;
-  };
+  if (!form) return <></>;
 
-  const updOriginAddress = useMutation({
-    mutationKey: ["updOriginAddress"],
-    mutationFn: handleOriginAddress,
-    onMutate: () => {
-      console.info("mutating");
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["originAddress"] });
-    },
-    onError: (error: any) => {
-      console.error(error);
-    },
-  });
+  // const handleOriginAddress = async (formValues: FormData) => {
+  //   const {
+  //     id,
+  //     created_at,
+  //     name,
+  //     lastname,
+  //     document_id,
+  //     company,
+  //     phone,
+  //     postalcode,
+  //     country,
+  //     province,
+  //     town,
+  //     address_1,
+  //     address_2,
+  //   } = formValues;
+  // };
 
-  const onSubmit = (data: FormData) => {
-    try {
-      updOriginAddress.mutate(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const updOriginAddress = useMutation({
+  //   mutationKey: ["updOriginAddress"],
+  //   mutationFn: handleOriginAddress,
+  //   onMutate: () => {
+  //     console.info("mutating");
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["originAddress"] });
+  //   },
+  //   onError: (error: any) => {
+  //     console.error(error);
+  //   },
+  // });
+
+  // const onSubmit = (data: FormData) => {
+  //   try {
+  //     updOriginAddress.mutate(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    // <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <fieldset className="w-full space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
         <legend className="text-2xl font-medium text-beer-dark">
           {t("origin_location")}
         </legend>
 
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
-          <Label>
+        {/* <Label>
             <InputForm register={register} inputName="name" required={true} />
 
             {errors.name && <DisplayInputError message={errors.name.message} />}
@@ -168,25 +170,32 @@ export default function OriginInfo() {
             {errors.country && (
               <DisplayInputError message={errors.country.message} />
             )}
-          </Label>
+          </Label> */}
+        {/* 
+          <InputForm
+            register={register}
+            inputName="postalcode"
+            placeholder="postal_code"
+            required={true}
+            id="postalcode"
+          /> */}
 
-          <Label>
-            <InputForm
-              register={register}
-              inputName="postalcode"
-              placeholder="postal_code"
-              required={true}
-            />
+        <label htmlFor="postalcode">{t("postalcode")}</label>
+        {/* <input
+            className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
+            {...register("postalcode", { required: true, valueAsNumber: true })}
+          /> */}
 
-            {errors.postalcode && (
-              <DisplayInputError message={errors.postalcode.message} />
-            )}
-          </Label>
-        </div>
+        <input
+          id="postalcode"
+          type="text"
+          placeholder="user@cervezanas.com"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+        />
 
-        <Button btnType="submit" class="" primary medium>
-          {t("save")}
-        </Button>
+        {errors.postalcode && (
+          <DisplayInputError message={errors.postalcode.message} />
+        )}
       </fieldset>
     </form>
   );

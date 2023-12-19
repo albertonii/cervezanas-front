@@ -203,6 +203,19 @@ export function UpdateProduct({
     value: 5,
   };
 
+  // convert string to FileList image
+  // TODO: Comprobar que convertStringToFileList funciona
+  const convertStringToFileList = (img_url: string) => {
+    const file = new File([img_url], img_url, {
+      type: "image/jpeg",
+    });
+
+    const fileList = new DataTransfer();
+    fileList.items.add(file);
+
+    return fileList.files;
+  };
+
   const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
@@ -228,11 +241,19 @@ export function UpdateProduct({
       era: eraDefault.value,
       is_gluten: product.beers[0]?.is_gluten ?? false,
       awards: product.awards ?? [],
-      p_principal: product.product_multimedia[0].p_principal,
-      p_back: product.product_multimedia[0]?.p_back,
-      p_extra_1: product.product_multimedia[0],
-      p_extra_2: product.product_multimedia[0],
-      p_extra_3: product.product_multimedia[0],
+      p_principal: convertStringToFileList(
+        product.product_multimedia[0].p_principal
+      ),
+      p_back: convertStringToFileList(product.product_multimedia[0]?.p_back),
+      p_extra_1: convertStringToFileList(
+        product.product_multimedia[0].p_extra_1
+      ),
+      p_extra_2: convertStringToFileList(
+        product.product_multimedia[0].p_extra_2
+      ),
+      p_extra_3: convertStringToFileList(
+        product.product_multimedia[0].p_extra_3
+      ),
 
       // awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_packs,

@@ -776,7 +776,7 @@ export type ModalAddProductFormData = {
   era: number;
   is_gluten: boolean;
   type: string;
-  awards: IAward[];
+  awards: ModalAddProductAwardFormData[];
   p_principal?: FileList;
   p_back?: FileList;
   p_extra_1?: FileList;
@@ -822,11 +822,20 @@ export type ModalUpdateProductFormData = {
   packs: ModalUpdateProductPackFormData[];
 };
 
+type ModalAddProductAwardFormData = {
+  id?: string;
+  name: string;
+  description: string;
+  img_url?: any;
+  year: number;
+  beer_id?: string;
+};
+
 type ModalUpdateProductAwardFormData = {
   id?: string;
   name: string;
   description: string;
-  img_url: any;
+  img_url?: any;
   year: number;
   beer_id?: string;
 };
@@ -1316,6 +1325,7 @@ export interface IBusinessOrder {
   orders?: IOrder;
   order_items?: IOrderItem[];
   producer_id: string;
+  distributor_id: string;
   status: string;
 }
 

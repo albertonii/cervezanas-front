@@ -8,8 +8,8 @@ type Props = {
   required?: boolean;
   type?: string;
   placeholder?: string;
-  id?: string;
-  defaultValue?: any;
+  id: string;
+  defaultValue?: string | number;
 };
 
 export default function InputForm({
@@ -21,15 +21,21 @@ export default function InputForm({
   id,
   defaultValue,
 }: Props) {
+  // if (!register) return;
+
+  // if (!inputName) return;
+
   const t = useTranslations();
   return (
-    <input
-      {...register(inputName, { required: required })}
-      className="h-full w-full rounded-md border-beer-softBlondeBubble hover:ring-1 hover:ring-beer-gold focus:border-beer-gold focus:ring-beer-gold"
-      placeholder={`${t(placeholder ?? inputName)}*`}
-      type={type}
-      required={required}
-      id={id}
-    />
+    <label className="flex h-12 flex-col items-start space-y-2" htmlFor={id}>
+      <input
+        {...register(inputName, { required: required })}
+        className="h-full w-full rounded-md border-beer-softBlondeBubble hover:ring-1 hover:ring-beer-gold focus:border-beer-gold focus:ring-beer-gold"
+        placeholder={`${t(placeholder)}*`}
+        type={type}
+        id={id}
+        defaultValue={defaultValue}
+      />
+    </label>
   );
 }

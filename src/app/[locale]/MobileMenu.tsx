@@ -101,7 +101,6 @@ export default function MobileMenu() {
                 priority={true}
                 sizes="100px"
                 src={"/logo_cervezanas.svg"}
-                loader={()=>"/logo_cervezanas.svg"}
               />
             </Link>
             <span className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></span>
@@ -145,7 +144,6 @@ export default function MobileMenu() {
                         height={0}
                         style={{ width: "45px", height: "45px" }}
                         src={"/icons/notification-icon.svg"}
-                        loader={() => "/icons/notification-icon.svg"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length || 0}
@@ -243,7 +241,6 @@ export default function MobileMenu() {
                       height={0}
                       style={{ width: "25px", height: "25px" }}
                       src={"/icons/user-profile.svg"}
-                      loader={() => "/icons/user-profile.svg"}
                     />
                   </Button>
                 </div>

@@ -124,7 +124,6 @@ export default function ScreenMenu() {
                   priority={true}
                   sizes="100px"
                   src={"/logo_cervezanas.svg"}
-                  loader={() => "/logo_cervezanas.svg"}
                 />
               </Link>
               <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
@@ -239,7 +238,6 @@ export default function ScreenMenu() {
                         height={0}
                         style={{ width: "45px", height: "45px" }}
                         src={"/icons/notification-icon.svg"}
-                        loader={() => "/icons/notification-icon.svg"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length ?? 0}
@@ -304,7 +302,6 @@ export default function ScreenMenu() {
                   "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
                 }
                 src={"/icons/beerme.svg"}
-                loader={() => "/icons/beerme.svg"}
               />
 
               <div className="sm:flex sm:flex-col">

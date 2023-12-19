@@ -17,9 +17,9 @@ import {
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  IAward,
   IInventory,
   IModalAddProductPack,
+  ModalAddProductAwardFormData,
   ModalAddProductFormData,
 } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
@@ -440,43 +440,45 @@ export function AddProduct() {
 
       // Awards
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
-        awards.map(async (award: IAward, index: number) => {
-          if (award && !isFileEmpty(award.img_url)) {
-            const filename = `awards/${productId}/${randomUUID}_${index}`;
-            const award_url = encodeURIComponent(
-              `${filename}${generateFileNameExtension(award.img_url[0].name)}`
-            );
-
-            const { error: awardsError } = await supabase
-              .from("awards")
-              .insert({
-                product_id: productId,
-                name: award.name,
-                description: award.description,
-                year: award.year,
-                img_url: award_url,
-              });
-
-            if (awardsError) throw awardsError;
-
-            const { error: storageAwardsError } = await supabase.storage
-              .from("products")
-              .upload(
-                `${filename}${generateFileNameExtension(
-                  award.img_url[0].name
-                )}`,
-                award.img_url[0],
-                {
-                  contentType: award.img_url[0].type,
-                  cacheControl: "3600",
-                  upsert: false,
-                }
+        awards.map(
+          async (award: ModalAddProductAwardFormData, index: number) => {
+            if (award && !isFileEmpty(award.img_url)) {
+              const filename = `awards/${productId}/${randomUUID}_${index}`;
+              const award_url = encodeURIComponent(
+                `${filename}${generateFileNameExtension(award.img_url[0].name)}`
               );
-            if (storageAwardsError) throw storageAwardsError;
 
-            removeImage(`awards.${index}.img_url`);
+              const { error: awardsError } = await supabase
+                .from("awards")
+                .insert({
+                  product_id: productId,
+                  name: award.name,
+                  description: award.description,
+                  year: award.year,
+                  img_url: award_url,
+                });
+
+              if (awardsError) throw awardsError;
+
+              const { error: storageAwardsError } = await supabase.storage
+                .from("products")
+                .upload(
+                  `${filename}${generateFileNameExtension(
+                    award.img_url[0].name
+                  )}`,
+                  award.img_url[0],
+                  {
+                    contentType: award.img_url[0].type,
+                    cacheControl: "3600",
+                    upsert: false,
+                  }
+                );
+              if (storageAwardsError) throw storageAwardsError;
+
+              removeImage(`awards.${index}.img_url`);
+            }
           }
-        });
+        );
       }
 
       return beer;

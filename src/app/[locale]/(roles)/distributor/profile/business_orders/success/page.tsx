@@ -68,7 +68,22 @@ async function getSuccessData(searchParams: any) {
     .from("orders")
     .select(
       `
-      *,
+      owner_id,
+      status,
+      shipping_info_id,
+      billing_info_id,
+      customer_name,
+      tracking_id,
+      issue_date,
+      estimated_date,
+      total,
+      subtotal,
+      shipping,
+      tax,
+      currency,
+      discount,
+      discount_code,
+      order_number,
       shipping_info (id, *),
       billing_info (id, *),
       business_orders!business_orders_order_id_fkey (
