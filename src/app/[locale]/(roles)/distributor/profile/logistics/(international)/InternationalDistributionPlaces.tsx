@@ -45,7 +45,7 @@ export default function InternationalDistributionPlaces({
     countries ?? []
   );
   const [listOfCountries, setListOfCountries] = useState<ICountry[]>([]);
-  const [tenCountries, setTenCountries] = useState<ICountry[]>([]);
+  const [tableCountries, setTableCountries] = useState<ICountry[]>([]);
 
   const form = useForm<FormData>();
 
@@ -65,7 +65,7 @@ export default function InternationalDistributionPlaces({
         const endIndex = startIndex + resultsPerPage;
 
         const lOfCountries = countries?.slice(startIndex, endIndex);
-        setTenCountries(lOfCountries);
+        setTableCountries(lOfCountries);
       });
     };
 
@@ -77,7 +77,7 @@ export default function InternationalDistributionPlaces({
     const startIndex = (currentPage - 1) * resultsPerPage;
     const endIndex = startIndex + resultsPerPage;
     const lOfCountries = listOfCountries?.slice(startIndex, endIndex);
-    setTenCountries(lOfCountries);
+    setTableCountries(lOfCountries);
 
     // Update selectAllCurrentPage based on whether all countries on this page are selected
     setSelectAllCurrentPage(
@@ -95,7 +95,7 @@ export default function InternationalDistributionPlaces({
       resultsPerPage
     );
 
-    setTenCountries(lOfCountries);
+    setTableCountries(lOfCountries);
   }, [query]);
 
   const handleUpdateInternationalDistribution = async () => {
@@ -157,12 +157,13 @@ export default function InternationalDistributionPlaces({
   const handleSelectAllCurrentPage = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const tenCountries_aux = tenCountries?.map((country) => country.name) || [];
+    const tableCountries_aux =
+      tableCountries?.map((country) => country.name) || [];
 
     const updatedSelectedCountries = e.target.checked
-      ? [...selectedCountries, ...tenCountries_aux]
+      ? [...selectedCountries, ...tableCountries_aux]
       : selectedCountries.filter(
-          (checkedCountry) => !tenCountries_aux.includes(checkedCountry)
+          (checkedCountry) => !tableCountries_aux.includes(checkedCountry)
         );
 
     setSelectedCountries(updatedSelectedCountries);
@@ -190,7 +191,7 @@ export default function InternationalDistributionPlaces({
   };
 
   return (
-    <section className="flex flex-col items-start space-y-4">
+    <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
       <Button
         btnType="submit"
         onClick={handleSubmit(onSubmit)}
@@ -213,50 +214,47 @@ export default function InternationalDistributionPlaces({
 
       {/* Names of the countries selected by the distributor  */}
       {selectedCountries && selectedCountries.length > 0 && (
-        <div className="w-full">
-          {/* Minimal and elegant Display the names of the countries  */}
-          <div className="flex flex-row flex-wrap space-x-2 space-y-1">
-            {selectedCountries?.map((country: string, index: number) => {
-              // We can delete from the list one country just by clicking on it
-              return (
-                <span
-                  key={country + index}
-                  className="flex rounded-full bg-gray-100 px-2 py-1 text-sm text-gray-600 hover:bg-gray-200"
-                >
-                  {country}
+        <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+          {selectedCountries?.map((country: string, index: number) => {
+            // We can delete from the list one country just by clicking on it
+            return (
+              <span
+                key={country + index}
+                className="flex rounded-full bg-gray-100 px-2 py-1 text-sm text-gray-600 hover:bg-gray-200"
+              >
+                {country.toLowerCase()}
 
-                  <figure
-                    className="ml-2 hover:cursor-pointer "
-                    onClick={() => {
-                      setSelectedCountries(
-                        selectedCountries.filter(
-                          (selectedCountry) => selectedCountry !== country
-                        )
-                      );
-                    }}
+                <figure
+                  className="ml-2 hover:cursor-pointer "
+                  onClick={() => {
+                    setSelectedCountries(
+                      selectedCountries.filter(
+                        (selectedCountry) => selectedCountry !== country
+                      )
+                    );
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="hover:text-bold h-4 w-4 text-gray-600 transition-all hover:scale-150 hover:text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="hover:text-bold h-4 w-4 text-gray-600 transition-all hover:scale-150 hover:text-red-700"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.146a.5.5 0 10-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </figure>
-                </span>
-              );
-            })}
-          </div>
+                    <path
+                      fillRule="evenodd"
+                      d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.146a.5.5 0 10-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </figure>
+              </span>
+            );
+          })}
         </div>
       )}
 
-      {/* List of countries in the country  */}
-      {tenCountries && tenCountries.length > 0 && (
+      {/* List of countries  */}
+      {tableCountries && tableCountries.length > 0 && (
         <>
           <div>
             <label
@@ -305,7 +303,7 @@ export default function InternationalDistributionPlaces({
               </thead>
 
               <tbody>
-                {tenCountries?.map((country: any, index: number) => {
+                {tableCountries?.map((country: any, index: number) => {
                   const startIndex = currentPage * resultsPerPage;
                   const globalIndex = startIndex + index;
 
@@ -359,7 +357,12 @@ const CountryRow = ({
   selectedCountries,
 }: CountryRowProps) => {
   const isChecked = (country: ICountry) => {
-    return selectedCountries.includes(country.name);
+    const countryLowerCase = country.name.toLowerCase();
+    return selectedCountries
+      .map((c) => {
+        return c.toLowerCase();
+      })
+      .includes(countryLowerCase);
   };
 
   return (

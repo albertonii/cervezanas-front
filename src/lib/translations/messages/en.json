@@ -669,5 +669,9 @@
   "distribution_cost": "Distribution cost",
   "lower_limit": "Lower limit",
   "upper_limit": "Upper limit",
-  "shipping_cost": "Shipping cost"
+  "shipping_cost": "Shipping cost",
+  "flatrate": "Flatrate",
+  "range": "Range",
+  "volume_and_weight": "Volume and weight",
+  "distance": "Distance"
 }

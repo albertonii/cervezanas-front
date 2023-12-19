@@ -36,6 +36,15 @@ const PriceRangeCostForm: React.FC = () => {
   } = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
+    defaultValues: {
+      distribution_range_cost: [
+        {
+          lower: 0,
+          upper: 0,
+          shippingCost: 0,
+        },
+      ],
+    },
   });
 
   const { fields, append, remove } = useFieldArray({
