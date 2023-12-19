@@ -1,4 +1,10 @@
-export enum DistributionType {
+export enum DistributionOption {
+  ORIGIN_INFORMATION = "origin_information",
+  DESTINATION = "coverage_area",
+  COST = "cost",
+}
+
+export enum DistributionDestinationType {
   LOCAL = "local",
   CITY = "city",
   PROVINCE = "province",

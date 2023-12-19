@@ -2,17 +2,19 @@
 
 import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
 import CityDistribution from "./(city)/CityDistribution";
-import HorizontalMenu from "./HorizontalMenuLogistics";
+import HorizontalMenu from "./HorizontalMenuCoverageDestination";
 import ProvinceDistribution from "./(province)/ProvinceDistribution";
 import InternationalDistribution from "./(international)/InternationalDistribution";
 import EuropeDistribution from "./(europe)/EuropeDistribution";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { DistributionType } from "../../../../../../lib/enums";
+import { DistributionDestinationType } from "../../../../../../lib/enums";
 
 export default function CoverageAreas() {
   const t = useTranslations();
-  const [menuOption, setMenuOption] = useState<string>(DistributionType.CITY);
+  const [menuOption, setMenuOption] = useState<string>(
+    DistributionDestinationType.CITY
+  );
 
   const { data: distribution, error } = useFetchDistributionByOwnerId();
 
@@ -33,7 +35,7 @@ export default function CoverageAreas() {
 
   const renderSwitch = () => {
     switch (menuOption) {
-      case DistributionType.LOCAL:
+      case DistributionDestinationType.LOCAL:
         return (
           <>
             {/* {distribution && (
@@ -46,7 +48,7 @@ export default function CoverageAreas() {
           </>
         );
 
-      case DistributionType.CITY:
+      case DistributionDestinationType.CITY:
         return (
           <>
             {distribution && (
@@ -57,7 +59,7 @@ export default function CoverageAreas() {
           </>
         );
 
-      case DistributionType.PROVINCE:
+      case DistributionDestinationType.PROVINCE:
         return (
           <>
             {distribution && (
@@ -69,10 +71,10 @@ export default function CoverageAreas() {
           </>
         );
 
-      case DistributionType.REGION:
+      case DistributionDestinationType.REGION:
         return <span>Region</span>;
 
-      case DistributionType.EUROPE:
+      case DistributionDestinationType.EUROPE:
         return (
           <>
             {distribution && (
@@ -84,7 +86,7 @@ export default function CoverageAreas() {
           </>
         );
 
-      case DistributionType.INTERNATIONAL:
+      case DistributionDestinationType.INTERNATIONAL:
         return (
           <>
             {distribution && (
@@ -101,9 +103,9 @@ export default function CoverageAreas() {
   };
 
   return (
-    <fieldset className="w-full  rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+    <fieldset className="w-full rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
       <legend className="text-2xl font-medium text-beer-dark">
-        {t("distribution_type")}
+        {t("distribution_destination")}
       </legend>
 
       {/* Horizontal menu  */}

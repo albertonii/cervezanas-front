@@ -79,12 +79,8 @@ const PriceRangeCostForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="round-xl border p-4">
-      <fieldset className="w-full space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-        <legend className="text-2xl font-medium text-beer-dark">
-          {t("distribution_cost")}
-        </legend>
-
+    <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+      <form onSubmit={handleSubmit}>
         <Button
           btnType="submit"
           // onClick={handleSubmit(onSubmit)}
@@ -164,8 +160,8 @@ const PriceRangeCostForm: React.FC = () => {
         <Button onClick={addPriceRange} btnType={"button"} accent small>
           Añadir Franja de Precio
         </Button>
-      </fieldset>
-    </form>
+      </form>
+    </section>
   );
 };
 

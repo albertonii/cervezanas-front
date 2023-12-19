@@ -22,7 +22,7 @@ export default function InternationalDistributionPlaces({
 }: Props) {
   const t = useTranslations();
 
-  const submitSuccessMessage = t("messages.submit_success");
+  const submitSuccessMessage = t("messages.updated_successfully");
   const submitErrorMessage = t("messages.submit_error");
 
   const { handleMessage } = useMessage();
@@ -31,7 +31,7 @@ export default function InternationalDistributionPlaces({
 
   const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
-  const [selectAllCountries, setSelectAllCountries] = useState(false); // rastrear si todaslas ciudades de la región están seleccionadas, independientemente de la paginación
+  const [selectAllCountries, setSelectAllCountries] = useState(false); // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
@@ -73,18 +73,19 @@ export default function InternationalDistributionPlaces({
   }, []);
 
   useEffect(() => {
-    if (!listOfCountries) return;
+    if (!listOfCountries || listOfCountries.length === 0) return;
     const startIndex = (currentPage - 1) * resultsPerPage;
     const endIndex = startIndex + resultsPerPage;
     const lOfCountries = listOfCountries?.slice(startIndex, endIndex);
-    setTableCountries(lOfCountries);
+    if (!lOfCountries || lOfCountries.length === 0) return;
 
     // Update selectAllCurrentPage based on whether all countries on this page are selected
-    setSelectAllCurrentPage(
-      lOfCountries?.every((country) =>
-        selectedCountries.includes(country.name)
-      ) ?? false
+    const allCountriesOnPageSelected = lOfCountries?.every((country) =>
+      selectedCountries.includes(country.name)
     );
+
+    setSelectAllCurrentPage(allCountriesOnPageSelected);
+    setTableCountries(lOfCountries);
   }, [currentPage]);
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export default function InternationalDistributionPlaces({
       .update({ international: selectedCountries })
       .eq("id", coverageAreaId);
     if (error) {
-      console.log(error);
+      console.error(error);
 
       handleMessage({
         type: "error",
@@ -202,10 +203,6 @@ export default function InternationalDistributionPlaces({
         {t("save")}
       </Button>
 
-      <label htmlFor="addressCountry" className="text-xl text-gray-600">
-        {t("loc_country")}
-      </label>
-
       <InputSearch
         query={query}
         setQuery={setQuery}
@@ -272,7 +269,7 @@ export default function InternationalDistributionPlaces({
               />
 
               <span className="text-sm text-gray-600">
-                {t("select_all_countries_by_region")}
+                {t("select_all_countries")}
               </span>
             </label>
           </div>

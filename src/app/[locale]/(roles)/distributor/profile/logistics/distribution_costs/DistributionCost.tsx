@@ -1,11 +1,15 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { DistributionCostType } from "../../../../../../../lib/enums";
 import HorizontalMenuCoverageCost from "../HorizontalMenuCoverageCost";
+import FlatrateCostForm from "./FlatrateCostForm";
 import PriceRangeCostForm from "./PriceRangeCostForm";
 
 export default function DistributionCost() {
+  const t = useTranslations();
+
   const [menuOption, setMenuOption] = useState<string>(
     DistributionCostType.FLATRATE
   );
@@ -17,16 +21,24 @@ export default function DistributionCost() {
     switch (menuOption) {
       case DistributionCostType.RANGE:
         return <PriceRangeCostForm />;
+
+      case DistributionCostType.FLATRATE:
+        return <FlatrateCostForm />;
+
       default:
         return <></>;
     }
   };
 
   return (
-    <section className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
+    <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
+      <legend className="text-2xl font-medium text-beer-dark">
+        {t("distribution_cost")}
+      </legend>
+
       <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
 
       {renderSwitch()}
-    </section>
+    </fieldset>
   );
 }

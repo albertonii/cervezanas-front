@@ -1,19 +1,40 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import OriginInfo from "./OriginInfo";
 import CoverageAreas from "./CoverageAreas";
 import DistributionCost from "./distribution_costs/DistributionCost";
+import HorizontalMenuLogistics from "./HorizontalMenuLogistics";
+import { DistributionOption } from "../../../../../../lib/enums";
 
 // interface Props {
 //   coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
 // }
 
 export default function CoverageLayout() {
-  return (
-    <section className="container space-y-4 px-6 py-4 lg:space-y-20 lg:px-20 lg:py-16">
-      {/* <OriginInfo /> */}
-      <DistributionCost />
+  const [menuOption, setMenuOption] = useState<string>(DistributionOption.COST);
 
-      <CoverageAreas />
+  const renderSwitch = () => {
+    switch (menuOption) {
+      case DistributionOption.ORIGIN_INFORMATION:
+        return <OriginInfo />;
+
+      case DistributionOption.COST:
+        return <DistributionCost />;
+
+      case DistributionOption.DESTINATION:
+        return <CoverageAreas />;
+
+      default:
+        return <></>;
+    }
+  };
+
+  return (
+    <section className="container space-y-4 px-6 py-4">
+      <HorizontalMenuLogistics setMenuOption={setMenuOption} />
+
+      {renderSwitch()}
     </section>
   );
 }

@@ -598,6 +598,7 @@
   "origin_location": "Origin location",
   "add_range": "Add range",
   "distribution_type": "Distribution type",
+  "distribution_destination": "Distribution destination",
   "distributors_associated": "Associated distributors",
   "distributors_list": "Distributors list",
   "form_submit_contract_description": "Select from the list of available distributors and create a contract to start working with them. Once the contract is validated by the distributor and Cervezanas you will be able to start working with him.",
@@ -673,5 +674,8 @@
   "flatrate": "Flatrate",
   "range": "Range",
   "volume_and_weight": "Volume and weight",
-  "distance": "Distance"
+  "distance": "Distance",
+  "cost": "Cost",
+  "coverage_area": "Coverage Areas",
+  "origin_information": "Origin Information"
 }

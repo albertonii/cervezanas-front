@@ -1,6 +1,6 @@
 import React from "react";
 import HorizontalSections from "../../../../components/common/HorizontalSections";
-import { DistributionType } from "../../../../../../lib/enums";
+import { DistributionOption } from "../../../../../../lib/enums";
 
 type Props = {
   setMenuOption: (opt: string) => void;
@@ -16,12 +16,9 @@ export default function HorizontalMenuLogistics({ setMenuOption }: Props) {
       <HorizontalSections
         handleMenuClick={handleMenuClick}
         tabs={[
-          // DistributionType.LOCAL,
-          DistributionType.CITY,
-          DistributionType.PROVINCE,
-          DistributionType.REGION,
-          DistributionType.EUROPE,
-          DistributionType.INTERNATIONAL,
+          DistributionOption.COST,
+          DistributionOption.DESTINATION,
+          DistributionOption.ORIGIN_INFORMATION,
         ]}
       />
     </>
