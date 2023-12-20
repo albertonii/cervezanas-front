@@ -1,5 +1,4 @@
 import "../../styles/globals.css";
-import { headers } from "next/headers";
 
 import Providers from "./providers";
 import Loading from "./loading";

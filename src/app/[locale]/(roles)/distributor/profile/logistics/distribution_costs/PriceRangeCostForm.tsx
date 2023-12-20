@@ -93,7 +93,7 @@ const PriceRangeCostForm: React.FC = () => {
 
         {fields.map((priceRange, index) => (
           <div key={index} className="mb-4">
-            <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+            <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2 sm:flex-row">
               <legend className=" text-gray-600">
                 Franja de Precio {index + 1}
               </legend>

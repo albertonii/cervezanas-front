@@ -31,7 +31,7 @@ export default function CoverageLayout() {
   };
 
   return (
-    <section className="container space-y-4 px-6 py-4">
+    <section className="container space-y-4 px-1 py-1 sm:px-6 sm:py-4">
       <HorizontalMenuLogistics setMenuOption={setMenuOption} />
 
       {renderSwitch()}
