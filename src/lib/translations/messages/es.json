@@ -581,7 +581,8 @@
     "input_max_100": "El número debe ser menor o igual a 100",
     "input_max_150": "El número debe ser menor o igual a 150",
     "input_max_500": "El número debe ser menor o igual a 500",
-    "input_max_2030": "El número debe ser menor o igual a 2030"
+    "input_max_2030": "El número debe ser menor o igual a 2030",
+    "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior"
   },
   "sign_up_successfully": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
   "user_already_registered": "El usuario ya está registrado",

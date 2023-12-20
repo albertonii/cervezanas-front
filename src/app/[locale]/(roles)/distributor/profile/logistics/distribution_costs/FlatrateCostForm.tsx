@@ -31,6 +31,7 @@ const FlatrateCostForm: React.FC = () => {
   const {
     register,
     formState: { errors },
+    getValues,
   } = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
@@ -60,9 +61,8 @@ const FlatrateCostForm: React.FC = () => {
           <legend className=" text-gray-600">
             Coste de distribución internacional
           </legend>
-
           <label className="">
-            {t("cost") + " (€)"}
+            {t("lower_limit") + " (€)"}
 
             <input
               type="number"
@@ -70,39 +70,38 @@ const FlatrateCostForm: React.FC = () => {
               //   required: true,
               //   valueAsNumber: true,
               // })}
-              placeholder="Límite superior"
+              placeholder={"0"}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               min={0}
             />
           </label>
-
           <label className="">
             {t("upper_limit") + " (€)"}
+
             <input
               type="number"
               // {...register(`distribution_range_cost.${index}.upper`, {
               //   required: true,
               //   valueAsNumber: true,
               // })}
-              placeholder="Costo de envío"
+              placeholder="30"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             />
           </label>
-
           <label className="">
             {t("shipping_cost") + " (€)"}
+
             <input
               type="number"
               // {...register(`distribution_range_cost.${index}.shippingCost`, {
               //   required: true,
               //   valueAsNumber: true,
               // })}
-              placeholder="Límite inferior"
+              placeholder="20"
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               min={0}
             />
           </label>
-
           <div className="align-end flex items-end">
             <DeleteButton />
           </div>

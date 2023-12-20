@@ -21,10 +21,6 @@ export function Account({ profile }: Props) {
         <h2 id="title" className="text-4xl">
           {t("profile_title_my_data")}
         </h2>
-
-        <h3 id="rrss" className="text-4xl">
-          {t("profile_title_ssnn")}
-        </h3>
       </div>
 
       <BasicDataForm profile={profile} />

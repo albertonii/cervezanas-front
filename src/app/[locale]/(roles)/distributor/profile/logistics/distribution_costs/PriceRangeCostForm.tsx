@@ -1,89 +1,140 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../../components/common/Button";
 import { useFieldArray } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { PriceRangeCostFormData } from "../../../../../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DisplayInputError } from "../../../../../components/common/DisplayInputError";
-import { DeleteButton } from "../../../../../components/common/DeleteButton";
+import PriceRangeRow from "./PriceRangeRow";
+
+const rangeObjectSchema = z
+  .object({
+    lower: z.number().min(0, { message: "errors.input_min_0" }),
+    upper: z.number().min(0, { message: "errors.input_min_0" }),
+    shippingCost: z.number().min(0, { message: "errors.input_min_0" }),
+  })
+  .refine((data) => data.lower < data.upper, {
+    message: "errors.lower_greater_than_upper",
+    path: ["upper"],
+  });
 
 const schema: ZodType<PriceRangeCostFormData> = z.object({
-  distribution_range_cost: z.array(
-    z.object({
-      lower: z.number().positive({ message: "errors.input_min_0" }),
-      upper: z.number().positive({ message: "errors.input_min_0" }),
-      shippingCost: z.number().positive({ message: "errors.input_min_0" }),
-    })
+  distribution_range_cost: z.array(rangeObjectSchema).refine(
+    (
+      ranges: {
+        lower: number;
+        upper: number;
+        shippingCost: number;
+      }[]
+    ) => {
+      // Validar que cada rango esté correctamente definido
+      for (let i = 0; i < ranges.length; i++) {
+        if (ranges[i].lower >= ranges[i].upper) {
+          return false;
+        }
+        if (i > 0 && ranges[i].lower <= ranges[i - 1].upper) {
+          return false;
+        }
+      }
+      return true;
+    },
+    {
+      message: "Cada rango debe ser válido y escalonado correctamente",
+    }
   ),
 });
 
-type ValidationSchema = z.infer<typeof schema>;
+export type PriceRangeCostFormValidationSchema = z.infer<typeof schema>;
 
 /* Tarifa de envío por rango de coste del pedido */
 const PriceRangeCostForm: React.FC = () => {
   const t = useTranslations();
 
-  // TODO: Mejorarlo usando useForm y useFieldArray de react-hook-form
-  // TODO: Añadir validaciones
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useForm<ValidationSchema>({
+  const [priceRanges, setPriceRanges] = React.useState<
+    PriceRangeCostFormData["distribution_range_cost"]
+  >([]);
+
+  const form = useForm<PriceRangeCostFormValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
-      distribution_range_cost: [
-        {
-          lower: 0,
-          upper: 0,
-          shippingCost: 0,
-        },
-      ],
+      distribution_range_cost: [],
     },
   });
+
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: "distribution_range_cost",
     control,
   });
 
-  const handleInputChange = (
+  const handleInputLowerChange = (
     index: number,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // const newPriceRanges = [...priceRanges];
-    // newPriceRanges[index] = {
-    //   ...newPriceRanges[index],
-    //   [event.target.name]: parseFloat(event.target.value),
-    // };
-    // setPriceRanges(newPriceRanges);
+    const newRanges = [...priceRanges];
+    newRanges[index] = {
+      ...newRanges[index],
+      lower: event.target.valueAsNumber,
+    };
+    setPriceRanges(newRanges);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // // Aquí enviarías los datos al servidor, por ejemplo usando fetch o Axios
-    // console.log(priceRanges);
+  const handleInputUpperChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newRanges = [...priceRanges];
+    newRanges[index] = {
+      ...newRanges[index],
+      upper: event.target.valueAsNumber,
+    };
+    setPriceRanges(newRanges);
+  };
+
+  const handleInputCostChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newRanges = [...priceRanges];
+    newRanges[index] = {
+      ...newRanges[index],
+      shippingCost: event.target.valueAsNumber,
+    };
+    setPriceRanges(newRanges);
+  };
+
+  const onSubmit: SubmitHandler<PriceRangeCostFormValidationSchema> = (
+    formValues: FormData
+  ) => {
+    console.log(formValues);
   };
 
   const addPriceRange = () => {
     append({ lower: 0, upper: 0, shippingCost: 0 });
+    setPriceRanges([...priceRanges, { lower: 0, upper: 0, shippingCost: 0 }]);
   };
 
   const removePriceRange = (index: number) => {
     remove(index);
+    setPriceRanges(priceRanges.filter((_, i) => i !== index));
   };
 
   return (
     <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Button
           btnType="submit"
-          // onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onSubmit)}
           class=""
           primary
           medium
@@ -91,69 +142,25 @@ const PriceRangeCostForm: React.FC = () => {
           {t("save")}
         </Button>
 
-        {fields.map((priceRange, index) => (
+        {
+          // Display the error message if the array of ranges is not valid
+          errors.distribution_range_cost && (
+            <DisplayInputError
+              message={errors.distribution_range_cost.root?.message}
+            />
+          )
+        }
+
+        {fields.map((_, index) => (
           <div key={index} className="mb-4">
-            <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2 sm:flex-row">
-              <legend className=" text-gray-600">
-                Franja de Precio {index + 1}
-              </legend>
-
-              <label className="">
-                {t("lower_limit") + " (€)"}
-
-                <input
-                  type="number"
-                  {...register(`distribution_range_cost.${index}.lower`, {
-                    required: true,
-                    valueAsNumber: true,
-                  })}
-                  placeholder="Límite superior"
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  min={0}
-                />
-              </label>
-
-              <label className="">
-                {t("upper_limit") + " (€)"}
-                <input
-                  type="number"
-                  {...register(`distribution_range_cost.${index}.upper`, {
-                    required: true,
-                    valueAsNumber: true,
-                  })}
-                  placeholder="Costo de envío"
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                />
-              </label>
-
-              <label className="">
-                {t("shipping_cost") + " (€)"}
-                <input
-                  type="number"
-                  {...register(
-                    `distribution_range_cost.${index}.shippingCost`,
-                    {
-                      required: true,
-                      valueAsNumber: true,
-                    }
-                  )}
-                  placeholder="Límite inferior"
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  min={0}
-                />
-              </label>
-
-              <div className="align-end flex items-end">
-                <DeleteButton onClick={() => removePriceRange(index)} />
-              </div>
-            </fieldset>
-
-            {errors.distribution_range_cost &&
-              errors.distribution_range_cost[index] && (
-                <DisplayInputError
-                  message={errors.distribution_range_cost[index]?.message}
-                />
-              )}
+            <PriceRangeRow
+              index={index}
+              form={form}
+              removePriceRange={removePriceRange}
+              handleInputLowerChange={handleInputLowerChange}
+              handleInputUpperChange={handleInputUpperChange}
+              handleInputCostChange={handleInputCostChange}
+            />
           </div>
         ))}
 
@@ -161,6 +168,39 @@ const PriceRangeCostForm: React.FC = () => {
           Añadir Franja de Precio
         </Button>
       </form>
+
+      {/* Minimalistic and simple table displaying all the ranges and costs. Información obtenida del array registrado en "distribution_range_cost*/}
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
+              Límite inferior
+            </th>
+            <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
+              Límite superior
+            </th>
+            <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
+              Coste de Envío
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {priceRanges.map((range, index) => (
+            <tr key={index}>
+              <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                {range.lower} €
+              </td>
+              <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                {range.upper} €
+              </td>
+              <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                {range.shippingCost} €
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 };

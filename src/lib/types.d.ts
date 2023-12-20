@@ -1381,7 +1381,7 @@ export interface PriceRangeCostFormData {
   distribution_range_cost: DistributionRangeCost[];
 }
 
-interface DistributionRangeCost {
+export interface DistributionRangeCost {
   lower: number;
   upper: number;
   shippingCost: number;
