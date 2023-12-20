@@ -1,16 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import useDeviceDetection from "../../hooks/useDeviceDetection";
 
-interface Props {
-  deviceType: string;
-}
+export default function Header() {
+  const device = useDeviceDetection();
 
-export default function Header({ deviceType }: Props) {
   return (
     <header className="header absolute w-full bg-beer-foam bg-transparent">
       <nav>
-        {deviceType === "mobile"
+        {device === "Mobile"
           ? (() => {
               const DynamicMobileMenu = dynamic(() => import("./MobileMenu"), {
                 loading: () => <p>Loading...</p>,

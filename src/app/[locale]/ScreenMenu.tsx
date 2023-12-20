@@ -80,7 +80,7 @@ export default function ScreenMenu() {
   };
 
   return (
-    <section className="hidden rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4">
+    <section className="rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4">
       <nav className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
         {/* Left elements  */}
         <section className="flex w-full items-center justify-center ">

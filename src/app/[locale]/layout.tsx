@@ -37,13 +37,11 @@ export default async function AppLocaleLayout({
     notFound();
   }
 
-  const deviceType = getDeviceType();
-
   return (
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
         <section className="relative flex flex-col bg-beer-foam">
-          <Header deviceType={deviceType} />
+          <Header />
           <section
             className={classNames(
               "relative mx-auto mt-[10vh] min-h-0 w-full overflow-auto"
@@ -55,7 +53,7 @@ export default async function AppLocaleLayout({
 
           <main
             className={classNames(
-              "relative mx-auto flex min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
+              "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
             )}
           >
             <MessageList />
@@ -66,15 +64,4 @@ export default async function AppLocaleLayout({
       </Providers>
     </Suspense>
   );
-}
-
-export function getDeviceType() {
-  const headersList = headers();
-  const userAgent = headersList.get("user-agent");
-
-  return userAgent!.match(
-    /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-  )
-    ? "mobile"
-    : "desktop";
 }
