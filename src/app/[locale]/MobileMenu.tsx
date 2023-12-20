@@ -109,7 +109,7 @@ export default function MobileMenu() {
 
         <div
           ref={sidebarRef}
-          className={`fixed left-0 top-0 z-30 h-full w-3/4 transform bg-beer-gold transition-transform duration-300 ease-in-out sm:hidden ${
+          className={`fixed left-0 top-0 z-30 h-full w-auto transform bg-beer-gold pr-10 transition-transform duration-300 ease-in-out sm:hidden ${
             openHamburguer
               ? "bg-darkGold translate-x-0"
               : "-translate-x-full bg-beer-gold"

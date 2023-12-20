@@ -10,10 +10,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { generateLink } from "../../../../utils/utils";
 import useDeviceDetection from "../../../../hooks/useDeviceDetection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleChevronRight,
-  faCircleChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   sidebarLinks: { name: string; icon: string; option: string }[];
