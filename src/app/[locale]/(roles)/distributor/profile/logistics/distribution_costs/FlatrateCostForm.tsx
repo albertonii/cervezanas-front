@@ -26,6 +26,8 @@ type ValidationSchema = z.infer<typeof schema>;
 const FlatrateCostForm: React.FC = () => {
   const t = useTranslations();
 
+  // TODO: Pensar como vamos a hacer para que cada tipo de distribución tenga su coste asociado por tipo: tarifa plana, por rango de coste del pedido, por peso, por volumen, etc.
+
   const {
     register,
     formState: { errors },

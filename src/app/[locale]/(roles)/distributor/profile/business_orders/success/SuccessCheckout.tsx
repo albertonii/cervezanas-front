@@ -43,10 +43,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
     };
   }, [user]);
 
-  const handleInvoicePdf = () => {
-    window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
-  };
-
   if (isError) {
     return (
       <section className="mx-auto sm:py-4 lg:py-6">
@@ -74,14 +70,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
                   {t("order_number")} #{order.order_number}
                 </h1>
-
-                <p
-                  onClick={() => handleInvoicePdf()}
-                  className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"
-                >
-                  {t("view_invoice")}
-                  <span aria-hidden="true"> &rarr;</span>
-                </p>
               </span>
 
               {/* Order Status  */}
@@ -95,28 +83,31 @@ export default function SuccessCheckout({ order, isError }: Props) {
               </div>
 
               {/* Información del usuario que ha realizado la compra de manera minimalista y UX/UI friendly */}
-              <div className="mt-4 flex flex-col space-y-2 sm:flex sm:items-baseline sm:space-x-4 sm:space-y-0">
-                <span className="flex items-center space-x-2">
-                  <h1 className="text-lg tracking-tight text-gray-900 sm:text-xl">
-                    {t("customer_info")}
-                  </h1>
-                </span>
+              <div className="mt-4 grid grid-cols-2 gap-2 space-y-2 sm:items-baseline sm:space-y-0">
+                <h1 className="col-span-3 text-lg tracking-tight text-gray-900 sm:text-xl">
+                  {t("customer_info")}
+                </h1>
 
-                <Link
-                  href={`/c-info/${order.owner_id}`}
-                  locale={locale}
-                  target={"_blank"}
-                >
-                  <span className="flex items-center space-x-2 text-gray-900 hover:cursor-pointer hover:text-beer-draft">
-                    <h1 className="text-sm font-extrabold tracking-tight  sm:text-lg">
+                <span className="flex items-center gap-2 text-gray-900 ">
+                  {t("name")}:
+                  <Link
+                    href={`/c-info/${order.owner_id}`}
+                    locale={locale}
+                    target={"_blank"}
+                  >
+                    <h2 className="font-extrabold tracking-tight hover:cursor-pointer hover:text-beer-draft ">
                       {order.shipping_info?.name}{" "}
                       {order.shipping_info?.lastname}
-                    </h1>
-                    <h1 className="text-sm font-extrabold tracking-tight sm:text-lg">
-                      {order.shipping_info?.phone}
-                    </h1>
-                  </span>
-                </Link>
+                    </h2>
+                  </Link>
+                </span>
+
+                <span className="flex items-center gap-2 text-gray-900 ">
+                  {t("phone")}:
+                  <h2 className="font-extrabold tracking-tight">
+                    {order.shipping_info?.phone}
+                  </h2>
+                </span>
               </div>
             </div>
 
@@ -126,13 +117,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
                 {formatDateString(order.issue_date.toString())}
               </time>
             </p>
-            <a
-              href="#"
-              className="text-sm font-medium hover:text-beer-blonde sm:hidden"
-            >
-              {t("view_invoice")}
-              <span aria-hidden="true"> &rarr;</span>
-            </a>
           </section>
 
           {/* Product and packs information */}
