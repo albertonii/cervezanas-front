@@ -3,11 +3,16 @@
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { DistributionCostType } from "../../../../../../../lib/enums";
+import { IDistributionCost } from "../../../../../../../lib/types";
 import HorizontalMenuCoverageCost from "../HorizontalMenuCoverageCost";
 import FlatrateCostForm from "./FlatrateCostForm";
 import PriceRangeCostForm from "./PriceRangeCostForm";
 
-export default function DistributionCost() {
+interface Props {
+  distributionCosts: IDistributionCost;
+}
+
+export default function DistributionCost({ distributionCosts }: Props) {
   const t = useTranslations();
 
   const [menuOption, setMenuOption] = useState<string>(
@@ -23,7 +28,12 @@ export default function DistributionCost() {
         return <PriceRangeCostForm />;
 
       case DistributionCostType.FLATRATE:
-        return <FlatrateCostForm />;
+        return (
+          <FlatrateCostForm
+            flatrateCost={distributionCosts.flatrate_cost}
+            distributionCostId={distributionCosts.id}
+          />
+        );
 
       default:
         return <></>;

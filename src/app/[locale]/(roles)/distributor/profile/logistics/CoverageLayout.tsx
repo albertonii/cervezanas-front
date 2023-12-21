@@ -2,16 +2,18 @@
 
 import React, { useState } from "react";
 import OriginInfo from "./OriginInfo";
-import CoverageAreas from "./CoverageAreas";
+import CoverageAreas from "./coverage_areas/CoverageAreas";
 import DistributionCost from "./distribution_costs/DistributionCost";
 import HorizontalMenuLogistics from "./HorizontalMenuLogistics";
 import { DistributionOption } from "../../../../../../lib/enums";
+import { IDistributionCost } from "../../../../../../lib/types";
 
-// interface Props {
-//   coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
-// }
+interface Props {
+  // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
+  distributionCosts: IDistributionCost;
+}
 
-export default function CoverageLayout() {
+export default function CoverageLayout({ distributionCosts }: Props) {
   const [menuOption, setMenuOption] = useState<string>(DistributionOption.COST);
 
   const renderSwitch = () => {
@@ -20,7 +22,7 @@ export default function CoverageLayout() {
         return <OriginInfo />;
 
       case DistributionOption.COST:
-        return <DistributionCost />;
+        return <DistributionCost distributionCosts={distributionCosts} />;
 
       case DistributionOption.DESTINATION:
         return <CoverageAreas />;

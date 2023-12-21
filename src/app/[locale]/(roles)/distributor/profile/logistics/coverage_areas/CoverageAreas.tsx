@@ -1,14 +1,14 @@
 "use client";
 
-import useFetchDistributionByOwnerId from "../../../../../../hooks/useFetchDistribution";
-import CityDistribution from "./(city)/CityDistribution";
-import HorizontalMenu from "./HorizontalMenuCoverageDestination";
-import ProvinceDistribution from "./(province)/ProvinceDistribution";
-import InternationalDistribution from "./(international)/InternationalDistribution";
-import EuropeDistribution from "./(europe)/EuropeDistribution";
+import useFetchDistributionByOwnerId from "../../../../../../../hooks/useFetchDistribution";
+import CityDistribution from "../(city)/CityDistribution";
+import HorizontalMenu from "../HorizontalMenuCoverageDestination";
+import ProvinceDistribution from "../(province)/ProvinceDistribution";
+import InternationalDistribution from "../(international)/InternationalDistribution";
+import EuropeDistribution from "../(europe)/EuropeDistribution";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { DistributionDestinationType } from "../../../../../../lib/enums";
+import { DistributionDestinationType } from "../../../../../../../lib/enums";
 
 export default function CoverageAreas() {
   const t = useTranslations();

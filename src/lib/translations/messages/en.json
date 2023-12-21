@@ -662,7 +662,6 @@
   },
   "cancelled": "Cancelled",
   "in_transit": "In transit",
-  "international_distribution_cost": "International distribution cost",
   "select_all_countries_by_region": "Select all countries by region",
   "select_all_cities_by_region": "Select all cities by region",
   "update_order_status": "Update order status",
@@ -678,5 +677,9 @@
   "distance": "Distance",
   "cost": "Cost",
   "coverage_area": "Coverage Areas",
-  "origin_information": "Origin Information"
+  "origin_information": "Origin Information",
+  "local_distribution_cost": "Local distribution cost",
+  "national_distribution_cost": "National distribution cost",
+  "europe_distribution_cost": "Europe distribution cost",
+  "international_distribution_cost": "International distribution cost"
 }

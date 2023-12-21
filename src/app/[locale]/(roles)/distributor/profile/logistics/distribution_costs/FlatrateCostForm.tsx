@@ -2,55 +2,133 @@
 
 import { useTranslations } from "next-intl";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../../components/common/Button";
 import { z, ZodType } from "zod";
-import { PriceRangeCostFormData } from "../../../../../../../lib/types";
+import {
+  FlatrateCostFormData,
+  IFlatrateCost,
+} from "../../../../../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "react-query";
+import { useMessage } from "../../../../../components/message/useMessage";
+import Error from "next/error";
 import { DisplayInputError } from "../../../../../components/common/DisplayInputError";
-import { DeleteButton } from "../../../../../components/common/DeleteButton";
+import { useAuth } from "../../../../../Auth/useAuth";
 
-const schema: ZodType<PriceRangeCostFormData> = z.object({
-  distribution_range_cost: z.array(
-    z.object({
-      lower: z.number().positive({ message: "errors.input_min_0" }),
-      upper: z.number().positive({ message: "errors.input_min_0" }),
-      shippingCost: z.number().positive({ message: "errors.input_min_0" }),
-    })
-  ),
+const schema: ZodType<FlatrateCostFormData> = z.object({
+  local_distribution_cost: z.number().min(0),
+  national_distribution_cost: z.number().min(0),
+  europe_distribution_cost: z.number().min(0),
+  international_distribution_cost: z.number().min(0),
+  is_checked_local: z.boolean().optional(),
+  is_checked_national: z.boolean().optional(),
+  is_checked_europe: z.boolean().optional(),
+  is_checked_international: z.boolean().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
-/* Tarifa de envío por rango de coste del pedido */
-const FlatrateCostForm: React.FC = () => {
-  const t = useTranslations();
+interface Props {
+  flatrateCost?: IFlatrateCost;
+  distributionCostId: string;
+}
 
-  // TODO: Pensar como vamos a hacer para que cada tipo de distribución tenga su coste asociado por tipo: tarifa plana, por rango de coste del pedido, por peso, por volumen, etc.
+/* Tarifa de envío por rango de coste del pedido */
+const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
+  const t = useTranslations();
+  const { handleMessage } = useMessage();
+  const submitSuccessMessage = t("messages.updated_successfully");
+  const submitErrorMessage = t("messages.submit_error");
+  const { supabase } = useAuth();
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
-    defaultValues: {},
+    defaultValues: {
+      local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
+      national_distribution_cost: flatrateCost?.national_distribution_cost ?? 0,
+      europe_distribution_cost: flatrateCost?.europe_distribution_cost ?? 0,
+      international_distribution_cost:
+        flatrateCost?.international_distribution_cost ?? 0,
+    },
   });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // // Aquí enviarías los datos al servidor, por ejemplo usando fetch o Axios
-    // console.log(priceRanges);
+  const handleUpdateFlatrateCost = async (form: ValidationSchema) => {
+    const {
+      local_distribution_cost,
+      national_distribution_cost,
+      europe_distribution_cost,
+      international_distribution_cost,
+      is_checked_local,
+      is_checked_national,
+      is_checked_europe,
+      is_checked_international,
+    } = form;
+
+    const flatrateCost = {
+      local_distribution_cost,
+      national_distribution_cost,
+      europe_distribution_cost,
+      international_distribution_cost,
+      is_checked_local,
+      is_checked_national,
+      is_checked_europe,
+      is_checked_international,
+      distribution_costs_id: distributionCostId,
+    };
+
+    const { error } = await supabase.from("flatrate_cost").upsert(flatrateCost);
+
+    if (error) {
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
+      throw error;
+    }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
+  };
+
+  const handleUpdateFlatrateCostMutation = useMutation({
+    mutationKey: "updateFlatrateCost",
+    mutationFn: handleUpdateFlatrateCost,
+    onSuccess: () => {
+      console.info("Flatrate cost updated successfully");
+    },
+    onError: (error: Error) => {
+      console.error(error);
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: FlatrateCostFormData
+  ) => {
+    try {
+      handleUpdateFlatrateCostMutation.mutate(formValues);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid w-full grid-cols-2 gap-4"
+      >
         <Button
           btnType="submit"
-          // onClick={handleSubmit(onSubmit)}
-          class=""
+          onClick={handleSubmit(onSubmit)}
+          class="col-span-2 w-24"
           primary
           medium
         >
@@ -59,60 +137,106 @@ const FlatrateCostForm: React.FC = () => {
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            Coste de distribución internacional
+            Coste de distribución local
           </legend>
+
           <label className="">
-            {t("lower_limit") + " (€)"}
+            {t("local_distribution_cost") + " (€)"}
 
             <input
               type="number"
-              // {...register(`distribution_range_cost.${index}.lower`, {
-              //   required: true,
-              //   valueAsNumber: true,
-              // })}
               placeholder={"0"}
               className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               min={0}
+              {...register("local_distribution_cost", {
+                valueAsNumber: true,
+              })}
             />
-          </label>
-          <label className="">
-            {t("upper_limit") + " (€)"}
 
-            <input
-              type="number"
-              // {...register(`distribution_range_cost.${index}.upper`, {
-              //   required: true,
-              //   valueAsNumber: true,
-              // })}
-              placeholder="30"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            />
+            {errors.local_distribution_cost && (
+              <DisplayInputError
+                message={errors.local_distribution_cost.message}
+              />
+            )}
           </label>
-          <label className="">
-            {t("shipping_cost") + " (€)"}
-
-            <input
-              type="number"
-              // {...register(`distribution_range_cost.${index}.shippingCost`, {
-              //   required: true,
-              //   valueAsNumber: true,
-              // })}
-              placeholder="20"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min={0}
-            />
-          </label>
-          <div className="align-end flex items-end">
-            <DeleteButton />
-          </div>
         </fieldset>
 
-        {/* {errors.distribution_range_cost &&
-          errors.distribution_range_cost[index] && (
-            <DisplayInputError
-              message={errors.distribution_range_cost[index]?.message}
+        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+          <legend className=" text-gray-600">
+            Coste de distribución nacional
+          </legend>
+
+          <label className="">
+            {t("national_distribution_cost") + " (€)"}
+
+            <input
+              type="number"
+              placeholder={"0"}
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              min={0}
+              {...register("national_distribution_cost", {
+                valueAsNumber: true,
+              })}
             />
-          )} */}
+
+            {errors.national_distribution_cost && (
+              <DisplayInputError
+                message={errors.national_distribution_cost.message}
+              />
+            )}
+          </label>
+        </fieldset>
+
+        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+          <legend className=" text-gray-600">
+            Coste de distribución europea
+          </legend>
+
+          <label className="">
+            {t("europe_distribution_cost") + " (€)"}
+
+            <input
+              type="number"
+              placeholder={"0"}
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              min={0}
+              {...register("europe_distribution_cost", {
+                valueAsNumber: true,
+              })}
+            />
+
+            {errors.europe_distribution_cost && (
+              <DisplayInputError
+                message={errors.europe_distribution_cost.message}
+              />
+            )}
+          </label>
+        </fieldset>
+
+        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+          <legend className=" text-gray-600">
+            Coste de distribución internacional
+          </legend>
+
+          <label className="">
+            {t("international_distribution_cost") + " (€)"}
+
+            <input
+              type="number"
+              placeholder={"0"}
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+              min={0}
+              {...register("international_distribution_cost", {
+                valueAsNumber: true,
+              })}
+            />
+            {errors.international_distribution_cost && (
+              <DisplayInputError
+                message={errors.international_distribution_cost.message}
+              />
+            )}
+          </label>
+        </fieldset>
       </form>
     </section>
   );

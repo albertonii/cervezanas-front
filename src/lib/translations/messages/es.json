@@ -676,7 +676,6 @@
   },
   "cancelled": "Cancelado",
   "in_transit": "En tránsito",
-  "international_distribution_cost": "Coste de distribución internacional",
   "select_all_countries_by_region": "Seleccionar todos los países de la región",
   "select_all_countries": "Seleccionar todos los países",
   "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
@@ -693,5 +692,9 @@
   "distance": "Distancia",
   "cost": "Coste",
   "coverage_area": "Área de cobertura",
-  "origin_information": "Información de origen"
+  "origin_information": "Información de origen",
+  "local_distribution_cost": "Coste de distribución local",
+  "national_distribution_cost": "Coste de distribución nacional",
+  "europe_distribution_cost": "Coste de distribución europeo",
+  "international_distribution_cost": "Coste de distribución internacional"
 }

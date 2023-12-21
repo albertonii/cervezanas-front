@@ -1,7 +1,7 @@
 export enum DistributionOption {
   ORIGIN_INFORMATION = "origin_information",
   DESTINATION = "coverage_area",
-  COST = "cost",
+  COST = "distribution_cost",
 }
 
 export enum DistributionDestinationType {

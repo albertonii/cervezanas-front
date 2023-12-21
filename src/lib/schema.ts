@@ -358,27 +358,6 @@ export interface Database {
           }
         ]
       }
-      coverage_area_details: {
-        Row: {
-          id: string
-          is_special_packaging: boolean | null
-          places: string[] | null
-          special_packaging_cost: number | null
-        }
-        Insert: {
-          id?: string
-          is_special_packaging?: boolean | null
-          places?: string[] | null
-          special_packaging_cost?: number | null
-        }
-        Update: {
-          id?: string
-          is_special_packaging?: boolean | null
-          places?: string[] | null
-          special_packaging_cost?: number | null
-        }
-        Relationships: []
-      }
       coverage_areas: {
         Row: {
           cities: string[] | null
@@ -796,6 +775,31 @@ export interface Database {
           }
         ]
       }
+      distribution_costs: {
+        Row: {
+          created_at: string
+          distributor_id: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          distributor_id?: string | null
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          distributor_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "distribution_costs_distributor_id_fkey"
+            columns: ["distributor_id"]
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user"]
+          }
+        ]
+      }
       distributor_user: {
         Row: {
           bank_account: string | null
@@ -1141,6 +1145,52 @@ export interface Database {
             foreignKeyName: "fixed_event_orders_customer_id_fkey"
             columns: ["customer_id"]
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      flatrate_cost: {
+        Row: {
+          created_at: string
+          distribution_costs_id: string
+          europe_distribution_cost: number | null
+          international_distribution_cost: number | null
+          is_checked_europe: boolean | null
+          is_checked_international: boolean | null
+          is_checked_local: boolean | null
+          is_checked_national: boolean | null
+          local_distribution_cost: number | null
+          national_distribution_cost: number | null
+        }
+        Insert: {
+          created_at?: string
+          distribution_costs_id: string
+          europe_distribution_cost?: number | null
+          international_distribution_cost?: number | null
+          is_checked_europe?: boolean | null
+          is_checked_international?: boolean | null
+          is_checked_local?: boolean | null
+          is_checked_national?: boolean | null
+          local_distribution_cost?: number | null
+          national_distribution_cost?: number | null
+        }
+        Update: {
+          created_at?: string
+          distribution_costs_id?: string
+          europe_distribution_cost?: number | null
+          international_distribution_cost?: number | null
+          is_checked_europe?: boolean | null
+          is_checked_international?: boolean | null
+          is_checked_local?: boolean | null
+          is_checked_national?: boolean | null
+          local_distribution_cost?: number | null
+          national_distribution_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flatrate_cost_distribution_costs_id_fkey"
+            columns: ["distribution_costs_id"]
+            referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
           }
         ]
@@ -1881,96 +1931,6 @@ export interface Database {
             foreignKeyName: "reviews_product_id_fkey"
             columns: ["product_id"]
             referencedRelation: "products"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      shipping_cost_by_distance: {
-        Row: {
-          coverage_areas_details_fk: string | null
-          distance_measure: string | null
-          id: string
-          minimum_shipping_rate: number | null
-          price_per_distance_measure: number | null
-        }
-        Insert: {
-          coverage_areas_details_fk?: string | null
-          distance_measure?: string | null
-          id?: string
-          minimum_shipping_rate?: number | null
-          price_per_distance_measure?: number | null
-        }
-        Update: {
-          coverage_areas_details_fk?: string | null
-          distance_measure?: string | null
-          id?: string
-          minimum_shipping_rate?: number | null
-          price_per_distance_measure?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shipping_cost_by_distance_coverage_areas_details_fk_fkey"
-            columns: ["coverage_areas_details_fk"]
-            referencedRelation: "coverage_area_details"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      shipping_cost_by_flatrate: {
-        Row: {
-          coverage_area_details_fk: string | null
-          id: string
-          rate: number | null
-        }
-        Insert: {
-          coverage_area_details_fk?: string | null
-          id?: string
-          rate?: number | null
-        }
-        Update: {
-          coverage_area_details_fk?: string | null
-          id?: string
-          rate?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shipping_cost_by_flatrate_coverage_area_details_fk_fkey"
-            columns: ["coverage_area_details_fk"]
-            referencedRelation: "coverage_area_details"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      shipping_cost_by_weight_and_dimensions: {
-        Row: {
-          coverage_area_details_fk: string | null
-          dimension_measure: string | null
-          id: string
-          price_per_dimenssion_measure: number | null
-          price_per_weight_meassure: number | null
-          weight_measure: string | null
-        }
-        Insert: {
-          coverage_area_details_fk?: string | null
-          dimension_measure?: string | null
-          id?: string
-          price_per_dimenssion_measure?: number | null
-          price_per_weight_meassure?: number | null
-          weight_measure?: string | null
-        }
-        Update: {
-          coverage_area_details_fk?: string | null
-          dimension_measure?: string | null
-          id?: string
-          price_per_dimenssion_measure?: number | null
-          price_per_weight_meassure?: number | null
-          weight_measure?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shipping_cost_by_weight_and_dimensions_coverage_area_details_fk"
-            columns: ["coverage_area_details_fk"]
-            referencedRelation: "coverage_area_details"
             referencedColumns: ["id"]
           }
         ]

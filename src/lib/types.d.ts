@@ -1377,12 +1377,38 @@ export interface IPCRangesProps {
   to: number;
 }
 
-export interface PriceRangeCostFormData {
-  distribution_range_cost: DistributionRangeCost[];
+export interface FlatrateCostFormData {
+  local_distribution_cost: number;
+  national_distribution_cost: number;
+  europe_distribution_cost: number;
+  international_distribution_cost: number;
+  is_checked_local: boolean;
+  is_checked_national: boolean;
+  is_checked_europe: boolean;
+  is_checked_international: boolean;
 }
 
 export interface DistributionRangeCost {
   lower: number;
   upper: number;
   shippingCost: number;
+}
+
+export interface IFlatrateCost {
+  distribution_costs_id: string; // PK and FK
+  local_distribution_cost: number;
+  national_distribution_cost: number;
+  europe_distribution_cost: number;
+  international_distribution_cost: number;
+  is_checked_local: boolean;
+  is_checked_national: boolean;
+  is_checked_europe: boolean;
+  is_checked_international: boolean;
+}
+
+export interface IDistributionCost {
+  id: string;
+  distributor_id: string;
+  distributor?: IDistributorUser;
+  flatrate_cost?: IFlatrateCost;
 }

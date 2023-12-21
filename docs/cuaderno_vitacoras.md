@@ -48,3 +48,14 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 - CRUD para indicar coste de distribución por parte del distribuidor
 - Mostrar coste de distribución al consumidor antes de hacer la compra
 - Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
+
+---
+
+20 de diciembre
+
+Seguimos con el sistema de distribución. Ahora mismo me interesa avanzar y, aunque se puedan calcular diferentes tipos de costes según la distribución, vamos a centrarnos en la tarifa plana diferenciando por área de cobertura: local, nacional, europea e internacional.
+
+Se ha creado en BBDD el modelo flatrate_cost para asociar un precio a cada tipo de coste de distribución. Además, solo se comprobará si están sus booleanos a true.
+
+Diagrama relacional Sistema de Distribución:
+https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
