@@ -32,8 +32,8 @@ export default function PCRanges({ item, index, register }: Props) {
           inputName={`ranges.${index}.from`}
           required={true}
           type={"number"}
-          id={`${index}-from`}
-          defaultValue={item.from}
+          // id={`${index}-from`}
+          // defaultValue={item.from}
         />
       </Label>
 
@@ -43,8 +43,8 @@ export default function PCRanges({ item, index, register }: Props) {
           inputName={`ranges.${index}.to`}
           required={true}
           type={"number"}
-          id={`${index}-to`}
-          defaultValue={item.to}
+          // id={`${index}-to`}
+          // defaultValue={item.to}
         />
       </Label>
     </div>

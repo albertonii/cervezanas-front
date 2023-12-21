@@ -33,7 +33,7 @@ export default function CoverageLayout({ distributionCosts }: Props) {
   };
 
   return (
-    <section className="container space-y-4 px-1 py-1 sm:px-6 sm:py-4">
+    <section className="space-y-4 px-1 py-1 lg:container sm:px-6 sm:py-4">
       <HorizontalMenuLogistics setMenuOption={setMenuOption} />
 
       {renderSwitch()}

@@ -1382,10 +1382,18 @@ export interface FlatrateCostFormData {
   national_distribution_cost: number;
   europe_distribution_cost: number;
   international_distribution_cost: number;
-  is_checked_local: boolean;
-  is_checked_national: boolean;
-  is_checked_europe: boolean;
-  is_checked_international: boolean;
+  is_checked_local?: boolean;
+  is_checked_national?: boolean;
+  is_checked_europe?: boolean;
+  is_checked_international?: boolean;
+}
+
+export interface PriceRangeCostFormData {
+  distribution_range_cost: {
+    lower: number;
+    upper: number;
+    shippingCost: number;
+  }[];
 }
 
 export interface DistributionRangeCost {
@@ -1395,6 +1403,7 @@ export interface DistributionRangeCost {
 }
 
 export interface IFlatrateCost {
+  created_at: string;
   distribution_costs_id: string; // PK and FK
   local_distribution_cost: number;
   national_distribution_cost: number;

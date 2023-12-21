@@ -23,10 +23,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   if (!orderItems || !orderItems[0].product_packs) return <></>;
 
-  useEffect(() => {
-    console.log(orderItems);
-  }, [orderItems]);
-
   const t = useTranslations();
   const locale = useLocale();
 

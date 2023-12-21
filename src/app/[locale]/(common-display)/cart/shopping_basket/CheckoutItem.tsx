@@ -4,20 +4,24 @@ import Link from "next/link";
 import DeliveryError from "../DeliveryError";
 import CheckoutPackItem from "./CheckoutPackItem";
 import useFetchProductById from "../../../../../hooks/useFetchProductById";
-import React, { useEffect, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { initShipmentLogic } from "./shipmentLogic";
 import { useLocale, useTranslations } from "next-intl";
 import { IProductPackCartItem } from "../../../../../lib/types";
 import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
-
 import dynamic from "next/dynamic";
 
 interface Props {
   productPack: IProductPackCartItem;
   selectedShippingAddress: string;
+  handleDeliveryCost: ComponentProps<any>;
 }
 
-export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
+export function CheckoutItem({
+  productPack,
+  selectedShippingAddress,
+  handleDeliveryCost,
+}: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -46,12 +50,25 @@ export function CheckoutItem({ productPack, selectedShippingAddress }: Props) {
       const response: {
         can_deliver: boolean;
         distributor_id: string;
+        delivery_type: string;
       } = await initShipmentLogic(
         selectedShippingAddress,
         productWithInfo.owner_id
       );
 
       if (response.can_deliver) {
+        // Dependiendo del tipo de entrega se debe de asociar el precio de envío al producto
+        // llama a api de nextjs con deliveryType y distributor_id como parámetros
+        const { distributor_id, delivery_type } = response;
+
+        fetch(
+          `/api/distribution_costs?distributor_id=${distributor_id}&delivery_type=${delivery_type}`
+        )
+          .then((res) => res.json())
+          .then((orderItemCost: number) => {
+            handleDeliveryCost(orderItemCost);
+          });
+
         // Si el producto se puede enviar a la dirección seleccionada,
         // entonces vinculamos el pack del producto con el distribuidor que puede enviarlo
         // 1. Update the product in the cart with the distributor id

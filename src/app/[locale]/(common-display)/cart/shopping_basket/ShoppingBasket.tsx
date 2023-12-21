@@ -73,8 +73,8 @@ export function ShoppingBasket() {
   const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [shipping, setShipping] = useState(0);
-  const [total, setTotal] = useState(subtotal - discount + shipping + tax);
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [total, setTotal] = useState(0);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [isFormReady, setIsFormReady] = useState(false);
   const [merchantParameters, setMerchantParameters] = useState("");
@@ -119,16 +119,8 @@ export function ShoppingBasket() {
     });
 
     setSubtotal(subtotal);
-    setTotal(() => subtotal - discount + shipping + tax);
-
-    return () => {
-      setSubtotal(0);
-      setShipping(0);
-      setTax(0);
-      setDiscount(0);
-      setTotal(0);
-    };
-  }, [discount, items, shipping, subtotal, tax]);
+    setTotal(() => subtotal - discount + deliveryCost + tax);
+  }, [discount, items, deliveryCost, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -146,6 +138,10 @@ export function ShoppingBasket() {
 
     setCanMakeThePayment(canMakeThePayment);
   }, [items, selectedShippingAddress, selectedBillingAddress]);
+
+  const handleDeliveryCost = (deliveryCost: number) => {
+    setDeliveryCost((prevCost) => prevCost + deliveryCost);
+  };
 
   const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
@@ -208,7 +204,7 @@ export function ShoppingBasket() {
         ).toISOString(), // 3 days
         total: total,
         subtotal: subtotal,
-        shipping: shipping,
+        shipping: deliveryCost,
         discount: discount,
         discount_code: "none",
         currency: "EUR",
@@ -411,6 +407,7 @@ export function ShoppingBasket() {
                                 selectedShippingAddress={
                                   selectedShippingAddress
                                 }
+                                handleDeliveryCost={handleDeliveryCost}
                               />
                             </div>
                           );
@@ -493,7 +490,7 @@ export function ShoppingBasket() {
                               {t("shipping")}
                             </p>
                             <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(shipping)}
+                              {formatCurrency(deliveryCost)}
                             </p>
                           </div>
 

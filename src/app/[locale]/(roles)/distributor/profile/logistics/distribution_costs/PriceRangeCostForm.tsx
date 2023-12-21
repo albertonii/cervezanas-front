@@ -1,15 +1,15 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../../../../components/common/Button";
 import { useFieldArray } from "react-hook-form";
 import { z, ZodType } from "zod";
-import { PriceRangeCostFormData } from "../../../../../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DisplayInputError } from "../../../../../components/common/DisplayInputError";
 import PriceRangeRow from "./PriceRangeRow";
+import { PriceRangeCostFormData } from "../../../../../../../lib/types";
 
 const rangeObjectSchema = z
   .object({
@@ -114,7 +114,7 @@ const PriceRangeCostForm: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<PriceRangeCostFormValidationSchema> = (
-    formValues: FormData
+    formValues: PriceRangeCostFormData
   ) => {
     console.log(formValues);
   };

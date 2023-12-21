@@ -140,7 +140,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
             Coste de distribución local
           </legend>
 
-          <label className="">
+          <label className="w-full">
             {t("local_distribution_cost") + " (€)"}
 
             <input
@@ -166,7 +166,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
             Coste de distribución nacional
           </legend>
 
-          <label className="">
+          <label className="w-full">
             {t("national_distribution_cost") + " (€)"}
 
             <input
@@ -192,7 +192,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
             Coste de distribución europea
           </legend>
 
-          <label className="">
+          <label className="w-full">
             {t("europe_distribution_cost") + " (€)"}
 
             <input
@@ -218,7 +218,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
             Coste de distribución internacional
           </legend>
 
-          <label className="">
+          <label className="w-full">
             {t("international_distribution_cost") + " (€)"}
 
             <input
