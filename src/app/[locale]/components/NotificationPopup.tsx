@@ -8,14 +8,14 @@ import { useRouter } from "next/navigation";
 import { INotification } from "../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import { getTimeElapsed } from "../../../utils/formatDate";
-import { useAppContext } from "../../../../context/AppContext";
 
 interface Props {
   open: boolean;
   setOpen: ComponentProps<any>;
+  notifications: INotification[];
 }
 
-export function Notification({ open, setOpen }: Props) {
+export function NotificationPopup({ open, setOpen, notifications }: Props) {
   const { supabase } = useAuth();
 
   const t = useTranslations();
@@ -24,7 +24,6 @@ export function Notification({ open, setOpen }: Props) {
   useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
 
   const router = useRouter();
-  const { notifications } = useAppContext();
   if (!open) return null;
 
   const handleOnClick = (notification: INotification) => {
@@ -46,7 +45,7 @@ export function Notification({ open, setOpen }: Props) {
   if (!notifications) return <></>;
 
   return (
-    <div ref={notificationRef}>
+    <section ref={notificationRef}>
       <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
         <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
           <div className="bg-beer-softFoam p-4">
@@ -87,6 +86,6 @@ export function Notification({ open, setOpen }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

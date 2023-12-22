@@ -383,7 +383,8 @@ export interface IConsumptionPoints {
   cp_fixed: ICPFixed[];
   cp_mobile: ICPMobile[];
   cp_organizer_status: number;
-  owner_id: User;
+  owner_id: string;
+  users?: User;
   cv_name: string;
   cover_letter_name: string;
 }
@@ -1020,7 +1021,7 @@ export interface INotification {
   message: string;
   link: string;
   read: boolean;
-  source: IUserTable;
+  source: any;
 }
 
 export type UserProps = {

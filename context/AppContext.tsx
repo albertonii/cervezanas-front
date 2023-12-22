@@ -1,6 +1,5 @@
 "use client";
 
-import useFetchNotifications from "../src/hooks/useFetchNotifications";
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../src/constants";
@@ -27,7 +26,6 @@ type AppContextType = {
   setProfileImg: (newBgImg: string) => void;
   sidebar: string;
   changeSidebarActive: (select: string) => void;
-  notifications?: INotification[];
   openNotification: boolean;
   setOpenNotification: (open: boolean) => void;
   products: IProduct[];
@@ -50,7 +48,6 @@ const AppContext = createContext<AppContextType>({
   setProfileImg: () => void {},
   sidebar: "",
   changeSidebarActive: () => void {},
-  notifications: [],
   openNotification: false,
   setOpenNotification: () => void {},
   products: [],
@@ -94,7 +91,6 @@ export function AppContextProvider(props: Props) {
   const [lots, setLots] = useState<IRefProductLot[]>([]);
   const [imageData, setImageData] = useState<ImageDataRecord>({});
   const [openNotification, setOpenNotification] = useState(false);
-  const [notifications, setNotifications] = useState<INotification[]>([]);
 
   const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
@@ -153,7 +149,6 @@ export function AppContextProvider(props: Props) {
     setProfileImg,
     sidebar,
     changeSidebarActive,
-    notifications,
     openNotification,
     setOpenNotification,
     products,

@@ -10,18 +10,22 @@ import { useTranslations } from "next-intl";
 import { i18n } from "../../lib/translations/i18n";
 import { Button } from "./components/common/Button";
 import { usePathname, useRouter } from "next/navigation";
-import { Notification } from "./components/Notification";
+import { NotificationPopup } from "./components/NotificationPopup";
 import { useAppContext } from "../../../context/AppContext";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { INotification } from "../../lib/types";
 
-export default function MobileMenu() {
+interface Props {
+  notifications: INotification[];
+}
+
+export default function MobileMenu({ notifications }: Props) {
   const { role, user } = useAuth();
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const { notifications, openNotification, setOpenNotification } =
-    useAppContext();
+  const { openNotification, setOpenNotification } = useAppContext();
   const { cartQuantity, openCart } = useShoppingCart();
   useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
@@ -126,9 +130,10 @@ export default function MobileMenu() {
                 );
               })}
 
-              {/* Notification popup  */}
               {user && (
                 <>
+                  {/* Notification popup  */}
+
                   <Button
                     class={
                       "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent "
@@ -151,9 +156,10 @@ export default function MobileMenu() {
                     </div>
                   </Button>
 
-                  <Notification
+                  <NotificationPopup
                     open={openNotification}
                     setOpen={setOpenNotification}
+                    notifications={notifications}
                   />
 
                   {/* Cart  */}

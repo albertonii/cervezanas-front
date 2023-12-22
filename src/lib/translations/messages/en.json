@@ -681,5 +681,6 @@
   "local_distribution_cost": "Local distribution cost",
   "national_distribution_cost": "National distribution cost",
   "europe_distribution_cost": "Europe distribution cost",
-  "international_distribution_cost": "International distribution cost"
+  "international_distribution_cost": "International distribution cost",
+  "contracts_cps": "Contracts with consumption points"
 }

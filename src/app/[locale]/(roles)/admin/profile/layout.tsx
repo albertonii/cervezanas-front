@@ -13,9 +13,9 @@ export default function layout({ children }: LayoutProps) {
 
   const sidebarLinks = [
     {
-      name: t("cps"),
+      name: t("contracts_cps"),
       icon: "user",
-      option: "cps",
+      option: "contracts_cps",
     },
     {
       name: t("monthly_products"),

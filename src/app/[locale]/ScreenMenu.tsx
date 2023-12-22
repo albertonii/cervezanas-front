@@ -9,13 +9,18 @@ import { useEffect, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { Button } from "./components/common/Button";
 import { useLocale, useTranslations } from "next-intl";
-import { Notification } from "./components/Notification";
 import { HeaderDropdownButton } from "./HeaderDropdownButton";
 import { useShoppingCart } from "../../../context/ShoppingCartContext";
-import { useAppContext } from "../../../context/AppContext";
 import { i18n } from "../../lib/translations/i18n";
+import { INotification } from "../../lib/types";
+import { DeviceScreenNotification } from "./components/DeviceScreenNotification";
+import PuntoCervezanasFlag from "./PuntoCervezanasFlag";
 
-export default function ScreenMenu() {
+interface Props {
+  notifications: INotification[];
+}
+
+export default function ScreenMenu({ notifications: notifications }: Props) {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();
@@ -23,12 +28,8 @@ export default function ScreenMenu() {
 
   const router = useRouter();
 
-  const [animateNotifications, setAnimateNotifications] = useState(false);
   const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
-
   const { cartQuantity, openCart } = useShoppingCart();
-  const { notifications, openNotification, setOpenNotification } =
-    useAppContext();
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,15 +39,6 @@ export default function ScreenMenu() {
       }, 600);
     }, 300);
   }, [cartQuantity]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimateNotifications(true);
-      setTimeout(() => {
-        setAnimateNotifications(false);
-      }, 600);
-    }, 300);
-  }, [notifications]);
 
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const redirectedPathName = (locale: string) => {
@@ -75,10 +67,6 @@ export default function ScreenMenu() {
   const MENU_ITEM_STYLES =
     "block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg";
 
-  const handleClickBell = () => {
-    setOpenNotification(true);
-  };
-
   return (
     <section className="rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4">
       <nav className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
@@ -92,14 +80,6 @@ export default function ScreenMenu() {
                 </span>
               </Link>
             </li>
-
-            {/* <li className="flex items-center">
-                <Link href="/community" locale={locale}>
-                  <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                    {t("community").toUpperCase()}
-                  </span>
-                </Link>
-              </li> */}
 
             <li className="flex items-center">
               <Link href="/events" locale={locale}>
@@ -218,39 +198,7 @@ export default function ScreenMenu() {
                 )}
 
                 {/* Notifications  */}
-                <li
-                  className={`relative flex items-center ${
-                    animateNotifications && "animate-wiggle"
-                  }`}
-                >
-                  <Button
-                    class={
-                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
-                    }
-                    onClick={() => handleClickBell()}
-                    title={""}
-                  >
-                    <section className="relative rounded-full">
-                      <Image
-                        alt={"Notification bell"}
-                        className={"rounded-full"}
-                        width={0}
-                        height={0}
-                        style={{ width: "45px", height: "45px" }}
-                        src={"/icons/notification-icon.svg"}
-                      />
-                      <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                        {notifications?.length ?? 0}
-                      </div>
-                    </section>
-                  </Button>
-
-                  {/* Notification popup  */}
-                  <Notification
-                    open={openNotification}
-                    setOpen={setOpenNotification}
-                  />
-                </li>
+                <DeviceScreenNotification notifications={notifications} />
 
                 <li className="flex items-center">
                   <HeaderDropdownButton
@@ -288,28 +236,7 @@ export default function ScreenMenu() {
             )}
           </ul>
 
-          <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24">
-            <Link
-              href={"/beer-me"}
-              locale={locale}
-              className="flex flex-col items-center justify-start space-x-4 sm:flex-row sm:rounded-l sm:px-2 sm:py-1"
-            >
-              <Image
-                width={45}
-                height={45}
-                alt={"Find Cervezanas spots"}
-                className={
-                  "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
-                }
-                src={"/icons/beerme.svg"}
-              />
-
-              <div className="sm:flex sm:flex-col">
-                <span className="text-right text-beer-foam ">Puntos</span>
-                <span className="text-right text-beer-foam ">Cervezanas</span>
-              </div>
-            </Link>
-          </section>
+          <PuntoCervezanasFlag />
         </section>
       </nav>
     </section>

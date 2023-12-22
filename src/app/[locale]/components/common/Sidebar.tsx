@@ -103,7 +103,7 @@ export function Sidebar({ sidebarLinks }: Props) {
         <aside
           className={`
         ${
-          open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0 "
+          open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0"
         } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block
         `}
           aria-label="Sidebar"

@@ -72,7 +72,6 @@ export function ShoppingBasket() {
 
   const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [total, setTotal] = useState(0);
   const [loadingPayment, setLoadingPayment] = useState(false);
@@ -119,8 +118,8 @@ export function ShoppingBasket() {
     });
 
     setSubtotal(subtotal);
-    setTotal(() => subtotal - discount + deliveryCost + tax);
-  }, [discount, items, deliveryCost, subtotal, tax]);
+    setTotal(() => subtotal + deliveryCost + tax);
+  }, [items, deliveryCost, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -205,7 +204,7 @@ export function ShoppingBasket() {
         total: total,
         subtotal: subtotal,
         shipping: deliveryCost,
-        discount: discount,
+        discount: 0,
         discount_code: "none",
         currency: "EUR",
         order_number: orderNumber,
@@ -228,13 +227,16 @@ export function ShoppingBasket() {
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
     items.map((item) => {
       item.packs.map(async (pack) => {
+        const distributorId = item.distributor_id;
+        const producerId = item.producer_id;
+
         const { data: businessOrder, error: businessOrderError } =
           await supabase
             .from("business_orders")
             .insert({
               order_id: order.id,
-              producer_id: item.producer_id,
-              distributor_id: item.distributor_id,
+              producer_id: producerId,
+              distributor_id: distributorId,
             })
             .select("id")
             .single();
@@ -253,6 +255,18 @@ export function ShoppingBasket() {
         pack.products?.owner_id;
 
         if (orderItemError) throw orderItemError;
+
+        // Notification to distributor
+        const distributorMessage = `Tienes un nuevo pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        fetch(
+          `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}`
+        );
+
+        // Notification to producer
+        const producerMessage = `Tienes un nuevo pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        fetch(
+          `/api/push_notification?destination_user=${distributorId}&message=${producerMessage}`
+        );
       });
     });
 
@@ -313,6 +327,7 @@ export function ShoppingBasket() {
   };
 
   const handleOnClickShipping = (addressId: string) => {
+    setDeliveryCost(0);
     setSelectedShippingAddress(addressId);
   };
 
@@ -469,19 +484,6 @@ export function ShoppingBasket() {
                             </p>
                             <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                               {formatCurrency(subtotal)}
-                            </p>
-                          </div>
-
-                          {/* discount */}
-                          <div className="flex w-full items-center justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
-                              {t("discount")}
-                              {/* <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
-                                    STUDENT
-                                  </span> */}
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(discount)} {discount / subtotal}%
                             </p>
                           </div>
 

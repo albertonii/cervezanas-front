@@ -140,7 +140,10 @@ export default function layout({ children }: LayoutProps) {
         {bgImg_ && profileImg_ && (
           <>
             {/* Background Image */}
-            <div className="bg-bear-alvine " aria-label="Custom Header">
+            <div
+              className="relative bg-bear-alvine "
+              aria-label="Custom Header"
+            >
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
@@ -152,40 +155,39 @@ export default function layout({ children }: LayoutProps) {
               />
 
               {/* Profile Image */}
-              <div className="relative space-x-2 pl-24" aria-label="Logo">
-                <div className="absolute bottom-20">
-                  <div className="w-64  ">
-                    <figure className="relative" onClick={() => handleClick()}>
-                      <Image
-                        className="absolute h-36 w-36 rounded-full"
-                        src={profileImg_}
-                        alt=""
-                        width={240}
-                        height={240}
-                        loader={() => profileImg_}
-                      />
+              <div
+                className=" absolute bottom-20 w-64 space-x-2 pl-24"
+                aria-label="Logo"
+              >
+                <figure className="relative" onClick={() => handleClick()}>
+                  <Image
+                    className="absolute h-36 w-36 rounded-full"
+                    src={profileImg_}
+                    alt=""
+                    width={240}
+                    height={240}
+                    loader={() => profileImg_}
+                  />
 
-                      <span className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
-                        <FontAwesomeIcon
-                          icon={faUpload}
-                          style={{ color: "bear-dark" }}
-                          // onMouseEnter={() => setHoverColor("filled")}
-                          // onMouseLeave={() => setHoverColor("unfilled")}
-                          title={"profile"}
-                          width={60}
-                          height={60}
-                        />
-                        <input
-                          style={{ display: "none" }}
-                          ref={inputRef}
-                          type="file"
-                          accept="image/png, image/jpeg"
-                          onChange={handleFileChange}
-                        />
-                      </span>
-                    </figure>
-                  </div>
-                </div>
+                  <span className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
+                    <FontAwesomeIcon
+                      icon={faUpload}
+                      style={{ color: "bear-dark" }}
+                      // onMouseEnter={() => setHoverColor("filled")}
+                      // onMouseLeave={() => setHoverColor("unfilled")}
+                      title={"profile"}
+                      width={60}
+                      height={60}
+                    />
+                    <input
+                      style={{ display: "none" }}
+                      ref={inputRef}
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      onChange={handleFileChange}
+                    />
+                  </span>
+                </figure>
               </div>
             </div>
 

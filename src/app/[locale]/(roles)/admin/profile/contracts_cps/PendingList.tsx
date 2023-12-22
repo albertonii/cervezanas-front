@@ -14,9 +14,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { IconButton } from "../../../../components/common/IconButton";
 import { generateDownloadableLink } from "../../../../../../utils/utils";
-import { IConsumptionPoints, SortBy } from "../../../../../../lib/types";
+import { IConsumptionPoints } from "../../../../../../lib/types";
 import InputSearch from "../../../../components/common/InputSearch";
 import dynamic from "next/dynamic";
+
+enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  NAME = "name",
+  LAST = "last",
+  COUNTRY = "country",
+  CREATED_DATE = "created_date",
+  START_DATE = "start_date",
+  END_DATE = "end_date",
+}
 
 const DynamicModal = dynamic(
   () => import("../../../../components/modals/Modal"),
@@ -52,7 +63,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     IConsumptionPoints[]
   >(() => {
     return submittedList.filter((submittedCP) => {
-      return submittedCP.owner_id.username
+      return submittedCP.users.username
         .toLowerCase()
         .includes(query.toLowerCase());
     });
@@ -62,7 +73,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     if (sorting === SortBy.NONE) return filteredItems;
 
     const compareProperties: Record<string, (cp: IConsumptionPoints) => any> = {
-      [SortBy.USERNAME]: (cp) => cp.owner_id.username,
+      [SortBy.USERNAME]: (cp) => cp.users.username,
     };
 
     return filteredItems.toSorted((a, b) => {
@@ -84,8 +95,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const handleCoverLetterClick = async (cp: IConsumptionPoints) => {
     await supabase.storage
       .from("public/documents")
-
-      .download(`cover_letter/${cp.owner_id.id}_${cp.cover_letter_name}`)
+      .download(`cover_letter/${cp.users.id}_${cp.cover_letter_name}`)
       .then((blob: any) => {
         generateDownloadableLink(blob, cp.cover_letter_name);
       });
@@ -94,7 +104,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
   const handleCVClick = async (cp: IConsumptionPoints) => {
     await supabase.storage
       .from("public/documents")
-      .download(`cv/${cp.owner_id.id}_${cp.cv_name}`)
+      .download(`cv/${cp.users.id}_${cp.cv_name}`)
       .then((blob: any) => {
         generateDownloadableLink(blob, cp.cv_name);
       });
@@ -117,7 +127,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         await supabase
           .from("users")
           .update({ cp_organizer_status: 1 })
-          .eq("id", cp.owner_id.id);
+          .eq("id", cp.users.id);
       });
   };
 
@@ -134,7 +144,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     // Notify user that has been assigned as organizer
     const { error } = await supabase.from("notifications").insert({
       message: `${message}`,
-      user_id: submittedCPs[0].owner_id.id,
+      user_id: submittedCPs[0].users.id,
       link: "/profile?a=consumption_points",
       source: user?.id, // User that has created the consumption point
     });
@@ -155,7 +165,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         await supabase
           .from("users")
           .update({ cp_organizer_status: status })
-          .eq("id", selectedCP.owner_id.id);
+          .eq("id", selectedCP.users.id);
       });
   };
 
@@ -274,8 +284,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 </th>
 
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                  <Link href={`/products/${cp.owner_id.id}`} locale={locale}>
-                    {cp.owner_id.username}
+                  <Link href={`/products/${cp.users.id}`} locale={locale}>
+                    {cp.users.username}
                   </Link>
                 </td>
 

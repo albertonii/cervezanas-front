@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { MessageList } from "./components/message/MessageList";
 import Header from "./Header";
 import Footer from "./components/Footer";
+import createServerClient from "../../utils/supabaseServer";
+import { INotification } from "../../lib/types";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -36,11 +38,13 @@ export default async function AppLocaleLayout({
     notFound();
   }
 
+  const notifications = await getNotifications();
+
   return (
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
         <section className="relative flex flex-col bg-beer-foam">
-          <Header />
+          <Header notifications={notifications ?? []} />
           <section
             className={classNames(
               "relative mx-auto mt-[10vh] min-h-0 w-full overflow-auto"
@@ -64,3 +68,25 @@ export default async function AppLocaleLayout({
     </Suspense>
   );
 }
+
+const getNotifications = async () => {
+  const supabase = await createServerClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) return;
+
+  const { data: notifications, error: notificationsError } = await supabase
+    .from("notifications")
+    .select(
+      `
+      *
+    `
+    )
+    .eq("read", false)
+    .eq("user_id", session.user.id);
+
+  if (notificationsError) throw notificationsError;
+  return notifications as INotification[];
+};

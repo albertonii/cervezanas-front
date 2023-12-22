@@ -3,15 +3,16 @@ import { IUserTable } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
+import { Suspense } from "react";
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
   if (!profile) return <></>;
 
   return (
-    <>
+    <Suspense fallback={<h3>cargando..</h3>}>
       <Profile profile={profile} />
-    </>
+    </Suspense>
   );
 }
 
