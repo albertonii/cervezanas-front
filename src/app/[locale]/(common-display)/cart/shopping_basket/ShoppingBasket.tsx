@@ -258,14 +258,17 @@ export function ShoppingBasket() {
 
         // Notification to distributor
         const distributorMessage = `Tienes un nuevo pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        const distributorLink = "/distributor/profile/business_orders";
+
         fetch(
-          `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}`
+          `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}&link=${distributorLink}`
         );
 
         // Notification to producer
         const producerMessage = `Tienes un nuevo pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        const producerLink = "/producer/profile/business_orders";
         fetch(
-          `/api/push_notification?destination_user=${distributorId}&message=${producerMessage}`
+          `/api/push_notification?destination_user=${producerId}&message=${producerMessage}&link=${producerLink}`
         );
       });
     });
