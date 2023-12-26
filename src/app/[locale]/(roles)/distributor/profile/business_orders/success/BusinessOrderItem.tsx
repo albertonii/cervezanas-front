@@ -50,6 +50,7 @@ export default function BusinessOrderItem({
 
   // Update the status of the business_order
   const onClickOrderStatus = async (status: string) => {
+    console.log(status);
     const { error } = await supabase
       .from("business_orders")
       .update({ status })
@@ -98,8 +99,8 @@ export default function BusinessOrderItem({
         <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED}>
           {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED)}
         </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELED}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELED)}
+        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED}>
+          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED)}
         </option>
         <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR}>
           {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR)}

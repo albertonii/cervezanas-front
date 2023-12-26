@@ -15,7 +15,7 @@ export default function DistributorOnlineTimelineStatusBar({
       } mt-6 flex w-full flex-row overflow-hidden rounded-full bg-gray-200`}
     >
       {(status === DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR ||
-        status === DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELED) && (
+        status === DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED) && (
         <div className={`h-2 w-[100%] rounded-l-full bg-red-700`}></div>
       )}
 

@@ -43,6 +43,8 @@ export default function SuccessCheckout({ order, isError }: Props) {
       ["in_transit", 3],
       ["shipped", 4],
       ["delivered", 5],
+      ["cancelled", 6],
+      ["error", 7],
     ]);
 
     // Obtenemos el estado de la orden de compra
@@ -56,6 +58,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
       if (prevStatus === undefined) return curr;
 
       if (currStatus === undefined) return prev;
+
+      if (prevStatus === 6 || currStatus === 6) return "cancelled";
+
+      if (prevStatus === 7 || currStatus === 7) return "error";
 
       return prevStatus < currStatus ? prev : curr;
     });
@@ -73,6 +79,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
       if (error) console.error(error);
     };
+
     if (orderStatus !== order.status) updateOrderStatus();
   }, [orderStatus]);
 
