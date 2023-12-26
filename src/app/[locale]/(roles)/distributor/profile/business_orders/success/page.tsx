@@ -68,6 +68,7 @@ async function getSuccessData(searchParams: any) {
     .from("orders")
     .select(
       `
+      id,
       owner_id,
       status,
       shipping_info_id,

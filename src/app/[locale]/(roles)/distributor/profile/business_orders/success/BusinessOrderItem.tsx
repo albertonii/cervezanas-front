@@ -17,9 +17,15 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
   bOrder: IBusinessOrder;
+  setPackStatusArray: React.Dispatch<React.SetStateAction<string[]>>;
+  index: number;
 }
 
-export default function BusinessOrderItem({ bOrder }: Props) {
+export default function BusinessOrderItem({
+  bOrder,
+  setPackStatusArray,
+  index,
+}: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useAuth();
@@ -35,6 +41,11 @@ export default function BusinessOrderItem({ bOrder }: Props) {
     const status = e.target.value;
     setBOrderStatus(status);
     onClickOrderStatus(status);
+    setPackStatusArray((prev) => {
+      const newArray = [...prev];
+      newArray[index] = status;
+      return newArray;
+    });
   };
 
   // Update the status of the business_order

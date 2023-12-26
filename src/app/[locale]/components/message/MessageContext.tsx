@@ -27,7 +27,7 @@ export const MessageProvider = ({ children }: Props) => {
 
     setTimeout(() => {
       setMessages((prevMessages) => prevMessages.slice(1));
-    }, 118000);
+    }, 7000);
   };
 
   const clearMessages = () => {

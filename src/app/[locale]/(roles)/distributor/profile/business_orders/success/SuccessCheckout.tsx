@@ -4,11 +4,11 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IBusinessOrder, IOrder } from "../../../../../../../lib/types";
-import { useAuth } from "../../../../../Auth/useAuth";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 import BusinessOrderItem from "./BusinessOrderItem";
-import Spinner from "../../../../../components/common/Spinner";
+import { useAuth } from "../../../../../Auth/useAuth";
+import { ONLINE_ORDER_STATUS } from "../../../../../../../constants";
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -19,19 +19,62 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   const t = useTranslations();
   const locale = useLocale();
+  const { supabase } = useAuth();
 
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const [packStatusArray, setPackStatusArray] = useState<string[]>(
+    bOrders?.map((bOrder: IBusinessOrder) => bOrder.status) ?? []
+  );
+
+  const [orderStatus, setOrderStatus] = useState<string>(order.status);
 
   useEffect(() => {
-    if (user) {
-      setLoading(false);
-    }
+    // Dependiendo del estado de los business orders, el estado del pedido será:
+    // El orden de prioridades que debe seguir los estados es 1. pending, 2. processing, 3. in_transit, 4. shipped 5. delivered
+    // Por lo que, si todos los business_orders alcanzan el mismo estado, lo mostrarán. Pero si hay alguno que tenga un estado "inferior" la orden de compra tendrá el estado inferior de todos ellos.
+    // Por ejemplo, si hay 3 business_orders con estado "processing" y 1 con estado "pending", el estado de la orden de compra será "pending"
+    // Si hay 3 business_orders con estado "in_transit" y 1 con estado "shipped", el estado de la orden de compra será "in_transit"
+    // Si hay 3 business_orders con estado "shipped" y 1 con estado "delivered", el estado de la orden de compra será "shipped"
+    // Si hay 3 business_orders con estado "delivered" y 1 con estado "processing", el estado de la orden de compra será "processing"
 
-    return () => {
-      setLoading(true);
+    // Diccionario al que se pueda acceder para consultar el peso de cada estado
+    const statusWeight = new Map([
+      ["pending", 1],
+      ["processing", 2],
+      ["in_transit", 3],
+      ["shipped", 4],
+      ["delivered", 5],
+    ]);
+
+    // Obtenemos el estado de la orden de compra
+    const orderStatus = packStatusArray?.reduce((prev, curr) => {
+      // Devolvemos el estado con menor peso y teniendo en cuenta que puede ser undefined
+      const prevStatus = statusWeight.get(prev);
+      const currStatus = statusWeight.get(curr);
+
+      if (prevStatus === undefined && currStatus === undefined) return prev;
+
+      if (prevStatus === undefined) return curr;
+
+      if (currStatus === undefined) return prev;
+
+      return prevStatus < currStatus ? prev : curr;
+    });
+
+    setOrderStatus(orderStatus);
+  }, [packStatusArray]);
+
+  useEffect(() => {
+    const updateOrderStatus = async () => {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status: orderStatus })
+        .eq("id", order.id)
+        .select();
+
+      if (error) console.error(error);
     };
-  }, [user]);
+    if (orderStatus !== order.status) updateOrderStatus();
+  }, [orderStatus]);
 
   if (isError) {
     return (
@@ -47,13 +90,8 @@ export default function SuccessCheckout({ order, isError }: Props) {
     );
   }
 
-  if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
-
   return (
     <section className="m-4 space-y-8 sm:py-4 lg:py-6">
-      {/* TODO: Añadir aquí la barra de estado del pedido en general:
-          Su estado será igual al valor del estado del primer business_order de todos los productos */}
-
       <section className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
         <div className="flex flex-col">
           <span className="flex sm:items-baseline sm:space-x-4">
@@ -66,7 +104,15 @@ export default function SuccessCheckout({ order, isError }: Props) {
           <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
             <span className="text-lg font-medium text-beer-dark sm:text-xl">
               {t("order_status")}:
-              <span className="ml-2 text-beer-draft">{t(order.status)}</span>
+              <span
+                className={`ml-2 ${
+                  orderStatus === ONLINE_ORDER_STATUS.DELIVERED
+                    ? "text-green-600"
+                    : "text-beer-draft"
+                } `}
+              >
+                {t(orderStatus)}
+              </span>
             </span>
           </div>
 
@@ -109,9 +155,13 @@ export default function SuccessCheckout({ order, isError }: Props) {
       {/* Product and packs information */}
       <section className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
         {bOrders &&
-          bOrders.map((bOrder: IBusinessOrder) => (
+          bOrders.map((bOrder: IBusinessOrder, index: number) => (
             <article key={bOrder.id} className="py-4">
-              <BusinessOrderItem bOrder={bOrder} />
+              <BusinessOrderItem
+                bOrder={bOrder}
+                setPackStatusArray={setPackStatusArray}
+                index={index}
+              />
             </article>
           ))}
       </section>

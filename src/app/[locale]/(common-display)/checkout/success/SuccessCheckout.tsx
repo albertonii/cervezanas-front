@@ -8,6 +8,7 @@ import { formatDateString } from "../../../../../utils/formatDate";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import Spinner from "../../../components/common/Spinner";
 import BusinessOrderDetails from "./BusinessOrderItem";
+import { ONLINE_ORDER_STATUS } from "../../../../../constants";
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -56,7 +57,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
   return (
     <>
-      <section className="mx-auto sm:py-4 lg:py-6">
+      <section className="m-4 space-y-8 sm:py-4 lg:py-6">
         <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
           <header className="flex flex-col">
             <span className="flex sm:items-baseline sm:space-x-4">
@@ -77,7 +78,15 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
               <span className="text-lg font-medium text-beer-dark sm:text-xl">
                 {t("order_status")}:
-                <span className="ml-2 text-beer-draft">{t(order.status)} </span>
+                <span
+                  className={`ml-2 ${
+                    order.status === ONLINE_ORDER_STATUS.DELIVERED
+                      ? "text-green-600"
+                      : "text-beer-draft"
+                  } `}
+                >
+                  {t(order.status)}
+                </span>
               </span>
             </div>
           </header>
