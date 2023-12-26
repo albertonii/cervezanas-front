@@ -75,11 +75,18 @@ async function getSuccessData(searchParams: any) {
         *,
         order_items (
           *,
-          product_packs (*)
+          product_packs (
+            *,
+            products (
+              id,
+              name,
+              description
+            )
+          )
         )
       ),
       payment_method_card!orders_payment_method_id_fkey (*),
-      payment_method_id
+      payment_method_id      
     `
     )
     .eq("order_number", orderNumber)

@@ -35,6 +35,12 @@ export const COMMON = {
   PROFILE_IMG: "/icons/profile-240.png",
 };
 
+export const ORDER_TYPE = {
+  ONLINE: "online",
+  EVENT: "event",
+  DISTRIBUTOR_ONLINE: "distributor_online",
+};
+
 export const ONLINE_ORDER_STATUS = {
   PENDING: "pending",
   PAID: "paid",

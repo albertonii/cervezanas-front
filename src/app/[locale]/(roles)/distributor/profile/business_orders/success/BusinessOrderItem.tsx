@@ -19,7 +19,7 @@ interface Props {
   bOrder: IBusinessOrder;
 }
 
-export default function OrderItem({ bOrder }: Props) {
+export default function BusinessOrderItem({ bOrder }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const { supabase } = useAuth();
@@ -34,7 +34,6 @@ export default function OrderItem({ bOrder }: Props) {
   const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value;
     setBOrderStatus(status);
-
     onClickOrderStatus(status);
   };
 

@@ -1,3 +1,17 @@
+# Listado de tareas:
+
+- Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
+- Asociar peso a cada pack de producto
+- Agrupar los pedidos de distribuidor y productos si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
+
+# Tareas realizadas
+
+- [x] Comprobar realización de compra de pedido y creación de business order
+- [x] Visualizar pedido para el consumidor
+- [x] Visualizar pedido y permitir actualización del estado del pedido para el productor
+- [x] CRUD para indicar coste de distribución por parte del distribuidor
+- [x] Mostrar coste de distribución al consumidor antes de hacer la compra
+
 # 29 de noviembre 23
 
 La aplicación de Cervezanas se encuentra en un punto crítica para la salida en producción. En diciembre habrá un workshop para presentar el proyecto.
@@ -45,8 +59,8 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 - [x] Comprobar realización de compra de pedido y creación de business order
 - [x] Visualizar pedido para el consumidor
 - [x] Visualizar pedido y permitir actualización del estado del pedido para el productor
-- CRUD para indicar coste de distribución por parte del distribuidor
-- Mostrar coste de distribución al consumidor antes de hacer la compra
+- [x] CRUD para indicar coste de distribución por parte del distribuidor
+- [x] Mostrar coste de distribución al consumidor antes de hacer la compra
 - Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
 
 ---
@@ -59,3 +73,11 @@ Se ha creado en BBDD el modelo flatrate_cost para asociar un precio a cada tipo 
 
 Diagrama relacional Sistema de Distribución:
 https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
+
+---
+
+26 de diciembre
+
+Aunque ya se pueda asociar un coste de distribución a un pedido, es muy rústico y simplón. Debemos de saber cómo hacer la fórmula que indique los costes adecuados de envío.
+Una buena alternativa es tener en cuenta el peso y dimensiones de cada producto comprado.
+Quizás asociar una tarifa básica + suma de pesos de los productos.

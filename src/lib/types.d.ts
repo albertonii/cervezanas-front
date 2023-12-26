@@ -1328,6 +1328,8 @@ export interface IBusinessOrder {
   producer_id: string;
   distributor_id: string;
   status: string;
+  producer_user?: IProducerUser;
+  distributor_user?: IDistributorUser;
 }
 
 export interface IBusinessOrderRef {
