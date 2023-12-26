@@ -8,11 +8,12 @@ import { IBusinessOrder } from "../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import Spinner from "../../../../components/common/Spinner";
-import {  faTruck } from "@fortawesome/free-solid-svg-icons";
+import { faTruck } from "@fortawesome/free-solid-svg-icons";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
 import useFetchBusinessOrdersByDistributorId from "../../../../../../hooks/useFetchBusinessOrderByDistributorId";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   bOrders: IBusinessOrder[];
@@ -57,6 +58,7 @@ export function BusinessOrderList({ bOrders: os }: Props) {
     { header: t("price_header") },
     { header: t("status_header") },
     { header: t("tracking_number_header") },
+    { header: t("date_header") },
     { header: t("action_header") },
   ];
 
@@ -71,7 +73,6 @@ export function BusinessOrderList({ bOrders: os }: Props) {
       `/${locale}/distributor/profile/business_orders/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
-
 
   const filteredItemsByStatus = useMemo(() => {
     if (!bOrders) return [];
@@ -120,42 +121,40 @@ export function BusinessOrderList({ bOrders: os }: Props) {
             </thead>
 
             <tbody>
-              {bOrders &&
-                filteredItemsByStatus.map((bOrder) => {
-                  if (!bOrder.orders) return null;
+              {filteredItemsByStatus.map((bOrder) => {
+                if (!bOrder.orders) return null;
 
-                  return (
-                    <tr
-                      key={bOrder.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <td className="px-6 py-4">
-                        {bOrder.orders.order_number}
-                      </td>
+                return (
+                  <tr
+                    key={bOrder.id}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <td className="px-6 py-4">{bOrder.orders.order_number}</td>
 
-                      <td className="px-6 py-4">
-                        {bOrder.orders.customer_name}
-                      </td>
+                    <td className="px-6 py-4">{bOrder.orders.customer_name}</td>
 
-                      <td className="px-6 py-4">
-                        {formatCurrency(bOrder.orders.total)}
-                      </td>
+                    <td className="px-6 py-4">
+                      {formatCurrency(bOrder.orders.total)}
+                    </td>
 
-                      <td className="px-6 py-4">{t(bOrder.orders.status)}</td>
+                    <td className="px-6 py-4">{t(bOrder.orders.status)}</td>
 
-                      <td className="px-6 py-4">{bOrder.orders.tracking_id}</td>
+                    <td className="px-6 py-4">{bOrder.orders.tracking_id}</td>
 
-                      <td className="item-center flex justify-center gap-2 px-6 py-4">
-                        <IconButton
-                          onClick={() => handleClickViewCompleteOrder(bOrder)}
-                          icon={faTruck}
-                          title={""}
-                        />
+                    <td className="px-6 py-4">
+                      {formatDateString(bOrder.orders.created_at)}
+                    </td>
 
-                      </td>
-                    </tr>
-                  );
-                })}
+                    <td className="item-center flex justify-center gap-2 px-6 py-4">
+                      <IconButton
+                        onClick={() => handleClickViewCompleteOrder(bOrder)}
+                        icon={faTruck}
+                        title={""}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
               {!bOrders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
