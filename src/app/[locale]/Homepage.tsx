@@ -17,7 +17,7 @@ export default function Homepage({ monthlyProducts }: Props) {
   }
 
   return (
-    <div className="mt-[10vh] h-full ">
+    <div className="h-full ">
       <Hero />
       <MonthlyBeers monthlyProducts={monthlyProducts} />
     </div>
