@@ -2,18 +2,13 @@
 
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { IOrder } from "../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IconButton } from "../../../../components/common/IconButton";
 import Spinner from "../../../../components/common/Spinner";
-import { faTruck } from "@fortawesome/free-solid-svg-icons";
-import { encodeBase64 } from "../../../../../../utils/utils";
 import { useAuth } from "../../../../Auth/useAuth";
 import InputSearch from "../../../../components/common/InputSearch";
-import { formatDateString } from "../../../../../../utils/formatDate";
 import useFetchOrdersByDistributorId from "../../../../../../hooks/useFetchOrdersByDistributorId";
+import ODistributorTableData from "./ODistributorTableData";
 
 interface Props {
   orders: IOrder[];
@@ -35,9 +30,6 @@ export function BusinessOrderList({ orders: os }: Props) {
 
   const counter = os.length;
   const resultsPerPage = 10;
-
-  const locale = useLocale();
-  const router = useRouter();
 
   const { isError, isLoading, refetch } = useFetchOrdersByDistributorId(
     user.id,
@@ -62,18 +54,6 @@ export function BusinessOrderList({ orders: os }: Props) {
     { header: t("date_header") },
     { header: t("action_header") },
   ];
-
-  const handleClickViewCompleteOrder = (order: IOrder) => {
-    if (!order) return null;
-
-    const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
-    );
-
-    router.push(
-      `/${locale}/distributor/profile/business_orders/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
-    );
-  };
 
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
@@ -123,40 +103,7 @@ export function BusinessOrderList({ orders: os }: Props) {
 
             <tbody>
               {filteredItemsByStatus.map((order) => {
-                if (!order) return null;
-
-                return (
-                  <tr
-                    key={order.id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
-                    <td className="px-6 py-4">{order.order_number}</td>
-
-                    <td className="px-6 py-4">{order.customer_name}</td>
-
-                    <td className="px-6 py-4">
-                      {order.business_orders?.length}
-                    </td>
-
-                    <td className="px-6 py-4">{formatCurrency(order.total)}</td>
-
-                    <td className="px-6 py-4">{t(order.status)}</td>
-
-                    <td className="px-6 py-4">{order.tracking_id}</td>
-
-                    <td className="px-6 py-4">
-                      {formatDateString(order.created_at)}
-                    </td>
-
-                    <td className="item-center flex justify-center gap-2 px-6 py-4">
-                      <IconButton
-                        onClick={() => handleClickViewCompleteOrder(order)}
-                        icon={faTruck}
-                        title={""}
-                      />
-                    </td>
-                  </tr>
-                );
+                return <ODistributorTableData order={order} key={order.id} />;
               })}
               {!orders && (
                 <tr>

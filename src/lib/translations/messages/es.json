@@ -700,5 +700,7 @@
   "europe_distribution_cost": "Coste de distribución europeo",
   "international_distribution_cost": "Coste de distribución internacional",
   "contracts_cps": "Contratos de puntos de consumo",
-  "order_business_pack_status": "Estado del pack"
+  "order_business_pack_status": "Estado del pack",
+  "distributor_information": "Información del distribuidor",
+  "username": "Nombre de usuario"
 }

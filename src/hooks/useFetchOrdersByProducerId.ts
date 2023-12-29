@@ -20,11 +20,9 @@ const fetchOrdersByProducerId = async (
         )
       `
     )
-    .eq("business_orders.distributor_id", [producerId])
-    .range(
-      (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
-    );
+    .eq("business_orders.producer_id", [producerId])
+    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data as IOrder[];

@@ -64,7 +64,6 @@ export function isFileEmpty(file: File) {
 }
 
 export function isFileListEmpty(file: FileList) {
-  console.log(file.length);
   return file.length === 0;
 }
 

@@ -215,7 +215,6 @@ export const AuthContextProvider = ({
         });
         return;
       }
-      console.log(payload);
       const { error, data } = (await supabase.auth.signUp(
         payload
       )) as AuthResponse;
@@ -224,8 +223,6 @@ export const AuthContextProvider = ({
 
       // Get access_level from the user
       const access_level = data.user?.user_metadata.access_level;
-      console.log(access_level);
-      console.log(access_level === "Distributor");
 
       if (access_level === ROLE_ENUM.Productor) {
         const { error: roleError } = await supabase

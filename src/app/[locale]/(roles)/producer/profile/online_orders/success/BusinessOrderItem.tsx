@@ -1,17 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  DISTRIBUTOR_ONLINE_ORDER_STATUS,
-  SupabaseProps,
-} from "../../../../../../../constants";
+import { SupabaseProps } from "../../../../../../../constants";
 import { IBusinessOrder, IOrderItem } from "../../../../../../../lib/types";
 import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 import { StatusTimeline } from "../../../../../components/StatusTimeline";
-import { useAuth } from "../../../../../Auth/useAuth";
-import { useQueryClient } from "react-query";
-import { useMessage } from "../../../../../components/message/useMessage";
+import DisplayImageProfile from "../../../../../components/common/DisplayImageProfile";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -21,92 +16,13 @@ interface Props {
   index: number;
 }
 
-export default function BusinessOrderItem({
-  bOrder,
-  setPackStatusArray,
-  index,
-}: Props) {
+export default function BusinessOrderItem({ bOrder }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const { supabase } = useAuth();
-  const queryClient = useQueryClient();
-  const { handleMessage } = useMessage();
-
-  const submitSuccessMessage = t("messages.updated_successfully");
-  const submitErrorMessage = t("messages.updated_error");
-
-  const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
-
-  const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const status = e.target.value;
-    setBOrderStatus(status);
-    onClickOrderStatus(status);
-    setPackStatusArray((prev) => {
-      const newArray = [...prev];
-      newArray[index] = status;
-      return newArray;
-    });
-  };
-
-  // Update the status of the business_order
-  const onClickOrderStatus = async (status: string) => {
-    const { error } = await supabase
-      .from("business_orders")
-      .update({ status })
-      .eq("id", bOrder.id)
-      .select();
-
-    if (error) {
-      handleMessage({
-        type: "error",
-        message: submitErrorMessage,
-      });
-      throw error;
-    }
-
-    queryClient.invalidateQueries({ queryKey: ["distribution"] });
-
-    handleMessage({
-      type: "success",
-      message: submitSuccessMessage,
-    });
-  };
 
   return (
     <section className="relative border-separate space-y-8 rounded-lg border p-2">
-      {/* Input select que actualizará el estado para ese business_order  */}
-      <select
-        id="status"
-        name="status"
-        autoComplete="status"
-        className="absolute right-0 top-0 m-2 block rounded-md border-gray-300 pl-3 pr-10 focus:border-beer-blonde focus:outline-none focus:ring-beer-blonde sm:text-sm md:text-base"
-        onChange={(e) => handleBOrderStatus(e)}
-        value={bOrderStatus}
-      >
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.PENDING}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.PENDING)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED)}
-        </option>
-        <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR}>
-          {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR)}
-        </option>
-      </select>
-
-      <StatusTimeline status={bOrderStatus} orderType={"distributor_online"} />
+      <StatusTimeline status={bOrder.status} orderType={"distributor_online"} />
 
       <section className="grid grid-cols-1 space-y-4 text-start sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4">
         {/* Display the product information for this pack  */}
@@ -185,6 +101,54 @@ export default function BusinessOrderItem({
             )}
           </article>
         ))}
+
+        {/* Distributor information data  */}
+        {bOrder.distributor_user && (
+          <article className="col-span-12 ">
+            <h3 className="text-xl ">{t("distributor_information")}</h3>
+
+            <div className="flex space-x-4">
+              <figure>
+                <DisplayImageProfile
+                  imgSrc={bOrder.distributor_user.users?.avatar_url ?? ""}
+                  class={""}
+                />
+              </figure>
+
+              <div>
+                <span className="space-y-1">
+                  <p className="text-sm text-gray-500">{t("username")}</p>
+                  <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
+                    <Link
+                      href={`/d-info/${bOrder.distributor_id}`}
+                      locale={locale}
+                      target={"_blank"}
+                    >
+                      {bOrder.distributor_user?.users?.username}
+                    </Link>
+                  </p>
+                </span>
+
+                <span className="space-y-1">
+                  <p className="text-sm text-gray-500">{t("name")}</p>
+                  <p className="truncate">
+                    {bOrder.distributor_user?.users?.name}
+                  </p>
+                  <p className="truncate ">
+                    {bOrder.distributor_user?.users?.lastname}
+                  </p>
+                </span>
+
+                <span className="space-y-1">
+                  <p className="text-sm text-gray-500">{t("email")}</p>
+                  <p className="truncate">
+                    {bOrder.distributor_user?.users?.email}
+                  </p>
+                </span>
+              </div>
+            </div>
+          </article>
+        )}
       </section>
     </section>
   );

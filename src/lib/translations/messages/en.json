@@ -685,5 +685,7 @@
   "europe_distribution_cost": "Europe distribution cost",
   "international_distribution_cost": "International distribution cost",
   "contracts_cps": "Contracts with consumption points",
-  "order_business_pack_status": "Order pack status"
+  "order_business_pack_status": "Order pack status",
+  "distributor_information": "Distributor information",
+  "username": "Username"
 }

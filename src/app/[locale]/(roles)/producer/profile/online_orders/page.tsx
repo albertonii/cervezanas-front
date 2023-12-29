@@ -1,4 +1,4 @@
-import { IBusinessOrder } from "../../../../../../lib/types";
+import { IOrder } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
@@ -6,18 +6,17 @@ import { Orders } from "./Orders";
 import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
-  const bOrdersData = await getOrdersData();
-  const [bOrders] = await Promise.all([bOrdersData]);
+  const ordersData = await getOrdersData();
+  const [orders] = await Promise.all([ordersData]);
 
   return (
     <>
-      <Orders bOrders={bOrders} />
+      <Orders orders={orders} />
     </>
   );
 }
 
 async function getOrdersData() {
-  // We need to know all the orders related with the producer
   const supabase = await createServerClient();
 
   const {
@@ -28,42 +27,21 @@ async function getOrdersData() {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: bOrdersData, error: bOrdersError } = await supabase
-    .from("business_orders")
+  // Select only the orders where business orders have the distributor_id associated to session user id
+  const { data, error } = await supabase
+    .from("orders")
     .select(
       `
-        *,
-        order_items (*)
+        *, 
+        business_orders (
+          *
+        )
       `
     )
-    .eq("producer_id", session.user.id);
-  if (bOrdersError) throw bOrdersError;
+    .eq("business_orders.producer_id", [session.user.id])
+    .order("created_at", { ascending: false });
 
-  return bOrdersData as IBusinessOrder[];
+  if (error) throw error;
+
+  return data as IOrder[];
 }
-
-// async function getOrdersData() {
-//   // We need to know all the orders related with the producer
-//   const supabase = await createServerClient();
-
-//   const {
-//     data: { session },
-//   } = await readUserSession();
-
-//   if (!session) {
-//     redirect(VIEWS.SIGN_IN);
-//   }
-
-//   const { data: ordersData, error: ordersError } = await supabase
-//     .from("orders")
-//     .select(
-//       `
-//         *,
-//         business_orders (*)
-//       `
-//     )
-//     .eq("owner_id", session.user.id);
-//   if (ordersError) throw ordersError;
-
-//   return ordersData as IOrder[];
-// }

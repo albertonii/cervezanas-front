@@ -89,6 +89,15 @@ async function getSuccessData(searchParams: any) {
       billing_info (id, *),
       business_orders!business_orders_order_id_fkey (
         *,
+        distributor_user!business_orders_distributor_id_fkey (*,
+          users(
+            name,
+            lastname,
+            email,
+            username,
+            avatar_url
+          )
+        ),
         order_items!order_items_business_order_id_fkey (
           *,
           product_packs (
@@ -106,7 +115,7 @@ async function getSuccessData(searchParams: any) {
     `
     )
     .eq("order_number", orderNumber)
-    .eq("business_orders.distributor_id", session.user.id)
+    .eq("business_orders.producer_id", session.user.id)
     .single();
 
   if (!orderData)
