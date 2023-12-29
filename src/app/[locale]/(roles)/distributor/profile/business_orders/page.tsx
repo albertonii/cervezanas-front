@@ -2,16 +2,16 @@ import { redirect } from "next/navigation";
 import { BusinessOrders } from "./BusinessOrders";
 import { VIEWS } from "../../../../../../constants";
 import readUserSession from "../../../../../../lib/actions";
-import { IBusinessOrder } from "../../../../../../lib/types";
+import { IOrder } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 
 export default async function BusinessOrdersPage() {
-  const bOrdersData = await getBusinessOrdersData();
-  const [bOrders] = await Promise.all([bOrdersData]);
+  const ordersData = await getBusinessOrdersData();
+  const [orders] = await Promise.all([ordersData]);
 
   return (
     <>
-      <BusinessOrders bOrders={bOrders} />
+      <BusinessOrders orders={orders} />
     </>
   );
 }
@@ -27,15 +27,21 @@ async function getBusinessOrdersData() {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: ordersData, error: ordersError } = await supabase
-    .from("business_orders")
+  // Select only the orders where business orders have the distributor_id associated to session user id
+  const { data, error } = await supabase
+    .from("orders")
     .select(
       `
-        *
+        *, 
+        business_orders (
+          *
+        )
       `
     )
-    .eq("distributor_id", session.user.id);
-  if (ordersError) throw ordersError;
+    .eq("business_orders.distributor_id", [session.user.id])
+    .order("created_at", { ascending: false });
 
-  return ordersData as IBusinessOrder[];
+  if (error) throw error;
+
+  return data as IOrder[];
 }

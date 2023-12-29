@@ -1,8 +1,8 @@
 # Listado de tareas:
 
-- Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
 - Asociar peso a cada pack de producto
-- Agrupar los pedidos de distribuidor y productos si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
+- Agrupar los pedidos de distribuidor si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
+- Agrupar los pedidos de productos si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
 
 # Tareas realizadas
 
@@ -11,6 +11,7 @@
 - [x] Visualizar pedido y permitir actualización del estado del pedido para el productor
 - [x] CRUD para indicar coste de distribución por parte del distribuidor
 - [x] Mostrar coste de distribución al consumidor antes de hacer la compra
+- [x] Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
 
 # 29 de noviembre 23
 

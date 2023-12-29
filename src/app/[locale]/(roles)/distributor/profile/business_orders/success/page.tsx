@@ -106,6 +106,7 @@ async function getSuccessData(searchParams: any) {
     `
     )
     .eq("order_number", orderNumber)
+    .eq("business_orders.distributor_id", session.user.id)
     .single();
 
   // Vamos a filtrar aquellos businessOrder donde el distribuidor sea el mismo que el que está logueado

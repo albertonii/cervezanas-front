@@ -185,6 +185,8 @@
   "no": "No",
   "product_type_header": "Tipo de producto",
   "name_header": "Nombre",
+  "client_name_header": "Nombre Cliente",
+  "products_quantity_header": "Cantidad de productos",
   "pack_name_header": "Nombre del pack",
   "username_header": "Username",
   "created_date_header": "Fecha de creación",
