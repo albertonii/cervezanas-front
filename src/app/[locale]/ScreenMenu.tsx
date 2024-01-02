@@ -204,7 +204,7 @@ export default function ScreenMenu({ notifications: notifications }: Props) {
                   <HeaderDropdownButton
                     options={
                       role === "admin"
-                        ? ["submitted_aps", "monthly_products", "signout"]
+                        ? ["submitted_aps", "monthly_products", "notifications", "signout"]
                         : role === "distributor"
                         ? [
                             "profile",

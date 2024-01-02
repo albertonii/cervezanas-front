@@ -36,6 +36,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "box",
       option: "reviews",
     },
+    {
+      name: t("notifications"),
+      icon: "bell",
+      option: "notifications",
+    },
   ];
 
   return (

@@ -65,6 +65,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "review",
       option: "reviews",
     },
+    {
+      name: t("notifications"),
+      icon: "bell",
+      option: "notifications",
+    },
   ];
 
   const { user, supabase } = useAuth();

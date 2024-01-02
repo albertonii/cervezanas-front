@@ -56,6 +56,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "watchlist",
       option: "likes_history",
     },
+    {
+      name: t("notifications"),
+      icon: "bell",
+      option: "notifications",
+    },
   ];
 
   const handleClick = () => {

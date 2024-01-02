@@ -313,6 +313,18 @@ export default function MobileMenu({ notifications }: Props) {
                     </span>
                   </Link>
                 </li>
+
+                <li className="flex items-center">
+                  <Link
+                    href="/profile?a=notifications"
+                    onClick={() => setOpenNotification(false)}
+                    locale={locale}
+                  >
+                    <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
+                      {t("notifications").toUpperCase()}
+                    </span>
+                  </Link>
+                </li>
               </>
             )}
 

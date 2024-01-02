@@ -1023,7 +1023,8 @@ export interface INotification {
   message: string;
   link: string;
   read: boolean;
-  source: any;
+  source: string;
+  source_user?: IUserTable;
 }
 
 export type UserProps = {

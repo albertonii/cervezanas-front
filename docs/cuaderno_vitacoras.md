@@ -1,6 +1,6 @@
 # Listado de tareas:
 
-- Asociar peso a cada pack de producto
+- Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Componente para visualizar las notificaciones recibidas -> Tanto leídas como no
 - Preguntar mayoría de edad cuando se presiona el botón de crear cuenta
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
@@ -31,6 +31,7 @@
 - [x] Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
 - [x] Agrupar los pedidos de distribuidor si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
 - [x] Agrupar los pedidos de productos si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
+- [x] Asociar peso a cada pack de producto
 
 # 29 de noviembre 23
 

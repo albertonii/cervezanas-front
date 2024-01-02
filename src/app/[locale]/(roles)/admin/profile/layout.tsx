@@ -42,9 +42,10 @@ export default function layout({ children }: LayoutProps) {
       icon: "box",
       option: "campaigns",
     },
+
     {
       name: t("notifications"),
-      icon: "box",
+      icon: "bell",
       option: "notifications",
     },
   ];
