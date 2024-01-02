@@ -24,10 +24,10 @@ export default function BusinessOrderItem({ bOrder }: Props) {
     <section className="relative border-separate space-y-8 rounded-lg border p-2">
       <StatusTimeline status={bOrder.status} orderType={"distributor_online"} />
 
-      <section className="grid grid-cols-1 space-y-4 text-start sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4">
+      <section className="grid grid-cols-1 gap-x-2 space-y-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-4">
         {/* Display the product information for this pack  */}
         {bOrder.order_items && (
-          <div className="col-span-12">
+          <div className="col-span-2">
             <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
               <Link
                 href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
@@ -47,75 +47,96 @@ export default function BusinessOrderItem({ bOrder }: Props) {
           </div>
         )}
 
-        {bOrder.order_items?.map((orderItem: IOrderItem) => (
-          <article
-            className="grid justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
-            key={orderItem.business_order_id + "-" + orderItem.product_pack_id}
-          >
-            {orderItem.product_packs && (
-              <>
-                <header className="col-span-12">
-                  <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
-                    <p className="text-lg font-medium text-gray-900">
-                      {orderItem.product_packs.name}
+        {bOrder.order_items?.map((orderItem: IOrderItem) => {
+          if (!orderItem.product_packs) return <></>;
+
+          return (
+            <fieldset
+              className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-4 lg:space-x-2 lg:p-6"
+              key={
+                orderItem.business_order_id + "-" + orderItem.product_pack_id
+              }
+            >
+              <legend className="text-lg">
+                {orderItem.product_packs.name}
+              </legend>
+
+              <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
+                <DisplayImageProduct
+                  width={120}
+                  height={120}
+                  alt={""}
+                  imgSrc={`${
+                    BASE_PRODUCTS_URL +
+                    decodeURIComponent(orderItem.product_packs.img_url)
+                  }`}
+                  class="h-full w-full object-cover object-center"
+                />
+              </figure>
+
+              <section className="col-span-2 flex flex-row gap-2 md:col-span-3">
+                <div className="w-full">
+                  <span className="space-y-1">
+                    <p className="text-sm text-gray-500">
+                      {t("product_price")}
                     </p>
-                  </h3>
-                </header>
+                    <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
+                      {formatCurrency(orderItem.product_packs.price)}
+                    </p>
+                  </span>
 
-                <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-4 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-auto ">
-                  {
-                    <DisplayImageProduct
-                      width={120}
-                      height={120}
-                      alt={""}
-                      imgSrc={`${
-                        BASE_PRODUCTS_URL +
-                        decodeURIComponent(orderItem.product_packs.img_url)
-                      }`}
-                      class="h-full w-full object-cover object-center"
-                    />
-                  }
-                </figure>
-
-                <div className="col-span-8 flex flex-col gap-2">
-                  <p className="text-sm font-medium text-gray-900 ">
-                    {formatCurrency(orderItem.product_packs.price)}
-                  </p>
-
-                  <span className="text-sm text-gray-900">
-                    <p>{t("quantity_in_pack")}:</p>
-
-                    <p className="font-medium">
+                  <span className="space-y-1">
+                    <p className="text-sm text-gray-500">
+                      {t("quantity_in_pack")}
+                    </p>
+                    <p className="truncate">
                       {orderItem.product_packs.quantity} {t("units")}
                     </p>
                   </span>
 
-                  <span className="text-sm text-gray-900">
-                    <p>{t("quantity_bought")}:</p>
-                    <p className="font-medium">
+                  <span className="space-y-1">
+                    <p className="text-sm text-gray-500">
+                      {t("quantity_bought")}
+                    </p>
+                    <p className="truncate">
                       {orderItem.quantity} {t("packs")}
                     </p>
                   </span>
                 </div>
-              </>
-            )}
-          </article>
-        ))}
+
+                <div className="w-full self-center">
+                  <span className="space-y-1 text-center">
+                    <p className="text-base text-gray-500 md:text-xl">
+                      {t("total")}
+                    </p>
+                    <p className="truncate text-base font-semibold md:text-2xl">
+                      {formatCurrency(
+                        orderItem.quantity * orderItem.product_packs.price
+                      )}
+                    </p>
+                  </span>
+                </div>
+              </section>
+            </fieldset>
+          );
+        })}
 
         {/* Distributor information data  */}
         {bOrder.distributor_user && (
-          <article className="col-span-12 ">
-            <h3 className="text-xl ">{t("distributor_information")}</h3>
+          <fieldset className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-2 lg:space-x-2 lg:p-6">
+            <legend className="text-lg">{t("distributor_information")}</legend>
 
-            <div className="flex space-x-4">
-              <figure>
+            <section className="flex space-x-4">
+              <figure className="aspect-w-1  aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
                 <DisplayImageProfile
+                  width={100}
+                  height={100}
                   imgSrc={bOrder.distributor_user.users?.avatar_url ?? ""}
                   class={""}
                 />
               </figure>
 
-              <div>
+              <div className="col-span-2 flex flex-col md:col-span-1">
                 <span className="space-y-1">
                   <p className="text-sm text-gray-500">{t("username")}</p>
                   <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
@@ -130,7 +151,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 </span>
 
                 <span className="space-y-1">
-                  <p className="text-sm text-gray-500">{t("name")}</p>
+                  <p className="text-sm text-gray-500">{t("fullname")}</p>
                   <p className="truncate">
                     {bOrder.distributor_user?.users?.name}
                   </p>
@@ -146,8 +167,8 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                   </p>
                 </span>
               </div>
-            </div>
-          </article>
+            </section>
+          </fieldset>
         )}
       </section>
     </section>
