@@ -55,8 +55,6 @@ export function CustomizeProfileForm({ profile }: Props) {
 
     if (isValidObject(bg_url.name)) {
       if (bg_url.size > 0) {
-        // TODO: Actualizar aquí la URL de APP CONTEXT de Custom IMG y Profile IMG para que pueda estar sincronizado.
-
         const encodeUriCustomImg = encodeURIComponent(
           `${SupabaseProps.CUSTOM_BG_URL}${profile.user}`
         );
@@ -137,8 +135,8 @@ export function CustomizeProfileForm({ profile }: Props) {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
-        <div className="flex flex-row items-end space-x-3">
-          <div className="w-full">
+        <section className="grid grid-cols-2 gap-4">
+          <div className="col-span-2 md:col-span-1">
             <label htmlFor="bg_img" className="text-sm text-gray-600">
               {t("profile_custom_bg_img")}
             </label>
@@ -150,7 +148,7 @@ export function CustomizeProfileForm({ profile }: Props) {
             />
           </div>
 
-          <div className="w-full ">
+          <div className="col-span-2 md:col-span-1">
             <label
               htmlFor="profile_photo_img"
               className="text-sm text-gray-600"
@@ -164,7 +162,7 @@ export function CustomizeProfileForm({ profile }: Props) {
               registerName={"profile_photo_url"}
             />
           </div>
-        </div>
+        </section>
 
         {loading && (
           <Spinner color="beer-blonde" size={"xLarge"} absolute center />

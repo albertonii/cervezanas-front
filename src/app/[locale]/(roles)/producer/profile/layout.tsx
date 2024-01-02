@@ -72,12 +72,11 @@ export default function layout({ children }: LayoutProps) {
   const { bgImg, profileImg, setProfileImg } = useAppContext();
 
   const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
-  const [profileImg_, setProfileImg_] = useState();
+  const [profileImg_, setProfileImg_] = useState("");
 
   const bg = "/assets/producer_layout.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
-
 
   const handleClick = () => {
     inputRef.current?.click();

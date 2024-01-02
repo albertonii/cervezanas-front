@@ -55,7 +55,7 @@ export const FilePreviewAndHide = ({
   }, [existsPrevImg]);
 
   return (
-    <div className="w-[360px] rounded-md md:w-4/5 lg:w-full">
+    <section className="rounded-md sm:w-full">
       <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">
         {message}
       </span>
@@ -125,6 +125,6 @@ export const FilePreviewAndHide = ({
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };

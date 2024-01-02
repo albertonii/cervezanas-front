@@ -24,9 +24,7 @@ export default function layout({ children }: LayoutProps) {
 
   const { bgImg, profileImg, setProfileImg } = useAppContext();
   const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
-  const [profileImg_, setProfileImg_] = useState(
-    profileImg ?? COMMON.PROFILE_IMG
-  );
+  const [profileImg_, setProfileImg_] = useState("");
 
   const bg = "/assets/producer_layout.jpg";
 
@@ -93,6 +91,17 @@ export default function layout({ children }: LayoutProps) {
         console.error("error", error);
         return;
       }
+
+      const { error: errorProfileImg } = await supabase
+        .from("users")
+        .update({ avatar_url: decodeUriProfileImg })
+        .eq("id", user?.id);
+
+      if (errorProfileImg) {
+        console.error("errorProfileImg update", errorProfileImg);
+        return;
+      }
+
       setProfileImg(SupabaseProps.BASE_AVATARS_URL + decodeUriProfileImg);
     };
 
@@ -110,6 +119,7 @@ export default function layout({ children }: LayoutProps) {
   }, [bgImg]);
 
   useEffect(() => {
+    console.log(profileImg);
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 

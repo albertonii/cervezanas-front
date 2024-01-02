@@ -5,6 +5,7 @@ import DisplayImageProfile from "../../../components/common/DisplayImageProfile"
 import { IDistributorUser } from "../../../../../lib/types";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
+import { SupabaseProps } from "../../../../../constants";
 
 interface Props {
   distributor: IDistributorUser;
@@ -14,6 +15,11 @@ export default function DistributorInformation({ distributor }: Props) {
   const t = useTranslations();
   const accountCreatedDate = formatDateString(distributor.created_at);
 
+  const baseAvatarUrl = `${SupabaseProps.BASE_AVATARS_URL}`;
+  const profileImg = `${baseAvatarUrl}${distributor.users?.avatar_url}`;
+
+  console.log("distributor", profileImg);
+
   return (
     <div className="container mx-auto my-5 p-5">
       <div className="no-wrap md:-mx-2 md:flex ">
@@ -22,7 +28,7 @@ export default function DistributorInformation({ distributor }: Props) {
           {/*  Profile Card  */}
           <div className="rounded-md border-t-4 border-beer-gold bg-white p-3 shadow-md">
             <div className="image overflow-hidden">
-              <DisplayImageProfile imgSrc={""} class={"w-full"} />
+              <DisplayImageProfile imgSrc={profileImg} class={"w-full"} />
             </div>
 
             <h1 className="my-1 text-xl font-bold leading-8 text-gray-900">
