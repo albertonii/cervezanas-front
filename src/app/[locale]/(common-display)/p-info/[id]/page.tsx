@@ -19,7 +19,10 @@ async function getProducerProfile(producerId: string) {
     .from("producer_user")
     .select(
       `
-       *
+       *,
+       users (
+        *
+      )
       `
     )
     .eq("user", producerId)

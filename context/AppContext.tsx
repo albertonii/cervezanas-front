@@ -4,12 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SupabaseProps } from "../src/constants";
 import { useLocalStorage } from "../src/hooks/useLocalStorage";
-import {
-  ICustomizeSettings,
-  INotification,
-  IProduct,
-  IRefProductLot,
-} from "../src/lib/types";
+import { ICustomizeSettings, IProduct, IRefProductLot } from "../src/lib/types";
 import { useAuth } from "../src/app/[locale]/Auth/useAuth";
 
 // Definir el tipo de datos para el objeto de imágenes
@@ -97,32 +92,33 @@ export function AppContextProvider(props: Props) {
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
-  const decodeUriProfileImg = provider
-    ? user.avatar_url
-    : decodeURIComponent(`${fullProfilePhotoUrl}${user?.id}`);
-  const decodeUriCustomImg = provider
-    ? user.bg_url
-    : decodeURIComponent(`${fullCustomUrl}${user?.id}`);
-
-  const [bgImg, setBgImg] = useState(
-    decodeUriCustomImg ?? `/icons/profile-240.png`
-  );
-  const [profileImg, setProfileImg] = useState(
-    decodeUriProfileImg ?? `/icons/profile-240.png`
-  );
+  const [bgImg, setBgImg] = useState("");
+  const [profileImg, setProfileImg] = useState("");
   const [sidebar, setSidebar] = useLocalStorage<string>(
     "sidebar-option",
     "settings"
   );
 
   useEffect(() => {
-    if (!user) return;
+    if (!user?.avatar_url) {
+      setProfileImg(profilePhotoUrl);
+    } else {
+      const decodeUriProfileImg = provider
+        ? user.avatar_url
+        : decodeURIComponent(`${fullProfilePhotoUrl}${user?.id}/img`);
 
-    // refetch().then(() => {
-    // TODO: VOLVER AQUI!
-    // const notifications: INotification[] = res.data;
-    // setNotifications(notifications);
-    // });
+      setProfileImg(decodeUriProfileImg);
+    }
+
+    if (!user?.bg_url) {
+      setBgImg(customUrl);
+    } else {
+      const decodeUriCustomImg = provider
+        ? user.bg_url
+        : decodeURIComponent(`${fullCustomUrl}${user?.id}`);
+
+      setBgImg(decodeUriCustomImg);
+    }
   }, [user]);
 
   if (!isLoggedIn) return <>{props.children}</>;

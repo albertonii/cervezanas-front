@@ -1,6 +1,25 @@
 # Listado de tareas:
 
 - Asociar peso a cada pack de producto
+- Componente para visualizar las notificaciones recibidas -> Tanto leídas como no
+- Preguntar mayoría de edad cuando se presiona el botón de crear cuenta
+- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
+- Implementar Dark Mode -> Gustavo
+- Comprobar que si la app está en Dark Mode se pueda leer el QR
+- CRUD para una review de un producto comprado
+- Historial de ventas en un punto de consumo
+- Al borrar una review, confirmar la acción con un modal
+- Confirmar contraseña en el registro de usuario
+- Componente para recuperar contraseña de usuario
+- Comprobar que funcione SMTP para configuración de usuarios
+- Sistema básico de gamificación -> al realizar compra, review, etc
+- QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
+- Modificar el precio de un producto asociado a un PC
+- Sistema de stock para controlar las cantidades de cada producto/pack
+- Comprobar que sign in con Google sea igual que por usuario y contraseña
+- Realizar compra de cerveza en un evento y enviar QR a un amigo para que vaya por la cerveza
+- CRUD imágenes en productos
+- CRUD imágenes en eventos
 
 # Tareas realizadas
 
