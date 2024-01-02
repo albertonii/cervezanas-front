@@ -20,6 +20,7 @@ interface FormData {
   email: string;
   password: string;
   confirm_password: string;
+  is_legal_age: boolean;
   // avatar_url: string;
   // email_verified: boolean;
   // full_name: string;
@@ -47,6 +48,9 @@ const schema: ZodType<FormData> = z
     confirm_password: z
       .string()
       .min(8, { message: "Password must be atleast 8 characters" }),
+    is_legal_age: z.boolean().refine((data) => data === true, {
+      message: "You must be of legal age",
+    }),
   })
   .refine((data) => data.password === data.confirm_password, {
     path: ["confirm_password"],
@@ -225,6 +229,26 @@ export const SignUpForm = () => {
         {errors.confirm_password && (
           <DisplayInputError message={errors.confirm_password.message} />
         )}
+      </div>
+
+      <div className="flex w-full flex-col space-y-2">
+        <label htmlFor="is_legal_age" className="text-sm text-gray-600">
+          <input
+            {...register("is_legal_age")}
+            type="checkbox"
+            id="is_legal_age"
+            autoComplete="is_legal_age"
+            required
+            className="mr-2 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          />
+          {t("is_legal_age")}
+        </label>
+
+        {errors.is_legal_age && (
+          <DisplayInputError message={errors.is_legal_age.message} />
+        )}
+
+        <p className="text-xs text-gray-500">{t("is_legal_age_description")}</p>
       </div>
 
       {loading ? (

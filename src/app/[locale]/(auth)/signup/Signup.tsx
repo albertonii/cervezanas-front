@@ -44,13 +44,13 @@ export default function Signup() {
   return (
     <section className="w-full lg:grid lg:grid-cols-2">
       {/* Signup form  */}
-      <div className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+      <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div>
+          <span>
             <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
               {t("create_account")}
             </h2>
-          </div>
+          </span>
 
           <SignUpForm />
 
@@ -67,7 +67,7 @@ export default function Signup() {
             </Link>
           </p>
         </div>
-      </div>
+      </article>
 
       {/* Hero Image */}
       <div className="hidden w-full justify-center lg:flex">

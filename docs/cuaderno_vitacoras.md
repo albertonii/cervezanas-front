@@ -1,15 +1,13 @@
 # Listado de tareas:
 
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Componente para visualizar las notificaciones recibidas -> Tanto leídas como no
-- Preguntar mayoría de edad cuando se presiona el botón de crear cuenta
+- Toggle mayoría de edad cuando se presiona el botón de crear cuenta
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
-- Comprobar que si la app está en Dark Mode se pueda leer el QR
+- Comprobar: si la app está en Dark Mode se pueda leer el QR
 - CRUD para una review de un producto comprado
 - Historial de ventas en un punto de consumo
 - Al borrar una review, confirmar la acción con un modal
-- Confirmar contraseña en el registro de usuario
 - Componente para recuperar contraseña de usuario
 - Comprobar que funcione SMTP para configuración de usuarios
 - Sistema básico de gamificación -> al realizar compra, review, etc
@@ -32,6 +30,8 @@
 - [x] Agrupar los pedidos de distribuidor si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
 - [x] Agrupar los pedidos de productos si comparten mismo order Id. De esta forma sabrán que son de un mismo pedido.
 - [x] Asociar peso a cada pack de producto
+- [x] Componente para visualizar las notificaciones recibidas -> Tanto leídas como no - en todos los roles: admin, productor, consumidor y distribuidor
+- [x] Confirmar contraseña en el registro de usuario
 
 # 29 de noviembre 23
 
