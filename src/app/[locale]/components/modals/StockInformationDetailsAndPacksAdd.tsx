@@ -74,6 +74,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                 value: getValues("stock_quantity"),
                 required: true,
                 min: 0,
+                valueAsNumber: true,
               })}
             />
 
@@ -100,6 +101,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                 value: getValues("stock_limit_notification"),
                 required: true,
                 min: 0,
+                valueAsNumber: true,
               })}
             />
 

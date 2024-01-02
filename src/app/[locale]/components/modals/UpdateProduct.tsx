@@ -85,13 +85,13 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   //   message: "Required",
   // }),
   volume: z.number().min(0, { message: "errors.input_min_0" }),
+  weight: z.number().min(0, { message: "errors.input_min_0" }),
   format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "errors.error_50_number_max_length",
   }),
   category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "errors.error_50_number_max_length",
   }),
-
   stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
   stock_limit_notification: z
     .number()
@@ -232,6 +232,7 @@ export function UpdateProduct({
         product.product_inventory![0].limit_notification ?? 0,
       format: product.beers[0]?.format ?? "",
       volume: product.beers[0]?.volume ?? 0,
+      weight: product.weight ?? 0,
       color: colorDefault.value,
       aroma: aromaDefault.value,
       intensity: product.beers[0]?.intensity,
@@ -288,6 +289,7 @@ export function UpdateProduct({
       description,
       price,
       volume,
+      weight,
       format,
       stock_quantity,
       stock_limit_notification,
@@ -305,6 +307,7 @@ export function UpdateProduct({
         owner_id: userId,
         price,
         is_public,
+        weight,
       })
       .eq("id", product.id)
       .select();

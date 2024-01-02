@@ -166,7 +166,6 @@ export interface IBeer {
   format: string;
   volume: number;
   sku: string;
-  weight: number;
   intensity: number;
   product_id: string;
   origin: string;
@@ -785,6 +784,7 @@ export type ModalAddProductFormData = {
   p_extra_3?: FileList;
   is_public: boolean;
   volume: number;
+  weight: number;
   format: string;
   stock_quantity: number;
   stock_limit_notification: number;
@@ -814,6 +814,7 @@ export type ModalUpdateProductFormData = {
   p_extra_3?: FileList;
   is_public: boolean;
   volume: number;
+  weight: number;
   format: string;
   category: string;
   // campaign: string;
@@ -921,6 +922,7 @@ export interface IProduct {
   type: ProductType;
   is_public: boolean;
   discount_percent: number;
+  weight: number;
   discount_code: string;
   price: number; // TODO : quitar el price - pq está en product_pack
   campaign_id: string;

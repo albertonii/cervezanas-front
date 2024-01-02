@@ -95,12 +95,8 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
   p_extra_1: z.instanceof(FileList).optional(),
   p_extra_2: z.instanceof(FileList).optional(),
   is_public: z.boolean(),
-
-  // TODO: Bug in volume validation when adding product
-  // volume: z.number().min(0, { message: "Required" }).max(50, {
-  //   message: "Required",
-  // }),
   volume: z.number().min(0, { message: "errors.input_min_0" }),
+  weight: z.number().min(0, { message: "errors.input_min_0" }),
   format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
     message: "errors.error_50_number_max_length",
   }),
@@ -188,6 +184,7 @@ export function AddProduct() {
       description,
       price,
       volume,
+      weight,
       format,
       stock_quantity,
       stock_limit_notification,
@@ -209,6 +206,7 @@ export function AddProduct() {
         price,
         is_public,
         category,
+        weight,
       })
       .select();
 

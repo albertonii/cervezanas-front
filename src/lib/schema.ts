@@ -215,8 +215,8 @@ export interface Database {
           {
             foreignKeyName: "business_orders_distributor_id_fkey"
             columns: ["distributor_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user"]
           },
           {
             foreignKeyName: "business_orders_order_id_fkey"
@@ -227,8 +227,8 @@ export interface Database {
           {
             foreignKeyName: "business_orders_producer_id_fkey"
             columns: ["producer_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "producer_user"
+            referencedColumns: ["user"]
           }
         ]
       }
@@ -1777,6 +1777,7 @@ export interface Database {
           owner_id: string | null
           price: number | null
           type: string | null
+          weight: number | null
         }
         Insert: {
           campaign_id?: string | null
@@ -1793,6 +1794,7 @@ export interface Database {
           owner_id?: string | null
           price?: number | null
           type?: string | null
+          weight?: number | null
         }
         Update: {
           campaign_id?: string | null
@@ -1809,6 +1811,7 @@ export interface Database {
           owner_id?: string | null
           price?: number | null
           type?: string | null
+          weight?: number | null
         }
         Relationships: [
           {

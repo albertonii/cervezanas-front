@@ -482,6 +482,32 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 <DisplayInputError message={errors.volume.message} />
               )}
             </div>
+
+            {/* Product Weight  */}
+            <div className="flex w-full flex-row space-x-3 ">
+              <div className="w-full ">
+                <label htmlFor="weight" className="text-sm text-gray-600">
+                  {t("weight")} (gr)
+                </label>
+
+                <input
+                  id="weight"
+                  type="number"
+                  placeholder={"0"}
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  min="0"
+                  {...register(`weight`, {
+                    required: true,
+                    min: 0,
+                    valueAsNumber: true,
+                  })}
+                />
+
+                {errors.weight && (
+                  <DisplayInputError message={errors.weight.message} />
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Individual Price  */}
