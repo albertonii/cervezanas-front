@@ -7,7 +7,7 @@ import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
 import { IUserProfile } from "../../../lib/types";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
 import { createBrowserClient } from "../../../utils/supabaseBrowser";
 import {
@@ -50,6 +50,8 @@ export interface AuthSession {
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
+  sendResetPasswordEmail: (email: string) => void;
+  updatePassword: (password: string) => void;
   supabase: SupabaseClient<Database>;
   role: ROLE_ENUM | null;
   provider: PROVIDER_TYPE | null;
@@ -68,6 +70,8 @@ export const AuthContext = createContext<AuthSession>({
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
   signOut: async () => void {},
+  sendResetPasswordEmail: async () => void {},
+  updatePassword: async () => void {},
   supabase: supabaseClient,
   provider: null,
   isLoggedIn: false,
@@ -80,14 +84,12 @@ export const AuthContextProvider = ({
   serverSession?: Session | null;
   children: React.ReactNode;
 }) => {
+  const t = useTranslations();
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const locale = useLocale();
   const router = useRouter();
 
-  // const { supabase } = useAuth();
-  // const [supabase] = useState(() => supabaseClient); // Not working
-  // const supabase = createBrowserClient();
   const [supabase] = useState(supabaseClient);
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
@@ -190,6 +192,11 @@ export const AuthContextProvider = ({
 
   const signUp = async (payload: SignUpWithPasswordCredentials) => {
     try {
+      const signUpMessage = t("messages.sign_up_success");
+      const userAlreadyRegisteredMessage = t(
+        "messages.user_already_registered"
+      );
+
       // Check if user exists
       const { data: user, error: emailError } = await supabase
         .from("users")
@@ -202,7 +209,7 @@ export const AuthContextProvider = ({
 
       if (user && user.length > 0) {
         handleMessage({
-          message: "user_already_registered",
+          message: userAlreadyRegisteredMessage,
           type: "error",
         });
         return;
@@ -252,21 +259,6 @@ export const AuthContextProvider = ({
           });
           return;
         }
-
-        // Create coverage area linked to distributor user
-        // const { error: coverageAreasError } = await supabase
-        //   .from("coverage_areas")
-        //   .insert({
-        //     distributor_id: data.user.id,
-        //   });
-
-        // if (coverageAreasError) {
-        //   handleMessage({
-        //     message: coverageAreasError.message,
-        //     type: "error",
-        //   });
-        //   return;
-        // }
       }
 
       if (error) {
@@ -274,7 +266,7 @@ export const AuthContextProvider = ({
       } else {
         clearMessages();
         handleMessage({
-          message: "sign_up_successfully",
+          message: signUpMessage,
           type: "success",
         });
       }
@@ -287,6 +279,8 @@ export const AuthContextProvider = ({
   };
 
   const signIn = async (email: string, password: string) => {
+    const signInMessage = t("messages.sign_in_success");
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -296,6 +290,11 @@ export const AuthContextProvider = ({
       handleMessage({ message: error.message, type: "error" });
       return error;
     }
+
+    handleMessage({
+      type: "success",
+      message: signInMessage,
+    });
 
     // router.push(`/${locale}`);
 
@@ -318,8 +317,6 @@ export const AuthContextProvider = ({
       claim: "role",
     });
     */
-
-    // setLoading(false);
   };
 
   const signInWithProvider = async (provider: Provider) => {
@@ -366,6 +363,50 @@ export const AuthContextProvider = ({
     await supabase.auth.signOut();
   };
 
+  const sendResetPasswordEmail = async (email: string) => {
+    const resetEmailMessage = t("messages.reset_password_email_sent");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (error) {
+      handleMessage({ message: error.message, type: "error" });
+    } else {
+      handleMessage({
+        message: resetEmailMessage,
+        type: "success",
+      });
+    }
+  };
+
+  const updatePassword = async (password: string) => {
+    const upd_password_message = t("messages.update_password_success");
+
+    const { data: resetData, error } = await supabase.auth.updateUser({
+      password,
+    });
+    console.log(resetData);
+    console.log(error);
+
+    // TODO: Error al restablecer contraseña: "Auth Session Missing"
+    if (resetData) {
+      handleMessage({
+        message: upd_password_message,
+        type: "success",
+      });
+
+      // setTimeout(() => {
+      //   router.push("/signin");
+      // }, 2000);
+    }
+
+    if (error) {
+      console.error(error);
+      handleMessage({ message: error.message, type: "error" });
+    }
+  };
+
   const value = useMemo(() => {
     return {
       initial,
@@ -381,6 +422,8 @@ export const AuthContextProvider = ({
       supabase,
       provider,
       isLoggedIn: !!user,
+      sendResetPasswordEmail,
+      updatePassword,
     };
   }, [
     initial,
@@ -395,6 +438,8 @@ export const AuthContextProvider = ({
     signOut,
     supabase,
     provider,
+    sendResetPasswordEmail,
+    updatePassword,
   ]);
 
   return <AuthContext.Provider value={value}> {children}</AuthContext.Provider>;

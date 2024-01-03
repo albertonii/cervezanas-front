@@ -17,6 +17,9 @@
 - Realizar compra de cerveza en un evento y enviar QR a un amigo para que vaya por la cerveza
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
+- Contratar servicios RESEND - SMTP
+- Contratar servicios FV0 - API REST Servicios Sistema de Distribución
+- Contratar plan de pago Supabase
 
 # Tareas realizadas
 

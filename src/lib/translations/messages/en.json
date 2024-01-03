@@ -573,8 +573,6 @@
     "input_max_2030": "The number must be less than or equal to 2030",
     "lower_greater_than_upper": "The lower limit must be less than the upper limit"
   },
-  "sign_up_successfully": "Signup successful. Please check your inbox for a confirmation email!",
-  "user_already_registered": "User already registered",
   "product_packs": "Product packs",
   "units": "Units",
   "unit": "Unit",
@@ -648,6 +646,7 @@
   "remember_password": "Remember your password? Sign In.",
   "forgot_password_question": "Forgot your password?",
   "reset_password": "Reset password",
+  "update_password": "Update password",
   "add_to_favs": "Add to favorites",
   "must_be_logged_in_favs": "You must be logged in to add a product to your favorites",
   "must_be_logged_in_add_store": "You must be logged in to add a product to your shopping cart",
@@ -661,7 +660,12 @@
     "submit_success": "Form submitted successfully",
     "submit_error": "Error submitting form",
     "updated_successfully": "Updated successfully",
-    "updated_error": "Error updating"
+    "updated_error": "Error updating",
+    "upd_password_message": "Your password has been updated successfully",
+    "reset_password_email_sent": "An email has been sent to your inbox with instructions to reset your password",
+    "sign_in_success": "Sign in success",
+    "sign_up_success": "Signup successful. Please check your inbox for a confirmation email!",
+    "user_already_registered": "User already registered"
   },
   "cancelled": "Cancelled",
   "in_transit": "In transit",
@@ -690,5 +694,6 @@
   "distributor_information": "Distributor information",
   "username": "Username",
   "is_legal_age": "I am legal age for user registration > 18 years old",
-  "is_legal_age_description": "You must be of legal age to register as a user."
+  "is_legal_age_description": "You must be of legal age to register as a user.",
+  "come_back_to_signin": "Come back to sign in"
 }

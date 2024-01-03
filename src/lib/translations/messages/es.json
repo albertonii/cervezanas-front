@@ -587,8 +587,6 @@
     "input_max_2030": "El número debe ser menor o igual a 2030",
     "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior"
   },
-  "sign_up_successfully": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
-  "user_already_registered": "El usuario ya está registrado",
   "product_packs": "Packs de productos",
   "units": "Unidades",
   "unit": "Unidad",
@@ -662,6 +660,7 @@
   "remember_password": "¿Recuerdas la contraseña? Inicia sesión",
   "forgot_password_question": "¿Has olvidado la contraseña?",
   "reset_password": "Restablecer contraseña",
+  "update_password": "Actualizar contraseña",
   "add_to_favs": "Añadir a favoritos",
   "must_be_logged_in_favs": "Debes iniciar sesión para añadir productos a favoritos",
   "must_be_logged_in_add_store": "Debes iniciar sesión para añadir un producto al carrito de la compra",
@@ -675,7 +674,12 @@
     "submit_success": "Formulario enviado correctamente",
     "submit_error": "Error al enviar el formulario",
     "updated_successfully": "Actualizado correctamente",
-    "updated_error": "Error al actualizar"
+    "updated_error": "Error al actualizar",
+    "upd_password_message": "Contraseña actualizada correctamente",
+    "reset_password_email_sent": "Correo de restablecimiento de contraseña enviado",
+    "sign_in_success": "Sesión iniciada correctamente",
+    "sign_up_success": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
+    "user_already_registered": "El usuario ya está registrado"
   },
   "cancelled": "Cancelado",
   "in_transit": "En tránsito",
@@ -705,5 +709,6 @@
   "distributor_information": "Información del distribuidor",
   "username": "Nombre de usuario",
   "is_legal_age": "Soy mayor de edad > 18 años",
-  "is_legal_age_description": "Debes ser mayor de edad para poder registrarte"
+  "is_legal_age_description": "Debes ser mayor de edad para poder registrarte",
+  "come_back_to_signin": "Volver a inicio de sesión"
 }
