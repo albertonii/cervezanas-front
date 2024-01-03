@@ -1,7 +1,6 @@
 # Listado de tareas:
 
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Toggle mayoría de edad cuando se presiona el botón de crear cuenta
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
@@ -32,6 +31,7 @@
 - [x] Asociar peso a cada pack de producto
 - [x] Componente para visualizar las notificaciones recibidas -> Tanto leídas como no - en todos los roles: admin, productor, consumidor y distribuidor
 - [x] Confirmar contraseña en el registro de usuario
+- [x] Toggle mayoría de edad cuando se presiona el botón de crear cuenta
 
 # 29 de noviembre 23
 

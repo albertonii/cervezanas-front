@@ -703,5 +703,7 @@
   "contracts_cps": "Contratos de puntos de consumo",
   "order_business_pack_status": "Estado del pack",
   "distributor_information": "Información del distribuidor",
-  "username": "Nombre de usuario"
+  "username": "Nombre de usuario",
+  "is_legal_age": "Soy mayor de edad > 18 años",
+  "is_legal_age_description": "Debes ser mayor de edad para poder registrarte"
 }
