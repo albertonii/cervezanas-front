@@ -78,7 +78,6 @@ export default function Signup() {
           width={1024}
           height={768}
           src={"/assets/profile_signup.jpg"}
-          loader={() => "/assets/profile_signup.jpg"}
         />
       </div>
     </section>

@@ -661,7 +661,7 @@
     "submit_error": "Error submitting form",
     "updated_successfully": "Updated successfully",
     "updated_error": "Error updating",
-    "upd_password_message": "Your password has been updated successfully",
+    "upd_password_success": "Your password has been updated successfully",
     "reset_password_email_sent": "An email has been sent to your inbox with instructions to reset your password",
     "sign_in_success": "Sign in success",
     "sign_up_success": "Signup successful. Please check your inbox for a confirmation email!",

@@ -675,7 +675,7 @@
     "submit_error": "Error al enviar el formulario",
     "updated_successfully": "Actualizado correctamente",
     "updated_error": "Error al actualizar",
-    "upd_password_message": "Contraseña actualizada correctamente",
+    "upd_password_success": "Contraseña actualizada correctamente",
     "reset_password_email_sent": "Correo de restablecimiento de contraseña enviado",
     "sign_in_success": "Sesión iniciada correctamente",
     "sign_up_success": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",

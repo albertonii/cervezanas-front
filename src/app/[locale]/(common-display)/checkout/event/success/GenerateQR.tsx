@@ -21,7 +21,6 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
   const productUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
 
   const handleOnClick = () => {
-    // console.log(productUrl);
     // router.push(productUrl);
   };
 

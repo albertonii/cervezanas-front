@@ -102,7 +102,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
     //   .update({ countries: selectedCountries })
     //   .eq("id", coverageAreaId);
     // if (error) {
-    //   console.log(error);
+    //   console.error(error);
     //   return;
     // }
   };

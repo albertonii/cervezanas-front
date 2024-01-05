@@ -193,7 +193,7 @@ export default function CityDistribution({ cities }: Props) {
     //   .eq("region", region);
 
     // if (error) {
-    //   console.log(error);
+    //   console.error(error);
     //   return;
     // }
   };

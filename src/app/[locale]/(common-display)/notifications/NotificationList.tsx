@@ -32,10 +32,10 @@ export function NotificationList({ notifications }: Props) {
     { header: t("action_header") },
   ];
 
-  const filteredItemsByStatus = useMemo(() => {
+  const filteredItemsByUsername = useMemo(() => {
     if (!notifications) return [];
-    return notifications.filter((notifications) => {
-      return notifications.source_user?.username.includes(query);
+    return notifications.filter((notification) => {
+      return notification.source_user?.username.includes(query);
     });
   }, [notifications, query]);
 
@@ -62,7 +62,7 @@ export function NotificationList({ notifications }: Props) {
           </thead>
 
           <tbody>
-            {filteredItemsByStatus.map((notification) => {
+            {filteredItemsByUsername.map((notification) => {
               return (
                 <NotificationTableData
                   notification={notification}

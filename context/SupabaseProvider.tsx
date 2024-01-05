@@ -1,6 +1,5 @@
 "use client";
 
-// import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { createContext, useContext, useState } from "react";
 import { createBrowserClient } from "../src/utils/supabaseBrowser";
 import { Database } from "../src/lib/schema";

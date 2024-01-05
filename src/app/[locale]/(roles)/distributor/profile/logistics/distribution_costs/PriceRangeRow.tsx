@@ -36,10 +36,10 @@ export default function PriceRangeRow({
 }: Props) {
   const t = useTranslations();
 
-  useEffect(() => {
-    console.log("Errors: ", errors);
-    console.log("Index: ", index);
-  }, [errors, index]);
+  // useEffect(() => {
+  //   console.log("Errors: ", errors);
+  //   console.log("Index: ", index);
+  // }, [errors, index]);
 
   return (
     <>

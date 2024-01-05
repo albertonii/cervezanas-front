@@ -70,10 +70,6 @@ export function Reviews({ reviews: r }: Props) {
                               review.users?.avatar_url ??
                               "/icons/profile-240.png"
                             } `}
-                            loader={()=>`${
-                              review.users?.avatar_url ??
-                              "/icons/profile-240.png"
-                            } `}
                             alt=""
                           />
                         </div>

@@ -59,10 +59,9 @@ export default function AddEvent({ cpsMobile }: Props) {
     reset,
   } = form;
 
-  useEffect(() => {
-    // console.log(errors);
-    // console.log(Object.keys(errors).length > 0);
-  }, [errors]);
+  // useEffect(() => {
+  //   // console.log(Object.keys(errors).length > 0);
+  // }, [errors]);
 
   const handleInsertEvent = async (form: ValidationSchema) => {
     const { name, description, start_date, end_date, cps_mobile } = form;

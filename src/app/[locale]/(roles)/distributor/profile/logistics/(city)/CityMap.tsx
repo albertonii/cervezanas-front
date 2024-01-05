@@ -175,7 +175,6 @@ function Map({ cities }: MapProps) {
 
   /*
   useEffect(() => {
-    console.log(mapRef);
     if (mapRef.current) {
       const featureStyleOptions: google.maps.FeatureStyleOptions = {
         strokeColor: "#810FCB",
@@ -216,7 +215,6 @@ function Map({ cities }: MapProps) {
         // Apply the style to a single boundary.
         // @ts-ignore
         featureLayer.style = (options: { feature: { placeId: string } }) => {
-          console.log(placeId);
           if (options.feature.placeId == placeId) {
             return featureStyleOptions;
           }

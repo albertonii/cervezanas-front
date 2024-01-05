@@ -116,7 +116,7 @@ const PriceRangeCostForm: React.FC = () => {
   const onSubmit: SubmitHandler<PriceRangeCostFormValidationSchema> = (
     formValues: PriceRangeCostFormData
   ) => {
-    console.log(formValues);
+    // console.log(formValues);
   };
 
   const addPriceRange = () => {

@@ -18,8 +18,6 @@ export default function DistributorInformation({ distributor }: Props) {
   const baseAvatarUrl = `${SupabaseProps.BASE_AVATARS_URL}`;
   const profileImg = `${baseAvatarUrl}${distributor.users?.avatar_url}`;
 
-  console.log("distributor", profileImg);
-
   return (
     <div className="container mx-auto my-5 p-5">
       <div className="no-wrap md:-mx-2 md:flex ">

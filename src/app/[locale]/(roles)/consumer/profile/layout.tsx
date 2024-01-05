@@ -124,7 +124,6 @@ export default function layout({ children }: LayoutProps) {
   }, [bgImg]);
 
   useEffect(() => {
-    console.log(profileImg);
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 

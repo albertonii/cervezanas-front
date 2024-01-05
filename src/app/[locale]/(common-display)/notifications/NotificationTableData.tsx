@@ -39,7 +39,6 @@ export default function NotificationTableData({ notification, key }: Props) {
       )
       .single();
     if (error) throw error;
-    console.log(data);
 
     if (!data) return;
     setNotification(data as INotification);

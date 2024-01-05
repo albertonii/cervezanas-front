@@ -67,20 +67,20 @@ export default function ResetPassword() {
           action="#"
           method="POST"
         >
-          <div className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
+          <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
             <div className="flex w-full flex-col space-y-2 ">
               <label htmlFor="password" className="text-sm text-gray-600">
                 {t("password")}
+                <input
+                  {...register("password")}
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  required
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  placeholder="*****"
+                />
               </label>
-              <input
-                {...register("password")}
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                required
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                placeholder="*****"
-              />
 
               {errors.password && (
                 <DisplayInputError message={errors.password.message} />
@@ -93,22 +93,22 @@ export default function ResetPassword() {
                 className="text-sm text-gray-600"
               >
                 {t("confirm_password")}
+                <input
+                  {...register("confirm_password")}
+                  type="password"
+                  id="confirm_password"
+                  autoComplete="confirm_password"
+                  required
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                  placeholder="*****"
+                />
               </label>
-              <input
-                {...register("confirm_password")}
-                type="password"
-                id="confirm_password"
-                autoComplete="confirm_password"
-                required
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                placeholder="*****"
-              />
 
               {errors.confirm_password && (
                 <DisplayInputError message={errors.confirm_password.message} />
               )}
             </div>
-          </div>
+          </section>
 
           <Button
             title={"reset_password"}
@@ -140,7 +140,6 @@ export default function ResetPassword() {
           width={1024}
           height={768}
           src={"/assets/profile_signup.jpg"}
-          loader={() => "/assets/profile_signup.jpg"}
         />
       </div>
     </section>

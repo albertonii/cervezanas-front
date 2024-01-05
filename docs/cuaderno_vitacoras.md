@@ -1,5 +1,10 @@
 # Listado de tareas:
 
+- Configurar eventos
+- Configurar PC móviles
+- Configurar PC fijos
+- Comprobar que los buscadores estén funcionando para eventos, pc móviles y fijos
+- Comprar a través de un evento
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo

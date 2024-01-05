@@ -171,8 +171,15 @@ export const AuthContextProvider = ({
             setInitial(false);
             break;
           case EVENTS.PASSWORD_RECOVERY:
+            console.info("PASSWORD_RECOVERY");
+            alert("holas");
             setView(VIEWS.UPDATE_PASSWORD);
             break;
+          case EVENTS.SIGNED_IN:
+            setView(VIEWS.SIGN_IN);
+            console.info("SIGNED_IN");
+            break;
+
           case EVENTS.SIGNED_OUT:
             setView(VIEWS.SIGN_IN);
             router.push(`/${locale}/${ROUTE_SIGNIN}`);
@@ -381,18 +388,16 @@ export const AuthContextProvider = ({
   };
 
   const updatePassword = async (password: string) => {
-    const upd_password_message = t("messages.update_password_success");
+    const upd_password_success = t("messages.upd_password_success");
 
     const { data: resetData, error } = await supabase.auth.updateUser({
       password,
     });
-    console.log(resetData);
-    console.log(error);
 
     // TODO: Error al restablecer contraseña: "Auth Session Missing"
-    if (resetData) {
+    if (resetData.user) {
       handleMessage({
-        message: upd_password_message,
+        message: upd_password_success,
         type: "success",
       });
 
