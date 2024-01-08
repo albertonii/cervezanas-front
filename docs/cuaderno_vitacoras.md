@@ -26,6 +26,9 @@
 - Contratar servicios FV0 - API REST Servicios Sistema de Distribución
 - Contratar plan de pago Supabase
 - Hacer que las vistas de los profiles sean homogéneas entre si
+- Editar una campaña
+- Vincular productos a la campaña
+- Al pulsar en editar evento -> Mostrar los PC Móviles asociados
 
 # Tareas realizadas
 
@@ -41,6 +44,7 @@
 - [x] Componente para visualizar las notificaciones recibidas -> Tanto leídas como no - en todos los roles: admin, productor, consumidor y distribuidor
 - [x] Confirmar contraseña en el registro de usuario
 - [x] Toggle mayoría de edad cuando se presiona el botón de crear cuenta
+- [x] Crear campañas en formato listas
 
 # 29 de noviembre 23
 

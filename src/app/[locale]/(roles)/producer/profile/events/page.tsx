@@ -1,4 +1,4 @@
-import ProfileEvents from "./ProfileEvents";
+import Events from "./Events";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../../../constants";
@@ -11,11 +11,9 @@ export default async function EventsPage() {
   const [cpsMobile] = await Promise.all([cpsMobileData]);
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProfileEvents cpsMobile={cpsMobile} />
-      </Suspense>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Events cpsMobile={cpsMobile} />
+    </Suspense>
   );
 }
 

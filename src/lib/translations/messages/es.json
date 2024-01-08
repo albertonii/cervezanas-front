@@ -186,6 +186,8 @@
   "yes": "Si",
   "no": "No",
   "product_type_header": "Tipo de producto",
+  "event_type_header": "Tipo de evento",
+  "campaign_type_header": "Tipo de campaña",
   "name_header": "Nombre",
   "client_name_header": "Nombre Cliente",
   "products_quantity_header": "Cantidad de productos",

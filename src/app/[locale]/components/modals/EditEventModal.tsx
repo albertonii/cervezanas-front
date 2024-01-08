@@ -154,7 +154,7 @@ export default function EditEventModal({
 
   return (
     <ModalWithForm
-      showBtn={true}
+      showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
       title={t("edit_event") ?? "Edit event"}
@@ -180,8 +180,8 @@ export default function EditEventModal({
               <div className="flex flex-col space-y-2">
                 <label htmlFor="name">{t("name")}</label>
                 <input
-                  className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
                   type="text"
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("name", { required: true })}
                 />
               </div>
@@ -193,7 +193,7 @@ export default function EditEventModal({
               <div className="flex flex-col space-y-2">
                 <label htmlFor="description">{t("description")}</label>
                 <textarea
-                  className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
+                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                   {...register("description", { required: true })}
                 />
               </div>
@@ -206,8 +206,8 @@ export default function EditEventModal({
                 <div className="flex w-full  flex-col">
                   <label htmlFor="start_date">{t("start_date")}</label>
                   <input
+                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     type="date"
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                     {...register("start_date", { required: true })}
                   />
 
@@ -219,7 +219,7 @@ export default function EditEventModal({
                 <div className="flex w-full flex-col">
                   <label htmlFor="end_date">{t("end_date")}</label>
                   <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     type="date"
                     {...register("end_date", { required: true })}
                   />

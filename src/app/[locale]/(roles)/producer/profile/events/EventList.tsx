@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
@@ -23,6 +24,9 @@ enum SortBy {
   CREATED_DATE = "created_date",
   START_DATE = "start_date",
   END_DATE = "end_date",
+}
+interface ColumnsProps {
+  header: string;
 }
 
 export default function EventList() {
@@ -50,6 +54,13 @@ export default function EventList() {
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
+
+  const COLUMNS = [
+    { header: t("event_type_header") },
+    { header: t("name_header") },
+    { header: t("created_date_header") },
+    { header: t("action_header") },
+  ];
 
   useEffect(() => {
     refetch().then((res: any) => {
@@ -80,10 +91,6 @@ export default function EventList() {
     });
   }, [filteredItems, sorting]);
 
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
-
   const handleEditClick = async (e: IEvent) => {
     setIsEditModal(true);
     setSelectedEvent(e);
@@ -103,13 +110,12 @@ export default function EventList() {
   };
 
   return (
-    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isEditModal && selectedEvent && (
         <EditEventModal
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
-          // cpsMobile={cpsMobile}
         />
       )}
 
@@ -133,7 +139,7 @@ export default function EventList() {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && sortedItems.length === 0 ? (
+      {!isError && !isLoading && events.length === 0 ? (
         <div className="flex h-40 items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
@@ -148,33 +154,13 @@ export default function EventList() {
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 hover:cursor-pointer"
-                  onClick={() => {
-                    handleChangeSort(SortBy.NAME);
-                  }}
-                >
-                  {t("name_header")}
-                </th>
-
-                <th
-                  scope="col"
-                  className="px-6 py-3 hover:cursor-pointer"
-                  onClick={() => {
-                    handleChangeSort(SortBy.CREATED_DATE);
-                  }}
-                >
-                  {t("created_date_header")}
-                </th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
-                </th>
+                {COLUMNS.map((column: ColumnsProps, index: number) => {
+                  return (
+                    <th key={index} scope="col" className="px-6 py-3">
+                      {column.header}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
 
@@ -185,6 +171,19 @@ export default function EventList() {
                     key={e.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      <Image
+                        width={128}
+                        height={128}
+                        className="h-8 w-8 rounded-full"
+                        src="/icons/people-line-solid.svg"
+                        alt="Beer Type"
+                      />
+                    </th>
+
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/events/${e.id}`} locale={locale}>
                         {e.name}
@@ -194,10 +193,6 @@ export default function EventList() {
                     <td className="px-6 py-4">
                       {formatDateString(e.created_at)}
                     </td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
 
                     <td className="flex items-center justify-center px-6 py-4">
                       <IconButton
@@ -243,6 +238,6 @@ export default function EventList() {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

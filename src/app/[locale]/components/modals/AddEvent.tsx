@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../lib/types";
 import { DisplayInputError } from "../common/DisplayInputError";
@@ -141,9 +140,7 @@ export default function AddEvent({ cpsMobile }: Props) {
       title={"add_new_event"}
       btnTitle={"new_event"}
       description={""}
-      icon={faAdd}
-      btnSize={"large"}
-      classIcon={"w-6 h-6"}
+      classIcon={""}
       classContainer={""}
       handler={handleSubmit(onSubmit)}
       form={form}
@@ -157,8 +154,8 @@ export default function AddEvent({ cpsMobile }: Props) {
           <div className="flex flex-col space-y-2">
             <label htmlFor="name">{t("name")}</label>
             <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
               type="text"
+              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("name", { required: true })}
             />
           </div>
@@ -169,7 +166,7 @@ export default function AddEvent({ cpsMobile }: Props) {
           <div className="flex flex-col space-y-2">
             <label htmlFor="description">{t("description")}</label>
             <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
+              className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register("description", { required: true })}
             />
           </div>
@@ -183,7 +180,7 @@ export default function AddEvent({ cpsMobile }: Props) {
               <label htmlFor="start_date">{t("start_date")}</label>
               <input
                 type="date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("start_date", { required: true })}
               />
 
@@ -195,8 +192,8 @@ export default function AddEvent({ cpsMobile }: Props) {
             <div className="flex w-full flex-col">
               <label htmlFor="end_date">{t("end_date")}</label>
               <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
                 type="date"
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 {...register("end_date", { required: true })}
               />
 

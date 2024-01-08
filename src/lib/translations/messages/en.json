@@ -188,6 +188,8 @@
   "yes": "Yes",
   "no": "No",
   "product_type_header": "Product Type",
+  "event_type_header": "Event Type",
+  "campaign_type_header": "Campaign Type",
   "name_header": "Name",
   "products_quantity_header": "Products Quantity",
   "client_name_header": "Client Name",
