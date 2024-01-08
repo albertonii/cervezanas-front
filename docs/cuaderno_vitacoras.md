@@ -1,5 +1,6 @@
 # Listado de tareas:
 
+- Reducir el código usado con componente InputLabel, InputTextarea, etc
 - Configurar eventos
 - Configurar PC móviles
 - Configurar PC fijos
@@ -116,3 +117,8 @@ https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
 Aunque ya se pueda asociar un coste de distribución a un pedido, es muy rústico y simplón. Debemos de saber cómo hacer la fórmula que indique los costes adecuados de envío.
 Una buena alternativa es tener en cuenta el peso y dimensiones de cada producto comprado.
 Quizás asociar una tarifa básica + suma de pesos de los productos.
+
+--
+
+8 de enero
+InputLabel y InputTextarea creados, con ellos reduciré el código usado en toda la aplicación

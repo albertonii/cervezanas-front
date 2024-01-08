@@ -42,7 +42,6 @@ export default function InputLabel({
           type={inputType ?? "text"}
           className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
           {...register(label, registerOptions)}
-          defaultChecked={true}
         />
       </label>
 

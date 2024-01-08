@@ -19,6 +19,28 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
+import SelectInput from "../../../../components/common/SelectInput";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
+
+enum CPFixedStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_fixed_status_options: {
+  label: string;
+  value: CPFixedStatus;
+}[] = [
+  { label: "active", value: CPFixedStatus.active },
+  { label: "finished", value: CPFixedStatus.finished },
+  { label: "error", value: CPFixedStatus.error },
+  { label: "cancelled", value: CPFixedStatus.cancelled },
+  { label: "paused", value: CPFixedStatus.paused },
+];
 
 interface FormData {
   cp_name: string;
@@ -101,6 +123,7 @@ export default function EditCPFixedModal({
       start_date: formatDateDefaultInput(selectedCP?.start_date.toString()),
       end_date: formatDateDefaultInput(selectedCP?.end_date.toString()),
       product_items: productItems,
+      status: selectedCP?.status,
       // is_booking_required: selectedCP?.is_booking_required,
     },
   });
@@ -282,29 +305,41 @@ export default function EditCPFixedModal({
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
-          {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_name">{t("cp_name")}</label>
-            <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              type="text"
-              id="name"
-              {...register("cp_name", { required: true })}
+          {/* Status */}
+          <div className="">
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"cp_fixed_status_tooltip"}
+              options={cp_fixed_status_options}
+              label={"status"}
+              registerOptions={{
+                required: true,
+              }}
             />
+
+            {errors.status && (
+              <DisplayInputError message={errors.status.message} />
+            )}
           </div>
 
-          {errors.cp_name && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          {/* Event name  */}
+          <InputLabel
+            form={form}
+            label={"cp_name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_description">{t("description")}</label>
-            <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              {...register("cp_description", { required: true })}
-            />
-          </div>
+          <InputTextarea
+            form={form}
+            label={"cp_description"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {errors.cp_description && (
             <DisplayInputError message="errors.input_required" />

@@ -19,6 +19,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
 
 interface FormData {
   cp_name: string;
@@ -278,66 +280,42 @@ export default function EditCPMobileModal({
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
 
           {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_name">{t("cp_name")}</label>
-            <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              type="text"
-              id="name"
-              {...register("cp_name", { required: true })}
-            />
-          </div>
-
-          {errors.cp_name && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          <InputLabel
+            form={form}
+            label={"cp_name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_description">{t("description")}</label>
-            <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              {...register("cp_description", { required: true })}
-            />
-          </div>
-
-          {errors.cp_description && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          <InputTextarea
+            form={form}
+            label={"cp_description"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Start date and end date  */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <div className="flex w-full flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                id="start_date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                type="date"
-                id="end_date"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
@@ -375,64 +353,41 @@ export default function EditCPMobileModal({
             <>
               {/* Organizer name and lastname  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_name">{t("name")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_name"
-                    {...register("organizer_name", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_name"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
 
-                  {errors.organizer_name && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_lastname">{t("lastname")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_lastname"
-                    {...register("organizer_lastname", { required: true })}
-                  />
-
-                  {errors.organizer_lastname && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_lastname"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
 
               {/* Email and phone  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_email">{t("email")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="email"
-                    id="organizer_email"
-                    {...register("organizer_email", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_email"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  inputType="email"
+                />
 
-                  {errors.organizer_email && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_phone">{t("phone")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_phone"
-                    {...register("organizer_phone", { required: true })}
-                  />
-
-                  {errors.organizer_phone && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_phone"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
             </>
           )}

@@ -127,7 +127,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   const {
     formState: { errors },
     handleSubmit,
-    register,
     reset,
     setValue,
   } = form;
