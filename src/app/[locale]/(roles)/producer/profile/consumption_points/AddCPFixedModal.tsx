@@ -241,12 +241,11 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   };
 
   const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-      setValue("is_internal_organizer", true);
-    } else {
-      setValue("is_internal_organizer", false);
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
 
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -254,7 +253,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       };
 
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -299,22 +297,15 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
           {/* Status */}
-          <div className="">
-            <SelectInput
-              form={form}
-              hasInfoTooltip={true}
-              labelTooltip={"cp_fixed_status_tooltip"}
-              options={cp_fixed_status_options}
-              label={"status"}
-              registerOptions={{
-                required: true,
-              }}
-            />
-
-            {errors.status && (
-              <DisplayInputError message={errors.status.message} />
-            )}
-          </div>
+          <SelectInput
+            form={form}
+            labelTooltip={"cp_fixed_status_tooltip"}
+            options={cp_fixed_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event name  */}
           <InputLabel

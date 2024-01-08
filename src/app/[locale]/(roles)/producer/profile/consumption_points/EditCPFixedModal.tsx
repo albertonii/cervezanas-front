@@ -132,6 +132,7 @@ export default function EditCPFixedModal({
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
   } = form;
 
   useEffect(() => {
@@ -152,16 +153,18 @@ export default function EditCPFixedModal({
   };
 
   const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
+
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
         setExternalOrganizers(externalOrganizers);
       };
+
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -306,22 +309,16 @@ export default function EditCPFixedModal({
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
           {/* Status */}
-          <div className="">
-            <SelectInput
-              form={form}
-              hasInfoTooltip={true}
-              labelTooltip={"cp_fixed_status_tooltip"}
-              options={cp_fixed_status_options}
-              label={"status"}
-              registerOptions={{
-                required: true,
-              }}
-            />
-
-            {errors.status && (
-              <DisplayInputError message={errors.status.message} />
-            )}
-          </div>
+          <SelectInput
+            form={form}
+            hasInfoTooltip={true}
+            labelTooltip={"cp_fixed_status_tooltip"}
+            options={cp_fixed_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event name  */}
           <InputLabel
@@ -347,37 +344,23 @@ export default function EditCPFixedModal({
 
           {/* Start date and end date  */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <div className="flex w-full flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                id="start_date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                type="date"
-                id="end_date"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
@@ -415,64 +398,41 @@ export default function EditCPFixedModal({
             <>
               {/* Organizer name and lastname  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_name">{t("name")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_name"
-                    {...register("organizer_name", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_name"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
 
-                  {errors.organizer_name && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_lastname">{t("lastname")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_lastname"
-                    {...register("organizer_lastname", { required: true })}
-                  />
-
-                  {errors.organizer_lastname && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_lastname"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
 
               {/* Email and phone  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_email">{t("email")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="email"
-                    id="organizer_email"
-                    {...register("organizer_email", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_email"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  inputType="email"
+                />
 
-                  {errors.organizer_email && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_phone">{t("phone")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_phone"
-                    {...register("organizer_phone", { required: true })}
-                  />
-
-                  {errors.organizer_phone && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_phone"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
             </>
           )}

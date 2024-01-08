@@ -305,22 +305,16 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
 
           {/* Status */}
-          <div className="">
-            <SelectInput
-              form={form}
-              hasInfoTooltip={true}
-              labelTooltip={"cp_mobile_status_tooltip"}
-              options={cp_mobile_status_options}
-              label={"status"}
-              registerOptions={{
-                required: true,
-              }}
-            />
-
-            {errors.status && (
-              <DisplayInputError message={errors.status.message} />
-            )}
-          </div>
+          <SelectInput
+            form={form}
+            hasInfoTooltip={true}
+            labelTooltip={"cp_mobile_status_tooltip"}
+            options={cp_mobile_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event name  */}
           <InputLabel
@@ -339,10 +333,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
               required: true,
             }}
           />
-
-          {errors.cp_description && (
-            <DisplayInputError message="errors.input_required" />
-          )}
 
           {/* Start date and end date  */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">

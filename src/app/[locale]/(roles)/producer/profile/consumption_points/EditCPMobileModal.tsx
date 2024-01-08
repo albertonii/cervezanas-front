@@ -21,6 +21,26 @@ import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import InputLabel from "../../../../components/common/InputLabel";
 import InputTextarea from "../../../../components/common/InputTextarea";
+import SelectInput from "../../../../components/common/SelectInput";
+
+enum CPMobileStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_mobile_status_options: {
+  label: string;
+  value: CPMobileStatus;
+}[] = [
+  { label: "active", value: CPMobileStatus.active },
+  { label: "finished", value: CPMobileStatus.finished },
+  { label: "error", value: CPMobileStatus.error },
+  { label: "cancelled", value: CPMobileStatus.cancelled },
+  { label: "paused", value: CPMobileStatus.paused },
+];
 
 interface FormData {
   cp_name: string;
@@ -111,6 +131,7 @@ export default function EditCPMobileModal({
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
   } = form;
 
   useEffect(() => {
@@ -131,16 +152,18 @@ export default function EditCPMobileModal({
   };
 
   const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
+
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
         setExternalOrganizers(externalOrganizers);
       };
+
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -278,6 +301,18 @@ export default function EditCPMobileModal({
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
+
+          {/* Status */}
+          <SelectInput
+            form={form}
+            hasInfoTooltip={true}
+            labelTooltip={"cp_fixed_status_tooltip"}
+            options={cp_mobile_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event name  */}
           <InputLabel

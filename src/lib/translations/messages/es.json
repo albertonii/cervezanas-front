@@ -574,6 +574,7 @@
     "error_0_number_min_length": "El campo debe tener un valor mayor o igual de 0",
     "error_50_number_max_length": "El campo debe tener un valor menor o igual de 50",
     "error_100_number_max_length": "El campo debe tener un valor menor o igual de 100",
+    "min_2_characters": "El campo debe tener al menos 2 caracteres",
     "error_200_max_length": "El campo debe tener menos de 200 caracteres",
     "error_2500_max_length": "El campo debe tener menos de 2500 caracteres",
     "password_match": "Las contraseñas no coinciden",

@@ -194,119 +194,83 @@ export function ProductInfoSectionUpdate({ form }: Props) {
               )}
             </div>
 
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"fermentation_tooltip"}
-                options={fermentation_options}
-                label={"fermentation"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.fermentation && (
-                <DisplayInputError message={errors.fermentation.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"fermentation_tooltip"}
+              options={fermentation_options}
+              label={"fermentation"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"color_tooltip"}
-                options={color_options}
-                label={"color"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"color_tooltip"}
+              options={color_options}
+              label={"color"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
 
-              {errors.color && (
-                <DisplayInputError message={errors.color.message} />
-              )}
-            </div>
-
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"origin_tooltip"}
-                options={origin_options}
-                label={"origin"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.origin && (
-                <DisplayInputError message={errors.origin.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"origin_tooltip"}
+              options={origin_options}
+              label={"origin"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"family_tooltip"}
-                options={family_options}
-                label={"family"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"family_tooltip"}
+              options={family_options}
+              label={"family"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
 
-              {errors.family && (
-                <DisplayInputError message={errors.family.message} />
-              )}
-            </div>
-
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"era_tooltip"}
-                options={era_options}
-                label={"era"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.intensity && (
-                <DisplayInputError message={errors.intensity.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"era_tooltip"}
+              options={era_options}
+              label={"era"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"aroma_tooltip"}
-                options={aroma_options}
-                label={"aroma"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.aroma && (
-                <DisplayInputError message={errors.aroma.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"aroma_tooltip"}
+              options={aroma_options}
+              label={"aroma"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           {/* Is Gluten  */}

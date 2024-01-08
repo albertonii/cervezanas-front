@@ -2,10 +2,10 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
 import { InfoTooltip } from "./InfoTooltip";
+import { DisplayInputError } from "./DisplayInputError";
 
 interface Props {
   form: UseFormReturn<any, any>;
-  hasInfoTooltip?: boolean;
   labelTooltip?: string;
   options: { label: string; value: any }[];
   label: string;
@@ -24,7 +24,6 @@ interface Props {
 
 export default function SelectInput({
   form,
-  hasInfoTooltip,
   options,
   label,
   labelTooltip,
@@ -33,14 +32,17 @@ export default function SelectInput({
 }: Props) {
   const t = useTranslations();
 
-  const { register } = form;
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
   return (
-    <>
+    <div className="w-full">
       <label htmlFor={label} className="flex text-sm text-gray-600">
         {t(label)}
 
-        {hasInfoTooltip && (
+        {labelTooltip && (
           <InfoTooltip content={`${t(labelTooltip)}`} delay={0} width={600} />
         )}
       </label>
@@ -57,6 +59,12 @@ export default function SelectInput({
           </option>
         ))}
       </select>
-    </>
+
+      {errors[label] && (
+        <DisplayInputError
+          message={errors[label]?.message || "errors.input_required"}
+        />
+      )}
+    </div>
   );
 }

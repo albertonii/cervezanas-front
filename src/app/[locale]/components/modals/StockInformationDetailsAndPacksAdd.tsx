@@ -8,6 +8,7 @@ import { Button } from "../common/Button";
 import { pack_type_options } from "../../../../lib/beerEnum";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { SupabaseProps } from "../../../../constants";
+import InputLabel from "../common/InputLabel";
 
 interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
@@ -59,58 +60,33 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
       <div className="flex w-full flex-col space-y-4 ">
         {/* Stock quantity and Limitation */}
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="stockQuantity" className="text-sm text-gray-600">
-              {t("stock_quantity_label")}
-            </label>
+          <InputLabel
+            form={form}
+            label={"stock_quantity"}
+            labelText={t("stock_quantity_label")}
+            registerOptions={{
+              value: getValues("stock_quantity"),
+              required: true,
+              min: 0,
+              valueAsNumber: true,
+            }}
+            placeholder="500"
+            inputType="number"
+          />
 
-            <input
-              id="stockQuantity"
-              type="number"
-              placeholder="500"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min="0"
-              {...register(`stock_quantity`, {
-                value: getValues("stock_quantity"),
-                required: true,
-                min: 0,
-                valueAsNumber: true,
-              })}
-            />
-
-            {errors.stock_quantity && (
-              <DisplayInputError message={errors.stock_quantity.message} />
-            )}
-          </div>
-
-          <div className="w-full">
-            <label
-              htmlFor="stockLimitNotification"
-              className="text-sm text-gray-600"
-            >
-              {t("stock_limit_notification_label")}
-            </label>
-
-            <input
-              id="stockLimitNotification"
-              type="number"
-              placeholder="20"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min="0"
-              {...register(`stock_limit_notification`, {
-                value: getValues("stock_limit_notification"),
-                required: true,
-                min: 0,
-                valueAsNumber: true,
-              })}
-            />
-
-            {errors.stock_limit_notification && (
-              <DisplayInputError
-                message={errors.stock_limit_notification.message}
-              />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"stock_limit_notification"}
+            labelText={t("stock_limit_notification_label")}
+            registerOptions={{
+              value: getValues("stock_limit_notification"),
+              required: true,
+              min: 0,
+              valueAsNumber: true,
+            }}
+            placeholder="20"
+            inputType="number"
+          />
         </div>
 
         {/* <Divider /> */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -40,12 +40,15 @@ import dynamic from "next/dynamic";
 const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
-  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+  name: z.string().min(2, { message: "errors.min_2_characters" }).max(50, {
     message: "errors.error_50_number_max_length",
   }),
-  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
-    message: "errors.error_2500_max_length",
-  }),
+  description: z
+    .string()
+    .min(2, { message: "errors.min_2_characters" })
+    .max(2500, {
+      message: "errors.error_2500_max_length",
+    }),
   price: z.number().min(0, { message: "errors.input_min_0" }),
   fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
     message: "errors.input_max_5",
@@ -146,12 +149,20 @@ export function AddProduct() {
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
   const queryClient = useQueryClient();
 
   const generateUUID = () => {
     return uuidv4();
   };
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleInsertProduct = async (form: ValidationSchema) => {
     const {

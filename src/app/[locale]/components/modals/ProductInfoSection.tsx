@@ -19,11 +19,12 @@ import {
   ICustomizeSettings,
   ModalAddProductFormData,
 } from "../../../../lib/types";
-import { InfoTooltip } from "../common/InfoTooltip";
 import { capitalizeFirstLetter } from "../../../../utils/formatWords";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { DisplayInputError } from "../common/DisplayInputError";
 import StockInformationDetailsAndPacksAdd from "./StockInformationDetailsAndPacksAdd";
+import InputLabel from "../common/InputLabel";
+import InputTextarea from "../common/InputTextarea";
 
 interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
@@ -151,161 +152,94 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           </p>
 
           {/* Name & Campaign  */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="space-y w-full">
-              <label htmlFor="product_name" className="text-sm text-gray-600">
-                {t("product_name")}
-              </label>
-
-              <input
-                type="text"
-                id="product_name"
-                placeholder="IPA Jaira"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("name", {
-                  required: true,
-                })}
-              />
-
-              {errors.name && (
-                <DisplayInputError message={errors.name.message} />
-              )}
-            </div>
-          </div>
+          <InputLabel
+            form={form}
+            label={"name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Description  */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="space-y w-full">
-              <label htmlFor="description" className="text-sm text-gray-600">
-                {t("product_description")}
-              </label>
+          <div>
+            <p className="text-sm text-gray-600">{t("product_description")}</p>
 
-              <textarea
-                id="description"
-                placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("description", {
-                  required: true,
-                })}
-              />
-
-              {errors.description && (
-                <DisplayInputError message={errors.description.message} />
-              )}
-            </div>
+            <InputTextarea
+              form={form}
+              label={"description"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+            />
           </div>
 
           {/* Intensity & Fermentation  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <label htmlFor="intensity" className="text-sm text-gray-600">
-                {t("intensity")} (%)
-                <InfoTooltip
-                  content={`${t("intensity_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
+            <InputLabel
+              form={form}
+              label={"intensity"}
+              registerOptions={{
+                required: true,
+                min: 0,
+                max: 100,
+                valueAsNumber: true,
+              }}
+              inputType="number"
+              infoTooltip={t("intensity_tooltip")}
+            />
 
-              <input
-                id="intensity"
-                type="number"
-                placeholder="4.7"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                defaultValue={0}
-                min="0"
-                max="100"
-                {...register(`intensity`, {
-                  required: true,
-                  min: 0,
-                  max: 100,
-                  valueAsNumber: true,
-                })}
-              />
-
-              {errors.intensity && (
-                <DisplayInputError message={errors.intensity.message} />
-              )}
-            </div>
-
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"fermentation_tooltip"}
-                options={fermentation_options}
-                label={"fermentation"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.fermentation && (
-                <DisplayInputError message={errors.fermentation.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              labelTooltip={"fermentation_tooltip"}
+              options={fermentation_options}
+              label={"fermentation"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           {/* Color  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"color_tooltip"}
-                options={color_options}
-                label={"color"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
+            <SelectInput
+              form={form}
+              labelTooltip={"color_tooltip"}
+              options={color_options}
+              label={"color"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
 
-              {errors.color && (
-                <DisplayInputError message={errors.color.message} />
-              )}
-            </div>
-
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"origin_tooltip"}
-                options={origin_options}
-                label={"origin"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.origin && (
-                <DisplayInputError message={errors.origin.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              labelTooltip={"origin_tooltip"}
+              options={origin_options}
+              label={"origin"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           {/* Family  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"family_tooltip"}
-                options={family_options}
-                label={"family"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
+            <SelectInput
+              form={form}
+              labelTooltip={"family_tooltip"}
+              options={family_options}
+              label={"family"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
 
-              {errors.family && (
-                <DisplayInputError message={errors.family.message} />
-              )}
-
-              {/*
+            {/*
               TODO: Volver aqui para ver por qué está famStyleOptions
               <label htmlFor="family" className="text-sm text-gray-600">
                 {t("family")}
@@ -337,46 +271,31 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               {errors.family?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
               )} */}
-            </div>
 
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"era_tooltip"}
-                options={era_options}
-                label={"era"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.intensity && (
-                <DisplayInputError message={errors.intensity.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              labelTooltip={"era_tooltip"}
+              options={era_options}
+              label={"era"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           {/* Aroma  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <SelectInput
-                form={form}
-                hasInfoTooltip={true}
-                labelTooltip={"aroma_tooltip"}
-                options={aroma_options}
-                label={"aroma"}
-                registerOptions={{
-                  required: true,
-                  valueAsNumber: true,
-                }}
-              />
-
-              {errors.aroma && (
-                <DisplayInputError message={errors.aroma.message} />
-              )}
-            </div>
+            <SelectInput
+              form={form}
+              labelTooltip={"aroma_tooltip"}
+              options={aroma_options}
+              label={"aroma"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+              }}
+            />
           </div>
 
           {/* Is Gluten  */}
@@ -485,55 +404,34 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
             {/* Product Weight  */}
             <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full ">
-                <label htmlFor="weight" className="text-sm text-gray-600">
-                  {t("weight")} (gr)
-                </label>
-
-                <input
-                  id="weight"
-                  type="number"
-                  placeholder={"0"}
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  min="0"
-                  {...register(`weight`, {
-                    required: true,
-                    min: 0,
-                    valueAsNumber: true,
-                  })}
-                />
-
-                {errors.weight && (
-                  <DisplayInputError message={errors.weight.message} />
-                )}
-              </div>
+              <InputLabel
+                form={form}
+                label={"weight"}
+                labelText={t("weight") + " (gr)"}
+                registerOptions={{
+                  required: true,
+                  min: 0,
+                  valueAsNumber: true,
+                }}
+                inputType="number"
+              />
             </div>
           </div>
 
           {/* Individual Price  */}
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <label htmlFor="price" className="text-sm text-gray-600">
-                {t("price")} €
-              </label>
-
-              <input
-                id="price"
-                type="number"
-                placeholder={formatCurrency(2.5)}
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                min="0"
-                {...register(`price`, {
-                  required: true,
-                  min: 0,
-                  valueAsNumber: true,
-                })}
-              />
-
-              {errors.price && (
-                <DisplayInputError message={errors.price.message} />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"price"}
+              labelText={t("price") + " €"}
+              registerOptions={{
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              }}
+              inputType="number"
+              placeholder={formatCurrency(2.5)}
+            />
           </div>
 
           {/* Stock information and Packs */}

@@ -212,22 +212,16 @@ export function AddCampaign() {
             {errors.name && <DisplayInputError message={errors.name.message} />}
           </div>
 
-          <div className="">
-            <SelectInput
-              form={form}
-              hasInfoTooltip={true}
-              labelTooltip={"campaign_status_tooltip"}
-              options={campaign_status_options}
-              label={"status"}
-              registerOptions={{
-                required: true,
-              }}
-            />
-
-            {errors.status && (
-              <DisplayInputError message={errors.status.message} />
-            )}
-          </div>
+          <SelectInput
+            form={form}
+            hasInfoTooltip={true}
+            labelTooltip={"campaign_status_tooltip"}
+            options={campaign_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
         </div>
 
         {/* Description  */}
