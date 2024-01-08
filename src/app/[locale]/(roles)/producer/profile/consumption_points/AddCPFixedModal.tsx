@@ -2,8 +2,7 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
 import { IUser } from "../../../../../../lib/types";
@@ -15,6 +14,26 @@ import ModalWithForm from "../../../../components/modals/ModalWithForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import SelectInput from "../../../../components/common/SelectInput";
+
+enum CPFixedStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_fixed_status_options: {
+  label: string;
+  value: CPFixedStatus;
+}[] = [
+  { label: "active", value: CPFixedStatus.active },
+  { label: "finished", value: CPFixedStatus.finished },
+  { label: "error", value: CPFixedStatus.error },
+  { label: "cancelled", value: CPFixedStatus.cancelled },
+  { label: "paused", value: CPFixedStatus.paused },
+];
 
 interface ModalAddCPFixedFormData {
   cp_name: string;
@@ -29,6 +48,8 @@ interface ModalAddCPFixedFormData {
   status: string;
   is_internal_organizer: boolean;
   product_items?: any[];
+  // maximum_capacity
+  // is_booking_required
 }
 
 const schema: ZodType<ModalAddCPFixedFormData> = z.object({
@@ -86,6 +107,19 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
+    defaultValues: {
+      cp_name: "",
+      cp_description: "",
+      organizer_name: "",
+      organizer_lastname: "",
+      organizer_email: "",
+      organizer_phone: "",
+      start_date: "",
+      end_date: "",
+      address: "",
+      status: "",
+      is_internal_organizer: true,
+    },
   });
 
   const {
@@ -93,10 +127,16 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     handleSubmit,
     register,
     reset,
+    setValue,
   } = form;
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
+    setValue("address", address);
   };
 
   const handleInsertCPFixed = async (form: ValidationSchema) => {
@@ -115,6 +155,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       start_date,
       end_date,
       product_items,
+      status,
     } = form;
 
     if (!isValidObject(address)) {
@@ -136,7 +177,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         start_date,
         end_date,
         address,
-        status: "active",
+        status,
         is_booking_required: false,
         cp_id: cpsId,
         is_internal_organizer: isInternalOrganizer,
@@ -244,9 +285,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       title={t("add_new_cp_fixed")}
       btnTitle={t("new_cp_fixed_config")}
       description={""}
-      icon={faAdd}
       handler={handleSubmit(onSubmit)}
-      btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
       form={form}
@@ -254,6 +293,24 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
+
+          {/* Status */}
+          <div className="">
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"cp_fixed_status_tooltip"}
+              options={cp_fixed_status_options}
+              label={"status"}
+              registerOptions={{
+                required: true,
+              }}
+            />
+
+            {errors.status && (
+              <DisplayInputError message={errors.status.message} />
+            )}
+          </div>
 
           {/* Event name  */}
           <div className="flex flex-col space-y-2">
@@ -427,46 +484,44 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
           {/* In case organizer is external from company*/}
           {!isInternalOrganizer && (
-            <>
-              <div className="flex w-full flex-col">
-                <span className="mb-2 mt-2">
-                  Selecciona del listado de abajo el organizador externo
-                  responsable de este evento. Una vez creado el evento
-                  enviaremos una confirmación al organizador externo para que
-                  pueda gestionar el evento y acepta los términos y condiciones
-                  de uso de la plataforma. Dicho evento tendrá el estado
-                  `Pendiente de confirmación` hasta que el organizador externo
-                  acepte los términos y condiciones.
-                </span>
+            <div className="flex w-full flex-col">
+              <span className="mb-2 mt-2">
+                Selecciona del listado de abajo el organizador externo
+                responsable de este evento. Una vez creado el evento enviaremos
+                una confirmación al organizador externo para que pueda gestionar
+                el evento y acepta los términos y condiciones de uso de la
+                plataforma. Dicho evento tendrá el estado `Pendiente de
+                confirmación` hasta que el organizador externo acepte los
+                términos y condiciones.
+              </span>
 
-                <select
-                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                  id="is_external_organizer"
-                  onClick={(e: any) => {
-                    const value = e.target.value;
-                    setSelectedEOrganizer(value);
-                  }}
-                >
-                  {externalOrganizers &&
-                    externalOrganizers.map((organizer: any) => (
-                      <option
-                        key={organizer.id}
-                        value={organizer.id}
-                        onSelect={() => {
-                          setSelectedEOrganizer(organizer);
-                          setErrorOnSelectEOrganizer(false);
-                        }}
-                      >
-                        {organizer.name} {organizer.lastname}
-                      </option>
-                    ))}
-                </select>
+              <select
+                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                id="is_external_organizer"
+                onClick={(e: any) => {
+                  const value = e.target.value;
+                  setSelectedEOrganizer(value);
+                }}
+              >
+                {externalOrganizers &&
+                  externalOrganizers.map((organizer: any) => (
+                    <option
+                      key={organizer.id}
+                      value={organizer.id}
+                      onSelect={() => {
+                        setSelectedEOrganizer(organizer);
+                        setErrorOnSelectEOrganizer(false);
+                      }}
+                    >
+                      {organizer.name} {organizer.lastname}
+                    </option>
+                  ))}
+              </select>
 
-                {errorOnSelectEOrganizer && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </>
+              {errorOnSelectEOrganizer && (
+                <DisplayInputError message="errors.input_required" />
+              )}
+            </div>
           )}
         </fieldset>
 

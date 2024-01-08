@@ -2,9 +2,8 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
 import { IUser } from "../../../../../../lib/types";
@@ -13,8 +12,31 @@ import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import Modal from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
+import SelectInput from "../../../../components/common/SelectInput";
+import ModalWithForm from "../../../../components/modals/ModalWithForm";
 
-interface FormData {
+enum CPMobileStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_mobile_status_options: {
+  label: string;
+  value: CPMobileStatus;
+}[] = [
+  { label: "active", value: CPMobileStatus.active },
+  { label: "finished", value: CPMobileStatus.finished },
+  { label: "error", value: CPMobileStatus.error },
+  { label: "cancelled", value: CPMobileStatus.cancelled },
+  { label: "paused", value: CPMobileStatus.paused },
+];
+
+interface ModalAddCPMobileFormData {
   cp_name: string;
   cp_description: string;
   organizer_name: string;
@@ -26,8 +48,25 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: any[];
+  product_items?: any[];
 }
+
+type ValidationSchema = z.infer<typeof schema>;
+
+const schema: ZodType<ModalAddCPMobileFormData> = z.object({
+  cp_name: z.string().nonempty({ message: "errors.input_required" }),
+  cp_description: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_name: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_lastname: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_email: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_phone: z.string().nonempty({ message: "errors.input_required" }),
+  start_date: z.string().nonempty({ message: "errors.input_required" }),
+  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  address: z.string().nonempty({ message: "errors.input_required" }),
+  status: z.string().nonempty({ message: "errors.input_required" }),
+  is_internal_organizer: z.boolean(),
+  product_items: z.any(),
+});
 
 interface Props {
   cpsId: string;
@@ -64,20 +103,42 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     enabled: false,
   });
 
-  const form = useForm<FormData>();
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+    defaultValues: {
+      cp_name: "",
+      cp_description: "",
+      organizer_name: "",
+      organizer_lastname: "",
+      organizer_email: "",
+      organizer_phone: "",
+      start_date: "",
+      end_date: "",
+      address: "",
+      status: "",
+      is_internal_organizer: true,
+    },
+  });
 
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
+    setValue,
   } = form;
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
+    setValue("address", address);
   };
 
-  const handleInsertCPMobile = async (formValues: FormData) => {
+  const handleInsertCPMobile = async (form: ValidationSchema) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
@@ -93,7 +154,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       start_date,
       end_date,
       product_items,
-    } = formValues;
+      status,
+    } = form;
 
     if (!isValidObject(address)) {
       setAddressInputRequired(true);
@@ -114,7 +176,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         start_date,
         end_date,
         address,
-        status: "active",
+        status,
         cp_id: cpsId,
         geoArgs: results,
         is_internal_organizer: isInternalOrganizer,
@@ -204,7 +266,9 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddCPMobileFormData
+  ) => {
     try {
       insertCPMobileMutation.mutate(formValues);
     } catch (e) {
@@ -213,22 +277,39 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
       title={t("add_new_cp_mobile")}
       btnTitle={t("new_cp_mobile_config")}
       description={""}
-      icon={faAdd}
       handler={handleSubmit(onSubmit)}
-      btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      form={form}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
+
+          {/* Status */}
+          <div className="">
+            <SelectInput
+              form={form}
+              hasInfoTooltip={true}
+              labelTooltip={"cp_mobile_status_tooltip"}
+              options={cp_mobile_status_options}
+              label={"status"}
+              registerOptions={{
+                required: true,
+              }}
+            />
+
+            {errors.status && (
+              <DisplayInputError message={errors.status.message} />
+            )}
+          </div>
 
           {/* Event name  */}
           <div className="flex flex-col space-y-2">
@@ -392,46 +473,44 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
           {/* In case organizer is external from company*/}
           {!isInternalOrganizer && (
-            <>
-              <div className="flex w-full flex-col">
-                <span className="mb-2 mt-2">
-                  Selecciona del listado de abajo el organizador externo
-                  responsable de este evento. Una vez creado el evento
-                  enviaremos una confirmación al organizador externo para que
-                  pueda gestionar el evento y acepta los términos y condiciones
-                  de uso de la plataforma. Dicho evento tendrá el estado
-                  `Pendiente de confirmación` hasta que el organizador externo
-                  acepte los términos y condiciones.
-                </span>
+            <div className="flex w-full flex-col">
+              <span className="mb-2 mt-2">
+                Selecciona del listado de abajo el organizador externo
+                responsable de este evento. Una vez creado el evento enviaremos
+                una confirmación al organizador externo para que pueda gestionar
+                el evento y acepta los términos y condiciones de uso de la
+                plataforma. Dicho evento tendrá el estado `Pendiente de
+                confirmación` hasta que el organizador externo acepte los
+                términos y condiciones.
+              </span>
 
-                <select
-                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                  id="is_external_organizer"
-                  onClick={(e: any) => {
-                    const value = e.target.value;
-                    setSelectedEOrganizer(value);
-                  }}
-                >
-                  {externalOrganizers &&
-                    externalOrganizers.map((organizer: any) => (
-                      <option
-                        key={organizer.id}
-                        value={organizer.id}
-                        onSelect={() => {
-                          setSelectedEOrganizer(organizer);
-                          setErrorOnSelectEOrganizer(false);
-                        }}
-                      >
-                        {organizer.name} {organizer.lastname}
-                      </option>
-                    ))}
-                </select>
+              <select
+                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                id="is_external_organizer"
+                onClick={(e: any) => {
+                  const value = e.target.value;
+                  setSelectedEOrganizer(value);
+                }}
+              >
+                {externalOrganizers &&
+                  externalOrganizers.map((organizer: any) => (
+                    <option
+                      key={organizer.id}
+                      value={organizer.id}
+                      onSelect={() => {
+                        setSelectedEOrganizer(organizer);
+                        setErrorOnSelectEOrganizer(false);
+                      }}
+                    >
+                      {organizer.name} {organizer.lastname}
+                    </option>
+                  ))}
+              </select>
 
-                {errorOnSelectEOrganizer && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </>
+              {errorOnSelectEOrganizer && (
+                <DisplayInputError message="errors.input_required" />
+              )}
+            </div>
           )}
         </fieldset>
 
@@ -439,7 +518,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           <legend className="text-2xl">{t("cp_mobile_location")}</legend>
 
           {addressInputRequired && (
-            <span className="text-red-500">{t("errors.input_required")}</span>
+            <DisplayInputError message="errors.input_required" />
           )}
 
           {/* Address  */}
@@ -453,6 +532,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           <ListCPMProducts form={form} />
         </fieldset>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

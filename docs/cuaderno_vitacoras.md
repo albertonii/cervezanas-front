@@ -29,6 +29,7 @@
 - Editar una campaña
 - Vincular productos a la campaña
 - Al pulsar en editar evento -> Mostrar los PC Móviles asociados
+- Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
 
 # Tareas realizadas
 
