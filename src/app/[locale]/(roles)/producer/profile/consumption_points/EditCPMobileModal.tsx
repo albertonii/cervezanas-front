@@ -353,7 +353,7 @@ export default function EditCPMobileModal({
               </label>
 
               <select
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 id="is_internal_organizer"
                 {...register("is_internal_organizer", { required: true })}
                 onChange={(e) => {

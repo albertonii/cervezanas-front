@@ -2,7 +2,7 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
@@ -125,14 +125,9 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   const {
     formState: { errors },
     handleSubmit,
-    register,
     reset,
     setValue,
   } = form;
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
@@ -239,10 +234,14 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     }
   };
 
-  const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
+  const handleIsInternalOrganizer = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
+
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -250,7 +249,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       };
 
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -379,14 +377,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 {t("is_internal_organizer")}
               </label>
 
-              <select
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                id="is_internal_organizer"
-                {...register("is_internal_organizer", { required: true })}
-                onChange={(e) => {
-                  handleIsInternalOrganizer(e);
-                }}
-              >
+              <select onChange={handleIsInternalOrganizer}>
                 <option value="true">{t("yes")}</option>
                 <option value="false">{t("no")}</option>
               </select>

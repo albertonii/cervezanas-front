@@ -19,7 +19,6 @@ interface Props {
 export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
   const t = useTranslations();
   const { user } = useAuth();
-  console.log(productItems);
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const [query, setQuery] = useState("");
