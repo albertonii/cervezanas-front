@@ -15,7 +15,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import SelectInput from "../../../../components/common/SelectInput";
-import ModalWithForm from "../../../../components/modals/ModalWithForm";
 
 enum CPMobileStatus {
   active = "active",
@@ -277,7 +276,19 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   };
 
   return (
-    <ModalWithForm
+    <Modal
+      showBtn={true}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={t("add_new_cp_mobile")}
+      btnTitle={t("new_cp_mobile_config")}
+      description={""}
+      handler={handleSubmit(onSubmit)}
+      classIcon={"w-6 h-6"}
+      classContainer={""}
+    >
+      {/* Si lo convertimos en Modal With Form dará errores de flasheo. Pq?  */}
+      {/* <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -288,7 +299,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       classIcon={"w-6 h-6"}
       classContainer={""}
       form={form}
-    >
+    ></ModalWithForm> */}
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
@@ -532,6 +543,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           <ListCPMProducts form={form} />
         </fieldset>
       </form>
-    </ModalWithForm>
+    </Modal>
   );
 }

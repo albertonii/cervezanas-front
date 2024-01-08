@@ -38,7 +38,6 @@ export function Sidebar({ sidebarLinks }: Props) {
     setOpen(!open);
   };
 
-  // handle what happens on key press
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
     const handleClose = () => {
       setOpen(false);
@@ -49,7 +48,6 @@ export function Sidebar({ sidebarLinks }: Props) {
 
   useEffect(() => {
     if (open) {
-      // attach the event listener if the modal is shown
       document.addEventListener("keydown", handleKeyPress);
 
       return () => {
@@ -79,9 +77,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                 title={"chevron_circle_down"}
                 width={20}
                 height={20}
-                className={`absolute bottom-0 right-0 h-full  ${
-                  open && "rotate-180"
-                }`}
+                className={`absolute bottom-0 right-0 h-full`}
               />
             ) : (
               <FontAwesomeIcon
@@ -90,14 +86,43 @@ export function Sidebar({ sidebarLinks }: Props) {
                 title={"chevron_circle_down"}
                 width={20}
                 height={20}
-                className={`absolute bottom-0 right-0 h-full  ${
-                  open && "rotate-180"
-                }`}
+                className={`absolute bottom-0 right-0 h-full rotate-180`}
               />
             )}
           </Button>
         </>
       )}
+
+      <Button
+        data-drawer-target="default-sidebar"
+        data-drawer-toggle="default-sidebar"
+        aria-controls="default-sidebar"
+        btnType="button"
+        class={`sticky -top-8 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        {open ? (
+          <FontAwesomeIcon
+            icon={faCircleChevronLeft}
+            style={{ color: "#432a14" }}
+            title={"chevron_circle_down"}
+            width={20}
+            height={20}
+            className={`absolute bottom-0 right-0 h-full`}
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faCircleChevronLeft}
+            style={{ color: "#432a14" }}
+            title={"chevron_circle_down"}
+            width={20}
+            height={20}
+            className={`absolute bottom-0 right-0 h-full rotate-180`}
+          />
+        )}
+      </Button>
 
       {role && (
         <aside
