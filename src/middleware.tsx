@@ -1,11 +1,10 @@
 import Negotiator from "negotiator";
-import { cookies } from "next/headers";
 import { ROUTE_SIGNIN } from "./config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createSupabaseReqResClient } from "./utils/supabaseReqResClient";
 
 const locales = ["en", "es"];
 
@@ -59,12 +58,6 @@ export async function middleware(req: NextRequest) {
   const urlSection = pathname.split("/")[2];
 
   if (privateSections.includes(urlSection)) {
-    let response = NextResponse.next({
-      request: {
-        headers: req.headers,
-      },
-    });
-
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
     const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -73,51 +66,8 @@ export async function middleware(req: NextRequest) {
     if (!supabaseURL || !supabaseAnonKey) {
       throw new Error("Missing env variables");
     }
-    const cookieStore = cookies();
 
-    // Checks user session
-    // const supabase = createServerClient({ req, res });
-    const supabase = createServerClient(supabaseURL, supabaseAnonKey, {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          req.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: req.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-        },
-        remove(name: string, options: CookieOptions) {
-          req.cookies.set({
-            name,
-            value: "",
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: req.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value: "",
-            ...options,
-          });
-        },
-      },
-    });
+    const supabase = createSupabaseReqResClient(req, res);
 
     // This will update our cookie with the user session so we can know in protected routes if user is logged in
     const {

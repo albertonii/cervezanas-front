@@ -1,13 +1,16 @@
-"use server";
+import { NextRequest, NextResponse } from "next/server";
 
 import {
   CookieOptions,
   createServerClient as createServerComponentClient,
 } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { getCookie, setCookie } from "cookies-next";
 import { Database } from "../lib/schema";
 
-export function createSupabaseAppServerClient(serverComponent = false) {
+export function createSupabaseReqResClient(
+  req: NextRequest,
+  res: NextResponse
+) {
   const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -17,20 +20,14 @@ export function createSupabaseAppServerClient(serverComponent = false) {
   return createServerComponentClient<Database>(supabaseURL, supabaseAnonKey, {
     cookies: {
       get(name: string) {
-        return cookies().get(name)?.value;
+        return getCookie(name, { req, res });
       },
       set(name: string, value: string, options: CookieOptions) {
-        if (serverComponent) return;
-        cookies().set(name, value, options);
+        setCookie(name, value, { req, res, ...options });
       },
       remove(name: string, options: CookieOptions) {
-        if (serverComponent) return;
-        cookies().set(name, "", options);
+        setCookie(name, "", { req, res, ...options });
       },
     },
   });
-}
-
-export default async function createServerClient() {
-  return createSupabaseAppServerClient(true);
 }
