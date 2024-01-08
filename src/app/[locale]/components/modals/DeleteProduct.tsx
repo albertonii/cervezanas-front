@@ -7,7 +7,7 @@ import { useAuth } from "../../Auth/useAuth";
 import Modal from "./Modal";
 
 interface Props {
-  product: IProduct | undefined;
+  product: IProduct;
   showModal: boolean;
   handleDeleteShowModal: ComponentProps<any>;
 }

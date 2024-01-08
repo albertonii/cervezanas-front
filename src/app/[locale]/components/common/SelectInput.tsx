@@ -37,7 +37,7 @@ export default function SelectInput({
 
   return (
     <>
-      <label htmlFor={label} className="text-sm text-gray-600">
+      <label htmlFor={label} className="flex text-sm text-gray-600">
         {t(label)}
 
         {hasInfoTooltip && (

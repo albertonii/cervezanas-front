@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IProduct } from "../../../../../../lib/types";
 import { AddProduct } from "../../../../components/modals/AddProduct";
 import { DeleteProduct } from "../../../../components/modals/DeleteProduct";
@@ -11,11 +11,6 @@ import { ProductList } from "./ProductList";
 
 export function Products() {
   const t = useTranslations();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
@@ -33,17 +28,15 @@ export function Products() {
     setProductModal(product);
   };
 
-  if (loading) {
-    return <section>Loading...</section>;
-  }
-
   return (
     <section className="px-4 py-6" aria-label="Products">
-      <div className="flex flex-col space-y-4">
+      <header className="flex flex-col space-y-4">
         <h2 className="text-4xl">{t("products")}</h2>
 
-        <AddProduct />
-      </div>
+        <div className="w-40">
+          <AddProduct />
+        </div>
+      </header>
 
       <ProductList
         handleEditShowModal={handleEditShowModal}
@@ -59,7 +52,7 @@ export function Products() {
         />
       )}
 
-      {isDeleteShowModal && (
+      {isDeleteShowModal && productModal && (
         <DeleteProduct
           product={productModal}
           showModal={isDeleteShowModal}

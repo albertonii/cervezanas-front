@@ -23,7 +23,7 @@ interface Props {
   handleDistributor: ComponentProps<any>;
 }
 
-export default function ListAvailableDistributors({
+export default function AvailableDistributorsList({
   handleDistributor,
 }: Props) {
   const t = useTranslations();

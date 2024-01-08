@@ -178,6 +178,7 @@
   "false": "False",
   "is_public": "Publish the product",
   "is_public_campaign": "Publish Campaign",
+  "is_public_campaign_description": "Toggle the button to the right to make this campaign visible in the marketplace",
   "is_public_description": "Toggle the button to the right to make this product visible in the marketplace",
   "is_public_product": "Publish Product?",
   "modal_lot_add": "Add Lot",
@@ -695,5 +696,7 @@
   "username": "Username",
   "is_legal_age": "I am legal age for user registration > 18 years old",
   "is_legal_age_description": "You must be of legal age to register as a user.",
-  "come_back_to_signin": "Come back to sign in"
+  "come_back_to_signin": "Come back to sign in",
+  "distributors": "Distributors",
+  "add_campaign": "Add Campaign"
 }

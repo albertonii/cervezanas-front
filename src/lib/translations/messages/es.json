@@ -178,6 +178,7 @@
   "false": "Falso",
   "is_public": "Publicar Producto",
   "is_public_campaign": "Publicar Campaña",
+  "is_public_campaign_description": "Esta campaña será visible para todos los usuarios de la web",
   "modal_lot_add": "Añadir Lote",
   "modal_lot_title": "Lote",
   "lot_number": "Número de Lote",
@@ -710,5 +711,7 @@
   "username": "Nombre de usuario",
   "is_legal_age": "Soy mayor de edad > 18 años",
   "is_legal_age_description": "Debes ser mayor de edad para poder registrarte",
-  "come_back_to_signin": "Volver a inicio de sesión"
+  "come_back_to_signin": "Volver a inicio de sesión",
+  "distributors": "Distribuidores",
+  "add_campaign": "Añadir campaña"
 }

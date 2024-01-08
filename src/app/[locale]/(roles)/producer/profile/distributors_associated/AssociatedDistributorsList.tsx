@@ -26,7 +26,7 @@ interface Props {
   producerId: string;
 }
 
-export default function ListAssociatedDistributors({ producerId }: Props) {
+export default function AssociatedDistributorsList({ producerId }: Props) {
   const locale = useLocale();
   const t = useTranslations();
 
@@ -119,7 +119,7 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
   };
 
   return (
-    <section className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isDeleteModal &&
         selectedContract &&
         selectedContract.distributor_user && (
@@ -152,15 +152,13 @@ export default function ListAssociatedDistributors({ producerId }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      <InputSearch
-        query={query}
-        setQuery={setQuery}
-        searchPlaceholder={t("search_by_name")}
-      />
-
       {!isError && !isLoading && sortedItems.length > 0 && (
         <>
-          <h2 className="text-2xl">{t("distributors_list")}</h2>
+          <InputSearch
+            query={query}
+            setQuery={setQuery}
+            searchPlaceholder={t("search_by_name")}
+          />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

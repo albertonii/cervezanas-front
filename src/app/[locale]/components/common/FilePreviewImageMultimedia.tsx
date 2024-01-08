@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
+import { DisplayInputError } from "./DisplayInputError";
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -19,7 +20,11 @@ export const FilePreviewImageMultimedia = ({
   const t = useTranslations();
   const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
 
-  const { getValues, setValue } = form;
+  const {
+    getValues,
+    setValue,
+    formState: { errors },
+  } = form;
 
   useEffect(() => {
     if (getValues(registerName)) {
@@ -80,6 +85,10 @@ export const FilePreviewImageMultimedia = ({
             <i className="mdi mdi-trash-can text-[16px] text-white">x</i>
           </div>
         </div>
+      )}
+
+      {errors[registerName] && (
+        <DisplayInputError message={errors[registerName]?.message} />
       )}
     </section>
   );

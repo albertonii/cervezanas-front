@@ -25,6 +25,7 @@
 - Contratar servicios RESEND - SMTP
 - Contratar servicios FV0 - API REST Servicios Sistema de Distribución
 - Contratar plan de pago Supabase
+- Hacer que las vistas de los profiles sean homogéneas entre si
 
 # Tareas realizadas
 

@@ -540,17 +540,19 @@ export interface ISocialCause {
 
 export interface ICampaign {
   id: string;
+  created_at: string;
   name: string;
   description: string;
-  created_at: string;
-  owner_id: string;
   img_url: any;
-  is_public: boolean;
+  is_public: boolen;
+  start_date: string;
+  end_date?: string;
+  owner_id: string;
   slogan: string;
   goal: string;
-  start_date: string;
-  end_date: string;
   status: string;
+  campaign_discount: number;
+  social_cause: string;
   products?: ICampaignItem[];
 }
 
@@ -849,6 +851,25 @@ type ModalUpdateProductPackFormData = {
   img_url?: any;
   name: string;
   product_id?: string;
+};
+
+export type ModalAddCampaignFormData = {
+  name: string;
+  description: string;
+  img_url?: FileList;
+  is_public: boolean;
+  start_date: Date;
+  end_date: Date;
+  slogan: string;
+  goal: string;
+  status: string;
+  products?: ModalAddCampaignProductFormData[];
+};
+
+export type ModalAddCampaignProductFormData = {
+  campaign_id: string;
+  product_id: any;
+  product_price: number;
 };
 
 export type ModalUpdateLotProps = {

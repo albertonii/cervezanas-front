@@ -6,33 +6,31 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { ComponentProps, useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types";
+import { ICampaign } from "../../../../../../lib/types";
 import Spinner from "../../../../components/common/Spinner";
 import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { ArchiveButton } from "../../../../components/common/ArchiveButton";
 import InputSearch from "../../../../components/common/InputSearch";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
+import useFetchCampaignsByOwnerAndPagination from "../../../../../../hooks/useFetchCampaignsByOwnerAndPagination";
+import { formatDateString, formatDateTypeDefaultInput } from "../../../../../../utils/formatDate";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
   handleDeleteShowModal: ComponentProps<any>;
-  handleProductModal: ComponentProps<any>;
+  handleCampaignModal: ComponentProps<any>;
 }
 
 interface ColumnsProps {
   header: string;
 }
 
-export function ProductList({
+export function CampaignList({
   handleEditShowModal,
   handleDeleteShowModal,
-  handleProductModal,
+  handleCampaignModal,
 }: Props) {
-  const { supabase } = useAuth();
   const { user } = useAuth();
-  if (!user) return null;
 
   const t = useTranslations();
   const locale = useLocale();
@@ -42,81 +40,52 @@ export function ProductList({
   const resultsPerPage = 10;
 
   const {
-    data: ps,
+    data: campaigns,
     isError,
     isLoading,
-  } = useFetchProductsByOwnerAndPagination(
+  } = useFetchCampaignsByOwnerAndPagination(
     user?.id,
     currentPage,
-    resultsPerPage,
-    false
+    resultsPerPage
   );
 
-  const products = ps?.filter((product) => !product.is_archived);
-
-  const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
+  const counter = campaigns?.filter((campaign) => !campaign).length ?? 0;
 
   const COLUMNS = [
-    { header: t("product_type_header") },
+    { header: t("campaign_type_header") },
     { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("stock_header") },
-    { header: t("lot_header") },
-    { header: t("public_header") },
+    { header: t("start_date_header") },
+    { header: t("end_date_header") },
+    { header: t("status") },
+    { header: t("is_public") },
     { header: t("action_header") },
   ];
 
-  const handleEditClick = (product: IProduct) => {
+  const handleEditClick = (campaign: ICampaign) => {
     handleEditShowModal(true);
     handleDeleteShowModal(false);
-    handleProductModal(product);
+    handleCampaignModal(campaign);
   };
 
-  const handleArchive = async (product: any) => {
-    // Update product state to archived and isPublic to false
-    // Update product
-    const updatedProduct = {
-      ...product,
-      is_archived: true,
-      is_public: false,
-    };
-
-    // Delete the objets that doesn't exists in supabase table but just in the state
-    delete updatedProduct.beers;
-    delete updatedProduct.likes;
-    delete updatedProduct.product_inventory;
-    delete updatedProduct.product_lots;
-    delete updatedProduct.product_multimedia;
-
-    // Send product to supabase database
-    const { error } = await supabase
-      .from("products")
-      .update(updatedProduct)
-      .eq("id", product.id)
-      .select();
-
-    if (error) throw error;
-  };
-
-  const handleDeleteClick = (product: IProduct) => {
+  const handleDeleteClick = (campaign: ICampaign) => {
     handleEditShowModal(false);
     handleDeleteShowModal(true);
-    handleProductModal(product);
+    handleCampaignModal(campaign);
   };
 
   const filteredItems = useMemo<any[]>(() => {
-    if (!products) return [];
-    return products.filter((product) => {
-      return product.name?.toLowerCase().includes(query.toLowerCase());
+    if (!campaigns) return [];
+    return campaigns.filter((campaign) => {
+      return campaign.name?.toLowerCase().includes(query.toLowerCase());
     });
-  }, [products, query]);
+  }, [campaigns, query]);
 
   return (
     <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_products")}
+            {t("error_fetching_campaigns")}
           </p>
         </div>
       )}
@@ -125,10 +94,10 @@ export function ProductList({
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && products?.length === 0 ? (
+      {!isError && !isLoading && campaigns?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_products")}
+            {t("no_campaigns")}
           </p>
         </div>
       ) : (
@@ -136,7 +105,7 @@ export function ProductList({
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_products"}
+            searchPlaceholder={"search_campaigns"}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -153,11 +122,11 @@ export function ProductList({
             </thead>
 
             <tbody>
-              {products &&
-                filteredItems.map((product) => {
+              {campaigns &&
+                filteredItems.map((campaign) => {
                   return (
                     <tr
-                      key={product.id}
+                      key={campaign.id}
                       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <>
@@ -169,55 +138,42 @@ export function ProductList({
                             width={128}
                             height={128}
                             className="h-8 w-8 rounded-full"
-                            src="/icons/beer-240.png"
-                            loader={() => "/icons/beer-240.png"}
-                            alt="Beer Type"
+                            src="/icons/stopwatch-solid.svg"
+                            alt="Campaign"
                           />
                         </th>
 
                         <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                           <Link
-                            href={`/products/${product.id}`}
+                            href={`/campaigns/${campaign.id}`}
                             locale={locale}
                           >
-                            {product.name}
+                            {campaign.name}
                           </Link>
                         </td>
 
                         <td className="px-6 py-4">
-                          {formatCurrency(product.price)}
+                          {formatDateString(campaign.start_date)}
                         </td>
 
                         <td className="px-6 py-4">
-                          {product.product_inventory &&
-                          product.product_inventory[0]?.quantity
-                            ? product.product_inventory[0].quantity
-                            : "-"}
+                          {formatDateString(campaign.end_date)}
                         </td>
 
-                        <td className="px-6 py-4">
-                          {product.product_lots &&
-                          product.product_lots[0]?.lot_id
-                            ? product.product_lots[0]?.lot_id
-                            : "-"}
-                        </td>
+                        <td className="px-6 py-4">{t(campaign.status)}</td>
 
                         <td className="px-6 py-4">
-                          {product.is_public ? t("yes") : t("no")}
+                          {campaign.is_public ? t("yes") : t("no")}
                         </td>
 
                         <td className="px-6 py-4">
                           <div className="flex space-x-1">
                             <EditButton
-                              onClick={() => handleEditClick(product)}
+                              onClick={() => handleEditClick(campaign)}
                             />
 
                             <DeleteButton
-                              onClick={() => handleDeleteClick(product)}
-                            />
-
-                            <ArchiveButton
-                              onClick={() => handleArchive(product)}
+                              onClick={() => handleDeleteClick(campaign)}
                             />
                           </div>
                         </td>

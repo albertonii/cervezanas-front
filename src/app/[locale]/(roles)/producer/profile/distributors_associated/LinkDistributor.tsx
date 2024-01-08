@@ -1,4 +1,4 @@
-import ListAvailableDistributors from "./ListAvailableDistributors";
+import AvailableDistributorsList from "./AvailableDistributorsList";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "../../../../components/modals/Modal";
@@ -138,7 +138,7 @@ export default function LinkDistributor({ producerId }: Props) {
         {selectedDistributor ? (
           <SubmitContract distributor={selectedDistributor} form={form} />
         ) : (
-          <ListAvailableDistributors handleDistributor={handleDistributor} />
+          <AvailableDistributorsList handleDistributor={handleDistributor} />
         )}
       </Modal>
     </form>

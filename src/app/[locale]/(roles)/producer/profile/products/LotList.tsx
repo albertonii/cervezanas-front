@@ -71,7 +71,7 @@ export function LotList({
   }, [lots, query]);
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -171,6 +171,6 @@ export function LotList({
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }
