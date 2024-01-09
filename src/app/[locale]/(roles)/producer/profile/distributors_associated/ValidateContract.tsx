@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { UseFormRegister, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-
+import InputTextarea from "../../../../components/common/InputTextarea";
 interface Props {
   form: UseFormReturn<any>;
 }
@@ -33,20 +33,16 @@ export default function CollaborationDetails({ form }: Props) {
         {errors.is_signed && <DisplayInputError message="errors.is_signed" />}
       </div>
 
-      {/* Text area to write a message to the distributor to send the contract  */}
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="message">
-          {t("message_to_distributor_contract_distribution")}
-        </label>
-        <textarea
-          id="message"
-          className="border-1 rounded-medium select:border-beer-gold border border-beer-blonde p-2 ring-1 focus:border-beer-gold "
-          {...register("message")}
-        />
-
-        {/* Error input message */}
-        {errors.message && <DisplayInputError message="errors.message" />}
-      </div>
+      {/* Text area to write a message to the distributor to formalize the contract  */}
+      <InputTextarea
+        form={form}
+        label={"message"}
+        labelText={t("message_to_distributor_contract_distribution")}
+        registerOptions={{
+          required: true,
+        }}
+        placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+      />
     </section>
   );
 }

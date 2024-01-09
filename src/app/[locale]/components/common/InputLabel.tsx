@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { DisplayInputError } from "./DisplayInputError";
 import { InfoTooltip } from "./InfoTooltip";
@@ -42,16 +42,7 @@ export default function InputLabel({
   const {
     register,
     formState: { errors },
-    getValues,
   } = form;
-
-  // useEffect(() => {
-  //   console.log(errors);
-  //   console.log(errors[label]);
-  //   console.log(errors["price"]);
-  // }, [errors]);
-
-  console.log(getValues("manufacture_date"));
 
   return (
     <div className="w-full">

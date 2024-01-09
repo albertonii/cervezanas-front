@@ -8,6 +8,7 @@ import { DisplayInputError } from "./DisplayInputError";
 interface Props {
   form: UseFormReturn<any, any>;
   label: string;
+  labelText?: string;
   registerOptions?: {
     required?: boolean;
     min?: number;
@@ -24,6 +25,7 @@ interface Props {
 export default function InputTextarea({
   form,
   label,
+  labelText,
   registerOptions,
   placeholder,
 }: Props) {
@@ -37,7 +39,7 @@ export default function InputTextarea({
   return (
     <div className="w-full">
       <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600">
-        {t(label)}
+        {labelText ? labelText : t(label)}
 
         <textarea
           className="max-h-[180px] w-full rounded-md border-2 border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"

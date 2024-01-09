@@ -13,6 +13,8 @@ import { DisplayInputError } from "../../../../components/common/DisplayInputErr
 import SelectInput from "../../../../components/common/SelectInput";
 import { SupabaseProps } from "../../../../../../constants";
 import { FilePreviewImageMultimedia } from "../../../../components/common/FilePreviewImageMultimedia";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
 
 enum CampaignStatus {
   uninitialized = "uninitialized",
@@ -194,27 +196,18 @@ export function AddCampaign() {
 
         {/* name & status  */}
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full">
-            <label htmlFor="campaign_name" className="text-sm text-gray-600">
-              {t("campaign_name")}
-
-              <input
-                type="text"
-                id="campaign_name"
-                placeholder="Christmass campaign"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("name", {
-                  required: true,
-                })}
-              />
-            </label>
-
-            {errors.name && <DisplayInputError message={errors.name.message} />}
-          </div>
+          <InputLabel
+            form={form}
+            label={"name"}
+            labelText={t("campaign_name")}
+            placeholder={"Christmass campaign"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           <SelectInput
             form={form}
-            hasInfoTooltip={true}
             labelTooltip={"campaign_status_tooltip"}
             options={campaign_status_options}
             label={"status"}
@@ -225,101 +218,55 @@ export function AddCampaign() {
         </div>
 
         {/* Description  */}
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="space-y w-full">
-            <label htmlFor="description" className="text-sm text-gray-600">
-              {t("campaign_description")}
+        <InputTextarea
+          form={form}
+          label={"description"}
+          labelText={"campaign_description"}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="Jaira is launching this new campaign ..."
+        />
 
-              <textarea
-                id="description"
-                placeholder="Campaign description"
-                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("description", {
-                  required: true,
-                })}
-              />
-            </label>
+        {/* Slogan  */}
+        <InputLabel
+          form={form}
+          label={"slogan"}
+          registerOptions={{
+            required: true,
+          }}
+        />
 
-            {errors.description && (
-              <DisplayInputError message={errors.description.message} />
-            )}
-          </div>
-        </div>
+        {/* Goal  */}
+        <InputLabel
+          form={form}
+          label={"goal"}
+          registerOptions={{
+            required: true,
+          }}
+        />
 
-        <div className="flex w-full flex-row">
-          <div className="w-full ">
-            <label htmlFor="slogan" className="text-sm text-gray-600">
-              {t("slogan")}
-
-              <input
-                id="slogan"
-                type="text"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register(`slogan`, {
-                  required: true,
-                })}
-              />
-            </label>
-
-            {errors.slogan && (
-              <DisplayInputError message={errors.slogan.message} />
-            )}
-          </div>
-        </div>
-
-        <div className="flex w-full flex-col">
-          <label htmlFor="goal" className="w-full text-sm text-gray-600">
-            {t("goal")}
-
-            <input
-              id="goal"
-              type="text"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register(`goal`, {
-                required: true,
-              })}
-            />
-          </label>
-
-          {errors.goal && <DisplayInputError message={errors.goal.message} />}
-        </div>
-
+        {/* Start and end date  */}
         <div className="flex flex-row space-x-4">
-          <div className="w-full">
-            <label htmlFor="start_date" className="flex flex-col">
-              {t("start_date")}
-              <input
-                type="date"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("start_date", {
-                  required: true,
-                  valueAsDate: true,
-                })}
-              />
-            </label>
+          <InputLabel
+            form={form}
+            label={"start_date"}
+            registerOptions={{
+              required: true,
+              valueAsDate: true,
+            }}
+            inputType={"date"}
+          />
 
-            {errors.start_date && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-
-          <div className="w-full">
-            <label htmlFor="end_date" className="flex flex-col">
-              {t("end_date")}
-              <input
-                type="date"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("end_date", {
-                  required: true,
-                  valueAsDate: true,
-                })}
-              />
-            </label>
-
-            {errors.end_date && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"end_date"}
+            registerOptions={{
+              required: true,
+              valueAsDate: true,
+            }}
+            inputType={"date"}
+          />
         </div>
 
         <div className="w-full">

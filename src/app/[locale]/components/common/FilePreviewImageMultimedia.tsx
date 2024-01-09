@@ -46,7 +46,7 @@ export const FilePreviewImageMultimedia = ({
   };
 
   return (
-    <section className="flex w-full items-center justify-center rounded-md md:w-4/5 lg:w-full">
+    <section className="flex w-full items-center justify-center rounded-md lg:w-full">
       {!image && (
         <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
           <input

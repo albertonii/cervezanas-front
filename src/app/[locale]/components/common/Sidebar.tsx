@@ -98,7 +98,7 @@ export function Sidebar({ sidebarLinks }: Props) {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         btnType="button"
-        class={`sticky -top-8 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
+        class={`sticky top-20 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
         onClick={() => {
           handleClick();
         }}
