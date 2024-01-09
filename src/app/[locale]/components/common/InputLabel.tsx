@@ -18,6 +18,7 @@ interface Props {
     pattern?: RegExp;
     validate?: any;
     valueAsNumber?: boolean;
+    valueAsDate?: boolean;
     value?: any;
   };
   inputType?: string;
@@ -41,11 +42,11 @@ export default function InputLabel({
     formState: { errors },
   } = form;
 
-  useEffect(() => {
-    console.log(errors);
-    console.log(errors[label]);
-    console.log(errors["price"]);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log(errors);
+  //   console.log(errors[label]);
+  //   console.log(errors["price"]);
+  // }, [errors]);
 
   return (
     <div className="w-full">

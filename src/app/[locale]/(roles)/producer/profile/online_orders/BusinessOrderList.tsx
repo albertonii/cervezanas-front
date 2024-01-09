@@ -58,7 +58,7 @@ export function BusinessOrderList({ orders: os }: Props) {
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
     return orders.filter((order) => {
-      return order.status.includes(query);
+      return order.status.toLowerCase().includes(query.toLowerCase());
     });
   }, [orders, query]);
 

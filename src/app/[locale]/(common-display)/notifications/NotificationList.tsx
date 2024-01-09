@@ -35,7 +35,9 @@ export function NotificationList({ notifications }: Props) {
   const filteredItemsByUsername = useMemo(() => {
     if (!notifications) return [];
     return notifications.filter((notification) => {
-      return notification.source_user?.username.includes(query);
+      return notification.source_user?.username
+        .toLowerCase()
+        .includes(query.toLowerCase());
     });
   }, [notifications, query]);
 

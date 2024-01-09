@@ -4,7 +4,6 @@
 - Configurar eventos
 - Configurar PC móviles
 - Configurar PC fijos
-- Comprobar que los buscadores estén funcionando para eventos, pc móviles y fijos
 - Comprar a través de un evento
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
@@ -47,6 +46,7 @@
 - [x] Confirmar contraseña en el registro de usuario
 - [x] Toggle mayoría de edad cuando se presiona el botón de crear cuenta
 - [x] Crear campañas en formato listas
+- [x] Comprobar que los buscadores estén funcionando para eventos, pc móviles y fijos
 
 # 29 de noviembre 23
 

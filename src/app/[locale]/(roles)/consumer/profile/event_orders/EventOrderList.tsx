@@ -60,7 +60,7 @@ export function EventOrderList() {
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
     return orders.filter((orders) => {
-      return orders.status.includes(query);
+      return orders.status.toLowerCase().includes(query.toLowerCase());
     });
   }, [orders, query]);
 
