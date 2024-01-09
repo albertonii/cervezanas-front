@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../lib/types";
-import { DisplayInputError } from "../common/DisplayInputError";
 import { useAuth } from "../../Auth/useAuth";
 import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
 import { useMutation, useQueryClient } from "react-query";
@@ -11,14 +10,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
+import InputLabel from "../common/InputLabel";
+import InputTextarea from "../common/InputTextarea";
 
 const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
 export type ModalAddEventFormData = {
   name: string;
   description: string;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   logo_url?: string;
   promotional_url?: string;
   cps_mobile?: any[];
@@ -27,8 +28,8 @@ export type ModalAddEventFormData = {
 const schema: ZodType<ModalAddEventFormData> = z.object({
   name: z.string().nonempty({ message: "errors.input_required" }),
   description: z.string().nonempty({ message: "errors.input_required" }),
-  start_date: z.string().nonempty({ message: "errors.input_required" }),
-  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  start_date: z.date(),
+  end_date: z.date(),
   logo_url: z.string().optional(),
   promotional_url: z.string().optional(),
   cps_mobile: z.any(),
@@ -56,17 +57,19 @@ export default function AddEvent({ cpsMobile }: Props) {
   const {
     formState: { errors },
     handleSubmit,
-    register,
     reset,
   } = form;
 
   useEffect(() => {
-    // console.log(errors);
+    console.log(errors);
     // console.log(Object.keys(errors).length > 0);
   }, [errors]);
 
   const handleInsertEvent = async (form: ValidationSchema) => {
     const { name, description, start_date, end_date, cps_mobile } = form;
+
+    const formatStartDate = new Date(start_date).toISOString();
+    const formatEndDate = new Date(end_date).toISOString();
 
     // Create event
     const { data: event, error: eventError } = await supabase
@@ -74,11 +77,20 @@ export default function AddEvent({ cpsMobile }: Props) {
       .insert({
         name,
         description,
-        start_date,
-        end_date,
+        start_date: formatStartDate,
+        end_date: formatEndDate,
         owner_id: user?.id,
+        address: "",
+        logo_url: "",
+        promotional_url: "",
+        status: "",
+        geoArgs: {
+          type: "Point",
+          coordinates: [0, 0],
+        },
       })
-      .select();
+      .select()
+      .single();
 
     if (eventError) {
       throw eventError;
@@ -90,7 +102,7 @@ export default function AddEvent({ cpsMobile }: Props) {
       return;
     }
 
-    const { id: eventId } = event[0];
+    const { id: eventId } = event;
 
     // Get CP checked from the list
     const cpsMFiltered = cps_mobile.filter((cp) => cp.cp_id);
@@ -148,64 +160,53 @@ export default function AddEvent({ cpsMobile }: Props) {
       <form>
         {/* Event Information  */}
         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("events_info")}</legend>
+          <legend className="text-2xl">{t("events_info")}</legend>
 
           {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="name">{t("name")}</label>
-            <input
-              type="text"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("name", { required: true })}
-            />
-          </div>
-
-          {errors.name && <DisplayInputError message="errors.input_required" />}
+          <InputLabel
+            form={form}
+            label={"name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="description">{t("description")}</label>
-            <textarea
-              className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("description", { required: true })}
-            />
-          </div>
-          {errors.description && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          <InputTextarea
+            form={form}
+            label={"description"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="The event every beer lover is waiting for!"
+          />
 
           {/* Start date and end date  */}
           <div className="flex flex-row space-x-2">
-            <div className="flex w-full  flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <DisplayInputError message="errors.input_required" />
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                type="date"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <DisplayInputError message="errors.input_required" />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
         {/* Logo and publicitary img */}
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("event_advertising")}</legend>
 
           {/* Logo */}
@@ -214,7 +215,7 @@ export default function AddEvent({ cpsMobile }: Props) {
         </fieldset>
 
         {/* List of user Consumption Points  */}
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
 
           {/* List of CPs  */}

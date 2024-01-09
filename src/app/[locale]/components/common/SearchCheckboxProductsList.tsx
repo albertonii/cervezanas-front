@@ -11,7 +11,7 @@ interface Props {
   form: UseFormReturn<any, any>;
 }
 
-export function ProductsSearchCheckboxList({ products, form }: Props) {
+export function SearchCheckboxProductsList({ products, form }: Props) {
   const [query, setQuery] = useState("");
 
   const {

@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
 import { format_options } from "../../../../lib/beerEnum";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ProductsSearchCheckboxList } from "../common/ProductsSearchCheckboxList";
+import { SearchCheckboxProductsList } from "../common/SearchCheckboxProductsList";
 import dynamic from "next/dynamic";
 import InputLabel from "../common/InputLabel";
 import SelectInput from "../common/SelectInput";
@@ -244,7 +244,7 @@ export function AddLot() {
             placeholder={t("beer_recipe")}
           />
 
-          <ProductsSearchCheckboxList products={products ?? []} form={form} />
+          <SearchCheckboxProductsList products={products ?? []} form={form} />
         </section>
       </form>
     </ModalWithForm>
