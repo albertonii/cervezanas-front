@@ -235,16 +235,14 @@ export function AddLot() {
             }}
           />
 
-          <div className="flex w-full flex-row space-x-3 ">
-            <InputTextarea
-              form={form}
-              label={"recipe"}
-              registerOptions={{
-                required: true,
-              }}
-              placeholder={t("beer_recipe")}
-            />
-          </div>
+          <InputTextarea
+            form={form}
+            label={"recipe"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder={t("beer_recipe")}
+          />
 
           <ProductsSearchCheckboxList products={products ?? []} form={form} />
         </section>

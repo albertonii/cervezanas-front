@@ -7,6 +7,7 @@ export function formatDateString(dateString: string) {
 }
 
 export function formatDateTypeDefaultInput(date: Date) {
+  console.log(typeof date);
   return date.toISOString().substring(0, 10);
 }
 

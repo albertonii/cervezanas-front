@@ -195,10 +195,11 @@ export interface IProductLot {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  expiration_date: any;
-  manufacture_date: any;
+  expiration_date: string;
+  manufacture_date: string;
   packaging: string;
   recipe: string;
+  products?: IProduct;
 }
 
 export interface IRefProductLot {
