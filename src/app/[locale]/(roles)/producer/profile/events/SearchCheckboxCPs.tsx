@@ -16,6 +16,7 @@ export function SearchCheckboxCPs({
   checkedCPs,
   selectedEventId,
 }: Props) {
+  console.log(checkedCPs);
   const [query, setQuery] = useState("");
 
   const { register, setValue } = form;
@@ -25,8 +26,6 @@ export function SearchCheckboxCPs({
   );
 
   const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
-    // if (!checkedCPs) return;
-
     if (isChecked) {
       // Verify if the CP is already in the array
       if (checkedCPsState.some((item) => item.cp_id === cpId)) return;

@@ -65,5 +65,5 @@ async function getEventsCounter() {
 
   if (error) throw error;
 
-  return count;
+  return count as number | 0;
 }

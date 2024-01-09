@@ -9,7 +9,7 @@ import InputSearch from "../../../../components/common/InputSearch";
 import useFetchEvents from "../../../../../../hooks/useFetchEvents";
 import { IconButton } from "../../../../components/common/IconButton";
 import { formatDateString } from "../../../../../../utils/formatDate";
-import EditEventModal from "../../../../components/modals/EditEventModal";
+import UpdateEventModal from "../../../../components/modals/UpdateEventModal";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import DeleteCEventModal from "../../../../components/modals/DeleteEventModal";
 import dynamic from "next/dynamic";
@@ -112,7 +112,7 @@ export default function EventList() {
   return (
     <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {isEditModal && selectedEvent && (
-        <EditEventModal
+        <UpdateEventModal
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}

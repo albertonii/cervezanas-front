@@ -24,7 +24,7 @@ export default function Events({ cpsMobile, counter }: Props) {
         </div>
       </header>
 
-      <EventList counter={counter} />
+      <EventList counter={counter} cpsMobile={cpsMobile} />
     </section>
   );
 }

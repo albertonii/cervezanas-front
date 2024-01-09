@@ -54,16 +54,7 @@ export default function AddEvent({ cpsMobile }: Props) {
     resolver: zodResolver(schema),
   });
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = form;
-
-  useEffect(() => {
-    console.log(errors);
-    // console.log(Object.keys(errors).length > 0);
-  }, [errors]);
+  const { handleSubmit, reset } = form;
 
   const handleInsertEvent = async (form: ValidationSchema) => {
     const { name, description, start_date, end_date, cps_mobile } = form;

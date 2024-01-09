@@ -6,13 +6,13 @@ import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwn
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IEvent } from "../../../../../../lib/types";
+import { ICPMobile, IEvent } from "../../../../../../lib/types";
 import Spinner from "../../../../components/common/Spinner";
 import InputSearch from "../../../../components/common/InputSearch";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { IconButton } from "../../../../components/common/IconButton";
-import EditEventModal from "../../../../components/modals/EditEventModal";
+import UpdateEventModal from "../../../../components/modals/UpdateEventModal";
 import DeleteEventModal from "../../../../components/modals/DeleteEventModal";
 
 enum SortBy {
@@ -31,9 +31,10 @@ interface ColumnsProps {
 
 interface Props {
   counter: number;
+  cpsMobile: ICPMobile[];
 }
 
-export default function EventList({ counter }: Props) {
+export default function EventList({ counter, cpsMobile }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const [query, setQuery] = useState("");
@@ -114,10 +115,11 @@ export default function EventList({ counter }: Props) {
   return (
     <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isEditModal && selectedEvent && (
-        <EditEventModal
+        <UpdateEventModal
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
+          cpsMobile={cpsMobile}
         />
       )}
 
