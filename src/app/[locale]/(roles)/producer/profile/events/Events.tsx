@@ -8,9 +8,10 @@ import { ICPMobile } from "../../../../../../lib/types";
 
 interface Props {
   cpsMobile: ICPMobile[];
+  counter: number;
 }
 
-export default function Events({ cpsMobile }: Props) {
+export default function Events({ cpsMobile, counter }: Props) {
   const t = useTranslations();
 
   return (
@@ -23,7 +24,7 @@ export default function Events({ cpsMobile }: Props) {
         </div>
       </header>
 
-      <EventList />
+      <EventList counter={counter} />
     </section>
   );
 }

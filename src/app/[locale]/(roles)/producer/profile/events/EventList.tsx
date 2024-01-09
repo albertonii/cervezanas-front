@@ -29,14 +29,16 @@ interface ColumnsProps {
   header: string;
 }
 
-export default function EventList() {
+interface Props {
+  counter: number;
+}
+
+export default function EventList({ counter }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const counter = 1;
   const resultsPerPage = 10;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(

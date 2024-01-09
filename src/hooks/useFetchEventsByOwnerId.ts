@@ -18,8 +18,11 @@ const fetchEventsByOwnerId = async (
     .from("events")
     .select(
       `
-      *
-    `
+        *
+      `,
+      {
+        count: "exact",
+      }
     )
     .eq("owner_id", ownerId)
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)

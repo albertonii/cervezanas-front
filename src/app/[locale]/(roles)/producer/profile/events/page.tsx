@@ -8,11 +8,15 @@ import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();
-  const [cpsMobile] = await Promise.all([cpsMobileData]);
+  const eventsCounterData = getEventsCounter();
+  const [cpsMobile, eventsCounter] = await Promise.all([
+    cpsMobileData,
+    eventsCounterData,
+  ]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Events cpsMobile={cpsMobile} />
+      <Events cpsMobile={cpsMobile} counter={eventsCounter} />
     </Suspense>
   );
 }
@@ -41,4 +45,25 @@ async function getCPMobileData() {
   if (cpError) throw cpError;
 
   return cps[0]?.cp_mobile as ICPMobile[];
+}
+
+async function getEventsCounter() {
+  const supabase = await createServerClient();
+
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) {
+    redirect(VIEWS.SIGN_IN);
+  }
+
+  const { count, error } = await supabase
+    .from("events")
+    .select("id", { count: "exact" }) // Selecciona solo una columna y habilita el conteo
+    .eq("owner_id", session.user.id);
+
+  if (error) throw error;
+
+  return count;
 }
