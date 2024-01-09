@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -159,10 +159,6 @@ export function AddProduct() {
   const generateUUID = () => {
     return uuidv4();
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   const handleInsertProduct = async (form: ValidationSchema) => {
     const {

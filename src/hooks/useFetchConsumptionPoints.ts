@@ -19,7 +19,6 @@ const fetchConsumptionPoints = async (
     )
     // .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
     .select();
-  console.log(data);
   if (error) throw error;
   return data as IConsumptionPoints[];
 };

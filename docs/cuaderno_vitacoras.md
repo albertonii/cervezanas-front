@@ -1,7 +1,6 @@
 # Listado de tareas:
 
 - Reducir el código usado con componente InputLabel, InputTextarea, etc
-- Configurar eventos
 - Configurar PC móviles
 - Configurar PC fijos
 - Comprar a través de un evento
@@ -47,6 +46,7 @@
 - [x] Toggle mayoría de edad cuando se presiona el botón de crear cuenta
 - [x] Crear campañas en formato listas
 - [x] Comprobar que los buscadores estén funcionando para eventos, pc móviles y fijos
+- [x] Configurar eventos
 
 # 29 de noviembre 23
 

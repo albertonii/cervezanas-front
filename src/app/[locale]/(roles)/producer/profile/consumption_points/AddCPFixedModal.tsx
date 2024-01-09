@@ -2,7 +2,7 @@
 
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
 import { IUser } from "../../../../../../lib/types";
@@ -130,10 +130,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     reset,
     setValue,
   } = form;
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   const handleAddress = (address: string) => {
     setAddress(address);
@@ -320,6 +316,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <InputTextarea
             form={form}
             label={"cp_description"}
+            labelText={t("description")}
             registerOptions={{
               required: true,
             }}
@@ -377,6 +374,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 <InputLabel
                   form={form}
                   label={"organizer_name"}
+                  labelText={t("name")}
                   registerOptions={{
                     required: true,
                   }}
@@ -385,6 +383,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 <InputLabel
                   form={form}
                   label={"organizer_lastname"}
+                  labelText={t("lastname")}
                   registerOptions={{
                     required: true,
                   }}
@@ -396,6 +395,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 <InputLabel
                   form={form}
                   label={"organizer_email"}
+                  labelText={t("email")}
                   registerOptions={{
                     required: true,
                   }}
@@ -405,6 +405,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 <InputLabel
                   form={form}
                   label={"organizer_phone"}
+                  labelText={t("phone")}
                   registerOptions={{
                     required: true,
                   }}

@@ -311,7 +311,6 @@ export default function EditCPFixedModal({
           {/* Status */}
           <SelectInput
             form={form}
-            hasInfoTooltip={true}
             labelTooltip={"cp_fixed_status_tooltip"}
             options={cp_fixed_status_options}
             label={"status"}
@@ -333,6 +332,7 @@ export default function EditCPFixedModal({
           <InputTextarea
             form={form}
             label={"cp_description"}
+            labelText={t("description")}
             registerOptions={{
               required: true,
             }}
@@ -401,6 +401,7 @@ export default function EditCPFixedModal({
                 <InputLabel
                   form={form}
                   label={"organizer_name"}
+                  labelText={t("name")}
                   registerOptions={{
                     required: true,
                   }}
@@ -409,6 +410,7 @@ export default function EditCPFixedModal({
                 <InputLabel
                   form={form}
                   label={"organizer_lastname"}
+                  labelText={t("lastname")}
                   registerOptions={{
                     required: true,
                   }}
@@ -420,6 +422,7 @@ export default function EditCPFixedModal({
                 <InputLabel
                   form={form}
                   label={"organizer_email"}
+                  labelText={t("email")}
                   registerOptions={{
                     required: true,
                   }}
@@ -429,6 +432,7 @@ export default function EditCPFixedModal({
                 <InputLabel
                   form={form}
                   label={"organizer_phone"}
+                  labelText={t("phone")}
                   registerOptions={{
                     required: true,
                   }}

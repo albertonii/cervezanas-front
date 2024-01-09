@@ -9,12 +9,17 @@ import { useMutation, useQueryClient } from "react-query";
 import ModalWithForm from "../../../../components/modals/ModalWithForm";
 import { ModalAddCampaignFormData } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import SelectInput from "../../../../components/common/SelectInput";
 import { SupabaseProps } from "../../../../../../constants";
 import { FilePreviewImageMultimedia } from "../../../../components/common/FilePreviewImageMultimedia";
 import InputLabel from "../../../../components/common/InputLabel";
 import InputTextarea from "../../../../components/common/InputTextarea";
+import { v4 as uuidv4 } from "uuid";
+import { generateFileNameExtension } from "../../../../../../utils/utils";
+
+const generateUUID = () => {
+  return uuidv4();
+};
 
 enum CampaignStatus {
   uninitialized = "uninitialized",
@@ -107,13 +112,28 @@ export function AddCampaign() {
       status,
     } = form;
 
+    const startDateToString = start_date?.toISOString();
+    const endDateToString = end_date?.toISOString();
+
+    const randomUUID = generateUUID();
+
+    const filename = `campaign/${user.id}/${randomUUID}`;
+    let campaign_img_url = "";
+    if (img_url && img_url[0]) {
+      campaign_img_url = encodeURIComponent(
+        `${filename}${generateFileNameExtension(img_url[0].name)}`
+      );
+    }
+
+    // TODO: Upload the campaign img_url to the storage
+
     const { error } = await supabase.from("campaigns").insert({
       name,
       description,
-      img_url,
+      img_url: campaign_img_url,
       is_public,
-      start_date,
-      end_date,
+      start_date: startDateToString,
+      end_date: endDateToString,
       slogan,
       goal,
       status,
@@ -221,7 +241,7 @@ export function AddCampaign() {
         <InputTextarea
           form={form}
           label={"description"}
-          labelText={"campaign_description"}
+          labelText={t("campaign_description")}
           registerOptions={{
             required: true,
           }}

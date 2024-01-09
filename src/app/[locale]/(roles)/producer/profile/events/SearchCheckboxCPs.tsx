@@ -16,7 +16,6 @@ export function SearchCheckboxCPs({
   checkedCPs,
   selectedEventId,
 }: Props) {
-  console.log(checkedCPs);
   const [query, setQuery] = useState("");
 
   const { register, setValue } = form;
