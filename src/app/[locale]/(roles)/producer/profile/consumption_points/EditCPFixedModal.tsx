@@ -82,7 +82,6 @@ export default function EditCPFixedModal({
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
-  const [address, setAddress] = useState<string>(selectedCP?.address ?? "");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -92,7 +91,6 @@ export default function EditCPFixedModal({
 
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
@@ -149,7 +147,7 @@ export default function EditCPFixedModal({
   }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
-    setAddress(address);
+    setValue("address", address);
   };
 
   const handleIsInternalOrganizer = (e: any) => {
@@ -263,17 +261,12 @@ export default function EditCPFixedModal({
   const updateCPFixedMutation = useMutation({
     mutationKey: ["updateCPFixed"],
     mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
       handleEditModal(false);
     },
     onError: (e: any) => {
       console.error(e);
-      setIsSubmitting(false);
     },
   });
 
@@ -496,7 +489,7 @@ export default function EditCPFixedModal({
           {/* Address  */}
           <CPGoogleMap
             handleAddress={handleAddress}
-            defaultLocation={address}
+            defaultLocation={selectedCP.address}
             defaultGeoArgs={selectedCP.geoArgs}
           />
         </fieldset>

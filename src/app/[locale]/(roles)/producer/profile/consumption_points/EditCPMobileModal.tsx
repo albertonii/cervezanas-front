@@ -83,7 +83,6 @@ export default function EditCPMobileModal({
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
-  const [address, setAddress] = useState<string>(selectedCP?.address ?? "");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -148,7 +147,7 @@ export default function EditCPMobileModal({
   }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
-    setAddress(address);
+    setValue("address", address);
   };
 
   const handleIsInternalOrganizer = (e: any) => {
@@ -486,7 +485,7 @@ export default function EditCPMobileModal({
           {/* Address  */}
           <CPGoogleMap
             handleAddress={handleAddress}
-            defaultLocation={address}
+            defaultLocation={selectedCP.address}
             defaultGeoArgs={selectedCP.geoArgs}
           />
         </fieldset>

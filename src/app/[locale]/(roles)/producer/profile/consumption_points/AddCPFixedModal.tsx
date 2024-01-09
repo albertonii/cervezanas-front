@@ -79,7 +79,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
-  const [address, setAddress] = useState<string>("");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -132,7 +131,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   } = form;
 
   const handleAddress = (address: string) => {
-    setAddress(address);
     setValue("address", address);
   };
 
@@ -143,6 +141,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     }
 
     const {
+      address,
       cp_name,
       cp_description,
       organizer_name,

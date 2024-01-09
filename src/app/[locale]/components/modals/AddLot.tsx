@@ -73,7 +73,6 @@ export function AddLot() {
   const {
     handleSubmit,
     reset,
-    formState: { errors },
   } = form;
 
   const queryClient = useQueryClient();

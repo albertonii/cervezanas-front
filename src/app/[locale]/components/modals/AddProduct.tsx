@@ -152,7 +152,6 @@ export function AddProduct() {
   const {
     handleSubmit,
     reset,
-    formState: { errors },
   } = form;
   const queryClient = useQueryClient();
 

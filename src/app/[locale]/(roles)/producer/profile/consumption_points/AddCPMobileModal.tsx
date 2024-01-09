@@ -77,7 +77,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
-  const [address, setAddress] = useState<string>("");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -130,7 +129,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   } = form;
 
   const handleAddress = (address: string) => {
-    setAddress(address);
     setValue("address", address);
   };
 
@@ -151,6 +149,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       end_date,
       product_items,
       status,
+      address,
     } = form;
 
     if (!isValidObject(address)) {
