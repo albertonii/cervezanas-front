@@ -145,7 +145,7 @@ export function BasicDataForm({ profile }: Props) {
             labelText={t("profile_acc_name")}
             registerOptions={{
               required: true,
-              maxLength: 30,
+              maxLength: 50,
             }}
           />
 
