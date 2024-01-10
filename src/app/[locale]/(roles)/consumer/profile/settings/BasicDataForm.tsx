@@ -11,7 +11,7 @@ import { IUserTable } from "../../../../../../lib/types";
 import { Button } from "../../../../components/common/Button";
 import Spinner from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import InputLabel from "../../../../components/common/InputLabel";
 
 type FormData = {
   name: string;
@@ -45,11 +45,7 @@ export function BasicDataForm({ profile }: Props) {
 
   const { handleMessage } = useMessage();
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({
+  const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       name,
@@ -58,6 +54,8 @@ export function BasicDataForm({ profile }: Props) {
       username,
     },
   });
+
+  const { handleSubmit } = form;
 
   const handleUpdateBasicData = async (form: ValidationSchema) => {
     const { name, lastname } = form;
@@ -117,78 +115,52 @@ export function BasicDataForm({ profile }: Props) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="username" className="text-sm text-gray-600">
-              {t("profile_acc_username")}
-            </label>
-
-            <input
-              placeholder="user123"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed focus:z-10 sm:text-sm"
-              {...register("username")}
-              disabled
-            />
-          </div>
+          <InputLabel
+            form={form}
+            label={"username"}
+            labelText={t("profile_acc_username")}
+            registerOptions={{
+              required: true,
+              maxLength: 30,
+            }}
+            placeholder={"user123"}
+            disabled
+          />
         </div>
 
         <div className="flex flex-row items-end">
-          <div className="w-full">
-            <label htmlFor="email" className="text-sm text-gray-600">
-              {t("profile_acc_email")}
-            </label>
-
-            <input
-              placeholder="ejemplo@cervezanas.com"
-              readOnly
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-beer-softFoam focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("email", {
-                required: true,
-                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
-              })}
-            />
-          </div>
+          <InputLabel
+            form={form}
+            label={"email"}
+            labelText={t("profile_acc_email")}
+            registerOptions={{
+              required: true,
+              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+            }}
+            placeholder={"user@cervezanas.com"}
+            disabled
+          />
         </div>
 
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="space-y w-full">
-            <label htmlFor="username" className="text-sm text-gray-600">
-              {t("profile_acc_name")}
-            </label>
+          <InputLabel
+            form={form}
+            label={"name"}
+            labelText={t("profile_acc_name")}
+            registerOptions={{
+              required: true,
+              maxLength: 30,
+            }}
+          />
 
-            <input
-              type="text"
-              id="name"
-              placeholder="Alberto"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("name", {
-                required: true,
-                maxLength: 30,
-              })}
-            />
-
-            {errors.name && <DisplayInputError message={errors.name.message} />}
-          </div>
-
-          <div className="w-full ">
-            <label htmlFor="lastname" className="text-sm text-gray-600">
-              {t("lastname")}
-            </label>
-
-            <input
-              type="text"
-              id="lastname"
-              placeholder="Niironen"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("lastname", {
-                required: true,
-                maxLength: 50,
-              })}
-            />
-
-            {errors.lastname && (
-              <DisplayInputError message={errors.lastname.message} />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"lastname"}
+            registerOptions={{
+              required: true,
+              maxLength: 50,
+            }}
+          />
         </div>
 
         {loading && (

@@ -26,6 +26,7 @@ interface Props {
   placeholder?: string;
   labelText?: string;
   defaultValue?: any;
+  disabled?: boolean;
 }
 export default function InputLabel({
   form,
@@ -36,6 +37,7 @@ export default function InputLabel({
   infoTooltip,
   placeholder,
   defaultValue,
+  disabled,
 }: Props) {
   const t = useTranslations();
 
@@ -64,6 +66,7 @@ export default function InputLabel({
           {...register(label, registerOptions)}
           placeholder={placeholder}
           defaultValue={defaultValue}
+          disabled={disabled}
         />
       </label>
 
