@@ -6,6 +6,8 @@ import { Button } from "../common/Button";
 import { DisplayInputError } from "../common/DisplayInputError";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { SupabaseProps } from "../../../../constants";
+import InputLabel from "../common/InputLabel";
+import { DeleteButton } from "../common/DeleteButton";
 
 const emptyAward: IAward = {
   id: "",
@@ -31,7 +33,7 @@ export function AwardsSectionUpdate({ form }: Props) {
   const preUrl =
     SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
-  const { control, register } = form;
+  const { control } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: "awards",
@@ -71,86 +73,43 @@ export function AwardsSectionUpdate({ form }: Props) {
       {fields.map((field, index) => (
         <div key={field.id}>
           <div className="space-y w-full">
-            {fields.length > 1 ? (
-              <div>
-                <Button
-                  danger
-                  onClick={() => handleRemoveAward(index)}
-                  class={""}
-                >
-                  {t("remove")}
-                </Button>
-              </div>
-            ) : (
-              <></>
-            )}
-
-            <label htmlFor="award_name" className="text-sm text-gray-600">
-              <b>{index + 1} </b> {t("name")}
-            </label>
-
-            <input
-              type="text"
-              id="award_name"
-              placeholder={t("input_product_award_name_placeholder") ?? ""}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register(`awards.${index}.name`, {
-                required: false,
-              })}
+            <InputLabel
+              form={form}
+              label={`awards.${index}.name`}
+              labelText={`${index + 1} ${t("name")}`}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={t("input_product_award_name_placeholder")}
             />
-            {`errors.awards.${index}.name.type` === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {`errors.awards.${index}.name.type` === "maxLength" && (
-              <DisplayInputError message="errors.product_modal_20_max_length" />
-            )}
+
+            <div className="ml-4">
+              <DeleteButton onClick={() => handleRemoveAward(index)} />
+            </div>
           </div>
 
-          <div className="space-y w-full">
-            <label
-              htmlFor="award_description"
-              className="text-sm text-gray-600"
-            >
-              {t("description")}
-            </label>
+          <InputLabel
+            form={form}
+            label={`awards.${index}.description`}
+            labelText={"description"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder={t("description")}
+          />
 
-            <input
-              type="text"
-              id="award_description"
-              placeholder={t("description") ?? ""}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register(`awards.${index}.description`, {
-                required: false,
-              })}
-            />
-            {`errors.awards.${index}.description.type` === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {`errors.awards.${index}.description.type` === "maxLength" && (
-              <DisplayInputError message="errors.product_modal_20_max_length" />
-            )}
-          </div>
-
-          <div className="space-y w-full">
-            <label htmlFor="award_year" className="text-sm text-gray-600">
-              {t("year")}
-            </label>
-
-            <input
-              type="number"
-              id="award_year"
-              placeholder={t("input_product_award_year_placeholder") ?? ""}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              value="2021"
-              {...register(`awards.${index}.year`, {
-                required: false,
-                valueAsNumber: true,
-              })}
-            />
-            {`errors.awards.${index}.year.type` === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={`awards.${index}.year`}
+            labelText={"year"}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={t("input_product_award_year_placeholder")}
+            inputType="number"
+            defaultValue={2021}
+          />
 
           <div className="space-y w-full">
             <label htmlFor="award_img_url" className="text-sm text-gray-600">
