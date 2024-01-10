@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { ICPMobile, ICPM_events } from "../../../../../../lib/types";
 import InputSearch from "../../../../components/common/InputSearch";
@@ -17,7 +17,6 @@ export function SearchCheckboxCPs({
   selectedEventId,
 }: Props) {
   const [query, setQuery] = useState("");
-
   const { register, setValue } = form;
 
   const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
@@ -44,6 +43,13 @@ export function SearchCheckboxCPs({
     setValue("cps_mobile", checkedCPsState);
   }, [checkedCPsState]);
 
+  const filteredItemsByProductsName = useMemo(() => {
+    if (!cpsMobile) return [];
+    return cpsMobile.filter((cp) => {
+      return cp.cp_name.toLowerCase().includes(query.toLowerCase());
+    });
+  }, [cpsMobile, query]);
+
   return (
     <section className="z-10 my-6 w-full space-y-4 rounded bg-white shadow dark:bg-gray-700">
       <InputSearch
@@ -56,36 +62,33 @@ export function SearchCheckboxCPs({
         className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
         aria-labelledby="dropdownSearchButton"
       >
-        {cpsMobile &&
-          cpsMobile.map((cp: ICPMobile) => {
-            return (
-              <li
-                key={cp.id}
-                className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+        {filteredItemsByProductsName.map((cp: ICPMobile) => {
+          return (
+            <li
+              key={cp.id}
+              className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+            >
+              {/* Checkbox Name  */}
+              <input
+                id={`checkbox-item-${cp.id}`}
+                type="checkbox"
+                {...register(`cps_mobile.${cp.id}.cp_id`)}
+                checked={checkedCPsState?.some(
+                  (cps_event) => cps_event.cp_id === cp.id
+                )}
+                onChange={(e) => handleCheckboxChange(cp.id, e.target.checked)}
+                value={cp.id}
+                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+              />
+              <label
+                htmlFor={`checkbox-item-${cp.id}`}
+                className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
               >
-                {/* Checkbox Name  */}
-                <input
-                  id={`checkbox-item-${cp.id}`}
-                  type="checkbox"
-                  {...register(`cps_mobile.${cp.id}.cp_id`)}
-                  checked={checkedCPsState?.some(
-                    (cps_event) => cps_event.cp_id === cp.id
-                  )}
-                  onChange={(e) =>
-                    handleCheckboxChange(cp.id, e.target.checked)
-                  }
-                  value={cp.id}
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                />
-                <label
-                  htmlFor={`checkbox-item-${cp.id}`}
-                  className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
-                  {cp.cp_name}
-                </label>
-              </li>
-            );
-          })}
+                {cp.cp_name}
+              </label>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
