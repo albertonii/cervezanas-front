@@ -122,7 +122,6 @@ export function BasicDataForm({ profile }: Props) {
           labelText={t("profile_acc_username")}
           registerOptions={{
             required: true,
-            maxLength: 30,
           }}
           placeholder={"user123"}
           disabled
