@@ -172,7 +172,7 @@ export function CustomizeSettings() {
             <input
               ref={colorInputRef}
               id="colorInputRef"
-              type="textunded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className=" border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </fieldset>
 
