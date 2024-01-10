@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 import {
@@ -55,19 +55,22 @@ export default function CPGoogleMap({
 }
 
 function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
-  const location = defaultGeoArgs?.[0]?.geometry?.location;
+  const geometry: google.maps.GeocoderGeometry | undefined =
+    defaultGeoArgs?.[0]?.geometry;
+
+  const location: any = geometry?.location;
 
   const latLng: LatLng = {
     lat: location?.lat ?? 40.41,
     lng: location?.lng ?? -3.7,
   };
 
-  const [selected, setSelected] = useState(defaultLocation ?? null);
-
   const center = {
     lat: latLng.lat,
     lng: latLng.lng,
   };
+
+  const [selected, setSelected] = useState(defaultLocation ?? null);
 
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -99,7 +102,7 @@ function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
           mapContainerStyle={containerStyle}
           onLoad={onLoad}
         >
-         {selected && <Marker position={selected} />} 
+          {/* TODO: {selected && <Marker position={selected} />} */}
         </GoogleMap>
       </div>
     </div>
@@ -132,10 +135,6 @@ const PlacesAutocomplete = ({
   useEffect(() => {
     if (defaultLocation) setValue(defaultLocation);
   }, [defaultLocation]);
-
-  useEffect(() => {
-    console.log(status, data);
-  }, [status, data]);
 
   const handleSelect = async (address: any) => {
     setValue(address, false);
