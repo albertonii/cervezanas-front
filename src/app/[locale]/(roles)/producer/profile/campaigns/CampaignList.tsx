@@ -9,11 +9,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { ICampaign } from "../../../../../../lib/types";
 import Spinner from "../../../../components/common/Spinner";
 import { EditButton } from "../../../../components/common/EditButton";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import InputSearch from "../../../../components/common/InputSearch";
 import useFetchCampaignsByOwnerAndPagination from "../../../../../../hooks/useFetchCampaignsByOwnerAndPagination";
-import { formatDateString, formatDateTypeDefaultInput } from "../../../../../../utils/formatDate";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;

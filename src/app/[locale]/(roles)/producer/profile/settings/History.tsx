@@ -41,7 +41,7 @@ export function History(props: Props) {
             </h3>
           </div>
 
-          <HistoryForm />
+          {/* <HistoryForm /> */}
         </section>
       )}
     </>

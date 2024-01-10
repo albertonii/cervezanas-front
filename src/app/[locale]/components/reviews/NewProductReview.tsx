@@ -11,8 +11,8 @@ import { useMessage } from "../message/useMessage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { DisplayInputError } from "../common/DisplayInputError";
 import { SuccessfulReviewModal } from "../modals/SuccessfulReviewModal";
+import InputTextarea from "../common/InputTextarea";
 
 type FormValues = {
   aroma: number;
@@ -69,12 +69,7 @@ export function NewProductReview({
 
   const { handleMessage } = useMessage();
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<FormValues>({
+  const form = useForm<FormValues>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
@@ -86,6 +81,8 @@ export function NewProductReview({
       overall: overallRate,
     },
   });
+
+  const { handleSubmit, reset } = form;
 
   const handleInsertReview = async (form: ValidationSchema) => {
     const { comment } = form;
@@ -245,27 +242,13 @@ export function NewProductReview({
             </div>
 
             {/* Comment  */}
-            <div className="mb-6 mt-6 flex w-full flex-row space-x-12">
-              <label
-                htmlFor="comment"
-                className="mb-2 block text-xl  font-medium dark:text-white"
-              >
-                {t("comment")}
-              </label>
-
-              <textarea
-                id="comment"
-                className="sm:text-md inline-block h-24 w-full rounded-lg border border-gray-300 bg-gray-50 p-4 align-top focus:border-beer-blonde focus:ring-beer-blonde dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-beer-blonde dark:focus:ring-beer-blonde"
-                {...register("comment", {
-                  required: "Required",
-                })}
-                style={{ resize: "none" }}
-              />
-
-              {errors.comment && (
-                <DisplayInputError message={errors.comment.message} />
-              )}
-            </div>
+            <InputTextarea
+              form={form}
+              label={"comment"}
+              registerOptions={{
+                required: true,
+              }}
+            />
 
             {/* Rate  */}
             <div className="flex w-full flex-row space-x-2">

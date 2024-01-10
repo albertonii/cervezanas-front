@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@supabase/supabase-js";
-import { HistoryForm } from "./HistoryForm";
 
 interface Props {
   user: User | null;
@@ -41,7 +40,7 @@ export function History(props: Props) {
             </h3>
           </div>
 
-          <HistoryForm />
+          {/* <HistoryForm /> */}
         </section>
       )}
     </>
