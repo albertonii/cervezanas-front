@@ -1,13 +1,17 @@
 # Listado de tareas:
 
+- Hacer que las vistas de los profiles sean homogéneas entre si
+- Comprobar que sign in con Google sea igual que por usuario y contraseña
+- Realizar compra de cerveza en un evento y enviar QR a un amigo para que vaya por la cerveza
+- Modificar el precio de un producto asociado a un PC
+- Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
+- Comprobar: si la app está en Dark Mode se pueda leer el QR
 - Reducir el código usado con componente InputLabel, InputTextarea, etc
 - Configurar PC móviles
 - Configurar PC fijos
 - Comprar a través de un evento
-- Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
-- Comprobar: si la app está en Dark Mode se pueda leer el QR
 - CRUD para una review de un producto comprado
 - Historial de ventas en un punto de consumo
 - Al borrar una review, confirmar la acción con un modal
@@ -15,16 +19,12 @@
 - Comprobar que funcione SMTP para configuración de usuarios
 - Sistema básico de gamificación -> al realizar compra, review, etc
 - QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
-- Modificar el precio de un producto asociado a un PC
 - Sistema de stock para controlar las cantidades de cada producto/pack
-- Comprobar que sign in con Google sea igual que por usuario y contraseña
-- Realizar compra de cerveza en un evento y enviar QR a un amigo para que vaya por la cerveza
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
 - Contratar servicios RESEND - SMTP
 - Contratar servicios FV0 - API REST Servicios Sistema de Distribución
 - Contratar plan de pago Supabase
-- Hacer que las vistas de los profiles sean homogéneas entre si
 - Editar una campaña
 - Vincular productos a la campaña
 - Al pulsar en editar evento -> Mostrar los PC Móviles asociados

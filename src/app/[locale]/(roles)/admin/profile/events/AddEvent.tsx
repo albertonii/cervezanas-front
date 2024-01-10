@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
 import { ICPMobile } from "../../../../../../lib/types";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
 import ModalWithForm from "../../../../components/modals/ModalWithForm";
@@ -12,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
 
 export type ModalAddEventFormData = {
   name: string;
@@ -52,16 +53,7 @@ export default function AddEvent({ cpsMobile }: Props) {
     resolver: zodResolver(schema),
   });
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-  } = form;
-
-  // useEffect(() => {
-  //   // console.log(Object.keys(errors).length > 0);
-  // }, [errors]);
+  const { handleSubmit, reset } = form;
 
   const handleInsertEvent = async (form: ValidationSchema) => {
     const { name, description, start_date, end_date, cps_mobile } = form;
@@ -151,56 +143,45 @@ export default function AddEvent({ cpsMobile }: Props) {
           <legend className="m-2 text-2xl">{t("events_info")}</legend>
 
           {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="name">{t("name")}</label>
-            <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              type="text"
-              {...register("name", { required: true })}
-            />
-          </div>
-
-          {errors.name && <DisplayInputError message="errors.input_required" />}
+          <InputLabel
+            form={form}
+            label={"name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="description">{t("description")}</label>
-            <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              {...register("description", { required: true })}
-            />
-          </div>
-          {errors.description && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          <InputTextarea
+            form={form}
+            label={"description"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+          />
 
           {/* Start date and end date  */}
           <div className="flex flex-row space-x-2">
-            <div className="flex w-full  flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <DisplayInputError message="errors.input_required" />
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                type="date"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <DisplayInputError message="errors.input_required" />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
