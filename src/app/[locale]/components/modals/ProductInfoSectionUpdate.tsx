@@ -17,10 +17,11 @@ import {
   volume_draft_type_options,
   volume_bottle_type_options,
 } from "../../../../lib/beerEnum";
-import { InfoTooltip } from "../common/InfoTooltip";
 import { ModalUpdateProductFormData } from "../../../../lib/types";
 import { DisplayInputError } from "../common/DisplayInputError";
 import StockInformationDetailsAndPacksUpdate from "./StockInformationDetailsAndPacksUpdate";
+import InputLabel from "../common/InputLabel";
+import InputTextarea from "../common/InputTextarea";
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -102,25 +103,16 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           </p>
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="space-y w-full">
-              <label htmlFor="product_name" className="text-sm text-gray-600">
-                {t("product_name")}
-              </label>
+            <InputLabel
+              form={form}
+              label={"name"}
+              labelText={t("product_name")}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="IPA Jaira"
+            />
 
-              <input
-                type="text"
-                id="product_name"
-                placeholder="IPA Jaira"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("name", {
-                  required: true,
-                })}
-              />
-
-              {errors.name && (
-                <DisplayInputError message={errors.name.message} />
-              )}
-            </div>
             {/* 
             <div className="w-full ">
               <label htmlFor="campaign" className="text-sm text-gray-600">
@@ -141,62 +133,35 @@ export function ProductInfoSectionUpdate({ form }: Props) {
             </div> */}
           </div>
 
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="space-y w-full">
-              <label htmlFor="description" className="text-sm text-gray-600">
-                {t("product_description")}
-              </label>
-
-              <textarea
-                id="description"
-                placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-                className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register("description", {
-                  required: true,
-                })}
-              />
-
-              {errors.description && (
-                <DisplayInputError message={errors.description.message} />
-              )}
-            </div>
-          </div>
+          {/* Description  */}
+          <InputTextarea
+            form={form}
+            label={"description"}
+            labelText={t("product_description")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+          />
 
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <label htmlFor="intensity" className="text-sm text-gray-600">
-                {t("intensity")} (%)
-                <InfoTooltip
-                  content={`${t("intensity_tooltip")}`}
-                  delay={0}
-                  width={600}
-                />
-              </label>
-
-              <input
-                id="intensity"
-                type="number"
-                placeholder="4.7"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                defaultValue={0}
-                min="0"
-                max="100"
-                {...register(`intensity`, {
-                  required: true,
-                  min: 0,
-                  max: 100,
-                  valueAsNumber: true,
-                })}
-              />
-
-              {errors.intensity && (
-                <DisplayInputError message={errors.intensity.message} />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"intensity"}
+              labelText={`${t("intensity")} (%)`}
+              registerOptions={{
+                required: true,
+                min: 0,
+                max: 100,
+                valueAsNumber: true,
+              }}
+              placeholder="4.7"
+              infoTooltip={t("intensity_tooltip")}
+              inputType="number"
+            />
 
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"fermentation_tooltip"}
               options={fermentation_options}
               label={"fermentation"}
@@ -210,7 +175,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"color_tooltip"}
               options={color_options}
               label={"color"}
@@ -222,7 +186,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
 
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"origin_tooltip"}
               options={origin_options}
               label={"origin"}
@@ -236,7 +199,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"family_tooltip"}
               options={family_options}
               label={"family"}
@@ -248,7 +210,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
 
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"era_tooltip"}
               options={era_options}
               label={"era"}
@@ -262,7 +223,6 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              hasInfoTooltip={true}
               labelTooltip={"aroma_tooltip"}
               options={aroma_options}
               label={"aroma"}
@@ -370,60 +330,35 @@ export function ProductInfoSectionUpdate({ form }: Props) {
             </div>
 
             {/* Product Weight  */}
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="w-full ">
-                <label htmlFor="weight" className="text-sm text-gray-600">
-                  {t("weight")} (gr)
-                </label>
-
-                <input
-                  id="weight"
-                  type="number"
-                  placeholder={"0"}
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  min="0"
-                  {...register(`weight`, {
-                    required: true,
-                    min: 0,
-                    valueAsNumber: true,
-                  })}
-                />
-
-                {errors.weight && (
-                  <DisplayInputError message={errors.weight.message} />
-                )}
-              </div>
-            </div>
+            <InputLabel
+              form={form}
+              label={"weight"}
+              labelText={`${t("weight")} (gr)`}
+              placeholder={"0"}
+              registerOptions={{
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              }}
+              inputType="number"
+            />
           </div>
 
-          {/* Individual Price  */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <label htmlFor="price" className="text-sm text-gray-600">
-                {t("price")} (€)
-              </label>
-
-              <input
-                id="price"
-                type="number"
-                placeholder="4.7"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                min="0"
-                {...register(`price`, {
-                  value: getValues("price"),
-                  required: true,
-                  min: 0,
-                  valueAsNumber: true,
-                })}
-              />
-
-              {errors.price && (
-                <DisplayInputError message={errors.price.message} />
-              )}
-            </div>
-          </div>
-
-          {/* <Divider /> */}
+          {/* PVPR  */}
+          <InputLabel
+            form={form}
+            label={"price"}
+            labelText={`${t("pvpr")} (€)`}
+            placeholder="4.7"
+            registerOptions={{
+              value: getValues("price"),
+              required: true,
+              min: 0,
+              valueAsNumber: true,
+            }}
+            inputType="number"
+            infoTooltip={"pvpr_tooltip"}
+          />
 
           {/* Stock information and Packs */}
           <StockInformationDetailsAndPacksUpdate form={form} />

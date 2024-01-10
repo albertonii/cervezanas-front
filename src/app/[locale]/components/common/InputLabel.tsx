@@ -52,11 +52,7 @@ export default function InputLabel({
         <span>
           {labelText ? labelText : t(label)}
           {infoTooltip && (
-            <InfoTooltip
-              content={`${t("intensity_tooltip")}`}
-              delay={0}
-              width={600}
-            />
+            <InfoTooltip content={`${t(infoTooltip)}`} delay={0} width={600} />
           )}
         </span>
 

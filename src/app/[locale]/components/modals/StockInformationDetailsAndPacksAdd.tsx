@@ -6,7 +6,6 @@ import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia
 import { DeleteButton } from "../common/DeleteButton";
 import { Button } from "../common/Button";
 import { pack_type_options } from "../../../../lib/beerEnum";
-import { DisplayInputError } from "../common/DisplayInputError";
 import { SupabaseProps } from "../../../../constants";
 import InputLabel from "../common/InputLabel";
 
@@ -31,12 +30,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
   const preUrl =
     SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
-  const {
-    register,
-    getValues,
-    formState: { errors },
-    control,
-  } = form;
+  const { register, getValues, control } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: "packs",
@@ -89,8 +83,6 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
           />
         </div>
 
-        {/* <Divider /> */}
-
         {/* Packs */}
         <div className="flex flex-col space-y-2">
           <span className="text-lg ">{t("add_product_pack")}</span>
@@ -136,66 +128,33 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                   )}
                 </div>
 
-                <div className="w-full">
-                  <label
-                    htmlFor={`packs.${index}.price`}
-                    className="text-sm text-gray-600"
-                  >
-                    {t("pack_price")}
-                  </label>
-
-                  <input
-                    id="price"
-                    type="number"
-                    placeholder="2.5"
-                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    defaultValue={3}
-                    required
-                    min="0"
-                    {...register(`packs.${index}.price` as const, {
-                      required: true,
-                      min: 0,
-                      value: getValues(`packs.${index}.price`),
-                      valueAsNumber: true,
-                    })}
-                  />
-
-                  {`errors.packs.${index}.price.type` === "required" && (
-                    <p>{t("errors.input_required")}</p>
-                  )}
-                  {`errors.packs.${index}.price.type` === "min" && (
-                    <p>{t("product_modal_min_0")}</p>
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={`packs.${index}.price`}
+                  labelText={t("pack_price")}
+                  registerOptions={{
+                    value: getValues(`packs.${index}.price`),
+                    required: true,
+                    min: 0,
+                    valueAsNumber: true,
+                  }}
+                  placeholder="2.5"
+                  inputType="number"
+                  defaultValue={3}
+                />
               </div>
 
               {/* Pack name  */}
-              <div className="flex w-full flex-row items-end space-x-3 space-y-2">
-                <label
-                  htmlFor={`packs.${index}.name`}
-                  className="text-sm text-gray-600"
-                >
-                  {t("pack_name")}
-                </label>
-
-                <input
-                  id={`packs.${index}.name`}
-                  type="text"
-                  placeholder={`Pack ${index + 1}`}
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  defaultValue={3}
-                  required
-                  min="0"
-                  {...register(`packs.${index}.name` as const, {
-                    required: true,
-                    value: getValues(`packs.${index}.name`),
-                  })}
-                />
-
-                {errors.packs?.[index]?.name && (
-                  <DisplayInputError message={"errors.input_required"} />
-                )}
-              </div>
+              <InputLabel
+                form={form}
+                label={`packs.${index}.name`}
+                labelText={t("pack_name")}
+                registerOptions={{
+                  value: getValues(`packs.${index}.name`),
+                  required: true,
+                }}
+                placeholder={`Pack ${index + 1}`}
+              />
 
               {/* File  */}
               <div className="flex w-full flex-row items-end space-x-3 space-y-2">
