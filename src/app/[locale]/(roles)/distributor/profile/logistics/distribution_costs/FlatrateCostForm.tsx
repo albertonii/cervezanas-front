@@ -13,8 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "react-query";
 import { useMessage } from "../../../../../components/message/useMessage";
 import Error from "next/error";
-import { DisplayInputError } from "../../../../../components/common/DisplayInputError";
 import { useAuth } from "../../../../../Auth/useAuth";
+import InputLabel from "../../../../../components/common/InputLabel";
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
   local_distribution_cost: z.number().min(0),
@@ -42,11 +42,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
   const submitErrorMessage = t("messages.submit_error");
   const { supabase } = useAuth();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ValidationSchema>({
+  const form = useForm<ValidationSchema>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
@@ -57,6 +53,8 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
         flatrateCost?.international_distribution_cost ?? 0,
     },
   });
+
+  const { handleSubmit } = form;
 
   const handleUpdateFlatrateCost = async (form: ValidationSchema) => {
     const {
@@ -137,105 +135,74 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            Coste de distribución local
+            {t("local_distribution_cost")}
           </legend>
 
-          <label className="w-full">
-            {t("local_distribution_cost") + " (€)"}
-
-            <input
-              type="number"
-              placeholder={"0"}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min={0}
-              {...register("local_distribution_cost", {
-                valueAsNumber: true,
-              })}
-            />
-
-            {errors.local_distribution_cost && (
-              <DisplayInputError
-                message={errors.local_distribution_cost.message}
-              />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"local_distribution_cost"}
+            labelText={`${t("local_distribution_cost")} (€) `}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={"0"}
+            inputType="number"
+          />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            Coste de distribución nacional
+            {t("national_distribution_cost")}
           </legend>
 
-          <label className="w-full">
-            {t("national_distribution_cost") + " (€)"}
-
-            <input
-              type="number"
-              placeholder={"0"}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min={0}
-              {...register("national_distribution_cost", {
-                valueAsNumber: true,
-              })}
-            />
-
-            {errors.national_distribution_cost && (
-              <DisplayInputError
-                message={errors.national_distribution_cost.message}
-              />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"national_distribution_cost"}
+            labelText={`${t("national_distribution_cost")} (€) `}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={"0"}
+            inputType="number"
+          />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            Coste de distribución europea
-          </legend>
-
-          <label className="w-full">
             {t("europe_distribution_cost") + " (€)"}
+          </legend>
 
-            <input
-              type="number"
-              placeholder={"0"}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min={0}
-              {...register("europe_distribution_cost", {
-                valueAsNumber: true,
-              })}
-            />
-
-            {errors.europe_distribution_cost && (
-              <DisplayInputError
-                message={errors.europe_distribution_cost.message}
-              />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"europe_distribution_cost"}
+            labelText={`${t("europe_distribution_cost")} (€) `}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={"0"}
+            inputType="number"
+          />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            Coste de distribución internacional
+            {t("international_distribution_cost") + " (€)"}
           </legend>
 
-          <label className="w-full">
-            {t("international_distribution_cost") + " (€)"}
-
-            <input
-              type="number"
-              placeholder={"0"}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              min={0}
-              {...register("international_distribution_cost", {
-                valueAsNumber: true,
-              })}
-            />
-            {errors.international_distribution_cost && (
-              <DisplayInputError
-                message={errors.international_distribution_cost.message}
-              />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"international_distribution_cost"}
+            labelText={`${t("international_distribution_cost")} (€) `}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={"0"}
+            inputType="number"
+          />
         </fieldset>
       </form>
     </section>

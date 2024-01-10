@@ -44,6 +44,8 @@
   "loc_location": "Shipping Address",
   "loc_name": "Name",
   "document_id": "Identity Number",
+  "is_default": "Default",
+  "address_extra": "Address Extra",
   "loc_company": "Compnay",
   "loc_phone": "Phone Number",
   "loc_pc": "Postal Code",

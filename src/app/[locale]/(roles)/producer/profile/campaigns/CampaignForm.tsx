@@ -10,6 +10,7 @@ import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMessage } from "../../../../components/message/useMessage";
 import InputTextarea from "../../../../components/common/InputTextarea";
+import InputLabel from "../../../../components/common/InputLabel";
 
 enum CampaignStatus {
   uninitialized = "uninitialized",
@@ -267,30 +268,15 @@ export function CampaignForm({
         </div>
 
         {/* Campaign Name  */}
-        <div className="space-y flex w-full flex-col">
-          <label
-            htmlFor={`${index}-campaign_name`}
-            className="mr-2 text-sm text-gray-600"
-          >
-            {t("name")}
-          </label>
-
-          <input
-            id={`${index}-campaign_name`}
-            className="rounded-md border border-gray-300"
-            defaultValue={field.name}
-            {...register(`campaigns.${index}.name` as const, {
+          <InputLabel
+            form={form}
+            label={`campaigns.${index}.name`}
+            labelText={t("name")}
+            registerOptions={{
               required: true,
               maxLength: 30,
-            })}
+            }}
           />
-          {`errors.campaigns.${index}.name.type` === "required" && (
-            <DisplayInputError message="errors.input_required" />
-          )}
-          {`errors.campaigns.${index}.name.type` === "maxLength" && (
-            <DisplayInputError message="errors.error_30_max_length" />
-          )}
-        </div>
 
         {/* Description  */}
         <InputTextarea

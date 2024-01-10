@@ -9,8 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/common/Button";
 import Spinner from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation } from "react-query";
+import InputLabel from "../../../../components/common/InputLabel";
 
 type FormData = {
   old_password: string;
@@ -39,13 +39,7 @@ export function SecretDataForm() {
 
   const { handleMessage } = useMessage();
 
-  const {
-    formState: { errors },
-    watch,
-    handleSubmit,
-    register,
-    reset,
-  } = useForm<FormData>({
+  const form = useForm<FormData>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
     defaultValues: {
@@ -54,6 +48,8 @@ export function SecretDataForm() {
       confirm_password: "",
     },
   });
+
+  const { handleSubmit, reset } = form;
 
   const handleUpdatePassword = async (form: ValidationSchema) => {
     // TODO: Check if old password is correct
@@ -112,73 +108,36 @@ export function SecretDataForm() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="actual_password" className="text-sm text-gray-600">
-              {t("actual_password")}
-            </label>
+        <InputLabel
+          form={form}
+          label={"old_password"}
+          labelText={t("actual_password")}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
-            <input
-              {...register("old_password", {
-                required: true,
-              })}
-              type="password"
-              id="actual_password"
-              placeholder="**********"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            />
+        <InputLabel
+          form={form}
+          label={"new_password"}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
-            {errors.old_password && (
-              <DisplayInputError message={errors.old_password.message} />
-            )}
-          </div>
-        </div>
-
-        <div className="w-full ">
-          <label htmlFor="newPassword" className="text-sm text-gray-600">
-            {t("new_password")}
-          </label>
-
-          <input
-            {...register("new_password", {
-              required: true,
-            })}
-            type="password"
-            id="new_password"
-            placeholder="**********"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          />
-
-          {errors.new_password && (
-            <DisplayInputError message={errors.new_password.message} />
-          )}
-        </div>
-
-        <div className="w-full ">
-          <label htmlFor="confirm_password" className="text-sm text-gray-600">
-            {t("confirm_password")}
-          </label>
-
-          <input
-            {...register("confirm_password", {
-              required: true,
-              validate: (val: string) => {
-                if (watch("confirm_password") != val) {
-                  return "errors.password_match";
-                }
-              },
-            })}
-            type="password"
-            id="new_password_2"
-            placeholder="**********"
-            required
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          />
-
-          {errors.confirm_password && (
-            <DisplayInputError message={errors.confirm_password.message} />
-          )}
-        </div>
+        <InputLabel
+          form={form}
+          label={"confirm_password"}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
         {loading && (
           <Spinner color="beer-blonde" size={"xLarge"} absolute center />

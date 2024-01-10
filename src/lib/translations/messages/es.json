@@ -44,6 +44,8 @@
   "loc_name": "Nombre",
   "lastname": "Apellidos",
   "document_id": "Documento Identidad",
+  "is_default": "¿Predeterminada?",
+  "address_extra": "Información adicional",
   "loc_company": "Empresa",
   "loc_phone": "Teléfono",
   "loc_pc": "Código Postal",

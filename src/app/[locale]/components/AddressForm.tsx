@@ -2,6 +2,7 @@ import useSWRMutation from "swr/mutation";
 import { useTranslations } from "next-intl";
 import { DisplayInputError } from "./common/DisplayInputError";
 import React, { ComponentProps, useEffect, useState } from "react";
+import InputLabel from "./common/InputLabel";
 
 interface Props {
   form: ComponentProps<any>;
@@ -67,60 +68,47 @@ export default function AddressForm({ form, addressNameId }: Props) {
   return (
     <form className="w-full">
       {/* Address Information */}
-      <fieldset className="mb-3 rounded bg-beer-foam">
-        <div className="w-full">
+      <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
+        <div className="w-full space-y-2">
           <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
             {t(`${addressNameId}_data`)}
           </h2>
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("name", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("name")}`}
-              required
-            />
-            {errors.name && <DisplayInputError message={errors.name.message} />}
-          </label>
+          <InputLabel
+            form={form}
+            label={"name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("lastname", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("lastname")}`}
-              required
-            />
-            {errors.lastname && (
-              <DisplayInputError message={errors.lastname.message} />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"lastname"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("document_id", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("document_id")}`}
-            />
-            {errors.document_id && (
-              <DisplayInputError message={errors.document_id.message} />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"document_id"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("phone", { required: true })}
-              type="tel"
-              className="mr-6 w-full border-none px-3 focus:outline-none"
-              placeholder={`${t("loc_phone")}`}
-            />
-
-            {errors.phone && (
-              <DisplayInputError message={errors.phone.message} />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"phone"}
+            registerOptions={{
+              required: true,
+            }}
+            inputType={"tel"}
+          />
         </div>
 
-        <div className="mt-6 w-full">
+        <div className="w-full space-y-2">
           <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
             {/* {t("shipping_address")} */}
             {t(`${addressNameId}_address`)}
@@ -128,40 +116,30 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
           {/* <AutocompletePlaces /> */}
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("address", { required: true })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("address")}`}
-            />
-            {errors.address && (
-              <DisplayInputError message={errors.address.message} />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"address"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("address_extra", { required: false })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("address")} 2*`}
-            />
-            {errors.address_extra && (
-              <DisplayInputError message={errors.address_extra.message} />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"address_extra"}
+            registerOptions={{
+              required: false,
+            }}
+          />
 
-          <label className="my-3 flex h-12 items-center rounded border border-bear-alvine py-3">
-            <input
-              {...register("address_observations", { required: false })}
-              className="mr-6 w-full px-3 focus:outline-none"
-              placeholder={`${t("address_observations")}*`}
-            />
-            {errors.address_observations && (
-              <DisplayInputError
-                message={errors.address_observations.message}
-              />
-            )}
-          </label>
+          <InputLabel
+            form={form}
+            label={"address_observations"}
+            registerOptions={{
+              required: false,
+            }}
+            placeholder={`${t("address_observations")}*`}
+          />
 
           {apiCallError && (
             <DisplayInputError message={errors.address_observations.message} />
@@ -214,55 +192,43 @@ export default function AddressForm({ form, addressNameId }: Props) {
           </div>
 
           <div className="flex gap-4">
-            <label
-              className={`my-3 flex h-12 w-1/3 items-center rounded border border-bear-alvine py-3 ${
-                !subRegions || (subRegions.length === 0 && "bg-gray-100")
-              }`}
-            >
-              <input
-                {...register("zipcode", { required: true })}
-                className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("loc_pc")}`}
-                disabled={!subRegions || subRegions.length === 0}
-              />
-              {errors.zipcode && (
-                <DisplayInputError message={errors.zipcode.message} />
-              )}
-            </label>
+            <InputLabel
+              form={form}
+              label={"zipcode"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={`${t("loc_pc")}`}
+              disabled={!subRegions || subRegions.length === 0}
+            />
 
-            <label
-              className={`my-3 flex h-12 w-2/3 items-center rounded border border-bear-alvine py-3 ${
-                !subRegions || (subRegions.length === 0 && "bg-gray-100")
-              }`}
-            >
-              <input
-                {...register("city", { required: true })}
-                className="mr-6 w-full px-3 focus:outline-none"
-                placeholder={`${t("loc_town")}`}
-                disabled={!subRegions || subRegions.length === 0}
-              />
-              {errors.city && (
-                <DisplayInputError message={errors.city.message} />
-              )}
-            </label>
+            <InputLabel
+              form={form}
+              label={"city"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={`${t("loc_town")}`}
+              disabled={!subRegions || subRegions.length === 0}
+            />
           </div>
         </div>
 
-        <div className="flex items-center">
-          <input
-            {...register("is_default", { required: false })}
-            id={`${addressNameId}-checked-checkbox`}
-            type="checkbox"
-            value=""
-            className="h-4 w-4 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
-          />
-          <label
-            htmlFor={`${addressNameId}-checked-checkbox`}
-            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            {/* {t("shipping_checkbox")} */}
+        <div className="flex items-end">
+          <div className="w-auto">
+            <InputLabel
+              form={form}
+              label={"is_default"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType={"checkbox"}
+            />
+          </div>
+
+          <p className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
             {t(`${addressNameId}_checkbox`)}
-          </label>
+          </p>
         </div>
       </fieldset>
     </form>
