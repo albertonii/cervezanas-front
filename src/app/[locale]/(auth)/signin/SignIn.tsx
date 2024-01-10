@@ -13,8 +13,8 @@ import { Button } from "../../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DisplayInputError } from "../../components/common/DisplayInputError";
 import dynamic from "next/dynamic";
+import InputLabel from "../../components/common/InputLabel";
 
 const DynamicSpinner = dynamic(
   () => import("../../components/common/Spinner"),
@@ -65,23 +65,17 @@ export default function SignIn() {
 
   const locale = useLocale();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<SigninFormData>({
+  const signInForm = useForm<SigninFormData>({
     resolver: zodResolver(signInSchema),
   });
 
-  const {
-    register: registerReset,
-    handleSubmit: handleSubmitReset,
-    formState: { errors: errorsReset },
-    reset: resetReset,
-  } = useForm<ResetFormData>({
+  const resetForm = useForm<ResetFormData>({
     resolver: zodResolver(resetSchema),
   });
+
+  const { handleSubmit: handleSubmitSignIn, reset: resetSignIn } = signInForm;
+
+  const { handleSubmit: handleSubmitReset, reset: resetReset } = resetForm;
 
   const [isPageLoad, setIsPageLoad] = useState(false);
 
@@ -98,7 +92,7 @@ export default function SignIn() {
     mutationKey: "credentialsSignIn",
     mutationFn: handleCredentialsSignIn,
     onSuccess: () => {
-      reset();
+      resetSignIn();
     },
     onError: (error: Error) => {
       console.error(error);
@@ -179,53 +173,39 @@ export default function SignIn() {
         <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
           {/* Login form */}
           <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
-            <span>
+            <header>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
                 {t("sign_in")}
               </h2>
-            </span>
+            </header>
 
             <form
               className="mt-4 space-y-4"
-              onSubmit={handleSubmit(onSubmitSignin)}
+              onSubmit={handleSubmitSignIn(onSubmitSignin)}
               id="login-form"
             >
               <fieldset className="space-y-4">
                 {/* email  */}
-                <div className="flex w-full flex-col space-y-3">
-                  <label htmlFor="email" className="text-sm text-gray-600">
-                    {t("email")}
-                    <input
-                      {...register("email")}
-                      id="email"
-                      type="email"
-                      placeholder="user@cervezanas.com"
-                      className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    />
-
-                    {errors.email && (
-                      <DisplayInputError message={errors.email.message} />
-                    )}
-                  </label>
-                </div>
+                <InputLabel
+                  form={signInForm}
+                  label={"email"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  placeholder="user@cervezanas.com"
+                  inputType="email"
+                />
 
                 {/* password  */}
-                <div className="flex w-full flex-col space-y-2 ">
-                  <label htmlFor="password" className="text-sm text-gray-600">
-                    {t("password")}
-                    <input
-                      {...register("password")}
-                      id="password"
-                      type="password"
-                      className="relative flex w-full appearance-none justify-center rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                      placeholder="*****"
-                    />
-
-                    {errors.password && (
-                      <DisplayInputError message={errors.password.message} />
-                    )}
-                  </label>
-                </div>
+                <InputLabel
+                  form={signInForm}
+                  label={"password"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  inputType="password"
+                  placeholder="*****"
+                />
 
                 {/* submit  */}
                 <Button
@@ -335,11 +315,11 @@ export default function SignIn() {
         <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
           {/* Reset form */}
           <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
-            <span>
+            <header>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
                 {t("reset_password")}
               </h2>
-            </span>
+            </header>
 
             <form
               className="mt-4 space-y-4"
@@ -348,22 +328,15 @@ export default function SignIn() {
             >
               <fieldset className="space-y-4">
                 {/* email  */}
-                <div className="flex w-full flex-col space-y-3">
-                  <label htmlFor="email" className="text-sm text-gray-600">
-                    {t("email")}
-                    <input
-                      {...registerReset("email")}
-                      id="email"
-                      type="email"
-                      placeholder="user@cervezanas.com"
-                      className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                    />
-
-                    {errorsReset.email && (
-                      <DisplayInputError message={errorsReset.email.message} />
-                    )}
-                  </label>
-                </div>
+                <InputLabel
+                  form={resetForm}
+                  label={"email"}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  placeholder="user@cervezanas.com"
+                  inputType="email"
+                />
 
                 {/* submit  */}
                 <Button

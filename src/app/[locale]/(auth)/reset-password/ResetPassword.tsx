@@ -6,11 +6,11 @@ import { z, ZodType } from "zod";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DisplayInputError } from "../../components/common/DisplayInputError";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { Button } from "../../components/common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import InputLabel from "../../components/common/InputLabel";
 
 type FormData = {
   password: string;
@@ -42,13 +42,11 @@ export default function ResetPassword() {
 
   const { updatePassword } = useAuth();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+  const { handleSubmit } = form;
 
   async function updPassword(formData: ValidationSchema) {
     updatePassword(formData.password);
@@ -68,46 +66,25 @@ export default function ResetPassword() {
           method="POST"
         >
           <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
-            <div className="flex w-full flex-col space-y-2 ">
-              <label htmlFor="password" className="text-sm text-gray-600">
-                {t("password")}
-                <input
-                  {...register("password")}
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  required
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  placeholder="*****"
-                />
-              </label>
+            <InputLabel
+              form={form}
+              label={"password"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="*****"
+              inputType="password"
+            />
 
-              {errors.password && (
-                <DisplayInputError message={errors.password.message} />
-              )}
-            </div>
-
-            <div className="flex w-full flex-col space-y-2 ">
-              <label
-                htmlFor="confirm_password"
-                className="text-sm text-gray-600"
-              >
-                {t("confirm_password")}
-                <input
-                  {...register("confirm_password")}
-                  type="password"
-                  id="confirm_password"
-                  autoComplete="confirm_password"
-                  required
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  placeholder="*****"
-                />
-              </label>
-
-              {errors.confirm_password && (
-                <DisplayInputError message={errors.confirm_password.message} />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"confirm_password"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="*****"
+              inputType="password"
+            />
           </section>
 
           <Button
