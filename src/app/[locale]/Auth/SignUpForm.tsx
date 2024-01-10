@@ -2,7 +2,6 @@ import { useState } from "react";
 import Spinner from "../components/common/Spinner";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { DisplayInputError } from "../components/common/DisplayInputError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpWithPasswordCredentials } from "./AuthContext";
@@ -13,6 +12,8 @@ import { useMessage } from "../components/message/useMessage";
 import { useAuth } from "./useAuth";
 import { Button } from "../components/common/Button";
 import { ROLE_ENUM, ROLE_OPTIONS } from "../../../lib/enums";
+import InputLabel from "../components/common/InputLabel";
+import SelectInput from "../components/common/SelectInput";
 
 interface FormData {
   access_level: string;
@@ -64,12 +65,7 @@ export const SignUpForm = () => {
 
   const { signUp, isLoading: loading } = useAuth();
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<FormData>({
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       access_level: ROLE_ENUM.Cervezano,
@@ -78,6 +74,8 @@ export const SignUpForm = () => {
       password: "",
     },
   });
+
+  const { handleSubmit, reset } = form;
 
   const [role, setRole] = useState(ROLE_ENUM.Cervezano);
   const { handleMessage } = useMessage();
@@ -141,7 +139,19 @@ export const SignUpForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="mt-4 flex flex-col space-y-4"
     >
-      <div className="flex w-full flex-col space-y-2">
+      <SelectInput
+        form={form}
+        labelTooltip={"campaign_status_tooltip"}
+        options={ROLE_OPTIONS}
+        label={"access_level"}
+        registerOptions={{
+          required: true,
+        }}
+        onChange={handleChangeRole}
+        defaultValue={role}
+      />
+
+      {/* <div className="flex w-full flex-col space-y-2">
         <select
           {...register("access_level")}
           value={role}
@@ -154,100 +164,57 @@ export const SignUpForm = () => {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
+
+      <InputLabel
+        form={form}
+        label={"username"}
+        registerOptions={{
+          required: true,
+        }}
+        placeholder="user_123"
+      />
+
+      <InputLabel
+        form={form}
+        label={"email"}
+        registerOptions={{
+          required: true,
+        }}
+        placeholder="ejemplo@cervezanas.com"
+        inputType="email"
+      />
+
+      <InputLabel
+        form={form}
+        label={"password"}
+        registerOptions={{
+          required: true,
+        }}
+        placeholder="*****"
+        inputType="password"
+      />
+
+      <InputLabel
+        form={form}
+        label={"confirm_password"}
+        registerOptions={{
+          required: true,
+        }}
+        placeholder="*****"
+        inputType="password"
+      />
 
       <div className="flex w-full flex-col space-y-2">
-        <label htmlFor="username" className="text-sm text-gray-600">
-          {t("username")}
-        </label>
-
-        <input
-          {...register("username")}
-          type="text"
-          id="username"
-          autoComplete="username"
-          placeholder="user_123"
-          required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        />
-
-        {errors.username && (
-          <DisplayInputError message={errors.username.message} />
-        )}
-      </div>
-
-      <div className="flex w-full flex-col space-y-2">
-        <label htmlFor="email-address" className="text-sm text-gray-600">
-          {t("email")}
-        </label>
-        <input
-          {...register("email")}
-          type="email"
-          id="email-address"
-          autoComplete="username"
-          placeholder="ejemplo@cervezanas.com"
-          required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        />
-
-        {errors.email && <DisplayInputError message={errors.email.message} />}
-      </div>
-
-      <div className="flex w-full flex-col space-y-2 ">
-        <label htmlFor="password" className="text-sm text-gray-600">
-          {t("password")}
-        </label>
-        <input
-          {...register("password")}
-          type="password"
-          id="password"
-          autoComplete="new-password"
-          required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+        <InputLabel
+          form={form}
+          label={"is_legal_age"}
+          registerOptions={{
+            required: true,
+          }}
           placeholder="*****"
+          inputType="checkbox"
         />
-
-        {errors.password && (
-          <DisplayInputError message={errors.password.message} />
-        )}
-      </div>
-
-      <div className="flex w-full flex-col space-y-2 ">
-        <label htmlFor="confirm_password" className="text-sm text-gray-600">
-          {t("confirm_password")}
-        </label>
-        <input
-          {...register("confirm_password")}
-          type="password"
-          id="confirm_password"
-          autoComplete="confirm_password"
-          required
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          placeholder="*****"
-        />
-
-        {errors.confirm_password && (
-          <DisplayInputError message={errors.confirm_password.message} />
-        )}
-      </div>
-
-      <div className="flex w-full flex-col space-y-2">
-        <label htmlFor="is_legal_age" className="text-sm text-gray-600">
-          <input
-            {...register("is_legal_age")}
-            type="checkbox"
-            id="is_legal_age"
-            autoComplete="is_legal_age"
-            required
-            className="mr-2 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          />
-          {t("is_legal_age")}
-        </label>
-
-        {errors.is_legal_age && (
-          <DisplayInputError message={errors.is_legal_age.message} />
-        )}
-
         <p className="text-xs text-gray-500">{t("is_legal_age_description")}</p>
       </div>
 

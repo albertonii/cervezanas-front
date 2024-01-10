@@ -20,6 +20,7 @@ interface Props {
     validate?: any;
     valueAsNumber?: boolean;
   };
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function SelectInput({
@@ -29,6 +30,7 @@ export default function SelectInput({
   labelTooltip,
   defaultValue,
   registerOptions,
+  onChange,
 }: Props) {
   const t = useTranslations();
 
@@ -52,6 +54,7 @@ export default function SelectInput({
         id={label}
         className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         value={defaultValue}
+        onChange={onChange}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
