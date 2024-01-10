@@ -114,33 +114,29 @@ export function BasicDataForm({ profile }: Props) {
       </span>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
-        <div className="flex w-full flex-row space-x-3 ">
-          <InputLabel
-            form={form}
-            label={"username"}
-            labelText={t("profile_acc_username")}
-            registerOptions={{
-              required: true,
-              maxLength: 30,
-            }}
-            placeholder={"user123"}
-            disabled
-          />
-        </div>
+        <InputLabel
+          form={form}
+          label={"username"}
+          labelText={t("profile_acc_username")}
+          registerOptions={{
+            required: true,
+            maxLength: 30,
+          }}
+          placeholder={"user123"}
+          disabled
+        />
 
-        <div className="flex flex-row items-end">
-          <InputLabel
-            form={form}
-            label={"email"}
-            labelText={t("profile_acc_email")}
-            registerOptions={{
-              required: true,
-              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
-            }}
-            placeholder={"user@cervezanas.com"}
-            disabled
-          />
-        </div>
+        <InputLabel
+          form={form}
+          label={"email"}
+          labelText={t("profile_acc_email")}
+          registerOptions={{
+            required: true,
+            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+          }}
+          placeholder={"user@cervezanas.com"}
+          disabled
+        />
 
         <div className="flex w-full flex-row space-x-3 ">
           <InputLabel
