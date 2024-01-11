@@ -1,25 +1,26 @@
 "use client";
 
 import EventCheckoutPackItem from "./EventCheckoutPackItem";
-import useFetchProductById from "../../../../../hooks/useFetchProductById";
 import React from "react";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../../lib/types";
 
 import dynamic from "next/dynamic";
+import { IProductPackCartItem } from "../../../../../../../lib/types";
+import useFetchProductById from "../../../../../../../hooks/useFetchProductById";
 
 const DynamicSpinner = dynamic(
-  () => import("../../../components/common/Spinner"),
+  () => import("../../../../../components/common/Spinner"),
   {
     ssr: false,
   }
 );
 interface Props {
+  eventId: string;
   productPack: IProductPackCartItem;
 }
 
-export function EventCheckoutItem({ productPack }: Props) {
+export function EventCheckoutItem({ eventId, productPack }: Props) {
   const t = useTranslations();
 
   const {
@@ -54,6 +55,7 @@ export function EventCheckoutItem({ productPack }: Props) {
             <>
               <div key={pack.id}>
                 <EventCheckoutPackItem
+                  eventId={eventId}
                   productPack={productPack}
                   productWithInfo={productWithInfo}
                   pack={pack}

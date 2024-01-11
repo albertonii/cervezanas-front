@@ -1,23 +1,21 @@
 import Link from "next/link";
 import EventProduct from "./EventProduct";
-import EmptyCart from "../cart/shopping_basket/EmptyCart";
+import EmptyCart from "../../../cart/shopping_basket/EmptyCart";
 import React, { useEffect, useState } from "react";
-import { Button } from "../../components/common/Button";
+import { Button } from "../../../../components/common/Button";
 import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types";
-import { formatCurrency } from "../../../../utils/formatCurrency";
+import { IProductPackCartItem } from "../../../../../../lib/types";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   setIsMinimized: React.Dispatch<React.SetStateAction<boolean>>;
   items: IProductPackCartItem[];
-  handleCheckout: () => void;
   eventId: string
 }
 
 export default function MaxifiedCart({
   setIsMinimized,
   items,
-  handleCheckout,
   eventId
 }: Props) {
   const t = useTranslations();
@@ -101,12 +99,10 @@ export default function MaxifiedCart({
             <div className="mt-2">
               <Link
                 href={{
-                  pathname: "/cart/event_basket",
+                  pathname:`/events/${eventId}/event_basket/`,
                   query: { items: JSON.stringify(items) },
                 }}
-                onClick={() => {
-                  handleCheckout();
-                }}
+                
                 className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
                 locale={locale}
               >

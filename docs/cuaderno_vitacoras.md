@@ -1,7 +1,5 @@
 # Listado de tareas:
 
-- Crear un carrito de la compra diferente por cada evento
-- Realizar compra de cerveza en un evento
 - Mostrar productos comprados en el checkout - pedido de compra
 - Enviar QR de compra de cerveza a un amigo
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
@@ -52,6 +50,8 @@
 - [x] Configurar eventos
 - [x] Hacer que las vistas en profile producer sean homogéneas
 - [x] Reducir el código usado con componente InputLabel, InputTextarea, etc
+- [x] Crear un carrito de la compra diferente por cada evento
+- [x] Realizar compra de cerveza en un evento
 
 # 29 de noviembre 23
 

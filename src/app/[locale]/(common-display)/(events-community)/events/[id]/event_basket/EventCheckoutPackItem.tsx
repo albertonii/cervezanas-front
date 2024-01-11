@@ -1,26 +1,28 @@
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
-import MarketCartButtons from "../../../../components/common/MarketCartButtons";
-import React, { useState } from "react";
+import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../constants";
-import { useEventCart } from "../../../../../context/EventCartContext";
-import { Type } from "../../../../../../lib/productEnum";
+import { SupabaseProps } from "../../../../../../../constants";
+import { useEventCart } from "../../../../../../context/EventCartContext";
+import { Type } from "../../../../../../../lib/productEnum";
 import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
+} from "../../../../../../../lib/types";
+import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
+  eventId: string;
   productPack: IProductPackCartItem;
   productWithInfo: IProduct;
   pack: IProductPack;
 }
 
 export default function EventCheckoutPackItem({
+  eventId,
   productPack,
   productWithInfo,
   pack,
@@ -28,31 +30,38 @@ export default function EventCheckoutPackItem({
   const t = useTranslations();
 
   const [animateRemove, setAnimateRemove] = useState(false);
+  const [packQuantity, setPackQuantity] = React.useState(0);
 
   const {
+    eventCarts,
+    getPackQuantity,
     removeFromCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
   } = useEventCart();
 
+  useEffect(() => {
+    setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
+  },[eventCarts])
+
   const handleIncreaseCartQuantity = (
     item: IProductPackCartItem,
     pack: IProductPack
   ) => {
-    increaseOnePackCartQuantity(item.id, pack.id);
+    increaseOnePackCartQuantity(eventId, item.id, pack.id);
   };
 
   const handleDecreaseCartQuantity = (
     item: IProductPackCartItem,
     pack: IProductPack
   ) => {
-    decreaseOnePackCartQuantity(item.id, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.id, pack.id);
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
     setAnimateRemove(true);
     setTimeout(() => {
-      removeFromCart(itemId, packId);
+      removeFromCart(eventId, itemId, packId);
     }, 500);
   };
 
@@ -137,7 +146,7 @@ export default function EventCheckoutPackItem({
             <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
               <div className="mt-6 flex w-full justify-between space-x-2">
                 <MarketCartButtons
-                  quantity={pack.quantity}
+                  quantity={packQuantity}
                   item={productPack}
                   handleIncreaseCartQuantity={() =>
                     handleIncreaseCartQuantity(productPack, pack)
@@ -156,7 +165,7 @@ export default function EventCheckoutPackItem({
 
           <div className="flex w-full items-center justify-between space-x-2">
             <p className="text-md text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
-              {formatCurrency(pack.price * pack.quantity)}
+              {formatCurrency(pack.price * packQuantity)}
             </p>
           </div>
         </div>

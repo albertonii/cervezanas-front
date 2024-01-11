@@ -3,8 +3,8 @@ import MaxifiedCart from "./MaxifiedCart";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types";
-import { useEventCart } from "../../../context/EventCartContext";
+import { IProductPackCartItem } from "../../../../../../lib/types";
+import { useEventCart } from "../../../../../context/EventCartContext";
 
 interface Props {
   eventId: string;
@@ -28,9 +28,6 @@ export default function EventCart({ eventId }: Props) {
     setItems(eventCarts[eventId]);
   }, [eventCarts]);
 
-  const handleCheckout = () => {
-    router.push(`/${locale}/cart/event_basket`);
-  };
 
   return (
     <section
@@ -45,7 +42,6 @@ export default function EventCart({ eventId }: Props) {
         <MaxifiedCart
           setIsMinimized={setIsMinimized}
           items={items}
-          handleCheckout={handleCheckout}
           eventId={eventId}
         />
       )}

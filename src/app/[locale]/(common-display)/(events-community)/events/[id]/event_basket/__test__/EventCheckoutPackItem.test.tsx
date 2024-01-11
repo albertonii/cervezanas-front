@@ -1,9 +1,9 @@
-import { Type as ProductType } from "../../../../../../lib/productEnum";
+import { Type as ProductType } from "../../../../../../../../lib/productEnum";
 import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../../../lib/types";
+} from "../../../../../../../../lib/types";
 import EventCheckoutPackItem from "../EventCheckoutPackItem";
 import {
   Aroma,
@@ -21,8 +21,8 @@ import {
   Origin,
   origin_options,
   Volume_can,
-} from "../../../../../../lib/beerEnum";
-import { render } from "../../../../../../utils/testing/test-util";
+} from "../../../../../../../../lib/beerEnum";
+import { render } from "../../../../../../../../utils/testing/test-util";
 import { screen } from "@testing-library/react";
 
 const item: IProductPackCartItem = {

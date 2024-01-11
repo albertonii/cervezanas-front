@@ -1,30 +1,34 @@
 "use client";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import EmptyCart from "../../shopping_basket/EmptyCart";
+import EmptyCart from "../../../../cart/shopping_basket/EmptyCart";
 import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { Button } from "../../../../components/common/Button";
-import { CustomLoading } from "../../../../components/common/CustomLoading";
+import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import { Button } from "../../../../../components/common/Button";
+import { CustomLoading } from "../../../../../components/common/CustomLoading";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import {
   createRedirectForm,
   eventMerchantInfo,
-} from "../../../../components/TPV/redsysClient";
-import { useEventCart } from "../../../../../context/EventCartContext";
+} from "../../../../../components/TPV/redsysClient";
+import { useEventCart } from "../../../../../../context/EventCartContext";
 import {
   API_METHODS,
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
-} from "../../../../../../constants";
+} from "../../../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPack } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
+import { IProductPack, IProductPackCartItem } from "../../../../../../../lib/types";
+import { useAuth } from "../../../../../Auth/useAuth";
 
-export default function EventBasket() {
+interface Props {
+  eventId: string;
+}
+
+export default function EventBasket({ eventId }: Props) {
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
@@ -42,10 +46,14 @@ export default function EventBasket() {
   const [merchantParameters, setMerchantParameters] = useState("");
   const [merchantSignature, setMerchantSignature] = useState("");
 
-  const { eventItems: cart, clearCart } = useEventCart();
+  const { eventCarts, clearCart } = useEventCart();
   const queryClient = useQueryClient();
 
+  const [cart, setCart] = useState<IProductPackCartItem[]>(eventCarts[eventId]);
+
   useEffect(() => {
+    if(!cart) return;
+    
     let subtotal = 0;
     cart.map((item) => {
       item.packs.map((pack: IProductPack) => {
@@ -155,7 +163,7 @@ export default function EventBasket() {
     mutationFn: handleProceedToPay,
     onSuccess: () => {
       queryClient.invalidateQueries("eventOrders");
-      clearCart();
+      clearCart(eventId);
     },
     onError: (error: any) => {
       console.error(error);
@@ -236,7 +244,7 @@ export default function EventBasket() {
                       {cart.map((productPack) => {
                         return (
                           <div key={productPack.id}>
-                            <EventCheckoutItem productPack={productPack} />
+                            <EventCheckoutItem eventId={eventId} productPack={productPack} />
                           </div>
                         );
                       })}
