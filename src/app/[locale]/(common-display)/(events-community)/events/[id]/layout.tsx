@@ -5,9 +5,12 @@ import EventCart from "../../EventCart";
 
 type LayoutProps = {
   children: React.ReactNode;
+  params: any;
 };
 
-export default function layout({ children }: LayoutProps) {
+export default function layout({ children, params }: LayoutProps) {
+  const { id: eventId } = params;
+
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -18,7 +21,7 @@ export default function layout({ children }: LayoutProps) {
     <>
       {isReady && (
         <>
-          <EventCart />
+          <EventCart eventId={eventId} />
           {children}
         </>
       )}

@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IProduct } from "../../../../../../lib/types";
 import Spinner from "../../../../components/common/Spinner";
-import { useAppContext } from "../../../../../../../context/AppContext";
+import { useAppContext } from "../../../../../context/AppContext";
 import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";

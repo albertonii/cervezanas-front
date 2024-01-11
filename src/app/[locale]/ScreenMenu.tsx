@@ -10,7 +10,7 @@ import { ROUTE_SIGNIN } from "../../config";
 import { Button } from "./components/common/Button";
 import { useLocale, useTranslations } from "next-intl";
 import { HeaderDropdownButton } from "./HeaderDropdownButton";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../context/ShoppingCartContext";
 import { i18n } from "../../lib/translations/i18n";
 import { INotification } from "../../lib/types";
 import { DeviceScreenNotification } from "./components/DeviceScreenNotification";

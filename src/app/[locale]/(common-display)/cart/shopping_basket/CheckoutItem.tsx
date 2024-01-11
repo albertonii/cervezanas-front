@@ -8,7 +8,7 @@ import React, { ComponentProps, useEffect, useState } from "react";
 import { initShipmentLogic } from "./shipmentLogic";
 import { useLocale, useTranslations } from "next-intl";
 import { IProductPackCartItem } from "../../../../../lib/types";
-import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import dynamic from "next/dynamic";
 
 interface Props {

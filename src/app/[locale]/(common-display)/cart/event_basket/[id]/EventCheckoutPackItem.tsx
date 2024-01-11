@@ -3,7 +3,7 @@ import MarketCartButtons from "../../../../components/common/MarketCartButtons";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../constants";
-import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { useEventCart } from "../../../../../context/EventCartContext";
 import { Type } from "../../../../../../lib/productEnum";
 import {
   IProduct,

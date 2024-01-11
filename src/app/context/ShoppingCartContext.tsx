@@ -7,17 +7,17 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useLocalStorage } from "../src/hooks/useLocalStorage";
-import { IProduct, IProductPack, IProductPackCartItem } from "../src/lib/types";
+import { ShoppingCart } from "../[locale]/components/Cart/ShoppingCart";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { IProductPackCartItem, IProduct, IProductPack } from "../../lib/types";
 
-type EventCartContextType = {
-  eventItems: IProductPackCartItem[];
+type ShoppingCartContextType = {
+  items: IProductPackCartItem[];
   cartQuantity: number;
   clearItems: () => void;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
-  getPackQuantity: (id: string) => number;
   increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
   increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
@@ -25,39 +25,41 @@ type EventCartContextType = {
   openCart: () => void;
   closeCart: () => void;
   isOpen: boolean;
+  updateCartItem: (newItem: IProductPackCartItem) => void;
+  checkIsShoppingCartDeliverable: () => boolean;
 };
 
-const EventCartContext = createContext<EventCartContextType>({
-  eventItems: [],
+const ShoppingCartContext = createContext<ShoppingCartContextType>({
+  items: [],
   cartQuantity: 0,
   clearItems: () => void {},
   clearCart: () => void {},
   isInCart: () => false,
   getItemQuantity: () => 0,
-  getPackQuantity: () => 0,
-  removeFromCart: () => void {},
   increaseOnePackCartQuantity: () => void {},
   increasePackCartQuantity: () => void {},
   decreaseOnePackCartQuantity: () => void {},
+  removeFromCart: () => void {},
   openCart: () => void {},
   closeCart: () => void {},
   isOpen: false,
+  updateCartItem: () => void {},
+  checkIsShoppingCartDeliverable: () => false,
 });
 
 interface Props {
   children: React.ReactNode;
 }
 
-export function EventCartProvider({ children }: Props) {
+export function ShoppingCartProvider({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const [eventItems, setEventItems] = useLocalStorage<IProductPackCartItem[]>(
-    "event-cart",
+  const [items, setItems] = useLocalStorage<IProductPackCartItem[]>(
+    "shopping-cart",
     []
   );
 
   const clearItems = () => {
-    setEventItems([]);
+    setItems([]);
   };
 
   const clearCart = () => {
@@ -66,46 +68,29 @@ export function EventCartProvider({ children }: Props) {
 
   const isInCart = useCallback(
     (id: string) => {
-      return eventItems.some((item) => item.id === id);
+      return items.some((item) => item.id === id);
     },
-    [eventItems]
+    [items]
   );
+
+  // Check if all the products in the cart are deliverable
+  const checkIsShoppingCartDeliverable = useCallback(() => {
+    if (!items) return false;
+
+    const isDeliverable = items.every((item) => {
+      return item.distributor_id !== "";
+    });
+
+    return isDeliverable;
+  }, [items]);
 
   const getItemQuantity = useCallback(
     (id: string) => {
-      const item = eventItems?.find((item) => item?.id === id);
+      const item = items?.find((item) => item?.id === id);
       return item?.quantity || 0;
     },
-    [eventItems]
+    [items]
   );
-
-  const getPackQuantity = useCallback(
-    (packId: string) => {
-      let packFind: IProductPack | undefined;
-
-      // Get the pack quantity from the cart product
-      eventItems?.map(
-        (item) =>
-          (packFind = item?.packs.find((pack) => {
-            return pack.id === packId;
-          }))
-      );
-
-      return packFind ? packFind.quantity : 0;
-    },
-    [eventItems]
-  );
-
-  // const increasePackCartQuantity = useCallback((id: string) => {
-  //   setEventItems((currItems) => {
-  //     const item = currItems.find((item) => item.id === id);
-  //     return item
-  //       ? currItems.map((item) =>
-  //           item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-  //         )
-  //       : [...currItems, { id, quantity: 1 }];
-  //   });
-  // }, []);
 
   const increasePackCartQuantity = useCallback(
     (product: IProduct, pack: IProductPack) => {
@@ -120,7 +105,7 @@ export function EventCartProvider({ children }: Props) {
         distributor_id: "",
       };
 
-      setEventItems((currItems) => {
+      setItems((currItems) => {
         // Buscamos el producto en el carrito
         const itemFind = currItems.find((item) => item.id === product.id);
 
@@ -176,8 +161,8 @@ export function EventCartProvider({ children }: Props) {
   );
 
   const increaseOnePackCartQuantity = (productId: string, packId: string) => {
-    const newItems = eventItems.map((item) => {
-      if (item && productId && item.id === productId) {
+    const newItems = items.map((item) => {
+      if (item.id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId) {
             return {
@@ -198,11 +183,11 @@ export function EventCartProvider({ children }: Props) {
       }
     });
 
-    setEventItems(newItems);
+    setItems(newItems);
   };
 
   const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
-    const newItems = eventItems.map((item) => {
+    const newItems = items.map((item) => {
       if (item.id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId && pack.quantity > 1) {
@@ -224,31 +209,11 @@ export function EventCartProvider({ children }: Props) {
       }
     });
 
-    setEventItems(newItems);
+    setItems(newItems);
   };
 
-  // const decreaseCartQuantity = useCallback((id: string) => {
-  //   setEventItems((currItems) => {
-  //     if (currItems.find((item) => item.id === id)?.quantity === 1) {
-  //       return currItems.filter((item) => item.id !== id);
-  //     } else {
-  //       return currItems.map((item) => {
-  //         if (item.id === id) {
-  //           return { ...item, quantity: item.quantity - 1 };
-  //         } else {
-  //           return item;
-  //         }
-  //       });
-  //     }
-  //   });
-  // }, []);
-
-  // const removeFromCart = (id: string) => {
-  //   setEventItems((items) => items.filter((item) => item.id !== id));
-  // };
-
   const removeFromCart = (productId: string, packId: string) => {
-    setEventItems((items) => {
+    setItems((items) => {
       if (!items) return [];
 
       const itemsReturned = items.map((item) => {
@@ -271,32 +236,44 @@ export function EventCartProvider({ children }: Props) {
     });
   };
 
+  // Update one item in the cart by identifier
+  const updateCartItem = (newItem: IProductPackCartItem) => {
+    setItems((items) => {
+      if (!items) return [];
+
+      const itemsReturned = items.map((item) => {
+        if (item.id === newItem.id) {
+          return newItem;
+        } else {
+          return item;
+        }
+      });
+
+      return itemsReturned;
+    });
+  };
+
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  // const cartQuantity = useMemo(() => {
-  //   if (!eventItems) return 0;
-  //   return eventItems.reduce((acc, item) => acc + item.quantity, 0);
-  // }, [eventItems]);
-
   const cartQuantity = useMemo(() => {
     let quantity = 0;
-    if (!eventItems) return quantity;
-    eventItems.map((item) => {
+
+    if (!items) return quantity;
+    items.map((item) => {
       quantity += item.packs.reduce((acc, pack) => acc + pack.quantity, 0);
     });
 
     return quantity;
-  }, [eventItems]);
+  }, [items]);
 
   const value = useMemo(() => {
     return {
-      eventItems,
+      items,
       clearItems,
       clearCart,
       isInCart,
       getItemQuantity,
-      getPackQuantity,
       removeFromCart,
       openCart,
       closeCart,
@@ -305,36 +282,41 @@ export function EventCartProvider({ children }: Props) {
       increasePackCartQuantity,
       increaseOnePackCartQuantity,
       decreaseOnePackCartQuantity,
+      updateCartItem,
+      checkIsShoppingCartDeliverable,
     };
   }, [
-    eventItems,
+    items,
     clearItems,
     clearCart,
     isInCart,
     getItemQuantity,
-    getPackQuantity,
+    increasePackCartQuantity,
     removeFromCart,
     openCart,
     closeCart,
     cartQuantity,
     isOpen,
-    increasePackCartQuantity,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
+    updateCartItem,
+    checkIsShoppingCartDeliverable,
   ]);
 
   return (
-    <EventCartContext.Provider value={value}>
+    <ShoppingCartContext.Provider value={value}>
       {children}
-      {/* {eventItems && <ShoppingCart />} */}
-    </EventCartContext.Provider>
+      {items && <ShoppingCart />}
+    </ShoppingCartContext.Provider>
   );
 }
 
-export function useEventCart() {
-  const context = useContext(EventCartContext);
+export function useShoppingCart() {
+  const context = useContext(ShoppingCartContext);
   if (context === undefined) {
-    throw new Error("useEventCart must be used within a EventCartProvider");
+    throw new Error(
+      "useShoppingCart must be used within a ShoppingCartProvider"
+    );
   }
 
   return context;

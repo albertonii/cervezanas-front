@@ -92,7 +92,7 @@ export default function DisplayEvent({ event }: Props) {
               </thead>
               <tbody>
                 {cpMobile.map((cp) => (
-                  <CPMobile key={cp.id} cp={cp} />
+                  <CPMobile key={cp.id} cp={cp} eventId={event.id} />
                 ))}
               </tbody>
             </table>
@@ -110,9 +110,10 @@ export default function DisplayEvent({ event }: Props) {
 
 interface CPMobileProps {
   cp: ICPMobile;
+  eventId: string;
 }
 
-const CPMobile = ({ cp }: CPMobileProps) => {
+const CPMobile = ({ cp, eventId }: CPMobileProps) => {
   const locale = useLocale();
 
   return (
@@ -131,7 +132,7 @@ const CPMobile = ({ cp }: CPMobileProps) => {
       </td>
 
       <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link href={`/consumption_points/mobile/${cp.id}`} locale={locale}>
+        <Link href={`/events/${eventId}/mobile/${cp.id}`} locale={locale}>
           {cp.cp_name}
         </Link>
       </td>

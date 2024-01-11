@@ -2,8 +2,8 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import { useAuth } from "../src/app/[locale]/Auth/useAuth";
-import { SupabaseProps } from "../src/constants";
+import { useAuth } from "../[locale]/Auth/useAuth";
+import { SupabaseProps } from "../../constants";
 
 interface IProfile {
   bgImg?: string;

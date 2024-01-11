@@ -2,10 +2,10 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SupabaseProps } from "../src/constants";
-import { useLocalStorage } from "../src/hooks/useLocalStorage";
-import { ICustomizeSettings, IProduct, IRefProductLot } from "../src/lib/types";
-import { useAuth } from "../src/app/[locale]/Auth/useAuth";
+import { SupabaseProps } from "../../constants";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { ICustomizeSettings, IProduct, IRefProductLot } from "../../lib/types";
+import { useAuth } from "../[locale]/Auth/useAuth";
 
 // Definir el tipo de datos para el objeto de imágenes
 type ImageDataRecord = {

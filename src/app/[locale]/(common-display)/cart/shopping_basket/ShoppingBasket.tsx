@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { CustomLoading } from "../../../components/common/CustomLoading";
 import { API_METHODS, ONLINE_ORDER_STATUS } from "../../../../../constants";
-import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import {
   createRedirectForm,
   merchantInfo,

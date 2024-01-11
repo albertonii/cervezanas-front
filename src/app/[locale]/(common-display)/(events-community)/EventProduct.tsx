@@ -4,9 +4,10 @@ import { IProductPackCartItem, IProductPack } from "../../../../lib/types";
 
 interface Props {
   item: IProductPackCartItem;
+  eventId: string
 }
 
-export default function EventProduct({ item }: Props) {
+export default function EventProduct({ item, eventId }: Props) {
   const [packs, setPacks] = useState<IProductPack[]>([]);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function EventProduct({ item }: Props) {
       {packs.map((pack) => {
         return (
           <div key={pack.id}>
-            <EventPackItem item={item} pack={pack} />
+            <EventPackItem item={item} pack={pack} eventId={eventId} />
           </div>
         );
       })}

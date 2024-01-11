@@ -1,13 +1,14 @@
 import React from "react";
 import CPMProduct from "./CPMProduct";
 import { useTranslations } from "next-intl";
-import { ICPMobile, ICPMProducts } from "../../../../../../../lib/types";
+import { ICPMobile, ICPMProducts } from "../../../../../../../../../lib/types";
 
 interface Props {
   cpMobile: ICPMobile;
+  eventId: string
 }
 
-export default function ProductList({ cpMobile }: Props) {
+export default function ProductList({ cpMobile, eventId }: Props) {
   const t = useTranslations();
   const { cpm_products } = cpMobile;
 
@@ -62,6 +63,7 @@ export default function ProductList({ cpMobile }: Props) {
                       key={cpm.id}
                       pack={cpm.product_packs}
                       cpmId={cpm.id}
+                      eventId={eventId}
                     />
                   )}
                 </>

@@ -7,7 +7,7 @@ import { useAuth } from "../../../Auth/useAuth";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { useAppContext } from "../../../../context/AppContext";
 import { useTranslations } from "next-intl";
 import { Sidebar } from "../../../components/common/Sidebar";
 

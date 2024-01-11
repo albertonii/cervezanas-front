@@ -1,18 +1,18 @@
 import InfoCPMobile from "./InfoCPMobile";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../constants";
-import { ICPMobile } from "../../../../../../../lib/types";
-import readUserSession from "../../../../../../../lib/actions";
-import createServerClient from "../../../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../../../../../constants";
+import { ICPMobile } from "../../../../../../../../../lib/types";
+import readUserSession from "../../../../../../../../../lib/actions";
+import createServerClient from "../../../../../../../../../utils/supabaseServer";
 
 export default async function CPMobilePage({ params }: any) {
-  const { id } = params;
-  const cpMobileData = getCPMobile(id);
+  const { id: eventId, m_id } = params;
+  const cpMobileData = getCPMobile(m_id);
   const [cpMobile] = await Promise.all([cpMobileData]);
 
   return (
     <>
-      <InfoCPMobile cpMobile={cpMobile[0]} />
+      <InfoCPMobile cpMobile={cpMobile[0]} eventId={eventId} />
     </>
   );
 }

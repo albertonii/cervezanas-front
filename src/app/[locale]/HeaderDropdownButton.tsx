@@ -6,7 +6,7 @@ import { useAuth } from "./Auth/useAuth";
 import React, { useRef, useState } from "react";
 import { generateLink } from "../../utils/utils";
 import { useLocale, useTranslations } from "next-intl";
-import { useAppContext } from "../../../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 import { useOutsideClick } from "../../hooks/useOnOutsideClick";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";

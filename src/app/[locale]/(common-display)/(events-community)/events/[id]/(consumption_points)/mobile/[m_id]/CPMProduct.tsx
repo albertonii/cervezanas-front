@@ -1,25 +1,26 @@
 import Link from "next/link";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons2 from "../../../../../components/common/MarketCartButtons2";
-import React, { useEffect, useState } from "react";
+import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
+import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
+import React, { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../../constants";
-import { IProductPack } from "../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import { SupabaseProps } from "../../../../../../../../../constants";
+import { IProductPack } from "../../../../../../../../../lib/types";
+import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
 import { useEventCart } from "../../../../../../../../context/EventCartContext";
-import { AddCardButton } from "../../../../../components/common/AddCartButton";
+import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
 
 interface ProductProps {
   pack: IProductPack;
   cpmId: string;
+  eventId: string
 }
 
-export default function CPMProduct({ pack, cpmId }: ProductProps) {
+export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
   const t = useTranslations();
   const locale = useLocale();
 
   const {
-    eventItems,
+    eventCarts,
     getPackQuantity,
     removeFromCart,
     increasePackCartQuantity,
@@ -29,14 +30,15 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
 
   const { name, price, product_id, products: product, quantity } = pack;
 
-  const [packQuantity, setPackQuantity] = useState<number>(
-    getPackQuantity(pack.id)
-  );
+  const [packQuantity, setPackQuantity] = React.useState(0);
 
-  // Synch pack with cart
   useEffect(() => {
-    setPackQuantity(getPackQuantity(pack.id));
-  }, [eventItems]);
+    setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
+  },[eventCarts])
+
+  useEffect(()=>{
+    console.log(packQuantity)
+  },[packQuantity])
 
   const handleAddToCart = () => {
     if (!pack) {
@@ -46,7 +48,7 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     const packCartItem: IProductPack = {
       id: pack.id,
       created_at: pack.created_at,
-      quantity: packQuantity + 1,
+      quantity: pack.quantity + 1,
       price: pack.price,
       name: pack.name,
       img_url: pack.img_url,
@@ -58,27 +60,19 @@ export default function CPMProduct({ pack, cpmId }: ProductProps) {
     const product = pack.products;
     if (!product) return;
 
-    increasePackCartQuantity(product, packCartItem);
-    setPackQuantity(1);
+    increasePackCartQuantity(eventId, product, packCartItem);
   };
 
   const handleIncreaseCartQuantity = () => {
-    // if (!product_id) return;
-    // setPackQuantity(packQuantity + 1);
-    increaseOnePackCartQuantity(product_id, pack.id);
+    increaseOnePackCartQuantity(eventId, product_id, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    // if (!product_id) return;
-
-    // if (packQuantity > 1) {
-    //   setPackQuantity(packQuantity - 1);
-    decreaseOnePackCartQuantity(product_id, pack.id);
-    // }
+    decreaseOnePackCartQuantity(eventId, product_id, pack.id);
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(product_id, pack.id);
+    removeFromCart(eventId, product_id, pack.id);
   };
 
   return (

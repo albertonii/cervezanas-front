@@ -2,7 +2,7 @@
 
 import React, { useId } from "react";
 import { useTranslations } from "next-intl";
-import { useAppContext } from "../../../../context/AppContext";
+import { useAppContext } from "../../context/AppContext";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
 export function Filters() {

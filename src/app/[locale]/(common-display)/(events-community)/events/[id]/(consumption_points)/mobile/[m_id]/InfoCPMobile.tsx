@@ -3,13 +3,14 @@
 import CPDetails from "./CPDetails";
 import ProductList from "./ProductList";
 import React from "react";
-import { ICPMobile } from "../../../../../../../lib/types";
+import { ICPMobile } from "../../../../../../../../../lib/types";
 
 interface Props {
   cpMobile: ICPMobile;
+  eventId: string
 }
 
-export default function InfoCPMobile({ cpMobile }: Props) {
+export default function InfoCPMobile({ cpMobile, eventId }: Props) {
   return (
     <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
@@ -29,7 +30,7 @@ export default function InfoCPMobile({ cpMobile }: Props) {
 
       {/* Products linked to this Mobile Consumption Point */}
       <section className="mt-8">
-        <ProductList cpMobile={cpMobile} />
+        <ProductList cpMobile={cpMobile} eventId={eventId}/>
       </section>
     </section>
   );

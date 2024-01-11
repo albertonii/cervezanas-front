@@ -1,4 +1,4 @@
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../app/context/AppContext";
 import { IProduct } from "../lib/types.d";
 
 export default function useFilters() {

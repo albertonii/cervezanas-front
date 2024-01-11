@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { IProductPackCartItem } from "../../../../lib/types";
-import { useEventCart } from "../../../../../context/EventCartContext";
+import { useEventCart } from "../../../context/EventCartContext";
 
 interface Props {
   eventId: string;
@@ -16,13 +16,17 @@ export default function EventCart({ eventId }: Props) {
 
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
 
-  const { eventItems } = useEventCart();
+  const { eventCarts, existEventCart, createNewCart } = useEventCart();
 
   const [items, setItems] = useState<IProductPackCartItem[]>([]);
 
   useEffect(() => {
-    setItems(eventItems);
-  }, [eventItems]);
+    if (!existEventCart(eventId)) {
+      createNewCart(eventId);
+    }
+
+    setItems(eventCarts[eventId]);
+  }, [eventCarts]);
 
   const handleCheckout = () => {
     router.push(`/${locale}/cart/event_basket`);
@@ -36,12 +40,13 @@ export default function EventCart({ eventId }: Props) {
       tabIndex={-1}
     >
       {isMinimized ? (
-        <MinimizedCart setIsMinimized={setIsMinimized} />
+        <MinimizedCart eventId={eventId} setIsMinimized={setIsMinimized} />
       ) : (
         <MaxifiedCart
           setIsMinimized={setIsMinimized}
           items={items}
           handleCheckout={handleCheckout}
+          eventId={eventId}
         />
       )}
     </section>

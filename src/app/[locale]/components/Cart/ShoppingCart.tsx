@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useLocale, useTranslations } from "next-intl";
 import { CartItem } from "./CartItem";

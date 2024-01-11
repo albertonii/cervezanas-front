@@ -10,7 +10,7 @@ import {
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { Type } from "../../../../../lib/productEnum";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

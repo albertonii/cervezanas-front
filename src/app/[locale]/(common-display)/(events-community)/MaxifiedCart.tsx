@@ -11,12 +11,14 @@ interface Props {
   setIsMinimized: React.Dispatch<React.SetStateAction<boolean>>;
   items: IProductPackCartItem[];
   handleCheckout: () => void;
+  eventId: string
 }
 
 export default function MaxifiedCart({
   setIsMinimized,
   items,
   handleCheckout,
+  eventId
 }: Props) {
   const t = useTranslations();
   const locale = useLocale();
@@ -76,7 +78,7 @@ export default function MaxifiedCart({
                 items?.map((item) => (
                   <>
                     <div key={item.id} className="flex items-center gap-4">
-                      <EventProduct item={item} />
+                      <EventProduct item={item} eventId={eventId} />
                     </div>
                   </>
                 ))}

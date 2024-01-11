@@ -8,7 +8,7 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { Sidebar } from "../../../components/common/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { useAppContext } from "../../../../context/AppContext";
 
 type LayoutProps = {
   children: React.ReactNode;

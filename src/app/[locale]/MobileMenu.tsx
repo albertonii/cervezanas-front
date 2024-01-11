@@ -11,9 +11,9 @@ import { i18n } from "../../lib/translations/i18n";
 import { Button } from "./components/common/Button";
 import { usePathname, useRouter } from "next/navigation";
 import { NotificationPopup } from "./components/NotificationPopup";
-import { useAppContext } from "../../../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../context/ShoppingCartContext";
 import { INotification } from "../../lib/types";
 
 interface Props {

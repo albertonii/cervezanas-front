@@ -3,15 +3,16 @@ import MarketCartButtons from "../../components/common/MarketCartButtons";
 import React, { useState } from "react";
 import { SupabaseProps } from "../../../../constants";
 import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
-import { useEventCart } from "../../../../../context/EventCartContext";
+import { useEventCart } from "../../../context/EventCartContext";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 
 interface Props {
   pack: IProductPack;
   item: IProductPackCartItem;
+  eventId:string
 }
 
-export default function EventPackItem({ pack, item }: Props) {
+export default function EventPackItem({  pack, item, eventId }: Props) {
   const {
     removeFromCart,
     increaseOnePackCartQuantity,
@@ -21,18 +22,18 @@ export default function EventPackItem({ pack, item }: Props) {
   const [animateRemove, setAnimateRemove] = useState(false);
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(item.id, pack.id);
+    increaseOnePackCartQuantity(eventId, item.id, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(item.id, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.id, pack.id);
   };
 
   const handleRemoveFromCart = () => {
     setTimeout(() => {
       setAnimateRemove(true);
 
-      removeFromCart(item.id, pack.id);
+      removeFromCart(eventId, item.id, pack.id);
     }, 500);
   };
 

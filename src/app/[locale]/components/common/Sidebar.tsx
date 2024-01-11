@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "../../components/common/Button";
-import { useAppContext } from "../../../../../context/AppContext";
+import { useAppContext } from "../../../context/AppContext";
 import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { generateLink } from "../../../../utils/utils";

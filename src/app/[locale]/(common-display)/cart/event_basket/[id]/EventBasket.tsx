@@ -13,7 +13,7 @@ import {
   createRedirectForm,
   eventMerchantInfo,
 } from "../../../../components/TPV/redsysClient";
-import { useEventCart } from "../../../../../../../context/EventCartContext";
+import { useEventCart } from "../../../../../context/EventCartContext";
 import {
   API_METHODS,
   EVENT_ORDER_ITEM_STATUS,

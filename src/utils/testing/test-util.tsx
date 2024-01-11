@@ -5,9 +5,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { MessageProvider } from "../../app/[locale]/components/message/MessageContext";
 import ReactQueryWrapper from "../../app/[locale]/ReactQueryWrapper";
 import { AuthContextProvider } from "../../app/[locale]/Auth/AuthContext";
-import { AppContextProvider } from "../../../context/AppContext";
-import { ShoppingCartProvider } from "../../../context/ShoppingCartContext";
-import { EventCartProvider } from "../../../context/EventCartContext";
+import { AppContextProvider } from "../../app/context/AppContext";
+import { ShoppingCartProvider } from "../../app/context/ShoppingCartContext";
+import { EventCartProvider } from "../../app/context/EventCartContext";
 import createServerClient from "../supabaseServer";
 
 const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
