@@ -1,28 +1,28 @@
 "use client";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import EmptyCart from "../shopping_basket/EmptyCart";
+import EmptyCart from "../../shopping_basket/EmptyCart";
 import Decimal from "decimal.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { Button } from "../../../components/common/Button";
-import { CustomLoading } from "../../../components/common/CustomLoading";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { Button } from "../../../../components/common/Button";
+import { CustomLoading } from "../../../../components/common/CustomLoading";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
 import {
   createRedirectForm,
   eventMerchantInfo,
-} from "../../../components/TPV/redsysClient";
-import { useEventCart } from "../../../../../../context/EventCartContext";
+} from "../../../../components/TPV/redsysClient";
+import { useEventCart } from "../../../../../../../context/EventCartContext";
 import {
   API_METHODS,
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
-} from "../../../../../constants";
+} from "../../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPack } from "../../../../../lib/types";
-import { useAuth } from "../../../Auth/useAuth";
+import { IProductPack } from "../../../../../../lib/types";
+import { useAuth } from "../../../../Auth/useAuth";
 
 export default function EventBasket() {
   const t = useTranslations();

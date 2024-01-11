@@ -14,7 +14,7 @@ export default function EmptyCart() {
       <div className="flex flex-col items-center justify-center">
         <h2 className="text-2xl text-gray-500">{t("your_empty_cart")}</h2>
 
-        <div className="mt-4 grid grid-cols-2 items-center">
+        <div className="mt-4 flex items-center">
           <div className="flex flex-col items-start justify-start space-y-2">
             <div className="text-xl text-gray-500">
               {t("add_products_to_continue")}

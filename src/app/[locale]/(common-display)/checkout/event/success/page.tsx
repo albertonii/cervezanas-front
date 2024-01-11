@@ -70,7 +70,6 @@ async function getSuccessData(searchParams: any) {
 
   const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -111,6 +110,8 @@ async function getSuccessData(searchParams: any) {
     )
     .eq("order_number", orderNumber)
     .single();
+
+  console.log(orderData);
 
   if (orderError) {
     console.error(orderError.message);

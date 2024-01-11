@@ -426,6 +426,7 @@
   "pack_quantity": "Pack quantity",
   "pack_price": "Price",
   "pack_name": "Pack name",
+  "quantity_in_pack_header": "Quantity in pack",
   "pack_img_url": "Pack image URL",
   "unassigned": "Unassigned",
   "award_name": "Name",

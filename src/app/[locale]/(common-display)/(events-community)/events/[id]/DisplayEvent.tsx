@@ -114,6 +114,7 @@ interface CPMobileProps {
 
 const CPMobile = ({ cp }: CPMobileProps) => {
   const locale = useLocale();
+
   return (
     <tr
       key={cp.id}

@@ -1,12 +1,13 @@
 # Listado de tareas:
 
-- Hacer que las vistas de los profiles sean homogéneas entre si
+- Crear un carrito de la compra diferente por cada evento
+- Realizar compra de cerveza en un evento
+- Mostrar productos comprados en el checkout - pedido de compra
+- Enviar QR de compra de cerveza a un amigo
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
-- Realizar compra de cerveza en un evento y enviar QR a un amigo para que vaya por la cerveza
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
-- Reducir el código usado con componente InputLabel, InputTextarea, etc
 - Configurar PC móviles
 - Configurar PC fijos
 - Comprar a través de un evento
@@ -29,6 +30,8 @@
 - Vincular productos a la campaña
 - Al pulsar en editar evento -> Mostrar los PC Móviles asociados
 - Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
+- [] Hacer que las vistas en profile consumer sean homogéneas
+- [] Hacer que las vistas en profile distributor sean homogéneas
 
 # Tareas realizadas
 
@@ -47,6 +50,8 @@
 - [x] Crear campañas en formato listas
 - [x] Comprobar que los buscadores estén funcionando para eventos, pc móviles y fijos
 - [x] Configurar eventos
+- [x] Hacer que las vistas en profile producer sean homogéneas
+- [x] Reducir el código usado con componente InputLabel, InputTextarea, etc
 
 # 29 de noviembre 23
 

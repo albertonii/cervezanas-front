@@ -107,9 +107,9 @@ const EventCard = ({ event }: EventCardProps) => {
 
               {/* Description  */}
               <div className="flex w-full flex-col items-start">
-                <div className="text-md w-full truncate leading-none text-gray-800">
+                <p className="text-md w-full truncate leading-none text-gray-800">
                   {event.description}
-                </div>
+                </p>
               </div>
 
               {/* Social Media and stars  */}

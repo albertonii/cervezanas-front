@@ -39,9 +39,7 @@ export default function MaxifiedCart({
   }, [items]);
 
   return (
-    <div
-      className={`relative flex w-screen max-w-sm flex-col items-center transition-all`}
-    >
+    <div className={`relative flex flex-col items-center transition-all`}>
       <h1 className="text-xl font-medium text-gray-900">
         {t("shopping_cart")}
       </h1>

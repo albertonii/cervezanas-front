@@ -6,7 +6,11 @@ import { useLocale } from "next-intl";
 import { IProductPackCartItem } from "../../../../lib/types";
 import { useEventCart } from "../../../../../context/EventCartContext";
 
-export default function EventCart() {
+interface Props {
+  eventId: string;
+}
+
+export default function EventCart({ eventId }: Props) {
   const locale = useLocale();
   const router = useRouter();
 

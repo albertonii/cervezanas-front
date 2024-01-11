@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EventCart from "./EventCart";
+import EventCart from "../../EventCart";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -14,13 +14,11 @@ export default function layout({ children }: LayoutProps) {
     setIsReady(true);
   }, []);
 
-  // LO MAS SEGURO QUE DEBAMOS BORRAR ESTO
-
   return (
     <>
       {isReady && (
         <>
-          {/* <EventCart /> */}
+          <EventCart />
           {children}
         </>
       )}

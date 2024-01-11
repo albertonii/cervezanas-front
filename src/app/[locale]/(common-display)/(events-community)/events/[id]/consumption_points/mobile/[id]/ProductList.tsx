@@ -1,7 +1,7 @@
 import React from "react";
 import CPMProduct from "./CPMProduct";
 import { useTranslations } from "next-intl";
-import { ICPMobile, ICPMProducts } from "../../../../../../../lib/types";
+import { ICPMobile, ICPMProducts } from "../../../../../../../../../lib/types";
 
 interface Props {
   cpMobile: ICPMobile;

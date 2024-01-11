@@ -439,6 +439,7 @@
   "pack_quantity": "Cantidad en pack",
   "pack_price": "Precio del pack",
   "pack_name": "Nombre del pack",
+  "quantity_in_pack_header": "Cantidad en pack",
   "pack_img_url": "Imagen del pack",
   "unassigned": "Sin asignar",
   "award_name": "Nombre",
