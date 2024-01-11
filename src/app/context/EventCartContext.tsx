@@ -8,27 +8,40 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { IProduct, IProductPack, IProductPackCartItem } from "../../lib/types";
+import {
+  IProduct,
+  IProductPack,
+  IProductPackCartItem,
+  IProductPackEventCartItem,
+} from "../../lib/types";
 
 type EventCartsType = {
-  [eventId: string]: IProductPackCartItem[];
+  [eventId: string]: IProductPackEventCartItem[];
 };
 
 type EventCartContextType = {
   eventCarts: EventCartsType;
   getCartQuantity: (eventId: string) => number;
-  clearCart: (eventId:string) => void;
+  clearCart: (eventId: string) => void;
   isInCart: (eventId: string, id: string) => boolean;
-  getItemQuantity: (eventId:string, id: string) => number;
-  getPackQuantity: (eventId: string, productId:string, id: string) => number;
+  getItemQuantity: (eventId: string, id: string) => number;
+  getPackQuantity: (eventId: string, productId: string, id: string) => number;
   increasePackCartQuantity(
     eventId: string,
     product: IProduct,
     pack: IProductPack
   ): void;
-  increaseOnePackCartQuantity: (eventId:string, productId: string, packId: string) => void;
-  decreaseOnePackCartQuantity: (eventId:string, productId: string, packId: string) => void;
-  removeFromCart: (eventId:string, productId: string, packId: string) => void;
+  increaseOnePackCartQuantity: (
+    eventId: string,
+    productId: string,
+    packId: string
+  ) => void;
+  decreaseOnePackCartQuantity: (
+    eventId: string,
+    productId: string,
+    packId: string
+  ) => void;
+  removeFromCart: (eventId: string, productId: string, packId: string) => void;
   openCart: () => void;
   closeCart: () => void;
   isOpen: boolean;
@@ -66,7 +79,6 @@ export function EventCartProvider({ children }: Props) {
     {}
   );
 
-
   const getCartByEvent = useCallback(
     (eventId: string) => {
       return eventCarts[eventId] || [];
@@ -94,7 +106,7 @@ export function EventCartProvider({ children }: Props) {
   );
 
   const clearCart = (eventId: string) => {
-     setEventCarts((currCarts) => {
+    setEventCarts((currCarts) => {
       return {
         ...currCarts,
         [eventId]: [],
@@ -103,7 +115,7 @@ export function EventCartProvider({ children }: Props) {
   };
 
   const isInCart = useCallback(
-    (eventId:string,id: string) => {
+    (eventId: string, id: string) => {
       const eventItems = getCartByEvent(eventId);
 
       return eventItems.some((item) => item.id === id);
@@ -112,7 +124,7 @@ export function EventCartProvider({ children }: Props) {
   );
 
   const getItemQuantity = useCallback(
-    (eventId:string, id: string) => {
+    (eventId: string, id: string) => {
       const eventItems = getCartByEvent(eventId);
 
       const item = eventItems?.find((item) => item?.id === id);
@@ -120,7 +132,6 @@ export function EventCartProvider({ children }: Props) {
     },
     [eventCarts]
   );
-  
 
   const getPackQuantity = useCallback(
     (eventId: string, productId: string, packId: string) => {
@@ -129,7 +140,7 @@ export function EventCartProvider({ children }: Props) {
       // Find the element in the cart
       const item = cart?.find((item) => {
         return item.id === productId;
-      })
+      });
 
       if (!item) return 0;
 
@@ -141,7 +152,6 @@ export function EventCartProvider({ children }: Props) {
     },
     [eventCarts]
   );
-
 
   const increasePackCartQuantity = useCallback(
     (eventId: string, product: IProduct, pack: IProductPack) => {
@@ -175,7 +185,7 @@ export function EventCartProvider({ children }: Props) {
 
             // Reemplazar el producto en el listado de productos
 
-            const currItemsCopy = cart.map((item: IProductPackCartItem) => {
+            const currItemsCopy = cart.map((item) => {
               return item.id === product.id ? itemFind : item;
             });
 
@@ -223,7 +233,11 @@ export function EventCartProvider({ children }: Props) {
     []
   );
 
-  const increaseOnePackCartQuantity = (eventId:string, productId: string, packId: string) => {
+  const increaseOnePackCartQuantity = (
+    eventId: string,
+    productId: string,
+    packId: string
+  ) => {
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
@@ -254,11 +268,13 @@ export function EventCartProvider({ children }: Props) {
         [eventId]: [...newItems],
       };
     });
-
-
   };
 
-  const decreaseOnePackCartQuantity = (eventId: string, productId: string, packId: string) => {
+  const decreaseOnePackCartQuantity = (
+    eventId: string,
+    productId: string,
+    packId: string
+  ) => {
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
@@ -283,13 +299,12 @@ export function EventCartProvider({ children }: Props) {
       }
     });
 
-    
     setEventCarts((currCarts) => {
       return {
         ...currCarts,
         [eventId]: [...newItems],
       };
-    })
+    });
   };
 
   // const decreaseCartQuantity = useCallback((id: string) => {
@@ -312,54 +327,42 @@ export function EventCartProvider({ children }: Props) {
   //   setEventItems((items) => items.filter((item) => item.id !== id));
   // };
 
-  const removeFromCart = (eventId:string, productId: string, packId: string) => {
-    setEventCarts((currCarts) => {
-      const cart = currCarts[eventId] || [];
+  const removeFromCart = (
+    eventId: string,
+    productId: string,
+    packId: string
+  ) => {
+    // Obtenemos el carrito
+    const eventItems = getCartByEvent(eventId);
 
-      const newCart = cart.map((item) => {
-        if (item.id === productId) {
-          return {
-            ...item,
-            packs: item.packs.filter((pack) => {
-              return pack.id !== packId;
-            }),
-          };
-        } else {
-          return item;
-        }
-      });
+    const newItems = eventItems.map((item) => {
+      if (item.id === productId) {
+        const newPacks = item.packs.map((pack) => {
+          if (pack.id === packId) {
+            return {
+              ...pack,
+              quantity: 0,
+            };
+          } else {
+            return pack;
+          }
+        });
 
-      // Eliminar el producto si no tiene packs
-      return {
-        ...currCarts,
-        [eventId]: [...newCart.filter((item) => {
-          return item.packs.length > 0;
-        })],
-      };
+        return {
+          ...item,
+          packs: newPacks,
+        };
+      } else {
+        return item;
+      }
     });
 
-
-    // setEventItems((items) => {
-    //   if (!items) return [];
-
-    //   const itemsReturned = items.map((item) => {
-    //     if (item.id === productId) {
-    //       return {
-    //         ...item,
-    //         packs: item.packs.filter((pack) => {
-    //           return pack.id !== packId;
-    //         }),
-    //       };
-    //     } else {
-    //       return item;
-    //     }
-    //   });
-
-    //   // Eliminar el producto si no tiene packs
-    //   return itemsReturned.filter((item) => {
-    //     return item.packs.length > 0;
-    //   });
-    // });
+    setEventCarts((currCarts) => {
+      return {
+        ...currCarts,
+        [eventId]: [...newItems],
+      };
+    });
   };
 
   const openCart = () => setIsOpen(true);

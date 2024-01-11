@@ -2,17 +2,20 @@ import DisplayImageProduct from "../../../../components/common/DisplayImageProdu
 import MarketCartButtons from "../../../../components/common/MarketCartButtons";
 import React, { useState } from "react";
 import { SupabaseProps } from "../../../../../../constants";
-import { IProductPack, IProductPackCartItem } from "../../../../../../lib/types";
+import {
+  IProductPack,
+  IProductPackEventCartItem,
+} from "../../../../../../lib/types";
 import { useEventCart } from "../../../../../context/EventCartContext";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 
 interface Props {
   pack: IProductPack;
-  item: IProductPackCartItem;
-  eventId:string
+  item: IProductPackEventCartItem;
+  eventId: string;
 }
 
-export default function EventPackItem({  pack, item, eventId }: Props) {
+export default function EventPackItem({ pack, item, eventId }: Props) {
   const {
     removeFromCart,
     increaseOnePackCartQuantity,

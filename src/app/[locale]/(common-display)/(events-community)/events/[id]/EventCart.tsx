@@ -1,9 +1,7 @@
 import MinimizedCart from "./MinimizedCart";
 import MaxifiedCart from "./MaxifiedCart";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
-import { IProductPackCartItem } from "../../../../../../lib/types";
+import { IProductPackEventCartItem } from "../../../../../../lib/types";
 import { useEventCart } from "../../../../../context/EventCartContext";
 
 interface Props {
@@ -11,14 +9,11 @@ interface Props {
 }
 
 export default function EventCart({ eventId }: Props) {
-  const locale = useLocale();
-  const router = useRouter();
-
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
 
   const { eventCarts, existEventCart, createNewCart } = useEventCart();
 
-  const [items, setItems] = useState<IProductPackCartItem[]>([]);
+  const [items, setItems] = useState<IProductPackEventCartItem[]>([]);
 
   useEffect(() => {
     if (!existEventCart(eventId)) {
@@ -27,7 +22,6 @@ export default function EventCart({ eventId }: Props) {
 
     setItems(eventCarts[eventId]);
   }, [eventCarts]);
-
 
   return (
     <section

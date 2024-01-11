@@ -8,7 +8,7 @@ import { Type } from "../../../../../../../lib/productEnum";
 import {
   IProduct,
   IProductPack,
-  IProductPackCartItem,
+  IProductPackEventCartItem,
 } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
 
@@ -16,7 +16,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
   eventId: string;
-  productPack: IProductPackCartItem;
+  productPack: IProductPackEventCartItem;
   productWithInfo: IProduct;
   pack: IProductPack;
 }
@@ -42,17 +42,17 @@ export default function EventCheckoutPackItem({
 
   useEffect(() => {
     setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
-  },[eventCarts])
+  }, [eventCarts]);
 
   const handleIncreaseCartQuantity = (
-    item: IProductPackCartItem,
+    item: IProductPackEventCartItem,
     pack: IProductPack
   ) => {
     increaseOnePackCartQuantity(eventId, item.id, pack.id);
   };
 
   const handleDecreaseCartQuantity = (
-    item: IProductPackCartItem,
+    item: IProductPackEventCartItem,
     pack: IProductPack
   ) => {
     decreaseOnePackCartQuantity(eventId, item.id, pack.id);

@@ -921,6 +921,16 @@ export interface IProductPackCartItem {
   products?: IProduct;
 }
 
+export interface IProductPackEventCartItem {
+  id: string; // Product ID
+  packs: IProductPack[];
+  quantity: number;
+  price: number;
+  image: string;
+  name: string;
+  products?: IProduct;
+}
+
 export interface ICarouselItem {
   link: string;
   imageUrl: string;
@@ -954,7 +964,7 @@ export interface IProduct {
   owner_id: string;
   beers: IBeer[];
   product_multimedia: IProductMultimedia[];
-  order_items?: OrderItem[];
+  order_items?: IOrderItem[];
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),

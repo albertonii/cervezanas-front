@@ -12,7 +12,7 @@ import { AddCardButton } from "../../../../../../../components/common/AddCartBut
 interface ProductProps {
   pack: IProductPack;
   cpmId: string;
-  eventId: string
+  eventId: string;
 }
 
 export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
@@ -34,11 +34,7 @@ export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
 
   useEffect(() => {
     setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
-  },[eventCarts])
-
-  useEffect(()=>{
-    console.log(packQuantity)
-  },[packQuantity])
+  }, [eventCarts]);
 
   const handleAddToCart = () => {
     if (!pack) {
@@ -48,7 +44,7 @@ export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
     const packCartItem: IProductPack = {
       id: pack.id,
       created_at: pack.created_at,
-      quantity: pack.quantity + 1,
+      quantity: 1,
       price: pack.price,
       name: pack.name,
       img_url: pack.img_url,

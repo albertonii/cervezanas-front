@@ -21,7 +21,10 @@ import {
 } from "../../../../../../../constants";
 import { EventCheckoutItem } from "./EventCheckoutItem";
 import { useMutation, useQueryClient } from "react-query";
-import { IProductPack, IProductPackCartItem } from "../../../../../../../lib/types";
+import {
+  IProductPack,
+  IProductPackEventCartItem,
+} from "../../../../../../../lib/types";
 import { useAuth } from "../../../../../Auth/useAuth";
 
 interface Props {
@@ -49,11 +52,13 @@ export default function EventBasket({ eventId }: Props) {
   const { eventCarts, clearCart } = useEventCart();
   const queryClient = useQueryClient();
 
-  const [cart, setCart] = useState<IProductPackCartItem[]>(eventCarts[eventId]);
+  const [cart, setCart] = useState<IProductPackEventCartItem[]>(
+    eventCarts[eventId]
+  );
 
   useEffect(() => {
-    if(!cart) return;
-    
+    if (!cart) return;
+
     let subtotal = 0;
     cart.map((item) => {
       item.packs.map((pack: IProductPack) => {
@@ -92,20 +97,21 @@ export default function EventBasket({ eventId }: Props) {
         customer_id: user?.id,
         status: EVENT_ORDER_STATUS.ORDER_PLACED,
         updated_at: new Date().toISOString(),
-        // event_id: "123456789",
-        // payment_method: PAYMENT_METHOD.CREDIT_CARD,
+        event_id: eventId,
+        order_number: orderNumber,
         total: total,
         currency: "EUR",
         subtotal: subtotal,
         // discount: discount,
         // discount_code: "123456789",
-        order_number: orderNumber,
+        // payment_method: PAYMENT_METHOD.CREDIT_CARD,
       })
       .select("id");
 
     if (orderError) throw orderError;
 
     cart.map(async (item) => {
+      console.log("item", item);
       item.packs.map(async (pack: IProductPack) => {
         const { error: orderItemError } = await supabase
           .from("event_order_items")
@@ -244,7 +250,10 @@ export default function EventBasket({ eventId }: Props) {
                       {cart.map((productPack) => {
                         return (
                           <div key={productPack.id}>
-                            <EventCheckoutItem eventId={eventId} productPack={productPack} />
+                            <EventCheckoutItem
+                              eventId={eventId}
+                              productPack={productPack}
+                            />
                           </div>
                         );
                       })}

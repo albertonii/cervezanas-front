@@ -1,10 +1,13 @@
 import EventPackItem from "./EventPackItem";
 import React, { useEffect, useState } from "react";
-import { IProductPackCartItem, IProductPack } from "../../../../../../lib/types";
+import {
+  IProductPackEventCartItem,
+  IProductPack,
+} from "../../../../../../lib/types";
 
 interface Props {
-  item: IProductPackCartItem;
-  eventId: string
+  item: IProductPackEventCartItem;
+  eventId: string;
 }
 
 export default function EventProduct({ item, eventId }: Props) {
