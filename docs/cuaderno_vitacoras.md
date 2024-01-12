@@ -1,6 +1,7 @@
 # Listado de tareas:
 
 - Enviar QR de compra de cerveza a un amigo
+- Cuando se añade un producto al carrito de la compra del evento, estaría bien que exista una referencia al Punto de Consumo de donde se ha comprado
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
