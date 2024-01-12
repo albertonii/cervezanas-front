@@ -137,7 +137,7 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   return (
-    <section className="rounded-xl p-4 shadow-lg">
+    <section className="p-6 border-2 shadow-md bg-[url('/assets/rec-graf4c.png')] bg-contain bg-no-repeat bg-top max-w-[300px] md:max-w-full m-auto">
       {isLoading ? (
         <Spinner color="beer-blonde" size="medium"></Spinner>
       ) : (
@@ -150,7 +150,7 @@ export function StoreItem({ product }: StoreItemProps) {
                 isActive={isLike}
                 color={heartColor}
                 classContainer={
-                  " bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                  " bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 !rounded-full !m-0"
                 }
                 classIcon={""}
                 title={t("add_to_favs")}
@@ -166,7 +166,7 @@ export function StoreItem({ product }: StoreItemProps) {
                 decodeURIComponent(product.product_multimedia[0].p_principal)
               }
               class={
-                " h-[200px] w-[200px] rounded-2xl object-contain hover:cursor-pointer"
+                " h-[220px] w-[220px]  object-contain hover:cursor-pointer border-2"
               }
               onClick={() => router.push(`/${locale}/products/${product.id}`)}
             />
@@ -189,7 +189,7 @@ export function StoreItem({ product }: StoreItemProps) {
               </figure>
 
               <div className="flex w-full min-w-0 items-center justify-between ">
-                <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate text-lg font-semibold text-beer-draft transition-all hover:text-beer-blonde">
+                <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate font-semibold text-beer-draft transition-all hover:text-beer-blonde m-auto text-2xl py-2">
                   <Link href={`/products/${product.id}`} locale={locale}>
                     {product.name}
                   </Link>
@@ -207,7 +207,7 @@ export function StoreItem({ product }: StoreItemProps) {
             </div>
 
             {/* Información sobre el pack seleccionado detallada y minimalista  */}
-            <div className="mt-1 text-lg font-semibold text-bear-dark">
+            <div className="mt-1 font-semibold text-bear-dark m-auto text-base">
               {selectedPack?.quantity}{" "}
               {selectedPack?.quantity > 1 ? t("units") : t("unit")}/
               {formatCurrency(selectedPack?.price)}
@@ -217,7 +217,7 @@ export function StoreItem({ product }: StoreItemProps) {
 
             <div className="w mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
               <select
-                className="text-md w-full rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none"
+                className="text-md w-full  border-beer-softBlondeBubble px-2 py-1 focus:border-beer-blonde focus:outline-none"
                 id="is_external_organizer"
                 onClick={(e: any) => {
                   const value = e.target.value;
