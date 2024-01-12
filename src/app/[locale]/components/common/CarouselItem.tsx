@@ -16,7 +16,7 @@ export function CarouselItem({ resource }: Props) {
       alt={resource.title}
       width={120}
       height={120}
-      class="h-[120px] rounded transition duration-200 ease-in hover:opacity-80"
+      class="h-[120px] rounded transition duration-200 ease-in hover:opacity-100"
     />
   );
 }

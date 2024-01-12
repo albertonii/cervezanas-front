@@ -62,7 +62,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
 
             <div className="flex flex-wrap">
               <div
-                className="flex  w-full justify-center px-10 py-4 hover:cursor-pointer lg:mb-0 2xl:mx-auto 2xl:px-0"
+                className="flex w-full justify-center px-2 py-4 hover:cursor-pointer lg:mb-0 2xl:mx-auto 2xl:px-0"
                 onClick={() => setShowModal(true)}
               >
                 {/* Main Image  */}
@@ -71,7 +71,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                   width={350}
                   height={150}
                   alt="Product Gallery Principal Image"
-                  class="h-full max-h-[200px] rounded md:max-h-[280px] lg:max-h-[500px]"
+                  class="h-full max-h-[400px] rounded md:max-h-[380px] lg:max-h-[500px] border-cerv-brown border-4"
                   objectFit="contain"
                 />
               </div>

@@ -39,9 +39,9 @@ export default function DistributionInformation({ product }: Props) {
   if (!contracts) return null;
 
   return (
-    <section className="space-y-4 rounded border-2 border-beer-softBlondeBubble p-2">
+    <section className="space-y-4 rounded border-2 border-beer-softBlondeBubble p-3 bg-beer-softFoam">
       <div>
-        <h2>
+        <h2 className="p-2 text-sm">
           Select shipping address and check if this product is available for
           delivery to your location
         </h2>

@@ -23,7 +23,7 @@ export default function MarketCartButtons({
   return (
     <>
       <div className="mr-2 flex items-center justify-center space-x-2 rounded-md border">
-        <span className="mx-2 text-xl text-beer-draft">{quantity}</span>
+        <span className="mx-2 text-xl text-beer-draft w-[30px] text-center">{quantity}</span>
 
         <div className="flex flex-col ">
           <div className="border">

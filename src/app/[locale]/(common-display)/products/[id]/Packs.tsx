@@ -70,7 +70,7 @@ export default function Packs({ product }: Props) {
 
           <fieldset className="mt-4">
             <legend className="sr-only">{t("choose_pack")}</legend>
-            <ul className="grid grid-cols-1 gap-2 rounded border bg-beer-blonde/20 p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
+            <ul className="grid grid-cols-1 gap-2 rounded border bg-cerv-coffee p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
               {product.product_packs
                 .slice() // Copy the array to avoid mutating the original
                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity

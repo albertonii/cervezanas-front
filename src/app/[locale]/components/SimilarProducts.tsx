@@ -19,7 +19,7 @@ export function SimilarProducts() {
         <div>
           <h3 className="text-sm text-beer-draft">
             <a href="#">
-              <span aria-hidden="true" className="absolute inset-0"></span>
+              <span aria-hidden="true" className="absolute inset-0 border-cerv-brown border-2"></span>
               Basic Tee
             </a>
           </h3>

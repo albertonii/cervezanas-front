@@ -37,10 +37,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
     return reviews?.length ? sum / reviews.length : 0;
   }, [reviews]);
 
-  const executeScroll = useCallback(
-    () => reviewRef.current.scrollIntoView(),
-    [reviewRef]
-  );
+  const executeScroll = useCallback(() => reviewRef.current.scrollIntoView(), [
+    reviewRef,
+  ]);
 
   async function handleLike() {
     if (!isLike) {
@@ -60,8 +59,13 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   }
 
   useEffect(() => {
-    const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
-      selectedMultimedia;
+    const {
+      p_principal,
+      p_back,
+      p_extra_1,
+      p_extra_2,
+      p_extra_3,
+    } = selectedMultimedia;
 
     setGallery(
       [
@@ -114,7 +118,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
   return (
     <>
-      <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
+      <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-softBlonde md:overflow-hidden lg:col-span-4 bg-[url('/assets/madera.jpg')] bg-contain bg-repeat-y bg-top bg-cover h-[100%]">
         <ProductGallery
           gallery={gallery}
           isLike={isLike}
@@ -122,9 +126,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
         />
       </section>
 
-      <section className="col-span-12 mx-6 space-y-4 lg:col-span-8">
+      <section className="col-span-12 mx-6 space-y-4 lg:col-span-8 bg-[url('/assets/rec-graf2b.png')] bg-auto bg-no-repeat bg-center">
         <section className="flex flex-col sm:flex-row sm:justify-between">
-          <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
+          <h2 className="text-4xl font-bold sm:pr-12 text-cerv-banana uppercase">
             {product.name}
           </h2>
 
@@ -160,13 +164,21 @@ export default function ProductDetails({ product, reviewRef }: Props) {
             {t("product_information")}
           </h3>
 
-          <p className="text-2xl text-gray-900">
+          <p className="text-2xl text-gray-900 font-semibold">
             {formatCurrency(product.price)}
           </p>
-
+          <div className="m-auto text-center">
+            <img
+              className="m-auto"
+              src="/assets/home/detalle.svg"
+              width="80"
+            ></img>
+          </div>
           <div className="mt-6">
             <div className="flex min-h-[6vh] items-center pr-6">
-              <p className="text-lg">{product.description}</p>
+              <p className="text-sm  max-w-none text-justify">
+                {product.description}
+              </p>
             </div>
           </div>
         </section>
