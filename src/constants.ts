@@ -38,6 +38,7 @@ export const COMMON = {
 export const ORDER_TYPE = {
   ONLINE: "online",
   EVENT: "event",
+  EVENT_PRODUCT: "event_product",
   DISTRIBUTOR_ONLINE: "distributor_online",
 };
 

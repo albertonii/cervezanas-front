@@ -34,10 +34,12 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
 
   if (!product_packs) return <></>;
 
-
   return (
     <section className="relative border-separate space-y-8 rounded-lg border p-2">
-      <StatusTimeline status={eventOrderItem.status} orderType={"event"} />
+      <StatusTimeline
+        status={eventOrderItem.status}
+        orderType={"event_product"}
+      />
 
       <section className="grid grid-cols-1 space-x-4 space-y-4 text-start sm:grid-cols-2">
         {/* Display the product information for this pack  */}

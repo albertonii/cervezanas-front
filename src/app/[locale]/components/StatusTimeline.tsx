@@ -11,6 +11,8 @@ import {
   ONLINE_ORDER_STATUS,
   ORDER_TYPE,
 } from "../../../constants";
+import EventProductTimelineStatusText from "../(common-display)/checkout/event/success/EventProductTimelineStatusText";
+import EventProductTimelineStatusBar from "../(common-display)/checkout/event/success/EventProductTimelineStatusBar";
 
 interface OrderTimelineProps {
   orderType: string;
@@ -24,7 +26,10 @@ export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
       <span className={`text-lg font-medium text-beer-dark sm:text-xl`}>
         {orderType === ORDER_TYPE.ONLINE && `${t("order_status")}:`}
 
-        {orderType === ORDER_TYPE.EVENT && `${t("order_status")}:`}
+        {orderType === ORDER_TYPE.EVENT && `${t("order_product_status")}:`}
+
+        {orderType === ORDER_TYPE.EVENT_PRODUCT &&
+          `${t("order_product_status")}:`}
 
         {orderType === ORDER_TYPE.DISTRIBUTOR_ONLINE &&
           `${t("order_business_pack_status")}:`}
@@ -48,12 +53,21 @@ export function StatusTimeline({ orderType, status }: OrderTimelineProps) {
           <OnlineTimelineStatusBar status={status} />
         </>
       )}
+
       {orderType === ORDER_TYPE.EVENT && (
         <>
           <EventTimelineStatusText status={status} />
           <EventTimelineStatusBar status={status} />
         </>
       )}
+
+      {orderType === ORDER_TYPE.EVENT_PRODUCT && (
+        <>
+          <EventProductTimelineStatusText status={status} />
+          <EventProductTimelineStatusBar status={status} />
+        </>
+      )}
+
       {orderType === ORDER_TYPE.DISTRIBUTOR_ONLINE && (
         <>
           <DistributorOnlineTimelineStatusBar status={status} />
