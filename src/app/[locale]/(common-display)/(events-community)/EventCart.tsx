@@ -29,7 +29,7 @@ export default function EventCart() {
 
   return (
     <div
-      className={`md:right- fixed -top-44 right-10 z-40 rounded-lg border-2 border-beer-softBlonde bg-beer-softFoam px-2 py-2 shadow-md md:absolute md:-top-20 md:left-0 md:right-auto`}
+      className={`md:right- fixed z-40 rounded-sm border-2 border-beer-softBlonde bg-beer-softFoam px-2 py-2 shadow-md md:absolute top-0 xl:left-16 lg:-left-4 md:-left-20 sm:left-0 right-auto`}
       aria-modal="true"
       role="dialog"
       tabIndex={-1}
@@ -41,8 +41,8 @@ export default function EventCart() {
               <div className="relative rounded-full">
                 <Image
                   src={"/icons/shopping-cart.svg"}
-                  width={60}
-                  height={60}
+                  width={50}
+                  height={50}
                   alt={"Go to Shopping cart"}
                   className={"rounded-full"}
                 />
@@ -59,7 +59,7 @@ export default function EventCart() {
             isMinimized && ""
           }`}
         >
-          <Button onClick={() => setIsMinimized(true)} class="">
+          <Button onClick={() => setIsMinimized(true)} class="absolute right-4">
             <span className="sr-only">{t("close_cart")}</span>
 
             <svg

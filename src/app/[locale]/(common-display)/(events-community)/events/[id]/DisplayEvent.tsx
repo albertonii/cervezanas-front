@@ -18,7 +18,7 @@ export default function DisplayEvent({ event }: Props) {
   const cpMobile: ICPMobile[] = event.cp_mobile;
 
   return (
-    <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
+    <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md max-w-[500px] md:max-w-[700px] lg:max-w-[900px] sm:max-w-full m-auto mb-20 mt-20 md:mt-0">
       <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
         <span
           className={`text-lg font-medium text-white ${
@@ -30,15 +30,15 @@ export default function DisplayEvent({ event }: Props) {
       </div>
 
       {/* Display all the information inside the Mobile Consumption Point */}
-      <h1 className="mb-2 text-2xl font-bold">{event.name}</h1>
+      <h1 className="mb-2 text-4xl font-bold text-beer-blonde">{event.name}</h1>
       <h2 className="mb-4 text-lg text-gray-500">{event.description}</h2>
 
       <div className="mb-4">
         {/* Start and End date */}
-        <span className="text-gray-500">
+        <span className="text-black font-semibold text-xl italic">
           {t("start_date")}: {formatDateString(event.start_date)}
         </span>
-        <span className="ml-4 text-gray-500">
+        <span className="ml-4 text-black font-semibold text-xl italic">
           {t("end_date")}: {formatDateString(event.end_date)}
         </span>
       </div>
@@ -65,27 +65,27 @@ export default function DisplayEvent({ event }: Props) {
             <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-6 py-3 hidden sm:block ">
                     {t("logo_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-2 py-3 ">
                     {t("name_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-2 py-3 hidden sm:block ">
                     {t("description_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-2 py-3 ">
                     {t("address_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-2 py-3 ">
                     {t("date_header")}
                   </th>
 
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-2 py-3 ">
                     {t("status_header")}
                   </th>
                 </tr>
@@ -119,7 +119,7 @@ const CPMobile = ({ cp }: CPMobileProps) => {
       key={cp.id}
       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
     >
-      <td className=" space-x-2 px-6 py-4">
+      <td className=" space-x-2 px-6 py-4 hidden sm:block">
         <Image
           src={cp.logo_url ?? COMMON.PROFILE_IMG}
           alt={cp.cp_name}
@@ -128,17 +128,17 @@ const CPMobile = ({ cp }: CPMobileProps) => {
         />
       </td>
 
-      <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+      <td className=" space-x-2 px-2 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft text-beer-blonde text-md sm:text-lg">
         <Link href={`/consumption_points/mobile/${cp.id}`} locale={locale}>
           {cp.cp_name}
         </Link>
       </td>
-      <td className="space-x-2 px-6 py-4">{cp.cp_description}</td>
-      <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
-      <td className="space-x-2 px-6 py-4">
+      <td className="space-x-2 px-2 py-4 hidden sm:block">{cp.cp_description}</td>
+      <td className="space-x-2 px-2 py-4 font-medium ">{cp.address}</td>
+      <td className="space-x-2 px-2 py-4">
         {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
       </td>
-      <td className="space-x-2 px-6 py-4">{cp.status}</td>
+      <td className="space-x-2 px-2 py-4">{cp.status}</td>
     </tr>
   );
 };

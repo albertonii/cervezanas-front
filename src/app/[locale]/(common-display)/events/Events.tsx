@@ -49,7 +49,7 @@ const EventCard = ({ event }: EventCardProps) => {
       >
         <div className="absolute inset-0 z-0 opacity-80"></div>
 
-        <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] max-w-4xl flex-col rounded-3xl border border-white bg-white p-4 shadow-lg  transition hover:scale-105 hover:shadow-2xl">
+        <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] flex-col border border-beer-blonde bg-white p-4 shadow-lg  transition hover:scale-105 hover:shadow-2xl  bg-[url('/assets/rec-graf4c.png')] bg-cover bg-no-repeat bg-center max-w-[300px] sm:max-w-full ">
           <div className="flex-none space-x-4 sm:flex">
             {/* Event Image  */}
             <div className="relative mb-3 sm:mb-0">
@@ -58,7 +58,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 height={200}
                 alt={""}
                 src="/assets/event-1.jpg"
-                className="w-48 rounded-2xl object-cover sm:h-48 sm:w-48"
+                className="w-48 object-cover sm:h-48 sm:w-48"
               />
               {/* <a
                 href="#"
@@ -77,11 +77,11 @@ const EventCard = ({ event }: EventCardProps) => {
 
             {/* Event Details  */}
             <div className="sm:mx-4c w-full flex-auto justify-evenly space-y-4">
-              <div className="flex items-start justify-between sm:mt-2">
+              <div className="block sm:flex items-start justify-between sm:mt-2">
                 {/* Name & Description */}
                 <div className="flex flex-col items-start">
                   <div className="flex flex-col">
-                    <div className="w-full flex-none text-lg font-bold leading-none text-gray-800 hover:cursor-pointer hover:text-beer-draft">
+                    <div className="w-full flex-none text-4xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link href={`/events/${event.id}`} locale={locale}>
                         {event.name}
                       </Link>
@@ -96,7 +96,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 </div>
 
                 {/* Start date - End date  */}
-                <div className="flex-none text-lg italic leading-none text-gray-600">
+                <div className="flex-none text-base md:text-lg italic leading-none text-white font-semibold p-3 bg-cerv-coal mr-0 md:-mr-4 mt-4 sm:-mt-6 ">
                   <Link href={`/events/${event.id}`} locale={locale}>
                     {formatDateString(event.start_date)} -{" "}
                     {formatDateString(event.end_date)}
@@ -206,7 +206,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 </div>
 
                 <div>
-                  <Button class="flex-no-shrink border-beer-gold-300 ml-4 rounded-full border-2 bg-beer-darkGold px-5 py-2 text-sm font-extrabold tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg">
+                  <Button class="flex-no-shrink border-beer-gold-300 ml-4 uppercase border-2 bg-beer-darkGold px-5 py-2 text-xl font-semibold tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg -bottom-12 right:0 sm:-right-3 relative">
                     <Link href={`/events/${event.id}`} locale={locale}>
                       {t("info")}
                     </Link>
