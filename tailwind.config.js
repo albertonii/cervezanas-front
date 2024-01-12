@@ -135,9 +135,18 @@ module.exports = {
       },
     },
     colors: {
+      cerv: {
+        titlesec: "#fef5ed",
+        titlehigh: "#a87a12",
+        cream: "#fff5ed",
+        coffee: "#382818",
+        coal: "#242b27",
+        banana: "#f09b08",
+        brown: "#bf922b"
+      },
       beer: {
         dark: "#432a14",
-        blonde: "#fdc300",
+        blonde: "#f09b08",
         draft: "#90470b",
         softBlonde: "#f9d56e",
         softBlondeBubble: "#f1d273",
