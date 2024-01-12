@@ -725,5 +725,8 @@
   "add_campaign": "Añadir campaña",
   "pvpr": "PVPR",
   "pvpr_tooltip": "Es el Precio de Venta Público Recomendado, el precio que aconsejan los productores y marcas a los comerciantes y tiendas. Es un precio que tiene en cuenta el proceso y los costos de producción.",
-  "weight": "Peso"
+  "weight": "Peso",
+  "send_product": "Enviar producto",
+  "share_this_link_via": "Comparte este enlace vía",
+  "copy": "Copiar"
 }

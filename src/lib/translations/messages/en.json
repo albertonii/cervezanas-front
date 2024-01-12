@@ -710,5 +710,8 @@
   "add_campaign": "Add Campaign",
   "pvpr": "SRP",
   "pvpr_tooltip": "It is the Recommended Retail Price, the price advised by producers and brands to retailers and stores. It is a price that takes into account the process and production costs.",
-  "weight": "Weight"
+  "weight": "Weight",
+  "send_product": "Send product",
+  "share_this_link_via": "Share this link via",
+  "copy": "Copy"
 }

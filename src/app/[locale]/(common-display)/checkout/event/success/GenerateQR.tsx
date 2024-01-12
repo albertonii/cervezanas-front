@@ -1,6 +1,7 @@
 import React from "react";
 import QRCode from "react-qr-code";
 import { useLocale } from "next-intl";
+import ShareLink from "../../../../components/ShareLink";
 
 interface Props {
   eventOrderItemId: string;
@@ -18,18 +19,20 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
       ? domain
       : "https://cervezanas-front.vercel.app";
 
-  const productUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
+  const productBarmanUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
 
   const handleOnClick = () => {
     // router.push(productUrl);
   };
 
   return (
-    <div
-      className="transition-all hover:scale-105"
+    <section
+      className="space-y-4 transition-all"
       onClick={() => handleOnClick()}
     >
-      {<QRCode value={productUrl} className="" size={150} />}
-    </div>
+      <QRCode value={productBarmanUrl} className="" size={150} />
+
+      <ShareLink link={productBarmanUrl} />
+    </section>
   );
 }
