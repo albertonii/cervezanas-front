@@ -48,7 +48,7 @@ export default async function RootLayout({
 
               <div
                 className={classNames(
-                  "relative mx-auto mt-[10vh] h-auto w-full"
+                  ""
                 )}
               >
                 {/* <Breadcrumb /> */}
@@ -59,7 +59,7 @@ export default async function RootLayout({
 
               <main
                 className={classNames(
-                  "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
+                  "relative mx-auto flex h-full w-full transform items-start justify-center transition lg:container lg:flex-wrap"
                 )}
               >
                 <MessageList />

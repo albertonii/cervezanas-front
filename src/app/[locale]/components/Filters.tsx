@@ -28,7 +28,7 @@ export function Filters() {
   };
 
   return (
-    <section className="flex w-full items-center justify-between font-medium">
+    <section className="flex w-full items-center justify-between font-medium text-white">
       <div className="flex items-center gap-4">
         <label htmlFor={minPriceFilterId}>{t("price_starts_at")}</label>
         <input
