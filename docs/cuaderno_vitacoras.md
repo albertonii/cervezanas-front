@@ -1,5 +1,6 @@
 # Listado de tareas:
 
+- Vista de Puntos Fijos en evento
 - Cuando se añade un producto al carrito de la compra del evento, estaría bien que exista una referencia al Punto de Consumo de donde se ha comprado
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
@@ -7,7 +8,6 @@
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
 - Configurar PC móviles
 - Configurar PC fijos
-- Comprar a través de un evento
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
 - CRUD para una review de un producto comprado

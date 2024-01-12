@@ -171,13 +171,10 @@ export const AuthContextProvider = ({
             setInitial(false);
             break;
           case EVENTS.PASSWORD_RECOVERY:
-            console.info("PASSWORD_RECOVERY");
-            alert("holas");
             setView(VIEWS.UPDATE_PASSWORD);
             break;
           case EVENTS.SIGNED_IN:
             setView(VIEWS.SIGN_IN);
-            console.info("SIGNED_IN");
             break;
 
           case EVENTS.SIGNED_OUT:

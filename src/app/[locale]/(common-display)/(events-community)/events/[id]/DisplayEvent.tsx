@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { COMMON } from "../../../../../../constants";
-import { ICPMobile, IEvent } from "../../../../../../lib/types";
+import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
@@ -16,7 +16,9 @@ export default function DisplayEvent({ event }: Props) {
   const t = useTranslations();
 
   const cpMobile: ICPMobile[] = event.cp_mobile;
+  const cpFixed: ICPFixed[] = event.cp_fixed;
 
+  console.log(event);
   return (
     <div className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
       <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
@@ -57,7 +59,7 @@ export default function DisplayEvent({ event }: Props) {
       </div> */}
 
       {/* Products linked to this Mobile Consumption Point */}
-      <div className="mt-8">
+      <section className="mt-8">
         {cpMobile.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
@@ -103,7 +105,55 @@ export default function DisplayEvent({ event }: Props) {
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
         )}
-      </div>
+      </section>
+
+      <section className="mt-8">
+        {cpFixed.length > 0 ? (
+          <div className="overflow-x-auto">
+            <h3 className="mb-2 text-xl font-bold">{t("cp_fixed")}</h3>
+
+            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
+              <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("logo_header")}
+                  </th>
+
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("name_header")}
+                  </th>
+
+                  <th scope="col" className="hidden px-6 py-3 md:block">
+                    {t("description_header")}
+                  </th>
+
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("address_header")}
+                  </th>
+
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("date_header")}
+                  </th>
+
+                  <th scope="col" className="px-6 py-3 ">
+                    {t("status_header")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cpFixed.map((cp) => (
+                  <CPFixed key={cp.id} cp={cp} eventId={event.id} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <>
+            <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
+            <p className="text-gray-500">{t("no_cp_mobile")}</p>
+          </>
+        )}
+      </section>
     </div>
   );
 }
@@ -129,6 +179,46 @@ const CPMobile = ({ cp, eventId }: CPMobileProps) => {
           width={64}
           height={64}
         />
+      </td>
+
+      <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+        <Link href={`/events/${eventId}/mobile/${cp.id}`} locale={locale}>
+          {cp.cp_name}
+        </Link>
+      </td>
+      <td className="hidden space-x-2 px-6 py-4 md:block">
+        {cp.cp_description}
+      </td>
+      <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
+      <td className="space-x-2 px-6 py-4">
+        {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
+      </td>
+      <td className="space-x-2 px-6 py-4">{cp.status}</td>
+    </tr>
+  );
+};
+
+interface CPFixedProps {
+  cp: ICPFixed;
+  eventId: string;
+}
+
+const CPFixed = ({ cp, eventId }: CPFixedProps) => {
+  const locale = useLocale();
+
+  return (
+    <tr
+      key={cp.id}
+      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+    >
+      <td className=" space-x-2 px-6 py-4">
+        {/* <Image
+          src={cp.logo_url ?? COMMON.PROFILE_IMG}
+          loader={() => cp.logo_url ?? COMMON.PROFILE_IMG}
+          alt={cp.cp_name}
+          width={64}
+          height={64}
+        /> */}
       </td>
 
       <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">

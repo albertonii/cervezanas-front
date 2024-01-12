@@ -95,10 +95,6 @@ export function AddCampaign() {
   } = form;
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const handleInsertCampaign = async (form: ValidationSchema) => {
     const {
       name,

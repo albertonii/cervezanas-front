@@ -375,6 +375,7 @@ export interface IEvent {
   address: string;
   owner_id: string;
   cp_mobile: ICPMobile[];
+  cp_fixed: ICPFixed[];
   users: IUserTable;
 }
 export interface IConsumptionPoints {

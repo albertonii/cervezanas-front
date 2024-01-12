@@ -12,7 +12,7 @@ export default async function EventPage({ params }: any) {
   const [event] = await Promise.all([eventData]);
   return (
     <>
-      <DisplayEvent event={event[0]} />
+      <DisplayEvent event={event} />
     </>
   );
 }
@@ -37,11 +37,12 @@ async function getEvent(eventId: string) {
         cp_mobile (*)
       `
     )
-    .eq("id", eventId);
+    .eq("id", eventId)
+    .single();
 
-  // users!events_owner_id_fkey (*),
+  console.log(event);
 
   if (error) console.error(error);
 
-  return event as IEvent[];
+  return event as IEvent;
 }
