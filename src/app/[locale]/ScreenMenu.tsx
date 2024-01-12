@@ -26,8 +26,11 @@ export function ScreenMenu() {
   const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
 
   const { cartQuantity, openCart } = useShoppingCart();
-  const { notifications, openNotification, setOpenNotification } =
-    useAppContext();
+  const {
+    notifications,
+    openNotification,
+    setOpenNotification,
+  } = useAppContext();
 
   useEffect(() => {
     setTimeout(() => {
@@ -56,22 +59,41 @@ export function ScreenMenu() {
   };
 
   const MENU_ITEM_STYLES =
-    "block rounded py-2 pr-4 pl-3 text-sm font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg";
+    "block text-sm font-semibold text-white hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-base px-3 py-5";
 
   const handleClickBell = () => {
     setOpenNotification(true);
   };
 
   return (
-    <section className="hidden rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4">
-      <nav className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent">
+    <section className="hidden rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4 bg-[url('/assets/header-bg.jpg')] bg-cover bg-no-repeat bg-center">
+      <nav className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent lg:ml-0 lg:mr-0 max-w-full">
         {/* Left elements  */}
-        <section className="flex w-full items-center justify-center ">
-          <ul className="align-center mt-4 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+
+        {/* Logo Cervezanas  */}
+        <section className="w-[300px] sm:w-[100px]" id="navbar-default">
+          <div className="relative flex w-full flex-shrink-0 justify-center">
+            <div className="relative flex h-[55px] w-[55px] justify-center pt-1">
+              <Link href={"/"} locale={locale}>
+                <Image
+                  src="/logo_cervezanas.svg"
+                  alt="Cervezanas Logo"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "contain" }}
+                  priority={true}
+                  sizes="100px"
+                />
+              </Link>
+            </div>
+          </div>
+        </section>
+        <section className="flex w-full items-center justify-center  lg:w-[500px] sm:w-[450px]">
+          <ul className="align-center dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900 bg-cerv-brown bg-opacity-60">
             <li className="flex items-center">
               <Link href="/marketplace" locale={locale}>
                 <span className={`${MENU_ITEM_STYLES}`}>
-                  {t("marketplace").toUpperCase()}
+                  {t("marketplace")}
                 </span>
               </Link>
             </li>
@@ -87,36 +109,20 @@ export function ScreenMenu() {
             <li className="flex items-center">
               <Link href="/events" locale={locale}>
                 <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                  {t("events").toUpperCase()}
+                  {t("events")}
                 </span>
               </Link>
             </li>
+            <li className="flex items-center">
+              <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
+               Puntos cervezanas
+              </span>
+            </li>
           </ul>
         </section>
-
-        {/* Logo Cervezanas  */}
-        <section className="w-full" id="navbar-default">
-          <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-            <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-              <Link href={"/"} locale={locale}>
-                <Image
-                  src="/logo_cervezanas.svg"
-                  alt="Cervezanas Logo"
-                  width={160}
-                  height={160}
-                  style={{ objectFit: "contain" }}
-                  priority={true}
-                  sizes="100px"
-                />
-              </Link>
-              <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
-            </div>
-          </div>
-        </section>
-
         {/* Right elements  */}
-        <section className="w-full ">
-          <ul className="py-2 dark:border-gray-700 dark:bg-gray-800 sm:mt-4 sm:flex sm:flex-row sm:justify-end sm:p-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+        <section className="w-[400px] ">
+          <ul className="py-2 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:flex-row sm:justify-end sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900 pt-1 sm:gap-4">
             {/* Language  */}
             <li className="flex max-w-[50px] items-center">
               <Select
@@ -166,13 +172,13 @@ export function ScreenMenu() {
                       onClick={() => openCart()}
                       title={""}
                     >
-                      <section className="relative rounded-full">
+                      <section className="relative rounded-full lg:mr-4">
                         <Image
-                          src={"/icons/shopping-cart.svg"}
-                          width={45}
-                          height={45}
+                          src={"/icons/shopping-cart-nobg.svg"}
+                          width={40}
+                          height={40}
                           alt={"Go to Shopping cart"}
-                          className={"rounded-full"}
+                          className={"rounded-full lg:w-[40px] lg:h[40px] mt-2 bg-beer-blonde"}
                         />
                         <div
                           className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
@@ -187,7 +193,7 @@ export function ScreenMenu() {
 
                 {/* Notifications  */}
                 <li
-                  className={`relative flex items-center ${
+                  className={`relative flex w-[50px] items-center ${
                     animateNotifications && "animate-wiggle"
                   }`}
                 >
@@ -200,11 +206,11 @@ export function ScreenMenu() {
                   >
                     <section className="relative rounded-full">
                       <Image
-                        src={"/icons/notification-icon.svg"}
-                        width={45}
-                        height={45}
+                        src={"/icons/notification-icon-nobg.svg"}
+                        width={40}
+                        height={40}
                         alt={"Notification bell"}
-                        className={"rounded-full"}
+                        className={"rounded-full lg:w-[40px] lg:h[40px] mt-2 bg-beer-blonde"}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length ?? 0}
@@ -247,7 +253,7 @@ export function ScreenMenu() {
             )}
           </ul>
 
-          <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24">
+          {/*       <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24 z-10">
             <Link
               href={"/beer-me"}
               locale={locale}
@@ -269,6 +275,7 @@ export function ScreenMenu() {
               </div>
             </Link>
           </section>
+          */}
         </section>
       </nav>
     </section>

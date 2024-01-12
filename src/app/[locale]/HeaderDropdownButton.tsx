@@ -166,7 +166,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           width={45}
           height={45}
           alt={"Go to Shopping cart"}
-          className={"rounded-full"}
+          className={"rounded-full lg:w-[40px] lg:h[40px] mt-2 bg-beer-blonde"}
         />
 
         <FontAwesomeIcon
