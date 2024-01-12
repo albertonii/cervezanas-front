@@ -332,21 +332,12 @@ export function EventCartProvider({ children }: Props) {
     productId: string,
     packId: string
   ) => {
-    // Obtenemos el carrito
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
       if (item.id === productId) {
-        const newPacks = item.packs.map((pack) => {
-          if (pack.id === packId) {
-            return {
-              ...pack,
-              quantity: 0,
-            };
-          } else {
-            return pack;
-          }
-        });
+        // Delete the pack from the product
+        const newPacks = item.packs.filter((pack) => pack.id !== packId);
 
         return {
           ...item,
@@ -357,10 +348,13 @@ export function EventCartProvider({ children }: Props) {
       }
     });
 
+    // If not packs in the product, delete the product from the cart
+    const newItemsv2 = newItems.filter((item) => item.packs.length > 0);
+
     setEventCarts((currCarts) => {
       return {
         ...currCarts,
-        [eventId]: [...newItems],
+        [eventId]: [...newItemsv2],
       };
     });
   };

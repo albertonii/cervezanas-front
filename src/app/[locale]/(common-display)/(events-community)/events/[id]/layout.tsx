@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EventCart from "./EventCart";
+import EventCart from "./(cart)/EventCart";
 
 type LayoutProps = {
   children: React.ReactNode;
