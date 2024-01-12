@@ -99,7 +99,13 @@ async function getSuccessData(searchParams: any) {
       event_order_items (
         *,
         product_pack_id,
-        product_packs (*)
+        product_packs (
+          *,
+          products (
+            name,
+            description
+          )
+        )
       ),
       users (*),
       events (*),
@@ -110,8 +116,6 @@ async function getSuccessData(searchParams: any) {
     )
     .eq("order_number", orderNumber)
     .single();
-
-  console.log(orderData);
 
   if (orderError) {
     console.error(orderError.message);

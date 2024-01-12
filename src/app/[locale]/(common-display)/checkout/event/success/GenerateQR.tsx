@@ -26,10 +26,10 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
 
   return (
     <div
-      className="w-1/2 transition-all hover:scale-105"
+      className="transition-all hover:scale-105"
       onClick={() => handleOnClick()}
     >
-      {<QRCode value={productUrl} className="" />}
+      {<QRCode value={productUrl} className="" size={150} />}
     </div>
   );
 }

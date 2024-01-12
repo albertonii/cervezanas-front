@@ -111,14 +111,12 @@ export default function EventBasket({ eventId }: Props) {
     if (orderError) throw orderError;
 
     cart.map(async (item) => {
-      console.log("item", item);
       item.packs.map(async (pack: IProductPack) => {
         const { error: orderItemError } = await supabase
           .from("event_order_items")
           .insert({
             order_id: order?.[0].id,
             product_pack_id: pack.id,
-            product_id: item.id,
             quantity: pack.quantity,
             status: EVENT_ORDER_ITEM_STATUS.INITIAL,
           });
@@ -186,7 +184,6 @@ export default function EventBasket({ eventId }: Props) {
 
   useEffect(() => {
     if (isFormReady) {
-      // Call submit form
       btnRef.current && btnRef.current.click();
     }
   }, [isFormReady]);

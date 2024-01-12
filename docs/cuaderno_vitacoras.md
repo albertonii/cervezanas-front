@@ -1,6 +1,5 @@
 # Listado de tareas:
 
-- Mostrar productos comprados en el checkout - pedido de compra
 - Enviar QR de compra de cerveza a un amigo
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
@@ -52,6 +51,7 @@
 - [x] Reducir el código usado con componente InputLabel, InputTextarea, etc
 - [x] Crear un carrito de la compra diferente por cada evento
 - [x] Realizar compra de cerveza en un evento
+- [x] Mostrar productos comprados en el checkout - pedido de compra
 
 # 29 de noviembre 23
 
