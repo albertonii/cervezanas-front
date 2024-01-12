@@ -10,9 +10,10 @@ import ModalWithForm from "../../../../components/modals/ModalWithForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SearchCheckboxCPs } from "./SearchCheckboxCPs";
 import InputLabel from "../../../../components/common/InputLabel";
 import InputTextarea from "../../../../components/common/InputTextarea";
+import { SearchCheckboxCPMobiles } from "../../../../components/common/SearchCheckboxCPMobiles";
+import { SearchCheckboxCPFixeds } from "../../../../components/common/SearchCheckboxCPFixed";
 
 export type ModalAddEventFormData = {
   name: string;
@@ -194,12 +195,18 @@ export default function AddEvent({ cpsMobile }: Props) {
           {/* AD Img  */}
         </fieldset>
 
-        {/* List of user Consumption Points  */}
+        {/* List of Mobil Consumption Points  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
 
-          {/* List of CPs  */}
-          <SearchCheckboxCPs cpsMobile={cpsMobile} form={form} />
+          <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
+        </fieldset>
+
+        {/* List of Fixed Consumption Points  */}
+        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+          <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
+
+          <SearchCheckboxCPFixeds cpsMobile={cpsMobile} form={form} />
         </fieldset>
       </form>
     </ModalWithForm>

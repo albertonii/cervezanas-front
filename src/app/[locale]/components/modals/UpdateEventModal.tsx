@@ -6,13 +6,21 @@ import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
-import { ICPMobile, ICPM_events, IEvent } from "../../../../lib/types";
+import {
+  ICPFixed,
+  ICPF_events,
+  ICPMobile,
+  ICPM_events,
+  IEvent,
+} from "../../../../lib/types";
 import { formatDateDefaultInput } from "../../../../utils/formatDate";
 import useFetchCPSMobileByEventsId from "../../../../hooks/useFetchCPsMobileByEventId";
-import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
 import dynamic from "next/dynamic";
 import InputLabel from "../common/InputLabel";
 import InputTextarea from "../common/InputTextarea";
+import { SearchCheckboxCPMobiles } from "../common/SearchCheckboxCPMobiles";
+import { SearchCheckboxCPFixeds } from "../common/SearchCheckboxCPFixed";
+import useFetchCPSFixedByEventsId from "../../../../hooks/useFetchCPsFixedByEventId";
 
 const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 interface FormData {
@@ -23,6 +31,7 @@ interface FormData {
   logo_url: string;
   promotional_url: string;
   cps_mobile: ICPM_events[];
+  cps_fixed: ICPF_events[];
 }
 
 interface Props {
@@ -30,6 +39,7 @@ interface Props {
   isEditModal: boolean;
   handleEditModal: ComponentProps<any>;
   cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
 }
 
 export default function UpdateEventModal({
@@ -37,6 +47,7 @@ export default function UpdateEventModal({
   isEditModal,
   handleEditModal,
   cpsMobile,
+  cpsFixed,
 }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
@@ -44,15 +55,24 @@ export default function UpdateEventModal({
   const queryClient = useQueryClient();
 
   const {
-    data: checkedCPs,
-    isLoading,
-    isFetching,
-    refetch,
+    data: checkedCPMobiles,
+    isLoading: isLoadingMobile,
+    isFetching: isFetchingMobile,
+    refetch: refetchMobile,
   } = useFetchCPSMobileByEventsId(selectedEvent.id);
 
+  const {
+    data: checkedCPFixed,
+    isLoading: isLoadingFixed,
+    isFetching: isFetchingFixed,
+    refetch: refetchFixed,
+  } = useFetchCPSFixedByEventsId(selectedEvent.id);
+
   useEffect(() => {
-    refetch();
+    refetchMobile();
+    refetchFixed();
   }, []);
+
   const form = useForm<FormData>({
     defaultValues: {
       name: selectedEvent.name,
@@ -76,6 +96,7 @@ export default function UpdateEventModal({
       logo_url,
       promotional_url,
       cps_mobile,
+      cps_fixed,
     } = formValues;
 
     if (!selectedEvent) return;
@@ -94,30 +115,89 @@ export default function UpdateEventModal({
 
     if (error) throw error;
 
-    // Eliminar todos los CPs asociados al evento
-    checkedCPs?.forEach(async (cp) => {
-      const { error: cpError } = await supabase
-        .from("cpm_events")
-        .delete()
-        .eq("cp_id", cp.cp_id)
-        .eq("event_id", selectedEvent.id);
+    handleCheckedCPMobiles(cps_mobile);
+    console.log(cps_fixed);
+    handleCheckedCPFixed(cps_fixed);
+  };
 
-      if (cpError) {
-        throw cpError;
-      }
-    });
+  const handleCheckedCPMobiles = (cps_mobile: ICPM_events[]) => {
+    // Comprobar si todos los elementos de checkedCPMobiles están en cps_mobile
+    const allCheckedInNew = checkedCPMobiles?.every((cp) =>
+      cps_mobile.some((item) => item.cp_id === cp.cp_id)
+    );
 
-    // // Insertar los nuevos CPs asociados al evento
-    cps_mobile?.forEach(async (item) => {
-      const { error } = await supabase.from("cpm_events").insert({
-        cp_id: item.cp_id,
-        event_id: selectedEvent.id,
-        is_active: false,
+    // Comprobar si todos los elementos de cps_mobile están en checkedCPMobiles
+    const allNewInChecked = cps_mobile.every((item) =>
+      checkedCPMobiles?.some((cp) => cp.cp_id === item.cp_id)
+    );
+
+    // Si hay cambios, actualiza los CPs móviles asociados al evento
+    if (!allCheckedInNew || !allNewInChecked) {
+      // Eliminar todos los CPs asociados al evento
+      checkedCPMobiles?.forEach(async (cp) => {
+        const { error: cpError } = await supabase
+          .from("cpm_events")
+          .delete()
+          .eq("cp_id", cp.cp_id)
+          .eq("event_id", selectedEvent.id);
+
+        if (cpError) {
+          throw cpError;
+        }
       });
-      if (error) {
-        throw error;
-      }
-    });
+
+      // // Insertar los nuevos CPs asociados al evento
+      cps_mobile?.forEach(async (item) => {
+        const { error } = await supabase.from("cpm_events").insert({
+          cp_id: item.cp_id,
+          event_id: selectedEvent.id,
+          is_active: false,
+        });
+        if (error) {
+          throw error;
+        }
+      });
+    }
+  };
+
+  const handleCheckedCPFixed = (cps_fixed: ICPF_events[]) => {
+    // Comprobar si todos los elementos de checkedCPFixed están en cps_fixed
+    const allCheckedInNew = checkedCPFixed?.every((cp) =>
+      cps_fixed.some((item) => item.cp_id === cp.cp_id)
+    );
+
+    // Comprobar si todos los elementos de cps_fixed están en checkedCPFixed
+    const allNewInChecked = cps_fixed.every((item) =>
+      checkedCPFixed?.some((cp) => cp.cp_id === item.cp_id)
+    );
+
+    // Si hay cambios, actualiza los CPs móviles asociados al evento
+    if (!allCheckedInNew || !allNewInChecked) {
+      // Eliminar todos los CPs asociados al evento
+      checkedCPFixed?.forEach(async (cp) => {
+        const { error: cpError } = await supabase
+          .from("cpf_events")
+          .delete()
+          .eq("cp_id", cp.cp_id)
+          .eq("event_id", selectedEvent.id);
+
+        if (cpError) {
+          throw cpError;
+        }
+      });
+
+      // // Insertar los nuevos CPs asociados al evento
+      cps_fixed?.forEach(async (item) => {
+        const { error } = await supabase.from("cpf_events").insert({
+          cp_id: item.cp_id,
+          event_id: selectedEvent.id,
+          is_active: false,
+        });
+        if (error) {
+          throw error;
+        }
+      });
+    }
   };
 
   const updateEventMutation = useMutation({
@@ -156,9 +236,9 @@ export default function UpdateEventModal({
       form={form}
     >
       <>
-        {isLoading || (isFetching && <p>Loading...</p>)}
-        {isLoading && <p>Loading...</p>}
-        {!isLoading && !isFetching && (
+        {isFetchingMobile && <p>Loading...</p>}
+        {isLoadingMobile && <p>Loading...</p>}
+        {!isLoadingMobile && !isFetchingMobile && (
           <form>
             {/* Event Information  */}
             <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
@@ -214,22 +294,29 @@ export default function UpdateEventModal({
               {/* AD Img  */}
             </fieldset>
 
-            {/* List of user Consumption Points  */}
-            {
-              <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                <legend className="text-2xl">
-                  {t("cp_mobile_associated")}
-                </legend>
+            {/* List of Mobile Consumption Points  */}
+            <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+              <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
 
-                {/* List of CPs  */}
-                <SearchCheckboxCPs
-                  cpsMobile={cpsMobile}
-                  form={form}
-                  checkedCPs={checkedCPs}
-                  selectedEventId={selectedEvent.id}
-                />
-              </fieldset>
-            }
+              {/* List of CPs  */}
+              <SearchCheckboxCPMobiles
+                cpsMobile={cpsMobile}
+                checkedCPs={checkedCPMobiles}
+                form={form}
+              />
+            </fieldset>
+
+            {/* List of Fixed Consumption Points  */}
+            <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+              <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
+
+              {/* List of CPs  */}
+              <SearchCheckboxCPFixeds
+                cpsFixed={cpsFixed}
+                checkedCPs={checkedCPFixed}
+                form={form}
+              />
+            </fieldset>
           </form>
         )}
       </>

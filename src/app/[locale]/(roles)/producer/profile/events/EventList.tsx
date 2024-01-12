@@ -6,7 +6,7 @@ import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwn
 import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../../../lib/types";
+import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
 import Spinner from "../../../../components/common/Spinner";
 import InputSearch from "../../../../components/common/InputSearch";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -32,9 +32,10 @@ interface ColumnsProps {
 interface Props {
   counter: number;
   cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
 }
 
-export default function EventList({ counter, cpsMobile }: Props) {
+export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const [query, setQuery] = useState("");
@@ -120,6 +121,7 @@ export default function EventList({ counter, cpsMobile }: Props) {
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
           cpsMobile={cpsMobile}
+          cpsFixed={cpsFixed}
         />
       )}
 

@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { ICPMobile, ICPM_events } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
+import { ICPFixed, ICPM_events } from "../../../../lib/types";
+import InputSearch from "./InputSearch";
 
 interface Props {
-  cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
   form: UseFormReturn<any, any>;
   checkedCPs?: ICPM_events[];
   selectedEventId?: string;
 }
 
-export function SearchCheckboxCPs({
-  cpsMobile,
+export function SearchCheckboxCPFixeds({
+  cpsFixed,
   form,
   checkedCPs,
   selectedEventId,
@@ -40,29 +40,29 @@ export function SearchCheckboxCPs({
   };
 
   useEffect(() => {
-    setValue("cps_mobile", checkedCPsState);
+    setValue("cps_fixed", checkedCPsState);
   }, [checkedCPsState]);
 
-  const filteredItemsByProductsName = useMemo(() => {
-    if (!cpsMobile) return [];
-    return cpsMobile.filter((cp) => {
+  const filteredItemsByCPName = useMemo(() => {
+    if (!cpsFixed) return [];
+    return cpsFixed.filter((cp) => {
       return cp.cp_name.toLowerCase().includes(query.toLowerCase());
     });
-  }, [cpsMobile, query]);
+  }, [cpsFixed, query]);
 
   return (
     <section className="z-10 my-6 w-full space-y-4 rounded bg-white shadow dark:bg-gray-700">
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_cp"}
+        searchPlaceholder={"search_by_name"}
       />
 
       <ul
         className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
         aria-labelledby="dropdownSearchButton"
       >
-        {filteredItemsByProductsName.map((cp: ICPMobile) => {
+        {filteredItemsByCPName.map((cp: ICPFixed) => {
           return (
             <li
               key={cp.id}
@@ -72,7 +72,7 @@ export function SearchCheckboxCPs({
               <input
                 id={`checkbox-item-${cp.id}`}
                 type="checkbox"
-                {...register(`cps_mobile.${cp.id}.cp_id`)}
+                {...register(`cps_fixed.${cp.id}.cp_id`)}
                 checked={checkedCPsState?.some(
                   (cps_event) => cps_event.cp_id === cp.id
                 )}

@@ -4,14 +4,15 @@ import EventList from "./EventList";
 import AddEvent from "../../../../components/modals/AddEvent";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
 
 interface Props {
   cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
   counter: number;
 }
 
-export default function Events({ cpsMobile, counter }: Props) {
+export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
   const t = useTranslations();
 
   return (
@@ -20,11 +21,11 @@ export default function Events({ cpsMobile, counter }: Props) {
         <h2 className="text-4xl">{t("events")}</h2>
 
         <div className="w-40">
-          <AddEvent cpsMobile={cpsMobile} />
+          <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
         </div>
       </header>
 
-      <EventList counter={counter} cpsMobile={cpsMobile} />
+      <EventList counter={counter} cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
     </section>
   );
 }

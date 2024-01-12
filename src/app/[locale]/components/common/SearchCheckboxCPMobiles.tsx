@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { ICPMobile, ICPM_events } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
+import { ICPMobile, ICPM_events } from "../../../../lib/types";
+import InputSearch from "./InputSearch";
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -10,7 +10,7 @@ interface Props {
   selectedEventId?: string;
 }
 
-export function SearchCheckboxCPs({
+export function SearchCheckboxCPMobiles({
   cpsMobile,
   form,
   checkedCPs,

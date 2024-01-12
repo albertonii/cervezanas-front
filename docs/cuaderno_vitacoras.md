@@ -1,6 +1,5 @@
 # Listado de tareas:
 
-- Enviar QR de compra de cerveza a un amigo
 - Cuando se añade un producto al carrito de la compra del evento, estaría bien que exista una referencia al Punto de Consumo de donde se ha comprado
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
@@ -30,6 +29,8 @@
 - Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
 - [] Hacer que las vistas en profile consumer sean homogéneas
 - [] Hacer que las vistas en profile distributor sean homogéneas
+- Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
+- Al guardar un evento con puntos de consumo, a veces no se guardan los PC
 
 # Tareas realizadas
 
@@ -53,6 +54,7 @@
 - [x] Crear un carrito de la compra diferente por cada evento
 - [x] Realizar compra de cerveza en un evento
 - [x] Mostrar productos comprados en el checkout - pedido de compra
+- [x] Componente para compartir en redes sociales
 
 # 29 de noviembre 23
 

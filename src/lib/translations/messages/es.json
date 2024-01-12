@@ -544,6 +544,7 @@
   "error_fetching_event_orders": "Error al obtener pedidos de eventos",
   "event_advertising": "Publicidad del evento",
   "cp_mobile_associated": "Puntos móviles asociados",
+  "cp_fixed_associated": "Puntos fijos asociados",
   "phone": "Teléfono",
   "search_cp": "Buscar punto de consumo",
   "type_header": "Tipo",

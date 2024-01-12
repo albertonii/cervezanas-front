@@ -488,6 +488,12 @@ export interface ICPM_events {
   is_active: boolean;
 }
 
+export interface ICPF_events {
+  cp_id: string;
+  event_id: string;
+  is_active: boolean;
+}
+
 export interface IProfileLocation {
   id: string;
   created_at: string;

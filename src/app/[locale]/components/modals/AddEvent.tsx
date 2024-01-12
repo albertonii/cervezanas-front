@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../lib/types";
+import { ICPFixed, ICPMobile } from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
-import { SearchCheckboxCPs } from "../../(roles)/producer/profile/events/SearchCheckboxCPs";
 import { useMutation, useQueryClient } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodType } from "zod";
@@ -12,6 +11,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import InputLabel from "../common/InputLabel";
 import InputTextarea from "../common/InputTextarea";
+import { SearchCheckboxCPMobiles } from "../common/SearchCheckboxCPMobiles";
+import { SearchCheckboxCPFixeds } from "../common/SearchCheckboxCPFixed";
 
 const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
 
@@ -23,6 +24,7 @@ export type ModalAddEventFormData = {
   logo_url?: string;
   promotional_url?: string;
   cps_mobile?: any[];
+  cps_fixed?: any[];
 };
 
 const schema: ZodType<ModalAddEventFormData> = z.object({
@@ -33,15 +35,17 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
   logo_url: z.string().optional(),
   promotional_url: z.string().optional(),
   cps_mobile: z.any(),
+  cps_fixed: z.any(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
 }
 
-export default function AddEvent({ cpsMobile }: Props) {
+export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
@@ -57,7 +61,8 @@ export default function AddEvent({ cpsMobile }: Props) {
   const { handleSubmit, reset } = form;
 
   const handleInsertEvent = async (form: ValidationSchema) => {
-    const { name, description, start_date, end_date, cps_mobile } = form;
+    const { name, description, start_date, end_date, cps_mobile, cps_fixed } =
+      form;
 
     const formatStartDate = new Date(start_date).toISOString();
     const formatEndDate = new Date(end_date).toISOString();
@@ -83,33 +88,51 @@ export default function AddEvent({ cpsMobile }: Props) {
       .select()
       .single();
 
-    if (eventError) {
-      throw eventError;
-    }
-    if (!cps_mobile) {
-      return;
-    }
     if (!event) {
       return;
     }
 
+    if (eventError) {
+      throw eventError;
+    }
+
     const { id: eventId } = event;
 
-    // Get CP checked from the list
-    const cpsMFiltered = cps_mobile.filter((cp) => cp.cp_id);
+    if (cps_mobile) {
+      // Get CP checked from the list
+      const cpsMObileFiltered = cps_mobile.filter((cp) => cp.cp_id);
 
-    // Loop trough all the selected CPs and insert them into the event
-    cpsMFiltered.map(async (cp) => {
-      const { error: cpError } = await supabase.from("cpm_events").insert({
-        cp_id: cp.cp_id,
-        event_id: eventId,
-        is_active: false,
+      // Loop trough all the selected CPs and insert them into the event
+      cpsMObileFiltered.map(async (cp) => {
+        const { error: cpError } = await supabase.from("cpm_events").insert({
+          cp_id: cp.cp_id,
+          event_id: eventId,
+          is_active: false,
+        });
+
+        if (cpError) {
+          throw cpError;
+        }
       });
+    }
 
-      if (cpError) {
-        throw cpError;
-      }
-    });
+    if (cps_fixed) {
+      // Get CP checked from the list
+      const cpsFixedFiltered = cps_fixed.filter((cp) => cp.cp_id);
+
+      // Loop trough all the selected CPs and insert them into the event
+      cpsFixedFiltered.map(async (cp) => {
+        const { error: cpError } = await supabase.from("cpf_events").insert({
+          cp_id: cp.cp_id,
+          event_id: eventId,
+          is_active: false,
+        });
+
+        if (cpError) {
+          throw cpError;
+        }
+      });
+    }
   };
 
   const insertEventMutation = useMutation({
@@ -205,12 +228,20 @@ export default function AddEvent({ cpsMobile }: Props) {
           {/* AD Img  */}
         </fieldset>
 
-        {/* List of user Consumption Points  */}
+        {/* List of Mobile Consumption Points  */}
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
 
           {/* List of CPs  */}
-          <SearchCheckboxCPs cpsMobile={cpsMobile} form={form} />
+          <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
+        </fieldset>
+
+        {/* List of Fixed Consumption Points  */}
+        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+          <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
+
+          {/* List of CPs  */}
+          <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
         </fieldset>
       </form>
     </ModalWithForm>

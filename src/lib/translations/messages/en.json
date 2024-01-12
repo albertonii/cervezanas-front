@@ -529,6 +529,7 @@
   "error_fetching_event_orders": "Error fetching event orders",
   "event_advertising": "Event advertising",
   "cp_mobile_associated": "Associated mobile consumption points",
+  "cp_fixed_associated": "Associated fixed consumption points",
   "phone": "Phone",
   "search_cp": "Search consumption point",
   "type_header": "Type",
