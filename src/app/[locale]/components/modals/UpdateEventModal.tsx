@@ -116,7 +116,6 @@ export default function UpdateEventModal({
     if (error) throw error;
 
     handleCheckedCPMobiles(cps_mobile);
-    console.log(cps_fixed);
     handleCheckedCPFixed(cps_fixed);
   };
 

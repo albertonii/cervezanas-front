@@ -107,7 +107,7 @@ export default function DisplayEvent({ event }: Props) {
         )}
       </section>
 
-      <section className="mt-8">
+      {/* <section className="mt-8">
         {cpFixed.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_fixed")}</h3>
@@ -153,7 +153,7 @@ export default function DisplayEvent({ event }: Props) {
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
         )}
-      </section>
+      </section> */}
     </div>
   );
 }

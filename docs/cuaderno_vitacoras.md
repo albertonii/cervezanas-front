@@ -130,3 +130,10 @@ Quizás asociar una tarifa básica + suma de pesos de los productos.
 
 8 de enero
 InputLabel y InputTextarea creados, con ellos reduciré el código usado en toda la aplicación
+
+12 enero
+
+Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imágenes de IA, fotografías del Hendrix, etc
+Enfocarnos en los diseños para el webminar
+Crear vídeo
+Nos vamos al BBF a finales de marzo

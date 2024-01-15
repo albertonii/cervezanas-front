@@ -40,6 +40,9 @@ async function getEvent(eventId: string) {
     .eq("id", eventId)
     .single();
 
+  // Comprobar pq no se puede hacer un join con cp_fixed
+  // cp_fixed (*)
+
   console.log(event);
 
   if (error) console.error(error);
