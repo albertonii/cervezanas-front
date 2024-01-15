@@ -15,7 +15,7 @@ import {
 import { Table } from "../../../../../components/invoice/Table";
 import { TableTotalInvoice } from "../../../../../components/invoice/TableTotalInvoice";
 import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
-import { IOrder } from "../../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../../lib/types";
 import { formatDateString } from "../../../../../../../utils/formatDate";
 
 // Create styles

@@ -1,13 +1,14 @@
 "use client";
 
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { Database } from "../lib/schema";
 import { IDistributionContract } from "../lib/types.d";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const fetchDistributionContracts = async (
   distributorId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("distribution_contracts")
@@ -19,7 +20,17 @@ const fetchDistributionContracts = async (
         status,
         producer_accepted,
         distributor_accepted,
-        message
+        message,
+        producer_user (
+          users (
+            *
+          )
+        ),
+        distributor_user (
+          users (
+            *
+          )
+        )
       `
     )
     .eq("distributor_id", distributorId);

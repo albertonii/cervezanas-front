@@ -71,5 +71,5 @@ export function Rate({ count, rating, color, onRating, editable }: Props) {
     editable,
   ]);
 
-  return <div className="my-2 flex h-6 flex-row">{starRating}</div>;
+  return <figure className="my-2 flex h-6 flex-row">{starRating}</figure>;
 }

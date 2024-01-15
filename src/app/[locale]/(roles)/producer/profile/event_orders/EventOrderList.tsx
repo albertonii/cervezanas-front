@@ -7,11 +7,12 @@ import { useAuth } from "../../../../Auth/useAuth";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { IEventOrder } from "../../../../../../lib/types.d";
+import { IEventOrder } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { encodeBase64 } from "../../../../../../utils/utils";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import InputSearch from "../../../../components/common/InputSearch";
 
 interface Props {
   eventOrders: IEventOrder[];
@@ -71,7 +72,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   const filteredItemsByStatus = useMemo(() => {
     if (!orders) return [];
     return orders.filter((orders) => {
-      return orders.status.includes(query);
+      return orders.status.toLowerCase().includes(query.toLowerCase());
     });
   }, [orders, query]);
 
@@ -95,31 +96,11 @@ export function EventOrderList({ eventOrders: os }: Props) {
         </div>
       ) : (
         <>
-          <div className="relative w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5 text-gray-500 dark:text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </div>
-
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder={t("search_order") ?? "Search order..."}
-            />
-          </div>
+          <InputSearch
+            query={query}
+            setQuery={setQuery}
+            searchPlaceholder={"search_order"}
+          />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

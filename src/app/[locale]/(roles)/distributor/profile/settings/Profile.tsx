@@ -2,8 +2,8 @@
 
 import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../../components/common/Spinner";
-import { IDistributorUser } from "../../../../../../lib/types.d";
+import Spinner from "../../../../components/common/Spinner";
+import { IDistributorUser } from "../../../../../../lib/types";
 import { Account } from "./Account";
 
 interface Props {

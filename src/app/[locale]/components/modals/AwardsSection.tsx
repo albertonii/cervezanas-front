@@ -1,13 +1,13 @@
-import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { Divider } from "@supabase/ui";
+import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { IAward, ModalAddProductProps } from "../../../../lib/types.d";
-import { Button } from "../common/Button";
+import { IAward } from "../../../../lib/types";
 import { DeleteButton } from "../common/DeleteButton";
+import { ModalAddProductFormData } from "../../../../lib/types";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { DisplayInputError } from "../common/DisplayInputError";
-
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
+import InputLabel from "../common/InputLabel";
 
 const emptyAward: IAward = {
   id: "",
@@ -19,7 +19,7 @@ const emptyAward: IAward = {
 };
 
 interface Props {
-  form: UseFormReturn<ModalAddProductProps, any>;
+  form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
 interface FileProps {
@@ -28,7 +28,7 @@ interface FileProps {
 }
 
 export const AwardsSection = ({ form }: Props) => {
-  const { control, register } = form;
+  const { control } = form;
 
   const t = useTranslations();
 
@@ -66,82 +66,47 @@ export const AwardsSection = ({ form }: Props) => {
   };
 
   return (
-    <section id="Award">
+    <section id="Award" className="space-y-4">
       {fields.map((field, index) => (
         <div key={field.id} className="relative flex-auto space-y-4 pt-6">
           <div className="flex flex-row items-end">
-            <div className="space-y w-full">
-              <label htmlFor="award_name" className="text-sm text-gray-600">
-                <b>{index + 1} </b> {t("name")}
-              </label>
-
-              <input
-                type="text"
-                id="award_name"
-                placeholder={t("input_product_award_name_placeholder")}
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                {...register(`awards.${index}.name`, {
-                  required: false,
-                })}
-              />
-              {`errors.awards.${index}.name.type` === "required" && (
-                <DisplayInputError message="errors.input_required" />
-              )}
-              {`errors.awards.${index}.name.type` === "maxLength" && (
-                <DisplayInputError message="errors.product_modal_20_max_length" />
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={`awards.${index}.name`}
+              labelText={`${index + 1} ${t("name")}`}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={t("input_product_award_name_placeholder")}
+            />
 
             <div className="ml-4">
               <DeleteButton onClick={() => handleRemoveAward(index)} />
             </div>
           </div>
 
-          <div className="space-y w-full">
-            <label
-              htmlFor="award_description"
-              className="text-sm text-gray-600"
-            >
-              {t("description")}
-            </label>
+          <InputLabel
+            form={form}
+            label={`awards.${index}.description`}
+            labelText={"description"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder={t("description")}
+          />
 
-            <input
-              type="text"
-              id="award_description"
-              placeholder={t("description")}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register(`awards.${index}.description`, {
-                required: false,
-              })}
-            />
-            {`errors.awards.${index}.description.type` === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-            {`errors.awards.${index}.description.type` === "maxLength" && (
-              <DisplayInputError message="errors.product_modal_20_max_length" />
-            )}
-          </div>
-
-          <div className="space-y w-full">
-            <label htmlFor="award_year" className="text-sm text-gray-600">
-              {t("year")}
-            </label>
-
-            <input
-              type="number"
-              id="award_year"
-              placeholder={t("input_product_award_year_placeholder")}
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              defaultValue={2021}
-              {...register(`awards.${index}.year`, {
-                required: false,
-                valueAsNumber: true,
-              })}
-            />
-            {`errors.awards.${index}.year.type` === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={`awards.${index}.year`}
+            labelText={"year"}
+            registerOptions={{
+              required: true,
+              valueAsNumber: true,
+            }}
+            placeholder={t("input_product_award_year_placeholder")}
+            inputType="number"
+            defaultValue={2021}
+          />
 
           <div className="space-y w-full">
             <label htmlFor="award_img_url" className="text-sm text-gray-600">
@@ -157,16 +122,12 @@ export const AwardsSection = ({ form }: Props) => {
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
-
-          <Divider className="my-6" />
         </div>
       ))}
 
-      <div>
-        <Button class="" primary medium onClick={() => handleAddAward()}>
-          {t("modal_product_award_add")}
-        </Button>
-      </div>
+      <Button class="" primary medium onClick={() => handleAddAward()}>
+        {t("modal_product_award_add")}
+      </Button>
     </section>
   );
 };

@@ -1,20 +1,21 @@
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../../Auth/useAuth";
+import { IAddress } from "../../../../../lib/types";
 import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
-import { useTranslations } from "next-intl";
-import { UseFormReturn } from "react-hook-form";
-import { IAddress } from "../../../../../lib/types.d";
 import { useMutation, useQueryClient } from "react-query";
 import { NewShippingAddress } from "./NewShippingAddress";
+import { UseFormReturn, SubmitHandler } from "react-hook-form";
 import { useMessage } from "../../../components/message/useMessage";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
+import { FormShippingData, ValidationSchemaShipping } from "./ShoppingBasket";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { useAuth } from "../../../Auth/useAuth";
 
 interface Props {
-  selectedShippingAddress: string;
-  formShipping: UseFormReturn<any, any>;
   shippingAddresses: IAddress[];
+  selectedShippingAddress: string;
   handleOnClickShipping: ComponentProps<any>;
+  formShipping: UseFormReturn<FormShippingData, any>;
 }
 
 export default function Shipping({
@@ -36,7 +37,6 @@ export default function Shipping({
   const queryClient = useQueryClient();
 
   // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
-  // Remove Shipping Address
   const handleRemoveShippingAddress = async () => {
     const shippingAddressId = selectedShippingAddress;
 
@@ -64,7 +64,9 @@ export default function Shipping({
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
+    data: any
+  ) => {
     try {
       deleteShippingAddress.mutate(data);
     } catch (error) {
@@ -78,16 +80,11 @@ export default function Shipping({
         {t("shipping_info")}{" "}
       </h3>
 
-      <div className="flex w-full flex-col items-start justify-start space-y-4">
-        <div className="flex w-full flex-col items-start justify-start space-y-2">
-          <label
-            htmlFor="shipping"
-            className="text-sm font-medium text-gray-500"
-          >
-            {t("shipping")}
-          </label>
-        </div>
-      </div>
+      <span className="flex w-full flex-col items-start justify-start space-y-4">
+        <label className="text-sm font-medium text-gray-500">
+          {t("shipping")}
+        </label>
+      </span>
 
       {/* Radio button for select shipping address */}
       <ul className="grid w-full gap-6 md:grid-cols-1">
@@ -107,8 +104,8 @@ export default function Shipping({
         })}
 
         {/* Error input displaying */}
-        {errors.shipping_info_id?.type === "required" && (
-          <DisplayInputError message="errors.select_location_required" />
+        {errors.shipping_info_id && (
+          <DisplayInputError message={errors.shipping_info_id.message} />
         )}
       </ul>
 

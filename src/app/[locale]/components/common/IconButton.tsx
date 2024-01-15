@@ -59,6 +59,7 @@ export function IconButton({
         onMouseLeave={() => setHoverColor("unfilled")}
         onClick={onClick}
         title={title}
+        titleId={title}
       />
     );
   }, [

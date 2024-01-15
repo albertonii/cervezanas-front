@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { ChipCard } from "../../../../components/common/ChipCard";
 import { toLowerCase } from "../../../../../../utils/formatWords";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { useAppContext } from "../../../../../context/AppContext";
 
 export function CustomizeSettings() {
   const t = useTranslations();
@@ -148,97 +148,94 @@ export function CustomizeSettings() {
   };
 
   return (
-    <>
-      <div className="px-4 py-6 " aria-label="CustomizeSettings">
-        <div className="flex flex-col space-y-4">
-          <div className="text-4xl">{t("products_customize_settings")}</div>
-        </div>
+    <section className="px-4 py-6 " aria-label="CustomizeSettings">
+      <header className="flex flex-col space-y-4">
+        <p className="text-4xl">{t("products_customize_settings")}</p>
+      </header>
 
-        <div className="flex flex-col space-y-4">
-          {/* Text description to Customize colors available for a new beer product. */}
-          <div className="text-md my-4 text-gray-500 dark:text-gray-400">
-            {t("products_customize_settings_description")}
-          </div>
+      <div className="flex flex-col space-y-4">
+        {/* Text description to Customize colors available for a new beer product. */}
+        <h3 className="text-md my-4 text-gray-500 dark:text-gray-400">
+          {t("products_customize_settings_description")}
+        </h3>
 
-          {/* Color  */}
+        {/* Color  */}
+        <div className="flex flex-col">
+          <fieldset>
+            <label
+              className="text-sm font-medium text-gray-500 dark:text-gray-400"
+              htmlFor="colorInputRef"
+            >
+              {t("products_customize_settings_color")}
+            </label>
+
+            <input
+              ref={colorInputRef}
+              id="colorInputRef"
+              className=" border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+          </fieldset>
+
+          {/* Set of colors customized by the user  */}
           <div className="flex flex-col">
-            <fieldset>
-              <label
-                className="text-sm font-medium text-gray-500 dark:text-gray-400"
-                htmlFor="colorInputRef"
-              >
-                {t("products_customize_settings_color")}
-              </label>
-
-              <input
-                ref={colorInputRef}
-                id="colorInputRef"
-                type="text"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </fieldset>
-
-            {/* Set of colors customized by the user  */}
-            <div className="flex flex-col">
-              <div className="flex w-full flex-wrap justify-center">
-                {colors.map((color, index) => (
-                  <div
-                    key={`color-${index}`}
-                    data-te-chips-init
-                    data-te-chips-placeholder
-                    className="mb-0 min-h-[45px] border-none pb-0 shadow-none outline-none transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:cursor-text"
-                    data-te-editable="true"
-                  >
-                    <ChipCard
-                      content={color}
-                      handleRemove={() => handleRemoveColor(color)}
-                    />
-                  </div>
-                ))}
-              </div>
+            <div className="flex w-full flex-wrap justify-center">
+              {colors.map((color, index) => (
+                <div
+                  key={`color-${index}`}
+                  data-te-chips-init
+                  data-te-chips-placeholder
+                  className="mb-0 min-h-[45px] border-none pb-0 shadow-none outline-none transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:cursor-text"
+                  data-te-editable="true"
+                >
+                  <ChipCard
+                    content={color}
+                    handleRemove={() => handleRemoveColor(color)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          {/* Family Style  */}
+        {/* Family Style  */}
+        <div className="flex flex-col">
+          <fieldset>
+            <label
+              className="text-sm font-medium text-gray-500 dark:text-gray-400"
+              htmlFor="familyStylesInputRef"
+            >
+              {t("products_customize_settings_family_style")}
+            </label>
+
+            <input
+              ref={familyStylesInputRef}
+              id="familyStylesInputRef"
+              type="text"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+          </fieldset>
+
+          {/* Set of family styles customized by the user  */}
           <div className="flex flex-col">
-            <fieldset>
-              <label
-                className="text-sm font-medium text-gray-500 dark:text-gray-400"
-                htmlFor="familyStylesInputRef"
-              >
-                {t("products_customize_settings_family_style")}
-              </label>
-
-              <input
-                ref={familyStylesInputRef}
-                id="familyStylesInputRef"
-                type="text"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </fieldset>
-
-            {/* Set of family styles customized by the user  */}
-            <div className="flex flex-col">
-              <div className="flex w-full flex-wrap justify-center">
-                {familyStyles.map((fStyle, index) => (
-                  <div
-                    key={`family_styles-${index}`}
-                    data-te-chips-init
-                    data-te-chips-placeholder
-                    className="mb-0 min-h-[45px] border-none pb-0 shadow-none outline-none transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:cursor-text"
-                    data-te-editable="true"
-                  >
-                    <ChipCard
-                      content={fStyle}
-                      handleRemove={() => handleRemoveFamStyle(fStyle)}
-                    />
-                  </div>
-                ))}
-              </div>
+            <div className="flex w-full flex-wrap justify-center">
+              {familyStyles.map((fStyle, index) => (
+                <div
+                  key={`family_styles-${index}`}
+                  data-te-chips-init
+                  data-te-chips-placeholder
+                  className="mb-0 min-h-[45px] border-none pb-0 shadow-none outline-none transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:cursor-text"
+                  data-te-editable="true"
+                >
+                  <ChipCard
+                    content={fStyle}
+                    handleRemove={() => handleRemoveFamStyle(fStyle)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }

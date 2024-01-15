@@ -6,7 +6,7 @@ interface Props {
   wrapperId: string;
 }
 
-export function PortalModal({ children, wrapperId }: Props) {
+export default function PortalModal({ children, wrapperId }: Props) {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
   useLayoutEffect(() => {

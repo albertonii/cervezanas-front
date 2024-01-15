@@ -8,55 +8,80 @@ import ShippingBillingContainer from "./ShippingBillingContainer";
 import useFetchShippingByOwnerId from "../../../../../hooks/useFetchShippingByOwnerId";
 import useFetchBillingByOwnerId from "../../../../../hooks/useFetchBillingByOwnerId";
 import React, { useState, useEffect, useRef } from "react";
+import { z, ZodType } from "zod";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
-import { Spinner } from "../../../components/common/Spinner";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CheckoutItem } from "./CheckoutItem";
 import { useAuth } from "../../../Auth/useAuth";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "react-query";
 import { Button } from "../../../components/common/Button";
-import { CustomLoading } from "../../../components/common/CustomLoading";
-import { CheckoutItem } from "./CheckoutItem";
 import { randomTransactionId, CURRENCIES } from "redsys-easy";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { CustomLoading } from "../../../components/common/CustomLoading";
+import { API_METHODS, ONLINE_ORDER_STATUS } from "../../../../../constants";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 import {
   createRedirectForm,
   merchantInfo,
 } from "../../../components/TPV/redsysClient";
-import {
-  API_METHODS,
-  MARKETPLACE_ORDER_STATUS,
-} from "../../../../../constants";
-import { useMutation, useQueryClient } from "react-query";
+import dynamic from "next/dynamic";
+import BillingAddressItem from "./BillingAddressItemInfo";
 
-interface FormShippingData {
+const DynamicSpinner = dynamic(
+  () => import("../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
+
+export type FormShippingData = {
   shipping_info_id: string;
-}
+};
 
-interface FormBillingData {
+export type FormBillingData = {
   billing_info_id: string;
-}
+};
+
+const schemaShipping: ZodType<FormShippingData> = z.object({
+  shipping_info_id: z.string().nonempty({
+    message: "errors.input_required",
+  }),
+});
+
+const schemaBilling: ZodType<FormBillingData> = z.object({
+  billing_info_id: z.string().nonempty({
+    message: "errors.input_required",
+  }),
+});
+
+export type ValidationSchemaShipping = z.infer<typeof schemaShipping>;
+export type ValidationSchemaBilling = z.infer<typeof schemaBilling>;
 
 export function ShoppingBasket() {
   const t = useTranslations();
 
   const { user, isLoading, supabase } = useAuth();
+  const { items, clearCart, checkIsShoppingCartDeliverable } =
+    useShoppingCart();
 
   const formRef = useRef<HTMLFormElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const [subtotal, setSubtotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [shipping, setShipping] = useState(0);
   const [tax, setTax] = useState(0);
-  const [total, setTotal] = useState(subtotal - discount + shipping + tax);
+  const [subtotal, setSubtotal] = useState(0);
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [total, setTotal] = useState(0);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [isFormReady, setIsFormReady] = useState(false);
   const [merchantParameters, setMerchantParameters] = useState("");
   const [merchantSignature, setMerchantSignature] = useState("");
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [selectedBillingAddress, setSelectedBillingAddress] = useState("");
+
+  const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
   const { data: shippingAddresses, error: shippingAddressesError } =
     useFetchShippingByOwnerId(user?.id as string);
@@ -72,13 +97,16 @@ export function ShoppingBasket() {
     throw shippingAddressesError;
   }
 
-  const formShipping = useForm<FormShippingData>();
+  const formShipping = useForm<FormShippingData>({
+    resolver: zodResolver(schemaShipping),
+  });
   const { trigger: triggerShipping } = formShipping;
 
-  const formBilling = useForm<FormBillingData>();
+  const formBilling = useForm<FormBillingData>({
+    resolver: zodResolver(schemaBilling),
+  });
   const { trigger: triggerBilling } = formBilling;
 
-  const { items, clearCart } = useShoppingCart();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -90,16 +118,8 @@ export function ShoppingBasket() {
     });
 
     setSubtotal(subtotal);
-    setTotal(() => subtotal - discount + shipping + tax);
-
-    return () => {
-      setSubtotal(0);
-      setShipping(0);
-      setTax(0);
-      setDiscount(0);
-      setTotal(0);
-    };
-  }, [discount, items, shipping, subtotal, tax]);
+    setTotal(() => subtotal + deliveryCost + tax);
+  }, [items, deliveryCost, subtotal, tax]);
 
   useEffect(() => {
     if (isFormReady) {
@@ -107,6 +127,20 @@ export function ShoppingBasket() {
       btnRef.current && btnRef.current.click();
     }
   }, [isFormReady]);
+
+  useEffect(() => {
+    const canMakeThePayment =
+      checkIsShoppingCartDeliverable() &&
+      items.length > 0 &&
+      selectedBillingAddress !== "" &&
+      selectedShippingAddress !== "";
+
+    setCanMakeThePayment(canMakeThePayment);
+  }, [items, selectedShippingAddress, selectedBillingAddress]);
+
+  const handleDeliveryCost = (deliveryCost: number) => {
+    setDeliveryCost((prevCost) => prevCost + deliveryCost);
+  };
 
   const checkForm = async () => {
     const shippingInfoId = selectedShippingAddress;
@@ -161,7 +195,7 @@ export function ShoppingBasket() {
       .insert({
         owner_id: user?.id,
         customer_name: `${user?.name} ${user?.lastname}`,
-        status: MARKETPLACE_ORDER_STATUS.ORDER_PLACED,
+        status: ONLINE_ORDER_STATUS.PENDING,
         tracking_id: "123456789",
         issue_date: new Date().toISOString(),
         estimated_date: new Date(
@@ -169,8 +203,8 @@ export function ShoppingBasket() {
         ).toISOString(), // 3 days
         total: total,
         subtotal: subtotal,
-        shipping: shipping,
-        discount: discount,
+        shipping: deliveryCost,
+        discount: 0,
         discount_code: "none",
         currency: "EUR",
         order_number: orderNumber,
@@ -187,20 +221,28 @@ export function ShoppingBasket() {
     if (orderError) throw orderError;
     if (!order) return;
 
-    // Insert Business Order
-    const { data: businessOrder, error: businessOrderError } = await supabase
-      .from("business_orders")
-      .insert({
-        order_id: order.id,
-      })
-      .select("id")
-      .single();
-
-    if (businessOrderError) throw businessOrderError;
-    if (!businessOrder) return;
-
+    // Estoy recorriendo todos los elementos del carrito de la compra,
+    // aquellos que tengan un pack, los inserto en la tabla order_items
+    // además, como son del mismo pack y del mismo producto, los agrupo
+    // y asigno el mismo identificador de pedido para el negocio - business_order_id
     items.map((item) => {
       item.packs.map(async (pack) => {
+        const distributorId = item.distributor_id;
+        const producerId = item.producer_id;
+
+        const { data: businessOrder, error: businessOrderError } =
+          await supabase
+            .from("business_orders")
+            .insert({
+              order_id: order.id,
+              producer_id: producerId,
+              distributor_id: distributorId,
+            })
+            .select("id")
+            .single();
+
+        if (businessOrderError) throw businessOrderError;
+
         const { error: orderItemError } = await supabase
           .from("order_items")
           .insert({
@@ -210,7 +252,24 @@ export function ShoppingBasket() {
             is_reviewed: false,
           });
 
+        pack.products?.owner_id;
+
         if (orderItemError) throw orderItemError;
+
+        // Notification to distributor
+        const distributorMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        const distributorLink = "/distributor/profile/business_orders";
+
+        fetch(
+          `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}&link=${distributorLink}`
+        );
+
+        // Notification to producer
+        const producerMessage = `Tienes un nuevo online pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+        const producerLink = "/producer/profile/online_orders";
+        fetch(
+          `/api/push_notification?destination_user=${producerId}&message=${producerMessage}&link=${producerLink}`
+        );
       });
     });
 
@@ -271,6 +330,7 @@ export function ShoppingBasket() {
   };
 
   const handleOnClickShipping = (addressId: string) => {
+    setDeliveryCost(0);
     setSelectedShippingAddress(addressId);
   };
 
@@ -278,7 +338,7 @@ export function ShoppingBasket() {
     setSelectedBillingAddress(addressId);
   };
 
-  if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
+  if (isLoading) return <DynamicSpinner color="beer-blonde" size="medium" />;
 
   return (
     <>
@@ -346,10 +406,10 @@ export function ShoppingBasket() {
                 </figure>
               </div>
 
-              <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+              <section className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
                 {/* Products  */}
                 <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                  {/* Customer's Car */}
+                  {/* Customer's Cart */}
                   <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
                     <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
                       {t("customer_s_cart")}
@@ -365,6 +425,7 @@ export function ShoppingBasket() {
                                 selectedShippingAddress={
                                   selectedShippingAddress
                                 }
+                                handleDeliveryCost={handleDeliveryCost}
                               />
                             </div>
                           );
@@ -429,25 +490,12 @@ export function ShoppingBasket() {
                             </p>
                           </div>
 
-                          {/* discount */}
-                          <div className="flex w-full items-center justify-between">
-                            <p className="text-base leading-4 text-gray-800 dark:text-white">
-                              {t("discount")}
-                              {/* <span className="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
-                                    STUDENT
-                                  </span> */}
-                            </p>
-                            <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(discount)} {discount / subtotal}%
-                            </p>
-                          </div>
-
                           <div className="flex w-full items-center justify-between">
                             <p className="text-base leading-4 text-gray-800 dark:text-white">
                               {t("shipping")}
                             </p>
                             <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                              {formatCurrency(shipping)}
+                              {formatCurrency(deliveryCost)}
                             </p>
                           </div>
 
@@ -478,13 +526,15 @@ export function ShoppingBasket() {
                         </div>
 
                         {/* Proceed to pay */}
-                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                        <div
+                          className={`flex w-full items-center justify-center md:items-start md:justify-start`}
+                        >
                           <Button
                             large
                             primary
                             class={`font-semibold`}
                             title={""}
-                            disabled={items.length === 0}
+                            disabled={!canMakeThePayment}
                             onClick={() => {
                               onSubmit();
                             }}
@@ -527,16 +577,14 @@ export function ShoppingBasket() {
                             </p>
 
                             <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                              {/* {billingAddresses?.map((address) => {
-                                    if (address.id === selectedBillingAddress)
-                                      return (
-                                        <div key={address.id}>
-                                          <BillingAddressItem
-                                            address={address}
-                                          />
-                                        </div>
-                                      );
-                                  })} */}
+                              {billingAddresses?.map((address) => {
+                                if (address.id === selectedBillingAddress)
+                                  return (
+                                    <div key={address.id}>
+                                      <BillingAddressItem address={address} />
+                                    </div>
+                                  );
+                              })}
                             </div>
                           </div>
                         </div>
@@ -555,7 +603,7 @@ export function ShoppingBasket() {
                     </div>
                   </div>
                 </section>
-              </div>
+              </section>
             </section>
           </>
         )}

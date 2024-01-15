@@ -1,7 +1,7 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { ComponentProps, useEffect, useState } from "react";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 import {
   Combobox,
@@ -17,6 +17,7 @@ import usePlacesAutocomplete, {
   GeocodeResult,
   getGeocode,
   getLatLng,
+  LatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
 
@@ -54,16 +55,32 @@ export default function CPGoogleMap({
 }
 
 function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
-  const location = defaultGeoArgs?.[0]?.geometry?.location;
-  const latLng = {
-    lat: location ? location?.lat : 40.41,
-    lng: location ? location?.lng : -3.7,
+  const geometry: google.maps.GeocoderGeometry | undefined =
+    defaultGeoArgs?.[0]?.geometry;
+
+  const location: any = geometry?.location;
+
+  const latLng: LatLng = {
+    lat: location?.lat ?? 40.41,
+    lng: location?.lng ?? -3.7,
   };
 
-  const center = useMemo(() => latLng, []);
+  const center = {
+    lat: latLng.lat,
+    lng: latLng.lng,
+  };
+
   const [selected, setSelected] = useState(defaultLocation ?? null);
 
   const [map, setMap] = useState<google.maps.Map>();
+
+  const onLoad = React.useCallback(function callback(map: google.maps.Map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map.fitBounds(bounds);
+
+    setMap(map);
+  }, []);
 
   return (
     <div className="space-y-4">
@@ -80,11 +97,10 @@ function Map({ defaultGeoArgs, defaultLocation, handleAddress }: Props) {
 
       <div className="">
         <GoogleMap
-          zoom={12}
-          // TODO: center={center}
+          zoom={10}
           mapContainerClassName="map-container"
           mapContainerStyle={containerStyle}
-          onLoad={(map) => setMap(map)}
+          onLoad={onLoad}
         >
           {/* TODO: {selected && <Marker position={selected} />} */}
         </GoogleMap>
@@ -120,10 +136,6 @@ const PlacesAutocomplete = ({
     if (defaultLocation) setValue(defaultLocation);
   }, [defaultLocation]);
 
-  useEffect(() => {
-    handleAddress(value);
-  }, [handleAddress, value]);
-
   const handleSelect = async (address: any) => {
     setValue(address, false);
     clearSuggestions();
@@ -135,13 +147,18 @@ const PlacesAutocomplete = ({
     setSelected({ lat, lng });
   };
 
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValue(value);
+  };
+
   return (
     <Combobox onSelect={handleSelect} aria-label="choose">
       <ComboboxInput
         value={value}
-        onChange={(e: any) => setValue(e.target.value)}
+        onChange={handleChangeValue}
         disabled={!ready}
-        className="combobox-input w-full rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
+        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         placeholder={t("search_an_address")}
       />
 
@@ -149,7 +166,11 @@ const PlacesAutocomplete = ({
         <ComboboxList>
           {status === "OK" &&
             data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
+              <ComboboxOption
+                key={place_id}
+                value={description}
+                onClick={() => handleAddress(description)}
+              />
             ))}
         </ComboboxList>
       </ComboboxPopover>

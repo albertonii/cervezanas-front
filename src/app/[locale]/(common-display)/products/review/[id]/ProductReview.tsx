@@ -5,7 +5,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../constants";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { IProduct, IProductMultimedia } from "../../../../../../lib/types.d";
+import { IProduct, IProductMultimedia } from "../../../../../../lib/types";
 import { NewProductReview } from "../../../../components/reviews/NewProductReview";
 
 interface Props {

@@ -1,27 +1,35 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { z, ZodType } from "zod";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { DisplayInputError } from "../../components/common/DisplayInputError";
-import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
-import { VIEWS } from "../../../../constants";
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../Auth/useAuth";
+import { Button } from "../../components/common/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import InputLabel from "../../components/common/InputLabel";
 
 type FormData = {
-  email: string;
+  password: string;
+  confirm_password: string;
 };
 
-const schema: ZodType<FormData> = z.object({
-  email: z
-    .string()
-    .email({
-      message: "Must be a valid email",
-    })
-    .min(5, { message: "Required" }),
-});
+const schema: ZodType<FormData> = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: "Password must be atleast 8 characters" }),
+    confirm_password: z
+      .string()
+      .min(8, { message: "Password must be atleast 8 characters" }),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Password don't match",
+  });
 
 type ValidationSchema = z.infer<typeof schema>;
 
@@ -31,104 +39,86 @@ type ValidationSchema = z.infer<typeof schema>;
  */
 export default function ResetPassword() {
   const t = useTranslations();
-  const locale = useLocale();
-  const supabase = createClientComponentClient();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { updatePassword } = useAuth();
+
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
-  async function resetPassword(formData: ValidationSchema) {
-    const { error } = await supabase.auth.resetPasswordForEmail(
-      formData?.email,
-      {
-        redirectTo: `${window.location.origin}/auth/update-password`,
-      }
-    );
+  const { handleSubmit } = form;
 
-    if (error) {
-      console.error(error);
-    } else {
-      // handle success
-      console.log("success");
-    }
+  async function updPassword(formData: ValidationSchema) {
+    updatePassword(formData.password);
   }
 
   return (
-    <section className="flex w-auto flex-col items-center justify-center gap-8 space-y-4 px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
-      <h1 className="text-3xl font-extrabold text-gray-900">
-        Reset your password
-      </h1>
+    <section className="w-full lg:grid lg:grid-cols-2">
+      <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+        <h1 className="text-3xl font-extrabold text-gray-900">
+          {t("update_password")}
+        </h1>
 
-      <form
-        onSubmit={handleSubmit(resetPassword)}
-        className="mt-8 w-full space-y-6"
-        action="#"
-        method="POST"
-      >
-        <input type="hidden" name="remember" defaultValue="true" />
-        <div className="-space-y-px rounded-md shadow-sm">
-          {/* email  */}
-          <div className="flex w-full flex-col space-y-3">
-            <label htmlFor="email" className="text-sm text-gray-600">
-              Email address
-              <input
-                {...register("email")}
-                id="email"
-                type="email"
-                placeholder="cervezanas@mail.com"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              />
-              {errors.email && (
-                <DisplayInputError message={errors.email.message} />
-              )}
-            </label>
-          </div>
-        </div>
+        <form
+          onSubmit={handleSubmit(updPassword)}
+          className="mt-8 w-full space-y-6"
+          action="#"
+          method="POST"
+        >
+          <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
+            <InputLabel
+              form={form}
+              label={"password"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="*****"
+              inputType="password"
+            />
 
-        <div>
-          <button
-            type="submit"
-            className="group relative flex w-full justify-center rounded-md border border-transparent bg-beer-softBlonde px-4 py-2 text-sm font-medium text-white hover:bg-beer-draft focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2"
+            <InputLabel
+              form={form}
+              label={"confirm_password"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder="*****"
+              inputType="password"
+            />
+          </section>
+
+          <Button
+            title={"reset_password"}
+            btnType="submit"
+            class={
+              "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+            }
+            fullSize
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              {/* Heroicon name: lock-closed */}
-              <svg
-                className="h-5 w-5 text-beer-draft group-hover:text-beer-softBlonde"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path
-                  fillRule="evenodd"
-                  d="M4 8V6a6 6 0 1112 0v2h1a1 1 0 011 1v7a4 4 0 01-4 4H7a4 4 0 01-4-4V9a1 1 0 011-1h1zm2 0h6V6a4 4 0 10-6 0v2z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FontAwesomeIcon
+                icon={faLock}
+                style={{ color: "bear-dark" }}
+                title={"Lock"}
+                className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+              />
             </span>
-            Reset Password
-          </button>
-        </div>
-      </form>
+            {t("confirm_password")}
+          </Button>
+        </form>
+      </article>
 
-      <p className="my-2 flex w-full justify-start text-sm text-gray-700">
-        {t("remember_password")}
-        <Link
-          className="cursor-pointer font-bold"
-          href={VIEWS.SIGN_IN}
-          locale={locale}
-        >
-          <span className="mx-1 text-beer-darkGold hover:underline">
-            {t("access_account")}
-          </span>
-        </Link>
-      </p>
+      {/* Hero Image */}
+      <div className="hidden w-full justify-center lg:flex">
+        <Image
+          className="inset-0 rounded-3xl lg:w-[30vw]"
+          alt="Cervezanas artesanales"
+          sizes="(max-width: 1024px) 100vw, 1024px"
+          width={1024}
+          height={768}
+          src={"/assets/profile_signup.jpg"}
+        />
+      </div>
     </section>
   );
 }

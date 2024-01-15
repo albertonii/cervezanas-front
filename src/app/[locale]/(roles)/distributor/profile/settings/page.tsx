@@ -1,8 +1,9 @@
 import Profile from "./Profile";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { IDistributorUser } from "../../../../../../lib/types";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function ProfilePage() {
   const profile = await getProfileData();
@@ -16,12 +17,11 @@ export default async function ProfilePage() {
 }
 
 async function getProfileData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -37,7 +37,8 @@ async function getProfileData() {
         bank_account,
         company_name,
         company_description,
-        location_id
+        location_id,
+        users (name, lastname, email)
       `
     )
     .eq("user", session.user.id)

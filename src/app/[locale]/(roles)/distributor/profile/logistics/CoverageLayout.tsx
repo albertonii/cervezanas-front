@@ -1,19 +1,42 @@
 "use client";
 
-import React from "react";
-import { Database } from "../../../../../../lib/schema";
-import CoverageAreas from "./CoverageAreas";
+import React, { useState } from "react";
 import OriginInfo from "./OriginInfo";
+import CoverageAreas from "./coverage_areas/CoverageAreas";
+import DistributionCost from "./distribution_costs/DistributionCost";
+import HorizontalMenuLogistics from "./HorizontalMenuLogistics";
+import { DistributionOption } from "../../../../../../lib/enums";
+import { IDistributionCost } from "../../../../../../lib/types";
 
 interface Props {
-  coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
+  // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
+  distributionCosts: IDistributionCost;
 }
 
-export default function CoverageArea({ coverageArea }: Props) {
+export default function CoverageLayout({ distributionCosts }: Props) {
+  const [menuOption, setMenuOption] = useState<string>(DistributionOption.COST);
+
+  const renderSwitch = () => {
+    switch (menuOption) {
+      case DistributionOption.ORIGIN_INFORMATION:
+        return <OriginInfo />;
+
+      case DistributionOption.COST:
+        return <DistributionCost distributionCosts={distributionCosts} />;
+
+      case DistributionOption.DESTINATION:
+        return <CoverageAreas />;
+
+      default:
+        return <></>;
+    }
+  };
+
   return (
-    <div className="container space-y-4 px-6 py-4 lg:space-y-20 lg:px-20 lg:py-16">
-      <OriginInfo />
-      <CoverageAreas />
-    </div>
+    <section className="space-y-4 px-1 py-1 lg:container sm:px-6 sm:py-4">
+      <HorizontalMenuLogistics setMenuOption={setMenuOption} />
+
+      {renderSwitch()}
+    </section>
   );
 }

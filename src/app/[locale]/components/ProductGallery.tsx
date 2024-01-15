@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import DisplayImageProduct from "./common/DisplayImageProduct";
 import React, { ComponentProps, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Carousel } from "./common/Carousel";
 import { IconButton } from "./common/IconButton";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { ICarouselItem } from "../../../lib/types.d";
 import { ImageModal } from "./modals/ImageModal";
-import { useTranslations } from "next-intl";
+import { ICarouselItem } from "../../../lib/types";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import DisplayImageProduct from "./common/DisplayImageProduct";
 
 interface Props {
   gallery: ICarouselItem[];
@@ -46,7 +45,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
         <div className="container mx-auto px-4">
           <div className="relative -mx-4 justify-center">
             {/* Add to fav button  */}
-            <div className="index-50 absolute right-8 top-2">
+            <figure className="index-50 absolute right-8 top-2">
               <IconButton
                 icon={faHeart}
                 onClick={() => handleSetIsLike(!isLike)}
@@ -58,9 +57,9 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                 classIcon={""}
                 title={t("add_to_favs")}
               ></IconButton>
-            </div>
+            </figure>
 
-            <div className="flex flex-wrap">
+            <figure className="flex flex-wrap">
               <div
                 className="flex w-full justify-center px-2 py-4 hover:cursor-pointer lg:mb-0 2xl:mx-auto 2xl:px-0"
                 onClick={() => setShowModal(true)}
@@ -82,19 +81,20 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                   handleSetGalleryIndex={handleSetGalleryIndex}
                 />
               </div>
-            </div>
+            </figure>
           </div>
         </div>
       </section>
 
       <ImageModal showModal={showModal} setShowModal={setShowModal}>
         <>
-          <Image
-            className="rounded-md lg:max-h-[600px] lg:max-w-[800px]"
-            src={main.imageUrl}
-            alt={"Product main image"}
+          <DisplayImageProduct
+            imgSrc={main.imageUrl}
             width={500}
             height={500}
+            alt={"Product main image"}
+            class="rounded-md lg:max-h-[600px] lg:max-w-[800px]"
+            objectFit="contain"
           />
         </>
       </ImageModal>

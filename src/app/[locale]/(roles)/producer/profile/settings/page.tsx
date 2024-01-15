@@ -1,27 +1,28 @@
 import Profile from "./Profile";
-import { IProducerUser, IProfile } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IProducerUser } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
+import readUserSession from "../../../../../../lib/actions";
+import { Suspense } from "react";
 
 export default async function ProfilePage() {
   const profile = await getProfileData();
   if (!profile) return <></>;
 
   return (
-    <>
+    <Suspense fallback={<h3>cargando..</h3>}>
       <Profile profile={profile} />
-    </>
+    </Suspense>
   );
 }
 
 async function getProfileData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -34,7 +35,7 @@ async function getProfileData() {
         *
       `
     )
-    .eq("id", session.user.id)
+    .eq("user", session.user.id)
     .single();
 
   // const { data: profileData, error: profileError } = await supabase

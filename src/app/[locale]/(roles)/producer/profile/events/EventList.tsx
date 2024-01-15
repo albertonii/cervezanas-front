@@ -1,17 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import DeleteCEventModal from "./DeleteEventModal";
-import EditEventModal from "./EditEventModal";
 import React, { useEffect, useMemo, useState } from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPMobile, IEvent } from "../../../../../../lib/types.d";
-import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
+import Spinner from "../../../../components/common/Spinner";
+import InputSearch from "../../../../components/common/InputSearch";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import { IconButton } from "../../../../components/common/IconButton";
+import UpdateEventModal from "../../../../components/modals/UpdateEventModal";
+import DeleteEventModal from "../../../../components/modals/DeleteEventModal";
 
 enum SortBy {
   NONE = "none",
@@ -23,19 +25,22 @@ enum SortBy {
   START_DATE = "start_date",
   END_DATE = "end_date",
 }
-
-interface Props {
-  cpsMobile: ICPMobile[];
+interface ColumnsProps {
+  header: string;
 }
 
-export default function EventList({ cpsMobile }: Props) {
+interface Props {
+  counter: number;
+  cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
+}
+
+export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const counter = 1;
   const resultsPerPage = 10;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
@@ -53,6 +58,13 @@ export default function EventList({ cpsMobile }: Props) {
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
+
+  const COLUMNS = [
+    { header: t("event_type_header") },
+    { header: t("name_header") },
+    { header: t("created_date_header") },
+    { header: t("action_header") },
+  ];
 
   useEffect(() => {
     refetch().then((res: any) => {
@@ -83,10 +95,6 @@ export default function EventList({ cpsMobile }: Props) {
     });
   }, [filteredItems, sorting]);
 
-  const handleChangeSort = (sort: SortBy) => {
-    setSorting(sort);
-  };
-
   const handleEditClick = async (e: IEvent) => {
     setIsEditModal(true);
     setSelectedEvent(e);
@@ -106,18 +114,19 @@ export default function EventList({ cpsMobile }: Props) {
   };
 
   return (
-    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isEditModal && selectedEvent && (
-        <EditEventModal
+        <UpdateEventModal
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
           cpsMobile={cpsMobile}
+          cpsFixed={cpsFixed}
         />
       )}
 
       {isDeleteModal && selectedEvent && (
-        <DeleteCEventModal
+        <DeleteEventModal
           selectedEventId={selectedEvent.id}
           isDeleteModal={isDeleteModal}
           handleDeleteModal={handlDeleteModal}
@@ -136,68 +145,28 @@ export default function EventList({ cpsMobile }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && sortedItems.length === 0 ? (
+      {!isError && !isLoading && events.length === 0 ? (
         <div className="flex h-40 items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
         </div>
       ) : (
         <>
-          <div className="relative w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5 text-gray-500 dark:text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </div>
-
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder={t("search_by_name")}
-            />
-          </div>
+          <InputSearch
+            query={query}
+            setQuery={setQuery}
+            searchPlaceholder={"search_by_name"}
+          />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 hover:cursor-pointer"
-                  onClick={() => {
-                    handleChangeSort(SortBy.NAME);
-                  }}
-                >
-                  {t("name_header")}
-                </th>
-
-                <th
-                  scope="col"
-                  className="px-6 py-3 hover:cursor-pointer"
-                  onClick={() => {
-                    handleChangeSort(SortBy.CREATED_DATE);
-                  }}
-                >
-                  {t("created_date_header")}
-                </th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 "></th>
-
-                <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
-                </th>
+                {COLUMNS.map((column: ColumnsProps, index: number) => {
+                  return (
+                    <th key={index} scope="col" className="px-6 py-3">
+                      {column.header}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
 
@@ -208,6 +177,19 @@ export default function EventList({ cpsMobile }: Props) {
                     key={e.id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      <Image
+                        width={128}
+                        height={128}
+                        className="h-8 w-8 rounded-full"
+                        src="/icons/people-line-solid.svg"
+                        alt="Beer Type"
+                      />
+                    </th>
+
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/events/${e.id}`} locale={locale}>
                         {e.name}
@@ -217,10 +199,6 @@ export default function EventList({ cpsMobile }: Props) {
                     <td className="px-6 py-4">
                       {formatDateString(e.created_at)}
                     </td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
-
-                    <td className="cursor-pointer px-6 py-4"></td>
 
                     <td className="flex items-center justify-center px-6 py-4">
                       <IconButton
@@ -266,6 +244,6 @@ export default function EventList({ cpsMobile }: Props) {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

@@ -3,9 +3,10 @@
 import { IBeer } from "../lib/types";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
-const fetchBeers = async (supabase: SupabaseClient<any>) => {
+const fetchBeers = async (supabase: SupabaseClient<Database>) => {
   const { data, error } = await supabase.from("beers").select(`
     *,
     product_multimedia (

@@ -1,22 +1,33 @@
 "use client";
 
-import _ from "lodash";
 import React, { ComponentProps, useState } from "react";
+import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Aroma,
+  aroma_options,
+  Color,
+  color_options,
+  Era,
+  era_options,
+  Family,
+  family_options,
+  Fermentation,
   fermentation_options,
+  Origin,
+  origin_options,
   product_type_options,
 } from "../../../../lib/beerEnum";
 import {
   IProduct,
   IInventory,
   IAward,
-  ModalUpdateProductProps,
   IProductPack,
-} from "../../../../lib/types.d";
+  ModalUpdateProductFormData,
+} from "../../../../lib/types";
 import { uuid } from "uuidv4";
-import { Modal } from "./Modal";
 import { useAuth } from "../../Auth/useAuth";
 import { ProductStepper } from "./ProductStepper";
 import { useMutation, useQueryClient } from "react-query";
@@ -24,7 +35,101 @@ import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
 import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
 import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
 import { getFileExtensionByName } from "../../../../utils/formatWords";
-import { isNotEmptyArray, isValidObject } from "../../../../utils/utils";
+import {
+  isEmpty,
+  isNotEmptyArray,
+  isValidObject,
+} from "../../../../utils/utils";
+import ModalWithForm from "./ModalWithForm";
+
+const schema: ZodType<ModalUpdateProductFormData> = z.object({
+  id: z.string(),
+  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
+    message: "errors.error_2500_max_length",
+  }),
+  price: z.number().min(0, { message: "errors.input_min_0" }),
+  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
+    message: "errors.input_max_5",
+  }),
+  color: z.number().min(0, { message: "errors.input_min_0" }),
+  intensity: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "Required",
+  }),
+  aroma: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  family: z.number().min(0, { message: "errors.input_min_0" }).max(30, {
+    message: "errors.error_30_max_length",
+  }),
+  origin: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  era: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  is_gluten: z.coerce.boolean(),
+  type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "Required",
+  }),
+  p_principal: z.instanceof(FileList).optional(),
+  p_back: z.instanceof(FileList).optional(),
+  p_extra_1: z.instanceof(FileList).optional(),
+  p_extra_2: z.instanceof(FileList).optional(),
+  p_extra_3: z.instanceof(FileList).optional(),
+  is_public: z.boolean(),
+  // TODO: Bug in volume validation when adding product
+  // volume: z.number().min(0, { message: "Required" }).max(50, {
+  //   message: "Required",
+  // }),
+  volume: z.number().min(0, { message: "errors.input_min_0" }),
+  weight: z.number().min(0, { message: "errors.input_min_0" }),
+  format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
+  stock_limit_notification: z
+    .number()
+    .min(0, { message: "errors.input_required" }),
+  awards: z.array(
+    z.object({
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
+        message: "errors.input_max_150",
+      }),
+      description: z
+        .string()
+        .min(2, { message: "errors.input_min_2" })
+        .max(500, {
+          message: "errors.input_max_500",
+        }),
+      year: z
+        .number()
+        .min(1900, { message: "errors.input_min_1900" })
+        .max(2030, {
+          message: "errors.input_max_2030",
+        }),
+      img_url: z.instanceof(FileList).optional(),
+    })
+  ),
+  packs: z.array(
+    z.object({
+      id: z.string().nonempty({ message: "errors.input_required" }),
+      quantity: z.number().min(0, { message: "errors.input_min_0" }),
+      price: z.number().min(0, { message: "errors.input_min_0" }),
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
+        message: "errors.error_100_number_max_length",
+      }),
+      img_url: z.instanceof(FileList).optional(),
+    })
+  ),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   product: IProduct;
@@ -47,9 +152,76 @@ export function UpdateProduct({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const form = useForm<ModalUpdateProductProps>({
+  const { beers } = product;
+  const { color, aroma, family, fermentation, origin, era } = beers[0];
+
+  const colorDefault: {
+    label: string;
+    value: Color;
+  } = color_options.find((c) => c.label === color) ?? {
+    label: "very_light",
+    value: Color.very_light,
+  };
+
+  const aromaDefault: {
+    label: string;
+    value: Aroma;
+  } = aroma_options.find((c) => c.label === aroma) ?? {
+    label: "maltose",
+    value: 0,
+  };
+
+  const familyDefault: {
+    label: string;
+    value: Family;
+  } = family_options.find((c) => c.label === family) ?? {
+    label: "ipa",
+    value: 0,
+  };
+
+  const fermentationDefault: {
+    label: string;
+    value: Fermentation;
+  } = fermentation_options.find((c) => c.label === fermentation) ?? {
+    label: "none",
+    value: 7,
+  };
+
+  const originDefault: {
+    label: string;
+    value: Origin;
+  } = origin_options.find((c) => c.label === origin) ?? {
+    label: "none",
+    value: 7,
+  };
+
+  const eraDefault: {
+    label: string;
+    value: Era;
+  } = era_options.find((c) => c.label === era) ?? {
+    label: "none",
+    value: 5,
+  };
+
+  // convert string to FileList image
+  // TODO: Comprobar que convertStringToFileList funciona
+  const convertStringToFileList = (img_url: string) => {
+    const file = new File([img_url], img_url, {
+      type: "image/jpeg",
+    });
+
+    const fileList = new DataTransfer();
+    fileList.items.add(file);
+
+    return fileList.files;
+  };
+
+  const form = useForm<ValidationSchema>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
+      id: product.id,
+      category: product.category ?? "",
       name: product.name ?? "",
       description: product.description ?? "",
       type: product.type ?? "",
@@ -58,23 +230,40 @@ export function UpdateProduct({
       stock_quantity: product.product_inventory![0].quantity ?? 0,
       stock_limit_notification:
         product.product_inventory![0].limit_notification ?? 0,
-      campaign: "-" ?? "",
       format: product.beers[0]?.format ?? "",
       volume: product.beers[0]?.volume ?? 0,
-      color: product.beers[0]?.color,
-      aroma: product.beers[0]?.aroma,
+      weight: product.weight ?? 0,
+      color: colorDefault.value,
+      aroma: aromaDefault.value,
       intensity: product.beers[0]?.intensity,
-      family: product.beers[0]?.family ?? "",
-      fermentation: fermentation_options[0].label,
-      origin: product.beers[0]?.origin ?? "",
-      era: product.beers[0]?.era ?? "",
+      family: familyDefault.value,
+      fermentation: fermentationDefault.value,
+      origin: originDefault.value,
+      era: eraDefault.value,
       is_gluten: product.beers[0]?.is_gluten ?? false,
-      awards: [{ name: "", description: "", year: 0, img_url: "" }],
+      awards: product.awards ?? [],
+      p_principal: convertStringToFileList(
+        product.product_multimedia[0].p_principal
+      ),
+      p_back: convertStringToFileList(product.product_multimedia[0]?.p_back),
+      p_extra_1: convertStringToFileList(
+        product.product_multimedia[0].p_extra_1
+      ),
+      p_extra_2: convertStringToFileList(
+        product.product_multimedia[0].p_extra_2
+      ),
+      p_extra_3: convertStringToFileList(
+        product.product_multimedia[0].p_extra_3
+      ),
+
+      // awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_packs,
+      // campaign: "-",
     },
   });
 
   const { handleSubmit, reset } = form;
+
   const queryClient = useQueryClient();
 
   const handleUpdateProduct = async (formValues: any) => {
@@ -100,6 +289,7 @@ export function UpdateProduct({
       description,
       price,
       volume,
+      weight,
       format,
       stock_quantity,
       stock_limit_notification,
@@ -117,6 +307,7 @@ export function UpdateProduct({
         owner_id: userId,
         price,
         is_public,
+        weight,
       })
       .eq("id", product.id)
       .select();
@@ -129,23 +320,23 @@ export function UpdateProduct({
     const productId = product.id;
 
     // Multimedia
-    const p_principal_url = !_.isEmpty(p_principal?.name)
+    const p_principal_url = !isEmpty(p_principal?.name)
       ? encodeURIComponent(p_principal.name)
       : "";
 
-    const p_back_url = !_.isEmpty(p_back?.name)
+    const p_back_url = !isEmpty(p_back?.name)
       ? encodeURIComponent(p_back.name)
       : "";
 
-    const p_extra_1_url = !_.isEmpty(p_extra_1?.name)
+    const p_extra_1_url = !isEmpty(p_extra_1?.name)
       ? encodeURIComponent(p_extra_1.name)
       : "";
 
-    const p_extra_2_url = !_.isEmpty(p_extra_2?.name)
+    const p_extra_2_url = !isEmpty(p_extra_2?.name)
       ? encodeURIComponent(p_extra_2.name)
       : "";
 
-    const p_extra_3_url = !_.isEmpty(p_extra_3?.name)
+    const p_extra_3_url = !isEmpty(p_extra_3?.name)
       ? encodeURIComponent(p_extra_3.name)
       : "";
 
@@ -362,7 +553,7 @@ export function UpdateProduct({
     },
   });
 
-  const onSubmit = (formValues: ModalUpdateProductProps) => {
+  const onSubmit = (formValues: ModalUpdateProductFormData) => {
     try {
       updateProductMutation.mutate(formValues);
     } catch (e) {
@@ -373,49 +564,48 @@ export function UpdateProduct({
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={false}
-        showModal={showModal}
-        setShowModal={handleEditShowModal}
-        title={"save_product"}
-        btnTitle={"save_product"}
-        description={""}
-        handler={handleSubmit(onSubmit)}
-        handlerClose={() => handleEditShowModal(false)}
-        classIcon={""}
-        classContainer={""}
-      >
-        <>
-          <ProductStepper
-            activeStep={activeStep}
-            handleSetActiveStep={handleSetActiveStep}
-            isSubmitting={isSubmitting}
-          >
-            <>
-              <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                {t("modal_product_description")}
-              </p>
+    <ModalWithForm
+      showBtn={false}
+      showModal={showModal}
+      setShowModal={handleEditShowModal}
+      title={"save_product"}
+      btnTitle={"save_product"}
+      description={""}
+      classIcon={""}
+      classContainer={""}
+      handler={handleSubmit(onSubmit)}
+      handlerClose={() => handleEditShowModal(false)}
+      form={form}
+    >
+      <form>
+        <ProductStepper
+          activeStep={activeStep}
+          handleSetActiveStep={handleSetActiveStep}
+          isSubmitting={isSubmitting}
+        >
+          <>
+            <p className="text-slate-500 my-4 text-lg leading-relaxed">
+              {t("modal_product_description")}
+            </p>
 
-              {activeStep === 0 ? (
-                <>
-                  <ProductInfoSectionUpdate form={form} />
-                </>
-              ) : activeStep === 1 ? (
-                <>
-                  <MultimediaSectionUpdate form={form} />
-                </>
-              ) : activeStep === 2 ? (
-                <>
-                  <AwardsSectionUpdate form={form} />
-                </>
-              ) : (
-                <></>
-              )}
-            </>
-          </ProductStepper>
-        </>
-      </Modal>
-    </form>
+            {activeStep === 0 ? (
+              <>
+                <ProductInfoSectionUpdate form={form} />
+              </>
+            ) : activeStep === 1 ? (
+              <>
+                <MultimediaSectionUpdate form={form} />
+              </>
+            ) : activeStep === 2 ? (
+              <>
+                <AwardsSectionUpdate form={form} />
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        </ProductStepper>
+      </form>
+    </ModalWithForm>
   );
 }

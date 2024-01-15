@@ -1,12 +1,10 @@
 import { redirect } from "next/navigation";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import readUserSession from "../../../../lib/actions";
 
 export default async function Unauthenticated() {
-  const supabase = createServerClient();
-
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (session) {
     redirect("/");

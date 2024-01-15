@@ -2,8 +2,8 @@
 
 import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../../components/common/Spinner";
-import { IUserTable } from "../../../../../../lib/types.d";
+import Spinner from "../../../../components/common/Spinner";
+import { IUserTable } from "../../../../../../lib/types";
 import { Account } from "./Account";
 import { Details } from "./Details";
 import { Values } from "./Values";

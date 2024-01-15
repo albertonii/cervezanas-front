@@ -46,18 +46,19 @@ export function Button({
   const hoverColor = isActive ? "filled" : "unfilled";
 
   const getSizeClass = () => {
-    if (small) return "text-md px-4 py-2";
-    if (medium) return "px-4 py-2 text-base";
-    if (large) return "px-5 py-3 text-lg";
-    if (xLarge) return "px-6 py-3 text-xl";
-    if (xxLarge) return "px-6 py-3 text-2xl";
+    if (small) return "text-md px-4";
+    if (medium) return "px-4 text-base";
+    if (large) return "px-5 text-lg";
+    if (xLarge) return "px-6 text-xl";
+    if (xxLarge) return "px-6 text-2xl";
     return "";
   };
 
   const getColorClass = () => {
     if (primary)
       return "border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde";
-    if (accent) return "border-2 border-beer-blonde bg-beer-foam";
+    if (accent)
+      return "border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam";
     if (danger) return "bg-red-500 hover:bg-red-600";
     return "shrink-0 hover:bg-beer-softBlonde";
   };
@@ -79,7 +80,8 @@ export function Button({
       color={hoverColor}
       form={form}
       className={`
-        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde transition duration-100 ease-in
+        mt-0 flex items-center
+        justify-center rounded border-2 border-beer-blonde py-1 transition duration-100 ease-in focus:outline-none focus:ring focus:ring-beer-softFoam
         ${getSizeClass()}
         ${getColorClass()}
         ${box ? "h-auto w-10" : ""}

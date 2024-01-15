@@ -1,8 +1,9 @@
 import { Reviews } from "./Reviews";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { IReview } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IReview } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();
@@ -16,12 +17,12 @@ export default async function ReviewsPage() {
 }
 
 async function getReviewsData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
+  //TODO: We need to create a new table for the reviews related to the user talking about the distribution
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -31,11 +32,7 @@ async function getReviewsData() {
     .from("reviews")
     .select(
       `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
+        *
       `
     )
     .eq("id", session.user.id);

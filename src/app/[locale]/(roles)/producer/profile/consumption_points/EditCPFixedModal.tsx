@@ -11,14 +11,36 @@ import {
   ICPFixed,
   ICPMProductsEditCPFixedModal,
   IUser,
-} from "../../../../../../lib/types.d";
+} from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
-import { Modal } from "../../../../components/modals/Modal";
+import Modal from "../../../../components/modals/Modal";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GeocodeResult } from "use-places-autocomplete";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
+import SelectInput from "../../../../components/common/SelectInput";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
+
+enum CPFixedStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_fixed_status_options: {
+  label: string;
+  value: CPFixedStatus;
+}[] = [
+  { label: "active", value: CPFixedStatus.active },
+  { label: "finished", value: CPFixedStatus.finished },
+  { label: "error", value: CPFixedStatus.error },
+  { label: "cancelled", value: CPFixedStatus.cancelled },
+  { label: "paused", value: CPFixedStatus.paused },
+];
 
 interface FormData {
   cp_name: string;
@@ -60,7 +82,6 @@ export default function EditCPFixedModal({
 
   const [productItems, setProductItems] = useState<string[]>([]);
 
-  const [address, setAddress] = useState<string>(selectedCP?.address ?? "");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -70,7 +91,6 @@ export default function EditCPFixedModal({
 
   const [errorOnSelectEOrganizer, setErrorOnSelectEOrganizer] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const getExternalOrganizers = async () => {
@@ -101,6 +121,7 @@ export default function EditCPFixedModal({
       start_date: formatDateDefaultInput(selectedCP?.start_date.toString()),
       end_date: formatDateDefaultInput(selectedCP?.end_date.toString()),
       product_items: productItems,
+      status: selectedCP?.status,
       // is_booking_required: selectedCP?.is_booking_required,
     },
   });
@@ -109,6 +130,7 @@ export default function EditCPFixedModal({
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
   } = form;
 
   useEffect(() => {
@@ -125,20 +147,22 @@ export default function EditCPFixedModal({
   }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
-    setAddress(address);
+    setValue("address", address);
   };
 
   const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
+
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
         setExternalOrganizers(externalOrganizers);
       };
+
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -237,17 +261,12 @@ export default function EditCPFixedModal({
   const updateCPFixedMutation = useMutation({
     mutationKey: ["updateCPFixed"],
     mutationFn: handleUpdate,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
-      setIsSubmitting(false);
       handleEditModal(false);
     },
     onError: (e: any) => {
       console.error(e);
-      setIsSubmitting(false);
     },
   });
 
@@ -282,29 +301,35 @@ export default function EditCPFixedModal({
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
-          {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_name">{t("cp_name")}</label>
-            <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              type="text"
-              id="name"
-              {...register("cp_name", { required: true })}
-            />
-          </div>
+          {/* Status */}
+          <SelectInput
+            form={form}
+            labelTooltip={"cp_fixed_status_tooltip"}
+            options={cp_fixed_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          {errors.cp_name && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          {/* Event name  */}
+          <InputLabel
+            form={form}
+            label={"cp_name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_description">{t("description")}</label>
-            <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              {...register("cp_description", { required: true })}
-            />
-          </div>
+          <InputTextarea
+            form={form}
+            label={"cp_description"}
+            labelText={t("description")}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {errors.cp_description && (
             <DisplayInputError message="errors.input_required" />
@@ -312,37 +337,23 @@ export default function EditCPFixedModal({
 
           {/* Start date and end date  */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <div className="flex w-full flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                id="start_date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                type="date"
-                id="end_date"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
@@ -358,7 +369,7 @@ export default function EditCPFixedModal({
               </label>
 
               <select
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 id="is_internal_organizer"
                 {...register("is_internal_organizer", { required: true })}
                 onChange={(e) => {
@@ -380,64 +391,45 @@ export default function EditCPFixedModal({
             <>
               {/* Organizer name and lastname  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_name">{t("name")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_name"
-                    {...register("organizer_name", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_name"}
+                  labelText={t("name")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
 
-                  {errors.organizer_name && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_lastname">{t("lastname")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_lastname"
-                    {...register("organizer_lastname", { required: true })}
-                  />
-
-                  {errors.organizer_lastname && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_lastname"}
+                  labelText={t("lastname")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
 
               {/* Email and phone  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_email">{t("email")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="email"
-                    id="organizer_email"
-                    {...register("organizer_email", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_email"}
+                  labelText={t("email")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  inputType="email"
+                />
 
-                  {errors.organizer_email && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_phone">{t("phone")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_phone"
-                    {...register("organizer_phone", { required: true })}
-                  />
-
-                  {errors.organizer_phone && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_phone"}
+                  labelText={t("phone")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
             </>
           )}
@@ -497,7 +489,7 @@ export default function EditCPFixedModal({
           {/* Address  */}
           <CPGoogleMap
             handleAddress={handleAddress}
-            defaultLocation={address}
+            defaultLocation={selectedCP.address}
             defaultGeoArgs={selectedCP.geoArgs}
           />
         </fieldset>

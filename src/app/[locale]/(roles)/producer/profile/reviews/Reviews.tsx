@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { IReview } from "../../../../../../lib/types.d";
+import { IReview } from "../../../../../../lib/types";
 import { Rate } from "../../../../components/reviews/Rate";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
@@ -101,6 +101,12 @@ export function Reviews({ reviews: r }: Props) {
                                 review.products?.product_multimedia[0]
                                   .p_principal ?? "/icons/beer-240.png"
                               } `}
+                              loader={() =>
+                                `${
+                                  review.products?.product_multimedia[0]
+                                    .p_principal ?? "/icons/beer-240.png"
+                                } `
+                              }
                               alt=""
                             />
 

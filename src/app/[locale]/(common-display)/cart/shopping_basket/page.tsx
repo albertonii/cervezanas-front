@@ -1,8 +1,8 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../constants";
-import { IBillingAddress, IAddress } from "../../../../../lib/types.d";
-import { createServerClient } from "../../../../../utils/supabaseServer";
+import { IBillingAddress, IAddress } from "../../../../../lib/types";
+import createServerClient from "../../../../../utils/supabaseServer";
 import { ShoppingBasket } from "./ShoppingBasket";
 
 export default async function CheckoutPage() {
@@ -17,27 +17,27 @@ export default async function CheckoutPage() {
   );
 }
 
-async function getCheckout() {
-  const supabase = createServerClient();
+// async function getCheckout() {
+//   const supabase = await createServerClient();
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+//   // Check if we have a session
+//   const {
+//     data: { session },
+//   } = await supabase.auth.getSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+//   if (!session) {
+//     redirect(VIEWS.SIGN_IN);
+//   }
 
-  const { data: userData, error: usersError } = await supabase
-    .from("users")
-    .select(`*, shipping_info(*), billing_info(*)`)
-    .eq("id", session.user.id);
+//   const { data: userData, error: usersError } = await supabase
+//     .from("users")
+//     .select(`*, shipping_info(*), billing_info(*)`)
+//     .eq("id", session.user.id);
 
-  if (usersError) throw usersError;
+//   if (usersError) throw usersError;
 
-  return {
-    shippingAddresses: userData[0]?.shipping_info as IAddress[],
-    billingAddresses: userData[0]?.billing_info as IBillingAddress[],
-  };
-}
+//   return {
+//     shippingAddresses: userData[0]?.shipping_info as IAddress[],
+//     billingAddresses: userData[0]?.billing_info as IBillingAddress[],
+//   };
+// }

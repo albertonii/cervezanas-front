@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../lib/actions";
 import { Factories } from "./Factories";
 
 export default async function FactoriesPage() {
@@ -14,12 +14,9 @@ export default async function FactoriesPage() {
 }
 
 async function getFactoriesData() {
-  const supabase = createServerClient();
-
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

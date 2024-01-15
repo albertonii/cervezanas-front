@@ -2,13 +2,31 @@
 
 import AddressForm from "../../../components/AddressForm";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
-import { Modal } from "../../../components/modals/Modal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
-import { IModalBillingAddress } from "../../../../../lib/types.d";
+import { ModalBillingAddressFormData } from "../../../../../lib/types";
+import ModalWithForm from "../../../components/modals/ModalWithForm";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema: ZodType<ModalBillingAddressFormData> = z.object({
+  name: z.string().nonempty({ message: "errors.input_required" }),
+  lastname: z.string().nonempty({ message: "errors.input_required" }),
+  document_id: z.string().nonempty({ message: "errors.input_required" }),
+  phone: z.string().nonempty({ message: "errors.input_required" }),
+  address: z.string().nonempty({ message: "errors.input_required" }),
+  country: z.string().nonempty({ message: "errors.input_required" }),
+  state: z.string().nonempty({ message: "errors.input_required" }),
+  city: z.string().nonempty({ message: "errors.input_required" }),
+  zipcode: z.string().nonempty({ message: "errors.input_required" }),
+  is_default: z.boolean(),
+  address_extra: z.string().optional(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function NewBillingAddress() {
   const t = useTranslations();
@@ -20,10 +38,14 @@ export function NewBillingAddress() {
 
   const queryClient = useQueryClient();
 
-  const form = useForm<IModalBillingAddress>();
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
+
   const { reset, handleSubmit } = form;
 
-  const handleAddBillingAddress = async (formValues: IModalBillingAddress) => {
+  const handleAddBillingAddress = async (form: ValidationSchema) => {
     const {
       name,
       lastname,
@@ -35,7 +57,7 @@ export function NewBillingAddress() {
       city,
       zipcode,
       is_default,
-    } = formValues;
+    } = form;
 
     const { error } = await supabase.from("billing_info").insert({
       owner_id: user?.id,
@@ -73,7 +95,9 @@ export function NewBillingAddress() {
     },
   });
 
-  const onSubmit = (formValues: IModalBillingAddress) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalBillingAddressFormData
+  ) => {
     try {
       insertBillingMutation.mutate(formValues);
     } catch (e) {
@@ -82,7 +106,7 @@ export function NewBillingAddress() {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -94,8 +118,9 @@ export function NewBillingAddress() {
       btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={`!w-1/2 ${isSubmitting && "opacity-50"}`}
+      form={form}
     >
       <AddressForm form={form} addressNameId={"billing"} />
-    </Modal>
+    </ModalWithForm>
   );
 }

@@ -35,14 +35,31 @@ export const COMMON = {
   PROFILE_IMG: "/icons/profile-240.png",
 };
 
-export const MARKETPLACE_ORDER_STATUS = {
+export const ORDER_TYPE = {
+  ONLINE: "online",
+  EVENT: "event",
+  EVENT_PRODUCT: "event_product",
+  DISTRIBUTOR_ONLINE: "distributor_online",
+};
+
+export const ONLINE_ORDER_STATUS = {
   PENDING: "pending",
+  PAID: "paid",
   PROCESSING: "processing",
   SHIPPED: "shipped",
   DELIVERED: "delivered",
   ORDER_PLACED: "order_placed",
-  PAID: "paid",
-  CANCELED: "canceled",
+  CANCELLED: "cancelled",
+  ERROR: "error",
+};
+
+export const DISTRIBUTOR_ONLINE_ORDER_STATUS = {
+  PENDING: "pending",
+  PROCESSING: "processing",
+  IN_TRANSIT: "in_transit",
+  SHIPPED: "shipped",
+  DELIVERED: "delivered",
+  CANCELLED: "cancelled",
   ERROR: "error",
 };
 
@@ -90,6 +107,7 @@ export const SupabaseProps = {
   STORAGE_PRODUCTS_IMG_URL: "storage/v1/object/public/products/",
   STORAGE_PRODUCTS_ARTICLE_IMG_URL:
     "storage/v1/object/public/products/articles/",
+  STORAGE_AWARDS_IMG_URL: "storage/v1/object/public/products/awards/",
   P_PRINCIPAL_URL: "p_principal/",
   P_BACK_URL: "p_back/",
   P_EXTRA_1_URL: "p_extra_1/",
@@ -107,7 +125,7 @@ export const SupabaseProps = {
 };
 
 export const DS_API = {
-  DS_URL: `https://distributionsystemapi-soyd-dev.fl0.io/`,
+  DS_URL: `https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io/`,
   DS_COUNTRIES: "countries/",
   DS_COMMUNITIES: "communities/",
   DS_PROVINCES: "provinces/",
@@ -118,4 +136,13 @@ export const API_METHODS = {
   POST: "POST",
   PUT: "PUT",
   DELETE: "DELETE",
+};
+
+export const APP_URLS = {
+  PRODUCER_ONLINE_ORDER: "producer/online_order/",
+  CONSUMER_ONLINE_ORDER: "consumer/online_order/",
+  DISTRIBUTOR_ONLINE_ORDER: "distributor/online_order/",
+  PRODUCER_EVENT_ORDER: "producer/event_order/",
+  CONSUMER_EVENT_ORDER: "consumer/event_order/",
+  DISTRIBUTOR_EVENT_ORDER: "distributor/event_order/",
 };

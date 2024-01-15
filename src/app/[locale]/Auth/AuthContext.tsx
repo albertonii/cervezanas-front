@@ -6,23 +6,21 @@ import { useRouter } from "next/navigation";
 import { Database } from "../../../lib/schema";
 import { ROUTE_SIGNIN } from "../../../config";
 import { EVENTS, VIEWS } from "../../../constants";
-import { IUserProfile } from "../../../lib/types.d";
+import { IUserProfile } from "../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import { useMessage } from "../components/message/useMessage";
-import { createClient } from "../../../utils/supabaseBrowser";
-import { AuthResponse, Provider } from "@supabase/supabase-js";
-import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { createBrowserClient } from "../../../utils/supabaseBrowser";
+import {
+  AuthResponse,
+  Provider,
+  Session,
+  SupabaseClient,
+} from "@supabase/supabase-js";
+import { ROLE_ENUM } from "../../../lib/enums";
+// import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 enum PROVIDER_TYPE {
   GOOGLE = "google",
-}
-
-enum ROLE_ENUM {
-  Cervezano = "consumer",
-  Productor = "producer",
-  Moderator = "moderator",
-  Distributor = "distributor",
-  Admin = "admin",
 }
 
 export type SignUpWithPasswordCredentials = {
@@ -52,13 +50,15 @@ export interface AuthSession {
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
+  sendResetPasswordEmail: (email: string) => void;
+  updatePassword: (password: string) => void;
   supabase: SupabaseClient<Database>;
   role: ROLE_ENUM | null;
   provider: PROVIDER_TYPE | null;
   isLoggedIn: boolean;
 }
 
-const supabaseClient = createClient();
+const supabaseClient = createBrowserClient();
 
 export const AuthContext = createContext<AuthSession>({
   initial: true,
@@ -70,6 +70,8 @@ export const AuthContext = createContext<AuthSession>({
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
   signOut: async () => void {},
+  sendResetPasswordEmail: async () => void {},
+  updatePassword: async () => void {},
   supabase: supabaseClient,
   provider: null,
   isLoggedIn: false,
@@ -83,19 +85,22 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const t = useTranslations();
-
   const [initial, setInitial] = useState(true);
   const [view, setView] = useState(VIEWS.SIGN_IN);
   const locale = useLocale();
   const router = useRouter();
 
-  // const { supabase } = useAuth();
-  const [supabase] = useState(() => supabaseClient);
+  const [supabase] = useState(supabaseClient);
 
   const [role, setRole] = useState<ROLE_ENUM | null>(null);
   const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
   const { handleMessage, clearMessages } = useMessage();
+
+  useEffect(() => {
+    const loadSupabaseBrowser = async () => await supabaseClient;
+    loadSupabaseBrowser();
+  }, []);
 
   const getUser = async () => {
     if (!serverSession) return null;
@@ -168,6 +173,10 @@ export const AuthContextProvider = ({
           case EVENTS.PASSWORD_RECOVERY:
             setView(VIEWS.UPDATE_PASSWORD);
             break;
+          case EVENTS.SIGNED_IN:
+            setView(VIEWS.SIGN_IN);
+            break;
+
           case EVENTS.SIGNED_OUT:
             setView(VIEWS.SIGN_IN);
             router.push(`/${locale}/${ROUTE_SIGNIN}`);
@@ -187,6 +196,11 @@ export const AuthContextProvider = ({
 
   const signUp = async (payload: SignUpWithPasswordCredentials) => {
     try {
+      const signUpMessage = t("messages.sign_up_success");
+      const userAlreadyRegisteredMessage = t(
+        "messages.user_already_registered"
+      );
+
       // Check if user exists
       const { data: user, error: emailError } = await supabase
         .from("users")
@@ -199,7 +213,7 @@ export const AuthContextProvider = ({
 
       if (user && user.length > 0) {
         handleMessage({
-          message: "user_already_registered",
+          message: userAlreadyRegisteredMessage,
           type: "error",
         });
         return;
@@ -212,7 +226,6 @@ export const AuthContextProvider = ({
         });
         return;
       }
-
       const { error, data } = (await supabase.auth.signUp(
         payload
       )) as AuthResponse;
@@ -236,6 +249,20 @@ export const AuthContextProvider = ({
           });
           return;
         }
+      } else if (access_level === ROLE_ENUM.Distributor) {
+        const { error: roleError } = await supabase
+          .from("distributor_user")
+          .insert({
+            user: data.user.id,
+          });
+
+        if (roleError) {
+          handleMessage({
+            message: roleError.message,
+            type: "error",
+          });
+          return;
+        }
       }
 
       if (error) {
@@ -243,7 +270,7 @@ export const AuthContextProvider = ({
       } else {
         clearMessages();
         handleMessage({
-          message: "sign_up_successfully",
+          message: signUpMessage,
           type: "success",
         });
       }
@@ -256,6 +283,8 @@ export const AuthContextProvider = ({
   };
 
   const signIn = async (email: string, password: string) => {
+    const signInMessage = t("messages.sign_in_success");
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -265,6 +294,11 @@ export const AuthContextProvider = ({
       handleMessage({ message: error.message, type: "error" });
       return error;
     }
+
+    handleMessage({
+      type: "success",
+      message: signInMessage,
+    });
 
     // router.push(`/${locale}`);
 
@@ -287,8 +321,6 @@ export const AuthContextProvider = ({
       claim: "role",
     });
     */
-
-    // setLoading(false);
   };
 
   const signInWithProvider = async (provider: Provider) => {
@@ -298,25 +330,24 @@ export const AuthContextProvider = ({
     // Si acceden con Google, por defecto son consumidores
     // Google does not send out a refresh token by default, so you will need to pass
     // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
-    await supabase.auth
-      .signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/${locale}`,
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`,
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
         },
-      })
-      .then(async (res: any) => {
-        // user = res.user;
-        // if (user?.user_metadata && user.user_metadata?.access_level) {
-        //   isAccessLevel = user.user_metadata?.access_level ? true : false;
-        // } else {
-        //   isAccessLevel = false;
-        // }
-      });
+      },
+    });
+    // .then(async (res: any) => {
+    // user = res.user;
+    // if (user?.user_metadata && user.user_metadata?.access_level) {
+    //   isAccessLevel = user.user_metadata?.access_level ? true : false;
+    // } else {
+    //   isAccessLevel = false;
+    // }
+    // });
 
     // router.push(`/${locale}`);
 
@@ -334,7 +365,48 @@ export const AuthContextProvider = ({
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    // router.push(`/${locale}/${ROUTE_SIGNIN}`);
+  };
+
+  const sendResetPasswordEmail = async (email: string) => {
+    const resetEmailMessage = t("messages.reset_password_email_sent");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (error) {
+      handleMessage({ message: error.message, type: "error" });
+    } else {
+      handleMessage({
+        message: resetEmailMessage,
+        type: "success",
+      });
+    }
+  };
+
+  const updatePassword = async (password: string) => {
+    const upd_password_success = t("messages.upd_password_success");
+
+    const { data: resetData, error } = await supabase.auth.updateUser({
+      password,
+    });
+
+    // TODO: Error al restablecer contraseña: "Auth Session Missing"
+    if (resetData.user) {
+      handleMessage({
+        message: upd_password_success,
+        type: "success",
+      });
+
+      // setTimeout(() => {
+      //   router.push("/signin");
+      // }, 2000);
+    }
+
+    if (error) {
+      console.error(error);
+      handleMessage({ message: error.message, type: "error" });
+    }
   };
 
   const value = useMemo(() => {
@@ -352,6 +424,8 @@ export const AuthContextProvider = ({
       supabase,
       provider,
       isLoggedIn: !!user,
+      sendResetPasswordEmail,
+      updatePassword,
     };
   }, [
     initial,
@@ -366,6 +440,8 @@ export const AuthContextProvider = ({
     signOut,
     supabase,
     provider,
+    sendResetPasswordEmail,
+    updatePassword,
   ]);
 
   return <AuthContext.Provider value={value}> {children}</AuthContext.Provider>;

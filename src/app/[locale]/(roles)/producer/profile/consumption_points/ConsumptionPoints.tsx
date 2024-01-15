@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { CPPending } from "./CPPending";
 import { CPAccepted } from "./CPAccepted";
 import { CPRejected } from "./CPRejected";
-import { IConsumptionPoints, IProfile } from "../../../../../../lib/types.d";
+import { IConsumptionPoints, IProfile } from "../../../../../../lib/types";
 import { SubmitCPOrganizer } from "../../../../components/modals/SubmitCPOrganizer";
 
 interface Props {
@@ -27,15 +27,15 @@ export function ConsumptionPoints({
   };
 
   return (
-    <div className="px-6 py-4" aria-label="ConsumptionPoints">
+    <section className="px-6 py-4" aria-label="ConsumptionPoints">
       <div className="flex flex-col space-y-4">
-        <div className="text-4xl">{t("consumption_points")}</div>
+        <h2 className="text-4xl">{t("consumption_points")}</h2>
 
         {cpOrganizerStatus === -1 ? (
           <div>
-            <div className="mt-4 bg-beer-foam p-2 text-lg text-beer-dark">
+            <h3 className="mt-4 bg-beer-foam p-2 text-lg text-beer-dark">
               {t("consumption_points_description")}
-            </div>
+            </h3>
 
             <div>
               <p>
@@ -73,6 +73,6 @@ export function ConsumptionPoints({
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 }

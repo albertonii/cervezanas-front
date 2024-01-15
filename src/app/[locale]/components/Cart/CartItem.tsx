@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types.d";
+import { IProductPackCartItem } from "../../../../lib/types";
 import { CartPackItem } from "./CartPackItem";
 
 type Props = {

@@ -20,7 +20,37 @@ Distribution System API surge por la necesidad de conocer cuales son los puntos 
 
 It is essentially a managed Postgres environment with additional functionalities such as auth, storage, and real-time capabilities.
 
+### Good to know
+
+A veces es necesario actualizar información interna de supabase. Por ejemplo, si quisieramos cambiar de la tabla interna auth.users la propiedad "access_level" o role del usuario para darle permisos de administrador. Podríamos lograrlo de la siguiente manera:
+
+```bash
+    UPDATE auth.users
+    SET raw_user_meta_data = jsonb_set(raw_user_meta_data, '{access_level}', '"admin"')
+    WHERE raw_user_meta_data ->> 'email' = 'wawogar929@getmola.com';
+```
+
 ## JEST + Supertest
+
+### Test in local network
+
+To test the app with different devices inside the same network we need to run the script inside package.json:
+
+```bash
+dev:local-network
+```
+
+This way we can have access to the application through the phone or another device going to linked host (192.168.1.137:5000)
+This is useful for functionalities as QR scan code of products in event.
+
+# Scripts
+
+## pnpm run gen-link
+
+This command will execute the following code:
+"cloudflared tunnel --url http://localhost:3000"
+creating a tunnel between Cloudfare and our application in localhost. We are going to use this functionality when testing TPV notification PUSH status, etc.
+In the example above we need tunneling because the service is not deployed yet.
 
 # Getting started
 
@@ -44,11 +74,25 @@ pnpm run dev
 
 ---
 
+# Production
+
+## Optimize
+
+To analyze the final bundle we can use tools to look for optimizations:
+
+### Next Bundle Analyzer
+
+Run the next script to analyze the bundle sizes of the packages created by the build command. We can visualize what can be removed.
+
+```bash
+    pnpm analyze
+```
+
 # Distribution System API Endpoints
 
 ## Main url
 
-https://distributionsystemapi-soyd-dev.fl0.io/
+https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io
 
 ## GET
 
@@ -59,5 +103,5 @@ https://distributionsystemapi-soyd-dev.fl0.io/
 # TODO List
 
 [ ] - Sistema de Distribución
-[ ] - TODO 2
+[ ] - Optimizar bundle
 [ ] - TODO 3

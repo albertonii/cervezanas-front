@@ -8,9 +8,10 @@ import React, { useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { IconButton } from "../../../../components/common/IconButton";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { IDistributionContract } from "../../../../../../lib/types.d";
+import { IDistributionContract } from "../../../../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import InputSearch from "../../../../components/common/InputSearch";
 
 enum SortBy {
   NONE = "none",
@@ -47,8 +48,6 @@ export default function ListOfContracts() {
     user?.id
   );
 
-  console.log(contracts);
-
   const filteredItems: IDistributionContract[] = useMemo<
     IDistributionContract[]
   >(() => {
@@ -65,7 +64,6 @@ export default function ListOfContracts() {
 
   const sortedItems = useMemo(() => {
     if (sorting === SortBy.NONE) return filteredItems;
-
     const compareProperties: Record<
       string,
       (contract: IDistributionContract) => any
@@ -99,17 +97,6 @@ export default function ListOfContracts() {
   const handleRejectClick = async (contract: IDistributionContract) => {
     setIsRejectModal(true);
     setSelectedContract(contract);
-
-    // await supabase
-    //   .from("consumption_points")
-    //   .update({ cp_organizer_status: 2 })
-    //   .eq("id", cp.id)
-    //   .then(async () => {
-    //     await supabase
-    //       .from("users")
-    //       .update({ cp_organizer_status: 1 })
-    //       .eq("id", cp.owner_id.id);
-    //   });
   };
 
   const handleRejectModal = (value: boolean) => {
@@ -138,31 +125,11 @@ export default function ListOfContracts() {
         </>
       )}
 
-      <div className="relative w-full">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <svg
-            aria-hidden="true"
-            className="h-5 w-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </div>
-
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          placeholder={t("search_products")}
-        />
-      </div>
+      <InputSearch
+        query={query}
+        setQuery={setQuery}
+        searchPlaceholder={"search_contracts"}
+      />
 
       <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -206,8 +173,9 @@ export default function ListOfContracts() {
               >
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link
-                    href={`/p-info/${contract.producer_user?.user}`}
+                    href={`/p-info/${contract.producer_id}`}
                     locale={locale}
+                    target="_blank"
                   >
                     {contract?.producer_user?.users?.username}
                   </Link>

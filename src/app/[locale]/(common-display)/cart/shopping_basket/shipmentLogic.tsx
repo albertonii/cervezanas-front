@@ -1,8 +1,9 @@
 "use client";
 
 import { API_METHODS, DS_API } from "../../../../../constants";
-import { createClient } from "../../../../../utils/supabaseBrowser";
+import { createBrowserClient } from "../../../../../utils/supabaseBrowser";
 import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
+import { DeliveryType, DistributionStatus } from "../../../../../lib/enums";
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
@@ -16,23 +17,38 @@ export const initShipmentLogic = async (
     producerId
   );
 
-  if (listOfDistributors.length === 0) return false;
+  if (listOfDistributors.length === 0)
+    return {
+      can_deliver: false,
+      distributor_id: "",
+      delivery_type: DeliveryType.NONE,
+    };
 
   // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
   for (const distributor of listOfDistributors) {
-    const canDeliver = await canDistributorDeliverToAddress(
+    const { canDeliver, delivery_type } = await canDistributorDeliverToAddress(
       distributor,
       shippingInfo
     );
 
-    if (canDeliver) return canDeliver;
+    if (canDeliver) {
+      return {
+        can_deliver: canDeliver,
+        distributor_id: distributor.distributor_id,
+        delivery_type,
+      };
+    }
   }
 
-  return false;
+  return {
+    can_deliver: false,
+    distributor_id: "",
+    delivery_type: DeliveryType.NONE,
+  };
 };
 
 const getShippingInfo = async (shippingInfoId: string) => {
-  const supabase = createClient();
+  const supabase = createBrowserClient();
 
   const { data: shipping, error } = await supabase
     .from("shipping_info")
@@ -48,7 +64,7 @@ const getShippingInfo = async (shippingInfoId: string) => {
 const getListOfDistributorsBasedOnProducerId = async (
   distributionId: string
 ) => {
-  const supabase = createClient();
+  const supabase = createBrowserClient();
 
   const { data: contracts, error } = await supabase
     .from("distribution_contracts")
@@ -61,7 +77,8 @@ const getListOfDistributorsBasedOnProducerId = async (
         )
     `
     )
-    .eq("producer_id", distributionId);
+    .eq("producer_id", distributionId)
+    .eq("status", DistributionStatus.ACCEPTED);
 
   if (error) throw error;
 
@@ -77,7 +94,10 @@ const canDistributorDeliverToAddress = async (
 
   // 1. Get coverage areas of the distributor
   if (!dContract.distributor_user || !dContract.distributor_user.coverage_areas)
-    return false;
+    return {
+      canDeliver,
+      delivery_type: DeliveryType.NONE,
+    };
 
   const coverageAreas = dContract.distributor_user.coverage_areas[0];
 
@@ -85,14 +105,17 @@ const canDistributorDeliverToAddress = async (
   const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
   const clientLatLng = await convertAddressToLatLng(address);
 
-  // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
-  // International -> Europe -> Region -> Province -> City -> Postal Code
-
   // a. International
   if (!clientLatLng) {
     console.error("Error: Could not convert address to [latitude, longitude]");
-    return false;
+    return {
+      canDeliver,
+      delivery_type: DeliveryType.NONE,
+    };
   }
+
+  // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
+  // International -> Europe -> Region -> Province -> City -> Postal Code
 
   if (coverageAreas.international) {
     canDeliver = await canDistributorDeliverToAddressInternational(
@@ -100,7 +123,8 @@ const canDistributorDeliverToAddress = async (
       clientLatLng
     );
 
-    if (canDeliver) return canDeliver;
+    if (canDeliver)
+      return { canDeliver, delivery_type: DeliveryType.FLATRATE_INTERNATIONAL };
   }
 
   // b. Europe
@@ -110,7 +134,8 @@ const canDistributorDeliverToAddress = async (
       clientLatLng
     );
 
-    if (canDeliver) return canDeliver;
+    if (canDeliver)
+      return { canDeliver, delivery_type: DeliveryType.FLATRATE_EUROPE };
   }
 
   // c. Autonomous Communities
@@ -121,7 +146,7 @@ const canDistributorDeliverToAddress = async (
 
   // f. Postal Code
 
-  return canDeliver;
+  return { canDeliver, delivery_type: DeliveryType.NONE };
 };
 
 const canDistributorDeliverToAddressInternational = async (
@@ -186,11 +211,12 @@ const convertAddressToLatLng = async (address: string) => {
       console.error("Error:", error);
     });
 
-  if (response.status === "OK") {
-    const location = response.results[0].geometry.location;
-    return location as google.maps.LatLng;
+  if (response.status !== "OK") {
+    return null;
   }
-  return null;
+
+  const location = response.results[0].geometry.location;
+  return location as google.maps.LatLng;
 };
 
 const isInsideCountry = async (
@@ -202,7 +228,12 @@ const isInsideCountry = async (
 
   const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error("Error:", error);
+      return false;
+    });
 
   return data;
 };
@@ -213,9 +244,15 @@ const isInsideCommunity = async (
   lng: () => number
 ) => {
   const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
-  const data = fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+
+  const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
     method: API_METHODS.GET,
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error("Error:", error);
+      return false;
+    });
 
   return data;
 };

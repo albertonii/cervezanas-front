@@ -2,29 +2,49 @@
 
 import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
 import React, { useState } from "react";
-import { Modal } from "./Modal";
-import { useForm } from "react-hook-form";
+import { z, ZodType } from "zod";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
-import { format_options } from "../../../../lib/beerEnum";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
-import { DisplayInputError } from "../common/DisplayInputError";
-import { SearchCheckboxList } from "../common/SearchCheckboxList";
+import { format_options } from "../../../../lib/beerEnum";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { SearchCheckboxProductsList } from "../common/SearchCheckboxProductsList";
+import dynamic from "next/dynamic";
+import InputLabel from "../common/InputLabel";
+import SelectInput from "../common/SelectInput";
+import InputTextarea from "../common/InputTextarea";
 
-type FormData = {
-  created_at: string;
-  lot_id: string;
-  lot_number: string;
-  lot_name: string;
-  product_id: string;
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+
+type ModalAddLotFormData = {
   quantity: number;
+  lot_name: string;
+  lot_number: string;
+  product_id: string;
   limit_notification: number;
-  recipe: string;
+  recipe?: string;
   expiration_date: Date;
   manufacture_date: Date;
   packaging: string;
-  products: any[];
 };
+
+const schema: ZodType<ModalAddLotFormData> = z.object({
+  lot_number: z.string().min(1, { message: "errors.input_min_1" }),
+  lot_name: z.string().nonempty({ message: "errors.input_required" }),
+  quantity: z.number().positive({ message: "errors.input_required" }),
+  limit_notification: z.number().positive({ message: "errors.input_required" }),
+  recipe: z.string().optional(),
+  expiration_date: z.date(),
+  manufacture_date: z.date(),
+  packaging: z.string().transform((value) => {
+    const valueNumber = parseInt(value);
+    return format_options[valueNumber].label;
+  }),
+  product_id: z.string().nonempty({ message: "errors.input_required" }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function AddLot() {
   const t = useTranslations();
@@ -34,65 +54,61 @@ export function AddLot() {
 
   const { data: products } = useFetchProductsByOwner(user?.id);
 
-  const form = useForm<FormData>({
+  const form = useForm<ModalAddLotFormData>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
       lot_number: "",
       lot_name: "",
       product_id: "",
-      quantity: 0,
-      limit_notification: 0,
+      quantity: 100,
+      limit_notification: 10,
       recipe: "",
       expiration_date: new Date(),
       manufacture_date: new Date(),
       packaging: t(format_options[0].label) ?? "",
-      products: [],
     },
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = form;
 
   const queryClient = useQueryClient();
 
-  const handleInsertLot = async (formValues: any) => {
+  const handleInsertLot = async (form: ValidationSchema) => {
     const {
+      quantity,
       lot_number,
       lot_name,
-      quantity,
-      products,
       limit_notification,
       recipe,
       expiration_date,
       manufacture_date,
       packaging,
-    } = formValues;
+      product_id,
+    } = form;
+
+    const expirationDateToString = expiration_date?.toISOString();
+    const manufactureDateToString = manufacture_date?.toISOString();
 
     const userId = user?.id;
 
-    products.map(async (product: { value: any }) => {
-      if (product.value != false) {
-        const product_id = product.value;
-        const { error } = await supabase.from("product_lots").insert({
-          product_id,
-          quantity,
-          lot_number,
-          lot_name,
-          limit_notification,
-          recipe,
-          expiration_date,
-          manufacture_date,
-          packaging,
-          owner_id: userId,
-        });
-
-        if (error) throw error;
-      }
+    const { error } = await supabase.from("product_lots").insert({
+      quantity,
+      lot_number,
+      lot_name,
+      limit_notification,
+      recipe,
+      packaging,
+      product_id,
+      owner_id: userId,
+      expiration_date: expirationDateToString,
+      manufacture_date: manufactureDateToString,
     });
+
+    if (error) throw error;
   };
 
   const insertProductLotMutation = useMutation({
@@ -101,9 +117,14 @@ export function AddLot() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["productLotList"] });
     },
+    onError: (error: any) => {
+      console.error(error);
+    },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddLotFormData
+  ) => {
     try {
       insertProductLotMutation.mutate(formValues);
     } catch (e) {
@@ -114,199 +135,113 @@ export function AddLot() {
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={true}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        title={"config_lot"}
-        btnTitle={"add_lot"}
-        description={"modal_product_description"}
-        handler={handleSubmit(onSubmit)}
-        classIcon={""}
-        classContainer={""}
-      >
-        <div className="relative flex-auto py-6">
-          <div className="flex w-full flex-col ">
-            {/* Lot Name Lot Number */}
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="space-y w-full ">
-                <label htmlFor="lot_name" className="text-sm text-gray-600">
-                  {t("lot_name")}
-                </label>
+    <ModalWithForm
+      showBtn={true}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={"config_lot"}
+      btnTitle={"add_lot"}
+      description={"modal_product_description"}
+      handler={handleSubmit(onSubmit)}
+      classIcon={""}
+      classContainer={""}
+      form={form}
+    >
+      <form>
+        <section className="relative flex w-full flex-auto flex-col  py-6">
+          {/* Lot Name Lot Number */}
+          <div className="flex w-full flex-row space-x-3 ">
+            <InputLabel
+              form={form}
+              label={"lot_name"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={t("lot_name")}
+            />
 
-                <input
-                  id="lot_name"
-                  placeholder={t("lot_name") ?? "Lot name"}
-                  type="text"
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("lot_name", {
-                    required: true,
-                  })}
-                />
-                {errors.lot_name?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-
-              <div className="space-y w-full ">
-                <label htmlFor="lot_number" className="text-sm text-gray-600">
-                  {t("lot_number")}
-                </label>
-
-                <input
-                  type="text"
-                  id="lot_number"
-                  placeholder={t("lot_number") ?? "Lot number"}
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("lot_number", {
-                    required: true,
-                  })}
-                />
-                {errors.lot_number?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </div>
-
-            {/* Quantity & Quantity Notification */}
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="space-y w-full ">
-                <label htmlFor="quantity" className="text-sm text-gray-600">
-                  {t("quantity")}
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  placeholder={t("quantity") ?? "Quantity"}
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("quantity", {
-                    required: true,
-                  })}
-                  min="0"
-                />
-                {errors.quantity?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-
-              <div className="space-y w-full ">
-                <label
-                  htmlFor="limit_notification"
-                  className="text-sm text-gray-600"
-                >
-                  {t("limit_notification")}
-                </label>
-                <input
-                  id="limit_notification"
-                  placeholder={t("limit_notification") ?? "Limit notification"}
-                  type="number"
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("limit_notification", {
-                    required: true,
-                  })}
-                  min="0"
-                />
-                {errors.limit_notification?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </div>
-
-            {/* Manufacture Date & Expiration Date */}
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="space-y w-full ">
-                <label
-                  htmlFor="manufacture_date"
-                  className="text-sm text-gray-600"
-                >
-                  {t("manufacture_date")}
-                </label>
-                <input
-                  type="date"
-                  id="manufacture_date"
-                  placeholder={t("manufacture_date") ?? "Manufacture date"}
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("manufacture_date", {
-                    required: true,
-                  })}
-                />
-                {errors.manufacture_date?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-
-              <div className="space-y w-full ">
-                <label
-                  htmlFor="expiration_date"
-                  className="text-sm text-gray-600"
-                >
-                  {t("expiration_date")}
-                </label>
-                <input
-                  id="expiration_date"
-                  placeholder={t("expiration_date") ?? "Expiration date"}
-                  type="date"
-                  className="min-h-20 relative block max-h-56 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("expiration_date", {
-                    required: true,
-                  })}
-                />
-                {errors.expiration_date?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </div>
-
-            {/* Packaging & Receipt */}
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="space-y w-full ">
-                <label htmlFor="packaging" className="text-sm text-gray-600">
-                  {t("packaging")}
-                </label>
-
-                <select
-                  {...register(`packaging`, { required: true })}
-                  value={format_options[0].label}
-                  className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                >
-                  {format_options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {t(option.label)}
-                    </option>
-                  ))}
-                </select>
-
-                {errors.packaging?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </div>
-
-            <div className="flex w-full flex-row space-x-3 ">
-              <div className="space-y w-full ">
-                <label htmlFor="recipe" className="text-sm text-gray-600">
-                  {t("beer_recipe")}
-                </label>
-
-                <textarea
-                  id="beer_recipe"
-                  placeholder={t("beer_recipe") ?? "Beer recipe"}
-                  className="min-h-20 relative block max-h-48 w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                  {...register("recipe", {
-                    required: true,
-                  })}
-                />
-                {errors.recipe?.type === "required" && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </div>
-
-            <SearchCheckboxList list={products ?? []} form={form} />
+            <InputLabel
+              form={form}
+              label={"lot_number"}
+              registerOptions={{
+                required: true,
+              }}
+              placeholder={t("lot_number")}
+            />
           </div>
-        </div>
-      </Modal>
-    </form>
+
+          {/* Quantity & Quantity Notification */}
+          <div className="flex w-full flex-row space-x-3 ">
+            <InputLabel
+              form={form}
+              label={"quantity"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+                min: 0,
+              }}
+              placeholder={t("quantity")}
+            />
+
+            <InputLabel
+              form={form}
+              label={"limit_notification"}
+              registerOptions={{
+                required: true,
+                valueAsNumber: true,
+                min: 0,
+              }}
+              placeholder={t("limit_notification")}
+            />
+          </div>
+
+          {/* Manufacture Date & Expiration Date */}
+          <div className="flex w-full flex-row space-x-3 ">
+            <InputLabel
+              form={form}
+              label={"manufacture_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              placeholder={t("manufacture_date")}
+              inputType={"date"}
+            />
+
+            <InputLabel
+              form={form}
+              label={"expiration_date"}
+              registerOptions={{
+                required: true,
+                valueAsDate: true,
+              }}
+              placeholder={t("expiration_date")}
+              inputType={"date"}
+            />
+          </div>
+
+          {/* Packaging & Receipt */}
+          <SelectInput
+            form={form}
+            options={format_options}
+            label={"packaging"}
+            registerOptions={{
+              required: true,
+            }}
+          />
+
+          <InputTextarea
+            form={form}
+            label={"recipe"}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder={t("beer_recipe")}
+          />
+
+          <SearchCheckboxProductsList products={products ?? []} form={form} />
+        </section>
+      </form>
+    </ModalWithForm>
   );
 }

@@ -1,6 +1,6 @@
 import Beerme from "./Beerme";
-import { IConsumptionPoints } from "../../../../lib/types.d";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import { IConsumptionPoints } from "../../../../lib/types";
+import createServerClient from "../../../../utils/supabaseServer";
 
 export default async function BeerMePage() {
   const cpsData = getCPsData();
@@ -17,7 +17,7 @@ export default async function BeerMePage() {
 
 async function getCPsData() {
   // Create authenticated Supabase Client
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: cps, error: cpsError } = await supabase
     .from("consumption_points")

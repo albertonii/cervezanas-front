@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { IAddress } from "../../../../../lib/types.d";
+import { IAddress } from "../../../../../lib/types";
 
 interface Props {
   address: IAddress;

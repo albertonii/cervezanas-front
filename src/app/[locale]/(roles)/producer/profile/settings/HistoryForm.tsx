@@ -1,41 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
 import { useAuth } from "../../../../Auth/useAuth";
+import InputTextarea from "../../../../components/common/InputTextarea";
+import InputLabel from "../../../../components/common/InputLabel";
 
-export function HistoryForm(props: any) {
+type HistoryFormData = {
+  description: string;
+  foundation_year: string;
+};
+
+const schema: ZodType<HistoryFormData> = z.object({
+  description: z.string().nonempty({ message: "errors.input_required" }),
+  foundation_year: z.string().nonempty({ message: "errors.input_required" }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
+
+interface Props {
+  id: string;
+  description: string;
+  foundationYear: string;
+}
+
+export function HistoryForm({ id, description, foundationYear }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
 
-  const {
-    id: id_,
-    description: description_,
-    foundationYear: foundationYear_,
-  } = props.historyData[0];
-
   const [loading, setLoading] = useState(false);
 
-  const [id, setId] = useState(id_);
-  const [description, setDescription] = useState(description_);
-  const [foundationYear, setFoundationYear] = useState(foundationYear_);
-
-  const { register, handleSubmit } = useForm({
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
-      description: description_,
-      foundationYear: foundationYear_,
+      description: description,
+      foundation_year: foundationYear,
     },
   });
 
-  useEffect(() => {
-    setId(id_);
-
-    () => {
-      setId(null);
-    };
-  }, [id_]);
+  const { handleSubmit } = form;
 
   const onSubmit = async () => {
     try {
@@ -64,53 +72,39 @@ export function HistoryForm(props: any) {
   };
 
   return (
-    <div id="history" className="container mb-4 space-y-3 bg-white px-6 py-4">
-      <div id="history-data" className="text-2xl">
+    <section
+      id="history"
+      className="container mb-4 space-y-3 bg-white px-6 py-4"
+    >
+      <h2 id="history-data" className="text-2xl">
         {t("history_business_title")}
-      </div>
+      </h2>
+
       {loading ? (
         <Spinner size="medium" color="beer-blonde" />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-full flex-row space-x-3 ">
-            <div className="w-full ">
-              <label
-                htmlFor="history_description"
-                className="text-sm text-gray-600"
-              >
-                {t("history_business_description")}
-              </label>
-              {/* <input type="text" /> */}
-              <textarea
-                id="description"
-                placeholder=""
-                readOnly
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                value={description}
-                {...register("description")}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
+            <InputTextarea
+              form={form}
+              label={"description"}
+              labelText={t("history_business_description")}
+              registerOptions={{
+                required: true,
+              }}
+            />
 
-            <div className="w-full ">
-              <label
-                htmlFor="foundtation_year"
-                className="text-sm text-gray-600"
-              >
-                {t("history_business_year")}
-              </label>
-              <input
-                type="number"
-                id="foundtation_year"
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                value={foundationYear}
-                {...register("foundationYear")}
-                onChange={(e) => setFoundationYear(e.target.value)}
-              />
-            </div>
+            <InputLabel
+              form={form}
+              label={"foundation_year"}
+              labelText={t("history_business_year")}
+              registerOptions={{
+                required: true,
+              }}
+            />
           </div>
         </form>
       )}
-    </div>
+    </section>
   );
 }

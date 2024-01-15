@@ -1,28 +1,24 @@
 import ManageEventProduct from "./ManageEventProduct";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
-import { IEventOrderItem } from "../../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../../utils/supabaseServer";
+import { IEventOrderItem } from "../../../../../../../lib/types";
+import createServerClient from "../../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../../lib/actions";
 
 export default async function BarmanProductPage({ params }: any) {
   const { id } = params;
   const eventOrderItemData = getEventOrderItemData(id);
   const [eventOrderItem] = await Promise.all([eventOrderItemData]);
   if (!eventOrderItem) return <></>;
-  return (
-    <div className="container">
-      <ManageEventProduct eventOrderItem={eventOrderItem} />
-    </div>
-  );
+  return <ManageEventProduct eventOrderItem={eventOrderItem} />;
 }
 
-async function getEventOrderItemData(id: string) {
-  const supabase = createServerClient();
+async function getEventOrderItemData(eventOrderItemId: string) {
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -34,16 +30,34 @@ async function getEventOrderItemData(id: string) {
       .select(
         `
         *,
-        product_id (*,
-          product_multimedia (
-            *,
-            p_principal
-          )
+        product_packs!event_order_items_product_pack_id_fkey (
+          *,
+            products!product_packs_product_id_fkey (*,
+              product_multimedia (
+                p_principal
+              )
+            )
         )
+        
       `
       )
-      .eq("id", id)
+      .eq("id", eventOrderItemId)
       .single();
+
+  //  .select(
+  //   `
+  //   *,
+  //   product_packs!event_order_items_product_pack_id_fkey (
+  //     *,
+  //       product_id (*,
+  //         product_multimedia (
+  //           p_principal
+  //         )
+  //       )
+  //   )
+
+  // `
+  // )
 
   if (eventOrderItemError) throw eventOrderItemError;
 

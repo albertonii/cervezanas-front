@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { NextIntlClientProvider } from "next-intl";
+import { screen } from "@testing-library/react";
+import { render } from "../../../../utils/testing/test-util";
 import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
 import { CartPackItem } from "../Cart/CartPackItem";
 
@@ -37,14 +37,7 @@ const pack: IProductPack = {
 
 describe("Cart Item", () => {
   it("Should render the Cart Item", () => {
-    render(
-      <NextIntlClientProvider
-        locale={"es"}
-        messages={{ product_pack_name: "Pack", quantity: "Cantidad" }}
-      >
-        <CartPackItem item={item} pack={pack} />
-      </NextIntlClientProvider>
-    );
+    render(<CartPackItem item={item} pack={pack} />);
 
     const cartPackItem = screen.getByTestId("cart-pack-item");
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
+import { ONLINE_ORDER_STATUS } from "../../../../../constants";
 
 interface OrderTimelineProps {
   status: string;
@@ -12,28 +12,27 @@ export default function OnlineTimelineStatusBar({
       <div className="flex w-full flex-row overflow-hidden rounded-full bg-gray-200">
         <div
           className={`h-2 rounded-l-full ${
-            status === MARKETPLACE_ORDER_STATUS.ORDER_PLACED &&
+            status === ONLINE_ORDER_STATUS.ORDER_PLACED &&
             "w-[10%] bg-beer-blonde"
           }`}
         ></div>
 
         <div
           className={`h-2  ${
-            status === MARKETPLACE_ORDER_STATUS.PROCESSING &&
+            status === ONLINE_ORDER_STATUS.PROCESSING &&
             "w-[30%] bg-beer-blonde "
           }`}
         ></div>
 
         <div
           className={`h-2   ${
-            status === MARKETPLACE_ORDER_STATUS.SHIPPED &&
-            "w-[63%] bg-beer-blonde"
+            status === ONLINE_ORDER_STATUS.SHIPPED && "w-[63%] bg-beer-blonde"
           }`}
         ></div>
 
         <div
           className={`h-2 rounded-r-full ${
-            status === MARKETPLACE_ORDER_STATUS.DELIVERED &&
+            status === ONLINE_ORDER_STATUS.DELIVERED &&
             "w-[100%] bg-beer-blonde"
           }`}
         ></div>

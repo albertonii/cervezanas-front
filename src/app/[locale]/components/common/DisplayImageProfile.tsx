@@ -35,6 +35,7 @@ function DisplayImageProfile({
       height={height ?? 120}
       alt={alt ?? "image"}
       src={memoizedSrc}
+      loader={() => memoizedSrc}
       onError={() => setImgSrc_(COMMON.PROFILE_IMG)}
       onBlur={() => COMMON.PROFILE_IMG}
       onClick={onClick}

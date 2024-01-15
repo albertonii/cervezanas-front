@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister, UseFormReturn } from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
@@ -8,8 +8,7 @@ type Props = {
   required?: boolean;
   type?: string;
   placeholder?: string;
-  id?: string;
-  defaultValue?: any;
+  // form: UseFormReturn<any, any>;
 };
 
 export default function InputForm({
@@ -18,18 +17,24 @@ export default function InputForm({
   required,
   type = "text",
   placeholder,
-  id,
-  defaultValue,
-}: Props) {
+}: // form,
+Props) {
+  // if (!form) return <>Error wey</>;
+
   const t = useTranslations();
+
+  // const { register } = form;
+
   return (
-    <input
-      {...register(inputName, { required: required })}
-      className="h-full w-full rounded-md border-beer-softBlondeBubble hover:ring-1 hover:ring-beer-gold focus:border-beer-gold focus:ring-beer-gold"
-      placeholder={`${t(placeholder ?? inputName)}*`}
-      type={type}
-      required={required}
-      id={id}
-    />
+    <label className="flex h-12 flex-col items-start space-y-2">
+      {t(inputName)}
+
+      <input
+        {...register(inputName, { required: required })}
+        className="h-full w-full rounded-md border-beer-softBlondeBubble hover:ring-1 hover:ring-beer-gold focus:border-beer-gold focus:ring-beer-gold"
+        placeholder={`${t(placeholder)}*`}
+        type={type}
+      />
+    </label>
   );
 }

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { LotList } from "./LotList";
-import { IRefProductLot } from "../../../../../../lib/types.d";
+import { IRefProductLot } from "../../../../../../lib/types";
 import { DeleteLot } from "../../../../components/modals/DeleteLot";
 import { AddLot } from "../../../../components/modals/AddLot";
 import { UpdateLot } from "../../../../components/modals/UpdateLot";
@@ -29,11 +29,13 @@ export function Lots() {
   };
 
   return (
-    <div className="px-4 py-6 " aria-label="Lots">
+    <section className="px-4 py-6 " aria-label="Lots">
       <div className="flex flex-col space-y-4">
         <div className="text-4xl">{t("lots")}</div>
 
-        <AddLot />
+        <div className="w-40">
+          <AddLot />
+        </div>
       </div>
 
       <LotList
@@ -57,6 +59,6 @@ export function Lots() {
           showModal={isEditShowModal}
         />
       )}
-    </div>
+    </section>
   );
 }

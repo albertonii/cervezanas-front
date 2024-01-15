@@ -3,16 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 import React, { ComponentProps, useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useLocale, useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types.d";
-import { Spinner } from "../../../../components/common/Spinner";
+import { IProduct } from "../../../../../../lib/types";
+import Spinner from "../../../../components/common/Spinner";
 import { EditButton } from "../../../../components/common/EditButton";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { DeleteButton } from "../../../../components/common/DeleteButton";
 import { ArchiveButton } from "../../../../components/common/ArchiveButton";
+import InputSearch from "../../../../components/common/InputSearch";
+import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -111,7 +112,7 @@ export function ProductList({
   }, [products, query]);
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -132,31 +133,11 @@ export function ProductList({
         </div>
       ) : (
         <>
-          <div className="relative w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5 text-gray-500 dark:text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </div>
-
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder={t("search_products")}
-            />
-          </div>
+          <InputSearch
+            query={query}
+            setQuery={setQuery}
+            searchPlaceholder={"search_products"}
+          />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -189,6 +170,7 @@ export function ProductList({
                             height={128}
                             className="h-8 w-8 rounded-full"
                             src="/icons/beer-240.png"
+                            loader={() => "/icons/beer-240.png"}
                             alt="Beer Type"
                           />
                         </th>
@@ -257,6 +239,6 @@ export function ProductList({
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

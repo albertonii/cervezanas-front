@@ -1,30 +1,38 @@
-import ProfileEvents from "./ProfileEvents";
+import Events from "./Events";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../../../constants";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
-import { ICPMobile } from "../../../../../../lib/types.d";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();
-  const [cpsMobile] = await Promise.all([cpsMobileData]);
+  const cpsFixedData = getCPFixedData();
+  const eventsCounterData = getEventsCounter();
+  const [cpsMobile, cpsFixed, eventsCounter] = await Promise.all([
+    cpsMobileData,
+    cpsFixedData,
+    eventsCounterData,
+  ]);
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProfileEvents cpsMobile={cpsMobile} />
-      </Suspense>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Events
+        cpsMobile={cpsMobile}
+        cpsFixed={cpsFixed}
+        counter={eventsCounter}
+      />
+    </Suspense>
   );
 }
 
 async function getCPMobileData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -43,4 +51,51 @@ async function getCPMobileData() {
   if (cpError) throw cpError;
 
   return cps[0]?.cp_mobile as ICPMobile[];
+}
+
+async function getCPFixedData() {
+  const supabase = await createServerClient();
+
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) {
+    redirect(VIEWS.SIGN_IN);
+  }
+
+  const { data: cps, error: cpError } = await supabase
+    .from("consumption_points")
+    .select(
+      `
+      *,
+      cp_fixed (*)
+      `
+    )
+    .eq("owner_id", session.user.id);
+
+  if (cpError) throw cpError;
+
+  return cps[0]?.cp_fixed as ICPFixed[];
+}
+
+async function getEventsCounter() {
+  const supabase = await createServerClient();
+
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) {
+    redirect(VIEWS.SIGN_IN);
+  }
+
+  const { count, error } = await supabase
+    .from("events")
+    .select("id", { count: "exact" }) // Selecciona solo una columna y habilita el conteo
+    .eq("owner_id", session.user.id);
+
+  if (error) throw error;
+
+  return count as number | 0;
 }

@@ -1,5 +1,5 @@
 import DeleteModal from "../../../../components/modals/DeleteModal";
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "react-query";
 import { useAuth } from "../../../../Auth/useAuth";
