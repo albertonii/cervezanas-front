@@ -378,6 +378,7 @@ export interface IEvent {
   cp_fixed: ICPFixed[];
   users: IUserTable;
 }
+
 export interface IConsumptionPoints {
   id: string;
   created_at: string;
@@ -407,7 +408,7 @@ export interface ICPFixed {
   is_booking_required: boolean;
   cp_id: string;
   is_internal_organizer: boolean;
-  cpf_products: ICPFProducts[];
+  cpf_products?: ICPFProducts[];
   geoArgs: GeocodeResult[];
 }
 

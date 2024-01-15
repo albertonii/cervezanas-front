@@ -31,8 +31,8 @@ async function getCPMobileData() {
     .from("consumption_points")
     .select(
       `
-      *,
-      cp_mobile (*)
+        *,
+        cp_mobile (*)
       `
     );
 
@@ -48,8 +48,8 @@ async function getCPFixedData() {
     .from("consumption_points")
     .select(
       `
-      *,
-      cp_fixed (*)
+        *,
+        cp_fixed (*)
       `
     );
 

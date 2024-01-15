@@ -16,8 +16,8 @@ const fetchCPMobile = async (
     .from("cp_mobile")
     .select(
       `
-      *
-    `
+        *
+      `
     )
     .eq("cp_id", cpId)
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)

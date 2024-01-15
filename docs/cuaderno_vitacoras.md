@@ -1,13 +1,10 @@
 # Listado de tareas:
 
-- Vista de Puntos Fijos en evento
-- Cuando se añade un producto al carrito de la compra del evento, estaría bien que exista una referencia al Punto de Consumo de donde se ha comprado
+- Añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo.
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
-- Configurar PC móviles
-- Configurar PC fijos
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
 - CRUD para una review de un producto comprado
@@ -25,12 +22,10 @@
 - Contratar plan de pago Supabase
 - Editar una campaña
 - Vincular productos a la campaña
-- Al pulsar en editar evento -> Mostrar los PC Móviles asociados
-- Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
 - [] Hacer que las vistas en profile consumer sean homogéneas
 - [] Hacer que las vistas en profile distributor sean homogéneas
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
-- Al guardar un evento con puntos de consumo, a veces no se guardan los PC
+- Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 
 # Tareas realizadas
 
@@ -55,6 +50,11 @@
 - [x] Realizar compra de cerveza en un evento
 - [x] Mostrar productos comprados en el checkout - pedido de compra
 - [x] Componente para compartir en redes sociales
+- [x] Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
+- [x] Vista de Puntos Fijos en evento
+- [x] Configurar PC móviles
+- [x] Configurar PC fijos
+- [x] Al pulsar en editar evento -> Mostrar los PC Móviles asociados
 
 # 29 de noviembre 23
 

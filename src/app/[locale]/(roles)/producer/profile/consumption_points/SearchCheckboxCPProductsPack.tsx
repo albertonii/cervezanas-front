@@ -4,7 +4,6 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import ProductAccordion from "./ProductAccordion";
 import React, { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
 import Spinner from "../../../../components/common/Spinner";
 import { IProduct } from "../../../../../../lib/types";
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
-  const t = useTranslations();
   const { user } = useAuth();
   const [products, setProducts] = useState<IProduct[]>([]);
 

@@ -1,23 +1,23 @@
-import InfoCPMobile from "./InfoCPMobile";
+import InfoCPFixed from "./InfoCPFixed";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../../../constants";
-import { ICPMobile } from "../../../../../../../../../lib/types";
+import { ICPFixed } from "../../../../../../../../../lib/types";
 import readUserSession from "../../../../../../../../../lib/actions";
 import createServerClient from "../../../../../../../../../utils/supabaseServer";
 
-export default async function CPMobilePage({ params }: any) {
-  const { id: eventId, m_id } = params;
-  const cpMobileData = getCPMobile(m_id);
-  const [cpMobile] = await Promise.all([cpMobileData]);
+export default async function CPFixedPage({ params }: any) {
+  const { id: eventId, f_id } = params;
+  const cpFixedData = getCPFixed(f_id);
+  const [cpFixed] = await Promise.all([cpFixedData]);
 
   return (
     <>
-      <InfoCPMobile cpMobile={cpMobile} eventId={eventId} />
+      <InfoCPFixed cpFixed={cpFixed} eventId={eventId} />
     </>
   );
 }
 
-async function getCPMobile(cpId: string) {
+async function getCPFixed(cpId: string) {
   const supabase = await createServerClient();
 
   const {
@@ -28,16 +28,16 @@ async function getCPMobile(cpId: string) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: cpsMobile, error: cpMobileError } = await supabase
-    .from("cp_mobile")
+  const { data: cpFixed, error: cpFixedError } = await supabase
+    .from("cp_fixed")
     .select(
       `
         *,
-        cpm_products!cpm_products_cp_id_fkey (
+        cpf_products!cpf_products_cp_id_fkey (
           *,
           cp_id,
           product_pack_id,
-          product_packs!cpm_products_product_pack_id_fkey (
+          product_packs!cpf_products_product_pack_id_fkey (
             *,
             products!product_packs_product_id_fkey (
               id,
@@ -53,7 +53,7 @@ async function getCPMobile(cpId: string) {
     .eq("id", cpId)
     .single();
 
-  if (cpMobileError) console.error(cpMobileError);
+  if (cpFixedError) console.error(cpFixedError);
 
-  return cpsMobile as ICPMobile;
+  return cpFixed as ICPFixed;
 }

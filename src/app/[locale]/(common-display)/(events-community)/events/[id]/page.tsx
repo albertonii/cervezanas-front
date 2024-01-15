@@ -1,9 +1,6 @@
 import DisplayEvent from "./DisplayEvent";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
 import { IEvent } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;
@@ -20,30 +17,22 @@ export default async function EventPage({ params }: any) {
 async function getEvent(eventId: string) {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
   const { data: event, error } = await supabase
     .from("events")
     .select(
       `
         *,
-        owner_id,
-        cp_mobile (*)
+        cp_mobile (
+          *
+        ),
+        cp_fixed (
+          *
+        )
+
       `
     )
     .eq("id", eventId)
     .single();
-
-  // Comprobar pq no se puede hacer un join con cp_fixed
-  // cp_fixed (*)
-
-  console.log(event);
 
   if (error) console.error(error);
 

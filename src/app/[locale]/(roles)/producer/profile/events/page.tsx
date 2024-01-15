@@ -42,8 +42,8 @@ async function getCPMobileData() {
     .from("consumption_points")
     .select(
       `
-      *,
-      cp_mobile (*)
+        *,
+        cp_mobile (*)
       `
     )
     .eq("owner_id", session.user.id);
@@ -68,8 +68,8 @@ async function getCPFixedData() {
     .from("consumption_points")
     .select(
       `
-      *,
-      cp_fixed (*)
+        *,
+        cp_fixed (*)
       `
     )
     .eq("owner_id", session.user.id);

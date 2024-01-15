@@ -18,7 +18,6 @@ export default function DisplayEvent({ event }: Props) {
   const cpMobile: ICPMobile[] = event.cp_mobile;
   const cpFixed: ICPFixed[] = event.cp_fixed;
 
-  console.log(event);
   return (
     <div className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px]">
       <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
@@ -108,7 +107,7 @@ export default function DisplayEvent({ event }: Props) {
       </section>
 
       {/* Products linked to this Fixed Consumption Point */}
-      {/* <section className="mt-8">
+      <section className="mt-8">
         {cpFixed.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_fixed")}</h3>
@@ -154,7 +153,7 @@ export default function DisplayEvent({ event }: Props) {
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
         )}
-      </section> */}
+      </section>
     </div>
   );
 }
@@ -214,15 +213,14 @@ const CPFixed = ({ cp, eventId }: CPFixedProps) => {
       <td className=" space-x-2 px-6 py-4">
         {/* <Image
           src={cp.logo_url ?? COMMON.PROFILE_IMG}
-          loader={() => cp.logo_url ?? COMMON.PROFILE_IMG}
           alt={cp.cp_name}
           width={64}
           height={64}
         /> */}
       </td>
 
-      <td className=" space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
-        <Link href={`/events/${eventId}/mobile/${cp.id}`} locale={locale}>
+      <td className=" text-md space-x-2 px-2 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft sm:text-lg">
+        <Link href={`/events/${eventId}/fixed/${cp.id}`} locale={locale}>
           {cp.cp_name}
         </Link>
       </td>
