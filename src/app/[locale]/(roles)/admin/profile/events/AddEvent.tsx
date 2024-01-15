@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types";
+import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useMutation, useQueryClient } from "react-query";
 import ModalWithForm from "../../../../components/modals/ModalWithForm";
@@ -39,9 +39,10 @@ type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
 }
 
-export default function AddEvent({ cpsMobile }: Props) {
+export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
@@ -206,7 +207,7 @@ export default function AddEvent({ cpsMobile }: Props) {
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
 
-          <SearchCheckboxCPFixeds cpsMobile={cpsMobile} form={form} />
+          <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
         </fieldset>
       </form>
     </ModalWithForm>

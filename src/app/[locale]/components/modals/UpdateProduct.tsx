@@ -153,7 +153,20 @@ export function UpdateProduct({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { beers } = product;
-  const { color, aroma, family, fermentation, origin, era } = beers[0];
+
+  if (!product.beers || !beers) return <></>;
+
+  const {
+    color,
+    aroma,
+    family,
+    fermentation,
+    origin,
+    era,
+    volume,
+    format,
+    intensity,
+  } = beers[0];
 
   const colorDefault: {
     label: string;
@@ -230,12 +243,12 @@ export function UpdateProduct({
       stock_quantity: product.product_inventory![0].quantity ?? 0,
       stock_limit_notification:
         product.product_inventory![0].limit_notification ?? 0,
-      format: product.beers[0]?.format ?? "",
-      volume: product.beers[0]?.volume ?? 0,
+      format: format,
+      volume: volume,
       weight: product.weight ?? 0,
       color: colorDefault.value,
       aroma: aromaDefault.value,
-      intensity: product.beers[0]?.intensity,
+      intensity: intensity,
       family: familyDefault.value,
       fermentation: fermentationDefault.value,
       origin: originDefault.value,

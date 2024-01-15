@@ -177,7 +177,6 @@ export default function ScreenMenu({ notifications }: Props) {
                         height={25}
                         alt={"Login"}
                         src={COMMON.PROFILE_IMG}
-                        loader={() => COMMON.PROFILE_IMG}
                       />
                       <span>{t("my_account")}</span>
                     </section>

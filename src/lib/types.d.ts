@@ -625,7 +625,7 @@ export interface IEventOrder {
   event_order_items?: IEventOrderItem[];
   customer_id: string;
   users?: IUserTable;
-  // events?: IEvent;
+  events?: IEvent;
   payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
@@ -969,7 +969,7 @@ export interface IProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers: IBeer[];
+  beers?: IBeer[];
   product_multimedia: IProductMultimedia[];
   order_items?: IOrderItem[];
 
@@ -980,7 +980,6 @@ export interface IProduct {
   reviews?: IReview[];
   // reviews: IRefReview[];
   likes?: ILike[];
-  beers: IBeer[];
   awards?: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
@@ -1447,22 +1446,22 @@ export interface DistributionRangeCost {
   shippingCost: number;
 }
 
-export interface IFlatrateCost {
-  created_at: string;
-  distribution_costs_id: string; // PK and FK
-  local_distribution_cost: number;
-  national_distribution_cost: number;
-  europe_distribution_cost: number;
-  international_distribution_cost: number;
-  is_checked_local: boolean;
-  is_checked_national: boolean;
-  is_checked_europe: boolean;
-  is_checked_international: boolean;
-}
-
 export interface IDistributionCost {
   id: string;
   distributor_id: string;
   distributor?: IDistributorUser;
-  flatrate_cost?: IFlatrateCost;
+  flatrate_cost: IFlatrateCost;
+}
+
+export interface IFlatrateCost {
+  created_at?: string;
+  distribution_costs_id?: string; // PK and FK
+  local_distribution_cost?: number;
+  national_distribution_cost?: number;
+  europe_distribution_cost?: number;
+  international_distribution_cost?: number;
+  is_checked_local?: boolean;
+  is_checked_national?: boolean;
+  is_checked_europe?: boolean;
+  is_checked_international?: boolean;
 }

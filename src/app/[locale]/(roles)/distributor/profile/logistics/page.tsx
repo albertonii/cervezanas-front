@@ -1,8 +1,8 @@
-import readUserSession from "../../../../../../lib/actions";
 import CoverageLayout from "./CoverageLayout";
+import readUserSession from "../../../../../../lib/actions";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import createServerClient from "../../../../../../utils/supabaseServer";
 import { IDistributionCost } from "../../../../../../lib/types";
 
 export default async function OrdersPage() {
@@ -30,17 +30,17 @@ async function getDistributionCost() {
           id,
           created_at,
           distributor_id,
-          flatrate_cost (
-             created_at,
-             distribution_costs_id,
-             local_distribution_cost,
-             national_distribution_cost,
-             europe_distribution_cost,
-             international_distribution_cost,
-             is_checked_local,
-             is_checked_national,
-             is_checked_europe,
-             is_checked_international
+          flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
+            created_at,
+            distribution_costs_id,
+            local_distribution_cost,
+            national_distribution_cost,
+            europe_distribution_cost,
+            international_distribution_cost,
+            is_checked_local,
+            is_checked_national,
+            is_checked_europe,
+            is_checked_international
           )
         `
       )

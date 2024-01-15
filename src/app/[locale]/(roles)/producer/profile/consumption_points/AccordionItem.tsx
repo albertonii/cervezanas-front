@@ -22,6 +22,8 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
 
   const [showAccordion, setShowAccordion] = useState(false);
 
+  if (!product.beers || !product.beers[0]) return <></>;
+
   const formatName = product.beers[0]?.format ?? "";
   const formatIcon =
     formatName === FormatName.bottle

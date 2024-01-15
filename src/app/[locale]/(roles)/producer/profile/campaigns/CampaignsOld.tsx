@@ -40,6 +40,8 @@ export function Campaigns({ campaigns: c, products }: Props) {
     goal: "",
     status: "",
     products: [],
+    campaign_discount: 0,
+    social_cause: "",
   };
 
   const [campaigns, setCampaigns] = useState<ICampaign[]>(c ?? emptyCampaign);
@@ -195,9 +197,8 @@ export function Campaigns({ campaigns: c, products }: Props) {
         {/* Show/Hide Modal*/}
         {isShowDeleteModal && (
           <DeleteCampaign
+            campaign={campaigns[campaignIndex]}
             showModal={isDeleteModal}
-            setShowModal={setIsDeleteModal}
-            handleResponseModal={handleResponseDeleteModal}
             handleDeleteShowModal={handleDeleteShowModal}
           />
         )}

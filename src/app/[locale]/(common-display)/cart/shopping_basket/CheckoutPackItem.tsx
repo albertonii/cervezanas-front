@@ -79,28 +79,30 @@ export default function CheckoutPackItem({
           </span>
 
           {/* Product Type Beer */}
-          {productWithInfo.type === Type.BEER && (
-            <div className="flex flex-col items-start justify-start space-y-2">
-              <p className="text-sm leading-none text-gray-800 dark:text-white">
-                <span className="text-gray-600 dark:text-gray-400">
-                  {t("aroma")}:{" "}
-                </span>{" "}
-                {t(`${productWithInfo.beers[0]?.aroma}`)}
-              </p>
-              <p className="text-sm leading-none text-gray-800 dark:text-white">
-                <span className="text-gray-600 dark:text-gray-400">
-                  {t("family")}:{" "}
-                </span>{" "}
-                {t(`${productWithInfo.beers[0]?.family}`)}
-              </p>
-              <p className="text-sm leading-none text-gray-800 dark:text-white">
-                <span className="text-gray-600 dark:text-gray-400">
-                  {t("fermentation")}:{" "}
-                </span>{" "}
-                {t(`${productWithInfo.beers[0]?.fermentation}`)}
-              </p>
-            </div>
-          )}
+          {productWithInfo.type === Type.BEER &&
+            productWithInfo.beers &&
+            productWithInfo.beers[0] && (
+              <div className="flex flex-col items-start justify-start space-y-2">
+                <p className="text-sm leading-none text-gray-800 dark:text-white">
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {t("aroma")}:{" "}
+                  </span>{" "}
+                  {t(`${productWithInfo.beers[0]?.aroma}`)}
+                </p>
+                <p className="text-sm leading-none text-gray-800 dark:text-white">
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {t("family")}:{" "}
+                  </span>{" "}
+                  {t(`${productWithInfo.beers[0]?.family}`)}
+                </p>
+                <p className="text-sm leading-none text-gray-800 dark:text-white">
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {t("fermentation")}:{" "}
+                  </span>{" "}
+                  {t(`${productWithInfo.beers[0]?.fermentation}`)}
+                </p>
+              </div>
+            )}
 
           {/* Product Type Merchandising */}
           {productWithInfo.type === Type.MERCHANDISING && (

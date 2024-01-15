@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { IEvent } from "../../../../../../lib/types";
+import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -32,14 +32,19 @@ enum SortBy {
   END_DATE = "end_date",
 }
 
-export default function EventList() {
+interface Props {
+  counter: number;
+  cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
+}
+
+export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const counter = 1;
   const resultsPerPage = 10;
 
   const { data, isError, isLoading, refetch } = useFetchEvents(
@@ -116,6 +121,8 @@ export default function EventList() {
           selectedEvent={selectedEvent}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
+          cpsMobile={cpsMobile}
+          cpsFixed={cpsFixed}
         />
       )}
 

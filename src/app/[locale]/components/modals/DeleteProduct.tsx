@@ -12,8 +12,11 @@ interface Props {
   handleDeleteShowModal: ComponentProps<any>;
 }
 
-export function DeleteProduct(props: Props) {
-  const { product, showModal, handleDeleteShowModal } = props;
+export function DeleteProduct({
+  product,
+  showModal,
+  handleDeleteShowModal,
+}: Props) {
   const { supabase } = useAuth();
 
   const queryClient = useQueryClient();

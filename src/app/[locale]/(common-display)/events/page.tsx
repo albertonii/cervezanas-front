@@ -17,7 +17,7 @@ async function getEvents() {
   const { data: event, error } = await supabase.from("events").select(
     `
       *,
-      owner_id (*),
+      owner_id,
       cp_mobile (
         *,
         cpm_products (*)

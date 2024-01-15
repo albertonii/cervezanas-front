@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 
       if (distributionCost) {
         return NextResponse.json(
-          distributionCost.flatrate_cost.international_distribution_cost
+          distributionCost.flatrate_cost[0].international_distribution_cost
         );
       }
     }

@@ -78,9 +78,8 @@ async function getSuccessData(searchParams: any) {
           product_packs (
             *,
             products (
-              id,
-              name,
-              description
+              *,
+              product_multimedia (*)
             )
           )
         )

@@ -89,7 +89,7 @@ async function getCheckoutErrorData(searchParams: any) {
         id, 
         name, 
         price,
-        product_multimedia(*),
+        product_multimedia (*),
         order_items (*)
       ),
       business_orders (*)
