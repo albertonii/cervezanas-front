@@ -2,8 +2,8 @@
 
 import HorizontalSections from "../../../../components/common/HorizontalSections";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../../components/common/Spinner";
-import { IProducerUser } from "../../../../../../lib/types.d";
+import Spinner from "../../../../components/common/Spinner";
+import { IProducerUser } from "../../../../../../lib/types";
 import { Account } from "./Account";
 import { Details } from "./Details";
 import { Values } from "./Values";
@@ -14,7 +14,6 @@ interface Props {
 
 export default function Profile({ profile }: Props) {
   const [loading, setLoading] = useState<boolean>(true);
-
   const [menuOption, setMenuOption] = useState<string>("account");
 
   const handleMenuClick = (opt: string): void => {

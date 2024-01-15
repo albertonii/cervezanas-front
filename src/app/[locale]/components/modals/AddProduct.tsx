@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
   aroma_options,
@@ -15,13 +17,12 @@ import {
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  IAward,
   IInventory,
-  IProductPack,
-  ModalAddProductProps,
-} from "../../../../lib/types.d";
+  IModalAddProductPack,
+  ModalAddProductAwardFormData,
+  ModalAddProductFormData,
+} from "../../../../lib/types";
 import { useAuth } from "../../Auth/useAuth";
-import { Modal } from "./Modal";
 import { v4 as uuidv4 } from "uuid";
 import { ProductSummary } from "./ProductSummary";
 import {
@@ -33,35 +34,95 @@ import {
 import { useMutation, useQueryClient } from "react-query";
 import { ProductStepper } from "./ProductStepper";
 import { ProductInfoSection } from "./ProductInfoSection";
-import { useAppContext } from "../../../../context/AppContext";
+import { useAppContext } from "../../../context/AppContext";
+import dynamic from "next/dynamic";
 
-interface FormData {
-  fermentation: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  origin: number;
-  era: number;
-  is_gluten: boolean;
-  type: string;
-  awards: IAward[];
-  p_principal: FileList;
-  p_back: FileList;
-  p_extra_1: FileList;
-  p_extra_2: FileList;
-  p_extra_3: FileList;
-  is_public: boolean;
-  name: string;
-  description: string;
-  price: number;
-  volume: number;
-  format: string;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  packs: IProductPack[];
-  category: string;
-}
+const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+
+const schema: ZodType<ModalAddProductFormData> = z.object({
+  name: z.string().min(2, { message: "errors.min_2_characters" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  description: z
+    .string()
+    .min(2, { message: "errors.min_2_characters" })
+    .max(2500, {
+      message: "errors.error_2500_max_length",
+    }),
+  price: z.number().min(0, { message: "errors.input_min_0" }),
+  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
+    message: "errors.input_max_5",
+  }),
+  color: z.number().min(0, { message: "errors.input_min_0" }),
+  intensity: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "Required",
+  }),
+  aroma: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  family: z.number().min(0, { message: "errors.input_min_0" }).max(30, {
+    message: "errors.error_30_max_length",
+  }),
+  origin: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  era: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
+    message: "errors.input_min_5",
+  }),
+  is_gluten: z.coerce.boolean(),
+  type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "Required",
+  }),
+  awards: z.array(
+    z.object({
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
+        message: "errors.input_max_150",
+      }),
+      description: z
+        .string()
+        .min(2, { message: "errors.input_min_2" })
+        .max(500, {
+          message: "errors.input_max_500",
+        }),
+      year: z
+        .number()
+        .min(1900, { message: "errors.input_min_1900" })
+        .max(2030, {
+          message: "errors.input_max_2030",
+        }),
+      img_url: z.instanceof(FileList).optional(),
+    })
+  ),
+  p_principal: z.instanceof(FileList).optional(),
+  p_back: z.instanceof(FileList).optional(),
+  p_extra_1: z.instanceof(FileList).optional(),
+  p_extra_2: z.instanceof(FileList).optional(),
+  is_public: z.boolean(),
+  volume: z.number().min(0, { message: "errors.input_min_0" }),
+  weight: z.number().min(0, { message: "errors.input_min_0" }),
+  format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+  stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
+  stock_limit_notification: z
+    .number()
+    .min(0, { message: "errors.input_required" }),
+  packs: z.array(
+    z.object({
+      quantity: z.number().min(0, { message: "errors.input_min_0" }),
+      price: z.number().min(0, { message: "errors.input_min_0" }),
+      name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
+        message: "errors.error_100_number_max_length",
+      }),
+      img_url: z.instanceof(FileList).optional(),
+    })
+  ),
+  category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
+    message: "errors.error_50_number_max_length",
+  }),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function AddProduct() {
   const t = useTranslations();
@@ -78,23 +139,27 @@ export function AddProduct() {
     setActiveStep(value);
   };
 
-  const form = useForm<ModalAddProductProps>({
+  const form = useForm<ValidationSchema>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
       awards: [],
       type: "beer",
+      is_gluten: false,
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const {
+    handleSubmit,
+    reset,
+  } = form;
   const queryClient = useQueryClient();
 
-  // Genera un UUID único
   const generateUUID = () => {
     return uuidv4();
   };
 
-  const handleInsertProduct = async (formValues: FormData) => {
+  const handleInsertProduct = async (form: ValidationSchema) => {
     const {
       // campaign,
       fermentation,
@@ -117,12 +182,13 @@ export function AddProduct() {
       description,
       price,
       volume,
+      weight,
       format,
       stock_quantity,
       stock_limit_notification,
       packs,
       category,
-    } = formValues;
+    } = form;
 
     const userId = user?.id;
 
@@ -138,6 +204,7 @@ export function AddProduct() {
         price,
         is_public,
         category,
+        weight,
       })
       .select();
 
@@ -154,9 +221,8 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    if (p_principal && !isFileEmpty(p_principal)) {
+    if (p_principal && !isFileEmpty(p_principal[0])) {
       const fileName = `articles/${productId}/p_principal/${randomUUID}`;
-
       // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
         `${fileName}${generateFileNameExtension(p_principal[0].name)}`
@@ -178,7 +244,7 @@ export function AddProduct() {
       removeImage("p_principal");
     }
 
-    if (p_back && !isFileEmpty(p_back)) {
+    if (p_back && !isFileEmpty(p_back[0])) {
       const fileName = `articles/${productId}/p_back/${randomUUID}`;
 
       p_back_url =
@@ -202,7 +268,7 @@ export function AddProduct() {
       removeImage("p_back");
     }
 
-    if (p_extra_1 && !isFileEmpty(p_extra_1)) {
+    if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
       const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
 
       p_extra_1_url =
@@ -226,7 +292,7 @@ export function AddProduct() {
       removeImage("p_extra_1");
     }
 
-    if (p_extra_2 && !isFileEmpty(p_extra_2)) {
+    if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
       const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
 
       p_extra_2_url =
@@ -250,7 +316,7 @@ export function AddProduct() {
       removeImage("p_extra_2");
     }
 
-    if (p_extra_3 && !isFileEmpty(p_extra_3)) {
+    if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
       const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
 
       p_extra_3_url =
@@ -329,7 +395,7 @@ export function AddProduct() {
 
       // Packs Stock
       if (isNotEmptyArray(packs)) {
-        packs.map(async (pack: IProductPack, index: number) => {
+        packs.map(async (pack: IModalAddProductPack, index: number) => {
           const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
             `${filename}${generateFileNameExtension(pack.name)}`
@@ -368,45 +434,47 @@ export function AddProduct() {
         });
       }
 
-      // Award
+      // Awards
       if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
-        awards.map(async (award: IAward, index: number) => {
-          if (award && !isFileEmpty(award.img_url)) {
-            const filename = `awards/${productId}/${randomUUID}_${index}`;
-            const award_url = encodeURIComponent(
-              `${filename}${generateFileNameExtension(award.img_url[0].name)}`
-            );
-
-            const { error: awardsError } = await supabase
-              .from("awards")
-              .insert({
-                product_id: productId,
-                name: award.name,
-                description: award.description,
-                year: award.year,
-                img_url: award_url,
-              });
-
-            if (awardsError) throw awardsError;
-
-            const { error: storageAwardsError } = await supabase.storage
-              .from("products")
-              .upload(
-                `${filename}${generateFileNameExtension(
-                  award.img_url[0].name
-                )}`,
-                award.img_url[0],
-                {
-                  contentType: award.img_url[0].type,
-                  cacheControl: "3600",
-                  upsert: false,
-                }
+        awards.map(
+          async (award: ModalAddProductAwardFormData, index: number) => {
+            if (award && !isFileEmpty(award.img_url)) {
+              const filename = `awards/${productId}/${randomUUID}_${index}`;
+              const award_url = encodeURIComponent(
+                `${filename}${generateFileNameExtension(award.img_url[0].name)}`
               );
-            if (storageAwardsError) throw storageAwardsError;
 
-            removeImage(`awards.${index}.img_url`);
+              const { error: awardsError } = await supabase
+                .from("awards")
+                .insert({
+                  product_id: productId,
+                  name: award.name,
+                  description: award.description,
+                  year: award.year,
+                  img_url: award_url,
+                });
+
+              if (awardsError) throw awardsError;
+
+              const { error: storageAwardsError } = await supabase.storage
+                .from("products")
+                .upload(
+                  `${filename}${generateFileNameExtension(
+                    award.img_url[0].name
+                  )}`,
+                  award.img_url[0],
+                  {
+                    contentType: award.img_url[0].type,
+                    cacheControl: "3600",
+                    upsert: false,
+                  }
+                );
+              if (storageAwardsError) throw storageAwardsError;
+
+              removeImage(`awards.${index}.img_url`);
+            }
           }
-        });
+        );
       }
 
       return beer;
@@ -431,7 +499,9 @@ export function AddProduct() {
     },
   });
 
-  const onSubmit = (formValues: ModalAddProductProps) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddProductFormData
+  ) => {
     try {
       insertProductMutation.mutate(formValues);
     } catch (e) {
@@ -440,22 +510,23 @@ export function AddProduct() {
   };
 
   return (
-    <form className="w-full">
-      <Modal
-        showBtn={true}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        title={"add_product"}
-        btnTitle={"add_product"}
-        description={""}
-        handler={handleSubmit(onSubmit)}
-        classIcon={""}
-        classContainer={""}
-        handlerClose={() => {
-          setActiveStep(0);
-          setShowModal(false);
-        }}
-      >
+    <ModalWithForm
+      showBtn={true}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={"add_product"}
+      btnTitle={"add_product"}
+      description={""}
+      classIcon={""}
+      classContainer={""}
+      handler={handleSubmit(onSubmit)}
+      handlerClose={() => {
+        setActiveStep(0);
+        setShowModal(false);
+      }}
+      form={form}
+    >
+      <form>
         <>
           <ProductStepper
             activeStep={activeStep}
@@ -482,7 +553,7 @@ export function AddProduct() {
             </>
           </ProductStepper>
         </>
-      </Modal>
-    </form>
+      </form>
+    </ModalWithForm>
   );
 }

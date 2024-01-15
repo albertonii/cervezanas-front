@@ -7,9 +7,9 @@ import { SimilarProducts } from "./SimilarProducts";
 export function DisplaySimilarProducts() {
   const t = useTranslations();
   return (
-    <div className="rounded-lg bg-beer-softFoam bg-[url('/assets/rec-graf4c.png')] bg-contain bg-no-repeat bg-right border-2 border-beer-softBlondeBubble bg-beer-blonde/20">
+    <section className="rounded-lg border-2 border-beer-softBlondeBubble bg-beer-blonde/20 bg-beer-softFoam bg-[url('/assets/rec-graf4c.png')] bg-contain bg-right bg-no-repeat">
       <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
-        <h2 className="text-xl font-bold tracking-tight text-cerv-coal uppercase">
+        <h2 className="text-xl font-bold uppercase tracking-tight text-cerv-coal">
           {t("similar_products")}
         </h2>
 
@@ -20,6 +20,6 @@ export function DisplaySimilarProducts() {
           <SimilarProducts />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

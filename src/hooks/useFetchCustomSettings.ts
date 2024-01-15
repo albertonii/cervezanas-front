@@ -2,12 +2,13 @@
 
 import { ICustomizeSettings } from "../lib/types.d";
 import { useQuery, UseQueryResult } from "react-query";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchCustomSettingsById = async (
   userId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("customize_settings")

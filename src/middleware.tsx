@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { createSupabaseReqResClient } from "./utils/supabaseReqResClient";
 
 const locales = ["en", "es"];
 
@@ -26,11 +26,14 @@ const privateSections = [
   "profile",
   "cart",
   "checkout",
+  "barman",
 ];
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
 export async function middleware(req: NextRequest) {
+  "user server";
+
   const res = NextResponse.next();
 
   const { nextUrl } = req;
@@ -48,7 +51,7 @@ export async function middleware(req: NextRequest) {
     const locale = getLocale(req);
 
     // e.g. incoming request is /products
-    // The new URL is now /en-US/products
+    // The new URL is now /es/products
     return NextResponse.redirect(new URL(`/${locale}/${pathname}`, req.url));
   }
 
@@ -57,8 +60,14 @@ export async function middleware(req: NextRequest) {
   if (privateSections.includes(urlSection)) {
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
 
-    // Comprueba si el usuario tiene la sesión iniciada
-    const supabase = createMiddlewareClient({ req, res });
+    const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseURL || !supabaseAnonKey) {
+      throw new Error("Missing env variables");
+    }
+
+    const supabase = createSupabaseReqResClient(req, res);
 
     // This will update our cookie with the user session so we can know in protected routes if user is logged in
     const {

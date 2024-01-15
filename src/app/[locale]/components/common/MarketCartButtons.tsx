@@ -21,8 +21,7 @@ export default function MarketCartButtons({
   displayDeleteButton,
 }: Props) {
   return (
-    <>
-      <div className="flex">
+      <section className="flex">
         <div className="mr-2 flex items-center justify-center space-x-2">
           <DecreaseButton onClick={() => handleDecreaseCartQuantity()} />
 
@@ -34,7 +33,6 @@ export default function MarketCartButtons({
             <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
           )}
         </div>
-      </div>
-    </>
+      </section>
   );
 }

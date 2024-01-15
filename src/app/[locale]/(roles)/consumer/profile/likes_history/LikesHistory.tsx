@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ILike } from "../../../../../../lib/types.d";
+import { ILike } from "../../../../../../lib/types";
 
 interface Props {
   likes: ILike[];
@@ -25,12 +25,15 @@ export function LikesHistory({ likes }: Props) {
                 >
                   <article className="md:grid md:grid-cols-3 md:gap-8">
                     <div>
-                      <div className="mb-6 flex items-center space-x-4">
+                      <figure className="mb-6 flex items-center space-x-4">
                         <Image
                           className="h-10 w-10 rounded-full"
                           fill
                           src="/docs/images/people/profile-picture-5.jpg"
-                          alt=""
+                          loader={() =>
+                            "/docs/images/people/profile-picture-5.jpg"
+                          }
+                          alt="profile picture"
                         />
                         <div className="space-y-1 font-medium dark:text-white">
                           <p>Jese Leos</p>
@@ -141,7 +144,7 @@ export function LikesHistory({ likes }: Props) {
                             United States
                           </div>
                         </div>
-                      </div>
+                      </figure>
                       <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
                         <li className="flex items-center">
                           <svg

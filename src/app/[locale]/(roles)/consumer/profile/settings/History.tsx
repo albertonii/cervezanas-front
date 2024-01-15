@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@supabase/supabase-js";
-import { HistoryForm } from "./HistoryForm";
 
 interface Props {
   user: User | null;
@@ -30,18 +29,19 @@ export function History(props: Props) {
       {loading ? (
         <div>{t("loading")} </div>
       ) : (
-        <div className="px-4 py-6" id="account-container">
+        <section className="px-4 py-6" id="history-container">
           <div className="flex flex-col justify-between py-4" id="header">
-            <div id="title" className="text-4xl">
+            <h2 id="title" className="text-4xl">
               {t("history_title")}
-            </div>
-            <span id="rrss" className="text-lg">
+            </h2>
+
+            <h3 id="rrss" className="text-lg">
               {t("history_description_producer")}
-            </span>
+            </h3>
           </div>
 
-          <HistoryForm />
-        </div>
+          {/* <HistoryForm /> */}
+        </section>
       )}
     </>
   );

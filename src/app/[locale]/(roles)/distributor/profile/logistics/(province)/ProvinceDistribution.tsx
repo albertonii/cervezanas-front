@@ -8,6 +8,11 @@ import { useForm, UseFormRegister } from "react-hook-form";
 import { Country, ICountry, IState } from "country-state-city";
 import { Button } from "../../../../../components/common/Button";
 import { useAuth } from "../../../../../Auth/useAuth";
+import {
+  filterSearchInputQuery,
+  slicePaginationResults,
+} from "../../../../../../../utils/utils";
+import InputSearch from "../../../../../components/common/InputSearch";
 
 type Props = {
   provinces: string[];
@@ -43,9 +48,12 @@ export default function ProvinceDistribution({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
-  const resultsPerPage = 10;
+  const resultsPerPage = 20;
 
   const { supabase } = useAuth();
+
+  const [query, setQuery] = useState("");
+
   const queryClient = useQueryClient();
 
   const countryData = Country.getAllCountries();
@@ -68,15 +76,16 @@ export default function ProvinceDistribution({
       return await refetch().then((res) => {
         const { data: provinceData, error } = res;
 
-        if (error) {
+        if (error || !provinceData) {
           console.error(error);
           return;
         }
 
-        const startIndex = (currentPage - 1) * resultsPerPage;
-        const endIndex = startIndex + resultsPerPage;
-
-        const lOfProvinces = provinceData?.slice(startIndex, endIndex);
+        const lOfProvinces = slicePaginationResults(
+          provinceData,
+          currentPage,
+          resultsPerPage
+        );
 
         setListOfAllProvincesByRegion(provinceData ?? []);
         setCounter(provinceData?.length ?? 0);
@@ -92,12 +101,11 @@ export default function ProvinceDistribution({
   useEffect(() => {
     if (!listOfAllProvincesByRegion) return;
 
-    const startIndex = (currentPage - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
-
-    const lOfProvinces = listOfAllProvincesByRegion?.slice(
-      startIndex,
-      endIndex
+    const lOfProvinces = filterSearchInputQuery(
+      listOfAllProvincesByRegion,
+      query,
+      currentPage,
+      resultsPerPage
     );
     setTenProvinces(lOfProvinces);
 
@@ -108,6 +116,19 @@ export default function ProvinceDistribution({
       ) ?? false
     );
   }, [currentPage]);
+
+  useEffect(() => {
+    if (!listOfAllProvincesByRegion) return;
+
+    const lAllProvinces = filterSearchInputQuery(
+      listOfAllProvincesByRegion,
+      query,
+      currentPage,
+      resultsPerPage
+    );
+
+    setTenProvinces(lAllProvinces);
+  }, [query]);
 
   const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAddressCountry(e.target.value);
@@ -247,6 +268,12 @@ export default function ProvinceDistribution({
                 </select>
               </div>
             </div>
+
+            <InputSearch
+              query={query}
+              setQuery={setQuery}
+              searchPlaceholder={"search_by_name"}
+            />
 
             {/* List of provinces in the country  */}
             {tenProvinces && tenProvinces.length > 0 && (

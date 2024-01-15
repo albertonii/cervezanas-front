@@ -1,8 +1,9 @@
 import DisplayEvent from "./DisplayEvent";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import { IEvent } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IEvent } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;
@@ -11,17 +12,17 @@ export default async function EventPage({ params }: any) {
   const [event] = await Promise.all([eventData]);
   return (
     <>
-      <DisplayEvent event={event[0]} />
+      <DisplayEvent event={event} />
     </>
   );
 }
 
 async function getEvent(eventId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -36,11 +37,15 @@ async function getEvent(eventId: string) {
         cp_mobile (*)
       `
     )
-    .eq("id", eventId);
+    .eq("id", eventId)
+    .single();
 
-  // users!events_owner_id_fkey (*),
+  // Comprobar pq no se puede hacer un join con cp_fixed
+  // cp_fixed (*)
+
+  console.log(event);
 
   if (error) console.error(error);
 
-  return event as IEvent[];
+  return event as IEvent;
 }

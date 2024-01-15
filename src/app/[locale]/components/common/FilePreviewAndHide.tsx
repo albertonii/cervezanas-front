@@ -55,7 +55,7 @@ export const FilePreviewAndHide = ({
   }, [existsPrevImg]);
 
   return (
-    <div className="w-[360px] rounded-md md:w-4/5 lg:w-full">
+    <section className="rounded-md sm:w-full">
       <span className="mb-1 flex items-center justify-center bg-white text-[12px] text-red-500">
         {message}
       </span>
@@ -75,6 +75,13 @@ export const FilePreviewAndHide = ({
                         ? SupabaseProps.BASE_PRODUCTS_URL
                         : SupabaseProps.BASE_AVATARS_URL
                     }${getValues(registerName)}`}
+                    loader={() =>
+                      `${
+                        storagePath === "products"
+                          ? SupabaseProps.BASE_PRODUCTS_URL
+                          : SupabaseProps.BASE_AVATARS_URL
+                      }${getValues(registerName)}`
+                    }
                     alt={""}
                   />
                 ) : (
@@ -83,6 +90,7 @@ export const FilePreviewAndHide = ({
                     height={128}
                     className="h-full w-full rounded"
                     src={URL.createObjectURL(fileList[0])}
+                    loader={() => URL.createObjectURL(fileList[0])}
                     alt={""}
                   />
                 )}
@@ -93,7 +101,7 @@ export const FilePreviewAndHide = ({
               onClick={() => {
                 removeImage();
               }}
-              className="absolute top-0 right-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
+              className="absolute right-0 top-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
             >
               <i className="mdi mdi-trash-can text-[16px] text-white">x</i>
             </div>
@@ -117,6 +125,6 @@ export const FilePreviewAndHide = ({
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };

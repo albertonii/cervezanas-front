@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../constants";
 import { Button } from "../../../components/common/Button";
-import { IOrder, IOrderItem } from "../../../../../lib/types.d";
+import { IOrder, IOrderItem } from "../../../../../lib/types";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { StatusTimeline } from "../../../components/StatusTimeline";
 

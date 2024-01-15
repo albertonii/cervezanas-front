@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IUserTable } from "../../../../../../lib/types.d";
+import { IUserTable } from "../../../../../../lib/types";
 import { SupabaseProps } from "../../../../../../constants";
 import { isValidObject } from "../../../../../../utils/utils";
 import { Button } from "../../../../components/common/Button";
 import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { useAuth } from "../../../../Auth/useAuth";
-import { useAppContext } from "../../../../../../context/AppContext";
+import { useAppContext } from "../../../../../context/AppContext";
 
 type FormValues = {
   bg_url: any;
@@ -131,7 +131,7 @@ export function CustomizeProfileForm({ profile }: Props) {
   }, [setProfileImg, userProfileImg]);
 
   return (
-    <section className="container mb-4 space-y-3 bg-white px-6 py-4">
+    <section className="mb-4 space-y-3 bg-white px-6 py-4">
       <div id="account-data" className="text-2xl">
         {t("profile_custom")}
       </div>

@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { COMMON } from "../../../constants";
-import { IUser } from "../../../lib/types.d";
+import { IUser } from "../../../lib/types";
 
 interface Props {
   user?: IUser;
@@ -19,6 +19,7 @@ export function OwnerInfo({ user }: Props) {
           <Image
             className="h-10 w-10 rounded-full"
             src={`${COMMON.PROFILE_IMG}`}
+            loader={() => `${COMMON.PROFILE_IMG}`}
             alt=""
             width={40}
             height={40}

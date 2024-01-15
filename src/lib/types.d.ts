@@ -7,6 +7,8 @@ import { CssComponent } from "@stitches/core/types/styled-component";
 import { Provider, SupabaseClient } from "@supabase/supabase-js";
 import { ThemeVariables } from "../../common/theming";
 import { Session } from "@supabase/gotrue-js/src/lib/types.d";
+import { Type as ProductType } from "./productEnum";
+import { Fermentation } from "./beerEnum";
 
 export type ButtonTypes = "button" | "submit" | "reset";
 
@@ -164,7 +166,6 @@ export interface IBeer {
   format: string;
   volume: number;
   sku: string;
-  weight: number;
   intensity: number;
   product_id: string;
   origin: string;
@@ -173,16 +174,7 @@ export interface IBeer {
   srm: number;
   og: number;
   fg: number;
-
-  // products: IProduct;
-
-  // lot_id: number;
-  // feedback_id: number;
-  // awards_id: string[];
-  // awards: Award[];
-  // price: number;
-  // reviews: Review[];
-  // likes: Like[];
+  product_id: string;
 }
 
 export interface IMerchandising {
@@ -203,10 +195,11 @@ export interface IProductLot {
   product_id: string;
   quantity: number;
   limit_notification: number;
-  expiration_date: any;
-  manufacture_date: any;
+  expiration_date: string;
+  manufacture_date: string;
   packaging: string;
   recipe: string;
+  products?: IProduct;
 }
 
 export interface IRefProductLot {
@@ -241,12 +234,12 @@ export interface IInventory {
 }
 
 export interface IAward {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   img_url: any;
   year: number;
-  beer_id: string;
+  beer_id?: string;
 }
 
 export interface IProductMultimedia {
@@ -382,6 +375,7 @@ export interface IEvent {
   address: string;
   owner_id: string;
   cp_mobile: ICPMobile[];
+  cp_fixed: ICPFixed[];
   users: IUserTable;
 }
 export interface IConsumptionPoints {
@@ -390,7 +384,8 @@ export interface IConsumptionPoints {
   cp_fixed: ICPFixed[];
   cp_mobile: ICPMobile[];
   cp_organizer_status: number;
-  owner_id: User;
+  owner_id: string;
+  users?: User;
   cv_name: string;
   cover_letter_name: string;
 }
@@ -494,6 +489,12 @@ export interface ICPM_events {
   is_active: boolean;
 }
 
+export interface ICPF_events {
+  cp_id: string;
+  event_id: string;
+  is_active: boolean;
+}
+
 export interface IProfileLocation {
   id: string;
   created_at: string;
@@ -547,17 +548,19 @@ export interface ISocialCause {
 
 export interface ICampaign {
   id: string;
+  created_at: string;
   name: string;
   description: string;
-  created_at: string;
-  owner_id: string;
   img_url: any;
-  is_public: boolean;
+  is_public: boolen;
+  start_date: string;
+  end_date?: string;
+  owner_id: string;
   slogan: string;
   goal: string;
-  start_date: string;
-  end_date: string;
   status: string;
+  campaign_discount: number;
+  social_cause: string;
   products?: ICampaignItem[];
 }
 
@@ -723,41 +726,6 @@ export type UserProps = {
   session: Session;
 };
 
-export type ModalAddProductProps = {
-  name: string;
-  description: string;
-  campaign: string;
-  type: string;
-  color: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  intensity: number;
-  p_principal: FileList;
-  p_back: FileList;
-  p_extra_1: FileList;
-  p_extra_2: FileList;
-  p_extra_3: FileList;
-  volume: any;
-  price: number;
-  pack: any;
-  format: any;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
-  awards: IAward[];
-  beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: IMerchandising[];
-  is_gluten: boolean;
-  is_public: boolean;
-  category: string;
-  // packs: IProductPack[];
-  packs: any[]; // TODO: any para evitar circular dependency en AddCPMobileModal
-};
-
 export type IProductPack = {
   id: string;
   created_at: string;
@@ -768,6 +736,23 @@ export type IProductPack = {
   randomUUID: string;
   product_id: string;
   products?: IProduct;
+};
+
+export type IModalAddProductPack = {
+  quantity: number;
+  price: number;
+  img_url?: any;
+  name: string;
+  product_id?: string;
+};
+
+export type IModalUpdateProductPack = {
+  id: string;
+  quantity: number;
+  price: number;
+  img_url?: any;
+  name: string;
+  product_id?: string;
 };
 
 export type IRefProductPack = {
@@ -788,38 +773,111 @@ export type IPackItem = {
   name: string;
 };
 
-export type ModalUpdateProductProps = {
+export type ModalAddProductFormData = {
   name: string;
   description: string;
-  campaign: string;
-  type: string;
-  color: string;
-  aroma: string;
-  family: string;
-  fermentation: string;
-  origin: string;
-  era: string;
-  intensity: number;
-  p_principal: File;
-  p_back: File;
-  p_extra_1: File;
-  p_extra_2: File;
-  p_extra_3: File;
-  volume: any;
   price: number;
-  pack: any;
-  format: any;
+  fermentation: number;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  origin: number;
+  era: number;
+  is_gluten: boolean;
+  type: string;
+  awards: ModalAddProductAwardFormData[];
+  p_principal?: FileList;
+  p_back?: FileList;
+  p_extra_1?: FileList;
+  p_extra_2?: FileList;
+  p_extra_3?: FileList;
+  is_public: boolean;
+  volume: number;
+  weight: number;
+  format: string;
   stock_quantity: number;
   stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
-  awards?: Award[];
-  beers: BeerModalProps[]; // We need this to avoid circular dependency
-  merchandisings: IMerchandising[];
+  packs: IModalAddProductPack[];
+  category: string;
+  // campaign: string;
+};
+
+export type ModalUpdateProductFormData = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  fermentation: Fermentation;
+  color: number;
+  intensity: number;
+  aroma: number;
+  family: number;
+  origin: number;
+  era: number;
   is_gluten: boolean;
+  type: string;
+  p_principal?: FileList;
+  p_back?: FileList;
+  p_extra_1?: FileList;
+  p_extra_2?: FileList;
+  p_extra_3?: FileList;
   is_public: boolean;
-  // packs: IProductPack[];
-  packs: any[]; // TODO: Any para evitar circular dependency en ProductInfoSectionUpdate.tsx
+  volume: number;
+  weight: number;
+  format: string;
+  category: string;
+  // campaign: string;
+  stock_quantity: number;
+  stock_limit_notification: number;
+  awards: ModalUpdateProductAwardFormData[];
+  packs: ModalUpdateProductPackFormData[];
+};
+
+type ModalAddProductAwardFormData = {
+  id?: string;
+  name: string;
+  description: string;
+  img_url?: any;
+  year: number;
+  beer_id?: string;
+};
+
+type ModalUpdateProductAwardFormData = {
+  id?: string;
+  name: string;
+  description: string;
+  img_url?: any;
+  year: number;
+  beer_id?: string;
+};
+
+type ModalUpdateProductPackFormData = {
+  id: string;
+  quantity: number;
+  price: number;
+  img_url?: any;
+  name: string;
+  product_id?: string;
+};
+
+export type ModalAddCampaignFormData = {
+  name: string;
+  description: string;
+  img_url?: FileList;
+  is_public: boolean;
+  start_date: Date;
+  end_date: Date;
+  slogan: string;
+  goal: string;
+  status: string;
+  products?: ModalAddCampaignProductFormData[];
+};
+
+export type ModalAddCampaignProductFormData = {
+  campaign_id: string;
+  product_id: any;
+  product_price: number;
 };
 
 export type ModalUpdateLotProps = {
@@ -862,9 +920,22 @@ export interface IProductPackCartItem {
   id: string; // Product ID
   packs: IProductPack[];
   quantity: number;
-  name: string;
-  image: string;
   price: number;
+  image: string;
+  name: string;
+  producer_id: string;
+  distributor_id: string;
+  products?: IProduct;
+}
+
+export interface IProductPackEventCartItem {
+  id: string; // Product ID
+  packs: IProductPack[];
+  quantity: number;
+  price: number;
+  image: string;
+  name: string;
+  products?: IProduct;
 }
 
 export interface ICarouselItem {
@@ -887,7 +958,42 @@ export interface IProduct {
   created_at: string;
   name: string;
   description: string;
-  type: IProductEnum.Type;
+  type: ProductType;
+  is_public: boolean;
+  discount_percent: number;
+  weight: number;
+  discount_code: string;
+  price: number; // TODO : quitar el price - pq está en product_pack
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+  beers: IBeer[];
+  product_multimedia: IProductMultimedia[];
+  order_items?: IOrderItem[];
+
+  // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
+  // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
+  product_lots?: IProductLot[];
+  product_inventory?: Inventory[];
+  reviews?: IReview[];
+  // reviews: IRefReview[];
+  likes?: ILike[];
+  beers: IBeer[];
+  awards?: IAward[];
+  // state: IProductEnum.State;
+  // status: IProductEnum.Status;
+  // product_packs: IRefProductPack[];
+  product_packs?: IProductPack[];
+}
+
+export interface IModalProduct {
+  id: string;
+  created_at: string;
+  name: string;
+  description: string;
+  type: ProductType;
   is_public: boolean;
   discount_percent: number;
   discount_code: string;
@@ -906,22 +1012,10 @@ export interface IProduct {
   product_lots?: IProductLot[];
   product_inventory?: Inventory[];
   reviews?: IReview[];
-  // reviews: IRefReview[];
   likes?: ILike[];
   beers: IBeer[];
-  // product_variant: IProductVariant[];
   awards?: IAward[];
-  // state: IProductEnum.State;
-  // status: IProductEnum.Status;
-  // product_packs: IRefProductPack[];
-  product_packs?: IProductPack[];
-}
-
-export interface IProductVariant {
-  id: string;
-  product_id: string;
-  name: string;
-  product_number: number;
+  product_packs?: IProductPack;
 }
 
 export interface IMonthlyProduct {
@@ -968,42 +1062,13 @@ export interface INotification {
   message: string;
   link: string;
   read: boolean;
-  source: IUserTable;
+  source: string;
+  source_user?: IUserTable;
 }
 
 export type UserProps = {
   user: User;
   session: Session;
-};
-
-export type ModalAddProductProps = {
-  is_public: boolean;
-  name: string;
-  description: string;
-  campaign: string;
-  type: number;
-  color: number;
-  intensity: number;
-  aroma: number;
-  family: number;
-  fermentation: number;
-  origin: number;
-  era: number;
-  isGluten: string;
-  awards: IAward[];
-  p_principal: FileImg;
-  p_back: FileImg;
-  p_extra_1: FileImg;
-  p_extra_2: FileImg;
-  p_extra_3: FileImg;
-  volume: any;
-  price: number;
-  pack: any;
-  format: any;
-  stock_quantity: number;
-  stock_limit_notification: number;
-  lot_id: number;
-  lot_quantity: number;
 };
 
 export type CartItem = {
@@ -1042,7 +1107,7 @@ export interface IModalAddProduct {
   p_extra_3: string;
   volume: any;
   price: number;
-  pack: any;
+  packs: IModalAddProductPack[];
   format: any;
   stock_quantity: number;
   stock_limit_notification: number;
@@ -1057,13 +1122,12 @@ export interface IModalShippingAddress {
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
-  address_observations: string;
+  address_extra?: string;
+  address_observations?: string;
   country: string;
   zipcode: string;
   city: string;
   state: string;
-  is_default: boolean;
   is_default: boolean;
 }
 
@@ -1074,12 +1138,40 @@ export interface IModalBillingAddress {
   document_id: string;
   phone: string;
   address: string;
-  address_extra: string;
+  address_extra?: string;
   country: string;
   zipcode: string;
   city: string;
   state: string;
   is_default: boolean;
+}
+
+export interface ModalShippingAddressFormData {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra?: string;
+  address_observations?: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  is_default: boolean;
+}
+
+export interface ModalBillingAddressFormData {
+  name: string;
+  lastname: string;
+  document_id: string;
+  phone: string;
+  address: string;
+  address_extra?: string;
+  country: string;
+  zipcode: string;
+  city: string;
+  state: string;
   is_default: boolean;
 }
 
@@ -1198,14 +1290,6 @@ export interface IUserProfile {
   avatar_url: string;
 }
 
-export enum ROLE_ENUM {
-  Cervezano = "consumer",
-  Productor = "producer",
-  Moderator = "moderator",
-  Distributor = "distributor",
-  Admin = "admin",
-}
-
 export enum PROVIDER_TYPE {
   GOOGLE = "google",
 }
@@ -1260,6 +1344,7 @@ export interface IProducerUser {
   created_at: string;
   company_name: string;
   company_description: string;
+  location_id: string;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
@@ -1282,6 +1367,11 @@ export interface IBusinessOrder {
   order_id: string;
   orders?: IOrder;
   order_items?: IOrderItem[];
+  producer_id: string;
+  distributor_id: string;
+  status: string;
+  producer_user?: IProducerUser;
+  distributor_user?: IDistributorUser;
 }
 
 export interface IBusinessOrderRef {
@@ -1330,4 +1420,49 @@ export interface ILocal {
 export interface IPCRangesProps {
   from: number;
   to: number;
+}
+
+export interface FlatrateCostFormData {
+  local_distribution_cost: number;
+  national_distribution_cost: number;
+  europe_distribution_cost: number;
+  international_distribution_cost: number;
+  is_checked_local?: boolean;
+  is_checked_national?: boolean;
+  is_checked_europe?: boolean;
+  is_checked_international?: boolean;
+}
+
+export interface PriceRangeCostFormData {
+  distribution_range_cost: {
+    lower: number;
+    upper: number;
+    shippingCost: number;
+  }[];
+}
+
+export interface DistributionRangeCost {
+  lower: number;
+  upper: number;
+  shippingCost: number;
+}
+
+export interface IFlatrateCost {
+  created_at: string;
+  distribution_costs_id: string; // PK and FK
+  local_distribution_cost: number;
+  national_distribution_cost: number;
+  europe_distribution_cost: number;
+  international_distribution_cost: number;
+  is_checked_local: boolean;
+  is_checked_national: boolean;
+  is_checked_europe: boolean;
+  is_checked_international: boolean;
+}
+
+export interface IDistributionCost {
+  id: string;
+  distributor_id: string;
+  distributor?: IDistributorUser;
+  flatrate_cost?: IFlatrateCost;
 }

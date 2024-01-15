@@ -2,12 +2,13 @@
 
 import { useQuery } from "react-query";
 import { IDistributionContract } from "../lib/types.d";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchDistributionContracts = async (
   producerId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("distribution_contracts")
@@ -19,17 +20,16 @@ const fetchDistributionContracts = async (
         status,
         producer_accepted,
         distributor_accepted,
-        message
+        message,
+        distributor_user!distribution_contracts_distributor_id_fkey (
+          users (
+            id,
+            username
+          )
+        )
       `
     )
     .eq("producer_id", producerId);
-
-  /**
-     * ,
-        distributor_user!distribution_contracts_distributor_id_fkey (
-          *
-        )     
-     */
 
   if (error) throw error;
   return data as IDistributionContract[];

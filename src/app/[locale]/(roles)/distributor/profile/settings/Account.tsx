@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { IDistributorUser } from "../../../../../../lib/types.d";
+import { IDistributorUser } from "../../../../../../lib/types";
 import { SecretDataForm } from "./SecretDataForm";
 import { CustomizeProfileForm } from "./CustomizeProfileForm";
 import { BasicDataForm } from "./BasicDataForm";
@@ -16,24 +16,17 @@ export function Account({ profile }: Props) {
   const t = useTranslations();
 
   return (
-    <>
-      <div className="px-4 py-6" id="account-container">
-        <div className="flex justify-between py-4" id="header">
-          <div id="title" className="text-4xl">
-            {t("profile_title_my_data")}
-          </div>
-          <div id="rrss" className="text-4xl">
-            {t("profile_title_ssnn")}
-          </div>
-        </div>
-
-        <div>
-          <BasicDataForm profile={profile} />
-          <SecretDataForm />
-          {/* <LocationForm profile_location={profile.profile_location} /> */}
-          <CustomizeProfileForm profile={profile} />
-        </div>
+    <section className="px-4 py-6" id="account-container">
+      <div className="flex justify-between py-4" id="header">
+        <h2 id="title" className="text-4xl">
+          {t("profile_title_my_data")}
+        </h2>
       </div>
-    </>
+
+      <BasicDataForm profile={profile} />
+      <SecretDataForm />
+      {/* <LocationForm profile_location={profile.profile_location} /> */}
+      <CustomizeProfileForm profile={profile} />
+    </section>
   );
 }

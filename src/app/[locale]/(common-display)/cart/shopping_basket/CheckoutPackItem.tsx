@@ -10,7 +10,7 @@ import {
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { Type } from "../../../../../lib/productEnum";
 import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../../context/ShoppingCartContext";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -131,7 +131,7 @@ export default function CheckoutPackItem({
           <div className="flex w-full items-center justify-between space-x-2 ">
             <p className="text-base leading-6 dark:text-white xl:text-lg">
               {formatCurrency(pack.price)}
-              <span className="text-red-300 line-through"> $45.00</span>
+              {/* <span className="text-red-300 line-through"> $45.00</span> */}
             </p>
 
             <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">

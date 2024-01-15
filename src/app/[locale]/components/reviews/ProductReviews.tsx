@@ -1,6 +1,6 @@
 import React from "react";
 import { IndividualReview } from "./IndividualReview";
-import { IReview } from "../../../../lib/types.d";
+import { IReview } from "../../../../lib/types";
 
 interface Props {
   reviews: IReview[];
@@ -9,7 +9,7 @@ interface Props {
 
 export function ProductReviews({ reviews, handleSetReviews }: Props) {
   return (
-    <div>
+    <section>
       {reviews.map((review) => (
         <div key={review.id} className="mb-8">
           <IndividualReview
@@ -18,6 +18,6 @@ export function ProductReviews({ reviews, handleSetReviews }: Props) {
           />
         </div>
       ))}
-    </div>
+    </section>
   );
 }

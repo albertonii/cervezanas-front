@@ -1,38 +1,59 @@
 import { UseFormReturn } from "react-hook-form";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
-import { ModalUpdateProductProps } from "../../../../lib/types.d";
+import { ModalUpdateProductFormData } from "../../../../lib/types";
+import { SupabaseProps } from "../../../../constants";
 
 export interface Props {
-  form: UseFormReturn<ModalUpdateProductProps, any>;
+  form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
 export function MultimediaSectionUpdate(props: Props) {
   const { form } = props;
 
-  return (
-    <section id="Multimedia">
-      <div className="photo_gallery flex w-full">
-        <div className="principal w-full">
-          <FilePreviewImageMultimedia form={form} registerName="p_principal" />
-        </div>
-        <div className="back w-full">
-          <FilePreviewImageMultimedia form={form} registerName="p_back" />
-        </div>
-        <div className="extra_1 w-full">
-          <FilePreviewImageMultimedia form={form} registerName="p_extra_1" />
-        </div>
-        <div className="extra_2 w-full">
-          <FilePreviewImageMultimedia form={form} registerName="p_extra_2" />
-        </div>
-        <div className="extra_3 w-full">
-          <FilePreviewImageMultimedia form={form} registerName="p_extra_3" />
-        </div>
-      </div>
+  const preUrl =
+    SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
-      <div className="video_gallery">
-        <div className="principal"></div>
-        <div className="extra_1"></div>
-      </div>
+  return (
+    <section id="photo_gallery flex w-full space-x-4">
+      <figure className="principal w-full">
+        <FilePreviewImageMultimedia
+          form={form}
+          registerName="p_principal"
+          preUrl={preUrl}
+        />
+      </figure>
+
+      <figure className="back w-full">
+        <FilePreviewImageMultimedia
+          form={form}
+          registerName="p_back"
+          preUrl={preUrl}
+        />
+      </figure>
+
+      <figure className="extra_1 w-full">
+        <FilePreviewImageMultimedia
+          form={form}
+          registerName="p_extra_1"
+          preUrl={preUrl}
+        />
+      </figure>
+
+      <figure className="extra_2 w-full">
+        <FilePreviewImageMultimedia
+          form={form}
+          registerName="p_extra_2"
+          preUrl={preUrl}
+        />
+      </figure>
+
+      <figure className="extra_3 w-full">
+        <FilePreviewImageMultimedia
+          form={form}
+          registerName="p_extra_3"
+          preUrl={preUrl}
+        />
+      </figure>
     </section>
   );
 }

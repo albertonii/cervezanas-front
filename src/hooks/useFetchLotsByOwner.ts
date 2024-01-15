@@ -3,13 +3,14 @@
 import { useQuery } from "react-query";
 import { IProductLot } from "../lib/types";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("product_lots")

@@ -29,7 +29,7 @@ export default function EmptyCart() {
             height={80}
           />
         </div>
-        <h2 className="text-xl text-black uppercase font-semibold">
+        <h2 className="text-xl font-semibold uppercase text-black">
           {t("your_empty_cart")}
         </h2>
 

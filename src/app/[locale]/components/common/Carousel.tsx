@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ComponentProps } from "react";
 import { CarouselItem } from "./CarouselItem";
-import { ICarouselItem } from "../../../../lib/types.d";
+import { ICarouselItem } from "../../../../lib/types";
 
 interface Props {
   gallery: ICarouselItem[];

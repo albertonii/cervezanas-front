@@ -24,7 +24,7 @@ export function AutocompletePlaces() {
         ref={inputRef}
         apiKey={gMapsApiKey}
         onPlaceSelected={(selected, a, c) => {
-          console.log(selected);
+          // console.log(selected);
         }}
         options={{
           types: ["geocode", "establishment"],

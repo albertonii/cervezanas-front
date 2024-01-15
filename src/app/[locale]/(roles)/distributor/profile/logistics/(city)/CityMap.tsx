@@ -175,7 +175,6 @@ function Map({ cities }: MapProps) {
 
   /*
   useEffect(() => {
-    console.log(mapRef);
     if (mapRef.current) {
       const featureStyleOptions: google.maps.FeatureStyleOptions = {
         strokeColor: "#810FCB",
@@ -216,7 +215,6 @@ function Map({ cities }: MapProps) {
         // Apply the style to a single boundary.
         // @ts-ignore
         featureLayer.style = (options: { feature: { placeId: string } }) => {
-          console.log(placeId);
           if (options.feature.placeId == placeId) {
             return featureStyleOptions;
           }
@@ -440,7 +438,7 @@ PlacesProps) => {
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
+        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         placeholder={t("search_an_address")}
       />
 

@@ -2,7 +2,8 @@ import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../../constants";
 import { IOrder } from "../../../../../../../lib/types";
-import { createServerClient } from "../../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../../lib/actions";
 
 export default async function OrderInvoicePage({
   params,
@@ -19,12 +20,12 @@ export default async function OrderInvoicePage({
 async function getInvoiceData(slug: any) {
   const { orderInvoice: orderId } = slug;
 
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

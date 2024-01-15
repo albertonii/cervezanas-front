@@ -1,14 +1,14 @@
 "use client";
 
 import React, { ComponentProps, useState } from "react";
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../Auth/useAuth";
 import { isValidObject } from "../../../../utils/utils";
+import { DisplayInputError } from "../common/DisplayInputError";
 
-type FormValues = {
-  created_at: string;
+type FormData = {
   cover_letter_file: File[];
   cv_file: File[];
 };
@@ -33,7 +33,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const form = useForm<FormValues>({
+  const form = useForm<FormData>({
     mode: "onSubmit",
   });
 
@@ -44,8 +44,8 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
     formState: { errors },
   } = form;
 
-  const onSubmit = (formValues: FormValues) => {
-    const { cover_letter_file, cv_file } = formValues;
+  const onSubmit = (form: FormData) => {
+    const { cover_letter_file, cv_file } = form;
 
     const submitCPOrganizer = async () => {
       const coverLetterName = encodeURIComponent(cover_letter_file[0].name);
@@ -163,10 +163,9 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                   accept=".pdf,.doc,.docs"
                 />
               </div>
+
               {errors.cover_letter_file && (
-                <p className="text-xs italic text-red-500">
-                  {t("form_submit_cp_organizer_cover_letter_error")}
-                </p>
+                <DisplayInputError message={errors.cover_letter_file.message} />
               )}
             </div>
 
@@ -190,10 +189,9 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                   accept=".pdf,.doc,.docs"
                 />
               </div>
+
               {errors.cv_file && (
-                <p className="text-xs italic text-red-500">
-                  {t("form_submit_cp_organizer_cv_error")}
-                </p>
+                <DisplayInputError message={errors.cv_file.message} />
               )}
             </div>
           </fieldset>

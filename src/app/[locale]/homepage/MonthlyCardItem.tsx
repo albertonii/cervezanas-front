@@ -6,13 +6,13 @@ import DisplayImageProduct from "../components/common/DisplayImageProduct";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SupabaseProps } from "../../../constants";
-import { IMonthlyProduct } from "../../../lib/types.d";
+import { IMonthlyProduct } from "../../../lib/types";
 import { useLocale, useTranslations } from "next-intl";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "../components/common/IconButton";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { AddCardButton } from "../components/common/AddCartButton";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../context/ShoppingCartContext";
 import { useAuth } from "../Auth/useAuth";
 
 interface Props {

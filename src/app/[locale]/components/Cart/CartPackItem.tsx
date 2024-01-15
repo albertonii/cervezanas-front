@@ -7,8 +7,8 @@ import { useState } from "react";
 import { SupabaseProps } from "../../../../constants";
 import { useLocale, useTranslations } from "next-intl";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
-import { IProductPack, IProductPackCartItem } from "../../../../lib/types.d";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
+import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
 
 type Props = {
   pack: IProductPack;

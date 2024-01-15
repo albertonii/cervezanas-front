@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import { Button } from "../common/Button";
 import { IconButton } from "../common/IconButton";
-import { Spinner } from "../common/Spinner";
-import { PortalModal } from "./PortalModal";
+import Spinner from "../common/Spinner";
+import PortalModal from "./PortalModal";
 
 interface Props {
   showBtn?: boolean;
@@ -32,9 +32,10 @@ interface Props {
   handler: ComponentProps<any>;
   handlerClose?: () => void;
   handleCustomClose?: () => void;
+  hasErrors?: boolean;
 }
 
-export function Modal(props: Props) {
+export default function Modal(props: Props) {
   const {
     btnTitle,
     title,
@@ -53,6 +54,7 @@ export function Modal(props: Props) {
     showFooter: showFooter = true,
     btnCancelTitle,
     handleCustomClose: hCustomCLose,
+    hasErrors,
   } = props;
 
   const t = useTranslations();
@@ -66,11 +68,13 @@ export function Modal(props: Props) {
   };
 
   const handleClickOutsideCallback = () => {
-    handleShowModal(false);
     if (handlerClose) handlerClose();
+    handleShowModal(false);
   };
 
   const handleAccept = async () => {
+    if (hasErrors) return;
+
     setIsLoading(true);
 
     setTimeout(() => {
@@ -86,8 +90,8 @@ export function Modal(props: Props) {
   };
 
   const handleClose = () => {
-    handleShowModal(false);
     if (handlerClose) handlerClose();
+    handleShowModal(false);
   };
 
   const handleCustomClose = () => {
@@ -156,7 +160,7 @@ export function Modal(props: Props) {
 
       {showModal && (
         <PortalModal wrapperId="modal-portal">
-          <div
+          <section
             className={`${
               isLoading
                 ? "overflow-hidden overscroll-none"
@@ -165,7 +169,7 @@ export function Modal(props: Props) {
           >
             {/* The modal  */}
             <div
-              className={`relative mx-4 my-6 w-4/5 sm:mx-auto md:w-2/3 md:max-w-3xl lg:w-3/4 lg:max-w-none xl:w-3/5`}
+              className={`relative mx-4 my-6 w-full lg:w-3/4 lg:max-w-none xl:w-3/5`}
               ref={modalRef}
             >
               {/*content*/}
@@ -202,7 +206,7 @@ export function Modal(props: Props) {
 
                 {/*footer*/}
                 {showFooter && (
-                  <div className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                  <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
                     <Button
                       primary
                       class="mr-4"
@@ -236,11 +240,11 @@ export function Modal(props: Props) {
                         {t("close")}
                       </Button>
                     )}
-                  </div>
+                  </footer>
                 )}
 
                 {isLoading && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center">
+                  <figure className="fixed inset-0 z-50 flex items-center justify-center">
                     <Spinner
                       size="large"
                       color="blonde-beer"
@@ -248,18 +252,18 @@ export function Modal(props: Props) {
                       absolute={true}
                       class="z-50"
                     />
-                  </div>
+                  </figure>
                 )}
               </div>
 
-              <div
+              <figure
                 className={`${
                   isLoading &&
                   "absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75"
                 }`}
-              ></div>
+              ></figure>
             </div>
-          </div>
+          </section>
         </PortalModal>
       )}
     </>

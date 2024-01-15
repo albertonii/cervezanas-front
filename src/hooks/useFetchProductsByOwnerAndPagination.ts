@@ -3,7 +3,7 @@
 import { useQuery } from "react-query";
 import { IProduct } from "../lib/types";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const fetchProductsByOwner = async (
   ownerId: string,
@@ -16,7 +16,7 @@ const fetchProductsByOwner = async (
     .from("products")
     .select(
       `
-          *, 
+          *,
           product_multimedia (*),
           product_inventory (*),
           likes (*),

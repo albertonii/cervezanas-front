@@ -12,13 +12,12 @@ import {
   Svg,
   Line,
 } from "@react-pdf/renderer";
-import { IOrder } from "../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../lib/types";
 import { Table } from "../../../../components/invoice/Table";
 import { TableTotalInvoice } from "../../../../components/invoice/TableTotalInvoice";
 import { FooterInvoice } from "../../../../components/invoice/FooterInvoice";
 import { formatDateString } from "../../../../../../utils/formatDate";
 
-// Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
@@ -110,14 +109,15 @@ export default function OrderInvoice({ order }: Props) {
     if (!order_items) return [];
 
     return order_items.map((item) => {
-      if(!item.product_packs) return {
-        id: "",
-        code: "",
-        article: "",
-        price: 0,
-        quantity: 0,
-        total: 0,
-      };
+      if (!item.product_packs)
+        return {
+          id: "",
+          code: "",
+          article: "",
+          price: 0,
+          quantity: 0,
+          total: 0,
+        };
 
       const { order_number: code } = order;
       const { quantity } = item;

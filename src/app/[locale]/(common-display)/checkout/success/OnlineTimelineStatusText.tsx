@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import React from "react";
-import { MARKETPLACE_ORDER_STATUS } from "../../../../../constants";
+import { ONLINE_ORDER_STATUS } from "../../../../../constants";
 
 interface OrderTimelineProps {
   status: string;
@@ -14,7 +14,7 @@ export default function OnlineTimelineStatusText({
     <section className="text-md mt-6 hidden grid-cols-4 sm:grid">
       <span
         className={`${
-          status === MARKETPLACE_ORDER_STATUS.ORDER_PLACED &&
+          status === ONLINE_ORDER_STATUS.ORDER_PLACED &&
           "font-bold text-beer-darkGold"
         } `}
       >
@@ -23,7 +23,7 @@ export default function OnlineTimelineStatusText({
 
       <span
         className={`${
-          status === MARKETPLACE_ORDER_STATUS.PROCESSING &&
+          status === ONLINE_ORDER_STATUS.PROCESSING &&
           "font-bold text-beer-darkGold"
         } text-left`}
       >
@@ -32,7 +32,7 @@ export default function OnlineTimelineStatusText({
 
       <span
         className={`${
-          status === MARKETPLACE_ORDER_STATUS.SHIPPED &&
+          status === ONLINE_ORDER_STATUS.SHIPPED &&
           "font-bold text-beer-darkGold"
         } text-left`}
       >
@@ -41,7 +41,7 @@ export default function OnlineTimelineStatusText({
 
       <span
         className={`${
-          status === MARKETPLACE_ORDER_STATUS.DELIVERED &&
+          status === ONLINE_ORDER_STATUS.DELIVERED &&
           "font-bold text-beer-darkGold"
         } text-end`}
       >

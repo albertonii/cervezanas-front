@@ -1,15 +1,15 @@
 "use client";
 
-import _ from "lodash";
 import React, { useState } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { IProfileLocation } from "../../../../../../lib/types.d";
+import { IProfileLocation } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { Button } from "../../../../components/common/Button";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
+import InputLabel from "../../../../components/common/InputLabel";
 
 interface FormProps {
   addressName: string;
@@ -28,7 +28,7 @@ interface FormProps {
 interface Props {
   profile_location: IProfileLocation;
 }
-
+// TODO: Add Validation ZOD
 export function LocationForm({ profile_location }: Props) {
   const t = useTranslations();
   const { supabase, user } = useAuth();
@@ -50,11 +50,7 @@ export function LocationForm({ profile_location }: Props) {
     address_2,
   } = profile_location ?? {};
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-  } = useForm<FormProps>({
+  const form = useForm<FormProps>({
     mode: "onSubmit",
     defaultValues: {
       addressName: name,
@@ -68,6 +64,11 @@ export function LocationForm({ profile_location }: Props) {
       addressTown: town,
     },
   });
+
+  const {
+    formState: { errors },
+    handleSubmit,
+  } = form;
 
   const [addressCountry, setAddressCountry] = useState(country);
   const [addressProvince, setAddressProvince] = useState(province);
@@ -96,11 +97,7 @@ export function LocationForm({ profile_location }: Props) {
     } = formValues;
 
     setTimeout(async () => {
-      if (
-        _.isNull(profile_location_id) ||
-        _.isUndefined(profile_location_id) ||
-        profile_location_id === ""
-      ) {
+      if (!profile_location_id || profile_location_id === "") {
         const { error } = await supabase.from("profile_location").insert([
           {
             name: addressName,
@@ -144,182 +141,108 @@ export function LocationForm({ profile_location }: Props) {
   };
 
   return (
-    <div
+    <section
       id="location_data"
       className="container mb-4 space-y-3 bg-white px-6 py-4"
     >
-      <div id="location-data-title" className="text-2xl">
+      <h2 id="location-data-title" className="text-2xl">
         {t("location")}
-      </div>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="address_name" className="text-sm text-gray-600">
-              {t("loc_name")}
-            </label>
+          <InputLabel
+            form={form}
+            label={"addressName"}
+            labelText={t("loc_name")}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-            <input
-              type="text"
-              id="address_name"
-              placeholder="Alberto"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressName", { required: true })}
-            />
-
-            {errors.addressName?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-
-          <div className="w-full ">
-            <label htmlFor="address_lastname" className="text-sm text-gray-600">
-              {t("lastname")}
-            </label>
-
-            <input
-              type="text"
-              id="address_lastname"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressLastname", { required: true })}
-            />
-
-            {errors.addressLastname?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"addressLastname"}
+            labelText={t("lastname")}
+            registerOptions={{
+              required: true,
+            }}
+          />
         </div>
 
         <div className="flex w-full flex-row space-x-3">
-          <div className="space-y w-full">
-            <label htmlFor="address_doc" className="text-sm text-gray-600">
-              {t("document_id")}
-            </label>
+          <InputLabel
+            form={form}
+            label={"addressDoc"}
+            labelText={t("document_id")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="00112233-R"
+          />
 
-            <input
-              type="text"
-              id="address_doc"
-              placeholder="00112233-R"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressDoc", { required: true })}
-            />
+          <InputLabel
+            form={form}
+            label={"addressCompany"}
+            labelText={t("loc_company")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="Empresa 2000 SL"
+          />
 
-            {errors.addressDoc?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-
-          <div className="w-full">
-            <label htmlFor="lastname" className="text-sm text-gray-600">
-              {t("loc_company")}
-            </label>
-
-            <input
-              type="text"
-              id="addressCompany"
-              placeholder="Empresa 2000 SL"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressCompany")}
-            />
-          </div>
-
-          <div className="w-full">
-            <label htmlFor="address_phone" className="text-sm text-gray-600">
-              {t("loc_phone")}
-            </label>
-
-            <input
-              type="text"
-              id="addressPhone"
-              placeholder="+34 685 222 222"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressPhone", { required: true })}
-            />
-
-            {errors.addressPhone?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"addressPhone"}
+            labelText={t("loc_phone")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="+34 685 222 222"
+          />
         </div>
 
-        <div className="flex">
-          <div className="w-full">
-            <label htmlFor="address1" className="text-sm text-gray-600">
-              {t("loc_location")}
-            </label>
+        <InputLabel
+          form={form}
+          label={"address1"}
+          labelText={t("loc_location")}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="Calle España 123"
+        />
 
-            <input
-              type="text"
-              id="address1"
-              placeholder="Calle España 123"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("address1", { required: true })}
-            />
-
-            {errors.address1?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-        </div>
-
-        <div className="flex">
-          <div className="w-full">
-            <label htmlFor="address2" className="text-sm text-gray-600">
-              {t("loc_location")}
-            </label>
-
-            <input
-              type="text"
-              id="address2"
-              placeholder=" - "
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("address2")}
-            />
-
-            {errors.address2?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-        </div>
+        <InputLabel
+          form={form}
+          label={"address2"}
+          labelText={t("loc_location")}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder=" - "
+        />
 
         <div className="flex flex-row space-x-3">
-          <div className="w-full">
-            <label htmlFor="addressPC" className="text-sm text-gray-600">
-              {t("loc_pc")}
-            </label>
+          <InputLabel
+            form={form}
+            label={"addressPC"}
+            labelText={t("loc_pc")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="27018"
+            inputType="number"
+          />
 
-            <input
-              type="number"
-              id="addressPC"
-              placeholder="27018"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressPC", { required: true })}
-            />
-
-            {errors.addressPC?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-
-          <div className="w-full">
-            <label htmlFor="addressTown" className="text-sm text-gray-600">
-              {t("loc_town")}
-            </label>
-
-            <input
-              type="text"
-              id="addressTown"
-              placeholder="Madrid"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              {...register("addressTown", {
-                required: true,
-              })}
-            />
-
-            {errors.addressTown?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
+          <InputLabel
+            form={form}
+            label={"addressTown"}
+            labelText={t("loc_town")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="Madrid"
+          />
         </div>
 
         <div className="flex flex-row items-end space-x-3">
@@ -334,8 +257,8 @@ export function LocationForm({ profile_location }: Props) {
               onChange={(val) => selectCountry(val)}
             />
 
-            {errors.addressCountry?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressCountry && (
+              <DisplayInputError message={errors.addressCountry.message} />
             )}
           </div>
 
@@ -351,8 +274,8 @@ export function LocationForm({ profile_location }: Props) {
               onChange={(val) => selectRegion(val)}
             />
 
-            {errors.addressProvince?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
+            {errors.addressProvince && (
+              <DisplayInputError message={errors.addressProvince.message} />
             )}
           </div>
         </div>
@@ -365,6 +288,6 @@ export function LocationForm({ profile_location }: Props) {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

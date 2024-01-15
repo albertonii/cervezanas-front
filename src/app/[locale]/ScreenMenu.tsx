@@ -2,35 +2,34 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Select } from "@supabase/ui";
 import { useAuth } from "./Auth/useAuth";
 import { COMMON } from "../../constants";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ROUTE_SIGNIN } from "../../config";
 import { Button } from "./components/common/Button";
 import { useLocale, useTranslations } from "next-intl";
-import { Notification } from "./components/Notification";
 import { HeaderDropdownButton } from "./HeaderDropdownButton";
-import { useShoppingCart } from "../../context/ShoppingCartContext";
-import { useAppContext } from "../../context/AppContext";
+import { useShoppingCart } from "../context/ShoppingCartContext";
+import { i18n } from "../../lib/translations/i18n";
+import { INotification } from "../../lib/types";
+import { DeviceScreenNotification } from "./components/DeviceScreenNotification";
+import PuntoCervezanasFlag from "./PuntoCervezanasFlag";
 
-export function ScreenMenu() {
+interface Props {
+  notifications: INotification[];
+}
+
+export default function ScreenMenu({ notifications }: Props) {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();
+  const pathName = usePathname();
 
   const router = useRouter();
 
-  const [animateNotifications, setAnimateNotifications] = useState(false);
   const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
-
   const { cartQuantity, openCart } = useShoppingCart();
-  const {
-    notifications,
-    openNotification,
-    setOpenNotification,
-  } = useAppContext();
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,17 +40,24 @@ export function ScreenMenu() {
     }, 300);
   }, [cartQuantity]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimateNotifications(true);
-      setTimeout(() => {
-        setAnimateNotifications(false);
-      }, 600);
-    }, 300);
-  }, [notifications]);
+  // const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const redirectedPathName = (locale: string) => {
+  //     if (!pathName) return "/";
+  //     const segments = pathName.split("/");
+  //     segments[1] = locale;
+  //     return segments.join("/");
+  //   };
 
-  const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // i18n.changeLanguage(event.target.value);
+  //   const language = event.target.value;
+
+  //   // i18n.changeLanguage(language);
+  // };
+
+  const redirectedPathName = (locale: string) => {
+    if (!pathName) return "/";
+    const segments = pathName.split("/");
+    segments[1] = locale;
+    return segments.join("/");
   };
 
   const handleSignIn = () => {
@@ -61,13 +67,9 @@ export function ScreenMenu() {
   const MENU_ITEM_STYLES =
     "block text-sm font-semibold text-white hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-base px-3 py-5";
 
-  const handleClickBell = () => {
-    setOpenNotification(true);
-  };
-
   return (
-    <section className="hidden rounded border-gray-200 dark:bg-gray-900 sm:block sm:px-4 bg-[url('/assets/header-bg.jpg')] bg-cover bg-no-repeat bg-center">
-      <nav className="container grid grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent lg:ml-0 lg:mr-0 max-w-full">
+    <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
+      <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent lg:ml-0 lg:mr-0">
         {/* Left elements  */}
 
         {/* Logo Cervezanas  */}
@@ -88,8 +90,8 @@ export function ScreenMenu() {
             </div>
           </div>
         </section>
-        <section className="flex w-full items-center justify-center  lg:w-[500px] sm:w-[450px]">
-          <ul className="align-center dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900 bg-cerv-brown bg-opacity-60">
+        <section className="flex w-full items-center justify-center  sm:w-[450px] lg:w-[500px]">
+          <ul className="align-center bg-cerv-brown bg-opacity-60 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             <li className="flex items-center">
               <Link href="/marketplace" locale={locale}>
                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -97,14 +99,6 @@ export function ScreenMenu() {
                 </span>
               </Link>
             </li>
-
-            {/* <li className="flex items-center">
-                <Link href="/community" locale={locale}>
-                  <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                    {t("community").toUpperCase()}
-                  </span>
-                </Link>
-              </li> */}
 
             <li className="flex items-center">
               <Link href="/events" locale={locale}>
@@ -115,16 +109,37 @@ export function ScreenMenu() {
             </li>
             <li className="flex items-center">
               <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-               Puntos cervezanas
+                Puntos cervezanas
               </span>
             </li>
           </ul>
         </section>
+
+        {/* Logo Cervezanas  */}
+        <section className="w-full" id="navbar-default">
+          <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+            <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+              <Link href={"/"} locale={locale}>
+                <Image
+                  alt="Cervezanas Logo"
+                  width={160}
+                  height={160}
+                  style={{ objectFit: "contain" }}
+                  priority={true}
+                  sizes="100px"
+                  src={"/logo_cervezanas.svg"}
+                />
+              </Link>
+              <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
+            </div>
+          </div>
+        </section>
+
         {/* Right elements  */}
         <section className="w-[400px] ">
-          <ul className="py-2 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:flex-row sm:justify-end sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900 pt-1 sm:gap-4">
+          <ul className="py-2 pt-1 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
             {/* Language  */}
-            <li className="flex max-w-[50px] items-center">
+            {/* <li className="flex max-w-[50px] items-center">
               <Select
                 size="tiny"
                 name="language"
@@ -135,10 +150,22 @@ export function ScreenMenu() {
                 onChange={onChangeLanguage}
                 className=""
               >
-                <Select.Option value="es">🇪🇸</Select.Option>
-                <Select.Option value="en">🇬🇧</Select.Option>
+                <Select.Option value="es">
+                  <Link href={redirectedPathName(locale)}>🇪🇸</Link>
+                </Select.Option>
+                <Select.Option value="en">
+                  <Link href={redirectedPathName(locale)}>🇬🇧</Link>
+                </Select.Option>
               </Select>
-            </li>
+            </li> */}
+
+            {i18n.locales.map((locale) => {
+              return (
+                <li key={locale}>
+                  <Link href={redirectedPathName(locale)}>{locale}</Link>
+                </li>
+              );
+            })}
 
             {!user ? (
               <>
@@ -146,10 +173,11 @@ export function ScreenMenu() {
                   <Button onClick={() => handleSignIn()} title={""}>
                     <section className="mx-2 my-1 flex items-center justify-center space-x-2">
                       <Image
-                        src={COMMON.PROFILE_IMG}
                         width={25}
                         height={25}
                         alt={"Login"}
+                        src={COMMON.PROFILE_IMG}
+                        loader={() => COMMON.PROFILE_IMG}
                       />
                       <span>{t("my_account")}</span>
                     </section>
@@ -159,7 +187,7 @@ export function ScreenMenu() {
             ) : (
               <>
                 {/* Cart  */}
-                {role !== "admin" && (
+                {role === "consumer" && (
                   <li
                     className={`items´center flex ${
                       animateShoppingCart && "animate-wiggle"
@@ -178,7 +206,9 @@ export function ScreenMenu() {
                           width={40}
                           height={40}
                           alt={"Go to Shopping cart"}
-                          className={"rounded-full lg:w-[40px] lg:h[40px] mt-2 bg-beer-blonde"}
+                          className={
+                            "lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]"
+                          }
                         />
                         <div
                           className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
@@ -192,49 +222,31 @@ export function ScreenMenu() {
                 )}
 
                 {/* Notifications  */}
-                <li
-                  className={`relative flex w-[50px] items-center ${
-                    animateNotifications && "animate-wiggle"
-                  }`}
-                >
-                  <Button
-                    class={
-                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
-                    }
-                    onClick={() => handleClickBell()}
-                    title={""}
-                  >
-                    <section className="relative rounded-full">
-                      <Image
-                        src={"/icons/notification-icon-nobg.svg"}
-                        width={40}
-                        height={40}
-                        alt={"Notification bell"}
-                        className={"rounded-full lg:w-[40px] lg:h[40px] mt-2 bg-beer-blonde"}
-                      />
-                      <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                        {notifications?.length ?? 0}
-                      </div>
-                    </section>
-                  </Button>
-
-                  {/* Notification popup  */}
-                  <Notification
-                    open={openNotification}
-                    setOpen={setOpenNotification}
-                  />
-                </li>
+                <DeviceScreenNotification notifications={notifications} />
 
                 <li className="flex items-center">
                   <HeaderDropdownButton
                     options={
                       role === "admin"
-                        ? ["submitted_aps", "monthly_products", "signout"]
+                        ? [
+                            "submitted_aps",
+                            "monthly_products",
+                            "notifications",
+                            "signout",
+                          ]
                         : role === "distributor"
-                        ? ["profile", "logistics", "signout"]
+                        ? [
+                            "profile",
+                            "logistics",
+                            "contracts",
+                            "business_orders",
+                            "signout",
+                          ]
                         : role === "producer"
                         ? [
                             "profile",
+                            "products",
+                            "events",
                             "online_orders",
                             "event_orders",
                             "campaigns",
@@ -253,29 +265,7 @@ export function ScreenMenu() {
             )}
           </ul>
 
-          {/*       <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24 z-10">
-            <Link
-              href={"/beer-me"}
-              locale={locale}
-              className="flex flex-col items-center justify-start space-x-4 sm:flex-row sm:rounded-l sm:px-2 sm:py-1"
-            >
-              <Image
-                src={"/icons/beerme.svg"}
-                width={45}
-                height={45}
-                alt={"Find Cervezanas spots"}
-                className={
-                  "mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"
-                }
-              />
-
-              <div className="sm:flex sm:flex-col">
-                <span className="text-right text-beer-foam ">Puntos</span>
-                <span className="text-right text-beer-foam ">Cervezanas</span>
-              </div>
-            </Link>
-          </section>
-          */}
+          <PuntoCervezanasFlag />
         </section>
       </nav>
     </section>

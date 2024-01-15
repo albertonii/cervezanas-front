@@ -2,9 +2,10 @@ import ErrorCheckout from "./ErrorCheckout";
 import React from "react";
 import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../../utils/utils";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { VIEWS } from "../../../../../../constants";
-import { IOrder } from "../../../../../../lib/types.d";
+import { IOrder } from "../../../../../../lib/types";
+import readUserSession from "../../../../../../lib/actions";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -40,13 +41,7 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Error({ searchParams }: any) {
   const { orderData, isError } = await getCheckoutErrorData(searchParams);
   const [order] = await Promise.all([orderData]);
-  return (
-    <>
-    {order && (
-      <ErrorCheckout order={order} isError={isError} />
-    )}
-    </>
-  );
+  return <>{order && <ErrorCheckout order={order} isError={isError} />}</>;
 }
 
 async function getCheckoutErrorData(searchParams: any) {
@@ -60,12 +55,12 @@ async function getCheckoutErrorData(searchParams: any) {
     decodeBase64(Ds_MerchantParameters)
   );
 
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -100,7 +95,8 @@ async function getCheckoutErrorData(searchParams: any) {
       business_orders (*)
     `
     )
-    .eq("order_number", orderId).single()
+    .eq("order_number", orderId)
+    .single();
 
   if (orderError) {
     console.error(orderError.message);
@@ -110,7 +106,7 @@ async function getCheckoutErrorData(searchParams: any) {
     };
   }
 
-  if (!orderData ) {
+  if (!orderData) {
     return {
       orderData: null,
       isError: true,

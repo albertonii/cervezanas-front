@@ -3,12 +3,14 @@
 import { useQuery } from "react-query";
 import { IAddress } from "../lib/types";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchShippingByOwnerId = async (
   ownerId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
+  if (!ownerId) throw new Error("ownerId is required");
   const { data, error } = await supabase
     .from("shipping_info")
     .select(`*`)

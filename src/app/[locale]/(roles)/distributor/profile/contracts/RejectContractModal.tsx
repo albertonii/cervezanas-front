@@ -3,12 +3,13 @@
 import React, { ComponentProps } from "react";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useTranslations } from "next-intl";
-import { IDistributionContract } from "../../../../../../lib/types.d";
-import { Modal } from "../../../../components/modals/Modal";
+import { IDistributionContract } from "../../../../../../lib/types";
+import Modal from "../../../../components/modals/Modal";
 import { useMutation, useQueryClient } from "react-query";
 import { DistributionStatus } from "../../../../../../lib/enums";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { useAuth } from "../../../../Auth/useAuth";
+import { useMessage } from "../../../../components/message/useMessage";
 
 interface Props {
   selectedContract: IDistributionContract;
@@ -23,8 +24,11 @@ export default function RejectContractModal({
 }: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
+  const { handleMessage } = useMessage();
 
   const queryClient = useQueryClient();
+  const submitSuccessMessage = t("messages.submit_success");
+  const submitErrorMessage = t("messages.submit_error");
 
   const handleUpdate = async () => {
     if (!selectedContract.producer_user) return;
@@ -36,12 +40,22 @@ export default function RejectContractModal({
         status: DistributionStatus.REJECTED,
       })
       .eq("distributor_id", selectedContract.distributor_id)
-      .eq("producer_id", selectedContract.producer_user.user);
+      .eq("producer_id", selectedContract.producer_id);
 
     if (error) {
       console.error(error);
+
+      handleMessage({
+        type: "error",
+        message: submitErrorMessage,
+      });
       return;
     }
+
+    handleMessage({
+      type: "success",
+      message: submitSuccessMessage,
+    });
   };
 
   const updateContractMutation = useMutation({

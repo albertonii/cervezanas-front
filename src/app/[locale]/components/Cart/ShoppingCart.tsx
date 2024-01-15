@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { useLocale, useTranslations } from "next-intl";
 import { CartItem } from "./CartItem";
@@ -64,7 +64,7 @@ export function ShoppingCart() {
           <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden">
+        <section className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
               {/* Transition to apply to the content */}
@@ -83,8 +83,8 @@ export function ShoppingCart() {
                     ref={dialogDivRef}
                   >
                     <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6">
-                      <div className="flex items-start justify-between bg-cerv-coal p-3">
-                        <Dialog.Title className="text-xl text-white uppercase font-bold">
+                      <header className="flex items-start justify-between bg-cerv-coal p-3">
+                        <Dialog.Title className="text-xl font-bold uppercase text-white">
                           {t("shopping_cart")}
                         </Dialog.Title>
 
@@ -100,7 +100,7 @@ export function ShoppingCart() {
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
-                      </div>
+                      </header>
 
                       <div className="mt-8 flow-root">
                         <ul
@@ -117,7 +117,7 @@ export function ShoppingCart() {
                       </div>
                     </div>
 
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                    <footer className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>{t("subtotal")}</p>
 
@@ -159,13 +159,13 @@ export function ShoppingCart() {
                           </button>
                         </p>
                       </div>
-                    </div>
+                    </footer>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
-        </div>
+        </section>
       </Dialog>
     </Transition.Root>
   );

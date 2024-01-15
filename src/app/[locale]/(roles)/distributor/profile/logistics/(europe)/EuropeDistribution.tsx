@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from "react-query";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { ICountry } from "country-state-city/lib/interface";
 import { Button } from "../../../../../components/common/Button";
+import InputSearch from "../../../../../components/common/InputSearch";
+import { filterSearchInputQuery } from "../../../../../../../utils/utils";
 
 // interface ICountry {
 //   id: string;
@@ -18,10 +20,7 @@ type Props = {
   coverageAreaId: string;
 };
 
-export default function EuropeDistribution({
-  countries,
-  coverageAreaId,
-}: Props) {
+export default function EuropeDistribution({ coverageAreaId }: Props) {
   const t = useTranslations();
 
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -34,7 +33,9 @@ export default function EuropeDistribution({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [counter, setCounter] = useState(0);
-  const resultsPerPage = 10;
+  const resultsPerPage = 20;
+
+  const [query, setQuery] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -65,12 +66,16 @@ export default function EuropeDistribution({
 
   useEffect(() => {
     if (!listOfCountries) return;
-    const startIndex = (currentPage - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
-    const lOfCountries = listOfCountries?.slice(startIndex, endIndex);
+
+    const lOfCountries = filterSearchInputQuery(
+      listOfCountries,
+      query,
+      currentPage,
+      resultsPerPage
+    );
     setTenCountries(lOfCountries);
 
-    // Update selectAllCurrentPage based on whether all countrys on this page are selected
+    // Update selectAllCurrentPage based on whether all countries on this page are selected
     setSelectAllCurrentPage(
       lOfCountries?.every((country) =>
         selectedCountries.includes(country.name)
@@ -78,13 +83,26 @@ export default function EuropeDistribution({
     );
   }, [currentPage]);
 
+  useEffect(() => {
+    if (!listOfCountries) return;
+
+    const lAllCountries = filterSearchInputQuery(
+      listOfCountries,
+      query,
+      currentPage,
+      resultsPerPage
+    );
+
+    setTenCountries(lAllCountries);
+  }, [query]);
+
   const handleUpdateInternationalDistribution = async () => {
     // const { error } = await supabase
     //   .from("coverage_areas")
-    //   .update({ countrys: selectedCountrys })
+    //   .update({ countries: selectedCountries })
     //   .eq("id", coverageAreaId);
     // if (error) {
-    //   console.log(error);
+    //   console.error(error);
     //   return;
     // }
   };
@@ -128,13 +146,13 @@ export default function EuropeDistribution({
   ) => {
     const lOfCountries = listOfCountries?.map((country) => country.name) || [];
 
-    const updatedSelectedCountrys = e.target.checked
+    const updatedSelectedCountries = e.target.checked
       ? [...selectedCountries, ...lOfCountries]
       : selectedCountries.filter(
           (checkedCountry) => !lOfCountries.includes(checkedCountry)
         );
 
-    setSelectedCountries(updatedSelectedCountrys);
+    setSelectedCountries(updatedSelectedCountries);
     setSelectAllCurrentPage(e.target.checked);
   };
 
@@ -179,7 +197,13 @@ export default function EuropeDistribution({
           </div>
         </div>
 
-        {/* List of countrys in the country  */}
+        <InputSearch
+          query={query}
+          setQuery={setQuery}
+          searchPlaceholder={"search_by_name"}
+        />
+
+        {/* List of countries in the country  */}
         {tenCountries && tenCountries.length > 0 && (
           <>
             <div className="">
@@ -188,7 +212,7 @@ export default function EuropeDistribution({
                 className="space-x-2 text-lg text-gray-600"
               >
                 <input
-                  id="allCountrysByRegion"
+                  id="allCountriesByRegion"
                   type="checkbox"
                   onChange={(e) => {
                     handleSelectAllCountries(e);
@@ -198,13 +222,13 @@ export default function EuropeDistribution({
                 />
 
                 <span className="text-sm text-gray-600">
-                  {t("select_all_countrys_by_region")}
+                  {t("select_all_countries")}
                 </span>
               </label>
             </div>
 
             <div className="w-full">
-              {/* Display selectable table with all countrys in the country selected */}
+              {/* Display selectable table with all countries in the country selected */}
               <label htmlFor="addressCountry" className="text-sm text-gray-600">
                 {t("loc_country")}
               </label>

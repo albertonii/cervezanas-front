@@ -1,12 +1,34 @@
 import AddressForm from "../../../components/AddressForm";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../Auth/useAuth";
-import { IAddressForm } from "../../../../../lib/types";
-import { Modal } from "../../../components/modals/Modal";
+import {
+  IAddressForm,
+  ModalShippingAddressFormData,
+} from "../../../../../lib/types";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "react-query";
+import ModalWithForm from "../../../components/modals/ModalWithForm";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema: ZodType<ModalShippingAddressFormData> = z.object({
+  name: z.string().nonempty({ message: "errors.input_required" }),
+  lastname: z.string().nonempty({ message: "errors.input_required" }),
+  document_id: z.string().nonempty({ message: "errors.input_required" }),
+  phone: z.string().nonempty({ message: "errors.input_required" }),
+  address: z.string().nonempty({ message: "errors.input_required" }),
+  country: z.string().nonempty({ message: "errors.input_required" }),
+  state: z.string().nonempty({ message: "errors.input_required" }),
+  city: z.string().nonempty({ message: "errors.input_required" }),
+  zipcode: z.string().nonempty({ message: "errors.input_required" }),
+  is_default: z.boolean(),
+  address_extra: z.string().optional(),
+  address_observations: z.string().optional(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function NewShippingAddress() {
   const t = useTranslations();
@@ -16,10 +38,14 @@ export function NewShippingAddress() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const form = useForm<IAddressForm>();
+  const form = useForm<IAddressForm>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
+
   const { reset, handleSubmit } = form;
 
-  const handleAddShippingAddress = async (formValues: IAddressForm) => {
+  const handleAddShippingAddress = async (form: ValidationSchema) => {
     const {
       name,
       lastname,
@@ -33,7 +59,7 @@ export function NewShippingAddress() {
       city,
       zipcode,
       is_default,
-    } = formValues;
+    } = form;
 
     const { error } = await supabase.from("shipping_info").insert({
       owner_id: user?.id,
@@ -72,7 +98,9 @@ export function NewShippingAddress() {
     },
   });
 
-  const onSubmit = (formValues: IAddressForm) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalShippingAddressFormData
+  ) => {
     try {
       insertShippingMutation.mutate(formValues);
     } catch (e) {
@@ -81,7 +109,7 @@ export function NewShippingAddress() {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -93,8 +121,9 @@ export function NewShippingAddress() {
       btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={`!w-1/2 ${isSubmitting && "opacity-50"}`}
+      form={form}
     >
       <AddressForm form={form} addressNameId={"shipping"} />
-    </Modal>
+    </ModalWithForm>
   );
 }

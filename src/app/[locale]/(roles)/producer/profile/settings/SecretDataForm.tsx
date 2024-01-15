@@ -1,19 +1,35 @@
 "use client";
 
+import { z, ZodType } from "zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { useAuth } from "../../../../Auth/useAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../../../components/common/Button";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { useMessage } from "../../../../components/message/useMessage";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import { useMutation } from "react-query";
+import InputLabel from "../../../../components/common/InputLabel";
 
-interface FormProps {
-  oldPassword: string;
-  newPassword: string;
-  newPassword2: string;
-}
+type FormData = {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+};
+
+const schema: ZodType<FormData> = z
+  .object({
+    old_password: z.string().min(8, { message: "Required" }),
+    new_password: z.string().min(8, { message: "Required" }),
+    confirm_password: z.string().min(8, { message: "Required" }),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Password don't match",
+  });
+
+type ValidationSchema = z.infer<typeof schema>;
 
 export function SecretDataForm() {
   const t = useTranslations();
@@ -23,127 +39,105 @@ export function SecretDataForm() {
 
   const { handleMessage } = useMessage();
 
-  const {
-    formState: { errors },
-    watch,
-    handleSubmit,
-    register,
-    reset,
-  } = useForm<FormProps>({
+  const form = useForm<FormData>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
     defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-      newPassword2: "",
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
     },
   });
 
-  const onSubmit = async (formValues: FormProps) => {
-    setLoading(true);
+  const { handleSubmit, reset } = form;
 
+  const handleUpdatePassword = async (form: ValidationSchema) => {
     // TODO: Check if old password is correct
+    const { new_password } = form;
 
-    // TODO: Update and fix error Not Logged In after update pass
+    const { error } = await supabase.auth.updateUser({
+      password: new_password,
+    });
 
-    const { newPassword, newPassword2 } = formValues;
+    if (error) throw error;
+  };
 
-    if (newPassword === newPassword2) {
-      setTimeout(async () => {
-        const { error } = await supabase.auth.updateUser({
-          password: newPassword,
-        });
+  const handleUpdatePasswordMutation = useMutation({
+    mutationKey: "updatePasswordProducer",
+    mutationFn: handleUpdatePassword,
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      handleMessage({
+        type: "success",
+        message: "password_updated",
+      });
 
-        if (error) throw error;
+      reset();
+      setLoading(false);
+    },
+    onError: (error: Error) => {
+      handleMessage({
+        type: "error",
+        message: error.message,
+      });
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
 
-        handleMessage({
-          type: "success",
-          message: "password_updated",
-        });
-
-        reset();
-
-        setLoading(false);
-      }, 700);
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleUpdatePasswordMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   return (
-    <div
+    <section
       id="account_secret_data"
-      className="container mb-4 space-y-3  bg-white px-6 py-4"
+      className="mb-4 space-y-3  bg-white px-6 py-4"
     >
-      <div id="password" className="text-2xl">
+      <h2 id="password" className="text-2xl">
         {t("password")}
-      </div>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
-        <div className="flex w-full flex-row space-x-3 ">
-          <div className="w-full ">
-            <label htmlFor="actual_password" className="text-sm text-gray-600">
-              {t("actual_password")}
-            </label>
+        <InputLabel
+          form={form}
+          label={"old_password"}
+          labelText={t("actual_password")}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
-            <input
-              {...register("oldPassword", {
-                required: true,
-              })}
-              type="password"
-              id="actual_password"
-              placeholder="**********"
-              className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-            />
+        <InputLabel
+          form={form}
+          label={"new_password"}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
-            {errors.oldPassword?.type === "required" && (
-              <DisplayInputError message="errors.input_required" />
-            )}
-          </div>
-        </div>
-
-        <div className="w-full ">
-          <label htmlFor="newPassword" className="text-sm text-gray-600">
-            {t("new_password")}
-          </label>
-
-          <input
-            {...register("newPassword", {
-              required: true,
-            })}
-            type="password"
-            id="new_password_1"
-            placeholder="**********"
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          />
-
-          {errors.newPassword?.type === "required" && (
-            <DisplayInputError message="errors.input_required" />
-          )}
-        </div>
-
-        <div className="w-full ">
-          <label htmlFor="newPassword2" className="text-sm text-gray-600">
-            {t("confirm_password")}
-          </label>
-
-          <input
-            {...register("newPassword2", {
-              required: true,
-              validate: (val: string) => {
-                if (watch("newPassword") != val) {
-                  return "errors.password_match";
-                }
-              },
-            })}
-            type="password"
-            id="new_password_2"
-            placeholder="**********"
-            required
-            className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-          />
-
-          {errors.newPassword2?.type === "validate" && (
-            <DisplayInputError message="errors.newPassword2?.message" />
-          )}
-        </div>
+        <InputLabel
+          form={form}
+          label={"confirm_password"}
+          registerOptions={{
+            required: true,
+          }}
+          placeholder="**********"
+          inputType="password"
+        />
 
         {loading && (
           <Spinner color="beer-blonde" size={"xLarge"} absolute center />
@@ -153,6 +147,6 @@ export function SecretDataForm() {
           {t("save")}
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

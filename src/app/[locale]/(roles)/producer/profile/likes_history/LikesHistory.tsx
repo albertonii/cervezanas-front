@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ILike } from "../../../../../../lib/types.d";
+import { ILike } from "../../../../../../lib/types";
 
 interface Props {
   likes: ILike[];
@@ -31,6 +31,9 @@ export function LikesHistory({ likes }: Props) {
                           fill
                           src="/docs/images/people/profile-picture-5.jpg"
                           alt=""
+                          loader={() =>
+                            "/docs/images/people/profile-picture-5.jpg"
+                          }
                         />
                         <div className="space-y-1 font-medium dark:text-white">
                           <p>Jese Leos</p>

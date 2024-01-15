@@ -8,10 +8,11 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed } from "../../../../../../lib/types.d";
+import { ICPFixed } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
-import { Spinner } from "../../../../components/common/Spinner";
+import Spinner from "../../../../components/common/Spinner";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import InputSearch from "../../../../components/common/InputSearch";
 
 interface Props {
   cpsId: string;
@@ -102,7 +103,7 @@ export function ListCPFixed({ cpsId }: Props) {
   };
 
   return (
-    <div className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
+    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
       {isEditModal && selectedCP && (
         <EditCPFixedModal
@@ -132,7 +133,7 @@ export function ListCPFixed({ cpsId }: Props) {
         <Spinner color="beer-blonde" size="xLarge" absolute center />
       )}
 
-      {!isError && !isLoading && sortedItems.length === 0 ? (
+      {!isError && !isLoading && cpFixed.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">{t("no_cp_fixed")}</p>
         </div>
@@ -155,12 +156,10 @@ export function ListCPFixed({ cpsId }: Props) {
               </svg>
             </div>
 
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder={t("search_by_name")}
+            <InputSearch
+              query={query}
+              setQuery={setQuery}
+              searchPlaceholder={"search_by_name"}
             />
           </div>
 
@@ -258,6 +257,6 @@ export function ListCPFixed({ cpsId }: Props) {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

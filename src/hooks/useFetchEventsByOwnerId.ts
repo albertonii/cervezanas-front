@@ -3,13 +3,14 @@
 import { IEvent } from "../lib/types";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchEventsByOwnerId = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   if (!ownerId) return [];
 
@@ -17,8 +18,11 @@ const fetchEventsByOwnerId = async (
     .from("events")
     .select(
       `
-      *
-    `
+        *
+      `,
+      {
+        count: "exact",
+      }
     )
     .eq("owner_id", ownerId)
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)

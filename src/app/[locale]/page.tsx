@@ -1,6 +1,6 @@
 import Homepage from "./Homepage";
-import { IMonthlyProduct } from "../../lib/types.d";
-import { createServerClient } from "../../utils/supabaseServer";
+import { IMonthlyProduct } from "../../lib/types";
+import createServerClient from "../../utils/supabaseServer";
 
 export const metadata = {
   title: { default: "Comunidad Cervezanas", template: `%s | Cervezanas` },
@@ -18,7 +18,7 @@ export default async function Home() {
 }
 
 async function getMonthlyProducts() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: monthlyProducts, error: monthlyProductsError } =
     await supabase.from("monthly_products").select(`

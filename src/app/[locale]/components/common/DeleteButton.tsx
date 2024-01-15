@@ -1,12 +1,14 @@
 import React, { ComponentProps } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./IconButton";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onClick?: ComponentProps<any>;
 }
 
 export function DeleteButton({ onClick }: Props) {
+  const t = useTranslations();
   return (
     <IconButton
       box
@@ -16,7 +18,7 @@ export function DeleteButton({ onClick }: Props) {
       icon={faTrash}
       color={{ filled: "#fefefe", unfilled: "#fefefe" }}
       onClick={onClick}
-      title={"Delete this item"}
+      title={t("delete")}
     ></IconButton>
   );
 }

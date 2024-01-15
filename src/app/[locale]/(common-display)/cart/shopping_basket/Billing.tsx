@@ -1,20 +1,21 @@
+import { useTranslations } from "next-intl";
+import { useAuth } from "../../../Auth/useAuth";
 import AddressRadioInput from "./AddressRadioInput";
 import React, { ComponentProps, useState } from "react";
-import { useTranslations } from "next-intl";
-import { UseFormReturn } from "react-hook-form";
 import { NewBillingAddress } from "./NewBillingAddress";
 import { useMutation, useQueryClient } from "react-query";
-import { IBillingAddress } from "../../../../../lib/types.d";
+import { IBillingAddress } from "../../../../../lib/types";
+import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { useMessage } from "../../../components/message/useMessage";
 import { DeleteAddress } from "../../../components/modals/DeleteAddress";
 import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { useAuth } from "../../../Auth/useAuth";
+import { FormBillingData, ValidationSchemaShipping } from "./ShoppingBasket";
 
 interface Props {
   selectedBillingAddress: string;
-  formBilling: UseFormReturn<any, any>;
   billingAddresses: IBillingAddress[];
   handleOnClickBilling: ComponentProps<any>;
+  formBilling: UseFormReturn<FormBillingData, any>;
 }
 
 export default function Billing({
@@ -63,7 +64,9 @@ export default function Billing({
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
+    data: any
+  ) => {
     try {
       deleteBillingAddress.mutate(data);
     } catch (error) {
@@ -77,16 +80,11 @@ export default function Billing({
         {t("billing_info")}{" "}
       </h3>
 
-      <div className="flex w-full flex-col items-start justify-start space-y-4">
-        <div className="flex w-full flex-col items-start justify-start space-y-2">
-          <label
-            htmlFor="billing"
-            className="text-sm font-medium text-gray-500"
-          >
-            {t("billing")}
-          </label>
-        </div>
-      </div>
+      <span className="flex w-full flex-col items-start justify-start space-y-4">
+        <label htmlFor="billing" className="text-sm font-medium text-gray-500">
+          {t("billing")}
+        </label>
+      </span>
 
       {/* Radio button for select billing address */}
       <ul className="grid w-full gap-6 md:grid-cols-1">
@@ -106,8 +104,8 @@ export default function Billing({
         })}
 
         {/* Error input displaying */}
-        {errors.billing_info_id?.type === "required" && (
-          <DisplayInputError message="errors.select_location_required" />
+        {errors.billing_info_id && (
+          <DisplayInputError message={errors.billing_info_id.message} />
         )}
       </ul>
 

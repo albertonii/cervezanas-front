@@ -3,7 +3,7 @@
 import { IUser } from "../lib/types";
 import { useQuery } from "react-query";
 import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const fetchProfileContext = async (
   supabase: SupabaseClient<any>,

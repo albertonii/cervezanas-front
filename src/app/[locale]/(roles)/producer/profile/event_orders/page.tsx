@@ -1,8 +1,9 @@
-import { IEventOrder } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IEventOrder } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { EventOrders } from "./EventOrders";
+import readUserSession from "../../../../../../lib/actions";
 
 export default async function OrdersPage() {
   const eventOrdersData = await getEventOrdersData();
@@ -16,12 +17,11 @@ export default async function OrdersPage() {
 }
 
 async function getEventOrdersData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

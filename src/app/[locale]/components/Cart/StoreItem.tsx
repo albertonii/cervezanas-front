@@ -5,15 +5,15 @@ import DisplayImageProduct from "../common/DisplayImageProduct";
 import MarketCartButtons2 from "../common/MarketCartButtons2";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Spinner } from "../common/Spinner";
+import Spinner from "../common/Spinner";
 import { IconButton } from "../common/IconButton";
 import { SupabaseProps } from "../../../../constants";
 import { useLocale, useTranslations } from "next-intl";
 import { AddCardButton } from "../common/AddCartButton";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IProduct, IProductPack } from "../../../../lib/types.d";
+import { IProduct, IProductPack } from "../../../../lib/types";
 import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
+import { useShoppingCart } from "../../../context/ShoppingCartContext";
 import { useAuth } from "../../Auth/useAuth";
 import { useMessage } from "../message/useMessage";
 
@@ -30,6 +30,10 @@ export function StoreItem({ product }: StoreItemProps) {
   const productId = product.id;
   const router = useRouter();
 
+  const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
+    product.product_multimedia[0].p_principal
+  )}`;
+
   const packs = product.product_packs;
   const lowestPack = packs?.sort(
     (a, b) => a.quantity - b.quantity
@@ -37,8 +41,6 @@ export function StoreItem({ product }: StoreItemProps) {
 
   // Selected pack that has lowest quantity
   const [selectedPack, setSelectedPack] = useState<IProductPack>(lowestPack);
-
-  const [isPackSelected, setIsPackSelected] = useState(true);
 
   const overAllCalculation = () => {
     let overAll_sum = 0;
@@ -105,7 +107,6 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   const handleAddToCart = () => {
-    // Notification if user is not logged in
     if (!isLoggedIn) {
       handleMessage({
         type: "info",
@@ -113,13 +114,6 @@ export function StoreItem({ product }: StoreItemProps) {
       });
       return;
     }
-
-    if (!selectedPack) {
-      setIsPackSelected(false);
-      return;
-    }
-
-    setIsPackSelected(true);
 
     const packCartItem: IProductPack = {
       id: selectedPack.id,
@@ -137,7 +131,7 @@ export function StoreItem({ product }: StoreItemProps) {
   };
 
   return (
-    <section className="p-6 border-2 shadow-md bg-[url('/assets/rec-graf4c.png')] bg-contain bg-no-repeat bg-top max-w-[300px] md:max-w-full m-auto">
+    <section className="m-auto max-w-[300px] border-2 bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat p-6 shadow-md md:max-w-full">
       {isLoading ? (
         <Spinner color="beer-blonde" size="medium"></Spinner>
       ) : (
@@ -158,15 +152,12 @@ export function StoreItem({ product }: StoreItemProps) {
             </header>
 
             <DisplayImageProduct
-              width={128}
-              height={128}
+              width={120}
+              height={120}
               alt="Principal Product Image store item"
-              imgSrc={
-                BASE_PRODUCTS_URL +
-                decodeURIComponent(product.product_multimedia[0].p_principal)
-              }
+              imgSrc={src}
               class={
-                " h-[220px] w-[220px]  object-contain hover:cursor-pointer border-2"
+                " h-[220px] w-[220px]  border-2 object-contain hover:cursor-pointer"
               }
               onClick={() => router.push(`/${locale}/products/${product.id}`)}
             />
@@ -189,7 +180,7 @@ export function StoreItem({ product }: StoreItemProps) {
               </figure>
 
               <div className="flex w-full min-w-0 items-center justify-between ">
-                <h2 className="hover:text-purple-500 mr-auto cursor-pointer truncate font-semibold text-beer-draft transition-all hover:text-beer-blonde m-auto text-2xl py-2">
+                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-semibold text-beer-draft transition-all hover:text-beer-blonde">
                   <Link href={`/products/${product.id}`} locale={locale}>
                     {product.name}
                   </Link>
@@ -207,7 +198,7 @@ export function StoreItem({ product }: StoreItemProps) {
             </div>
 
             {/* Información sobre el pack seleccionado detallada y minimalista  */}
-            <div className="mt-1 font-semibold text-bear-dark m-auto text-base">
+            <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
               {selectedPack?.quantity}{" "}
               {selectedPack?.quantity > 1 ? t("units") : t("unit")}/
               {formatCurrency(selectedPack?.price)}

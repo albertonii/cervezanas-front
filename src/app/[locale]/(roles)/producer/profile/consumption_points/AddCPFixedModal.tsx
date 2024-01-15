@@ -3,18 +3,41 @@
 import CPGoogleMap from "./CPGoogleMap";
 import ListCPMProducts from "./ListCPMProducts";
 import React, { useState } from "react";
-import { Modal } from "../../../../components/modals/Modal";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { getGeocode } from "use-places-autocomplete";
-import { IUser } from "../../../../../../lib/types.d";
+import { IUser } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
 import { cleanObject, isValidObject } from "../../../../../../utils/utils";
 import { DisplayInputError } from "../../../../components/common/DisplayInputError";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import ModalWithForm from "../../../../components/modals/ModalWithForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodType } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import SelectInput from "../../../../components/common/SelectInput";
+import InputLabel from "../../../../components/common/InputLabel";
+import InputTextarea from "../../../../components/common/InputTextarea";
 
-interface FormData {
+enum CPFixedStatus {
+  active = "active",
+  finished = "finished",
+  error = "error",
+  cancelled = "cancelled",
+  paused = "paused",
+}
+
+export const cp_fixed_status_options: {
+  label: string;
+  value: CPFixedStatus;
+}[] = [
+  { label: "active", value: CPFixedStatus.active },
+  { label: "finished", value: CPFixedStatus.finished },
+  { label: "error", value: CPFixedStatus.error },
+  { label: "cancelled", value: CPFixedStatus.cancelled },
+  { label: "paused", value: CPFixedStatus.paused },
+];
+
+interface ModalAddCPFixedFormData {
   cp_name: string;
   cp_description: string;
   organizer_name: string;
@@ -26,8 +49,27 @@ interface FormData {
   address: string;
   status: string;
   is_internal_organizer: boolean;
-  product_items: any[];
+  product_items?: any[];
+  // maximum_capacity
+  // is_booking_required
 }
+
+const schema: ZodType<ModalAddCPFixedFormData> = z.object({
+  cp_name: z.string().nonempty({ message: "errors.input_required" }),
+  cp_description: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_name: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_lastname: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_email: z.string().nonempty({ message: "errors.input_required" }),
+  organizer_phone: z.string().nonempty({ message: "errors.input_required" }),
+  start_date: z.string().nonempty({ message: "errors.input_required" }),
+  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  address: z.string().nonempty({ message: "errors.input_required" }),
+  status: z.string().nonempty({ message: "errors.input_required" }),
+  is_internal_organizer: z.boolean(),
+  product_items: z.any(),
+});
+
+type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
   cpsId: string;
@@ -37,7 +79,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
-  const [address, setAddress] = useState<string>("");
   const [isInternalOrganizer, setIsInternalOrganizer] = useState<boolean>(true);
   const [addressInputRequired, setAddressInputRequired] =
     useState<boolean>(false);
@@ -64,26 +105,43 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     enabled: false,
   });
 
-  const form = useForm<FormData>();
+  const form = useForm<ValidationSchema>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+    defaultValues: {
+      cp_name: "",
+      cp_description: "",
+      organizer_name: "",
+      organizer_lastname: "",
+      organizer_email: "",
+      organizer_phone: "",
+      start_date: "",
+      end_date: "",
+      address: "",
+      status: "",
+      is_internal_organizer: true,
+    },
+  });
 
   const {
     formState: { errors },
     handleSubmit,
-    register,
     reset,
+    setValue,
   } = form;
 
   const handleAddress = (address: string) => {
-    setAddress(address);
+    setValue("address", address);
   };
 
-  const handleInsertCPFixed = async (formValues: FormData) => {
+  const handleInsertCPFixed = async (form: ValidationSchema) => {
     if (!selectedEOrganizer && !isInternalOrganizer) {
       setErrorOnSelectEOrganizer(true);
       return;
     }
 
     const {
+      address,
       cp_name,
       cp_description,
       organizer_name,
@@ -93,7 +151,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       start_date,
       end_date,
       product_items,
-    } = formValues;
+      status,
+    } = form;
 
     if (!isValidObject(address)) {
       setAddressInputRequired(true);
@@ -114,7 +173,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         start_date,
         end_date,
         address,
-        status: "active",
+        status,
         is_booking_required: false,
         cp_id: cpsId,
         is_internal_organizer: isInternalOrganizer,
@@ -177,9 +236,11 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   };
 
   const handleIsInternalOrganizer = (e: any) => {
-    if (e.target.value === "true") {
-      setIsInternalOrganizer(true);
-    } else {
+    const value = e.target.value; // esto será un string "true" o "false"
+    setIsInternalOrganizer(value === "true");
+    setValue("is_internal_organizer", value === "true");
+
+    if (value === "false") {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -187,7 +248,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       };
 
       loadExternalOrganizer();
-      setIsInternalOrganizer(false);
     }
   };
 
@@ -204,7 +264,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     },
   });
 
-  const onSubmit = (formValues: FormData) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formValues: ModalAddCPFixedFormData
+  ) => {
     try {
       insertCPFixedMutation.mutate(formValues);
     } catch (e) {
@@ -213,84 +275,71 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   };
 
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
       title={t("add_new_cp_fixed")}
       btnTitle={t("new_cp_fixed_config")}
       description={""}
-      icon={faAdd}
       handler={handleSubmit(onSubmit)}
-      btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      form={form}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
 
-          {/* Event name  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_name">{t("cp_name")}</label>
-            <input
-              className="rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              type="text"
-              id="name"
-              {...register("cp_name", { required: true })}
-            />
-          </div>
+          {/* Status */}
+          <SelectInput
+            form={form}
+            labelTooltip={"cp_fixed_status_tooltip"}
+            options={cp_fixed_status_options}
+            label={"status"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
-          {errors.cp_name && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          {/* Event name  */}
+          <InputLabel
+            form={form}
+            label={"cp_name"}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Event description  */}
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="cp_description">{t("description")}</label>
-            <textarea
-              className="max-h-[180px] rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-xl focus:border-beer-blonde focus:outline-none"
-              {...register("cp_description", { required: true })}
-            />
-          </div>
-
-          {errors.cp_description && (
-            <DisplayInputError message="errors.input_required" />
-          )}
+          <InputTextarea
+            form={form}
+            label={"cp_description"}
+            labelText={t("description")}
+            registerOptions={{
+              required: true,
+            }}
+          />
 
           {/* Start date and end date  */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <div className="flex w-full flex-col">
-              <label htmlFor="start_date">{t("start_date")}</label>
-              <input
-                type="date"
-                id="start_date"
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                {...register("start_date", { required: true })}
-              />
+            <InputLabel
+              form={form}
+              label={"start_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
 
-              {errors.start_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
-
-            <div className="flex w-full flex-col">
-              <label htmlFor="end_date">{t("end_date")}</label>
-              <input
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                type="date"
-                id="end_date"
-                {...register("end_date", { required: true })}
-              />
-
-              {errors.end_date && (
-                <span className="text-red-500">
-                  <DisplayInputError message="errors.input_required" />
-                </span>
-              )}
-            </div>
+            <InputLabel
+              form={form}
+              label={"end_date"}
+              registerOptions={{
+                required: true,
+              }}
+              inputType="date"
+            />
           </div>
         </fieldset>
 
@@ -305,14 +354,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 {t("is_internal_organizer")}
               </label>
 
-              <select
-                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                id="is_internal_organizer"
-                {...register("is_internal_organizer", { required: true })}
-                onChange={(e) => {
-                  handleIsInternalOrganizer(e);
-                }}
-              >
+              <select onChange={handleIsInternalOrganizer}>
                 <option value="true">{t("yes")}</option>
                 <option value="false">{t("no")}</option>
               </select>
@@ -328,110 +370,89 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             <>
               {/* Organizer name and lastname  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_name">{t("name")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_name"
-                    {...register("organizer_name", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_name"}
+                  labelText={t("name")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
 
-                  {errors.organizer_name && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_lastname">{t("lastname")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_lastname"
-                    {...register("organizer_lastname", { required: true })}
-                  />
-
-                  {errors.organizer_lastname && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_lastname"}
+                  labelText={t("lastname")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
 
               {/* Email and phone  */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_email">{t("email")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="email"
-                    id="organizer_email"
-                    {...register("organizer_email", { required: true })}
-                  />
+                <InputLabel
+                  form={form}
+                  label={"organizer_email"}
+                  labelText={t("email")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                  inputType="email"
+                />
 
-                  {errors.organizer_email && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
-
-                <div className="flex w-full flex-col">
-                  <label htmlFor="organizer_phone">{t("phone")}</label>
-                  <input
-                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                    type="text"
-                    id="organizer_phone"
-                    {...register("organizer_phone", { required: true })}
-                  />
-
-                  {errors.organizer_phone && (
-                    <DisplayInputError message="errors.input_required" />
-                  )}
-                </div>
+                <InputLabel
+                  form={form}
+                  label={"organizer_phone"}
+                  labelText={t("phone")}
+                  registerOptions={{
+                    required: true,
+                  }}
+                />
               </div>
             </>
           )}
 
           {/* In case organizer is external from company*/}
           {!isInternalOrganizer && (
-            <>
-              <div className="flex w-full flex-col">
-                <span className="mb-2 mt-2">
-                  Selecciona del listado de abajo el organizador externo
-                  responsable de este evento. Una vez creado el evento
-                  enviaremos una confirmación al organizador externo para que
-                  pueda gestionar el evento y acepta los términos y condiciones
-                  de uso de la plataforma. Dicho evento tendrá el estado
-                  `Pendiente de confirmación` hasta que el organizador externo
-                  acepte los términos y condiciones.
-                </span>
+            <div className="flex w-full flex-col">
+              <span className="mb-2 mt-2">
+                Selecciona del listado de abajo el organizador externo
+                responsable de este evento. Una vez creado el evento enviaremos
+                una confirmación al organizador externo para que pueda gestionar
+                el evento y acepta los términos y condiciones de uso de la
+                plataforma. Dicho evento tendrá el estado `Pendiente de
+                confirmación` hasta que el organizador externo acepte los
+                términos y condiciones.
+              </span>
 
-                <select
-                  className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                  id="is_external_organizer"
-                  onClick={(e: any) => {
-                    const value = e.target.value;
-                    setSelectedEOrganizer(value);
-                  }}
-                >
-                  {externalOrganizers &&
-                    externalOrganizers.map((organizer: any) => (
-                      <option
-                        key={organizer.id}
-                        value={organizer.id}
-                        onSelect={() => {
-                          setSelectedEOrganizer(organizer);
-                          setErrorOnSelectEOrganizer(false);
-                        }}
-                      >
-                        {organizer.name} {organizer.lastname}
-                      </option>
-                    ))}
-                </select>
+              <select
+                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                id="is_external_organizer"
+                onClick={(e: any) => {
+                  const value = e.target.value;
+                  setSelectedEOrganizer(value);
+                }}
+              >
+                {externalOrganizers &&
+                  externalOrganizers.map((organizer: any) => (
+                    <option
+                      key={organizer.id}
+                      value={organizer.id}
+                      onSelect={() => {
+                        setSelectedEOrganizer(organizer);
+                        setErrorOnSelectEOrganizer(false);
+                      }}
+                    >
+                      {organizer.name} {organizer.lastname}
+                    </option>
+                  ))}
+              </select>
 
-                {errorOnSelectEOrganizer && (
-                  <DisplayInputError message="errors.input_required" />
-                )}
-              </div>
-            </>
+              {errorOnSelectEOrganizer && (
+                <DisplayInputError message="errors.input_required" />
+              )}
+            </div>
           )}
         </fieldset>
 
@@ -439,7 +460,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <legend className="text-2xl">{t("cp_fixed_location")}</legend>
 
           {addressInputRequired && (
-            <span className="text-red-500">{t("errors.input_required")}</span>
+            <DisplayInputError message="errors.input_required" />
           )}
 
           {/* Address  */}
@@ -453,6 +474,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <ListCPMProducts form={form} />
         </fieldset>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

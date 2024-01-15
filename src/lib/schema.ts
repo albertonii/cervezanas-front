@@ -189,25 +189,46 @@ export interface Database {
       business_orders: {
         Row: {
           created_at: string | null
+          distributor_id: string | null
           id: string
           order_id: string | null
+          producer_id: string | null
+          status: string | null
         }
         Insert: {
           created_at?: string | null
+          distributor_id?: string | null
           id?: string
           order_id?: string | null
+          producer_id?: string | null
+          status?: string | null
         }
         Update: {
           created_at?: string | null
+          distributor_id?: string | null
           id?: string
           order_id?: string | null
+          producer_id?: string | null
+          status?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "business_orders_distributor_id_fkey"
+            columns: ["distributor_id"]
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user"]
+          },
           {
             foreignKeyName: "business_orders_order_id_fkey"
             columns: ["order_id"]
             referencedRelation: "orders"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_orders_producer_id_fkey"
+            columns: ["producer_id"]
+            referencedRelation: "producer_user"
+            referencedColumns: ["user"]
           }
         ]
       }
@@ -754,6 +775,31 @@ export interface Database {
           }
         ]
       }
+      distribution_costs: {
+        Row: {
+          created_at: string
+          distributor_id: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          distributor_id?: string | null
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          distributor_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "distribution_costs_distributor_id_fkey"
+            columns: ["distributor_id"]
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user"]
+          }
+        ]
+      }
       distributor_user: {
         Row: {
           bank_account: string | null
@@ -1099,6 +1145,52 @@ export interface Database {
             foreignKeyName: "fixed_event_orders_customer_id_fkey"
             columns: ["customer_id"]
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      flatrate_cost: {
+        Row: {
+          created_at: string
+          distribution_costs_id: string
+          europe_distribution_cost: number | null
+          international_distribution_cost: number | null
+          is_checked_europe: boolean | null
+          is_checked_international: boolean | null
+          is_checked_local: boolean | null
+          is_checked_national: boolean | null
+          local_distribution_cost: number | null
+          national_distribution_cost: number | null
+        }
+        Insert: {
+          created_at?: string
+          distribution_costs_id: string
+          europe_distribution_cost?: number | null
+          international_distribution_cost?: number | null
+          is_checked_europe?: boolean | null
+          is_checked_international?: boolean | null
+          is_checked_local?: boolean | null
+          is_checked_national?: boolean | null
+          local_distribution_cost?: number | null
+          national_distribution_cost?: number | null
+        }
+        Update: {
+          created_at?: string
+          distribution_costs_id?: string
+          europe_distribution_cost?: number | null
+          international_distribution_cost?: number | null
+          is_checked_europe?: boolean | null
+          is_checked_international?: boolean | null
+          is_checked_local?: boolean | null
+          is_checked_national?: boolean | null
+          local_distribution_cost?: number | null
+          national_distribution_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flatrate_cost_distribution_costs_id_fkey"
+            columns: ["distribution_costs_id"]
+            referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
           }
         ]
@@ -1635,34 +1727,6 @@ export interface Database {
           }
         ]
       }
-      product_variant: {
-        Row: {
-          id: string
-          name: string | null
-          product_id: string | null
-          product_number: number | null
-        }
-        Insert: {
-          id?: string
-          name?: string | null
-          product_id?: string | null
-          product_number?: number | null
-        }
-        Update: {
-          id?: string
-          name?: string | null
-          product_id?: string | null
-          product_number?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_variant_product_id_fkey"
-            columns: ["product_id"]
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       product_wishlist: {
         Row: {
           date_added: string | null
@@ -1713,6 +1777,7 @@ export interface Database {
           owner_id: string | null
           price: number | null
           type: string | null
+          weight: number | null
         }
         Insert: {
           campaign_id?: string | null
@@ -1729,6 +1794,7 @@ export interface Database {
           owner_id?: string | null
           price?: number | null
           type?: string | null
+          weight?: number | null
         }
         Update: {
           campaign_id?: string | null
@@ -1745,6 +1811,7 @@ export interface Database {
           owner_id?: string | null
           price?: number | null
           type?: string | null
+          weight?: number | null
         }
         Relationships: [
           {

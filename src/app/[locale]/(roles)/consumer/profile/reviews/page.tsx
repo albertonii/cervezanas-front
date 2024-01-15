@@ -1,8 +1,8 @@
-import { IReview } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IReview } from "../../../../../../lib/types";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
 import { Reviews } from "./Reviews";
+import createServerClient from "../../../../../../utils/supabaseServer";
 
 export default async function ReviewsPage() {
   const { reviews } = await getReviewsData();
@@ -16,7 +16,7 @@ export default async function ReviewsPage() {
 }
 
 async function getReviewsData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   // Check if we have a session
   const {
@@ -31,11 +31,7 @@ async function getReviewsData() {
     .from("reviews")
     .select(
       `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
+        *
       `
     )
     .eq("id", session.user.id);

@@ -1,36 +1,53 @@
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../lib/actions";
+import CoverageLayout from "./CoverageLayout";
 import { redirect } from "next/navigation";
 import { VIEWS } from "../../../../../../constants";
-import CoverageLayout from "./CoverageLayout";
+import createServerClient from "../../../../../../utils/supabaseServer";
+import { IDistributionCost } from "../../../../../../lib/types";
 
 export default async function OrdersPage() {
-  const coverageAreaData = await getCoverageAreaData();
-  const [coverageArea] = await Promise.all([coverageAreaData]);
+  const distributionCosts = await getDistributionCost();
 
-  return <>{/* <CoverageLayout coverageArea={coverageArea} /> */}</>;
+  return <CoverageLayout distributionCosts={distributionCosts} />;
 }
 
-async function getCoverageAreaData() {
-  const supabase = createServerClient();
-
-  // Check if we have a session
+async function getDistributionCost() {
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: coverage_area, error: ordersError } = await supabase
-    .from("coverage_areas")
-    .select(
-      `
-        *
-      `
-    )
-    .eq("distributor_id", session.user.id);
-  if (ordersError) throw ordersError;
+  const supabase = await createServerClient();
 
-  return coverage_area;
+  const { data: distributionCosts, error: distributionCostsError } =
+    await supabase
+      .from("distribution_costs")
+      .select(
+        `
+          id,
+          created_at,
+          distributor_id,
+          flatrate_cost (
+             created_at,
+             distribution_costs_id,
+             local_distribution_cost,
+             national_distribution_cost,
+             europe_distribution_cost,
+             international_distribution_cost,
+             is_checked_local,
+             is_checked_national,
+             is_checked_europe,
+             is_checked_international
+          )
+        `
+      )
+      .eq("distributor_id", session.user.id)
+      .single();
+
+  if (distributionCostsError) throw distributionCostsError;
+
+  return distributionCosts as IDistributionCost;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { IPCRangesProps } from "../../../../../../../lib/types.d";
+import { IPCRangesProps } from "../../../../../../../lib/types";
 import InputForm from "../../../../../components/InputForm";
 import Label from "../../../../../components/Label";
 
@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function PCRanges({ item, index, register }: Props) {
-  // console.log(item);
   // const [from, setFrom] = useState(item?.from ?? 35600);
   // const [to, setTo] = useState(item?.to ?? 35699);
 
@@ -33,8 +32,8 @@ export default function PCRanges({ item, index, register }: Props) {
           inputName={`ranges.${index}.from`}
           required={true}
           type={"number"}
-          id={`${index}-from`}
-          defaultValue={item.from}
+          // id={`${index}-from`}
+          // defaultValue={item.from}
         />
       </Label>
 
@@ -44,8 +43,8 @@ export default function PCRanges({ item, index, register }: Props) {
           inputName={`ranges.${index}.to`}
           required={true}
           type={"number"}
-          id={`${index}-to`}
-          defaultValue={item.to}
+          // id={`${index}-to`}
+          // defaultValue={item.to}
         />
       </Label>
     </div>
