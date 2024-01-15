@@ -155,73 +155,77 @@ export function EventCartProvider({ children }: Props) {
 
   const increasePackCartQuantity = useCallback(
     (eventId: string, product: IProduct, pack: IProductPack) => {
-      const newPack: IProductPackCartItem = {
-        id: product.id,
-        quantity: pack.quantity,
-        packs: [pack],
-        name: product.name,
-        price: product.price,
-        image: product.product_multimedia[0].p_principal,
-        producer_id: product.owner_id,
-        distributor_id: "",
-      };
-
       setEventCarts((currCarts) => {
         const cart = currCarts[eventId] || [];
 
         // Buscamos el producto en el carrito
-        const itemFind = cart.find((item) => item.id === product.id);
+        const cartItemsFind = cart.find((item) => item.id === product.id);
 
-        if (itemFind) {
-          // Si existe el producto, buscamos el pack
-          const packFind = itemFind.packs.find((p) => {
+        if (cartItemsFind) {
+          // Si existe el producto dentro del carrito, buscamos el pack
+          const packFind = cartItemsFind.packs.find((p) => {
             return p.id === pack.id;
           });
-
           // Si no existe el pack pero si el producto, lo añadimos
-          if (!packFind) {
+          if (packFind === undefined) {
             // Añadimos el pack al listado de packs del producto
-            itemFind.packs.push(pack);
+            cartItemsFind.packs.push(pack);
 
             // Reemplazar el producto en el listado de productos
-
             const currItemsCopy = cart.map((item) => {
-              return item.id === product.id ? itemFind : item;
+              return item.id === product.id ? cartItemsFind : item;
             });
 
-            // return [...currItemsCopy];
             return {
               ...currCarts,
               [eventId]: [...currItemsCopy],
             };
+          } else {
+            return {
+              ...currCarts,
+              [eventId]: [...cart],
+            };
           }
 
-          // Si existe el pack en el producto
-          // Aumentamos SOLO la cantidad al pack
-          const currItemsv2 = cart.map((item) => {
-            return item.id === product.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + pack.quantity,
-                  // Aumentar la cantidad del pack en el producto correspondiente
-                  packs: item.packs.map((p) => {
-                    return p.id === pack.id
-                      ? {
-                          ...p,
-                          quantity: p.quantity + pack.quantity,
-                        }
-                      : p;
-                  }),
-                }
-              : item;
-          });
+          // else {
+          //   console.log(packFind);
+          //   // Si existe el pack dentro del producto
+          //   // Aumentamos SOLO la cantidad al pack
+          //   const currItemsv2 = cart.map((item) => {
+          //     return item.id === product.id
+          //       ? {
+          //           ...item,
+          //           quantity: item.quantity + pack.quantity,
+          //           // Aumentar la cantidad del pack en el producto correspondiente
+          //           packs: item.packs.map((p) => {
+          //             return p.id === pack.id
+          //               ? {
+          //                   ...p,
+          //                   quantity: p.quantity,
+          //                 }
+          //               : p;
+          //           }),
+          //         }
+          //       : item;
+          //   });
 
-          // return currItemsv2;
-          return {
-            ...currCarts,
-            [eventId]: [...currItemsv2],
-          };
+          //   return {
+          //     ...currCarts,
+          //     [eventId]: [...currItemsv2],
+          //   };
+          // }
         } else {
+          const newPack: IProductPackCartItem = {
+            id: product.id,
+            quantity: 1,
+            packs: [pack],
+            name: product.name,
+            price: product.price,
+            image: product.product_multimedia[0].p_principal,
+            producer_id: product.owner_id,
+            distributor_id: "",
+          };
+
           // Si no existe el producto aún en el carrito, lo añadimos
           return {
             ...currCarts,

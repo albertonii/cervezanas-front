@@ -5,7 +5,7 @@ import { ICPMobile, ICPMProducts } from "../../../../../../../../../lib/types";
 
 interface Props {
   cpMobile: ICPMobile;
-  eventId: string
+  eventId: string;
 }
 
 export default function ProductList({ cpMobile, eventId }: Props) {

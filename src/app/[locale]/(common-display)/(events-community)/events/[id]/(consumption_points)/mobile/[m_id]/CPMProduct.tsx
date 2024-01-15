@@ -54,6 +54,7 @@ export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
     };
 
     const product = pack.products;
+
     if (!product) return;
 
     increasePackCartQuantity(eventId, product, packCartItem);

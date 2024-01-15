@@ -1,15 +1,13 @@
 import React from "react";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { IconButton } from "./IconButton";
-import { useTranslations } from "next-intl";
 
 interface Props {
   onClick?: () => void;
   withText?: boolean;
 }
 
-export function AddCardButton({ onClick, withText }: Props) {
-  const t = useTranslations();
+export function AddCardButton({ onClick }: Props) {
   return (
     <IconButton
       onClick={onClick}
@@ -19,8 +17,6 @@ export function AddCardButton({ onClick, withText }: Props) {
       primary
       classSpanChildren="pl-0 pr-1 py-1"
       title={"Add to cart"}
-    >
-     {/*  {withText && t("add")} */}
-    </IconButton>
+    />
   );
 }
