@@ -213,7 +213,7 @@ export default function ScreenMenu({ notifications }: Props) {
                           className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
                           `}
                         >
-                          {cartQuantity}
+                          {cartQuantity()}
                         </div>
                       </section>
                     </Button>

@@ -4,18 +4,28 @@ import MarketCartButtons2 from "../../../../../../../components/common/MarketCar
 import React, { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../../../../constants";
-import { IProductPack } from "../../../../../../../../../lib/types";
+import {
+  ICPFixed,
+  IEventProduct,
+  IProductPack,
+} from "../../../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
-import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
+import useEventCartStore from "../../../../../../../../store/eventCartStore";
 
 interface ProductProps {
   pack: IProductPack;
-  cpmId: string;
+  cpfId: string;
   eventId: string;
+  cpFixed: ICPFixed;
 }
 
-export default function CPFProduct({ pack, cpmId, eventId }: ProductProps) {
+export default function CPFProduct({
+  pack,
+  cpfId,
+  eventId,
+  cpFixed,
+}: ProductProps) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -23,17 +33,19 @@ export default function CPFProduct({ pack, cpmId, eventId }: ProductProps) {
     eventCarts,
     getPackQuantity,
     removeFromCart,
-    increasePackCartQuantity,
+    addPackToCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
-  } = useEventCart();
+  } = useEventCartStore();
 
   const { name, price, product_id, products: product, quantity } = pack;
 
   const [packQuantity, setPackQuantity] = React.useState(0);
 
   useEffect(() => {
-    setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
+    setPackQuantity(
+      getPackQuantity(eventId, pack.product_id, cpFixed.id, pack.id)
+    );
   }, [eventCarts]);
 
   const handleAddToCart = () => {
@@ -57,19 +69,48 @@ export default function CPFProduct({ pack, cpmId, eventId }: ProductProps) {
 
     if (!product) return;
 
-    increasePackCartQuantity(eventId, product, packCartItem);
+    const productEvent: IEventProduct = {
+      id: product.id,
+      created_at: product.created_at,
+      name: product.name,
+      description: product.description,
+      type: product.type,
+      is_public: product.is_public,
+      discount_code: product.discount_code,
+      discount_percent: product.discount_percent,
+      weight: product.weight,
+      price: product.price,
+      campaign_id: product.campaign_id,
+      is_archived: product.is_archived,
+      category: product.category,
+      is_monthly: product.is_monthly,
+      owner_id: product.owner_id,
+      beers: product.beers,
+      product_multimedia: product.product_multimedia,
+      product_lots: product.product_lots,
+      product_inventory: product.product_inventory,
+      reviews: product.reviews,
+      likes: product.likes,
+      awards: product.awards,
+      product_packs: product.product_packs,
+      cpm_id: "",
+      cpf_id: cpFixed.id,
+      cp_name: cpFixed.cp_name,
+    };
+
+    addPackToCart(eventId, productEvent, packCartItem);
   };
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(eventId, product_id, pack.id);
+    increaseOnePackCartQuantity(eventId, product_id, cpFixed.id, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(eventId, product_id, pack.id);
+    decreaseOnePackCartQuantity(eventId, product_id, cpFixed.id, pack.id);
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(eventId, product_id, pack.id);
+    removeFromCart(eventId, product_id, cpFixed.id, pack.id);
   };
 
   return (
@@ -92,7 +133,7 @@ export default function CPFProduct({ pack, cpmId, eventId }: ProductProps) {
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link
           target={"_blank"}
-          href={`/consumption_points/products/${cpmId}`}
+          href={`/consumption_points/products/${cpfId}`}
           locale={locale}
         >
           {product?.name}

@@ -3,7 +3,6 @@ import MarketCartButtons from "../../../../../components/common/MarketCartButton
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../../constants";
-import { useEventCart } from "../../../../../../context/EventCartContext";
 import { Type } from "../../../../../../../lib/productEnum";
 import {
   IProduct,
@@ -11,6 +10,7 @@ import {
   IProductPackEventCartItem,
 } from "../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import useEventCartStore from "../../../../../../store/eventCartStore";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -29,6 +29,9 @@ export default function EventCheckoutPackItem({
 }: Props) {
   const t = useTranslations();
 
+  const cpId =
+    productPack.cpm_id !== "" ? productPack.cpm_id : productPack.cpf_id;
+
   const [animateRemove, setAnimateRemove] = useState(false);
   const [packQuantity, setPackQuantity] = React.useState(0);
 
@@ -38,30 +41,30 @@ export default function EventCheckoutPackItem({
     removeFromCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
-  } = useEventCart();
+  } = useEventCartStore();
 
   useEffect(() => {
-    setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
+    setPackQuantity(getPackQuantity(eventId, pack.product_id, cpId, pack.id));
   }, [eventCarts]);
 
   const handleIncreaseCartQuantity = (
     item: IProductPackEventCartItem,
     pack: IProductPack
   ) => {
-    increaseOnePackCartQuantity(eventId, item.id, pack.id);
+    increaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
   };
 
   const handleDecreaseCartQuantity = (
     item: IProductPackEventCartItem,
     pack: IProductPack
   ) => {
-    decreaseOnePackCartQuantity(eventId, item.id, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
     setAnimateRemove(true);
     setTimeout(() => {
-      removeFromCart(eventId, itemId, packId);
+      removeFromCart(eventId, itemId, cpId, packId);
     }, 500);
   };
 

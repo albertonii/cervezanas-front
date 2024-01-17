@@ -19,6 +19,9 @@ export default function EventProduct({ item, eventId }: Props) {
 
   return (
     <figure className="flex w-full flex-col space-y-2 border-2 bg-beer-softBlondeBubble p-2">
+      {/* Display Consumption Point name */}
+      <h2 className="text-lg text-gray-900">{item.cp_name}</h2>
+
       {/* Display product name */}
       <h2 className="text-lg text-gray-900">{item.name}</h2>
 

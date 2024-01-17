@@ -15,7 +15,7 @@ interface Props {
 export default function Packs({ product }: Props) {
   const t = useTranslations();
 
-  const { increasePackCartQuantity } = useShoppingCart();
+  const { addPackToCart } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
   const [isPackSelected, setIsPackSelected] = useState(true);
@@ -53,7 +53,7 @@ export default function Packs({ product }: Props) {
       randomUUID: selectedPack.randomUUID,
     };
 
-    increasePackCartQuantity(product, packCartItem);
+    addPackToCart(product, packCartItem);
 
     setPackQuantity(1);
   };

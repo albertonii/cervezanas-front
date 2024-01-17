@@ -2,7 +2,7 @@ import MinimizedCart from "./MinimizedCart";
 import MaxifiedCart from "./MaxifiedCart";
 import React, { useEffect, useState } from "react";
 import { IProductPackEventCartItem } from "../../../../../../../lib/types";
-import { useEventCart } from "../../../../../../context/EventCartContext";
+import useEventCartStore from "../../../../../../store/eventCartStore";
 
 interface Props {
   eventId: string;
@@ -11,7 +11,7 @@ interface Props {
 export default function EventCart({ eventId }: Props) {
   const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
 
-  const { eventCarts, existEventCart, createNewCart } = useEventCart();
+  const { eventCarts, existEventCart, createNewCart } = useEventCartStore();
 
   const [items, setItems] = useState<IProductPackEventCartItem[]>([]);
 

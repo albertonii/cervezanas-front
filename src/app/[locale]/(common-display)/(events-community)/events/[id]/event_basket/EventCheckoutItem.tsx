@@ -43,13 +43,13 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
   return (
     <>
       {productPack && (
-        <div className="mt-4 space-y-4">
-          <div className="">
+        <section className="mt-4 space-y-4">
+          <header className="">
             <p className="text-xl">
               <span className="font-semibold">{t("product_name")}:</span>{" "}
               {productPack.name}
             </p>
-          </div>
+          </header>
 
           {productPack.packs.map((pack) => (
             <>
@@ -63,7 +63,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
               </div>
             </>
           ))}
-        </div>
+        </section>
       )}
     </>
   );

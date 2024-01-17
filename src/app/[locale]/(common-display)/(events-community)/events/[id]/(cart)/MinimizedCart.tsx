@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { useEventCart } from "../../../../../../context/EventCartContext";
 import { Button } from "../../../../../components/common/Button";
+import useEventCartStore from "../../../../../../store/eventCartStore";
 
 interface Props {
   eventId: string;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MinimizedCart({ eventId, setIsMinimized }: Props) {
-  const { getCartQuantity } = useEventCart();
+  const { getCartQuantity } = useEventCartStore();
 
   return (
     <Button onClick={() => setIsMinimized(false)}>

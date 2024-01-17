@@ -6,8 +6,8 @@ import {
   IProductPack,
   IProductPackEventCartItem,
 } from "../../../../../../../lib/types";
-import { useEventCart } from "../../../../../../context/EventCartContext";
 import { formatCurrency } from "../../../../../../../utils/formatCurrency";
+import useEventCartStore from "../../../../../../store/eventCartStore";
 
 interface Props {
   pack: IProductPack;
@@ -16,27 +16,29 @@ interface Props {
 }
 
 export default function EventPackItem({ pack, item, eventId }: Props) {
+  const cpId = item.cpm_id !== "" ? item.cpm_id : item.cpf_id;
+
   const {
     removeFromCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
-  } = useEventCart();
+  } = useEventCartStore();
 
   const [animateRemove, setAnimateRemove] = useState(false);
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(eventId, item.id, pack.id);
+    increaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(eventId, item.id, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
   };
 
   const handleRemoveFromCart = () => {
     setTimeout(() => {
       setAnimateRemove(true);
 
-      removeFromCart(eventId, item.id, pack.id);
+      removeFromCart(eventId, item.id, cpId, pack.id);
     }, 500);
   };
 

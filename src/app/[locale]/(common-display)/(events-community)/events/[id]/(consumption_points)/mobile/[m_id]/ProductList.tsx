@@ -56,13 +56,14 @@ export default function ProductList({ cpMobile, eventId }: Props) {
             </thead>
 
             <tbody>
-              {cpm_products.map((cpm: ICPMProducts) => (
+              {cpm_products.map((cpm_product: ICPMProducts) => (
                 <>
-                  {cpm.product_packs && (
+                  {cpm_product.product_packs && (
                     <CPMProduct
-                      key={cpm.id}
-                      pack={cpm.product_packs}
-                      cpmId={cpm.id}
+                      key={cpm_product.id}
+                      pack={cpm_product.product_packs}
+                      cpmId={cpm_product.id}
+                      cpMobile={cpMobile}
                       eventId={eventId}
                     />
                   )}

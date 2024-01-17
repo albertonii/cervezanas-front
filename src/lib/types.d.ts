@@ -454,7 +454,7 @@ export interface ICPMProducts {
   cp_id: string;
   product_pack_id: string;
   product_packs?: IProductPack;
-  // cp_mobile: ICPMobile;
+  cp_mobile?: ICPMobile;
 }
 
 export interface IRefCPMProducts {
@@ -936,7 +936,11 @@ export interface IProductPackEventCartItem {
   price: number;
   image: string;
   name: string;
-  products?: IProduct;
+  products?: IEventProduct;
+  producer_id: string;
+  cpf_id: string;
+  cpm_id: string;
+  cp_name: string
 }
 
 export interface ICarouselItem {
@@ -986,6 +990,35 @@ export interface IProduct {
   // status: IProductEnum.Status;
   // product_packs: IRefProductPack[];
   product_packs?: IProductPack[];
+}
+
+export interface IEventProduct {
+  id: string;
+  created_at: string;
+  name: string;
+  description: string;
+  type: ProductType;
+  is_public: boolean;
+  discount_percent: number;
+  weight: number;
+  discount_code: string;
+  price: number; // TODO : quitar el price - pq está en product_pack
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+  beers?: IBeer[];
+  product_multimedia: IProductMultimedia[];
+  product_lots?: IProductLot[];
+  product_inventory?: Inventory[];
+  reviews?: IReview[];
+  likes?: ILike[];
+  awards?: IAward[];
+  product_packs?: IProductPack[];
+  cpm_id: string;
+  cpf_id: string;
+  cp_name: string;
 }
 
 export interface IModalProduct {

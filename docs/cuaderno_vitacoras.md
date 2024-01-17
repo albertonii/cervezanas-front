@@ -1,6 +1,6 @@
 # Listado de tareas:
 
-- Añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo.
+- En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo.
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
@@ -137,3 +137,36 @@ Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imá
 Enfocarnos en los diseños para el webminar
 Crear vídeo
 Nos vamos al BBF a finales de marzo
+
+---
+
+17 de enero
+
+Planificación de reunión workshop
+
+Crear un mapa de funcionalidades
+
+Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback.
+
+Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico
+
+Fechas para empezar a probar de verdad la aplicación
+
+Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+Dar de alta cervezas y consumir Cervezas. Sin meternos en detalles de distribución.
+
+Planificación de Cervezanas -> Pruebas y Feedback.
+
+Crear componente dentro de la aplicación para reportar los errores que detecten los usuarios.
+
+PARA EVENTOS - proximas iteraciones:
+En los PC con o sin eventos -> Dejarles que ellos puedan meter su menú o carta de productos: cervezas que no sean nuestras, comida, etc.
+
+Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR
+
+Cada vez que se dé de alta un productor que se reciba un correo.
+
+Solo mostrar productos de productores que sean supervisados por nosotros: estado de standby hasta aprobar al productor. Un correo para indicar que está en revisión su petición.
+
+NOTIFICACIOón para dar de alta productor y distribuidor
