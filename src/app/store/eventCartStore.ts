@@ -126,8 +126,6 @@ const useEventCartStore = create<EventCartState>((set, get) => {
               return pack;
             });
 
-            console.log(newPacks);
-
             return { ...item, packs: newPacks };
           }
           return item;

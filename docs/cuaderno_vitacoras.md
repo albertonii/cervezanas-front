@@ -1,6 +1,11 @@
 # Listado de tareas:
 
-- En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo.
+- Componente para reportar problemas en la aplicación
+- Securizar vista de Barman al leer código QR
+- Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- Para que un producto sea público debe de ser revisado antes por un administrador
+- En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío

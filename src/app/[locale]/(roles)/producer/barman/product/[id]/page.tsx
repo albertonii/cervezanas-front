@@ -9,8 +9,17 @@ export default async function BarmanProductPage({ params }: any) {
   const { id } = params;
   const eventOrderItemData = getEventOrderItemData(id);
   const [eventOrderItem] = await Promise.all([eventOrderItemData]);
-  if (!eventOrderItem) return <></>;
-  return <ManageEventProduct eventOrderItem={eventOrderItem} />;
+  return (
+    <>
+      {eventOrderItem ? (
+        <ManageEventProduct eventOrderItem={eventOrderItem} />
+      ) : (
+        <div>
+          <h2>No tienes los permisos necesarios para acceder a esta página</h2>
+        </div>
+      )}
+    </>
+  );
 }
 
 async function getEventOrderItemData(eventOrderItemId: string) {
@@ -43,23 +52,13 @@ async function getEventOrderItemData(eventOrderItemId: string) {
       )
       .eq("id", eventOrderItemId)
       .single();
-
-  //  .select(
-  //   `
-  //   *,
-  //   product_packs!event_order_items_product_pack_id_fkey (
-  //     *,
-  //       product_id (*,
-  //         product_multimedia (
-  //           p_principal
-  //         )
-  //       )
-  //   )
-
-  // `
-  // )
-
   if (eventOrderItemError) throw eventOrderItemError;
 
-  return eventOrderItemData as IEventOrderItem;
+  const eventOrderItem = eventOrderItemData as IEventOrderItem;
+
+  if (eventOrderItem.product_packs?.products?.owner_id !== session.user.id) {
+    return null;
+  }
+
+  return eventOrderItem;
 }

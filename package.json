@@ -16,7 +16,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:vitest": "vitest",
-    "dev:local-network": "npx next dev -H 192.168.0.39 -p 5000",
+    "dev:local-network": "npx next dev -H 172.19.0.1 -p 5000",
     "analyse": "ANALYZE=true pnpm run build"
   },
   "dependencies": {
