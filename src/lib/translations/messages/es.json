@@ -187,6 +187,7 @@
   "lot_quantity": "Cantidad de productos por lote",
   "yes": "Si",
   "no": "No",
+  "title_header": "Título",
   "product_type_header": "Tipo de producto",
   "event_type_header": "Tipo de evento",
   "campaign_type_header": "Tipo de campaña",
@@ -597,7 +598,8 @@
     "input_max_500": "El número debe ser menor o igual a 500",
     "input_max_2030": "El número debe ser menor o igual a 2030",
     "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
-    "inserting_report": "Error al insertar el informe."
+    "inserting_report": "Error al insertar el informe.",
+    "update_report": "Error al actualizar el informe."
   },
   "product_packs": "Packs de productos",
   "units": "Unidades",
@@ -736,5 +738,12 @@
   "report_title_placeholder": "Título del problema",
   "report_description_placeholder": "Descripción del problema",
   "report_problem_header": "Reportar problema",
-  "report_inserted_successfully": "Reporte insertado correctamente"
+  "report_inserted_successfully": "Reporte insertado correctamente",
+  "report_updated_successfully": "Reporte actualizado correctamente",
+  "user_reports": "Reportes de usuario",
+  "report_list": "Lista de reportes",
+  "report_details": "Detalles del reporte",
+  "resolved": "Resuelto",
+  "mark_as_pending": "Marcar como pendiente",
+  "mark_as_resolved": "Marcar como resuelto"
 }

@@ -189,6 +189,7 @@
   "lot_quantity": "Product quantity per lot",
   "yes": "Yes",
   "no": "No",
+  "title_header": "Title",
   "product_type_header": "Product Type",
   "event_type_header": "Event Type",
   "campaign_type_header": "Campaign Type",
@@ -563,7 +564,6 @@
     "invalid_card_exp_month": "Invalid card expiration month",
     "invalid_card_exp_year": "Invalid card expiration year",
     "error_30_max_length": "Maximum length of the field is 30 characters",
-    "error_50_max_length": "Maximum length of the field is 50 characters",
     "error_0_number_min_length": "Field must be equal or greater than 0",
     "error_50_number_max_length": "Field must be equal or lower than 50",
     "error_100_number_max_length": "Field must be equal or lower than 100",
@@ -585,7 +585,8 @@
     "input_max_500": "The number must be less than or equal to 500",
     "input_max_2030": "The number must be less than or equal to 2030",
     "lower_greater_than_upper": "The lower limit must be less than the upper limit",
-    "inserting_report": "Error inserting report."
+    "inserting_report": "Error inserting report.",
+    "updating_report": "Error updating report."
   },
   "product_packs": "Product packs",
   "units": "Units",
@@ -723,5 +724,12 @@
   "report_title_placeholder": "Title of the problem",
   "report_description_placeholder": "Describe the problem",
   "report_problem_header": "Report a problem",
-  "report_inserted_successfully": "Report inserted successfully"
+  "report_inserted_successfully": "Report inserted successfully",
+  "report_update_successfully": "Report updated successfully",
+  "user_reports": "User reports",
+  "report_list": "Report list",
+  "report_details": "Report details",
+  "resolved": "Resolved",
+  "mark_as_pending": "Mark as pending",
+  "mark_as_resolved": "Mark as resolved"
 }

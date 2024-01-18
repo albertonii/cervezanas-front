@@ -84,7 +84,7 @@ export default function ReportForm() {
 
     handleMessage({
       type: "success",
-      message: "report_inserted_successfully",
+      message: `${t("report_inserted_successfully")}`,
     });
 
     reset();

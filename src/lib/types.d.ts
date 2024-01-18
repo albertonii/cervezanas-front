@@ -1499,3 +1499,12 @@ export interface IFlatrateCost {
   is_checked_europe?: boolean;
   is_checked_international?: boolean;
 }
+
+export interface IUserReport {
+  id: string;
+  created_at: string;
+  title: string;
+  description: string;
+  file: string;
+  is_resolved: boolean;
+}
