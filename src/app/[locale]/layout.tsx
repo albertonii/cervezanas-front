@@ -11,6 +11,7 @@ import Header from "./Header";
 import Footer from "./components/Footer";
 import createServerClient from "../../utils/supabaseServer";
 import { INotification } from "../../lib/types";
+import ReporterFloatingButton from "./components/ReporterFloatingButton";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -45,6 +46,9 @@ export default async function AppLocaleLayout({
       <Suspense fallback={<Loading />}>
         <Providers session={session} messages={messages} locale={locale}>
           <section className="relative flex flex-col bg-beer-foam">
+            {/* Report a problem component only for logged in users */}
+            {session?.access_token && <ReporterFloatingButton />}
+
             <Header notifications={notifications ?? []} />
             <section
               className={classNames(

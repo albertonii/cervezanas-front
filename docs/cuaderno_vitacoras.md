@@ -1,7 +1,6 @@
 # Listado de tareas:
 
 - Componente para reportar problemas en la aplicación
-- Securizar vista de Barman al leer código QR
 - Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Para que un producto sea público debe de ser revisado antes por un administrador
@@ -60,6 +59,7 @@
 - [x] Configurar PC móviles
 - [x] Configurar PC fijos
 - [x] Al pulsar en editar evento -> Mostrar los PC Móviles asociados
+- [x] Securizar vista de Barman al leer código QR
 
 # 29 de noviembre 23
 

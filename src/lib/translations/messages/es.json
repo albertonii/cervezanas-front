@@ -596,7 +596,8 @@
     "input_max_150": "El número debe ser menor o igual a 150",
     "input_max_500": "El número debe ser menor o igual a 500",
     "input_max_2030": "El número debe ser menor o igual a 2030",
-    "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior"
+    "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
+    "inserting_report": "Error al insertar el informe."
   },
   "product_packs": "Packs de productos",
   "units": "Unidades",
@@ -729,5 +730,11 @@
   "weight": "Peso",
   "send_product": "Enviar producto",
   "share_this_link_via": "Comparte este enlace vía",
-  "copy": "Copiar"
+  "copy": "Copiar",
+  "report_problem": "Reportar problema",
+  "report_file": "Archivo con el problema (opcional)",
+  "report_title_placeholder": "Título del problema",
+  "report_description_placeholder": "Descripción del problema",
+  "report_problem_header": "Reportar problema",
+  "report_inserted_successfully": "Reporte insertado correctamente"
 }

@@ -568,8 +568,10 @@
     "error_50_number_max_length": "Field must be equal or lower than 50",
     "error_100_number_max_length": "Field must be equal or lower than 100",
     "min_2_characters": "Minimum length of the field is 2 characters",
+    "error_50_max_length": "Maximum length of the field is 50 characters",
     "error_200_max_length": "Maximum length of the field is 200 characters",
     "error_2500_max_length": "Maximum length of the field is 2500 characters",
+    "error_3500_max_length": "Maximum length of the field is 3500 characters",
     "password_match": "Passwords do not match",
     "select_location_required": "Select a location is required",
     "input_min_0": "Number cannot be negative",
@@ -582,7 +584,8 @@
     "input_max_150": "The number must be less than or equal to 150",
     "input_max_500": "The number must be less than or equal to 500",
     "input_max_2030": "The number must be less than or equal to 2030",
-    "lower_greater_than_upper": "The lower limit must be less than the upper limit"
+    "lower_greater_than_upper": "The lower limit must be less than the upper limit",
+    "inserting_report": "Error inserting report."
   },
   "product_packs": "Product packs",
   "units": "Units",
@@ -714,5 +717,11 @@
   "weight": "Weight",
   "send_product": "Send product",
   "share_this_link_via": "Share this link via",
-  "copy": "Copy"
+  "copy": "Copy",
+  "report_problem": "Report a problem",
+  "report_file": "Report file",
+  "report_title_placeholder": "Title of the problem",
+  "report_description_placeholder": "Describe the problem",
+  "report_problem_header": "Report a problem",
+  "report_inserted_successfully": "Report inserted successfully"
 }
