@@ -639,6 +639,10 @@
   "message_to_distributor_contract_distribution": "Mensaje al distribuidor",
   "delete_contract_description_modal": "¿Está seguro de que desea eliminar el contrato? Esta acción no se puede deshacer.",
   "cancel_contract_description_modal": "¿Está seguro de que desea cancelar el contrato? Esta acción no se puede deshacer.",
+  "authorize_distributor_description_modal": "¿Está seguro de que desea autorizar el contrato con este distribuidor? ",
+  "authorize_producer_description_modal": "¿Está seguro de que desea autorizar el contrato con este productor? ",
+  "unauthorize_distributor_description_modal": "¿Está seguro de que desea desautorizar el contrato con este distribuidor? ",
+  "unauthorize_producer_description_modal": "¿Está seguro de que desea desautorizar el contrato con este productor? ",
   "cancel_contract": "Cancelar contrato",
   "come_back": "Volver",
   "sign_in_success": "Sesión iniciada correctamente",
@@ -682,6 +686,7 @@
   "admin_events": "Eventos",
   "admin_cps": "Puntos de consumo",
   "admin_campaigns": "Campañas",
+  "authorized_users": "Usuarios autorizados",
   "distributor_feedback": "Feedback",
   "business_orders": "Pedidos",
   "messages": {
@@ -745,5 +750,8 @@
   "report_details": "Detalles del reporte",
   "resolved": "Resuelto",
   "mark_as_pending": "Marcar como pendiente",
-  "mark_as_resolved": "Marcar como resuelto"
+  "mark_as_resolved": "Marcar como resuelto",
+  "is_read": "Leído",
+  "access_level": "Rol",
+  "authorized": "Autorizado"
 }

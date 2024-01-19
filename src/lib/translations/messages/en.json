@@ -476,6 +476,10 @@
   "delete_cp_description_modal": "Are you sure you want to delete the consumption point? This action can not be undone.",
   "accept_cp_description_modal": "Are you sure you want to accept the request for this consumption point?",
   "reject_cp_description_modal": "Are you sure you want to reject the request for this consumption point?",
+  "authorize_distributor_description_modal": "Are you sure you want to authorize the contract with this distributor?",
+  "authorize_producer_description_modal": "Are you sure you want to authorize the contract with this producer?",
+  "unauthorize_distributor_description_modal": "Are you sure you want to unauthorize the contract with this distributor?",
+  "unauthorize_producer_description_modal": "Are you sure you want to unauthorize the contract with this producer?",
   "reject": "Reject",
   "cp_fixed_list": "Fixed consumption points list",
   "cp_mobile_list": "Mobile consumption points list",
@@ -669,6 +673,7 @@
   "admin_events": "Events",
   "admin_cps": "Consumption Points",
   "admin_campaigns": "Campaigns",
+  "authorized_users": "Authorized Users",
   "distributor_feedback": "Feedback",
   "business_orders": "Orders",
   "messages": {
@@ -731,5 +736,8 @@
   "report_details": "Report details",
   "resolved": "Resolved",
   "mark_as_pending": "Mark as pending",
-  "mark_as_resolved": "Mark as resolved"
+  "mark_as_resolved": "Mark as resolved",
+  "is_read": "Is read",
+  "access_level": "Role",
+  "authorized": "Authorized"
 }

@@ -145,6 +145,9 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
     case "contracts_cps":
       return `/${role}/profile/${option}`;
 
+    case "authorized_users":
+      return `/admin/profile/${option}`;
+
     case "business_orders":
       return `/${role}/profile/${option}`;
 

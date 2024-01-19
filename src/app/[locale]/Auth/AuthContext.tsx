@@ -206,8 +206,8 @@ export const AuthContextProvider = ({
         .from("users")
         .select(
           `
-          *
-        `
+            *
+          `
         )
         .eq("email", payload.email);
 
@@ -226,6 +226,7 @@ export const AuthContextProvider = ({
         });
         return;
       }
+
       const { error, data } = (await supabase.auth.signUp(
         payload
       )) as AuthResponse;
@@ -236,33 +237,19 @@ export const AuthContextProvider = ({
       const access_level = data.user?.user_metadata.access_level;
 
       if (access_level === ROLE_ENUM.Productor) {
-        const { error: roleError } = await supabase
-          .from("producer_user")
-          .insert({
-            user: data.user.id,
-          });
-
-        if (roleError) {
-          handleMessage({
-            message: roleError.message,
-            type: "error",
-          });
-          return;
-        }
+        // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
+        const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+        const producerLink = "/admin/profile/producers";
+        fetch(
+          `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`
+        );
       } else if (access_level === ROLE_ENUM.Distributor) {
-        const { error: roleError } = await supabase
-          .from("distributor_user")
-          .insert({
-            user: data.user.id,
-          });
-
-        if (roleError) {
-          handleMessage({
-            message: roleError.message,
-            type: "error",
-          });
-          return;
-        }
+        // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
+        const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+        const distributorLink = "/admin/profile/distributors";
+        fetch(
+          `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`
+        );
       }
 
       if (error) {

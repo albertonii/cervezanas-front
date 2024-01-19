@@ -34,6 +34,7 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - [] Hacer que las vistas en profile distributor sean homogéneas
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
+- Añadir en vista de eventos para admin los PC asociados a los eventos
 
 # Tareas realizadas
 
@@ -188,10 +189,11 @@ NOTIFICACIOón para dar de alta productor y distribuidor
 
 - Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 
-1. Crear un nuevo campo en la tabla de usuarios -> is_authorized: boolean
-2. Lógica al iniciar sesión, si el usuario no está autorizado, se mostrará un mensaje indicando que está en revisión su petición
-3. Vista en el panel de administración para autorizar a un usuario
-4. Vista en el panel de administración para rechazar a un usuario
-5. Vista en el panel de administración para ver todos los usuarios que están en revisión
-6. Vista en el panel de administración para ver todos los usuarios que están autorizados
-7. Vista en el panel de administración para ver todos los usuarios que están rechazados
+1. [x] Crear un nuevo campo en la tabla de usuarios -> is_authorized: boolean
+2. [x] Lógica al iniciar sesión, si el usuario no está autorizado, se mostrará un mensaje indicando que está en revisión su petición
+3. [x] Notificar al administrador que hay un nuevo usuario que está en revisión
+4. Vista en el panel de administración para autorizar a un usuario
+5. Vista en el panel de administración para rechazar a un usuario
+6. Vista en el panel de administración para ver todos los usuarios que están en revisión
+7. Vista en el panel de administración para ver todos los usuarios que están autorizados
+8. Vista en el panel de administración para ver todos los usuarios que están rechazados

@@ -52,6 +52,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "bell",
       option: "reports",
     },
+    {
+      name: t("authorized_users"),
+      icon: "user",
+      option: "authorized_users",
+    },
   ];
 
   return (
