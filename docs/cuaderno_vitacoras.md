@@ -4,7 +4,12 @@
 
 Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
 
+- Crear presentación de workshop para el lunes
+- Enviar correo a Miguel para contratar servicios
 - Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
+- Contratar servicios RESEND - SMTP - MIGUEL
+- Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
+- Contratar plan de pago Supabase - MIGUEL
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
@@ -21,9 +26,7 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
-- Contratar servicios RESEND - SMTP
-- Contratar servicios FV0 - API REST Servicios Sistema de Distribución
-- Contratar plan de pago Supabase
+- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Editar una campaña
 - Vincular productos a la campaña
 - [] Hacer que las vistas en profile consumer sean homogéneas
@@ -32,6 +35,7 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
+- ERROR AL Signup Distributor
 
 # Tareas realizadas
 
@@ -180,7 +184,7 @@ Cada vez que se dé de alta un productor que se reciba un correo.
 
 Solo mostrar productos de productores que sean supervisados por nosotros: estado de standby hasta aprobar al productor. Un correo para indicar que está en revisión su petición.
 
-NOTIFICACIOón para dar de alta productor y distribuidor
+NOTIFICACIÓN para dar de alta productor y distribuidor
 
 --
 
@@ -197,3 +201,16 @@ NOTIFICACIOón para dar de alta productor y distribuidor
 ---
 
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
+  No está funcionando... ¿puede que haya que verificar APP con Google?
+
+---
+
+Reunión -> Qué tiempo tienen para ir haciendo pruebas. Buscar unas fechas para empezar a probar de verdad la aplicación.
+Que estaremos en BBF a finales de marzo.
+Planificación de este año.
+
+1. Comunidad y experiencias (itinerarios, etc) Queremos fomentar mucho las experiencias.
+2. Producto online
+3. Eventos
+
+-- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES

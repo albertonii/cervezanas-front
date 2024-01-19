@@ -4,10 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import {
-  redirectIfNoLocale,
-  isPrivateSectionIncluded,
-} from "./utils/middleware/functions";
+import { isPrivateSectionIncluded } from "./utils/middleware/functions";
 import { createSupabaseReqResClient } from "./utils/supabaseReqResClient";
 
 const locales = ["en", "es"];
@@ -35,14 +32,14 @@ export async function middleware(req: NextRequest) {
   const url = nextUrl.clone();
 
   const pathname = url.pathname;
-
-  // If no locale is found, redirect to default locale
-  const isMissingLocale = await redirectIfNoLocale(req);
-
+  const locale = pathname.split("/")[1];
+  const pathnameIsMissingLocale = !locales.includes(locale);
   // Redirect if there is no locale
-  if (isMissingLocale) {
+  if (pathnameIsMissingLocale) {
     const locale = getLocale(req);
-    return NextResponse.redirect(new URL(`${locale}/${pathname}`, req.url));
+    // e.g. incoming request is /products
+    // The new URL is now /es/products
+    return NextResponse.redirect(new URL(`/${locale}/${pathname}`, req.url));
   }
 
   const isIncluded = await isPrivateSectionIncluded(req);
