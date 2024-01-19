@@ -37,21 +37,21 @@ async function checkAuthorizatedUser() {
 
   const user = session.user as IUser;
 
-  const isRoleProducer = await checkAuthorizatedUserByRole(user);
-  const isAuthorized = await checkAuthorizedProducerByAdmin(user.id);
-  return isRoleProducer && isAuthorized;
+  const isRoleDistributor = await checkAuthorizatedUserByRole(user);
+  const isAuthorized = await checkAuthorizedDistributorByAdmin(user.id);
+  return isRoleDistributor && isAuthorized;
 }
 
 async function checkAuthorizatedUserByRole(user: IUser) {
   const role = user.user_metadata.access_level;
-  return role === ROLE_ENUM.Productor;
+  return role === ROLE_ENUM.Distributor;
 }
 
-async function checkAuthorizedProducerByAdmin(userId: string) {
+async function checkAuthorizedDistributorByAdmin(userId: string) {
   const supabase = await createServerClient();
 
   const { data, error } = await supabase
-    .from("producer_user")
+    .from("distributor_user")
     .select("*")
     .eq("user", userId)
     .is("is_authorized", true);

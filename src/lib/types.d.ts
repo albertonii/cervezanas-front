@@ -342,25 +342,6 @@ export interface IProfile {
   cp_organizer_status: number;
 }
 
-// export interface IDistributorUser {
-//   id: string;
-//   created_at: string;
-//   updated_at: string;
-//   owner_id: string;
-//   name: string;
-//   lastname: string;
-//   phone: string;
-//   address: string;
-//   city: string;
-//   state: string;
-//   zip: string;
-//   country: string;
-//   email: string;
-//   role: string;
-//   username: string;
-//   profile_location: IProfileLocation[];
-// }
-
 export interface IEvent {
   id: string;
   created_at: string;
@@ -1327,22 +1308,6 @@ export enum PROVIDER_TYPE {
   GOOGLE = "google",
 }
 
-// export interface IDistributorUser_Profile {
-//   id: string;
-//   created_at: string;
-//   avatar_url: string;
-//   bg_url: string;
-//   birthdate: string;
-//   cp_organizer_status: number;
-//   email: string;
-//   name: string;
-//   lastname: string;
-//   role: string;
-//   username: string;
-//   distributor_user: IDistributorUser[];
-//   profile_location: IProfileLocation[];
-// }
-
 export interface IDistributorUser {
   user: string; // ID
   created_at: string;
@@ -1351,26 +1316,11 @@ export interface IDistributorUser {
   company_name: string;
   company_description: string;
   location_id: string;
+  is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
   coverage_areas?: ICoverageArea[];
 }
-
-// export interface IProducerUser {
-//   id: string;
-//   created_at: string;
-//   avatar_url: string;
-//   bg_url: string;
-//   birthdate: string;
-//   cp_organizer_status: number;
-//   email: string;
-//   name: string;
-//   lastname: string;
-//   role: string;
-//   username: string;
-//   distributor_user: IProducerUser;
-//   location_id: IProfileLocation[];
-// }
 
 export interface IProducerUser {
   user: string; // ID
@@ -1378,6 +1328,7 @@ export interface IProducerUser {
   company_name: string;
   company_description: string;
   location_id: string;
+  is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }

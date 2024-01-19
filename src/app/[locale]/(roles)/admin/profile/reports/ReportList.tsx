@@ -66,10 +66,6 @@ export default function EventList({ reports: rs }: Props) {
     setSorting(sort);
   };
 
-  const handleClick = (report: IUserReport) => {
-    console.log("report", report);
-  };
-
   return (
     <section className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       <InputSearch
@@ -105,6 +101,10 @@ export default function EventList({ reports: rs }: Props) {
               {t("description_header")}
             </th>
 
+            <th scope="col" className="hover px-6 py-3">
+              {t("status_header")}
+            </th>
+
             <th scope="col" className="px-6 py-3 ">
               {t("action_header")}
             </th>
@@ -133,6 +133,14 @@ export default function EventList({ reports: rs }: Props) {
 
                 <td className="cursor-pointer truncate px-6 py-4">
                   {userReport.description}
+                </td>
+
+                <td
+                  className={`${
+                    userReport.is_resolved && "font-semibold text-beer-gold"
+                  } cursor-pointer truncate px-6 py-4`}
+                >
+                  {userReport.is_resolved ? t("resolved") : t("pending")}
                 </td>
 
                 <td className="flex items-center justify-center px-6 py-4">

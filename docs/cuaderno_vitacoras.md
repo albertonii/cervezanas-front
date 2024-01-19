@@ -1,10 +1,14 @@
 # Listado de tareas:
 
-- Componente para reportar problemas en la aplicación
+- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
+
+Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR - MIGUEL
 - Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- Securizar creación de un Distribuidor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Para que un producto sea público debe de ser revisado antes por un administrador
-- En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo
 - Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
@@ -60,6 +64,8 @@
 - [x] Configurar PC fijos
 - [x] Al pulsar en editar evento -> Mostrar los PC Móviles asociados
 - [x] Securizar vista de Barman al leer código QR
+- [x] Componente para reportar problemas en la aplicación
+- [x] En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo
 
 # 29 de noviembre 23
 
@@ -175,3 +181,17 @@ Cada vez que se dé de alta un productor que se reciba un correo.
 Solo mostrar productos de productores que sean supervisados por nosotros: estado de standby hasta aprobar al productor. Un correo para indicar que está en revisión su petición.
 
 NOTIFICACIOón para dar de alta productor y distribuidor
+
+--
+
+19 de enero
+
+- Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+
+1. Crear un nuevo campo en la tabla de usuarios -> is_authorized: boolean
+2. Lógica al iniciar sesión, si el usuario no está autorizado, se mostrará un mensaje indicando que está en revisión su petición
+3. Vista en el panel de administración para autorizar a un usuario
+4. Vista en el panel de administración para rechazar a un usuario
+5. Vista en el panel de administración para ver todos los usuarios que están en revisión
+6. Vista en el panel de administración para ver todos los usuarios que están autorizados
+7. Vista en el panel de administración para ver todos los usuarios que están rechazados

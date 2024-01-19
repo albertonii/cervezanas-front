@@ -39,10 +39,6 @@ export default function ReportDetails({ report }: Props) {
     getFile();
   }, []);
 
-  useEffect(() => {
-    console.log(file);
-  }, [file]);
-
   const handleUpdateIsResolved = async () => {
     const { error } = await supabase
       .from("user_reports")

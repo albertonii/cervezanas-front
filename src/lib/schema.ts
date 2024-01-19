@@ -837,6 +837,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string | null
+          is_authorized: boolean | null
           location_id: string | null
           nif: string | null
           user: string
@@ -846,6 +847,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
           user: string
@@ -855,6 +857,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
           user?: string
@@ -1542,6 +1545,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string
+          is_authorized: boolean | null
           location_id: string | null
           user: string
         }
@@ -1549,6 +1553,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          is_authorized?: boolean | null
           location_id?: string | null
           user: string
         }
@@ -1556,6 +1561,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          is_authorized?: boolean | null
           location_id?: string | null
           user?: string
         }

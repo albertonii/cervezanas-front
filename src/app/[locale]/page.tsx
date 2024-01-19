@@ -30,26 +30,4 @@ async function getMonthlyProducts() {
 
   if (monthlyProductsError) throw monthlyProductsError;
   return monthlyProducts as IMonthlyProduct[];
-
-  // const { data: monthlyProducts, error: monthlyProductsError } = await supabase
-  //   .from("monthly_products")
-  //   .select(
-  //     `
-  //   *,
-  //   product_id (
-  //     *,
-  //     beers (*),
-  //     product_multimedia (
-  //       p_principal
-  //     ),
-  //     product_inventory (
-  //       quantity
-  //     ),likes (
-  //       id
-  //     ), reviews (
-  //       overall
-  //     )
-  //   )
-  // `
-  //   );
 }
