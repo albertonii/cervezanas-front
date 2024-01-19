@@ -161,6 +161,19 @@ export default function SignIn() {
 
   const handleGoogleSignIn = async () => {
     signInWithProvider("google");
+
+    // const supabaseClient = createBrowserClient();
+
+    // supabaseClient.auth.signInWithOAuth({
+    //   provider: "google",
+    //   options: {
+    //     redirectTo: `${window.location.origin}/api/auth/callback`,
+    //     queryParams: {
+    //       access_type: "offline",
+    //       prompt: "consent",
+    //     },
+    //   },
+    // });
   };
 
   if (!isPageLoad) {
@@ -172,7 +185,7 @@ export default function SignIn() {
       {!resetPassword && (
         <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
           {/* Login form */}
-          <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+          <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none ">
             <header>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
                 {t("sign_in")}
@@ -256,13 +269,11 @@ export default function SignIn() {
 
           <Button
             accent
-            class="mb-2 mr-2 flex w-full flex-row items-center rounded-lg border border-gray-300 bg-white 
-              px-3 py-0 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 
-              dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+            class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => handleGoogleSignIn()}
           >
             <div className="flex items-center ">
-              <span className="mx-2 my-4 flex h-6 w-6 items-center justify-center">
+              <span className="mx-2 my-2 flex h-6 w-6 items-center justify-center">
                 <svg
                   className="w-6"
                   xmlns="http://www.w3.org/2000/svg"

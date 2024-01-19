@@ -157,6 +157,28 @@ export const AuthContextProvider = ({
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange(
       async (event: any, currentSession: any) => {
+        console.log(event);
+        console.log(currentSession);
+
+        if (currentSession && currentSession.provider_token) {
+          window.localStorage.setItem(
+            "oauth_provider_token",
+            currentSession.provider_token
+          );
+        }
+
+        if (currentSession && currentSession.provider_refresh_token) {
+          window.localStorage.setItem(
+            "oauth_provider_refresh_token",
+            currentSession.provider_refresh_token
+          );
+        }
+
+        if (event === "SIGNED_OUT") {
+          window.localStorage.removeItem("oauth_provider_token");
+          window.localStorage.removeItem("oauth_provider_refresh_token");
+        }
+
         if (
           !serverSession ||
           !currentSession ||

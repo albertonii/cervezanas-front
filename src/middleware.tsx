@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "./lib/translations/i18n";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
+import {
+  redirectIfNoLocale,
+  isPrivateSectionIncluded,
+} from "./utils/middleware/functions";
 import { createSupabaseReqResClient } from "./utils/supabaseReqResClient";
 
 const locales = ["en", "es"];
@@ -18,21 +22,10 @@ function getLocale(request: NextRequest): string | undefined {
   return matchLocale(languages, locales, i18n.defaultLocale);
 }
 
-const privateSections = [
-  "consumer",
-  "distributor",
-  "producer",
-  "admin",
-  "profile",
-  "cart",
-  "checkout",
-  "barman",
-];
-
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
 export async function middleware(req: NextRequest) {
-  "user server";
+  ("user server");
 
   const res = NextResponse.next();
 
@@ -43,23 +36,19 @@ export async function middleware(req: NextRequest) {
 
   const pathname = url.pathname;
 
-  const locale = pathname.split("/")[1];
-  const pathnameIsMissingLocale = !locales.includes(locale);
+  // If no locale is found, redirect to default locale
+  const isMissingLocale = await redirectIfNoLocale(req);
 
   // Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
+  if (isMissingLocale) {
     const locale = getLocale(req);
-
-    // e.g. incoming request is /products
-    // The new URL is now /es/products
-    return NextResponse.redirect(new URL(`/${locale}/${pathname}`, req.url));
+    return NextResponse.redirect(new URL(`${locale}/${pathname}`, req.url));
   }
 
-  const urlSection = pathname.split("/")[2];
+  const isIncluded = await isPrivateSectionIncluded(req);
 
-  if (privateSections.includes(urlSection)) {
+  if (isIncluded) {
     // We need to create a response and hand it to the supabase client to be able to modify the response headers.
-
     const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 

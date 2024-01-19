@@ -4,12 +4,8 @@
 
 Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
 
-- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR - MIGUEL
-- Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
-- Securizar creación de un Distribuidor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- Para que un producto sea público debe de ser revisado antes por un administrador
-- Comprobar que sign in con Google sea igual que por usuario y contraseña
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
@@ -35,6 +31,7 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
+- Para que un producto sea público debe de ser revisado antes por un administrador
 
 # Tareas realizadas
 
@@ -67,6 +64,8 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - [x] Securizar vista de Barman al leer código QR
 - [x] Componente para reportar problemas en la aplicación
 - [x] En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo
+- [x] Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- [x] Securizar creación de un Distribuidor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 
 # 29 de noviembre 23
 
@@ -192,8 +191,9 @@ NOTIFICACIOón para dar de alta productor y distribuidor
 1. [x] Crear un nuevo campo en la tabla de usuarios -> is_authorized: boolean
 2. [x] Lógica al iniciar sesión, si el usuario no está autorizado, se mostrará un mensaje indicando que está en revisión su petición
 3. [x] Notificar al administrador que hay un nuevo usuario que está en revisión
-4. Vista en el panel de administración para autorizar a un usuario
-5. Vista en el panel de administración para rechazar a un usuario
-6. Vista en el panel de administración para ver todos los usuarios que están en revisión
-7. Vista en el panel de administración para ver todos los usuarios que están autorizados
-8. Vista en el panel de administración para ver todos los usuarios que están rechazados
+4. [x] Vista en el panel de administración para autorizar a un usuario
+5. [x] Vista en el panel de administración para rechazar a un usuario
+
+---
+
+- Comprobar que sign in con Google sea igual que por usuario y contraseña
