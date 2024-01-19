@@ -54,6 +54,7 @@ export function OrderList() {
     { header: t("price_header") },
     { header: t("status_header") },
     { header: t("tracking_number_header") },
+    { header: t("date_header") },
     { header: t("action_header") },
   ];
 

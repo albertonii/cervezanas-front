@@ -6,6 +6,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
 import { IconButton } from "../../../../components/common/IconButton";
 import { encodeBase64 } from "../../../../../../utils/utils";
+import { formatDateString } from "../../../../../../utils/formatDate";
 
 interface Props {
   order: IOrder;
@@ -39,6 +40,8 @@ export default function OTableData({ order, key }: Props) {
       <td className="px-6 py-4">{t(order.status)}</td>
 
       <td className="px-6 py-4">{order.tracking_id}</td>
+
+      <td className="px-6 py-4">{formatDateString(order.created_at)}</td>
 
       <td className="item-center flex justify-center px-6 py-4">
         <IconButton

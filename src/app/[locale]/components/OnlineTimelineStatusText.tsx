@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import React from "react";
-import { ONLINE_ORDER_STATUS } from "../../../../../constants";
+import { ONLINE_ORDER_STATUS } from "../../../constants";
 
 interface OrderTimelineProps {
   status: string;

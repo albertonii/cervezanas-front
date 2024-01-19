@@ -44,7 +44,7 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("online_orders"),
       icon: "shopping-cart",
-      option: "orders",
+      option: "online_orders",
     },
     {
       name: t("reviews"),
