@@ -67,7 +67,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
     const currentUrl = window.location.href;
 
     router.push(
-      `/${currentUrl}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `${currentUrl}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

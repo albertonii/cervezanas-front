@@ -26,7 +26,7 @@ export default function EOTableData({ order, key }: Props) {
     const currentUrl = window.location.href;
 
     router.push(
-      `/${currentUrl}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `${currentUrl}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 
