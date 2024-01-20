@@ -1,5 +1,5 @@
 import React from "react";
-import { EVENT_ORDER_ITEM_STATUS } from "../../../../../../constants";
+import { EVENT_ORDER_ITEM_STATUS } from "../../../../../../../../constants";
 
 interface OrderTimelineProps {
   status: string;

@@ -1,11 +1,11 @@
 import ErrorCheckout from "./ErrorCheckout";
 import React from "react";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types";
-import { decodeBase64 } from "../../../../../utils/utils";
-import createServerClient from "../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../lib/actions";
+import { decodeBase64 } from "../../../../../../../../utils/utils";
+import createServerClient from "../../../../../../../../utils/supabaseServer";
+import { VIEWS } from "../../../../../../../../constants";
+import { IOrder } from "../../../../../../../../lib/types";
+import readUserSession from "../../../../../../../../lib/actions";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -41,12 +41,7 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Error({ searchParams }: any) {
   const { orderData, isError } = await getCheckoutErrorData(searchParams);
   const [order] = await Promise.all([orderData]);
-  if (!order) return <></>;
-  return (
-    <>
-      <ErrorCheckout order={order} isError={isError} />
-    </>
-  );
+  return <>{order && <ErrorCheckout order={order} isError={isError} />}</>;
 }
 
 async function getCheckoutErrorData(searchParams: any) {
@@ -88,49 +83,16 @@ async function getCheckoutErrorData(searchParams: any) {
     .select(
       `
       *,
-      shipping_info_id,
-      billing_info_id,
-      shipping_info!orders_shipping_info_id_fkey (
-        id,
-        created_at,
-        updated_at,
-        owner_id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        address_extra,
-        address_observations,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default
+      shipping_info(id, *),
+      billing_info(id, *),
+      products(
+        id, 
+        name, 
+        price,
+        product_multimedia (*),
+        order_items (*)
       ),
-      billing_info!orders_billing_info_id_fkey (
-        id,
-        created_at,
-        updated_at,
-        owner_id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default
-      ),
-      business_orders!business_orders_order_id_fkey (
-         *,
-        order_items (
-          *,
-          product_packs (*)
-        )
-      )
+      business_orders (*)
     `
     )
     .eq("order_number", orderId)
@@ -151,8 +113,5 @@ async function getCheckoutErrorData(searchParams: any) {
     };
   }
 
-  return {
-    orderData: orderData as IOrder,
-    isError: false,
-  };
+  return { orderData: orderData as IOrder, isError: false };
 }

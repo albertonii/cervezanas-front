@@ -1,17 +1,17 @@
 import React from "react";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { IEventOrderItem } from "../../../../../../lib/types";
+import { IEventOrderItem } from "../../../../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../../constants";
-import { Button } from "../../../../components/common/Button";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { StatusTimeline } from "../../../../components/StatusTimeline";
+} from "../../../../../../../../../constants";
+import { Button } from "../../../../../../../components/common/Button";
+import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
+import { StatusTimeline } from "../../../../../../../components/StatusTimeline";
 
 interface Props {
   eventOrderItem: IEventOrderItem;

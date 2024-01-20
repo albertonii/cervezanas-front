@@ -1,5 +1,3 @@
-import EventTimelineStatusText from "../(common-display)/checkout/event/success/EventTimelineStatusText";
-import EventTimelineStatusBar from "../(common-display)/checkout/event/success/EventTimelineStatusBar";
 import React from "react";
 import { useTranslations } from "next-intl";
 import OnlineTimelineStatusBar from "./OnlineTimelineStatusBar";
@@ -10,9 +8,11 @@ import {
   ONLINE_ORDER_STATUS,
   ORDER_TYPE,
 } from "../../../constants";
-import EventProductTimelineStatusText from "../(common-display)/checkout/event/success/EventProductTimelineStatusText";
-import EventProductTimelineStatusBar from "../(common-display)/checkout/event/success/EventProductTimelineStatusBar";
 import OnlineTimelineStatusText from "./OnlineTimelineStatusText";
+import EventTimelineStatusText from "../(roles)/consumer/profile/event_orders/checkout/success/EventTimelineStatusText";
+import EventTimelineStatusBar from "../(roles)/consumer/profile/event_orders/checkout/success/EventTimelineStatusBar";
+import EventProductTimelineStatusText from "../(roles)/consumer/profile/event_orders/checkout/success/EventProductTimelineStatusBar";
+import EventProductTimelineStatusBar from "../(roles)/consumer/profile/event_orders/checkout/success/EventProductTimelineStatusBar";
 
 interface OrderTimelineProps {
   orderType: string;

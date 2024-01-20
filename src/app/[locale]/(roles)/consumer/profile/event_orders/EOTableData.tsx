@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { IEventOrder } from "../../../../../../lib/types";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { formatCurrency } from "../../../../../../utils/formatCurrency";
@@ -15,7 +15,6 @@ interface Props {
 
 export default function EOTableData({ order, key }: Props) {
   const t = useTranslations();
-  const locale = useLocale();
   const router = useRouter();
 
   const handleClickView = (order: IEventOrder) => {
@@ -23,8 +22,11 @@ export default function EOTableData({ order, key }: Props) {
       JSON.stringify({ Ds_Order: order.order_number })
     );
 
+    // Get current url
+    const currentUrl = window.location.href;
+
     router.push(
-      `/${locale}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `/${currentUrl}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

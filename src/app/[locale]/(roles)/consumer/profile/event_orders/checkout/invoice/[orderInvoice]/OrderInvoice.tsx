@@ -12,12 +12,13 @@ import {
   Svg,
   Line,
 } from "@react-pdf/renderer";
-import { IOrder } from "../../../../../../lib/types";
-import { Table } from "../../../../components/invoice/Table";
-import { TableTotalInvoice } from "../../../../components/invoice/TableTotalInvoice";
-import { FooterInvoice } from "../../../../components/invoice/FooterInvoice";
-import { formatDateString } from "../../../../../../utils/formatDate";
+import { Table } from "../../../../../../../../components/invoice/Table";
+import { TableTotalInvoice } from "../../../../../../../../components/invoice/TableTotalInvoice";
+import { FooterInvoice } from "../../../../../../../../components/invoice/FooterInvoice";
+import { IOrder } from "../../../../../../../../../../lib/types";
+import { formatDateString } from "../../../../../../../../../../utils/formatDate";
 
+// Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
@@ -109,7 +110,7 @@ export default function OrderInvoice({ order }: Props) {
     if (!order_items) return [];
 
     return order_items.map((item) => {
-      if (!item.product_packs)
+      if (!item.product_packs) {
         return {
           id: "",
           code: "",
@@ -118,6 +119,7 @@ export default function OrderInvoice({ order }: Props) {
           quantity: 0,
           total: 0,
         };
+      }
 
       const { order_number: code } = order;
       const { quantity } = item;
@@ -161,6 +163,8 @@ export default function OrderInvoice({ order }: Props) {
     },
   ];
 
+  if (!items) return <></>;
+
   const data = {
     items,
     itemsHeader,
@@ -203,38 +207,33 @@ export default function OrderInvoice({ order }: Props) {
               </View>
 
               <View style={styles.row_2}>
-                {order.billing_info && (
-                  <View style={styles.billing_info_container}>
-                    {/* Datos de facturación  */}
+                {/* Datos de facturación  */}
+                <View style={styles.billing_info_container}>
+                  <Text style={styles.billing_info_title}>
+                    Datos de facturación
+                  </Text>
 
-                    <Text style={styles.billing_info_title}>
-                      Datos de facturación
+                  <View style={styles.billing_info_container_data}>
+                    <Text>Nombre: {order.billing_info?.name}</Text>
+                    <Text>
+                      Dirección: {order.billing_info?.address},{" "}
+                      {order.billing_info?.city}.
                     </Text>
-
-                    <View style={styles.billing_info_container_data}>
-                      <Text>Nombre: {order.billing_info.name}</Text>
-                      <Text>
-                        Dirección: {order.billing_info.address},{" "}
-                        {order.billing_info.city}.
-                      </Text>
-                      <Text>
-                        Población: {order.billing_info.state}.{" "}
-                        {order.billing_info.country}.{" "}
-                        {order.billing_info.zipcode}
-                      </Text>
-                      <Text>NIF/CIF: {order.billing_info.document_id}</Text>
-                      <Text>Teléfono: {order.billing_info.phone}</Text>
-                    </View>
+                    <Text>
+                      Población: {order.billing_info?.state}.{" "}
+                      {order.billing_info?.country}.{" "}
+                      {order.billing_info?.zipcode}
+                    </Text>
+                    <Text>NIF/CIF: {order.billing_info?.document_id}</Text>
+                    <Text>Teléfono: {order.billing_info?.phone}</Text>
                   </View>
-                )}
+                </View>
 
                 {/* Nº factura; fecha; forma de pago */}
                 <View style={styles.recipe_container}>
                   <Text>Nº factura: {order.order_number}</Text>
-                  <Text>
-                    Fecha: {formatDateString(order.issue_date.toString())}
-                  </Text>
-                  <Text>Forma de pago: {order.payment_method_card?.type}</Text>
+                  <Text>Fecha: {formatDateString(order.issue_date)}</Text>
+                  {/* <Text>Forma de pago: {order.payment_method.type}</Text> */}
                 </View>
 
                 {/* Albarán del pedido  */}

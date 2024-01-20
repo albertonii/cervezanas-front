@@ -3,15 +3,15 @@
 import EventProduct from "./EventProduct";
 import { useTranslations } from "next-intl";
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../../Auth/useAuth";
+import { useAuth } from "../../../../../../../Auth/useAuth";
 import PaymentInformation from "./PaymentInformation";
-import { IEventOrder } from "../../../../../../lib/types";
+import { IEventOrder } from "../../../../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   EVENT_ORDER_STATUS,
-} from "../../../../../../constants";
-import Spinner from "../../../../components/common/Spinner";
-import { formatDateString } from "../../../../../../utils/formatDate";
+} from "../../../../../../../../../constants";
+import Spinner from "../../../../../../../components/common/Spinner";
+import { formatDateString } from "../../../../../../../../../utils/formatDate";
 
 interface Props {
   isError?: boolean;
@@ -80,7 +80,13 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
   }, [eventOrderItems]);
 
   const handleInvoicePdf = () => {
-    window.open(`/checkout/invoice/${order.order_number}`, "_ blank");
+    // Get current url
+    const currentUrl = window.location.href;
+
+    window.open(
+      `${currentUrl}/checkout/invoice/${order.order_number}`,
+      "_ blank"
+    );
   };
 
   if (isError) {

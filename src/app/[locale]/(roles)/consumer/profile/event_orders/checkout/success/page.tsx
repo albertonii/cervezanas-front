@@ -1,10 +1,10 @@
 import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { IEventOrder } from "../../../../../../lib/types";
-import { decodeBase64 } from "../../../../../../utils/utils";
+import { VIEWS } from "../../../../../../../../../constants";
+import { IEventOrder } from "../../../../../../../../../lib/types";
+import { decodeBase64 } from "../../../../../../../../../utils/utils";
 import { headers } from "next/headers";
-import createServerClient from "../../../../../../utils/supabaseServer";
+import createServerClient from "../../../../../../../../../utils/supabaseServer";
 
 export async function generateMetadata({ searchParams }: any) {
   try {

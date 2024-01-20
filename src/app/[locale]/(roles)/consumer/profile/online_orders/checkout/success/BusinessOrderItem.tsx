@@ -2,12 +2,12 @@ import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { SupabaseProps } from "../../../../../constants";
-import { IBusinessOrder, IOrderItem } from "../../../../../lib/types";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { Button } from "../../../components/common/Button";
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import { StatusTimeline } from "../../../components/StatusTimeline";
+import { SupabaseProps } from "../../../../../../../../constants";
+import { IBusinessOrder, IOrderItem } from "../../../../../../../../lib/types";
+import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
+import { Button } from "../../../../../../components/common/Button";
+import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
+import { StatusTimeline } from "../../../../../../components/StatusTimeline";
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

@@ -1,14 +1,14 @@
 "use client";
 
 import BusinessOrderDetails from "./BusinessOrderItem";
-import Spinner from "../../../components/common/Spinner";
+import Spinner from "../../../../../../components/common/Spinner";
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../Auth/useAuth";
-import { IOrder } from "../../../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { ONLINE_ORDER_STATUS } from "../../../../../constants";
-import { formatDateString } from "../../../../../utils/formatDate";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { useAuth } from "../../../../../../Auth/useAuth";
+import { IOrder } from "../../../../../../../../lib/types";
+import { useTranslations } from "next-intl";
+import { ONLINE_ORDER_STATUS } from "../../../../../../../../constants";
+import { formatDateString } from "../../../../../../../../utils/formatDate";
+import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -18,7 +18,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
 
   const t = useTranslations();
-  const locale = useLocale();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -34,7 +33,13 @@ export default function SuccessCheckout({ order, isError }: Props) {
   }, [user]);
 
   const handleInvoicePdf = () => {
-    window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
+    // Get current url
+    const currentUrl = window.location.href;
+
+    window.open(
+      `/${currentUrl}/checkout/invoice/${order.order_number}`,
+      "_ blank"
+    );
   };
 
   if (isError) {
