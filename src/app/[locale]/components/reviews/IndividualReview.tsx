@@ -14,7 +14,7 @@ interface Props {
   handleSetReviews: React.Dispatch<React.SetStateAction<IReview[]>>;
 }
 
-export function IndividualReview(props: Props) {
+export function IndividualReview({ review, handleSetReviews }: Props) {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
@@ -22,15 +22,28 @@ export function IndividualReview(props: Props) {
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
-  const { review, handleSetReviews } = props;
-
   const handleDeleteReview = async (reviewId: string) => {
     try {
       const { error } = await supabase
         .from("reviews")
         .delete()
         .match({ id: reviewId });
-      if (error) throw error;
+
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+
+      // Update is review status in order item
+      // const { error: orderItemError } = await supabase
+      //   .from("order_items")
+      //   .update({ is_reviewed: false });
+      // .match({ id:  });
+
+      // if (orderItemError) {
+      //   console.error(orderItemError);
+      //   throw orderItemError;
+      // }
 
       handleSetReviews((prev) =>
         prev.filter((review) => review.id !== reviewId)
@@ -63,11 +76,11 @@ export function IndividualReview(props: Props) {
           </h3>
         </div>
 
-        {user?.id === review.owner_id && (
+        {/* {user?.id === review.owner_id && (
           <div className="ml-auto flex items-center space-x-2">
             <DeleteButton onClick={() => handleDeleteReview(review.id)} />
           </div>
-        )}
+        )} */}
       </div>
 
       <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
@@ -104,6 +117,7 @@ export function IndividualReview(props: Props) {
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           19 people found this helpful
         </p>
+
         <div className="mt-3 flex items-center space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
           <a
             href="#"

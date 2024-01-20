@@ -10,14 +10,13 @@ import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../context/AppContext";
 import { useTranslations } from "next-intl";
 import { Sidebar } from "../../../components/common/Sidebar";
-
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
-export default function layout({ children }: LayoutProps) {
+export default async function layout({ children }: LayoutProps) {
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
@@ -135,7 +134,7 @@ export default function layout({ children }: LayoutProps) {
         {bgImg_ && profileImg_ && (
           <>
             {/* Background Image */}
-            <div className=" bg-bear-alvine " aria-label="Custom Header">
+            <section className=" bg-bear-alvine " aria-label="Custom Header">
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
@@ -147,14 +146,21 @@ export default function layout({ children }: LayoutProps) {
               />
 
               {/* Profile Image */}
-              <div className="relative space-x-2 pl-24" aria-label="Logo">
+              <section className="relative space-x-2 pl-24" aria-label="Logo">
                 <div className="absolute bottom-20">
                   <div className="w-64  ">
-                    <div className="relative" onClick={() => handleClick()}>
+                    <figure className="relative" onClick={() => handleClick()}>
                       <DisplayImageProfile
                         imgSrc={profileImg_}
                         class={"absolute h-36 w-36 rounded-full"}
                       />
+
+                      {/* Gamification experiencie  */}
+                      <div className="absolute -left-4 -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-beer-dark">
+                        <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-beer-blonde">
+                          <p className="text-md font-semibold text-white">1</p>
+                        </div>
+                      </div>
 
                       <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
                         <FontAwesomeIcon
@@ -174,18 +180,30 @@ export default function layout({ children }: LayoutProps) {
                           onChange={handleFileChange}
                         />
                       </div>
-                    </div>
+                    </figure>
                   </div>
                 </div>
-              </div>
-            </div>
+              </section>
 
-            <div
+              {/* Username and experience level */}
+              <section className="flex flex-col items-center justify-center pb-4">
+                <p className="text-md font-semibold text-white">
+                  {user?.username}
+                </p>
+                <p className="text-sm font-semibold text-white">
+                  <p className="text-lg font-semibold text-white">
+                    {user.gamification?.experience} XP
+                  </p>
+                </p>
+              </section>
+            </section>
+
+            <section
               className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Consumer settings"
             >
               {children}
-            </div>
+            </section>
           </>
         )}
       </div>

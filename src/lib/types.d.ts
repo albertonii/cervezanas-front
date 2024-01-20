@@ -1302,6 +1302,7 @@ export interface IUserProfile {
   birthdate: string;
   bg_url: string;
   avatar_url: string;
+  gamification?: IGamification[];
 }
 
 export enum PROVIDER_TYPE {
@@ -1458,4 +1459,12 @@ export interface IUserReport {
   description: string;
   file: string;
   is_resolved: boolean;
+}
+
+export interface IGamification {
+  id: string;
+  created_at: string;
+  experience: number;
+  user_id: string;
+  // users?: IUserTable;
 }

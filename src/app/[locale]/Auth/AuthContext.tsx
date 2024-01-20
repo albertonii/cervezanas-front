@@ -109,7 +109,10 @@ export const AuthContextProvider = ({
       .from("users")
       .select(
         `
-          *
+          *,
+          gamification!gamification_user_id_fkey (
+            *
+          )
         `
       )
       .eq("id", serverSession.user.id)
@@ -118,9 +121,9 @@ export const AuthContextProvider = ({
     if (error) {
       console.error(error);
       return null;
-    } else {
-      return user as IUserProfile;
     }
+
+    return user as IUserProfile;
   };
 
   const {
