@@ -17,6 +17,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 export default function ProductReview({ product }: Props) {
   const t = useTranslations();
 
+  console.log(product);
   const multimedia: IProductMultimedia[] = product.product_multimedia;
 
   return (

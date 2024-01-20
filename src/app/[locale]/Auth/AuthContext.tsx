@@ -157,9 +157,6 @@ export const AuthContextProvider = ({
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange(
       async (event: any, currentSession: any) => {
-        console.log(event);
-        console.log(currentSession);
-
         if (currentSession && currentSession.provider_token) {
           window.localStorage.setItem(
             "oauth_provider_token",

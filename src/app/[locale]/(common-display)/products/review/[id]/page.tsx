@@ -30,30 +30,37 @@ async function getProductReview(productId: string) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const { data: product, error: productsError } = await supabase
+  console.log(productId);
+  const { data: product, error: productError } = await supabase
     .from("products")
     .select(
-      `*,
-      beers (
-        *
-      ),
-      product_multimedia (
+      `
         *,
-        p_principal
-      )
+        product_multimedia (
+          id,
+          p_principal,
+          p_back,
+          p_extra_1,
+          p_extra_2,
+          p_extra_3,
+          p_extra_4
+        )
       `
     )
     .eq("id", productId)
     .single();
 
-  if (productsError) throw productsError;
+  if (productError) {
+    console.error(productError);
+    throw productError;
+  }
 
   if (!product) throw new Error("Product not found");
 
-  product.product_multimedia[0].p_principal = !product.product_multimedia[0]
-    ?.p_principal
-    ? `${COMMON.MARKETPLACE_PRODUCT}`
-    : product.product_multimedia[0].p_principal;
+  // product.product_multimedia[0].p_principal = !product.product_multimedia[0]
+  //   ?.p_principal
+  //   ? `${COMMON.MARKETPLACE_PRODUCT}`
+  //   : product.product_multimedia[0].p_principal;
 
   return product as IProduct;
 }

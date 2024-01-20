@@ -138,9 +138,10 @@ export default function BusinessOrderDetails({ bOrder }: Props) {
                   onClick={() => {
                     if (
                       !orderItem.is_reviewed &&
-                      bOrder.status === "delivered"
+                      bOrder.status === "delivered" &&
+                      orderItem.product_packs?.product_id
                     ) {
-                      handleOnClick(orderItem.product_pack_id);
+                      handleOnClick(orderItem.product_packs?.product_id);
                     }
                   }}
                 >

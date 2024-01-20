@@ -16,12 +16,9 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Comprobar: si la app está en Dark Mode se pueda leer el QR
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Implementar Dark Mode -> Gustavo
-- CRUD para una review de un producto comprado
 - Historial de ventas en un punto de consumo
-- Al borrar una review, confirmar la acción con un modal
 - Componente para recuperar contraseña de usuario
 - Comprobar que funcione SMTP para configuración de usuarios
-- Sistema básico de gamificación -> al realizar compra, review, etc
 - QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
@@ -36,6 +33,12 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
 - ERROR AL Signup Distributor
+
+# WIP
+
+- CRUD para una review de un producto comprado
+- Al borrar una review, confirmar la acción con un modal
+- Sistema básico de gamificación -> al realizar compra, review, etc
 
 # Tareas realizadas
 
