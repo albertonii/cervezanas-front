@@ -5,10 +5,29 @@ import { generateFileNameExtension } from "../../../utils/utils";
 export async function POST(request: NextRequest) {
   const data = await request.formData();
 
-  const title = data.get("title");
-  const description = data.get("description");
-  const reporter_id = data.get("reporter_id");
+  const title = data.get("title") as string;
+  const description = data.get("description") as string;
+  const reporter_id = data.get("reporter_id") as string;
   const file = data.get("file") as File;
+
+  if (!title || !description || !reporter_id || !file) {
+    return NextResponse.json(
+      { error: `Error: Missing required fields` },
+      { status: 500 }
+    );
+  }
+
+  if (
+    title === "" ||
+    description === "" ||
+    reporter_id === "" ||
+    file === null
+  ) {
+    return NextResponse.json(
+      { error: `Error: Missing required fields` },
+      { status: 500 }
+    );
+  }
 
   const supabase = await createServerClient();
 
@@ -21,6 +40,7 @@ export async function POST(request: NextRequest) {
     description,
     file: fileUrl,
     reporter_id,
+    is_resolved: false,
   });
 
   if (error) {

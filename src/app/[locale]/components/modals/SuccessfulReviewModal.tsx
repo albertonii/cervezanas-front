@@ -5,7 +5,6 @@ import { Button } from "../common/Button";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import PortalModal from "./PortalModal";
 
 interface Props {
@@ -18,8 +17,6 @@ export function SuccessfulReviewModal(props: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const router = useRouter();
-
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [showModal, setShowModal] = useState(isVisible);
@@ -30,11 +27,6 @@ export function SuccessfulReviewModal(props: Props) {
 
   const handleClickOutsideCallback = () => {
     handleShowModal(false);
-  };
-
-  const handleAccept = () => {
-    handleShowModal(false);
-    router.push(`/${locale}/profile`);
   };
 
   useOnClickOutside(modalRef, () => handleClickOutsideCallback());
@@ -93,56 +85,49 @@ export function SuccessfulReviewModal(props: Props) {
 
                 {/*body*/}
                 <div className="relative flex-auto p-6">
-                  <div className="flex w-full justify-center">
+                  <header className="flex w-full justify-center">
                     <p className="text-slate-500 my-4 text-3xl font-semibold leading-relaxed text-beer-draft">
                       ¡Gracias por tu opinión!
                     </p>
+                  </header>
+
+                  <div className="space-y-4">
+                    <p className="text-slate-500 text-lg leading-relaxed">
+                      Acabas de conseguir 30 puntos por todo el contenido
+                      aportado en este formulario ¡Recuerda que a más contenido
+                      aportes, más puntos!
+                    </p>
+
+                    <p className="text-slate-500 text-lg leading-relaxed">
+                      Con tu valoración acabas de entrar al sorteo que se
+                      realiza todos los meses, en el que podrás ganar 50, 100 o
+                      200€ ¡Sigue así!
+                    </p>
                   </div>
 
-                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                    Acabas de conseguir 30 puntos por todo el contenido aportado
-                    en este formulario ¡Recuerda que a más contenido aportes,
-                    más puntos!
-                  </p>
-
-                  <br />
-
-                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                    Con tu valoración acabas de entrar al sorteo que se realiza
-                    todos los meses, en el que podrás ganar 50, 100 o 200€
-                    ¡Sigue así!
-                  </p>
-
-                  <p className="text-slate-500 my-4 text-lg leading-relaxed">
+                  <footer className="text-slate-500 my-4 text-lg leading-relaxed">
                     {/* Underline link  */}
                     <Link
                       className="text-beer-draft underline hover:font-semibold"
                       href="#"
                       locale={locale}
                     >
-                      Ver condiciones del sorteo{" "}
+                      Ver condiciones del sorteo
                     </Link>
-                  </p>
+                  </footer>
                 </div>
 
-                {/*footer*/}
-                <div className="border-slate-200 flex items-center justify-end rounded-b border-t border-solid p-6">
+                <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6">
                   <Button
-                    class=""
                     accent
+                    class=""
+                    btnType="button"
+                    medium
                     onClick={() => handleShowModal(false)}
                   >
                     {t("close")}
                   </Button>
-
-                  <Button
-                    btnType="submit"
-                    class="mb-1 mr-1 rounded bg-beer-draft px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-beer-dark"
-                    onClick={handleAccept}
-                  >
-                    {t("continue_reviewing")}
-                  </Button>
-                </div>
+                </footer>
               </div>
             </div>
           </div>

@@ -1,17 +1,17 @@
 import React from "react";
 import GenerateQR from "./GenerateQR";
 import Link from "next/link";
-import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { IEventOrderItem } from "../../../../../../../../../lib/types";
+import { StatusTimeline } from "../../../../../../components/StatusTimeline";
+import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
+import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
+import { Button } from "../../../../../../components/common/Button";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../../../../../constants";
-import { Button } from "../../../../../../../components/common/Button";
-import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
-import { StatusTimeline } from "../../../../../../../components/StatusTimeline";
+} from "../../../../../../../../constants";
+import { IEventOrderItem } from "../../../../../../../../lib/types";
 
 interface Props {
   eventOrderItem: IEventOrderItem;
@@ -73,7 +73,7 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                 </h3>
               </header>
 
-              <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-4 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-auto ">
+              <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-4 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-40 ">
                 {
                   <DisplayImageProduct
                     width={120}

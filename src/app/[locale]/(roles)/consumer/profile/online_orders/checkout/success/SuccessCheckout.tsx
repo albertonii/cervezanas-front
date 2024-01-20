@@ -1,6 +1,6 @@
 "use client";
 
-import BusinessOrderDetails from "./BusinessOrderItem";
+import BusinessOrderDetails from "./BusinessOrderDetails";
 import Spinner from "../../../../../../components/common/Spinner";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../../../../Auth/useAuth";
@@ -57,7 +57,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
   return (
-    <section className="m-4 space-y-8 sm:py-4 lg:py-6">
+    <section className="m-4 sm:py-4 lg:py-6">
       <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
         <header className="flex flex-col">
           <span className="flex sm:items-baseline sm:space-x-4">
