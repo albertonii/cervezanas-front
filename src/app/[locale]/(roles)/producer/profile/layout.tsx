@@ -162,54 +162,50 @@ export default function layout({ children }: LayoutProps) {
               />
               {/* Profile Image */}
               <section
-                className=" absolute w-64 space-x-2 pl-24"
+                className="absolute bottom-28 w-48 space-x-2 pl-10 sm:w-64 sm:pl-24"
                 aria-label="Logo"
               >
-                <div className="absolute bottom-20 w-64">
-                  <figure className="relative" onClick={() => handleClick()}>
-                    <DisplayImageProfile
-                      imgSrc={profileImg_}
-                      class={"absolute h-36 w-36 rounded-full"}
+                <figure className="relative" onClick={() => handleClick()}>
+                  <DisplayImageProfile
+                    imgSrc={profileImg_}
+                    class={"absolute h-24 w-24 rounded-full sm:h-36 sm:w-36"}
+                  />
+
+                  {/* Gamification experiencie  */}
+                  <div className="absolute -left-2 flex h-10 w-10 items-center justify-center rounded-full bg-beer-dark sm:-left-4 sm:-top-4 sm:h-14 sm:w-14">
+                    <div className="absolute flex h-6 w-6 items-center justify-center rounded-full bg-beer-blonde sm:h-10 sm:w-10">
+                      <p className="text-md font-semibold text-white">1</p>
+                    </div>
+                  </div>
+
+                  <div className="group absolute flex h-24 w-24 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200 sm:h-36 sm:w-36">
+                    <FontAwesomeIcon
+                      icon={faUpload}
+                      style={{ color: "bear-dark" }}
+                      // onMouseEnter={() => setHoverColor("filled")}
+                      // onMouseLeave={() => setHoverColor("unfilled")}
+                      title={"profile"}
+                      width={60}
+                      height={60}
                     />
-
-                    {/* Gamification experiencie  */}
-                    <div className="absolute -left-4 -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-beer-dark">
-                      <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-beer-blonde">
-                        <p className="text-md font-semibold text-white">1</p>
-                      </div>
-                    </div>
-
-                    <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
-                      <FontAwesomeIcon
-                        icon={faUpload}
-                        style={{ color: "bear-dark" }}
-                        // onMouseEnter={() => setHoverColor("filled")}
-                        // onMouseLeave={() => setHoverColor("unfilled")}
-                        title={"profile"}
-                        width={60}
-                        height={60}
-                      />
-                      <input
-                        style={{ display: "none" }}
-                        ref={inputRef}
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        onChange={handleFileChange}
-                      />
-                    </div>
-                  </figure>
-                </div>
+                    <input
+                      style={{ display: "none" }}
+                      ref={inputRef}
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                </figure>
               </section>
 
               {/* Username and experience level */}
-              <section className="flex flex-col items-center justify-center pb-4">
+              <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 shadow-lg sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4">
                 <p className="text-md font-semibold text-white">
                   {user?.username}
                 </p>
-                <p className="text-sm font-semibold text-white">
-                  <p className="text-lg font-semibold text-white">
-                    {user.gamification?.experience} XP
-                  </p>
+                <p className="text-lg font-semibold text-white">
+                  {user.gamification?.experience} XP
                 </p>
               </section>
             </section>
