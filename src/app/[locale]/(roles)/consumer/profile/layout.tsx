@@ -20,9 +20,8 @@ export default async function layout({ children }: LayoutProps) {
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
-
   const { bgImg, profileImg, setProfileImg } = useAppContext();
-  const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
+  const [bgImg_, setBgImg_] = useState("");
   const [profileImg_, setProfileImg_] = useState("");
 
   const bg = "/assets/producer_layout.jpg";
@@ -139,10 +138,8 @@ export default async function layout({ children }: LayoutProps) {
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={bgImg_ ?? bg}
-                // onError={() => setBgImg_(COMMON.BG_IMG)}
+                src={bg}
                 alt={"background custom image"}
-                loader={() => bgImg_ ?? bg}
               />
 
               {/* Profile Image */}

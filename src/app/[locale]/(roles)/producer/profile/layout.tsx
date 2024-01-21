@@ -163,10 +163,9 @@ export default function layout({ children }: LayoutProps) {
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={bgImg_ ?? bg}
+                src={bg}
                 alt={"background custom image"}
                 onError={() => setBgImg_(COMMON.BG_IMG)}
-                loader={() => bgImg_}
               />
 
               {/* Profile Image */}

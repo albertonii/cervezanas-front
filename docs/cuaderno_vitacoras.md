@@ -2,20 +2,17 @@
 
 - Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
 
-Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
 
+- Mostrar imágenes de perfil y background en perfil
 - Crear presentación de workshop para el lunes
-- Enviar correo a Miguel para contratar servicios
-- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
-- Contratar servicios RESEND - SMTP - MIGUEL
-- Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
-- Contratar plan de pago Supabase - MIGUEL
+- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Comprobar: si la app está en Dark Mode se pueda leer el QR
-- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
+- Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
 - Implementar Dark Mode -> Gustavo
+- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Historial de ventas en un punto de consumo
 - Componente para recuperar contraseña de usuario
 - Comprobar que funcione SMTP para configuración de usuarios
@@ -23,7 +20,6 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
-- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Editar una campaña
 - Vincular productos a la campaña
 - [] Hacer que las vistas en profile consumer sean homogéneas
@@ -35,6 +31,12 @@ Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo té
 - ERROR AL Signup Distributor
 
 # WIP
+
+- Enviar correo a Miguel para contratar servicios
+- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
+- Contratar servicios RESEND - SMTP - MIGUEL
+- Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
+- Contratar plan de pago Supabase - MIGUEL
 
 - REVIEWS
   a. [x] CRUD para una review de un producto comprado
