@@ -9,6 +9,7 @@ import { Sidebar } from "../../../components/common/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../context/AppContext";
+import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -144,54 +145,72 @@ export default function layout({ children }: LayoutProps) {
     <section className="relative flex w-full">
       <Sidebar sidebarLinks={sidebarLinks} />
 
-      <div className="h-full w-full">
+      <section className="h-full w-full">
         {profileImg_ && (
           <>
             {/* Background Image */}
-            <section className="bg-bear-alvine " aria-label="Custom Header">
+            <section
+              className="relative h-full w-full bg-bear-alvine "
+              aria-label="Custom Header"
+            >
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={"/assets/producer_layout.jpg"}
+                src={"/assets/producer_layout_bg.jpg"}
                 alt={"background custom image"}
-                // onError={() => setBgImg_(COMMON.BG_IMG)}
               />
-
               {/* Profile Image */}
               <section
-                className=" absolute bottom-20 w-64 space-x-2 pl-24"
+                className=" absolute w-64 space-x-2 pl-24"
                 aria-label="Logo"
               >
-                <figure className="relative" onClick={() => handleClick()}>
-                  <Image
-                    className="absolute h-36 w-36 rounded-full"
-                    src={profileImg_}
-                    alt=""
-                    width={240}
-                    height={240}
-                    loader={() => profileImg_}
-                  />
+                <div className="absolute bottom-20 w-64">
+                  <figure className="relative" onClick={() => handleClick()}>
+                    <DisplayImageProfile
+                      imgSrc={profileImg_}
+                      class={"absolute h-36 w-36 rounded-full"}
+                    />
 
-                  <span className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
-                    <FontAwesomeIcon
-                      icon={faUpload}
-                      style={{ color: "bear-dark" }}
-                      // onMouseEnter={() => setHoverColor("filled")}
-                      // onMouseLeave={() => setHoverColor("unfilled")}
-                      title={"profile"}
-                      width={60}
-                      height={60}
-                    />
-                    <input
-                      style={{ display: "none" }}
-                      ref={inputRef}
-                      type="file"
-                      accept="image/png, image/jpeg"
-                      onChange={handleFileChange}
-                    />
-                  </span>
-                </figure>
+                    {/* Gamification experiencie  */}
+                    <div className="absolute -left-4 -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-beer-dark">
+                      <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-beer-blonde">
+                        <p className="text-md font-semibold text-white">1</p>
+                      </div>
+                    </div>
+
+                    <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
+                      <FontAwesomeIcon
+                        icon={faUpload}
+                        style={{ color: "bear-dark" }}
+                        // onMouseEnter={() => setHoverColor("filled")}
+                        // onMouseLeave={() => setHoverColor("unfilled")}
+                        title={"profile"}
+                        width={60}
+                        height={60}
+                      />
+                      <input
+                        style={{ display: "none" }}
+                        ref={inputRef}
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleFileChange}
+                      />
+                    </div>
+                  </figure>
+                </div>
+              </section>
+
+              {/* Username and experience level */}
+              <section className="flex flex-col items-center justify-center pb-4">
+                <p className="text-md font-semibold text-white">
+                  {user?.username}
+                </p>
+                <p className="text-sm font-semibold text-white">
+                  <p className="text-lg font-semibold text-white">
+                    {user.gamification?.experience} XP
+                  </p>
+                </p>
               </section>
             </section>
 
@@ -203,7 +222,7 @@ export default function layout({ children }: LayoutProps) {
             </div>
           </>
         )}
-      </div>
+      </section>
     </section>
   );
 }

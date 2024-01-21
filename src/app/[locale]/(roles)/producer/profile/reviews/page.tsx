@@ -18,7 +18,6 @@ export default async function ReviewsPage() {
 async function getReviewsData() {
   const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -35,12 +34,6 @@ async function getReviewsData() {
       `
     )
     .eq("id", session.user.id);
-
-  // ,
-  //     orders (*),
-  //     campaigns (*),
-  //     customize_settings (*),
-  //     profile_location (*)
 
   if (reviewsError) throw reviewsError;
 

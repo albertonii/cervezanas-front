@@ -123,11 +123,14 @@ export default async function layout({ children }: LayoutProps) {
     <section className="relative flex w-full">
       <Sidebar sidebarLinks={sidebarLinks} />
 
-      <div className="h-full w-full">
+      <section className="h-full w-full">
         {profileImg_ && (
           <>
             {/* Background Image */}
-            <section className=" bg-bear-alvine " aria-label="Custom Header">
+            <section
+              className="relative h-full w-full bg-bear-alvine "
+              aria-label="Custom Header"
+            >
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
@@ -135,44 +138,44 @@ export default async function layout({ children }: LayoutProps) {
                 src={"/assets/consumer_layout_bg.jpg"}
                 alt={"background custom image"}
               />
-
               {/* Profile Image */}
-              <section className="relative space-x-2 pl-24" aria-label="Logo">
-                <div className="absolute bottom-20">
-                  <div className="w-64  ">
-                    <figure className="relative" onClick={() => handleClick()}>
-                      <DisplayImageProfile
-                        imgSrc={profileImg_}
-                        class={"absolute h-36 w-36 rounded-full"}
+              <section
+                className=" absolute w-64 space-x-2 pl-24"
+                aria-label="Logo"
+              >
+                <div className="absolute bottom-20 w-64">
+                  <figure className="relative" onClick={() => handleClick()}>
+                    <DisplayImageProfile
+                      imgSrc={profileImg_}
+                      class={"absolute h-36 w-36 rounded-full"}
+                    />
+
+                    {/* Gamification experiencie  */}
+                    <div className="absolute -left-4 -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-beer-dark">
+                      <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-beer-blonde">
+                        <p className="text-md font-semibold text-white">1</p>
+                      </div>
+                    </div>
+
+                    <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
+                      <FontAwesomeIcon
+                        icon={faUpload}
+                        style={{ color: "bear-dark" }}
+                        // onMouseEnter={() => setHoverColor("filled")}
+                        // onMouseLeave={() => setHoverColor("unfilled")}
+                        title={"profile"}
+                        width={60}
+                        height={60}
                       />
-
-                      {/* Gamification experiencie  */}
-                      <div className="absolute -left-4 -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-beer-dark">
-                        <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-beer-blonde">
-                          <p className="text-md font-semibold text-white">1</p>
-                        </div>
-                      </div>
-
-                      <div className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
-                        <FontAwesomeIcon
-                          icon={faUpload}
-                          style={{ color: "bear-dark" }}
-                          // onMouseEnter={() => setHoverColor("filled")}
-                          // onMouseLeave={() => setHoverColor("unfilled")}
-                          title={"profile"}
-                          width={60}
-                          height={60}
-                        />
-                        <input
-                          style={{ display: "none" }}
-                          ref={inputRef}
-                          type="file"
-                          accept="image/png, image/jpeg"
-                          onChange={handleFileChange}
-                        />
-                      </div>
-                    </figure>
-                  </div>
+                      <input
+                        style={{ display: "none" }}
+                        ref={inputRef}
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleFileChange}
+                      />
+                    </div>
+                  </figure>
                 </div>
               </section>
 
@@ -189,15 +192,15 @@ export default async function layout({ children }: LayoutProps) {
               </section>
             </section>
 
-            <section
+            <div
               className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
-              aria-label="Container Consumer settings"
+              aria-label="Container Producer settings"
             >
               {children}
-            </section>
+            </div>
           </>
         )}
-      </div>
+      </section>
     </section>
   );
 }

@@ -20,7 +20,6 @@ export default async function ReviewsPage() {
 async function getReviewsData() {
   const supabase = await createServerClient();
 
-  // Check if we have a session
   const {
     data: { session },
   } = await supabase.auth.getSession();
