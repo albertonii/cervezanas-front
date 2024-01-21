@@ -1,9 +1,9 @@
 import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../../../../constants";
-import { IOrder } from "../../../../../../../../../../lib/types";
-import createServerClient from "../../../../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../../../../../lib/actions";
+import createServerClient from "../../../../../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../../../../../lib/actions";
+import { VIEWS } from "../../../../../../../../../constants";
+import { IOrder } from "../../../../../../../../../lib/types";
 
 export default async function OrderInvoicePage({
   params,

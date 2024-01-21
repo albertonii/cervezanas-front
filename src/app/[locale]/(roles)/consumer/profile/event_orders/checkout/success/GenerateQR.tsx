@@ -1,7 +1,7 @@
 import React from "react";
 import QRCode from "react-qr-code";
 import { useLocale } from "next-intl";
-import ShareLink from "../../../../../../../components/ShareLink";
+import ShareLink from "../../../../../../components/ShareLink";
 
 interface Props {
   eventOrderItemId: string;

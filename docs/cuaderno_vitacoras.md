@@ -1,12 +1,8 @@
 # Listado de tareas:
 
-- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
-
-Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
-
-- Crear presentación de workshop para el lunes
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
@@ -36,6 +32,12 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - Contratar servicios RESEND - SMTP - MIGUEL
 - Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
 - Contratar plan de pago Supabase - MIGUEL
+
+- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
+
+Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+- Crear presentación de workshop para el lunes
 
 - REVIEWS
   Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
