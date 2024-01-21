@@ -20,11 +20,9 @@ export default async function layout({ children }: LayoutProps) {
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
-  const { bgImg, profileImg, setProfileImg } = useAppContext();
-  const [bgImg_, setBgImg_] = useState("");
+  const { profileImg, setProfileImg } = useAppContext();
+  // const [bgImg_, setBgImg_] = useState("");
   const [profileImg_, setProfileImg_] = useState("");
-
-  const bg = "/assets/producer_layout.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -117,9 +115,9 @@ export default async function layout({ children }: LayoutProps) {
     event.target.files = null;
   };
 
-  useEffect(() => {
-    setBgImg_(bgImg ?? COMMON.BG_IMG);
-  }, [bgImg]);
+  // useEffect(() => {
+  //   setBgImg_(bgImg ?? COMMON.BG_IMG);
+  // }, [bgImg]);
 
   useEffect(() => {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
@@ -130,7 +128,7 @@ export default async function layout({ children }: LayoutProps) {
       <Sidebar sidebarLinks={sidebarLinks} />
 
       <div className="h-full w-full">
-        {bgImg_ && profileImg_ && (
+        {profileImg_ && (
           <>
             {/* Background Image */}
             <section className=" bg-bear-alvine " aria-label="Custom Header">
@@ -138,7 +136,7 @@ export default async function layout({ children }: LayoutProps) {
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={bg}
+                src={"/assets/consumer_layout_bg.jpg"}
                 alt={"background custom image"}
               />
 

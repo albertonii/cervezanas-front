@@ -79,8 +79,6 @@ export default function layout({ children }: LayoutProps) {
   const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
   const [profileImg_, setProfileImg_] = useState("");
 
-  const bg = "/assets/producer_layout.jpg";
-
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
@@ -155,21 +153,18 @@ export default function layout({ children }: LayoutProps) {
         {bgImg_ && profileImg_ && (
           <>
             {/* Background Image */}
-            <div
-              className="relative bg-bear-alvine "
-              aria-label="Custom Header"
-            >
+            <section className="bg-bear-alvine " aria-label="Custom Header">
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={bg}
+                src={"/assets/producer_layout.jpg"}
                 alt={"background custom image"}
-                onError={() => setBgImg_(COMMON.BG_IMG)}
+                // onError={() => setBgImg_(COMMON.BG_IMG)}
               />
 
               {/* Profile Image */}
-              <div
+              <section
                 className=" absolute bottom-20 w-64 space-x-2 pl-24"
                 aria-label="Logo"
               >
@@ -202,8 +197,8 @@ export default function layout({ children }: LayoutProps) {
                     />
                   </span>
                 </figure>
-              </div>
-            </div>
+              </section>
+            </section>
 
             <div
               className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
