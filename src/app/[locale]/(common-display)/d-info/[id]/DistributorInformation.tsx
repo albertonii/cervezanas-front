@@ -5,7 +5,6 @@ import DisplayImageProfile from "../../../components/common/DisplayImageProfile"
 import { IDistributorUser } from "../../../../../lib/types";
 import { useTranslations } from "next-intl";
 import { formatDateString } from "../../../../../utils/formatDate";
-import { SupabaseProps } from "../../../../../constants";
 
 interface Props {
   distributor: IDistributorUser;
@@ -15,8 +14,7 @@ export default function DistributorInformation({ distributor }: Props) {
   const t = useTranslations();
   const accountCreatedDate = formatDateString(distributor.created_at);
 
-  const baseAvatarUrl = `${SupabaseProps.BASE_AVATARS_URL}`;
-  const profileImg = `${baseAvatarUrl}${distributor.users?.avatar_url}`;
+  const profileImg = `${distributor.users?.avatar_url}`;
 
   return (
     <section className="no-wrap container mx-auto my-5 p-5 md:-mx-2 md:flex">
@@ -150,7 +148,7 @@ export default function DistributorInformation({ distributor }: Props) {
             </span>
             <span className="tracking-wide">About</span>
           </figure>
-          
+
           <div className="text-gray-700">
             <div className="grid text-sm md:grid-cols-2">
               <div className="grid grid-cols-2">

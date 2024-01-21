@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { ComponentProps } from "@stitches/core";
 import { memo, useMemo, useState } from "react";
-import { COMMON } from "../../../../constants";
+import { COMMON, SupabaseProps } from "../../../../constants";
 
-// const BASE_PRODUCTS_ARTICLES_URL = SupabaseProps.BASE_PRODUCTS_ARTICLES_URL;
+const BASE_AVATAR_URL = SupabaseProps.BASE_AVATARS_URL;
 
 interface Props {
   imgSrc: string;
@@ -26,7 +26,9 @@ function DisplayImageProfile({
   height,
   objectFit,
 }: Props) {
-  const [imgSrc_, setImgSrc_] = useState<string>(imgSrc);
+  const [imgSrc_, setImgSrc_] = useState<string>(
+    BASE_AVATAR_URL + decodeURIComponent(imgSrc)
+  );
   const memoizedSrc = useMemo(() => imgSrc_, [imgSrc_]);
 
   return (
@@ -34,7 +36,7 @@ function DisplayImageProfile({
       width={width ?? 120}
       height={height ?? 120}
       alt={alt ?? "image"}
-      src={memoizedSrc}
+      src={memoizedSrc ?? "/icons/profile-240.png"}
       loader={() => memoizedSrc}
       onError={() => setImgSrc_(COMMON.PROFILE_IMG)}
       onBlur={() => COMMON.PROFILE_IMG}

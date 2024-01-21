@@ -10,6 +10,7 @@ import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../context/AppContext";
 import { useTranslations } from "next-intl";
 import { Sidebar } from "../../../components/common/Sidebar";
+
 type LayoutProps = {
   children: React.ReactNode;
 };
@@ -21,7 +22,6 @@ export default async function layout({ children }: LayoutProps) {
 
   const { user, supabase } = useAuth();
   const { profileImg, setProfileImg } = useAppContext();
-  // const [bgImg_, setBgImg_] = useState("");
   const [profileImg_, setProfileImg_] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -114,10 +114,6 @@ export default async function layout({ children }: LayoutProps) {
     updateProfile(fileObj);
     event.target.files = null;
   };
-
-  // useEffect(() => {
-  //   setBgImg_(bgImg ?? COMMON.BG_IMG);
-  // }, [bgImg]);
 
   useEffect(() => {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);

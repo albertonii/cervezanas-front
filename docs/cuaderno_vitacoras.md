@@ -39,6 +39,8 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - Contratar plan de pago Supabase - MIGUEL
 
 - REVIEWS
+  Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
+
   a. [x] CRUD para una review de un producto comprado
   b. Al borrar una review, confirmar la acción con un modal
   c. Al borrar review, cambiar el estado de order item is_reviewed a false
@@ -46,6 +48,7 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
   e. [x] Sistema básico de gamificación -> al realizar compra, review, etc
   f. Si creamos una review, añadir la experiencia a su sistema de gamificación
   g. Si borra una review, restar la experiencia a su sistema de gamificación
+  h. Ver las reviews realizadas por un usuario
 
 # Tareas realizadas
 

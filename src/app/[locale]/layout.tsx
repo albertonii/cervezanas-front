@@ -42,36 +42,34 @@ export default async function AppLocaleLayout({
   const notifications = await getNotifications();
 
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <Providers session={session} messages={messages} locale={locale}>
-          <section className="relative flex flex-col bg-beer-foam">
-            {/* Report a problem component only for logged in users */}
-            {session?.access_token && <ReporterFloatingButton />}
+    <Suspense fallback={<Loading />}>
+      <Providers session={session} messages={messages} locale={locale}>
+        <section className="relative flex flex-col bg-beer-foam">
+          {/* Report a problem component only for logged in users */}
+          {session?.access_token && <ReporterFloatingButton />}
 
-            <Header notifications={notifications ?? []} />
-            <section
-              className={classNames(
-                "relative mx-auto mt-[10vh] min-h-0 w-full overflow-auto"
-                // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
-              )}
-            >
-              {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-            </section>
-
-            <main
-              className={classNames(
-                "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
-              )}
-            >
-              <MessageList />
-              {children}
-            </main>
-            <Footer />
+          <Header notifications={notifications ?? []} />
+          <section
+            className={classNames(
+              "relative mx-auto mt-[10vh] min-h-0 w-full overflow-auto"
+              // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+            )}
+          >
+            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
           </section>
-        </Providers>
-      </Suspense>
-    </>
+
+          <main
+            className={classNames(
+              "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
+            )}
+          >
+            <MessageList />
+            {children}
+          </main>
+          <Footer />
+        </section>
+      </Providers>
+    </Suspense>
   );
 }
 

@@ -10,6 +10,8 @@ import { Rate } from "../../../../components/reviews/Rate";
 import { formatDateString } from "../../../../../../utils/formatDate";
 import { useAuth } from "../../../../Auth/useAuth";
 
+// TODO: Hacer vista de las reviews recibidas por los consumidores o productores
+
 interface Props {
   reviews: IReview[];
 }
@@ -52,11 +54,11 @@ export function Reviews({ reviews: r }: Props) {
                 >
                   <article className="relative grid grid-cols-4 md:gap-8">
                     {/* Delete review button in top right corner  */}
-                    <div className="absolute right-0">
+                    {/* <div className="absolute right-0">
                       <DeleteButton
                         onClick={() => handleDeleteReview(review.id)}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-span-4 space-y-6 lg:col-span-1 ">
                       {/* Seller  */}

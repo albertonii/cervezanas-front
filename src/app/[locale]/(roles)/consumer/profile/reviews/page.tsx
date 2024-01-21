@@ -5,8 +5,10 @@ import { Reviews } from "./Reviews";
 import createServerClient from "../../../../../../utils/supabaseServer";
 
 export default async function ReviewsPage() {
-  const { reviews } = await getReviewsData();
-  if (!reviews) return null;
+  const reviewsData = await getReviewsData();
+  const [reviews] = await Promise.all([reviewsData]);
+
+  if (!reviews) return <></>;
 
   return (
     <>
@@ -31,12 +33,23 @@ async function getReviewsData() {
     .from("reviews")
     .select(
       `
-        *
+        *,
+        products (
+          *,
+          product_multimedia (
+            *
+          )
+        ),
+        users (
+          id,
+          username,
+          avatar_url
+        )
       `
     )
-    .eq("id", session.user.id);
+    .eq("owner_id", session.user.id);
 
   if (reviewsError) throw reviewsError;
 
-  return { reviews: reviewsData as IReview[] };
+  return reviewsData as IReview[];
 }

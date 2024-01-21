@@ -74,9 +74,8 @@ export default function layout({ children }: LayoutProps) {
 
   const { user, supabase } = useAuth();
 
-  const { bgImg, profileImg, setProfileImg } = useAppContext();
+  const { profileImg, setProfileImg } = useAppContext();
 
-  const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
   const [profileImg_, setProfileImg_] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -138,10 +137,6 @@ export default function layout({ children }: LayoutProps) {
   };
 
   useEffect(() => {
-    setBgImg_(bgImg ?? COMMON.BG_IMG);
-  }, [bgImg]);
-
-  useEffect(() => {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 
@@ -150,7 +145,7 @@ export default function layout({ children }: LayoutProps) {
       <Sidebar sidebarLinks={sidebarLinks} />
 
       <div className="h-full w-full">
-        {bgImg_ && profileImg_ && (
+        {profileImg_ && (
           <>
             {/* Background Image */}
             <section className="bg-bear-alvine " aria-label="Custom Header">
