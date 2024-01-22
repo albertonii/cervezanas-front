@@ -236,12 +236,12 @@ export function ProductInfoSectionUpdate({ form }: Props) {
           {/* Is Gluten  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="isGluten" className="text-sm text-gray-600">
-                {t("isGluten")}
+              <label htmlFor="is_gluten" className="text-sm text-gray-600">
+                {t("is_gluten")}
               </label>
 
               <select
-                id="isGluten"
+                id="is_gluten"
                 {...register("is_gluten", {
                   required: true,
                 })}

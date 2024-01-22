@@ -141,7 +141,7 @@ export const SignUpForm = () => {
     >
       <SelectInput
         form={form}
-        labelTooltip={"campaign_status_tooltip"}
+        labelTooltip={"tooltips.role_description"}
         options={ROLE_OPTIONS}
         label={"access_level"}
         registerOptions={{

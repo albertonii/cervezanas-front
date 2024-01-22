@@ -153,7 +153,7 @@
   "era": "Era",
   "product_type": "Tipo de Producto",
   "format": "Formato",
-  "isGluten": "¿Contiene Gluten?",
+  "is_gluten": "¿Contiene Gluten?",
   "modal_product_title": "Producto",
   "modal_product_description": "Asegúrese de rellenar todos los campos obligatorios para introducir con éxito el producto. Toda la información descrita en esta sección es pública.",
   "modal_product_add": "Añadir Producto",
@@ -754,5 +754,8 @@
   "mark_as_resolved": "Marcar como resuelto",
   "is_read": "Leído",
   "access_level": "Rol",
-  "authorized": "Autorizado"
+  "authorized": "Autorizado",
+  "tooltips": {
+    "role_description": "El rol de usuario determina los permisos que tiene el usuario en la plataforma. Para los roles de productor y distribuidor, el usuario debe aceptar un contrato activo. La plataforma es la encargada de validar el contrato y dar acceso al usuario."
+  }
 }

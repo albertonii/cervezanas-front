@@ -301,12 +301,12 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           {/* Is Gluten  */}
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
-              <label htmlFor="isGluten" className="text-sm text-gray-600">
-                {t("isGluten")}
+              <label htmlFor="is_gluten" className="text-sm text-gray-600">
+                {t("is_gluten")}
               </label>
 
               <select
-                id="isGluten"
+                id="is_gluten"
                 {...register("is_gluten", {
                   required: true,
                 })}
@@ -423,7 +423,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             <InputLabel
               form={form}
               label={"price"}
-              labelText={t("price") + " €"}
+              labelText={`${t("pvpr")} (€)`}
               registerOptions={{
                 required: true,
                 min: 0,
@@ -431,6 +431,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               }}
               inputType="number"
               placeholder={formatCurrency(2.5)}
+              infoTooltip={"pvpr_tooltip"}
             />
           </div>
 

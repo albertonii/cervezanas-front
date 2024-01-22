@@ -76,7 +76,7 @@ export default function ReportForm() {
 
       handleMessage({
         type: "error",
-        message: `${t("errors.inserting_report")}. Error message: ${res.text}`,
+        message: `${t("errors.inserting_report")} Error message:  ${res.text}`,
       });
 
       return;

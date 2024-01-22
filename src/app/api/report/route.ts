@@ -31,14 +31,17 @@ export async function POST(request: NextRequest) {
 
   const supabase = await createServerClient();
 
+  // random file name to avoid unicode issues in the file storage
+  const randomTitle = Math.random().toString(36).substring(7);
+
   const fileUrl = file
-    ? `${reporter_id}_${title}${generateFileNameExtension(file.name)}`
+    ? `${reporter_id}_${randomTitle}${generateFileNameExtension(file.name)}`
     : null;
 
   const { error } = await supabase.from("user_reports").insert({
     title,
     description,
-    file: fileUrl,
+    file: file ? fileUrl : "",
     reporter_id,
     is_resolved: false,
   });
@@ -50,6 +53,9 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+
+  if (!file)
+    return NextResponse.json({ message: "Report inserted successfully" });
 
   const fileToUpload = file as File;
 

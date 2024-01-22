@@ -1,5 +1,9 @@
 # Listado de tareas:
 
+- Error crear productor - Relación public.producer_user no existe
+- PDF acuerdo de colaboración Cervezanas - Productor
+- PDF acuerdo de colaboración Cervezanas - Distribuidor
+- Crear cuenta de soporte de correos que termine en Cervezanas.eu
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
@@ -27,17 +31,16 @@
 
 # WIP
 
-- Enviar correo a Miguel para contratar servicios
-- Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
-- Contratar servicios RESEND - SMTP - MIGUEL
-- Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
-- Contratar plan de pago Supabase - MIGUEL
+- Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
 
 - Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
 
 Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
 
 - Crear presentación de workshop para el lunes
+
+- Conectar los servicios nuevos de Miguel con la aplicación
+- Cervezanas en Producción
 
 - REVIEWS
   Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
@@ -85,6 +88,10 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - [x] Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 - [x] Securizar creación de un Distribuidor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 - [x] Mostrar imágenes de perfil y background en perfil
+- [x] Contratar servicios RESEND - SMTP - MIGUEL
+- [x] Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
+- [x] Contratar plan de pago Supabase - MIGUEL
+- [x] Enviar correo a Miguel para contratar servicios
 
 # 29 de noviembre 23
 
