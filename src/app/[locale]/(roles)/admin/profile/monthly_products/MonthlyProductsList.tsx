@@ -1,35 +1,31 @@
-"use client";
-
-import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { IMonthlyProduct } from "../../../../../../lib/types";
+import Link from "next/link";
+import React, { useMemo, useState } from "react";
 import { SupabaseProps } from "../../../../../../constants";
+import { IMonthlyProduct, IProduct } from "../../../../../../lib/types";
 import { useAuth } from "../../../../Auth/useAuth";
-import AddMonthlyProduct from "../../../../components/modals/AddMonthlyProduct";
-import InputSearch from "../../../../components/common/InputSearch";
+import { DeleteButton } from "../../../../components/common/DeleteButton";
 import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
 import { EditButton } from "../../../../components/common/EditButton";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
+import InputSearch from "../../../../components/common/InputSearch";
+import AddMonthlyProduct from "../../../../components/modals/AddMonthlyProduct";
 import { DeleteMonthlyProduct } from "../../../../components/modals/DeleteMonthlyProduct";
-
-interface Props {
-  mProducts: IMonthlyProduct[];
-}
 
 interface ColumnsProps {
   header: string;
 }
 
+interface Props {
+  mProducts: IMonthlyProduct[];
+  products: IProduct[];
+}
+
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
-export default function MonthlyBeers({ mProducts }: Props) {
+export default function MonthlyProductsList({ mProducts, products }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const { supabase } = useAuth();
-
-  const [products, setProducts] = useState<IMonthlyProduct[]>(mProducts);
   const [query, setQuery] = useState("");
 
   const [month, setMonth] = useState(0);
@@ -37,6 +33,14 @@ export default function MonthlyBeers({ mProducts }: Props) {
 
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [productModal, setProductModal] = useState<IMonthlyProduct>();
+
+  const filteredItems = useMemo<IMonthlyProduct[]>(() => {
+    if (!mProducts) return [];
+
+    return mProducts.filter((product) => {
+      return product.products?.name.toLowerCase().includes(query.toLowerCase());
+    });
+  }, [mProducts, query]);
 
   const COLUMNS = [
     { header: t("product_type_header") },
@@ -46,14 +50,6 @@ export default function MonthlyBeers({ mProducts }: Props) {
     { header: t("action_header") },
   ];
 
-  const handleAddProduct = (product: IMonthlyProduct) => {
-    setProducts((prev) => [...prev, product]);
-  };
-
-  const handleDeleteProduct = (id: string) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-  };
-
   const handleDeleteShowModal = (value: boolean) => {
     setIsDeleteShowModal(value);
   };
@@ -62,108 +58,16 @@ export default function MonthlyBeers({ mProducts }: Props) {
     setProductModal(product);
   };
 
-  const filteredItems = useMemo<IMonthlyProduct[]>(() => {
-    if (!products) return [];
-
-    return products.filter((product) => {
-      return product.products?.name.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [products, query]);
-
-  useEffect(() => {
-    if (month === 0 && year === 0) {
-      const fetchByMonthAndYear = async () => {
-        const { data, error } = await supabase.from("monthly_products").select(
-          `
-            id,
-            category,
-            month,
-            year          `
-        );
-
-        if (error) throw error;
-
-        const mProducts = data as IMonthlyProduct[];
-        setProducts(mProducts);
-      };
-
-      fetchByMonthAndYear();
-    }
-
-    if (month > 0 && year === 0) {
-      const fetchByMonthAndYear = async () => {
-        const { data, error } = await supabase
-          .from("monthly_products")
-          .select(
-            `
-              id,
-              category,
-              month,
-              year  
-            `
-          )
-          .eq("month", month);
-
-        if (error) throw error;
-
-        const mProducts = data as IMonthlyProduct[];
-        setProducts(mProducts);
-      };
-
-      fetchByMonthAndYear();
-    }
-
-    if (month === 0 && year > 0) {
-      const fetchByMonthAndYear = async () => {
-        const { data, error } = await supabase
-          .from("monthly_products")
-          .select(
-            `
-              id,
-              category,
-              month,
-              year
-            `
-          )
-          .eq("year", year);
-
-        if (error) throw error;
-
-        const mProducts = data as IMonthlyProduct[];
-        setProducts(mProducts);
-      };
-
-      fetchByMonthAndYear();
-    }
-
-    if (month > 0 && year > 0) {
-      const fetchByMonthAndYear = async () => {
-        const { data, error } = await supabase
-          .from("monthly_products")
-          .select(
-            `
-              id,
-              category,
-              month,
-              year
-            `
-          )
-          .eq("month", month)
-          .eq("year", year);
-
-        if (error) throw error;
-
-        const mProducts = data as IMonthlyProduct[];
-        setProducts(mProducts);
-      };
-
-      fetchByMonthAndYear();
-    }
-  }, [month, year]);
+  const handleAddProduct = (product: IMonthlyProduct) => {
+    setProductModal(product);
+  };
 
   return (
     <>
-      <AddMonthlyProduct handleAddProduct={handleAddProduct} />
+      <AddMonthlyProduct
+        handleAddProduct={handleAddProduct}
+        products={products}
+      />
 
       <section className="relative mt-6 space-y-4 overflow-x-auto p-4 shadow-md sm:rounded-lg">
         {/* Select month and year to see the products and new monthly product btn */}
@@ -269,10 +173,7 @@ export default function MonthlyBeers({ mProducts }: Props) {
                     </th>
 
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link
-                        href={`/products/${product.product_id}`}
-                        locale={locale}
-                      >
+                      <Link href={`/products/${product.id}`} locale={locale}>
                         {product.products?.name}
                       </Link>
                     </td>
@@ -304,15 +205,15 @@ export default function MonthlyBeers({ mProducts }: Props) {
           </tbody>
         </table>
 
-        {isDeleteShowModal && (
+        {/* {isDeleteShowModal && (
           <DeleteMonthlyProduct
-            products={products ?? []}
+            products={mProducts ?? []}
             product={productModal}
             showModal={isDeleteShowModal}
             handleDeleteShowModal={handleDeleteShowModal}
             handleSetProducts={handleDeleteProduct}
           />
-        )}
+        )} */}
       </section>
     </>
   );

@@ -23,8 +23,6 @@ export function ConsumptionPoints({ cps }: Props) {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     cps.map((cp) => {
       if (cp.cp_fixed) {
@@ -43,7 +41,6 @@ export function ConsumptionPoints({ cps }: Props) {
 
       if (cp.cp_mobile) {
         cp.cp_mobile.map((cpm) => {
-          console.log(cpm);
           setCPsMobile((prev) => {
             // Avoid cpm that already exists in the array
             const exists = prev && prev.find((cp) => cp.id === cpm.id);

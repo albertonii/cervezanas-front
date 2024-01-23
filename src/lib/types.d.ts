@@ -1034,10 +1034,10 @@ export interface IModalProduct {
 
 export interface IMonthlyProduct {
   id: string;
+  created_at: string;
   category: string;
   month: number;
   year: number;
-  product_id: string;
   products?: IProduct;
 }
 

@@ -243,8 +243,8 @@ Planificación de este año.
 23 de enero
 --
 
-- Merge de cambios en DESIGN
-- Eliminar todas las funcionalidades que no están terminadas:
+- [x] Merge de cambios en DESIGN
+- [x] Eliminar todas las funcionalidades que no están terminadas:
   - [x] Campañas - Producer
   - [x] Reviews - Producer
   - [x] Lista de deseos - Consumer
@@ -259,3 +259,4 @@ Planificación de este año.
 - Crear lista dinámica de productos del mes
 - Contratar servicio VERCEL
 - Comprobar que funciona Puntos Cervezanas -> MAPA
+- [x] Lista de Puntos de Consumo para el ADMIN
