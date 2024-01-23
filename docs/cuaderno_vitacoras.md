@@ -1,6 +1,8 @@
 # Listado de tareas:
 
-- Error crear productor - Relación public.producer_user no existe
+- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- No está funcionado dentro de crear producto el estado de la sección de packs.
+- COMENTAR TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - PDF acuerdo de colaboración Cervezanas - Productor
 - PDF acuerdo de colaboración Cervezanas - Distribuidor
 - Crear cuenta de soporte de correos que termine en Cervezanas.eu
