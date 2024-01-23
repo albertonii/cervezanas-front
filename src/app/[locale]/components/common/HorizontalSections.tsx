@@ -28,7 +28,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
           ${activeTab === tab ? "bg-gray-100  text-beer-gold" : "bg-beer-foam"}
           ${index === 0 ? "rounded-l-lg" : ""}
           ${index === tabs.length - 1 ? "rounded-r-lg" : ""}
-          active flex w-full items-center justify-center p-4 shadow hover:cursor-pointer hover:bg-gray-50 hover:text-beer-draft focus:outline-none focus:ring-4 focus:ring-beer-blonde dark:bg-gray-700 dark:text-white`}
+          active flex w-full items-center justify-center p-4 shadow hover:cursor-pointer hover:bg-gray-50 hover:text-beer-draft focus:outline-none focus:ring-4 focus:ring-beer-blonde dark:bg-gray-700 dark:text-white uppercase font-semibold shadow-xl border-2`}
             onClick={() => handleClick(tab)}
           >
             {t(tab)}

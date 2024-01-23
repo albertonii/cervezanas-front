@@ -129,20 +129,20 @@ export function Sidebar({ sidebarLinks }: Props) {
           className={`
         ${
           open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0"
-        } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block
+        } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
         `}
           aria-label="Sidebar"
           id="default-sidebar"
           ref={sidebarRef}
         >
           <div
-            className={`h-full w-56 overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800`}
+            className={`h-full w-56 overflow-y-auto rounded bg-gray-100 px-3 py-4 dark:bg-gray-800`}
           >
             <ul className="space-y-2 font-medium">
               {sLinks.map((link) => (
                 <li
                   className={`
-                flex items-center rounded-lg text-base font-normal text-gray-900 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
+                flex items-center uppercase rounded-lg text-sm font-normal text-gray-600 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
                     ? "bg-beer-softBlonde text-gray-700"
@@ -152,7 +152,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                 >
                   <Link
                     href={generateLink(role, link.option)}
-                    className="w-full p-2 px-4 font-medium "
+                    className="w-full p-2 px-4 font-semibold tracking-wide"
                     locale={locale}
                     onClick={() => {
                       if (link.option !== sidebar) {

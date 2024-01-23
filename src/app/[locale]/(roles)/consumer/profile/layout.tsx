@@ -181,7 +181,7 @@ export default function layout({ children }: LayoutProps) {
             </div>
 
             <div
-              className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
+              className="w-full bg-cerv-coffee sm:pt-[5vh] md:pt-[5vh] md:overflow-hidden lg:col-span-4 bg-[url('/assets/madera-account.webp')] bg-repeat bg-top bg-auto"
               aria-label="Container Consumer settings"
             >
               {children}

@@ -18,7 +18,7 @@ export function Account({ profile }: Props) {
   return (
     <section className="px-4 py-6" id="account-container">
       <div className="flex justify-between py-4" id="header">
-        <span id="title" className="text-4xl">
+        <span id="title" className="text-5xl uppercase font-semibold text-white">
           {t("profile_title_my_data")}
         </span>
       </div>
