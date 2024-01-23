@@ -7,7 +7,7 @@ export function Hero() {
       {/*  bloque 1 */}
       <div className="relative m-auto flex h-[220px] max-w-screen-2xl justify-center overflow-hidden border-gray-400 bg-cerv-cream p-4">
         <div className="flex w-full max-w-screen-2xl justify-center border-8 border-double pt-1">
-          <div className="relative left-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graf1.png')] bg-cover bg-right bg-no-repeat opacity-10 sm:block"></div>
+          <div className="relative left-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graf1.webp')] bg-cover bg-right bg-no-repeat opacity-10 sm:block"></div>
 
           <div className=" block w-full justify-center pt-7 text-center text-2xl font-bold sm:inline-flex lg:text-4xl">
             <div
@@ -21,17 +21,17 @@ export function Hero() {
               </div>
             </div>
           </div>
-          <div className="relative right-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graF2.png')] bg-cover bg-no-repeat  opacity-10 sm:block"></div>
+          <div className="relative right-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graF2.webp')] bg-cover bg-no-repeat  opacity-10 sm:block"></div>
         </div>
       </div>
       {/*  bloque 2 */}
       <div className="relative -top-12 m-auto w-full max-w-screen-2xl">
-        <img src="/assets/home/home-fakebanner.png"></img>
+        <img src="/assets/home/home-fakebanner.webp"></img>
       </div>
       {/*  bloque 3 */}
       <div className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream p-5 sm:block md:flex lg:flex">
         <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex lg:w-1/2">
-          <div className="h-[350px] bg-[url('/assets/home/home-img-1.jpg')] bg-center bg-no-repeat sm:bg-contain md:w-full lg:h-full lg:w-1/2 lg:bg-cover"></div>
+          <div className="h-[350px] bg-[url('/assets/home/home-img-1.webp')] bg-center bg-no-repeat sm:bg-contain md:w-full lg:h-full lg:w-1/2 lg:bg-cover"></div>
           <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
             <div className="m-auto text-center">
               <img
@@ -54,7 +54,7 @@ export function Hero() {
           </div>
         </div>
         <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex  lg:w-1/2">
-          <div className="h-[350px] bg-[url('/assets/home/home-img-2.jpg')] bg-center bg-no-repeat sm:bg-contain  md:w-full lg:h-full lg:w-1/2   lg:bg-cover "></div>
+          <div className="h-[350px] bg-[url('/assets/home/home-img-2.webp')] bg-center bg-no-repeat sm:bg-contain  md:w-full lg:h-full lg:w-1/2   lg:bg-cover "></div>
           <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
             <div className="m-auto text-center">
               <img
@@ -77,7 +77,7 @@ export function Hero() {
       </div>
       {/*  bloque 4 */}
       <div className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-titlehigh p-5">
-        <div className="absolute right-0 h-[600px] w-[600px] bg-[url('/assets/rec-graF3.png')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
+        <div className="absolute right-0 h-[600px] w-[600px] bg-[url('/assets/rec-graF3.webp')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
         <div className="relative z-10 text-3xl font-bold text-white md:text-5xl">
           SELECCIÓN CERVEZANA DEL MES{" "}
           <img
@@ -98,9 +98,9 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               LUPULENSIS
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-1.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/mes-1.webp')] bg-cover bg-center bg-no-repeat">
               <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.png" width="70"></img>
+                <img src="/assets/cerv-mes.webp" width="70"></img>
               </div>
               <div className="relative right-2 float-right ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
@@ -118,7 +118,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -132,9 +132,9 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               ALQUIMISTAS - TRIGO
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-2.jpg')] bg-cover bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/mes-2.webp')] bg-cover bg-no-repeat">
               <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.png" width="70"></img>
+                <img src="/assets/cerv-mes.webp" width="70"></img>
               </div>
               <div className="relative right-2 float-right ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
@@ -152,7 +152,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -166,9 +166,9 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               CERVEZAS SOTO
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-3.jpg')] bg-cover bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/mes-3.webp')] bg-cover bg-no-repeat">
               <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.png" width="70"></img>
+                <img src="/assets/cerv-mes.webp" width="70"></img>
               </div>
               <div className="relative right-2 float-right ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
@@ -186,7 +186,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -198,11 +198,11 @@ export function Hero() {
         </div>
       </div>
       {/*  bloque 5 */}
-      <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-[url('/assets/home/fondo-marcas.jpg')] bg-cover bg-no-repeat p-8 pb-20">
+      <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-[url('/assets/home/fondo-marcas.webp')] bg-cover bg-no-repeat p-8 pb-20">
         <div className="mb-8 text-center text-4xl font-bold text-cerv-coffee md:text-5xl lg:text-left">
           ¿Quieres saber la historia detrás de cada marca?
         </div>
-        <div className="absolute -top-6 right-0 hidden h-[600px] w-[140px] bg-[url('/assets/home/botella-qr.png')] bg-contain bg-right-top bg-no-repeat lg:block"></div>
+        <div className="absolute -top-6 right-0 hidden h-[600px] w-[140px] bg-[url('/assets/home/botella-qr.webp')] bg-contain bg-right-top bg-no-repeat lg:block"></div>
         <div className="block lg:flex">
           <div className="text-1xl mb-4 mr-6 w-full bg-cerv-titlehigh bg-opacity-80 p-7 pt-20 text-white lg:w-1/2">
             <div>
@@ -219,7 +219,7 @@ export function Hero() {
               width="160"
             ></img>
           </div>
-          <div className="w-full  bg-cerv-cream p-0 p-7 text-center lg:w-1/2 lg:pr-32">
+          <div className="w-full  bg-cerv-cream p-7 text-center lg:w-1/2 lg:pr-32">
             <div className="text-4xl font-bold text-cerv-coffee">
               Escanea el código QR
             </div>
@@ -237,7 +237,7 @@ export function Hero() {
       </div>
       {/*  bloque 6 */}
       <div className="relative m-auto w-full max-w-screen-2xl justify-center overflow-hidden bg-cerv-cream pb-20 pt-10">
-        <div className="absolute left-2/4 m-auto -ml-80 hidden h-[700px] w-[700px] max-w-full bg-[url('/assets/rec-graf4.png')] bg-cover bg-no-repeat opacity-10 sm:block sm:w-full"></div>
+        <div className="absolute left-2/4 m-auto -ml-80 hidden h-[700px] w-[700px] max-w-full bg-[url('/assets/rec-graf4.webp')] bg-cover bg-no-repeat opacity-10 sm:block sm:w-full"></div>
         <div className="mb-10 text-center text-4xl font-bold text-cerv-coffee md:text-5xl">
           Cervezas más vendidas
         </div>
@@ -247,7 +247,7 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               MÍSTICA
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/prod-1.jpg')] bg-cover bg-center  bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/prod-1.webp')] bg-cover bg-center  bg-no-repeat">
               <div className="relative right-2 float-right mt-10 ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                   20
@@ -261,7 +261,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -275,7 +275,7 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               BOSQUE ROJO
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/prod-2.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/prod-2.webp')] bg-cover bg-center bg-no-repeat">
               <div className="relative right-2 float-right mt-10 ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                   20
@@ -289,7 +289,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -303,7 +303,7 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               AMARILLA
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/prod-3.jpg')] bg-cover bg-center  bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/prod-3.webp')] bg-cover bg-center  bg-no-repeat">
               <div className="relative right-2 float-right mt-10 ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                   15
@@ -317,7 +317,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -331,7 +331,7 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               LÚPULO DORADO
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/prod-4.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/prod-4.webp')] bg-cover bg-center bg-no-repeat">
               <div className="relative right-2 float-right mt-10 ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                   10
@@ -345,7 +345,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -359,7 +359,7 @@ export function Hero() {
             <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
               LUPULENSIS
             </div>
-            <div className="h-[320px] bg-[url('/assets/home/prod-5.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="h-[320px] bg-[url('/assets/home/prod-5.webp')] bg-cover bg-center bg-no-repeat">
               <div className="relative right-2 float-right mt-10 ">
                 <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                   12
@@ -373,7 +373,7 @@ export function Hero() {
               <div className=" text-center">
                 <img
                   className="m-auto"
-                  src="/assets/estrellas-fake.png"
+                  src="/assets/estrellas-fake.webp"
                   width="110"
                 ></img>
               </div>
@@ -385,7 +385,7 @@ export function Hero() {
         </div>
       </div>
       {/*  bloque 6 */}
-      <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.png')] bg-contain pb-20 pt-10">
+      <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.webp')] bg-contain pb-20 pt-10">
         <div className="z-index-1 relative -top-8 m-auto h-[190px] w-[190px]  bg-[url('/assets/logo.svg')] bg-contain bg-no-repeat"></div>
         <div className="mb-10 text-center text-4xl font-bold text-cerv-coffee md:text-6xl">
           Comunidad Cervezanas
@@ -396,7 +396,7 @@ export function Hero() {
             {" "}
             <img
               className="m-auto p-0 sm:p-16"
-              src="/assets/home/com-1.jpg"
+              src="/assets/home/com-1.webp"
             ></img>
           </div>
           <div className="m-auto w-full p-10 sm:w-2/4">
@@ -450,7 +450,7 @@ export function Hero() {
             {" "}
             <img
               className="m-auto mb-6 p-0 sm:p-16"
-              src="/assets/home/com-2.jpg"
+              src="/assets/home/com-2.webp"
             ></img>
           </div>
         </div>
@@ -460,7 +460,7 @@ export function Hero() {
             {" "}
             <img
               className="m-auto p-0 sm:p-16"
-              src="/assets/home/com-3.jpg"
+              src="/assets/home/com-3.webp"
             ></img>
           </div>
           <div className="m-auto w-full p-10 sm:w-2/4">
@@ -514,33 +514,36 @@ export function Hero() {
             {" "}
             <img
               className="m-auto p-0 sm:p-16"
-              src="/assets/home/com-4.jpg"
+              src="/assets/home/com-4.webp"
             ></img>
           </div>
         </div>
       </div>
       {/*  bloque 7 */}
       <div className="relative m-auto w-full  max-w-screen-2xl justify-center overflow-hidden bg-cerv-titlehigh p-5 ">
-        <div className="absolute -left-36 top-20 h-[600px] w-[600px] bg-[url('/assets/rec-graf4.png')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
-        <div className="mb-20 mt-10 text-center text-4xl font-bold text-white md:text-6xl">
+        <div className="absolute -left-36 top-20 h-[600px] w-[600px] bg-[url('/assets/rec-graf4.webp')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
+        <div className="mb-20 mt-10 text-center text-4xl font-bold text-white md:text-5xl">
           Opiniones de nuestros Cervezanos y Cervezanas
         </div>
         {/*  review 1 */}
         <div className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex">
-          <div className="w-full border-b-2 border-none pb-10 text-white sm:w-1/4 sm:border-yellow-400">
+          <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
+              Iñaki Aranguren
+            </div>
+            <div className="text-center text-ml sm:text-left text-beer-softFoam">
               Consumidor Cervezano
             </div>
           </div>
-          <div className=" w-full border-b-2  border-none  pb-10 sm:w-1/4 sm:border-yellow-400">
+          <div className="w-full border-b-2 pb-10 sm:w-1/6 sm:border-yellow-400">
             <img
               className="m-auto"
-              src="/assets/estrellas-fake.png"
+              src="/assets/estrellas-fake.webp"
               width="100"
             ></img>
           </div>
-          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-1/4">
+          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-3/6">
             <div className="font-bold text-yellow-400 ">Titular</div>
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
@@ -551,20 +554,22 @@ export function Hero() {
         </div>
         {/*  review 2 */}
         <div className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex">
-          <div className="w-full border-b-2 border-none pb-10 text-white sm:w-1/4 sm:border-yellow-400">
+          <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
+            María Schneider
+            </div> <div className="text-center sm:text-left text-beer-softFoam">
               Productor Cervezano
             </div>
           </div>
-          <div className=" w-full border-b-2  border-none  pb-10 sm:w-1/4 sm:border-yellow-400">
+          <div className=" w-full border-b-2 pb-10 sm:w-1/6 sm:border-yellow-400">
             <img
               className="m-auto"
-              src="/assets/estrellas-fake.png"
+              src="/assets/estrellas-fake.webp"
               width="100"
             ></img>
           </div>
-          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-1/4">
+          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-3/6">
             <div className="font-bold text-yellow-400 ">Titular</div>
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
@@ -575,20 +580,23 @@ export function Hero() {
         </div>
         {/*  review 3 */}
         <div className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex">
-          <div className="w-full border-b-2 border-none pb-10 text-white sm:w-1/4 sm:border-yellow-400">
+          <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
+              Pedro Moliner
+            </div>
+            <div className="text-center sm:text-left text-beer-softFoam">
               Creador de eventos
             </div>
           </div>
-          <div className=" w-full border-b-2  border-none  pb-10 sm:w-1/4 sm:border-yellow-400">
+          <div className=" w-full border-b-2 pb-10 sm:w-1/6 sm:border-yellow-400">
             <img
               className="m-auto"
-              src="/assets/estrellas-fake.png"
+              src="/assets/estrellas-fake.webp"
               width="100"
             ></img>
           </div>
-          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-1/4">
+          <div className="w-full border-b-2 border-yellow-400 px-10 pb-10 sm:w-3/6">
             <div className="font-bold text-yellow-400 ">Titular</div>
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
@@ -601,7 +609,7 @@ export function Hero() {
       {/*  bloque 8 */}
       <div className=""></div>
       <div className="relative m-auto w-full max-w-screen-2xl justify-center">
-        <img className="m-auto w-full" src="/assets/home/prefooter.jpg"></img>
+        <img className="m-auto w-full" src="/assets/home/prefooter.webp"></img>
       </div>
     </>
   );

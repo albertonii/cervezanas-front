@@ -116,6 +116,7 @@ export default function ScreenMenu({ notifications }: Props) {
         </section>
 
         {/* Logo Cervezanas  */}
+        {/*
         <section className="w-full" id="navbar-default">
           <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
             <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
@@ -134,7 +135,7 @@ export default function ScreenMenu({ notifications }: Props) {
             </div>
           </div>
         </section>
-
+*/}
         {/* Right elements  */}
         <section className="w-[400px] ">
           <ul className="py-2 pt-1 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
@@ -161,7 +162,7 @@ export default function ScreenMenu({ notifications }: Props) {
 
             {i18n.locales.map((locale) => {
               return (
-                <li key={locale}>
+                <li key={locale} className="text-beer-softFoam uppercase rounded-full border-beer-dark border-2 p-1 text-xs w-[30px] h-[30px] bg-cerv-titlehigh text-center mt-3 hover:bg-beer-draft">
                   <Link href={redirectedPathName(locale)}>{locale}</Link>
                 </li>
               );

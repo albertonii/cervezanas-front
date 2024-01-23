@@ -7,7 +7,7 @@ export default function PuntoCervezanasFlag() {
   const locale = useLocale();
 
   return (
-    <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24">
+    <section className="absolute right-0 top-10 rounded-l-lg bg-beer-dark sm:top-24 z-10">
       <Link
         href={"/beer-me"}
         locale={locale}
