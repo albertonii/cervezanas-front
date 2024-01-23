@@ -292,7 +292,7 @@ export default function MobileMenu({ notifications }: Props) {
               <>
                 <li className="flex items-center">
                   <Link
-                    href="/profile?a=submitted_aps"
+                    href="/profile?a=contracts_cps"
                     onClick={() => setOpenNotification(false)}
                     locale={locale}
                   >

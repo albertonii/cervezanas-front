@@ -17,9 +17,9 @@ export default function HorizontalMenuCoverageCost({ setMenuOption }: Props) {
         handleMenuClick={handleMenuClick}
         tabs={[
           DistributionCostType.FLATRATE,
-          DistributionCostType.RANGE,
-          DistributionCostType.VOLUME_AND_WEIGHT,
-          DistributionCostType.DISTANCE,
+          // DistributionCostType.RANGE,
+          // DistributionCostType.VOLUME_AND_WEIGHT,
+          // DistributionCostType.DISTANCE,
         ]}
       />
     </>

@@ -162,7 +162,10 @@ export default function ScreenMenu({ notifications }: Props) {
 
             {i18n.locales.map((locale) => {
               return (
-                <li key={locale} className="text-beer-softFoam uppercase rounded-full border-beer-dark border-2 p-1 text-xs w-[30px] h-[30px] bg-cerv-titlehigh text-center mt-3 hover:bg-beer-draft">
+                <li
+                  key={locale}
+                  className="mt-3 h-[30px] w-[30px] rounded-full border-2 border-beer-dark bg-cerv-titlehigh p-1 text-center text-xs uppercase text-beer-softFoam hover:bg-beer-draft"
+                >
                   <Link href={redirectedPathName(locale)}>{locale}</Link>
                 </li>
               );
@@ -249,7 +252,7 @@ export default function ScreenMenu({ notifications }: Props) {
                             "events",
                             "online_orders",
                             "event_orders",
-                            "campaigns",
+                            // "campaigns",
                             "signout",
                           ]
                         : [

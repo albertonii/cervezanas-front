@@ -22,8 +22,6 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
   const locale = useLocale();
   const { supabase } = useAuth();
 
-  console.log(review);
-
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
 
   const handleDeleteReview = async (reviewId: string) => {

@@ -96,17 +96,17 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "campaigns":
-        return (
-          <Link href={generateLink(role, option)} locale={locale}>
-            <span
-              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-              aria-current="page"
-            >
-              {t(option)}
-            </span>
-          </Link>
-        );
+      // case "campaigns":
+      //   return (
+      //     <Link href={generateLink(role, option)} locale={locale}>
+      //       <span
+      //         className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+      //         aria-current="page"
+      //       >
+      //         {t(option)}
+      //       </span>
+      //     </Link>
+      //   );
 
       case "signout":
         return (
@@ -124,7 +124,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
       case "submitted_aps":
         return (
-          <Link href={generateLink(role, option)} locale={locale}>
+          <Link href={generateLink(role, "contracts_cps")} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"

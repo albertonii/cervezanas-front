@@ -31,11 +31,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "box",
       option: "business_orders",
     },
-    {
-      name: t("distributor_feedback"),
-      icon: "box",
-      option: "reviews",
-    },
+    // {
+    //   name: t("distributor_feedback"),
+    //   icon: "box",
+    //   option: "reviews",
+    // },
     {
       name: t("notifications"),
       icon: "bell",
@@ -48,7 +48,7 @@ export default function layout({ children }: LayoutProps) {
       <Sidebar sidebarLinks={sidebarLinks} />
 
       <div
-        className="w-full sm:pt-[5vh] md:pt-[5vh] bg-[url('/assets/madera-account.webp')] bg-repeat bg-top bg-auto"
+        className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
         aria-label="Container Distributor settings"
       >
         {children}

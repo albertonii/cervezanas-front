@@ -35,11 +35,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "truck",
       option: "distributors_associated",
     },
-    {
-      name: t("campaigns"),
-      icon: "gift",
-      option: "campaigns",
-    },
+    // {
+    //   name: t("campaigns"),
+    //   icon: "gift",
+    //   option: "campaigns",
+    // },
     {
       name: t("events"),
       icon: "location",
@@ -60,12 +60,11 @@ export default function layout({ children }: LayoutProps) {
       icon: "shopping-cart",
       option: "event_orders",
     },
-
-    {
-      name: t("reviews"),
-      icon: "review",
-      option: "reviews",
-    },
+    // {
+    //   name: t("reviews"),
+    //   icon: "review",
+    //   option: "reviews",
+    // },
     {
       name: t("notifications"),
       icon: "bell",
@@ -211,7 +210,7 @@ export default function layout({ children }: LayoutProps) {
             </section>
 
             <div
-              className="w-full sm:pt-[5vh] md:pt-[5vh] bg-[url('/assets/madera-account.webp')] bg-repeat bg-top bg-auto"
+              className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
               aria-label="Container Producer settings"
             >
               {children}

@@ -10,7 +10,6 @@ interface Props {
 }
 
 export function Reviews({ reviews: r }: Props) {
-  console.log(r);
   const t = useTranslations();
 
   const [reviews, setReviews] = useState<IReview[]>(r);

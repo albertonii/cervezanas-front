@@ -47,11 +47,11 @@ export default async function layout({ children }: LayoutProps) {
       icon: "review",
       option: "reviews",
     },
-    {
-      name: t("watchlist"),
-      icon: "watchlist",
-      option: "likes_history",
-    },
+    // {
+    //   name: t("watchlist"),
+    //   icon: "watchlist",
+    //   option: "likes_history",
+    // },
     {
       name: t("notifications"),
       icon: "bell",

@@ -238,3 +238,24 @@ Planificación de este año.
 3. Eventos
 
 -- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES
+
+--
+23 de enero
+--
+
+- Merge de cambios en DESIGN
+- Eliminar todas las funcionalidades que no están terminadas:
+  - [x] Campañas - Producer
+  - [x] Reviews - Producer
+  - [x] Lista de deseos - Consumer
+  - [x] Feedback - Distributor
+  - [x] Costes de distribución - Rango - Distributor
+  - [x] Costes de distribución - Volumen y peso - Distributor
+  - [x] Costes de distribución - Distancia - Distributor
+  - [x] Área de cobertura - Ciudad - Distributor
+  - [x] Área de cobertura - Provincia - Distributor
+  - [x] Área de cobertura - Región - Distributor
+  - [x] Área de cobertura - Europa - Distributor
+- Crear lista dinámica de productos del mes
+- Contratar servicio VERCEL
+- Comprobar que funciona Puntos Cervezanas -> MAPA

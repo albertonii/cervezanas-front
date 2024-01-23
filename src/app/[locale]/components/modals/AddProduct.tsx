@@ -218,8 +218,6 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    console.log(p_principal);
-
     if (p_principal && !isFileEmpty(p_principal[0])) {
       const fileName = `articles/${productId}/p_principal/${randomUUID}`;
       // .../articles/1/p_principal/uuid.jpg
