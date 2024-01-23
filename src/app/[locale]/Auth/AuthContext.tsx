@@ -109,7 +109,10 @@ export const AuthContextProvider = ({
       .from("users")
       .select(
         `
-          *
+          *,
+          gamification!gamification_user_id_fkey (
+            *
+          )
         `
       )
       .eq("id", serverSession.user.id)
@@ -118,9 +121,9 @@ export const AuthContextProvider = ({
     if (error) {
       console.error(error);
       return null;
-    } else {
-      return user as IUserProfile;
     }
+
+    return user as IUserProfile;
   };
 
   const {
@@ -157,6 +160,25 @@ export const AuthContextProvider = ({
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange(
       async (event: any, currentSession: any) => {
+        if (currentSession && currentSession.provider_token) {
+          window.localStorage.setItem(
+            "oauth_provider_token",
+            currentSession.provider_token
+          );
+        }
+
+        if (currentSession && currentSession.provider_refresh_token) {
+          window.localStorage.setItem(
+            "oauth_provider_refresh_token",
+            currentSession.provider_refresh_token
+          );
+        }
+
+        if (event === "SIGNED_OUT") {
+          window.localStorage.removeItem("oauth_provider_token");
+          window.localStorage.removeItem("oauth_provider_refresh_token");
+        }
+
         if (
           !serverSession ||
           !currentSession ||
@@ -206,8 +228,8 @@ export const AuthContextProvider = ({
         .from("users")
         .select(
           `
-          *
-        `
+            *
+          `
         )
         .eq("email", payload.email);
 
@@ -226,6 +248,7 @@ export const AuthContextProvider = ({
         });
         return;
       }
+
       const { error, data } = (await supabase.auth.signUp(
         payload
       )) as AuthResponse;
@@ -249,6 +272,13 @@ export const AuthContextProvider = ({
           });
           return;
         }
+
+        // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
+        const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+        const producerLink = "/admin/profile/authorized_users";
+        fetch(
+          `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`
+        );
       } else if (access_level === ROLE_ENUM.Distributor) {
         const { error: roleError } = await supabase
           .from("distributor_user")
@@ -263,6 +293,13 @@ export const AuthContextProvider = ({
           });
           return;
         }
+
+        // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
+        const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+        const distributorLink = "/admin/profile/authorized_users";
+        fetch(
+          `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`
+        );
       }
 
       if (error) {

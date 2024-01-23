@@ -29,12 +29,12 @@ async function getNotificationsData() {
     .select(
       `
         *,
-        source_user:users!notifications_source_fkey (
+        source_user:users!notifications_user_id_fkey (
           username
         )
       `
     )
-    .eq("user_id", [session.user.id])
+    .eq("source", [session.user.id])
     .order("created_at", { ascending: false });
   if (error) throw error;
 

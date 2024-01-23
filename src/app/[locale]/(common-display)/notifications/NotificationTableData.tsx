@@ -32,8 +32,8 @@ export default function NotificationTableData({ notification, key }: Props) {
       .select(
         `
         *,
-        source_user:users!notifications_source_fkey (
-            username
+        source_user:users!notifications_user_id_fkey (
+          username
         )
         `
       )
@@ -80,7 +80,9 @@ export default function NotificationTableData({ notification, key }: Props) {
           )}
         </td>
 
-        <td className="px-6 py-4">{notificationState.source_user?.username}</td>
+        <td className="px-6 py-4 hover:font-semibold hover:text-beer-gold">
+          {notificationState.source_user?.username}
+        </td>
 
         <td className="px-6 py-4">{notificationState.link}</td>
 

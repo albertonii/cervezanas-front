@@ -342,25 +342,6 @@ export interface IProfile {
   cp_organizer_status: number;
 }
 
-// export interface IDistributorUser {
-//   id: string;
-//   created_at: string;
-//   updated_at: string;
-//   owner_id: string;
-//   name: string;
-//   lastname: string;
-//   phone: string;
-//   address: string;
-//   city: string;
-//   state: string;
-//   zip: string;
-//   country: string;
-//   email: string;
-//   role: string;
-//   username: string;
-//   profile_location: IProfileLocation[];
-// }
-
 export interface IEvent {
   id: string;
   created_at: string;
@@ -378,6 +359,7 @@ export interface IEvent {
   cp_fixed: ICPFixed[];
   users: IUserTable;
 }
+
 export interface IConsumptionPoints {
   id: string;
   created_at: string;
@@ -407,7 +389,7 @@ export interface ICPFixed {
   is_booking_required: boolean;
   cp_id: string;
   is_internal_organizer: boolean;
-  cpf_products: ICPFProducts[];
+  cpf_products?: ICPFProducts[];
   geoArgs: GeocodeResult[];
 }
 
@@ -453,7 +435,7 @@ export interface ICPMProducts {
   cp_id: string;
   product_pack_id: string;
   product_packs?: IProductPack;
-  // cp_mobile: ICPMobile;
+  cp_mobile?: ICPMobile;
 }
 
 export interface IRefCPMProducts {
@@ -625,7 +607,7 @@ export interface IEventOrder {
   event_order_items?: IEventOrderItem[];
   customer_id: string;
   users?: IUserTable;
-  // events?: IEvent;
+  events?: IEvent;
   payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
@@ -935,7 +917,11 @@ export interface IProductPackEventCartItem {
   price: number;
   image: string;
   name: string;
-  products?: IProduct;
+  products?: IEventProduct;
+  producer_id: string;
+  cpf_id: string;
+  cpm_id: string;
+  cp_name: string;
 }
 
 export interface ICarouselItem {
@@ -969,7 +955,7 @@ export interface IProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers: IBeer[];
+  beers?: IBeer[];
   product_multimedia: IProductMultimedia[];
   order_items?: IOrderItem[];
 
@@ -980,12 +966,40 @@ export interface IProduct {
   reviews?: IReview[];
   // reviews: IRefReview[];
   likes?: ILike[];
-  beers: IBeer[];
   awards?: IAward[];
   // state: IProductEnum.State;
   // status: IProductEnum.Status;
   // product_packs: IRefProductPack[];
   product_packs?: IProductPack[];
+}
+
+export interface IEventProduct {
+  id: string;
+  created_at: string;
+  name: string;
+  description: string;
+  type: ProductType;
+  is_public: boolean;
+  discount_percent: number;
+  weight: number;
+  discount_code: string;
+  price: number; // TODO : quitar el price - pq está en product_pack
+  campaign_id: string;
+  is_archived: boolean;
+  category: string;
+  is_monthly: boolean;
+  owner_id: string;
+  beers?: IBeer[];
+  product_multimedia: IProductMultimedia[];
+  product_lots?: IProductLot[];
+  product_inventory?: Inventory[];
+  reviews?: IReview[];
+  likes?: ILike[];
+  awards?: IAward[];
+  product_packs?: IProductPack[];
+  cpm_id: string;
+  cpf_id: string;
+  cp_name: string;
 }
 
 export interface IModalProduct {
@@ -1232,23 +1246,23 @@ export interface ISignUp {
 
 export interface IUser {
   id: string;
+  aud: string;
+  role?: string;
+  email?: string;
+  email_confirmed_at?: string;
+  phone?: string;
+  confirmation_sent_at?: string;
+  confirmed_at?: string;
+  recovery_sent_at?: string;
+  last_sign_in_at?: string;
   app_metadata: UserAppMetadata;
   user_metadata: UserMetadata;
-  aud: string;
-  confirmation_sent_at?: string;
-  recovery_sent_at?: string;
   email_change_sent_at?: string;
   new_email?: string;
   invited_at?: string;
   action_link?: string;
-  email?: string;
-  phone?: string;
   created_at: string;
-  confirmed_at?: string;
-  email_confirmed_at?: string;
   phone_confirmed_at?: string;
-  last_sign_in_at?: string;
-  role?: string;
   updated_at?: string;
   identities?: UserIdentity[];
   username: string;
@@ -1288,27 +1302,12 @@ export interface IUserProfile {
   birthdate: string;
   bg_url: string;
   avatar_url: string;
+  gamification?: IGamification[];
 }
 
 export enum PROVIDER_TYPE {
   GOOGLE = "google",
 }
-
-// export interface IDistributorUser_Profile {
-//   id: string;
-//   created_at: string;
-//   avatar_url: string;
-//   bg_url: string;
-//   birthdate: string;
-//   cp_organizer_status: number;
-//   email: string;
-//   name: string;
-//   lastname: string;
-//   role: string;
-//   username: string;
-//   distributor_user: IDistributorUser[];
-//   profile_location: IProfileLocation[];
-// }
 
 export interface IDistributorUser {
   user: string; // ID
@@ -1318,26 +1317,11 @@ export interface IDistributorUser {
   company_name: string;
   company_description: string;
   location_id: string;
+  is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
   coverage_areas?: ICoverageArea[];
 }
-
-// export interface IProducerUser {
-//   id: string;
-//   created_at: string;
-//   avatar_url: string;
-//   bg_url: string;
-//   birthdate: string;
-//   cp_organizer_status: number;
-//   email: string;
-//   name: string;
-//   lastname: string;
-//   role: string;
-//   username: string;
-//   distributor_user: IProducerUser;
-//   location_id: IProfileLocation[];
-// }
 
 export interface IProducerUser {
   user: string; // ID
@@ -1345,6 +1329,7 @@ export interface IProducerUser {
   company_name: string;
   company_description: string;
   location_id: string;
+  is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
@@ -1447,22 +1432,39 @@ export interface DistributionRangeCost {
   shippingCost: number;
 }
 
-export interface IFlatrateCost {
-  created_at: string;
-  distribution_costs_id: string; // PK and FK
-  local_distribution_cost: number;
-  national_distribution_cost: number;
-  europe_distribution_cost: number;
-  international_distribution_cost: number;
-  is_checked_local: boolean;
-  is_checked_national: boolean;
-  is_checked_europe: boolean;
-  is_checked_international: boolean;
-}
-
 export interface IDistributionCost {
   id: string;
   distributor_id: string;
   distributor?: IDistributorUser;
-  flatrate_cost?: IFlatrateCost;
+  flatrate_cost: IFlatrateCost;
+}
+
+export interface IFlatrateCost {
+  created_at?: string;
+  distribution_costs_id?: string; // PK and FK
+  local_distribution_cost?: number;
+  national_distribution_cost?: number;
+  europe_distribution_cost?: number;
+  international_distribution_cost?: number;
+  is_checked_local?: boolean;
+  is_checked_national?: boolean;
+  is_checked_europe?: boolean;
+  is_checked_international?: boolean;
+}
+
+export interface IUserReport {
+  id: string;
+  created_at: string;
+  title: string;
+  description: string;
+  file: string;
+  is_resolved: boolean;
+}
+
+export interface IGamification {
+  id: string;
+  created_at: string;
+  experience: number;
+  user_id: string;
+  // users?: IUserTable;
 }

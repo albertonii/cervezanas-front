@@ -2,9 +2,9 @@ import SuccessCheckout from "./SuccessCheckout";
 import { redirect } from "next/navigation";
 import { decodeBase64 } from "../../../../../utils/utils";
 import createServerClient from "../../../../../utils/supabaseServer";
+import readUserSession from "../../../../../lib/actions";
 import { VIEWS } from "../../../../../constants";
 import { IOrder } from "../../../../../lib/types";
-import readUserSession from "../../../../../lib/actions";
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -78,9 +78,8 @@ async function getSuccessData(searchParams: any) {
           product_packs (
             *,
             products (
-              id,
-              name,
-              description
+              *,
+              product_multimedia (*)
             )
           )
         )

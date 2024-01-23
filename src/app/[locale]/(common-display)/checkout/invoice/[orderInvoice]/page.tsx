@@ -1,8 +1,8 @@
 import OrderInvoice from "./OrderInvoice";
 import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import readUserSession from "../../../../../../lib/actions";
+import { VIEWS } from "../../../../../../constants";
 
 export default async function OrderInvoicePage({
   params,
@@ -40,7 +40,7 @@ async function getInvoiceData(slug: any) {
         id, 
         name, 
         price,
-        product_multimedia(*),
+        product_multimedia (*),
         order_items (*)
       ),
       payment_method_id

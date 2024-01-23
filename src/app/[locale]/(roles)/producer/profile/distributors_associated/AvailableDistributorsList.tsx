@@ -15,7 +15,6 @@ enum SortBy {
   USERNAME = "username",
   NAME = "name",
   LAST = "last",
-  COUNTRY = "country",
   CREATED_DATE = "created_date",
 }
 
@@ -165,7 +164,7 @@ export default function AvailableDistributorsList({
                   scope="col"
                   className="px-6 py-3 hover:cursor-pointer"
                   onClick={() => {
-                    // handleChangeSort(SortBy.NAME);
+                    handleChangeSort(SortBy.NAME);
                   }}
                 >
                   {t("name_header")}
@@ -174,7 +173,7 @@ export default function AvailableDistributorsList({
                 <th
                   className="px-6 py-3 hover:cursor-pointer"
                   onClick={() => {
-                    // handleChangeSort(SortBy.CREATED_DATE);
+                    handleChangeSort(SortBy.CREATED_DATE);
                   }}
                 >
                   {t("created_date_header")}

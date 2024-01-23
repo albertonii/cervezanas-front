@@ -50,7 +50,7 @@ export default function InputLabel({
       <label
         className={`flex w-full flex-col items-start space-y-2 text-sm text-gray-600`}
       >
-        <span>
+        <span className="font-medium">
           {labelText ? labelText : t(label)}
           {infoTooltip && (
             <InfoTooltip content={`${t(infoTooltip)}`} delay={0} width={600} />

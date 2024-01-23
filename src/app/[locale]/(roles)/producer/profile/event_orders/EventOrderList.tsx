@@ -5,7 +5,7 @@ import PaginationFooter from "../../../../components/common/PaginationFooter";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../../Auth/useAuth";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { IEventOrder } from "../../../../../../lib/types";
 import { IconButton } from "../../../../components/common/IconButton";
@@ -27,7 +27,6 @@ export function EventOrderList({ eventOrders: os }: Props) {
   if (!user) return null;
 
   const t = useTranslations();
-  const locale = useLocale();
 
   const [orders, setOrders] = useState<IEventOrder[]>(os);
   const [query, setQuery] = useState("");
@@ -64,8 +63,11 @@ export function EventOrderList({ eventOrders: os }: Props) {
       JSON.stringify({ Ds_Order: order.order_number })
     );
 
+    // Get current url
+    const currentUrl = window.location.href;
+
     router.push(
-      `/${locale}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `${currentUrl}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
     );
   };
 

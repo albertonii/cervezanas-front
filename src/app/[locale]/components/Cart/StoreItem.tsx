@@ -62,7 +62,7 @@ export function StoreItem({ product }: StoreItemProps) {
     product.likes && product.likes.length > 0 ? true : false
   );
 
-  const { increasePackCartQuantity } = useShoppingCart();
+  const { addPackToCart } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
 
@@ -126,7 +126,7 @@ export function StoreItem({ product }: StoreItemProps) {
       product_id: selectedPack.product_id,
     };
 
-    increasePackCartQuantity(product, packCartItem);
+    addPackToCart(product, packCartItem);
     setPackQuantity(1);
   };
 

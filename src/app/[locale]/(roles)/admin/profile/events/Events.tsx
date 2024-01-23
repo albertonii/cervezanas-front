@@ -3,8 +3,15 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import EventList from "./EventList";
+import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
 
-export default function ProfileEvents() {
+interface Props {
+  cpsMobile: ICPMobile[];
+  cpsFixed: ICPFixed[];
+  counter: number;
+}
+
+export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
   const t = useTranslations();
 
   return (
@@ -12,7 +19,11 @@ export default function ProfileEvents() {
       <section className="mt-4 flex flex-col space-y-4">
         <h2 className="text-2xl">{t("events_list")}</h2>
 
-        <EventList />
+        <EventList
+          counter={counter}
+          cpsMobile={cpsMobile}
+          cpsFixed={cpsFixed}
+        />
       </section>
     </div>
   );

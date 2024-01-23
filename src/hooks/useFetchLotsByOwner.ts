@@ -16,7 +16,18 @@ const fetchLotsByOwner = async (
     .from("product_lots")
     .select(
       `
-        *,
+        id,
+        created_at,
+        lot_id,
+        lot_number,
+        lot_name,
+        product_id,
+        quantity,
+        limit_notification,
+        expiration_date,
+        manufacture_date,
+        packaging,
+        recipe,
         products (id, name)
       `,
       {

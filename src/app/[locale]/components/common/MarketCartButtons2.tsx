@@ -2,6 +2,7 @@ import React from "react";
 import { DeleteButton } from "./DeleteButton";
 import { IconButton } from "./IconButton";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import debounce from "debounce";
 
 interface Props {
   quantity: number;
@@ -20,6 +21,9 @@ export default function MarketCartButtons({
   handleRemoveFromCart,
   displayDeleteButton,
 }: Props) {
+  const onClickIncreaseDebounce = debounce(handleIncreaseCartQuantity, 100);
+  const onClickDecreaseDebounce = debounce(handleDecreaseCartQuantity, 100);
+
   return (
     <section className="mr-2 flex items-center justify-center space-x-2 rounded-md border">
       <span className="mx-2 w-[30px] text-center text-xl text-beer-draft">
@@ -27,25 +31,25 @@ export default function MarketCartButtons({
       </span>
 
       <div className="flex flex-col ">
-        <div className="border">
+        <figure className="border">
           <IconButton
-            onClick={() => handleIncreaseCartQuantity()}
+            onClick={() => onClickIncreaseDebounce()}
             classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
             classIcon={""}
             icon={faChevronUp}
             title={""}
           ></IconButton>
-        </div>
+        </figure>
 
-        <div className="border">
+        <figure className="border">
           <IconButton
-            onClick={() => handleDecreaseCartQuantity()}
+            onClick={() => onClickDecreaseDebounce()}
             classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
             classIcon={""}
             icon={faChevronDown}
             title={""}
           ></IconButton>
-        </div>
+        </figure>
       </div>
 
       {displayDeleteButton && (

@@ -14,6 +14,7 @@ export async function createSupabaseAppServerClient(serverComponent = false) {
   if (!supabaseURL || !supabaseAnonKey) {
     throw new Error("Missing env variables");
   }
+
   return createServerComponentClient<Database>(supabaseURL, supabaseAnonKey, {
     cookies: {
       get(name: string) {

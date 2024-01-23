@@ -1,36 +1,60 @@
 # Listado de tareas:
 
-- Vista de Puntos Fijos en evento
-- Cuando se añade un producto al carrito de la compra del evento, estaría bien que exista una referencia al Punto de Consumo de donde se ha comprado
-- Comprobar que sign in con Google sea igual que por usuario y contraseña
+- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- No está funcionado dentro de crear producto el estado de la sección de packs.
+- COMENTAR TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- PDF acuerdo de colaboración Cervezanas - Productor
+- PDF acuerdo de colaboración Cervezanas - Distribuidor
+- Crear cuenta de soporte de correos que termine en Cervezanas.eu
+- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+- Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Comprobar: si la app está en Dark Mode se pueda leer el QR
-- Configurar PC móviles
-- Configurar PC fijos
-- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
+- Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
 - Implementar Dark Mode -> Gustavo
-- CRUD para una review de un producto comprado
+- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Historial de ventas en un punto de consumo
-- Al borrar una review, confirmar la acción con un modal
 - Componente para recuperar contraseña de usuario
 - Comprobar que funcione SMTP para configuración de usuarios
-- Sistema básico de gamificación -> al realizar compra, review, etc
 - QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
-- Contratar servicios RESEND - SMTP
-- Contratar servicios FV0 - API REST Servicios Sistema de Distribución
-- Contratar plan de pago Supabase
 - Editar una campaña
 - Vincular productos a la campaña
-- Al pulsar en editar evento -> Mostrar los PC Móviles asociados
-- Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
 - [] Hacer que las vistas en profile consumer sean homogéneas
 - [] Hacer que las vistas en profile distributor sean homogéneas
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
-- Al guardar un evento con puntos de consumo, a veces no se guardan los PC
+- Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
+- Añadir en vista de eventos para admin los PC asociados a los eventos
+- Para que un producto sea público debe de ser revisado antes por un administrador
+- ERROR AL Signup Distributor
+
+# WIP
+
+- Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
+
+- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
+
+Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+- Crear presentación de workshop para el lunes
+
+- Conectar los servicios nuevos de Miguel con la aplicación
+- Cervezanas en Producción
+
+- REVIEWS
+  Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
+
+  a. [x] CRUD para una review de un producto comprado
+  b. Al borrar una review, confirmar la acción con un modal
+  c. Al borrar review, cambiar el estado de order item is_reviewed a false
+  d. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto
+  e. [x] Sistema básico de gamificación -> al realizar compra, review, etc
+  f. Si creamos una review, añadir la experiencia a su sistema de gamificación
+  g. Si borra una review, restar la experiencia a su sistema de gamificación
+  h. Ver las reviews realizadas por un usuario
 
 # Tareas realizadas
 
@@ -55,6 +79,21 @@
 - [x] Realizar compra de cerveza en un evento
 - [x] Mostrar productos comprados en el checkout - pedido de compra
 - [x] Componente para compartir en redes sociales
+- [x] Insertar punto de consumo fijo sin errores -> Hay un glitch al escribir en el buscador del mapa. En los PC móviles no pasa
+- [x] Vista de Puntos Fijos en evento
+- [x] Configurar PC móviles
+- [x] Configurar PC fijos
+- [x] Al pulsar en editar evento -> Mostrar los PC Móviles asociados
+- [x] Securizar vista de Barman al leer código QR
+- [x] Componente para reportar problemas en la aplicación
+- [x] En un producto dentro de un evento, hay que añadir el punto de consumo al que pertenece, si no hacemos esto -> se repetirán productos en el carrito de la compra si el pack es el mismo
+- [x] Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- [x] Securizar creación de un Distribuidor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+- [x] Mostrar imágenes de perfil y background en perfil
+- [x] Contratar servicios RESEND - SMTP - MIGUEL
+- [x] Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
+- [x] Contratar plan de pago Supabase - MIGUEL
+- [x] Enviar correo a Miguel para contratar servicios
 
 # 29 de noviembre 23
 
@@ -137,3 +176,65 @@ Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imá
 Enfocarnos en los diseños para el webminar
 Crear vídeo
 Nos vamos al BBF a finales de marzo
+
+---
+
+17 de enero
+
+Planificación de reunión workshop
+
+Crear un mapa de funcionalidades
+
+Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback.
+
+Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico
+
+Fechas para empezar a probar de verdad la aplicación
+
+Para el viernes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+Dar de alta cervezas y consumir Cervezas. Sin meternos en detalles de distribución.
+
+Planificación de Cervezanas -> Pruebas y Feedback.
+
+Crear componente dentro de la aplicación para reportar los errores que detecten los usuarios.
+
+PARA EVENTOS - proximas iteraciones:
+En los PC con o sin eventos -> Dejarles que ellos puedan meter su menú o carta de productos: cervezas que no sean nuestras, comida, etc.
+
+Hay que redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR
+
+Cada vez que se dé de alta un productor que se reciba un correo.
+
+Solo mostrar productos de productores que sean supervisados por nosotros: estado de standby hasta aprobar al productor. Un correo para indicar que está en revisión su petición.
+
+NOTIFICACIÓN para dar de alta productor y distribuidor
+
+--
+
+19 de enero
+
+- Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
+
+1. [x] Crear un nuevo campo en la tabla de usuarios -> is_authorized: boolean
+2. [x] Lógica al iniciar sesión, si el usuario no está autorizado, se mostrará un mensaje indicando que está en revisión su petición
+3. [x] Notificar al administrador que hay un nuevo usuario que está en revisión
+4. [x] Vista en el panel de administración para autorizar a un usuario
+5. [x] Vista en el panel de administración para rechazar a un usuario
+
+---
+
+- Comprobar que sign in con Google sea igual que por usuario y contraseña
+  No está funcionando... ¿puede que haya que verificar APP con Google?
+
+---
+
+Reunión -> Qué tiempo tienen para ir haciendo pruebas. Buscar unas fechas para empezar a probar de verdad la aplicación.
+Que estaremos en BBF a finales de marzo.
+Planificación de este año.
+
+1. Comunidad y experiencias (itinerarios, etc) Queremos fomentar mucho las experiencias.
+2. Producto online
+3. Eventos
+
+-- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES

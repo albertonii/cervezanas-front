@@ -90,7 +90,7 @@ export function AppContextProvider(props: Props) {
   const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
   const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
-  const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
+  // const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
   const [bgImg, setBgImg] = useState("");
   const [profileImg, setProfileImg] = useState("");
@@ -103,11 +103,12 @@ export function AppContextProvider(props: Props) {
     if (!user?.avatar_url) {
       setProfileImg(profilePhotoUrl);
     } else {
-      const decodeUriProfileImg = provider
-        ? user.avatar_url
-        : decodeURIComponent(`${fullProfilePhotoUrl}${user?.id}/img`);
+      // const decodeUriProfileImg = provider
+      //   ? user.avatar_url
+      //   : decodeURIComponent(`${fullProfilePhotoUrl}${user?.id}/img`);
+      // setProfileImg(decodeUriProfileImg);
 
-      setProfileImg(decodeUriProfileImg);
+      setProfileImg(user?.avatar_url);
     }
 
     if (!user?.bg_url) {

@@ -17,11 +17,11 @@ export default function PuntoCervezanasFlag() {
           width={45}
           height={45}
           alt={"Find Cervezanas spots"}
-          className={"mx-4 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"}
+          className={"mx-2 my-2 w-10 rounded-full sm:mx-0 sm:my-0 sm:w-12"}
           src={"/icons/beerme.svg"}
         />
 
-        <div className="sm:flex sm:flex-col">
+        <div className="hidden sm:flex sm:flex-col">
           <span className="text-right text-beer-foam ">Puntos</span>
           <span className="text-right text-beer-foam ">Cervezanas</span>
         </div>

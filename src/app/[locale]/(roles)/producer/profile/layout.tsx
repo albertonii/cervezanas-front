@@ -9,6 +9,7 @@ import { Sidebar } from "../../../components/common/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { COMMON, SupabaseProps } from "../../../../../constants";
 import { useAppContext } from "../../../../context/AppContext";
+import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -74,12 +75,9 @@ export default function layout({ children }: LayoutProps) {
 
   const { user, supabase } = useAuth();
 
-  const { bgImg, profileImg, setProfileImg } = useAppContext();
+  const { profileImg, setProfileImg } = useAppContext();
 
-  const [bgImg_, setBgImg_] = useState(bgImg ?? COMMON.BG_IMG);
   const [profileImg_, setProfileImg_] = useState("");
-
-  const bg = "/assets/producer_layout.jpg";
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -140,10 +138,6 @@ export default function layout({ children }: LayoutProps) {
   };
 
   useEffect(() => {
-    setBgImg_(bgImg ?? COMMON.BG_IMG);
-  }, [bgImg]);
-
-  useEffect(() => {
     setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
   }, [profileImg]);
 
@@ -151,40 +145,40 @@ export default function layout({ children }: LayoutProps) {
     <section className="relative flex w-full">
       <Sidebar sidebarLinks={sidebarLinks} />
 
-      <div className="h-full w-full">
-        {bgImg_ && profileImg_ && (
+      <section className="h-full w-full">
+        {profileImg_ && (
           <>
             {/* Background Image */}
-            <div
-              className="relative bg-bear-alvine "
+            <section
+              className="relative h-full w-full bg-bear-alvine "
               aria-label="Custom Header"
             >
               <Image
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={bgImg_ ?? bg}
+                src={"/assets/producer_layout_bg.jpg"}
                 alt={"background custom image"}
-                onError={() => setBgImg_(COMMON.BG_IMG)}
-                loader={() => bgImg_}
               />
-
               {/* Profile Image */}
-              <div
-                className=" absolute bottom-20 w-64 space-x-2 pl-24"
+              <section
+                className="absolute bottom-28 w-48 space-x-2 pl-10 sm:w-64 sm:pl-24"
                 aria-label="Logo"
               >
                 <figure className="relative" onClick={() => handleClick()}>
-                  <Image
-                    className="absolute h-36 w-36 rounded-full"
-                    src={profileImg_}
-                    alt=""
-                    width={240}
-                    height={240}
-                    loader={() => profileImg_}
+                  <DisplayImageProfile
+                    imgSrc={profileImg_}
+                    class={"absolute h-24 w-24 rounded-full sm:h-36 sm:w-36"}
                   />
 
-                  <span className="group absolute flex h-36 w-36 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200">
+                  {/* Gamification experiencie  */}
+                  <div className="absolute -left-2 flex h-10 w-10 items-center justify-center rounded-full bg-beer-dark sm:-left-4 sm:-top-4 sm:h-14 sm:w-14">
+                    <div className="absolute flex h-6 w-6 items-center justify-center rounded-full bg-beer-blonde sm:h-10 sm:w-10">
+                      <p className="text-md font-semibold text-white">1</p>
+                    </div>
+                  </div>
+
+                  <div className="group absolute flex h-24 w-24 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200 sm:h-36 sm:w-36">
                     <FontAwesomeIcon
                       icon={faUpload}
                       style={{ color: "bear-dark" }}
@@ -201,10 +195,20 @@ export default function layout({ children }: LayoutProps) {
                       accept="image/png, image/jpeg"
                       onChange={handleFileChange}
                     />
-                  </span>
+                  </div>
                 </figure>
-              </div>
-            </div>
+              </section>
+
+              {/* Username and experience level */}
+              <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 shadow-lg sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4">
+                <p className="text-md font-semibold text-white">
+                  {user?.username}
+                </p>
+                <p className="text-lg font-semibold text-white">
+                  {user.gamification?.experience} XP
+                </p>
+              </section>
+            </section>
 
             <div
               className="w-full sm:pt-[5vh] md:pt-[5vh] bg-[url('/assets/madera-account.webp')] bg-repeat bg-top bg-auto"
@@ -214,7 +218,7 @@ export default function layout({ children }: LayoutProps) {
             </div>
           </>
         )}
-      </div>
+      </section>
     </section>
   );
 }

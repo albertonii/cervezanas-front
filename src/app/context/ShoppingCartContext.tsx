@@ -1,24 +1,17 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useState } from "react";
 import { ShoppingCart } from "../[locale]/components/Cart/ShoppingCart";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { IProductPackCartItem, IProduct, IProductPack } from "../../lib/types";
 
 type ShoppingCartContextType = {
   items: IProductPackCartItem[];
-  cartQuantity: number;
+  cartQuantity: () => number;
   clearItems: () => void;
   clearCart: () => void;
-  isInCart: (id: string) => boolean;
   getItemQuantity: (id: string) => number;
-  increasePackCartQuantity(product: IProduct, pack: IProductPack): void;
+  addPackToCart(product: IProduct, pack: IProductPack): void;
   increaseOnePackCartQuantity: (productId: string, packId: string) => void;
   decreaseOnePackCartQuantity: (productId: string, packId: string) => void;
   removeFromCart: (productId: string, packId: string) => void;
@@ -31,13 +24,12 @@ type ShoppingCartContextType = {
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
   items: [],
-  cartQuantity: 0,
+  cartQuantity: () => 0,
   clearItems: () => void {},
   clearCart: () => void {},
-  isInCart: () => false,
   getItemQuantity: () => 0,
   increaseOnePackCartQuantity: () => void {},
-  increasePackCartQuantity: () => void {},
+  addPackToCart: () => void {},
   decreaseOnePackCartQuantity: () => void {},
   removeFromCart: () => void {},
   openCart: () => void {},
@@ -66,15 +58,8 @@ export function ShoppingCartProvider({ children }: Props) {
     clearItems();
   };
 
-  const isInCart = useCallback(
-    (id: string) => {
-      return items.some((item) => item.id === id);
-    },
-    [items]
-  );
-
   // Check if all the products in the cart are deliverable
-  const checkIsShoppingCartDeliverable = useCallback(() => {
+  const checkIsShoppingCartDeliverable = () => {
     if (!items) return false;
 
     const isDeliverable = items.every((item) => {
@@ -82,83 +67,75 @@ export function ShoppingCartProvider({ children }: Props) {
     });
 
     return isDeliverable;
-  }, [items]);
+  };
 
-  const getItemQuantity = useCallback(
-    (id: string) => {
-      const item = items?.find((item) => item?.id === id);
-      return item?.quantity || 0;
-    },
-    [items]
-  );
+  const getItemQuantity = (id: string) => {
+    const item = items?.find((item) => item?.id === id);
+    return item?.quantity || 0;
+  };
 
-  const increasePackCartQuantity = useCallback(
-    (product: IProduct, pack: IProductPack) => {
-      const newPack: IProductPackCartItem = {
-        id: product.id,
-        quantity: pack.quantity,
-        packs: [pack],
-        name: product.name,
-        price: product.price,
-        image: product.product_multimedia[0].p_principal,
-        producer_id: product.owner_id,
-        distributor_id: "",
-      };
+  const addPackToCart = (product: IProduct, pack: IProductPack) => {
+    const newPack: IProductPackCartItem = {
+      id: product.id,
+      quantity: pack.quantity,
+      packs: [pack],
+      name: product.name,
+      price: product.price,
+      image: product.product_multimedia[0].p_principal,
+      producer_id: product.owner_id,
+      distributor_id: "",
+    };
 
-      setItems((currItems) => {
-        // Buscamos el producto en el carrito
-        const itemFind = currItems.find((item) => item.id === product.id);
+    setItems((currItems) => {
+      // Buscamos el producto en el carrito
+      const itemFind = currItems.find((item) => item.id === product.id);
 
-        if (itemFind) {
-          // Si existe el producto, buscamos el pack
-          const packFind = itemFind.packs.find((p) => {
-            return p.id === pack.id;
+      if (itemFind) {
+        // Si existe el producto, buscamos el pack
+        const packFind = itemFind.packs.find((p) => {
+          return p.id === pack.id;
+        });
+
+        // Si no existe el pack pero si el producto, lo añadimos
+        if (!packFind) {
+          // Añadimos el pack al listado de packs del producto
+          itemFind.packs.push(pack);
+
+          // Reemplazar el producto en el listado de productos
+          const currItemsCopy = currItems.map((item: IProductPackCartItem) => {
+            return item.id === product.id ? itemFind : item;
           });
 
-          // Si no existe el pack pero si el producto, lo añadimos
-          if (!packFind) {
-            // Añadimos el pack al listado de packs del producto
-            itemFind.packs.push(pack);
-
-            // Reemplazar el producto en el listado de productos
-            const currItemsCopy = currItems.map(
-              (item: IProductPackCartItem) => {
-                return item.id === product.id ? itemFind : item;
-              }
-            );
-
-            return [...currItemsCopy];
-          }
-
-          // Si existe el pack en el producto
-          // Aumentamos SOLO la cantidad al pack
-          const currItemsv2 = currItems.map((item) => {
-            return item.id === product.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + pack.quantity,
-                  // Aumentar la cantidad del pack en el producto correspondiente
-                  packs: item.packs.map((p) => {
-                    return p.id === pack.id
-                      ? {
-                          ...p,
-                          quantity: p.quantity + pack.quantity,
-                        }
-                      : p;
-                  }),
-                }
-              : item;
-          });
-
-          return currItemsv2;
-        } else {
-          // Si no existe el producto aún en el carrito, lo añadimos
-          return [...currItems, newPack];
+          return [...currItemsCopy];
         }
-      });
-    },
-    []
-  );
+
+        // Si existe el pack en el producto
+        // Aumentamos SOLO la cantidad al pack
+        const currItemsv2 = currItems.map((item) => {
+          return item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + pack.quantity,
+                // Aumentar la cantidad del pack en el producto correspondiente
+                packs: item.packs.map((p) => {
+                  return p.id === pack.id
+                    ? {
+                        ...p,
+                        quantity: p.quantity + pack.quantity,
+                      }
+                    : p;
+                }),
+              }
+            : item;
+        });
+
+        return currItemsv2;
+      } else {
+        // Si no existe el producto aún en el carrito, lo añadimos
+        return [...currItems, newPack];
+      }
+    });
+  };
 
   const increaseOnePackCartQuantity = (productId: string, packId: string) => {
     const newItems = items.map((item) => {
@@ -256,7 +233,7 @@ export function ShoppingCartProvider({ children }: Props) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const cartQuantity = useMemo(() => {
+  const cartQuantity = () => {
     let quantity = 0;
 
     if (!items) return quantity;
@@ -265,43 +242,24 @@ export function ShoppingCartProvider({ children }: Props) {
     });
 
     return quantity;
-  }, [items]);
+  };
 
-  const value = useMemo(() => {
-    return {
-      items,
-      clearItems,
-      clearCart,
-      isInCart,
-      getItemQuantity,
-      removeFromCart,
-      openCart,
-      closeCart,
-      cartQuantity,
-      isOpen,
-      increasePackCartQuantity,
-      increaseOnePackCartQuantity,
-      decreaseOnePackCartQuantity,
-      updateCartItem,
-      checkIsShoppingCartDeliverable,
-    };
-  }, [
+  const value = {
     items,
     clearItems,
     clearCart,
-    isInCart,
     getItemQuantity,
-    increasePackCartQuantity,
     removeFromCart,
     openCart,
     closeCart,
     cartQuantity,
     isOpen,
+    addPackToCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
     updateCartItem,
     checkIsShoppingCartDeliverable,
-  ]);
+  };
 
   return (
     <ShoppingCartContext.Provider value={value}>

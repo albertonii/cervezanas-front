@@ -13,7 +13,6 @@ import {
   createRedirectForm,
   eventMerchantInfo,
 } from "../../../../../components/TPV/redsysClient";
-import { useEventCart } from "../../../../../../context/EventCartContext";
 import {
   API_METHODS,
   EVENT_ORDER_ITEM_STATUS,
@@ -26,6 +25,7 @@ import {
   IProductPackEventCartItem,
 } from "../../../../../../../lib/types";
 import { useAuth } from "../../../../../Auth/useAuth";
+import useEventCartStore from "../../../../../../store/eventCartStore";
 
 interface Props {
   eventId: string;
@@ -49,7 +49,7 @@ export default function EventBasket({ eventId }: Props) {
   const [merchantParameters, setMerchantParameters] = useState("");
   const [merchantSignature, setMerchantSignature] = useState("");
 
-  const { eventCarts, clearCart } = useEventCart();
+  const { eventCarts, clearCart } = useEventCartStore();
   const queryClient = useQueryClient();
 
   const [cart, setCart] = useState<IProductPackEventCartItem[]>(

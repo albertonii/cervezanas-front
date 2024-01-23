@@ -12,7 +12,7 @@ export default async function CPMobilePage({ params }: any) {
 
   return (
     <>
-      <InfoCPMobile cpMobile={cpMobile[0]} eventId={eventId} />
+      <InfoCPMobile cpMobile={cpMobile} eventId={eventId} />
     </>
   );
 }
@@ -50,9 +50,10 @@ async function getCPMobile(cpId: string) {
         )
       `
     )
-    .eq("id", cpId);
+    .eq("id", cpId)
+    .single();
 
   if (cpMobileError) console.error(cpMobileError);
 
-  return cpsMobile as ICPMobile[];
+  return cpsMobile as ICPMobile;
 }

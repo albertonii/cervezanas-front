@@ -4,7 +4,7 @@
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "dev-turbo": "cross-env NODE_OPTIONS='--inspect' next dev --turbo",
     "build": "next build",
-    "start": "next start",
+    "start": "next start ",
     "lint:check": "next lint",
     "lint:fix": "next lint --fix",
     "format:check": "prettier . --check",
@@ -16,7 +16,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:vitest": "vitest",
-    "dev:local-network": "npx next dev -H 192.168.0.39 -p 5000",
+    "dev:local-network": "npx next dev -H 172.19.0.1 -p 5000",
     "analyse": "ANALYZE=true pnpm run build"
   },
   "dependencies": {
@@ -62,7 +62,8 @@
     "redsys-easy": "4.0.2",
     "swr": "2.1.5",
     "tw-elements": "1.0.0-beta1",
-    "uuidv4": "6.2.13"
+    "uuidv4": "6.2.13",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@commitlint/cli": "17.0.3",
@@ -87,6 +88,7 @@
     "country-state-city": "^3.1.4",
     "cross-env": "7.0.3",
     "date-fns": "2.29.3",
+    "debounce": "^2.0.0",
     "decimal.js": "10.4.3",
     "eslint": "8.21.0",
     "eslint-config-next": "14.0.0",

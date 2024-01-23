@@ -11,6 +11,7 @@ import Header from "./Header";
 import Footer from "./components/Footer";
 import createServerClient from "../../utils/supabaseServer";
 import { INotification } from "../../lib/types";
+import ReporterFloatingButton from "./components/ReporterFloatingButton";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -41,33 +42,31 @@ export default async function AppLocaleLayout({
   const notifications = await getNotifications();
 
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <Providers session={session} messages={messages} locale={locale}>
-          <section className="relative flex flex-col bg-beer-foam">
-            <Header notifications={notifications ?? []} />
-            <section
-              className={classNames(
-                "relative mx-auto min-h-0 w-full overflow-auto"
-                // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
-              )}
-            >
-              {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-            </section>
-
-            <main
-              className={classNames(
-                "relative mx-auto min-h-screen w-full transform transition lg:container"
-              )}
-            >
-              <MessageList />
-              {children}
-            </main>
-            <Footer />
+    <Suspense fallback={<Loading />}>
+      <Providers session={session} messages={messages} locale={locale}>
+        <section className="relative flex flex-col bg-beer-foam">
+          <Header notifications={notifications ?? []} />
+          <section
+            className={classNames(
+              "relative mx-auto min-h-0 w-full overflow-auto"
+              // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+            )}
+          >
+            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
           </section>
-        </Providers>
-      </Suspense>
-    </>
+
+          <main
+            className={classNames(
+              "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
+            )}
+          >
+            <MessageList />
+            {children}
+          </main>
+          <Footer />
+        </section>
+      </Providers>
+    </Suspense>
   );
 }
 

@@ -58,7 +58,7 @@ export function Products() {
         />
       )}
 
-      {isDeleteShowModal && (
+      {isDeleteShowModal && productModal && (
         <DeleteProduct
           product={productModal}
           showModal={isDeleteShowModal}

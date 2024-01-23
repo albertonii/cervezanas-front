@@ -4,18 +4,28 @@ import MarketCartButtons2 from "../../../../../../../components/common/MarketCar
 import React, { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SupabaseProps } from "../../../../../../../../../constants";
-import { IProductPack } from "../../../../../../../../../lib/types";
+import {
+  ICPMobile,
+  IEventProduct,
+  IProductPack,
+} from "../../../../../../../../../lib/types";
 import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
-import { useEventCart } from "../../../../../../../../context/EventCartContext";
 import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
+import useEventCartStore from "../../../../../../../../store/eventCartStore";
 
 interface ProductProps {
   pack: IProductPack;
   cpmId: string;
   eventId: string;
+  cpMobile: ICPMobile;
 }
 
-export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
+export default function CPMProduct({
+  pack,
+  cpmId,
+  eventId,
+  cpMobile,
+}: ProductProps) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -23,17 +33,19 @@ export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
     eventCarts,
     getPackQuantity,
     removeFromCart,
-    increasePackCartQuantity,
+    addPackToCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
-  } = useEventCart();
+  } = useEventCartStore();
 
   const { name, price, product_id, products: product, quantity } = pack;
 
   const [packQuantity, setPackQuantity] = React.useState(0);
 
   useEffect(() => {
-    setPackQuantity(getPackQuantity(eventId, pack.product_id, pack.id));
+    setPackQuantity(
+      getPackQuantity(eventId, pack.product_id, cpMobile.id, pack.id)
+    );
   }, [eventCarts]);
 
   const handleAddToCart = () => {
@@ -54,21 +66,51 @@ export default function CPMProduct({ pack, cpmId, eventId }: ProductProps) {
     };
 
     const product = pack.products;
+
     if (!product) return;
 
-    increasePackCartQuantity(eventId, product, packCartItem);
+    const productEvent: IEventProduct = {
+      id: product.id,
+      created_at: product.created_at,
+      name: product.name,
+      description: product.description,
+      type: product.type,
+      is_public: product.is_public,
+      discount_code: product.discount_code,
+      discount_percent: product.discount_percent,
+      weight: product.weight,
+      price: product.price,
+      campaign_id: product.campaign_id,
+      is_archived: product.is_archived,
+      category: product.category,
+      is_monthly: product.is_monthly,
+      owner_id: product.owner_id,
+      beers: product.beers,
+      product_multimedia: product.product_multimedia,
+      product_lots: product.product_lots,
+      product_inventory: product.product_inventory,
+      reviews: product.reviews,
+      likes: product.likes,
+      awards: product.awards,
+      product_packs: product.product_packs,
+      cpm_id: cpMobile.id,
+      cpf_id: "",
+      cp_name: cpMobile.cp_name,
+    };
+
+    addPackToCart(eventId, productEvent, packCartItem);
   };
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(eventId, product_id, pack.id);
+    increaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(eventId, product_id, pack.id);
+    decreaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(eventId, product_id, pack.id);
+    removeFromCart(eventId, product_id, cpmId, pack.id);
   };
 
   return (

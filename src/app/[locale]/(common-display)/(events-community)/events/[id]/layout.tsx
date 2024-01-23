@@ -17,6 +17,17 @@ export default function layout({ children, params }: LayoutProps) {
     setIsReady(true);
   }, []);
 
+  // useEffect(() => {
+  //   // Comprueba si estamos en el lado del cliente
+  //   if (typeof window !== "undefined") {
+  //     const savedCarts = localStorage.getItem("event-carts");
+  //     console.log("En Cliente: ", savedCarts);
+  //     if (savedCarts) {
+  //       setEventCarts(JSON.parse(savedCarts));
+  //     }
+  //   }
+  // }, []);
+
   return (
     <>
       {isReady && (

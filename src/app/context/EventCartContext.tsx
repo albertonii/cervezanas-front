@@ -1,17 +1,10 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import {
-  IProduct,
+  IEventProduct,
   IProductPack,
-  IProductPackCartItem,
   IProductPackEventCartItem,
 } from "../../lib/types";
 
@@ -23,12 +16,16 @@ type EventCartContextType = {
   eventCarts: EventCartsType;
   getCartQuantity: (eventId: string) => number;
   clearCart: (eventId: string) => void;
-  isInCart: (eventId: string, id: string) => boolean;
   getItemQuantity: (eventId: string, id: string) => number;
-  getPackQuantity: (eventId: string, productId: string, id: string) => number;
-  increasePackCartQuantity(
+  getPackQuantity: (
     eventId: string,
-    product: IProduct,
+    productId: string,
+    cpId: string,
+    id: string
+  ) => number;
+  addPackToCart(
+    eventId: string,
+    product: IEventProduct,
     pack: IProductPack
   ): void;
   increaseOnePackCartQuantity: (
@@ -53,12 +50,11 @@ const EventCartContext = createContext<EventCartContextType>({
   eventCarts: {},
   getCartQuantity: () => 0,
   clearCart: () => void {},
-  isInCart: () => false,
   getItemQuantity: () => 0,
   getPackQuantity: () => 0,
   removeFromCart: () => void {},
   increaseOnePackCartQuantity: () => void {},
-  increasePackCartQuantity: () => void {},
+  addPackToCart: () => void {},
   decreaseOnePackCartQuantity: () => void {},
   openCart: () => void {},
   closeCart: () => void {},
@@ -79,31 +75,22 @@ export function EventCartProvider({ children }: Props) {
     {}
   );
 
-  const getCartByEvent = useCallback(
-    (eventId: string) => {
-      return eventCarts[eventId] || [];
-    },
-    [eventCarts]
-  );
+  const getCartByEvent = (eventId: string) => {
+    return eventCarts[eventId] || [];
+  };
 
-  const createNewCart = useCallback(
-    (eventId: string) => {
-      setEventCarts((currCarts) => {
-        return {
-          ...currCarts,
-          [eventId]: [],
-        };
-      });
-    },
-    [setEventCarts]
-  );
+  const createNewCart = (eventId: string) => {
+    setEventCarts((currCarts) => {
+      return {
+        ...currCarts,
+        [eventId]: [],
+      };
+    });
+  };
 
-  const existEventCart = useCallback(
-    (eventId: string) => {
-      return !!eventCarts[eventId];
-    },
-    [eventCarts]
-  );
+  const existEventCart = (eventId: string) => {
+    return !!eventCarts[eventId];
+  };
 
   const clearCart = (eventId: string) => {
     setEventCarts((currCarts) => {
@@ -114,124 +101,164 @@ export function EventCartProvider({ children }: Props) {
     });
   };
 
-  const isInCart = useCallback(
-    (eventId: string, id: string) => {
-      const eventItems = getCartByEvent(eventId);
+  const getItemQuantity = (eventId: string, id: string) => {
+    const eventItems = getCartByEvent(eventId);
 
-      return eventItems.some((item) => item.id === id);
-    },
-    [eventCarts]
-  );
+    const item = eventItems?.find((item) => item?.id === id);
+    return item?.quantity || 0;
+  };
 
-  const getItemQuantity = useCallback(
-    (eventId: string, id: string) => {
-      const eventItems = getCartByEvent(eventId);
+  const getPackQuantity = (
+    eventId: string,
+    productId: string,
+    cpId: string,
+    packId: string
+  ) => {
+    const cart = getCartByEvent(eventId);
 
-      const item = eventItems?.find((item) => item?.id === id);
-      return item?.quantity || 0;
-    },
-    [eventCarts]
-  );
+    // Find the element in the cart
+    const cartItemFind = cart.find((item) => {
+      const isSameId = item.id === productId;
+      const isSameCPMid = cpId === item.cpm_id;
+      const isSameCPFid = cpId === item.cpf_id;
 
-  const getPackQuantity = useCallback(
-    (eventId: string, productId: string, packId: string) => {
-      const cart = getCartByEvent(eventId);
+      return (isSameId && isSameCPMid) || (isSameId && isSameCPFid);
+    });
 
-      // Find the element in the cart
-      const item = cart?.find((item) => {
-        return item.id === productId;
+    // const item = cart?.find((item) => {
+    //   return item.id === productId;
+    // });
+
+    if (!cartItemFind) return 0;
+
+    const pack = cartItemFind.packs.find((pack) => {
+      return pack.id === packId;
+    });
+
+    return pack?.quantity || 0;
+  };
+
+  const addPackToCart = (
+    eventId: string,
+    product: IEventProduct,
+    pack: IProductPack
+  ) => {
+    const cart = eventCarts[eventId];
+
+    // Buscamos el producto en el carrito
+    const productFind = cart.find((item) => {
+      const isSameId = item.id === product.id;
+      const isSameCPMid = product.cpm_id === item.cpm_id;
+
+      return isSameId && isSameCPMid;
+    });
+
+    // console.log("¿Producto encontrado? ", productFind);
+
+    if (productFind) {
+      const packFind = productFind.packs.find((p) => {
+        return p.id === pack.id;
       });
 
-      if (!item) return 0;
+      if (packFind) {
+        setEventCarts((currCarts) => {
+          return {
+            ...currCarts,
+            [eventId]: [...cart],
+          };
+        });
+      } else {
+        productFind.packs.push(pack);
 
-      const pack = item.packs.find((pack) => {
-        return pack.id === packId;
-      });
+        const currItemsCopy = cart.map((item) => {
+          return item.id === product.id ? productFind : item;
+        });
 
-      return pack?.quantity || 0;
-    },
-    [eventCarts]
-  );
-
-  const increasePackCartQuantity = useCallback(
-    (eventId: string, product: IProduct, pack: IProductPack) => {
-      const newPack: IProductPackCartItem = {
+        setEventCarts((currCarts) => {
+          return {
+            ...currCarts,
+            [eventId]: [...currItemsCopy],
+          };
+        });
+      }
+    } else {
+      const newPack: IProductPackEventCartItem = {
         id: product.id,
-        quantity: pack.quantity,
+        quantity: 1,
         packs: [pack],
         name: product.name,
         price: product.price,
         image: product.product_multimedia[0].p_principal,
         producer_id: product.owner_id,
-        distributor_id: "",
+        cpm_id: product.cpm_id,
+        cpf_id: product.cpf_id,
+        cp_name: product.cp_name,
       };
 
       setEventCarts((currCarts) => {
-        const cart = currCarts[eventId] || [];
-
-        // Buscamos el producto en el carrito
-        const itemFind = cart.find((item) => item.id === product.id);
-
-        if (itemFind) {
-          // Si existe el producto, buscamos el pack
-          const packFind = itemFind.packs.find((p) => {
-            return p.id === pack.id;
-          });
-
-          // Si no existe el pack pero si el producto, lo añadimos
-          if (!packFind) {
-            // Añadimos el pack al listado de packs del producto
-            itemFind.packs.push(pack);
-
-            // Reemplazar el producto en el listado de productos
-
-            const currItemsCopy = cart.map((item) => {
-              return item.id === product.id ? itemFind : item;
-            });
-
-            // return [...currItemsCopy];
-            return {
-              ...currCarts,
-              [eventId]: [...currItemsCopy],
-            };
-          }
-
-          // Si existe el pack en el producto
-          // Aumentamos SOLO la cantidad al pack
-          const currItemsv2 = cart.map((item) => {
-            return item.id === product.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + pack.quantity,
-                  // Aumentar la cantidad del pack en el producto correspondiente
-                  packs: item.packs.map((p) => {
-                    return p.id === pack.id
-                      ? {
-                          ...p,
-                          quantity: p.quantity + pack.quantity,
-                        }
-                      : p;
-                  }),
-                }
-              : item;
-          });
-
-          // return currItemsv2;
-          return {
-            ...currCarts,
-            [eventId]: [...currItemsv2],
-          };
-        } else {
-          // Si no existe el producto aún en el carrito, lo añadimos
-          return {
-            ...currCarts,
-            [eventId]: [...cart, newPack],
-          };
-        }
+        return {
+          ...currCarts,
+          [eventId]: [...cart, newPack],
+        };
       });
-    },
-    []
-  );
+    }
+
+    // setEventCarts((currCarts) => {
+    // if (productFind) {
+    //   console.log(" existe el producto");
+    //   // Si existe el producto dentro del carrito, buscamos el pack
+    //   const packFind = productFind.packs.find((p) => {
+    //     const isSameId = p.id === pack.id;
+    //     const isSameCPMid = product.cpm_id === productFind.cpm_id;
+    //     const isSameCPFid = product.cpf_id === productFind.cpf_id;
+
+    //     return (isSameId && isSameCPMid) || (isSameId && isSameCPFid);
+    //   });
+
+    //   // Si no existe el pack pero si el producto, lo añadimos
+    //   if (packFind === undefined) {
+    //     // Añadimos el pack al listado de packs del producto
+    //     productFind.packs.push(pack);
+
+    //     // Reemplazar el producto en el listado de productos
+    //     const currItemsCopy = cart.map((item) => {
+    //       return item.id === product.id ? productFind : item;
+    //     });
+
+    //     return {
+    //       ...currCarts,
+    //       [eventId]: [...currItemsCopy],
+    //     };
+    //   } else {
+    //     return {
+    //       ...currCarts,
+    //       [eventId]: [...cart],
+    //     };
+    //   }
+    // } else {
+    //   console.log("no existe el producto");
+    //   console.log(currCarts);
+    //   const newPack: IProductPackEventCartItem = {
+    //     id: product.id,
+    //     quantity: 1,
+    //     packs: [pack],
+    //     name: product.name,
+    //     price: product.price,
+    //     image: product.product_multimedia[0].p_principal,
+    //     producer_id: product.owner_id,
+    //     cpm_id: product.cpm_id,
+    //     cpf_id: product.cpf_id,
+    //     cp_name: product.cp_name,
+    //   };
+
+    //   // Si no existe el producto aún en el carrito, lo añadimos
+    //   return {
+    //     ...currCarts,
+    //     [eventId]: [...cart, newPack],
+    //   };
+    // }
+    // });
+  };
 
   const increaseOnePackCartQuantity = (
     eventId: string,
@@ -372,28 +399,9 @@ export function EventCartProvider({ children }: Props) {
     return quantity;
   };
 
-  const value = useMemo(() => {
-    return {
-      eventCarts,
-      clearCart,
-      isInCart,
-      getItemQuantity,
-      getPackQuantity,
-      removeFromCart,
-      openCart,
-      closeCart,
-      getCartQuantity,
-      isOpen,
-      increasePackCartQuantity,
-      increaseOnePackCartQuantity,
-      decreaseOnePackCartQuantity,
-      existEventCart,
-      createNewCart,
-    };
-  }, [
+  const value = {
     eventCarts,
     clearCart,
-    isInCart,
     getItemQuantity,
     getPackQuantity,
     removeFromCart,
@@ -401,12 +409,12 @@ export function EventCartProvider({ children }: Props) {
     closeCart,
     getCartQuantity,
     isOpen,
-    increasePackCartQuantity,
+    addPackToCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
     existEventCart,
     createNewCart,
-  ]);
+  };
 
   return (
     <EventCartContext.Provider value={value}>

@@ -535,6 +535,37 @@ export interface Database {
           }
         ]
       }
+      cpf_events: {
+        Row: {
+          cp_id: string
+          event_id: string
+          is_active: boolean | null
+        }
+        Insert: {
+          cp_id: string
+          event_id: string
+          is_active?: boolean | null
+        }
+        Update: {
+          cp_id?: string
+          event_id?: string
+          is_active?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpf_events_cp_id_fkey"
+            columns: ["cp_id"]
+            referencedRelation: "cp_fixed"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpf_events_event_id_fkey"
+            columns: ["event_id"]
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       cpf_products: {
         Row: {
           cp_id: string | null
@@ -806,6 +837,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string | null
+          is_authorized: boolean | null
           location_id: string | null
           nif: string | null
           user: string
@@ -815,6 +847,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
           user: string
@@ -824,6 +857,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
           user?: string
@@ -1195,6 +1229,34 @@ export interface Database {
           }
         ]
       }
+      gamification: {
+        Row: {
+          created_at: string
+          experience: number | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          experience?: number | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          experience?: number | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gamification_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       likes: {
         Row: {
           created_at: string | null
@@ -1511,6 +1573,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string
+          is_authorized: boolean | null
           location_id: string | null
           user: string
         }
@@ -1518,6 +1581,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          is_authorized?: boolean | null
           location_id?: string | null
           user: string
         }
@@ -1525,6 +1589,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          is_authorized?: boolean | null
           location_id?: string | null
           user?: string
         }
@@ -1997,6 +2062,43 @@ export interface Database {
           {
             foreignKeyName: "shipping_info_owner_id_fkey"
             columns: ["owner_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_reports: {
+        Row: {
+          created_at: string
+          description: string | null
+          file: string | null
+          id: string
+          is_resolved: boolean | null
+          reporter_id: string | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          file?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          reporter_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          file?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          reporter_id?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reports_reporter_id_fkey"
+            columns: ["reporter_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

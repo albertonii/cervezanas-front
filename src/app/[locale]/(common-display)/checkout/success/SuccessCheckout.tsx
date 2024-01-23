@@ -1,14 +1,15 @@
 "use client";
 
+import BusinessOrderDetails from "./BusinessOrderDetails";
+import Spinner from "../../../components/common/Spinner";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { IOrder } from "../../../../../lib/types";
-import { formatDateString } from "../../../../../utils/formatDate";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import Spinner from "../../../components/common/Spinner";
-import BusinessOrderDetails from "./BusinessOrderItem";
 import { ONLINE_ORDER_STATUS } from "../../../../../constants";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { formatDateString } from "../../../../../utils/formatDate";
+
 interface Props {
   isError?: boolean;
   order: IOrder;
@@ -18,7 +19,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
   const { business_orders: bOrders } = order;
 
   const t = useTranslations();
-  const locale = useLocale();
 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -34,21 +34,23 @@ export default function SuccessCheckout({ order, isError }: Props) {
   }, [user]);
 
   const handleInvoicePdf = () => {
-    window.open(`/${locale}/checkout/invoice/${order.order_number}`, "_ blank");
+    // Get current url
+    const currentUrl = window.location.href;
+
+    window.open(
+      `/${currentUrl}/checkout/invoice/${order.order_number}`,
+      "_ blank"
+    );
   };
 
   if (isError) {
     return (
-      <section className="container mx-auto sm:py-4 lg:py-6">
-        <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
-          <div className="flex flex-col">
-            <span className="flex sm:items-baseline sm:space-x-4">
-              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                {t("order_erorr")}
-              </h1>
-            </span>
-          </div>
-        </div>
+      <section className="container mx-auto flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 sm:py-4 lg:py-6">
+        <span className="sm:items-baseline sm:space-x-4">
+          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+            {t("order_erorr")}
+          </h1>
+        </span>
       </section>
     );
   }
@@ -56,7 +58,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
   if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
   return (
-    <section className="m-4 space-y-8 sm:py-4 lg:py-6">
+    <section className="m-4 sm:py-4 lg:py-6">
       <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
         <header className="flex flex-col">
           <span className="flex sm:items-baseline sm:space-x-4">

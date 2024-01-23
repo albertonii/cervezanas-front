@@ -54,6 +54,7 @@ export function EventOrderList() {
     { header: t("name_header") },
     { header: t("price_header") },
     { header: t("status_header") },
+    { header: t("date_header") },
     { header: t("action_header") },
   ];
 

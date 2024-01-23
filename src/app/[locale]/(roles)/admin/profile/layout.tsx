@@ -42,11 +42,20 @@ export default function layout({ children }: LayoutProps) {
       icon: "box",
       option: "campaigns",
     },
-
     {
       name: t("notifications"),
       icon: "bell",
       option: "notifications",
+    },
+    {
+      name: t("user_reports"),
+      icon: "bell",
+      option: "reports",
+    },
+    {
+      name: t("authorized_users"),
+      icon: "user",
+      option: "authorized_users",
     },
   ];
 

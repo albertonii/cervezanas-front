@@ -1,6 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
 import { AppContextProvider } from "../../../context/AppContext";
-import { createServerClient } from "../../../../utils/supabaseServer";
+import createServerClient from "../../../../utils/supabaseServer";
 import { AuthContextProvider } from "../../Auth/AuthContext";
 import ReactQueryWrapper from "../../ReactQueryWrapper";
 import SignIn from "../signin/SignIn";

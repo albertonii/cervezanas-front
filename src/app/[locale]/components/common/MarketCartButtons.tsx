@@ -2,7 +2,7 @@ import React from "react";
 import { DeleteButton } from "./DeleteButton";
 import { DecreaseButton } from "./DecreaseButton";
 import { IncreaseButton } from "./IncreaseButton";
-
+import debounce from "debounce";
 interface Props {
   quantity: number;
   item: any;
@@ -20,19 +20,22 @@ export default function MarketCartButtons({
   handleRemoveFromCart,
   displayDeleteButton,
 }: Props) {
+  const onClickIncreaseDebounce = debounce(handleIncreaseCartQuantity, 100);
+  const onClickDecreaseDebounce = debounce(handleDecreaseCartQuantity, 100);
+
   return (
-      <section className="flex">
-        <div className="mr-2 flex items-center justify-center space-x-2">
-          <DecreaseButton onClick={() => handleDecreaseCartQuantity()} />
+    <section className="flex">
+      <div className="mr-2 flex items-center justify-center space-x-2">
+        <DecreaseButton onClick={() => onClickDecreaseDebounce()} />
 
-          <span className="mx-2 text-xl text-beer-draft">{quantity}</span>
+        <span className="mx-2 text-xl text-beer-draft">{quantity}</span>
 
-          <IncreaseButton onClick={() => handleIncreaseCartQuantity()} />
+        <IncreaseButton onClick={() => onClickIncreaseDebounce()} />
 
-          {displayDeleteButton && (
-            <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
-          )}
-        </div>
-      </section>
+        {displayDeleteButton && (
+          <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+        )}
+      </div>
+    </section>
   );
 }

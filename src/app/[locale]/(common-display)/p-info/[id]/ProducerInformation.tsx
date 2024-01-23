@@ -15,8 +15,7 @@ export default function ProducerInformation({ producer }: Props) {
   const t = useTranslations();
   const accountCreatedDate = formatDateString(producer.created_at);
 
-  const baseAvatarUrl = `${SupabaseProps.BASE_AVATARS_URL}`;
-  const profileImg = `${baseAvatarUrl}${producer.users?.avatar_url}`;
+  const profileImg = `${producer.users?.avatar_url}`;
 
   return (
     <section className="container mx-auto my-5 p-5">
