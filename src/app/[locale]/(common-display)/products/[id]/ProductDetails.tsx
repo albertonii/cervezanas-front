@@ -117,7 +117,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
   return (
     <>
-      <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-softBlonde md:overflow-hidden lg:col-span-4 bg-[url('/assets/madera.jpg')] bg-contain bg-repeat-y bg-top bg-cover h-[100%]">
+      <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-softBlonde md:overflow-hidden lg:col-span-4 bg-[url('/assets/madera.webp')] bg-repeat-y bg-top bg-cover h-[100%]">
         <ProductGallery
           gallery={gallery}
           isLike={isLike}
@@ -125,7 +125,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
         />
       </section>
 
-      <section className="col-span-12 mx-6 space-y-4 lg:col-span-8 bg-[url('/assets/rec-graf2b.png')] bg-auto bg-no-repeat bg-center">
+      <section className="col-span-12 mx-6 space-y-4 lg:col-span-8 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-no-repeat bg-center">
         <section className="flex flex-col sm:flex-row sm:justify-between">
           <h2 className="text-4xl font-bold sm:pr-12 text-cerv-banana uppercase">
             {product.name}
