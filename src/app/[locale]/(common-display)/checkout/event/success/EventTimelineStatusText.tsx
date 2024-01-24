@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { EVENT_ORDER_STATUS } from "../../../../../../../../constants";
+import { EVENT_ORDER_STATUS } from "../../../../../../constants";
 
 interface OrderTimelineProps {
   status: string;

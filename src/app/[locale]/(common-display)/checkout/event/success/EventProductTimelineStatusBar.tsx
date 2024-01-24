@@ -1,10 +1,10 @@
 import React from "react";
-import { EVENT_ORDER_ITEM_STATUS } from "../../../../../../../../constants";
+import { EVENT_ORDER_ITEM_STATUS } from "../../../../../../constants";
 
 interface OrderTimelineProps {
   status: string;
 }
-export default function EventProductTimelineStatusText({
+export default function EventProductTimelineStatusBar({
   status,
 }: OrderTimelineProps) {
   return (

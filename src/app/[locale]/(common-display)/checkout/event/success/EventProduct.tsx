@@ -3,15 +3,15 @@ import GenerateQR from "./GenerateQR";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { StatusTimeline } from "../../../../../../components/StatusTimeline";
-import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
-import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
-import { Button } from "../../../../../../components/common/Button";
+import { IEventOrderItem } from "../../../../../../lib/types";
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../../../../constants";
-import { IEventOrderItem } from "../../../../../../../../lib/types";
+} from "../../../../../../constants";
+import { StatusTimeline } from "../../../../components/StatusTimeline";
+import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
+import { formatCurrency } from "../../../../../../utils/formatCurrency";
+import { Button } from "../../../../components/common/Button";
 
 interface Props {
   eventOrderItem: IEventOrderItem;
@@ -74,18 +74,16 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
               </header>
 
               <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-4 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg lg:h-40 ">
-                {
-                  <DisplayImageProduct
-                    width={120}
-                    height={120}
-                    alt={""}
-                    imgSrc={`${
-                      BASE_PRODUCTS_URL +
-                      decodeURIComponent(eventOrderItem.product_packs.img_url)
-                    }`}
-                    class="h-full w-full object-cover object-center"
-                  />
-                }
+                <DisplayImageProduct
+                  width={120}
+                  height={120}
+                  alt={""}
+                  imgSrc={`${
+                    BASE_PRODUCTS_URL +
+                    decodeURIComponent(eventOrderItem.product_packs.img_url)
+                  }`}
+                  class="h-full w-full object-cover object-center"
+                />
               </figure>
 
               <div className="col-span-8 flex flex-col gap-2">
