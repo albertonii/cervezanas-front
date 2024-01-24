@@ -33,11 +33,13 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
         el comité de expertos y la más atrevida y experimental.
       </p>
 
-      {monthlyProducts.map((mProduct) => (
-        <div className="grid  w-full grid-cols-3 rounded-lg " key={mProduct.id}>
-          <MonthlyCardItem mProduct={mProduct} />
-        </div>
-      ))}
+      <div className="grid w-full grid-cols-3 rounded-lg ">
+        {monthlyProducts.map((mProduct) => (
+          <>
+            <MonthlyCardItem mProduct={mProduct} key={mProduct.id} />
+          </>
+        ))}
+      </div>
     </section>
   );
 }

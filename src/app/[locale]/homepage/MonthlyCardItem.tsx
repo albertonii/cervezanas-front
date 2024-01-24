@@ -119,7 +119,10 @@ export default function MonthlyCardItem({ mProduct }: Props) {
   if (fetchLikesError) console.error(fetchLikesError);
 
   return (
-    <section className="relative z-10 col-span-1 mb-4 bg-no-repeat shadow-lg sm:mr-4">
+    <section
+      key={mProduct.id}
+      className="relative z-10 col-span-1 mb-4 bg-no-repeat shadow-lg sm:mr-4"
+    >
       <header className="relative flex flex-row justify-center rounded-t-lg  bg-cerv-coffee py-2 text-center font-semibold text-cerv-cream">
         <h1>{product?.name}</h1>
 
