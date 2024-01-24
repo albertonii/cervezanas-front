@@ -1,6 +1,6 @@
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect } from "react";
 import { IProductPack, ModalAddProductFormData } from "../../../../lib/types";
 import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
 import { DeleteButton } from "../common/DeleteButton";
@@ -27,9 +27,6 @@ const emptyPack: IProductPack = {
 export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
   const t = useTranslations();
 
-  const preUrl =
-    SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
-
   const { register, getValues, control } = form;
 
   const { fields, append, remove } = useFieldArray({
@@ -44,6 +41,8 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
   const handleAddPack = () => {
     append(emptyPack);
   };
+
+  useEffect(() => console.log(fields), [fields]);
 
   return (
     <section className="container mt-4">
@@ -169,7 +168,6 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                   <FilePreviewImageMultimedia
                     form={form}
                     registerName={`packs.${index}.img_url`}
-                    preUrl={preUrl}
                   />
                 </div>
 

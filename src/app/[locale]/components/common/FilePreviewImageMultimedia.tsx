@@ -28,9 +28,11 @@ export const FilePreviewImageMultimedia = ({
 
   useEffect(() => {
     if (getValues(registerName)) {
+      console.log(preUrl + decodeURIComponent(getValues(registerName)));
+
       preUrl
-        ? setImage(preUrl + getValues(registerName))
-        : setImage(getValues(registerName));
+        ? setImage(preUrl + decodeURIComponent(getValues(registerName)))
+        : setImage(URL.createObjectURL(getValues(registerName)[0]));
     }
   }, [registerName]);
 

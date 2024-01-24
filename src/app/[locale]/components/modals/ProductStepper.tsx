@@ -84,13 +84,6 @@ export function ProductStepper({
     }
   };
 
-  useEffect(() => {
-    console.log(detailsClass);
-    console.log(multimediaClass);
-    console.log(awardsClass);
-    console.log(confirmClass);
-  }, [detailsClass, multimediaClass, awardsClass, confirmClass]);
-
   return (
     <section className={`p-5 ${isSubmitting && "opacity-50"}`}>
       <div className="mx-4 p-4">

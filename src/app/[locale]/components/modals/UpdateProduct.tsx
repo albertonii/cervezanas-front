@@ -254,7 +254,6 @@ export function UpdateProduct({
       origin: originDefault.value,
       era: eraDefault.value,
       is_gluten: product.beers[0]?.is_gluten ?? false,
-      awards: product.awards ?? [],
       p_principal: convertStringToFileList(
         product.product_multimedia[0].p_principal
       ),
@@ -268,14 +267,14 @@ export function UpdateProduct({
       p_extra_3: convertStringToFileList(
         product.product_multimedia[0].p_extra_3
       ),
-
-      // awards: [{ name: "", description: "", year: 0, img_url: "" }],
       packs: product.product_packs,
+      awards: product.awards ?? [],
+
       // campaign: "-",
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, getValues } = form;
 
   const queryClient = useQueryClient();
 
