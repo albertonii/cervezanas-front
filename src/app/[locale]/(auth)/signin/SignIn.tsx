@@ -267,7 +267,8 @@ export default function SignIn() {
             </p>
           </div>
 
-          <Button
+          {/* TODO: Volver y arreglar esto  */}
+          {/* <Button
             accent
             class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => handleGoogleSignIn()}
@@ -318,7 +319,7 @@ export default function SignIn() {
 
               <span className="ml-2 text-lg">{t("continue_with_google")}</span>
             </div>
-          </Button>
+          </Button> */}
         </article>
       )}
 

@@ -8,132 +8,88 @@ interface Props {
   isSubmitting: boolean;
 }
 
-export function ProductStepper(props: Props) {
+export function ProductStepper({
+  children,
+  handleSetActiveStep,
+  activeStep,
+  isSubmitting,
+}: Props) {
   const t = useTranslations();
 
-  const { children, handleSetActiveStep, activeStep, isSubmitting } = props;
-
-  const [detailsClass, setDetailsClass] = useState("");
-  const [awardsClass, setAwardsClass] = useState("");
-  const [multimediaClass, setMultimediaClass] = useState("");
-  const [confirmClass, setConfirmClass] = useState("");
-
-  const [detailsIconClass, setDetailsIconClass] = useState("");
-  const [awardsIconClass, setAwardsIconClass] = useState("");
-  const [multimediaIconClass, setMultimediaIconClass] = useState("");
-  const [confirmIconClass, setConfirmIconClass] = useState("");
-
   const statusPastClass = "border-beer-softBlonde";
-  const statusPresentClass = "bg-beer-blonde beer-blonde";
+  const statusPresentClass = "bg-beer-blonde";
   const statusFutureClass = "border-beer-softBlonde";
 
   const statusPastIconClass = "#fdc300"; // Beer Blonde
   const statusPresentIconClass = "white";
   const statusFutureIconClass = "gray";
 
+  const [detailsClass, setDetailsClass] = useState(statusPastClass);
+  const [awardsClass, setAwardsClass] = useState(statusPastClass);
+  const [multimediaClass, setMultimediaClass] = useState(statusPastClass);
+  const [confirmClass, setConfirmClass] = useState(statusPastClass);
+
+  const [detailsIconClass, setDetailsIconClass] = useState("");
+  const [awardsIconClass, setAwardsIconClass] = useState("");
+  const [multimediaIconClass, setMultimediaIconClass] = useState("");
+  const [confirmIconClass, setConfirmIconClass] = useState("");
+
   useEffect(() => {
-    const handleStepper = (param: number) => {
-      switch (param) {
-        case 0:
-          setDetailsClass(statusPresentClass);
-          setMultimediaClass(statusFutureClass);
-          setAwardsClass(statusFutureClass);
-          setConfirmClass(statusFutureClass);
-
-          setDetailsIconClass(statusPresentIconClass);
-          setMultimediaIconClass(statusFutureIconClass);
-          setAwardsIconClass(statusFutureIconClass);
-          setConfirmIconClass(statusFutureIconClass);
-          return "";
-        case 1:
-          setDetailsClass(statusPastClass);
-          setMultimediaClass(statusPresentClass);
-          setAwardsClass(statusFutureClass);
-          setConfirmClass(statusFutureClass);
-
-          setDetailsIconClass(statusPastIconClass);
-          setMultimediaIconClass(statusPresentIconClass);
-          setAwardsIconClass(statusFutureIconClass);
-          setConfirmIconClass(statusFutureIconClass);
-          return "";
-        case 2:
-          setDetailsClass(statusPastClass);
-          setMultimediaClass(statusPastClass);
-          setAwardsClass(statusPresentClass);
-          setConfirmClass(statusFutureClass);
-
-          setDetailsIconClass(statusPastIconClass);
-          setMultimediaIconClass(statusPastIconClass);
-          setAwardsIconClass(statusPresentIconClass);
-          setConfirmIconClass(statusFutureIconClass);
-          return "";
-        default:
-          setDetailsClass(statusPastClass);
-          setMultimediaClass(statusPastClass);
-          setAwardsClass(statusPastClass);
-          setConfirmClass(statusPresentClass);
-
-          setDetailsIconClass(statusPastIconClass);
-          setMultimediaIconClass(statusPastIconClass);
-          setAwardsIconClass(statusPastIconClass);
-          setConfirmIconClass(statusPresentIconClass);
-          return "";
-      }
-    };
-
     handleStepper(0);
   }, []);
 
   const handleStepper = (param: number) => {
     handleSetActiveStep(param);
 
-    switch (param) {
-      case 0:
-        setDetailsClass(statusPresentClass);
-        setMultimediaClass(statusFutureClass);
-        setAwardsClass(statusFutureClass);
-        setConfirmClass(statusFutureClass);
+    if (param === 0) {
+      setDetailsClass(statusPresentClass);
+      setMultimediaClass(statusFutureClass);
+      setAwardsClass(statusFutureClass);
+      setConfirmClass(statusFutureClass);
 
-        setDetailsIconClass(statusPresentIconClass);
-        setMultimediaIconClass(statusFutureIconClass);
-        setAwardsIconClass(statusFutureIconClass);
-        setConfirmIconClass(statusFutureIconClass);
-        return "";
-      case 1:
-        setDetailsClass(statusPastClass);
-        setMultimediaClass(statusPresentClass);
-        setAwardsClass(statusFutureClass);
-        setConfirmClass(statusFutureClass);
+      setDetailsIconClass(statusPresentIconClass);
+      setMultimediaIconClass(statusFutureIconClass);
+      setAwardsIconClass(statusFutureIconClass);
+      setConfirmIconClass(statusFutureIconClass);
+    } else if (param === 1) {
+      setDetailsClass(statusPastClass);
+      setMultimediaClass(statusPresentClass);
+      setAwardsClass(statusFutureClass);
+      setConfirmClass(statusFutureClass);
 
-        setDetailsIconClass(statusPastIconClass);
-        setMultimediaIconClass(statusPresentIconClass);
-        setAwardsIconClass(statusFutureIconClass);
-        setConfirmIconClass(statusFutureIconClass);
-        return "";
-      case 2:
-        setDetailsClass(statusPastClass);
-        setMultimediaClass(statusPastClass);
-        setAwardsClass(statusPresentClass);
-        setConfirmClass(statusFutureClass);
+      setDetailsIconClass(statusPastIconClass);
+      setMultimediaIconClass(statusPresentIconClass);
+      setAwardsIconClass(statusFutureIconClass);
+      setConfirmIconClass(statusFutureIconClass);
+    } else if (param === 2) {
+      setDetailsClass(statusPastClass);
+      setMultimediaClass(statusPastClass);
+      setAwardsClass(statusPresentClass);
+      setConfirmClass(statusFutureClass);
 
-        setDetailsIconClass(statusPastIconClass);
-        setMultimediaIconClass(statusPastIconClass);
-        setAwardsIconClass(statusPresentIconClass);
-        setConfirmIconClass(statusFutureIconClass);
-        return "";
-      default:
-        setDetailsClass(statusPastClass);
-        setMultimediaClass(statusPastClass);
-        setAwardsClass(statusPastClass);
-        setConfirmClass(statusPresentClass);
+      setDetailsIconClass(statusPastIconClass);
+      setMultimediaIconClass(statusPastIconClass);
+      setAwardsIconClass(statusPresentIconClass);
+      setConfirmIconClass(statusFutureIconClass);
+    } else {
+      setDetailsClass(statusPastClass);
+      setMultimediaClass(statusPastClass);
+      setAwardsClass(statusPastClass);
+      setConfirmClass(statusPresentClass);
 
-        setDetailsIconClass(statusPastIconClass);
-        setMultimediaIconClass(statusPastIconClass);
-        setAwardsIconClass(statusPastIconClass);
-        setConfirmIconClass(statusPresentIconClass);
-        return "";
+      setDetailsIconClass(statusPastIconClass);
+      setMultimediaIconClass(statusPastIconClass);
+      setAwardsIconClass(statusPastIconClass);
+      setConfirmIconClass(statusPresentIconClass);
     }
   };
+
+  useEffect(() => {
+    console.log(detailsClass);
+    console.log(multimediaClass);
+    console.log(awardsClass);
+    console.log(confirmClass);
+  }, [detailsClass, multimediaClass, awardsClass, confirmClass]);
 
   return (
     <section className={`p-5 ${isSubmitting && "opacity-50"}`}>

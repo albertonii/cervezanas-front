@@ -75,7 +75,6 @@ export default function layout({ children }: LayoutProps) {
   const { user, supabase } = useAuth();
 
   const { profileImg, setProfileImg } = useAppContext();
-
   const [profileImg_, setProfileImg_] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);

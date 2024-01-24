@@ -16,7 +16,6 @@ export default async function BeerMePage() {
 }
 
 async function getCPsData() {
-  // Create authenticated Supabase Client
   const supabase = await createServerClient();
 
   const { data: cps, error: cpsError } = await supabase

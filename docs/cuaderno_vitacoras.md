@@ -271,3 +271,4 @@ Planificación de este año.
 - Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 - No está funcionado dentro de crear producto el estado de la sección de packs.
 - ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- Esconder login google

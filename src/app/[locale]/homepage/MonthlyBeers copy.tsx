@@ -38,10 +38,7 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
               </div>
             ))} */}
 
-            <MonthlyCardItem
-              mProduct={monthlyProducts[0]}
-              mProducts={monthlyProducts}
-            />
+            <MonthlyCardItem mProduct={monthlyProducts[0]} />
           </div>
         </div>
       </div>
