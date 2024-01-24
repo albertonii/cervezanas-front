@@ -36,11 +36,27 @@ async function getMonthlyProductsData() {
       `
         *,
         products (
-          *,
+          id,
+          created_at,
+          name,
+          description,
+          is_public, 
+          discount_percent, 
+          weight, 
+          type, 
+          discount_code, 
+          price, 
+          campaign_id, 
+          is_archived, 
+          category, 
+          is_monthly, 
+          owner_id,
           product_multimedia (*)
         )
       `
     );
+
+  console.log(products);
 
   if (error) throw error;
 

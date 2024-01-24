@@ -1,7 +1,14 @@
 import Image from "next/image";
 import React from "react";
+import { IMonthlyProduct } from "../../../lib/types";
+import MonthlyBeers from "./MonthlyBeers";
+import MonthlyCardItem from "./MonthlyCardItem";
 
-export function Hero() {
+interface Props {
+  monthlyProducts: IMonthlyProduct[];
+}
+
+export function Hero({ monthlyProducts }: Props) {
   return (
     <>
       {/*  bloque 1 */}
@@ -76,127 +83,8 @@ export function Hero() {
         </div>
       </div>
       {/*  bloque 4 */}
-      <div className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-titlehigh p-5">
-        <div className="absolute right-0 h-[600px] w-[600px] bg-[url('/assets/rec-graF3.webp')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
-        <div className="relative z-10 text-3xl font-bold text-white md:text-5xl">
-          SELECCIÓN CERVEZANA DEL MES{" "}
-          <img
-            className="float-left m-auto p-3"
-            src="/assets/detalle-w.svg"
-            width="160"
-          ></img>
-        </div>
-        <div className="relative z-10 w-full pb-6 pt-6 text-cerv-cream lg:w-8/12">
-          Cada mes te presentamos aquellas cervezas que han conseguido ser aptas
-          para los certificados de calidad que emitimos desde Cervezanas. Dando
-          visibilidad a aquella seleccionada por nuestra comunidad de
-          Cervezanos, el comité de expertos y la más atrevida y experimental.
-        </div>
-        <div className="block w-full sm:flex lg:w-8/12">
-          {/*  producto 1 */}
-          <div className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-            <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-              LUPULENSIS
-            </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-1.webp')] bg-cover bg-center bg-no-repeat">
-              <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.webp" width="70"></img>
-              </div>
-              <div className="relative right-2 float-right ">
-                <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  15
-                </div>
-                <div className="h-[30px] w-[30px] bg-[url('/assets/bla.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  25
-                </div>
-              </div>
-              <div className="relative top-48 w-max border-b-2  border-r-2 border-t-2 border-yellow-400 bg-cerv-coffee p-1 pr-3 text-xs font-bold text-white">
-                Comité expertos
-              </div>
-            </div>
-            <div className="bg-cerv-coffee p-2">
-              <div className=" text-center">
-                <img
-                  className="m-auto"
-                  src="/assets/estrellas-fake.webp"
-                  width="110"
-                ></img>
-              </div>
-              <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                ¡Conócela!
-              </div>
-            </div>
-          </div>
-          {/*  producto 2 */}
-          <div className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-            <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-              ALQUIMISTAS - TRIGO
-            </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-2.webp')] bg-cover bg-no-repeat">
-              <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.webp" width="70"></img>
-              </div>
-              <div className="relative right-2 float-right ">
-                <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  10
-                </div>
-                <div className="h-[30px] w-[30px] bg-[url('/assets/bla.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  21
-                </div>
-              </div>
-              <div className="relative top-48 w-max border-b-2  border-r-2 border-t-2 border-yellow-400 bg-cerv-coffee p-1 pr-3 text-xs font-bold text-white">
-                Comunidad
-              </div>
-            </div>
-            <div className="bg-cerv-coffee p-2">
-              <div className=" text-center">
-                <img
-                  className="m-auto"
-                  src="/assets/estrellas-fake.webp"
-                  width="110"
-                ></img>
-              </div>
-              <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                ¡Conócela!
-              </div>
-            </div>
-          </div>
-          {/*  producto 3 */}
-          <div className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-            <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-              CERVEZAS SOTO
-            </div>
-            <div className="h-[320px] bg-[url('/assets/home/mes-3.webp')] bg-cover bg-no-repeat">
-              <div className="relative left-4 top-3">
-                <img src="/assets/cerv-mes.webp" width="70"></img>
-              </div>
-              <div className="relative right-2 float-right ">
-                <div className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  12
-                </div>
-                <div className="h-[30px] w-[30px] bg-[url('/assets/bla.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
-                  15
-                </div>
-              </div>
-              <div className="relative top-48 w-max border-b-2  border-r-2 border-t-2 border-yellow-400 bg-cerv-coffee p-1 pr-3 text-xs font-bold text-white">
-                Revelación
-              </div>
-            </div>
-            <div className="bg-cerv-coffee p-2">
-              <div className=" text-center">
-                <img
-                  className="m-auto"
-                  src="/assets/estrellas-fake.webp"
-                  width="110"
-                ></img>
-              </div>
-              <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                ¡Conócela!
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MonthlyBeers monthlyProducts={monthlyProducts} />
+
       {/*  bloque 5 */}
       <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-[url('/assets/home/fondo-marcas.webp')] bg-cover bg-no-repeat p-8 pb-20">
         <div className="mb-8 text-center text-4xl font-bold text-cerv-coffee md:text-5xl lg:text-left">
@@ -532,7 +420,7 @@ export function Hero() {
             <div className="text-center text-xl sm:text-left">
               Iñaki Aranguren
             </div>
-            <div className="text-center text-ml sm:text-left text-beer-softFoam">
+            <div className="text-ml text-center text-beer-softFoam sm:text-left">
               Consumidor Cervezano
             </div>
           </div>
@@ -557,8 +445,9 @@ export function Hero() {
           <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
-            María Schneider
-            </div> <div className="text-center sm:text-left text-beer-softFoam">
+              María Schneider
+            </div>{" "}
+            <div className="text-center text-beer-softFoam sm:text-left">
               Productor Cervezano
             </div>
           </div>
@@ -585,7 +474,7 @@ export function Hero() {
             <div className="text-center text-xl sm:text-left">
               Pedro Moliner
             </div>
-            <div className="text-center sm:text-left text-beer-softFoam">
+            <div className="text-center text-beer-softFoam sm:text-left">
               Creador de eventos
             </div>
           </div>

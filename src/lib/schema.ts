@@ -1233,20 +1233,17 @@ export interface Database {
         Row: {
           created_at: string
           experience: number | null
-          id: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           experience?: number | null
-          id?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           experience?: number | null
-          id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -1339,7 +1336,7 @@ export interface Database {
         Insert: {
           category?: string | null
           created_at?: string | null
-          id?: string
+          id: string
           month?: number | null
           year?: number | null
         }
@@ -1350,7 +1347,14 @@ export interface Database {
           month?: number | null
           year?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "monthly_products_id_fkey"
+            columns: ["id"]
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       notifications: {
         Row: {

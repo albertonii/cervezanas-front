@@ -23,9 +23,16 @@ async function getMonthlyProducts() {
   const { data: monthlyProducts, error: monthlyProductsError } =
     await supabase.from("monthly_products").select(`
       id,
+      created_at,
       category,
       month,
-      year
+      year,
+      products (
+        *,
+        product_multimedia (*),
+        reviews (*),
+        likes (*)
+      )
     `);
 
   if (monthlyProductsError) throw monthlyProductsError;

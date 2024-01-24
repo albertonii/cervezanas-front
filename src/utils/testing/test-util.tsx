@@ -8,7 +8,7 @@ import { AuthContextProvider } from "../../app/[locale]/Auth/AuthContext";
 import { AppContextProvider } from "../../app/context/AppContext";
 import { ShoppingCartProvider } from "../../app/context/ShoppingCartContext";
 import { EventCartProvider } from "../../app/context/EventCartContext";
-import createServerClient from "../supabaseServer";
+// import createServerClient from "../supabaseServer";
 
 const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
   // const loadSupabase = async () => {
