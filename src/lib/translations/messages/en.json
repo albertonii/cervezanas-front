@@ -746,5 +746,9 @@
     "role_description": "The user role determines the permissions the user has on the platform. For the roles of producer and distributor, the user must accept an active contract. The platform is in charge of validating the contract and giving access to the user."
   },
   "get_to_know_more": "Get to know more!",
-  "inserted_successfully": "Inserted successfully"
+  "inserted_successfully": "Inserted successfully",
+  "producer_disclaimer_acceptance": "I accept the terms and conditions of the producer contract",
+  "distributor_disclaimer_acceptance": "I accept the terms and conditions of the distributor contract",
+  "producer_read_disclaimer": "Click here to read the producer contract",
+  "distributor_read_disclaimer": "Click here to read the distributor contract"
 }

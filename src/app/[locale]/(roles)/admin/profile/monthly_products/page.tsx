@@ -56,8 +56,6 @@ async function getMonthlyProductsData() {
       `
     );
 
-  console.log(products);
-
   if (error) throw error;
 
   return products as IMonthlyProduct[];

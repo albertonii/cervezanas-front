@@ -48,7 +48,11 @@ export default function InputLabel({
   return (
     <div className="w-full">
       <label
-        className={`flex w-full flex-col items-start space-y-2 text-sm text-gray-600`}
+        className={`${
+          inputType === "checkbox"
+            ? "flex-row-reverse items-end justify-end gap-1"
+            : "flex-col "
+        } flex w-full items-start space-y-2 text-sm text-gray-600`}
       >
         <span className="font-medium">
           {labelText ? labelText : t(label)}
@@ -63,7 +67,7 @@ export default function InputLabel({
           ${disabled && "bg-gray-100"}
             ${
               inputType === "checkbox"
-                ? "h-4 w-4 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                ? "float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
                 : "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             }
           

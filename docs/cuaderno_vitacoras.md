@@ -265,6 +265,8 @@ Planificación de este año.
 --
 24 de enero
 
+- [x] Disclaimer para productor
+- [x] Disclaimer para distribuidor
 - Comprobar que funciona Puntos Cervezanas -> MAPA
 - Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 - No está funcionado dentro de crear producto el estado de la sección de packs.

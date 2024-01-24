@@ -14,6 +14,8 @@ import { Button } from "../components/common/Button";
 import { ROLE_ENUM, ROLE_OPTIONS } from "../../../lib/enums";
 import InputLabel from "../components/common/InputLabel";
 import SelectInput from "../components/common/SelectInput";
+import Link from "next/link";
+import { SupabaseProps } from "../../../constants";
 
 interface FormData {
   access_level: string;
@@ -217,6 +219,62 @@ export const SignUpForm = () => {
         />
         <p className="text-xs text-gray-500">{t("is_legal_age_description")}</p>
       </div>
+
+      {role === ROLE_ENUM.Productor && (
+        <div className="flex w-full flex-col space-y-2">
+          <InputLabel
+            form={form}
+            label={"is_legal_age"}
+            labelText={t("producer_disclaimer_acceptance")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="*****"
+            inputType="checkbox"
+          />
+
+          <Link
+            href={
+              SupabaseProps.BASE_DOCUMENTS_URL +
+              "/acuerdo_productor_cervezanas.pdf?t=2024-01-24T17%3A52%3A02.060Z"
+            }
+            target={"_blank"}
+          >
+            <span className="mx-1 text-beer-darkGold hover:underline">
+              {t("producer_read_disclaimer")}
+            </span>
+          </Link>
+        </div>
+      )}
+
+      {role === ROLE_ENUM.Distributor && (
+        <div className="flex w-full flex-col space-y-2">
+          <InputLabel
+            form={form}
+            label={"is_legal_age"}
+            labelText={t("distributor_disclaimer_acceptance")}
+            registerOptions={{
+              required: true,
+            }}
+            placeholder="*****"
+            inputType="checkbox"
+          />
+
+          <p className="text-xs text-gray-500">
+            <Link
+              href={
+                SupabaseProps.BASE_DOCUMENTS_URL +
+                "/acuerdo_distribuidor_cervezanas.pdf?t=2024-01-24T17%3A51%3A27.332Z"
+              }
+              target={"_blank"}
+            >
+              <span className="mx-1 text-beer-darkGold hover:underline">
+                {t("distributor_read_disclaimer")}
+              </span>
+            </Link>
+          </p>
+        </div>
+      )}
 
       {loading ? (
         <span>

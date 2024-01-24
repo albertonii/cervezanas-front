@@ -760,5 +760,9 @@
     "role_description": "El rol de usuario determina los permisos que tiene el usuario en la plataforma. Para los roles de productor y distribuidor, el usuario debe aceptar un contrato activo. La plataforma es la encargada de validar el contrato y dar acceso al usuario."
   },
   "get_to_know_more": "¡Conócela!",
-  "inserted_successfully": "Insertado correctamente"
+  "inserted_successfully": "Insertado correctamente",
+  "producer_disclaimer_acceptance": "Acepto los términos y condiciones del contrato de productor",
+  "distributor_disclaimer_acceptance": "Acepto los términos y condiciones del contrato de distribuidor",
+  "producer_read_disclaimer": "Pincha aquí para leer el contrato de productor",
+  "distributor_read_disclaimer": "Pincha aquí para leer el contrato de productor"
 }

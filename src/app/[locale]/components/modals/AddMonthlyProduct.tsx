@@ -157,10 +157,6 @@ export default function AddMonthlyProduct({
     reset();
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const handleInsertMProductMutation = useMutation({
     mutationKey: "monthly_products",
     mutationFn: handleInsertMonthlyProduct,
