@@ -590,7 +590,8 @@
     "input_max_2030": "The number must be less than or equal to 2030",
     "lower_greater_than_upper": "The lower limit must be less than the upper limit",
     "inserting_report": "Error inserting report.",
-    "updating_report": "Error updating report."
+    "updating_report": "Error updating report.",
+    "inserting_monthly_product": "Error inserting monthly product."
   },
   "product_packs": "Product packs",
   "units": "Units",
@@ -744,5 +745,6 @@
   "tooltips": {
     "role_description": "The user role determines the permissions the user has on the platform. For the roles of producer and distributor, the user must accept an active contract. The platform is in charge of validating the contract and giving access to the user."
   },
-  "get_to_know_more": "Get to know more!"
+  "get_to_know_more": "Get to know more!",
+  "inserted_successfully": "Inserted successfully"
 }

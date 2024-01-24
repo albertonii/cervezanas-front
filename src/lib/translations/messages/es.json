@@ -599,7 +599,8 @@
     "input_max_2030": "El número debe ser menor o igual a 2030",
     "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
     "inserting_report": "Error al insertar el informe.",
-    "update_report": "Error al actualizar el informe."
+    "update_report": "Error al actualizar el informe.",
+    "inserting_monthly_product": "Error al insertar el producto mensual."
   },
   "product_packs": "Packs de productos",
   "units": "Unidades",
@@ -758,5 +759,6 @@
   "tooltips": {
     "role_description": "El rol de usuario determina los permisos que tiene el usuario en la plataforma. Para los roles de productor y distribuidor, el usuario debe aceptar un contrato activo. La plataforma es la encargada de validar el contrato y dar acceso al usuario."
   },
-  "get_to_know_more": "¡Conócela!"
+  "get_to_know_more": "¡Conócela!",
+  "inserted_successfully": "Insertado correctamente"
 }

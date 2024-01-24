@@ -14,6 +14,7 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "react-query";
 import ModalWithForm from "./ModalWithForm";
+import { useMessage } from "../message/useMessage";
 
 enum SortBy {
   NONE = "none",
@@ -55,6 +56,7 @@ export default function AddMonthlyProduct({
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedProduct, setSelectedCP] = useState<IProduct>();
+  const { handleMessage } = useMessage();
 
   const [query, setQuery] = useState("");
 
@@ -135,11 +137,22 @@ export default function AddMonthlyProduct({
       .select("id, category, month, year");
 
     if (error) {
+      handleMessage({
+        type: "error",
+        message: `${t("errors.inserting_monthly_product")} Error message:  ${
+          error.message
+        }`,
+      });
       throw error;
     }
 
     setShowModal(false);
     handleAddProduct(data[0]);
+
+    handleMessage({
+      type: "success",
+      message: `${t("inserted_successfully")}`,
+    });
 
     reset();
   };

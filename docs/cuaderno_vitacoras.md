@@ -2,9 +2,6 @@
 
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
-- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
-- No está funcionado dentro de crear producto el estado de la sección de packs.
-- ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - PDF acuerdo de colaboración Cervezanas - Productor
 - PDF acuerdo de colaboración Cervezanas - Distribuidor
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
@@ -58,6 +55,7 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
   h. Ver las reviews realizadas por un usuario
 
 - [] Crear cuenta de soporte de correos que termine en Cervezanas.eu
+- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 
 # Tareas realizadas
 
@@ -260,7 +258,14 @@ Planificación de este año.
   - [x] Área de cobertura - Región - Distributor
   - [x] Área de cobertura - Europa - Distributor
 - [x] Crear lista dinámica de productos del mes
-- [] Mostrar productos del mes en la homepage
-- Contratar servicio VERCEL
+- [x] Mostrar productos del mes en la homepage
 - Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Lista de Puntos de Consumo para el ADMIN
+
+--
+24 de enero
+
+- Comprobar que funciona Puntos Cervezanas -> MAPA
+- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- No está funcionado dentro de crear producto el estado de la sección de packs.
+- ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
