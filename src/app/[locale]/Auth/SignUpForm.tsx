@@ -222,7 +222,7 @@ export const SignUpForm = () => {
 
       {role === ROLE_ENUM.Productor && (
         <div className="flex w-full flex-col space-y-2">
-          <InputLabel
+          {/* <InputLabel
             form={form}
             label={"is_legal_age"}
             labelText={t("producer_disclaimer_acceptance")}
@@ -231,7 +231,26 @@ export const SignUpForm = () => {
             }}
             placeholder="*****"
             inputType="checkbox"
-          />
+          /> */}
+
+          <div className="w-full">
+            <label
+              className={
+                "flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600"
+              }
+            >
+              <span className="font-medium">
+                {t("producer_disclaimer_acceptance")}
+              </span>
+
+              <input
+                type="checkbox"
+                className={
+                  "float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                }
+              />
+            </label>
+          </div>
 
           <Link
             href={
@@ -249,17 +268,26 @@ export const SignUpForm = () => {
 
       {role === ROLE_ENUM.Distributor && (
         <div className="flex w-full flex-col space-y-2">
-          <InputLabel
-            form={form}
-            label={"is_legal_age"}
-            labelText={t("distributor_disclaimer_acceptance")}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="*****"
-            inputType="checkbox"
-          />
+         
+          <div className="w-full">
+            <label
+              className={
+                "flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600"
+              }
+            >
+              <span className="font-medium">
+                {t("producer_disclaimer_acceptance")}
+              </span>
 
+              <input
+                type="checkbox"
+                className={
+                  "float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                }
+              />
+            </label>
+          </div>
+          
           <p className="text-xs text-gray-500">
             <Link
               href={

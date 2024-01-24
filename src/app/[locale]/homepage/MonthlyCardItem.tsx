@@ -185,11 +185,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
 
       <footer className="rounded-b-md bg-cerv-coffee p-2">
         <Button primary class="w-full">
-          <Link
-            target={"_blank"}
-            href={`/products/${product?.id}`}
-            locale={locale}
-          >
+          <Link href={`/products/${product?.id}`} locale={locale}>
             {t("get_to_know_more")}
           </Link>
         </Button>

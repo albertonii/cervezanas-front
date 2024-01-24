@@ -273,3 +273,4 @@ Planificación de este año.
 - ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - [x] Esconder login google
 - Grabar demo
+- Mirar error en checkbox para crear productor y distribuidor
