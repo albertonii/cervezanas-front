@@ -289,7 +289,7 @@ Planificación de este año.
 - [x] Error al incrementar packs en el carrito de la compra -> al finalizar la compra
 - [x] Eroror vista de producto en detalle
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
-- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
 - [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - [ ] Desplegar cambios
 - [ ] Preparar presentación
