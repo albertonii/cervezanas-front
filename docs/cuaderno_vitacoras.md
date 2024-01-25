@@ -2,8 +2,7 @@
 
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
-- PDF acuerdo de colaboración Cervezanas - Productor
-- PDF acuerdo de colaboración Cervezanas - Distribuidor
+
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
@@ -95,15 +94,17 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - [x] Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
 - [x] Contratar plan de pago Supabase - MIGUEL
 - [x] Enviar correo a Miguel para contratar servicios
+- [x] PDF acuerdo de colaboración Cervezanas - Productor
+- [x] PDF acuerdo de colaboración Cervezanas - Distribuidor - miguel
 
-# 29 de noviembre 23
+## 29 de noviembre 23
 
 La aplicación de Cervezanas se encuentra en un punto crítica para la salida en producción. En diciembre habrá un workshop para presentar el proyecto.
 La documentación que existe es escasa y para el desarrollo de la aplicación se ha usado mucho “tirar de cabeza” debido al desarrollo individual del código, para tener un completo conocimiento de la misma, sus puntos flojos y mejoras debo de crear una documentación acorde a la calidad del código y proyecto.
 
 Por ello, me pongo manos a la obra para la documentación del proyecto.
 
-# 4 de diciembre 23
+## 4 de diciembre 23
 
 Documentación creada.
 
@@ -113,7 +114,7 @@ Documentación creada.
 - Diagrama de actividades
 - Diagramas de relación de entidades
 
-## Diagrama de Entidades - Sistema de Distribución
+### Diagrama de Entidades - Sistema de Distribución
 
 **https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7**
 
@@ -136,9 +137,9 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 
 ---
 
-18 de diciembre
+## 18 de diciembre
 
-# Sistema de distribución
+### Sistema de distribución
 
 - [x] Comprobar realización de compra de pedido y creación de business order
 - [x] Visualizar pedido para el consumidor
@@ -149,7 +150,7 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 
 ---
 
-20 de diciembre
+## 20 de diciembre
 
 Seguimos con el sistema de distribución. Ahora mismo me interesa avanzar y, aunque se puedan calcular diferentes tipos de costes según la distribución, vamos a centrarnos en la tarifa plana diferenciando por área de cobertura: local, nacional, europea e internacional.
 
@@ -160,7 +161,7 @@ https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
 
 ---
 
-26 de diciembre
+## 26 de diciembre
 
 Aunque ya se pueda asociar un coste de distribución a un pedido, es muy rústico y simplón. Debemos de saber cómo hacer la fórmula que indique los costes adecuados de envío.
 Una buena alternativa es tener en cuenta el peso y dimensiones de cada producto comprado.
@@ -168,10 +169,11 @@ Quizás asociar una tarifa básica + suma de pesos de los productos.
 
 --
 
-8 de enero
+## 8 de enero
+
 InputLabel y InputTextarea creados, con ellos reduciré el código usado en toda la aplicación
 
-12 enero
+## 12 enero
 
 Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imágenes de IA, fotografías del Hendrix, etc
 Enfocarnos en los diseños para el webminar
@@ -180,7 +182,7 @@ Nos vamos al BBF a finales de marzo
 
 ---
 
-17 de enero
+## 17 de enero
 
 Planificación de reunión workshop
 
@@ -213,7 +215,7 @@ NOTIFICACIÓN para dar de alta productor y distribuidor
 
 --
 
-19 de enero
+## 19 de enero
 
 - Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 
@@ -241,7 +243,9 @@ Planificación de este año.
 -- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES
 
 --
-23 de enero
+
+## 23 de enero
+
 --
 
 - [x] Merge de cambios en DESIGN
@@ -259,18 +263,30 @@ Planificación de este año.
   - [x] Área de cobertura - Europa - Distributor
 - [x] Crear lista dinámica de productos del mes
 - [x] Mostrar productos del mes en la homepage
-- Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Lista de Puntos de Consumo para el ADMIN
 
 --
-24 de enero
+
+## 24 de enero
 
 - [x] Disclaimer para productor
 - [x] Disclaimer para distribuidor
-- Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 - [x] No está funcionado dentro de crear producto el estado de la sección de packs.
-- ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - [x] Esconder login google
-- Grabar demo
-- Mirar error en checkbox para crear productor y distribuidor
+- [x] Grabar demo
+- [x] Mirar error en checkbox para crear productor y distribuidor
+- [ ] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
+
+---
+
+## 25 de enero
+
+- [ ] Disclaimer modal al crear productor
+- [ ] Disclaimer modal al crear distribuidor
+- [ ] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc

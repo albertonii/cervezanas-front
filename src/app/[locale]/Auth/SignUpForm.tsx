@@ -16,6 +16,9 @@ import InputLabel from "../components/common/InputLabel";
 import SelectInput from "../components/common/SelectInput";
 import Link from "next/link";
 import { SupabaseProps } from "../../../constants";
+import Modal from "../components/modals/Modal";
+import ProducerDisclaimerModal from "../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal";
+import DistributorDisclaimerModal from "../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal";
 
 interface FormData {
   access_level: string;
@@ -66,6 +69,8 @@ export const SignUpForm = () => {
   const t = useTranslations();
 
   const { signUp, isLoading: loading } = useAuth();
+  const [isProducer, setIsProducer] = useState(false);
+  const [isDistributor, setIsDistributor] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -84,6 +89,7 @@ export const SignUpForm = () => {
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: any = event?.target.value;
+
     setRole(value);
   };
 
@@ -108,6 +114,12 @@ export const SignUpForm = () => {
     };
 
     signUp(signUpInfo);
+
+    if (role === ROLE_ENUM.Productor) {
+      setIsProducer(true);
+    } else if (role === ROLE_ENUM.Distributor) {
+      setIsDistributor(true);
+    }
   };
 
   const handleCredentialsMutation = useMutation({
@@ -134,6 +146,19 @@ export const SignUpForm = () => {
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsProducer(false);
+    setIsDistributor(false);
+  };
+
+  const handleSetIsProducer = (isProducer: boolean) => {
+    setIsProducer(isProducer);
+  };
+
+  const handleSetIsDistributor = (isDistributor: boolean) => {
+    setIsDistributor(isDistributor);
   };
 
   return (
@@ -268,7 +293,6 @@ export const SignUpForm = () => {
 
       {role === ROLE_ENUM.Distributor && (
         <div className="flex w-full flex-col space-y-2">
-         
           <div className="w-full">
             <label
               className={
@@ -287,7 +311,7 @@ export const SignUpForm = () => {
               />
             </label>
           </div>
-          
+
           <p className="text-xs text-gray-500">
             <Link
               href={
@@ -310,6 +334,18 @@ export const SignUpForm = () => {
         </span>
       ) : (
         <>
+          <ProducerDisclaimerModal
+            isProducer={isProducer}
+            handleSetIsProducer={handleSetIsProducer}
+            handleCloseModal={handleCloseModal}
+          />
+
+          <DistributorDisclaimerModal
+            isDistributor={isProducer}
+            handleSetIsDistributor={handleSetIsDistributor}
+            handleCloseModal={handleCloseModal}
+          />
+
           <Button
             title={"sign_up"}
             btnType="submit"

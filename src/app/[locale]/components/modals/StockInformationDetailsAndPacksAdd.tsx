@@ -42,7 +42,6 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
     append(emptyPack);
   };
 
-  useEffect(() => console.log(fields), [fields]);
 
   return (
     <section className="container mt-4">
