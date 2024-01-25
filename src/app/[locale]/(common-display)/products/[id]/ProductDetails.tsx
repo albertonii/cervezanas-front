@@ -42,6 +42,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   );
 
   async function handleLike() {
+    console.log("product", product);
     if (!isLike) {
       const { error } = await supabase
         .from("likes")
@@ -127,6 +128,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
             {product.name}
           </h2>
 
+          {/* Reviews */}
           <>
             <h4 className="sr-only">{t("reviews")}</h4>
 

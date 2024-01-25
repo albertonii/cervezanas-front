@@ -285,8 +285,9 @@ Planificación de este año.
 
 ## 25 de enero
 
-- [ ] Disclaimer modal al crear productor
-- [ ] Disclaimer modal al crear distribuidor
+- [x] Disclaimer modal al crear productor
+- [x] Disclaimer modal al crear distribuidor
+- [ ] Error al crear distribuidor
 - [ ] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
