@@ -64,6 +64,7 @@ export function ShoppingBasket() {
   const t = useTranslations();
 
   const { user, isLoading, supabase } = useAuth();
+
   const { items, clearCart, checkIsShoppingCartDeliverable } =
     useShoppingCart();
 
