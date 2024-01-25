@@ -99,7 +99,7 @@ const canDistributorDeliverToAddress = async (
       delivery_type: DeliveryType.NONE,
     };
 
-  const coverageAreas = dContract.distributor_user.coverage_areas[0];
+  const coverageAreas = dContract.distributor_user.coverage_areas;
 
   // 2. Get Latitud and Longitud of client shipping address
   const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;

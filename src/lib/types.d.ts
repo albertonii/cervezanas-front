@@ -1320,7 +1320,7 @@ export interface IDistributorUser {
   is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
-  coverage_areas?: ICoverageArea[];
+  coverage_areas?: ICoverageArea;
 }
 
 export interface IProducerUser {
@@ -1377,7 +1377,7 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
-  coverage_areas: ICoverageArea[];
+  coverage_areas: ICoverageArea;
 }
 
 export interface ICoverageArea {

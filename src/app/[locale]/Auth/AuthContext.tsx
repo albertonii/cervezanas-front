@@ -46,7 +46,7 @@ export interface AuthSession {
   user: any;
   error: any;
   isLoading: boolean;
-  signUp: (payload: SignUpWithPasswordCredentials) => void;
+  signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
@@ -66,7 +66,7 @@ export const AuthContext = createContext<AuthSession>({
   error: null,
   role: null,
   isLoading: false,
-  signUp: () => void {},
+  signUp: async () => null,
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
   signOut: async () => void {},
@@ -224,6 +224,7 @@ export const AuthContextProvider = ({
       );
 
       // Check if user exists
+      // Check if user exists
       const { data: user, error: emailError } = await supabase
         .from("users")
         .select(
@@ -253,7 +254,7 @@ export const AuthContextProvider = ({
         payload
       )) as AuthResponse;
 
-      if (!data || !data.user) return;
+      if (!data || !data.user) return null;
 
       // Get access_level from the user
       const access_level = data.user?.user_metadata.access_level;
@@ -279,6 +280,8 @@ export const AuthContextProvider = ({
         fetch(
           `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`
         );
+
+        return data;
       } else if (access_level === ROLE_ENUM.Distributor) {
         const { error: roleError } = await supabase
           .from("distributor_user")
@@ -300,6 +303,8 @@ export const AuthContextProvider = ({
         fetch(
           `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`
         );
+
+        return data;
       }
 
       if (error) {
@@ -311,11 +316,15 @@ export const AuthContextProvider = ({
           type: "success",
         });
       }
+
+      return data;
     } catch (error: any) {
       handleMessage({
         message: error.error_description ?? error,
         type: "error",
       });
+
+      return null;
     }
   };
 

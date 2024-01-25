@@ -113,13 +113,17 @@ export const SignUpForm = () => {
       },
     };
 
-    signUp(signUpInfo);
+    await signUp(signUpInfo).then((res) => {
+      if (res) {
+        if (role === ROLE_ENUM.Productor) {
+          setIsProducer(true);
+        } else if (role === ROLE_ENUM.Distributor) {
+          setIsDistributor(true);
+        }
 
-    if (role === ROLE_ENUM.Productor) {
-      setIsProducer(true);
-    } else if (role === ROLE_ENUM.Distributor) {
-      setIsDistributor(true);
-    }
+        reset();
+      }
+    });
   };
 
   const handleCredentialsMutation = useMutation({
@@ -130,7 +134,6 @@ export const SignUpForm = () => {
     },
     onSuccess: () => {
       console.info("success sign up");
-      reset();
     },
     onError: (error: Error) => {
       handleMessage({
@@ -341,7 +344,7 @@ export const SignUpForm = () => {
           />
 
           <DistributorDisclaimerModal
-            isDistributor={isProducer}
+            isDistributor={isDistributor}
             handleSetIsDistributor={handleSetIsDistributor}
             handleCloseModal={handleCloseModal}
           />

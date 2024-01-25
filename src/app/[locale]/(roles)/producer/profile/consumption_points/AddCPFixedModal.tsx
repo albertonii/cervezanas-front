@@ -233,6 +233,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         throw error;
       }
     }
+
+    reset();
   };
 
   const handleIsInternalOrganizer = (e: any) => {
@@ -257,7 +259,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
       setShowModal(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

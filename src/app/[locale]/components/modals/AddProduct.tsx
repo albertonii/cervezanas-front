@@ -474,8 +474,12 @@ export function AddProduct() {
         );
       }
 
+      reset();
+
       return beer;
     }
+
+    reset();
   };
 
   const insertProductMutation = useMutation({
@@ -488,7 +492,6 @@ export function AddProduct() {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
       setShowModal(false);
       setIsSubmitting(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

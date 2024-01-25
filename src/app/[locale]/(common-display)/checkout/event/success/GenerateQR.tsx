@@ -20,7 +20,7 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
       : "https://cervezanas-front.vercel.app";
 
   const productBarmanUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
-  console.log(productBarmanUrl);
+  console.info(productBarmanUrl);
 
   const handleOnClick = () => {
     // router.push(productUrl);

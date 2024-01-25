@@ -5,7 +5,6 @@
 
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
 - Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
@@ -287,7 +286,16 @@ Planificación de este año.
 
 - [x] Disclaimer modal al crear productor
 - [x] Disclaimer modal al crear distribuidor
-- [ ] Error al crear distribuidor
-- [ ] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
+- [x] Error al incrementar packs en el carrito de la compra -> al finalizar la compra
+- [x] Eroror vista de producto en detalle
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
 - [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [ ] Desplegar cambios
+- [ ] Preparar presentación
+
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
+      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+
+Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.

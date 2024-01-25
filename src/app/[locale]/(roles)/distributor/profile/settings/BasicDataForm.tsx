@@ -71,6 +71,11 @@ export function BasicDataForm({ profile }: Props) {
       .eq("id", id);
 
     if (error) throw error;
+
+    handleMessage({
+      type: "success",
+      message: successMessage,
+    });
   };
 
   const handleUpdateBasicDataMutation = useMutation({
@@ -80,10 +85,7 @@ export function BasicDataForm({ profile }: Props) {
       setLoading(true);
     },
     onSuccess: () => {
-      handleMessage({
-        type: "success",
-        message: successMessage,
-      });
+      console.info("Basic data updated");
     },
     onError: (error: Error) => {
       handleMessage({

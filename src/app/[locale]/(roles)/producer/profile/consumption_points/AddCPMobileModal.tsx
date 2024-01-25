@@ -231,6 +231,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         throw error;
       }
     }
+
+    reset();
   };
 
   const handleIsInternalOrganizer = (
@@ -257,7 +259,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
       setShowModal(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

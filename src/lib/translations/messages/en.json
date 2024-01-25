@@ -591,7 +591,8 @@
     "lower_greater_than_upper": "The lower limit must be less than the upper limit",
     "inserting_report": "Error inserting report.",
     "updating_report": "Error updating report.",
-    "inserting_monthly_product": "Error inserting monthly product."
+    "inserting_monthly_product": "Error inserting monthly product.",
+    "basic_data": "Error profile basic data"
   },
   "product_packs": "Product packs",
   "units": "Units",

@@ -600,7 +600,8 @@
     "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
     "inserting_report": "Error al insertar el informe.",
     "update_report": "Error al actualizar el informe.",
-    "inserting_monthly_product": "Error al insertar el producto mensual."
+    "inserting_monthly_product": "Error al insertar el producto mensual.",
+    "basic_data": "Error en datos básicos de perfil"
   },
   "product_packs": "Packs de productos",
   "units": "Unidades",

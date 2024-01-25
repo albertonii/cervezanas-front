@@ -133,13 +133,14 @@ export default function SignIn() {
 
   const handleResetPassword = async (email: string) => {
     sendResetPasswordEmail(email);
+    resetReset();
   };
 
   const handleResetPasswordMutation = useMutation({
     mutationKey: "resetPassword",
     mutationFn: handleResetPassword,
     onSuccess: () => {
-      resetReset();
+      console.info("Reset password email sent");
     },
     onError: (error: Error) => {
       console.error(error);

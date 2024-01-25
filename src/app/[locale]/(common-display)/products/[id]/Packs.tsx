@@ -22,12 +22,8 @@ export default function Packs({ product }: Props) {
 
   const [selectedPack, setSelectedPack] = useState<IProductPack>();
 
-  useEffect(() => {
-    console.log(selectedPack);
-  }, [selectedPack]);
 
   const handleItemSelected = (item: IProductPack) => {
-    console.log("dentro");
     setSelectedPack(item);
   };
 

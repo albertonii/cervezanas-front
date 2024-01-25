@@ -97,6 +97,8 @@ export default function LinkDistributor({ producerId }: Props) {
       type: "success",
       message: submitSuccessMessage,
     });
+
+    reset();
   };
 
   const handleAddContractMutation = useMutation({
@@ -104,7 +106,6 @@ export default function LinkDistributor({ producerId }: Props) {
     mutationFn: handleAddContract,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
-      reset();
     },
     onError: (error: Error) => {
       console.error(error);

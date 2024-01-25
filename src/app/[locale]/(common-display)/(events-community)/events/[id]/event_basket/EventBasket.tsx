@@ -54,8 +54,6 @@ export default function EventBasket({ eventId }: Props) {
   useEffect(() => {
     if (!eventCarts[eventId]) return;
 
-    console.log(eventCarts[eventId]);
-
     let subtotal = 0;
     eventCarts[eventId].map((item) => {
       item.packs.map((pack: IProductPack) => {

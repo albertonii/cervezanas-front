@@ -60,6 +60,13 @@ export function SecretDataForm() {
     });
 
     if (error) throw error;
+
+    handleMessage({
+      type: "success",
+      message: "password_updated",
+    });
+
+    reset();
   };
 
   const handleUpdatePasswordMutation = useMutation({
@@ -69,12 +76,6 @@ export function SecretDataForm() {
       setLoading(true);
     },
     onSuccess: () => {
-      handleMessage({
-        type: "success",
-        message: "password_updated",
-      });
-
-      reset();
       setLoading(false);
     },
     onError: (error: Error) => {

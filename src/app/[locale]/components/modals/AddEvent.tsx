@@ -133,6 +133,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         }
       });
     }
+
+    reset();
   };
 
   const insertEventMutation = useMutation({
@@ -141,7 +143,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
       setShowModal(false);
-      reset();
     },
     onError: (error) => {
       console.error(error);
