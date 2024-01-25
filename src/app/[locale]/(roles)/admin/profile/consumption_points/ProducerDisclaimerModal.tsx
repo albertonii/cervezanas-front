@@ -75,8 +75,8 @@ export default function ProducerDisclaimerModal({
         </p>
 
         <p>
-          Al hacer clic en "Aceptar", reconoce que ha leído y entendido este
-          disclaimer y acepta sus términos.
+          Al hacer clic en &quot;Aceptar&quot;, reconoce que ha leído y
+          entendido este disclaimer y acepta sus términos.
         </p>
       </section>
     </Modal>
