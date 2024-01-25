@@ -21,10 +21,10 @@ export const i18n = {
   locales: ["es", "en"],
 } as const;
 
-export type Locale = (typeof i18n)["locales"][number];
+export type Locale = typeof i18n["locales"][number];
 
-import { getRequestConfig } from "next-intl/server";
+// import { getRequestConfig } from "next-intl/server";
 
-export default getRequestConfig(async ({ locale }) => ({
-  messages: (await import(`./messages/${locale}.json`)).default,
-}));
+// export default getRequestConfig(async ({ locale }) => ({
+//   messages: (await import(`./messages/${locale}.json`)).default,
+// }));
