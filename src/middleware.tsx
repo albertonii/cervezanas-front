@@ -69,13 +69,13 @@ export async function middleware(req: NextRequest) {
   return res;
 }
 
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales: ["en", "es"],
+// export default createMiddleware({
+//   // A list of all locales that are supported
+//   locales: ["en", "es"],
 
-  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
-  defaultLocale: "es",
-});
+//   // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+//   defaultLocale: "es",
+// });
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],

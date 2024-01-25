@@ -6,16 +6,9 @@ const withNextIntl = require("next-intl/plugin")(
 
 module.exports = withNextIntl({
   reactStrictMode: true,
-<<<<<<< HEAD
-  experimental: {
-    appDir: true,
-  },
-
-=======
   // experimental: {
   //   appDir: true,
   // },
->>>>>>> 9a3d3a2fa756dd6bcfcde13cf8fc30c1fae0ecf6
   images: {
     formats: [
       "image/avif",
