@@ -18,7 +18,7 @@ export function formatDate(date: Date) {
   return new Date(date).toLocaleDateString();
 }
 
-export function getTimeElapsed(startDate: Date): string {
+export function getTimeElapsed(startDate: any): string {
   if (typeof startDate === "string") startDate = new Date(startDate);
 
   const currentDate = Date.now(); // Retorna la fecha actual en milisegundos

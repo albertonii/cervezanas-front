@@ -7,6 +7,8 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
   ],
   overrides: [],
   parser: "@typescript-eslint/parser",
@@ -19,5 +21,6 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "no-undef": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ignore": 0,
   },
 };

@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import React, {
   useCallback,
   useEffect,
@@ -21,14 +22,28 @@ import { formatCurrency } from "../../../../../utils";
 import { DisplaySimilarProducts, ProductGallery } from "../../../components";
 import Packs from "./Packs";
 import { useAuth } from "../../../../../components/Auth";
+=======
+import ProductDetails from "./ProductDetails";
+import React, { useEffect, useRef, useState } from "react";
+import { IProduct, IReview } from "../../../../../lib/types";
+import { ProductReviews } from "../../../components/reviews/ProductReviews";
+import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";
+import dynamic from "next/dynamic";
+
+const DynamicSpinner = dynamic(
+  () => import("../../../components/common/Spinner"),
+  {
+    ssr: false,
+  }
+);
+>>>>>>> 9a3d3a2fa756dd6bcfcde13cf8fc30c1fae0ecf6
 
 interface Props {
   product: IProduct;
 }
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
-
 export default function Product({ product }: Props) {
+<<<<<<< HEAD
   const { supabase } = useSupabase();
   const { isLoading } = useAuth();
   const selectedProduct = product;
@@ -37,16 +52,13 @@ export default function Product({ product }: Props) {
   const selectedMultimedia = product.product_multimedia[0] ?? [];
   const reviews = product.reviews;
 
+=======
+>>>>>>> 9a3d3a2fa756dd6bcfcde13cf8fc30c1fae0ecf6
   const [loading, setLoading] = useState<boolean>(true);
 
-  const t = useTranslations();
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<IReview[]>(
-    product.reviews
-  );
-  const [gallery, setGallery] = useState<ICarouselItem[]>([]);
-  const [isLike, setIsLike] = useState<boolean>(
-    Boolean(selectedProduct?.likes?.length)
+    product.reviews ?? []
   );
 
   const reviewRef = useRef<any>();
@@ -54,69 +66,6 @@ export default function Product({ product }: Props) {
   useEffect(() => {
     setLoading(false);
   }, [product]);
-
-  const productStars = useMemo(() => {
-    const sum = reviews.reduce((acc, review) => acc + review.overall, 0);
-    return reviews.length ? sum / reviews.length : 0;
-  }, [reviews]);
-
-  const executeScroll = useCallback(
-    () => reviewRef.current.scrollIntoView(),
-    [reviewRef]
-  );
-
-  useEffect(() => {
-    const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
-      selectedMultimedia;
-
-    setGallery(
-      [
-        ...[
-          {
-            link: "/",
-            title: "Principal",
-            imageUrl:
-              p_principal && productsUrl + decodeURIComponent(p_principal),
-          },
-        ],
-        ...[
-          {
-            link: "/",
-            title: "Back",
-            imageUrl: p_back && productsUrl + decodeURIComponent(p_back),
-          },
-        ],
-        ...[
-          {
-            link: "/",
-            title: "Photo Extra 1",
-            imageUrl: p_extra_1 && productsUrl + decodeURIComponent(p_extra_1),
-          },
-        ],
-        ...[
-          {
-            link: "/",
-            title: "Photo Extra 2",
-            imageUrl: p_extra_2 && productsUrl + decodeURIComponent(p_extra_2),
-          },
-        ],
-        ...[
-          {
-            link: "/",
-            title: "Photo Extra 3",
-            imageUrl: p_extra_3 && productsUrl + decodeURIComponent(p_extra_3),
-          },
-        ],
-      ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
-    );
-  }, [
-    selectedMultimedia.p_back,
-    selectedMultimedia.p_extra_1,
-    selectedMultimedia.p_extra_2,
-    selectedMultimedia.p_extra_3,
-    selectedMultimedia.p_principal,
-    selectedProduct.owner_id,
-  ]);
 
   useEffect(() => {
     if (productReviews[0]?.id === "0" || !productReviews?.length) {
@@ -129,53 +78,23 @@ export default function Product({ product }: Props) {
     setEmptyReviews(!value.length);
   };
 
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
-
-  const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
-    setIsLike(value);
-    await handleLike();
-  };
-
-  async function handleLike() {
-    if (!isLike) {
-      const { error } = await supabase
-        .from("likes")
-        .insert([{ product_id: product.id, owner_id: product.owner_id }]);
-
-      if (error) throw error;
-    } else {
-      const { error } = await supabase
-        .from("likes")
-        .delete()
-        .match({ product_id: product.id, owner_id: product.owner_id });
-
-      if (error) throw error;
-    }
-  }
+  if (loading) return <DynamicSpinner color={"beer-blonde"} size="medium" />;
 
   if (isLoading) return <Spinner color="beer-blonde" size={"medium"} />;
   console.log(product.beers);
   return (
-    <>
-      {loading ? (
-        <Spinner color="beer-blonde" size={"medium"} />
-      ) : (
-        <div className="relative flex w-full items-center overflow-hidden bg-white  pb-8 pt-14 sm:pt-8 ">
-          <div className="grid w-full grid-cols-12 items-start gap-y-8 lg:grid-cols-12 lg:px-6">
-            <div className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex items-center justify-center rounded-lg bg-beer-blonde/20 md:overflow-hidden lg:col-span-4">
-              <ProductGallery
-                gallery={gallery}
-                isLike={isLike}
-                handleSetIsLike={handleSetIsLike}
-              />
-            </div>
+    <section className="relative grid w-full grid-cols-12 items-center gap-y-8 overflow-hidden bg-white pb-8 pt-14 sm:pt-8 lg:grid-cols-12 lg:px-6">
+      <ProductDetails product={product} reviewRef={reviewRef} />
 
-            <div className="col-span-12 mx-6 lg:col-span-8 ">
-              <div className="flex flex-col sm:flex-row sm:justify-between">
-                <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                  {selectedProduct.name}
-                </h2>
+      {/* Reviews */}
+      <div className="item-center col-span-12 mx-6 flex flex-col justify-center bg-gray-50 p-10">
+        <ProductOverallReview
+          reviews={productReviews}
+          emptyReviews={emptyReviews}
+        />
+      </div>
 
+<<<<<<< HEAD
                 <>
                   <h4 className="sr-only">{t("reviews")}</h4>
 
@@ -257,8 +176,22 @@ export default function Product({ product }: Props) {
               <DisplaySimilarProducts />
             </div>
           </div>
+=======
+      {/* User reviews */}
+      {!emptyReviews && (
+        <div
+          className="item-center col-span-12 mx-6 flex flex-col justify-center"
+          ref={reviewRef}
+        >
+          <ProductReviews
+            reviews={productReviews}
+            handleSetReviews={handleSetReviews}
+          />
+>>>>>>> 9a3d3a2fa756dd6bcfcde13cf8fc30c1fae0ecf6
         </div>
       )}
-    </>
+
+      {/* <DisplaySimilarProducts /> */}
+    </section>
   );
 }

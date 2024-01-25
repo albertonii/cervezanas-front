@@ -1,6 +1,6 @@
 import DisplayEvent from "./DisplayEvent";
-import { IEvent } from "../../../../../../lib/types.d";
-import { createServerClient } from "../../../../../../utils/supabaseServer";
+import { IEvent } from "../../../../../../lib/types";
+import createServerClient from "../../../../../../utils/supabaseServer";
 
 export default async function EventPage({ params }: any) {
   const { id } = params;
@@ -9,26 +9,32 @@ export default async function EventPage({ params }: any) {
   const [event] = await Promise.all([eventData]);
   return (
     <>
-      <DisplayEvent event={event[0]} />
+      <DisplayEvent event={event} />
     </>
   );
 }
 
 async function getEvent(eventId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: event, error } = await supabase
     .from("events")
     .select(
       `
-            *,
-            owner_id (*),
-            cp_mobile (*)
+        *,
+        cp_mobile (
+          *
+        ),
+        cp_fixed (
+          *
+        )
 
-        `
+      `
     )
-    .eq("id", eventId);
+    .eq("id", eventId)
+    .single();
+
   if (error) console.error(error);
 
-  return event as IEvent[];
+  return event as IEvent;
 }

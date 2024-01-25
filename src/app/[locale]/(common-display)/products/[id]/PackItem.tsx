@@ -1,4 +1,4 @@
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
+import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
 import React, { useState } from "react";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 import { SupabaseProps } from "../../../../../constants";
@@ -34,7 +34,7 @@ export default function PackItem({
       <div
         className={`relative w-full rounded-md ${
           selectedPackId === pack.id &&
-          "bg-beer-softBlondeBubble ring-2 ring-beer-softBlonde"
+          "bg-beer-softBlondeBubble ring-2 "
         }`}
         key={pack.id}
         onMouseEnter={() => setIsHovering(true)}
@@ -42,7 +42,7 @@ export default function PackItem({
       >
         {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
         <label
-          className={`group relative flex cursor-pointer items-center justify-center border py-3 px-4 text-sm font-medium uppercase text-gray-900 hover:opacity-75 focus:outline-none sm:flex-1
+          className={`group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm font-medium uppercase text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
      `}
         >
           <input

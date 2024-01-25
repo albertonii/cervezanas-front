@@ -1,12 +1,21 @@
-import _ from "lodash";
 import { uuid } from "uuidv4";
+import { ROLE_ENUM } from "../lib/enums";
 
 export function isValidObject(object: any) {
-  return object != null && object !== "" && !_.isEmpty(object);
+  return object != null && object !== "" && !isEmpty(object);
 }
 
 export function isNotEmptyArray(array: any[]) {
-  return !_.isEmpty(array);
+  return Array.isArray(array) && array.length > 0;
+}
+
+export function isEmpty(value: any) {
+  return (
+    value === undefined ||
+    value === null ||
+    (typeof value === "object" && Object.keys(value).length === 0) ||
+    (typeof value === "string" && value.trim().length === 0)
+  );
 }
 
 export function encodeBase64(string: string) {
@@ -50,7 +59,11 @@ export function generateFileNameExtension(fName: string) {
   return encodedFileName;
 }
 
-export function isFileEmpty(file: FileList) {
+export function isFileEmpty(file: File) {
+  return file.size === 0;
+}
+
+export function isFileListEmpty(file: FileList) {
   return file.length === 0;
 }
 
@@ -63,3 +76,94 @@ export function cleanObject(obj: any) {
   });
   return cleanedObj;
 }
+
+// Used in input search fields -> Products, international distribution, etc
+export function filterSearchInputQuery(
+  list: any[],
+  query: string,
+  currentPage: number,
+  resultsPerPage: number
+) {
+  const listToDisplay = list?.filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return slicePaginationResults(listToDisplay, currentPage, resultsPerPage);
+}
+
+export function slicePaginationResults(
+  list: any[],
+  currentPage: number,
+  resultsPerPage: number
+) {
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  return list?.slice(startIndex, endIndex);
+}
+
+export const generateLink = (role: ROLE_ENUM, option: string) => {
+  switch (option) {
+    case "profile":
+      return `/${role}/profile/settings`;
+
+    case "products":
+      return `/${role}/profile/products`;
+
+    case "events":
+      return `/${role}/profile/events`;
+
+    case "online_orders":
+      return `/${role}/profile/online_orders`;
+
+    case "event_orders":
+      return `/${role}/profile/${option}`;
+
+    case "campaigns":
+      return `/${role}/profile/${option}`;
+
+    case "signout":
+      return `/${role}/profile/${option}`;
+
+    case "submitted_aps":
+      return `/${role}/profile`;
+
+    case "monthly_products":
+      return `/${role}/profile/${option}`;
+
+    case "reports":
+      return `/admin/profile/${option}`;
+
+    case "logistics":
+      return `/${role}/profile/${option}`;
+
+    case "notifications":
+      return `/${role}/profile/${option}`;
+
+    case "cps":
+      return `/${role}/profile/${option}`;
+
+    case "contracts_cps":
+      return `/${role}/profile/${option}`;
+
+    case "authorized_users":
+      return `/admin/profile/${option}`;
+
+    case "business_orders":
+      return `/${role}/profile/${option}`;
+
+    case "contracts":
+      return `/${role}/profile/${option}`;
+
+    case "reviews":
+      return `/${role}/profile/${option}`;
+
+    case "distributors_associated":
+      return `/${role}/profile/${option}`;
+
+    case "consumption_points":
+      return `/${role}/profile/${option}`;
+
+    default:
+      return `/${role}/profile/settings`;
+  }
+};

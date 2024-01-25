@@ -1,7 +1,7 @@
 import React from "react";
+import { Button } from "./common/Button";
 import { useTranslations } from "next-intl";
-import { IBillingInfo } from "../../../lib/types.d";
-import { Button } from "../../../components/common";
+import { IBillingInfo } from "../../../lib/types";
 
 interface Props {
   option: IBillingInfo;
@@ -39,8 +39,8 @@ export default function BillingInformation({
         </span>
 
         <p className="text-lg">
-          {option.address}, {option.address_extra}, {option.zipcode},{" "}
-          {option.state}, {option.city}, {option.country}
+          {option.address}, {option.zipcode}, {option.state}, {option.city},{" "}
+          {option.country}
         </p>
       </label>
 

@@ -1,14 +1,17 @@
 import "../../styles/globals.css";
 
 import Providers from "./providers";
-import classNames from "classnames";
-import { Suspense } from "react";
-import { MessageList } from "../../components/message";
-import { createServerClient } from "../../utils/supabaseServer";
-import { Header } from "./Header";
-import { Footer } from "./components";
-import { notFound } from "next/navigation";
 import Loading from "./loading";
+import classNames from "classnames";
+import readUserSession from "../../lib/actions";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { MessageList } from "./components/message/MessageList";
+import Header from "./Header";
+import Footer from "./components/Footer";
+import createServerClient from "../../utils/supabaseServer";
+import { INotification } from "../../lib/types";
+import ReporterFloatingButton from "./components/ReporterFloatingButton";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -20,21 +23,13 @@ type LayoutProps = {
 // This will ensure that every time a new route is loaded, our session data in RootLayout will always be up-to-date.
 export const revalidate = 0;
 
-export default async function RootLayout({
+export default async function AppLocaleLayout({
   children,
   params: { locale },
 }: LayoutProps) {
-  const sessionData = getSession();
-  // const messagesData = getMessages(locale);
-  const [session] = await Promise.all([sessionData]);
-  // const [session, messages] = await Promise.all([sessionData, messagesData]);
-
-  // const locale = useLocale();
-
-  // // Show a 404 error for unknown locales
-  // if (params.locale !== locale) {
-  //   notFound();
-  // }
+  const {
+    data: { session },
+  } = await readUserSession();
 
   let messages;
   try {
@@ -44,61 +39,55 @@ export default async function RootLayout({
     notFound();
   }
 
+  const notifications = await getNotifications();
+
   return (
-    <html lang={locale} style={{ overflow: "auto" }}>
-      <body>
-        <Suspense fallback={<Loading />}>
-          <Providers session={session} messages={messages} locale={locale}>
-            <div className="relative flex flex-col bg-beer-foam">
-              <Header />
+    <Suspense fallback={<Loading />}>
+      <Providers session={session} messages={messages} locale={locale}>
+        <section className="relative flex flex-col bg-beer-foam">
+          <Header notifications={notifications ?? []} />
+          <section
+            className={classNames(
+              "relative mx-auto min-h-0 w-full overflow-auto"
+              // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+            )}
+          >
+            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
+          </section>
 
-              <div
-                className={classNames(
-                  "relative mx-auto mt-[10vh] h-auto w-full"
-                )}
-              >
-                {/* <Breadcrumb /> */}
-                {/* <Breadcrumb
-                          getDefaultTextGenerator={(path) => titleize(path)}
-                        /> */}
-              </div>
-
-              <main
-                className={classNames(
-                  "relative mx-auto flex h-full min-h-screen w-full transform items-start justify-center pt-20 transition lg:container lg:flex-wrap"
-                )}
-              >
-                <MessageList />
-                {children}
-              </main>
-
-              <Footer />
-            </div>
-          </Providers>
-        </Suspense>
-      </body>
-    </html>
+          <main
+            className={classNames(
+              "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
+            )}
+          >
+            <MessageList />
+            {children}
+          </main>
+          <Footer />
+        </section>
+      </Providers>
+    </Suspense>
   );
 }
 
-async function getMessages(locale: string) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-    return messages;
-  } catch (error) {
-    notFound();
-  }
-}
-
-async function getSession() {
-  const supabase = createServerClient();
-
+const getNotifications = async () => {
+  const supabase = await createServerClient();
   const {
     data: { session },
-    error,
   } = await supabase.auth.getSession();
 
-  if (error) console.error(error);
-  return session;
-}
+  if (!session) return;
+
+  const { data: notifications, error: notificationsError } = await supabase
+    .from("notifications")
+    .select(
+      `
+      *
+    `
+    )
+    .eq("read", false)
+    .eq("user_id", session.user.id);
+
+  if (notificationsError) throw notificationsError;
+  return notifications as INotification[];
+};

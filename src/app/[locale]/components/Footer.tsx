@@ -4,24 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 
-export function Footer() {
+export default function Footer() {
   const t = useTranslations();
   const locale = useLocale();
 
   return (
     <footer className="relative w-full ">
-      <div className="relative mt-16 bg-bear-light">
-        <svg
-          className="absolute top-0 -mt-5 h-6 w-full text-bear-light sm:-mt-10 sm:h-16"
-          preserveAspectRatio="none"
-          viewBox="0 0 1440 54"
-        >
-          <path
-            fill="currentColor"
-            d="M0 22L120 16.7C240 11 480 1.00001 720 0.700012C960 1.00001 1200 11 1320 16.7L1440 22V54H1320C1200 54 960 54 720 54C480 54 240 54 120 54H0V22Z"
-          ></path>
-        </svg>
-
+      <div className="relative bg-cerv-coffee">
         <div className="mx-auto px-4 pt-12 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
           <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6">
             {/* Descripción de la empresa */}
@@ -35,23 +24,24 @@ export function Footer() {
               >
                 <Image
                   className="w-8 "
-                  src="/logo_cervezanas.svg"
+                  src={"/logo_cervezanas.svg"}
                   alt="Logo"
                   width={300}
                   height={300}
+                  priority={true}
                 />
 
-                <span className="ml-2 text-xl font-bold uppercase tracking-wide text-beer-dark">
+                <span className="ml-2 text-xl font-bold uppercase tracking-wide text-cerv-banana">
                   Cervezanas
                 </span>
               </Link>
 
               <div className="mt-4 lg:max-w-sm">
-                <p className="text-deep-purple-50 text-sm">
+                <p className="text-deep-purple-50 text-sm text-white">
                   Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                   accusantium doloremque laudantium, totam rem aperiam.
                 </p>
-                <p className="text-deep-purple-50 mt-4 text-sm">
+                <p className="text-deep-purple-50 mt-4 text-sm text-white">
                   Eaque ipsa quae ab illo inventore veritatis et quasi
                   architecto beatae vitae dicta sunt explicabo.
                 </p>
@@ -62,7 +52,7 @@ export function Footer() {
             <div className="row-gap-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4 lg:col-span-4">
               {/* Quienes somos  */}
               <>
-                <p className="font-semibold tracking-wide text-beer-draft">
+                <p className="font-semibold tracking-wide text-cerv-banana">
                   {t("who_we_are_question")}
                 </p>
 
@@ -70,7 +60,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/quienes-somos"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("who_we_are")}
@@ -79,7 +69,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/compromisos"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("commiments")}
@@ -88,7 +78,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/condiciones-de-compra"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("purchase_conditions")}
@@ -97,7 +87,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/aviso-legal"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("legal_notice")}
@@ -106,7 +96,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/privacidad"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("privacy_policy")}
@@ -117,14 +107,14 @@ export function Footer() {
 
               {/* Contactar  */}
               <>
-                <p className="font-semibold tracking-wide text-beer-draft">
+                <p className="font-semibold tracking-wide text-cerv-banana">
                   {t("contact_us")}
                 </p>
                 <ul className="mt-2 space-y-2">
                   <li>
                     <Link
                       href="/soporte"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("support_center")}
@@ -133,7 +123,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/soporte/contacto"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("contact")}
@@ -142,7 +132,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/soporte/devoluciones-y-garantia"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("returns_and_warranty")}
@@ -151,7 +141,7 @@ export function Footer() {
                   <li>
                     <Link
                       href="/cookies"
-                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde"
+                      className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
                       locale={locale}
                     >
                       {t("cookie_policy")}
@@ -162,28 +152,28 @@ export function Footer() {
 
               {/* Sistemas de pago aceptado  */}
               <>
-                <p className="font-semibold tracking-wide text-beer-draft">
+                <p className="font-semibold tracking-wide  text-cerv-banana">
                   {t("payment_system")}
                 </p>
-                <div className="flex space-x-2">
+                <figure className="flex h-auto w-auto space-x-2">
                   {/* Visa card image logo  */}
                   <Image
-                    src="/icons/payments/visa.png"
+                    src={"/icons/payments/visa.png"}
                     alt="Visa"
-                    width={80}
-                    height={80}
-                    className={"h-auto w-auto"}
+                    width={0}
+                    height={0}
+                    style={{ width: "80px", height: "80px" }}
                   />
 
                   {/* Mastercard card image logo  */}
                   <Image
-                    src="/icons/payments/mastercard.png"
+                    src={"/icons/payments/mastercard.png"}
                     alt="Mastercard"
-                    width={80}
-                    height={80}
-                    className={"h-auto w-auto"}
+                    width={0}
+                    height={0}
+                    style={{ width: "80px", height: "80px" }}
                   />
-                </div>
+                </figure>
               </>
             </div>
           </div>
@@ -195,7 +185,7 @@ export function Footer() {
             <div className="mt-4 flex items-center justify-center space-x-4 sm:mt-0">
               <Link
                 href="/"
-                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde text-white"
                 locale={locale}
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
@@ -204,7 +194,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/"
-                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde text-white"
                 locale={locale}
               >
                 <svg viewBox="0 0 30 30" fill="currentColor" className="h-6">
@@ -214,7 +204,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/"
-                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde"
+                className="text-deep-purple-100 transition-colors duration-300 hover:text-beer-blonde text-white"
                 locale={locale}
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">

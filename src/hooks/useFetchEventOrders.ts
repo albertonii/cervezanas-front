@@ -1,12 +1,13 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { IEventOrder } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 const fetchCPOrders = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: any
 ) => {
   const { data, error } = await supabase
@@ -14,27 +15,31 @@ const fetchCPOrders = async (
     .select(
       `
         *,
-        customer_id (*)
+        users!event_orders_customer_id_fkey (id, email, username)
       `
     )
     .eq("customer_id", ownerId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
-  return data;
+  return data as IEventOrder[];
 };
 
 const useFetchCPOrders = (
   ownerId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["orders"],
-    queryFn: () => fetchCPOrders(ownerId, currentPage, pageRange, supabase),
-    enabled: false,
+    queryKey: ["event_orders"],
+    queryFn: () =>
+      fetchCPOrders(ownerId, currentPage, resultsPerPage, supabase),
+    enabled: true,
     refetchOnWindowFocus: false,
   });
 };

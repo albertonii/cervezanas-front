@@ -1,13 +1,16 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { IAddress } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchShippingByOwnerId = async (
   ownerId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
+  if (!ownerId) throw new Error("ownerId is required");
   const { data, error } = await supabase
     .from("shipping_info")
     .select(`*`)
@@ -15,11 +18,11 @@ const fetchShippingByOwnerId = async (
 
   if (error) throw error;
 
-  return data;
+  return data as IAddress[];
 };
 
 const useFetchShippingByOwnerId = (ownerId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["shippingAddresses", ownerId],

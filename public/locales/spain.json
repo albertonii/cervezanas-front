@@ -1,0 +1,328 @@
+{
+  "name": "españa",
+  "cod": "es",
+  "regions": [
+    {
+      "cod": "01",
+      "name": "andalucía",
+      "provinces": [
+        {
+          "cod": "04",
+          "name": "almería"
+        },
+        {
+          "cod": "04",
+          "name": "cádiz"
+        },
+        {
+          "cod": "14",
+          "name": "córdoba"
+        },
+        {
+          "cod": "18",
+          "name": "granada"
+        },
+        {
+          "cod": "21",
+          "name": "huelva"
+        },
+        {
+          "cod": "23",
+          "name": "jaén"
+        },
+        {
+          "cod": "29",
+          "name": "málaga"
+        },
+        {
+          "cod": "41",
+          "name": "sevilla"
+        }
+      ]
+    },
+    {
+      "cod": "02",
+      "name": "aragón",
+      "provinces": [
+        {
+          "cod": "22",
+          "name": "huesca"
+        },
+        {
+          "cod": "44",
+          "name": "teruel"
+        },
+        {
+          "cod": "50",
+          "name": "zaragoza"
+        }
+      ]
+    },
+    {
+      "cod": "03",
+      "name": "asturias, principado de",
+      "provinces": [
+        {
+          "cod": "33",
+          "name": "asturias"
+        }
+      ]
+    },
+    {
+      "cod": "04",
+      "name": "balears, illes",
+      "provinces": [
+        {
+          "cod": "07",
+          "name": "balears, illes"
+        }
+      ]
+    },
+    {
+      "cod": "05",
+      "name": "canarias",
+      "provinces": [
+        {
+          "cod": "35",
+          "name": "palmas, las"
+        },
+        {
+          "cod": "38",
+          "name": "santa cruz de tenerife"
+        }
+      ]
+    },
+    {
+      "cod": "06",
+      "name": "cantabria",
+      "provinces": [
+        {
+          "cod": "39",
+          "name": "cantabria"
+        }
+      ]
+    },
+    {
+      "cod": "07",
+      "name": "castilla y león",
+      "provinces": [
+        {
+          "cod": "05",
+          "name": "ávila"
+        },
+        {
+          "cod": "09",
+          "name": "burgos"
+        },
+        {
+          "cod": "24",
+          "name": "león"
+        },
+        {
+          "cod": "34",
+          "name": "palencia"
+        },
+        {
+          "cod": "37",
+          "name": "salamanca"
+        },
+        {
+          "cod": "40",
+          "name": "segovia"
+        },
+        {
+          "cod": "42",
+          "name": "soria"
+        },
+        {
+          "cod": "47",
+          "name": "valladolid"
+        },
+        {
+          "cod": "49",
+          "name": "zamora"
+        }
+      ]
+    },
+    {
+      "cod": "08",
+      "name": "castilla-la mancha",
+      "provinces": [
+        {
+          "cod": "02",
+          "name": "albacete"
+        },
+        {
+          "cod": "13",
+          "name": "ciudad real"
+        },
+        {
+          "cod": "16",
+          "name": "cuenca"
+        },
+        {
+          "cod": "19",
+          "name": "guadalajara"
+        },
+        {
+          "cod": "45",
+          "name": "toledo"
+        }
+      ]
+    },
+    {
+      "cod": "09",
+      "name": "cataluña",
+      "provinces": [
+        {
+          "cod": "08",
+          "name": "barcelona"
+        },
+        {
+          "cod": "17",
+          "name": "girona"
+        },
+        {
+          "cod": "25",
+          "name": "lleida"
+        },
+        {
+          "cod": "43",
+          "name": "tarragona"
+        }
+      ]
+    },
+    {
+      "cod": "10",
+      "name": "comunitat valenciana",
+      "provinces": [
+        {
+          "cod": "03",
+          "name": "alicante/alacant"
+        },
+        {
+          "cod": "12",
+          "name": "castellón/castelló"
+        },
+        {
+          "cod": "46",
+          "name": "valencia/vàlencia"
+        }
+      ]
+    },
+    {
+      "cod": "11",
+      "name": "extremadura",
+      "provinces": [
+        {
+          "cod": "06",
+          "name": "badajoz"
+        },
+        {
+          "cod": "10",
+          "name": "cácerez"
+        }
+      ]
+    },
+    {
+      "cod": "12",
+      "name": "galicia",
+      "provinces": [
+        {
+          "cod": "15",
+          "name": "coruña, a"
+        },
+        {
+          "cod": "27",
+          "name": "lugo"
+        },
+        {
+          "cod": "32",
+          "name": "ourense"
+        },
+        {
+          "cod": "36",
+          "name": "pontevedra"
+        }
+      ]
+    },
+    {
+      "cod": "13",
+      "name": "madrid, comunidad de",
+      "provinces": [
+        {
+          "cod": "28",
+          "name": "madrid"
+        }
+      ]
+    },
+    {
+      "cod": "14",
+      "name": "murcia, región de",
+      "provinces": [
+        {
+          "cod": "30",
+          "name": "murcia"
+        }
+      ]
+    },
+    {
+      "cod": "15",
+      "name": "navarra, comunidad foral de",
+      "provinces": [
+        {
+          "cod": "31",
+          "name": "navarra"
+        }
+      ]
+    },
+    {
+      "cod": "16",
+      "name": "país vasco",
+      "provinces": [
+        {
+          "cod": "01",
+          "name": "araba/álava"
+        },
+        {
+          "cod": "48",
+          "name": "bizkaia"
+        },
+        {
+          "cod": "20",
+          "name": "gipuzkoa"
+        }
+      ]
+    },
+    {
+      "cod": "17",
+      "name": "rioja, la",
+      "provinces": [
+        {
+          "cod": "26",
+          "name": "rioja, la"
+        }
+      ]
+    },
+    {
+      "cod": "18",
+      "name": "ceuta",
+      "provinces": [
+        {
+          "cod": "51",
+          "name": "ceuta"
+        }
+      ]
+    },
+    {
+      "cod": "19",
+      "name": "melilla",
+      "provinces": [
+        {
+          "cod": "52",
+          "name": "melilla"
+        }
+      ]
+    }
+  ]
+}

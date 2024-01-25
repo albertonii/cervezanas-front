@@ -6,21 +6,55 @@ const withNextIntl = require("next-intl/plugin")(
 
 module.exports = withNextIntl({
   reactStrictMode: true,
+<<<<<<< HEAD
   experimental: {
     appDir: true,
   },
 
+=======
+  // experimental: {
+  //   appDir: true,
+  // },
+>>>>>>> 9a3d3a2fa756dd6bcfcde13cf8fc30c1fae0ecf6
   images: {
+    formats: [
+      "image/avif",
+      "image/webp",
+      "image/png",
+      "image/jpg",
+      "image/jpeg",
+    ],
     domains: [
+      "nzlovxxjnbrzfykphpaj.supabase.co",
       "randomuser.me",
       "kvdearmedajqvexxhmrk.supabase.co",
-      "nzlovxxjnbrzfykphpaj.supabase.co",
       "images.unsplash.com",
       "tailwindui.com",
       "images.pexels.com",
       "i.ibb.co",
+      "lh3.googleusercontent.com",
     ],
-    formats: ["image/webp", "image/avif"],
+    remotePatterns: [
+      {
+        hostname: "nzlovxxjnbrzfykphpaj.supabase.co",
+        protocol: "https",
+        port: "*",
+        pathname: "/storage/v1/object/public/**",
+      },
+      {
+        hostname: "tailwindui.com",
+        protocol: "https",
+        port: "*",
+        pathname: "/**",
+      },
+      {
+        hostname: "i.ibb.co",
+        protocol: "https",
+        port: "*",
+        pathname: "/**",
+      },
+    ],
+    // cache optimized images for 60 seconds
     minimumCacheTTL: 60,
   },
   async redirects() {
@@ -33,3 +67,9 @@ module.exports = withNextIntl({
     ];
   },
 });
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+module.exports = withBundleAnalyzer({});

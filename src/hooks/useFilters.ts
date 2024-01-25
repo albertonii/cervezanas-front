@@ -1,5 +1,5 @@
+import { useAppContext } from "../app/context/AppContext";
 import { IProduct } from "../lib/types.d";
-import { useAppContext } from "../components/Context";
 
 export default function useFilters() {
   const { filters, setFilters } = useAppContext();

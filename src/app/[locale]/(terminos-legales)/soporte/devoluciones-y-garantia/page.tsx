@@ -3,7 +3,7 @@ import React from "react";
 export default function SupportCenter() {
   return (
     <>
-      <div className="mt-12 mb-4 text-xl"> Devoluciones y Garantías</div>
+      <div className="mb-4 mt-12 text-xl"> Devoluciones y Garantías</div>
       <div>
         ¿A qué tienes derecho como comprador? Cervezanas se caracteriza por ir
         más allá de la ley de garantía básica y ofrecer a los usuarios la máxima
@@ -19,23 +19,23 @@ export default function SupportCenter() {
         servicio se une a otras ventajas que te ofrecemos como cliente para
         asegurarte la mejor experiencia. No hay nada que nos haga más felices
         que saber que tú, como cliente, estarás tranquilo y satisfecho. ENTRA EN
-        TU CUENTA 1.1. Localiza el pedido en la sección `&quot;`Pedidos,
-        devoluciones y facturas`&quot;` de tu panel de usuario. 1.2. Haz clic en
-        `&quot;`Devolver producto`&quot;` y selecciona el artículo. 1.3. Indica
+        TU CUENTA 1.1. Localiza el pedido en la sección{" "}
+        <b>Pedidos, devoluciones y facturas</b>de tu panel de usuario. 1.2. Haz
+        clic en <b>Devolver producto</b> y selecciona el artículo. 1.3. Indica
         el motivo de la devolución. 1.4. Elige si enviamos a nuestra agencia o
         si nos lo envías por tus medios. 1.5. Haz clic en
-        `&quot;`Finalizar`&quot;`. PREPARA EL PAQUETE 2.1. Guarda el producto
-        completo, con sus accesorios originales, en una caja resistente.
-        Preferentemente en la que recibiste el pedido. 2.2. Impresión de
-        etiqueta: 2.2.1 Si la agencia va a recoger tu artículo, no es necesario
-        que imprimas la etiqueta (condición solo válida para España). 2.2.2 Si
-        envias tu artículo por tus propios medios o entregándolo en la oficina
-        de Correos, imprime la etiqueta que te habremos enviado por email.
-        También está disponible dentro del detalle de tu caso en
-        `&quot;`Historial de devoluciones`&quot;` en tu panel de usuario. 2.3.
-        Pega la etiqueta en el exterior de la caja y ciérrala con precinto.
-        ENVÍA EL PAQUETE 3.1. Si solicitaste la recogida, nuestra agencia pasará
-        a recogerlo en la fecha que indicaste. 3.2. Si lo envías por tus medios,
+        <b>Finalizar</b>. PREPARA EL PAQUETE 2.1. Guarda el producto completo,
+        con sus accesorios originales, en una caja resistente. Preferentemente
+        en la que recibiste el pedido. 2.2. Impresión de etiqueta: 2.2.1 Si la
+        agencia va a recoger tu artículo, no es necesario que imprimas la
+        etiqueta (condición solo válida para España). 2.2.2 Si envias tu
+        artículo por tus propios medios o entregándolo en la oficina de Correos,
+        imprime la etiqueta que te habremos enviado por email. También está
+        disponible dentro del detalle de tu caso en
+        <b>Historial de devoluciones</b> en tu panel de usuario. 2.3. Pega la
+        etiqueta en el exterior de la caja y ciérrala con precinto. ENVÍA EL
+        PAQUETE 3.1. Si solicitaste la recogida, nuestra agencia pasará a
+        recogerlo en la fecha que indicaste. 3.2. Si lo envías por tus medios,
         esperaremos su llegada. RECIBE EL REEMBOLSO O UN REEMPLAZO 4.1. 24 horas
         después de la llegada del paquete a nuestras instalaciones te
         devolveremos el dinero que pagaste o haremos un reemplazo. * Exclusiones

@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { INotification } from "../lib/types";
 
 const fetchNotifications = async (ownerId: string, supabase: any) => {
   const { data, error } = await supabase
@@ -15,11 +16,11 @@ const fetchNotifications = async (ownerId: string, supabase: any) => {
     .eq("read", false);
 
   if (error) throw error;
-  return data;
+  return data as INotification[];
 };
 
 const useFetchNotifications = (ownerId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["notifications"],

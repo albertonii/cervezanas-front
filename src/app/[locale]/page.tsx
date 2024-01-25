@@ -1,13 +1,13 @@
-import { IMonthlyProduct } from "../../lib/types.d";
-import { createServerClient } from "../../utils/supabaseServer";
 import Homepage from "./Homepage";
+import { IMonthlyProduct } from "../../lib/types";
+import createServerClient from "../../utils/supabaseServer";
 
 export const metadata = {
   title: { default: "Comunidad Cervezanas", template: `%s | Cervezanas` },
   description: "Tu portal de descubrimiento de cervezas artesanales",
 };
 
-export default async function Mainpage() {
+export default async function Home() {
   const monthlyProducts = await getMonthlyProducts();
 
   return (
@@ -18,35 +18,23 @@ export default async function Mainpage() {
 }
 
 async function getMonthlyProducts() {
-  return [];
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
-  const { data: monthlyProducts, error: monthlyProductsError } = await supabase
-    .from("monthly_products")
-    .select(`*`);
+  const { data: monthlyProducts, error: monthlyProductsError } =
+    await supabase.from("monthly_products").select(`
+      id,
+      created_at,
+      category,
+      month,
+      year,
+      products (
+        *,
+        product_multimedia (*),
+        reviews (*),
+        likes (*)
+      )
+    `);
 
   if (monthlyProductsError) throw monthlyProductsError;
   return monthlyProducts as IMonthlyProduct[];
-
-  // const { data: monthlyProducts, error: monthlyProductsError } = await supabase
-  //   .from("monthly_products")
-  //   .select(
-  //     `
-  //   *,
-  //   product_id (
-  //     *,
-  //     beers (*),
-  //     product_multimedia (
-  //       p_principal
-  //     ),
-  //     product_inventory (
-  //       quantity
-  //     ),likes (
-  //       id
-  //     ), reviews (
-  //       overall
-  //     )
-  //   )
-  // `
-  //   );
 }

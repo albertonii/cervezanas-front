@@ -1,13 +1,14 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { ICPFixed } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const fetchCPFixed = async (
   cpId: string,
   currentPage: number,
-  pageRange: number,
+  resultsPerPage: number,
   supabase: SupabaseClient<any>
 ) => {
   const { data, error } = await supabase
@@ -18,24 +19,26 @@ const fetchCPFixed = async (
     `
     )
     .eq("cp_id", cpId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1)
-    .select();
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
 
-  return data;
+  return data as ICPFixed[];
 };
 
 const useFetchCPFixed = (
   cpId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["cpFixed", cpId, currentPage, pageRange],
-    queryFn: () => fetchCPFixed(cpId, currentPage, pageRange, supabase),
+    queryKey: ["cpFixed", cpId, currentPage, resultsPerPage],
+    queryFn: () => fetchCPFixed(cpId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });

@@ -1,6 +1,6 @@
 import Product from "./Product";
-import { createServerClient } from "../../../../../utils/supabaseServer";
-import { IProduct } from "../../../../../lib/types.d";
+import { IProduct } from "../../../../../lib/types";
+import createServerClient from "../../../../../utils/supabaseServer";
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -18,16 +18,18 @@ export default async function ProductId({ params }: any) {
 }
 
 async function getProductData(productId: string) {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: product, error: productError } = await supabase
     .from("products")
     .select(
-      `*,
+      `
+      *,
       beers (
         *
       ),
       product_multimedia (
+        *,
         p_principal,
         p_back,
         p_extra_1,
@@ -41,17 +43,19 @@ async function getProductData(productId: string) {
           created_at,
           username
         )
-      )`
+      )
+      `
     )
-    .eq("id", productId);
+    .eq("id", productId)
+    .single();
 
   if (productError) throw productError;
 
-  return product[0] as IProduct;
+  return product as IProduct;
 }
 
 async function getMarketplaceData() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")

@@ -1,16 +1,13 @@
 "use client";
 
-import { NextIntlClientProvider } from "next-intl";
 import React from "react";
-import { AuthContextProvider } from "../../components/Auth";
-import {
-  AppContextProvider,
-  ShoppingCartProvider,
-} from "../../components/Context";
-import { EventCartProvider } from "../../components/Context/EventCartContext";
-import SupabaseProvider from "../../components/Context/SupabaseProvider";
-import { MessageProvider } from "../../components/message";
 import ReactQueryWrapper from "./ReactQueryWrapper";
+import { NextIntlClientProvider } from "next-intl";
+import { EventCartProvider } from "../context/EventCartContext";
+import { AuthContextProvider } from "./Auth/AuthContext";
+import { MessageProvider } from "./components/message/MessageContext";
+import { AppContextProvider } from "../context/AppContext";
+import { ShoppingCartProvider } from "../context/ShoppingCartContext";
 
 interface Props {
   children: React.ReactNode;
@@ -27,19 +24,17 @@ export default function Providers({
 }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <SupabaseProvider>
-        <MessageProvider>
-          <ReactQueryWrapper>
-            <AuthContextProvider serverSession={session}>
-              <AppContextProvider>
-                <ShoppingCartProvider>
-                  <EventCartProvider>{children}</EventCartProvider>
-                </ShoppingCartProvider>
-              </AppContextProvider>
-            </AuthContextProvider>
-          </ReactQueryWrapper>
-        </MessageProvider>
-      </SupabaseProvider>
+      <MessageProvider>
+        <ReactQueryWrapper>
+          <AuthContextProvider serverSession={session}>
+            <AppContextProvider>
+              <ShoppingCartProvider>
+                <EventCartProvider>{children}</EventCartProvider>
+              </ShoppingCartProvider>
+            </AppContextProvider>
+          </AuthContextProvider>
+        </ReactQueryWrapper>
+      </MessageProvider>
     </NextIntlClientProvider>
   );
 }

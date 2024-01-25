@@ -1,8 +1,8 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
 
 interface User {
   email: string;
@@ -49,7 +49,7 @@ const createUser = async (
 };
 
 export default function useCreateUser(user: User, data: Options) {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useMutation("register", () => createUser(user, data, supabase), {
     /*

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { IShippingInfo } from "../../../lib/types.d";
-import { Button } from "../../../components/common";
+import { IShippingInfo } from "../../../lib/types";
+import { Button } from "./common/Button";
 
 interface Props {
   option: IShippingInfo;

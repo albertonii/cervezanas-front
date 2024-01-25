@@ -1,30 +1,33 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { ICustomizeSettings } from "../lib/types";
 import { useMutation, UseMutationResult } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const updateColors = async (
   colors: string[],
   customSettingsId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("customize_settings")
     .update({
       colors: colors,
     })
-    .eq("id", customSettingsId);
+    .eq("id", customSettingsId)
+    .single();
 
   if (error) throw error;
-  return data;
+  return data as ICustomizeSettings;
 };
 
 const useUpdateColors = (
   colors: string[],
   customSettingsId: string
 ): UseMutationResult<any> => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   return useMutation(() => updateColors(colors, customSettingsId, supabase));
 };
 

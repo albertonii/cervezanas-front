@@ -1,12 +1,14 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { IProduct } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchProductsByOwner = async (
   ownerId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
     .from("products")
@@ -16,7 +18,7 @@ const fetchProductsByOwner = async (
           product_multimedia (*),
           product_inventory (*),
           likes (*),
-          product_lot (*),
+          product_lots (*),
           beers (*),
           product_pack (*),
           awards (*)
@@ -29,11 +31,11 @@ const fetchProductsByOwner = async (
 
   if (error) throw error;
 
-  return data;
+  return data as IProduct[];
 };
 
 const useFetchProductsByOwner = (ownerId: string) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
 
   return useQuery({
     queryKey: ["productListByOwner", ownerId],

@@ -2,8 +2,8 @@
 
 import React, { useId } from "react";
 import { useTranslations } from "next-intl";
-import { formatCurrency } from "../../../utils";
-import { useAppContext } from "../../../components/Context";
+import { useAppContext } from "../../context/AppContext";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 export function Filters() {
   const t = useTranslations();
@@ -28,7 +28,7 @@ export function Filters() {
   };
 
   return (
-    <section className="flex w-full flex-col items-start justify-between font-medium sm:flex-row sm:items-center">
+    <section className="flex w-full items-center justify-between font-medium text-white">
       <div className="flex items-center gap-4">
         <label htmlFor={minPriceFilterId}>{t("price_starts_at")}</label>
         <input
@@ -39,12 +39,12 @@ export function Filters() {
           max="1000"
           value={filters.minPrice}
           onChange={handleChangeMinPrice}
-          className="bg-beer-foam accent-beer-darkGold"
+          className="accent-beer-gold"
         />
         <span>{formatCurrency(filters.minPrice)}</span>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 ">
         <label htmlFor={categoryFilterId}>{t("category")}</label>
         <select id={categoryFilterId} onChange={handleChangeCategory}>
           <option value="all">{t("all")}</option>

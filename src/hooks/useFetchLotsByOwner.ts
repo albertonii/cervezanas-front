@@ -1,20 +1,33 @@
 "use client";
 
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
-import { useSupabase } from "../components/Context/SupabaseProvider";
+import { IProductLot } from "../lib/types";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../lib/schema";
 
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
-  pageRange: number,
-  supabase: SupabaseClient<any>
+  resultsPerPage: number,
+  supabase: SupabaseClient<Database>
 ) => {
   const { data, error } = await supabase
-    .from("product_lot")
+    .from("product_lots")
     .select(
       `
-        *,
+        id,
+        created_at,
+        lot_id,
+        lot_number,
+        lot_name,
+        product_id,
+        quantity,
+        limit_notification,
+        expiration_date,
+        manufacture_date,
+        packaging,
+        recipe,
         products (id, name)
       `,
       {
@@ -22,22 +35,26 @@ const fetchLotsByOwner = async (
       }
     )
     .eq("owner_id", ownerId)
-    .range((currentPage - 1) * pageRange, currentPage * pageRange - 1);
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1
+    );
 
   if (error) throw error;
 
-  return data;
+  return data as IProductLot[];
 };
 
 const useFetchLotsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
-  pageRange: number
+  resultsPerPage: number
 ) => {
-  const { supabase } = useSupabase();
+  const { supabase } = useAuth();
   return useQuery({
-    queryKey: ["productLotList", ownerId, currentPage, pageRange],
-    queryFn: () => fetchLotsByOwner(ownerId, currentPage, pageRange, supabase),
+    queryKey: ["productLotList", ownerId, currentPage, resultsPerPage],
+    queryFn: () =>
+      fetchLotsByOwner(ownerId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,
   });

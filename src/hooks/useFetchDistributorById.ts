@@ -1,0 +1,49 @@
+"use client";
+
+import { useQuery } from "react-query";
+import { IDistributorUser } from "../lib/types.d";
+import { useAuth } from "../app/[locale]/Auth/useAuth";
+import { SupabaseClient } from "@supabase/supabase-js";
+
+const fetchDistributorById = async (
+  supabase: SupabaseClient<any>,
+  distributorId: string
+) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select(
+      `
+        *,
+        distributor_user (*),
+        profile_location (
+          name, 
+          lastname, 
+          document_id, 
+          company, 
+          phone, 
+          postalcode, 
+          country,
+          province,address_1, 
+          address_2,
+          town)
+      `
+    )
+    .eq("id", distributorId);
+
+  if (error) throw error;
+
+  return data[0] as IDistributorUser;
+};
+
+const useFetchDistributorById = (distributorId: string) => {
+  const { supabase } = useAuth();
+
+  return useQuery({
+    queryKey: ["distributorById", distributorId],
+    queryFn: () => fetchDistributorById(supabase, distributorId),
+    enabled: true,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export default useFetchDistributorById;

@@ -2,7 +2,6 @@
 
 import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-
 import {
   Combobox,
   ComboboxInput,
@@ -10,16 +9,14 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-
 import "@reach/combobox/styles.css";
-
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import { useTranslations } from "next-intl";
-import { IConsumptionPoints, ICPFixed, ICPMobile } from "../../../lib/types.d";
-import { formatDate } from "../../../utils";
+import { IConsumptionPoints, ICPFixed, ICPMobile } from "../../../lib/types";
+import { formatDateString } from "../../../utils/formatDate";
 
 const containerStyle = {
   width: "100%",
@@ -60,8 +57,12 @@ function Map({ cps }: Props) {
   const onMarkerFixClick = (marker: google.maps.Marker, fixed: ICPFixed) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDate(fixed.start_date)}</p>
-            <p class="text-md">Fecha fin: ${formatDate(fixed.end_date)}</p>
+            <p class="text-md">Fecha inicio: ${formatDateString(
+              fixed.start_date
+            )}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(
+              fixed.end_date
+            )}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
@@ -100,10 +101,12 @@ function Map({ cps }: Props) {
   ) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDate(
+            <p class="text-md">Fecha inicio: ${formatDateString(
               mobile.start_date
             )}</p>
-            <p class="text-md">Fecha fin: ${formatDate(mobile.end_date)}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(
+              mobile.end_date
+            )}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
@@ -194,7 +197,7 @@ function Map({ cps }: Props) {
     <div className="relative space-y-4">
       <div className="places-container absolute left-1/2 top-0 z-10 mt-2 -translate-x-1/2 transform">
         {map && (
-          <PlacesAutocomplete
+          <AutocompletePlaces
             setSelected={setSelected}
             map={map}
             // handleAddress={handleAddress}
@@ -218,14 +221,9 @@ function Map({ cps }: Props) {
 interface PlacesProps {
   setSelected: ComponentProps<any>;
   map: google.maps.Map;
-  // handleAddress: ComponentProps<any>;
 }
 
-const PlacesAutocomplete = ({
-  setSelected,
-  map,
-}: // handleAddress,
-PlacesProps) => {
+const AutocompletePlaces = ({ setSelected, map }: PlacesProps) => {
   const t = useTranslations();
 
   const {
@@ -235,10 +233,6 @@ PlacesProps) => {
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete();
-
-  // useEffect(() => {
-  //   handleAddress(value);
-  // }, [handleAddress, value]);
 
   const handleSelect = async (address: any) => {
     setValue(address, false);
@@ -257,7 +251,7 @@ PlacesProps) => {
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 text-lg focus:border-beer-blonde focus:outline-none "
+        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
         placeholder={t("search_an_address")}
       />
 

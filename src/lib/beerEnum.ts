@@ -21,6 +21,7 @@ export enum Color {
   dark_brown,
   very_dark,
   dark, // marrón oscuro a negro
+  other,
 }
 
 export enum Fermentation {
@@ -30,6 +31,8 @@ export enum Fermentation {
   wild, // Levadura no Saccharomyces/bacterias
   lagered, // Acondicionamiento en frío
   aged, // Largo acondicionamiento previo
+  other,
+  none,
 }
 
 export enum Origin {
@@ -39,6 +42,8 @@ export enum Origin {
   eu_or, // europa-oriental - Polonia, Estados Bálticos, Rusia
   us_no, // américa-del-norte - Estados Unidos, Canadá, México
   pa, // Pacífico - Australia, Nueva Zelanda
+  other,
+  none,
 }
 
 export enum Family {
@@ -56,12 +61,16 @@ export enum Family {
   strong,
   wheat_beer,
   specialty_beer,
+  other,
+  none,
 }
 
 export enum Era {
   artisan, // desarrollada en la era moderna de la cerveza  artesanal
   traditional, // desarrollada antes de la era moderna de la cerveza  artesanal
   historic, // no elaborada actualmente o con producción muy  limitada
+  other,
+  none,
 }
 
 export enum Aroma {
@@ -194,7 +203,10 @@ export enum ReviewQualification {
 //   { label: "i_very_high", value: Intensity.i_very_high },
 // ];
 
-export const color_options = [
+export const color_options: {
+  label: string;
+  value: Color;
+}[] = [
   { label: "very_light", value: Color.very_light },
   { label: "straw", value: Color.straw },
   { label: "pale", value: Color.pale },
@@ -208,10 +220,13 @@ export const color_options = [
   { label: "dark_brown", value: Color.dark_brown },
   { label: "very_dark", value: Color.very_dark },
   { label: "dark", value: Color.dark },
-  { label: "other", value: "other" },
+  { label: "other", value: Color.other },
 ];
 
-export const fermentation_options = [
+export const fermentation_options: {
+  label: string;
+  value: Fermentation;
+}[] = [
   {
     label: "high",
     value: Fermentation.high,
@@ -236,9 +251,20 @@ export const fermentation_options = [
     label: "aged",
     value: Fermentation.aged,
   },
+  {
+    label: "other",
+    value: Fermentation.other,
+  },
+  {
+    label: "none",
+    value: Fermentation.none,
+  },
 ];
 
-export const origin_options = [
+export const origin_options: {
+  label: string;
+  value: Origin;
+}[] = [
   {
     label: "br",
     value: Origin.br,
@@ -263,9 +289,20 @@ export const origin_options = [
     label: "pa",
     value: Origin.pa,
   },
+  {
+    label: "other",
+    value: Origin.other,
+  },
+  {
+    label: "none",
+    value: Origin.none,
+  },
 ];
 
-export const family_options = [
+export const family_options: {
+  label: string;
+  value: Family;
+}[] = [
   {
     label: "ipa",
     value: Family.ipa,
@@ -324,11 +361,14 @@ export const family_options = [
   },
   {
     label: "other",
-    value: "other",
+    value: Family.other,
   },
 ];
 
-export const era_options = [
+export const era_options: {
+  label: string;
+  value: Era;
+}[] = [
   {
     label: "artisan",
     value: Era.artisan,
@@ -343,7 +383,10 @@ export const era_options = [
   },
 ];
 
-export const aroma_options = [
+export const aroma_options: {
+  label: string;
+  value: Aroma;
+}[] = [
   {
     label: "maltose",
     value: Aroma.maltose,
@@ -390,7 +433,10 @@ export const aroma_options = [
   },
 ];
 
-export const format_options = [
+export const format_options: {
+  label: string;
+  value: Format;
+}[] = [
   {
     label: "can",
     value: Format.can,
@@ -405,7 +451,10 @@ export const format_options = [
   },
 ];
 
-export const product_type_options = [
+export const product_type_options: {
+  label: string;
+  value: Type;
+}[] = [
   {
     label: Type.BEER,
     value: Type.BEER,
@@ -424,7 +473,10 @@ export const product_type_options = [
   },
 ];
 
-export const volume_can_type_options = [
+export const volume_can_type_options: {
+  label: number;
+  value: Volume_can;
+}[] = [
   {
     label: 0,
     value: Volume_can._150,
@@ -523,7 +575,10 @@ export const volume_can_type_options = [
   },
 ];
 
-export const volume_bottle_type_options = [
+export const volume_bottle_type_options: {
+  label: number;
+  value: Volume_bottle;
+}[] = [
   {
     label: 0,
     value: Volume_bottle._150,
@@ -622,7 +677,10 @@ export const volume_bottle_type_options = [
   },
 ];
 
-export const volume_draft_type_options = [
+export const volume_draft_type_options: {
+  label: number;
+  value: Volume_draft;
+}[] = [
   {
     label: 0,
     value: Volume_draft._3,
@@ -669,7 +727,10 @@ export const volume_draft_type_options = [
   },
 ];
 
-export const pack_type_options = [
+export const pack_type_options: {
+  label: number;
+  value: Pack_format;
+}[] = [
   {
     label: 0,
     value: Pack_format._1,
