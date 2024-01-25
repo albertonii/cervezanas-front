@@ -2,8 +2,7 @@
 
 import { IntlError, IntlErrorCode, NextIntlClientProvider } from "next-intl";
 import { createContext, useContext, useEffect, useState } from "react";
-import { Spinner } from "../common";
-import { MessageProps } from "../message";
+import { MessageProps } from "../[locale]/components/message/message.types";
 
 type IntlMessageContext = {
   messages: MessageProps;
