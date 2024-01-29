@@ -1,8 +1,11 @@
 # Listado de tareas:
 
+- Comprobar qué sucede al acceder a eventos en producción.
+- Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
+- Mandar email a los productores registrados en el evento, seguimiento
+- Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
-
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC

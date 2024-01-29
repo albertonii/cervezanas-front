@@ -2,7 +2,7 @@ import Product from "./Product";
 import { IProduct } from "../../../../../lib/types";
 import createServerClient from "../../../../../utils/supabaseServer";
 
-export default async function ProductId({ params }: any) {
+export default async function ProductPage({ params }: any) {
   const { id } = params;
 
   const productData = await getProductData(id);

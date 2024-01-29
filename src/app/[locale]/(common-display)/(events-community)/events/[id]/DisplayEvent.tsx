@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function DisplayEvent({ event }: Props) {
+  console.log(event);
   const t = useTranslations();
 
   const cpMobile: ICPMobile[] = event.cp_mobile;
@@ -28,7 +29,7 @@ export default function DisplayEvent({ event }: Props) {
         >
           {event.status === "active" ? "Active" : "Inactive"}
         </span>
-      </div> 
+      </div>
 
       {/* Display all the information inside the Mobile Consumption Point */}
       <h1 className="mb-2 text-4xl font-bold text-beer-blonde">{event.name}</h1>
@@ -59,7 +60,7 @@ export default function DisplayEvent({ event }: Props) {
 
       {/* Products linked to this Mobile Consumption Point */}
       <section className="mt-8">
-        {cpMobile.length > 0 ? (
+        {/* {cpMobile.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
 
@@ -103,12 +104,12 @@ export default function DisplayEvent({ event }: Props) {
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
-        )}
+        )} */}
       </section>
 
       {/* Products linked to this Fixed Consumption Point */}
       <section className="mt-8">
-        {cpFixed.length > 0 ? (
+        {/* {cpFixed.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_fixed")}</h3>
 
@@ -152,7 +153,7 @@ export default function DisplayEvent({ event }: Props) {
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
-        )}
+        )} */}
       </section>
     </div>
   );
