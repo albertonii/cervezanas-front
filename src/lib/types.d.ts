@@ -384,6 +384,7 @@ export interface ICPFixed {
   start_date: string;
   end_date: string;
   address: string;
+  logo_url: string;
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;

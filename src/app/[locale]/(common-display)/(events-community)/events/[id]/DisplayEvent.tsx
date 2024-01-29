@@ -1,19 +1,17 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { COMMON } from "../../../../../../constants";
+import { useTranslations } from "next-intl";
 import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
 import { formatDateString } from "../../../../../../utils/formatDate";
+import CPMobile from "./CPMobile";
+import CPFixed from "./CPFixed";
 
 interface Props {
   event: IEvent;
 }
 
 export default function DisplayEvent({ event }: Props) {
-  console.log(event);
   const t = useTranslations();
 
   const cpMobile: ICPMobile[] = event.cp_mobile;
@@ -60,7 +58,7 @@ export default function DisplayEvent({ event }: Props) {
 
       {/* Products linked to this Mobile Consumption Point */}
       <section className="mt-8">
-        {/* {cpMobile.length > 0 ? (
+        {cpMobile.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
 
@@ -104,12 +102,12 @@ export default function DisplayEvent({ event }: Props) {
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
-        )} */}
+        )}
       </section>
 
       {/* Products linked to this Fixed Consumption Point */}
       <section className="mt-8">
-        {/* {cpFixed.length > 0 ? (
+        {cpFixed.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="mb-2 text-xl font-bold">{t("cp_fixed")}</h3>
 
@@ -153,86 +151,8 @@ export default function DisplayEvent({ event }: Props) {
             <h3 className="mb-2 text-xl font-bold">{t("cp_mobile")}</h3>
             <p className="text-gray-500">{t("no_cp_mobile")}</p>
           </>
-        )} */}
+        )}
       </section>
     </div>
   );
 }
-
-interface CPMobileProps {
-  cp: ICPMobile;
-  eventId: string;
-}
-
-const CPMobile = ({ cp, eventId }: CPMobileProps) => {
-  const locale = useLocale();
-
-  return (
-    <tr
-      key={cp.id}
-      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <td className=" hidden space-x-2 px-6 py-4 sm:block">
-        <Image
-          src={cp.logo_url ?? COMMON.PROFILE_IMG}
-          alt={cp.cp_name}
-          width={64}
-          height={64}
-        />
-      </td>
-
-      <td className=" text-md space-x-2 px-2 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft sm:text-lg">
-        <Link href={`/events/${eventId}/mobile/${cp.id}`} locale={locale}>
-          {cp.cp_name}
-        </Link>
-      </td>
-      <td className="hidden space-x-2 px-2 py-4 sm:block">
-        {cp.cp_description}
-      </td>
-      <td className="space-x-2 px-2 py-4 font-medium ">{cp.address}</td>
-      <td className="space-x-2 px-2 py-4">
-        {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
-      </td>
-      <td className="space-x-2 px-6 py-4">{cp.status}</td>
-    </tr>
-  );
-};
-
-interface CPFixedProps {
-  cp: ICPFixed;
-  eventId: string;
-}
-
-const CPFixed = ({ cp, eventId }: CPFixedProps) => {
-  const locale = useLocale();
-
-  return (
-    <tr
-      key={cp.id}
-      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <td className=" space-x-2 px-6 py-4">
-        {/* <Image
-          src={cp.logo_url ?? COMMON.PROFILE_IMG}
-          alt={cp.cp_name}
-          width={64}
-          height={64}
-        /> */}
-      </td>
-
-      <td className=" text-md space-x-2 px-2 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft sm:text-lg">
-        <Link href={`/events/${eventId}/fixed/${cp.id}`} locale={locale}>
-          {cp.cp_name}
-        </Link>
-      </td>
-      <td className="hidden space-x-2 px-6 py-4 md:block">
-        {cp.cp_description}
-      </td>
-      <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
-      <td className="space-x-2 px-6 py-4">
-        {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
-      </td>
-      <td className="space-x-2 px-2 py-4">{cp.status}</td>
-    </tr>
-  );
-};
