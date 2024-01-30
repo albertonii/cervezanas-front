@@ -1,10 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import useDeviceDetection from "../../hooks/useDeviceDetection";
 import { INotification } from "../../lib/types";
 import { useAuth } from "./Auth/useAuth";
+import MobileMenu from "./MobileMenu";
+import ScreenMenu from "./ScreenMenu";
 
 interface Props {
   notifications: INotification[];
@@ -40,19 +41,11 @@ export default function Header({ notifications }: Props) {
   return (
     <header className="header relative w-full bg-beer-foam bg-transparent">
       <nav>
-        {device === "Mobile"
-          ? (() => {
-              const DynamicMobileMenu = dynamic(() => import("./MobileMenu"), {
-                loading: () => <p>Loading...</p>,
-              });
-              return <DynamicMobileMenu notifications={notificationState} />;
-            })()
-          : (() => {
-              const DynamicScreenMenu = dynamic(() => import("./ScreenMenu"), {
-                loading: () => <p>Loading...</p>,
-              });
-              return <DynamicScreenMenu notifications={notificationState} />;
-            })()}
+        {device === "Mobile" ? (
+          <MobileMenu notifications={notificationState} />
+        ) : (
+          <ScreenMenu notifications={notificationState} />
+        )}
       </nav>
     </header>
   );
