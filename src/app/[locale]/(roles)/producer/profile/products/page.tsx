@@ -1,4 +1,4 @@
-import { ConfigureProducts } from "./ConfigureProducts";
+import { ConfigureProducts } from './ConfigureProducts';
 
 export default async function ProductsPage() {
   // const { products } = await getProductsData();

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState } from "react";
-import { ShoppingCart } from "../[locale]/components/Cart/ShoppingCart";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { IProductPackCartItem, IProduct, IProductPack } from "../../lib/types";
+import { createContext, useContext, useState } from 'react';
+import { ShoppingCart } from '../[locale]/components/Cart/ShoppingCart';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { IProductPackCartItem, IProduct, IProductPack } from '../../lib/types';
 
 type ShoppingCartContextType = {
   items: IProductPackCartItem[];
@@ -46,8 +46,8 @@ interface Props {
 export function ShoppingCartProvider({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useLocalStorage<IProductPackCartItem[]>(
-    "shopping-cart",
-    []
+    'shopping-cart',
+    [],
   );
 
   const clearItems = () => {
@@ -63,7 +63,7 @@ export function ShoppingCartProvider({ children }: Props) {
     if (!items) return false;
 
     const isDeliverable = items.every((item) => {
-      return item.distributor_id !== "";
+      return item.distributor_id !== '';
     });
 
     return isDeliverable;
@@ -81,9 +81,9 @@ export function ShoppingCartProvider({ children }: Props) {
       packs: [pack],
       name: product.name,
       price: product.price,
-      image: product.product_multimedia.p_principal,
+      image: product.product_multimedia?.p_principal ?? '',
       producer_id: product.owner_id,
-      distributor_id: "",
+      distributor_id: '',
     };
 
     setItems((currItems) => {
@@ -273,7 +273,7 @@ export function useShoppingCart() {
   const context = useContext(ShoppingCartContext);
   if (context === undefined) {
     throw new Error(
-      "useShoppingCart must be used within a ShoppingCartProvider"
+      'useShoppingCart must be used within a ShoppingCartProvider',
     );
   }
 

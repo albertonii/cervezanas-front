@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { IProduct } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { useQuery } from 'react-query';
+import { IProduct } from '../lib/types';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProducts = async (supabase: SupabaseClient<any>) => {
-  const { data, error } = await supabase.from("products").select(`
+  const { data, error } = await supabase.from('products').select(`
     *,
     beers (*),
     product_multimedia (
@@ -26,7 +26,7 @@ const useFetchProducts = () => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ['products'],
     queryFn: () => fetchProducts(supabase),
     enabled: false,
     refetchOnWindowFocus: false,

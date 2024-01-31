@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import DisplayImageProduct from "../components/common/DisplayImageProduct";
-import React, { useEffect, useState } from "react";
-import { SupabaseProps } from "../../../constants";
-import { IMonthlyProduct } from "../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../Auth/useAuth";
-import { MonthlyProductCategory } from "../../../lib/productEnum";
-import { IconButton } from "../components/common/IconButton";
-import { Button } from "../components/common/Button";
-import useFetchProductLikes from "../../../hooks/useFetchProductLikes";
+import Link from 'next/link';
+import DisplayImageProduct from '../components/common/DisplayImageProduct';
+import React, { useEffect, useState } from 'react';
+import { SupabaseProps } from '../../../constants';
+import { IMonthlyProduct } from '../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../Auth/useAuth';
+import { MonthlyProductCategory } from '../../../lib/productEnum';
+import { IconButton } from '../components/common/IconButton';
+import { Button } from '../components/common/Button';
+import useFetchProductLikes from '../../../hooks/useFetchProductLikes';
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -24,11 +24,11 @@ export default function MonthlyCardItem({ mProduct }: Props) {
   const { products: product } = mProduct;
   if (!product) return <></>;
 
-  const [categoryAwardUrl, setCategoryAwardUrl] = useState<string>("");
+  const [categoryAwardUrl, setCategoryAwardUrl] = useState<string>('');
 
   const [isLike, setIsLike] = useState<boolean>(() => {
     const likes = product.likes?.some(
-      (like) => like.owner_id === product?.owner_id
+      (like) => like.owner_id === product?.owner_id,
     );
 
     return !!likes;
@@ -38,7 +38,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
 
   const primaryImg =
     BASE_PRODUCTS_URL +
-    decodeURIComponent(product?.product_multimedia?.[0].p_principal ?? "");
+    decodeURIComponent(product?.product_multimedia?.p_principal ?? '');
 
   const { error: fetchLikesError, refetch } = useFetchProductLikes(product?.id);
 
@@ -56,19 +56,19 @@ export default function MonthlyCardItem({ mProduct }: Props) {
 
     switch (category) {
       case MonthlyProductCategory.community:
-        setCategoryAwardUrl("/assets/medal.svg");
+        setCategoryAwardUrl('/assets/medal.svg');
         break;
 
       case MonthlyProductCategory.expert_committee:
-        setCategoryAwardUrl("/assets/medal.svg");
+        setCategoryAwardUrl('/assets/medal.svg');
         break;
 
       case MonthlyProductCategory.experimental:
-        setCategoryAwardUrl("/assets/medal.svg");
+        setCategoryAwardUrl('/assets/medal.svg');
         break;
 
       default:
-        setCategoryAwardUrl("/assets/medal.svg");
+        setCategoryAwardUrl('/assets/medal.svg');
         break;
     }
   };
@@ -91,12 +91,12 @@ export default function MonthlyCardItem({ mProduct }: Props) {
     return overAll_toFixed;
   };
 
-  const heartColor = { filled: "#fdc300", unfilled: "grey" };
+  const heartColor = { filled: '#fdc300', unfilled: 'grey' };
 
   async function handleLike() {
     if (!isLike) {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .insert([{ product_id: product?.id, owner_id: product?.owner_id }]);
 
       if (error) throw error;
@@ -105,7 +105,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
       setLikesCount(likesCounter + 1);
     } else {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .delete()
         .match({ product_id: product?.id, owner_id: product?.owner_id });
 
@@ -146,12 +146,12 @@ export default function MonthlyCardItem({ mProduct }: Props) {
         className={`h-[270px] bg-cover bg-center bg-no-repeat`}
         style={{
           backgroundImage: `url(${primaryImg})`,
-          height: "270px",
+          height: '270px',
         }}
       >
         <figure className="absolute left-4 top-2">
           <DisplayImageProduct
-            imgSrc={"/assets/cerv-mes.webp"}
+            imgSrc={'/assets/cerv-mes.webp'}
             alt={product?.name}
             width={100}
             height={100}
@@ -165,10 +165,10 @@ export default function MonthlyCardItem({ mProduct }: Props) {
             isActive={isLike}
             color={heartColor}
             classContainer={
-              "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+              'transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
             }
-            classIcon={""}
-            title={t("add_to_favs")}
+            classIcon={''}
+            title={t('add_to_favs')}
           >
             <span className=" pt-1 text-center text-base font-bold text-beer-foam">
               {likesCounter}
@@ -186,7 +186,7 @@ export default function MonthlyCardItem({ mProduct }: Props) {
       <footer className="rounded-b-md bg-cerv-coffee p-2">
         <Button primary class="w-full">
           <Link href={`/products/${product?.id}`} locale={locale}>
-            {t("get_to_know_more")}
+            {t('get_to_know_more')}
           </Link>
         </Button>
       </footer>

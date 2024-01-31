@@ -1,8 +1,8 @@
-import OrderInvoice from "./OrderInvoice";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../../../constants";
-import createServerClient from "../../../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../../../../lib/actions";
+import OrderInvoice from './OrderInvoice';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../../../../constants';
+import createServerClient from '../../../../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../../../../lib/actions';
 
 export default async function OrderInvoicePage({
   params,
@@ -30,7 +30,7 @@ async function getInvoiceData(slug: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("orders")
+    .from('orders')
     .select(
       `
       *,
@@ -44,9 +44,9 @@ async function getInvoiceData(slug: any) {
         order_items (*)
       ),
       payment_method_id
-    `
+    `,
     )
-    .eq("order_number", orderId)
+    .eq('order_number', orderId)
     .single();
 
   if (orderError) {

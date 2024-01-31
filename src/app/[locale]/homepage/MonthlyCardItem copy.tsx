@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import MarketCartButtons from "../components/common/MarketCartButtons";
-import DisplayImageProduct from "../components/common/DisplayImageProduct";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { SupabaseProps } from "../../../constants";
-import { IMonthlyProduct } from "../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "../components/common/IconButton";
-import { formatCurrency } from "../../../utils/formatCurrency";
-import { AddCardButton } from "../components/common/AddCartButton";
-import { useShoppingCart } from "../../context/ShoppingCartContext";
-import { useAuth } from "../Auth/useAuth";
+import Link from 'next/link';
+import MarketCartButtons from '../components/common/MarketCartButtons';
+import DisplayImageProduct from '../components/common/DisplayImageProduct';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { SupabaseProps } from '../../../constants';
+import { IMonthlyProduct } from '../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../components/common/IconButton';
+import { formatCurrency } from '../../../utils/formatCurrency';
+import { AddCardButton } from '../components/common/AddCartButton';
+import { useShoppingCart } from '../../context/ShoppingCartContext';
+import { useAuth } from '../Auth/useAuth';
 
 interface Props {
   mProduct: IMonthlyProduct;
@@ -47,7 +47,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
     const countReviews = product.reviews?.length ?? 0;
 
     if (countReviews) {
-      return t("no_reviews");
+      return t('no_reviews');
     }
 
     const overAll_sum =
@@ -60,12 +60,12 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
 
   const [isLike, setIsLike] = useState<boolean>(!!product.likes?.length);
 
-  const heartColor = { filled: "#fdc300", unfilled: "grey" };
+  const heartColor = { filled: '#fdc300', unfilled: 'grey' };
 
   async function handleLike() {
     if (!isLike) {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .insert([{ product_id: product?.id, owner_id: product?.owner_id }]);
 
       if (error) throw error;
@@ -73,7 +73,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
       setIsLike(true);
     } else {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .delete()
         .match({ product_id: product?.id, owner_id: product?.owner_id });
 
@@ -113,10 +113,10 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
               isActive={isLike}
               color={heartColor}
               classContainer={
-                "transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                'transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
               }
-              classIcon={""}
-              title={t("add_to_favs")}
+              classIcon={''}
+              title={t('add_to_favs')}
             ></IconButton>
           </div>
 
@@ -127,10 +127,12 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
               alt="Principal Product Image"
               imgSrc={
                 BASE_PRODUCTS_URL +
-                decodeURIComponent(product.product_multimedia.p_principal)
+                decodeURIComponent(
+                  product.product_multimedia?.p_principal ?? '',
+                )
               }
               class={
-                "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
+                'h-full w-full rounded-2xl object-contain hover:cursor-pointer'
               }
               onClick={() => router.push(`/${locale}/products/${product.id}`)}
             />

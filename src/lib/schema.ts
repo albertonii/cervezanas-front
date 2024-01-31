@@ -41,7 +41,7 @@ export interface Database {
           {
             foreignKeyName: "awards_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -468,7 +468,7 @@ export interface Database {
           {
             foreignKeyName: "cp_fixed_cp_id_fkey"
             columns: ["cp_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           }
@@ -539,7 +539,7 @@ export interface Database {
           {
             foreignKeyName: "cp_mobile_cp_id_fkey"
             columns: ["cp_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           }
@@ -598,13 +598,6 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "cpf_products_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "cpf_products_product_pack_id_fkey"
             columns: ["product_pack_id"]
             isOneToOne: true
@@ -630,13 +623,6 @@ export interface Database {
           is_active?: boolean | null
         }
         Relationships: [
-          {
-            foreignKeyName: "cpm_events_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: true
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "cpm_events_event_id_fkey"
             columns: ["event_id"]
@@ -931,7 +917,7 @@ export interface Database {
           {
             foreignKeyName: "event_order_items_order_id_fkey"
             columns: ["order_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "event_orders"
             referencedColumns: ["id"]
           },
@@ -1320,7 +1306,7 @@ export interface Database {
           {
             foreignKeyName: "likes_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1464,7 +1450,7 @@ export interface Database {
           {
             foreignKeyName: "order_items_business_order_id_fkey"
             columns: ["business_order_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "business_orders"
             referencedColumns: ["id"]
           },
@@ -2056,7 +2042,7 @@ export interface Database {
           {
             foreignKeyName: "reviews_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }

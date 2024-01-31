@@ -1,15 +1,15 @@
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
-import React, { useMemo, useState } from "react";
-import { SupabaseProps } from "../../../../../../constants";
-import { IMonthlyProduct, IProduct } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
-import { EditButton } from "../../../../components/common/EditButton";
-import InputSearch from "../../../../components/common/InputSearch";
-import AddMonthlyProduct from "../../../../components/modals/AddMonthlyProduct";
-import { DeleteMonthlyProduct } from "../../../../components/modals/DeleteMonthlyProduct";
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
+import { SupabaseProps } from '../../../../../../constants';
+import { IMonthlyProduct, IProduct } from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';
+import { EditButton } from '../../../../components/common/EditButton';
+import InputSearch from '../../../../components/common/InputSearch';
+import AddMonthlyProduct from '../../../../components/modals/AddMonthlyProduct';
+import { DeleteMonthlyProduct } from '../../../../components/modals/DeleteMonthlyProduct';
 
 interface ColumnsProps {
   header: string;
@@ -26,7 +26,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
@@ -43,11 +43,11 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
   }, [mProducts, query]);
 
   const COLUMNS = [
-    { header: t("product_type_header") },
-    { header: t("name_header") },
-    { header: t("category") },
-    { header: t("month_year") },
-    { header: t("action_header") },
+    { header: t('product_type_header') },
+    { header: t('name_header') },
+    { header: t('category') },
+    { header: t('month_year') },
+    { header: t('action_header') },
   ];
 
   const handleDeleteShowModal = (value: boolean) => {
@@ -76,7 +76,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
             {/* Month */}
             <div className="flex flex-row items-center">
               <label htmlFor="month" className="mr-2">
-                {t("month")}
+                {t('month')}
               </label>
               <select
                 id="month"
@@ -85,26 +85,26 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                 value={month}
                 onChange={(e) => setMonth(parseInt(e.target.value))}
               >
-                <option value="0">{t("select_month")}</option>
-                <option value="1">{t("january")}</option>
-                <option value="2">{t("february")}</option>
-                <option value="3">{t("march")}</option>
-                <option value="4">{t("april")}</option>
-                <option value="5">{t("may")}</option>
-                <option value="6">{t("june")}</option>
-                <option value="7">{t("july")}</option>
-                <option value="8">{t("august")}</option>
-                <option value="9">{t("september")}</option>
-                <option value="10">{t("october")}</option>
-                <option value="11">{t("november")}</option>
-                <option value="12">{t("december")}</option>
+                <option value="0">{t('select_month')}</option>
+                <option value="1">{t('january')}</option>
+                <option value="2">{t('february')}</option>
+                <option value="3">{t('march')}</option>
+                <option value="4">{t('april')}</option>
+                <option value="5">{t('may')}</option>
+                <option value="6">{t('june')}</option>
+                <option value="7">{t('july')}</option>
+                <option value="8">{t('august')}</option>
+                <option value="9">{t('september')}</option>
+                <option value="10">{t('october')}</option>
+                <option value="11">{t('november')}</option>
+                <option value="12">{t('december')}</option>
               </select>
             </div>
 
             {/* Year */}
             <div className="ml-4 flex flex-row items-center">
               <label htmlFor="year" className="mr-2">
-                {t("year")}
+                {t('year')}
               </label>
               <select
                 id="year"
@@ -113,10 +113,10 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                 onChange={(e) => setYear(parseInt(e.target.value))}
                 className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
-                <option value="0">{t("select_year")}</option>
-                <option value="2023">{t("2023")}</option>
-                <option value="2024">{t("2024")}</option>
-                <option value="2025">{t("2025")}</option>
+                <option value="0">{t('select_year')}</option>
+                <option value="2023">{t('2023')}</option>
+                <option value="2024">{t('2024')}</option>
+                <option value="2025">{t('2025')}</option>
               </select>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
         <InputSearch
           query={query}
           setQuery={setQuery}
-          searchPlaceholder={"search_products"}
+          searchPlaceholder={'search_products'}
         />
 
         {/* Monthly product table  */}
@@ -161,8 +161,8 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                         imgSrc={
                           BASE_PRODUCTS_URL +
                           decodeURIComponent(
-                            product.products?.product_multimedia.p_principal ??
-                              ""
+                            product.products?.product_multimedia?.p_principal ??
+                              '',
                           )
                         }
                         width={128}
@@ -187,7 +187,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                       <div className="flex space-x-1">
                         <EditButton
                           onClick={() => {
-                            ("edit");
+                            ('edit');
                           }}
                         />
 

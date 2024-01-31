@@ -1,17 +1,17 @@
-import Link from "next/link";
-import DisplayImageProduct from "../../../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons2 from "../../../../../../../components/common/MarketCartButtons2";
-import React, { useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../../../../constants";
+import Link from 'next/link';
+import DisplayImageProduct from '../../../../../../../components/common/DisplayImageProduct';
+import MarketCartButtons2 from '../../../../../../../components/common/MarketCartButtons2';
+import React, { useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { SupabaseProps } from '../../../../../../../../../constants';
 import {
   ICPMobile,
   IEventProduct,
   IProductPack,
-} from "../../../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../../../utils/formatCurrency";
-import { AddCardButton } from "../../../../../../../components/common/AddCartButton";
-import useEventCartStore from "../../../../../../../../store/eventCartStore";
+} from '../../../../../../../../../lib/types';
+import { formatCurrency } from '../../../../../../../../../utils/formatCurrency';
+import { AddCardButton } from '../../../../../../../components/common/AddCartButton';
+import useEventCartStore from '../../../../../../../../store/eventCartStore';
 
 interface ProductProps {
   pack: IProductPack;
@@ -44,7 +44,7 @@ export default function CPMProduct({
 
   useEffect(() => {
     setPackQuantity(
-      getPackQuantity(eventId, pack.product_id, cpMobile.id, pack.id)
+      getPackQuantity(eventId, pack.product_id, cpMobile.id, pack.id),
     );
   }, [eventCarts]);
 
@@ -94,7 +94,7 @@ export default function CPMProduct({
       awards: product.awards,
       product_packs: product.product_packs,
       cpm_id: cpMobile.id,
-      cpf_id: "",
+      cpf_id: '',
       cp_name: cpMobile.cp_name,
     };
 
@@ -132,7 +132,7 @@ export default function CPMProduct({
 
       <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
         <Link
-          target={"_blank"}
+          target={'_blank'}
           href={`/consumption_points/products/${cpmId}`}
           locale={locale}
         >

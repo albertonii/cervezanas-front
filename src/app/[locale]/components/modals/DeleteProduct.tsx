@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { ComponentProps } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { IAward, IProduct } from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
-import Modal from "./Modal";
+import React, { ComponentProps } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { IAward, IProduct } from '../../../../lib/types';
+import { useAuth } from '../../Auth/useAuth';
+import Modal from './Modal';
 
 interface Props {
   product: IProduct;
@@ -30,9 +30,9 @@ export function DeleteProduct({
     deleteProductPacksImg(product);
 
     const { error: productError } = await supabase
-      .from("products")
+      .from('products')
       .delete()
-      .eq("id", product.id);
+      .eq('id', product.id);
 
     if (productError) throw productError;
 
@@ -43,7 +43,7 @@ export function DeleteProduct({
     if (product && product?.product_packs) {
       product?.product_packs.map(async (pack) => {
         const { error: packError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([`${decodeURIComponent(pack.img_url)}`]);
 
         if (packError) throw packError;
@@ -55,7 +55,7 @@ export function DeleteProduct({
     if (product && product?.awards) {
       product?.awards.map(async (award: IAward) => {
         const { error: awardError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([`${decodeURIComponent(award.img_url)}`]);
 
         if (awardError) throw awardError;
@@ -65,9 +65,9 @@ export function DeleteProduct({
 
   const deleteMultimedia = async (product?: IProduct) => {
     if (product && product?.product_multimedia) {
-      if (product?.product_multimedia[0]?.p_principal) {
+      if (product?.product_multimedia?.p_principal) {
         const { error: storageError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([
             `${decodeURIComponent(product.product_multimedia.p_principal)}`,
           ]);
@@ -75,9 +75,9 @@ export function DeleteProduct({
         if (storageError) throw storageError;
       }
 
-      if (product?.product_multimedia[0]?.p_back) {
+      if (product?.product_multimedia?.p_back) {
         const { error: storageError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([
             `${decodeURIComponent(product?.product_multimedia.p_back)}`,
           ]);
@@ -85,9 +85,9 @@ export function DeleteProduct({
         if (storageError) throw storageError;
       }
 
-      if (product?.product_multimedia[0]?.p_extra_1) {
+      if (product?.product_multimedia?.p_extra_1) {
         const { error: storageError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([
             `${decodeURIComponent(product?.product_multimedia.p_extra_1)}`,
           ]);
@@ -95,9 +95,9 @@ export function DeleteProduct({
         if (storageError) throw storageError;
       }
 
-      if (product?.product_multimedia[0]?.p_extra_2) {
+      if (product?.product_multimedia?.p_extra_2) {
         const { error: storageError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([
             `${decodeURIComponent(product?.product_multimedia.p_extra_2)}`,
           ]);
@@ -105,9 +105,9 @@ export function DeleteProduct({
         if (storageError) throw storageError;
       }
 
-      if (product?.product_multimedia[0]?.p_extra_3) {
+      if (product?.product_multimedia?.p_extra_3) {
         const { error: storageError } = await supabase.storage
-          .from("products")
+          .from('products')
           .remove([
             `${decodeURIComponent(product?.product_multimedia.p_extra_3)}`,
           ]);
@@ -118,10 +118,10 @@ export function DeleteProduct({
   };
 
   const deleteProductMutation = useMutation({
-    mutationKey: ["deleteProduct"],
+    mutationKey: ['deleteProduct'],
     mutationFn: handleDelete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      queryClient.invalidateQueries({ queryKey: ['productList'] });
     },
     onError: (error) => {
       console.error(error);
@@ -141,14 +141,14 @@ export function DeleteProduct({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleDeleteShowModal}
-      title={"modal_delete_product_title"}
-      btnTitle={"delete"}
-      description={"modal_delete_product_description"}
+      title={'modal_delete_product_title'}
+      btnTitle={'delete'}
+      description={'modal_delete_product_description'}
       handler={() => {
         onSubmitDelete();
       }}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <></>
     </Modal>

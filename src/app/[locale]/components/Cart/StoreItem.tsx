@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import DisplayImageProduct from "../common/DisplayImageProduct";
-import MarketCartButtons2 from "../common/MarketCartButtons2";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import Spinner from "../common/Spinner";
-import { IconButton } from "../common/IconButton";
-import { SupabaseProps } from "../../../../constants";
-import { useLocale, useTranslations } from "next-intl";
-import { AddCardButton } from "../common/AddCartButton";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { IProduct, IProductPack } from "../../../../lib/types";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
-import { useAuth } from "../../Auth/useAuth";
-import { useMessage } from "../message/useMessage";
+import Link from 'next/link';
+import DisplayImageProduct from '../common/DisplayImageProduct';
+import MarketCartButtons2 from '../common/MarketCartButtons2';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Spinner from '../common/Spinner';
+import { IconButton } from '../common/IconButton';
+import { SupabaseProps } from '../../../../constants';
+import { useLocale, useTranslations } from 'next-intl';
+import { AddCardButton } from '../common/AddCartButton';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { IProduct, IProductPack } from '../../../../lib/types';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import { useShoppingCart } from '../../../context/ShoppingCartContext';
+import { useAuth } from '../../Auth/useAuth';
+import { useMessage } from '../message/useMessage';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -33,12 +33,12 @@ export function StoreItem({ product }: StoreItemProps) {
   console.log(product);
 
   const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
-    product.product_multimedia.p_principal
+    product.product_multimedia?.p_principal ?? '',
   )}`;
 
   const packs = product.product_packs;
   const lowestPack = packs?.sort(
-    (a, b) => a.quantity - b.quantity
+    (a, b) => a.quantity - b.quantity,
   )[0] as IProductPack;
 
   // Selected pack that has lowest quantity
@@ -47,7 +47,7 @@ export function StoreItem({ product }: StoreItemProps) {
   const overAllCalculation = () => {
     let overAll_sum = 0;
     const reviewsCount = product.reviews;
-    if (!reviewsCount) return t("no_reviews");
+    if (!reviewsCount) return t('no_reviews');
 
     reviewsCount.map((review) => (overAll_sum += review.overall));
     const overAll_avg = overAll_sum / reviewsCount.length;
@@ -58,31 +58,31 @@ export function StoreItem({ product }: StoreItemProps) {
   const overAll =
     product.reviews && product.reviews.length > 0
       ? overAllCalculation()
-      : t("no_reviews");
+      : t('no_reviews');
 
   const [isLike, setIsLike] = useState<boolean>(
-    product.likes && product.likes.length > 0 ? true : false
+    product.likes && product.likes.length > 0 ? true : false,
   );
 
   const { addPackToCart } = useShoppingCart();
 
   const [packQuantity, setPackQuantity] = useState(1);
 
-  const heartColor = { filled: "#fdc300", unfilled: "grey" };
+  const heartColor = { filled: '#fdc300', unfilled: 'grey' };
 
   async function handleLike() {
     // Notification if user is not logged in
     if (!isLoggedIn) {
       handleMessage({
-        type: "info",
-        message: "must_be_logged_in_favs",
+        type: 'info',
+        message: 'must_be_logged_in_favs',
       });
       return;
     }
 
     if (!isLike) {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .insert([{ product_id: productId, owner_id: product.owner_id }]);
 
       if (error) throw error;
@@ -90,7 +90,7 @@ export function StoreItem({ product }: StoreItemProps) {
       setIsLike(true);
     } else {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .delete()
         .match({ product_id: productId, owner_id: product.owner_id });
 
@@ -111,8 +111,8 @@ export function StoreItem({ product }: StoreItemProps) {
   const handleAddToCart = () => {
     if (!isLoggedIn) {
       handleMessage({
-        type: "info",
-        message: "must_be_logged_in_add_store",
+        type: 'info',
+        message: 'must_be_logged_in_add_store',
       });
       return;
     }
@@ -146,10 +146,10 @@ export function StoreItem({ product }: StoreItemProps) {
                 isActive={isLike}
                 color={heartColor}
                 classContainer={
-                  " bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 !rounded-full !m-0"
+                  ' bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 !rounded-full !m-0'
                 }
-                classIcon={""}
-                title={t("add_to_favs")}
+                classIcon={''}
+                title={t('add_to_favs')}
               ></IconButton>
             </header>
 
@@ -159,7 +159,7 @@ export function StoreItem({ product }: StoreItemProps) {
               alt="Principal Product Image store item"
               imgSrc={src}
               class={
-                " h-[220px] w-[220px]  border-2 object-contain hover:cursor-pointer"
+                ' h-[220px] w-[220px]  border-2 object-contain hover:cursor-pointer'
               }
               onClick={() => router.push(`/${locale}/products/${product.id}`)}
             />
@@ -201,8 +201,8 @@ export function StoreItem({ product }: StoreItemProps) {
 
             {/* Información sobre el pack seleccionado detallada y minimalista  */}
             <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
-              {selectedPack?.quantity}{" "}
-              {selectedPack?.quantity > 1 ? t("units") : t("unit")}/
+              {selectedPack?.quantity}{' '}
+              {selectedPack?.quantity > 1 ? t('units') : t('unit')}/
               {formatCurrency(selectedPack?.price)}
             </div>
 

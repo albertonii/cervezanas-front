@@ -1,6 +1,6 @@
-import { IMonthlyProduct, IProduct } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import ProductsMenu from "./ProductsMenu";
+import { IMonthlyProduct, IProduct } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import ProductsMenu from './ProductsMenu';
 
 export default async function MonthlyProductsPage() {
   const productsData = getProductsData();
@@ -16,10 +16,10 @@ export default async function MonthlyProductsPage() {
 async function getProductsData() {
   const supabase = await createServerClient();
 
-  const { data: products, error } = await supabase.from("products").select(
+  const { data: products, error } = await supabase.from('products').select(
     `
       *
-    `
+    `,
   );
 
   if (error) throw error;
@@ -31,7 +31,7 @@ async function getMonthlyProductsData() {
   const supabase = await createServerClient();
 
   const { data: products, error } = await supabase
-    .from("monthly_products")
+    .from('monthly_products')
     .select(
       `
         *,
@@ -53,7 +53,7 @@ async function getMonthlyProductsData() {
           owner_id,
           product_multimedia (*)
         )
-      `
+      `,
     );
 
   if (error) throw error;

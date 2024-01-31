@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { SupabaseClient } from "@supabase/supabase-js";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { Database } from "../lib/schema";
-import { IProduct } from "../lib/types.d";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { Database } from '../lib/schema';
+import { IProduct } from '../lib/types.d';
 
 const deleteProductImgs = async (
   product: IProduct,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   // 1. Delete product multimedia images
-  if (product.product_multimedia[0]) {
+  if (product.product_multimedia) {
     const p_principal_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/${product.id}/p_principal/${product.product_multimedia.p_principal}`;
 
     const { data, error } = await supabase.storage
-      .from("products")
+      .from('products')
       .remove([p_principal_url]);
 
     if (error) throw error;

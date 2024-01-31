@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { ICampaign, IProduct } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../lib/actions";
-import { Campaigns } from "./Campaigns";
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { ICampaign, IProduct } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../lib/actions';
+import { Campaigns } from './Campaigns';
 
 export default async function CampaignPage() {
   const productsData = await getProductsData();
@@ -31,13 +31,13 @@ async function getCampaignData() {
     redirect(VIEWS.SIGN_IN);
   }
   const { data: campaignsData, error: campaignsError } = await supabase
-    .from("campaigns")
+    .from('campaigns')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.user.id);
 
   if (campaignsError) throw campaignsError;
 
@@ -55,7 +55,7 @@ async function getProductsData() {
     redirect(VIEWS.SIGN_IN);
   }
   const { data: productsData, error: productsError } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
         *, 
@@ -65,9 +65,9 @@ async function getProductsData() {
         product_lots (*),
         beers (*), 
         product_packs (*)
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.user.id);
 
   if (productsError) throw productsError;
 

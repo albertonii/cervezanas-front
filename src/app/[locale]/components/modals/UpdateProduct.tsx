@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useState } from "react";
-import { z, ZodType } from "zod";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { ComponentProps, useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Aroma,
   aroma_options,
@@ -19,60 +19,60 @@ import {
   Origin,
   origin_options,
   product_type_options,
-} from "../../../../lib/beerEnum";
+} from '../../../../lib/beerEnum';
 import {
   IProduct,
   IProductInventory,
   IAward,
   IProductPack,
   ModalUpdateProductFormData,
-} from "../../../../lib/types";
-import { uuid } from "uuidv4";
-import { useAuth } from "../../Auth/useAuth";
-import { ProductStepper } from "./ProductStepper";
-import { useMutation, useQueryClient } from "react-query";
-import { AwardsSectionUpdate } from "./AwardsSectionUpdate";
-import { MultimediaSectionUpdate } from "./MultimediaSectionUpdate";
-import { ProductInfoSectionUpdate } from "./ProductInfoSectionUpdate";
-import { getFileExtensionByName } from "../../../../utils/formatWords";
+} from '../../../../lib/types';
+import { uuid } from 'uuidv4';
+import { useAuth } from '../../Auth/useAuth';
+import { ProductStepper } from './ProductStepper';
+import { useMutation, useQueryClient } from 'react-query';
+import { AwardsSectionUpdate } from './AwardsSectionUpdate';
+import { MultimediaSectionUpdate } from './MultimediaSectionUpdate';
+import { ProductInfoSectionUpdate } from './ProductInfoSectionUpdate';
+import { getFileExtensionByName } from '../../../../utils/formatWords';
 import {
   isEmpty,
   isNotEmptyArray,
   isValidObject,
-} from "../../../../utils/utils";
-import ModalWithForm from "./ModalWithForm";
+} from '../../../../utils/utils';
+import ModalWithForm from './ModalWithForm';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
   id: z.string(),
-  name: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
-  description: z.string().min(2, { message: "errors.input_min_2" }).max(2500, {
-    message: "errors.error_2500_max_length",
+  description: z.string().min(2, { message: 'errors.input_min_2' }).max(2500, {
+    message: 'errors.error_2500_max_length',
   }),
-  price: z.number().min(0, { message: "errors.input_min_0" }),
-  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
-    message: "errors.input_max_5",
+  price: z.number().min(0, { message: 'errors.input_min_0' }),
+  fermentation: z.number().min(0, { message: 'errors.input_min_0' }).max(100, {
+    message: 'errors.input_max_5',
   }),
-  color: z.number().min(0, { message: "errors.input_min_0" }),
-  intensity: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "Required",
+  color: z.number().min(0, { message: 'errors.input_min_0' }),
+  intensity: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'Required',
   }),
-  aroma: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  aroma: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
-  family: z.number().min(0, { message: "errors.input_min_0" }).max(30, {
-    message: "errors.error_30_max_length",
+  family: z.number().min(0, { message: 'errors.input_min_0' }).max(30, {
+    message: 'errors.error_30_max_length',
   }),
-  origin: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  origin: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
-  era: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  era: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
   is_gluten: z.coerce.boolean(),
-  type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "Required",
+  type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'Required',
   }),
   p_principal: z.instanceof(FileList).optional(),
   p_back: z.instanceof(FileList).optional(),
@@ -84,48 +84,48 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
   // volume: z.number().min(0, { message: "Required" }).max(50, {
   //   message: "Required",
   // }),
-  volume: z.number().min(0, { message: "errors.input_min_0" }),
-  weight: z.number().min(0, { message: "errors.input_min_0" }),
-  format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  volume: z.number().min(0, { message: 'errors.input_min_0' }),
+  weight: z.number().min(0, { message: 'errors.input_min_0' }),
+  format: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
-  category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
-  stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
+  stock_quantity: z.number().min(0, { message: 'errors.input_min_0' }),
   stock_limit_notification: z
     .number()
-    .min(0, { message: "errors.input_required" }),
+    .min(0, { message: 'errors.input_required' }),
   awards: z.array(
     z.object({
-      name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
-        message: "errors.input_max_150",
+      name: z.string().min(2, { message: 'errors.input_min_2' }).max(150, {
+        message: 'errors.input_max_150',
       }),
       description: z
         .string()
-        .min(2, { message: "errors.input_min_2" })
+        .min(2, { message: 'errors.input_min_2' })
         .max(500, {
-          message: "errors.input_max_500",
+          message: 'errors.input_max_500',
         }),
       year: z
         .number()
-        .min(1900, { message: "errors.input_min_1900" })
+        .min(1900, { message: 'errors.input_min_1900' })
         .max(2030, {
-          message: "errors.input_max_2030",
+          message: 'errors.input_max_2030',
         }),
       img_url: z.instanceof(FileList).optional(),
-    })
+    }),
   ),
   packs: z.array(
     z.object({
-      id: z.string().nonempty({ message: "errors.input_required" }),
-      quantity: z.number().min(0, { message: "errors.input_min_0" }),
-      price: z.number().min(0, { message: "errors.input_min_0" }),
-      name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
-        message: "errors.error_100_number_max_length",
+      id: z.string().nonempty({ message: 'errors.input_required' }),
+      quantity: z.number().min(0, { message: 'errors.input_min_0' }),
+      price: z.number().min(0, { message: 'errors.input_min_0' }),
+      name: z.string().min(2, { message: 'errors.input_min_2' }).max(100, {
+        message: 'errors.error_100_number_max_length',
       }),
       img_url: z.instanceof(FileList).optional(),
-    })
+    }),
   ),
 });
 
@@ -172,7 +172,7 @@ export function UpdateProduct({
     label: string;
     value: Color;
   } = color_options.find((c) => c.label === color) ?? {
-    label: "very_light",
+    label: 'very_light',
     value: Color.very_light,
   };
 
@@ -180,7 +180,7 @@ export function UpdateProduct({
     label: string;
     value: Aroma;
   } = aroma_options.find((c) => c.label === aroma) ?? {
-    label: "maltose",
+    label: 'maltose',
     value: 0,
   };
 
@@ -188,7 +188,7 @@ export function UpdateProduct({
     label: string;
     value: Family;
   } = family_options.find((c) => c.label === family) ?? {
-    label: "ipa",
+    label: 'ipa',
     value: 0,
   };
 
@@ -196,7 +196,7 @@ export function UpdateProduct({
     label: string;
     value: Fermentation;
   } = fermentation_options.find((c) => c.label === fermentation) ?? {
-    label: "none",
+    label: 'none',
     value: 7,
   };
 
@@ -204,7 +204,7 @@ export function UpdateProduct({
     label: string;
     value: Origin;
   } = origin_options.find((c) => c.label === origin) ?? {
-    label: "none",
+    label: 'none',
     value: 7,
   };
 
@@ -212,7 +212,7 @@ export function UpdateProduct({
     label: string;
     value: Era;
   } = era_options.find((c) => c.label === era) ?? {
-    label: "none",
+    label: 'none',
     value: 5,
   };
 
@@ -220,7 +220,7 @@ export function UpdateProduct({
   // TODO: Comprobar que convertStringToFileList funciona
   const convertStringToFileList = (img_url: string) => {
     const file = new File([img_url], img_url, {
-      type: "image/jpeg",
+      type: 'image/jpeg',
     });
 
     const fileList = new DataTransfer();
@@ -230,14 +230,14 @@ export function UpdateProduct({
   };
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       id: product.id,
-      category: product.category ?? "",
-      name: product.name ?? "",
-      description: product.description ?? "",
-      type: product.type ?? "",
+      category: product.category ?? '',
+      name: product.name ?? '',
+      description: product.description ?? '',
+      type: product.type ?? '',
       is_public: product.is_public ?? false,
       price: product.price ?? 0,
       stock_quantity: product.product_inventory?.quantity ?? 0,
@@ -255,12 +255,18 @@ export function UpdateProduct({
       era: eraDefault.value,
       is_gluten: product.beers?.is_gluten ?? false,
       p_principal: convertStringToFileList(
-        product.product_multimedia.p_principal
+        product.product_multimedia?.p_principal ?? '',
       ),
-      p_back: convertStringToFileList(product.product_multimedia?.p_back),
-      p_extra_1: convertStringToFileList(product.product_multimedia.p_extra_1),
-      p_extra_2: convertStringToFileList(product.product_multimedia.p_extra_2),
-      p_extra_3: convertStringToFileList(product.product_multimedia.p_extra_3),
+      p_back: convertStringToFileList(product.product_multimedia?.p_back ?? ''),
+      p_extra_1: convertStringToFileList(
+        product.product_multimedia?.p_extra_1 ?? '',
+      ),
+      p_extra_2: convertStringToFileList(
+        product.product_multimedia?.p_extra_2 ?? '',
+      ),
+      p_extra_3: convertStringToFileList(
+        product.product_multimedia?.p_extra_3 ?? '',
+      ),
       packs: product.product_packs,
       awards: product.awards ?? [],
 
@@ -305,7 +311,7 @@ export function UpdateProduct({
     const userId = user?.id;
 
     const { data, error: productError } = await supabase
-      .from("products")
+      .from('products')
       .update({
         name,
         description,
@@ -315,11 +321,11 @@ export function UpdateProduct({
         is_public,
         weight,
       })
-      .eq("id", product.id)
+      .eq('id', product.id)
       .select();
 
     if (productError) throw productError;
-    if (!data) throw new Error("No data returned from supabase");
+    if (!data) throw new Error('No data returned from supabase');
 
     const productData = data[0] as IProduct;
 
@@ -328,26 +334,26 @@ export function UpdateProduct({
     // Multimedia
     const p_principal_url = !isEmpty(p_principal?.name)
       ? encodeURIComponent(p_principal.name)
-      : "";
+      : '';
 
     const p_back_url = !isEmpty(p_back?.name)
       ? encodeURIComponent(p_back.name)
-      : "";
+      : '';
 
     const p_extra_1_url = !isEmpty(p_extra_1?.name)
       ? encodeURIComponent(p_extra_1.name)
-      : "";
+      : '';
 
     const p_extra_2_url = !isEmpty(p_extra_2?.name)
       ? encodeURIComponent(p_extra_2.name)
-      : "";
+      : '';
 
     const p_extra_3_url = !isEmpty(p_extra_3?.name)
       ? encodeURIComponent(p_extra_3.name)
-      : "";
+      : '';
 
     const { data: product_multimedia, error: multError } = await supabase
-      .from("product_multimedia")
+      .from('product_multimedia')
       .update({
         p_principal: p_principal_url,
         p_back: p_back_url,
@@ -355,7 +361,7 @@ export function UpdateProduct({
         p_extra_2: p_extra_2_url,
         p_extra_3: p_extra_3_url,
       })
-      .eq("product_id", product.id);
+      .eq('product_id', product.id);
 
     if (multError) throw multError;
     if (product_multimedia) {
@@ -365,9 +371,9 @@ export function UpdateProduct({
     // Store images in bucket
     if (p_principal_url) {
       const { error: pPrincipalError } = await supabase.storage
-        .from("products")
+        .from('products')
         .update(`articles/${p_principal_url}`, p_principal, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
       if (pPrincipalError) throw pPrincipalError;
@@ -375,9 +381,9 @@ export function UpdateProduct({
 
     if (p_back_url) {
       const { error: pBackError } = await supabase.storage
-        .from("products")
+        .from('products')
         .update(`articles/${p_back_url}`, p_back.name, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
       if (pBackError) throw pBackError;
@@ -385,9 +391,9 @@ export function UpdateProduct({
 
     if (p_extra_1_url) {
       const { error: pExtra1Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .update(`articles/${p_extra_1}`, p_extra_1.name, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
       if (pExtra1Error) throw pExtra1Error;
@@ -395,9 +401,9 @@ export function UpdateProduct({
 
     if (p_extra_2_url) {
       const { error: pExtra2Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .update(`articles/${p_extra_2_url}`, p_extra_2.name, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
       if (pExtra2Error) throw pExtra2Error;
@@ -405,9 +411,9 @@ export function UpdateProduct({
 
     if (p_extra_3_url) {
       const { error: pExtra3Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .update(`articles/${p_extra_3_url}`, p_extra_3.name, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
       if (pExtra3Error) throw pExtra3Error;
@@ -417,7 +423,7 @@ export function UpdateProduct({
 
     if (product_type_options[0].label === productData.type) {
       const { data: beerData, error: beerError } = await supabase
-        .from("beers")
+        .from('beers')
         .update({
           intensity,
           fermentation,
@@ -431,13 +437,15 @@ export function UpdateProduct({
           format,
           product_id: productId,
         })
-        .eq("product_id", product.id)
+        .eq('product_id', product.id)
         .select()
         .single();
 
       if (beerError) throw beerError;
 
-      const beerId = beerData.id;
+      if (!beerData) throw new Error('No data returned from supabase');
+
+      const beerId = beerData.product_id;
 
       // Inventory - Stock
       const stock: IProductInventory = {
@@ -447,9 +455,9 @@ export function UpdateProduct({
       };
 
       const { data: product_inventory, error: stockError } = await supabase
-        .from("product_inventory")
+        .from('product_inventory')
         .update(stock)
-        .eq("product_id", product.id);
+        .eq('product_id', product.id);
       if (stockError) throw stockError;
 
       if (product_inventory) {
@@ -464,7 +472,7 @@ export function UpdateProduct({
             : uuid();
 
           const { error: packsError } = await supabase
-            .from("product_packs")
+            .from('product_packs')
             .upsert({
               product_id: productId,
               quantity: pack.quantity,
@@ -473,7 +481,7 @@ export function UpdateProduct({
               img_url: pack.img_url.name,
               randomUUID: pack.randomUUID,
             })
-            .eq("product_id", product.id);
+            .eq('product_id', product.id);
 
           if (packsError) throw packsError;
 
@@ -481,16 +489,16 @@ export function UpdateProduct({
           // check if image selected in file input is not empty and is an image
           if (pack.img_url) {
             const { error: storagePacksError } = await supabase.storage
-              .from("products")
+              .from('products')
               .upload(
                 `articles/${productId}/packs/${
                   pack.randomUUID
                 }.${getFileExtensionByName(pack.img_url.name)}`,
                 pack.img_url,
                 {
-                  cacheControl: "3600",
+                  cacheControl: '3600',
                   upsert: true,
-                }
+                },
               );
 
             if (storagePacksError) throw storagePacksError;
@@ -511,7 +519,7 @@ export function UpdateProduct({
             const file = award.img_url[0];
             const productFileUrl = encodeURIComponent(file.name);
             const { data, error: awardsError } = await supabase
-              .from("awards")
+              .from('awards')
               .update({
                 product_id: beerId,
                 name: award.name,
@@ -519,18 +527,18 @@ export function UpdateProduct({
                 year: award.year,
                 img_url: productFileUrl,
               })
-              .eq("product_id", product.id);
+              .eq('product_id', product.id);
 
             if (awardsError) throw awardsError;
-            if (!data) throw new Error("No data returned from awards update");
+            if (!data) throw new Error('No data returned from awards update');
 
             const awards = data as IAward[];
             productData.awards = awards;
 
             const { error: storageAwardsError } = await supabase.storage
-              .from("products")
+              .from('products')
               .upload(`awards/${productFileUrl}`, file, {
-                cacheControl: "3600",
+                cacheControl: '3600',
                 upsert: false,
               });
             if (storageAwardsError) throw storageAwardsError;
@@ -541,13 +549,13 @@ export function UpdateProduct({
   };
 
   const updateProductMutation = useMutation({
-    mutationKey: ["updateProduct"],
+    mutationKey: ['updateProduct'],
     mutationFn: handleUpdateProduct,
     onMutate: () => {
       setIsSubmitting(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      queryClient.invalidateQueries({ queryKey: ['productList'] });
       handleEditShowModal(false);
       setIsSubmitting(false);
       reset();
@@ -573,11 +581,11 @@ export function UpdateProduct({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleEditShowModal}
-      title={"save_product"}
-      btnTitle={"save_product"}
-      description={""}
-      classIcon={""}
-      classContainer={""}
+      title={'save_product'}
+      btnTitle={'save_product'}
+      description={''}
+      classIcon={''}
+      classContainer={''}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => handleEditShowModal(false)}
       form={form}
@@ -590,7 +598,7 @@ export function UpdateProduct({
         >
           <>
             <p className="text-slate-500 my-4 text-lg leading-relaxed">
-              {t("modal_product_description")}
+              {t('modal_product_description')}
             </p>
 
             {activeStep === 0 ? (

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { IProduct } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { useQuery } from 'react-query';
+import { IProduct } from '../lib/types';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProductsByOwner = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
   isArchived: boolean,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<any>,
 ) => {
   const { data, error } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
           *,
@@ -26,14 +26,14 @@ const fetchProductsByOwner = async (
           awards(*)
         `,
       {
-        count: "exact",
-      }
+        count: 'exact',
+      },
     )
-    .eq("owner_id", ownerId)
-    .eq("is_archived", isArchived)
+    .eq('owner_id', ownerId)
+    .eq('is_archived', isArchived)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -45,19 +45,19 @@ const useFetchProductsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  isArchived: boolean
+  isArchived: boolean,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["productList", ownerId, currentPage, resultsPerPage, isArchived],
+    queryKey: ['productList', ownerId, currentPage, resultsPerPage, isArchived],
     queryFn: () =>
       fetchProductsByOwner(
         ownerId,
         currentPage,
         resultsPerPage,
         isArchived,
-        supabase
+        supabase,
       ),
     enabled: true,
     refetchOnWindowFocus: false,

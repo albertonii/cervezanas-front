@@ -333,9 +333,7 @@ Lo que podemos hacer por ahora... es quitar la inserción a través de los trigg
 - [x] CPF Events -> Event
 - [x] CPM Events -> CP Mobile
 - [x] CPM Events -> Event
-- [x] CPF Products -> CP Fixed
 - [x] CPF Products -> Product Pack
-- [x] CPM Products -> CP Mobile
 - [x] CPM Products -> Product Pack
 - [x] Customize Settings -> User
 - [x] Distribution -> Origin Distributor
@@ -356,7 +354,6 @@ Lo que podemos hacer por ahora... es quitar la inserción a través de los trigg
 - [x] Fixed Event Order -> CP Fixed Owner
 - [x] Flatrate cost -> Distribution Cost
 - [x] Gamification -> User
-- [x] Likes -> Product
 - [x] Likes -> User
 - [x] Local Distribution -> Coverage Area
 - [x] Monthly Products -> Product
@@ -379,7 +376,11 @@ Lo que podemos hacer por ahora... es quitar la inserción a través de los trigg
 - [ ] Profile Location -> User
 - [ ] User Reports -> User
 
-
 ### 30 de enero
+
 - [ ] Errores de supabase con los tipos de BBDD y Typescript
-- [x] Pair programming con Gustavo. Hemos hablado de: semántica HTML, cómo funciona react y JSX, componentes de Nextjs como Image, estructura de carpetas de Nextjs, etc.  
+- [x] Pair programming con Gustavo. Hemos hablado de: semántica HTML, cómo funciona react y JSX, componentes de Nextjs como Image, estructura de carpetas de Nextjs, etc.
+
+### 31 de enero
+
+- [x] Errores de supabase con los tipos de BBDD y Typescript
