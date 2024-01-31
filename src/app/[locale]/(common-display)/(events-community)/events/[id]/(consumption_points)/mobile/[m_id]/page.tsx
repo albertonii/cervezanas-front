@@ -43,8 +43,7 @@ async function getCPMobile(cpId: string) {
               id,
               name,
               description,
-              type,
-              product_multimedia!product_multimedia_product_id_fkey (p_principal)
+              type
             )
           )
         )
@@ -52,6 +51,26 @@ async function getCPMobile(cpId: string) {
     )
     .eq("id", cpId)
     .single();
+
+  // Original
+  //  `
+  //       *,
+  //       cpm_products!cpm_products_cp_id_fkey (
+  //         *,
+  //         cp_id,
+  //         product_pack_id,
+  //         product_packs!cpm_products_product_pack_id_fkey (
+  //           *,
+  //           products!product_packs_product_id_fkey (
+  //             id,
+  //             name,
+  //             description,
+  //             type,
+  //             product_multimedia!product_multimedia_product_id_fkey (p_principal)
+  //           )
+  //         )
+  //       )
+  //     `;
 
   if (cpMobileError) console.error(cpMobileError);
 

@@ -64,12 +64,12 @@ async function getMarketplaceData() {
     .from("products")
     .select(
       `
-      id,
-      price,
-      product_multimedia (
-        p_principal
-      )
-    `
+        id,
+        price,
+        product_multimedia (
+          p_principal
+        )
+      `
     )
     .eq("is_public", true);
 

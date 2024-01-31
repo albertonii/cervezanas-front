@@ -56,16 +56,14 @@ export interface Database {
           created_at: string | null
           era: string | null
           family: string | null
-          feedback_id: number | null
           fermentation: string | null
           fg: number | null
           format: string | null
-          id: string
           intensity: number | null
           is_gluten: boolean | null
           og: number | null
           origin: string | null
-          product_id: string | null
+          product_id: string
           sku: string | null
           srm: number | null
           volume: number | null
@@ -80,16 +78,14 @@ export interface Database {
           created_at?: string | null
           era?: string | null
           family?: string | null
-          feedback_id?: number | null
           fermentation?: string | null
           fg?: number | null
           format?: string | null
-          id?: string
           intensity?: number | null
           is_gluten?: boolean | null
           og?: number | null
           origin?: string | null
-          product_id?: string | null
+          product_id: string
           sku?: string | null
           srm?: number | null
           volume?: number | null
@@ -104,16 +100,14 @@ export interface Database {
           created_at?: string | null
           era?: string | null
           family?: string | null
-          feedback_id?: number | null
           fermentation?: string | null
           fg?: number | null
           format?: string | null
-          id?: string
           intensity?: number | null
           is_gluten?: boolean | null
           og?: number | null
           origin?: string | null
-          product_id?: string | null
+          product_id?: string
           sku?: string | null
           srm?: number | null
           volume?: number | null
@@ -410,6 +404,7 @@ export interface Database {
           id: string
           is_booking_required: boolean | null
           is_internal_organizer: boolean | null
+          logo_url: string | null
           maximum_capacity: number | null
           organizer_email: string | null
           organizer_lastname: string | null
@@ -429,6 +424,7 @@ export interface Database {
           id?: string
           is_booking_required?: boolean | null
           is_internal_organizer?: boolean | null
+          logo_url?: string | null
           maximum_capacity?: number | null
           organizer_email?: string | null
           organizer_lastname?: string | null
@@ -448,6 +444,7 @@ export interface Database {
           id?: string
           is_booking_required?: boolean | null
           is_internal_organizer?: boolean | null
+          logo_url?: string | null
           maximum_capacity?: number | null
           organizer_email?: string | null
           organizer_lastname?: string | null
@@ -552,12 +549,6 @@ export interface Database {
           is_active?: boolean | null
         }
         Relationships: [
-          {
-            foreignKeyName: "cpf_events_cp_id_fkey"
-            columns: ["cp_id"]
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "cpf_events_event_id_fkey"
             columns: ["event_id"]
@@ -683,21 +674,21 @@ export interface Database {
           created_at: string | null
           family_styles: Json | null
           id: string
-          owner_id: string | null
+          owner_id: string
         }
         Insert: {
           colors?: Json | null
           created_at?: string | null
           family_styles?: Json | null
           id?: string
-          owner_id?: string | null
+          owner_id: string
         }
         Update: {
           colors?: Json | null
           created_at?: string | null
           family_styles?: Json | null
           id?: string
-          owner_id?: string | null
+          owner_id?: string
         }
         Relationships: [
           {
@@ -710,7 +701,7 @@ export interface Database {
       }
       distribution: {
         Row: {
-          business_order: string | null
+          business_order_id: string | null
           created_at: string | null
           delivery_date: string | null
           estimated_time: number | null
@@ -723,7 +714,7 @@ export interface Database {
           type: string | null
         }
         Insert: {
-          business_order?: string | null
+          business_order_id?: string | null
           created_at?: string | null
           delivery_date?: string | null
           estimated_time?: number | null
@@ -736,7 +727,7 @@ export interface Database {
           type?: string | null
         }
         Update: {
-          business_order?: string | null
+          business_order_id?: string | null
           created_at?: string | null
           delivery_date?: string | null
           estimated_time?: number | null
@@ -750,16 +741,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "distribution_business_order_fkey"
-            columns: ["business_order"]
+            foreignKeyName: "distribution_business_order_id_fkey"
+            columns: ["business_order_id"]
             referencedRelation: "business_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "distribution_origin_distributor_fkey"
             columns: ["origin_distributor"]
-            referencedRelation: "awards"
-            referencedColumns: ["id"]
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user"]
           }
         ]
       }
@@ -1071,7 +1062,7 @@ export interface Database {
           {
             foreignKeyName: "feedback_ordered_product_lot_id_fkey"
             columns: ["ordered_product_lot_id"]
-            referencedRelation: "beers"
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {
@@ -1233,16 +1224,19 @@ export interface Database {
         Row: {
           created_at: string
           experience: number | null
+          id: string
           user_id: string
         }
         Insert: {
           created_at?: string
           experience?: number | null
+          id?: string
           user_id: string
         }
         Update: {
           created_at?: string
           experience?: number | null
+          id?: string
           user_id?: string
         }
         Relationships: [
@@ -1260,21 +1254,18 @@ export interface Database {
           id: string
           owner_id: string | null
           product_id: string | null
-          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           owner_id?: string | null
           product_id?: string | null
-          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           owner_id?: string | null
           product_id?: string | null
-          updated_at?: string | null
         }
         Relationships: [
           {
@@ -1707,42 +1698,39 @@ export interface Database {
       product_multimedia: {
         Row: {
           created_at: string | null
-          id: string
           p_back: string | null
           p_extra_1: string | null
           p_extra_2: string | null
           p_extra_3: string | null
           p_extra_4: string | null
           p_principal: string | null
-          product_id: string | null
+          product_id: string
           v_extra_1: string | null
           v_extra_2: string | null
           v_principal: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string
           p_back?: string | null
           p_extra_1?: string | null
           p_extra_2?: string | null
           p_extra_3?: string | null
           p_extra_4?: string | null
           p_principal?: string | null
-          product_id?: string | null
+          product_id: string
           v_extra_1?: string | null
           v_extra_2?: string | null
           v_principal?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string
           p_back?: string | null
           p_extra_1?: string | null
           p_extra_2?: string | null
           p_extra_3?: string | null
           p_extra_4?: string | null
           p_principal?: string | null
-          product_id?: string | null
+          product_id?: string
           v_extra_1?: string | null
           v_extra_2?: string | null
           v_principal?: string | null

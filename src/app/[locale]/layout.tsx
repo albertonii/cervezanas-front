@@ -11,7 +11,6 @@ import Header from "./Header";
 import Footer from "./components/Footer";
 import createServerClient from "../../utils/supabaseServer";
 import { INotification } from "../../lib/types";
-import ReporterFloatingButton from "./components/ReporterFloatingButton";
 
 type LayoutProps = {
   children: React.ReactNode;

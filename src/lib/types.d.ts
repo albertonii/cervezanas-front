@@ -154,7 +154,7 @@ export interface IAuth {
 }
 
 export interface IBeer {
-  id: string;
+  product_id: string; // FK
   created_at: string;
   category: string;
   fermentation: string;
@@ -167,14 +167,13 @@ export interface IBeer {
   volume: number;
   sku: string;
   intensity: number;
-  product_id: string;
   origin: string;
   country: string;
   composition: string;
   srm: number;
   og: number;
   fg: number;
-  product_id: string;
+  products?: IProduct;
 }
 
 export interface IMerchandising {
@@ -223,14 +222,17 @@ export interface ICustomizeSettings {
   created_at: string;
   colors: string[];
   family_styles: string[];
+  owner_id: string;
+  users?: User;
 }
 
-export interface IInventory {
+export interface IProductInventory {
   id?: string;
   product_id: string;
   quantity: number;
   limit_notification: number;
   created_at?: string;
+  products?: IProduct;
 }
 
 export interface IAward {
@@ -239,11 +241,12 @@ export interface IAward {
   description: string;
   img_url: any;
   year: number;
-  beer_id?: string;
+  product_id: string;
+  products?: IProduct;
 }
 
 export interface IProductMultimedia {
-  id: string;
+  product_id: string; // PK
   p_principal: string;
   p_back: string;
   p_extra_1: string;
@@ -253,6 +256,7 @@ export interface IProductMultimedia {
   v_principal: string;
   v_extra_1: string;
   v_extra_2: string;
+  products?: IProduct;
 }
 
 interface IProductMultimediaItem {
@@ -306,7 +310,7 @@ export interface IRefReview {
   mouthfeel: number;
   overall: number;
   users?: User;
-  products?: any;
+  products?: IProduct;
 }
 
 export interface IProfile {
@@ -392,6 +396,7 @@ export interface ICPFixed {
   is_internal_organizer: boolean;
   cpf_products?: ICPFProducts[];
   geoArgs: GeocodeResult[];
+  consumption_points?: IConsumptionPoints;
 }
 
 export interface ICPMobile {
@@ -414,7 +419,7 @@ export interface ICPMobile {
   geoArgs: GeoArgs[];
   is_internal_organizer: boolean;
   cpm_products?: ICPMProducts[];
-  // TODO: rrss
+  consumption_points?: IConsumptionPoints;
 }
 
 export interface ICPFProducts {
@@ -470,12 +475,16 @@ export interface ICPM_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
+  consumption_points?: IConsumptionPoints;
+  events?: IEvent;
 }
 
 export interface ICPF_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
+  consumption_points?: IConsumptionPoints;
+  events?: IEvent;
 }
 
 export interface IProfileLocation {
@@ -513,9 +522,9 @@ export interface ILocation {
 export interface ILike {
   id: string;
   created_at: string;
-  updated_at: string;
   owner_id: string;
   product_id: string;
+  products?: IProduct;
 }
 
 export interface ISocialCause {
@@ -549,8 +558,10 @@ export interface ICampaign {
 
 export interface ICampaignItem {
   campaign_id: string;
-  product_id: any;
+  product_id: string;
   product_price: number;
+  campaigns?: ICampaign;
+  products?: IProduct;
 }
 
 export interface IOrder {
@@ -578,6 +589,7 @@ export interface IOrder {
   business_orders?: IBusinessOrder[];
   payment_method_id: string;
   payment_method_card?: IPaymentCardMethod;
+  users?: IUserTable;
 }
 
 export interface IOrderItem {
@@ -625,7 +637,6 @@ export interface IEventOrderItem {
   product_packs?: IProductPack;
   product_multimedia?: IProductMultimedia[];
   orders?: IOrder;
-  // cp_m_id: ICPMobile;
 }
 
 export interface IPaymentCardMethod {
@@ -686,6 +697,7 @@ export interface IBillingInfo {
   city: string;
   state: string;
   is_default: boolean;
+  users?: IUserTable;
 }
 
 export interface IAddressForm {
@@ -823,7 +835,7 @@ type ModalAddProductAwardFormData = {
   description: string;
   img_url?: any;
   year: number;
-  beer_id?: string;
+  product_id?: string;
 };
 
 type ModalUpdateProductAwardFormData = {
@@ -832,7 +844,7 @@ type ModalUpdateProductAwardFormData = {
   description: string;
   img_url?: any;
   year: number;
-  beer_id?: string;
+  product_id?: string;
 };
 
 type ModalUpdateProductPackFormData = {
@@ -874,29 +886,8 @@ export type ModalUpdateLotProps = {
   packaging: string;
 };
 
-type BeerModalProps = {
-  id: string;
-  lot_id: number;
-  feedback_id: number;
-  category: string;
-  fermentation: string;
-  aroma: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  intensity: string;
-  awards_id: string[];
-  price: number;
-  volume: number;
-  format: string;
-  product_id: string;
-  is_public: boolean;
-  is_gluten: boolean;
-};
-
 export type ICampaignFormProps = {
-  campaigns: Campaign[];
+  campaigns: ICampaign[];
 };
 
 export interface IProductPackCartItem {
@@ -956,16 +947,16 @@ export interface IProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers?: IBeer[];
-  product_multimedia: IProductMultimedia[];
+  beers?: IBeer;
+  product_multimedia?: IProductMultimedia[];
   order_items?: IOrderItem[];
+  users?: IUserTable;
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
+  product_inventory?: IProductInventory[];
   reviews?: IReview[];
-  // reviews: IRefReview[];
   likes?: ILike[];
   awards?: IAward[];
   // state: IProductEnum.State;
@@ -990,10 +981,10 @@ export interface IEventProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers?: IBeer[];
-  product_multimedia: IProductMultimedia[];
+  beers?: IBee;
+  product_multimedia?: IProductMultimedia;
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
+  product_inventory?: IProductInventory;
   reviews?: IReview[];
   likes?: ILike[];
   awards?: IAward[];
@@ -1018,14 +1009,13 @@ export interface IModalProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers: IBeer[];
   product_multimedia: IProductMultimedia[];
   order_items?: OrderItem[];
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
+  product_inventory?: IProductInventory[];
   reviews?: IReview[];
   likes?: ILike[];
   beers: IBeer[];
@@ -1369,8 +1359,8 @@ export interface IBusinessOrderRef {
 export interface IDistribution {
   id: string;
   created_at: string;
-  business_order_id: IBusinessOrder;
-  origin_distribution: IDistributorUser;
+  origin_distributor: string;
+  business_order_id: string;
   type: string;
   price: quantity;
   estimated_time;
@@ -1378,6 +1368,8 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
+  business_orders: IBusinessOrder;
+  origin_distributor: IDistributorUser;
   coverage_areas: ICoverageArea;
 }
 
@@ -1436,7 +1428,7 @@ export interface DistributionRangeCost {
 export interface IDistributionCost {
   id: string;
   distributor_id: string;
-  distributor?: IDistributorUser;
+  distributor_user?: IDistributorUser;
   flatrate_cost: IFlatrateCost;
 }
 
@@ -1467,5 +1459,5 @@ export interface IGamification {
   created_at: string;
   experience: number;
   user_id: string;
-  // users?: IUserTable;
+  users?: IUserTable;
 }

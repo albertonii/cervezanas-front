@@ -17,7 +17,7 @@ import {
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  IInventory,
+  IProductInventory,
   IModalAddProductPack,
   ModalAddProductAwardFormData,
   ModalAddProductFormData,
@@ -367,16 +367,16 @@ export function AddProduct() {
           format,
           product_id: productId,
         })
-        .select();
+        .select("*")
+        .single();
 
       if (beerError) throw beerError;
-      const beer = beerData[0];
 
       // UPD Beer in new product displayed in list
       // productData[0].beers = beer;
 
       // Inventory - Stock
-      const stock: IInventory = {
+      const stock: IProductInventory = {
         product_id: productId,
         quantity: stock_quantity,
         limit_notification: stock_limit_notification,
@@ -476,7 +476,7 @@ export function AddProduct() {
 
       reset();
 
-      return beer;
+      return beerData;
     }
 
     reset();

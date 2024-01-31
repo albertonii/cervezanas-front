@@ -127,7 +127,7 @@ export default function MonthlyCardItem({ mProduct, mProducts }: Props) {
               alt="Principal Product Image"
               imgSrc={
                 BASE_PRODUCTS_URL +
-                decodeURIComponent(product.product_multimedia[0].p_principal)
+                decodeURIComponent(product.product_multimedia.p_principal)
               }
               class={
                 "h-full w-full rounded-2xl object-contain hover:cursor-pointer"

@@ -22,7 +22,7 @@ import {
 } from "../../../../lib/beerEnum";
 import {
   IProduct,
-  IInventory,
+  IProductInventory,
   IAward,
   IProductPack,
   ModalUpdateProductFormData,
@@ -166,7 +166,7 @@ export function UpdateProduct({
     volume,
     format,
     intensity,
-  } = beers[0];
+  } = beers;
 
   const colorDefault: {
     label: string;
@@ -240,9 +240,9 @@ export function UpdateProduct({
       type: product.type ?? "",
       is_public: product.is_public ?? false,
       price: product.price ?? 0,
-      stock_quantity: product.product_inventory![0].quantity ?? 0,
+      stock_quantity: product.product_inventory?.quantity ?? 0,
       stock_limit_notification:
-        product.product_inventory![0].limit_notification ?? 0,
+        product.product_inventory?.limit_notification ?? 0,
       format: format,
       volume: volume,
       weight: product.weight ?? 0,
@@ -253,20 +253,14 @@ export function UpdateProduct({
       fermentation: fermentationDefault.value,
       origin: originDefault.value,
       era: eraDefault.value,
-      is_gluten: product.beers[0]?.is_gluten ?? false,
+      is_gluten: product.beers?.is_gluten ?? false,
       p_principal: convertStringToFileList(
-        product.product_multimedia[0].p_principal
+        product.product_multimedia.p_principal
       ),
-      p_back: convertStringToFileList(product.product_multimedia[0]?.p_back),
-      p_extra_1: convertStringToFileList(
-        product.product_multimedia[0].p_extra_1
-      ),
-      p_extra_2: convertStringToFileList(
-        product.product_multimedia[0].p_extra_2
-      ),
-      p_extra_3: convertStringToFileList(
-        product.product_multimedia[0].p_extra_3
-      ),
+      p_back: convertStringToFileList(product.product_multimedia?.p_back),
+      p_extra_1: convertStringToFileList(product.product_multimedia.p_extra_1),
+      p_extra_2: convertStringToFileList(product.product_multimedia.p_extra_2),
+      p_extra_3: convertStringToFileList(product.product_multimedia.p_extra_3),
       packs: product.product_packs,
       awards: product.awards ?? [],
 
@@ -438,16 +432,15 @@ export function UpdateProduct({
           product_id: productId,
         })
         .eq("product_id", product.id)
-        .select();
+        .select()
+        .single();
 
       if (beerError) throw beerError;
-      // productData.beers = beerData;
 
-      const beer = beerData[0];
-      const beerId = beer.id;
+      const beerId = beerData.id;
 
       // Inventory - Stock
-      const stock: IInventory = {
+      const stock: IProductInventory = {
         product_id: productId,
         quantity: stock_quantity,
         limit_notification: stock_limit_notification,

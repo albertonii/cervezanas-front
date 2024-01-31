@@ -297,7 +297,7 @@ export default function CityDistribution({ cities }: Props) {
 
       <div className="flex flex-col items-start space-y-4">
         <div className="grid w-full grid-cols-2 gap-4">
-          <div>
+          <address>
             <label htmlFor="addressCountry" className="text-sm text-gray-600">
               {t("loc_country")}
             </label>
@@ -321,9 +321,9 @@ export default function CityDistribution({ cities }: Props) {
                   </option>
                 ))}
             </select>
-          </div>
+          </address>
 
-          <div>
+          <address>
             {/* Display states of that country  */}
             <label htmlFor="addressRegion" className="text-sm text-gray-600">
               {t("loc_state")}
@@ -342,7 +342,7 @@ export default function CityDistribution({ cities }: Props) {
                 </option>
               ))}
             </select>
-          </div>
+          </address>
         </div>
 
         {/* Map with all cities in the country selected */}
@@ -368,7 +368,7 @@ export default function CityDistribution({ cities }: Props) {
               listOfCities.length > 0 &&
               listOfRegions.length > 0 && (
                 <>
-                  <div className="">
+                  <address className="">
                     <label
                       htmlFor="allCitiesByRegion"
                       className="space-x-2 text-lg text-gray-600"
@@ -387,9 +387,9 @@ export default function CityDistribution({ cities }: Props) {
                         {t("select_all_cities_by_region")}
                       </span>
                     </label>
-                  </div>
+                  </address>
 
-                  <div className="w-full">
+                  <address className="w-full">
                     {/* Display selectable table with all cities in the country selected */}
                     <label
                       htmlFor="addressCity"
@@ -454,7 +454,7 @@ export default function CityDistribution({ cities }: Props) {
                       <DisplayInputError message={errors.addressCountry.message} />
                     )} 
                     */}
-                  </div>
+                  </address>
                 </>
               )}
           </>

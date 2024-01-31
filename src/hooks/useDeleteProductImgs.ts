@@ -11,7 +11,7 @@ const deleteProductImgs = async (
 ) => {
   // 1. Delete product multimedia images
   if (product.product_multimedia[0]) {
-    const p_principal_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/${product.id}/p_principal/${product.product_multimedia[0].p_principal}`;
+    const p_principal_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/${product.id}/p_principal/${product.product_multimedia.p_principal}`;
 
     const { data, error } = await supabase.storage
       .from("products")

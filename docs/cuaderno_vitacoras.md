@@ -5,7 +5,6 @@
 - Mandar email a los productores registrados en el evento, seguimiento
 - Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
-- Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
 - Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
@@ -293,12 +292,94 @@ Planificación de este año.
 - [x] Eroror vista de producto en detalle
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
-- [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
-- [ ] Desplegar cambios
-- [ ] Preparar presentación
+- [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [x] Desplegar cambios
+- [x] Preparar presentación
 
 - [ ] ERROR AL CREAR DISTRIBUIDOR:
       Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
       Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
 
 Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
+
+## 29 de enero
+
+- [ ] Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
+      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+
+### Convertir en single todas las relaciones necesarias - One to One Relation:
+
+- [x] Beers -> Product
+- [x] Reviews -> Product
+- [x] Reviews -> User
+- [x] Awards -> Product
+- [x] Billing Info -> User
+- [ ] Business Orders -> Order
+- [ ] Business Orders -> Producer
+- [ ] Business Orders -> Distributor
+- [x] Campaign Items -> Product
+- [x] Campaign Items -> Campaign
+- [x] Campaign -> User
+- [ ] Consumption Points -> User
+- [x] Coverage Areas -> Distributor
+- [x] CP Fixed -> Consumption Point
+- [x] CP Mobile -> Consumption Point
+- [x] CPF Events -> CP Fixed
+- [x] CPF Events -> Event
+- [x] CPM Events -> CP Mobile
+- [x] CPM Events -> Event
+- [x] CPF Products -> CP Fixed
+- [x] CPF Products -> Product Pack
+- [x] CPM Products -> CP Mobile
+- [x] CPM Products -> Product Pack
+- [x] Customize Settings -> User
+- [x] Distribution -> Origin Distributor
+- [x] Distribution -> Business Order
+- [ ] Distribution Contract -> Producer
+- [ ] Distribution Contract -> Distributor
+- [x] Distribution Cost -> Distributor
+- [x] Distributor -> User
+- [x] Producer -> User
+- [x] Event Order Items -> Event Order
+- [x] Event Order Items -> Product Packs
+- [x] Event Orders -> User
+- [x] Event Orders -> Event
+- [x] Events -> User
+- [x] Fixed Event Order Items -> Product
+- [x] Fixed Event Order Items -> Order
+- [x] Fixed Event Order -> User
+- [x] Fixed Event Order -> CP Fixed Owner
+- [x] Flatrate cost -> Distribution Cost
+- [x] Gamification -> User
+- [x] Likes -> Product
+- [x] Likes -> User
+- [x] Local Distribution -> Coverage Area
+- [x] Monthly Products -> Product
+- [x] Notifications -> User Source
+- [x] Notifications -> User Destination
+- [x] Order Items -> Product Pack
+- [x] Order Items -> Business Order
+- [x] Orders -> User
+- [x] Orders -> Shipping
+- [x] Orders -> Billing
+- [x] Orders -> Payment
+- [ ] Product Inventory -> Product
+- [ ] Product Lots -> User
+- [ ] Product Lots -> Product
+- [ ] Product Multimedia -> Product
+- [ ] Product Pack -> Product
+- [ ] Product Wishlist -> Product
+- [ ] Product Wishlist -> User
+- [ ] Product -> User
+- [ ] Profile Location -> User
+- [ ] User Reports -> User
+
+
+### 30 de enero
+- [ ] Errores de supabase con los tipos de BBDD y Typescript
+- [x] Pair programming con Gustavo. Hemos hablado de: semántica HTML, cómo funciona react y JSX, componentes de Nextjs como Image, estructura de carpetas de Nextjs, etc.  

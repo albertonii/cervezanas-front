@@ -94,7 +94,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
             packs: [pack],
             name: product.name,
             price: product.price,
-            image: product.product_multimedia[0].p_principal,
+            image: product.product_multimedia.p_principal,
             producer_id: product.owner_id,
             cpm_id: product.cpm_id,
             cpf_id: product.cpf_id,

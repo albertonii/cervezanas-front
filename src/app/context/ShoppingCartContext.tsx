@@ -81,7 +81,7 @@ export function ShoppingCartProvider({ children }: Props) {
       packs: [pack],
       name: product.name,
       price: product.price,
-      image: product.product_multimedia[0].p_principal,
+      image: product.product_multimedia.p_principal,
       producer_id: product.owner_id,
       distributor_id: "",
     };

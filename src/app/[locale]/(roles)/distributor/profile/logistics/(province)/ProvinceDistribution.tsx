@@ -239,8 +239,7 @@ export default function ProvinceDistribution({
           </Button>
 
           <div className="flex flex-col items-start space-y-4">
-            <div className="grid w-full grid-cols-2 gap-4">
-              <div>
+            <address className="grid w-full grid-cols-2 gap-4">
                 <label
                   htmlFor="addressCountry"
                   className="text-sm text-gray-600"
@@ -266,8 +265,7 @@ export default function ProvinceDistribution({
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
+            </address>
 
             <InputSearch
               query={query}

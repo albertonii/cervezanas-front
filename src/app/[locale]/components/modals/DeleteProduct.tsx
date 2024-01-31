@@ -69,7 +69,7 @@ export function DeleteProduct({
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([
-            `${decodeURIComponent(product.product_multimedia[0].p_principal)}`,
+            `${decodeURIComponent(product.product_multimedia.p_principal)}`,
           ]);
 
         if (storageError) throw storageError;
@@ -79,7 +79,7 @@ export function DeleteProduct({
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([
-            `${decodeURIComponent(product?.product_multimedia[0].p_back)}`,
+            `${decodeURIComponent(product?.product_multimedia.p_back)}`,
           ]);
 
         if (storageError) throw storageError;
@@ -89,7 +89,7 @@ export function DeleteProduct({
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([
-            `${decodeURIComponent(product?.product_multimedia[0].p_extra_1)}`,
+            `${decodeURIComponent(product?.product_multimedia.p_extra_1)}`,
           ]);
 
         if (storageError) throw storageError;
@@ -99,7 +99,7 @@ export function DeleteProduct({
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([
-            `${decodeURIComponent(product?.product_multimedia[0].p_extra_2)}`,
+            `${decodeURIComponent(product?.product_multimedia.p_extra_2)}`,
           ]);
 
         if (storageError) throw storageError;
@@ -109,7 +109,7 @@ export function DeleteProduct({
         const { error: storageError } = await supabase.storage
           .from("products")
           .remove([
-            `${decodeURIComponent(product?.product_multimedia[0].p_extra_3)}`,
+            `${decodeURIComponent(product?.product_multimedia.p_extra_3)}`,
           ]);
 
         if (storageError) throw storageError;

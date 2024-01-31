@@ -1,58 +1,28 @@
-import Marketplace from "./Marketplace";
-import React from "react";
-import createServerClient from "../../../../utils/supabaseServer";
-import { IProduct } from "../../../../lib/types";
+import Marketplace from './Marketplace';
+import React from 'react';
+import createServerClient from '../../../../utils/supabaseServer';
+import { IProduct, IProductMultimedia } from '../../../../lib/types';
 
 export default async function MarketPlacePage() {
-  const productsData = getMarketplaceProducts();
-  const [products] = await Promise.all([productsData]);
+    const productsData = getMarketplaceProducts();
+    const [products] = await Promise.all([productsData]);
 
-  // const products: IProduct[] = [
-  //   {
-  //     id: "1",
-  //     name: "Prueba",
-  //     description: "Prueba description",
-  //     created_at: new Date(),
-  //     social_cause_id: "11233",
-  //     category: "beer",
-  //     campaign_id: "12341234",
-  //     owner_id: "afgasfg",
-  //     product_lot: [],
-  //     product_inventory: [],
-  //     product_multimedia: [],
-  //     reviews: [],
-  //     likes: [],
-  //     is_public: false,
-  //     price: 2,
-  //     beers: [], // Any para evitar circular dependency
-  //     product_variant: [],
-  //     order_item: [],
-  //     awards: [],
-  //     is_archived: false,
-  //     state: "",
-  //     status: "",
-  //     type: "",
-  //     product_pack: [],
-  //     is_monthly: false,
-  //   },
-  // ];
-
-  return (
-    <>
-      <Marketplace products={products ?? []} />
-    </>
-  );
+    return (
+        <>
+            <Marketplace products={products ?? []} />
+        </>
+    );
 }
 
 async function getMarketplaceProducts() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: productsData, error: productsError } = await supabase
-    .from("products")
-    .select(
-      `
+    const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select(
+            `
         *,
-        beers (
+        beers!inner (
           *
         ),
         product_multimedia (
@@ -60,7 +30,7 @@ async function getMarketplaceProducts() {
           p_principal
         ),
         product_inventory (
-          quantity
+          *
         ),
         likes (
           *,
@@ -71,11 +41,11 @@ async function getMarketplaceProducts() {
           overall
         ),
         product_packs (*)
-      `
-    )
-    .eq("is_public", true);
+      `,
+        )
+        .eq('is_public', true);
 
-  if (productsError) throw productsError;
+    if (productsError) throw productsError;
 
-  return productsData as IProduct[];
+    return productsData as IProduct[];
 }

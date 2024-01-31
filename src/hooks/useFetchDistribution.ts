@@ -13,7 +13,8 @@ const fetchDistributionByOwnerId = async (
   const { data, error } = await supabase
     .from("distributor_user")
     .select(
-      `*,
+      `
+      *,
       coverage_areas (
         *,
         local_distribution(*)

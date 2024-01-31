@@ -54,6 +54,7 @@ const AppContext = createContext<AppContextType>({
     created_at: "",
     colors: [],
     family_styles: [],
+    owner_id: "",
   },
   setCustomizeSettings: () => void {},
   imageData: {},
@@ -80,6 +81,7 @@ export function AppContextProvider(props: Props) {
       created_at: "",
       colors: [],
       family_styles: [],
+      owner_id: "",
     });
 
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -169,7 +171,7 @@ export function AppContextProvider(props: Props) {
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("useProfile must be used within a AppContextProvider.");
+    throw new Error("useAppContext must be used within a AppContextProvider.");
   }
 
   return context;

@@ -24,7 +24,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
   const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
   const reviews = product.reviews;
-  const selectedMultimedia = product.product_multimedia[0];
+  const selectedMultimedia = product.product_multimedia;
 
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
     setIsLike(value);

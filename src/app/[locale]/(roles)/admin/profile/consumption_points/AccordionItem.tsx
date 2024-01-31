@@ -22,9 +22,9 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
 
   const [showAccordion, setShowAccordion] = useState(false);
 
-  if (!product.beers || !product.beers[0]) return <></>;
+  if (!product.beers) return <></>;
 
-  const formatName = product.beers[0]?.format ?? "";
+  const formatName = product.beers?.format ?? "";
   const formatIcon =
     formatName === FormatName.bottle
       ? "/icons/format/bottle.svg"
@@ -33,7 +33,7 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
       : formatName === FormatName.draft
       ? "/icons/format/keg.svg"
       : "/icons/format/bottle.svg";
-  const volume = product.beers[0]?.volume ?? "";
+  const volume = product.beers?.volume ?? "";
 
   const handleCheckboxChange = (packId: string, isChecked: boolean) => {
     setSelectedPacks((prevSelectedPacks) => {

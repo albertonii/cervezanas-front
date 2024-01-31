@@ -215,7 +215,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
             <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
               {order.billing_info && (
                 <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
-                  <div>
+                  <address>
                     <dt className="font-medium text-gray-900">
                       {t("billing_address")}
                     </dt>
@@ -229,7 +229,8 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         ,{order.billing_info.country}
                       </span>
                     </dd>
-                  </div>
+                  </address>
+                  
                   <div>
                     <dt className="font-medium text-gray-900">
                       {t("payment_information")}
