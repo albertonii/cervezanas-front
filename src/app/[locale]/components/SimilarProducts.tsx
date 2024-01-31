@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import DisplayImageProduct from "./common/DisplayImageProduct";
+import React from 'react';
+import DisplayImageProduct from './common/DisplayImageProduct';
 
 export function SimilarProducts() {
   return (
@@ -12,10 +12,10 @@ export function SimilarProducts() {
           height={240}
           alt="Principal Product Image store item"
           imgSrc={
-            "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+            'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg'
           }
-          class={"m-auto rounded-sm hover:cursor-pointer"}
-          objectFit={"cover"}
+          class={'m-auto rounded-sm hover:cursor-pointer'}
+          objectFit={'cover'}
           // onClick={() => router.push(`/${locale}/products/${product.id}`)}
         />
       </figure>

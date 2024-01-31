@@ -41,6 +41,7 @@ export interface Database {
           {
             foreignKeyName: "awards_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -117,6 +118,7 @@ export interface Database {
           {
             foreignKeyName: "beers_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -175,6 +177,7 @@ export interface Database {
           {
             foreignKeyName: "billing_info_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -209,18 +212,21 @@ export interface Database {
           {
             foreignKeyName: "business_orders_distributor_id_fkey"
             columns: ["distributor_id"]
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
           },
           {
             foreignKeyName: "business_orders_order_id_fkey"
             columns: ["order_id"]
+            isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "business_orders_producer_id_fkey"
             columns: ["producer_id"]
+            isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user"]
           }
@@ -249,12 +255,14 @@ export interface Database {
           {
             foreignKeyName: "campaign_item_campaign_id_fkey"
             columns: ["campaign_id"]
+            isOneToOne: true
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "campaign_item_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -313,6 +321,7 @@ export interface Database {
           {
             foreignKeyName: "campaigns_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -347,6 +356,7 @@ export interface Database {
           {
             foreignKeyName: "consumption_points_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -387,6 +397,7 @@ export interface Database {
           {
             foreignKeyName: "coverage_areas_distributor_id_fkey"
             columns: ["distributor_id"]
+            isOneToOne: true
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
           }
@@ -457,6 +468,7 @@ export interface Database {
           {
             foreignKeyName: "cp_fixed_cp_id_fkey"
             columns: ["cp_id"]
+            isOneToOne: true
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           }
@@ -527,6 +539,7 @@ export interface Database {
           {
             foreignKeyName: "cp_mobile_cp_id_fkey"
             columns: ["cp_id"]
+            isOneToOne: true
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           }
@@ -552,6 +565,7 @@ export interface Database {
           {
             foreignKeyName: "cpf_events_event_id_fkey"
             columns: ["event_id"]
+            isOneToOne: true
             referencedRelation: "events"
             referencedColumns: ["id"]
           }
@@ -586,12 +600,14 @@ export interface Database {
           {
             foreignKeyName: "cpf_products_cp_id_fkey"
             columns: ["cp_id"]
+            isOneToOne: false
             referencedRelation: "cp_fixed"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "cpf_products_product_pack_id_fkey"
             columns: ["product_pack_id"]
+            isOneToOne: true
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -617,12 +633,14 @@ export interface Database {
           {
             foreignKeyName: "cpm_events_cp_id_fkey"
             columns: ["cp_id"]
+            isOneToOne: true
             referencedRelation: "cp_mobile"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "cpm_events_event_id_fkey"
             columns: ["event_id"]
+            isOneToOne: true
             referencedRelation: "events"
             referencedColumns: ["id"]
           }
@@ -657,12 +675,14 @@ export interface Database {
           {
             foreignKeyName: "cpm_products_cp_id_fkey"
             columns: ["cp_id"]
+            isOneToOne: false
             referencedRelation: "cp_mobile"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "cpm_products_product_pack_id_fkey"
             columns: ["product_pack_id"]
+            isOneToOne: true
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -694,6 +714,7 @@ export interface Database {
           {
             foreignKeyName: "customize_settings_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -743,12 +764,14 @@ export interface Database {
           {
             foreignKeyName: "distribution_business_order_id_fkey"
             columns: ["business_order_id"]
+            isOneToOne: true
             referencedRelation: "business_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "distribution_origin_distributor_fkey"
             columns: ["origin_distributor"]
+            isOneToOne: true
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
           }
@@ -786,12 +809,14 @@ export interface Database {
           {
             foreignKeyName: "distribution_contracts_distributor_id_fkey"
             columns: ["distributor_id"]
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
           },
           {
             foreignKeyName: "distribution_contracts_producer_id_fkey"
             columns: ["producer_id"]
+            isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user"]
           }
@@ -817,6 +842,7 @@ export interface Database {
           {
             foreignKeyName: "distribution_costs_distributor_id_fkey"
             columns: ["distributor_id"]
+            isOneToOne: true
             referencedRelation: "distributor_user"
             referencedColumns: ["user"]
           }
@@ -857,12 +883,14 @@ export interface Database {
           {
             foreignKeyName: "distributor_user_location_id_fkey"
             columns: ["location_id"]
+            isOneToOne: false
             referencedRelation: "profile_location"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "distributor_user_user_fkey"
             columns: ["user"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -903,12 +931,14 @@ export interface Database {
           {
             foreignKeyName: "event_order_items_order_id_fkey"
             columns: ["order_id"]
+            isOneToOne: true
             referencedRelation: "event_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "event_order_items_product_pack_id_fkey"
             columns: ["product_pack_id"]
+            isOneToOne: true
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -967,18 +997,21 @@ export interface Database {
           {
             foreignKeyName: "event_orders_customer_id_fkey"
             columns: ["customer_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "event_orders_event_id_fkey"
             columns: ["event_id"]
+            isOneToOne: true
             referencedRelation: "events"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "event_orders_payment_method_id_fkey"
             columns: ["payment_method_id"]
+            isOneToOne: false
             referencedRelation: "payment_method_card"
             referencedColumns: ["id"]
           }
@@ -1031,6 +1064,7 @@ export interface Database {
           {
             foreignKeyName: "events_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1062,12 +1096,14 @@ export interface Database {
           {
             foreignKeyName: "feedback_ordered_product_lot_id_fkey"
             columns: ["ordered_product_lot_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "feedback_review_id_fkey"
             columns: ["review_id"]
+            isOneToOne: false
             referencedRelation: "reviews"
             referencedColumns: ["id"]
           }
@@ -1102,12 +1138,14 @@ export interface Database {
           {
             foreignKeyName: "fixed_event_order_items_order_fkey"
             columns: ["order"]
+            isOneToOne: true
             referencedRelation: "fixed_event_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "fixed_event_order_items_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1163,12 +1201,14 @@ export interface Database {
           {
             foreignKeyName: "fixed_event_orders_cp_f_owner_fkey"
             columns: ["cp_f_owner"]
+            isOneToOne: true
             referencedRelation: "cp_fixed"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "fixed_event_orders_customer_id_fkey"
             columns: ["customer_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1215,6 +1255,7 @@ export interface Database {
           {
             foreignKeyName: "flatrate_cost_distribution_costs_id_fkey"
             columns: ["distribution_costs_id"]
+            isOneToOne: true
             referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
           }
@@ -1243,6 +1284,7 @@ export interface Database {
           {
             foreignKeyName: "gamification_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1271,12 +1313,14 @@ export interface Database {
           {
             foreignKeyName: "likes_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "likes_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1311,6 +1355,7 @@ export interface Database {
           {
             foreignKeyName: "local_distribution_coverage_area_id_fkey"
             columns: ["coverage_area_id"]
+            isOneToOne: true
             referencedRelation: "coverage_areas"
             referencedColumns: ["id"]
           }
@@ -1342,6 +1387,7 @@ export interface Database {
           {
             foreignKeyName: "monthly_products_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1379,12 +1425,14 @@ export interface Database {
           {
             foreignKeyName: "notifications_source_fkey"
             columns: ["source"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "notifications_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1416,12 +1464,14 @@ export interface Database {
           {
             foreignKeyName: "order_items_business_order_id_fkey"
             columns: ["business_order_id"]
+            isOneToOne: true
             referencedRelation: "business_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "order_items_product_pack_id_fkey"
             columns: ["product_pack_id"]
+            isOneToOne: true
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -1501,24 +1551,28 @@ export interface Database {
           {
             foreignKeyName: "orders_billing_info_id_fkey"
             columns: ["billing_info_id"]
+            isOneToOne: true
             referencedRelation: "billing_info"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_payment_method_id_fkey"
             columns: ["payment_method_id"]
+            isOneToOne: true
             referencedRelation: "payment_method_card"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_shipping_info_id_fkey"
             columns: ["shipping_info_id"]
+            isOneToOne: true
             referencedRelation: "shipping_info"
             referencedColumns: ["id"]
           }
@@ -1592,12 +1646,14 @@ export interface Database {
           {
             foreignKeyName: "producer_user_location_id_fkey"
             columns: ["location_id"]
+            isOneToOne: false
             referencedRelation: "profile_location"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "producer_user_user_fkey"
             columns: ["user"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1629,6 +1685,7 @@ export interface Database {
           {
             foreignKeyName: "product_inventory_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1684,12 +1741,14 @@ export interface Database {
           {
             foreignKeyName: "product_lots_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "product_lots_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1739,6 +1798,7 @@ export interface Database {
           {
             foreignKeyName: "product_multimedia_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1779,6 +1839,7 @@ export interface Database {
           {
             foreignKeyName: "product_packs_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1807,12 +1868,14 @@ export interface Database {
           {
             foreignKeyName: "product_wishlist_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "product_wishlist_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1874,6 +1937,7 @@ export interface Database {
           {
             foreignKeyName: "products_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1932,6 +1996,7 @@ export interface Database {
           {
             foreignKeyName: "profile_location_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1984,12 +2049,14 @@ export interface Database {
           {
             foreignKeyName: "reviews_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "reviews_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -2054,6 +2121,7 @@ export interface Database {
           {
             foreignKeyName: "shipping_info_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -2091,6 +2159,7 @@ export interface Database {
           {
             foreignKeyName: "user_reports_reporter_id_fkey"
             columns: ["reporter_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -2166,4 +2235,84 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never
 

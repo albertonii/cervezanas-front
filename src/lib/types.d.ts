@@ -2,15 +2,15 @@ import {
   UserAppMetadata,
   UserIdentity,
   UserMetadata,
-} from "@supabase/supabase-js";
-import { CssComponent } from "@stitches/core/types/styled-component";
-import { Provider, SupabaseClient } from "@supabase/supabase-js";
-import { ThemeVariables } from "../../common/theming";
-import { Session } from "@supabase/gotrue-js/src/lib/types.d";
-import { Type as ProductType } from "./productEnum";
-import { Fermentation } from "./beerEnum";
+} from '@supabase/supabase-js';
+import { CssComponent } from '@stitches/core/types/styled-component';
+import { Provider, SupabaseClient } from '@supabase/supabase-js';
+import { ThemeVariables } from '../../common/theming';
+import { Session } from '@supabase/gotrue-js/src/lib/types.d';
+import { Type as ProductType } from './productEnum';
+import { Fermentation } from './beerEnum';
 
-export type ButtonTypes = "button" | "submit" | "reset";
+export type ButtonTypes = 'button' | 'submit' | 'reset';
 
 export interface AnimationTailwindClasses {
   enter?: string;
@@ -64,21 +64,21 @@ export type I18nVariables = {
 
 export interface Localization {
   // [key: string]: I18nVariables
-  ["en"]: I18nVariables;
-  ["ja"]: I18nVariables;
-  ["de_formal"]: I18nVariables;
-  ["de_informal"]: I18nVariables;
+  ['en']: I18nVariables;
+  ['ja']: I18nVariables;
+  ['de_formal']: I18nVariables;
+  ['de_informal']: I18nVariables;
 }
 
-export type SocialLayout = "horizontal" | "vertical";
-export type SocialButtonSize = "tiny" | "small" | "medium" | "large" | "xlarge";
+export type SocialLayout = 'horizontal' | 'vertical';
+export type SocialButtonSize = 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
 
-export type ViewSignIn = "signin";
-export type ViewSignUp = "signup";
-export type ViewSignOut = "signout";
-export type ViewMagicLink = "magic_link";
-export type ViewForgottenPassword = "forgotten_password";
-export type ViewUpdatePassword = "update_password";
+export type ViewSignIn = 'signin';
+export type ViewSignUp = 'signup';
+export type ViewSignOut = 'signout';
+export type ViewMagicLink = 'magic_link';
+export type ViewForgottenPassword = 'forgotten_password';
+export type ViewUpdatePassword = 'update_password';
 
 export type ViewType =
   | ViewSignIn
@@ -146,11 +146,11 @@ export interface IAuth {
    * Override the labels and button text
    */
   localization?: {
-    lang?: "en" | "ja"; // es
+    lang?: 'en' | 'ja'; // es
     variables?: I18nVariables;
   };
   appearance?: Appearance;
-  theme?: "default" | string;
+  theme?: 'default' | string;
 }
 
 export interface IBeer {
@@ -947,22 +947,16 @@ export interface IProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers?: IBeer;
-  product_multimedia?: IProductMultimedia[];
   order_items?: IOrderItem[];
-  users?: IUserTable;
-
-  // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
-  // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
   product_lots?: IProductLot[];
-  product_inventory?: IProductInventory[];
   reviews?: IReview[];
   likes?: ILike[];
   awards?: IAward[];
-  // state: IProductEnum.State;
-  // status: IProductEnum.Status;
-  // product_packs: IRefProductPack[];
   product_packs?: IProductPack[];
+  beers?: IBeer;
+  users?: IUserTable;
+  product_inventory?: IProductInventory;
+  product_multimedia?: IProductMultimedia;
 }
 
 export interface IEventProduct {
@@ -1033,14 +1027,14 @@ export interface IMonthlyProduct {
 }
 
 export enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 
 declare global {
@@ -1055,9 +1049,9 @@ export interface IMarker {
 }
 
 export enum MarkerType {
-  NONE = "none",
-  FIXED = "fixed",
-  MOBILE = "mobile",
+  NONE = 'none',
+  FIXED = 'fixed',
+  MOBILE = 'mobile',
 }
 
 export interface INotification {
@@ -1297,7 +1291,7 @@ export interface IUserProfile {
 }
 
 export enum PROVIDER_TYPE {
-  GOOGLE = "google",
+  GOOGLE = 'google',
 }
 
 export interface IDistributorUser {
