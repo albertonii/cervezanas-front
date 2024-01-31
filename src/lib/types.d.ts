@@ -1287,7 +1287,7 @@ export interface IUserProfile {
   birthdate: string;
   bg_url: string;
   avatar_url: string;
-  gamification?: IGamification[];
+  gamification?: IGamification;
 }
 
 export enum PROVIDER_TYPE {

@@ -187,7 +187,7 @@ export function StoreItem({ product }: StoreItemProps) {
                     {product.name}
                   </Link>
                 </h2>
-                {/* {beer.product_inventory[0]?.quantity > 0 ? (
+                {/* {beer.product_inventory?.quantity > 0 ? (
                   <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
                     {t("instock")}
                   </div>

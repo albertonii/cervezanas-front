@@ -1,5 +1,6 @@
 # Listado de tareas:
 
+- Sistema para comprobar automatizar el stock de un producto (pack)
 - Comprobar qué sucede al acceder a eventos en producción.
 - Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
 - Mandar email a los productores registrados en el evento, seguimiento

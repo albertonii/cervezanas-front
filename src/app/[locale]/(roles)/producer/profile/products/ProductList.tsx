@@ -190,8 +190,8 @@ export function ProductList({
 
                         <td className="px-6 py-4">
                           {product.product_inventory &&
-                          product.product_inventory[0]?.quantity
-                            ? product.product_inventory[0].quantity
+                          product.product_inventory?.quantity
+                            ? product.product_inventory.quantity
                             : '-'}
                         </td>
 
