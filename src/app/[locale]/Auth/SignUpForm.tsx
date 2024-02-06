@@ -1,24 +1,24 @@
-import { useState } from "react";
-import Spinner from "../components/common/Spinner";
-import { useTranslations } from "next-intl";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { SignUpWithPasswordCredentials } from "./AuthContext";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
-import { useMutation } from "react-query";
-import { useMessage } from "../components/message/useMessage";
-import { useAuth } from "./useAuth";
-import { Button } from "../components/common/Button";
-import { ROLE_ENUM, ROLE_OPTIONS } from "../../../lib/enums";
-import InputLabel from "../components/common/InputLabel";
-import SelectInput from "../components/common/SelectInput";
-import Link from "next/link";
-import { SupabaseProps } from "../../../constants";
-import Modal from "../components/modals/Modal";
-import ProducerDisclaimerModal from "../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal";
-import DistributorDisclaimerModal from "../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal";
+import { useState } from 'react';
+import Spinner from '../components/common/Spinner';
+import { useTranslations } from 'next-intl';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { SignUpWithPasswordCredentials } from './AuthContext';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z, ZodType } from 'zod';
+import { useMutation } from 'react-query';
+import { useMessage } from '../components/message/useMessage';
+import { useAuth } from './useAuth';
+import { Button } from '../components/common/Button';
+import { ROLE_ENUM, ROLE_OPTIONS } from '../../../lib/enums';
+import InputLabel from '../components/common/InputLabel';
+import SelectInput from '../components/common/SelectInput';
+import Link from 'next/link';
+import { SupabaseProps } from '../../../constants';
+import Modal from '../components/modals/Modal';
+import ProducerDisclaimerModal from '../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
+import DistributorDisclaimerModal from '../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 
 interface FormData {
   access_level: string;
@@ -41,25 +41,25 @@ interface FormData {
 const schema: ZodType<FormData> = z
   .object({
     access_level: z.string(),
-    username: z.string().min(5, { message: "Required" }),
+    username: z.string().min(5, { message: 'Required' }),
     email: z
       .string()
       .email({
-        message: "Must be a valid email",
+        message: 'Must be a valid email',
       })
-      .min(5, { message: "Required" }),
+      .min(5, { message: 'Required' }),
     password: z
       .string()
-      .min(8, { message: "Password must be atleast 8 characters" }),
+      .min(8, { message: 'Password must be atleast 8 characters' }),
     confirm_password: z
       .string()
-      .min(8, { message: "Password must be atleast 8 characters" }),
+      .min(8, { message: 'Password must be atleast 8 characters' }),
     is_legal_age: z.boolean().refine((data) => data === true, {
-      message: "You must be of legal age",
+      message: 'You must be of legal age',
     }),
   })
   .refine((data) => data.password === data.confirm_password, {
-    path: ["confirm_password"],
+    path: ['confirm_password'],
     message: "Password don't match",
   });
 
@@ -76,9 +76,9 @@ export const SignUpForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       access_level: ROLE_ENUM.Cervezano,
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -108,7 +108,7 @@ export const SignUpForm = () => {
       password: password,
       options: {
         emailRedirectTo: `${location.origin}/api/auth/callback`,
-        captchaToken: "",
+        captchaToken: '',
         data: data,
       },
     };
@@ -127,19 +127,11 @@ export const SignUpForm = () => {
   };
 
   const handleCredentialsMutation = useMutation({
-    mutationKey: "credentialsSignUp",
+    mutationKey: 'credentialsSignUp',
     mutationFn: handleCredentialsSignUp,
-    onMutate: () => {
-      console.info("onMutate");
-    },
-    onSuccess: () => {
-      console.info("success sign up");
-    },
+
     onError: (error: Error) => {
-      handleMessage({
-        type: "error",
-        message: error.message,
-      });
+      console.error(error);
     },
   });
 
@@ -171,9 +163,9 @@ export const SignUpForm = () => {
     >
       <SelectInput
         form={form}
-        labelTooltip={"tooltips.role_description"}
+        labelTooltip={'tooltips.role_description'}
         options={ROLE_OPTIONS}
-        label={"access_level"}
+        label={'access_level'}
         registerOptions={{
           required: true,
         }}
@@ -198,7 +190,7 @@ export const SignUpForm = () => {
 
       <InputLabel
         form={form}
-        label={"username"}
+        label={'username'}
         registerOptions={{
           required: true,
         }}
@@ -207,7 +199,7 @@ export const SignUpForm = () => {
 
       <InputLabel
         form={form}
-        label={"email"}
+        label={'email'}
         registerOptions={{
           required: true,
         }}
@@ -217,7 +209,7 @@ export const SignUpForm = () => {
 
       <InputLabel
         form={form}
-        label={"password"}
+        label={'password'}
         registerOptions={{
           required: true,
         }}
@@ -227,7 +219,7 @@ export const SignUpForm = () => {
 
       <InputLabel
         form={form}
-        label={"confirm_password"}
+        label={'confirm_password'}
         registerOptions={{
           required: true,
         }}
@@ -238,14 +230,14 @@ export const SignUpForm = () => {
       <div className="flex w-full flex-col space-y-2">
         <InputLabel
           form={form}
-          label={"is_legal_age"}
+          label={'is_legal_age'}
           registerOptions={{
             required: true,
           }}
           placeholder="*****"
           inputType="checkbox"
         />
-        <p className="text-xs text-gray-500">{t("is_legal_age_description")}</p>
+        <p className="text-xs text-gray-500">{t('is_legal_age_description')}</p>
       </div>
 
       {role === ROLE_ENUM.Productor && (
@@ -264,17 +256,17 @@ export const SignUpForm = () => {
           <div className="w-full">
             <label
               className={
-                "flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600"
+                'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
               }
             >
               <span className="font-medium">
-                {t("producer_disclaimer_acceptance")}
+                {t('producer_disclaimer_acceptance')}
               </span>
 
               <input
                 type="checkbox"
                 className={
-                  "float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                  'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                 }
               />
             </label>
@@ -283,12 +275,12 @@ export const SignUpForm = () => {
           <Link
             href={
               SupabaseProps.BASE_DOCUMENTS_URL +
-              "/acuerdo_productor_cervezanas.pdf?t=2024-01-24T17%3A52%3A02.060Z"
+              '/acuerdo_productor_cervezanas.pdf?t=2024-01-24T17%3A52%3A02.060Z'
             }
-            target={"_blank"}
+            target={'_blank'}
           >
             <span className="mx-1 text-beer-darkGold hover:underline">
-              {t("producer_read_disclaimer")}
+              {t('producer_read_disclaimer')}
             </span>
           </Link>
         </div>
@@ -299,17 +291,17 @@ export const SignUpForm = () => {
           <div className="w-full">
             <label
               className={
-                "flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600"
+                'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
               }
             >
               <span className="font-medium">
-                {t("producer_disclaimer_acceptance")}
+                {t('distributor_disclaimer_acceptance')}
               </span>
 
               <input
                 type="checkbox"
                 className={
-                  "float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                  'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                 }
               />
             </label>
@@ -319,12 +311,12 @@ export const SignUpForm = () => {
             <Link
               href={
                 SupabaseProps.BASE_DOCUMENTS_URL +
-                "/acuerdo_distribuidor_cervezanas.pdf?t=2024-01-24T17%3A51%3A27.332Z"
+                '/acuerdo_distribuidor_cervezanas.pdf?t=2024-01-24T17%3A51%3A27.332Z'
               }
-              target={"_blank"}
+              target={'_blank'}
             >
               <span className="mx-1 text-beer-darkGold hover:underline">
-                {t("distributor_read_disclaimer")}
+                {t('distributor_read_disclaimer')}
               </span>
             </Link>
           </p>
@@ -333,7 +325,7 @@ export const SignUpForm = () => {
 
       {loading ? (
         <span>
-          <Spinner color={""} size={""} />
+          <Spinner color={''} size={''} />
         </span>
       ) : (
         <>
@@ -350,22 +342,22 @@ export const SignUpForm = () => {
           />
 
           <Button
-            title={"sign_up"}
+            title={'sign_up'}
             btnType="submit"
             class={
-              "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+              'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
             }
             fullSize
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <FontAwesomeIcon
                 icon={faLock}
-                style={{ color: "bear-dark" }}
-                title={"Lock"}
+                style={{ color: 'bear-dark' }}
+                title={'Lock'}
                 className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
               />
             </span>
-            {t("sign_up")}
+            {t('sign_up')}
           </Button>
         </>
       )}
