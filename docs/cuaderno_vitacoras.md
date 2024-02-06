@@ -2,11 +2,10 @@
 
 - Sistema para comprobar automatizar el stock de un producto (pack)
 - Comprobar qué sucede al acceder a eventos en producción.
-- Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
 - Mandar email a los productores registrados en el evento, seguimiento
 - Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
-- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
@@ -32,13 +31,8 @@
 
 # WIP
 
+- Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
 - Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
-
-- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
-
-Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
-
-- Crear presentación de workshop para el lunes
 
 - Conectar los servicios nuevos de Miguel con la aplicación
 - Cervezanas en Producción
@@ -55,7 +49,6 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
   g. Si borra una review, restar la experiencia a su sistema de gamificación
   h. Ver las reviews realizadas por un usuario
 
-- [] Crear cuenta de soporte de correos que termine en Cervezanas.eu
 - Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 
 # Tareas realizadas
@@ -98,6 +91,12 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - [x] Enviar correo a Miguel para contratar servicios
 - [x] PDF acuerdo de colaboración Cervezanas - Productor
 - [x] PDF acuerdo de colaboración Cervezanas - Distribuidor - miguel
+- [x] Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
+
+Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+- [x] Crear presentación de workshop para el lunes
+- [x] Crear cuenta de soporte de correos que termine en Cervezanas.eu
 
 ## 29 de noviembre 23
 
@@ -244,8 +243,6 @@ Planificación de este año.
 
 -- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES
 
---
-
 ## 23 de enero
 
 --
@@ -281,7 +278,7 @@ Planificación de este año.
 - [x] Esconder login google
 - [x] Grabar demo
 - [x] Mirar error en checkbox para crear productor y distribuidor
-- [ ] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
+- [x] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
 
 ---
 
@@ -297,15 +294,10 @@ Planificación de este año.
 - [x] Desplegar cambios
 - [x] Preparar presentación
 
-- [ ] ERROR AL CREAR DISTRIBUIDOR:
-      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
-      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
-
-Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
 
 ## 29 de enero
 
-- [ ] Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
+- [x] Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
 - [ ] ERROR AL CREAR DISTRIBUIDOR:
@@ -385,3 +377,62 @@ Lo que podemos hacer por ahora... es quitar la inserción a través de los trigg
 ### 31 de enero
 
 - [x] Errores de supabase con los tipos de BBDD y Typescript
+
+### 2 de febrero
+
+- [x] Nóminas firmadas
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
+      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+- [ ] Crear un onboarding Consumidor
+- [ ] Crear un onboarding Productor
+- [ ] Crear un onboarding Distribuidor
+
+- REUNIÓN con Mariano y Miguel - Viernes 2
+  Preparar el BBF, funcionalidades que haremos: crear un vídeo promocional, habrá una cata a ciegas, monografías por roles/onboarding, etc.
+
+- Para el stand: necesitamos tener registradas las cervezas que vamos a llevar, los productores, los distribuidores, etc.
+- Dossier: debe tener la parte comercial (la parte que engancha) y la parte de onboarding (guía de como se usa)
+- Cata a ciegas: se regala la cerveza si se han dado de alta en la aplicación -> La parte de producción debe de estar dada de alta.
+- Plan de testeo con productos reales.
+- Necesitamos una política de precios para los productores y distribuidores. Cervezanas se lleva el X% de la venta.
+  Arrancar con un porcentaje a producción y otro a la distribución.
+
+EXPERIENCIAS EN EVENTOS:
+Podemos vincular experiencias a los eventos. Para el tema de cata a ciegas, cuando se crea un evento, podemos indicar si se va a añadir la experiencia de cata a ciegas. Si fuera así, se indica la cantidad de productos que se van a exponer.
+
+Vamos a escoger 3 cervezas, sin escoger fabricantes y diremos los tipos de cerveza o algo del tipo de cerveza que es. Será una cata a ciegas donde tendrán que adivinar el tipo de cerveza que están bebiendo. Pueden adivinar qué estilo de cerveza es o que cerveza es.
+
+HAY QUE DISEÑAR LAS EXPERIENCIAS
+
+Tenemos que crear un documento para especificar al máximo detalle qué experiencia ofreceremos en el BBF: el miércoles hablaremos de ello.
+
+Hay que hacer los dossiers y demás con Gustavo.
+
+---
+
+### 5 de febrero
+
+- [x] Actualizar funcionalidades en la documentación de Cervezanas
+- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+- [x] Redactar la experiencia de cata a ciegas que realizaremos en el BBF
+- [x] Crear vídeo presentación Cervezanas - 25 de enero
+- [x] Enviar vídeo a Cristian, planear vídeo de promoción Cervezanas
+- [ ] Arreglar creación de usuario Distribuidor
+- [ ] Poner a punto la producción en Supabase
+
+### 6 de febrero
+
+- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+
+  Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+  Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir, además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+
+  Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
+
+
+- [ ] Poner a punto la producción en Supabase

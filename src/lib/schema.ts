@@ -214,7 +214,7 @@ export interface Database {
             columns: ["distributor_id"]
             isOneToOne: false
             referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "business_orders_order_id_fkey"
@@ -228,7 +228,7 @@ export interface Database {
             columns: ["producer_id"]
             isOneToOne: false
             referencedRelation: "producer_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -398,8 +398,8 @@ export interface Database {
             foreignKeyName: "coverage_areas_distributor_id_fkey"
             columns: ["distributor_id"]
             isOneToOne: true
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -759,7 +759,7 @@ export interface Database {
             columns: ["origin_distributor"]
             isOneToOne: true
             referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -797,14 +797,14 @@ export interface Database {
             columns: ["distributor_id"]
             isOneToOne: false
             referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "distribution_contracts_producer_id_fkey"
             columns: ["producer_id"]
             isOneToOne: false
             referencedRelation: "producer_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -830,7 +830,7 @@ export interface Database {
             columns: ["distributor_id"]
             isOneToOne: true
             referencedRelation: "distributor_user"
-            referencedColumns: ["user"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -843,7 +843,7 @@ export interface Database {
           is_authorized: boolean | null
           location_id: string | null
           nif: string | null
-          user: string
+          user_id: string
         }
         Insert: {
           bank_account?: string | null
@@ -853,7 +853,7 @@ export interface Database {
           is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
-          user: string
+          user_id: string
         }
         Update: {
           bank_account?: string | null
@@ -863,7 +863,7 @@ export interface Database {
           is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
-          user?: string
+          user_id?: string
         }
         Relationships: [
           {
@@ -874,8 +874,8 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "distributor_user_user_fkey"
-            columns: ["user"]
+            foreignKeyName: "distributor_user_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -1607,7 +1607,7 @@ export interface Database {
           created_at: string
           is_authorized: boolean | null
           location_id: string | null
-          user: string
+          user_id: string
         }
         Insert: {
           company_description?: string | null
@@ -1615,7 +1615,7 @@ export interface Database {
           created_at?: string
           is_authorized?: boolean | null
           location_id?: string | null
-          user: string
+          user_id: string
         }
         Update: {
           company_description?: string | null
@@ -1623,7 +1623,7 @@ export interface Database {
           created_at?: string
           is_authorized?: boolean | null
           location_id?: string | null
-          user?: string
+          user_id?: string
         }
         Relationships: [
           {
@@ -1634,8 +1634,8 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "producer_user_user_fkey"
-            columns: ["user"]
+            foreignKeyName: "producer_user_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]

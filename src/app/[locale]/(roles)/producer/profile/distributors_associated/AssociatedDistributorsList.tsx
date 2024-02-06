@@ -1,25 +1,25 @@
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import DeleteContractModal from "./DeleteContractModal";
-import CancelContractModal from "./CancelContractModal";
-import useFetchDistributionContractsByProducerId from "../../../../../../hooks/useFetchDistributionContractsByProducerId";
-import React, { useEffect, useMemo, useState } from "react";
-import { IconButton } from "../../../../components/common/IconButton";
-import Spinner from "../../../../components/common/Spinner";
-import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
-import { IDistributionContract } from "../../../../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { DistributionStatus } from "../../../../../../lib/enums";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import InputSearch from "../../../../components/common/InputSearch";
-import Link from "next/link";
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import DeleteContractModal from './DeleteContractModal';
+import CancelContractModal from './CancelContractModal';
+import useFetchDistributionContractsByProducerId from '../../../../../../hooks/useFetchDistributionContractsByProducerId';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IconButton } from '../../../../components/common/IconButton';
+import Spinner from '../../../../components/common/Spinner';
+import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
+import { IDistributionContract } from '../../../../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { DistributionStatus } from '../../../../../../lib/enums';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import InputSearch from '../../../../components/common/InputSearch';
+import Link from 'next/link';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
 }
 
 interface Props {
@@ -30,12 +30,12 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
   const locale = useLocale();
   const t = useTranslations();
 
-  const deleteColor = { filled: "#90470b", unfilled: "grey" };
-  const cancelColor = { filled: "#90470b", unfilled: "grey" };
+  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
+  const cancelColor = { filled: '#90470b', unfilled: 'grey' };
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedContract, setSelectedContract] =
     useState<IDistributionContract>();
@@ -80,7 +80,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
 
     const compareProperties: Record<string, (d: IDistributionContract) => any> =
       {
-        [SortBy.USERNAME]: (d) => d.distributor_user?.user,
+        [SortBy.USERNAME]: (d) => d.distributor_user?.user_id,
         [SortBy.CREATED_DATE]: (d) => d.created_at,
       };
 
@@ -88,7 +88,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
       (a: IDistributionContract, b: IDistributionContract) => {
         const extractProperty = compareProperties[sorting];
         return extractProperty(a).localeCompare(extractProperty(b));
-      }
+      },
     );
   }, [filteredItems, sorting]);
 
@@ -143,7 +143,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
       {isError && (
         <span className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_distributors")}
+            {t('error_fetching_distributors')}
           </p>
         </span>
       )}
@@ -157,7 +157,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={t("search_by_name")}
+            searchPlaceholder={t('search_by_name')}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -170,7 +170,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                     handleChangeSort(SortBy.NAME);
                   }}
                 >
-                  {t("name_header")}
+                  {t('name_header')}
                 </th>
 
                 <th
@@ -179,13 +179,13 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                     handleChangeSort(SortBy.CREATED_DATE);
                   }}
                 >
-                  {t("created_date_header")}
+                  {t('created_date_header')}
                 </th>
 
-                <th className="px-6 py-3">{t("status_header")}</th>
+                <th className="px-6 py-3">{t('status_header')}</th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
+                  {t('action_header')}
                 </th>
               </tr>
             </thead>
@@ -194,7 +194,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
               {sortedItems.map((contract: IDistributionContract) => {
                 return (
                   <tr
-                    key={contract.distributor_id + "-" + contract.producer_id}
+                    key={contract.distributor_id + '-' + contract.producer_id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
@@ -203,7 +203,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                         locale={locale}
                         target="_blank"
                       >
-                        {contract.distributor_user?.users?.username ?? "-"}
+                        {contract.distributor_user?.users?.username ?? '-'}
                       </Link>
                     </td>
 
@@ -221,10 +221,10 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                         }}
                         color={deleteColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={""}
-                        title={t("delete")}
+                        classIcon={''}
+                        title={t('delete')}
                       />
 
                       {/* If the contract is not beign signed yet, we can cancel it  */}
@@ -236,10 +236,10 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                           }}
                           color={cancelColor}
                           classContainer={
-                            "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                           }
-                          classIcon={""}
-                          title={t("cancel_contract")}
+                          classIcon={''}
+                          title={t('cancel_contract')}
                         />
                       )}
                     </td>

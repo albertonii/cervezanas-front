@@ -1,9 +1,9 @@
-import Profile from "./Profile";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { IDistributorUser } from "../../../../../../lib/types";
-import readUserSession from "../../../../../../lib/actions";
+import Profile from './Profile';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { IDistributorUser } from '../../../../../../lib/types';
+import readUserSession from '../../../../../../lib/actions';
 
 export default async function ProfilePage() {
   const profile = await getProfileData();
@@ -28,10 +28,10 @@ async function getProfileData() {
   }
 
   const { data: profileData, error: profileError } = await supabase
-    .from("distributor_user")
+    .from('distributor_user')
     .select(
       `
-        user,
+        user_id,
         created_at,
         nif,
         bank_account,
@@ -39,9 +39,9 @@ async function getProfileData() {
         company_description,
         location_id,
         users (name, lastname, email)
-      `
+      `,
     )
-    .eq("user", session.user.id)
+    .eq('user', session.user.id)
     .single();
 
   if (profileError) throw profileError;

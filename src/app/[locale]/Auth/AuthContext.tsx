@@ -263,7 +263,7 @@ export const AuthContextProvider = ({
         const { error: roleError } = await supabase
           .from("producer_user")
           .insert({
-            user: data.user.id,
+            user_id: data.user.id,
           });
 
         if (roleError) {
@@ -286,7 +286,7 @@ export const AuthContextProvider = ({
         const { error: roleError } = await supabase
           .from("distributor_user")
           .insert({
-            user: data.user.id,
+            user_id: data.user.id,
           });
 
         if (roleError) {

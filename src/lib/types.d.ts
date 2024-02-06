@@ -1295,7 +1295,7 @@ export enum PROVIDER_TYPE {
 }
 
 export interface IDistributorUser {
-  user: string; // ID
+  user_id: string; // FK ID
   created_at: string;
   nif: string;
   bank_account: string;
@@ -1309,7 +1309,7 @@ export interface IDistributorUser {
 }
 
 export interface IProducerUser {
-  user: string; // ID
+  user_id: string; // FK ID
   created_at: string;
   company_name: string;
   company_description: string;

@@ -1,16 +1,16 @@
-import AvailableDistributorsList from "./AvailableDistributorsList";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Modal from "../../../../components/modals/Modal";
-import { IDistributorUser } from "../../../../../../lib/types";
-import { SubmitContract } from "./SubmitContract";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "react-query";
-import { DistributionStatus } from "../../../../../../lib/enums";
-import { useMessage } from "../../../../components/message/useMessage";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useTranslations } from "next-intl";
+import AvailableDistributorsList from './AvailableDistributorsList';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import Modal from '../../../../components/modals/Modal';
+import { IDistributorUser } from '../../../../../../lib/types';
+import { SubmitContract } from './SubmitContract';
+import { z, ZodType } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from 'react-query';
+import { DistributionStatus } from '../../../../../../lib/enums';
+import { useMessage } from '../../../../components/message/useMessage';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useTranslations } from 'next-intl';
 
 type FormData = {
   message: string;
@@ -21,12 +21,12 @@ const schema: ZodType<FormData> = z
   .object({
     message: z
       .string()
-      .max(300, { message: "Must be less than 300 characters" }),
+      .max(300, { message: 'Must be less than 300 characters' }),
     is_signed: z.boolean(),
   })
   .refine((data) => data.is_signed, {
-    message: "You must agree to the terms and conditions",
-    path: ["is_signed"],
+    message: 'You must agree to the terms and conditions',
+    path: ['is_signed'],
   });
 
 interface Props {
@@ -35,8 +35,8 @@ interface Props {
 
 export default function LinkDistributor({ producerId }: Props) {
   const t = useTranslations();
-  const submitSuccessMessage = t("messages.submit_success");
-  const submitErrorMessage = t("messages.submit_error");
+  const submitSuccessMessage = t('messages.submit_success');
+  const submitErrorMessage = t('messages.submit_error');
 
   const { supabase } = useAuth();
 
@@ -75,8 +75,8 @@ export default function LinkDistributor({ producerId }: Props) {
 
     const { message, is_signed } = formValues;
 
-    const { error } = await supabase.from("distribution_contracts").insert({
-      distributor_id: selectedDistributor.user,
+    const { error } = await supabase.from('distribution_contracts').insert({
+      distributor_id: selectedDistributor.user_id,
       producer_id: producerId,
       message: message,
       producer_accepted: is_signed,
@@ -87,14 +87,14 @@ export default function LinkDistributor({ producerId }: Props) {
       console.error(error);
 
       handleMessage({
-        type: "error",
+        type: 'error',
         message: submitErrorMessage,
       });
       return;
     }
 
     handleMessage({
-      type: "success",
+      type: 'success',
       message: submitSuccessMessage,
     });
 
@@ -102,10 +102,10 @@ export default function LinkDistributor({ producerId }: Props) {
   };
 
   const handleAddContractMutation = useMutation({
-    mutationKey: ["addContract"],
+    mutationKey: ['addContract'],
     mutationFn: handleAddContract,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
+      queryClient.invalidateQueries({ queryKey: ['distributionContract'] });
     },
     onError: (error: Error) => {
       console.error(error);
@@ -126,13 +126,13 @@ export default function LinkDistributor({ producerId }: Props) {
         showBtn={true}
         showModal={showModal}
         setShowModal={setShowModal}
-        title={"form_submit_contract_title"}
-        btnTitle={"apply_contract"}
-        description={""}
-        classIcon={""}
-        classContainer={""}
+        title={'form_submit_contract_title'}
+        btnTitle={'apply_contract'}
+        description={''}
+        classIcon={''}
+        classContainer={''}
         showFooter={showFooter}
-        btnCancelTitle={"come_back"}
+        btnCancelTitle={'come_back'}
         handleCustomClose={() => handleCustomClose()}
         handler={handleSubmit(onSubmit)}
       >

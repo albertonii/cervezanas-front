@@ -1,10 +1,10 @@
-import { redirect } from "next/navigation";
-import React from "react";
-import { VIEWS } from "../../../../constants";
-import readUserSession from "../../../../lib/actions";
-import { ROLE_ENUM } from "../../../../lib/enums";
-import { IUser } from "../../../../lib/types";
-import createServerClient from "../../../../utils/supabaseServer";
+import { redirect } from 'next/navigation';
+import React from 'react';
+import { VIEWS } from '../../../../constants';
+import readUserSession from '../../../../lib/actions';
+import { ROLE_ENUM } from '../../../../lib/enums';
+import { IUser } from '../../../../lib/types';
+import createServerClient from '../../../../utils/supabaseServer';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -51,10 +51,10 @@ async function checkAuthorizedProducerByAdmin(userId: string) {
   const supabase = await createServerClient();
 
   const { data, error } = await supabase
-    .from("producer_user")
-    .select("*")
-    .eq("user", userId)
-    .is("is_authorized", true);
+    .from('producer_user')
+    .select('*')
+    .eq('user_id', userId)
+    .is('is_authorized', true);
 
   if (error) {
     throw error;

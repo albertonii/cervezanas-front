@@ -1,21 +1,21 @@
-import Link from "next/link";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchDistributors from "../../../../../../hooks/useFetchDistributors";
-import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { IconButton } from "../../../../components/common/IconButton";
-import Spinner from "../../../../components/common/Spinner";
-import { IDistributorUser } from "../../../../../../lib/types";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import InputSearch from "../../../../components/common/InputSearch";
+import Link from 'next/link';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchDistributors from '../../../../../../hooks/useFetchDistributors';
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { IconButton } from '../../../../components/common/IconButton';
+import Spinner from '../../../../components/common/Spinner';
+import { IDistributorUser } from '../../../../../../lib/types';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import InputSearch from '../../../../components/common/InputSearch';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  CREATED_DATE = "created_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  CREATED_DATE = 'created_date',
 }
 
 interface Props {
@@ -30,12 +30,12 @@ export default function AvailableDistributorsList({
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   // const [selectedDistributor, setSelectedDistributor] =
   //   useState<IDistributorUser>();
 
-  const deleteColor = { filled: "#90470b", unfilled: "grey" };
+  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const counter = 1;
@@ -77,7 +77,7 @@ export default function AvailableDistributorsList({
       (a: IDistributorUser, b: IDistributorUser) => {
         const extractProperty = compareProperties[sorting];
         return extractProperty(a).localeCompare(extractProperty(b));
-      }
+      },
     );
   }, [filteredItems, sorting]);
 
@@ -108,15 +108,15 @@ export default function AvailableDistributorsList({
   return (
     <section className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
       <span className="text-slate-500 my-4 text-lg leading-relaxed">
-        {t("form_submit_contract_description")}
+        {t('form_submit_contract_description')}
       </span>
 
-      <h2 className="text-2xl">{t("distributors_list")}</h2>
+      <h2 className="text-2xl">{t('distributors_list')}</h2>
 
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_distributors")}
+            {t('error_fetching_distributors')}
           </p>
         </div>
       )}
@@ -141,7 +141,7 @@ export default function AvailableDistributorsList({
         <InputSearch
           query={query}
           setQuery={setQuery}
-          searchPlaceholder={t("search_by_name")}
+          searchPlaceholder={t('search_by_name')}
         />
       </div>
 
@@ -152,7 +152,7 @@ export default function AvailableDistributorsList({
       {!isError && !isLoading && filteredItems.length === 0 ? (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("no_distributors")}
+            {t('no_distributors')}
           </p>
         </div>
       ) : (
@@ -167,7 +167,7 @@ export default function AvailableDistributorsList({
                     handleChangeSort(SortBy.NAME);
                   }}
                 >
-                  {t("name_header")}
+                  {t('name_header')}
                 </th>
 
                 <th
@@ -176,11 +176,11 @@ export default function AvailableDistributorsList({
                     handleChangeSort(SortBy.CREATED_DATE);
                   }}
                 >
-                  {t("created_date_header")}
+                  {t('created_date_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
+                  {t('action_header')}
                 </th>
               </tr>
             </thead>
@@ -189,12 +189,12 @@ export default function AvailableDistributorsList({
               {filteredItems.map((distributor: IDistributorUser) => {
                 return (
                   <tr
-                    key={distributor.user}
+                    key={distributor.user_id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
-                        href={`/d-info/${distributor.user}`}
+                        href={`/d-info/${distributor.user_id}`}
                         locale={locale}
                         target="_blank"
                       >
@@ -212,10 +212,10 @@ export default function AvailableDistributorsList({
                         }}
                         color={deleteColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={""}
-                        title={t("contract_with_distributor")}
+                        classIcon={''}
+                        title={t('contract_with_distributor')}
                       />
                     </td>
                   </tr>
