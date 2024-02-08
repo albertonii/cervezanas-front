@@ -294,7 +294,6 @@ Planificación de este año.
 - [x] Desplegar cambios
 - [x] Preparar presentación
 
-
 ## 29 de enero
 
 - [x] Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
@@ -434,11 +433,13 @@ Hay que hacer los dossiers y demás con Gustavo.
 
   Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
 
-
-- [ ] Poner a punto la producción en Supabase. 
-Se han eliminado las tablas que no se usan y corregido algunos atributos de variables. 
+- [ ] Poner a punto la producción en Supabase.
+      Se han eliminado las tablas que no se usan y corregido algunos atributos de variables.
 
 ### 8 de febrero
+
 - [ ] Poner a punto la producción en Supabase
 - [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
-Se han eliminado las tablas que no se usan y corregido algunos atributos de variables. 
+      Se han eliminado las tablas que no se usan y corregido algunos atributos de variables.
+- [x] Error con next-intl locales y timezone
+- [ ] Monitoreo y tracking de errores en la aplicación
