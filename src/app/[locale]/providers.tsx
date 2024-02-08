@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React from "react";
-import ReactQueryWrapper from "./ReactQueryWrapper";
-import { NextIntlClientProvider } from "next-intl";
-import { EventCartProvider } from "../context/EventCartContext";
-import { AuthContextProvider } from "./Auth/AuthContext";
-import { MessageProvider } from "./components/message/MessageContext";
-import { AppContextProvider } from "../context/AppContext";
-import { ShoppingCartProvider } from "../context/ShoppingCartContext";
+import React from 'react';
+import ReactQueryWrapper from './ReactQueryWrapper';
+import { NextIntlClientProvider } from 'next-intl';
+import { EventCartProvider } from '../context/EventCartContext';
+import { AuthContextProvider } from './Auth/AuthContext';
+import { MessageProvider } from './components/message/MessageContext';
+import { AppContextProvider } from '../context/AppContext';
+import { ShoppingCartProvider } from '../context/ShoppingCartContext';
 
 interface Props {
   children: React.ReactNode;
@@ -22,8 +22,14 @@ export default function Providers({
   messages,
   session,
 }: Props) {
+  const timeZone = 'Europe/Madrid';
+
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone={timeZone}
+    >
       <MessageProvider>
         <ReactQueryWrapper>
           <AuthContextProvider serverSession={session}>

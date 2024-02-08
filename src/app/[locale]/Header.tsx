@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import useDeviceDetection from "../../hooks/useDeviceDetection";
-import { INotification } from "../../lib/types";
-import { useAuth } from "./Auth/useAuth";
-import MobileMenu from "./MobileMenu";
-import ScreenMenu from "./ScreenMenu";
+import { useEffect, useState } from 'react';
+import useDeviceDetection from '../../hooks/useDeviceDetection';
+import { INotification } from '../../lib/types';
+import { useAuth } from './Auth/useAuth';
+import MobileMenu from './MobileMenu';
+import ScreenMenu from './ScreenMenu';
 
 interface Props {
   notifications: INotification[];
+  i18nLocaleArray: string[];
 }
 
-export default function Header({ notifications }: Props) {
+export default function Header({ notifications, i18nLocaleArray }: Props) {
   const device = useDeviceDetection();
   const { supabase } = useAuth();
 
@@ -20,20 +21,20 @@ export default function Header({ notifications }: Props) {
 
   useEffect(() => {
     supabase
-      .channel("notifications")
+      .channel('notifications')
       .on(
-        "postgres_changes",
+        'postgres_changes',
         {
-          event: "INSERT",
-          schema: "public",
-          table: "notifications",
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
         },
         (payload) => {
           setNotificationState((prevState) => [
             ...prevState,
             payload.new as INotification,
           ]);
-        }
+        },
       )
       .subscribe();
   }, [supabase, notificationState, setNotificationState]);
@@ -41,10 +42,16 @@ export default function Header({ notifications }: Props) {
   return (
     <header className="header relative w-full bg-beer-foam bg-transparent">
       <nav>
-        {device === "Mobile" ? (
-          <MobileMenu notifications={notificationState} />
+        {device === 'Mobile' ? (
+          <MobileMenu
+            notifications={notificationState}
+            i18nLocaleArray={i18nLocaleArray}
+          />
         ) : (
-          <ScreenMenu notifications={notificationState} />
+          <ScreenMenu
+            notifications={notificationState}
+            i18nLocaleArray={i18nLocaleArray}
+          />
         )}
       </nav>
     </header>

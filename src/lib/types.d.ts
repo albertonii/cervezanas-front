@@ -176,15 +176,6 @@ export interface IBeer {
   products?: IProduct;
 }
 
-export interface IMerchandising {
-  id: string;
-  lot_id: number;
-  feedback_id: number;
-  category: string;
-  is_public: boolean;
-  product_id: string;
-}
-
 export interface IProductLot {
   id: string;
   created_at: string;

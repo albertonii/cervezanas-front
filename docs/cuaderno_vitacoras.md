@@ -427,7 +427,7 @@ Hay que hacer los dossiers y demás con Gustavo.
 ### 6 de febrero
 
 - [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
-- [ ] ERROR AL CREAR DISTRIBUIDOR:
+- [x] ERROR AL CREAR DISTRIBUIDOR:
 
   Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
   Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir, además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
@@ -435,4 +435,10 @@ Hay que hacer los dossiers y demás con Gustavo.
   Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
 
 
+- [ ] Poner a punto la producción en Supabase. 
+Se han eliminado las tablas que no se usan y corregido algunos atributos de variables. 
+
+### 8 de febrero
 - [ ] Poner a punto la producción en Supabase
+- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+Se han eliminado las tablas que no se usan y corregido algunos atributos de variables. 

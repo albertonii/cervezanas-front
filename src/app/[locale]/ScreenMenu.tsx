@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { useAuth } from "./Auth/useAuth";
-import { COMMON } from "../../constants";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ROUTE_SIGNIN } from "../../config";
-import { Button } from "./components/common/Button";
-import { useLocale, useTranslations } from "next-intl";
-import { HeaderDropdownButton } from "./HeaderDropdownButton";
-import { useShoppingCart } from "../context/ShoppingCartContext";
-import { i18n } from "../../lib/translations/i18n";
-import { INotification } from "../../lib/types";
-import { DeviceScreenNotification } from "./components/DeviceScreenNotification";
-import PuntoCervezanasFlag from "./PuntoCervezanasFlag";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useAuth } from './Auth/useAuth';
+import { COMMON } from '../../constants';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ROUTE_SIGNIN } from '../../config';
+import { Button } from './components/common/Button';
+import { useLocale, useTranslations } from 'next-intl';
+import { HeaderDropdownButton } from './HeaderDropdownButton';
+import { useShoppingCart } from '../context/ShoppingCartContext';
+import { INotification } from '../../lib/types';
+import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import PuntoCervezanasFlag from './PuntoCervezanasFlag';
 
 interface Props {
   notifications: INotification[];
+  i18nLocaleArray: string[];
 }
 
-export default function ScreenMenu({ notifications }: Props) {
+export default function ScreenMenu({ notifications, i18nLocaleArray }: Props) {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();
@@ -54,10 +54,10 @@ export default function ScreenMenu({ notifications }: Props) {
   // };
 
   const redirectedPathName = (locale: string) => {
-    if (!pathName) return "/";
-    const segments = pathName.split("/");
+    if (!pathName) return '/';
+    const segments = pathName.split('/');
     segments[1] = locale;
-    return segments.join("/");
+    return segments.join('/');
   };
 
   const handleSignIn = () => {
@@ -65,7 +65,7 @@ export default function ScreenMenu({ notifications }: Props) {
   };
 
   const MENU_ITEM_STYLES =
-    "block text-sm font-semibold text-white hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-base px-3 py-5";
+    'block text-sm font-semibold text-white hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-base px-3 py-5';
 
   return (
     <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
@@ -76,13 +76,13 @@ export default function ScreenMenu({ notifications }: Props) {
         <section className="w-[300px] sm:w-[100px]" id="navbar-default">
           <div className="relative flex w-full flex-shrink-0 justify-center">
             <div className="relative flex h-[55px] w-[55px] justify-center pt-1">
-              <Link href={"/"} locale={locale}>
+              <Link href={'/'} locale={locale}>
                 <Image
                   src="/logo_cervezanas.svg"
                   alt="Cervezanas Logo"
                   width={100}
                   height={100}
-                  style={{ objectFit: "contain" }}
+                  style={{ objectFit: 'contain' }}
                   priority={true}
                   sizes="100px"
                 />
@@ -95,7 +95,7 @@ export default function ScreenMenu({ notifications }: Props) {
             <li className="flex items-center">
               <Link href="/marketplace" locale={locale}>
                 <span className={`${MENU_ITEM_STYLES}`}>
-                  {t("marketplace")}
+                  {t('marketplace')}
                 </span>
               </Link>
             </li>
@@ -103,7 +103,7 @@ export default function ScreenMenu({ notifications }: Props) {
             <li className="flex items-center">
               <Link href="/events" locale={locale}>
                 <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                  {t("events")}
+                  {t('events')}
                 </span>
               </Link>
             </li>
@@ -160,7 +160,7 @@ export default function ScreenMenu({ notifications }: Props) {
               </Select>
             </li> */}
 
-            {i18n.locales.map((locale) => {
+            {i18nLocaleArray.map((locale) => {
               return (
                 <li
                   key={locale}
@@ -174,15 +174,15 @@ export default function ScreenMenu({ notifications }: Props) {
             {!user ? (
               <>
                 <li className="flex items-center">
-                  <Button onClick={() => handleSignIn()} title={""}>
+                  <Button onClick={() => handleSignIn()} title={''}>
                     <section className="mx-2 my-1 flex items-center justify-center space-x-2">
                       <Image
                         width={25}
                         height={25}
-                        alt={"Login"}
+                        alt={'Login'}
                         src={COMMON.PROFILE_IMG}
                       />
-                      <span>{t("my_account")}</span>
+                      <span>{t('my_account')}</span>
                     </section>
                   </Button>
                 </li>
@@ -190,27 +190,27 @@ export default function ScreenMenu({ notifications }: Props) {
             ) : (
               <>
                 {/* Cart  */}
-                {role === "consumer" && (
+                {role === 'consumer' && (
                   <li
                     className={`items´center flex ${
-                      animateShoppingCart && "animate-wiggle"
+                      animateShoppingCart && 'animate-wiggle'
                     }`}
                   >
                     <Button
                       class={
-                        "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
+                        'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent'
                       }
                       onClick={() => openCart()}
-                      title={""}
+                      title={''}
                     >
                       <section className="relative rounded-full lg:mr-4">
                         <Image
-                          src={"/icons/shopping-cart-nobg.svg"}
+                          src={'/icons/shopping-cart-nobg.svg'}
                           width={40}
                           height={40}
-                          alt={"Go to Shopping cart"}
+                          alt={'Go to Shopping cart'}
                           className={
-                            "lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]"
+                            'lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]'
                           }
                         />
                         <div
@@ -230,36 +230,36 @@ export default function ScreenMenu({ notifications }: Props) {
                 <li className="flex items-center">
                   <HeaderDropdownButton
                     options={
-                      role === "admin"
+                      role === 'admin'
                         ? [
-                            "submitted_aps",
-                            "monthly_products",
-                            "notifications",
-                            "signout",
+                            'submitted_aps',
+                            'monthly_products',
+                            'notifications',
+                            'signout',
                           ]
-                        : role === "distributor"
+                        : role === 'distributor'
                         ? [
-                            "profile",
-                            "logistics",
-                            "contracts",
-                            "business_orders",
-                            "signout",
+                            'profile',
+                            'logistics',
+                            'contracts',
+                            'business_orders',
+                            'signout',
                           ]
-                        : role === "producer"
+                        : role === 'producer'
                         ? [
-                            "profile",
-                            "products",
-                            "events",
-                            "online_orders",
-                            "event_orders",
+                            'profile',
+                            'products',
+                            'events',
+                            'online_orders',
+                            'event_orders',
                             // "campaigns",
-                            "signout",
+                            'signout',
                           ]
                         : [
-                            "profile",
-                            "online_orders",
-                            "event_orders",
-                            "signout",
+                            'profile',
+                            'online_orders',
+                            'event_orders',
+                            'signout',
                           ]
                     }
                   />
