@@ -274,7 +274,7 @@ Planificación de este año.
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 - [x] No está funcionado dentro de crear producto el estado de la sección de packs.
-- [ ] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - [x] Esconder login google
 - [x] Grabar demo
 - [x] Mirar error en checkbox para crear productor y distribuidor
@@ -438,8 +438,43 @@ Hay que hacer los dossiers y demás con Gustavo.
 
 ### 8 de febrero
 
-- [ ] Poner a punto la producción en Supabase
-- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+- [x] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
       Se han eliminado las tablas que no se usan y corregido algunos atributos de variables.
 - [x] Error con next-intl locales y timezone
 - [ ] Monitoreo y tracking de errores en la aplicación
+- [ ] Poner a punto la producción en Supabase
+      Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+
+--- Reunión organización BBF --- Gustavo, Mariano, M. Angel, Alberto
+
+#### Creación de dossier: debe de ser un documento que enganche, que sea atractivo, que sea fácil de leer, que sea visual, que sea atractivo. Debe de tener la parte comercial (la parte que engancha) y la parte de onboarding (guía de como se usa)
+
+Dossier por roles: consumidor, productor, distribuidor
+¿Qué funcionalidades tiene cada uno de los roles? -> Onboarding técnico
+
+Además de que estén los dossier físicamente, pueden estar con código QR y alojados en la web. Tener impresos los QR para los enlaces con el onboarding y dárse de alta.
+Habrán dossiers físicos pero no imprimiremos tanto para distribuidores como para productores/consumidores.
+
+Necesitamos posavasos con el código QR para valorar el producto de la cata a ciegas.
+
+#### Cata a ciegas
+
+Al escanear el código QR, el punto de consumo debe de dar el OK para empezar con la cerveza. Hacemos esto pq estas experiencias pueden ser de pago. Si fueran todas gratuitas, no habría problema y no haría falta el OK.
+
+Experiencia del evento: si hay varios PC que usen esta experiencia, se va haciendo un recuento de en cuales ha participado. Esto nos servirá de gamificación y para poder ganar el premio Cervezanas si consiguen acertar todo para todos los PCs.
+
+Insignia para aquellos que han acertado a todas las cervezas de la cata a ciegas.
+
+En vez de Cata a Ciegas -> ¿Quieres jugar a ser Maestro Cervecero?
+
+Dar de alta en cada PC preguntas y respuestas para el juego de Maestro Cervecero.
+
+### 9 de Febrero
+
+- [x] Crear documento Experiencia Maestro Cervecero
+- [x] Crear documento Ejemplos Preguntas y Respuestas Genéricas Maestro Cervecero
+- [ ] Monitoreo y tracking de errores en la aplicación
+- [ ] Poner a punto la producción en Supabase
+      Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
