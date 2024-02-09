@@ -419,9 +419,9 @@ export interface ICPFProducts {
   stock: number;
   stock_consumed: number;
   cp_id: string;
-  cp_fixed?: ICPFixed;
   product_pack_id: string;
-  product_packs: IProductPack;
+  product_packs?: IProductPack;
+  cp_fixed?: ICPFixed;
 }
 
 export interface ICPMProducts {
@@ -579,7 +579,6 @@ export interface IOrder {
   billing_info?: IBillingInfo;
   business_orders?: IBusinessOrder[];
   payment_method_id: string;
-  payment_method_card?: IPaymentCardMethod;
   users?: IUserTable;
 }
 
@@ -612,7 +611,6 @@ export interface IEventOrder {
   customer_id: string;
   users?: IUserTable;
   events?: IEvent;
-  payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
 
@@ -628,30 +626,6 @@ export interface IEventOrderItem {
   product_packs?: IProductPack;
   product_multimedia?: IProductMultimedia[];
   orders?: IOrder;
-}
-
-export interface IPaymentCardMethod {
-  id: string;
-  created_at: string;
-  status: string;
-  type: string;
-  card_number: number;
-  card_expiration_month: number;
-  card_expiration_year: number;
-  card_cvc: number;
-  card_name: string;
-  save_card: boolean;
-}
-
-export interface IPaymentStandardTransferMethod {
-  id: string;
-  created_at: string;
-  status: string;
-  iban: string;
-  concept: string;
-  amount: number;
-  currency: string;
-  recipient: string;
 }
 
 export interface IShippingInfo {
@@ -1193,18 +1167,6 @@ export interface IBillingAddress {
   city: string;
   zipcode: string;
   is_default: boolean;
-}
-
-export interface IPaymentCard {
-  id: string;
-  card_number: string;
-  card_name: string;
-  card_month_expiration: string;
-  card_year_expiration: string;
-  card_cvv: string;
-  card_checked: boolean;
-  card_holder: string;
-  card_document_id: string;
 }
 
 export interface ISignUp {

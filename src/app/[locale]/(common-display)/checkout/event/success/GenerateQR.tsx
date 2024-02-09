@@ -1,7 +1,7 @@
-import React from "react";
-import QRCode from "react-qr-code";
-import { useLocale } from "next-intl";
-import ShareLink from "../../../../components/ShareLink";
+import React from 'react';
+import QRCode from 'react-qr-code';
+import { useLocale } from 'next-intl';
+import ShareLink from '../../../../components/ShareLink';
 
 interface Props {
   eventOrderItemId: string;
@@ -15,9 +15,9 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
   const environmentState = process.env.NODE_ENV;
 
   const host =
-    environmentState === "development"
+    environmentState === 'development'
       ? domain
-      : "https://cervezanas-front.vercel.app";
+      : 'https://cervezanas-front.vercel.app';
 
   const productBarmanUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
   console.info(productBarmanUrl);

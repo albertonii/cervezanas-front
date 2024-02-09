@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { ICPFixed, ICPMobile } from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
-import { useMutation, useQueryClient } from "react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import dynamic from "next/dynamic";
-import InputLabel from "../common/InputLabel";
-import InputTextarea from "../common/InputTextarea";
-import { SearchCheckboxCPMobiles } from "../common/SearchCheckboxCPMobiles";
-import { SearchCheckboxCPFixeds } from "../common/SearchCheckboxCPFixed";
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ICPFixed, ICPMobile } from '../../../../lib/types';
+import { useAuth } from '../../Auth/useAuth';
+import { useMutation, useQueryClient } from 'react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z, ZodType } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import dynamic from 'next/dynamic';
+import InputLabel from '../common/InputLabel';
+import InputTextarea from '../common/InputTextarea';
+import { SearchCheckboxCPMobiles } from '../common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '../common/SearchCheckboxCPFixed';
 
-const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
 export type ModalAddEventFormData = {
   name: string;
@@ -28,8 +28,8 @@ export type ModalAddEventFormData = {
 };
 
 const schema: ZodType<ModalAddEventFormData> = z.object({
-  name: z.string().nonempty({ message: "errors.input_required" }),
-  description: z.string().nonempty({ message: "errors.input_required" }),
+  name: z.string().nonempty({ message: 'errors.input_required' }),
+  description: z.string().nonempty({ message: 'errors.input_required' }),
   start_date: z.date(),
   end_date: z.date(),
   logo_url: z.string().optional(),
@@ -54,7 +54,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   const queryClient = useQueryClient();
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
   });
 
@@ -69,19 +69,19 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
     // Create event
     const { data: event, error: eventError } = await supabase
-      .from("events")
+      .from('events')
       .insert({
         name,
         description,
         start_date: formatStartDate,
         end_date: formatEndDate,
         owner_id: user?.id,
-        address: "",
-        logo_url: "",
-        promotional_url: "",
-        status: "",
+        address: '',
+        logo_url: '',
+        promotional_url: '',
+        status: '',
         geoArgs: {
-          type: "Point",
+          type: 'Point',
           coordinates: [0, 0],
         },
       })
@@ -104,7 +104,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
       // Loop trough all the selected CPs and insert them into the event
       cpsMObileFiltered.map(async (cp) => {
-        const { error: cpError } = await supabase.from("cpm_events").insert({
+        const { error: cpError } = await supabase.from('cpm_events').insert({
           cp_id: cp.cp_id,
           event_id: eventId,
           is_active: false,
@@ -121,8 +121,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       const cpsFixedFiltered = cps_fixed.filter((cp) => cp.cp_id);
 
       // Loop trough all the selected CPs and insert them into the event
-      cpsFixedFiltered.map(async (cp) => {
-        const { error: cpError } = await supabase.from("cpf_events").insert({
+      cpsFixedFiltered.map(async (cp: ICPFixed) => {
+        const { error: cpError } = await supabase.from('cpf_events').insert({
           cp_id: cp.cp_id,
           event_id: eventId,
           is_active: false,
@@ -138,10 +138,10 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   };
 
   const insertEventMutation = useMutation({
-    mutationKey: "insertEvent",
+    mutationKey: 'insertEvent',
     mutationFn: handleInsertEvent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ['events'] });
       setShowModal(false);
     },
     onError: (error) => {
@@ -150,7 +150,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddEventFormData
+    formValues: ModalAddEventFormData,
   ) => {
     try {
       insertEventMutation.mutate(formValues);
@@ -164,23 +164,23 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={"add_new_event"}
-      btnTitle={"new_event"}
-      description={""}
-      classIcon={""}
-      classContainer={""}
+      title={'add_new_event'}
+      btnTitle={'new_event'}
+      description={''}
+      classIcon={''}
+      classContainer={''}
       handler={handleSubmit(onSubmit)}
       form={form}
     >
       <form>
         {/* Event Information  */}
         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("events_info")}</legend>
+          <legend className="text-2xl">{t('events_info')}</legend>
 
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"name"}
+            label={'name'}
             registerOptions={{
               required: true,
             }}
@@ -189,7 +189,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"description"}
+            label={'description'}
             registerOptions={{
               required: true,
             }}
@@ -200,7 +200,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
           <div className="flex flex-row space-x-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
@@ -210,7 +210,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
@@ -222,7 +222,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         {/* Logo and publicitary img */}
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("event_advertising")}</legend>
+          <legend className="text-2xl">{t('event_advertising')}</legend>
 
           {/* Logo */}
 
@@ -231,7 +231,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         {/* List of Mobile Consumption Points  */}
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_associated')}</legend>
 
           {/* List of CPs  */}
           <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
@@ -239,7 +239,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         {/* List of Fixed Consumption Points  */}
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_associated')}</legend>
 
           {/* List of CPs  */}
           <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />

@@ -1,15 +1,12 @@
 # Listado de tareas:
 
-- Sistema para comprobar automatizar el stock de un producto (pack)
+- Sistema para automatizar el stock de un producto (pack)
 - Comprobar qué sucede al acceder a eventos en producción.
-- Mandar email a los productores registrados en el evento, seguimiento
 - Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
-
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
 - Implementar Dark Mode -> Gustavo
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Historial de ventas en un punto de consumo
@@ -21,18 +18,12 @@
 - CRUD imágenes en eventos
 - Editar una campaña
 - Vincular productos a la campaña
-- [] Hacer que las vistas en profile consumer sean homogéneas
-- [] Hacer que las vistas en profile distributor sean homogéneas
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
-- ERROR AL Signup Distributor
 
 # WIP
-
-- Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
-- Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
 
 - Conectar los servicios nuevos de Miguel con la aplicación
 - Cervezanas en Producción
@@ -48,8 +39,6 @@
   f. Si creamos una review, añadir la experiencia a su sistema de gamificación
   g. Si borra una review, restar la experiencia a su sistema de gamificación
   h. Ver las reviews realizadas por un usuario
-
-- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 
 # Tareas realizadas
 
@@ -97,6 +86,12 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 
 - [x] Crear presentación de workshop para el lunes
 - [x] Crear cuenta de soporte de correos que termine en Cervezanas.eu
+- [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- [x] Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
+- [x] ERROR AL Signup Distributor
+- [x] Mandar email a los productores registrados en el evento, seguimiento
+- [x] Hacer que las vistas en profile consumer sean homogéneas
+- [x] Hacer que las vistas en profile distributor sean homogéneas
 
 ## 29 de noviembre 23
 
@@ -362,8 +357,6 @@ Planificación de este año.
 - [ ] Product Lots -> Product
 - [ ] Product Multimedia -> Product
 - [ ] Product Pack -> Product
-- [ ] Product Wishlist -> Product
-- [ ] Product Wishlist -> User
 - [ ] Product -> User
 - [ ] Profile Location -> User
 - [ ] User Reports -> User
@@ -474,7 +467,39 @@ Dar de alta en cada PC preguntas y respuestas para el juego de Maestro Cervecero
 - [x] Crear documento Experiencia Maestro Cervecero
 - [x] Crear documento Ejemplos Preguntas y Respuestas Genéricas Maestro Cervecero
 - [ ] Monitoreo y tracking de errores en la aplicación
-- [ ] Poner a punto la producción en Supabase
-      Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+- [x] Poner a punto la producción en Supabase
+      [x] Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+      [x] Todas las tablas han sido modificadas y sincronizadas con desarrollo
+      [x] Políticas, supabase storage y FK referencias únicas actualizadas en desarrollo
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+- [ ] Para pagar. Puede ser in situ (pago con pulsera o como quiera el stand) o a través de Cervezanas.
+- [ ] Hay que indicar que la participación en la experiencia es de pago.
+
+- REVIEWS
+  Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
+
+  a. [x] CRUD para una review de un producto comprado
+  b. Al borrar una review, confirmar la acción con un modal
+  c. Al borrar review, cambiar el estado de order item is_reviewed a false
+  d. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto
+  e. [x] Sistema básico de gamificación -> al realizar compra, review, etc
+  f. Si creamos una review, añadir la experiencia a su sistema de gamificación
+  g. Si borra una review, restar la experiencia a su sistema de gamificación
+  h. Ver las reviews realizadas por un usuario
+
+- [ ] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- [ ] Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
+- [ ] Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
+- [ ] Notificaciones a través de email - SMTP
+  - Cuando se da de alta un productor/distribuidor
+
+#### Reunión - Mariano, M Angel, Gustavo, Alberto --- Experiencia Maestro Cervecero
+
+Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. Puede estar planificado o no -> Si es planificado es con registro.
+
+- [x] Redacción de preguntas a posteriori -> después de catar la cerveza.
+- [x] Cambiar cerveza misteriosa por cerveza sorpresa.
+- [x] Indicar que conseguirán la cerveza si consiguen todos los logros. Estamos regalando la cerveza para fomentar los logros de los demás.
+
+- [x] Arreglar los problemas con los tipos al ejecutar script pnpm gen-types:dev

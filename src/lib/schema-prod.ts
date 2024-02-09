@@ -49,21 +49,23 @@ export interface Database {
       }
       beers: {
         Row: {
-          aroma: string | null
+          aroma: string
           category: string | null
-          color: string | null
+          color: string
           composition: string | null
           country: string | null
-          created_at: string | null
-          era: string | null
-          family: string | null
-          fermentation: string | null
+          created_at: string
+          era: string
+          family: string
+          fermentation: string
           fg: number | null
           format: string | null
+          id: string
           intensity: number | null
-          is_gluten: boolean | null
+          is_gluten: boolean
           og: number | null
-          origin: string | null
+          origin: string
+          owner_id: string | null
           product_id: string
           sku: string | null
           srm: number | null
@@ -71,21 +73,23 @@ export interface Database {
           weight: number | null
         }
         Insert: {
-          aroma?: string | null
+          aroma: string
           category?: string | null
-          color?: string | null
+          color: string
           composition?: string | null
           country?: string | null
-          created_at?: string | null
-          era?: string | null
-          family?: string | null
-          fermentation?: string | null
+          created_at?: string
+          era: string
+          family: string
+          fermentation: string
           fg?: number | null
           format?: string | null
+          id?: string
           intensity?: number | null
-          is_gluten?: boolean | null
+          is_gluten: boolean
           og?: number | null
-          origin?: string | null
+          origin: string
+          owner_id?: string | null
           product_id: string
           sku?: string | null
           srm?: number | null
@@ -93,21 +97,23 @@ export interface Database {
           weight?: number | null
         }
         Update: {
-          aroma?: string | null
+          aroma?: string
           category?: string | null
-          color?: string | null
+          color?: string
           composition?: string | null
           country?: string | null
-          created_at?: string | null
-          era?: string | null
-          family?: string | null
-          fermentation?: string | null
+          created_at?: string
+          era?: string
+          family?: string
+          fermentation?: string
           fg?: number | null
           format?: string | null
+          id?: string
           intensity?: number | null
-          is_gluten?: boolean | null
+          is_gluten?: boolean
           og?: number | null
-          origin?: string | null
+          origin?: string
+          owner_id?: string | null
           product_id?: string
           sku?: string | null
           srm?: number | null
@@ -139,7 +145,7 @@ export interface Database {
           phone: string | null
           state: string | null
           updated_at: string | null
-          zipcode: string | null
+          zipcode: number | null
         }
         Insert: {
           address?: string | null
@@ -155,7 +161,7 @@ export interface Database {
           phone?: string | null
           state?: string | null
           updated_at?: string | null
-          zipcode?: string | null
+          zipcode?: number | null
         }
         Update: {
           address?: string | null
@@ -171,13 +177,13 @@ export interface Database {
           phone?: string | null
           state?: string | null
           updated_at?: string | null
-          zipcode?: string | null
+          zipcode?: number | null
         }
         Relationships: [
           {
             foreignKeyName: "billing_info_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -185,7 +191,7 @@ export interface Database {
       }
       business_orders: {
         Row: {
-          created_at: string | null
+          created_at: string
           distributor_id: string | null
           id: string
           order_id: string | null
@@ -193,7 +199,7 @@ export interface Database {
           status: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           distributor_id?: string | null
           id?: string
           order_id?: string | null
@@ -201,7 +207,7 @@ export interface Database {
           status?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           distributor_id?: string | null
           id?: string
           order_id?: string | null
@@ -210,25 +216,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "business_orders_distributor_id_fkey"
-            columns: ["distributor_id"]
-            isOneToOne: false
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user_id"]
-          },
-          {
             foreignKeyName: "business_orders_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_orders_producer_id_fkey"
-            columns: ["producer_id"]
-            isOneToOne: false
-            referencedRelation: "producer_user"
-            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -255,14 +247,14 @@ export interface Database {
           {
             foreignKeyName: "campaign_item_campaign_id_fkey"
             columns: ["campaign_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "campaign_item_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -365,32 +357,32 @@ export interface Database {
       coverage_areas: {
         Row: {
           cities: string[] | null
-          created_at: string | null
+          created_at: string
           distributor_id: string | null
           europe: string[] | null
           id: string
           international: string[] | null
-          provinces: string[] | null
+          privinces: string[] | null
           regions: string[] | null
         }
         Insert: {
           cities?: string[] | null
-          created_at?: string | null
+          created_at?: string
           distributor_id?: string | null
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
+          privinces?: string[] | null
           regions?: string[] | null
         }
         Update: {
           cities?: string[] | null
-          created_at?: string | null
+          created_at?: string
           distributor_id?: string | null
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
+          privinces?: string[] | null
           regions?: string[] | null
         }
         Relationships: [
@@ -607,7 +599,7 @@ export interface Database {
           {
             foreignKeyName: "cpf_products_cp_id_fkey"
             columns: ["cp_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "cp_fixed"
             referencedColumns: ["id"]
           }
@@ -671,35 +663,43 @@ export interface Database {
           stock?: number | null
           stock_consumed?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "cpm_products_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: true
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       customize_settings: {
         Row: {
-          colors: Json | null
+          colors: string[] | null
           created_at: string | null
-          family_styles: Json | null
+          family_styles: string[] | null
           id: string
-          owner_id: string
+          owner_id: string | null
         }
         Insert: {
-          colors?: Json | null
+          colors?: string[] | null
           created_at?: string | null
-          family_styles?: Json | null
+          family_styles?: string[] | null
           id?: string
-          owner_id: string
+          owner_id?: string | null
         }
         Update: {
-          colors?: Json | null
+          colors?: string[] | null
           created_at?: string | null
-          family_styles?: Json | null
+          family_styles?: string[] | null
           id?: string
-          owner_id?: string
+          owner_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "customize_settings_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -708,12 +708,11 @@ export interface Database {
       distribution: {
         Row: {
           business_order_id: string | null
-          created_at: string | null
+          created_at: string
           delivery_date: string | null
           estimated_time: number | null
           feedback: string | null
           id: string
-          order_status: string | null
           origin_distributor: string | null
           price: number | null
           shipment_date: string | null
@@ -721,12 +720,11 @@ export interface Database {
         }
         Insert: {
           business_order_id?: string | null
-          created_at?: string | null
+          created_at?: string
           delivery_date?: string | null
           estimated_time?: number | null
           feedback?: string | null
           id?: string
-          order_status?: string | null
           origin_distributor?: string | null
           price?: number | null
           shipment_date?: string | null
@@ -734,12 +732,11 @@ export interface Database {
         }
         Update: {
           business_order_id?: string | null
-          created_at?: string | null
+          created_at?: string
           delivery_date?: string | null
           estimated_time?: number | null
           feedback?: string | null
           id?: string
-          order_status?: string | null
           origin_distributor?: string | null
           price?: number | null
           shipment_date?: string | null
@@ -838,7 +835,7 @@ export interface Database {
           bank_account: string | null
           company_description: string | null
           company_name: string | null
-          created_at: string | null
+          created_at: string
           is_authorized: boolean | null
           location_id: string | null
           nif: string | null
@@ -848,7 +845,7 @@ export interface Database {
           bank_account?: string | null
           company_description?: string | null
           company_name?: string | null
-          created_at?: string | null
+          created_at?: string
           is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
@@ -858,7 +855,7 @@ export interface Database {
           bank_account?: string | null
           company_description?: string | null
           company_name?: string | null
-          created_at?: string | null
+          created_at?: string
           is_authorized?: boolean | null
           location_id?: string | null
           nif?: string | null
@@ -884,7 +881,7 @@ export interface Database {
       event_order_items: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           is_reviewed: boolean | null
           order_id: string
           product_id: string
@@ -895,7 +892,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           is_reviewed?: boolean | null
           order_id: string
           product_id: string
@@ -906,7 +903,7 @@ export interface Database {
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           is_reviewed?: boolean | null
           order_id?: string
           product_id?: string
@@ -942,6 +939,7 @@ export interface Database {
           event_id: string | null
           id: string
           order_number: string | null
+          payment_method: string | null
           status: string | null
           subtotal: number | null
           tax: number | null
@@ -957,6 +955,7 @@ export interface Database {
           event_id?: string | null
           id?: string
           order_number?: string | null
+          payment_method?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -972,6 +971,7 @@ export interface Database {
           event_id?: string | null
           id?: string
           order_number?: string | null
+          payment_method?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -1077,14 +1077,14 @@ export interface Database {
           {
             foreignKeyName: "fixed_event_order_items_order_id_fkey"
             columns: ["order_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "fixed_event_orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "fixed_event_order_items_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1231,19 +1231,19 @@ export interface Database {
           created_at: string | null
           id: string
           owner_id: string | null
-          product_id: string | null
+          product_id: string
         }
         Insert: {
           created_at?: string | null
           id?: string
           owner_id?: string | null
-          product_id?: string | null
+          product_id: string
         }
         Update: {
           created_at?: string | null
           id?: string
           owner_id?: string | null
-          product_id?: string | null
+          product_id?: string
         }
         Relationships: [
           {
@@ -1266,7 +1266,7 @@ export interface Database {
         Row: {
           country: string | null
           coverage_area_id: string | null
-          created_at: string | null
+          created_at: string
           from: number | null
           id: string
           to: number | null
@@ -1274,7 +1274,7 @@ export interface Database {
         Insert: {
           country?: string | null
           coverage_area_id?: string | null
-          created_at?: string | null
+          created_at?: string
           from?: number | null
           id?: string
           to?: number | null
@@ -1282,7 +1282,7 @@ export interface Database {
         Update: {
           country?: string | null
           coverage_area_id?: string | null
-          created_at?: string | null
+          created_at?: string
           from?: number | null
           id?: string
           to?: number | null
@@ -1300,21 +1300,21 @@ export interface Database {
       monthly_products: {
         Row: {
           category: string | null
-          created_at: string | null
+          created_at: string
           month: number | null
           product_id: string
           year: number | null
         }
         Insert: {
           category?: string | null
-          created_at?: string | null
+          created_at?: string
           month?: number | null
           product_id: string
           year?: number | null
         }
         Update: {
           category?: string | null
-          created_at?: string | null
+          created_at?: string
           month?: number | null
           product_id?: string
           year?: number | null
@@ -1377,21 +1377,21 @@ export interface Database {
       order_items: {
         Row: {
           business_order_id: string
-          created_at: string | null
+          created_at: string
           is_reviewed: boolean | null
           product_pack_id: string
           quantity: number | null
         }
         Insert: {
           business_order_id: string
-          created_at?: string | null
+          created_at?: string
           is_reviewed?: boolean | null
           product_pack_id: string
           quantity?: number | null
         }
         Update: {
           business_order_id?: string
-          created_at?: string | null
+          created_at?: string
           is_reviewed?: boolean | null
           product_pack_id?: string
           quantity?: number | null
@@ -1409,6 +1409,7 @@ export interface Database {
       orders: {
         Row: {
           billing_info_id: string | null
+          card_id: string | null
           created_at: string | null
           currency: string | null
           customer_name: string | null
@@ -1432,6 +1433,7 @@ export interface Database {
         }
         Insert: {
           billing_info_id?: string | null
+          card_id?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -1455,6 +1457,7 @@ export interface Database {
         }
         Update: {
           billing_info_id?: string | null
+          card_id?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -1639,7 +1642,6 @@ export interface Database {
       }
       product_multimedia: {
         Row: {
-          created_at: string | null
           p_back: string | null
           p_extra_1: string | null
           p_extra_2: string | null
@@ -1652,7 +1654,6 @@ export interface Database {
           v_principal: string | null
         }
         Insert: {
-          created_at?: string | null
           p_back?: string | null
           p_extra_1?: string | null
           p_extra_2?: string | null
@@ -1665,7 +1666,6 @@ export interface Database {
           v_principal?: string | null
         }
         Update: {
-          created_at?: string | null
           p_back?: string | null
           p_extra_1?: string | null
           p_extra_2?: string | null
@@ -1727,55 +1727,61 @@ export interface Database {
       }
       products: {
         Row: {
+          article_number: number | null
           campaign_id: string | null
           category: string | null
-          created_at: string | null
-          description: string | null
+          created_at: string
+          description: string
           discount_code: string | null
           discount_percent: number | null
           id: string
           is_archived: boolean | null
           is_monthly: boolean | null
           is_public: boolean | null
-          name: string | null
+          name: string
           owner_id: string | null
           price: number | null
-          type: string | null
-          weight: number | null
+          social_cause_id: number | null
+          type: string
+          variant_number: number | null
         }
         Insert: {
+          article_number?: number | null
           campaign_id?: string | null
           category?: string | null
-          created_at?: string | null
-          description?: string | null
+          created_at?: string
+          description: string
           discount_code?: string | null
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null
           is_monthly?: boolean | null
           is_public?: boolean | null
-          name?: string | null
+          name: string
           owner_id?: string | null
           price?: number | null
-          type?: string | null
-          weight?: number | null
+          social_cause_id?: number | null
+          type: string
+          variant_number?: number | null
         }
         Update: {
+          article_number?: number | null
           campaign_id?: string | null
           category?: string | null
-          created_at?: string | null
-          description?: string | null
+          created_at?: string
+          description?: string
           discount_code?: string | null
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null
           is_monthly?: boolean | null
           is_public?: boolean | null
-          name?: string | null
+          name?: string
           owner_id?: string | null
           price?: number | null
-          type?: string | null
-          weight?: number | null
+          social_cause_id?: number | null
+          type?: string
+          variant_number?: number | null
         }
         Relationships: [
           {
@@ -1923,7 +1929,7 @@ export interface Database {
           phone: string | null
           state: string | null
           updated_at: string | null
-          zipcode: string | null
+          zipcode: number | null
         }
         Insert: {
           address?: string | null
@@ -1941,7 +1947,7 @@ export interface Database {
           phone?: string | null
           state?: string | null
           updated_at?: string | null
-          zipcode?: string | null
+          zipcode?: number | null
         }
         Update: {
           address?: string | null
@@ -1959,7 +1965,7 @@ export interface Database {
           phone?: string | null
           state?: string | null
           updated_at?: string | null
-          zipcode?: string | null
+          zipcode?: number | null
         }
         Relationships: [
           {
@@ -2003,7 +2009,7 @@ export interface Database {
           {
             foreignKeyName: "user_reports_reporter_id_fkey"
             columns: ["reporter_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -2018,6 +2024,7 @@ export interface Database {
           created_at: string | null
           email: string | null
           id: string
+          image: string | null
           is_provider: boolean | null
           lastname: string | null
           name: string | null
@@ -2033,6 +2040,7 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id: string
+          image?: string | null
           is_provider?: boolean | null
           lastname?: string | null
           name?: string | null
@@ -2048,6 +2056,7 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id?: string
+          image?: string | null
           is_provider?: boolean | null
           lastname?: string | null
           name?: string | null
@@ -2055,13 +2064,55 @@ export interface Database {
           updated_at?: string | null
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      delete_claim: {
+        Args: {
+          uid: string
+          claim: string
+        }
+        Returns: string
+      }
+      get_claim: {
+        Args: {
+          uid: string
+          claim: string
+        }
+        Returns: Json
+      }
+      get_claims: {
+        Args: {
+          uid: string
+        }
+        Returns: Json
+      }
+      get_my_claim: {
+        Args: {
+          claim: string
+        }
+        Returns: Json
+      }
+      get_my_claims: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      is_claims_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       set_claim: {
         Args: {
           uid: string
