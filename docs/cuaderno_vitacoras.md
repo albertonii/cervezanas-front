@@ -1,17 +1,12 @@
 # Listado de tareas:
 
-- Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
-- No está funcionado dentro de crear producto el estado de la sección de packs.
-- COMENTAR TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
-- PDF acuerdo de colaboración Cervezanas - Productor
-- PDF acuerdo de colaboración Cervezanas - Distribuidor
-- Crear cuenta de soporte de correos que termine en Cervezanas.eu
-- Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+- Sistema para automatizar el stock de un producto (pack)
+- Comprobar qué sucede al acceder a eventos en producción.
+- Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
+- Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
 - Implementar Dark Mode -> Gustavo
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Historial de ventas en un punto de consumo
@@ -23,23 +18,12 @@
 - CRUD imágenes en eventos
 - Editar una campaña
 - Vincular productos a la campaña
-- [] Hacer que las vistas en profile consumer sean homogéneas
-- [] Hacer que las vistas en profile distributor sean homogéneas
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
-- ERROR AL Signup Distributor
 
 # WIP
-
-- Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
-
-- Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
-
-Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
-
-- Crear presentación de workshop para el lunes
 
 - Conectar los servicios nuevos de Miguel con la aplicación
 - Cervezanas en Producción
@@ -94,15 +78,29 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - [x] Contratar servicios FV0 - API REST Servicios Sistema de Distribución - MIGUEL
 - [x] Contratar plan de pago Supabase - MIGUEL
 - [x] Enviar correo a Miguel para contratar servicios
+- [x] PDF acuerdo de colaboración Cervezanas - Productor
+- [x] PDF acuerdo de colaboración Cervezanas - Distribuidor - miguel
+- [x] Planificación de reunión workshop. Crear un mapa de funcionalidades. Crear comunidad de testeo para la aplicación. Contar con ellos para la parte de testeo y los canales de comunicación para reportar el feedback. Ventas reales -> Los problemas reportarlos a una dirección de correo electrónico. Fechas para empezar a probar de verdad la aplicación
 
-# 29 de noviembre 23
+Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técnica -> Tiene que ser rápida y sencilla. No más de 10 minutos. No más de 5 diapositivas. No más de 5 minutos de demo técnica.
+
+- [x] Crear presentación de workshop para el lunes
+- [x] Crear cuenta de soporte de correos que termine en Cervezanas.eu
+- [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- [x] Crear un onboarding a modo de tutorial para usuarios nuevos. Quizás redes sociales y youtube
+- [x] ERROR AL Signup Distributor
+- [x] Mandar email a los productores registrados en el evento, seguimiento
+- [x] Hacer que las vistas en profile consumer sean homogéneas
+- [x] Hacer que las vistas en profile distributor sean homogéneas
+
+## 29 de noviembre 23
 
 La aplicación de Cervezanas se encuentra en un punto crítica para la salida en producción. En diciembre habrá un workshop para presentar el proyecto.
 La documentación que existe es escasa y para el desarrollo de la aplicación se ha usado mucho “tirar de cabeza” debido al desarrollo individual del código, para tener un completo conocimiento de la misma, sus puntos flojos y mejoras debo de crear una documentación acorde a la calidad del código y proyecto.
 
 Por ello, me pongo manos a la obra para la documentación del proyecto.
 
-# 4 de diciembre 23
+## 4 de diciembre 23
 
 Documentación creada.
 
@@ -112,7 +110,7 @@ Documentación creada.
 - Diagrama de actividades
 - Diagramas de relación de entidades
 
-## Diagrama de Entidades - Sistema de Distribución
+### Diagrama de Entidades - Sistema de Distribución
 
 **https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7**
 
@@ -135,9 +133,9 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 
 ---
 
-18 de diciembre
+## 18 de diciembre
 
-# Sistema de distribución
+### Sistema de distribución
 
 - [x] Comprobar realización de compra de pedido y creación de business order
 - [x] Visualizar pedido para el consumidor
@@ -148,7 +146,7 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 
 ---
 
-20 de diciembre
+## 20 de diciembre
 
 Seguimos con el sistema de distribución. Ahora mismo me interesa avanzar y, aunque se puedan calcular diferentes tipos de costes según la distribución, vamos a centrarnos en la tarifa plana diferenciando por área de cobertura: local, nacional, europea e internacional.
 
@@ -159,7 +157,7 @@ https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
 
 ---
 
-26 de diciembre
+## 26 de diciembre
 
 Aunque ya se pueda asociar un coste de distribución a un pedido, es muy rústico y simplón. Debemos de saber cómo hacer la fórmula que indique los costes adecuados de envío.
 Una buena alternativa es tener en cuenta el peso y dimensiones de cada producto comprado.
@@ -167,10 +165,11 @@ Quizás asociar una tarifa básica + suma de pesos de los productos.
 
 --
 
-8 de enero
+## 8 de enero
+
 InputLabel y InputTextarea creados, con ellos reduciré el código usado en toda la aplicación
 
-12 enero
+## 12 enero
 
 Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imágenes de IA, fotografías del Hendrix, etc
 Enfocarnos en los diseños para el webminar
@@ -179,7 +178,7 @@ Nos vamos al BBF a finales de marzo
 
 ---
 
-17 de enero
+## 17 de enero
 
 Planificación de reunión workshop
 
@@ -212,7 +211,7 @@ NOTIFICACIÓN para dar de alta productor y distribuidor
 
 --
 
-19 de enero
+## 19 de enero
 
 - Securizar creación de un Productor, se mostrará un mensaje indicando que se ha realizado la petición, los admins deben de aceptar el registro del usuario
 
@@ -238,3 +237,269 @@ Planificación de este año.
 3. Eventos
 
 -- CREDENCIALES PARA SERVICIOS DE CONTRATACIONES -- LUNES
+
+## 23 de enero
+
+--
+
+- [x] Merge de cambios en DESIGN
+- [x] Eliminar todas las funcionalidades que no están terminadas:
+  - [x] Campañas - Producer
+  - [x] Reviews - Producer
+  - [x] Lista de deseos - Consumer
+  - [x] Feedback - Distributor
+  - [x] Costes de distribución - Rango - Distributor
+  - [x] Costes de distribución - Volumen y peso - Distributor
+  - [x] Costes de distribución - Distancia - Distributor
+  - [x] Área de cobertura - Ciudad - Distributor
+  - [x] Área de cobertura - Provincia - Distributor
+  - [x] Área de cobertura - Región - Distributor
+  - [x] Área de cobertura - Europa - Distributor
+- [x] Crear lista dinámica de productos del mes
+- [x] Mostrar productos del mes en la homepage
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [x] Lista de Puntos de Consumo para el ADMIN
+
+--
+
+## 24 de enero
+
+- [x] Disclaimer para productor
+- [x] Disclaimer para distribuidor
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- [x] No está funcionado dentro de crear producto el estado de la sección de packs.
+- [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [x] Esconder login google
+- [x] Grabar demo
+- [x] Mirar error en checkbox para crear productor y distribuidor
+- [x] Error al incrementar packs en el carrito de la compra -> Vista de producto en detalle y al finalizar la compra
+
+---
+
+## 25 de enero
+
+- [x] Disclaimer modal al crear productor
+- [x] Disclaimer modal al crear distribuidor
+- [x] Error al incrementar packs en el carrito de la compra -> al finalizar la compra
+- [x] Eroror vista de producto en detalle
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
+- [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
+- [x] Desplegar cambios
+- [x] Preparar presentación
+
+## 29 de enero
+
+- [x] Convertir en single las relaciones entre tablas únicas desde Supabase: Product_multimedia -> https://github.com/supabase/postgrest-js/issues/223
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
+      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+
+### Convertir en single todas las relaciones necesarias - One to One Relation:
+
+- [x] Beers -> Product
+- [x] Reviews -> Product
+- [x] Reviews -> User
+- [x] Awards -> Product
+- [x] Billing Info -> User
+- [ ] Business Orders -> Order
+- [ ] Business Orders -> Producer
+- [ ] Business Orders -> Distributor
+- [x] Campaign Items -> Product
+- [x] Campaign Items -> Campaign
+- [x] Campaign -> User
+- [ ] Consumption Points -> User
+- [x] Coverage Areas -> Distributor
+- [x] CP Fixed -> Consumption Point
+- [x] CP Mobile -> Consumption Point
+- [x] CPF Events -> CP Fixed
+- [x] CPF Events -> Event
+- [x] CPM Events -> CP Mobile
+- [x] CPM Events -> Event
+- [x] CPF Products -> Product Pack
+- [x] CPM Products -> Product Pack
+- [x] Customize Settings -> User
+- [x] Distribution -> Origin Distributor
+- [x] Distribution -> Business Order
+- [ ] Distribution Contract -> Producer
+- [ ] Distribution Contract -> Distributor
+- [x] Distribution Cost -> Distributor
+- [x] Distributor -> User
+- [x] Producer -> User
+- [x] Event Order Items -> Event Order
+- [x] Event Order Items -> Product Packs
+- [x] Event Orders -> User
+- [x] Event Orders -> Event
+- [x] Events -> User
+- [x] Fixed Event Order Items -> Product
+- [x] Fixed Event Order Items -> Order
+- [x] Fixed Event Order -> User
+- [x] Fixed Event Order -> CP Fixed Owner
+- [x] Flatrate cost -> Distribution Cost
+- [x] Gamification -> User
+- [x] Likes -> User
+- [x] Local Distribution -> Coverage Area
+- [x] Monthly Products -> Product
+- [x] Notifications -> User Source
+- [x] Notifications -> User Destination
+- [x] Order Items -> Product Pack
+- [x] Order Items -> Business Order
+- [x] Orders -> User
+- [x] Orders -> Shipping
+- [x] Orders -> Billing
+- [x] Orders -> Payment
+- [ ] Product Inventory -> Product
+- [ ] Product Lots -> User
+- [ ] Product Lots -> Product
+- [ ] Product Multimedia -> Product
+- [ ] Product Pack -> Product
+- [ ] Product -> User
+- [ ] Profile Location -> User
+- [ ] User Reports -> User
+
+### 30 de enero
+
+- [ ] Errores de supabase con los tipos de BBDD y Typescript
+- [x] Pair programming con Gustavo. Hemos hablado de: semántica HTML, cómo funciona react y JSX, componentes de Nextjs como Image, estructura de carpetas de Nextjs, etc.
+
+### 31 de enero
+
+- [x] Errores de supabase con los tipos de BBDD y Typescript
+
+### 2 de febrero
+
+- [x] Nóminas firmadas
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
+- [ ] ERROR AL CREAR DISTRIBUIDOR:
+      Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir.
+      Además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+- [ ] Crear un onboarding Consumidor
+- [ ] Crear un onboarding Productor
+- [ ] Crear un onboarding Distribuidor
+
+- REUNIÓN con Mariano y Miguel - Viernes 2
+  Preparar el BBF, funcionalidades que haremos: crear un vídeo promocional, habrá una cata a ciegas, monografías por roles/onboarding, etc.
+
+- Para el stand: necesitamos tener registradas las cervezas que vamos a llevar, los productores, los distribuidores, etc.
+- Dossier: debe tener la parte comercial (la parte que engancha) y la parte de onboarding (guía de como se usa)
+- Cata a ciegas: se regala la cerveza si se han dado de alta en la aplicación -> La parte de producción debe de estar dada de alta.
+- Plan de testeo con productos reales.
+- Necesitamos una política de precios para los productores y distribuidores. Cervezanas se lleva el X% de la venta.
+  Arrancar con un porcentaje a producción y otro a la distribución.
+
+EXPERIENCIAS EN EVENTOS:
+Podemos vincular experiencias a los eventos. Para el tema de cata a ciegas, cuando se crea un evento, podemos indicar si se va a añadir la experiencia de cata a ciegas. Si fuera así, se indica la cantidad de productos que se van a exponer.
+
+Vamos a escoger 3 cervezas, sin escoger fabricantes y diremos los tipos de cerveza o algo del tipo de cerveza que es. Será una cata a ciegas donde tendrán que adivinar el tipo de cerveza que están bebiendo. Pueden adivinar qué estilo de cerveza es o que cerveza es.
+
+HAY QUE DISEÑAR LAS EXPERIENCIAS
+
+Tenemos que crear un documento para especificar al máximo detalle qué experiencia ofreceremos en el BBF: el miércoles hablaremos de ello.
+
+Hay que hacer los dossiers y demás con Gustavo.
+
+---
+
+### 5 de febrero
+
+- [x] Actualizar funcionalidades en la documentación de Cervezanas
+- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+- [x] Redactar la experiencia de cata a ciegas que realizaremos en el BBF
+- [x] Crear vídeo presentación Cervezanas - 25 de enero
+- [x] Enviar vídeo a Cristian, planear vídeo de promoción Cervezanas
+- [ ] Arreglar creación de usuario Distribuidor
+- [ ] Poner a punto la producción en Supabase
+
+### 6 de febrero
+
+- [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+- [x] ERROR AL CREAR DISTRIBUIDOR:
+
+  Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+  Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir, además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
+
+  Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
+
+- [ ] Poner a punto la producción en Supabase.
+      Se han eliminado las tablas que no se usan y corregido algunos atributos de variables.
+
+### 8 de febrero
+
+- [x] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
+      Se han eliminado las tablas que no se usan y corregido algunos atributos de variables.
+- [x] Error con next-intl locales y timezone
+- [ ] Monitoreo y tracking de errores en la aplicación
+- [ ] Poner a punto la producción en Supabase
+      Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+
+--- Reunión organización BBF --- Gustavo, Mariano, M. Angel, Alberto
+
+#### Creación de dossier: debe de ser un documento que enganche, que sea atractivo, que sea fácil de leer, que sea visual, que sea atractivo. Debe de tener la parte comercial (la parte que engancha) y la parte de onboarding (guía de como se usa)
+
+Dossier por roles: consumidor, productor, distribuidor
+¿Qué funcionalidades tiene cada uno de los roles? -> Onboarding técnico
+
+Además de que estén los dossier físicamente, pueden estar con código QR y alojados en la web. Tener impresos los QR para los enlaces con el onboarding y dárse de alta.
+Habrán dossiers físicos pero no imprimiremos tanto para distribuidores como para productores/consumidores.
+
+Necesitamos posavasos con el código QR para valorar el producto de la cata a ciegas.
+
+#### Cata a ciegas
+
+Al escanear el código QR, el punto de consumo debe de dar el OK para empezar con la cerveza. Hacemos esto pq estas experiencias pueden ser de pago. Si fueran todas gratuitas, no habría problema y no haría falta el OK.
+
+Experiencia del evento: si hay varios PC que usen esta experiencia, se va haciendo un recuento de en cuales ha participado. Esto nos servirá de gamificación y para poder ganar el premio Cervezanas si consiguen acertar todo para todos los PCs.
+
+Insignia para aquellos que han acertado a todas las cervezas de la cata a ciegas.
+
+En vez de Cata a Ciegas -> ¿Quieres jugar a ser Maestro Cervecero?
+
+Dar de alta en cada PC preguntas y respuestas para el juego de Maestro Cervecero.
+
+### 9 de Febrero
+
+- [x] Crear documento Experiencia Maestro Cervecero
+- [x] Crear documento Ejemplos Preguntas y Respuestas Genéricas Maestro Cervecero
+- [ ] Monitoreo y tracking de errores en la aplicación
+- [x] Poner a punto la producción en Supabase
+      [x] Nos hemos quedado en crear la tabla coverage_areas -> Seguir hacia abajo
+      [x] Todas las tablas han sido modificadas y sincronizadas con desarrollo
+      [x] Políticas, supabase storage y FK referencias únicas actualizadas en desarrollo
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] Distribution tiene una relación a origin_distributor que está apuntando a awards - ? - Arreglar esto.
+- [ ] Para pagar. Puede ser in situ (pago con pulsera o como quiera el stand) o a través de Cervezanas.
+- [ ] Hay que indicar que la participación en la experiencia es de pago.
+
+- REVIEWS
+  Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
+
+  a. [x] CRUD para una review de un producto comprado
+  b. Al borrar una review, confirmar la acción con un modal
+  c. Al borrar review, cambiar el estado de order item is_reviewed a false
+  d. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto
+  e. [x] Sistema básico de gamificación -> al realizar compra, review, etc
+  f. Si creamos una review, añadir la experiencia a su sistema de gamificación
+  g. Si borra una review, restar la experiencia a su sistema de gamificación
+  h. Ver las reviews realizadas por un usuario
+
+- [ ] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
+- [ ] Redactar el acuerdo de colaboración CERVEZANAS - PRODUCTOR/DISTRIBUIDOR - MIGUEL
+- [ ] Comprobar: si la app está en Dark Mode se pueda leer el QR -> Gustavo
+- [ ] Notificaciones a través de email - SMTP
+  - Cuando se da de alta un productor/distribuidor
+
+#### Reunión - Mariano, M Angel, Gustavo, Alberto --- Experiencia Maestro Cervecero
+
+Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. Puede estar planificado o no -> Si es planificado es con registro.
+
+- [x] Redacción de preguntas a posteriori -> después de catar la cerveza.
+- [x] Cambiar cerveza misteriosa por cerveza sorpresa.
+- [x] Indicar que conseguirán la cerveza si consiguen todos los logros. Estamos regalando la cerveza para fomentar los logros de los demás.
+
+- [x] Arreglar los problemas con los tipos al ejecutar script pnpm gen-types:dev

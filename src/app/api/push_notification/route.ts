@@ -23,4 +23,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (error) throw new Error(error.message);
+
+  // Deveolver OK para que el cliente no se quede esperando
+  return NextResponse.json({ message: "Notification sent successfully" });
 }

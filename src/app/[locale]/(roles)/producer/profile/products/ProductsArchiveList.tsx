@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../Auth/useAuth";
-import { IProduct } from "../../../../../../lib/types";
-import Spinner from "../../../../components/common/Spinner";
-import { useAppContext } from "../../../../../context/AppContext";
-import { EditButton } from "../../../../components/common/EditButton";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { UnarchiveButton } from "../../../../components/common/UnarchiveButton";
-import InputSearch from "../../../../components/common/InputSearch";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
+import Link from 'next/link';
+import Image from 'next/image';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../Auth/useAuth';
+import { IProduct } from '../../../../../../lib/types';
+import Spinner from '../../../../components/common/Spinner';
+import { useAppContext } from '../../../../../context/AppContext';
+import { EditButton } from '../../../../components/common/EditButton';
+import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import { UnarchiveButton } from '../../../../components/common/UnarchiveButton';
+import InputSearch from '../../../../components/common/InputSearch';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -40,7 +40,7 @@ export function ProductsArchiveList({
 
   const products = ps.filter((product) => product.is_archived);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = ps.filter((product) => product.is_archived).length;
@@ -51,17 +51,17 @@ export function ProductsArchiveList({
     user.id,
     currentPage,
     resultsPerPage,
-    true
+    true,
   );
 
   const COLUMNS = [
-    { header: t("product_type_header") },
-    { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("stock_header") },
-    { header: t("lot_header") },
-    { header: t("public_header") },
-    { header: t("action_header") },
+    { header: t('product_type_header') },
+    { header: t('name_header') },
+    { header: t('price_header') },
+    { header: t('stock_header') },
+    { header: t('lot_header') },
+    { header: t('public_header') },
+    { header: t('action_header') },
   ];
 
   useEffect(() => {
@@ -95,9 +95,9 @@ export function ProductsArchiveList({
 
     // Send product to supabase database
     const { error } = await supabase
-      .from("products")
+      .from('products')
       .update(updatedProduct)
-      .eq("id", product.id)
+      .eq('id', product.id)
       .select();
 
     if (error) throw error;
@@ -124,7 +124,7 @@ export function ProductsArchiveList({
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_products")}
+            {t('error_fetching_products')}
           </p>
         </div>
       )}
@@ -136,7 +136,7 @@ export function ProductsArchiveList({
       {!isError && !isLoading && products.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_products")}
+            {t('no_products')}
           </p>
         </div>
       ) : (
@@ -144,7 +144,7 @@ export function ProductsArchiveList({
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_products"}
+            searchPlaceholder={'search_products'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -178,8 +178,8 @@ export function ProductsArchiveList({
                               width={128}
                               height={128}
                               className="h-8 w-8 rounded-full"
-                              src={"/icons/beer-240.png"}
-                              loader={() => "/icons/beer-240.png"}
+                              src={'/icons/beer-240.png'}
+                              loader={() => '/icons/beer-240.png'}
                               alt="Beer Type"
                             />
                           </th>
@@ -199,20 +199,20 @@ export function ProductsArchiveList({
 
                           <td className="px-6 py-4">
                             {product.product_inventory &&
-                            product.product_inventory[0]?.quantity
-                              ? product.product_inventory[0].quantity
-                              : "-"}
+                            product.product_inventory?.quantity
+                              ? product.product_inventory.quantity
+                              : '-'}
                           </td>
 
                           <td className="px-6 py-4">
                             {product.product_lots &&
                             product.product_lots[0]?.lot_id
                               ? product.product_lots[0]?.lot_id
-                              : "-"}
+                              : '-'}
                           </td>
 
                           <td className="px-6 py-4">
-                            {product.is_public ? t("yes") : t("no")}
+                            {product.is_public ? t('yes') : t('no')}
                           </td>
 
                           <td className="px-6 py-4">

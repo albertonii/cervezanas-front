@@ -1,13 +1,13 @@
-import Negotiator from "negotiator";
-import { ROUTE_SIGNIN } from "./config";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { i18n } from "./lib/translations/i18n";
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { isPrivateSectionIncluded } from "./utils/middleware/functions";
-import { createSupabaseReqResClient } from "./utils/supabaseReqResClient";
+import Negotiator from 'negotiator';
+import { ROUTE_SIGNIN } from './config';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { match as matchLocale } from '@formatjs/intl-localematcher';
+import { isPrivateSectionIncluded } from './utils/middleware/functions';
+import { createSupabaseReqResClient } from './utils/supabaseReqResClient';
+// import createMiddleware from 'next-intl/middleware';
 
-const locales = ["en", "es"];
+const locales = ['en', 'es'];
 
 function getLocale(request: NextRequest): string | undefined {
   // Negotiator expects plain object so we need to transform headers
@@ -16,13 +16,13 @@ function getLocale(request: NextRequest): string | undefined {
 
   // Use negotiator and intl-localematcher to get best locale
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  return matchLocale(languages, locales, i18n.defaultLocale);
+  return matchLocale(languages, locales, 'es');
 }
 
 // this middleware refreshes the user's session and must be run
 // for any Server Component route that uses `createServerComponentSupabaseClient`
 export async function middleware(req: NextRequest) {
-  ("user server");
+  ('user server');
 
   const res = NextResponse.next();
 
@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
   const url = nextUrl.clone();
 
   const pathname = url.pathname;
-  const locale = pathname.split("/")[1];
+  const locale = pathname.split('/')[1];
   const pathnameIsMissingLocale = !locales.includes(locale);
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
@@ -50,7 +50,7 @@ export async function middleware(req: NextRequest) {
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseURL || !supabaseAnonKey) {
-      throw new Error("Missing env variables");
+      throw new Error('Missing env variables');
     }
 
     const supabase = createSupabaseReqResClient(req, res);
@@ -69,6 +69,15 @@ export async function middleware(req: NextRequest) {
   return res;
 }
 
+// export default createMiddleware({
+//   // A list of all locales that are supported
+//   locales: ['en', 'es'],
+
+//   // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
+//   defaultLocale: 'es',
+
+// });
+
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
 };

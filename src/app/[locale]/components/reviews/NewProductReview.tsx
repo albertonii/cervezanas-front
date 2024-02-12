@@ -156,6 +156,11 @@ export function NewProductReview({
           updated_at: review.updated_at,
         },
       ]);
+
+    handleMessage({
+      type: "success",
+      message: successMessage,
+    });
   };
 
   const handleInsertReviewMutation = useMutation({
@@ -167,10 +172,6 @@ export function NewProductReview({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviewList"] });
-      handleMessage({
-        type: "success",
-        message: successMessage,
-      });
     },
     onError: (error: Error) => {
       handleMessage({

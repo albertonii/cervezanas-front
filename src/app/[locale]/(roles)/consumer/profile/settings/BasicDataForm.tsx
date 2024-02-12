@@ -41,6 +41,7 @@ export function BasicDataForm({ profile }: Props) {
 
   const [loading, setLoading] = useState(false);
 
+  const errorMessage = t("errors.basic_data");
   const successMessage = t("profile_acc_data_updated");
 
   const { handleMessage } = useMessage();
@@ -68,7 +69,18 @@ export function BasicDataForm({ profile }: Props) {
       })
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      handleMessage({
+        type: "error",
+        message: errorMessage,
+      });
+      throw error;
+    }
+
+    handleMessage({
+      type: "success",
+      message: successMessage,
+    });
   };
 
   const handleUpdateBasicDataMutation = useMutation({
@@ -78,10 +90,7 @@ export function BasicDataForm({ profile }: Props) {
       setLoading(true);
     },
     onSuccess: () => {
-      handleMessage({
-        type: "success",
-        message: successMessage,
-      });
+      console.info("success");
     },
     onError: (error: Error) => {
       handleMessage({
@@ -107,7 +116,7 @@ export function BasicDataForm({ profile }: Props) {
   return (
     <section
       id="account_basic_data"
-      className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl"
+      className="mb-4 space-y-3 rounded-md border-2 border-beer-blonde bg-white px-6 py-4 shadow-2xl"
     >
       <span id="account-data" className="text-2xl">
         {t("profile_title_acc_data")}

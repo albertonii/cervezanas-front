@@ -1,9 +1,9 @@
-import CoverageLayout from "./CoverageLayout";
-import readUserSession from "../../../../../../lib/actions";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { IDistributionCost } from "../../../../../../lib/types";
+import CoverageLayout from './CoverageLayout';
+import readUserSession from '../../../../../../lib/actions';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { IDistributionCost } from '../../../../../../lib/types';
 
 export default async function OrdersPage() {
   const distributionCosts = await getDistributionCost();
@@ -24,7 +24,7 @@ async function getDistributionCost() {
 
   const { data: distributionCosts, error: distributionCostsError } =
     await supabase
-      .from("distribution_costs")
+      .from('distribution_costs')
       .select(
         `
           id,
@@ -42,12 +42,15 @@ async function getDistributionCost() {
             is_checked_europe,
             is_checked_international
           )
-        `
+        `,
       )
-      .eq("distributor_id", session.user.id)
+      .eq('distributor_id', session.user.id)
       .single();
 
-  if (distributionCostsError) throw distributionCostsError;
+  if (distributionCostsError) {
+    console.error(distributionCostsError);
+    throw distributionCostsError;
+  }
 
   return distributionCosts as IDistributionCost;
 }

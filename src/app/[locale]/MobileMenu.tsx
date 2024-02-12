@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { useLocale } from "next-intl";
-import { useAuth } from "./Auth/useAuth";
-import { useRef, useState } from "react";
-import { ROUTE_SIGNIN } from "../../config";
-import { useTranslations } from "next-intl";
-import { i18n } from "../../lib/translations/i18n";
-import { Button } from "./components/common/Button";
-import { usePathname, useRouter } from "next/navigation";
-import { NotificationPopup } from "./components/NotificationPopup";
-import { useAppContext } from "../context/AppContext";
-import useOnClickOutside from "../../hooks/useOnOutsideClickDOM";
-import { useShoppingCart } from "../context/ShoppingCartContext";
-import { INotification } from "../../lib/types";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useLocale } from 'next-intl';
+import { useAuth } from './Auth/useAuth';
+import { useRef, useState } from 'react';
+import { ROUTE_SIGNIN } from '../../config';
+import { useTranslations } from 'next-intl';
+import { Button } from './components/common/Button';
+import { usePathname, useRouter } from 'next/navigation';
+import { NotificationPopup } from './components/NotificationPopup';
+import { useAppContext } from '../context/AppContext';
+import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
+import { useShoppingCart } from '../context/ShoppingCartContext';
+import { INotification } from '../../lib/types';
 
 interface Props {
   notifications: INotification[];
+  i18nLocaleArray: string[];
 }
 
-export default function MobileMenu({ notifications }: Props) {
+export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
   const { role, user } = useAuth();
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -41,10 +41,10 @@ export default function MobileMenu({ notifications }: Props) {
   };
 
   const redirectedPathName = (locale: string) => {
-    if (!pathName) return "/";
-    const segments = pathName.split("/");
+    if (!pathName) return '/';
+    const segments = pathName.split('/');
     segments[1] = locale;
-    return segments.join("/");
+    return segments.join('/');
   };
 
   const handleSignIn = () => {
@@ -59,10 +59,10 @@ export default function MobileMenu({ notifications }: Props) {
   };
 
   const MENU_ITEM_STYLES =
-    "block rounded py-2 pr-4 pl-3 text-md font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg";
+    'block rounded py-2 pr-4 pl-3 text-md font-semibold text-beer-dark hover:text-beer-draft dark:text-white md:bg-transparent md:p-0 lg:text-lg';
 
   const MENU_HEADER_STYLES =
-    "text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4";
+    'text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4';
 
   return (
     <header className="header absolute w-full bg-beer-foam bg-transparent sm:hidden md:z-30">
@@ -96,13 +96,13 @@ export default function MobileMenu({ notifications }: Props) {
         {/* Logo Cervezanas  */}
         <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
           <figure className="absolute flex h-[90px] w-[90px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-            <Link href={"/"} locale={locale}>
+            <Link href={'/'} locale={locale}>
               <Image
                 src="/logo_cervezanas.svg"
                 alt="Cervezanas Logo"
                 width={100}
                 height={100}
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: 'contain' }}
                 priority={true}
                 sizes="100px"
               />
@@ -115,14 +115,14 @@ export default function MobileMenu({ notifications }: Props) {
           ref={sidebarRef}
           className={`fixed left-0 top-0 z-30 h-full w-auto transform bg-beer-gold pr-10 transition-transform duration-300 ease-in-out sm:hidden ${
             openHamburguer
-              ? "bg-darkGold translate-x-0"
-              : "-translate-x-full bg-beer-gold"
+              ? 'bg-darkGold translate-x-0'
+              : '-translate-x-full bg-beer-gold'
           }`}
         >
           <ul className="space-y-2 pl-4 pt-16">
             <li className="flex items-center justify-center space-x-4">
               {/* Language  */}
-              {i18n.locales.map((locale) => {
+              {i18nLocaleArray.map((locale) => {
                 return (
                   <li key={locale}>
                     <Link href={redirectedPathName(locale)}>{locale}</Link>
@@ -136,19 +136,19 @@ export default function MobileMenu({ notifications }: Props) {
 
                   <Button
                     class={
-                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent "
+                      'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
                     }
                     onClick={() => setOpenNotification(true)}
-                    title={""}
+                    title={''}
                   >
                     <div className="relative rounded-full">
                       <Image
-                        alt={"Notification bell"}
-                        className={"rounded-full"}
+                        alt={'Notification bell'}
+                        className={'rounded-full'}
                         width={0}
                         height={0}
-                        style={{ width: "45px", height: "45px" }}
-                        src={"/icons/notification-icon.svg"}
+                        style={{ width: '45px', height: '45px' }}
+                        src={'/icons/notification-icon.svg'}
                       />
                       <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {notifications?.length || 0}
@@ -165,20 +165,20 @@ export default function MobileMenu({ notifications }: Props) {
                   {/* Cart  */}
                   <Button
                     class={
-                      "border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent"
+                      'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent'
                     }
                     onClick={() => openCart()}
-                    title={"Cart Items"}
+                    title={'Cart Items'}
                   >
                     <div className="relative rounded-full">
                       <Image
-                        alt={"Go to Shopping cart"}
-                        className={"rounded-full"}
+                        alt={'Go to Shopping cart'}
+                        className={'rounded-full'}
                         width={0}
                         height={0}
-                        style={{ width: "45px", height: "45px" }}
-                        src={"/icons/shopping-cart.svg"}
-                        loader={() => "/icons/shopping-cart.svg"}
+                        style={{ width: '45px', height: '45px' }}
+                        src={'/icons/shopping-cart.svg'}
+                        loader={() => '/icons/shopping-cart.svg'}
                       />
                       <span className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
                         {cartQuantity()}
@@ -190,7 +190,7 @@ export default function MobileMenu({ notifications }: Props) {
             </li>
 
             <li className={`${MENU_HEADER_STYLES}`}>
-              {t("menu").toUpperCase()}
+              {t('menu').toUpperCase()}
             </li>
 
             {/* Marketplace link  */}
@@ -201,7 +201,7 @@ export default function MobileMenu({ notifications }: Props) {
                 locale={locale}
               >
                 <span className={`${MENU_ITEM_STYLES}`}>
-                  {t("marketplace").toUpperCase()}
+                  {t('marketplace').toUpperCase()}
                 </span>
               </Link>
             </li>
@@ -214,7 +214,7 @@ export default function MobileMenu({ notifications }: Props) {
                 locale={locale}
               >
                 <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                  {t("community").toUpperCase()}
+                  {t('community').toUpperCase()}
                 </span>
               </Link>
             </li>
@@ -228,7 +228,7 @@ export default function MobileMenu({ notifications }: Props) {
                     locale={locale}
                   >
                     <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                      {t("events").toUpperCase()}
+                      {t('events').toUpperCase()}
                     </span>
                   </Link>
                 </li>
@@ -237,25 +237,29 @@ export default function MobileMenu({ notifications }: Props) {
 
             <li className={`${MENU_HEADER_STYLES}`}>
               {user ? (
-                t("my_account").toUpperCase()
+                t('my_account').toUpperCase()
               ) : (
                 <div>
-                  <Button onClick={() => handleSignIn()} title={""} class={""}>
+                  <Button onClick={() => handleSignIn()} title={''} class={''}>
                     <Image
-                      alt={"Login"}
+                      alt={'Login'}
                       width={0}
                       height={0}
-                      style={{ width: "25px", height: "25px" }}
-                      src={"/icons/user-profile.svg"}
+                      style={{ width: '25px', height: '25px' }}
+                      src={'/icons/user-profile.svg'}
                     />
                   </Button>
                 </div>
               )}
             </li>
 
-            {role === "consumer" ||
-              (role === "producer" && (
+            {role === 'consumer' ||
+              (role === 'producer' && (
                 <>
+                  <li className={`${MENU_HEADER_STYLES}`}>
+                    {t('my_account').toUpperCase()}
+                  </li>
+
                   <li className="flex items-center">
                     <Link
                       href="/profile?a=account"
@@ -266,7 +270,7 @@ export default function MobileMenu({ notifications }: Props) {
                         className={`${MENU_ITEM_STYLES}`}
                         aria-current="page"
                       >
-                        {t("profile").toUpperCase()}
+                        {t('profile').toUpperCase()}
                       </span>
                     </Link>
                   </li>
@@ -281,23 +285,23 @@ export default function MobileMenu({ notifications }: Props) {
                         className={`${MENU_ITEM_STYLES}`}
                         aria-current="page"
                       >
-                        {t("orders").toUpperCase()}
+                        {t('orders').toUpperCase()}
                       </span>
                     </Link>
                   </li>
                 </>
               ))}
 
-            {role === "admin" && (
+            {role === 'admin' && (
               <>
                 <li className="flex items-center">
                   <Link
-                    href="/profile?a=submitted_aps"
+                    href="/profile?a=contracts_cps"
                     onClick={() => setOpenNotification(false)}
                     locale={locale}
                   >
                     <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                      {t("submitted_aps").toUpperCase()}
+                      {t('submitted_aps').toUpperCase()}
                     </span>
                   </Link>
                 </li>
@@ -309,7 +313,7 @@ export default function MobileMenu({ notifications }: Props) {
                     locale={locale}
                   >
                     <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                      {t("monthly_products").toUpperCase()}
+                      {t('monthly_products').toUpperCase()}
                     </span>
                   </Link>
                 </li>
@@ -321,7 +325,7 @@ export default function MobileMenu({ notifications }: Props) {
                     locale={locale}
                   >
                     <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                      {t("notifications").toUpperCase()}
+                      {t('notifications').toUpperCase()}
                     </span>
                   </Link>
                 </li>
@@ -335,7 +339,7 @@ export default function MobileMenu({ notifications }: Props) {
                 locale={locale}
               >
                 <span className={`${MENU_ITEM_STYLES}`} aria-current="page">
-                  {t("profile").toUpperCase()}
+                  {t('profile').toUpperCase()}
                 </span>
               </Link>
             </li>
@@ -346,7 +350,7 @@ export default function MobileMenu({ notifications }: Props) {
                   class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark`}
                   onClick={handleSignIn}
                 >
-                  {t("sign_in").toUpperCase()}
+                  {t('sign_in').toUpperCase()}
                 </Button>
               </li>
             ) : (
@@ -355,7 +359,7 @@ export default function MobileMenu({ notifications }: Props) {
                   class={`${MENU_ITEM_STYLES} bg-beer-red text-white transition-all duration-200`}
                   onClick={handleSignOut}
                 >
-                  {t("signout").toUpperCase()}
+                  {t('signout').toUpperCase()}
                 </Button>
               </li>
             )}

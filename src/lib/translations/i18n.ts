@@ -1,30 +1,28 @@
-// i18n
-//   .use(initReactI18next) // passes i18n down to react-i18next
-//   .init({
-//     lng: "es", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
-//     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
-//     // if you're using a language detector, do not define the lng option
-//     interpolation: {
-//       escapeValue: false, // react already safes from xss
-//     },
-//     fallbackLng: "en",
-//     supportedLngs: ["en", "es"],
-//     fallbackNS: "translation",
-//     ns: ["translation"],
-//     defaultNS: "translation",
-//   });
+'use server';
 
-// export default i18n;
+import { IntlErrorCode } from 'next-intl';
+import { getRequestConfig } from 'next-intl/server';
 
-export const i18n = {
-  defaultLocale: "es",
-  locales: ["es", "en"],
-} as const;
+export default getRequestConfig(async ({ locale }) => {
+  return {
+    messages: (await import(`./messages/${locale}.json`)).default,
+    onError(error) {
+      if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+        // Missing translations are expected and should only log an error
+        console.error(error);
+      } else {
+        // Other errors indicate a bug in the app and should be reported
+        // reportToErrorTracking(error);
+      }
+    },
+    getMessageFallback({ namespace, key, error }) {
+      const path = [namespace, key].filter((part) => part != null).join('.');
 
-export type Locale = (typeof i18n)["locales"][number];
-
-// import { getRequestConfig } from "next-intl/server";
-
-// export default getRequestConfig(async ({ locale }) => ({
-//   messages: (await import(`./messages/${locale}.json`)).default,
-// }));
+      if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+        return path + ' is not yet translated';
+      } else {
+        return 'Dear developer, please fix this message: ' + path;
+      }
+    },
+  };
+});

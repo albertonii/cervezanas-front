@@ -136,6 +136,8 @@ export function AddCampaign() {
     if (error) {
       throw error;
     }
+
+    reset();
   };
 
   const insertCampaignMutation = useMutation({
@@ -144,7 +146,6 @@ export function AddCampaign() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["campaignList"] });
       setShowModal(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState } from "react";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { createContext, useContext, useState } from 'react';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
   IEventProduct,
   IProductPack,
   IProductPackEventCartItem,
-} from "../../lib/types";
+} from '../../lib/types';
 
 type EventCartsType = {
   [eventId: string]: IProductPackEventCartItem[];
@@ -21,22 +21,22 @@ type EventCartContextType = {
     eventId: string,
     productId: string,
     cpId: string,
-    id: string
+    id: string,
   ) => number;
   addPackToCart(
     eventId: string,
     product: IEventProduct,
-    pack: IProductPack
+    pack: IProductPack,
   ): void;
   increaseOnePackCartQuantity: (
     eventId: string,
     productId: string,
-    packId: string
+    packId: string,
   ) => void;
   decreaseOnePackCartQuantity: (
     eventId: string,
     productId: string,
-    packId: string
+    packId: string,
   ) => void;
   removeFromCart: (eventId: string, productId: string, packId: string) => void;
   openCart: () => void;
@@ -71,8 +71,8 @@ export function EventCartProvider({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [eventCarts, setEventCarts] = useLocalStorage<EventCartsType>(
-    "event-carts",
-    {}
+    'event-carts',
+    {},
   );
 
   const getCartByEvent = (eventId: string) => {
@@ -112,7 +112,7 @@ export function EventCartProvider({ children }: Props) {
     eventId: string,
     productId: string,
     cpId: string,
-    packId: string
+    packId: string,
   ) => {
     const cart = getCartByEvent(eventId);
 
@@ -141,7 +141,7 @@ export function EventCartProvider({ children }: Props) {
   const addPackToCart = (
     eventId: string,
     product: IEventProduct,
-    pack: IProductPack
+    pack: IProductPack,
   ) => {
     const cart = eventCarts[eventId];
 
@@ -188,7 +188,7 @@ export function EventCartProvider({ children }: Props) {
         packs: [pack],
         name: product.name,
         price: product.price,
-        image: product.product_multimedia[0].p_principal,
+        image: product.product_multimedia?.p_principal ?? '',
         producer_id: product.owner_id,
         cpm_id: product.cpm_id,
         cpf_id: product.cpf_id,
@@ -244,7 +244,7 @@ export function EventCartProvider({ children }: Props) {
     //     packs: [pack],
     //     name: product.name,
     //     price: product.price,
-    //     image: product.product_multimedia[0].p_principal,
+    //     image: product.product_multimedia.p_principal,
     //     producer_id: product.owner_id,
     //     cpm_id: product.cpm_id,
     //     cpf_id: product.cpf_id,
@@ -263,7 +263,7 @@ export function EventCartProvider({ children }: Props) {
   const increaseOnePackCartQuantity = (
     eventId: string,
     productId: string,
-    packId: string
+    packId: string,
   ) => {
     const eventItems = getCartByEvent(eventId);
 
@@ -300,7 +300,7 @@ export function EventCartProvider({ children }: Props) {
   const decreaseOnePackCartQuantity = (
     eventId: string,
     productId: string,
-    packId: string
+    packId: string,
   ) => {
     const eventItems = getCartByEvent(eventId);
 
@@ -357,7 +357,7 @@ export function EventCartProvider({ children }: Props) {
   const removeFromCart = (
     eventId: string,
     productId: string,
-    packId: string
+    packId: string,
   ) => {
     const eventItems = getCartByEvent(eventId);
 
@@ -426,7 +426,7 @@ export function EventCartProvider({ children }: Props) {
 export function useEventCart() {
   const context = useContext(EventCartContext);
   if (context === undefined) {
-    throw new Error("useEventCart must be used within a EventCartProvider");
+    throw new Error('useEventCart must be used within a EventCartProvider');
   }
 
   return context;

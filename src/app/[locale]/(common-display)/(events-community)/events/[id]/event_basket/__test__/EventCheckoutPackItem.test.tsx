@@ -142,7 +142,7 @@ describe("Event Cart Item", () => {
     expect(headingPackName).toBeInTheDocument();
 
     const paragraphFermentation = screen.getByText(
-      productWithInfo.beers[0].fermentation
+      productWithInfo.beers.fermentation
     );
     expect(paragraphFermentation).toBeInTheDocument();
   });

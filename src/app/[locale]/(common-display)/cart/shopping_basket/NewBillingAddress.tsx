@@ -73,8 +73,13 @@ export function NewBillingAddress() {
       is_default,
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
     setShowModal(false);
+
+    reset();
   };
 
   const insertBillingMutation = useMutation({
@@ -87,7 +92,6 @@ export function NewBillingAddress() {
       queryClient.invalidateQueries({ queryKey: ["billingAddresses"] });
       setShowModal(false);
       setIsSubmitting(false);
-      reset();
     },
     onError: (error) => {
       console.error(error);

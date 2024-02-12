@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import OriginInfo from "./OriginInfo";
-import CoverageAreas from "./coverage_areas/CoverageAreas";
-import DistributionCost from "./distribution_costs/DistributionCost";
-import HorizontalMenuLogistics from "./HorizontalMenuLogistics";
-import { DistributionOption } from "../../../../../../lib/enums";
-import { IDistributionCost } from "../../../../../../lib/types";
+import React, { useState } from 'react';
+import OriginInfo from './OriginInfo';
+import CoverageAreas from './coverage_areas/CoverageAreas';
+import DistributionCost from './distribution_costs/DistributionCost';
+import HorizontalMenuLogistics from './HorizontalMenuLogistics';
+import { DistributionOption } from '../../../../../../lib/enums';
+import { IDistributionCost } from '../../../../../../lib/types';
 
 interface Props {
   // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];

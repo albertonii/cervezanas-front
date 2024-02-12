@@ -1,14 +1,14 @@
-import Link from "next/link";
-import React, { ComponentProps } from "react";
-import { Rate } from "../../../../components/reviews/Rate";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { useLocale, useTranslations } from "next-intl";
-import { IReview } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
-import { SupabaseProps } from "../../../../../../constants";
-import DisplayImageProfile from "../../../../components/common/DisplayImageProfile";
+import Link from 'next/link';
+import React, { ComponentProps } from 'react';
+import { Rate } from '../../../../components/reviews/Rate';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { useLocale, useTranslations } from 'next-intl';
+import { IReview } from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';
+import { SupabaseProps } from '../../../../../../constants';
+import DisplayImageProfile from '../../../../components/common/DisplayImageProfile';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -22,14 +22,12 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
   const locale = useLocale();
   const { supabase } = useAuth();
 
-  console.log(review);
-
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
 
   const handleDeleteReview = async (reviewId: string) => {
     try {
       const { error } = await supabase
-        .from("reviews")
+        .from('reviews')
         .delete()
         .match({ id: reviewId });
       if (error) throw error;
@@ -65,7 +63,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
         {/* Seller  */}
         <div className="flex flex-col items-center space-y-2">
           <h2 className="truncate text-xl transition-all ">
-            {t("seller_username")}:{" "}
+            {t('seller_username')}:{' '}
             <span className="hover:text-purple-500 cursor-pointer font-bold text-beer-draft hover:text-beer-blonde">
               <Link
                 className=""
@@ -79,7 +77,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
 
           <DisplayImageProfile
             imgSrc={`${review.users?.avatar_url}`}
-            class={"mx-auto h-24 w-24 rounded-full"}
+            class={'mx-auto h-24 w-24 rounded-full'}
           />
         </div>
       </section>
@@ -95,12 +93,12 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
                   <DisplayImageProduct
                     width={80}
                     height={80}
-                    alt={""}
+                    alt={''}
                     imgSrc={`${
                       BASE_PRODUCTS_URL +
                       decodeURIComponent(
-                        review.products?.product_multimedia[0].p_principal ??
-                          "/icons/beer-240.png"
+                        review.products?.product_multimedia?.p_principal ??
+                          '/icons/beer-240.png',
                       )
                     }`}
                     class="h-full w-full object-cover object-center"
@@ -117,7 +115,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
 
             <footer>
               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                {t("reviewed")}:{" "}
+                {t('reviewed')}:{' '}
                 <time dateTime="2022-01-20 19:00">
                   {formatDateString(review.created_at)}
                 </time>
@@ -149,7 +147,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
         {/* Stars  */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           <div className="text-md w-full ">
-            <label htmlFor="aroma">{t("aroma")}</label>
+            <label htmlFor="aroma">{t('aroma')}</label>
 
             <Rate
               rating={review.aroma}
@@ -161,7 +159,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
           </div>
 
           <div className="text-md mb-4 w-full">
-            <label htmlFor="appearance">{t("appearance")}</label>
+            <label htmlFor="appearance">{t('appearance')}</label>
             <Rate
               rating={review.appearance}
               count={5}
@@ -172,7 +170,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
           </div>
 
           <div className="text-md mb-4 w-full">
-            <label htmlFor="taste">{t("taste")}</label>
+            <label htmlFor="taste">{t('taste')}</label>
             <Rate
               rating={review.taste}
               count={5}
@@ -183,7 +181,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
           </div>
 
           <div className="text-md mb-4 w-full">
-            <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
+            <label htmlFor="mouthfeel">{t('mouthfeel')}</label>
             <Rate
               rating={review.mouthfeel}
               count={5}
@@ -194,7 +192,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
           </div>
 
           <div className="text-md mb-4 w-full">
-            <label htmlFor="bitterness">{t("bitterness")}</label>
+            <label htmlFor="bitterness">{t('bitterness')}</label>
             <Rate
               rating={review.bitterness}
               count={5}
@@ -205,7 +203,7 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
           </div>
 
           <div className="text-md mb-4 w-full">
-            <label htmlFor="overall">{t("overall")}</label>
+            <label htmlFor="overall">{t('overall')}</label>
             <Rate
               rating={review.overall}
               count={5}

@@ -2,15 +2,15 @@ import {
   UserAppMetadata,
   UserIdentity,
   UserMetadata,
-} from "@supabase/supabase-js";
-import { CssComponent } from "@stitches/core/types/styled-component";
-import { Provider, SupabaseClient } from "@supabase/supabase-js";
-import { ThemeVariables } from "../../common/theming";
-import { Session } from "@supabase/gotrue-js/src/lib/types.d";
-import { Type as ProductType } from "./productEnum";
-import { Fermentation } from "./beerEnum";
+} from '@supabase/supabase-js';
+import { CssComponent } from '@stitches/core/types/styled-component';
+import { Provider, SupabaseClient } from '@supabase/supabase-js';
+import { ThemeVariables } from '../../common/theming';
+import { Session } from '@supabase/gotrue-js/src/lib/types.d';
+import { Type as ProductType } from './productEnum';
+import { Fermentation } from './beerEnum';
 
-export type ButtonTypes = "button" | "submit" | "reset";
+export type ButtonTypes = 'button' | 'submit' | 'reset';
 
 export interface AnimationTailwindClasses {
   enter?: string;
@@ -64,21 +64,21 @@ export type I18nVariables = {
 
 export interface Localization {
   // [key: string]: I18nVariables
-  ["en"]: I18nVariables;
-  ["ja"]: I18nVariables;
-  ["de_formal"]: I18nVariables;
-  ["de_informal"]: I18nVariables;
+  ['en']: I18nVariables;
+  ['ja']: I18nVariables;
+  ['de_formal']: I18nVariables;
+  ['de_informal']: I18nVariables;
 }
 
-export type SocialLayout = "horizontal" | "vertical";
-export type SocialButtonSize = "tiny" | "small" | "medium" | "large" | "xlarge";
+export type SocialLayout = 'horizontal' | 'vertical';
+export type SocialButtonSize = 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
 
-export type ViewSignIn = "signin";
-export type ViewSignUp = "signup";
-export type ViewSignOut = "signout";
-export type ViewMagicLink = "magic_link";
-export type ViewForgottenPassword = "forgotten_password";
-export type ViewUpdatePassword = "update_password";
+export type ViewSignIn = 'signin';
+export type ViewSignUp = 'signup';
+export type ViewSignOut = 'signout';
+export type ViewMagicLink = 'magic_link';
+export type ViewForgottenPassword = 'forgotten_password';
+export type ViewUpdatePassword = 'update_password';
 
 export type ViewType =
   | ViewSignIn
@@ -146,15 +146,15 @@ export interface IAuth {
    * Override the labels and button text
    */
   localization?: {
-    lang?: "en" | "ja"; // es
+    lang?: 'en' | 'ja'; // es
     variables?: I18nVariables;
   };
   appearance?: Appearance;
-  theme?: "default" | string;
+  theme?: 'default' | string;
 }
 
 export interface IBeer {
-  id: string;
+  product_id: string; // FK
   created_at: string;
   category: string;
   fermentation: string;
@@ -167,23 +167,13 @@ export interface IBeer {
   volume: number;
   sku: string;
   intensity: number;
-  product_id: string;
   origin: string;
   country: string;
   composition: string;
   srm: number;
   og: number;
   fg: number;
-  product_id: string;
-}
-
-export interface IMerchandising {
-  id: string;
-  lot_id: number;
-  feedback_id: number;
-  category: string;
-  is_public: boolean;
-  product_id: string;
+  products?: IProduct;
 }
 
 export interface IProductLot {
@@ -223,14 +213,17 @@ export interface ICustomizeSettings {
   created_at: string;
   colors: string[];
   family_styles: string[];
+  owner_id: string;
+  users?: User;
 }
 
-export interface IInventory {
+export interface IProductInventory {
   id?: string;
   product_id: string;
   quantity: number;
   limit_notification: number;
   created_at?: string;
+  products?: IProduct;
 }
 
 export interface IAward {
@@ -239,11 +232,12 @@ export interface IAward {
   description: string;
   img_url: any;
   year: number;
-  beer_id?: string;
+  product_id: string;
+  products?: IProduct;
 }
 
 export interface IProductMultimedia {
-  id: string;
+  product_id: string; // PK
   p_principal: string;
   p_back: string;
   p_extra_1: string;
@@ -253,6 +247,7 @@ export interface IProductMultimedia {
   v_principal: string;
   v_extra_1: string;
   v_extra_2: string;
+  products?: IProduct;
 }
 
 interface IProductMultimediaItem {
@@ -306,7 +301,7 @@ export interface IRefReview {
   mouthfeel: number;
   overall: number;
   users?: User;
-  products?: any;
+  products?: IProduct;
 }
 
 export interface IProfile {
@@ -384,6 +379,7 @@ export interface ICPFixed {
   start_date: string;
   end_date: string;
   address: string;
+  logo_url: string;
   status: string;
   maximum_capacity: number;
   is_booking_required: boolean;
@@ -391,6 +387,7 @@ export interface ICPFixed {
   is_internal_organizer: boolean;
   cpf_products?: ICPFProducts[];
   geoArgs: GeocodeResult[];
+  consumption_points?: IConsumptionPoints;
 }
 
 export interface ICPMobile {
@@ -413,7 +410,7 @@ export interface ICPMobile {
   geoArgs: GeoArgs[];
   is_internal_organizer: boolean;
   cpm_products?: ICPMProducts[];
-  // TODO: rrss
+  consumption_points?: IConsumptionPoints;
 }
 
 export interface ICPFProducts {
@@ -422,9 +419,9 @@ export interface ICPFProducts {
   stock: number;
   stock_consumed: number;
   cp_id: string;
-  cp_fixed?: ICPFixed;
   product_pack_id: string;
-  product_packs: IProductPack;
+  product_packs?: IProductPack;
+  cp_fixed?: ICPFixed;
 }
 
 export interface ICPMProducts {
@@ -469,12 +466,16 @@ export interface ICPM_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
+  consumption_points?: IConsumptionPoints;
+  events?: IEvent;
 }
 
 export interface ICPF_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
+  consumption_points?: IConsumptionPoints;
+  events?: IEvent;
 }
 
 export interface IProfileLocation {
@@ -512,9 +513,9 @@ export interface ILocation {
 export interface ILike {
   id: string;
   created_at: string;
-  updated_at: string;
   owner_id: string;
   product_id: string;
+  products?: IProduct;
 }
 
 export interface ISocialCause {
@@ -548,8 +549,10 @@ export interface ICampaign {
 
 export interface ICampaignItem {
   campaign_id: string;
-  product_id: any;
+  product_id: string;
   product_price: number;
+  campaigns?: ICampaign;
+  products?: IProduct;
 }
 
 export interface IOrder {
@@ -576,7 +579,7 @@ export interface IOrder {
   billing_info?: IBillingInfo;
   business_orders?: IBusinessOrder[];
   payment_method_id: string;
-  payment_method_card?: IPaymentCardMethod;
+  users?: IUserTable;
 }
 
 export interface IOrderItem {
@@ -608,7 +611,6 @@ export interface IEventOrder {
   customer_id: string;
   users?: IUserTable;
   events?: IEvent;
-  payment_method_card?: IPaymentCardMethod;
   // cp_m_owner: ICPMobile;
 }
 
@@ -624,31 +626,6 @@ export interface IEventOrderItem {
   product_packs?: IProductPack;
   product_multimedia?: IProductMultimedia[];
   orders?: IOrder;
-  // cp_m_id: ICPMobile;
-}
-
-export interface IPaymentCardMethod {
-  id: string;
-  created_at: string;
-  status: string;
-  type: string;
-  card_number: number;
-  card_expiration_month: number;
-  card_expiration_year: number;
-  card_cvc: number;
-  card_name: string;
-  save_card: boolean;
-}
-
-export interface IPaymentStandardTransferMethod {
-  id: string;
-  created_at: string;
-  status: string;
-  iban: string;
-  concept: string;
-  amount: number;
-  currency: string;
-  recipient: string;
 }
 
 export interface IShippingInfo {
@@ -685,6 +662,7 @@ export interface IBillingInfo {
   city: string;
   state: string;
   is_default: boolean;
+  users?: IUserTable;
 }
 
 export interface IAddressForm {
@@ -822,7 +800,7 @@ type ModalAddProductAwardFormData = {
   description: string;
   img_url?: any;
   year: number;
-  beer_id?: string;
+  product_id?: string;
 };
 
 type ModalUpdateProductAwardFormData = {
@@ -831,7 +809,7 @@ type ModalUpdateProductAwardFormData = {
   description: string;
   img_url?: any;
   year: number;
-  beer_id?: string;
+  product_id?: string;
 };
 
 type ModalUpdateProductPackFormData = {
@@ -873,29 +851,8 @@ export type ModalUpdateLotProps = {
   packaging: string;
 };
 
-type BeerModalProps = {
-  id: string;
-  lot_id: number;
-  feedback_id: number;
-  category: string;
-  fermentation: string;
-  aroma: string;
-  color: string;
-  origin: string;
-  family: string;
-  era: string;
-  intensity: string;
-  awards_id: string[];
-  price: number;
-  volume: number;
-  format: string;
-  product_id: string;
-  is_public: boolean;
-  is_gluten: boolean;
-};
-
 export type ICampaignFormProps = {
-  campaigns: Campaign[];
+  campaigns: ICampaign[];
 };
 
 export interface IProductPackCartItem {
@@ -955,22 +912,16 @@ export interface IProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers?: IBeer[];
-  product_multimedia: IProductMultimedia[];
   order_items?: IOrderItem[];
-
-  // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
-  // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
   reviews?: IReview[];
-  // reviews: IRefReview[];
   likes?: ILike[];
   awards?: IAward[];
-  // state: IProductEnum.State;
-  // status: IProductEnum.Status;
-  // product_packs: IRefProductPack[];
   product_packs?: IProductPack[];
+  beers?: IBeer;
+  users?: IUserTable;
+  product_inventory?: IProductInventory;
+  product_multimedia?: IProductMultimedia;
 }
 
 export interface IEventProduct {
@@ -989,10 +940,10 @@ export interface IEventProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers?: IBeer[];
-  product_multimedia: IProductMultimedia[];
+  beers?: IBee;
+  product_multimedia?: IProductMultimedia;
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
+  product_inventory?: IProductInventory;
   reviews?: IReview[];
   likes?: ILike[];
   awards?: IAward[];
@@ -1017,14 +968,13 @@ export interface IModalProduct {
   category: string;
   is_monthly: boolean;
   owner_id: string;
-  beers: IBeer[];
   product_multimedia: IProductMultimedia[];
   order_items?: OrderItem[];
 
   // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
   // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
   product_lots?: IProductLot[];
-  product_inventory?: Inventory[];
+  product_inventory?: IProductInventory[];
   reviews?: IReview[];
   likes?: ILike[];
   beers: IBeer[];
@@ -1034,22 +984,22 @@ export interface IModalProduct {
 
 export interface IMonthlyProduct {
   id: string;
+  created_at: string;
   category: string;
   month: number;
   year: number;
-  product_id: string;
   products?: IProduct;
 }
 
 export enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 
 declare global {
@@ -1064,9 +1014,9 @@ export interface IMarker {
 }
 
 export enum MarkerType {
-  NONE = "none",
-  FIXED = "fixed",
-  MOBILE = "mobile",
+  NONE = 'none',
+  FIXED = 'fixed',
+  MOBILE = 'mobile',
 }
 
 export interface INotification {
@@ -1219,18 +1169,6 @@ export interface IBillingAddress {
   is_default: boolean;
 }
 
-export interface IPaymentCard {
-  id: string;
-  card_number: string;
-  card_name: string;
-  card_month_expiration: string;
-  card_year_expiration: string;
-  card_cvv: string;
-  card_checked: boolean;
-  card_holder: string;
-  card_document_id: string;
-}
-
 export interface ISignUp {
   userCredentials: {
     email: string;
@@ -1302,15 +1240,15 @@ export interface IUserProfile {
   birthdate: string;
   bg_url: string;
   avatar_url: string;
-  gamification?: IGamification[];
+  gamification?: IGamification;
 }
 
 export enum PROVIDER_TYPE {
-  GOOGLE = "google",
+  GOOGLE = 'google',
 }
 
 export interface IDistributorUser {
-  user: string; // ID
+  user_id: string; // FK ID
   created_at: string;
   nif: string;
   bank_account: string;
@@ -1320,11 +1258,11 @@ export interface IDistributorUser {
   is_authorized: boolean;
   profile_location?: IProfileLocation[];
   users?: IUserTable; // To access embeded information we need to get into the table and the look for data
-  coverage_areas?: ICoverageArea[];
+  coverage_areas?: ICoverageArea;
 }
 
 export interface IProducerUser {
-  user: string; // ID
+  user_id: string; // FK ID
   created_at: string;
   company_name: string;
   company_description: string;
@@ -1368,8 +1306,8 @@ export interface IBusinessOrderRef {
 export interface IDistribution {
   id: string;
   created_at: string;
-  business_order_id: IBusinessOrder;
-  origin_distribution: IDistributorUser;
+  origin_distributor: string;
+  business_order_id: string;
   type: string;
   price: quantity;
   estimated_time;
@@ -1377,7 +1315,9 @@ export interface IDistribution {
   delivery_date: string;
   order_status: string;
   feedback: string;
-  coverage_areas: ICoverageArea[];
+  business_orders: IBusinessOrder;
+  origin_distributor: IDistributorUser;
+  coverage_areas: ICoverageArea;
 }
 
 export interface ICoverageArea {
@@ -1435,7 +1375,7 @@ export interface DistributionRangeCost {
 export interface IDistributionCost {
   id: string;
   distributor_id: string;
-  distributor?: IDistributorUser;
+  distributor_user?: IDistributorUser;
   flatrate_cost: IFlatrateCost;
 }
 
@@ -1466,5 +1406,5 @@ export interface IGamification {
   created_at: string;
   experience: number;
   user_id: string;
-  // users?: IUserTable;
+  users?: IUserTable;
 }

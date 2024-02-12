@@ -77,7 +77,12 @@ export function NewShippingAddress() {
       is_default: is_default,
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    reset();
   };
 
   const insertShippingMutation = useMutation({
@@ -90,7 +95,6 @@ export function NewShippingAddress() {
       queryClient.invalidateQueries({ queryKey: ["shippingAddresses"] });
       setShowModal(false);
       setIsSubmitting(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

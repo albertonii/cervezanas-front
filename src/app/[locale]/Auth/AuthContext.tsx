@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import useSWR from "swr";
-import React, { useEffect, useState, createContext, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { Database } from "../../../lib/schema";
-import { ROUTE_SIGNIN } from "../../../config";
-import { EVENTS, VIEWS } from "../../../constants";
-import { IUserProfile } from "../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { useMessage } from "../components/message/useMessage";
-import { createBrowserClient } from "../../../utils/supabaseBrowser";
+import useSWR from 'swr';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { Database } from '../../../lib/schema';
+import { ROUTE_SIGNIN } from '../../../config';
+import { EVENTS, VIEWS } from '../../../constants';
+import { IUserProfile } from '../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { useMessage } from '../components/message/useMessage';
+import { createBrowserClient } from '../../../utils/supabaseBrowser';
 import {
   AuthResponse,
   Provider,
   Session,
   SupabaseClient,
-} from "@supabase/supabase-js";
-import { ROLE_ENUM } from "../../../lib/enums";
+} from '@supabase/supabase-js';
+import { ROLE_ENUM } from '../../../lib/enums';
 // import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 enum PROVIDER_TYPE {
-  GOOGLE = "google",
+  GOOGLE = 'google',
 }
 
 export type SignUpWithPasswordCredentials = {
@@ -46,7 +46,7 @@ export interface AuthSession {
   user: any;
   error: any;
   isLoading: boolean;
-  signUp: (payload: SignUpWithPasswordCredentials) => void;
+  signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
   signIn: (email: string, password: string) => void;
   signInWithProvider: (provider: Provider) => void;
   signOut: () => Promise<void>;
@@ -66,7 +66,7 @@ export const AuthContext = createContext<AuthSession>({
   error: null,
   role: null,
   isLoading: false,
-  signUp: () => void {},
+  signUp: async () => null,
   signIn: async (email: string, password: string) => null,
   signInWithProvider: async () => void {},
   signOut: async () => void {},
@@ -106,16 +106,16 @@ export const AuthContextProvider = ({
     if (!serverSession) return null;
 
     const { data: user, error } = await supabase
-      .from("users")
+      .from('users')
       .select(
         `
           *,
           gamification!gamification_user_id_fkey (
             *
           )
-        `
+        `,
       )
-      .eq("id", serverSession.user.id)
+      .eq('id', serverSession.user.id)
       .single();
 
     if (error) {
@@ -131,7 +131,7 @@ export const AuthContextProvider = ({
     error,
     isLoading,
     mutate,
-  } = useSWR(serverSession ? "profile-context" : null, getUser);
+  } = useSWR(serverSession ? 'profile-context' : null, getUser);
 
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
@@ -143,7 +143,7 @@ export const AuthContextProvider = ({
       // If the user login with the provider the role is going to be consumer
       if (
         activeSession?.user?.app_metadata?.provider?.includes(
-          PROVIDER_TYPE.GOOGLE
+          PROVIDER_TYPE.GOOGLE,
         )
       ) {
         setRole(ROLE_ENUM.Cervezano);
@@ -162,21 +162,21 @@ export const AuthContextProvider = ({
       async (event: any, currentSession: any) => {
         if (currentSession && currentSession.provider_token) {
           window.localStorage.setItem(
-            "oauth_provider_token",
-            currentSession.provider_token
+            'oauth_provider_token',
+            currentSession.provider_token,
           );
         }
 
         if (currentSession && currentSession.provider_refresh_token) {
           window.localStorage.setItem(
-            "oauth_provider_refresh_token",
-            currentSession.provider_refresh_token
+            'oauth_provider_refresh_token',
+            currentSession.provider_refresh_token,
           );
         }
 
-        if (event === "SIGNED_OUT") {
-          window.localStorage.removeItem("oauth_provider_token");
-          window.localStorage.removeItem("oauth_provider_refresh_token");
+        if (event === 'SIGNED_OUT') {
+          window.localStorage.removeItem('oauth_provider_token');
+          window.localStorage.removeItem('oauth_provider_refresh_token');
         }
 
         if (
@@ -208,7 +208,7 @@ export const AuthContextProvider = ({
             break;
           default:
         }
-      }
+      },
     );
 
     return () => {
@@ -218,25 +218,25 @@ export const AuthContextProvider = ({
 
   const signUp = async (payload: SignUpWithPasswordCredentials) => {
     try {
-      const signUpMessage = t("messages.sign_up_success");
+      const signUpMessage = t('messages.sign_up_success');
       const userAlreadyRegisteredMessage = t(
-        "messages.user_already_registered"
+        'messages.user_already_registered',
       );
 
       // Check if user exists
       const { data: user, error: emailError } = await supabase
-        .from("users")
+        .from('users')
         .select(
           `
             *
-          `
+          `,
         )
-        .eq("email", payload.email);
+        .eq('email', payload.email);
 
       if (user && user.length > 0) {
         handleMessage({
           message: userAlreadyRegisteredMessage,
-          type: "error",
+          type: 'error',
         });
         return;
       }
@@ -244,83 +244,70 @@ export const AuthContextProvider = ({
       if (emailError) {
         handleMessage({
           message: emailError.message,
-          type: "error",
+          type: 'error',
         });
         return;
       }
 
       const { error, data } = (await supabase.auth.signUp(
-        payload
+        payload,
       )) as AuthResponse;
 
-      if (!data || !data.user) return;
+      if (!data || !data.user) {
+        handleMessage({
+          message: error?.message ?? t('messages.sign_up_error'),
+          type: 'error',
+        });
+
+        return null;
+      }
 
       // Get access_level from the user
       const access_level = data.user?.user_metadata.access_level;
 
       if (access_level === ROLE_ENUM.Productor) {
-        const { error: roleError } = await supabase
-          .from("producer_user")
-          .insert({
-            user: data.user.id,
-          });
-
-        if (roleError) {
-          handleMessage({
-            message: roleError.message,
-            type: "error",
-          });
-          return;
-        }
-
         // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
         const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-        const producerLink = "/admin/profile/authorized_users";
+        const producerLink = '/admin/profile/authorized_users';
         fetch(
-          `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`
+          `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`,
         );
+
+        return data;
       } else if (access_level === ROLE_ENUM.Distributor) {
-        const { error: roleError } = await supabase
-          .from("distributor_user")
-          .insert({
-            user: data.user.id,
-          });
-
-        if (roleError) {
-          handleMessage({
-            message: roleError.message,
-            type: "error",
-          });
-          return;
-        }
-
         // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
         const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-        const distributorLink = "/admin/profile/authorized_users";
+        const distributorLink = '/admin/profile/authorized_users';
         fetch(
-          `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`
+          `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`,
         );
+
+        return data;
       }
 
       if (error) {
-        handleMessage({ message: error.message, type: "error" });
+        handleMessage({ message: error.message, type: 'error' });
       } else {
         clearMessages();
         handleMessage({
           message: signUpMessage,
-          type: "success",
+          type: 'success',
         });
       }
+
+      return data;
     } catch (error: any) {
       handleMessage({
         message: error.error_description ?? error,
-        type: "error",
+        type: 'error',
       });
+
+      return null;
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    const signInMessage = t("messages.sign_in_success");
+    const signInMessage = t('messages.sign_in_success');
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -328,12 +315,12 @@ export const AuthContextProvider = ({
     });
 
     if (error) {
-      handleMessage({ message: error.message, type: "error" });
+      handleMessage({ message: error.message, type: 'error' });
       return error;
     }
 
     handleMessage({
-      type: "success",
+      type: 'success',
       message: signInMessage,
     });
 
@@ -372,8 +359,8 @@ export const AuthContextProvider = ({
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback`,
         queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+          access_type: 'offline',
+          prompt: 'consent',
         },
       },
     });
@@ -405,24 +392,24 @@ export const AuthContextProvider = ({
   };
 
   const sendResetPasswordEmail = async (email: string) => {
-    const resetEmailMessage = t("messages.reset_password_email_sent");
+    const resetEmailMessage = t('messages.reset_password_email_sent');
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
 
     if (error) {
-      handleMessage({ message: error.message, type: "error" });
+      handleMessage({ message: error.message, type: 'error' });
     } else {
       handleMessage({
         message: resetEmailMessage,
-        type: "success",
+        type: 'success',
       });
     }
   };
 
   const updatePassword = async (password: string) => {
-    const upd_password_success = t("messages.upd_password_success");
+    const upd_password_success = t('messages.upd_password_success');
 
     const { data: resetData, error } = await supabase.auth.updateUser({
       password,
@@ -432,7 +419,7 @@ export const AuthContextProvider = ({
     if (resetData.user) {
       handleMessage({
         message: upd_password_success,
-        type: "success",
+        type: 'success',
       });
 
       // setTimeout(() => {
@@ -442,7 +429,7 @@ export const AuthContextProvider = ({
 
     if (error) {
       console.error(error);
-      handleMessage({ message: error.message, type: "error" });
+      handleMessage({ message: error.message, type: 'error' });
     }
   };
 

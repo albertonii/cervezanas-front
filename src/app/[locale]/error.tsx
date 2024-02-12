@@ -1,13 +1,13 @@
 "use client";
 
 interface Props {
-  error: Error
+  error: Error;
 }
 
 export default function RootError({ error }: Props) {
   return (
     <div>
-      <p>  {error.message} </p>
+      <p> {error.message} </p>
     </div>
   );
 }

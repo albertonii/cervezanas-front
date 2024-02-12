@@ -2,7 +2,7 @@
 
 import PackItem from "./PackItem";
 import MarketCartButtons2 from "../../../components/common/MarketCartButtons2";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { IProduct, IProductPack } from "../../../../../lib/types";
 import { useShoppingCart } from "../../../../context/ShoppingCartContext";
@@ -21,6 +21,7 @@ export default function Packs({ product }: Props) {
   const [isPackSelected, setIsPackSelected] = useState(true);
 
   const [selectedPack, setSelectedPack] = useState<IProductPack>();
+
 
   const handleItemSelected = (item: IProductPack) => {
     setSelectedPack(item);
@@ -93,27 +94,21 @@ export default function Packs({ product }: Props) {
               </div>
             )}
 
-            <form>
-              <div className="mt-6 flex space-x-2">
-                <MarketCartButtons2
-                  item={product.product_packs[0]}
-                  quantity={packQuantity}
-                  handleIncreaseCartQuantity={() =>
-                    handleIncreasePackQuantity()
-                  }
-                  handleDecreaseCartQuantity={() =>
-                    handleDecreasePackQuantity()
-                  }
-                  handleRemoveFromCart={() => void 0}
-                  displayDeleteButton={false}
-                />
+            <div className="mt-6 flex space-x-2">
+              <MarketCartButtons2
+                item={product.product_packs[0]}
+                quantity={packQuantity}
+                handleIncreaseCartQuantity={() => handleIncreasePackQuantity()}
+                handleDecreaseCartQuantity={() => handleDecreasePackQuantity()}
+                handleRemoveFromCart={() => void 0}
+                displayDeleteButton={false}
+              />
 
-                <AddCardButton
-                  withText={true}
-                  onClick={() => handleAddToCart()}
-                />
-              </div>
-            </form>
+              <AddCardButton
+                withText={true}
+                onClick={() => handleAddToCart()}
+              />
+            </div>
           </fieldset>
         </div>
       )}

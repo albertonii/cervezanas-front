@@ -1,12 +1,12 @@
-import Packs from "./Packs";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Rate } from "../../../components/reviews/Rate";
-import { SupabaseProps } from "../../../../../constants";
-import { ProductGallery } from "../../../components/ProductGallery";
-import { ICarouselItem, IProduct } from "../../../../../lib/types";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { useAuth } from "../../../Auth/useAuth";
+import Packs from './Packs';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Rate } from '../../../components/reviews/Rate';
+import { SupabaseProps } from '../../../../../constants';
+import { ProductGallery } from '../../../components/ProductGallery';
+import { ICarouselItem, IProduct } from '../../../../../lib/types';
+import { formatCurrency } from '../../../../../utils/formatCurrency';
+import { useAuth } from '../../../Auth/useAuth';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -22,9 +22,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   const [isLike, setIsLike] = useState<boolean>(Boolean(product.likes?.length));
   const [gallery, setGallery] = useState<ICarouselItem[]>([]);
 
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
   const reviews = product.reviews;
-  const selectedMultimedia = product.product_multimedia[0];
+  const selectedMultimedia = product.product_multimedia;
 
   const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
     setIsLike(value);
@@ -38,19 +38,20 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
   const executeScroll = useCallback(
     () => reviewRef.current.scrollIntoView(),
-    [reviewRef]
+    [reviewRef],
   );
 
   async function handleLike() {
+    console.log('product', product);
     if (!isLike) {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .insert([{ product_id: product.id, owner_id: product.owner_id }]);
 
       if (error) throw error;
     } else {
       const { error } = await supabase
-        .from("likes")
+        .from('likes')
         .delete()
         .match({ product_id: product.id, owner_id: product.owner_id });
 
@@ -59,6 +60,8 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   }
 
   useEffect(() => {
+    if (!selectedMultimedia) return;
+
     const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
       selectedMultimedia;
 
@@ -66,50 +69,43 @@ export default function ProductDetails({ product, reviewRef }: Props) {
       [
         ...[
           {
-            link: "/",
-            title: "Principal",
+            link: '/',
+            title: 'Principal',
             imageUrl:
               p_principal && productsUrl + decodeURIComponent(p_principal),
           },
         ],
         ...[
           {
-            link: "/",
-            title: "Back",
+            link: '/',
+            title: 'Back',
             imageUrl: p_back && productsUrl + decodeURIComponent(p_back),
           },
         ],
         ...[
           {
-            link: "/",
-            title: "Photo Extra 1",
+            link: '/',
+            title: 'Photo Extra 1',
             imageUrl: p_extra_1 && productsUrl + decodeURIComponent(p_extra_1),
           },
         ],
         ...[
           {
-            link: "/",
-            title: "Photo Extra 2",
+            link: '/',
+            title: 'Photo Extra 2',
             imageUrl: p_extra_2 && productsUrl + decodeURIComponent(p_extra_2),
           },
         ],
         ...[
           {
-            link: "/",
-            title: "Photo Extra 3",
+            link: '/',
+            title: 'Photo Extra 3',
             imageUrl: p_extra_3 && productsUrl + decodeURIComponent(p_extra_3),
           },
         ],
-      ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes("undefined"))
+      ].filter(({ imageUrl }) => imageUrl && !imageUrl.includes('undefined')),
     );
-  }, [
-    selectedMultimedia.p_back,
-    selectedMultimedia.p_extra_1,
-    selectedMultimedia.p_extra_2,
-    selectedMultimedia.p_extra_3,
-    selectedMultimedia.p_principal,
-    product.owner_id,
-  ]);
+  }, [selectedMultimedia, product.owner_id]);
 
   return (
     <>
@@ -127,8 +123,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
             {product.name}
           </h2>
 
+          {/* Reviews */}
           <>
-            <h4 className="sr-only">{t("reviews")}</h4>
+            <h4 className="sr-only">{t('reviews')}</h4>
 
             <div className="flex flex-col items-end justify-end">
               <div className="flex items-center">
@@ -147,7 +144,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                   onClick={() => executeScroll()}
                   className="ml-3 text-sm font-medium text-beer-draft hover:cursor-pointer hover:text-beer-dark"
                 >
-                  {reviews?.length} {t("reviews")}
+                  {reviews?.length} {t('reviews')}
                 </p>
               </>
             </div>
@@ -156,7 +153,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
         <section aria-labelledby="information-heading" className="">
           <h3 id="information-heading" className="sr-only">
-            {t("product_information")}
+            {t('product_information')}
           </h3>
 
           <p className="text-2xl font-semibold text-gray-900">

@@ -16,7 +16,7 @@ export default function CoverageAreas() {
     DistributionDestinationType.CITY
   );
 
-  const { data: distribution, error } = useFetchDistributionByOwnerId();
+  const { data: distributor, error } = useFetchDistributionByOwnerId();
 
   if (error) {
     console.error(error);
@@ -27,7 +27,7 @@ export default function CoverageAreas() {
   // tiene el distribuidor. Si lo hacemos de la manera de abajo
   // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
   const internationalCountries =
-    distribution?.coverage_areas[0].international.map((country) => {
+    distributor?.coverage_areas.international.map((country) => {
       return country.replace(/\w\S*/g, (txt) => {
         return txt.replace(/\b\w/g, (v) => v.toUpperCase());
       });
@@ -41,7 +41,7 @@ export default function CoverageAreas() {
             {/* {distribution && (
               <LocalDistribution
                 localDistribution={
-                  distribution.coverage_areas[0].local_distribution
+                  distribution.coverage_areas.local_distribution
                 }
               />
             )} */}
@@ -51,10 +51,8 @@ export default function CoverageAreas() {
       case DistributionDestinationType.CITY:
         return (
           <>
-            {distribution && (
-              <CityDistribution
-                cities={distribution.coverage_areas[0].cities}
-              />
+            {distributor && (
+              <CityDistribution cities={distributor.coverage_areas.cities} />
             )}
           </>
         );
@@ -62,10 +60,10 @@ export default function CoverageAreas() {
       case DistributionDestinationType.PROVINCE:
         return (
           <>
-            {distribution && (
+            {distributor && (
               <ProvinceDistribution
-                provinces={distribution?.coverage_areas[0].provinces}
-                coverageAreaId={distribution.coverage_areas[0].id}
+                provinces={distributor.coverage_areas.provinces}
+                coverageAreaId={distributor.coverage_areas.id}
               />
             )}
           </>
@@ -77,10 +75,10 @@ export default function CoverageAreas() {
       case DistributionDestinationType.EUROPE:
         return (
           <>
-            {distribution && (
+            {distributor && (
               <EuropeDistribution
-                countries={distribution?.coverage_areas[0].europe}
-                coverageAreaId={distribution.coverage_areas[0].id}
+                countries={distributor?.coverage_areas.europe}
+                coverageAreaId={distributor.coverage_areas.id}
               />
             )}
           </>
@@ -89,10 +87,10 @@ export default function CoverageAreas() {
       case DistributionDestinationType.INTERNATIONAL:
         return (
           <>
-            {distribution && (
+            {distributor && (
               <InternationalDistribution
                 countries={internationalCountries}
-                coverageAreaId={distribution.coverage_areas[0].id}
+                coverageAreaId={distributor.coverage_areas.id}
               />
             )}
           </>

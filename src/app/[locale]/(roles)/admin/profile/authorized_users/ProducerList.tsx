@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useMemo, useState } from "react";
-import { faCancel, faCheck, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import { IconButton } from "../../../../components/common/IconButton";
-import { IProducerUser } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
-import dynamic from "next/dynamic";
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
+import { faCancel, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import { IconButton } from '../../../../components/common/IconButton';
+import { IProducerUser } from '../../../../../../lib/types';
+import InputSearch from '../../../../components/common/InputSearch';
+import dynamic from 'next/dynamic';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  CREATED_DATE = "created_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  CREATED_DATE = 'created_date',
 }
 
 const DynamicModal = dynamic(
-  () => import("../../../../components/modals/Modal"),
+  () => import('../../../../components/modals/Modal'),
   {
     loading: () => <p>Loading...</p>,
     ssr: false,
-  }
+  },
 );
 
 interface Props {
@@ -33,12 +33,12 @@ interface Props {
 export default function ProducerList({ producers }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const { user, supabase } = useAuth();
 
-  const acceptColor = { filled: "#90470b", unfilled: "grey" };
-  const rejectColor = { filled: "red", unfilled: "grey" };
+  const acceptColor = { filled: '#90470b', unfilled: 'grey' };
+  const rejectColor = { filled: 'red', unfilled: 'grey' };
 
   const [isAcceptModal, setIsAcceptModal] = useState(false);
   const [isRejectModal, setIsRejectModal] = useState(false);
@@ -76,14 +76,14 @@ export default function ProducerList({ producers }: Props) {
     setIsAcceptModal(true);
 
     await supabase
-      .from("producer_user")
+      .from('producer_user')
       .update({ is_authorized: true })
-      .eq("user", producer.user)
+      .eq('user', producer.user_id)
       .then(() => {
         setIsAcceptModal(false);
 
         sendNotification(
-          `Your request to become a producer has been accepted.`
+          `Your request to become a producer has been accepted.`,
         );
       });
   };
@@ -92,23 +92,23 @@ export default function ProducerList({ producers }: Props) {
     setIsRejectModal(true);
 
     await supabase
-      .from("producer_user")
+      .from('producer_user')
       .update({ is_authorized: false })
-      .eq("user", producer.user)
+      .eq('user', producer.user_id)
       .then(() => {
         setIsRejectModal(false);
 
         sendNotification(
-          `Your request to become a producer has been rejected.`
+          `Your request to become a producer has been rejected.`,
         );
       });
   };
 
   const sendNotification = async (message: string) => {
     // Notify user that has been accepted/rejected has a producer
-    const { error } = await supabase.from("notifications").insert({
+    const { error } = await supabase.from('notifications').insert({
       message: `${message}`,
-      user_id: selectedProducer?.user,
+      user_id: selectedProducer?.user_id,
       link: `${selectedProducer?.users?.role}/profile?a=settings`,
       source: user?.id, // User that has created the consumption point
     });
@@ -121,7 +121,7 @@ export default function ProducerList({ producers }: Props) {
     <section className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {selectedProducer && isAcceptModal && (
         <DynamicModal
-          title={t("accept")}
+          title={t('accept')}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
@@ -130,10 +130,10 @@ export default function ProducerList({ producers }: Props) {
           handlerClose={() => setIsAcceptModal(false)}
           showModal={isAcceptModal}
           setShowModal={setIsAcceptModal}
-          description={"authorize_producer_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
+          description={'authorize_producer_description_modal'}
+          classIcon={''}
+          classContainer={''}
+          btnTitle={t('accept')}
         >
           <></>
         </DynamicModal>
@@ -141,7 +141,7 @@ export default function ProducerList({ producers }: Props) {
 
       {selectedProducer && isRejectModal && (
         <DynamicModal
-          title={t("reject")}
+          title={t('reject')}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
@@ -150,10 +150,10 @@ export default function ProducerList({ producers }: Props) {
           handlerClose={() => setIsRejectModal(false)}
           showModal={isRejectModal}
           setShowModal={setIsRejectModal}
-          description={t("unauthorize_producer_description_modal")}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
+          description={t('unauthorize_producer_description_modal')}
+          classIcon={''}
+          classContainer={''}
+          btnTitle={t('accept')}
         >
           <></>
         </DynamicModal>
@@ -162,7 +162,7 @@ export default function ProducerList({ producers }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_products"}
+        searchPlaceholder={'search_products'}
       />
 
       <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -179,7 +179,7 @@ export default function ProducerList({ producers }: Props) {
                 handleChangeSort(SortBy.USERNAME);
               }}
             >
-              {t("username_header")}
+              {t('username_header')}
             </th>
 
             <th
@@ -189,15 +189,15 @@ export default function ProducerList({ producers }: Props) {
                 handleChangeSort(SortBy.CREATED_DATE);
               }}
             >
-              {t("created_date_header")}
+              {t('created_date_header')}
             </th>
 
             <th scope="col" className="px-6 py-3">
-              {t("status_header")}
+              {t('status_header')}
             </th>
 
             <th scope="col" className="px-6 py-3 ">
-              {t("action_header")}
+              {t('action_header')}
             </th>
           </tr>
         </thead>
@@ -206,7 +206,7 @@ export default function ProducerList({ producers }: Props) {
           {sortedItems.map((producer) => {
             return (
               <tr
-                key={producer.user}
+                key={producer.user_id}
                 className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
               >
                 <th
@@ -215,15 +215,15 @@ export default function ProducerList({ producers }: Props) {
                 >
                   <FontAwesomeIcon
                     icon={faUser}
-                    style={{ color: "#fdc300" }}
-                    title={"check_warning"}
+                    style={{ color: '#fdc300' }}
+                    title={'check_warning'}
                     width={80}
                     height={80}
                   />
                 </th>
 
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                  <Link href={`/d-info/${producer.users?.id}`} locale={locale}>
+                  <Link href={`/d-info/${producer.user_id}`} locale={locale}>
                     {producer.users?.username}
                   </Link>
                 </td>
@@ -234,10 +234,10 @@ export default function ProducerList({ producers }: Props) {
 
                 <td
                   className={`${
-                    producer.is_authorized && "font-semibold text-beer-gold"
+                    producer.is_authorized && 'font-semibold text-beer-gold'
                   } cursor-pointer truncate px-6 py-4`}
                 >
-                  {producer.is_authorized ? t("authorized") : t("pending")}
+                  {producer.is_authorized ? t('authorized') : t('pending')}
                 </td>
                 <td className="flex items-center justify-center px-6 py-4">
                   <IconButton
@@ -248,10 +248,10 @@ export default function ProducerList({ producers }: Props) {
                     }}
                     color={acceptColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                      'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                     }
-                    classIcon={""}
-                    title={t("accept")}
+                    classIcon={''}
+                    title={t('accept')}
                   />
                   <IconButton
                     icon={faCancel}
@@ -261,10 +261,10 @@ export default function ProducerList({ producers }: Props) {
                     }}
                     color={rejectColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                      'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                     }
-                    classIcon={""}
-                    title={t("reject")}
+                    classIcon={''}
+                    title={t('reject')}
                   />
                 </td>
               </tr>

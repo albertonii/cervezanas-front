@@ -1,4 +1,4 @@
-import { ConfigureProducts } from "./ConfigureProducts";
+import { ConfigureProducts } from './ConfigureProducts';
 
 export default async function ProductsPage() {
   // const { products } = await getProductsData();
@@ -14,18 +14,18 @@ export default async function ProductsPage() {
 async function getProductsData() {
   const supabase = createServerClient();
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+//   // Check if we have a session
+//   const {
+//     data: { session },
+//   } = await supabase.auth.getSession();
 
-  if (!session)
-    return {
-      redirect: {
-        destination: ROUTE_SIGNIN,
-        permanent: false,
-      },
-    };
+//   if (!session)
+//     return {
+//       redirect: {
+//         destination: ROUTE_SIGNIN,
+//         permanent: false,
+//       },
+//     };
 
   const { data: productsData, error: productsError } = await supabase
     .from("products")
@@ -42,7 +42,7 @@ async function getProductsData() {
     )
     .eq("owner_id", session.user.id);
 
-  if (productsError) throw productsError;
+//   if (productsError) throw productsError;
 
   return { products: productsData as IProduct[] };
 }

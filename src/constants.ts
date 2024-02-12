@@ -117,6 +117,7 @@ export const SupabaseProps = {
   ARTICLES: "articles/",
   BASE_AVATARS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/`,
   BASE_PRODUCTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/`,
+  BASE_DOCUMENTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/documents/`,
   BASE_PRODUCTS_ARTICLES_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/`,
   PRODUCT_P_PRINCIPAL: "p_principal/",
   CUSTOM_BG_URL: "custom_bg/",

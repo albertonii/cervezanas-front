@@ -35,7 +35,7 @@ export default function layout({ children }: LayoutProps) {
     {
       name: t("admin_cps"),
       icon: "box",
-      option: "cps",
+      option: "consumption_points",
     },
     {
       name: t("admin_campaigns"),

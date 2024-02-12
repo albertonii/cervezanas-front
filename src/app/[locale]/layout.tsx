@@ -1,17 +1,16 @@
-import "../../styles/globals.css";
+import '../../styles/globals.css';
 
-import Providers from "./providers";
-import Loading from "./loading";
-import classNames from "classnames";
-import readUserSession from "../../lib/actions";
-import { Suspense } from "react";
-import { notFound } from "next/navigation";
-import { MessageList } from "./components/message/MessageList";
-import Header from "./Header";
-import Footer from "./components/Footer";
-import createServerClient from "../../utils/supabaseServer";
-import { INotification } from "../../lib/types";
-import ReporterFloatingButton from "./components/ReporterFloatingButton";
+import Providers from './providers';
+import Loading from './loading';
+import classNames from 'classnames';
+import readUserSession from '../../lib/actions';
+import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { MessageList } from './components/message/MessageList';
+import Header from './Header';
+import Footer from './components/Footer';
+import createServerClient from '../../utils/supabaseServer';
+import { INotification } from '../../lib/types';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -41,14 +40,22 @@ export default async function AppLocaleLayout({
 
   const notifications = await getNotifications();
 
+  const i18n = {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+  };
+
   return (
     <Suspense fallback={<Loading />}>
       <Providers session={session} messages={messages} locale={locale}>
         <section className="relative flex flex-col bg-beer-foam">
-          <Header notifications={notifications ?? []} />
+          <Header
+            notifications={notifications ?? []}
+            i18nLocaleArray={i18n.locales}
+          />
           <section
             className={classNames(
-              "relative mx-auto min-h-0 w-full overflow-auto"
+              'relative mx-auto min-h-0 w-full overflow-auto',
               // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
             )}
           >
@@ -57,7 +64,7 @@ export default async function AppLocaleLayout({
 
           <main
             className={classNames(
-              "relative mx-auto min-h-screen w-full transform pt-20 transition lg:container"
+              'relative mx-auto min-h-screen w-full transform pt-20 transition lg:container',
             )}
           >
             <MessageList />
@@ -79,14 +86,14 @@ const getNotifications = async () => {
   if (!session) return;
 
   const { data: notifications, error: notificationsError } = await supabase
-    .from("notifications")
+    .from('notifications')
     .select(
       `
       *
-    `
+    `,
     )
-    .eq("read", false)
-    .eq("user_id", session.user.id);
+    .eq('read', false)
+    .eq('user_id', session.user.id);
 
   if (notificationsError) throw notificationsError;
   return notifications as INotification[];

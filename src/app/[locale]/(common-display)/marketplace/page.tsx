@@ -1,7 +1,7 @@
-import Marketplace from "./Marketplace";
-import React from "react";
-import createServerClient from "../../../../utils/supabaseServer";
-import { IProduct } from "../../../../lib/types";
+import Marketplace from './Marketplace';
+import React from 'react';
+import createServerClient from '../../../../utils/supabaseServer';
+import { IProduct, IProductMultimedia } from '../../../../lib/types';
 
 export default async function MarketPlacePage() {
   const productsData = getMarketplaceProducts();
@@ -18,11 +18,11 @@ async function getMarketplaceProducts() {
   const supabase = await createServerClient();
 
   const { data: productsData, error: productsError } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
         *,
-        beers (
+        beers!inner (
           *
         ),
         product_multimedia (
@@ -30,7 +30,7 @@ async function getMarketplaceProducts() {
           p_principal
         ),
         product_inventory (
-          quantity
+          *
         ),
         likes (
           *,
@@ -41,9 +41,9 @@ async function getMarketplaceProducts() {
           overall
         ),
         product_packs (*)
-      `
+      `,
     )
-    .eq("is_public", true);
+    .eq('is_public', true);
 
   if (productsError) throw productsError;
 

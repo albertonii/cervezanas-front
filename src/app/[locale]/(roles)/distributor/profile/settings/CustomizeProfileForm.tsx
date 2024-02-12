@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../../../Auth/useAuth";
-import { SupabaseProps } from "../../../../../../constants";
-import { isValidObject } from "../../../../../../utils/utils";
-import { Button } from "../../../../components/common/Button";
-import Spinner from "../../../../components/common/Spinner";
-import { IDistributorUser } from "../../../../../../lib/types";
-import { useAppContext } from "../../../../../context/AppContext";
-import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../../Auth/useAuth';
+import { SupabaseProps } from '../../../../../../constants';
+import { isValidObject } from '../../../../../../utils/utils';
+import { Button } from '../../../../components/common/Button';
+import Spinner from '../../../../components/common/Spinner';
+import { IDistributorUser } from '../../../../../../lib/types';
+import { useAppContext } from '../../../../../context/AppContext';
+import { FilePreviewAndHide } from '../../../../components/common/FilePreviewAndHide';
 
 type FormValues = {
   bg_url: any;
@@ -35,9 +35,9 @@ export function CustomizeProfileForm({ profile }: Props) {
 
   const form = useForm({
     defaultValues: {
-      bg_url: SupabaseProps.CUSTOM_BG_URL + profile.user ?? "",
-      avatar_url: SupabaseProps.BASE_AVATARS_URL + profile.user ?? "",
-      profile_photo_url: SupabaseProps.PROFILE_PHOTO_URL + profile.user ?? "",
+      bg_url: SupabaseProps.CUSTOM_BG_URL + profile.users ?? '',
+      avatar_url: SupabaseProps.BASE_AVATARS_URL + profile.users ?? '',
+      profile_photo_url: SupabaseProps.PROFILE_PHOTO_URL + profile.users ?? '',
     },
   });
 
@@ -56,11 +56,11 @@ export function CustomizeProfileForm({ profile }: Props) {
     if (isValidObject(bg_url.name)) {
       if (bg_url.size > 0) {
         const encodeUriCustomImg = encodeURIComponent(
-          `${SupabaseProps.CUSTOM_BG_URL}${profile.user}`
+          `${SupabaseProps.CUSTOM_BG_URL}${profile.users}`,
         );
 
         const { error: errorDelete } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .remove([encodeUriCustomImg]);
 
         if (errorDelete) {
@@ -69,10 +69,10 @@ export function CustomizeProfileForm({ profile }: Props) {
         }
 
         const { error: storageError } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .upload(encodeUriCustomImg, bg_url, {
             upsert: true,
-            cacheControl: "0",
+            cacheControl: '0',
           });
 
         if (storageError) {
@@ -80,7 +80,7 @@ export function CustomizeProfileForm({ profile }: Props) {
           throw storageError;
         }
 
-        setUserBgImg(`${fullCustomUrl}${profile?.user}`);
+        setUserBgImg(`${fullCustomUrl}${profile.users}`);
       }
     }
 
@@ -88,11 +88,11 @@ export function CustomizeProfileForm({ profile }: Props) {
       if (profile_photo_url.size > 0) {
         // const encodeUriProfileImg = encodeURIComponent(`${profileUrl}${profile?.id}`);
         const encodeUriProfileImg = encodeURIComponent(
-          `${SupabaseProps.PROFILE_PHOTO_URL}${profile.user}`
+          `${SupabaseProps.PROFILE_PHOTO_URL}${profile.users}`,
         );
 
         const { error: errorDelete } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .remove([encodeUriProfileImg]);
 
         if (errorDelete) {
@@ -101,10 +101,10 @@ export function CustomizeProfileForm({ profile }: Props) {
         }
 
         const { error: storageError } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .upload(encodeUriProfileImg, profile_photo_url, {
             upsert: true,
-            cacheControl: "0",
+            cacheControl: '0',
           });
 
         if (storageError) {
@@ -113,7 +113,7 @@ export function CustomizeProfileForm({ profile }: Props) {
           throw storageError;
         }
 
-        setUserProfileImg(`${fullProfilePhotoUrl}${profile.user}/img`);
+        setUserProfileImg(`${fullProfilePhotoUrl}${profile.users}/img`);
       }
     }
 
@@ -131,20 +131,20 @@ export function CustomizeProfileForm({ profile }: Props) {
   return (
     <section className="mb-4 space-y-3 bg-white px-6 py-4">
       <div id="account-data" className="text-2xl">
-        {t("profile_custom")}
+        {t('profile_custom')}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <section className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
             <label htmlFor="bg_img" className="text-sm text-gray-600">
-              {t("profile_custom_bg_img")}
+              {t('profile_custom_bg_img')}
             </label>
 
             <FilePreviewAndHide
               storagePath="avatars"
               form={form}
-              registerName={"bg_url"}
+              registerName={'bg_url'}
             />
           </div>
 
@@ -153,23 +153,23 @@ export function CustomizeProfileForm({ profile }: Props) {
               htmlFor="profile_photo_img"
               className="text-sm text-gray-600"
             >
-              {t("profile_custom_profile_photo_img")}
+              {t('profile_custom_profile_photo_img')}
             </label>
 
             <FilePreviewAndHide
               storagePath="avatars"
               form={form}
-              registerName={"profile_photo_url"}
+              registerName={'profile_photo_url'}
             />
           </div>
         </section>
 
         {loading && (
-          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+          <Spinner color="beer-blonde" size={'xLarge'} absolute center />
         )}
 
-        <Button primary medium btnType={"submit"} disabled={loading}>
-          {t("save")}
+        <Button primary medium btnType={'submit'} disabled={loading}>
+          {t('save')}
         </Button>
       </form>
     </section>

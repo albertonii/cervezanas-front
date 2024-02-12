@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "../../../../Auth/useAuth";
-import { IProduct } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { EditButton } from "../../../../components/common/EditButton";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { ArchiveButton } from "../../../../components/common/ArchiveButton";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchProductsAndPagination from "../../../../../../hooks/useFetchProductsAndPagination";
-import dynamic from "next/dynamic";
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../Auth/useAuth';
+import { IProduct } from '../../../../../../lib/types';
+import InputSearch from '../../../../components/common/InputSearch';
+import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import { EditButton } from '../../../../components/common/EditButton';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { ArchiveButton } from '../../../../components/common/ArchiveButton';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchProductsAndPagination from '../../../../../../hooks/useFetchProductsAndPagination';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../../components/common/Spinner"),
+  () => import('../../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 interface Props {
@@ -43,7 +43,7 @@ export function ProductList({
   const t = useTranslations();
   const locale = useLocale();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 10;
 
@@ -64,13 +64,13 @@ export function ProductList({
   }, [isSuccess]);
 
   const COLUMNS = [
-    { header: t("product_type_header") },
-    { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("stock_header") },
-    { header: t("lot_header") },
-    { header: t("public_header") },
-    { header: t("action_header") },
+    { header: t('product_type_header') },
+    { header: t('name_header') },
+    { header: t('price_header') },
+    { header: t('stock_header') },
+    { header: t('lot_header') },
+    { header: t('public_header') },
+    { header: t('action_header') },
   ];
 
   const handleEditClick = (product: IProduct) => {
@@ -96,9 +96,9 @@ export function ProductList({
 
     // Send product to supabase database
     const { error } = await supabase
-      .from("products")
+      .from('products')
       .update(updatedProduct)
-      .eq("id", product.id)
+      .eq('id', product.id)
       .select();
 
     if (error) throw error;
@@ -122,7 +122,7 @@ export function ProductList({
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_products")}
+            {t('error_fetching_products')}
           </p>
         </div>
       )}
@@ -134,7 +134,7 @@ export function ProductList({
       {!isError && !isLoading && products?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_products")}
+            {t('no_products')}
           </p>
         </div>
       ) : (
@@ -142,7 +142,7 @@ export function ProductList({
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_products"}
+            searchPlaceholder={'search_products'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -175,9 +175,9 @@ export function ProductList({
                             width={128}
                             height={128}
                             className="h-8 w-8 rounded-full"
-                            src={"/icons/beer-240.png"}
+                            src={'/icons/beer-240.png'}
                             alt="Beer Type"
-                            loader={() => "/icons/beer-240.png"}
+                            loader={() => '/icons/beer-240.png'}
                           />
                         </th>
 
@@ -196,20 +196,20 @@ export function ProductList({
 
                         <td className="px-6 py-4">
                           {product.product_inventory &&
-                          product.product_inventory[0]?.quantity
-                            ? product.product_inventory[0].quantity
-                            : "-"}
+                          product.product_inventory?.quantity
+                            ? product.product_inventory.quantity
+                            : '-'}
                         </td>
 
                         <td className="px-6 py-4">
                           {product.product_lots &&
                           product.product_lots[0]?.lot_id
                             ? product.product_lots[0]?.lot_id
-                            : "-"}
+                            : '-'}
                         </td>
 
                         <td className="px-6 py-4">
-                          {product.is_public ? t("yes") : t("no")}
+                          {product.is_public ? t('yes') : t('no')}
                         </td>
 
                         <td className="px-6 py-4">

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { IReview } from "../../../../../../lib/types";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { Rate } from "../../../../components/reviews/Rate";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import { useAuth } from "../../../../Auth/useAuth";
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { IReview } from '../../../../../../lib/types';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { Rate } from '../../../../components/reviews/Rate';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import { useAuth } from '../../../../Auth/useAuth';
 
 // TODO: Hacer vista de las reviews recibidas por los consumidores o productores
 
@@ -23,12 +23,12 @@ export function Reviews({ reviews: r }: Props) {
 
   const [reviews, setReviews] = useState<IReview[]>(r);
 
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
 
   const handleDeleteReview = async (reviewId: string) => {
     try {
       const { error } = await supabase
-        .from("reviews")
+        .from('reviews')
         .delete()
         .match({ id: reviewId });
       if (error) throw error;
@@ -43,7 +43,7 @@ export function Reviews({ reviews: r }: Props) {
     <>
       <div className="px-4 py-6 " aria-label="Reviews">
         <div className="flex flex-col space-y-4">
-          <div className="text-4xl">{t("reviews")}</div>
+          <div className="text-4xl">{t('reviews')}</div>
           {reviews &&
             reviews.length > 0 &&
             reviews.map((review, index) => {
@@ -70,14 +70,14 @@ export function Reviews({ reviews: r }: Props) {
                             height={80}
                             src={`${
                               review.users?.avatar_url ??
-                              "/icons/profile-240.png"
+                              '/icons/profile-240.png'
                             } `}
                             alt=""
                           />
                         </div>
 
                         <h2 className="truncate text-xl transition-all ">
-                          {t("seller_username")}:{" "}
+                          {t('seller_username')}:{' '}
                           <Link
                             className="hover:text-purple-500 cursor-pointer font-bold text-beer-draft hover:text-beer-blonde"
                             href={`/users/${review.users?.id}`}
@@ -100,8 +100,8 @@ export function Reviews({ reviews: r }: Props) {
                               width={80}
                               height={80}
                               src={`${
-                                review.products?.product_multimedia[0]
-                                  .p_principal ?? "/icons/beer-240.png"
+                                review.products?.product_multimedia
+                                  ?.p_principal ?? '/icons/beer-240.png'
                               } `}
                               alt=""
                             />
@@ -118,7 +118,7 @@ export function Reviews({ reviews: r }: Props) {
 
                           <footer>
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                              {t("reviewed")}:{" "}
+                              {t('reviewed')}:{' '}
                               <time dateTime="2022-01-20 19:00">
                                 {formatDateString(review.created_at)}
                               </time>
@@ -148,7 +148,7 @@ export function Reviews({ reviews: r }: Props) {
                       {/* Stars  */}
                       <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                         <div className="text-md w-full ">
-                          <label htmlFor="aroma">{t("aroma")}</label>
+                          <label htmlFor="aroma">{t('aroma')}</label>
 
                           <Rate
                             rating={review.aroma}
@@ -160,7 +160,7 @@ export function Reviews({ reviews: r }: Props) {
                         </div>
 
                         <div className="text-md mb-4 w-full">
-                          <label htmlFor="appearance">{t("appearance")}</label>
+                          <label htmlFor="appearance">{t('appearance')}</label>
                           <Rate
                             rating={review.appearance}
                             count={5}
@@ -171,7 +171,7 @@ export function Reviews({ reviews: r }: Props) {
                         </div>
 
                         <div className="text-md mb-4 w-full">
-                          <label htmlFor="taste">{t("taste")}</label>
+                          <label htmlFor="taste">{t('taste')}</label>
                           <Rate
                             rating={review.taste}
                             count={5}
@@ -182,7 +182,7 @@ export function Reviews({ reviews: r }: Props) {
                         </div>
 
                         <div className="text-md mb-4 w-full">
-                          <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
+                          <label htmlFor="mouthfeel">{t('mouthfeel')}</label>
                           <Rate
                             rating={review.mouthfeel}
                             count={5}
@@ -193,7 +193,7 @@ export function Reviews({ reviews: r }: Props) {
                         </div>
 
                         <div className="text-md mb-4 w-full">
-                          <label htmlFor="bitterness">{t("bitterness")}</label>
+                          <label htmlFor="bitterness">{t('bitterness')}</label>
                           <Rate
                             rating={review.bitterness}
                             count={5}
@@ -204,7 +204,7 @@ export function Reviews({ reviews: r }: Props) {
                         </div>
 
                         <div className="text-md mb-4 w-full">
-                          <label htmlFor="overall">{t("overall")}</label>
+                          <label htmlFor="overall">{t('overall')}</label>
                           <Rate
                             rating={review.overall}
                             count={5}

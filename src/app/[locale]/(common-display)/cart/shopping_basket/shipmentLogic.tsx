@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { API_METHODS, DS_API } from "../../../../../constants";
-import { createBrowserClient } from "../../../../../utils/supabaseBrowser";
-import { IDistributionContract, IShippingInfo } from "../../../../../lib/types";
-import { DeliveryType, DistributionStatus } from "../../../../../lib/enums";
+import { API_METHODS, DS_API } from '../../../../../constants';
+import { createBrowserClient } from '../../../../../utils/supabaseBrowser';
+import { IDistributionContract, IShippingInfo } from '../../../../../lib/types';
+import { DeliveryType, DistributionStatus } from '../../../../../lib/enums';
 
 export const initShipmentLogic = async (
   shippingInfoId: string,
-  producerId: string
+  producerId: string,
 ) => {
   // 1. Get Shipping Info
   const shippingInfo = await getShippingInfo(shippingInfoId);
 
   // 2. Get the list of distributors associated to the seller/producer of the product
   const listOfDistributors = await getListOfDistributorsBasedOnProducerId(
-    producerId
+    producerId,
   );
 
   if (listOfDistributors.length === 0)
     return {
       can_deliver: false,
-      distributor_id: "",
+      distributor_id: '',
       delivery_type: DeliveryType.NONE,
     };
 
@@ -28,7 +28,7 @@ export const initShipmentLogic = async (
   for (const distributor of listOfDistributors) {
     const { canDeliver, delivery_type } = await canDistributorDeliverToAddress(
       distributor,
-      shippingInfo
+      shippingInfo,
     );
 
     if (canDeliver) {
@@ -42,7 +42,7 @@ export const initShipmentLogic = async (
 
   return {
     can_deliver: false,
-    distributor_id: "",
+    distributor_id: '',
     delivery_type: DeliveryType.NONE,
   };
 };
@@ -51,9 +51,9 @@ const getShippingInfo = async (shippingInfoId: string) => {
   const supabase = createBrowserClient();
 
   const { data: shipping, error } = await supabase
-    .from("shipping_info")
+    .from('shipping_info')
     .select(`*`)
-    .eq("id", shippingInfoId)
+    .eq('id', shippingInfoId)
     .single();
 
   if (error) throw error;
@@ -61,13 +61,11 @@ const getShippingInfo = async (shippingInfoId: string) => {
   return shipping as IShippingInfo;
 };
 
-const getListOfDistributorsBasedOnProducerId = async (
-  distributionId: string
-) => {
+const getListOfDistributorsBasedOnProducerId = async (producerId: string) => {
   const supabase = createBrowserClient();
 
   const { data: contracts, error } = await supabase
-    .from("distribution_contracts")
+    .from('distribution_contracts')
     .select(
       `
         *,
@@ -75,10 +73,10 @@ const getListOfDistributorsBasedOnProducerId = async (
             *,
             coverage_areas (*)
         )
-    `
+    `,
     )
-    .eq("producer_id", distributionId)
-    .eq("status", DistributionStatus.ACCEPTED);
+    .eq('producer_id', producerId)
+    .eq('status', DistributionStatus.ACCEPTED);
 
   if (error) throw error;
 
@@ -88,7 +86,7 @@ const getListOfDistributorsBasedOnProducerId = async (
 
 const canDistributorDeliverToAddress = async (
   dContract: IDistributionContract,
-  clientShippingInfo: IShippingInfo
+  clientShippingInfo: IShippingInfo,
 ) => {
   let canDeliver = false;
 
@@ -99,7 +97,7 @@ const canDistributorDeliverToAddress = async (
       delivery_type: DeliveryType.NONE,
     };
 
-  const coverageAreas = dContract.distributor_user.coverage_areas[0];
+  const coverageAreas = dContract.distributor_user.coverage_areas;
 
   // 2. Get Latitud and Longitud of client shipping address
   const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
@@ -107,7 +105,7 @@ const canDistributorDeliverToAddress = async (
 
   // a. International
   if (!clientLatLng) {
-    console.error("Error: Could not convert address to [latitude, longitude]");
+    console.error('Error: Could not convert address to [latitude, longitude]');
     return {
       canDeliver,
       delivery_type: DeliveryType.NONE,
@@ -120,7 +118,7 @@ const canDistributorDeliverToAddress = async (
   if (coverageAreas.international) {
     canDeliver = await canDistributorDeliverToAddressInternational(
       coverageAreas.international,
-      clientLatLng
+      clientLatLng,
     );
 
     if (canDeliver)
@@ -131,7 +129,7 @@ const canDistributorDeliverToAddress = async (
   if (coverageAreas.europe) {
     canDeliver = await canDistributorDeliverToAddressEurope(
       coverageAreas.international,
-      clientLatLng
+      clientLatLng,
     );
 
     if (canDeliver)
@@ -151,7 +149,7 @@ const canDistributorDeliverToAddress = async (
 
 const canDistributorDeliverToAddressInternational = async (
   international: string[],
-  clientLatLng: google.maps.LatLng
+  clientLatLng: google.maps.LatLng,
 ) => {
   let canDeliver = false;
   for (const country of international) {
@@ -167,7 +165,7 @@ const canDistributorDeliverToAddressInternational = async (
 
 const canDistributorDeliverToAddressEurope = async (
   eruope: string[],
-  clientLatLng: google.maps.LatLng
+  clientLatLng: google.maps.LatLng,
 ) => {
   let canDeliver = false;
   for (const country of eruope) {
@@ -183,7 +181,7 @@ const canDistributorDeliverToAddressEurope = async (
 
 const canDistributorDeliverToAutonomousCommunity = async (
   aCommunities: string[],
-  clientLatLng: google.maps.LatLng
+  clientLatLng: google.maps.LatLng,
 ) => {
   let canDeliver = false;
   for (const community of aCommunities) {
@@ -202,16 +200,16 @@ const convertAddressToLatLng = async (address: string) => {
 
   // Construye la URL de la solicitud a la API de geocodificación de Google Maps.
   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-    address
+    address,
   )}&key=${apiKey}`;
 
   const response = await fetch(apiUrl)
     .then((response) => response.json())
     .catch((error) => {
-      console.error("Error:", error);
+      console.error('Error:', error);
     });
 
-  if (response.status !== "OK") {
+  if (response.status !== 'OK') {
     return null;
   }
 
@@ -222,7 +220,7 @@ const convertAddressToLatLng = async (address: string) => {
 const isInsideCountry = async (
   country: string,
   lat: () => number,
-  lng: () => number
+  lng: () => number,
 ) => {
   const ds_url = DS_API.DS_URL + DS_API.DS_COUNTRIES + country;
 
@@ -231,7 +229,7 @@ const isInsideCountry = async (
   })
     .then((res) => res.json())
     .catch((error) => {
-      console.error("Error:", error);
+      console.error('Error:', error);
       return false;
     });
 
@@ -241,7 +239,7 @@ const isInsideCountry = async (
 const isInsideCommunity = async (
   community: string,
   lat: () => number,
-  lng: () => number
+  lng: () => number,
 ) => {
   const ds_url = DS_API.DS_URL + DS_API.DS_COMMUNITIES + community;
 
@@ -250,7 +248,7 @@ const isInsideCommunity = async (
   })
     .then((res) => res.json())
     .catch((error) => {
-      console.error("Error:", error);
+      console.error('Error:', error);
       return false;
     });
 

@@ -22,6 +22,7 @@ interface Props {
 }
 
 export function Campaigns({ campaigns: c, products }: Props) {
+  /*
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
@@ -175,13 +176,14 @@ export function Campaigns({ campaigns: c, products }: Props) {
       });
     }
   };
+  */
 
   return (
     <section className="px-4 py-6 " aria-label="Campaigns">
+      {/* 
       <header className="flex flex-col space-y-4">
         <h2 className="text-4xl">{t("campaigns")}</h2>
 
-        {/* Add another campaign  */}
         <div className="w-40">
           <Button
             class="px-2 py-1"
@@ -194,7 +196,6 @@ export function Campaigns({ campaigns: c, products }: Props) {
       </header>
 
       <section className="flex flex-col space-y-4">
-        {/* Show/Hide Modal*/}
         {isShowDeleteModal && (
           <DeleteCampaign
             campaign={campaigns[campaignIndex]}
@@ -203,7 +204,6 @@ export function Campaigns({ campaigns: c, products }: Props) {
           />
         )}
 
-        {/* Map campaigns and make a editable form for each one */}
         {fields.map((field, index) => (
           <div key={field.id} className="mt-6">
             <CampaignForm
@@ -218,7 +218,6 @@ export function Campaigns({ campaigns: c, products }: Props) {
               handleSaveCampaign={handleSaveCampaign}
             />
 
-            {/* Products in Campaign Modal  */}
             {isShowProductsInCampaignModal && (
               <SearchCheckboxListCampaign
                 index={index}
@@ -237,6 +236,7 @@ export function Campaigns({ campaigns: c, products }: Props) {
           </div>
         ))}
       </section>
+ */}
     </section>
   );
 }

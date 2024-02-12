@@ -3,6 +3,7 @@
 import React from "react";
 import MonthlyCardItem from "./MonthlyCardItem";
 import { IMonthlyProduct } from "../../../lib/types";
+import Image from "next/image";
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];
@@ -12,39 +13,33 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
   if (monthlyProducts.length === 0 || !monthlyProducts) return null;
 
   return (
-    <div className="w-100% mb-20 flex h-full justify-center bg-beer-foam pt-[48vh] sm:h-full sm:pt-[40vh]">
-      <div className="container p-4 sm:p-0">
-        {/* Copywriting  */}
-        <div className="flex flex-col space-y-6">
-          {/* Title  */}
-          <div className="text-3xl text-beer-draft sm:text-4xl">
-            Selección Cervezanas del mes
-          </div>
+    <section className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-titlehigh p-5">
+      <div className="absolute right-0 h-[600px] w-[600px] bg-[url('/assets/rec-graF3.webp')] bg-contain bg-right-top bg-no-repeat opacity-20 mix-blend-multiply"></div>
+      <header className="relative z-10 text-3xl font-bold text-white md:text-5xl">
+        SELECCIÓN CERVEZANA DEL MES
+        <Image
+          src="/assets/detalle-w.svg"
+          width="160"
+          height="160"
+          className="float-left m-auto p-3"
+          alt="Decorador de la sección de selección cervezana del mes"
+        />
+      </header>
 
-          {/* Subtitle  */}
-          <div className="text-md text-beer-dark sm:text-xl">
-            Cada mes te presentamos aquellas cervezas que han conseguido ser
-            aptas para los certificados de calidad que emitimos desde
-            Cervezanas. Dando visibilidad a aquella seleccionada por nuestra
-            comunidad de Cervezanos, el comité de expertos y la más atrevida y
-            experimental.
-          </div>
+      <p className="relative z-10 w-full pb-6 pt-6 text-cerv-cream lg:w-8/12">
+        Cada mes te presentamos aquellas cervezas que han conseguido ser aptas
+        para los certificados de calidad que emitimos desde Cervezanas. Dando
+        visibilidad a aquella seleccionada por nuestra comunidad de Cervezanos,
+        el comité de expertos y la más atrevida y experimental.
+      </p>
 
-          {/* Cards  */}
-          <div className="grid-gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {/* {monthlyProducts.map((mProduct) => (
-              <div key={mProduct.id}>
-                <MonthlyCardItem mProduct={mProduct} />
-              </div>
-            ))} */}
-
-            <MonthlyCardItem
-              mProduct={monthlyProducts[0]}
-              mProducts={monthlyProducts}
-            />
-          </div>
-        </div>
+      <div className="grid w-full grid-cols-3 rounded-lg ">
+        {monthlyProducts.map((mProduct) => (
+          <>
+            <MonthlyCardItem mProduct={mProduct} key={mProduct.id} />
+          </>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }

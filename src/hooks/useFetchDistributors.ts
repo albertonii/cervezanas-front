@@ -17,18 +17,6 @@ const fetchDistributors = async (supabase: SupabaseClient<any>) => {
 
   return data as IDistributorUser[];
 
-  //  const { data, error } = await supabase
-  //    .from("users")
-  //    .select(
-  //      `
-  //       *,
-  //       distributor_user!distributor_user_user_fkey (*)
-  //     `
-  //    )
-  //    .eq("role", "distributor");
-  //  if (error) throw error;
-
-  //  return data as IUser[];
 };
 
 const useFetchDistributors = () => {

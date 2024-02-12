@@ -30,7 +30,7 @@ export enum Status {
   ARCHIVED = "ARCHIVED",
 }
 
-enum MonthlyProductCategory {
+export enum MonthlyProductCategory {
   community = "community",
   expert_committee = "expert_committee",
   experimental = "experimental",

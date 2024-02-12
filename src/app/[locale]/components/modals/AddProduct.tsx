@@ -17,7 +17,7 @@ import {
 import { AwardsSection } from "./AwardsSection";
 import { MultimediaSection } from "./MultimediaSection";
 import {
-  IInventory,
+  IProductInventory,
   IModalAddProductPack,
   ModalAddProductAwardFormData,
   ModalAddProductFormData,
@@ -218,8 +218,6 @@ export function AddProduct() {
     let p_extra_2_url = "";
     let p_extra_3_url = "";
 
-    console.log(p_principal);
-
     if (p_principal && !isFileEmpty(p_principal[0])) {
       const fileName = `articles/${productId}/p_principal/${randomUUID}`;
       // .../articles/1/p_principal/uuid.jpg
@@ -369,16 +367,16 @@ export function AddProduct() {
           format,
           product_id: productId,
         })
-        .select();
+        .select("*")
+        .single();
 
       if (beerError) throw beerError;
-      const beer = beerData[0];
 
       // UPD Beer in new product displayed in list
       // productData[0].beers = beer;
 
       // Inventory - Stock
-      const stock: IInventory = {
+      const stock: IProductInventory = {
         product_id: productId,
         quantity: stock_quantity,
         limit_notification: stock_limit_notification,
@@ -476,8 +474,12 @@ export function AddProduct() {
         );
       }
 
-      return beer;
+      reset();
+
+      return beerData;
     }
+
+    reset();
   };
 
   const insertProductMutation = useMutation({
@@ -490,7 +492,6 @@ export function AddProduct() {
       queryClient.invalidateQueries({ queryKey: ["productList"] });
       setShowModal(false);
       setIsSubmitting(false);
-      reset();
     },
     onError: (error: any) => {
       console.error(error);

@@ -1,64 +1,84 @@
 "use client";
 
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import Modal from "./Modal";
-import { useForm } from "react-hook-form";
+import React, { ComponentProps, useMemo, useState, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { IconButton } from "../common/IconButton";
-import { IProduct, SortBy } from "../../../../lib/types";
+import { IProduct } from "../../../../lib/types";
 import { category_options } from "../../../../lib/productEnum";
 import { DisplayInputError } from "../common/DisplayInputError";
-import { faAdd, faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import { faHandPointer } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../Auth/useAuth";
 import InputSearch from "../common/InputSearch";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "react-query";
+import ModalWithForm from "./ModalWithForm";
+import { useMessage } from "../message/useMessage";
 
-interface FormData {
+enum SortBy {
+  NONE = "none",
+  USERNAME = "username",
+  CREATED_DATE = "created_date",
+  MONTH = "month",
+  NAME = "name",
+}
+
+type FormData = {
+  id: string;
   category: string;
   month: number;
   year: number;
-  // product_id: IProduct;
-  product_id: any; // TODO: Any to avoid circular dependency
-}
+};
+
+const mProductsSchema: ZodType<FormData> = z.object({
+  id: z.string().uuid().nonempty("Please select a product"),
+  category: z
+    .string()
+    .nonempty("Please select a category for this monthly product"),
+  month: z.number().min(1, "Please select a month for this product"),
+  year: z.number().min(1, "Please select a year for this product"),
+});
+
+type ValidationSchema = z.infer<typeof mProductsSchema>;
 
 interface Props {
+  products: IProduct[];
   handleAddProduct: ComponentProps<any>;
 }
 
-export default function AddMonthlyProduct({ handleAddProduct }: Props) {
+export default function AddMonthlyProduct({
+  handleAddProduct,
+  products,
+}: Props) {
   const t = useTranslations();
   const { supabase } = useAuth();
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
   const [selectedProduct, setSelectedCP] = useState<IProduct>();
+  const { handleMessage } = useMessage();
 
-  const [products, setProducts] = useState<IProduct[]>([]);
   const [query, setQuery] = useState("");
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(mProductsSchema),
+    defaultValues: {
+      id: "",
+      category: "community",
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    },
+  });
 
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
-  } = useForm<FormData>();
-
-  useEffect(() => {
-    if (showModal) {
-      const getProducts = async () => {
-        const { data, error } = await supabase
-          .from("products")
-          .select("id, name");
-        if (error) {
-          throw error;
-        }
-        const products = data as IProduct[];
-        setProducts(products);
-      };
-
-      getProducts();
-    }
-  }, [showModal]);
+    setValue,
+  } = form;
 
   const filteredItems = useMemo<IProduct[]>(() => {
     if (!products) return [];
@@ -85,49 +105,91 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
     setSorting(sort);
   };
 
-  const handleClick = (product: IProduct) => {
+  const handleProductClicked = (product: IProduct) => {
+    setValue("id", product.id);
     setSelectedCP(product);
   };
 
-  const onSubmit = async (formValues: FormData) => {
-    if (!selectedProduct) return console.info("No product selected");
+  const handleMonthClicked = (e: React.ChangeEvent<any>) => {
+    const month = parseInt(e.target.value);
 
-    const { category, month, year } = formValues;
+    setValue("month", month);
+  };
+
+  const handleYearClicked = (e: React.ChangeEvent<any>) => {
+    const year = parseInt(e.target.value);
+    setValue("year", year);
+  };
+
+  const handleInsertMonthlyProduct = async (form: ValidationSchema) => {
+    const { category, month, year } = form;
+
+    if (!selectedProduct) return console.info("No product selected");
 
     const { data, error } = await supabase
       .from("monthly_products")
       .insert({
+        id: selectedProduct.id,
         category,
         month,
         year,
-        product_id: selectedProduct.id,
       })
-      .select("id, category, month, year, product_id (id, name)");
+      .select("id, category, month, year");
 
     if (error) {
+      handleMessage({
+        type: "error",
+        message: `${t("errors.inserting_monthly_product")} Error message:  ${
+          error.message
+        }`,
+      });
       throw error;
     }
 
+    setShowModal(false);
     handleAddProduct(data[0]);
 
-    setShowModal(false);
+    handleMessage({
+      type: "success",
+      message: `${t("inserted_successfully")}`,
+    });
 
     reset();
   };
 
+  const handleInsertMProductMutation = useMutation({
+    mutationKey: "monthly_products",
+    mutationFn: handleInsertMonthlyProduct,
+    onSuccess: () => {
+      console.info("Monthly product inserted");
+    },
+    onError: (error: Error) => {
+      console.error(error);
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    formValues: FormData
+  ) => {
+    try {
+      handleInsertMProductMutation.mutate(formValues);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
-    <Modal
+    <ModalWithForm
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
       title={t("add_monthly_product")}
       btnTitle={t("new_monthly_product")}
       description={""}
-      icon={faAdd}
       handler={handleSubmit(onSubmit)}
-      btnSize={"large"}
       classIcon={"w-6 h-6"}
       classContainer={""}
+      form={form}
     >
       <form>
         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
@@ -163,7 +225,8 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
                 id="month"
                 name="month"
                 className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                {...(register("month"), { required: true })}
+                onClick={(e) => handleMonthClicked(e)}
+                value={new Date().getMonth() + 1}
               >
                 <option value="0">{t("select_month")}</option>
                 <option value="1">{t("january")}</option>
@@ -186,11 +249,13 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
               <label htmlFor="year" className="mr-2">
                 {t("year")}
               </label>
+
               <select
                 id="year"
                 name="year"
-                {...(register("year"), { required: true })}
                 className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                onClick={(e) => handleYearClicked(e)}
+                value={new Date().getFullYear()}
               >
                 <option value="0">{t("select_year")}</option>
                 <option value="2023">{t("2023")}</option>
@@ -254,9 +319,9 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
 
                       <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                         <IconButton
-                          onClick={() => handleClick(product)}
+                          onClick={() => handleProductClicked(product)}
                           icon={faHandPointer}
-                          title={"Select element"}
+                          title={t("select_product")}
                         />
                       </td>
                     </tr>
@@ -267,6 +332,6 @@ export default function AddMonthlyProduct({ handleAddProduct }: Props) {
           </div>
         </fieldset>
       </form>
-    </Modal>
+    </ModalWithForm>
   );
 }

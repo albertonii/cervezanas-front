@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { SupabaseClient } from "@supabase/supabase-js";
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { IProduct } from "../lib/types.d";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { IProduct } from '../lib/types.d';
 
 const fetchProductById = async (
   productId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<any>,
 ) => {
   const { data, error } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
     *,
@@ -21,9 +21,9 @@ const fetchProductById = async (
     product_inventory (
       quantity
     )
-  `
+  `,
     )
-    .eq("id", productId)
+    .eq('id', productId)
     .single();
 
   if (error) throw error;
@@ -35,7 +35,7 @@ const useFetchProductById = (productId: string) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["product_id"],
+    queryKey: ['product_id'],
     queryFn: () => fetchProductById(productId, supabase),
     enabled: false,
     refetchOnWindowFocus: false,

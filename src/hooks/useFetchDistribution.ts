@@ -1,25 +1,27 @@
-"use client";
+'use client';
 
-import { SupabaseClient } from "@supabase/supabase-js";
-import { useQuery, UseQueryResult } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { IDistribution, IDistributorUser } from "../lib/types.d";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useQuery, UseQueryResult } from 'react-query';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { IDistribution, IDistributorUser } from '../lib/types.d';
 
 const fetchDistributionByOwnerId = async (
   userId: string,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<any>,
 ) => {
   if (!userId) return;
   const { data, error } = await supabase
-    .from("distributor_user")
+    .from('distributor_user')
     .select(
-      `*,
-      coverage_areas (*,
+      `
+      *,
+      coverage_areas (
+        *,
         local_distribution(*)
       )
-      `
+      `,
     )
-    .eq("user", userId)
+    .eq('user_id', userId)
     .single();
 
   if (error) throw error;
@@ -33,7 +35,7 @@ const useFetchDistributionByOwnerId = (): UseQueryResult<
   const { user, supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["distribution", user?.id],
+    queryKey: ['distribution', user?.id],
     queryFn: () => fetchDistributionByOwnerId(user?.id, supabase),
     enabled: true,
     refetchOnWindowFocus: false,

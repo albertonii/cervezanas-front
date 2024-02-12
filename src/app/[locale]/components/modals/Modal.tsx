@@ -81,12 +81,13 @@ export default function Modal(props: Props) {
       handler()
         .then(() => {
           handleShowModal(false);
-          setIsLoading(false);
         })
         .catch((e: Error) => {
           console.error(e);
         });
     }, 300);
+
+    setIsLoading(false);
   };
 
   const handleClose = () => {

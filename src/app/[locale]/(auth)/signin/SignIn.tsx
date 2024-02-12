@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import InputLabel from "../../components/common/InputLabel";
 import React, { useEffect, useState } from "react";
 import { z, ZodType } from "zod";
 import { useLocale } from "next-intl";
@@ -13,8 +15,6 @@ import { Button } from "../../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import dynamic from "next/dynamic";
-import InputLabel from "../../components/common/InputLabel";
 
 const DynamicSpinner = dynamic(
   () => import("../../components/common/Spinner"),
@@ -133,13 +133,14 @@ export default function SignIn() {
 
   const handleResetPassword = async (email: string) => {
     sendResetPasswordEmail(email);
+    resetReset();
   };
 
   const handleResetPasswordMutation = useMutation({
     mutationKey: "resetPassword",
     mutationFn: handleResetPassword,
     onSuccess: () => {
-      resetReset();
+      console.info("Reset password email sent");
     },
     onError: (error: Error) => {
       console.error(error);
@@ -267,7 +268,8 @@ export default function SignIn() {
             </p>
           </div>
 
-          <Button
+          {/* TODO: Volver y arreglar esto  */}
+          {/* <Button
             accent
             class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => handleGoogleSignIn()}
@@ -318,7 +320,7 @@ export default function SignIn() {
 
               <span className="ml-2 text-lg">{t("continue_with_google")}</span>
             </div>
-          </Button>
+          </Button> */}
         </article>
       )}
 

@@ -1,4 +1,3 @@
-import React, { Suspense } from "react";
 import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
 import createServerClient from "../../../../../../utils/supabaseServer";
 import Events from "./Events";
@@ -14,13 +13,7 @@ export default async function EventsPage() {
   ]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Events
-        cpsMobile={cpsMobile}
-        cpsFixed={cpsFixed}
-        counter={eventsCounter}
-      />
-    </Suspense>
+    <Events cpsMobile={cpsMobile} cpsFixed={cpsFixed} counter={eventsCounter} />
   );
 }
 

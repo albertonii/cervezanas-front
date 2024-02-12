@@ -1,8 +1,8 @@
-import Product from "./Product";
-import { IProduct } from "../../../../../lib/types";
-import createServerClient from "../../../../../utils/supabaseServer";
+import Product from './Product';
+import { IProduct } from '../../../../../lib/types';
+import createServerClient from '../../../../../utils/supabaseServer';
 
-export default async function ProductId({ params }: any) {
+export default async function ProductPage({ params }: any) {
   const { id } = params;
 
   const productData = await getProductData(id);
@@ -21,7 +21,7 @@ async function getProductData(productId: string) {
   const supabase = await createServerClient();
 
   const { data: product, error: productError } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
       *,
@@ -44,9 +44,9 @@ async function getProductData(productId: string) {
           username
         )
       )
-      `
+      `,
     )
-    .eq("id", productId)
+    .eq('id', productId)
     .single();
 
   if (productError) throw productError;
@@ -58,7 +58,7 @@ async function getMarketplaceData() {
   const supabase = await createServerClient();
 
   const { data: productsData, error: productsError } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
       id,
@@ -66,9 +66,9 @@ async function getMarketplaceData() {
       product_multimedia (
         p_principal
       )
-    `
+    `,
     )
-    .eq("is_public", true);
+    .eq('is_public', true);
 
   if (productsError) throw productsError;
 

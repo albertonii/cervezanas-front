@@ -9,10 +9,10 @@ import {
   ORDER_TYPE,
 } from "../../../constants";
 import OnlineTimelineStatusText from "./OnlineTimelineStatusText";
-import EventTimelineStatusText from "../(roles)/consumer/profile/event_orders/checkout/success/EventTimelineStatusText";
-import EventTimelineStatusBar from "../(roles)/consumer/profile/event_orders/checkout/success/EventTimelineStatusBar";
-import EventProductTimelineStatusText from "../(roles)/consumer/profile/event_orders/checkout/success/EventProductTimelineStatusBar";
-import EventProductTimelineStatusBar from "../(roles)/consumer/profile/event_orders/checkout/success/EventProductTimelineStatusBar";
+import EventTimelineStatusText from "../(common-display)/checkout/event/success/EventTimelineStatusText";
+import EventTimelineStatusBar from "../(common-display)/checkout/event/success/EventTimelineStatusBar";
+import EventProductTimelineStatusText from "../(common-display)/checkout/event/success/EventProductTimelineStatusText";
+import EventProductTimelineStatusBar from "../(common-display)/checkout/event/success/EventProductTimelineStatusBar";
 
 interface OrderTimelineProps {
   orderType: string;

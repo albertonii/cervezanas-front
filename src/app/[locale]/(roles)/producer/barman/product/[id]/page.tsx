@@ -1,9 +1,9 @@
-import ManageEventProduct from "./ManageEventProduct";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../constants";
-import { IEventOrderItem } from "../../../../../../../lib/types";
-import createServerClient from "../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../../lib/actions";
+import ManageEventProduct from './ManageEventProduct';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../../constants';
+import { IEventOrderItem } from '../../../../../../../lib/types';
+import createServerClient from '../../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../../lib/actions';
 
 export default async function BarmanProductPage({ params }: any) {
   const { id } = params;
@@ -35,7 +35,7 @@ async function getEventOrderItemData(eventOrderItemId: string) {
 
   const { data: eventOrderItemData, error: eventOrderItemError } =
     await supabase
-      .from("event_order_items")
+      .from('event_order_items')
       .select(
         `
         *,
@@ -48,9 +48,9 @@ async function getEventOrderItemData(eventOrderItemId: string) {
             )
         )
         
-      `
+      `,
       )
-      .eq("id", eventOrderItemId)
+      .eq('id', eventOrderItemId)
       .single();
   if (eventOrderItemError) throw eventOrderItemError;
 

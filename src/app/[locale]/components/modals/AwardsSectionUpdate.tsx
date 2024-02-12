@@ -15,7 +15,7 @@ const emptyAward: IAward = {
   description: "",
   img_url: "",
   year: 0,
-  beer_id: "",
+  product_id: "",
 };
 
 interface Props {

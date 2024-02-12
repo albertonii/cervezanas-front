@@ -91,30 +91,28 @@ export default function EventCheckoutPackItem({
           </h3>
 
           {/* Product Type Beer */}
-          {productWithInfo.type === Type.BEER &&
-            productWithInfo.beers &&
-            productWithInfo.beers[0] && (
-              <div className="flex flex-col items-start justify-start space-y-2">
-                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                  <span className="text-gray-300 dark:text-gray-400">
-                    {t("aroma")}:{" "}
-                  </span>
-                  {t(`${productWithInfo.beers[0]?.aroma}`)}
-                </p>
-                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                  <span className="text-gray-300 dark:text-gray-400">
-                    {t("family")}:{" "}
-                  </span>
-                  {t(`${productWithInfo.beers[0]?.family}`)}
-                </p>
-                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                  <span className="text-gray-300 dark:text-gray-400">
-                    {t("fermentation")}:{" "}
-                  </span>
-                  {t(`${productWithInfo.beers[0]?.fermentation}`)}
-                </p>
-              </div>
-            )}
+          {productWithInfo.type === Type.BEER && productWithInfo.beers && (
+            <div className="flex flex-col items-start justify-start space-y-2">
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
+                  {t("aroma")}:{" "}
+                </span>
+                {t(`${productWithInfo.beers?.aroma}`)}
+              </p>
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
+                  {t("family")}:{" "}
+                </span>
+                {t(`${productWithInfo.beers?.family}`)}
+              </p>
+              <p className="text-sm leading-none text-gray-800 dark:text-white">
+                <span className="text-gray-300 dark:text-gray-400">
+                  {t("fermentation")}:{" "}
+                </span>
+                {t(`${productWithInfo.beers?.fermentation}`)}
+              </p>
+            </div>
+          )}
 
           {/* Product Type Merchandising */}
           {productWithInfo.type === Type.MERCHANDISING && (
@@ -123,19 +121,19 @@ export default function EventCheckoutPackItem({
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("aroma")}:{" "} */}
                 </span>{" "}
-                {/* {t(`${product.beers[0].aroma}`)} */}
+                {/* {t(`${product.beers.aroma}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("family")}:{" "} */}
                 </span>{" "}
-                {/* {t(`${product.beers[0].family}`)} */}
+                {/* {t(`${product.beers.family}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("fermentation")}:{" "} */}
                 </span>{" "}
-                {/* {t(`${product.beers[0].fermentation}`)} */}
+                {/* {t(`${product.beers.fermentation}`)} */}
               </p>
             </div>
           )}

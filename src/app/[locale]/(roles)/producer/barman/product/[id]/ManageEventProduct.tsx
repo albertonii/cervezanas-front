@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { Button } from "../../../../../components/common/Button";
-import Spinner from "../../../../../components/common/Spinner";
-import { IEventOrderItem } from "../../../../../../../lib/types";
+import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Button } from '../../../../../components/common/Button';
+import Spinner from '../../../../../components/common/Spinner';
+import { IEventOrderItem } from '../../../../../../../lib/types';
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../../../constants";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import { useAuth } from "../../../../../Auth/useAuth";
+} from '../../../../../../../constants';
+import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import { useAuth } from '../../../../../Auth/useAuth';
 
 interface Props {
   eventOrderItem: IEventOrderItem;
@@ -25,13 +25,16 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
   const { supabase } = useAuth();
 
   const selectedProduct = eventOrderItem.product_packs?.products;
-  if (!selectedProduct) return <Spinner color={"beer-blonde"} size="medium" />;
-  const selectedMultimedia = selectedProduct.product_multimedia[0] ?? [];
+  if (!selectedProduct) return <Spinner color={'beer-blonde'} size="medium" />;
+
+  const selectedMultimedia = selectedProduct.product_multimedia;
+  if (!selectedMultimedia)
+    return <Spinner color={'beer-blonde'} size="medium" />;
 
   const quantity = eventOrderItem.quantity;
   const quantityServedFromServer = eventOrderItem.quantity_served;
   const [quantityServed, setQuantityServed] = useState(
-    eventOrderItem.quantity_served
+    eventOrderItem.quantity_served,
   );
 
   const [itemStatus, setItemStatus] = useState(eventOrderItem.status);
@@ -54,9 +57,9 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
     setItemStatus(status);
 
     const { error } = await supabase
-      .from("event_order_items")
+      .from('event_order_items')
       .update({ quantity_served: quantityServed, status })
-      .eq("id", eventOrderItem.id);
+      .eq('id', eventOrderItem.id);
 
     if (error) {
       throw error;
@@ -87,7 +90,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
             </h2>
 
             <h3 id="information-heading" className="sr-only">
-              {t("product_information")}
+              {t('product_information')}
             </h3>
 
             <p className="text-2xl text-gray-900">
@@ -107,14 +110,14 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
         <div className=" min-h-[6vh] items-center space-y-4 ">
           <>
             <p className="text-lg">
-              {t("quantity_bought")}:
+              {t('quantity_bought')}:
               <span className="ml-2 text-2xl text-gray-900">{quantity}</span>
             </p>
           </>
 
           <>
             <p className=" text-lg">
-              {t("quantity_served")}:
+              {t('quantity_served')}:
               <span className="ml-2 text-2xl text-gray-900">
                 {quantityServed}
               </span>
@@ -123,7 +126,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
 
           <>
             <p className="text-lg">
-              {t("quantity_left_to_serve")}:
+              {t('quantity_left_to_serve')}:
               <span className="ml-2 text-2xl text-gray-900">
                 {quantity - quantityServed}
               </span>
@@ -134,7 +137,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
         {/* Order item status information  */}
         <div className="absolute right-0 top-0 mr-6 mt-6 min-h-[6vh]  space-x-4">
           <p className="text-lg">
-            {t("status")}:
+            {t('status')}:
             <span className="ml-2 text-2xl text-gray-900">{t(itemStatus)}</span>
           </p>
         </div>
@@ -144,7 +147,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
             htmlFor="quantity"
             className="block text-sm font-medium text-gray-700 lg:text-xl"
           >
-            {t("quantity_to_serve")}
+            {t('quantity_to_serve')}
           </label>
 
           <div className="relative mt-1 w-[12vw] rounded-md shadow-sm lg:w-[14vw]">
@@ -174,13 +177,13 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
           onClick={() => handleSaveQuantityServed()}
           class="bg-bear-brown hover:bg-bear-brown-light mt-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          {t("save")}
+          {t('save')}
         </Button>
 
         {itemStatus === EVENT_ORDER_ITEM_STATUS.CONSUMED && (
           <p>
             <span className="text-xl text-gray-900">
-              {t("product_has_been_consumed")}
+              {t('product_has_been_consumed')}
             </span>
           </p>
         )}

@@ -79,7 +79,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   }, [orders, query]);
 
   return (
-    <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative mt-6 shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">

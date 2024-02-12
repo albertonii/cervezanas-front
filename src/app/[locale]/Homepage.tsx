@@ -13,25 +13,25 @@ import { History } from './homepage/History';
 import { IMonthlyProduct } from '../../lib/types';
 
 interface Props {
-    monthlyProducts: IMonthlyProduct[];
+  monthlyProducts: IMonthlyProduct[];
 }
 
 export default function Homepage({ monthlyProducts }: Props) {
-    const { initial } = useAuth();
-    if (initial) {
-        return <div className="card h-72">Loading...</div>;
-    }
+  const { initial } = useAuth();
+  if (initial) {
+    return <div className="card h-72">Loading...</div>;
+  }
 
-    return (
-        <div className="h-full ">
-            <Homeheader />
-            <Highlights />
-            <TopBeers />
-            <History />
-            <MonthlyBeersDesign />
-            <Community />
-            <Reviews />
-            <MonthlyBeers monthlyProducts={monthlyProducts} />
-        </div>
-    );
+  return (
+    <div className="h-full ">
+      <Homeheader />
+      <Highlights />
+      <TopBeers />
+      <History />
+      <MonthlyBeersDesign />
+      <Community />
+      <Reviews />
+      <MonthlyBeers monthlyProducts={monthlyProducts} />
+    </div>
+  );
 }

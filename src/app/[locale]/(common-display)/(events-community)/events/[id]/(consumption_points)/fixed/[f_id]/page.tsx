@@ -1,9 +1,9 @@
-import InfoCPFixed from "./InfoCPFixed";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../../../constants";
-import { ICPFixed } from "../../../../../../../../../lib/types";
-import readUserSession from "../../../../../../../../../lib/actions";
-import createServerClient from "../../../../../../../../../utils/supabaseServer";
+import InfoCPFixed from './InfoCPFixed';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../../../../constants';
+import { ICPFixed } from '../../../../../../../../../lib/types';
+import readUserSession from '../../../../../../../../../lib/actions';
+import createServerClient from '../../../../../../../../../utils/supabaseServer';
 
 export default async function CPFixedPage({ params }: any) {
   const { id: eventId, f_id } = params;
@@ -29,7 +29,7 @@ async function getCPFixed(cpId: string) {
   }
 
   const { data: cpFixed, error: cpFixedError } = await supabase
-    .from("cp_fixed")
+    .from('cp_fixed')
     .select(
       `
         *,
@@ -40,17 +40,14 @@ async function getCPFixed(cpId: string) {
           product_packs!cpf_products_product_pack_id_fkey (
             *,
             products!product_packs_product_id_fkey (
-              id,
-              name,
-              description,
-              type,
-              product_multimedia!product_multimedia_product_id_fkey (p_principal)
+              *,
+              product_multimedia!product_multimedia_product_id_fkey (*)
             )
           )
         )
-      `
+      `,
     )
-    .eq("id", cpId)
+    .eq('id', cpId)
     .single();
 
   if (cpFixedError) console.error(cpFixedError);

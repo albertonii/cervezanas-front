@@ -20,7 +20,8 @@ const fetchProductsByOwner = async (
           likes (*),
           product_lots (*),
           beers (*),
-          product_packs (*)
+          product_pack (*),
+          awards (*)
         `,
       {
         count: "exact",

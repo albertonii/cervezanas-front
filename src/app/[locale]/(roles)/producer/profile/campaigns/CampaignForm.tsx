@@ -114,7 +114,7 @@ export function CampaignForm({
     if (products === undefined) return;
 
     products.map(async (item: ICampaignItem) => {
-      if (item.product_id === false) {
+      if (!item.product_id) {
         const { error: orderItemError } = await supabase
           .from("campaign_item")
           .delete()
@@ -268,15 +268,15 @@ export function CampaignForm({
         </div>
 
         {/* Campaign Name  */}
-          <InputLabel
-            form={form}
-            label={`campaigns.${index}.name`}
-            labelText={t("name")}
-            registerOptions={{
-              required: true,
-              maxLength: 30,
-            }}
-          />
+        <InputLabel
+          form={form}
+          label={`campaigns.${index}.name`}
+          labelText={t("name")}
+          registerOptions={{
+            required: true,
+            maxLength: 30,
+          }}
+        />
 
         {/* Description  */}
         <InputTextarea

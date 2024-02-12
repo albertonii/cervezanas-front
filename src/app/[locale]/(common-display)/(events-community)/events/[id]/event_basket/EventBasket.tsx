@@ -41,9 +41,8 @@ export default function EventBasket({ eventId }: Props) {
 
   const [subtotal, setSubtotal] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [shipping, setShipping] = useState(0);
   const [tax, setTax] = useState(0);
-  const [total, setTotal] = useState(subtotal - discount + shipping + tax);
+  const [total, setTotal] = useState(subtotal - discount + tax);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [isFormReady, setIsFormReady] = useState(false);
   const [merchantParameters, setMerchantParameters] = useState("");
@@ -52,31 +51,26 @@ export default function EventBasket({ eventId }: Props) {
   const { eventCarts, clearCart } = useEventCartStore();
   const queryClient = useQueryClient();
 
-  const [cart, setCart] = useState<IProductPackEventCartItem[]>(
-    eventCarts[eventId]
-  );
-
   useEffect(() => {
-    if (!cart) return;
+    if (!eventCarts[eventId]) return;
 
     let subtotal = 0;
-    cart.map((item) => {
+    eventCarts[eventId].map((item) => {
       item.packs.map((pack: IProductPack) => {
         subtotal += pack.price * pack.quantity;
       });
     });
 
     setSubtotal(subtotal);
-    setTotal(() => subtotal - discount + shipping + tax);
+    setTotal(() => subtotal - discount + tax);
 
     return () => {
       setSubtotal(0);
-      setShipping(0);
       setTax(0);
       setDiscount(0);
       setTotal(0);
     };
-  }, [discount, cart, shipping, subtotal, tax]);
+  }, [eventCarts[eventId], discount, subtotal, tax]);
 
   const handleProceedToPay = async () => {
     setLoadingPayment(true);
@@ -110,7 +104,7 @@ export default function EventBasket({ eventId }: Props) {
 
     if (orderError) throw orderError;
 
-    cart.map(async (item) => {
+    eventCarts[eventId].map(async (item) => {
       item.packs.map(async (pack: IProductPack) => {
         const { error: orderItemError } = await supabase
           .from("event_order_items")
@@ -242,9 +236,9 @@ export default function EventBasket({ eventId }: Props) {
                     {t("customer_s_cart")}
                   </p>
 
-                  {cart?.length > 0 ? (
+                  {eventCarts[eventId]?.length > 0 ? (
                     <div className="w-full">
-                      {cart.map((productPack) => {
+                      {eventCarts[eventId].map((productPack) => {
                         return (
                           <div key={productPack.id}>
                             <EventCheckoutItem
@@ -277,7 +271,7 @@ export default function EventBasket({ eventId }: Props) {
               </div>
 
               {/* Order summary  */}
-              <div className="border-product-softBlonde flex w-full flex-col items-center justify-between border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
+              <section className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
                 <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                   {t("customer")}
                 </h3>
@@ -285,7 +279,7 @@ export default function EventBasket({ eventId }: Props) {
                 <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
                   {/* Summary */}
                   <div className="flex flex-shrink-0 flex-col items-start justify-start">
-                    <div className="flex w-full flex-col space-y-6 bg-gray-50 px-4 py-6 dark:bg-gray-800 md:p-6 xl:p-8">
+                    <div className="flex w-full flex-col space-y-6 bg-gray-50  dark:bg-gray-800">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                         {t("summary")}
                       </h3>
@@ -301,17 +295,17 @@ export default function EventBasket({ eventId }: Props) {
                         </div>
 
                         {/* discount */}
-                        <div className="flex w-full items-center justify-between">
+                        {/* <div className="flex w-full items-center justify-between">
                           <p className="flex flex-col text-base leading-4 text-gray-800 dark:text-white">
-                            {t("discount")}
-                            {/* <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
+                            {t("discount")} */}
+                        {/* <span className="mt-1 bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-white dark:text-gray-800">
                               STUDENT
                             </span> */}
-                          </p>
+                        {/* </p>
                           <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                             {formatCurrency(discount)} {discount / subtotal}%
                           </p>
-                        </div>
+                        </div> */}
 
                         {/* taxes  */}
                         <div className="flex w-full items-center justify-between">
@@ -340,13 +334,15 @@ export default function EventBasket({ eventId }: Props) {
                       </div>
 
                       {/* Proceed to pay */}
-                      <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                      <div
+                        className={`flex w-full items-center justify-center md:items-start md:justify-start`}
+                      >
                         <Button
                           large
                           primary
                           class={`font-semibold`}
                           title={""}
-                          disabled={cart?.length === 0}
+                          disabled={eventCarts[eventId]?.length === 0}
                           onClick={() => {
                             onSubmit();
                           }}
@@ -357,7 +353,7 @@ export default function EventBasket({ eventId }: Props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
           </div>
         </>
