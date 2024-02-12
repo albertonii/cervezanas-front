@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import DeliveryError from "../DeliveryError";
-import CheckoutPackItem from "./CheckoutPackItem";
-import useFetchProductById from "../../../../../hooks/useFetchProductById";
-import React, { ComponentProps, useEffect, useState } from "react";
-import { initShipmentLogic } from "./shipmentLogic";
-import { useLocale, useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../../lib/types";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
-import dynamic from "next/dynamic";
+import Link from 'next/link';
+import DeliveryError from '../DeliveryError';
+import CheckoutPackItem from './CheckoutPackItem';
+import useFetchProductById from '../../../../../hooks/useFetchProductById';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { initShipmentLogic } from './shipmentLogic';
+import { useLocale, useTranslations } from 'next-intl';
+import { IProductPackCartItem } from '../../../../../lib/types';
+import { useShoppingCart } from '../../../../context/ShoppingCartContext';
+import dynamic from 'next/dynamic';
 
 interface Props {
   productPack: IProductPackCartItem;
@@ -34,7 +34,7 @@ export function CheckoutItem({
     isError,
     isLoading: isLoadingProduct,
     refetch,
-  } = useFetchProductById(productPack.id);
+  } = useFetchProductById(productPack.product_id);
 
   useEffect(() => {
     refetch();
@@ -53,7 +53,7 @@ export function CheckoutItem({
         delivery_type: string;
       } = await initShipmentLogic(
         selectedShippingAddress,
-        productWithInfo.owner_id
+        productWithInfo.owner_id,
       );
 
       if (response.can_deliver) {
@@ -62,7 +62,7 @@ export function CheckoutItem({
         const { distributor_id, delivery_type } = response;
 
         fetch(
-          `/api/distribution_costs?distributor_id=${distributor_id}&delivery_type=${delivery_type}`
+          `/api/distribution_costs?distributor_id=${distributor_id}&delivery_type=${delivery_type}`,
         )
           .then((res) => res.json())
           .then((orderItemCost: number) => {
@@ -84,7 +84,7 @@ export function CheckoutItem({
         // 1. Update the product in the cart with the distributor id
         const newProductPack: IProductPackCartItem = {
           ...productPack,
-          distributor_id: "",
+          distributor_id: '',
         };
 
         // 2. Update the product in the cart
@@ -100,13 +100,13 @@ export function CheckoutItem({
 
   if (isLoadingProduct || isLoadingDelivery) {
     const DynamicSpinner = dynamic(
-      () => import("../../../components/common/Spinner"),
+      () => import('../../../components/common/Spinner'),
       {
         ssr: false,
-      }
+      },
     );
 
-    return <DynamicSpinner color={"beer-blonde"} size={"medium"} />;
+    return <DynamicSpinner color={'beer-blonde'} size={'medium'} />;
   }
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
@@ -119,7 +119,7 @@ export function CheckoutItem({
         <article className={`mt-4 space-y-4`}>
           <Link href={`/products/${productWithInfo.id}`} locale={locale}>
             <p className="space-x-2 text-xl">
-              <span className="font-semibold ">{t("product_name")}:</span>
+              <span className="font-semibold ">{t('product_name')}:</span>
 
               <span className="hover:font-semibold hover:text-beer-gold">
                 {productPack.name}

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import MonthlyCardItem from "./MonthlyCardItem";
-import { IMonthlyProduct } from "../../../lib/types";
-import Image from "next/image";
+import React from 'react';
+import MonthlyCardItem from './MonthlyCardItem';
+import { IMonthlyProduct } from '../../../lib/types';
+import Image from 'next/image';
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];
@@ -36,7 +36,7 @@ export default function MonthlyBeers({ monthlyProducts }: Props) {
       <div className="grid w-full grid-cols-3 rounded-lg ">
         {monthlyProducts.map((mProduct) => (
           <>
-            <MonthlyCardItem mProduct={mProduct} key={mProduct.id} />
+            <MonthlyCardItem mProduct={mProduct} key={mProduct.product_id} />
           </>
         ))}
       </div>

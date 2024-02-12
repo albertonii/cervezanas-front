@@ -43,7 +43,7 @@ import {
 import ModalWithForm from './ModalWithForm';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
-  id: z.string(),
+  product_id: z.string(),
   name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
     message: 'errors.error_50_number_max_length',
   }),
@@ -213,7 +213,7 @@ export function UpdateProduct({
     value: Era;
   } = era_options.find((c) => c.label === era) ?? {
     label: 'none',
-    value: 5,
+    value: 4,
   };
 
   // convert string to FileList image
@@ -233,7 +233,7 @@ export function UpdateProduct({
     mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
-      id: product.id,
+      product_id: product.id,
       category: product.category ?? '',
       name: product.name ?? '',
       description: product.description ?? '',

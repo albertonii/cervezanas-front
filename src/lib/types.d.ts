@@ -466,7 +466,8 @@ export interface ICPM_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
-  consumption_points?: IConsumptionPoints;
+  cp_mobile?: ICPMobile;
+  // consumption_points?: IConsumptionPoints;
   events?: IEvent;
 }
 
@@ -474,7 +475,8 @@ export interface ICPF_events {
   cp_id: string;
   event_id: string;
   is_active: boolean;
-  consumption_points?: IConsumptionPoints;
+  // consumption_points?: IConsumptionPoints;
+  cp_fixed?: ICPFixed;
   events?: IEvent;
 }
 
@@ -578,7 +580,6 @@ export interface IOrder {
   shipping_info?: IShippingInfo;
   billing_info?: IBillingInfo;
   business_orders?: IBusinessOrder[];
-  payment_method_id: string;
   users?: IUserTable;
 }
 
@@ -606,7 +607,6 @@ export interface IEventOrder {
   discount: number;
   discount_code: string;
   order_number: string;
-  payment_method_id: string;
   event_order_items?: IEventOrderItem[];
   customer_id: string;
   users?: IUserTable;
@@ -687,14 +687,14 @@ export type UserProps = {
 };
 
 export type IProductPack = {
-  id: string;
+  id: string; // PK
+  product_id: string; // FK
   created_at: string;
   quantity: number;
   price: number;
   img_url: any;
   name: string;
   randomUUID: string;
-  product_id: string;
   products?: IProduct;
 };
 
@@ -764,7 +764,7 @@ export type ModalAddProductFormData = {
 };
 
 export type ModalUpdateProductFormData = {
-  id: string;
+  product_id: string; // FK
   name: string;
   description: string;
   price: number;
@@ -813,7 +813,7 @@ type ModalUpdateProductAwardFormData = {
 };
 
 type ModalUpdateProductPackFormData = {
-  id: string;
+  product_id: string;
   quantity: number;
   price: number;
   img_url?: any;
@@ -856,7 +856,8 @@ export type ICampaignFormProps = {
 };
 
 export interface IProductPackCartItem {
-  id: string; // Product ID
+  id: string; // PK
+  product_id: string; // FK
   packs: IProductPack[];
   quantity: number;
   price: number;
@@ -868,7 +869,8 @@ export interface IProductPackCartItem {
 }
 
 export interface IProductPackEventCartItem {
-  id: string; // Product ID
+  id: string; // PK
+  product_id: string; // FK
   packs: IProductPack[];
   quantity: number;
   price: number;
@@ -983,7 +985,7 @@ export interface IModalProduct {
 }
 
 export interface IMonthlyProduct {
-  id: string;
+  product_id: string;
   created_at: string;
   category: string;
   month: number;

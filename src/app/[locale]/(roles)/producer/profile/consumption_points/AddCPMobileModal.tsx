@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import CPGoogleMap from "./CPGoogleMap";
-import ListCPMProducts from "./ListCPMProducts";
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { getGeocode } from "use-places-autocomplete";
-import { IUser } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import Modal from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
-import SelectInput from "../../../../components/common/SelectInput";
-import InputLabel from "../../../../components/common/InputLabel";
-import InputTextarea from "../../../../components/common/InputTextarea";
+import CPGoogleMap from './CPGoogleMap';
+import ListCPMProducts from './ListCPMProducts';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { getGeocode } from 'use-places-autocomplete';
+import { IUser } from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import { cleanObject, isValidObject } from '../../../../../../utils/utils';
+import Modal from '../../../../components/modals/Modal';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z, ZodType } from 'zod';
+import SelectInput from '../../../../components/common/SelectInput';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
 
 enum CPMobileStatus {
-  active = "active",
-  finished = "finished",
-  error = "error",
-  cancelled = "cancelled",
-  paused = "paused",
+  active = 'active',
+  finished = 'finished',
+  error = 'error',
+  cancelled = 'cancelled',
+  paused = 'paused',
 }
 
 export const cp_mobile_status_options: {
   label: string;
   value: CPMobileStatus;
 }[] = [
-  { label: "active", value: CPMobileStatus.active },
-  { label: "finished", value: CPMobileStatus.finished },
-  { label: "error", value: CPMobileStatus.error },
-  { label: "cancelled", value: CPMobileStatus.cancelled },
-  { label: "paused", value: CPMobileStatus.paused },
+  { label: 'active', value: CPMobileStatus.active },
+  { label: 'finished', value: CPMobileStatus.finished },
+  { label: 'error', value: CPMobileStatus.error },
+  { label: 'cancelled', value: CPMobileStatus.cancelled },
+  { label: 'paused', value: CPMobileStatus.paused },
 ];
 
 interface ModalAddCPMobileFormData {
@@ -55,16 +55,16 @@ interface ModalAddCPMobileFormData {
 type ValidationSchema = z.infer<typeof schema>;
 
 const schema: ZodType<ModalAddCPMobileFormData> = z.object({
-  cp_name: z.string().nonempty({ message: "errors.input_required" }),
-  cp_description: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_name: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_lastname: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_email: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_phone: z.string().nonempty({ message: "errors.input_required" }),
-  start_date: z.string().nonempty({ message: "errors.input_required" }),
-  end_date: z.string().nonempty({ message: "errors.input_required" }),
-  address: z.string().nonempty({ message: "errors.input_required" }),
-  status: z.string().nonempty({ message: "errors.input_required" }),
+  cp_name: z.string().nonempty({ message: 'errors.input_required' }),
+  cp_description: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_name: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_lastname: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_email: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_phone: z.string().nonempty({ message: 'errors.input_required' }),
+  start_date: z.string().nonempty({ message: 'errors.input_required' }),
+  end_date: z.string().nonempty({ message: 'errors.input_required' }),
+  address: z.string().nonempty({ message: 'errors.input_required' }),
+  status: z.string().nonempty({ message: 'errors.input_required' }),
   is_internal_organizer: z.boolean(),
   product_items: z.any(),
 });
@@ -91,32 +91,32 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
   const getExternalOrganizers = async () => {
     return await supabase
-      .from("users")
-      .select("id, name, lastname")
-      .eq("cp_organizer_status", 1)
-      .neq("id", user?.id);
+      .from('users')
+      .select('id, name, lastname')
+      .eq('cp_organizer_status', 1)
+      .neq('id', user?.id);
   };
 
   const query = useQuery({
-    queryKey: ["organizers"],
+    queryKey: ['organizers'],
     queryFn: getExternalOrganizers,
     enabled: false,
   });
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
-      cp_name: "",
-      cp_description: "",
-      organizer_name: "",
-      organizer_lastname: "",
-      organizer_email: "",
-      organizer_phone: "",
-      start_date: "",
-      end_date: "",
-      address: "",
-      status: "",
+      cp_name: '',
+      cp_description: '',
+      organizer_name: '',
+      organizer_lastname: '',
+      organizer_email: '',
+      organizer_phone: '',
+      start_date: '',
+      end_date: '',
+      address: '',
+      status: '',
       is_internal_organizer: true,
     },
   });
@@ -129,7 +129,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   } = form;
 
   const handleAddress = (address: string) => {
-    setValue("address", address);
+    setValue('address', address);
   };
 
   const handleInsertCPMobile = async (form: ValidationSchema) => {
@@ -160,7 +160,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
-      .from("cp_mobile")
+      .from('cp_mobile')
       .insert({
         cp_name,
         cp_description,
@@ -194,9 +194,9 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       // Link the pack with the consumption Point
       pItemsFilteredArray.map(async (pack: any) => {
         // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-        if (typeof pack.id === "object") {
+        if (typeof pack.id === 'object') {
           pack.id.map(async (packId: string) => {
-            const { error } = await supabase.from("cpm_products").insert({
+            const { error } = await supabase.from('cpm_products').insert({
               cp_id: cpMobileId,
               product_pack_id: packId,
             });
@@ -206,7 +206,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             }
           });
         } else {
-          const { error } = await supabase.from("cpm_products").insert({
+          const { error } = await supabase.from('cpm_products').insert({
             cp_id: cpMobileId,
             product_pack_id: pack.id,
           });
@@ -220,10 +220,10 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
-      const { error } = await supabase.from("notifications").insert({
+      const { error } = await supabase.from('notifications').insert({
         message: `You have been assigned as organizer for the mobile consumption point ${cp_name}`,
         user_id: selectedEOrganizer,
-        link: "/profile?a=consumption_points",
+        link: '/profile?a=consumption_points',
         source: user?.id, // User that has created the consumption point
       });
 
@@ -236,13 +236,13 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   };
 
   const handleIsInternalOrganizer = (
-    e: React.ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const value = e.target.value; // esto será un string "true" o "false"
-    setIsInternalOrganizer(value === "true");
-    setValue("is_internal_organizer", value === "true");
+    setIsInternalOrganizer(value === 'true');
+    setValue('is_internal_organizer', value === 'true');
 
-    if (value === "false") {
+    if (value === 'false') {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -254,10 +254,10 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   };
 
   const insertCPMobileMutation = useMutation({
-    mutationKey: "insertCPMobile",
+    mutationKey: 'insertCPMobile',
     mutationFn: handleInsertCPMobile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
+      queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
       setShowModal(false);
     },
     onError: (error: any) => {
@@ -266,7 +266,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddCPMobileFormData
+    formValues: ModalAddCPMobileFormData,
   ) => {
     try {
       insertCPMobileMutation.mutate(formValues);
@@ -280,12 +280,12 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={t("add_new_cp_mobile")}
-      btnTitle={t("new_cp_mobile_config")}
-      description={""}
+      title={t('add_new_cp_mobile')}
+      btnTitle={t('new_cp_mobile_config')}
+      description={''}
       handler={handleSubmit(onSubmit)}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
     >
       {/* Si lo convertimos en Modal With Form dará errores de flasheo. Pq?  */}
       {/* <ModalWithForm
@@ -302,14 +302,14 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     ></ModalWithForm> */}
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
+          <legend className="m-2 text-2xl">{t('cp_mobile_info')}</legend>
 
           {/* Status */}
           <SelectInput
             form={form}
-            labelTooltip={"cp_mobile_status_tooltip"}
+            labelTooltip={'cp_mobile_status_tooltip'}
             options={cp_mobile_status_options}
-            label={"status"}
+            label={'status'}
             registerOptions={{
               required: true,
             }}
@@ -318,7 +318,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"cp_name"}
+            label={'cp_name'}
             registerOptions={{
               required: true,
             }}
@@ -327,8 +327,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"cp_description"}
-            labelText={t("description")}
+            label={'cp_description'}
+            labelText={t('description')}
             registerOptions={{
               required: true,
             }}
@@ -338,7 +338,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
               }}
@@ -347,7 +347,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
               }}
@@ -358,18 +358,18 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
         {/* Organizer Information  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("organizer_info")}</legend>
+          <legend className="text-2xl">{t('organizer_info')}</legend>
 
           {/* Is internal organizer value  */}
           <div className="flex flex-row space-x-2">
             <div className="flex w-full flex-col">
               <label htmlFor="is_internal_organizer">
-                {t("is_internal_organizer")}
+                {t('is_internal_organizer')}
               </label>
 
               <select onChange={handleIsInternalOrganizer}>
-                <option value="true">{t("yes")}</option>
-                <option value="false">{t("no")}</option>
+                <option value="true">{t('yes')}</option>
+                <option value="false">{t('no')}</option>
               </select>
 
               {errors.is_internal_organizer && (
@@ -385,8 +385,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_name"}
-                  labelText={t("name")}
+                  label={'organizer_name'}
+                  labelText={t('name')}
                   registerOptions={{
                     required: true,
                   }}
@@ -394,8 +394,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
                 <InputLabel
                   form={form}
-                  label={"organizer_lastname"}
-                  labelText={t("lastname")}
+                  label={'organizer_lastname'}
+                  labelText={t('lastname')}
                   registerOptions={{
                     required: true,
                   }}
@@ -406,8 +406,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_email"}
-                  labelText={t("email")}
+                  label={'organizer_email'}
+                  labelText={t('email')}
                   registerOptions={{
                     required: true,
                   }}
@@ -416,8 +416,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
                 <InputLabel
                   form={form}
-                  label={"organizer_phone"}
-                  labelText={t("phone")}
+                  label={'organizer_phone'}
+                  labelText={t('phone')}
                   registerOptions={{
                     required: true,
                   }}
@@ -470,7 +470,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         </fieldset>
 
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_mobile_location")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_location')}</legend>
 
           {addressInputRequired && (
             <DisplayInputError message="errors.input_required" />
@@ -481,7 +481,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         </fieldset>
 
         <fieldset className="mt-4 flex flex-col space-y-4">
-          <legend className="text-2xl">{t("cp_mobile_products")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_products')}</legend>
 
           {/* List of selectable products that the owner can use */}
           <ListCPMProducts form={form} />

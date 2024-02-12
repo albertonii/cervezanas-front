@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
-import { IProductPackCartItem } from "../../../../lib/types";
-import { CartPackItem } from "./CartPackItem";
+import { useTranslations } from 'next-intl';
+import { IProductPackCartItem } from '../../../../lib/types';
+import { CartPackItem } from './CartPackItem';
 
 type Props = {
   item: IProductPackCartItem;
@@ -14,9 +14,9 @@ export function CartItem({ item }: Props) {
   return (
     <>
       {item && (
-        <div data-testid={"cart-item"}>
+        <div data-testid={'cart-item'}>
           <span>
-            <p className="font-semibold">{t("product_name")}:</p> {item.name}
+            <p className="font-semibold">{t('product_name')}:</p> {item.name}
           </span>
 
           {item.packs.map((pack) => (

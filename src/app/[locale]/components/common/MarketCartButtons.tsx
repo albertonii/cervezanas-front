@@ -1,8 +1,8 @@
-import React from "react";
-import { DeleteButton } from "./DeleteButton";
-import { DecreaseButton } from "./DecreaseButton";
-import { IncreaseButton } from "./IncreaseButton";
-import debounce from "debounce";
+import React from 'react';
+import { DeleteButton } from './DeleteButton';
+import { DecreaseButton } from './DecreaseButton';
+import { IncreaseButton } from './IncreaseButton';
+import debounce from 'debounce';
 interface Props {
   quantity: number;
   item: any;
@@ -33,7 +33,7 @@ export default function MarketCartButtons({
         <IncreaseButton onClick={() => onClickIncreaseDebounce()} />
 
         {displayDeleteButton && (
-          <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+          <DeleteButton onClick={() => handleRemoveFromCart(item.product_id)} />
         )}
       </div>
     </section>

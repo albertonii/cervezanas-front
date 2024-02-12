@@ -1,10 +1,10 @@
-import SuccessCheckout from "./SuccessCheckout";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { decodeBase64 } from "../../../../../../utils/utils";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { VIEWS } from "../../../../../../constants";
-import { IEventOrder } from "../../../../../../lib/types";
+import SuccessCheckout from './SuccessCheckout';
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import { decodeBase64 } from '../../../../../../utils/utils';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { VIEWS } from '../../../../../../constants';
+import { IEventOrder } from '../../../../../../lib/types';
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -16,22 +16,22 @@ export async function generateMetadata({ searchParams }: any) {
 
     if (!Ds_MerchantParameters) {
       return {
-        title: "Not found",
-        description: "The page you are looking for does not exists",
+        title: 'Not found',
+        description: 'The page you are looking for does not exists',
       };
     }
 
     return {
       title: {
-        default: "Success page for checkout",
+        default: 'Success page for checkout',
         template: `%s | Cervezanas`,
       },
-      description: "Checkout order information displaying in this page",
+      description: 'Checkout order information displaying in this page',
     };
   } catch (error) {
     return {
-      title: "Not found",
-      description: "The page you are looking for does not exists",
+      title: 'Not found',
+      description: 'The page you are looking for does not exists',
     };
   }
 }
@@ -39,7 +39,7 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function SuccessPage({ searchParams }: any) {
   const headersList = headers();
 
-  const domain = headersList.get("host"); // to get domain
+  const domain = headersList.get('host'); // to get domain
 
   if (!domain) {
     return <></>;
@@ -65,7 +65,7 @@ async function getSuccessData(searchParams: any) {
   };
 
   const { Ds_Order: orderNumber } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters)
+    decodeBase64(Ds_MerchantParameters),
   );
 
   const supabase = await createServerClient();
@@ -79,7 +79,7 @@ async function getSuccessData(searchParams: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("event_orders")
+    .from('event_orders')
     .select(
       `
       id, 
@@ -95,7 +95,6 @@ async function getSuccessData(searchParams: any) {
       discount,
       discount_code,
       order_number,
-      payment_method_id,
       event_order_items (
         *,
         product_pack_id,
@@ -108,13 +107,10 @@ async function getSuccessData(searchParams: any) {
         )
       ),
       users (*),
-      events (*),
-      payment_method_card (
-        *
-      )
-    `
+      events (*)
+    `,
     )
-    .eq("order_number", orderNumber)
+    .eq('order_number', orderNumber)
     .single();
 
   if (orderError) {

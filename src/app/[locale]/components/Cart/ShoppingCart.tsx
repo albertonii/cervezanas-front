@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useState, useRef, useEffect, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useLocale, useTranslations } from "next-intl";
-import { CartItem } from "./CartItem";
+import Link from 'next/link';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useShoppingCart } from '../../../context/ShoppingCartContext';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import { useLocale, useTranslations } from 'next-intl';
+import { CartItem } from './CartItem';
 
 export function ShoppingCart() {
   const t = useTranslations();
@@ -85,7 +85,7 @@ export function ShoppingCart() {
                     <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6">
                       <header className="flex items-start justify-between bg-cerv-coal p-3">
                         <Dialog.Title className="text-xl font-bold uppercase text-white">
-                          {t("shopping_cart")}
+                          {t('shopping_cart')}
                         </Dialog.Title>
 
                         <div className="ml-3 flex h-7 items-center">
@@ -96,7 +96,7 @@ export function ShoppingCart() {
                               closeCart();
                             }}
                           >
-                            <span className="sr-only">{t("close")}</span>
+                            <span className="sr-only">{t('close')}</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
@@ -109,7 +109,7 @@ export function ShoppingCart() {
                         >
                           {items &&
                             items.map((item) => (
-                              <li key={item.id} className="space-y-6">
+                              <li key={item.product_id} className="space-y-6">
                                 <CartItem item={item} />
                               </li>
                             ))}
@@ -119,19 +119,19 @@ export function ShoppingCart() {
 
                     <footer className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
-                        <p>{t("subtotal")}</p>
+                        <p>{t('subtotal')}</p>
 
                         <p className="text-xl">{formatCurrency(subTotal)}</p>
                       </div>
 
                       <p className="mt-0.5 text-sm text-gray-500">
-                        {t("shipping_and_taxes_calculated_at_checkout")}
+                        {t('shipping_and_taxes_calculated_at_checkout')}
                       </p>
 
                       <div className="mt-6">
                         <Link
                           href={{
-                            pathname: "/cart/shopping_basket",
+                            pathname: '/cart/shopping_basket',
                             query: { items: JSON.stringify(items) },
                           }}
                           onClick={() => {
@@ -140,13 +140,13 @@ export function ShoppingCart() {
                           className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
                           locale={locale}
                         >
-                          {t("checkout")}
+                          {t('checkout')}
                         </Link>
                       </div>
 
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          {t("or")} &nbsp;
+                          {t('or')} &nbsp;
                           <button
                             type="button"
                             className="font-medium text-beer-draft hover:text-beer-dark"
@@ -154,7 +154,7 @@ export function ShoppingCart() {
                               closeCart();
                             }}
                           >
-                            {t("continue_shopping")}
+                            {t('continue_shopping')}
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </p>

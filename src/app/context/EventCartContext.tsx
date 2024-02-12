@@ -104,7 +104,7 @@ export function EventCartProvider({ children }: Props) {
   const getItemQuantity = (eventId: string, id: string) => {
     const eventItems = getCartByEvent(eventId);
 
-    const item = eventItems?.find((item) => item?.id === id);
+    const item = eventItems?.find((item) => item?.product_id === id);
     return item?.quantity || 0;
   };
 
@@ -118,7 +118,7 @@ export function EventCartProvider({ children }: Props) {
 
     // Find the element in the cart
     const cartItemFind = cart.find((item) => {
-      const isSameId = item.id === productId;
+      const isSameId = item.product_id === productId;
       const isSameCPMid = cpId === item.cpm_id;
       const isSameCPFid = cpId === item.cpf_id;
 
@@ -126,7 +126,7 @@ export function EventCartProvider({ children }: Props) {
     });
 
     // const item = cart?.find((item) => {
-    //   return item.id === productId;
+    //   return item.product_id === productId;
     // });
 
     if (!cartItemFind) return 0;
@@ -147,7 +147,7 @@ export function EventCartProvider({ children }: Props) {
 
     // Buscamos el producto en el carrito
     const productFind = cart.find((item) => {
-      const isSameId = item.id === product.id;
+      const isSameId = item.product_id === product.id;
       const isSameCPMid = product.cpm_id === item.cpm_id;
 
       return isSameId && isSameCPMid;
@@ -171,7 +171,7 @@ export function EventCartProvider({ children }: Props) {
         productFind.packs.push(pack);
 
         const currItemsCopy = cart.map((item) => {
-          return item.id === product.id ? productFind : item;
+          return item.product_id === product.id ? productFind : item;
         });
 
         setEventCarts((currCarts) => {
@@ -183,7 +183,8 @@ export function EventCartProvider({ children }: Props) {
       }
     } else {
       const newPack: IProductPackEventCartItem = {
-        id: product.id,
+        id: pack.id,
+        product_id: product.id,
         quantity: 1,
         packs: [pack],
         name: product.name,
@@ -208,7 +209,7 @@ export function EventCartProvider({ children }: Props) {
     //   console.log(" existe el producto");
     //   // Si existe el producto dentro del carrito, buscamos el pack
     //   const packFind = productFind.packs.find((p) => {
-    //     const isSameId = p.id === pack.id;
+    //     const isSameId = p.id === pack.product_id;
     //     const isSameCPMid = product.cpm_id === productFind.cpm_id;
     //     const isSameCPFid = product.cpf_id === productFind.cpf_id;
 
@@ -222,7 +223,7 @@ export function EventCartProvider({ children }: Props) {
 
     //     // Reemplazar el producto en el listado de productos
     //     const currItemsCopy = cart.map((item) => {
-    //       return item.id === product.id ? productFind : item;
+    //       return item.product_id === product.id ? productFind : item;
     //     });
 
     //     return {
@@ -268,7 +269,7 @@ export function EventCartProvider({ children }: Props) {
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
-      if (item && productId && item.id === productId) {
+      if (item && productId && item.product_id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId) {
             return {
@@ -305,7 +306,7 @@ export function EventCartProvider({ children }: Props) {
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
-      if (item.id === productId) {
+      if (item.product_id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId && pack.quantity > 1) {
             return {
@@ -336,11 +337,11 @@ export function EventCartProvider({ children }: Props) {
 
   // const decreaseCartQuantity = useCallback((id: string) => {
   //   setEventItems((currItems) => {
-  //     if (currItems.find((item) => item.id === id)?.quantity === 1) {
-  //       return currItems.filter((item) => item.id !== id);
+  //     if (currItems.find((item) => item.product_id === id)?.quantity === 1) {
+  //       return currItems.filter((item) => item.product_id !== id);
   //     } else {
   //       return currItems.map((item) => {
-  //         if (item.id === id) {
+  //         if (item.product_id === id) {
   //           return { ...item, quantity: item.quantity - 1 };
   //         } else {
   //           return item;
@@ -351,7 +352,7 @@ export function EventCartProvider({ children }: Props) {
   // }, []);
 
   // const removeFromCart = (id: string) => {
-  //   setEventItems((items) => items.filter((item) => item.id !== id));
+  //   setEventItems((items) => items.filter((item) => item.product_id !== id));
   // };
 
   const removeFromCart = (
@@ -362,7 +363,7 @@ export function EventCartProvider({ children }: Props) {
     const eventItems = getCartByEvent(eventId);
 
     const newItems = eventItems.map((item) => {
-      if (item.id === productId) {
+      if (item.product_id === productId) {
         // Delete the pack from the product
         const newPacks = item.packs.filter((pack) => pack.id !== packId);
 

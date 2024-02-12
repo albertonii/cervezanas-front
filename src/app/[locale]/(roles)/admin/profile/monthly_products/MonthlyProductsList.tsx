@@ -150,7 +150,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
               filteredItems.map((product) => {
                 return (
                   <tr
-                    key={product.id}
+                    key={product.product_id}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <th
@@ -173,7 +173,10 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                     </th>
 
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/products/${product.id}`} locale={locale}>
+                      <Link
+                        href={`/products/${product.product_id}`}
+                        locale={locale}
+                      >
                         {product.products?.name}
                       </Link>
                     </td>

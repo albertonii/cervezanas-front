@@ -1,13 +1,13 @@
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
-import React, { useState } from "react";
-import { SupabaseProps } from "../../../../../../../constants";
+import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import MarketCartButtons from '../../../../../components/common/MarketCartButtons';
+import React, { useState } from 'react';
+import { SupabaseProps } from '../../../../../../../constants';
 import {
   IProductPack,
   IProductPackEventCartItem,
-} from "../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import useEventCartStore from "../../../../../../store/eventCartStore";
+} from '../../../../../../../lib/types';
+import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import useEventCartStore from '../../../../../../store/eventCartStore';
 
 interface Props {
   pack: IProductPack;
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function EventPackItem({ pack, item, eventId }: Props) {
-  const cpId = item.cpm_id !== "" ? item.cpm_id : item.cpf_id;
+  const cpId = item.cpm_id !== '' ? item.cpm_id : item.cpf_id;
 
   const {
     removeFromCart,
@@ -27,25 +27,25 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
   const [animateRemove, setAnimateRemove] = useState(false);
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
+    increaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
   };
 
   const handleRemoveFromCart = () => {
     setTimeout(() => {
       setAnimateRemove(true);
 
-      removeFromCart(eventId, item.id, cpId, pack.id);
+      removeFromCart(eventId, item.product_id, cpId, pack.id);
     }, 500);
   };
 
   return (
     <section
       className={`flex items-center space-x-2 ${
-        animateRemove && "animate-ping overflow-hidden "
+        animateRemove && 'animate-ping overflow-hidden '
       }`}
     >
       <DisplayImageProduct

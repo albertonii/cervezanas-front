@@ -1,10 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { useLocale } from "next-intl";
-import { ICPMobile } from "../../../../../../lib/types";
-import { COMMON } from "../../../../../../constants";
-import { formatDateString } from "../../../../../../utils/formatDate";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { useLocale } from 'next-intl';
+import { ICPMobile } from '../../../../../../lib/types';
+import { COMMON } from '../../../../../../constants';
+import { formatDateString } from '../../../../../../utils/formatDate';
 
 interface CPMobileProps {
   cp: ICPMobile;
@@ -13,7 +13,7 @@ interface CPMobileProps {
 
 export default function CPMobile({ cp, eventId }: CPMobileProps) {
   const locale = useLocale();
-
+  console.log(cp);
   return (
     <tr
       key={cp.id}
@@ -33,10 +33,7 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
           {cp.cp_name}
         </Link>
       </td>
-      <td className="hidden space-x-2 px-2 py-4 sm:block">
-        {cp.cp_description}
-      </td>
-      <td className="space-x-2 px-2 py-4 font-medium ">{cp.address}</td>
+
       <td className="space-x-2 px-2 py-4">
         {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
       </td>

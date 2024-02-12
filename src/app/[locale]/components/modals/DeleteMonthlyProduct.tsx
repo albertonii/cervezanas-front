@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { ComponentProps } from "react";
-import Modal from "./Modal";
-import { useAuth } from "../../Auth/useAuth";
-import { IMonthlyProduct } from "../../../../lib/types";
+import React, { ComponentProps } from 'react';
+import Modal from './Modal';
+import { useAuth } from '../../Auth/useAuth';
+import { IMonthlyProduct } from '../../../../lib/types';
 
 interface Props {
   products: IMonthlyProduct[];
@@ -27,9 +27,9 @@ export function DeleteMonthlyProduct({
       if (!product) return;
 
       const { data, error: productError } = await supabase
-        .from("monthly_products")
+        .from('monthly_products')
         .delete()
-        .eq("id", product.id);
+        .eq('product_id', product.product_id);
 
       if (productError) throw productError;
 
@@ -37,8 +37,8 @@ export function DeleteMonthlyProduct({
 
       handleSetProducts(
         products.filter((b) => {
-          return b.id !== product?.id;
-        })
+          return b.product_id !== product?.product_id;
+        }),
       );
 
       return data;
@@ -52,14 +52,14 @@ export function DeleteMonthlyProduct({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleDeleteShowModal}
-      title={"modal_delete_monthly_product_title"}
-      btnTitle={"delete"}
-      description={"modal_delete_monthly_product_description"}
+      title={'modal_delete_monthly_product_title'}
+      btnTitle={'delete'}
+      description={'modal_delete_monthly_product_description'}
       handler={() => {
         handleDeleteClick();
       }}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <></>
     </Modal>

@@ -55,13 +55,13 @@ export default function CPMProduct({
 
     const packCartItem: IProductPack = {
       id: pack.id,
+      product_id: pack.product_id,
       created_at: pack.created_at,
       quantity: 1,
       price: pack.price,
       name: pack.name,
       img_url: pack.img_url,
       randomUUID: pack.randomUUID,
-      product_id: pack.product_id,
       products: pack.products,
     };
 
@@ -102,20 +102,30 @@ export default function CPMProduct({
   };
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
+    increaseOnePackCartQuantity(
+      eventId,
+      product_id,
+      cpMobile.id,
+      pack.product_id,
+    );
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
+    decreaseOnePackCartQuantity(
+      eventId,
+      product_id,
+      cpMobile.id,
+      pack.product_id,
+    );
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(eventId, product_id, cpmId, pack.id);
+    removeFromCart(eventId, product_id, cpmId, pack.product_id);
   };
 
   return (
     <tr
-      key={pack.id}
+      key={pack.product_id}
       className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
     >
       <td className="space-x-2 px-6 py-4">

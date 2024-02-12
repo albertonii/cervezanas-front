@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import MarketCartButtons from "../common/MarketCartButtons";
-import DisplayImageProduct from "../common/DisplayImageProduct";
-import { useState } from "react";
-import { SupabaseProps } from "../../../../constants";
-import { useLocale, useTranslations } from "next-intl";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { useShoppingCart } from "../../../context/ShoppingCartContext";
-import { IProductPack, IProductPackCartItem } from "../../../../lib/types";
+import Link from 'next/link';
+import MarketCartButtons from '../common/MarketCartButtons';
+import DisplayImageProduct from '../common/DisplayImageProduct';
+import { useState } from 'react';
+import { SupabaseProps } from '../../../../constants';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import { useShoppingCart } from '../../../context/ShoppingCartContext';
+import { IProductPack, IProductPackCartItem } from '../../../../lib/types';
 
 type Props = {
   pack: IProductPack;
@@ -29,17 +29,17 @@ export function CartPackItem({ item, pack }: Props) {
   } = useShoppingCart();
 
   const handleIncreaseCartQuantity = () => {
-    increaseOnePackCartQuantity(item.id, pack.id);
+    increaseOnePackCartQuantity(item.product_id, pack.id);
   };
 
   const handleDecreaseCartQuantity = () => {
-    decreaseOnePackCartQuantity(item.id, pack.id);
+    decreaseOnePackCartQuantity(item.product_id, pack.id);
   };
 
   const handleRemoveFromCart = () => {
     setAnimateRemove(true);
     setTimeout(() => {
-      removeFromCart(item.id, pack.id);
+      removeFromCart(item.product_id, pack.id);
     }, 500);
   };
 
@@ -51,7 +51,7 @@ export function CartPackItem({ item, pack }: Props) {
         <>
           <div
             className={`flex flex-row ${
-              animateRemove && "animate-ping overflow-hidden "
+              animateRemove && 'animate-ping overflow-hidden '
             }`}
             data-testid="cart-pack-item"
           >
@@ -61,7 +61,7 @@ export function CartPackItem({ item, pack }: Props) {
                   width={240}
                   height={200}
                   imgSrc={BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)}
-                  alt={"Cart Item display image"}
+                  alt={'Cart Item display image'}
                   class="h-full w-full object-cover object-center"
                   data-testid="cart-item-image"
                 />
@@ -70,7 +70,7 @@ export function CartPackItem({ item, pack }: Props) {
               <div className="ml-4 flex flex-1 flex-col">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <p className="md:text-md mt-1 text-gray-500 lg:text-lg">
-                    <Link href={`/products/${pack.id}`} locale={locale}>
+                    <Link href={`/products/${pack.product_id}`} locale={locale}>
                       {pack.name}
                     </Link>
                   </p>
@@ -81,12 +81,12 @@ export function CartPackItem({ item, pack }: Props) {
                 </div>
 
                 <div className="flex flex-col">
-                  {t("product_pack_name")}:<span>{pack.name}</span>
+                  {t('product_pack_name')}:<span>{pack.name}</span>
                 </div>
 
                 <div className="flex flex-1 items-end justify-between text-sm">
                   <p className="text-gray-500">
-                    {t("quantity")} {pack.quantity}
+                    {t('quantity')} {pack.quantity}
                   </p>
 
                   <MarketCartButtons

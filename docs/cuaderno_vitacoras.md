@@ -503,3 +503,9 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 - [x] Indicar que conseguirán la cerveza si consiguen todos los logros. Estamos regalando la cerveza para fomentar los logros de los demás.
 
 - [x] Arreglar los problemas con los tipos al ejecutar script pnpm gen-types:dev
+
+---
+
+### 12 de febrero
+
+- [ ] Merge cambios de Design

@@ -35,9 +35,9 @@ export default function MarketCartButtons({
           <IconButton
             onClick={() => onClickIncreaseDebounce()}
             classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-            classIcon={""}
+            classIcon={''}
             icon={faChevronUp}
-            title={""}
+            title={''}
           ></IconButton>
         </figure>
 
@@ -45,15 +45,15 @@ export default function MarketCartButtons({
           <IconButton
             onClick={() => onClickDecreaseDebounce()}
             classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-            classIcon={""}
+            classIcon={''}
             icon={faChevronDown}
-            title={""}
+            title={''}
           ></IconButton>
         </figure>
       </div>
 
       {displayDeleteButton && (
-        <DeleteButton onClick={() => handleRemoveFromCart(item.id)} />
+        <DeleteButton onClick={() => handleRemoveFromCart(item.product_id)} />
       )}
     </section>
   );

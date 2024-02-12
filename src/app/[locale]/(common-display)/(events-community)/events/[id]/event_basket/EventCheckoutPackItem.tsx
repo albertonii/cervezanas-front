@@ -1,16 +1,16 @@
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import MarketCartButtons from "../../../../../components/common/MarketCartButtons";
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../../constants";
-import { Type } from "../../../../../../../lib/productEnum";
+import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import MarketCartButtons from '../../../../../components/common/MarketCartButtons';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { SupabaseProps } from '../../../../../../../constants';
+import { Type } from '../../../../../../../lib/productEnum';
 import {
   IProduct,
   IProductPack,
   IProductPackEventCartItem,
-} from "../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import useEventCartStore from "../../../../../../store/eventCartStore";
+} from '../../../../../../../lib/types';
+import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import useEventCartStore from '../../../../../../store/eventCartStore';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -30,7 +30,7 @@ export default function EventCheckoutPackItem({
   const t = useTranslations();
 
   const cpId =
-    productPack.cpm_id !== "" ? productPack.cpm_id : productPack.cpf_id;
+    productPack.cpm_id !== '' ? productPack.cpm_id : productPack.cpf_id;
 
   const [animateRemove, setAnimateRemove] = useState(false);
   const [packQuantity, setPackQuantity] = React.useState(0);
@@ -49,16 +49,16 @@ export default function EventCheckoutPackItem({
 
   const handleIncreaseCartQuantity = (
     item: IProductPackEventCartItem,
-    pack: IProductPack
+    pack: IProductPack,
   ) => {
-    increaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
+    increaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
   };
 
   const handleDecreaseCartQuantity = (
     item: IProductPackEventCartItem,
-    pack: IProductPack
+    pack: IProductPack,
   ) => {
-    decreaseOnePackCartQuantity(eventId, item.id, cpId, pack.id);
+    decreaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
@@ -71,7 +71,7 @@ export default function EventCheckoutPackItem({
   return (
     <section
       className={`${
-        animateRemove && "animate-ping overflow-hidden"
+        animateRemove && 'animate-ping overflow-hidden'
       } mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
     >
       <figure className="pb-4 md:pb-8 ">
@@ -95,19 +95,19 @@ export default function EventCheckoutPackItem({
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
-                  {t("aroma")}:{" "}
+                  {t('aroma')}:{' '}
                 </span>
                 {t(`${productWithInfo.beers?.aroma}`)}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
-                  {t("family")}:{" "}
+                  {t('family')}:{' '}
                 </span>
                 {t(`${productWithInfo.beers?.family}`)}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
-                  {t("fermentation")}:{" "}
+                  {t('fermentation')}:{' '}
                 </span>
                 {t(`${productWithInfo.beers?.fermentation}`)}
               </p>
@@ -120,19 +120,19 @@ export default function EventCheckoutPackItem({
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("aroma")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.aroma}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("family")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.family}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("fermentation")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.fermentation}`)} */}
               </p>
             </div>

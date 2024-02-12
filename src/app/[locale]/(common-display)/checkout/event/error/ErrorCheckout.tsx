@@ -138,7 +138,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                                 <div className="col-span-12 mt-6 md:col-span-4 md:mt-6">
                                                     <h3 className="text-base font-medium text-gray-900 hover:text-beer-draft">
                                                         <Link
-                                                            href={`/products/${item.product_packs.id}`}
+                                                            href={`/products/${item.product_packs.product_id}`}
                                                             locale={locale}
                                                         >
                                                             {

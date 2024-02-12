@@ -1,17 +1,17 @@
-import React from "react";
-import GenerateQR from "./GenerateQR";
-import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { IEventOrderItem } from "../../../../../../lib/types";
+import React from 'react';
+import GenerateQR from './GenerateQR';
+import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { IEventOrderItem } from '../../../../../../lib/types';
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,
-} from "../../../../../../constants";
-import { StatusTimeline } from "../../../../components/StatusTimeline";
-import DisplayImageProduct from "../../../../components/common/DisplayImageProduct";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import { Button } from "../../../../components/common/Button";
+} from '../../../../../../constants';
+import { StatusTimeline } from '../../../../components/StatusTimeline';
+import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';
+import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import { Button } from '../../../../components/common/Button';
 
 interface Props {
   eventOrderItem: IEventOrderItem;
@@ -38,7 +38,7 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
     <section className="relative border-separate space-y-8 rounded-lg border p-2">
       <StatusTimeline
         status={eventOrderItem.status}
-        orderType={"event_product"}
+        orderType={'event_product'}
       />
 
       <section className="grid grid-cols-1 space-x-4 space-y-4 text-start sm:grid-cols-2">
@@ -49,19 +49,19 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
               href={`/products/${product_packs?.product_id}`}
               locale={locale}
             >
-              {t("name")}: {product_packs?.products?.name}
+              {t('name')}: {product_packs?.products?.name}
             </Link>
           </h3>
 
           <span className="space-y-1">
-            <p className="text-sm text-gray-500">{t("description")}</p>
+            <p className="text-sm text-gray-500">{t('description')}</p>
             <p className="truncate">{product_packs.products?.description}</p>
           </span>
         </div>
 
         <article
           className="col-span-12 grid justify-between gap-2 rounded-lg border border-gray-200 sm:col-span-1 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
-          key={eventOrderItem.order_id + "-" + eventOrderItem.product_pack_id}
+          key={eventOrderItem.order_id + '-' + eventOrderItem.product_pack_id}
         >
           {eventOrderItem.product_packs && (
             <>
@@ -77,7 +77,7 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                 <DisplayImageProduct
                   width={120}
                   height={120}
-                  alt={""}
+                  alt={''}
                   imgSrc={`${
                     BASE_PRODUCTS_URL +
                     decodeURIComponent(eventOrderItem.product_packs.img_url)
@@ -92,17 +92,17 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                 </p>
 
                 <span className="text-sm text-gray-900">
-                  <p>{t("quantity_in_pack")}:</p>
+                  <p>{t('quantity_in_pack')}:</p>
 
                   <p className="font-medium">
-                    {eventOrderItem.product_packs.quantity} {t("units")}
+                    {eventOrderItem.product_packs.quantity} {t('units')}
                   </p>
                 </span>
 
                 <span className="text-sm text-gray-900">
-                  <p>{t("quantity_bought")}:</p>
+                  <p>{t('quantity_bought')}:</p>
                   <p className="font-medium">
-                    {eventOrderItem.quantity} {t("packs")}
+                    {eventOrderItem.quantity} {t('packs')}
                   </p>
                 </span>
               </div>
@@ -113,14 +113,14 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
         <article className="col-span-12 grid justify-between gap-2 rounded-lg border border-gray-200 sm:col-span-1 sm:p-4 lg:grid-cols-12 lg:p-6">
           <div className="col-span-12 flex flex-col">
             <span className="flex items-center text-lg">
-              {t("status")}
+              {t('status')}
               <p className="ml-2 rounded-full bg-beer-gold px-2 py-2 font-semibold">
                 {t(eventOrderItem.status)}
               </p>
             </span>
 
             <span className="flex items-center text-lg">
-              {t("quantity_served")}
+              {t('quantity_served')}
               <p className="ml-2 rounded-full bg-beer-gold px-2 py-2 font-semibold">
                 {eventOrderItem.quantity_served} / {eventOrderItem.quantity}
               </p>
@@ -136,15 +136,15 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
 
       {/* Review Product button */}
       <div className="col-span-12 mt-6">
-        <span className="font-medium text-gray-900">{t("review_product")}</span>
+        <span className="font-medium text-gray-900">{t('review_product')}</span>
 
         <div className="mt-3 space-y-3 text-beer-dark">
           {eventOrderItem.is_reviewed && (
-            <span>{t("product_already_reviewed_condition")}</span>
+            <span>{t('product_already_reviewed_condition')}</span>
           )}
 
           {eventOrderItem.status === EVENT_ORDER_ITEM_STATUS.INITIAL && (
-            <span>{t("write_review_condition")}</span>
+            <span>{t('write_review_condition')}</span>
           )}
 
           <Button
@@ -163,11 +163,11 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                 !eventOrderItem.is_reviewed &&
                 eventOrderItem.status !== EVENT_ORDER_ITEM_STATUS.INITIAL
               ) {
-                handleOnClick(product_packs.id);
+                handleOnClick(product_packs.product_id);
               }
             }}
           >
-            {t("make_review_product_button")}
+            {t('make_review_product_button')}
           </Button>
         </div>
       </div>

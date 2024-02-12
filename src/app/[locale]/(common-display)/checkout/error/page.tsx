@@ -1,11 +1,11 @@
-import ErrorCheckout from "./ErrorCheckout";
-import React from "react";
-import { redirect } from "next/navigation";
-import { decodeBase64 } from "../../../../../utils/utils";
-import createServerClient from "../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../lib/actions";
-import { VIEWS } from "../../../../../constants";
-import { IOrder } from "../../../../../lib/types";
+import ErrorCheckout from './ErrorCheckout';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { decodeBase64 } from '../../../../../utils/utils';
+import createServerClient from '../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../lib/actions';
+import { VIEWS } from '../../../../../constants';
+import { IOrder } from '../../../../../lib/types';
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -17,23 +17,23 @@ export async function generateMetadata({ searchParams }: any) {
 
     if (!Ds_MerchantParameters) {
       return {
-        title: "Not found",
-        description: "The page you are looking for does not exists",
+        title: 'Not found',
+        description: 'The page you are looking for does not exists',
       };
     }
 
     return {
       title: {
-        default: "Error page for checkout",
+        default: 'Error page for checkout',
         template: `%s | Cervezanas`,
       },
       description:
-        "Error page for checkout reached by code sent from Checkout Order",
+        'Error page for checkout reached by code sent from Checkout Order',
     };
   } catch (error) {
     return {
-      title: "Not found",
-      description: "The page you are looking for does not exists",
+      title: 'Not found',
+      description: 'The page you are looking for does not exists',
     };
   }
 }
@@ -57,7 +57,7 @@ async function getCheckoutErrorData(searchParams: any) {
   };
 
   const { Ds_Order: orderId, Ds_Response } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters)
+    decodeBase64(Ds_MerchantParameters),
   );
 
   const supabase = await createServerClient();
@@ -71,12 +71,12 @@ async function getCheckoutErrorData(searchParams: any) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  if (Ds_Response === "9915") {
+  if (Ds_Response === '9915') {
     // Update order status to user_cancelled
     const { error: statusError } = await supabase
-      .from("orders")
-      .update({ status: "user_cancelled" })
-      .eq("order_number", orderId);
+      .from('orders')
+      .update({ status: 'user_cancelled' })
+      .eq('order_number', orderId);
 
     if (statusError) {
       console.error(statusError.message);
@@ -84,56 +84,66 @@ async function getCheckoutErrorData(searchParams: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("orders")
+    .from('orders')
     .select(
       `
-      *,
-      shipping_info_id,
-      billing_info_id,
-      shipping_info!orders_shipping_info_id_fkey (
-        id,
-        created_at,
-        updated_at,
-        owner_id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        address_extra,
-        address_observations,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default
-      ),
-      billing_info!orders_billing_info_id_fkey (
-        id,
-        created_at,
-        updated_at,
-        owner_id,
-        name,
-        lastname,
-        document_id,
-        phone,
-        address,
-        country,
-        zipcode,
-        city,
-        state,
-        is_default
-      ),
-      business_orders!business_orders_order_id_fkey (
-         *,
-        order_items (
+        *,
+        shipping_info_id,
+        billing_info_id,
+        shipping_info!orders_shipping_info_id_fkey (
+          id,
+          created_at,
+          updated_at,
+          owner_id,
+          name,
+          lastname,
+          document_id,
+          phone,
+          address,
+          address_extra,
+          address_observations,
+          country,
+          zipcode,
+          city,
+          state,
+          is_default
+        ),
+        billing_info!orders_billing_info_id_fkey (
+          id,
+          created_at,
+          updated_at,
+          owner_id,
+          name,
+          lastname,
+          document_id,
+          phone,
+          address,
+          country,
+          zipcode,
+          city,
+          state,
+          is_default
+        ),
+        business_orders!business_orders_order_id_fkey (
           *,
-          product_packs (*)
+          order_items (
+            *,
+            product_packs (
+              id,
+              product_id,
+              created_at,
+              quantity,
+              price,
+              img_url,
+              name,
+              randomUUID,
+              products (*)
+            )
+          )
         )
-      )
-    `
+      `,
     )
-    .eq("order_number", orderId)
+    .eq('order_number', orderId)
     .single();
 
   if (orderError) {

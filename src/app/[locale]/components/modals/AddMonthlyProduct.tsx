@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useMemo, useState, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { IconButton } from "../common/IconButton";
-import { IProduct } from "../../../../lib/types";
-import { category_options } from "../../../../lib/productEnum";
-import { DisplayInputError } from "../common/DisplayInputError";
-import { faHandPointer } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../Auth/useAuth";
-import InputSearch from "../common/InputSearch";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "react-query";
-import ModalWithForm from "./ModalWithForm";
-import { useMessage } from "../message/useMessage";
+import React, { ComponentProps, useMemo, useState, useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { IconButton } from '../common/IconButton';
+import { IProduct } from '../../../../lib/types';
+import { category_options } from '../../../../lib/productEnum';
+import { DisplayInputError } from '../common/DisplayInputError';
+import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../Auth/useAuth';
+import InputSearch from '../common/InputSearch';
+import { z, ZodType } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'react-query';
+import ModalWithForm from './ModalWithForm';
+import { useMessage } from '../message/useMessage';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  CREATED_DATE = "created_date",
-  MONTH = "month",
-  NAME = "name",
+  NONE = 'none',
+  USERNAME = 'username',
+  CREATED_DATE = 'created_date',
+  MONTH = 'month',
+  NAME = 'name',
 }
 
 type FormData = {
@@ -32,12 +32,12 @@ type FormData = {
 };
 
 const mProductsSchema: ZodType<FormData> = z.object({
-  id: z.string().uuid().nonempty("Please select a product"),
+  id: z.string().uuid().nonempty('Please select a product'),
   category: z
     .string()
-    .nonempty("Please select a category for this monthly product"),
-  month: z.number().min(1, "Please select a month for this product"),
-  year: z.number().min(1, "Please select a year for this product"),
+    .nonempty('Please select a category for this monthly product'),
+  month: z.number().min(1, 'Please select a month for this product'),
+  year: z.number().min(1, 'Please select a year for this product'),
 });
 
 type ValidationSchema = z.infer<typeof mProductsSchema>;
@@ -58,15 +58,15 @@ export default function AddMonthlyProduct({
   const [selectedProduct, setSelectedCP] = useState<IProduct>();
   const { handleMessage } = useMessage();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(mProductsSchema),
     defaultValues: {
-      id: "",
-      category: "community",
+      id: '',
+      category: 'community',
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
     },
@@ -106,40 +106,40 @@ export default function AddMonthlyProduct({
   };
 
   const handleProductClicked = (product: IProduct) => {
-    setValue("id", product.id);
+    setValue('id', product.id);
     setSelectedCP(product);
   };
 
   const handleMonthClicked = (e: React.ChangeEvent<any>) => {
     const month = parseInt(e.target.value);
 
-    setValue("month", month);
+    setValue('month', month);
   };
 
   const handleYearClicked = (e: React.ChangeEvent<any>) => {
     const year = parseInt(e.target.value);
-    setValue("year", year);
+    setValue('year', year);
   };
 
   const handleInsertMonthlyProduct = async (form: ValidationSchema) => {
     const { category, month, year } = form;
 
-    if (!selectedProduct) return console.info("No product selected");
+    if (!selectedProduct) return console.info('No product selected');
 
     const { data, error } = await supabase
-      .from("monthly_products")
+      .from('monthly_products')
       .insert({
-        id: selectedProduct.id,
+        product_id: selectedProduct.id,
         category,
         month,
         year,
       })
-      .select("id, category, month, year");
+      .select('id, category, month, year');
 
     if (error) {
       handleMessage({
-        type: "error",
-        message: `${t("errors.inserting_monthly_product")} Error message:  ${
+        type: 'error',
+        message: `${t('errors.inserting_monthly_product')} Error message:  ${
           error.message
         }`,
       });
@@ -150,18 +150,18 @@ export default function AddMonthlyProduct({
     handleAddProduct(data[0]);
 
     handleMessage({
-      type: "success",
-      message: `${t("inserted_successfully")}`,
+      type: 'success',
+      message: `${t('inserted_successfully')}`,
     });
 
     reset();
   };
 
   const handleInsertMProductMutation = useMutation({
-    mutationKey: "monthly_products",
+    mutationKey: 'monthly_products',
     mutationFn: handleInsertMonthlyProduct,
     onSuccess: () => {
-      console.info("Monthly product inserted");
+      console.info('Monthly product inserted');
     },
     onError: (error: Error) => {
       console.error(error);
@@ -169,7 +169,7 @@ export default function AddMonthlyProduct({
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (
-    formValues: FormData
+    formValues: FormData,
   ) => {
     try {
       handleInsertMProductMutation.mutate(formValues);
@@ -183,23 +183,23 @@ export default function AddMonthlyProduct({
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={t("add_monthly_product")}
-      btnTitle={t("new_monthly_product")}
-      description={""}
+      title={t('add_monthly_product')}
+      btnTitle={t('new_monthly_product')}
+      description={''}
       handler={handleSubmit(onSubmit)}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
       form={form}
     >
       <form>
         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
+          <legend className="m-2 text-2xl">{t('cp_fixed_info')}</legend>
 
           {/* Category  */}
           <div className="flex flex-col space-y-2">
             <select
               id="category"
-              {...register("category", { required: true })}
+              {...register('category', { required: true })}
               defaultValue={category_options[0].label}
               className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             >
@@ -218,7 +218,7 @@ export default function AddMonthlyProduct({
           <div className="flex flex-row space-x-4">
             <div className="flex w-full flex-row items-center">
               <label htmlFor="month" className="mr-2">
-                {t("month")}
+                {t('month')}
               </label>
 
               <select
@@ -228,26 +228,26 @@ export default function AddMonthlyProduct({
                 onClick={(e) => handleMonthClicked(e)}
                 value={new Date().getMonth() + 1}
               >
-                <option value="0">{t("select_month")}</option>
-                <option value="1">{t("january")}</option>
-                <option value="2">{t("february")}</option>
-                <option value="3">{t("march")}</option>
-                <option value="4">{t("april")}</option>
-                <option value="5">{t("may")}</option>
-                <option value="6">{t("june")}</option>
-                <option value="7">{t("july")}</option>
-                <option value="8">{t("august")}</option>
-                <option value="9">{t("september")}</option>
-                <option value="10">{t("october")}</option>
-                <option value="11">{t("november")}</option>
-                <option value="12">{t("december")}</option>
+                <option value="0">{t('select_month')}</option>
+                <option value="1">{t('january')}</option>
+                <option value="2">{t('february')}</option>
+                <option value="3">{t('march')}</option>
+                <option value="4">{t('april')}</option>
+                <option value="5">{t('may')}</option>
+                <option value="6">{t('june')}</option>
+                <option value="7">{t('july')}</option>
+                <option value="8">{t('august')}</option>
+                <option value="9">{t('september')}</option>
+                <option value="10">{t('october')}</option>
+                <option value="11">{t('november')}</option>
+                <option value="12">{t('december')}</option>
               </select>
             </div>
 
             {/* Year */}
             <div className="flex w-full flex-row items-center">
               <label htmlFor="year" className="mr-2">
-                {t("year")}
+                {t('year')}
               </label>
 
               <select
@@ -257,10 +257,10 @@ export default function AddMonthlyProduct({
                 onClick={(e) => handleYearClicked(e)}
                 value={new Date().getFullYear()}
               >
-                <option value="0">{t("select_year")}</option>
-                <option value="2023">{t("2023")}</option>
-                <option value="2024">{t("2024")}</option>
-                <option value="2025">{t("2025")}</option>
+                <option value="0">{t('select_year')}</option>
+                <option value="2023">{t('2023')}</option>
+                <option value="2024">{t('2024')}</option>
+                <option value="2025">{t('2025')}</option>
               </select>
             </div>
           </div>
@@ -268,13 +268,13 @@ export default function AddMonthlyProduct({
           {/* List of products */}
           <div className="flex flex-col space-y-2">
             <label htmlFor="product" className="mr-2">
-              {t("product")}
+              {t('product')}
             </label>
 
             <InputSearch
               query={query}
               setQuery={setQuery}
-              searchPlaceholder={"search_products"}
+              searchPlaceholder={'search_products'}
             />
 
             <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -289,11 +289,11 @@ export default function AddMonthlyProduct({
                       handleChangeSort(SortBy.NAME);
                     }}
                   >
-                    {t("name_header")}
+                    {t('name_header')}
                   </th>
 
                   <th scope="col" className="px-6 py-3 ">
-                    {t("action_header")}
+                    {t('action_header')}
                   </th>
                 </tr>
               </thead>
@@ -321,7 +321,7 @@ export default function AddMonthlyProduct({
                         <IconButton
                           onClick={() => handleProductClicked(product)}
                           icon={faHandPointer}
-                          title={t("select_product")}
+                          title={t('select_product')}
                         />
                       </td>
                     </tr>

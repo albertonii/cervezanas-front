@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import CPGoogleMap from "./CPGoogleMap";
-import ListCPMProducts from "./ListCPMProducts";
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { getGeocode } from "use-places-autocomplete";
-import { IUser } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import ModalWithForm from "../../../../components/modals/ModalWithForm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import SelectInput from "../../../../components/common/SelectInput";
-import InputLabel from "../../../../components/common/InputLabel";
-import InputTextarea from "../../../../components/common/InputTextarea";
+import CPGoogleMap from './CPGoogleMap';
+import ListCPMProducts from './ListCPMProducts';
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { getGeocode } from 'use-places-autocomplete';
+import { IUser } from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import { cleanObject, isValidObject } from '../../../../../../utils/utils';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z, ZodType } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import SelectInput from '../../../../components/common/SelectInput';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
 
 enum CPFixedStatus {
-  active = "active",
-  finished = "finished",
-  error = "error",
-  cancelled = "cancelled",
-  paused = "paused",
+  active = 'active',
+  finished = 'finished',
+  error = 'error',
+  cancelled = 'cancelled',
+  paused = 'paused',
 }
 
 export const cp_fixed_status_options: {
   label: string;
   value: CPFixedStatus;
 }[] = [
-  { label: "active", value: CPFixedStatus.active },
-  { label: "finished", value: CPFixedStatus.finished },
-  { label: "error", value: CPFixedStatus.error },
-  { label: "cancelled", value: CPFixedStatus.cancelled },
-  { label: "paused", value: CPFixedStatus.paused },
+  { label: 'active', value: CPFixedStatus.active },
+  { label: 'finished', value: CPFixedStatus.finished },
+  { label: 'error', value: CPFixedStatus.error },
+  { label: 'cancelled', value: CPFixedStatus.cancelled },
+  { label: 'paused', value: CPFixedStatus.paused },
 ];
 
 interface ModalAddCPFixedFormData {
@@ -55,16 +55,16 @@ interface ModalAddCPFixedFormData {
 }
 
 const schema: ZodType<ModalAddCPFixedFormData> = z.object({
-  cp_name: z.string().nonempty({ message: "errors.input_required" }),
-  cp_description: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_name: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_lastname: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_email: z.string().nonempty({ message: "errors.input_required" }),
-  organizer_phone: z.string().nonempty({ message: "errors.input_required" }),
-  start_date: z.string().nonempty({ message: "errors.input_required" }),
-  end_date: z.string().nonempty({ message: "errors.input_required" }),
-  address: z.string().nonempty({ message: "errors.input_required" }),
-  status: z.string().nonempty({ message: "errors.input_required" }),
+  cp_name: z.string().nonempty({ message: 'errors.input_required' }),
+  cp_description: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_name: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_lastname: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_email: z.string().nonempty({ message: 'errors.input_required' }),
+  organizer_phone: z.string().nonempty({ message: 'errors.input_required' }),
+  start_date: z.string().nonempty({ message: 'errors.input_required' }),
+  end_date: z.string().nonempty({ message: 'errors.input_required' }),
+  address: z.string().nonempty({ message: 'errors.input_required' }),
+  status: z.string().nonempty({ message: 'errors.input_required' }),
   is_internal_organizer: z.boolean(),
   product_items: z.any(),
 });
@@ -93,32 +93,32 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
   const getExternalOrganizers = async () => {
     return await supabase
-      .from("users")
-      .select("id, name, lastname")
-      .eq("cp_organizer_status", 1)
-      .neq("id", user?.id);
+      .from('users')
+      .select('id, name, lastname')
+      .eq('cp_organizer_status', 1)
+      .neq('id', user?.id);
   };
 
   const query = useQuery({
-    queryKey: ["organizers"],
+    queryKey: ['organizers'],
     queryFn: getExternalOrganizers,
     enabled: false,
   });
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
-      cp_name: "",
-      cp_description: "",
-      organizer_name: "",
-      organizer_lastname: "",
-      organizer_email: "",
-      organizer_phone: "",
-      start_date: "",
-      end_date: "",
-      address: "",
-      status: "",
+      cp_name: '',
+      cp_description: '',
+      organizer_name: '',
+      organizer_lastname: '',
+      organizer_email: '',
+      organizer_phone: '',
+      start_date: '',
+      end_date: '',
+      address: '',
+      status: '',
       is_internal_organizer: true,
     },
   });
@@ -131,7 +131,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   } = form;
 
   const handleAddress = (address: string) => {
-    setValue("address", address);
+    setValue('address', address);
   };
 
   const handleInsertCPFixed = async (form: ValidationSchema) => {
@@ -162,7 +162,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     const results = (await getGeocode({ address })) as any;
 
     const { data, error } = await supabase
-      .from("cp_fixed")
+      .from('cp_fixed')
       .insert({
         cp_name,
         cp_description,
@@ -196,9 +196,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       // Link the pack with the consumption Point
       pItemsFilteredArray.map(async (pack: any) => {
         // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-        if (typeof pack.id === "object") {
+        if (typeof pack.id === 'object') {
           pack.id.map(async (packId: string) => {
-            const { error } = await supabase.from("cpf_products").insert({
+            const { error } = await supabase.from('cpf_products').insert({
               cp_id: cpFixedId,
               product_pack_id: packId,
             });
@@ -208,7 +208,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             }
           });
         } else {
-          const { error } = await supabase.from("cpf_products").insert({
+          const { error } = await supabase.from('cpf_products').insert({
             cp_id: cpFixedId,
             product_pack_id: pack.id,
           });
@@ -222,10 +222,10 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
     if (!isInternalOrganizer) {
       // Notify user that has been assigned as organizer
-      const { error } = await supabase.from("notifications").insert({
+      const { error } = await supabase.from('notifications').insert({
         message: `You have been assigned as organizer for the fixed consumption point ${cp_name}`,
         user_id: selectedEOrganizer,
-        link: "/profile?a=consumption_points",
+        link: '/profile?a=consumption_points',
         source: user?.id, // User that has created the consumption point
       });
 
@@ -239,10 +239,10 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
   const handleIsInternalOrganizer = (e: any) => {
     const value = e.target.value; // esto será un string "true" o "false"
-    setIsInternalOrganizer(value === "true");
-    setValue("is_internal_organizer", value === "true");
+    setIsInternalOrganizer(value === 'true');
+    setValue('is_internal_organizer', value === 'true');
 
-    if (value === "false") {
+    if (value === 'false') {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -254,10 +254,10 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   };
 
   const insertCPFixedMutation = useMutation({
-    mutationKey: "insertCPFixed",
+    mutationKey: 'insertCPFixed',
     mutationFn: handleInsertCPFixed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
+      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
       setShowModal(false);
     },
     onError: (error: any) => {
@@ -266,7 +266,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddCPFixedFormData
+    formValues: ModalAddCPFixedFormData,
   ) => {
     try {
       insertCPFixedMutation.mutate(formValues);
@@ -280,24 +280,24 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={t("add_new_cp_fixed")}
-      btnTitle={t("new_cp_fixed_config")}
-      description={""}
+      title={t('add_new_cp_fixed')}
+      btnTitle={t('new_cp_fixed_config')}
+      description={''}
       handler={handleSubmit(onSubmit)}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
       form={form}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
+          <legend className="m-2 text-2xl">{t('cp_fixed_info')}</legend>
 
           {/* Status */}
           <SelectInput
             form={form}
-            labelTooltip={"cp_fixed_status_tooltip"}
+            labelTooltip={'cp_fixed_status_tooltip'}
             options={cp_fixed_status_options}
-            label={"status"}
+            label={'status'}
             registerOptions={{
               required: true,
             }}
@@ -306,7 +306,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"cp_name"}
+            label={'cp_name'}
             registerOptions={{
               required: true,
             }}
@@ -315,8 +315,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"cp_description"}
-            labelText={t("description")}
+            label={'cp_description'}
+            labelText={t('description')}
             registerOptions={{
               required: true,
             }}
@@ -326,7 +326,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
               }}
@@ -335,7 +335,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
               }}
@@ -346,18 +346,18 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
         {/* Organizer Information  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("organizer_info")}</legend>
+          <legend className="text-2xl">{t('organizer_info')}</legend>
 
           {/* Is internal organizer value  */}
           <div className="flex flex-row space-x-2">
             <div className="flex w-full flex-col">
               <label htmlFor="is_internal_organizer">
-                {t("is_internal_organizer")}
+                {t('is_internal_organizer')}
               </label>
 
               <select onChange={handleIsInternalOrganizer}>
-                <option value="true">{t("yes")}</option>
-                <option value="false">{t("no")}</option>
+                <option value="true">{t('yes')}</option>
+                <option value="false">{t('no')}</option>
               </select>
 
               {errors.is_internal_organizer && (
@@ -373,8 +373,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_name"}
-                  labelText={t("name")}
+                  label={'organizer_name'}
+                  labelText={t('name')}
                   registerOptions={{
                     required: true,
                   }}
@@ -382,8 +382,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
                 <InputLabel
                   form={form}
-                  label={"organizer_lastname"}
-                  labelText={t("lastname")}
+                  label={'organizer_lastname'}
+                  labelText={t('lastname')}
                   registerOptions={{
                     required: true,
                   }}
@@ -394,8 +394,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_email"}
-                  labelText={t("email")}
+                  label={'organizer_email'}
+                  labelText={t('email')}
                   registerOptions={{
                     required: true,
                   }}
@@ -404,8 +404,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
                 <InputLabel
                   form={form}
-                  label={"organizer_phone"}
-                  labelText={t("phone")}
+                  label={'organizer_phone'}
+                  labelText={t('phone')}
                   registerOptions={{
                     required: true,
                   }}
@@ -458,7 +458,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         </fieldset>
 
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_fixed_location")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_location')}</legend>
 
           {addressInputRequired && (
             <DisplayInputError message="errors.input_required" />
@@ -469,7 +469,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         </fieldset>
 
         <fieldset className="mt-4 flex flex-col space-y-4">
-          <legend className="text-2xl">{t("cp_fixed_products")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_products')}</legend>
 
           {/* List of selectable products that the owner can use */}
           <ListCPMProducts form={form} />

@@ -42,7 +42,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
   );
 
   async function handleLike() {
-    console.log('product', product);
     if (!isLike) {
       const { error } = await supabase
         .from('likes')

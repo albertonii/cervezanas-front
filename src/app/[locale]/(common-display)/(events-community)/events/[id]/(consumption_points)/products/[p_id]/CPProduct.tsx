@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import MarketCartButtons from "../../../../../../../components/common/MarketCartButtons";
+import MarketCartButtons from '../../../../../../../components/common/MarketCartButtons';
 import React, {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-} from "react";
-import { useTranslations } from "next-intl";
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "../../../../../../../components/common/Button";
-import { IconButton } from "../../../../../../../components/common/IconButton";
-import { useEventCart } from "../../../../../../../../context/EventCartContext";
-import { ProductOverallReview } from "../../../../../../../components/reviews/ProductOverallReview";
-import { ProductReviews } from "../../../../../../../components/reviews/ProductReviews";
-import { Rate } from "../../../../../../../components/reviews/Rate";
-import { SupabaseProps } from "../../../../../../../../../constants";
+} from 'react';
+import { useTranslations } from 'next-intl';
+import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { Button } from '../../../../../../../components/common/Button';
+import { IconButton } from '../../../../../../../components/common/IconButton';
+import { useEventCart } from '../../../../../../../../context/EventCartContext';
+import { ProductOverallReview } from '../../../../../../../components/reviews/ProductOverallReview';
+import { ProductReviews } from '../../../../../../../components/reviews/ProductReviews';
+import { Rate } from '../../../../../../../components/reviews/Rate';
+import { SupabaseProps } from '../../../../../../../../../constants';
 import {
   ICarouselItem,
   ICPMProducts,
   IProduct,
   IProductPack,
   IReview,
-} from "../../../../../../../../../lib/types";
-import dynamic from "next/dynamic";
+} from '../../../../../../../../../lib/types';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../../../../../components/common/Spinner"),
+  () => import('../../../../../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 interface Props {
@@ -85,7 +85,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     removeMarketplaceItems,
   } = useEventCart();
 
-  const quantity = getItemQuantity(selectedPack.id);
+  const quantity = getItemQuantity(selectedpack.product_id);
 
   const executeScroll = useCallback(
     () => reviewRef.current.scrollIntoView(),
@@ -198,7 +198,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
     if (!isLike) {
       const { error } = await supabase.from("likes").insert([
         {
-          product_id: selectedPack.id,
+          product_id: selectedpack.product_id,
           owner_id: selectedPack.owner_id,
         },
       ]);
@@ -206,7 +206,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
       if (error) throw error;
     } else {
       const { error } = await supabase.from("likes").delete().match({
-        product_id: selectedPack.id,
+        product_id: selectedpack.product_id,
         owner_id: selectedPack.owner_id,
       });
 
@@ -292,7 +292,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                           classContainer="mt-0 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
                           classIcon={""}
                           onClick={() =>
-                            handleIncreaseToCartItem(selectedPack.id)
+                            handleIncreaseToCartItem(selectedpack.product_id)
                           }
                           icon={faCartArrowDown}
                           isActive={false}
@@ -311,13 +311,13 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                           quantity={quantity}
                           item={selectedPack}
                           handleIncreaseCartQuantity={() =>
-                            handleIncreaseToCartItem(selectedPack.id)
+                            handleIncreaseToCartItem(selectedpack.product_id)
                           }
                           handleDecreaseCartQuantity={() =>
-                            handleDecreaseFromCartItem(selectedPack.id)
+                            handleDecreaseFromCartItem(selectedpack.product_id)
                           }
                           handleRemoveFromCart={() =>
-                            handleRemoveFromCart(selectedPack.id)
+                            handleRemoveFromCart(selectedpack.product_id)
                           }
                         />
                       </>
@@ -325,7 +325,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
 
                     <Button
                       onClick={() =>
-                        handleIncreaseToCartItem(selectedPack.id)
+                        handleIncreaseToCartItem(selectedpack.product_id)
                       }
                       class="bg-purple-500 hover:bg-purple-600 mb-0 mt-0 inline-flex items-center rounded-full px-5 py-2 text-sm font-medium tracking-wider text-white transition duration-300 ease-in hover:shadow-lg md:mb-0 "
                       isActive={false}

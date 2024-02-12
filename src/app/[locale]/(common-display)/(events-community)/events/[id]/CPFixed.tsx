@@ -1,10 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { useLocale } from "next-intl";
-import { COMMON } from "../../../../../../constants";
-import { ICPFixed } from "../../../../../../lib/types";
-import { formatDateString } from "../../../../../../utils/formatDate";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { useLocale } from 'next-intl';
+import { COMMON } from '../../../../../../constants';
+import { ICPFixed } from '../../../../../../lib/types';
+import { formatDateString } from '../../../../../../utils/formatDate';
 
 interface CPFixedProps {
   cp: ICPFixed;
@@ -33,10 +33,6 @@ export default function CPFixed({ cp, eventId }: CPFixedProps) {
           {cp.cp_name}
         </Link>
       </td>
-      <td className="hidden space-x-2 px-6 py-4 md:block">
-        {cp.cp_description}
-      </td>
-      <td className="space-x-2 px-6 py-4 font-medium ">{cp.address}</td>
       <td className="space-x-2 px-6 py-4">
         {formatDateString(cp.start_date)} - {formatDateString(cp.end_date)}
       </td>

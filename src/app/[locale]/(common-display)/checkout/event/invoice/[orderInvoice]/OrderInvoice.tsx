@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Page,
   Text,
@@ -11,33 +11,33 @@ import {
   Image,
   Svg,
   Line,
-} from "@react-pdf/renderer";
-import { IOrder } from "../../../../../../../lib/types";
-import { formatDateString } from "../../../../../../../utils/formatDate";
-import { Table } from "../../../../../components/invoice/Table";
-import { TableTotalInvoice } from "../../../../../components/invoice/TableTotalInvoice";
-import { FooterInvoice } from "../../../../../components/invoice/FooterInvoice";
+} from '@react-pdf/renderer';
+import { IOrder } from '../../../../../../../lib/types';
+import { formatDateString } from '../../../../../../../utils/formatDate';
+import { Table } from '../../../../../components/invoice/Table';
+import { TableTotalInvoice } from '../../../../../components/invoice/TableTotalInvoice';
+import { FooterInvoice } from '../../../../../components/invoice/FooterInvoice';
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    flexDirection: "row",
-    backgroundColor: "#E4E4E4",
-    color: "black",
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4',
+    color: 'black',
   },
   container: {
-    flexDirection: "column",
+    flexDirection: 'column',
     margin: 20,
     padding: 10,
   },
   section: {
     flexGrow: 1,
     fontSize: 10,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   viewer: {
-    width: "100%",
-    height: "100vh",
+    width: '100%',
+    height: '100vh',
     // width: window.innerWidth, //the pdf viewer will take up all of the width and height
     // height: window.innerHeight,
   },
@@ -46,50 +46,50 @@ const styles = StyleSheet.create({
     height: 80,
   },
   row_1: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   row_2: {
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   billing_info_container: {},
   billing_info_title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   billing_info_container_data: {
     width: 300,
     marginTop: 10,
     fontSize: 10,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     lineHeight: 1.3,
-    border: "1px solid #000",
+    border: '1px solid #000',
     padding: 10,
   },
   recipe_container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     fontSize: 10,
     marginTop: 20,
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     lineHeight: 1.3,
-    border: "1px solid #000",
+    border: '1px solid #000',
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 20,
     paddingRight: 20,
   },
   delivery_note_container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     fontSize: 10,
     marginTop: 20,
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     lineHeight: 1.3,
-    border: "1px solid #000",
+    border: '1px solid #000',
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 20,
@@ -112,9 +112,9 @@ export default function OrderInvoice({ order }: Props) {
     return order_items.map((item) => {
       if (!item.product_packs) {
         return {
-          id: "",
-          code: "",
-          article: "",
+          id: '',
+          code: '',
+          article: '',
           price: 0,
           quantity: 0,
           total: 0,
@@ -123,12 +123,12 @@ export default function OrderInvoice({ order }: Props) {
 
       const { order_number: code } = order;
       const { quantity } = item;
-      const { id, name: article, price } = item.product_packs;
+      const { product_id, name: article, price } = item.product_packs;
 
       const total = quantity * price;
 
       return {
-        id,
+        id: product_id,
         code,
         article,
         price,
@@ -140,26 +140,26 @@ export default function OrderInvoice({ order }: Props) {
 
   const itemsHeader = [
     {
-      title: "Código",
+      title: 'Código',
     },
-    { title: "Artículo" },
-    { title: "Precio" },
-    { title: "Unidad" },
-    { title: "Total" },
+    { title: 'Artículo' },
+    { title: 'Precio' },
+    { title: 'Unidad' },
+    { title: 'Total' },
   ];
 
   const itemsHeaderTotal = [
     {
-      title: "Base Imponible",
+      title: 'Base Imponible',
     },
     {
-      title: "IVA/IGIC",
+      title: 'IVA/IGIC',
     },
     {
-      title: "Descuento",
+      title: 'Descuento',
     },
     {
-      title: "Total Factura",
+      title: 'Total Factura',
     },
   ];
 
@@ -181,7 +181,7 @@ export default function OrderInvoice({ order }: Props) {
           keywords={`order, recipe, invoice, pdf, cervezanas`}
           language={`en-US`} // Get from user LOCALE
         >
-          <Page size="A4" style={styles.page} orientation={"portrait"} wrap>
+          <Page size="A4" style={styles.page} orientation={'portrait'} wrap>
             <View style={styles.container}>
               <View style={styles.row_1}>
                 <View style={styles.section}>
@@ -196,7 +196,7 @@ export default function OrderInvoice({ order }: Props) {
                   <Text>CIF B88139878</Text>
                   <Svg width="444" height="100" viewBox="0 -10 0 0">
                     <Line
-                      style={{ stroke: "#90470b", strokeWidth: 2 }}
+                      style={{ stroke: '#90470b', strokeWidth: 2 }}
                       x1={0}
                       x2={444}
                       y1={0}
@@ -216,12 +216,12 @@ export default function OrderInvoice({ order }: Props) {
                   <View style={styles.billing_info_container_data}>
                     <Text>Nombre: {order.billing_info?.name}</Text>
                     <Text>
-                      Dirección: {order.billing_info?.address},{" "}
+                      Dirección: {order.billing_info?.address},{' '}
                       {order.billing_info?.city}.
                     </Text>
                     <Text>
-                      Población: {order.billing_info?.state}.{" "}
-                      {order.billing_info?.country}.{" "}
+                      Población: {order.billing_info?.state}.{' '}
+                      {order.billing_info?.country}.{' '}
                       {order.billing_info?.zipcode}
                     </Text>
                     <Text>NIF/CIF: {order.billing_info?.document_id}</Text>

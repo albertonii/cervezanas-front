@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import EventCheckoutPackItem from "./EventCheckoutPackItem";
-import React from "react";
-import { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import EventCheckoutPackItem from './EventCheckoutPackItem';
+import React from 'react';
+import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
-import dynamic from "next/dynamic";
-import { IProductPackEventCartItem } from "../../../../../../../lib/types";
-import useFetchProductById from "../../../../../../../hooks/useFetchProductById";
+import dynamic from 'next/dynamic';
+import { IProductPackEventCartItem } from '../../../../../../../lib/types';
+import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../../../components/common/Spinner"),
+  () => import('../../../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 interface Props {
   eventId: string;
@@ -34,7 +34,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
     refetch();
   }, []);
 
-  if (isLoading) return <DynamicSpinner color={"beer-blonde"} />;
+  if (isLoading) return <DynamicSpinner color={'beer-blonde'} />;
 
   if (isError) return <div className="text-center text-red-500">Error</div>;
 
@@ -46,7 +46,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
         <section className="mt-4 space-y-4">
           <header className="">
             <p className="text-xl">
-              <span className="font-semibold">{t("product_name")}:</span>{" "}
+              <span className="font-semibold">{t('product_name')}:</span>{' '}
               {productPack.name}
             </p>
           </header>

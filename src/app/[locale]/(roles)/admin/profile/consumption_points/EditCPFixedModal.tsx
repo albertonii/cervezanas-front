@@ -1,45 +1,45 @@
-"use client";
+'use client';
 
-import CPGoogleMap from "./CPGoogleMap";
-import ListCPMProducts from "./ListCPMProducts";
-import useFetchCPFixedPacks from "../../../../../../hooks/useFetchCPFixedPacks";
-import React, { ComponentProps, useEffect, useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import CPGoogleMap from './CPGoogleMap';
+import ListCPMProducts from './ListCPMProducts';
+import useFetchCPFixedPacks from '../../../../../../hooks/useFetchCPFixedPacks';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   ICPFixed,
   ICPMProductsEditCPFixedModal,
   IUser,
-} from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import Modal from "../../../../components/modals/Modal";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { GeocodeResult } from "use-places-autocomplete";
-import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
-import SelectInput from "../../../../components/common/SelectInput";
-import InputLabel from "../../../../components/common/InputLabel";
-import InputTextarea from "../../../../components/common/InputTextarea";
+} from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import Modal from '../../../../components/modals/Modal';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { GeocodeResult } from 'use-places-autocomplete';
+import { cleanObject, isValidObject } from '../../../../../../utils/utils';
+import { formatDateDefaultInput } from '../../../../../../utils/formatDate';
+import SelectInput from '../../../../components/common/SelectInput';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
 
 enum CPFixedStatus {
-  active = "active",
-  finished = "finished",
-  error = "error",
-  cancelled = "cancelled",
-  paused = "paused",
+  active = 'active',
+  finished = 'finished',
+  error = 'error',
+  cancelled = 'cancelled',
+  paused = 'paused',
 }
 
 export const cp_fixed_status_options: {
   label: string;
   value: CPFixedStatus;
 }[] = [
-  { label: "active", value: CPFixedStatus.active },
-  { label: "finished", value: CPFixedStatus.finished },
-  { label: "error", value: CPFixedStatus.error },
-  { label: "cancelled", value: CPFixedStatus.cancelled },
-  { label: "paused", value: CPFixedStatus.paused },
+  { label: 'active', value: CPFixedStatus.active },
+  { label: 'finished', value: CPFixedStatus.finished },
+  { label: 'error', value: CPFixedStatus.error },
+  { label: 'cancelled', value: CPFixedStatus.cancelled },
+  { label: 'paused', value: CPFixedStatus.paused },
 ];
 
 interface FormData {
@@ -95,14 +95,14 @@ export default function EditCPFixedModal({
 
   const getExternalOrganizers = async () => {
     return await supabase
-      .from("users")
-      .select("id, name, lastname")
-      .eq("cp_organizer_status", 1)
-      .neq("id", user?.id);
+      .from('users')
+      .select('id, name, lastname')
+      .eq('cp_organizer_status', 1)
+      .neq('id', user?.id);
   };
 
   const query = useQuery({
-    queryKey: ["organizers"],
+    queryKey: ['organizers'],
     queryFn: getExternalOrganizers,
     enabled: false,
   });
@@ -147,15 +147,15 @@ export default function EditCPFixedModal({
   }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
-    setValue("address", address);
+    setValue('address', address);
   };
 
   const handleIsInternalOrganizer = (e: any) => {
     const value = e.target.value; // esto será un string "true" o "false"
-    setIsInternalOrganizer(value === "true");
-    setValue("is_internal_organizer", value === "true");
+    setIsInternalOrganizer(value === 'true');
+    setValue('is_internal_organizer', value === 'true');
 
-    if (value === "false") {
+    if (value === 'false') {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -194,7 +194,7 @@ export default function EditCPFixedModal({
 
     if (selectedCP) {
       const { error } = await supabase
-        .from("cp_fixed")
+        .from('cp_fixed')
         .update({
           cp_name,
           cp_description,
@@ -207,14 +207,14 @@ export default function EditCPFixedModal({
           is_booking_required,
           maximum_capacity,
         })
-        .eq("id", selectedCP.id);
+        .eq('id', selectedCP.id);
 
       if (error) throw error;
 
       const { error: errorDelete } = await supabase
-        .from("cpf_products")
+        .from('cpf_products')
         .delete()
-        .eq("cp_id", selectedCP.id);
+        .eq('cp_id', selectedCP.id);
 
       if (errorDelete) throw errorDelete;
 
@@ -230,9 +230,9 @@ export default function EditCPFixedModal({
         // Link the pack with the consumption Point
         pItemsFilteredArray.map(async (pack: any) => {
           // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-          if (typeof pack.id === "object") {
+          if (typeof pack.id === 'object') {
             pack.id.map(async (packId: string) => {
-              const { error } = await supabase.from("cpf_products").insert({
+              const { error } = await supabase.from('cpf_products').insert({
                 cp_id: cpFixedId,
                 product_pack_id: packId,
               });
@@ -242,7 +242,7 @@ export default function EditCPFixedModal({
               }
             });
           } else {
-            const { error } = await supabase.from("cpf_products").insert({
+            const { error } = await supabase.from('cpf_products').insert({
               cp_id: cpFixedId,
               product_pack_id: pack.id,
             });
@@ -259,10 +259,10 @@ export default function EditCPFixedModal({
   };
 
   const updateCPFixedMutation = useMutation({
-    mutationKey: ["updateCPFixed"],
+    mutationKey: ['updateCPFixed'],
     mutationFn: handleUpdate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpFixed"] });
+      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
       handleEditModal(false);
     },
     onError: (e: any) => {
@@ -285,28 +285,28 @@ export default function EditCPFixedModal({
       showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
-      title={t("edit_cp_fixed_config")}
-      btnTitle={t("edit_cp_fixed_config")}
-      description={""}
+      title={t('edit_cp_fixed_config')}
+      btnTitle={t('edit_cp_fixed_config')}
+      description={''}
       icon={faAdd}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => {
         handleEditModal(false);
       }}
-      btnSize={"large"}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      btnSize={'large'}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_fixed_info")}</legend>
+          <legend className="m-2 text-2xl">{t('cp_fixed_info')}</legend>
 
           {/* Status */}
           <SelectInput
             form={form}
-            labelTooltip={"cp_fixed_status_tooltip"}
+            labelTooltip={'cp_fixed_status_tooltip'}
             options={cp_fixed_status_options}
-            label={"status"}
+            label={'status'}
             registerOptions={{
               required: true,
             }}
@@ -315,7 +315,7 @@ export default function EditCPFixedModal({
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"cp_name"}
+            label={'cp_name'}
             registerOptions={{
               required: true,
             }}
@@ -324,8 +324,8 @@ export default function EditCPFixedModal({
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"cp_description"}
-            labelText={t("description")}
+            label={'cp_description'}
+            labelText={t('description')}
             registerOptions={{
               required: true,
             }}
@@ -339,7 +339,7 @@ export default function EditCPFixedModal({
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
               }}
@@ -348,7 +348,7 @@ export default function EditCPFixedModal({
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
               }}
@@ -359,25 +359,25 @@ export default function EditCPFixedModal({
 
         {/* Organizer Information  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("organizer_info")}</legend>
+          <legend className="text-2xl">{t('organizer_info')}</legend>
 
           {/* Is internal organizer value  */}
           <div className="flex flex-row space-x-2">
             <div className="flex w-full flex-col">
               <label htmlFor="is_internal_organizer">
-                {t("is_internal_organizer")}
+                {t('is_internal_organizer')}
               </label>
 
               <select
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 id="is_internal_organizer"
-                {...register("is_internal_organizer", { required: true })}
+                {...register('is_internal_organizer', { required: true })}
                 onChange={(e) => {
                   handleIsInternalOrganizer(e);
                 }}
               >
-                <option value="true">{t("yes")}</option>
-                <option value="false">{t("no")}</option>
+                <option value="true">{t('yes')}</option>
+                <option value="false">{t('no')}</option>
               </select>
 
               {errors.is_internal_organizer && (
@@ -393,8 +393,8 @@ export default function EditCPFixedModal({
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_name"}
-                  labelText={t("name")}
+                  label={'organizer_name'}
+                  labelText={t('name')}
                   registerOptions={{
                     required: true,
                   }}
@@ -402,8 +402,8 @@ export default function EditCPFixedModal({
 
                 <InputLabel
                   form={form}
-                  label={"organizer_lastname"}
-                  labelText={t("lastname")}
+                  label={'organizer_lastname'}
+                  labelText={t('lastname')}
                   registerOptions={{
                     required: true,
                   }}
@@ -414,8 +414,8 @@ export default function EditCPFixedModal({
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_email"}
-                  labelText={t("email")}
+                  label={'organizer_email'}
+                  labelText={t('email')}
                   registerOptions={{
                     required: true,
                   }}
@@ -424,8 +424,8 @@ export default function EditCPFixedModal({
 
                 <InputLabel
                   form={form}
-                  label={"organizer_phone"}
-                  labelText={t("phone")}
+                  label={'organizer_phone'}
+                  labelText={t('phone')}
                   registerOptions={{
                     required: true,
                   }}
@@ -480,10 +480,10 @@ export default function EditCPFixedModal({
         </fieldset>
 
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_fixed_location")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_location')}</legend>
 
           {addressInputRequired && (
-            <span className="text-red-500">{t("errors.input_required")}</span>
+            <span className="text-red-500">{t('errors.input_required')}</span>
           )}
 
           {/* Address  */}
@@ -495,7 +495,7 @@ export default function EditCPFixedModal({
         </fieldset>
 
         <fieldset className="mt-4 flex flex-col space-y-4">
-          <legend className="text-2xl">{t("cp_fixed_products")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_products')}</legend>
 
           {/* List of selectable products that the owner can use */}
           <ListCPMProducts form={form} productItems={productItems} />

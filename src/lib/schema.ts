@@ -610,6 +610,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "cp_fixed"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpf_products_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: true
+            referencedRelation: "product_packs"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -671,7 +678,22 @@ export interface Database {
           stock?: number | null
           stock_consumed?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "cpm_products_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpm_products_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: true
+            referencedRelation: "product_packs"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       customize_settings: {
         Row: {
@@ -887,7 +909,6 @@ export interface Database {
           id: string | null
           is_reviewed: boolean | null
           order_id: string
-          product_id: string
           product_pack_id: string
           quantity: number | null
           quantity_served: number | null
@@ -898,7 +919,6 @@ export interface Database {
           id?: string | null
           is_reviewed?: boolean | null
           order_id: string
-          product_id: string
           product_pack_id: string
           quantity?: number | null
           quantity_served?: number | null
@@ -909,7 +929,6 @@ export interface Database {
           id?: string | null
           is_reviewed?: boolean | null
           order_id?: string
-          product_id?: string
           product_pack_id?: string
           quantity?: number | null
           quantity_served?: number | null
@@ -919,15 +938,15 @@ export interface Database {
           {
             foreignKeyName: "event_order_items_order_id_fkey"
             columns: ["order_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "event_orders"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "event_order_items_product_id_fkey"
-            columns: ["product_id"]
+            foreignKeyName: "event_order_items_product_pack_id_fkey"
+            columns: ["product_pack_id"]
             isOneToOne: true
-            referencedRelation: "products"
+            referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
         ]
@@ -1403,6 +1422,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "business_orders"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: true
+            referencedRelation: "product_packs"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -1631,7 +1657,7 @@ export interface Database {
           {
             foreignKeyName: "product_lots_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1690,6 +1716,7 @@ export interface Database {
       product_packs: {
         Row: {
           created_at: string
+          id: string
           img_url: string | null
           name: string | null
           price: number | null
@@ -1699,6 +1726,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          id?: string
           img_url?: string | null
           name?: string | null
           price?: number | null
@@ -1708,6 +1736,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          id?: string
           img_url?: string | null
           name?: string | null
           price?: number | null
@@ -1719,7 +1748,7 @@ export interface Database {
           {
             foreignKeyName: "product_packs_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }

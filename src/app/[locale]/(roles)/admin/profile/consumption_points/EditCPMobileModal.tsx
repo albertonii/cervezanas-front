@@ -1,45 +1,45 @@
-"use client";
+'use client';
 
-import CPGoogleMap from "./CPGoogleMap";
-import ListCPMProducts from "./ListCPMProducts";
-import useFetchCPMobilePacks from "../../../../../../hooks/useFetchCPMobilePacks";
-import React, { ComponentProps, useEffect, useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import CPGoogleMap from './CPGoogleMap';
+import ListCPMProducts from './ListCPMProducts';
+import useFetchCPMobilePacks from '../../../../../../hooks/useFetchCPMobilePacks';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   ICPMobile,
   ICPMProductsEditCPMobileModal,
   IUser,
-} from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { GeocodeResult } from "use-places-autocomplete";
-import Modal from "../../../../components/modals/Modal";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { cleanObject, isValidObject } from "../../../../../../utils/utils";
-import { formatDateDefaultInput } from "../../../../../../utils/formatDate";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import InputLabel from "../../../../components/common/InputLabel";
-import InputTextarea from "../../../../components/common/InputTextarea";
-import SelectInput from "../../../../components/common/SelectInput";
+} from '../../../../../../lib/types';
+import { useAuth } from '../../../../Auth/useAuth';
+import { GeocodeResult } from 'use-places-autocomplete';
+import Modal from '../../../../components/modals/Modal';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { cleanObject, isValidObject } from '../../../../../../utils/utils';
+import { formatDateDefaultInput } from '../../../../../../utils/formatDate';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
+import SelectInput from '../../../../components/common/SelectInput';
 
 enum CPMobileStatus {
-  active = "active",
-  finished = "finished",
-  error = "error",
-  cancelled = "cancelled",
-  paused = "paused",
+  active = 'active',
+  finished = 'finished',
+  error = 'error',
+  cancelled = 'cancelled',
+  paused = 'paused',
 }
 
 export const cp_mobile_status_options: {
   label: string;
   value: CPMobileStatus;
 }[] = [
-  { label: "active", value: CPMobileStatus.active },
-  { label: "finished", value: CPMobileStatus.finished },
-  { label: "error", value: CPMobileStatus.error },
-  { label: "cancelled", value: CPMobileStatus.cancelled },
-  { label: "paused", value: CPMobileStatus.paused },
+  { label: 'active', value: CPMobileStatus.active },
+  { label: 'finished', value: CPMobileStatus.finished },
+  { label: 'error', value: CPMobileStatus.error },
+  { label: 'cancelled', value: CPMobileStatus.cancelled },
+  { label: 'paused', value: CPMobileStatus.paused },
 ];
 
 interface FormData {
@@ -96,14 +96,14 @@ export default function EditCPMobileModal({
 
   const getExternalOrganizers = async () => {
     return await supabase
-      .from("users")
-      .select("id, name, lastname")
-      .eq("cp_organizer_status", 1)
-      .neq("id", user?.id);
+      .from('users')
+      .select('id, name, lastname')
+      .eq('cp_organizer_status', 1)
+      .neq('id', user?.id);
   };
 
   const query = useQuery({
-    queryKey: ["organizers"],
+    queryKey: ['organizers'],
     queryFn: getExternalOrganizers,
     enabled: false,
   });
@@ -147,15 +147,15 @@ export default function EditCPMobileModal({
   }, [packsInProduct]);
 
   const handleAddress = (address: string) => {
-    setValue("address", address);
+    setValue('address', address);
   };
 
   const handleIsInternalOrganizer = (e: any) => {
     const value = e.target.value; // esto será un string "true" o "false"
-    setIsInternalOrganizer(value === "true");
-    setValue("is_internal_organizer", value === "true");
+    setIsInternalOrganizer(value === 'true');
+    setValue('is_internal_organizer', value === 'true');
 
-    if (value === "false") {
+    if (value === 'false') {
       const loadExternalOrganizer = async () => {
         const { data } = await query.refetch();
         const externalOrganizers = data?.data as any[];
@@ -194,7 +194,7 @@ export default function EditCPMobileModal({
 
     if (selectedCP) {
       const { error } = await supabase
-        .from("cp_mobile")
+        .from('cp_mobile')
         .update({
           cp_name,
           cp_description,
@@ -207,14 +207,14 @@ export default function EditCPMobileModal({
           is_booking_required,
           maximum_capacity,
         })
-        .eq("id", selectedCP.id);
+        .eq('id', selectedCP.id);
 
       if (error) throw error;
 
       const { error: errorDelete } = await supabase
-        .from("cpm_products")
+        .from('cpm_products')
         .delete()
-        .eq("cp_id", selectedCP.id);
+        .eq('cp_id', selectedCP.id);
 
       if (errorDelete) throw errorDelete;
 
@@ -230,9 +230,9 @@ export default function EditCPMobileModal({
         // Link the pack with the consumption Point
         pItemsFilteredArray.map(async (pack: any) => {
           // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-          if (typeof pack.id === "object") {
+          if (typeof pack.id === 'object') {
             pack.id.map(async (packId: string) => {
-              const { error } = await supabase.from("cpm_products").insert({
+              const { error } = await supabase.from('cpm_products').insert({
                 cp_id: cpMobileId,
                 product_pack_id: packId,
               });
@@ -242,7 +242,7 @@ export default function EditCPMobileModal({
               }
             });
           } else {
-            const { error } = await supabase.from("cpm_products").insert({
+            const { error } = await supabase.from('cpm_products').insert({
               cp_id: cpMobileId,
               product_pack_id: pack.id,
             });
@@ -261,10 +261,10 @@ export default function EditCPMobileModal({
   };
 
   const updateCPMobileMutation = useMutation({
-    mutationKey: ["updateCPMobile"],
+    mutationKey: ['updateCPMobile'],
     mutationFn: handleUpdate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cpMobile"] });
+      queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
     },
     onError: (e: any) => {
       console.error(e);
@@ -286,28 +286,28 @@ export default function EditCPMobileModal({
       showBtn={false}
       showModal={isEditModal}
       setShowModal={handleEditModal}
-      title={t("edit_cp_mobile_config")}
-      btnTitle={t("edit_cp_mobile_config")}
-      description={""}
+      title={t('edit_cp_mobile_config')}
+      btnTitle={t('edit_cp_mobile_config')}
+      description={''}
       icon={faAdd}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => {
         handleEditModal(false);
       }}
-      btnSize={"large"}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      btnSize={'large'}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
     >
       <form>
         <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("cp_mobile_info")}</legend>
+          <legend className="m-2 text-2xl">{t('cp_mobile_info')}</legend>
 
           {/* Status */}
           <SelectInput
             form={form}
-            labelTooltip={"cp_fixed_status_tooltip"}
+            labelTooltip={'cp_fixed_status_tooltip'}
             options={cp_mobile_status_options}
-            label={"status"}
+            label={'status'}
             registerOptions={{
               required: true,
             }}
@@ -316,7 +316,7 @@ export default function EditCPMobileModal({
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"cp_name"}
+            label={'cp_name'}
             registerOptions={{
               required: true,
             }}
@@ -325,8 +325,8 @@ export default function EditCPMobileModal({
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"cp_description"}
-            labelText={t("description")}
+            label={'cp_description'}
+            labelText={t('description')}
             registerOptions={{
               required: true,
             }}
@@ -336,7 +336,7 @@ export default function EditCPMobileModal({
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
               }}
@@ -345,7 +345,7 @@ export default function EditCPMobileModal({
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
               }}
@@ -356,25 +356,25 @@ export default function EditCPMobileModal({
 
         {/* Organizer Information  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("organizer_info")}</legend>
+          <legend className="text-2xl">{t('organizer_info')}</legend>
 
           {/* Is internal organizer value  */}
           <div className="flex flex-row space-x-2">
             <div className="flex w-full flex-col">
               <label htmlFor="is_internal_organizer">
-                {t("is_internal_organizer")}
+                {t('is_internal_organizer')}
               </label>
 
               <select
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                 id="is_internal_organizer"
-                {...register("is_internal_organizer", { required: true })}
+                {...register('is_internal_organizer', { required: true })}
                 onChange={(e) => {
                   handleIsInternalOrganizer(e);
                 }}
               >
-                <option value="true">{t("yes")}</option>
-                <option value="false">{t("no")}</option>
+                <option value="true">{t('yes')}</option>
+                <option value="false">{t('no')}</option>
               </select>
 
               {errors.is_internal_organizer && (
@@ -390,8 +390,8 @@ export default function EditCPMobileModal({
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_name"}
-                  labelText={t("name")}
+                  label={'organizer_name'}
+                  labelText={t('name')}
                   registerOptions={{
                     required: true,
                   }}
@@ -399,8 +399,8 @@ export default function EditCPMobileModal({
 
                 <InputLabel
                   form={form}
-                  label={"organizer_lastname"}
-                  labelText={t("lastname")}
+                  label={'organizer_lastname'}
+                  labelText={t('lastname')}
                   registerOptions={{
                     required: true,
                   }}
@@ -411,8 +411,8 @@ export default function EditCPMobileModal({
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <InputLabel
                   form={form}
-                  label={"organizer_email"}
-                  labelText={t("email")}
+                  label={'organizer_email'}
+                  labelText={t('email')}
                   registerOptions={{
                     required: true,
                   }}
@@ -421,8 +421,8 @@ export default function EditCPMobileModal({
 
                 <InputLabel
                   form={form}
-                  label={"organizer_phone"}
-                  labelText={t("phone")}
+                  label={'organizer_phone'}
+                  labelText={t('phone')}
                   registerOptions={{
                     required: true,
                   }}
@@ -477,10 +477,10 @@ export default function EditCPMobileModal({
         </fieldset>
 
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_mobile_location")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_location')}</legend>
 
           {addressInputRequired && (
-            <span className="text-red-500">{t("errors.input_required")}</span>
+            <span className="text-red-500">{t('errors.input_required')}</span>
           )}
 
           {/* Address  */}
@@ -492,7 +492,7 @@ export default function EditCPMobileModal({
         </fieldset>
 
         <fieldset className="mt-4 flex flex-col space-y-4">
-          <legend className="text-2xl">{t("cp_mobile_products")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_products')}</legend>
 
           {/* List of selectable products that the owner can use */}
           <ListCPMProducts form={form} productItems={productItems} />

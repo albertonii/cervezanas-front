@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import MarketCartButtons from "../../../components/common/MarketCartButtons";
-import { SupabaseProps } from "../../../../../constants";
+import React, { useState } from 'react';
+import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
+import MarketCartButtons from '../../../components/common/MarketCartButtons';
+import { SupabaseProps } from '../../../../../constants';
 import {
   IProduct,
   IProductPack,
   IProductPackCartItem,
-} from "../../../../../lib/types";
-import { formatCurrency } from "../../../../../utils/formatCurrency";
-import { Type } from "../../../../../lib/productEnum";
-import { useTranslations } from "next-intl";
-import { useShoppingCart } from "../../../../context/ShoppingCartContext";
+} from '../../../../../lib/types';
+import { formatCurrency } from '../../../../../utils/formatCurrency';
+import { Type } from '../../../../../lib/productEnum';
+import { useTranslations } from 'next-intl';
+import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -37,16 +37,16 @@ export default function CheckoutPackItem({
 
   const handleIncreaseCartQuantity = (
     item: IProductPackCartItem,
-    pack: IProductPack
+    pack: IProductPack,
   ) => {
-    increaseOnePackCartQuantity(item.id, pack.id);
+    increaseOnePackCartQuantity(item.product_id, pack.id);
   };
 
   const handleDecreaseCartQuantity = (
     item: IProductPackCartItem,
-    pack: IProductPack
+    pack: IProductPack,
   ) => {
-    decreaseOnePackCartQuantity(item.id, pack.id);
+    decreaseOnePackCartQuantity(item.product_id, pack.id);
   };
 
   const handleRemoveFromCart = (itemId: string, packId: string) => {
@@ -59,7 +59,7 @@ export default function CheckoutPackItem({
   return (
     <section
       className={`${
-        animateRemove && "animate-ping overflow-hidden"
+        animateRemove && 'animate-ping overflow-hidden'
       } mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
     >
       <figure className="pb-4 md:pb-8">
@@ -83,20 +83,20 @@ export default function CheckoutPackItem({
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-600 dark:text-gray-400">
-                  {t("aroma")}:{" "}
-                </span>{" "}
+                  {t('aroma')}:{' '}
+                </span>{' '}
                 {t(`${productWithInfo.beers?.aroma}`)}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-600 dark:text-gray-400">
-                  {t("family")}:{" "}
-                </span>{" "}
+                  {t('family')}:{' '}
+                </span>{' '}
                 {t(`${productWithInfo.beers?.family}`)}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-600 dark:text-gray-400">
-                  {t("fermentation")}:{" "}
-                </span>{" "}
+                  {t('fermentation')}:{' '}
+                </span>{' '}
                 {t(`${productWithInfo.beers?.fermentation}`)}
               </p>
             </div>
@@ -108,19 +108,19 @@ export default function CheckoutPackItem({
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("aroma")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.aroma}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("family")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.family}`)} */}
               </p>
               <p className="text-sm leading-none text-gray-800 dark:text-white">
                 <span className="text-gray-300 dark:text-gray-400">
                   {/* {t("fermentation")}:{" "} */}
-                </span>{" "}
+                </span>{' '}
                 {/* {t(`${product.beers.fermentation}`)} */}
               </p>
             </div>
@@ -146,7 +146,7 @@ export default function CheckoutPackItem({
                     handleDecreaseCartQuantity(productPack, pack)
                   }
                   handleRemoveFromCart={() =>
-                    handleRemoveFromCart(productPack.id, pack.id)
+                    handleRemoveFromCart(productPack.product_id, pack.id)
                   }
                   displayDeleteButton={true}
                 />

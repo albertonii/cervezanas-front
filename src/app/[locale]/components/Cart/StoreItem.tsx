@@ -30,8 +30,6 @@ export function StoreItem({ product }: StoreItemProps) {
   const productId = product.id;
   const router = useRouter();
 
-  console.log(product);
-
   const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
     product.product_multimedia?.p_principal ?? '',
   )}`;

@@ -33,18 +33,17 @@ async function getInvoiceData(slug: any) {
     .from('orders')
     .select(
       `
-      *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia (*),
-        order_items (*)
-      ),
-      payment_method_id
-    `,
+        *,
+        shipping_info(id, *),
+        billing_info(id, *),
+        products(
+          id, 
+          name, 
+          price,
+          product_multimedia (*),
+          order_items (*)
+        )
+      `,
     )
     .eq('order_number', orderId)
     .single();

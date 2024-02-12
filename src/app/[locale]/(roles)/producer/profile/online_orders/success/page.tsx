@@ -1,10 +1,10 @@
-import SuccessCheckout from "./SuccessCheckout";
-import { redirect } from "next/navigation";
-import { decodeBase64 } from "../../../../../../../utils/utils";
-import createServerClient from "../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../../lib/actions";
-import { VIEWS } from "../../../../../../../constants";
-import { IOrder } from "../../../../../../../lib/types";
+import SuccessCheckout from './SuccessCheckout';
+import { redirect } from 'next/navigation';
+import { decodeBase64 } from '../../../../../../../utils/utils';
+import createServerClient from '../../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../../lib/actions';
+import { VIEWS } from '../../../../../../../constants';
+import { IOrder } from '../../../../../../../lib/types';
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -16,22 +16,22 @@ export async function generateMetadata({ searchParams }: any) {
 
     if (!Ds_MerchantParameters) {
       return {
-        title: "Not found",
-        description: "The page you are looking for does not exists",
+        title: 'Not found',
+        description: 'The page you are looking for does not exists',
       };
     }
 
     return {
       title: {
-        default: "Success page for checkout",
+        default: 'Success page for checkout',
         template: `%s | Cervezanas`,
       },
-      description: "Checkout order information displaying in this page",
+      description: 'Checkout order information displaying in this page',
     };
   } catch (error) {
     return {
-      title: "Not found",
-      description: "The page you are looking for does not exists",
+      title: 'Not found',
+      description: 'The page you are looking for does not exists',
     };
   }
 }
@@ -51,7 +51,7 @@ async function getSuccessData(searchParams: any) {
   };
 
   const { Ds_Order: orderNumber } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters)
+    decodeBase64(Ds_MerchantParameters),
   );
 
   const supabase = await createServerClient();
@@ -65,7 +65,7 @@ async function getSuccessData(searchParams: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("orders")
+    .from('orders')
     .select(
       `
       id,
@@ -109,13 +109,11 @@ async function getSuccessData(searchParams: any) {
             )
           )
         )
-      ),
-      payment_method_card!orders_payment_method_id_fkey (*),
-      payment_method_id
-    `
+      )
+    `,
     )
-    .eq("order_number", orderNumber)
-    .eq("business_orders.producer_id", session.user.id)
+    .eq('order_number', orderNumber)
+    .eq('business_orders.producer_id', session.user.id)
     .single();
 
   if (!orderData)

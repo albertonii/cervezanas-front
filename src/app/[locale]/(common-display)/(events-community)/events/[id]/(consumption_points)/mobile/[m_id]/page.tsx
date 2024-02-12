@@ -31,24 +31,24 @@ async function getCPMobile(cpId: string) {
   const { data: cpsMobile, error: cpMobileError } = await supabase
     .from('cp_mobile')
     .select(
-      `
+      ` 
+        *,
+        cpm_products!cpm_products_cp_id_fkey (
           *,
-          cpm_products!cpm_products_cp_id_fkey (
+          cp_id,
+          product_pack_id,
+          product_packs!cpm_products_product_pack_id_fkey (
             *,
-            cp_id,
-            product_pack_id,
-            product_packs!cpm_products_product_pack_id_fkey (
-              *,
-              products!product_packs_product_id_fkey (
-                id,
-                name,
-                description,
-                type,
-                product_multimedia!product_multimedia_product_id_fkey (p_principal)
-              )
+            products!product_packs_product_id_fkey (
+              id,
+              name,
+              description,
+              type,
+              product_multimedia!product_multimedia_product_id_fkey (p_principal)
             )
           )
-        `,
+        )
+      `,
     )
     .eq('id', cpId)
     .single();

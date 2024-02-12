@@ -83,9 +83,7 @@ async function getSuccessData(searchParams: any) {
             )
           )
         )
-      ),
-      payment_method_card!orders_payment_method_id_fkey (*),
-      payment_method_id      
+      )
     `,
     )
     .eq('order_number', orderNumber)

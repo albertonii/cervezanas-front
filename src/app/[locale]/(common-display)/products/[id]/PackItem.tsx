@@ -1,8 +1,8 @@
-import DisplayImageProduct from "../../../components/common/DisplayImageProduct";
-import React, { useState } from "react";
-import { IProduct, IProductPack } from "../../../../../lib/types";
-import { SupabaseProps } from "../../../../../constants";
-import { useTranslations } from "next-intl";
+import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
+import React, { useState } from 'react';
+import { IProduct, IProductPack } from '../../../../../lib/types';
+import { SupabaseProps } from '../../../../../constants';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   product: IProduct;
@@ -33,8 +33,7 @@ export default function PackItem({
     >
       <div
         className={`relative w-full rounded-md ${
-          selectedPackId === pack.id &&
-          "bg-beer-softBlondeBubble ring-2 "
+          selectedPackId === pack.id && 'bg-beer-softBlondeBubble ring-2 '
         }`}
         key={pack.id}
         onMouseEnter={() => setIsHovering(true)}
@@ -42,28 +41,28 @@ export default function PackItem({
       >
         {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
         <label
-          className={`group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm font-medium uppercase text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
+          className={`group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
      `}
         >
           <input
             type="radio"
             id={`pack-${pack.id}`}
             value={pack.id}
-            className={"hidden"}
+            className={'hidden'}
           />
           <span id="size-choice-0-label">
-            {pack.quantity} {t("units")}
+            {pack.quantity} {t('units')}
           </span>
         </label>
 
         <div
           className={`absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[2rem] transform rounded-md bg-beer-foam shadow-xl transition-all duration-300 ease-in-out sm:w-[35vw] lg:w-[15vw]
-        ${!isHovering && "hidden"}`}
+        ${!isHovering && 'hidden'}`}
         >
           <div className="m-4 flex flex-col items-center text-lg">
             <span className="font-semibold">{pack.name}</span>
             <span className="">
-              {pack.quantity} {pack.quantity > 1 ? t("units") : t("unit")} -{" "}
+              {pack.quantity} {pack.quantity > 1 ? t('units') : t('unit')} -{' '}
               {pack.price} €
             </span>
 

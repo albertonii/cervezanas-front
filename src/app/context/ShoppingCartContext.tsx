@@ -70,13 +70,14 @@ export function ShoppingCartProvider({ children }: Props) {
   };
 
   const getItemQuantity = (id: string) => {
-    const item = items?.find((item) => item?.id === id);
+    const item = items?.find((item) => item?.product_id === id);
     return item?.quantity || 0;
   };
 
   const addPackToCart = (product: IProduct, pack: IProductPack) => {
     const newPack: IProductPackCartItem = {
-      id: product.id,
+      id: pack.id,
+      product_id: product.id,
       quantity: pack.quantity,
       packs: [pack],
       name: product.name,
@@ -88,12 +89,12 @@ export function ShoppingCartProvider({ children }: Props) {
 
     setItems((currItems) => {
       // Buscamos el producto en el carrito
-      const itemFind = currItems.find((item) => item.id === product.id);
+      const itemFind = currItems.find((item) => item.product_id === product.id);
 
       if (itemFind) {
         // Si existe el producto, buscamos el pack
         const packFind = itemFind.packs.find((p) => {
-          return p.id === pack.id;
+          return p.product_id === pack.product_id;
         });
 
         // Si no existe el pack pero si el producto, lo añadimos
@@ -103,7 +104,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
           // Reemplazar el producto en el listado de productos
           const currItemsCopy = currItems.map((item: IProductPackCartItem) => {
-            return item.id === product.id ? itemFind : item;
+            return item.product_id === product.id ? itemFind : item;
           });
 
           return [...currItemsCopy];
@@ -112,7 +113,7 @@ export function ShoppingCartProvider({ children }: Props) {
         // Si existe el pack en el producto
         // Aumentamos SOLO la cantidad al pack
         const currItemsv2 = currItems.map((item) => {
-          return item.id === product.id
+          return item.product_id === product.id
             ? {
                 ...item,
                 quantity: item.quantity + pack.quantity,
@@ -139,7 +140,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
   const increaseOnePackCartQuantity = (productId: string, packId: string) => {
     const newItems = items.map((item) => {
-      if (item.id === productId) {
+      if (item.product_id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId) {
             return {
@@ -165,7 +166,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
   const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
     const newItems = items.map((item) => {
-      if (item.id === productId) {
+      if (item.product_id === productId) {
         const newPacks = item.packs.map((pack) => {
           if (pack.id === packId && pack.quantity > 1) {
             return {
@@ -194,7 +195,7 @@ export function ShoppingCartProvider({ children }: Props) {
       if (!items) return [];
 
       const itemsReturned = items.map((item) => {
-        if (item.id === productId) {
+        if (item.product_id === productId) {
           return {
             ...item,
             packs: item.packs.filter((pack) => {
@@ -219,7 +220,7 @@ export function ShoppingCartProvider({ children }: Props) {
       if (!items) return [];
 
       const itemsReturned = items.map((item) => {
-        if (item.id === newItem.id) {
+        if (item.product_id === newItem.product_id) {
           return newItem;
         } else {
           return item;
