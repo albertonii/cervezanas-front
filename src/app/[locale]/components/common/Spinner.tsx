@@ -1,5 +1,5 @@
 interface Props {
-  color: string;
+  color?: string;
   size?: string;
   class?: string;
   absolute?: boolean;
@@ -17,11 +17,11 @@ export default function Spinner({
     <section
       role="status"
       className={`
-        ${class_} ${absolute ?? "absolute"} 
-        ${center ? "bottom-[50%] left-1/2 -translate-x-1/2" : ""}
+        ${class_} ${absolute ?? 'absolute'} 
+        ${center ? 'bottom-[50%] left-1/2 -translate-x-1/2' : ''}
         ${
-          size === "fullScreen" &&
-          "fixed inset-0 z-10 flex h-full items-center justify-center"
+          size === 'fullScreen' &&
+          'fixed inset-0 z-10 flex h-full items-center justify-center'
         }
         rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 
       `}
@@ -29,16 +29,18 @@ export default function Spinner({
       <svg
         aria-hidden="true"
         className={`
-          animate-spin text-gray-200 dark:text-gray-600 fill-${color}
-          ${size === "" && "h-8 w-8"}
-          ${size === "small" && "h-8 w-8"}
-          ${size === "medium" && "h-12 w-12"}
-          ${size === "large" && "h-16 w-16"}
-          ${size === "xLarge" && "h-20 w-20"}
-          ${size === "xxLarge" && "h-28 w-28"}
+          animate-spin text-gray-200 dark:text-gray-600 fill-${
+            color ?? 'beer-blonde'
+          }
+          ${size === '' && 'h-8 w-8'}
+          ${size === 'small' && 'h-8 w-8'}
+          ${size === 'medium' && 'h-12 w-12'}
+          ${size === 'large' && 'h-16 w-16'}
+          ${size === 'xLarge' && 'h-20 w-20'}
+          ${size === 'xxLarge' && 'h-28 w-28'}
           ${
-            size === "fullScreen" &&
-            "absolute bottom-0 left-0 right-0 top-1/4 mx-auto h-48 w-48 "
+            size === 'fullScreen' &&
+            'absolute bottom-0 left-0 right-0 top-1/4 mx-auto h-48 w-48 '
           }
         `}
         viewBox="0 0 100 101"

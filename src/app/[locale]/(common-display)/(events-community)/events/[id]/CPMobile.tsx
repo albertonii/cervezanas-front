@@ -13,7 +13,7 @@ interface CPMobileProps {
 
 export default function CPMobile({ cp, eventId }: CPMobileProps) {
   const locale = useLocale();
-  console.log(cp);
+
   return (
     <tr
       key={cp.id}

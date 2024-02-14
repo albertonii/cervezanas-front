@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { IProduct } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { useQuery } from 'react-query';
+import { IProduct } from '../lib/types';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProducts = async (
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<any>,
 ) => {
   const { data, error } = await supabase
-    .from("products")
+    .from('products')
     .select(
       `
           *, 
@@ -24,8 +24,8 @@ const fetchProducts = async (
           awards(*)
         `,
       {
-        count: "exact",
-      }
+        count: 'exact',
+      },
     )
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
     .select();
@@ -37,12 +37,12 @@ const fetchProducts = async (
 
 const useFetchProductsAndPagination = (
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["adminProductList", currentPage, resultsPerPage],
+    queryKey: ['adminProductList', currentPage, resultsPerPage],
     queryFn: () => fetchProducts(currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,

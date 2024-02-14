@@ -508,4 +508,8 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 
 ### 12 de febrero
 
-- [ ] Merge cambios de Design
+- [x] Merge cambios de Design
+
+### 14 de febrero
+- [x] Error en checkout online
+- [ ] Reunión Mariano

@@ -29,6 +29,7 @@ import {
 } from '../../../components/TPV/redsysClient';
 import dynamic from 'next/dynamic';
 import BillingAddressItem from './BillingAddressItemInfo';
+import Spinner from '../../../components/common/Spinner';
 
 const DynamicSpinner = dynamic(
   () => import('../../../components/common/Spinner'),
@@ -64,6 +65,7 @@ export function ShoppingBasket() {
   const t = useTranslations();
 
   const { user, isLoading, supabase } = useAuth();
+  if (!user) return <Spinner />;
 
   const { items, clearCart, checkIsShoppingCartDeliverable } =
     useShoppingCart();

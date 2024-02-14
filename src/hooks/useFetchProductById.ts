@@ -9,19 +9,20 @@ const fetchProductById = async (
   productId: string,
   supabase: SupabaseClient<any>,
 ) => {
+  console.log(productId);
   const { data, error } = await supabase
     .from('products')
     .select(
       `
-    *,
-    beers (*),
-    product_multimedia (
-      p_principal
-    ),
-    product_inventory (
-      quantity
-    )
-  `,
+        *,
+        beers (*),
+        product_multimedia (
+          p_principal
+        ),
+        product_inventory (
+          quantity
+        )
+      `,
     )
     .eq('id', productId)
     .single();

@@ -1,18 +1,14 @@
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../constants";
-import { IBillingAddress, IAddress } from "../../../../../lib/types";
-import createServerClient from "../../../../../utils/supabaseServer";
-import { ShoppingBasket } from "./ShoppingBasket";
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../constants';
+import { IBillingAddress, IAddress } from '../../../../../lib/types';
+import createServerClient from '../../../../../utils/supabaseServer';
+import { ShoppingBasket } from './ShoppingBasket';
 
 export default async function CheckoutPage() {
-  // const { shippingAddresses, billingAddresses } = await getCheckout();
   return (
     <>
-      <ShoppingBasket
-      // shippingAddresses={shippingAddresses ?? []}
-      // billingAddresses={billingAddresses ?? []}
-      />
+      <ShoppingBasket />
     </>
   );
 }

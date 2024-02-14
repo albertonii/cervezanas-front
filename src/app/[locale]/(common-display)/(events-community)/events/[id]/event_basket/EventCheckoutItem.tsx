@@ -28,7 +28,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
     isError,
     isLoading,
     refetch,
-  } = useFetchProductById(productPack.id);
+  } = useFetchProductById(productPack.product_id);
 
   useEffect(() => {
     refetch();
