@@ -19,7 +19,7 @@ interface Props {
   index: number;
 }
 
-export default function BeerMasterAnswers({
+export default function AddBeerMasterAnswers({
   form,
   index: questionIndex,
 }: Props) {

@@ -9,7 +9,6 @@ const fetchProductById = async (
   productId: string,
   supabase: SupabaseClient<any>,
 ) => {
-  console.log(productId);
   const { data, error } = await supabase
     .from('products')
     .select(

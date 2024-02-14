@@ -2,17 +2,19 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Spinner from '../../../../components/common/Spinner';
+import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
+import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteBeerMasterExperienceModal';
+import UpdateBeerMasterExperienceModal from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IExperience } from '../../../../../../lib/types';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
-import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteExperienceModal';
+import { useQueryClient } from 'react-query';
 
 enum SortBy {
   NONE = 'none',
@@ -36,10 +38,8 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
 
   const resultsPerPage = 10;
 
-  const { data, isError, isLoading, refetch } = useFetchExperiencesByProducerId(
-    currentPage,
-    resultsPerPage,
-  );
+  const { data, isError, isLoading, refetch, isStale } =
+    useFetchExperiencesByProducerId(currentPage, resultsPerPage);
 
   const [experiences, setExperiences] = useState<IExperience[]>(es ?? []);
 
@@ -60,11 +60,16 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   ];
 
   useEffect(() => {
+    console.log('isStale', isStale);
+  }, [isStale]);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
     refetch().then((res: any) => {
-      const experiences = res.data as any;
+      const experiences = res.data as IExperience[];
       setExperiences(experiences);
     });
-  }, [currentPage]);
+  }, [currentPage, data]);
 
   const filteredItems = useMemo<IExperience[]>(() => {
     if (!data) return [];
@@ -108,15 +113,13 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
 
   return (
     <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
-      {/* {/* {isEditModal && selectedExperience && (
-        <UpdateExperienceModal
+      {isEditModal && selectedExperience && (
+        <UpdateBeerMasterExperienceModal
           selectedExperience={selectedExperience}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}
-          cpsMobile={cpsMobile}
-          cpsFixed={cpsFixed}
         />
-      )} */}
+      )}
 
       {isDeleteModal && selectedExperience && (
         <DeleteExperienceModal

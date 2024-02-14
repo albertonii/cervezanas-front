@@ -18,15 +18,23 @@ const fetchExperiencesByProducerId = async (
     .from('experiences')
     .select(
       `
-        *
+        *,
+        bm_questions: beer_master_questions (
+          id,
+          question,
+          experience_id,
+          answers: beer_master_answers (*)
+        )
       `,
       {
         count: 'exact',
       },
     )
     .eq('producer_id', ownerId)
-    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
-    .select();
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1,
+    );
 
   if (error) throw error;
   return data as IExperience[];
@@ -39,7 +47,7 @@ const useFetchExperiencesByProducerId = (
   const { user, supabase } = useAuth();
 
   return useQuery({
-    queryKey: ['experiences', user?.id, currentPage, resultsPerPage],
+    queryKey: ['experiences'],
     queryFn: () =>
       fetchExperiencesByProducerId(
         user?.id,

@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { BeerMasterSection } from './BeerMasterSection';
+import { BeerMasterSection } from './AddBeerMasterSection';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',
@@ -48,7 +48,7 @@ const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
 
 type ValidationSchema = z.infer<typeof schemaBeerMaster>;
 
-export default function AddBeerMasterExperience() {
+export default function AddBeerMasterExperienceModal() {
   const t = useTranslations();
   const { supabase, user } = useAuth();
 

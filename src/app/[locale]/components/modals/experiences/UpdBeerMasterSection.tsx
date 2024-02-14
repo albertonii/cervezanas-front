@@ -1,27 +1,29 @@
+import InputLabel from '../../common/InputLabel';
+import UpdBeerMasterAnswers from './UpdBeerMasterAnswers';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
-  IAddModalExperienceBeerMasterFormData,
-  IAddBeerMasterQuestionFormData,
+  IUpdBeerMasterQuestionFormData,
+  IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
-import InputLabel from '../../common/InputLabel';
-import BeerMasterAnswers from './BeerMasterAnswers';
 import { DeleteButton } from '../../common/DeleteButton';
 import { Button } from '../../common/Button';
 
-const emptyQuestion: IAddBeerMasterQuestionFormData = {
+const emptyQuestion: IUpdBeerMasterQuestionFormData = {
   question: '',
   answers: [],
+  experience_id: '',
 };
 
 interface Props {
-  form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
+  form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
 }
 
-export const BeerMasterSection = ({ form }: Props) => {
-  const { control } = form;
-
+export const UpdBeerMasterSection = ({ form }: Props) => {
   const t = useTranslations();
+
+  const { control, getValues } = form;
+  const questionId = getValues('id');
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions',
@@ -60,7 +62,11 @@ export const BeerMasterSection = ({ form }: Props) => {
           </div>
 
           {/* Multiple inputs that are the possible answers to the question */}
-          <BeerMasterAnswers form={form} index={index} />
+          <UpdBeerMasterAnswers
+            form={form}
+            index={index}
+            questionId={questionId}
+          />
         </fieldset>
       ))}
 

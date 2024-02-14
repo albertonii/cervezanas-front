@@ -1419,6 +1419,7 @@ export interface IExperience {
   producer_id: string;
   type: string;
   producer_user?: IProducerUser;
+  bm_questions?: IBeerMasterQuestion[];
 }
 
 export interface IExperienceParticipation {
@@ -1435,8 +1436,8 @@ export interface IBeerMasterQuestion {
   id: string;
   question: string;
   experience_id: string;
-  product_id: string;
   beer_master_participation?: IExperienceParticipation;
+  answers: IBeerMasterAnswer[];
 }
 
 export interface IBeerMasterAnswer {
@@ -1468,4 +1469,27 @@ export interface IAddModalExperienceBeerMasterFormData {
   description: string;
   type: string;
   questions: IAddBeerMasterQuestionFormData[];
+}
+
+export interface IUpdModalExperienceBeerMasterFormData {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  producer_id: string;
+  questions: IUpdBeerMasterQuestionFormData[];
+}
+
+export interface IUpdBeerMasterQuestionFormData {
+  id?: string;
+  experience_id: string;
+  question: string;
+  answers: IUpdBeerMasterAnswerFormData[];
+}
+
+export interface IUpdBeerMasterAnswerFormData {
+  id?: string;
+  answer: string;
+  is_correct: boolean;
+  question_id: string;
 }

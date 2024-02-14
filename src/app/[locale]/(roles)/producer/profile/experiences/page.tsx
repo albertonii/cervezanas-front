@@ -36,7 +36,13 @@ async function getExperiencesData() {
     .from('experiences')
     .select(
       `
-        *
+        *,
+        bm_questions: beer_master_questions (
+          id,
+          question,
+          experience_id,
+          answers: beer_master_answers (*)
+        )
       `,
     )
     .eq('producer_id', session.user.id);
