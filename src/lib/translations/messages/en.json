@@ -451,6 +451,8 @@
   "delivered": "Delivered",
   "user_cancelled": "User cancelled",
   "consumption_points": "Consumption points",
+  "consumption_points_description": "The points of consumption are those places validated by Cervezanas where you can enjoy the best establishments, events and beers. These points can be fixed (breweries with Tap Room, restaurants, etc) or mobile (Barcelona Beer Festival, beer events, etc).",
+  "experiences": "Experiences",
   "apply_cp_organizer": "Apply consumption points to organizer",
   "form_submit_cp_organizer_title": "Application for registration as an organiser",
   "form_submit_cp_organizer_description": "If you are a willing to create an event, you can apply to become an organiser. Once your application has been validated, you will be able to add your events and consumption points.",

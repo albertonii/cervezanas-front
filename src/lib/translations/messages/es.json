@@ -465,6 +465,7 @@
   "user_cancelled": "Cancelado por el usuario",
   "consumption_points": "Puntos de consumo",
   "consumption_points_description": "Los puntos de consumo son aquellos sitios validados por Cervezanas donde disfrutar de los mejores establecimientos, eventos y cervezas. Estos puntos pueden ser fijos (fábricas con Tap Room, restaurantes, etc) o móviles (Barcelona Beer Festival, eventos de cerveza, etc).",
+  "experiences": "Experiencias",
   "apply_cp_organizer": "Darme de alta como organizador",
   "form_submit_cp_organizer_title": "Solicitud de alta como organizador",
   "form_submit_cp_organizer_description": "Si eres organizador de eventos de cerveza, puedes solicitar tu alta como organizador de puntos de consumo. Una vez validada tu solicitud, podrás añadir tus eventos y puntos de consumo.",

@@ -51,6 +51,11 @@ export default function layout({ children }: LayoutProps) {
       option: 'consumption_points',
     },
     {
+      name: t('experiences'),
+      icon: 'star',
+      option: 'experiences',
+    },
+    {
       name: t('online_orders'),
       icon: 'shopping-cart',
       option: 'online_orders',

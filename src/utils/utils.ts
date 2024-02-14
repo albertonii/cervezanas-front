@@ -1,8 +1,8 @@
-import { uuid } from "uuidv4";
-import { ROLE_ENUM } from "../lib/enums";
+import { uuid } from 'uuidv4';
+import { ROLE_ENUM } from '../lib/enums';
 
 export function isValidObject(object: any) {
-  return object != null && object !== "" && !isEmpty(object);
+  return object != null && object !== '' && !isEmpty(object);
 }
 
 export function isNotEmptyArray(array: any[]) {
@@ -13,24 +13,24 @@ export function isEmpty(value: any) {
   return (
     value === undefined ||
     value === null ||
-    (typeof value === "object" && Object.keys(value).length === 0) ||
-    (typeof value === "string" && value.trim().length === 0)
+    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (typeof value === 'string' && value.trim().length === 0)
   );
 }
 
 export function encodeBase64(string: string) {
-  return Buffer.from(string).toString("base64");
+  return Buffer.from(string).toString('base64');
 }
 
 export function decodeBase64(string: string) {
-  return Buffer.from(string, "base64").toString();
+  return Buffer.from(string, 'base64').toString();
 }
 
 export function generateDownloadableLink(blob: any, filename: string) {
   const url = window.URL.createObjectURL(new Blob([blob]));
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
-  link.setAttribute("download", `${decodeURIComponent(filename)}`);
+  link.setAttribute('download', `${decodeURIComponent(filename)}`);
 
   // Append to html link element page
   document.body.appendChild(link);
@@ -43,17 +43,17 @@ export function generateDownloadableLink(blob: any, filename: string) {
 }
 
 export function generateFileName(fName: string) {
-  if (!fName) return "";
+  if (!fName) return '';
 
-  const fileExt = fName.split(".").pop();
+  const fileExt = fName.split('.').pop();
   const fileName = `${uuid()}.${fileExt}`;
   const encodedFileName = encodeURIComponent(fileName);
   return encodedFileName;
 }
 
 export function generateFileNameExtension(fName: string) {
-  if (!fName) return "";
-  const fileExt = fName.split(".").pop();
+  if (!fName) return '';
+  const fileExt = fName.split('.').pop();
   const fileNameExtension = `.${fileExt}`;
   const encodedFileName = encodeURIComponent(fileNameExtension);
   return encodedFileName;
@@ -82,10 +82,10 @@ export function filterSearchInputQuery(
   list: any[],
   query: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) {
   const listToDisplay = list?.filter((item) =>
-    item.name.toLowerCase().includes(query.toLowerCase())
+    item.name.toLowerCase().includes(query.toLowerCase()),
   );
 
   return slicePaginationResults(listToDisplay, currentPage, resultsPerPage);
@@ -94,7 +94,7 @@ export function filterSearchInputQuery(
 export function slicePaginationResults(
   list: any[],
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) {
   const startIndex = (currentPage - 1) * resultsPerPage;
   const endIndex = startIndex + resultsPerPage;
@@ -103,64 +103,67 @@ export function slicePaginationResults(
 
 export const generateLink = (role: ROLE_ENUM, option: string) => {
   switch (option) {
-    case "profile":
+    case 'profile':
       return `/${role}/profile/settings`;
 
-    case "products":
+    case 'products':
       return `/${role}/profile/products`;
 
-    case "events":
+    case 'events':
       return `/${role}/profile/events`;
 
-    case "online_orders":
+    case 'online_orders':
       return `/${role}/profile/online_orders`;
 
-    case "event_orders":
+    case 'event_orders':
       return `/${role}/profile/${option}`;
 
-    case "campaigns":
+    case 'campaigns':
       return `/${role}/profile/${option}`;
 
-    case "signout":
+    case 'signout':
       return `/${role}/profile/${option}`;
 
-    case "submitted_aps":
+    case 'submitted_aps':
       return `/${role}/profile`;
 
-    case "monthly_products":
+    case 'monthly_products':
       return `/${role}/profile/${option}`;
 
-    case "reports":
+    case 'reports':
       return `/admin/profile/${option}`;
 
-    case "logistics":
+    case 'logistics':
       return `/${role}/profile/${option}`;
 
-    case "notifications":
+    case 'notifications':
       return `/${role}/profile/${option}`;
 
-    case "cps":
+    case 'cps':
       return `/${role}/profile/${option}`;
 
-    case "contracts_cps":
+    case 'contracts_cps':
       return `/${role}/profile/${option}`;
 
-    case "authorized_users":
+    case 'authorized_users':
       return `/admin/profile/${option}`;
 
-    case "business_orders":
+    case 'business_orders':
       return `/${role}/profile/${option}`;
 
-    case "contracts":
+    case 'contracts':
       return `/${role}/profile/${option}`;
 
-    case "reviews":
+    case 'reviews':
       return `/${role}/profile/${option}`;
 
-    case "distributors_associated":
+    case 'distributors_associated':
       return `/${role}/profile/${option}`;
 
-    case "consumption_points":
+    case 'experiences':
+      return `/${role}/profile/${option}`;
+
+    case 'consumption_points':
       return `/${role}/profile/${option}`;
 
     default:

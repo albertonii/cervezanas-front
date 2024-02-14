@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { useAuth } from "./Auth/useAuth";
-import React, { useRef, useState } from "react";
-import { generateLink } from "../../utils/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useAppContext } from "../context/AppContext";
-import { useOutsideClick } from "../../hooks/useOnOutsideClick";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useAuth } from './Auth/useAuth';
+import React, { useRef, useState } from 'react';
+import { generateLink } from '../../utils/utils';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAppContext } from '../context/AppContext';
+import { useOutsideClick } from '../../hooks/useOnOutsideClick';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 
 interface DropdownProps {
   options: string[];
@@ -36,7 +36,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     if (!role) return;
 
     switch (option) {
-      case "profile":
+      case 'profile':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -48,31 +48,19 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "products":
+      case 'products':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
             >
-              {t("marketplace_orders")}
+              {t('products')}
             </span>
           </Link>
         );
 
-      case "events":
-        return (
-          <Link href={generateLink(role, option)} locale={locale}>
-            <span
-              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-              aria-current="page"
-            >
-              {t(option)}
-            </span>
-          </Link>
-        );
-
-      case "online_orders":
+      case 'events':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -84,7 +72,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "event_orders":
+      case 'online_orders':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -96,19 +84,19 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      // case "campaigns":
-      //   return (
-      //     <Link href={generateLink(role, option)} locale={locale}>
-      //       <span
-      //         className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-      //         aria-current="page"
-      //       >
-      //         {t(option)}
-      //       </span>
-      //     </Link>
-      //   );
+      case 'event_orders':
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
 
-      case "signout":
+      case 'signout':
         return (
           <>
             <hr />
@@ -122,9 +110,9 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </>
         );
 
-      case "submitted_aps":
+      case 'submitted_aps':
         return (
-          <Link href={generateLink(role, "contracts_cps")} locale={locale}>
+          <Link href={generateLink(role, 'contracts_cps')} locale={locale}>
             <span
               className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
               aria-current="page"
@@ -134,19 +122,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "monthly_products":
-        return (
-          <Link href={generateLink(role, option)} locale={locale}>
-            <span
-              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
-              aria-current="page"
-            >
-              {t(option)}
-            </span>
-          </Link>
-        );
-
-      case "notifications":
+      case 'monthly_products':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -158,7 +134,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "logistics":
+      case 'notifications':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -170,7 +146,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "business_orders":
+      case 'logistics':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -182,7 +158,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "contracts":
+      case 'business_orders':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -194,7 +170,31 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
           </Link>
         );
 
-      case "distributor_feedback":
+      case 'contracts':
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
+      case 'distributor_feedback':
+        return (
+          <Link href={generateLink(role, option)} locale={locale}>
+            <span
+              className="text-md block py-2 pl-3 pr-4 text-beer-dark hover:text-beer-draft  dark:text-white  md:bg-transparent md:p-0"
+              aria-current="page"
+            >
+              {t(option)}
+            </span>
+          </Link>
+        );
+
+      case 'experiences':
         return (
           <Link href={generateLink(role, option)} locale={locale}>
             <span
@@ -216,41 +216,41 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     >
       <div onClick={() => setOpen(!open)} className="">
         <Image
-          src={"/icons/user-profile.svg"}
-          alt={"Go to Shopping cart"}
-          className={"lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]"}
+          src={'/icons/user-profile.svg'}
+          alt={'Go to Shopping cart'}
+          className={'lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]'}
           width={0}
           height={0}
         />
 
         <FontAwesomeIcon
           icon={faChevronCircleDown}
-          style={{ color: "#432a14" }}
-          title={"chevron_circle_down"}
+          style={{ color: '#432a14' }}
+          title={'chevron_circle_down'}
           width={20}
           height={20}
-          className={`absolute bottom-0 right-0 ${open && "rotate-180"}`}
+          className={`absolute bottom-0 right-0 ${open && 'rotate-180'}`}
         />
       </div>
 
       {/* Dropdow */}
       <div
         className={`absolute inset-y-8 right-0 z-40 w-44 border-collapse space-y-2 divide-y divide-gray-100 shadow-lg dark:bg-gray-700
-        ${open ? "block " : "hidden"}`}
+        ${open ? 'block ' : 'hidden'}`}
       >
         {/* Little container with username photo and username  */}
         <figure className="flex items-center justify-center bg-beer-softBlonde p-1">
           <Image
-            src={"/icons/user-profile.svg"}
-            alt={"Go to Shopping cart"}
-            className={"rounded-full"}
+            src={'/icons/user-profile.svg'}
+            alt={'Go to Shopping cart'}
+            className={'rounded-full'}
             width={0}
             height={0}
-            style={{ width: "45px", height: "45px" }}
+            style={{ width: '45px', height: '45px' }}
           />
           {role && (
             <span className="ml-2 text-sm font-medium text-beer-dark dark:text-white">
-              <Link href={generateLink(role, "profile")} locale={locale}>
+              <Link href={generateLink(role, 'profile')} locale={locale}>
                 {user?.username}
               </Link>
             </span>

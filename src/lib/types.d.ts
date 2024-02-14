@@ -1411,7 +1411,17 @@ export interface IGamification {
   users?: IUserTable;
 }
 
-export interface IBeerMasterParticipation {
+export interface IExperience {
+  id: string;
+  created_at: string;
+  name: string;
+  description: string;
+  producer_id: string;
+  type: string;
+  producer_user?: IProducerUser;
+}
+
+export interface IExperienceParticipation {
   id: string;
   created_at: string;
   gamification_id: string;

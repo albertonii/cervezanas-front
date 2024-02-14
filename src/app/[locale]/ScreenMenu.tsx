@@ -252,7 +252,6 @@ export default function ScreenMenu({ notifications, i18nLocaleArray }: Props) {
                             'events',
                             'online_orders',
                             'event_orders',
-                            // "campaigns",
                             'signout',
                           ]
                         : [

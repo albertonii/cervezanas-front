@@ -38,20 +38,6 @@ async function getProfileData() {
     .eq('user_id', session.user.id)
     .single();
 
-  // const { data: profileData, error: profileError } = await supabase
-  //   .from("users")
-  //   .select(
-  //     `
-  //     *,
-  //     orders (*),
-  //     campaigns (*),
-  //     customize_settings (*),
-  //     profile_location (*)
-  //   `
-  //   )
-  //   .eq("id", session.user.id)
-  //   .single();
-
   if (profileError) throw profileError;
 
   return profileData as IProducerUser;
