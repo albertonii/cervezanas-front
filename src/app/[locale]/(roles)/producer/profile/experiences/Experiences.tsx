@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IExperience } from '../../../../../../lib/types';
-import AddExperience from '../../../../components/modals/AddExperience';
+import AddExperience from '../../../../components/modals/experiences/AddExperience';
 import ExperienceList from './ExperiencesList';
 
 interface Props {

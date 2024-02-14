@@ -1436,14 +1436,39 @@ export interface IBeerMasterQuestion {
   question: string;
   experience_id: string;
   product_id: string;
-  products?: IProduct;
-  beer_master_participation?: IBeerMasterParticipation;
+  // products?: IProduct;
+  beer_master_participation?: IExperienceParticipation;
 }
 
 export interface IBeerMasterAnswer {
   id: string;
-  response: string;
+  answer: string;
   is_correct: boolean;
   question_id: string;
   beer_master_question?: IBeerMasterQuestion;
+}
+
+export interface IBeerMasterQuestionFormData {
+  question: string;
+  experience_id: string;
+  product_id: string;
+  // products?: IProduct;
+  beer_master_participation?: IExperienceParticipation;
+  answers: IBeerMasterAnswerFormData[];
+}
+export interface IBeerMasterAnswerFormData {
+  answer: string;
+  is_correct: boolean;
+}
+
+export interface IAddModalExperienceFormData {
+  name: string;
+  description: string;
+  type: string;
+}
+
+export interface IAddModalExperienceBeerMasterFormData {
+  name: string;
+  description: string;
+  questions: IBeerMasterQuestionFormData[];
 }

@@ -2,16 +2,19 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IExperience } from '../../../../lib/types';
-import { useAuth } from '../../Auth/useAuth';
+import {
+  IAddModalExperienceFormData,
+  IExperience,
+} from '../../../../../lib/types';
+import { useAuth } from '../../../Auth/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import InputLabel from '../common/InputLabel';
-import InputTextarea from '../common/InputTextarea';
-import SelectInput from '../common/SelectInput';
-import ModalWithForm from './ModalWithForm';
+import InputLabel from '../../common/InputLabel';
+import InputTextarea from '../../common/InputTextarea';
+import SelectInput from '../../common/SelectInput';
+import ModalWithForm from '../ModalWithForm';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',
@@ -26,13 +29,7 @@ export const experience_options: {
   { label: 'blind_tasting', value: ExperienceTypes.blind_tasting },
 ];
 
-export type ModalAddExperienceFormData = {
-  name: string;
-  description: string;
-  type: string;
-};
-
-const schema: ZodType<ModalAddExperienceFormData> = z.object({
+const schema: ZodType<IAddModalExperienceFormData> = z.object({
   name: z.string().nonempty({ message: 'errors.input_required' }),
   description: z.string().nonempty({ message: 'errors.input_required' }),
   type: z.string().nonempty({ message: 'errors.input_required' }),
@@ -59,7 +56,7 @@ export default function AddExperience({ experiences }: Props) {
     resolver: zodResolver(schema),
   });
 
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, control } = form;
 
   const handleInsertExperience = async (form: ValidationSchema) => {
     const { name, description, type } = form;
@@ -99,7 +96,7 @@ export default function AddExperience({ experiences }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddExperienceFormData,
+    formValues: IAddModalExperienceFormData,
   ) => {
     try {
       insertExperienceMutation.mutate(formValues);

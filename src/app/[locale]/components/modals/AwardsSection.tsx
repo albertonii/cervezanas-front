@@ -1,21 +1,21 @@
-import { Button } from "../common/Button";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { IAward } from "../../../../lib/types";
-import { DeleteButton } from "../common/DeleteButton";
-import { ModalAddProductFormData } from "../../../../lib/types";
-import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { DisplayInputError } from "../common/DisplayInputError";
-import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
-import InputLabel from "../common/InputLabel";
+import { Button } from '../common/Button';
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { IAward } from '../../../../lib/types';
+import { DeleteButton } from '../common/DeleteButton';
+import { ModalAddProductFormData } from '../../../../lib/types';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
+import { DisplayInputError } from '../common/DisplayInputError';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
+import InputLabel from '../common/InputLabel';
 
 const emptyAward: IAward = {
-  id: "",
-  name: "",
-  description: "",
-  img_url: "",
+  id: '',
+  name: '',
+  description: '',
+  img_url: '',
   year: 2023,
-  product_id: "",
+  product_id: '',
 };
 
 interface Props {
@@ -33,7 +33,7 @@ export const AwardsSection = ({ form }: Props) => {
   const t = useTranslations();
 
   const { fields, append, remove } = useFieldArray({
-    name: "awards",
+    name: 'awards',
     control,
   });
 
@@ -44,19 +44,19 @@ export const AwardsSection = ({ form }: Props) => {
       const src = URL.createObjectURL(file.file);
 
       const preview = document.getElementById(
-        `prev-img-${file.index}`
+        `prev-img-${file.index}`,
       ) as HTMLImageElement | null;
 
       if (preview !== null) {
         preview.src = src;
-        preview.style.display = "block";
+        preview.style.display = 'block';
       }
     });
   }, [selectedFiles]);
 
   const handleRemoveAward = (index: number) => {
     setSelectedFiles((current) =>
-      current.filter((selectedFile) => selectedFile.index !== index)
+      current.filter((selectedFile) => selectedFile.index !== index),
     );
     remove(index);
   };
@@ -73,11 +73,11 @@ export const AwardsSection = ({ form }: Props) => {
             <InputLabel
               form={form}
               label={`awards.${index}.name`}
-              labelText={`${index + 1} ${t("name")}`}
+              labelText={`${index + 1} ${t('name')}`}
               registerOptions={{
                 required: true,
               }}
-              placeholder={t("input_product_award_name_placeholder")}
+              placeholder={t('input_product_award_name_placeholder')}
             />
 
             <div className="ml-4">
@@ -88,29 +88,29 @@ export const AwardsSection = ({ form }: Props) => {
           <InputLabel
             form={form}
             label={`awards.${index}.description`}
-            labelText={"description"}
+            labelText={'description'}
             registerOptions={{
               required: true,
             }}
-            placeholder={t("description")}
+            placeholder={t('description')}
           />
 
           <InputLabel
             form={form}
             label={`awards.${index}.year`}
-            labelText={"year"}
+            labelText={'year'}
             registerOptions={{
               required: true,
               valueAsNumber: true,
             }}
-            placeholder={t("input_product_award_year_placeholder")}
+            placeholder={t('input_product_award_year_placeholder')}
             inputType="number"
             defaultValue={2021}
           />
 
           <div className="space-y w-full">
             <label htmlFor="award_img_url" className="text-sm text-gray-600">
-              {t("upload_img_url")}
+              {t('upload_img_url')}
             </label>
 
             <FilePreviewImageMultimedia
@@ -118,7 +118,7 @@ export const AwardsSection = ({ form }: Props) => {
               registerName={`awards.${index}.img_url`}
             />
 
-            {`errors.awards.${index}.img_url.type` === "required" && (
+            {`errors.awards.${index}.img_url.type` === 'required' && (
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
@@ -126,7 +126,7 @@ export const AwardsSection = ({ form }: Props) => {
       ))}
 
       <Button class="" primary medium onClick={() => handleAddAward()}>
-        {t("modal_product_award_add")}
+        {t('modal_product_award_add')}
       </Button>
     </section>
   );
