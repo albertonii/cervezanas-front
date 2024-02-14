@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../../Auth/useAuth";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { Sidebar } from "../../../components/common/Sidebar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { COMMON, SupabaseProps } from "../../../../../constants";
-import { useAppContext } from "../../../../context/AppContext";
-import DisplayImageProfile from "../../../components/common/DisplayImageProfile";
+import Image from 'next/image';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../Auth/useAuth';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { Sidebar } from '../../../components/common/Sidebar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { COMMON, SupabaseProps } from '../../../../../constants';
+import { useAppContext } from '../../../../context/AppContext';
+import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -21,19 +21,19 @@ export default function layout({ children }: LayoutProps) {
   const t = useTranslations();
   const sidebarLinks = [
     {
-      name: t("profile"),
-      icon: "user",
-      option: "settings",
+      name: t('profile'),
+      icon: 'user',
+      option: 'settings',
     },
     {
-      name: t("products"),
-      icon: "box",
-      option: "products",
+      name: t('products'),
+      icon: 'box',
+      option: 'products',
     },
     {
-      name: t("distributors_associated"),
-      icon: "truck",
-      option: "distributors_associated",
+      name: t('distributors_associated'),
+      icon: 'truck',
+      option: 'distributors_associated',
     },
     // {
     //   name: t("campaigns"),
@@ -41,24 +41,24 @@ export default function layout({ children }: LayoutProps) {
     //   option: "campaigns",
     // },
     {
-      name: t("events"),
-      icon: "location",
-      option: "events",
+      name: t('events'),
+      icon: 'location',
+      option: 'events',
     },
     {
-      name: t("consumption_points"),
-      icon: "location",
-      option: "consumption_points",
+      name: t('consumption_points'),
+      icon: 'location',
+      option: 'consumption_points',
     },
     {
-      name: t("online_orders"),
-      icon: "shopping-cart",
-      option: "online_orders",
+      name: t('online_orders'),
+      icon: 'shopping-cart',
+      option: 'online_orders',
     },
     {
-      name: t("event_orders"),
-      icon: "shopping-cart",
-      option: "event_orders",
+      name: t('event_orders'),
+      icon: 'shopping-cart',
+      option: 'event_orders',
     },
     // {
     //   name: t("reviews"),
@@ -66,16 +66,16 @@ export default function layout({ children }: LayoutProps) {
     //   option: "reviews",
     // },
     {
-      name: t("notifications"),
-      icon: "bell",
-      option: "notifications",
+      name: t('notifications'),
+      icon: 'bell',
+      option: 'notifications',
     },
   ];
 
   const { user, supabase } = useAuth();
 
   const { profileImg, setProfileImg } = useAppContext();
-  const [profileImg_, setProfileImg_] = useState("");
+  const [profileImg_, setProfileImg_] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -86,40 +86,40 @@ export default function layout({ children }: LayoutProps) {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const updateProfile = async (file: File) => {
       const encodeUriProfileImg = encodeURIComponent(
-        `${profilePhotoUrl}${user?.id}/img`
+        `${profilePhotoUrl}${user?.id}/img`,
       );
       const decodeUriProfileImg = decodeURIComponent(
-        `${profilePhotoUrl}${user?.id}/img`
+        `${profilePhotoUrl}${user?.id}/img`,
       );
 
       const { error: errorDelete } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .remove([encodeUriProfileImg]);
 
       if (errorDelete) {
-        console.error("errorDelete", errorDelete);
+        console.error('errorDelete', errorDelete);
         return;
       }
 
       const { error } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .upload(encodeUriProfileImg, file, {
-          cacheControl: "3600",
+          cacheControl: '3600',
           upsert: true,
         });
 
       if (error) {
-        console.error("error", error);
+        console.error('error', error);
         return;
       }
 
       const { error: errorProfileImg } = await supabase
-        .from("users")
+        .from('users')
         .update({ avatar_url: decodeUriProfileImg })
-        .eq("id", user?.id);
+        .eq('id', user?.id);
 
       if (errorProfileImg) {
-        console.error("errorProfileImg update", errorProfileImg);
+        console.error('errorProfileImg update', errorProfileImg);
         return;
       }
 
@@ -155,8 +155,8 @@ export default function layout({ children }: LayoutProps) {
                 className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
                 width={1260}
                 height={240}
-                src={"/assets/producer_layout_bg.jpg"}
-                alt={"background custom image"}
+                src={'/assets/producer_layout_bg.jpg'}
+                alt={'background custom image'}
               />
               {/* Profile Image */}
               <section
@@ -166,7 +166,7 @@ export default function layout({ children }: LayoutProps) {
                 <figure className="relative" onClick={() => handleClick()}>
                   <DisplayImageProfile
                     imgSrc={profileImg_}
-                    class={"absolute h-24 w-24 rounded-full sm:h-36 sm:w-36"}
+                    class={'absolute h-24 w-24 rounded-full sm:h-36 sm:w-36'}
                   />
 
                   {/* Gamification experiencie  */}
@@ -179,15 +179,15 @@ export default function layout({ children }: LayoutProps) {
                   <div className="group absolute flex h-24 w-24 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200 sm:h-36 sm:w-36">
                     <FontAwesomeIcon
                       icon={faUpload}
-                      style={{ color: "bear-dark" }}
+                      style={{ color: 'bear-dark' }}
                       // onMouseEnter={() => setHoverColor("filled")}
                       // onMouseLeave={() => setHoverColor("unfilled")}
-                      title={"profile"}
+                      title={'profile'}
                       width={60}
                       height={60}
                     />
                     <input
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       ref={inputRef}
                       type="file"
                       accept="image/png, image/jpeg"
@@ -203,7 +203,7 @@ export default function layout({ children }: LayoutProps) {
                   {user?.username}
                 </p>
                 <p className="text-lg font-semibold text-white">
-                  {user.gamification?.experience} XP
+                  {user.gamification?.score} XP
                 </p>
               </section>
             </section>

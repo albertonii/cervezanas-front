@@ -1,10 +1,10 @@
-import Profile from "./Profile";
-import { IProducerUser } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import readUserSession from "../../../../../../lib/actions";
-import { Suspense } from "react";
+import Profile from './Profile';
+import { IProducerUser } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import readUserSession from '../../../../../../lib/actions';
+import { Suspense } from 'react';
 
 export default async function ProfilePage() {
   const profile = await getProfileData();
@@ -29,13 +29,13 @@ async function getProfileData() {
   }
 
   const { data: profileData, error: profileError } = await supabase
-    .from("producer_user")
+    .from('producer_user')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("user", session.user.id)
+    .eq('user_id', session.user.id)
     .single();
 
   // const { data: profileData, error: profileError } = await supabase

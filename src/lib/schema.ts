@@ -47,6 +47,137 @@ export interface Database {
           }
         ]
       }
+      beer_master_answer: {
+        Row: {
+          id: string
+          is_correct: boolean | null
+          question_id: string | null
+          response: string | null
+        }
+        Insert: {
+          id?: string
+          is_correct?: boolean | null
+          question_id?: string | null
+          response?: string | null
+        }
+        Update: {
+          id?: string
+          is_correct?: boolean | null
+          question_id?: string | null
+          response?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_response_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_question"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      beer_master_participation: {
+        Row: {
+          cpf_id: string | null
+          cpm_id: string | null
+          created_at: string
+          event_id: string | null
+          gamification_id: string | null
+          id: string
+          score: number | null
+        }
+        Insert: {
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          score?: number | null
+        }
+        Update: {
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
+            columns: ["cpf_id"]
+            isOneToOne: true
+            referencedRelation: "cp_fixed"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
+            columns: ["cpm_id"]
+            isOneToOne: true
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: true
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_participation_gamification_id_fkey"
+            columns: ["gamification_id"]
+            isOneToOne: true
+            referencedRelation: "gamification"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
+      beer_master_question: {
+        Row: {
+          experience_id: string | null
+          id: string
+          product_id: string | null
+          question: string | null
+        }
+        Insert: {
+          experience_id?: string | null
+          id?: string
+          product_id?: string | null
+          question?: string | null
+        }
+        Update: {
+          experience_id?: string | null
+          id?: string
+          product_id?: string | null
+          question?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_question_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_participation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_question_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       beers: {
         Row: {
           aroma: string | null
@@ -1014,6 +1145,48 @@ export interface Database {
           }
         ]
       }
+      event_participation: {
+        Row: {
+          attendance_date: string | null
+          consumer_id: string | null
+          created_at: string
+          event_id: string | null
+          id: string
+          is_following: boolean | null
+        }
+        Insert: {
+          attendance_date?: string | null
+          consumer_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          is_following?: boolean | null
+        }
+        Update: {
+          attendance_date?: string | null
+          consumer_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          is_following?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_event_participation_consumer_id_fkey"
+            columns: ["consumer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_event_participation_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       events: {
         Row: {
           address: string | null
@@ -1062,6 +1235,41 @@ export interface Database {
             foreignKeyName: "events_owner_id_fkey"
             columns: ["owner_id"]
             isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      experience: {
+        Row: {
+          consumer_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          score: number | null
+          type: string | null
+        }
+        Insert: {
+          consumer_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          score?: number | null
+          type?: string | null
+        }
+        Update: {
+          consumer_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          score?: number | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_experience_consumer_id_fkey"
+            columns: ["consumer_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1222,17 +1430,17 @@ export interface Database {
       gamification: {
         Row: {
           created_at: string
-          experience: number | null
+          score: number | null
           user_id: string
         }
         Insert: {
           created_at?: string
-          experience?: number | null
+          score?: number | null
           user_id: string
         }
         Update: {
           created_at?: string
-          experience?: number | null
+          score?: number | null
           user_id?: string
         }
         Relationships: [
@@ -1564,6 +1772,45 @@ export interface Database {
             columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      product_consumption: {
+        Row: {
+          consumer_id: string
+          created_at: string
+          datetime_consumption: string | null
+          product_id: string
+          score: number | null
+        }
+        Insert: {
+          consumer_id?: string
+          created_at?: string
+          datetime_consumption?: string | null
+          product_id?: string
+          score?: number | null
+        }
+        Update: {
+          consumer_id?: string
+          created_at?: string
+          datetime_consumption?: string | null
+          product_id?: string
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_product_consumption_consumer_id_fkey"
+            columns: ["consumer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_product_consumption_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           }
         ]
@@ -2085,6 +2332,48 @@ export interface Database {
           username?: string | null
         }
         Relationships: []
+      }
+      visit_cp: {
+        Row: {
+          consumer_id: string
+          created_at: string
+          datetime_visit: string | null
+          id: string
+          product_id: string
+          score: number | null
+        }
+        Insert: {
+          consumer_id?: string
+          created_at?: string
+          datetime_visit?: string | null
+          id?: string
+          product_id?: string
+          score?: number | null
+        }
+        Update: {
+          consumer_id?: string
+          created_at?: string
+          datetime_visit?: string | null
+          id?: string
+          product_id?: string
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_visit_cp_consumer_id_fkey"
+            columns: ["consumer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_visit_cp_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

@@ -78,7 +78,7 @@ export default function ProducerList({ producers }: Props) {
     await supabase
       .from('producer_user')
       .update({ is_authorized: true })
-      .eq('user', producer.user_id)
+      .eq('user_id', producer.user_id)
       .then(() => {
         setIsAcceptModal(false);
 
@@ -94,7 +94,7 @@ export default function ProducerList({ producers }: Props) {
     await supabase
       .from('producer_user')
       .update({ is_authorized: false })
-      .eq('user', producer.user_id)
+      .eq('user_id', producer.user_id)
       .then(() => {
         setIsRejectModal(false);
 

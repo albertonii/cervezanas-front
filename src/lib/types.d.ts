@@ -1406,7 +1406,34 @@ export interface IUserReport {
 export interface IGamification {
   id: string;
   created_at: string;
-  experience: number;
+  score: number;
   user_id: string;
   users?: IUserTable;
+}
+
+export interface IBeerMasterParticipation {
+  id: string;
+  created_at: string;
+  gamification_id: string;
+  event_id: string;
+  cpm_id: string;
+  cpf_id: string;
+  score: number;
+}
+
+export interface IBeerMasterQuestion {
+  id: string;
+  question: string;
+  experience_id: string;
+  product_id: string;
+  products?: IProduct;
+  beer_master_participation?: IBeerMasterParticipation;
+}
+
+export interface IBeerMasterAnswer {
+  id: string;
+  response: string;
+  is_correct: boolean;
+  question_id: string;
+  beer_master_question?: IBeerMasterQuestion;
 }
