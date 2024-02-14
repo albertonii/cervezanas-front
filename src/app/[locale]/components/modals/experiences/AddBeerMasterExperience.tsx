@@ -1,20 +1,19 @@
 'use client';
 
+import InputLabel from '../../common/InputLabel';
+import InputTextarea from '../../common/InputTextarea';
+import SelectInput from '../../common/SelectInput';
+import ModalWithForm from '../ModalWithForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-  IAddModalExperienceFormData,
-  IExperience,
-} from '../../../../../lib/types';
+import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types';
 import { useAuth } from '../../../Auth/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
-import SelectInput from '../../common/SelectInput';
-import ModalWithForm from '../ModalWithForm';
+
+import { BeerMasterSection } from './BeerMasterSection';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',
@@ -29,37 +28,51 @@ export const experience_options: {
   { label: 'blind_tasting', value: ExperienceTypes.blind_tasting },
 ];
 
-const schema: ZodType<IAddModalExperienceFormData> = z.object({
-  name: z.string().nonempty({ message: 'errors.input_required' }),
-  description: z.string().nonempty({ message: 'errors.input_required' }),
-  type: z.string().nonempty({ message: 'errors.input_required' }),
-});
+const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
+  z.object({
+    name: z.string().nonempty({ message: 'errors.input_required' }),
+    description: z.string().nonempty({ message: 'errors.input_required' }),
+    type: z.string().nonempty({ message: 'errors.input_required' }),
+    questions: z.array(
+      z.object({
+        question: z.string().nonempty({ message: 'errors.input_required' }),
+        answers: z.array(
+          z.object({
+            answer: z.string().nonempty({ message: 'errors.input_required' }),
+            is_correct: z.boolean(),
+          }),
+        ),
+      }),
+    ),
+  });
 
-type ValidationSchema = z.infer<typeof schema>;
+type ValidationSchema = z.infer<typeof schemaBeerMaster>;
 
-interface Props {
-  experiences: IExperience[];
-}
-
-export default function AddExperience({ experiences }: Props) {
+export default function AddBeerMasterExperience() {
   const t = useTranslations();
-  const { supabase } = useAuth();
+  const { supabase, user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isBeerMasterExperience, setIsBeerMasterExperience] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   const queryClient = useQueryClient();
 
   const form = useForm<ValidationSchema>({
     mode: 'onSubmit',
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schemaBeerMaster),
+    defaultValues: {
+      name: '',
+      description: '',
+      type: experience_options[0].label,
+      questions: [],
+    },
   });
 
-  const { handleSubmit, reset, control } = form;
+  const { handleSubmit, reset } = form;
 
-  const handleInsertExperience = async (form: ValidationSchema) => {
-    const { name, description, type } = form;
+  const handleInsertBeerMasterExperience = async (form: ValidationSchema) => {
+    const { name, description, type, questions } = form;
 
     // Create experience
     const { data: experience, error: experienceError } = await supabase
@@ -68,6 +81,7 @@ export default function AddExperience({ experiences }: Props) {
         name,
         description,
         type,
+        producer_id: user?.id,
       })
       .select()
       .single();
@@ -80,12 +94,50 @@ export default function AddExperience({ experiences }: Props) {
       throw experienceError;
     }
 
+    // Insert questions and answers
+    questions.forEach(async (question) => {
+      const { data: questionData, error: questionError } = await supabase
+        .from('beer_master_questions')
+        .insert({
+          question: question.question,
+          experience_id: experience.id,
+        })
+        .select()
+        .single();
+
+      if (!questionData) {
+        return;
+      }
+
+      if (questionError) {
+        throw questionError;
+      }
+
+      question.answers.forEach(async (answer) => {
+        const { data: answerData, error: answerError } = await supabase
+          .from('beer_master_answers')
+          .insert({
+            answer: answer.answer,
+            is_correct: answer.is_correct,
+            question_id: questionData.id,
+          });
+
+        if (!answerData) {
+          return;
+        }
+
+        if (answerError) {
+          throw answerError;
+        }
+      });
+    });
+
     reset();
   };
 
   const insertExperienceMutation = useMutation({
     mutationKey: 'insertExperience',
-    mutationFn: handleInsertExperience,
+    mutationFn: handleInsertBeerMasterExperience,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['experiences'] });
       setShowModal(false);
@@ -96,7 +148,7 @@ export default function AddExperience({ experiences }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: IAddModalExperienceFormData,
+    formValues: IAddModalExperienceBeerMasterFormData,
   ) => {
     try {
       insertExperienceMutation.mutate(formValues);
@@ -171,6 +223,8 @@ export default function AddExperience({ experiences }: Props) {
             <legend className="text-2xl">
               {t('questions_and_answers_experience')}
             </legend>
+
+            <BeerMasterSection form={form} />
           </fieldset>
         )}
       </form>

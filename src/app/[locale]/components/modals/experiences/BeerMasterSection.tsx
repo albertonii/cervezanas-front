@@ -1,27 +1,17 @@
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IAddModalExperienceBeerMasterFormData,
-  IBeerMasterAnswer,
-  IBeerMasterAnswerFormData,
-  IBeerMasterQuestion,
-  IBeerMasterQuestionFormData,
+  IAddBeerMasterQuestionFormData,
 } from '../../../../../lib/types';
 import InputLabel from '../../common/InputLabel';
+import BeerMasterAnswers from './BeerMasterAnswers';
 import { DeleteButton } from '../../common/DeleteButton';
 import { Button } from '../../common/Button';
 
-const emptyQuestion: IBeerMasterQuestionFormData = {
+const emptyQuestion: IAddBeerMasterQuestionFormData = {
   question: '',
-  experience_id: '',
-  product_id: '',
   answers: [],
-};
-
-const emptyAnswer: IBeerMasterAnswerFormData = {
-  answer: '',
-  is_correct: false,
 };
 
 interface Props {
@@ -49,16 +39,19 @@ export const BeerMasterSection = ({ form }: Props) => {
   return (
     <section id="Question" className="space-y-4">
       {fields.map((field, index) => (
-        <div key={field.id} className="relative flex-auto space-y-4 pt-6">
+        <fieldset
+          key={field.id}
+          className="relative flex-auto space-y-4 pt-6 mt-4 rounded-md border-2 border-dotted border-beer-softBlondeBubble p-4"
+        >
           <div className="flex flex-row items-end">
             <InputLabel
               form={form}
-              label={`questions.${index}.name`}
-              labelText={`${index + 1} ${t('name')}`}
+              label={`questions.${index}.question`}
+              labelText={`${index + 1} ${t('question')}`}
               registerOptions={{
                 required: true,
               }}
-              placeholder={t('input_product_question_name_placeholder')}
+              placeholder={t('input_questions_question_placeholder')}
             />
 
             <div className="ml-4">
@@ -66,33 +59,13 @@ export const BeerMasterSection = ({ form }: Props) => {
             </div>
           </div>
 
-          <InputLabel
-            form={form}
-            label={`questions.${index}.description`}
-            labelText={'description'}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder={t('description')}
-          />
-
-          <InputLabel
-            form={form}
-            label={`questions.${index}.year`}
-            labelText={'year'}
-            registerOptions={{
-              required: true,
-              valueAsNumber: true,
-            }}
-            placeholder={t('input_product_question_year_placeholder')}
-            inputType="number"
-            defaultValue={2021}
-          />
-        </div>
+          {/* Multiple inputs that are the possible answers to the question */}
+          <BeerMasterAnswers form={form} index={index} />
+        </fieldset>
       ))}
 
       <Button class="" primary medium onClick={() => handleAddQuestion()}>
-        {t('modal_question_add')}
+        {t('question_add')}
       </Button>
     </section>
   );
