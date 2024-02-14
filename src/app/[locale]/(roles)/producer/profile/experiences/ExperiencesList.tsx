@@ -12,6 +12,7 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
+import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteExperienceModal';
 
 enum SortBy {
   NONE = 'none',
@@ -40,7 +41,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     resultsPerPage,
   );
 
-  const [experiences, setExperiences] = useState<IExperience[]>(data ?? []);
+  const [experiences, setExperiences] = useState<IExperience[]>(es ?? []);
 
   const editColor = { filled: '#90470b', unfilled: 'grey' };
   const deleteColor = { filled: '#90470b', unfilled: 'grey' };
@@ -107,7 +108,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
 
   return (
     <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
-      {/* {isEditModal && selectedExperience && (
+      {/* {/* {isEditModal && selectedExperience && (
         <UpdateExperienceModal
           selectedExperience={selectedExperience}
           isEditModal={isEditModal}
@@ -115,7 +116,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
           cpsMobile={cpsMobile}
           cpsFixed={cpsFixed}
         />
-      )}
+      )} */}
 
       {isDeleteModal && selectedExperience && (
         <DeleteExperienceModal
@@ -123,7 +124,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
           isDeleteModal={isDeleteModal}
           handleDeleteModal={handlDeleteModal}
         />
-      )} */}
+      )}
 
       {isError && (
         <div className="flex items-center justify-center">
