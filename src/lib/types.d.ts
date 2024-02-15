@@ -1452,6 +1452,7 @@ export interface IAddBeerMasterQuestionFormData {
   question: string;
   answers: IAddBeerMasterAnswerFormData[];
   beer_master_participation?: IExperienceParticipation;
+  product_id: string;
 }
 export interface IAddBeerMasterAnswerFormData {
   answer: string;
@@ -1485,6 +1486,7 @@ export interface IUpdBeerMasterQuestionFormData {
   experience_id: string;
   question: string;
   answers: IUpdBeerMasterAnswerFormData[];
+  product_id: string;
 }
 
 export interface IUpdBeerMasterAnswerFormData {

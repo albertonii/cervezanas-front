@@ -60,11 +60,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   ];
 
   useEffect(() => {
-    console.log('isStale', isStale);
-  }, [isStale]);
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
     refetch().then((res: any) => {
       const experiences = res.data as IExperience[];
       setExperiences(experiences);

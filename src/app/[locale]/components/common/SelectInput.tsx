@@ -57,7 +57,7 @@ export default function SelectInput({
         onChange={onChange}
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} >
             {t(option.label)}
           </option>
         ))}

@@ -1,11 +1,11 @@
+import InputLabel from '../../common/InputLabel';
+import BeerMasterAnswers from './AddBeerMasterAnswers';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IAddModalExperienceBeerMasterFormData,
   IAddBeerMasterQuestionFormData,
 } from '../../../../../lib/types';
-import InputLabel from '../../common/InputLabel';
-import BeerMasterAnswers from './AddBeerMasterAnswers';
 import { DeleteButton } from '../../common/DeleteButton';
 import { Button } from '../../common/Button';
 
@@ -19,9 +19,8 @@ interface Props {
 }
 
 export const BeerMasterSection = ({ form }: Props) => {
-  const { control } = form;
-
   const t = useTranslations();
+  const { control } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions',

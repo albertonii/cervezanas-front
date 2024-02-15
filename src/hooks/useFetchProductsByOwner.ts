@@ -14,15 +14,15 @@ const fetchProductsByOwner = async (
     .from('products')
     .select(
       `
-          *, 
-          product_multimedia (*),
-          product_inventory (*),
-          likes (*),
-          product_lots (*),
-          beers (*),
-          product_pack (*),
-          awards (*)
-        `,
+        id,
+        name, 
+        description, 
+        created_at,
+        category,
+        owner_id,
+        type, 
+        weight
+      `,
       {
         count: 'exact',
       },

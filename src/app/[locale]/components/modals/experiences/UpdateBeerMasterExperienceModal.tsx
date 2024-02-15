@@ -1,10 +1,7 @@
 'use client';
 
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
-import SelectInput from '../../common/SelectInput';
 import ModalWithForm from '../ModalWithForm';
-import React, { useEffect, ComponentProps, useState } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   IExperience,
@@ -16,19 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { string, z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { UpdBeerMasterSection } from './UpdBeerMasterSection';
-
-enum ExperienceTypes {
-  beer_master = 'beer_master',
-  blind_tasting = 'bling_tasting',
-}
-
-export const experience_options: {
-  label: string;
-  value: ExperienceTypes;
-}[] = [
-  { label: 'beer_master', value: ExperienceTypes.beer_master },
-  { label: 'blind_tasting', value: ExperienceTypes.blind_tasting },
-];
+import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
 
 const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
   z.object({
@@ -54,6 +39,7 @@ const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
               .nonempty({ message: 'errors.input_required' }),
           }),
         ),
+        product_id: z.string().nonempty({ message: 'errors.input_required' }),
       }),
     ),
   });
@@ -181,16 +167,6 @@ export default function UpdateBeerMasterExperienceModal({
     }
   };
 
-  const selectOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-
-    if (value === ExperienceTypes.beer_master) {
-      setIsBeerMasterExperience(true);
-    } else {
-      setIsBeerMasterExperience(false);
-    }
-  };
-
   return (
     <ModalWithForm
       showModal={isEditModal}
@@ -204,41 +180,10 @@ export default function UpdateBeerMasterExperienceModal({
       form={form}
     >
       <form>
-        {/* Experience Information  */}
-        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('experiences_info')}</legend>
-
-          {/* Experience type  */}
-          <SelectInput
-            form={form}
-            labelTooltip={'experience_tooltip'}
-            options={experience_options}
-            label={'experience'}
-            registerOptions={{
-              required: true,
-            }}
-            onChange={selectOnChange}
-          />
-
-          {/* Experience name  */}
-          <InputLabel
-            form={form}
-            label={'name'}
-            registerOptions={{
-              required: true,
-            }}
-          />
-
-          {/* Experience description  */}
-          <InputTextarea
-            form={form}
-            label={'description'}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="The experience every beer lover is waiting for!"
-          />
-        </fieldset>
+        <UpdExperienceBasicForm
+          form={form}
+          setIsBeerMasterExperience={setIsBeerMasterExperience}
+        />
 
         {/* List of Q&A for Beer Master Experience  */}
         {isBeerMasterExperience && (
