@@ -1,13 +1,13 @@
-import React, { ComponentProps, useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import React, { ComponentProps, useMemo, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   ICampaign,
   ICampaignItem,
   IProduct,
-} from "../../../../../../lib/types";
-import Modal from "../../../../components/modals/Modal";
-import InputSearch from "../../../../components/common/InputSearch";
+} from '../../../../../../lib/types';
+import Modal from '../../../../components/modals/Modal';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface Props {
   index: number;
@@ -28,7 +28,7 @@ export function SearchCheckboxListCampaign({
   handleProductsInCampaign,
 }: Props) {
   const t = useTranslations();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -36,10 +36,10 @@ export function SearchCheckboxListCampaign({
 
   // Insert in supabase the CampaignItems related to the campaign
   const api_handleProductsInCampaign = () => {
-    const campaignItems: ICampaignItem[] = getValues("products");
+    const campaignItems: ICampaignItem[] = getValues('products');
 
     const updateItemsLinkedToCampaign = async (
-      campaignItems: ICampaignItem[]
+      campaignItems: ICampaignItem[],
     ) => {
       handleProductsInCampaign(campaignItems);
     };
@@ -64,20 +64,20 @@ export function SearchCheckboxListCampaign({
     <Modal
       showModal={showModal}
       setShowModal={setShowModal}
-      title={"products_in_campaign"}
-      btnTitle={"save"}
-      description={"select_products_in_campaign_description"}
+      title={'products_in_campaign'}
+      btnTitle={'save'}
+      description={'select_products_in_campaign_description'}
       handler={() => handleAcceptClick()}
       handlerClose={() => handleShowProductsInCampaignModal(false)}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <div className="my-6 w-full">
         <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_campaigns"}
+            searchPlaceholder={'search_campaigns'}
           />
 
           <ul
@@ -96,7 +96,7 @@ export function SearchCheckboxListCampaign({
                           type="checkbox"
                           {...register(`products.${index}.product_id`)}
                           value={product.id}
-                          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                          className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                         />
                         <label
                           htmlFor={`products.${index}.value`}
@@ -112,7 +112,7 @@ export function SearchCheckboxListCampaign({
                           htmlFor={`item.${index}.value`}
                           className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                         >
-                          {t("product_price")}
+                          {t('product_price')}
                         </label>
 
                         <input

@@ -27,7 +27,7 @@ interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
-export function ProductInfoSectionUpdate({ form }: Props) {
+export function UpdateProductInfoSection({ form }: Props) {
   const t = useTranslations();
 
   const {

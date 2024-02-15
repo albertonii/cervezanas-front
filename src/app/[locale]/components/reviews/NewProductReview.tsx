@@ -11,7 +11,7 @@ import { useMessage } from "../message/useMessage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { SuccessfulReviewModal } from "../modals/SuccessfulReviewModal";
+import { SuccessfulReviewModal } from "../modals/SuccessfulReview";
 import InputTextarea from "../common/InputTextarea";
 
 type FormValues = {

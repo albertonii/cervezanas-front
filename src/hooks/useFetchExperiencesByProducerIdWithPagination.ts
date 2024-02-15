@@ -40,7 +40,7 @@ const fetchExperiencesByProducerId = async (
   return data as IExperience[];
 };
 
-const useFetchExperiencesByProducerId = (
+const useFetchExperiencesByProducerIdWithPagination = (
   currentPage: number,
   resultsPerPage: number,
 ) => {
@@ -60,4 +60,4 @@ const useFetchExperiencesByProducerId = (
   });
 };
 
-export default useFetchExperiencesByProducerId;
+export default useFetchExperiencesByProducerIdWithPagination;

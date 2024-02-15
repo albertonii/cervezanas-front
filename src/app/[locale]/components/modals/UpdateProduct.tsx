@@ -31,9 +31,9 @@ import { uuid } from 'uuidv4';
 import { useAuth } from '../../Auth/useAuth';
 import { ProductStepper } from './ProductStepper';
 import { useMutation, useQueryClient } from 'react-query';
-import { AwardsSectionUpdate } from './AwardsSectionUpdate';
-import { MultimediaSectionUpdate } from './MultimediaSectionUpdate';
-import { ProductInfoSectionUpdate } from './ProductInfoSectionUpdate';
+import { UpdateAwardsSection } from './UpdateAwardsSection';
+import { UpdateMultimediaSection } from './UpdateMultimediaSection';
+import { UpdateProductInfoSection } from './UpdateProductInfoSection';
 import { getFileExtensionByName } from '../../../../utils/formatWords';
 import {
   isEmpty,
@@ -603,15 +603,15 @@ export function UpdateProduct({
 
             {activeStep === 0 ? (
               <>
-                <ProductInfoSectionUpdate form={form} />
+                <UpdateProductInfoSection form={form} />
               </>
             ) : activeStep === 1 ? (
               <>
-                <MultimediaSectionUpdate form={form} />
+                <UpdateMultimediaSection form={form} />
               </>
             ) : activeStep === 2 ? (
               <>
-                <AwardsSectionUpdate form={form} />
+                <UpdateAwardsSection form={form} />
               </>
             ) : (
               <></>

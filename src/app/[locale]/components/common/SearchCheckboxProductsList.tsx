@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { DisplayInputError } from "./DisplayInputError";
-import { IProduct } from "../../../../lib/types";
-import InputSearch from "./InputSearch";
+import React, { useMemo, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { DisplayInputError } from './DisplayInputError';
+import { IProduct } from '../../../../lib/types';
+import InputSearch from './InputSearch';
 
 interface Props {
   products: IProduct[];
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function SearchCheckboxProductsList({ products, form }: Props) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const {
     formState: { errors },
@@ -29,10 +29,10 @@ export function SearchCheckboxProductsList({ products, form }: Props) {
   const handleProductClick = (productId: string) => {
     // Si se escoge un producto, se limpia el error
     if (errors.product_id) {
-      form.clearErrors("product_id");
+      form.clearErrors('product_id');
     }
 
-    setValue("product_id", productId);
+    setValue('product_id', productId);
   };
 
   return (
@@ -40,10 +40,10 @@ export function SearchCheckboxProductsList({ products, form }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_by_name"}
+        searchPlaceholder={'search_by_name'}
       />
 
-      {errors.product_id && <DisplayInputError message={"select_product"} />}
+      {errors.product_id && <DisplayInputError message={'select_product'} />}
 
       <ul
         className="h-48 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
@@ -59,11 +59,11 @@ export function SearchCheckboxProductsList({ products, form }: Props) {
                   type="radio"
                   name="radio-product"
                   value={product.id}
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                  className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                 />
                 <label
                   htmlFor={`products.${index}.value`}
-                  className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
                   {product.name}
                 </label>

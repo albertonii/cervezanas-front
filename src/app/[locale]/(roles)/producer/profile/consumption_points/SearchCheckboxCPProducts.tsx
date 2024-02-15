@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useAuth } from "../../../../Auth/useAuth";
-import { IProduct } from "../../../../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import Spinner from "../../../../components/common/Spinner";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
-import InputSearch from "../../../../components/common/InputSearch";
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import Link from 'next/link';
+import React, { useEffect, useMemo, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useAuth } from '../../../../Auth/useAuth';
+import { IProduct } from '../../../../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import Spinner from '../../../../components/common/Spinner';
+import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface ColumnsProps {
   header: string;
@@ -24,7 +24,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
   const locale = useLocale();
   const { user } = useAuth();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +37,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
     user?.id,
     currentPage,
     resultsPerPage,
-    false
+    false,
   );
 
   useEffect(() => {
@@ -48,9 +48,9 @@ export function SearchCheckboxCPProducts({ form }: Props) {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: "" },
-    { header: t("name_header") },
-    { header: t("price_header") },
+    { header: '' },
+    { header: t('name_header') },
+    { header: t('price_header') },
   ];
 
   if (isLoading) {
@@ -69,7 +69,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_cp_products"}
+        searchPlaceholder={'search_cp_products'}
       />
 
       <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -102,14 +102,14 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                       type="checkbox"
                       {...register(`product_items.${index}.id`)}
                       value={product.id}
-                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                      className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                     />
                   </th>
 
                   <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                     <Link
                       href={`/products/${product.id}`}
-                      target={"_blank"}
+                      target={'_blank'}
                       locale={locale}
                     >
                       {product.name}
@@ -145,7 +145,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                         type="checkbox"
                         {...register(`products.${index}.id`)}
                         value={product.id}
-                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                        className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                       />
                       <label
                         htmlFor={`products.${index}.value`}

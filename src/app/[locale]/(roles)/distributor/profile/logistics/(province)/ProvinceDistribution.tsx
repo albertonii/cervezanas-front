@@ -1,18 +1,18 @@
-import Loading from "../../../../../loading";
-import useFetchStatesByCountry from "../useFetchStatesByCountry";
-import PaginationFooter from "../../../../../components/common/PaginationFooter";
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useMutation, useQueryClient } from "react-query";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { Country, ICountry, IState } from "country-state-city";
-import { Button } from "../../../../../components/common/Button";
-import { useAuth } from "../../../../../Auth/useAuth";
+import Loading from '../../../../../loading';
+import useFetchStatesByCountry from '../useFetchStatesByCountry';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useMutation, useQueryClient } from 'react-query';
+import { useForm, UseFormRegister } from 'react-hook-form';
+import { Country, ICountry, IState } from 'country-state-city';
+import { Button } from '../../../../../components/common/Button';
+import { useAuth } from '../../../../../Auth/useAuth';
 import {
   filterSearchInputQuery,
   slicePaginationResults,
-} from "../../../../../../../utils/utils";
-import InputSearch from "../../../../../components/common/InputSearch";
+} from '../../../../../../../utils/utils';
+import InputSearch from '../../../../../components/common/InputSearch';
 
 type Props = {
   provinces: string[];
@@ -52,7 +52,7 @@ export default function ProvinceDistribution({
 
   const { supabase } = useAuth();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const queryClient = useQueryClient();
 
@@ -62,11 +62,11 @@ export default function ProvinceDistribution({
 
   const { handleSubmit, register } = form;
 
-  const { refetch } = useFetchStatesByCountry(addressCountry ?? "ES");
+  const { refetch } = useFetchStatesByCountry(addressCountry ?? 'ES');
 
   useEffect(() => {
-    const country = Country.getCountryByCode("ES") as ICountry;
-    setAddressCountry(country.isoCode ?? "");
+    const country = Country.getCountryByCode('ES') as ICountry;
+    setAddressCountry(country.isoCode ?? '');
   }, []);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function ProvinceDistribution({
         const lOfProvinces = slicePaginationResults(
           provinceData,
           currentPage,
-          resultsPerPage
+          resultsPerPage,
         );
 
         setListOfAllProvincesByRegion(provinceData ?? []);
@@ -105,15 +105,15 @@ export default function ProvinceDistribution({
       listOfAllProvincesByRegion,
       query,
       currentPage,
-      resultsPerPage
+      resultsPerPage,
     );
     setTenProvinces(lOfProvinces);
 
     // Update selectAllCurrentPage based on whether all provinces on this page are selected
     setSelectAllCurrentPage(
       lOfProvinces?.every((province) =>
-        selectedProvinces.includes(province.name)
-      ) ?? false
+        selectedProvinces.includes(province.name),
+      ) ?? false,
     );
   }, [currentPage]);
 
@@ -124,7 +124,7 @@ export default function ProvinceDistribution({
       listOfAllProvincesByRegion,
       query,
       currentPage,
-      resultsPerPage
+      resultsPerPage,
     );
 
     setTenProvinces(lAllProvinces);
@@ -137,9 +137,9 @@ export default function ProvinceDistribution({
 
   const handleUpdatePronvicesDistribution = async () => {
     const { error } = await supabase
-      .from("coverage_areas")
+      .from('coverage_areas')
       .update({ provinces: selectedProvinces })
-      .eq("id", coverageAreaId);
+      .eq('id', coverageAreaId);
 
     if (error) {
       console.error(error);
@@ -148,19 +148,19 @@ export default function ProvinceDistribution({
   };
 
   const updateProvincesDistributionMutation = useMutation({
-    mutationKey: "updateProvincesDistribution",
+    mutationKey: 'updateProvincesDistribution',
     mutationFn: handleUpdatePronvicesDistribution,
     onMutate: () => {
-      console.info("onMutate");
+      console.info('onMutate');
       setIsLoading(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["distribution"] });
-      console.info("onSuccess");
+      queryClient.invalidateQueries({ queryKey: ['distribution'] });
+      console.info('onSuccess');
       setIsLoading(false);
     },
     onError: () => {
-      console.error("onError");
+      console.error('onError');
       setIsLoading(false);
     },
   });
@@ -175,7 +175,7 @@ export default function ProvinceDistribution({
 
   const handleCheckbox = (
     e: React.ChangeEvent<HTMLInputElement>,
-    province: string
+    province: string,
   ) => {
     const updatedSelectedProvinces = e.target.checked
       ? [...selectedProvinces, province]
@@ -185,7 +185,7 @@ export default function ProvinceDistribution({
   };
 
   const handleSelectAllCurrentPage = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const listOfCityNames =
       tenProvinces?.map((province) => province.name) || [];
@@ -193,7 +193,7 @@ export default function ProvinceDistribution({
     const updatedSelectedProvinces = e.target.checked
       ? [...selectedProvinces, ...listOfCityNames]
       : selectedProvinces.filter(
-          (checkedCity) => !listOfCityNames.includes(checkedCity)
+          (checkedCity) => !listOfCityNames.includes(checkedCity),
         );
 
     setSelectedProvinces(updatedSelectedProvinces);
@@ -201,19 +201,19 @@ export default function ProvinceDistribution({
   };
 
   const handleSelectAllProvincesByRegion = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     let updatedSelectedProvinces = [...selectedProvinces];
     if (e.target.checked) {
       updatedSelectedProvinces.push(
-        ...(listOfAllProvincesByRegion?.map((province) => province.name) ?? [])
+        ...(listOfAllProvincesByRegion?.map((province) => province.name) ?? []),
       );
     } else {
       updatedSelectedProvinces = updatedSelectedProvinces.filter(
         (selectedCity) =>
           !listOfAllProvincesByRegion
             ?.map((province) => province.name)
-            .includes(selectedCity)
+            .includes(selectedCity),
       );
     }
 
@@ -235,42 +235,39 @@ export default function ProvinceDistribution({
             primary
             medium
           >
-            {t("save")}
+            {t('save')}
           </Button>
 
           <div className="flex flex-col items-start space-y-4">
             <address className="grid w-full grid-cols-2 gap-4">
-                <label
-                  htmlFor="addressCountry"
-                  className="text-sm text-gray-600"
-                >
-                  {t("loc_country")}
-                </label>
+              <label htmlFor="addressCountry" className="text-sm text-gray-600">
+                {t('loc_country')}
+              </label>
 
-                {/* Display all countries  */}
-                <select
-                  name="addressCountry"
-                  id="addressCountry"
-                  className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-                  onChange={(e) => handleAddressCountry(e)}
-                  value={addressCountry}
-                >
-                  <option key={"ES"} value={"ES"}>
-                    Spain
+              {/* Display all countries  */}
+              <select
+                name="addressCountry"
+                id="addressCountry"
+                className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+                onChange={(e) => handleAddressCountry(e)}
+                value={addressCountry}
+              >
+                <option key={'ES'} value={'ES'}>
+                  Spain
+                </option>
+
+                {countryData.map((country: ICountry) => (
+                  <option key={country.isoCode} value={country.isoCode}>
+                    {country.name}
                   </option>
-
-                  {countryData.map((country: ICountry) => (
-                    <option key={country.isoCode} value={country.isoCode}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
+                ))}
+              </select>
             </address>
 
             <InputSearch
               query={query}
               setQuery={setQuery}
-              searchPlaceholder={"search_by_name"}
+              searchPlaceholder={'search_by_name'}
             />
 
             {/* List of provinces in the country  */}
@@ -288,11 +285,11 @@ export default function ProvinceDistribution({
                         handleSelectAllProvincesByRegion(e);
                       }}
                       checked={selectAllProvincesByRegion}
-                      className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                      className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                     />
 
                     <span className="text-sm text-gray-600">
-                      {t("select_all_provinces_by_region")}
+                      {t('select_all_provinces_by_region')}
                     </span>
                   </label>
                 </div>
@@ -303,7 +300,7 @@ export default function ProvinceDistribution({
                     htmlFor="addressCity"
                     className="text-sm text-gray-600"
                   >
-                    {t("loc_province")}
+                    {t('loc_province')}
                   </label>
 
                   <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -320,7 +317,7 @@ export default function ProvinceDistribution({
                           />
                         </th>
                         <th scope="col" className="px-6 py-3">
-                          {t("province")}
+                          {t('province')}
                         </th>
                       </tr>
                     </thead>
@@ -370,7 +367,7 @@ interface ProvinceRowProps {
   selectedProvinces: string[];
   handleCheckbox: (
     e: React.ChangeEvent<HTMLInputElement>,
-    name: string
+    name: string,
   ) => void;
   register: UseFormRegister<any>;
 }

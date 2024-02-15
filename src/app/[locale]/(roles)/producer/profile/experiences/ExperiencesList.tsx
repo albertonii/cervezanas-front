@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
-import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
+import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteBeerMasterExperienceModal';
 import UpdateBeerMasterExperienceModal from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useMemo, useState } from 'react';

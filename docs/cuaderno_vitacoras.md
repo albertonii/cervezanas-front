@@ -519,3 +519,5 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 ### 15 de febrero
 
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
+- [ ] Añadir un precio de inscripción a la experiencia
+- [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.

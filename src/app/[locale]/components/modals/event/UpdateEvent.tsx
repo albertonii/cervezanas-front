@@ -4,7 +4,7 @@ import React, { ComponentProps, useEffect } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../../Auth/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import {
   ICPFixed,
@@ -12,17 +12,17 @@ import {
   ICPMobile,
   ICPM_events,
   IEvent,
-} from '../../../../lib/types';
-import { formatDateDefaultInput } from '../../../../utils/formatDate';
-import useFetchCPSMobileByEventsId from '../../../../hooks/useFetchCPsMobileByEventId';
+} from '../../../../../lib/types';
+import { formatDateDefaultInput } from '../../../../../utils/formatDate';
+import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
 import dynamic from 'next/dynamic';
-import InputLabel from '../common/InputLabel';
-import InputTextarea from '../common/InputTextarea';
-import { SearchCheckboxCPMobiles } from '../common/SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from '../common/SearchCheckboxCPFixed';
-import useFetchCPSFixedByEventsId from '../../../../hooks/useFetchCPsFixedByEventId';
+import InputLabel from '../../common/InputLabel';
+import InputTextarea from '../../common/InputTextarea';
+import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
+import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';
 
-const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
+const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 interface FormData {
   name: string;
   description: string;

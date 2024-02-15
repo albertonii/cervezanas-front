@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { ICPFixed, ICPM_events } from "../../../../lib/types";
-import InputSearch from "./InputSearch";
+import React, { useEffect, useMemo, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { ICPFixed, ICPM_events } from '../../../../lib/types';
+import InputSearch from './InputSearch';
 
 interface Props {
   cpsFixed: ICPFixed[];
@@ -16,11 +16,11 @@ export function SearchCheckboxCPFixeds({
   checkedCPs,
   selectedEventId,
 }: Props) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const { register, setValue } = form;
 
   const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
-    checkedCPs ?? []
+    checkedCPs ?? [],
   );
 
   const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
@@ -30,7 +30,7 @@ export function SearchCheckboxCPFixeds({
 
       const cp_check: ICPM_events = {
         cp_id: cpId,
-        event_id: selectedEventId ?? "",
+        event_id: selectedEventId ?? '',
         is_active: false,
       };
       setCheckedCPsState([...checkedCPsState, cp_check]);
@@ -40,7 +40,7 @@ export function SearchCheckboxCPFixeds({
   };
 
   useEffect(() => {
-    setValue("cps_fixed", checkedCPsState);
+    setValue('cps_fixed', checkedCPsState);
   }, [checkedCPsState]);
 
   const filteredItemsByCPName = useMemo(() => {
@@ -55,7 +55,7 @@ export function SearchCheckboxCPFixeds({
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_by_name"}
+        searchPlaceholder={'search_by_name'}
       />
 
       <ul
@@ -74,15 +74,15 @@ export function SearchCheckboxCPFixeds({
                 type="checkbox"
                 {...register(`cps_fixed.${cp.id}.cp_id`)}
                 checked={checkedCPsState?.some(
-                  (cps_event) => cps_event.cp_id === cp.id
+                  (cps_event) => cps_event.cp_id === cp.id,
                 )}
                 onChange={(e) => handleCheckboxChange(cp.id, e.target.checked)}
                 value={cp.id}
-                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
               />
               <label
                 htmlFor={`checkbox-item-${cp.id}`}
-                className="ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 {cp.cp_name}
               </label>

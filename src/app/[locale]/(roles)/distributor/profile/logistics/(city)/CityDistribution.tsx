@@ -1,16 +1,16 @@
-import useFetchAllCountries from "../useFetchAllCountries";
-import useFetchCitiesOfState from "../useFetchCitiesOfState";
-import useFetchStatesByCountry from "../useFetchStatesByCountry";
-import PaginationFooter from "../../../../../components/common/PaginationFooter";
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Country } from "country-state-city";
-import { useMutation, useQueryClient } from "react-query";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { Button } from "../../../../../components/common/Button";
-import Spinner from "../../../../../components/common/Spinner";
-import { IState, ICity, ICountry } from "country-state-city/lib/interface";
-import { slicePaginationResults } from "../../../../../../../utils/utils";
+import useFetchAllCountries from '../useFetchAllCountries';
+import useFetchCitiesOfState from '../useFetchCitiesOfState';
+import useFetchStatesByCountry from '../useFetchStatesByCountry';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Country } from 'country-state-city';
+import { useMutation, useQueryClient } from 'react-query';
+import { useForm, UseFormRegister } from 'react-hook-form';
+import { Button } from '../../../../../components/common/Button';
+import Spinner from '../../../../../components/common/Spinner';
+import { IState, ICity, ICountry } from 'country-state-city/lib/interface';
+import { slicePaginationResults } from '../../../../../../../utils/utils';
 
 // interface ICountry {
 //   id: string;
@@ -31,7 +31,7 @@ interface FormData {
 export default function CityDistribution({ cities }: Props) {
   const t = useTranslations();
 
-  const [addressCountry, setAddressCountry] = useState<string>("ES");
+  const [addressCountry, setAddressCountry] = useState<string>('ES');
   const [addressRegion, setAddressRegion] = useState<string>();
   const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
   const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
@@ -50,12 +50,12 @@ export default function CityDistribution({ cities }: Props) {
   const { refetch: getCountries } = useFetchAllCountries();
 
   const { refetch: getStates } = useFetchStatesByCountry(
-    addressCountry ?? "ES"
+    addressCountry ?? 'ES',
   );
 
   const { refetch: getCities } = useFetchCitiesOfState(
-    addressCountry ?? "ES",
-    addressRegion ?? ""
+    addressCountry ?? 'ES',
+    addressRegion ?? '',
   );
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,8 +87,8 @@ export default function CityDistribution({ cities }: Props) {
 
     getAllCountries();
 
-    const country = Country.getCountryByCode("ES") as ICountry;
-    setAddressCountry(country.isoCode ?? "");
+    const country = Country.getCountryByCode('ES') as ICountry;
+    setAddressCountry(country.isoCode ?? '');
   }, []);
 
   // Get all the states of selected country and set the first one as default in select input
@@ -139,7 +139,7 @@ export default function CityDistribution({ cities }: Props) {
         const lOfCities = slicePaginationResults(
           cityData,
           currentPage,
-          resultsPerPage
+          resultsPerPage,
         );
 
         setListOfCities(lOfCities);
@@ -150,7 +150,7 @@ export default function CityDistribution({ cities }: Props) {
         // Update selectAllCurrentPage based on whether all cities on this page are selected
         setSelectAllCurrentPage(
           lOfCities?.every((city) => selectedCities.includes(city.name)) ??
-            false
+            false,
         );
       });
     };
@@ -199,17 +199,17 @@ export default function CityDistribution({ cities }: Props) {
   };
 
   const updateCityDistributionMutation = useMutation({
-    mutationKey: "updateCityDistribution",
+    mutationKey: 'updateCityDistribution',
     mutationFn: handleUpdateCityDistribution,
     onMutate: () => {
-      console.info("onMutate");
+      console.info('onMutate');
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["distribution"] });
-      console.info("onSuccess");
+      queryClient.invalidateQueries({ queryKey: ['distribution'] });
+      console.info('onSuccess');
     },
     onError: () => {
-      console.error("onError");
+      console.error('onError');
     },
   });
 
@@ -223,7 +223,7 @@ export default function CityDistribution({ cities }: Props) {
 
   const handleCheckbox = (
     e: React.ChangeEvent<HTMLInputElement>,
-    city: string
+    city: string,
   ) => {
     const updatedSelectedCities = e.target.checked
       ? [...selectedCities, city]
@@ -238,7 +238,7 @@ export default function CityDistribution({ cities }: Props) {
     const updatedSelectedCities = e.target.checked
       ? [...selectedCities, ...listOfCityNames]
       : selectedCities.filter(
-          (checkedCity) => !listOfCityNames.includes(checkedCity)
+          (checkedCity) => !listOfCityNames.includes(checkedCity),
         );
 
     setSelectedCities(updatedSelectedCities);
@@ -246,19 +246,19 @@ export default function CityDistribution({ cities }: Props) {
   };
 
   const handleSelectAllCitiesByRegion = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     let updatedSelectedCities = [...selectedCities];
     if (e.target.checked) {
       updatedSelectedCities.push(
-        ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? [])
+        ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? []),
       );
     } else {
       updatedSelectedCities = updatedSelectedCities.filter(
         (selectedCity) =>
           !listOfAllCitiesByRegion
             ?.map((city) => city.name)
-            .includes(selectedCity)
+            .includes(selectedCity),
       );
     }
 
@@ -275,7 +275,7 @@ export default function CityDistribution({ cities }: Props) {
         primary
         medium
       >
-        {t("save")}
+        {t('save')}
       </Button>
 
       {/* List with all cities selected  */}
@@ -299,7 +299,7 @@ export default function CityDistribution({ cities }: Props) {
         <div className="grid w-full grid-cols-2 gap-4">
           <address>
             <label htmlFor="addressCountry" className="text-sm text-gray-600">
-              {t("loc_country")}
+              {t('loc_country')}
             </label>
 
             {/* Display all countries  */}
@@ -310,7 +310,7 @@ export default function CityDistribution({ cities }: Props) {
               onChange={(e) => handleAddressCountry(e)}
               value={addressCountry}
             >
-              <option key={"ES"} value={"ES"}>
+              <option key={'ES'} value={'ES'}>
                 Spain
               </option>
 
@@ -326,7 +326,7 @@ export default function CityDistribution({ cities }: Props) {
           <address>
             {/* Display states of that country  */}
             <label htmlFor="addressRegion" className="text-sm text-gray-600">
-              {t("loc_state")}
+              {t('loc_state')}
             </label>
 
             <select
@@ -359,7 +359,7 @@ export default function CityDistribution({ cities }: Props) {
         {/* List of cities in the country  */}
         {isRegionLoading ? (
           <div className="w-full">
-            <Spinner size={"medium"} color={"beer-blonde"} center />
+            <Spinner size={'medium'} color={'beer-blonde'} center />
           </div>
         ) : (
           <>
@@ -380,11 +380,11 @@ export default function CityDistribution({ cities }: Props) {
                           handleSelectAllCitiesByRegion(e);
                         }}
                         checked={selectAllCitiesByRegion}
-                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                        className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                       />
 
                       <span className="text-sm text-gray-600">
-                        {t("select_all_cities_by_region")}
+                        {t('select_all_cities_by_region')}
                       </span>
                     </label>
                   </address>
@@ -395,7 +395,7 @@ export default function CityDistribution({ cities }: Props) {
                       htmlFor="addressCity"
                       className="text-sm text-gray-600"
                     >
-                      {t("loc_city")}
+                      {t('loc_city')}
                     </label>
 
                     <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -408,11 +408,11 @@ export default function CityDistribution({ cities }: Props) {
                                 handleSelectAll(e);
                               }}
                               checked={selectAllCurrentPage}
-                              className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                              className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                             />
                           </th>
                           <th scope="col" className="px-6 py-3">
-                            {t("city")}
+                            {t('city')}
                           </th>
                         </tr>
                       </thead>
@@ -470,7 +470,7 @@ interface CityRowProps {
   selectedCities: string[];
   handleCheckbox: (
     e: React.ChangeEvent<HTMLInputElement>,
-    name: string
+    name: string,
   ) => void;
   register: UseFormRegister<any>;
 }
@@ -501,7 +501,7 @@ const CityRow = ({
           onChange={(e) => {
             handleCheckbox(e, city.name);
           }}
-          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+          className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
         />
       </th>
 

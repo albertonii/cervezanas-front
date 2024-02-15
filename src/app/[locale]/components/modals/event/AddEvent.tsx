@@ -1,20 +1,20 @@
 'use client';
 
+import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventForm';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../lib/types';
-import { useAuth } from '../../Auth/useAuth';
+import { ICPFixed, ICPMobile } from '../../../../../lib/types';
+import { useAuth } from '../../../Auth/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import dynamic from 'next/dynamic';
-import InputLabel from '../common/InputLabel';
-import InputTextarea from '../common/InputTextarea';
-import { SearchCheckboxCPMobiles } from '../common/SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from '../common/SearchCheckboxCPFixed';
+import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
+import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 
-const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
+const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
 export type ModalAddEventFormData = {
   name: string;
@@ -173,67 +173,12 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       form={form}
     >
       <form>
-        {/* Event Information  */}
-        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('events_info')}</legend>
-
-          {/* Event name  */}
-          <InputLabel
-            form={form}
-            label={'name'}
-            registerOptions={{
-              required: true,
-            }}
-          />
-
-          {/* Event description  */}
-          <InputTextarea
-            form={form}
-            label={'description'}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="The event every beer lover is waiting for!"
-          />
-
-          {/* Start date and end date  */}
-          <div className="flex flex-row space-x-2">
-            <InputLabel
-              form={form}
-              label={'start_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              inputType="date"
-            />
-
-            <InputLabel
-              form={form}
-              label={'end_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              inputType="date"
-            />
-          </div>
-        </fieldset>
-
-        {/* Logo and publicitary img */}
-        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('event_advertising')}</legend>
-
-          {/* Logo */}
-
-          {/* AD Img  */}
-        </fieldset>
+        <BasicEventForm form={form} />
 
         {/* List of Mobile Consumption Points  */}
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t('cp_mobile_associated')}</legend>
 
-          {/* List of CPs  */}
           <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
         </fieldset>
 
@@ -241,8 +186,14 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t('cp_fixed_associated')}</legend>
 
-          {/* List of CPs  */}
           <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
+        </fieldset>
+
+        {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
+        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+          <legend className="text-2xl">{t('experiences')}</legend>
+
+          <ExperienceForm form={form} />
         </fieldset>
       </form>
     </ModalWithForm>

@@ -1,13 +1,13 @@
-import { UseFormReturn } from "react-hook-form";
-import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
-import { ModalUpdateProductFormData } from "../../../../lib/types";
-import { SupabaseProps } from "../../../../constants";
+import { UseFormReturn } from 'react-hook-form';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
+import { ModalUpdateProductFormData } from '../../../../lib/types';
+import { SupabaseProps } from '../../../../constants';
 
 export interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
-export function MultimediaSectionUpdate(props: Props) {
+export function UpdateMultimediaSection(props: Props) {
   const { form } = props;
 
   const preUrl =

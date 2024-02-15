@@ -12,7 +12,7 @@ import InputSearch from '../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import UpdateEventModal from '../../../../components/modals/UpdateEventModal';
+import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
 import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
 
 enum SortBy {
