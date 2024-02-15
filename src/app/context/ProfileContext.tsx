@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useEffect, useState } from "react";
-import { useContext } from "react";
-import { useAuth } from "../[locale]/Auth/useAuth";
-import { SupabaseProps } from "../../constants";
+import React, { createContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { useAuth } from '../[locale]/Auth/useAuth';
+import { SupabaseProps } from '../../constants';
+import { getPublicFileUrl } from '../../utils/utils';
 
 interface IProfile {
   bgImg?: string;
@@ -13,8 +14,8 @@ interface IProfile {
 }
 
 const ProfileContext = createContext<IProfile>({
-  bgImg: "",
-  profileImg: "",
+  bgImg: '',
+  profileImg: '',
   setBgImg: () => void {},
   setProfileImg: () => void {},
 });
@@ -24,8 +25,8 @@ interface Props {
 }
 
 export default function ProfileContexProvider(props: Props) {
-  const [bgImg, setBgImg] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [bgImg, setBgImg] = useState('');
+  const [profileImg, setProfileImg] = useState('');
   const { user, supabase } = useAuth();
 
   const value = {
@@ -41,17 +42,20 @@ export default function ProfileContexProvider(props: Props) {
         const decodeUriCustomImg = `${SupabaseProps.CUSTOM_BG_URL}${user?.id}/img`;
         const decodeUriProfileImg = `${SupabaseProps.PROFILE_PHOTO_URL}${user?.id}/img`;
 
-        const { data: bgImgData } = await supabase.storage
-          .from("avatars")
-          .getPublicUrl(decodeUriCustomImg);
+        const bgImgDataUrl = await getPublicFileUrl(
+          supabase,
+          'avatars',
+          decodeUriCustomImg,
+        );
 
-        setBgImg(bgImgData?.publicUrl ?? "");
+        const profileImgDataUrl = await getPublicFileUrl(
+          supabase,
+          'avatars',
+          decodeUriProfileImg,
+        );
 
-        const { data: profileImgData } = await supabase.storage
-          .from("avatars")
-          .getPublicUrl(decodeUriProfileImg);
-
-        setProfileImg(profileImgData?.publicUrl ?? "");
+        setBgImg(bgImgDataUrl);
+        setProfileImg(profileImgDataUrl);
       };
 
       getProfileImg();
@@ -64,7 +68,7 @@ export default function ProfileContexProvider(props: Props) {
 export const useProfile = () => {
   const context = useContext(ProfileContext);
   if (context === undefined) {
-    throw new Error("useProfile must be used within a ProfileContextProvider.");
+    throw new Error('useProfile must be used within a ProfileContextProvider.');
   }
 
   return context;

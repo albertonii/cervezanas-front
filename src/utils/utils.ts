@@ -170,3 +170,48 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
       return `/${role}/profile/settings`;
   }
 };
+
+// Función para normalizar nombres de archivos en TypeScript
+export function normalizeFileName(fileName: string): string {
+  // Eliminar caracteres especiales excepto puntos, guiones y guiones bajos
+  const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-_]/g, '');
+
+  // Codificar URI para manejar caracteres especiales permitidos en nombres de archivos
+  const encodedFileName = encodeURIComponent(sanitizedFileName);
+
+  return encodedFileName;
+}
+
+// Función para obtener la URL de un archivo almacenado en Supabase Storage
+export async function getPublicFileUrl(
+  supabase: any,
+  bucketName: string,
+  filePath: string,
+): Promise<string> {
+  const { data, error } = await supabase.storage
+    .from(bucketName)
+    .getPublicUrl(filePath);
+
+  if (error) {
+    throw new Error(`Error al obtener URL del archivo: ${error.message}`);
+  }
+
+  return data.publicUrl ?? '';
+}
+
+// Función para descargar un archivo desde Supabase Storage
+export async function downloadFile(
+  supabase: any,
+  bucketName: string,
+  filePath: string,
+): Promise<Blob> {
+  const { data, error } = await supabase.storage
+    .from(bucketName)
+    .download(filePath);
+
+  if (error) {
+    throw new Error(`Error al descargar el archivo: ${error.message}`);
+  }
+
+  return data;
+}

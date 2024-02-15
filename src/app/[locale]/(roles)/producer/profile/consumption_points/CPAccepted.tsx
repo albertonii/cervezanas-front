@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import React, { useState } from "react";
-import { CPFixed } from "./CPFixed";
-import { CPMobile } from "./CPMobile";
-import { IConsumptionPoints } from "../../../../../../lib/types";
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import React, { useState } from 'react';
+import { CPFixed } from './CPFixed';
+import { CPMobile } from './CPMobile';
+import { IConsumptionPoints } from '../../../../../../lib/types';
 
 interface Props {
   cps: IConsumptionPoints;
@@ -12,13 +12,15 @@ interface Props {
 
 // Consumption Point status is in pending for validation by the admin of the platform
 export function CPAccepted({ cps }: Props) {
-  const [menuOption, setMenuOption] = useState<string>("cp_fixed");
+  const [menuOption, setMenuOption] = useState<string>('cp_fixed');
+
+  console.log(cps);
 
   const renderSwitch = () => {
     switch (menuOption) {
-      case "cp_fixed":
+      case 'cp_fixed':
         return <CPFixed cpsId={cps.id} />;
-      case "cp_mobile":
+      case 'cp_mobile':
         return <CPMobile cpsId={cps.id} />;
     }
   };
@@ -41,7 +43,7 @@ export function CPAccepted({ cps }: Props) {
 
       <HorizontalSections
         handleMenuClick={handleMenuClick}
-        tabs={["cp_fixed", "cp_mobile"]}
+        tabs={['cp_fixed', 'cp_mobile']}
       />
 
       {renderSwitch()}

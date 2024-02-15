@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useState } from "react";
-import Modal from "./Modal";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { isValidObject } from "../../../../utils/utils";
-import { DisplayInputError } from "../common/DisplayInputError";
+import React, { ComponentProps, useState } from 'react';
+import Modal from './Modal';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../Auth/useAuth';
+import { isValidObject, normalizeFileName } from '../../../../utils/utils';
+import { DisplayInputError } from '../common/DisplayInputError';
 
 type FormData = {
   cover_letter_file: File[];
@@ -34,7 +34,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const form = useForm<FormData>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
   });
 
   const {
@@ -48,13 +48,13 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
     const { cover_letter_file, cv_file } = form;
 
     const submitCPOrganizer = async () => {
-      const coverLetterName = encodeURIComponent(cover_letter_file[0].name);
-      const cvName = encodeURIComponent(cv_file[0].name);
+      const coverLetterName = normalizeFileName(cover_letter_file[0].name);
+      const cvName = normalizeFileName(cv_file[0].name);
 
       if (isValidObject(cover_letter_file) && isValidObject(cv_file)) {
         // Update user status
         const { error: cpError } = await supabase
-          .from("consumption_points")
+          .from('consumption_points')
           .insert({
             cp_organizer_status: 0,
             owner_id: user?.id,
@@ -70,9 +70,9 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
 
             // Update user status
             const { error: userError } = await supabase
-              .from("users")
+              .from('users')
               .update({ cp_organizer_status: 0 }) // 0: pending
-              .eq("id", user.id)
+              .eq('id', user.id)
               .then((res: any) => {
                 handleCPOrganizerStatus(0);
                 return res;
@@ -86,21 +86,21 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
         if (cpError) throw cpError;
 
         const { error: coverLetterError } = await supabase.storage
-          .from("documents")
+          .from('documents')
           .upload(
             `/cover_letter/${user?.id}_${coverLetterName}`,
             cover_letter_file[0],
             {
               upsert: true,
-              cacheControl: "0",
-            }
+              cacheControl: '0',
+            },
           )
           .then(async (res: any) => {
             const { error: cvError } = await supabase.storage
-              .from("documents")
+              .from('documents')
               .upload(`/cv/${user?.id}_${cvName}`, cv_file[0], {
                 upsert: true,
-                cacheControl: "0",
+                cacheControl: '0',
               })
               .catch((err: Error) => {
                 console.error(err);
@@ -134,30 +134,30 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
         showBtn={true}
         showModal={showModal}
         setShowModal={setShowModal}
-        title={"form_submit_cp_organizer_title"}
-        btnTitle={"apply_cp_organizer"}
-        description={"form_submit_cp_organizer_description"}
+        title={'form_submit_cp_organizer_title'}
+        btnTitle={'apply_cp_organizer'}
+        description={'form_submit_cp_organizer_description'}
         handler={handleSubmit(onSubmit)}
-        classIcon={""}
-        classContainer={""}
+        classIcon={''}
+        classContainer={''}
       >
-        <div className="space-y-4">
+        <section className="space-y-4">
           <fieldset className="flex flex-col space-y-2">
             {/* Input pdf file with cover letter  */}
             <div className="flex flex-col space-y-2">
               <label className="text-md font-bold tracking-wide text-gray-700">
-                {t("form_submit_cp_organizer_cover_letter")}
+                {t('form_submit_cp_organizer_cover_letter')}
               </label>
 
               <span className="text-sm text-gray-500">
-                {t("form_submit_cp_organizer_cover_letter_description")}
+                {t('form_submit_cp_organizer_cover_letter_description')}
               </span>
 
               <div className="relative">
                 <input
                   type="file"
                   className="block w-full appearance-none rounded border border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-                  {...register("cover_letter_file", {
+                  {...register('cover_letter_file', {
                     required: true,
                   })}
                   accept=".pdf,.doc,.docs"
@@ -172,18 +172,18 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
             {/* Input pdf file with BEER CV  */}
             <div className="flex flex-col space-y-2">
               <label className="text-md font-bold tracking-wide text-gray-700">
-                {t("form_submit_cp_organizer_cv")}
+                {t('form_submit_cp_organizer_cv')}
               </label>
 
               <span className="text-sm text-gray-500">
-                {t("form_submit_cp_organizer_cv_description")}
+                {t('form_submit_cp_organizer_cv_description')}
               </span>
 
               <div className="relative">
                 <input
                   type="file"
                   className="block w-full appearance-none rounded border border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-                  {...register("cv_file", {
+                  {...register('cv_file', {
                     required: true,
                   })}
                   accept=".pdf,.doc,.docs"
@@ -195,7 +195,7 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
               )}
             </div>
           </fieldset>
-        </div>
+        </section>
       </Modal>
     </form>
   );
