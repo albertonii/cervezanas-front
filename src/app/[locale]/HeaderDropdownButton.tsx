@@ -217,8 +217,8 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
       <div onClick={() => setOpen(!open)} className="">
         <Image
           src={'/icons/user-profile.svg'}
-          alt={'Go to Shopping cart'}
-          className={'lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]'}
+          alt={'Profile'}
+          className={'h-[40px] mt-2 rounded-full bg-beer-blonde w-[40px]'}
           width={0}
           height={0}
         />
