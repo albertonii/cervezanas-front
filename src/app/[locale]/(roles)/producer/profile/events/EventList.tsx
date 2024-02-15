@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import useFetchEventsByOwnerId from "../../../../../../hooks/useFetchEventsByOwnerId";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed, ICPMobile, IEvent } from "../../../../../../lib/types";
-import Spinner from "../../../../components/common/Spinner";
-import InputSearch from "../../../../components/common/InputSearch";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import { IconButton } from "../../../../components/common/IconButton";
-import UpdateEventModal from "../../../../components/modals/UpdateEventModal";
-import DeleteEventModal from "../../../../components/modals/DeleteEventModal";
+import Image from 'next/image';
+import Link from 'next/link';
+import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwnerId';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types';
+import Spinner from '../../../../components/common/Spinner';
+import InputSearch from '../../../../components/common/InputSearch';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import { IconButton } from '../../../../components/common/IconButton';
+import UpdateEventModal from '../../../../components/modals/UpdateEventModal';
+import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 interface ColumnsProps {
   header: string;
@@ -38,20 +38,20 @@ interface Props {
 export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
 
   const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   const [events, setEvents] = useState<IEvent[]>(data ?? []);
 
-  const editColor = { filled: "#90470b", unfilled: "grey" };
-  const deleteColor = { filled: "#90470b", unfilled: "grey" };
+  const editColor = { filled: '#90470b', unfilled: 'grey' };
+  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
   const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -60,10 +60,10 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
   const COLUMNS = [
-    { header: t("event_type_header") },
-    { header: t("name_header") },
-    { header: t("created_date_header") },
-    { header: t("action_header") },
+    { header: t('event_type_header') },
+    { header: t('name_header') },
+    { header: t('created_date_header') },
+    { header: t('action_header') },
   ];
 
   useEffect(() => {
@@ -136,7 +136,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_events")}
+            {t('error_fetching_events')}
           </p>
         </div>
       )}
@@ -147,14 +147,14 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
 
       {!isError && !isLoading && events.length === 0 ? (
         <div className="flex h-40 items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_events")}</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('no_events')}</p>
         </div>
       ) : (
         <>
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_by_name"}
+            searchPlaceholder={'search_by_name'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -208,10 +208,10 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                         }}
                         color={editColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={""}
-                        title={t("edit")}
+                        classIcon={''}
+                        title={t('edit')}
                       />
 
                       <IconButton
@@ -221,10 +221,10 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                         }}
                         color={deleteColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={""}
-                        title={t("delete")}
+                        classIcon={''}
+                        title={t('delete')}
                       />
                     </td>
                   </tr>

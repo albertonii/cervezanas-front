@@ -119,6 +119,8 @@ export default function UpdateEventModal({
     handleCheckedCPFixed(cps_fixed);
 
     handleEditModal(false);
+
+    queryClient.invalidateQueries({ queryKey: ['events'] });
   };
 
   const handleCheckedCPMobiles = (cps_mobile: ICPM_events[]) => {
@@ -204,9 +206,6 @@ export default function UpdateEventModal({
   const updateEventMutation = useMutation({
     mutationKey: ['updateEvent'],
     mutationFn: handleUpdate,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['events'] });
-    },
     onError: (e: any) => {
       console.error(e);
     },

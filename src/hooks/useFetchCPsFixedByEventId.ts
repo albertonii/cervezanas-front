@@ -1,26 +1,25 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { ICPM_events } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../lib/schema";
+import { useQuery } from 'react-query';
+import { ICPM_events } from '../lib/types';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '../lib/schema';
 
 const fetchCPSFixedByEventId = async (
   eventId: string,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   if (!eventId) return [];
 
   const { data, error } = await supabase
-    .from("cpf_events")
+    .from('cpf_events')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("event_id", eventId)
-    .select();
+    .eq('event_id', eventId);
 
   if (error) throw error;
 
@@ -31,7 +30,7 @@ const useFetchCPSFixedByEventsId = (eventId: string) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["cpf_events"],
+    queryKey: ['cpf_events'],
     queryFn: () => fetchCPSFixedByEventId(eventId, supabase),
     enabled: false,
     refetchOnWindowFocus: false,

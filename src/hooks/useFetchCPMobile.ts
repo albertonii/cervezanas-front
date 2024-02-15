@@ -1,27 +1,29 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { ICPMobile } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../lib/schema";
+import { useQuery } from 'react-query';
+import { ICPMobile } from '../lib/types';
+import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '../lib/schema';
 
 const fetchCPMobile = async (
   cpId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   const { data, error } = await supabase
-    .from("cp_mobile")
+    .from('cp_mobile')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("cp_id", cpId)
-    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
-    .select();
+    .eq('cp_id', cpId)
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1,
+    );
 
   if (error) throw error;
 
@@ -31,12 +33,12 @@ const fetchCPMobile = async (
 const useFetchCPMobile = (
   cpId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["cpMobile", cpId, currentPage, resultsPerPage],
+    queryKey: ['cpMobile', cpId, currentPage, resultsPerPage],
     queryFn: () => fetchCPMobile(cpId, currentPage, resultsPerPage, supabase),
     enabled: true,
     refetchOnWindowFocus: false,

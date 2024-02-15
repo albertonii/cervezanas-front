@@ -255,6 +255,9 @@ export default function EditCPFixedModal({
 
         refetch();
       }
+
+      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
+
     }
   };
 
@@ -262,7 +265,6 @@ export default function EditCPFixedModal({
     mutationKey: ['updateCPFixed'],
     mutationFn: handleUpdate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
       handleEditModal(false);
     },
     onError: (e: any) => {

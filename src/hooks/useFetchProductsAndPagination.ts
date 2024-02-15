@@ -28,7 +28,6 @@ const fetchProducts = async (
       },
     )
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
-    .select();
 
   if (error) throw error;
 

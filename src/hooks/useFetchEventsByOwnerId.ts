@@ -26,7 +26,6 @@ const fetchEventsByOwnerId = async (
     )
     .eq("owner_id", ownerId)
     .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
-    .select();
 
   if (error) throw error;
   return data as IEvent[];

@@ -255,6 +255,8 @@ export default function EditCPMobileModal({
 
         refetch();
       }
+
+      queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
     }
   };
 
@@ -262,7 +264,6 @@ export default function EditCPMobileModal({
     mutationKey: ['updateCPMobile'],
     mutationFn: handleUpdate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
       handleEditModal(false);
     },
     onError: (e: any) => {

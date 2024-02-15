@@ -134,6 +134,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       });
     }
 
+    queryClient.invalidateQueries({ queryKey: ['events'] });
     reset();
   };
 
@@ -141,7 +142,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     mutationKey: 'insertEvent',
     mutationFn: handleInsertEvent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['events'] });
       setShowModal(false);
     },
     onError: (error) => {

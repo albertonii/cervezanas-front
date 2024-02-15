@@ -511,5 +511,11 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 - [x] Merge cambios de Design
 
 ### 14 de febrero
+
 - [x] Error en checkout online
-- [ ] Reunión Mariano
+- [x] Reunión Mariano
+- [x] Primera versión de experiencias Cervezanas para configuración del productor
+
+### 15 de febrero
+
+- [ ] Añadir experiencia Cervezanas a un PC en un evento
