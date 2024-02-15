@@ -234,6 +234,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
       }
     }
 
+    queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
+
     reset();
   };
 
@@ -257,7 +259,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     mutationKey: 'insertCPFixed',
     mutationFn: handleInsertCPFixed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
       setShowModal(false);
     },
     onError: (error: any) => {

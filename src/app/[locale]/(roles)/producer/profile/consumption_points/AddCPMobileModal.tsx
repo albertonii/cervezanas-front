@@ -232,6 +232,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
       }
     }
 
+    queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
+
     reset();
   };
 
@@ -257,7 +259,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     mutationKey: 'insertCPMobile',
     mutationFn: handleInsertCPMobile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
       setShowModal(false);
     },
     onError: (error: any) => {
