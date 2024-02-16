@@ -968,6 +968,62 @@ export interface Database {
           }
         ]
       }
+      event_experiences: {
+        Row: {
+          cp_fixed_id: string | null
+          cp_mobile_id: string | null
+          created_at: string
+          event_id: string | null
+          experience_id: string | null
+          id: string
+        }
+        Insert: {
+          cp_fixed_id?: string | null
+          cp_mobile_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          id?: string
+        }
+        Update: {
+          cp_fixed_id?: string | null
+          cp_mobile_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_event_experiences_cp_fixed_id_fkey"
+            columns: ["cp_fixed_id"]
+            isOneToOne: false
+            referencedRelation: "cp_fixed"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_event_experiences_cp_mobile_id_fkey"
+            columns: ["cp_mobile_id"]
+            isOneToOne: false
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_event_experiences_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_event_experiences_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       event_order_items: {
         Row: {
           created_at: string | null
@@ -1246,6 +1302,7 @@ export interface Database {
           description: string | null
           id: string
           name: string | null
+          price: number | null
           producer_id: string | null
           type: string | null
         }
@@ -1254,6 +1311,7 @@ export interface Database {
           description?: string | null
           id?: string
           name?: string | null
+          price?: number | null
           producer_id?: string | null
           type?: string | null
         }
@@ -1262,6 +1320,7 @@ export interface Database {
           description?: string | null
           id?: string
           name?: string | null
+          price?: number | null
           producer_id?: string | null
           type?: string | null
         }

@@ -1,9 +1,9 @@
+import ExperienceAccordion from './ExperienceAccordion';
+import InputSearch from '../../../../components/common/InputSearch';
+import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
 import React, { useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
 import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
-import InputSearch from '../../../../components/common/InputSearch';
-import ExperienceAccordion from './ExperienceAccordion';
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -19,7 +19,7 @@ export default function ExperienceForm({ form, cpsMobile, cpsFixed }: Props) {
     IExperience[]
   >([]);
 
-  const filteredItemsByName = useMemo(() => {
+  const filteredExperiencesByName = useMemo(() => {
     if (!data) return [];
     return data.filter((experience: IExperience) => {
       return experience.name.toLowerCase().includes(query.toLowerCase());
@@ -44,7 +44,7 @@ export default function ExperienceForm({ form, cpsMobile, cpsFixed }: Props) {
       >
         <ExperienceAccordion
           form={form}
-          experiences={filteredItemsByName}
+          experiences={filteredExperiencesByName}
           cpsMobile={cpsMobile}
           cpsFixed={cpsFixed}
         />

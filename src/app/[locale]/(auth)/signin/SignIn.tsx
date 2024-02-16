@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import InputLabel from "../../components/common/InputLabel";
-import React, { useEffect, useState } from "react";
-import { z, ZodType } from "zod";
-import { useLocale } from "next-intl";
-import { useMutation } from "react-query";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../../components/common/Button";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from 'next/link';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import InputLabel from '../../components/common/InputLabel';
+import React, { useEffect, useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useLocale } from 'next-intl';
+import { useMutation } from 'react-query';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../Auth/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '../../components/common/Button';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DynamicSpinner = dynamic(
-  () => import("../../components/common/Spinner"),
+  () => import('../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 type SigninFormData = {
@@ -36,12 +36,12 @@ const signInSchema: ZodType<SigninFormData> = z.object({
   email: z
     .string()
     .email({
-      message: "Must be a valid email",
+      message: 'Must be a valid email',
     })
-    .min(5, { message: "Required" }),
+    .min(5, { message: 'Required' }),
   password: z
     .string()
-    .min(8, { message: "Password must be atleast 8 characters" }),
+    .min(8, { message: 'Password must be atleast 8 characters' }),
 });
 
 type SignInValidationSchema = z.infer<typeof signInSchema>;
@@ -50,9 +50,9 @@ const resetSchema: ZodType<ResetFormData> = z.object({
   email: z
     .string()
     .email({
-      message: "Must be a valid email",
+      message: 'Must be a valid email',
     })
-    .min(5, { message: "Required" }),
+    .min(5, { message: 'Required' }),
 });
 
 type ResetValidationSchema = z.infer<typeof resetSchema>;
@@ -89,7 +89,7 @@ export default function SignIn() {
   };
 
   const handleCredentialsMutation = useMutation({
-    mutationKey: "credentialsSignIn",
+    mutationKey: 'credentialsSignIn',
     mutationFn: handleCredentialsSignIn,
     onSuccess: () => {
       resetSignIn();
@@ -100,7 +100,7 @@ export default function SignIn() {
   });
 
   const onSubmitSignin: SubmitHandler<SignInValidationSchema> = (
-    formValues: SigninFormData
+    formValues: SigninFormData,
   ) => {
     try {
       handleCredentialsMutation.mutate(formValues);
@@ -137,10 +137,10 @@ export default function SignIn() {
   };
 
   const handleResetPasswordMutation = useMutation({
-    mutationKey: "resetPassword",
+    mutationKey: 'resetPassword',
     mutationFn: handleResetPassword,
     onSuccess: () => {
-      console.info("Reset password email sent");
+      console.info('Reset password email sent');
     },
     onError: (error: Error) => {
       console.error(error);
@@ -161,7 +161,7 @@ export default function SignIn() {
   };
 
   const handleGoogleSignIn = async () => {
-    signInWithProvider("google");
+    signInWithProvider('google');
 
     // const supabaseClient = createBrowserClient();
 
@@ -178,7 +178,7 @@ export default function SignIn() {
   };
 
   if (!isPageLoad) {
-    return <DynamicSpinner color="beer-blonde" size={"fullScreen"} absolute />;
+    return <DynamicSpinner color="beer-blonde" size={'fullScreen'} absolute />;
   }
 
   return (
@@ -189,7 +189,7 @@ export default function SignIn() {
           <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none ">
             <header>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                {t("sign_in")}
+                {t('sign_in')}
               </h2>
             </header>
 
@@ -202,7 +202,7 @@ export default function SignIn() {
                 {/* email  */}
                 <InputLabel
                   form={signInForm}
-                  label={"email"}
+                  label={'email'}
                   registerOptions={{
                     required: true,
                   }}
@@ -213,7 +213,7 @@ export default function SignIn() {
                 {/* password  */}
                 <InputLabel
                   form={signInForm}
-                  label={"password"}
+                  label={'password'}
                   registerOptions={{
                     required: true,
                   }}
@@ -223,9 +223,9 @@ export default function SignIn() {
 
                 {/* submit  */}
                 <Button
-                  title={"sign_in"}
+                  title={'sign_in'}
                   class={
-                    "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+                    'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
                   }
                   btnType="submit"
                   form="login-form"
@@ -233,43 +233,43 @@ export default function SignIn() {
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <FontAwesomeIcon
                       icon={faLock}
-                      style={{ color: "bear-dark" }}
-                      title={"Lock"}
+                      style={{ color: 'bear-dark' }}
+                      title={'Lock'}
                       className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
                     />
                   </span>
-                  {t("access")}
+                  {t('access')}
                 </Button>
               </fieldset>
             </form>
 
             <p className="my-2 flex w-full justify-start text-sm text-gray-700">
-              {t("not_registered_question")}
+              {t('not_registered_question')}
               <Link
                 className="cursor-pointer font-bold"
-                href={"/signup"}
+                href={'/signup'}
                 locale={locale}
               >
                 <span className="mx-1 text-beer-darkGold hover:underline">
-                  {t("sign_me_up")}
+                  {t('sign_me_up')}
                 </span>
               </Link>
             </p>
 
             <p className="my-2 flex w-full justify-start text-sm text-gray-700">
-              {t("forgot_password_question")}
+              {t('forgot_password_question')}
 
               <button
                 onClick={() => toggleResetPassword()}
                 className="mx-1 cursor-pointer font-bold text-beer-darkGold hover:underline"
               >
-                {t("reset_password")}
+                {t('reset_password')}
               </button>
             </p>
           </div>
 
           {/* TODO: Volver y arreglar esto  */}
-          {/* <Button
+          <Button
             accent
             class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => handleGoogleSignIn()}
@@ -318,9 +318,9 @@ export default function SignIn() {
                 </svg>
               </span>
 
-              <span className="ml-2 text-lg">{t("continue_with_google")}</span>
+              <span className="ml-2 text-lg">{t('continue_with_google')}</span>
             </div>
-          </Button> */}
+          </Button>
         </article>
       )}
 
@@ -330,7 +330,7 @@ export default function SignIn() {
           <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
             <header>
               <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                {t("reset_password")}
+                {t('reset_password')}
               </h2>
             </header>
 
@@ -343,7 +343,7 @@ export default function SignIn() {
                 {/* email  */}
                 <InputLabel
                   form={resetForm}
-                  label={"email"}
+                  label={'email'}
                   registerOptions={{
                     required: true,
                   }}
@@ -353,9 +353,9 @@ export default function SignIn() {
 
                 {/* submit  */}
                 <Button
-                  title={"reset_password"}
+                  title={'reset_password'}
                   class={
-                    "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+                    'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
                   }
                   btnType="submit"
                   form="reset-form"
@@ -363,24 +363,24 @@ export default function SignIn() {
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <FontAwesomeIcon
                       icon={faLock}
-                      style={{ color: "bear-dark" }}
-                      title={"Lock"}
+                      style={{ color: 'bear-dark' }}
+                      title={'Lock'}
                       className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
                     />
                   </span>
-                  {t("reset_password")}
+                  {t('reset_password')}
                 </Button>
               </fieldset>
             </form>
 
             <p className="my-2 flex w-full justify-start text-sm text-gray-700">
-              {t("come_back_to_signin")}
+              {t('come_back_to_signin')}
 
               <button
                 onClick={() => toggleResetPassword()}
                 className="mx-1 cursor-pointer font-bold text-beer-darkGold hover:underline"
               >
-                {t("sign_in")}
+                {t('sign_in')}
               </button>
             </p>
           </div>
@@ -395,8 +395,8 @@ export default function SignIn() {
           sizes="(max-width: 1024px) 100vw, 1024px"
           width={1024}
           height={768}
-          src={"/assets/profile_signin.jpg"}
-          loader={() => "/assets/profile_signin.jpg"}
+          src={'/assets/profile_signin.jpg'}
+          loader={() => '/assets/profile_signin.jpg'}
         />
       </figure>
     </section>

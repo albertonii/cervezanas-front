@@ -1,8 +1,9 @@
 # Listado de tareas:
 
+- Arreglar restabler contraseña
+- En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - Sistema para automatizar el stock de un producto (pack)
 - Comprobar qué sucede al acceder a eventos en producción.
-- Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
@@ -16,8 +17,6 @@
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
 - CRUD imágenes en eventos
-- Editar una campaña
-- Vincular productos a la campaña
 - Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
@@ -39,6 +38,12 @@
   f. Si creamos una review, añadir la experiencia a su sistema de gamificación
   g. Si borra una review, restar la experiencia a su sistema de gamificación
   h. Ver las reviews realizadas por un usuario
+
+# FUTURE
+
+- Editar una campaña
+- Vincular productos a la campaña
+- Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
 
 # Tareas realizadas
 
@@ -521,3 +526,17 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
 - [ ] Añadir un precio de inscripción a la experiencia
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+
+---
+
+### 16 de febrero
+
+Reunión 16 de febrero - Joan Fiol -> BBF
+
+- [ ] Sign in Google
+
+- [ ] Añadir experiencia Cervezanas a un PC en un evento
+- [ ] Añadir un precio de inscripción a la experiencia
+- [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit

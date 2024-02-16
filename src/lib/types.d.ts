@@ -1423,6 +1423,14 @@ export interface IExperience {
   bm_questions?: IBeerMasterQuestion[];
 }
 
+export interface IEventExperience {
+  id: string;
+  event_id: string;
+  cps_mobile: string[];
+  cps_fixed: string[];
+  experience_id: string;
+}
+
 export interface IExperienceParticipation {
   id: string;
   created_at: string;

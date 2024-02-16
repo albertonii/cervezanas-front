@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import createServerClient from "../../../../utils/supabaseServer";
+import { NextRequest, NextResponse } from 'next/server';
+import createServerClient from '../../../../utils/supabaseServer';
 
 /**
  *
@@ -7,10 +7,12 @@ import createServerClient from "../../../../utils/supabaseServer";
  * an auth code for the user's session, which is set as a cookie for future requests made to Supabase.
  * @returns
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest, response: NextResponse) {
+  console.log(request);
+  console.log(response);
   const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  const code = searchParams.get('code');
+  const next = searchParams.get('next') ?? '/';
 
   if (code) {
     const supabase = await createServerClient();

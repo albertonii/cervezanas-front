@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
-import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UseFormReturn } from 'react-hook-form';
-import { SearchCheckboxExperiencesCPMobiles } from './SearchCheckboxExperienceCPMobiles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
 import { SearchCheckboxExperiencesCPFixeds } from './SearchCheckboxExperienceCPFixed';
+import { SearchCheckboxExperiencesCPMobiles } from './SearchCheckboxExperienceCPMobiles';
 
 interface Props {
   experience: IExperience;
@@ -14,6 +14,7 @@ interface Props {
   experienceItems?: string[];
   cpsMobile: ICPMobile[];
   cpsFixed: ICPFixed[];
+  index: number;
 }
 
 const ExperienceAccordionItem: React.FC<Props> = ({
@@ -26,53 +27,52 @@ const ExperienceAccordionItem: React.FC<Props> = ({
   const t = useTranslations();
   const { register } = form;
 
-  const [selectedPacks, setSelectedPacks] = useState(experienceItems);
-
+  const [isChecked, setIsChecked] = useState(false);
   const [showAccordion, setShowAccordion] = useState(false);
 
   if (!experience) return <></>;
 
-  const handleCheckboxChange = (packId: string, isChecked: boolean) => {
-    setSelectedPacks((prevSelectedPacks) => {
-      if (isChecked) {
-        return [...(prevSelectedPacks || []), packId];
-      } else {
-        return (prevSelectedPacks || []).filter((id) => id !== packId);
-      }
-    });
-
-    // setValue(`experience_items.${experience.id}.id`, selectedPacks);
+  const handleCheckboxChange = (isChecked: boolean) => {
+    setIsChecked(isChecked);
   };
 
   return (
     <section className="mx-4 my-2 rounded-lg border border-gray-200">
       <div
-        className={`grid grid-cols-12 cursor-pointer items-center px-6 py-4 text-lg `}
+        className={`
+        ${isChecked && 'cursor-pointer'}
+          grid grid-cols-12  items-center px-6 py-4 text-lg 
+          ${!isChecked && 'bg-gray-100'}
+          `}
       >
         <input
           id={`checkbox-item-${experience.id}`}
           type="checkbox"
-          {...register(`experience.${experience.id}.cp_id`)}
-          onChange={(e) =>
-            handleCheckboxChange(experience.id, e.target.checked)
-          }
+          {...register(`experiences.${experience.id}.cp_id`)}
+          onChange={(e) => handleCheckboxChange(e.target.checked)}
           value={experience.id}
           className="col-span-1 h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
         />
 
         <div
-          className={`${
-            showAccordion ? 'bg-gray-100 text-beer-draft' : 'text-beer-gold'
+          className={`
+            ${!isChecked && 'text-gray-500'}
+          ${
+            showAccordion && isChecked
+              ? 'bg-gray-100 text-beer-draft'
+              : 'text-beer-gold'
           } flex items-center justify-start space-x-2 col-span-10`}
           onClick={() => setShowAccordion(!showAccordion)}
         >
           <FontAwesomeIcon
             icon={faChevronCircleDown}
-            style={{ color: showAccordion ? '#90470b' : '#EE9900' }}
+            style={{
+              color: isChecked ? '#90470b' : '#EEEEE9',
+            }}
             title={'chevron_circle_down'}
             width={20}
             height={20}
-            className={`${showAccordion && 'rotate-180'}`}
+            className={`${showAccordion && isChecked && 'rotate-180'}`}
           />
           <span className="mr-2 font-semibold">{experience.name}</span>
         </div>
@@ -89,7 +89,7 @@ const ExperienceAccordionItem: React.FC<Props> = ({
 
       <div
         className={`px-6 pt-4 ${
-          showAccordion ? 'max-h-[1000px]' : 'max-h-0'
+          showAccordion && isChecked ? 'max-h-[1000px]' : 'max-h-0'
         } duration-800 overflow-hidden transition-all ease-in-out`}
       >
         <p className={`flex justify-between`}>
@@ -110,6 +110,7 @@ const ExperienceAccordionItem: React.FC<Props> = ({
           </span>
 
           <SearchCheckboxExperiencesCPMobiles
+            experienceId={experience.id}
             cpsMobile={cpsMobile}
             form={form}
           />

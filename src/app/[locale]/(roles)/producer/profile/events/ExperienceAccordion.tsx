@@ -1,6 +1,6 @@
 import Spinner from '../../../../components/common/Spinner';
 import ExperienceAccordionItem from './ExperienceAccordionItem ';
-import React, { useState } from 'react';
+import React from 'react';
 import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -33,7 +33,7 @@ const ExperienceAccordion: React.FC<Props> = ({
       id={`accordion-collapse`}
       data-accordion="collapse"
     >
-      {experiences.map((experience) => (
+      {experiences.map((experience, index) => (
         <li key={experience.id} className="">
           <ExperienceAccordionItem
             experience={experience}
@@ -41,6 +41,7 @@ const ExperienceAccordion: React.FC<Props> = ({
             experienceItems={experienceItems}
             cpsMobile={cpsMobile}
             cpsFixed={cpsFixed}
+            index={index}
           />
         </li>
       ))}
