@@ -149,14 +149,19 @@ export function CustomizeSettings() {
 
   return (
     <section className="px-4 py-6 " aria-label="CustomizeSettings">
-      <header className="flex flex-col space-y-4">
-        <p className="text-4xl">{t("products_customize_settings")}</p>
-      </header>
-
+      <p className="flex justify-between py-4" id="header">
+        <span
+          id="title"
+          className="text-5xl uppercase font-semibold text-white"
+        >
+          {t('products_customize_settings')}
+        </span>
+      </p>
+      
       <div className="flex flex-col space-y-4">
         {/* Text description to Customize colors available for a new beer product. */}
         <h3 className="text-md my-4 text-gray-500 dark:text-gray-400">
-          {t("products_customize_settings_description")}
+          {t('products_customize_settings_description')}
         </h3>
 
         {/* Color  */}
@@ -166,7 +171,7 @@ export function CustomizeSettings() {
               className="text-sm font-medium text-gray-500 dark:text-gray-400"
               htmlFor="colorInputRef"
             >
-              {t("products_customize_settings_color")}
+              {t('products_customize_settings_color')}
             </label>
 
             <input
@@ -204,7 +209,7 @@ export function CustomizeSettings() {
               className="text-sm font-medium text-gray-500 dark:text-gray-400"
               htmlFor="familyStylesInputRef"
             >
-              {t("products_customize_settings_family_style")}
+              {t('products_customize_settings_family_style')}
             </label>
 
             <input

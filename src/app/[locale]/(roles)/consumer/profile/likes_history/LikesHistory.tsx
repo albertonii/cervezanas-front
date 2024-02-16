@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { ILike } from "../../../../../../lib/types";
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { ILike } from '../../../../../../lib/types';
 
 interface Props {
   likes: ILike[];
@@ -14,7 +14,15 @@ export function LikesHistory({ likes }: Props) {
   return (
     <section className="px-4 py-6 " aria-label="Watchlist">
       <div className="flex flex-col space-y-4">
-        <div className="text-4xl">{t("watchlist")}</div>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('watchlist')}
+          </span>
+        </p>
+
         {likes.length > 0 &&
           likes.map((like, index) => {
             return (
@@ -30,7 +38,7 @@ export function LikesHistory({ likes }: Props) {
                         fill
                         src="/docs/images/people/profile-picture-5.jpg"
                         loader={() =>
-                          "/docs/images/people/profile-picture-5.jpg"
+                          '/docs/images/people/profile-picture-5.jpg'
                         }
                         alt="profile picture"
                       />
@@ -196,7 +204,7 @@ export function LikesHistory({ likes }: Props) {
                       <div className="pr-4">
                         <footer>
                           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                            Reviewed:{" "}
+                            Reviewed:{' '}
                             <time dateTime="2022-01-20 19:00">
                               January 20, 2022
                             </time>

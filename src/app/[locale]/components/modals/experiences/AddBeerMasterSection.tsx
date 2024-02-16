@@ -1,17 +1,23 @@
 import InputLabel from '../../common/InputLabel';
 import BeerMasterAnswers from './AddBeerMasterAnswers';
+import { useAuth } from '../../../Auth/useAuth';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IAddModalExperienceBeerMasterFormData,
   IAddBeerMasterQuestionFormData,
+  IProduct,
 } from '../../../../../lib/types';
 import { DeleteButton } from '../../common/DeleteButton';
 import { Button } from '../../common/Button';
+import SelectInput from '../../common/SelectInput';
+import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
+import { useEffect, useState } from 'react';
 
 const emptyQuestion: IAddBeerMasterQuestionFormData = {
   question: '',
   answers: [],
+  product_id: '',
 };
 
 interface Props {
@@ -21,6 +27,25 @@ interface Props {
 export const BeerMasterSection = ({ form }: Props) => {
   const t = useTranslations();
   const { control } = form;
+
+  const { user } = useAuth();
+
+  const { data } = useFetchProductsByOwner(user?.id);
+
+  const [listProducts, setListProducts] = useState<
+    { label: string; value: any }[]
+  >([]);
+
+  useEffect(() => {
+    if (data) {
+      setListProducts(
+        data?.map((product: IProduct) => ({
+          label: product.name,
+          value: product.id,
+        })),
+      );
+    }
+  }, [data]);
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions',
@@ -37,6 +62,13 @@ export const BeerMasterSection = ({ form }: Props) => {
 
   return (
     <section id="Question" className="space-y-4">
+      <SelectInput
+        form={form}
+        label={'product_id'}
+        labelText={t('product')}
+        options={listProducts}
+      />
+
       {fields.map((field, index) => (
         <fieldset
           key={field.id}

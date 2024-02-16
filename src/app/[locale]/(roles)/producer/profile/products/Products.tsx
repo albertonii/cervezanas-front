@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { IProduct } from "../../../../../../lib/types";
-import { AddProduct } from "../../../../components/modals/AddProduct";
-import { DeleteProduct } from "../../../../components/modals/DeleteProduct";
-import { UpdateProduct } from "../../../../components/modals/UpdateProduct";
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { IProduct } from '../../../../../../lib/types';
+import { AddProduct } from '../../../../components/modals/AddProduct';
+import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
 
-import { ProductList } from "./ProductList";
+import { ProductList } from './ProductList';
 
 export function Products() {
   const t = useTranslations();
@@ -31,7 +31,14 @@ export function Products() {
   return (
     <section className="px-4 py-6" aria-label="Products">
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t("products")}</h2>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('reviews')}
+          </span>
+        </p>
 
         <div className="w-40">
           <AddProduct />

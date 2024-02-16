@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import AddCPMobileModal from "./AddCPMobileModal";
-import React from "react";
-import { useTranslations } from "next-intl";
-import { ListCPMobile } from "./ListCPMobile";
-import { ICPMobile } from "../../../../../../lib/types";
+import AddCPMobileModal from './AddCPMobileModal';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { ListCPMobile } from './ListCPMobile';
+import { ICPMobile } from '../../../../../../lib/types';
 
 interface Props {
   cpsMobile: ICPMobile[];
@@ -16,7 +16,14 @@ export function CPMobile({ cpsMobile }: Props) {
   return (
     <section className="px-4 py-6" aria-label="Products">
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t("cp_mobile_list")}</h2>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('cp_mobile_list')}
+          </span>
+        </p>
       </header>
 
       <ListCPMobile cpsMobile={cpsMobile} />

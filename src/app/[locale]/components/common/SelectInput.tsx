@@ -1,14 +1,15 @@
-import React from "react";
-import { useTranslations } from "next-intl";
-import { UseFormReturn } from "react-hook-form";
-import { InfoTooltip } from "./InfoTooltip";
-import { DisplayInputError } from "./DisplayInputError";
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { InfoTooltip } from './InfoTooltip';
+import { DisplayInputError } from './DisplayInputError';
 
 interface Props {
   form: UseFormReturn<any, any>;
   labelTooltip?: string;
   options: { label: string; value: any }[];
   label: string;
+  labelText?: string;
   defaultValue?: any;
   registerOptions?: {
     required?: boolean;
@@ -27,6 +28,7 @@ export default function SelectInput({
   form,
   options,
   label,
+  labelText,
   labelTooltip,
   defaultValue,
   registerOptions,
@@ -42,7 +44,7 @@ export default function SelectInput({
   return (
     <div className="w-full">
       <label htmlFor={label} className="flex text-sm text-gray-600">
-        {t(label)}
+        {labelText ? labelText : t(label)}
 
         {labelTooltip && (
           <InfoTooltip content={`${t(labelTooltip)}`} delay={0} width={600} />
@@ -57,7 +59,7 @@ export default function SelectInput({
         onChange={onChange}
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value} >
+          <option key={option.value} value={option.value}>
             {t(option.label)}
           </option>
         ))}
@@ -65,7 +67,7 @@ export default function SelectInput({
 
       {errors[label] && (
         <DisplayInputError
-          message={errors[label]?.message || "errors.input_required"}
+          message={errors[label]?.message || 'errors.input_required'}
         />
       )}
     </div>

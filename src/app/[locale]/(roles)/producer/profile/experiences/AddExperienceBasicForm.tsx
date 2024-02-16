@@ -55,6 +55,19 @@ export default function AddExperienceBasicForm({
         onChange={selectOnChange}
       />
 
+      {/* PRICE  */}
+      <InputLabel
+        form={form}
+        label={'price'}
+        registerOptions={{
+          required: true,
+          valueAsNumber: true,
+        }}
+        inputType="number"
+        labelText="Price (€)"
+        defaultValue={0}
+      />
+
       {/* Experience name  */}
       <InputLabel
         form={form}

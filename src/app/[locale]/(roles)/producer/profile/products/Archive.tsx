@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { IProduct } from "../../../../../../lib/types";
-import { ProductsArchiveList } from "./ProductsArchiveList";
-import { UpdateProduct } from "../../../../components/modals/UpdateProduct";
-import { DeleteProduct } from "../../../../components/modals/DeleteProduct";
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IProduct } from '../../../../../../lib/types';
+import { ProductsArchiveList } from './ProductsArchiveList';
+import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
+import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 
 /**
  *
@@ -34,9 +34,14 @@ export function Archive() {
   return (
     <>
       <div className="px-4 py-6 " aria-label="Products">
-        <div className="flex flex-col space-y-4">
-          <div className="text-4xl">{t("products_archive")}</div>
-        </div>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('products_archive')}
+          </span>
+        </p>
 
         <ProductsArchiveList
           handleEditShowModal={handleEditShowModal}

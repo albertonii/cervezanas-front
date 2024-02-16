@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { User } from "@supabase/supabase-js";
-import { HistoryForm } from "./HistoryForm";
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { User } from '@supabase/supabase-js';
+import { HistoryForm } from './HistoryForm';
 
 interface Props {
   user: User | null;
@@ -28,16 +28,21 @@ export function History(props: Props) {
   return (
     <>
       {loading ? (
-        <span>{t("loading")} </span>
+        <span>{t('loading')} </span>
       ) : (
         <section className="px-4 py-6" id="account-container">
           <div className="flex flex-col justify-between py-4" id="header">
-            <h2 id="title" className="text-4xl">
-              {t("history_title")}
-            </h2>
+            <p className="flex justify-between py-4" id="header">
+              <span
+                id="title"
+                className="text-5xl uppercase font-semibold text-white"
+              >
+                {t('history_title')}
+              </span>
+            </p>
 
             <h3 id="rrss" className="text-lg">
-              {t("history_description_producer")}
+              {t('history_description_producer')}
             </h3>
           </div>
 

@@ -17,7 +17,14 @@ export default function Experiences({ experiences, counter }: Props) {
   return (
     <section className="px-4 py-6" aria-label="Experiences">
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t('experiences')}</h2>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('experiences')}
+          </span>
+        </p>
 
         <div className="w-40">
           <AddExperience />

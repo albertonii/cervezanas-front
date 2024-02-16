@@ -1418,6 +1418,7 @@ export interface IExperience {
   description: string;
   producer_id: string;
   type: string;
+  price: number;
   producer_user?: IProducerUser;
   bm_questions?: IBeerMasterQuestion[];
 }
@@ -1469,6 +1470,7 @@ export interface IAddModalExperienceBeerMasterFormData {
   name: string;
   description: string;
   type: string;
+  price: number;
   questions: IAddBeerMasterQuestionFormData[];
 }
 
@@ -1477,6 +1479,7 @@ export interface IUpdModalExperienceBeerMasterFormData {
   name: string;
   description: string;
   type: string;
+  price: number;
   producer_id: string;
   questions: IUpdBeerMasterQuestionFormData[];
 }

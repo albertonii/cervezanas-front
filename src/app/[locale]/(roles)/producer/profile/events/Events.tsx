@@ -18,7 +18,14 @@ export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
   return (
     <section className="px-4 py-6" aria-label="Events">
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t('events')}</h2>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('events')}
+          </span>
+        </p>
 
         <div className="w-40">
           <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />

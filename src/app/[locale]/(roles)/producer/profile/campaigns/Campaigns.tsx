@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { ICampaign, IProduct } from "../../../../../../lib/types";
-import { DeleteCampaign } from "../../../../components/modals/DeleteCampaign";
-import { AddCampaign } from "./AddCampaign";
-import { CampaignList } from "./CampaignList";
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ICampaign, IProduct } from '../../../../../../lib/types';
+import { DeleteCampaign } from '../../../../components/modals/DeleteCampaign';
+import { AddCampaign } from './AddCampaign';
+import { CampaignList } from './CampaignList';
 
 interface Props {
   campaigns: ICampaign[];
@@ -44,7 +44,15 @@ export function Campaigns({ products }: Props) {
   return (
     <section className="px-4 py-6 " aria-label="Campaigns">
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t("campaigns")}</h2>
+        <p className="flex justify-between py-4" id="header">
+          <span
+            id="title"
+            className="text-5xl uppercase font-semibold text-white"
+          >
+            {t('campaigns')}
+          </span>
+        </p>
+
         <div className="w-40">
           <AddCampaign />
         </div>

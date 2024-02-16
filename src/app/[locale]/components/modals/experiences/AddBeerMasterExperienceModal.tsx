@@ -1,30 +1,27 @@
 'use client';
 
 import ModalWithForm from '../ModalWithForm';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
+import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import {
   IAddModalExperienceBeerMasterFormData,
-  IProduct,
 } from '../../../../../lib/types';
 import { useAuth } from '../../../Auth/useAuth';
-import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
+import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
 import { BeerMasterSection } from './AddBeerMasterSection';
 import AddExperienceBasicForm, {
   experience_options,
 } from '../../../(roles)/producer/profile/experiences/AddExperienceBasicForm';
-import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
-import SelectInput from '../../common/SelectInput';
 
 const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
   z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
     description: z.string().nonempty({ message: 'errors.input_required' }),
     type: z.string().nonempty({ message: 'errors.input_required' }),
+    price: z.number().min(0),
     questions: z.array(
       z.object({
         product_id: z.string().nonempty({ message: 'errors.input_required' }),
@@ -62,23 +59,6 @@ export default function AddBeerMasterExperienceModal() {
     },
   });
   const { handleSubmit, reset } = form;
-
-  const { data } = useFetchProductsByOwner(user?.id);
-
-  const [listProducts, setListProducts] = useState<
-    { label: string; value: any }[]
-  >([]);
-
-  useEffect(() => {
-    if (data) {
-      setListProducts(
-        data?.map((product: IProduct) => ({
-          label: product.name,
-          value: product.id,
-        })),
-      );
-    }
-  }, [data]);
 
   const handleInsertBeerMasterExperience = async (form: ValidationSchema) => {
     const { name, description, type, questions } = form;
@@ -192,12 +172,6 @@ export default function AddBeerMasterExperienceModal() {
             <legend className="text-2xl">
               {t('questions_and_answers_experience')}
             </legend>
-
-            <SelectInput
-              form={form}
-              label={'product_id'}
-              options={listProducts}
-            />
 
             <BeerMasterSection form={form} />
           </fieldset>

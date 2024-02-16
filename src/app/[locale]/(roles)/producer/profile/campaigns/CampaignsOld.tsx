@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   ICampaignFormProps,
   ICampaign,
   ICampaignItem,
   IProduct,
-} from "../../../../../../lib/types";
-import { CampaignForm } from "./CampaignForm";
-import { SearchCheckboxListCampaign } from "./SearchCheckboxListCampaign";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useMessage } from "../../../../components/message/useMessage";
-import { Button } from "../../../../components/common/Button";
-import { DeleteCampaign } from "../../../../components/modals/DeleteCampaign";
+} from '../../../../../../lib/types';
+import { CampaignForm } from './CampaignForm';
+import { SearchCheckboxListCampaign } from './SearchCheckboxListCampaign';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useMessage } from '../../../../components/message/useMessage';
+import { Button } from '../../../../components/common/Button';
+import { DeleteCampaign } from '../../../../components/modals/DeleteCampaign';
 
 interface Props {
   campaigns: ICampaign[];
@@ -182,7 +182,14 @@ export function Campaigns({ campaigns: c, products }: Props) {
     <section className="px-4 py-6 " aria-label="Campaigns">
       {/* 
       <header className="flex flex-col space-y-4">
-        <h2 className="text-4xl">{t("campaigns")}</h2>
+        <p className="flex justify-between py-4" id="header">
+        <span
+          id="title"
+          className="text-5xl uppercase font-semibold text-white"
+        >
+          {t('campaigns')}
+        </span>
+      </p>
 
         <div className="w-40">
           <Button

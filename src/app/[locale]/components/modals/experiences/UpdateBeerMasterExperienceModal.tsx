@@ -1,10 +1,11 @@
 'use client';
 
 import ModalWithForm from '../ModalWithForm';
-import React, { ComponentProps, useState } from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   IExperience,
+  IProduct,
   IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
 import { useAuth } from '../../../Auth/useAuth';
@@ -14,6 +15,8 @@ import { string, z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { UpdBeerMasterSection } from './UpdBeerMasterSection';
 import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
+import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
+import SelectInput from '../../common/SelectInput';
 
 const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
   z.object({
@@ -22,6 +25,7 @@ const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
     name: z.string().nonempty({ message: 'errors.input_required' }),
     description: z.string().nonempty({ message: 'errors.input_required' }),
     type: z.string().nonempty({ message: 'errors.input_required' }),
+    price: z.number().min(0),
     questions: z.array(
       z.object({
         id: z.string().nonempty({ message: 'errors.input_required' }),
@@ -58,12 +62,29 @@ export default function UpdateBeerMasterExperienceModal({
   handleEditModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase } = useAuth();
+  const { supabase, user } = useAuth();
 
   const [isBeerMasterExperience, setIsBeerMasterExperience] =
     useState<boolean>(true);
 
   const queryClient = useQueryClient();
+
+  const { data } = useFetchProductsByOwner(user?.id);
+
+  const [listProducts, setListProducts] = useState<
+    { label: string; value: any }[]
+  >([]);
+
+  useEffect(() => {
+    if (data) {
+      setListProducts(
+        data?.map((product: IProduct) => ({
+          label: product.name,
+          value: product.id,
+        })),
+      );
+    }
+  }, [data]);
 
   const form = useForm<ValidationSchema>({
     mode: 'onSubmit',
@@ -73,6 +94,7 @@ export default function UpdateBeerMasterExperienceModal({
       name: selectedExperience.name,
       description: selectedExperience.description,
       type: selectedExperience.type,
+      price: selectedExperience.price,
       producer_id: selectedExperience.producer_id,
       questions: selectedExperience.bm_questions,
     },
@@ -105,39 +127,41 @@ export default function UpdateBeerMasterExperienceModal({
 
     // Update questions and answers
     questions.forEach(async (question) => {
-      const { data: questionData, error: questionError } = await supabase
-        .from('beer_master_questions')
-        .update({
-          question: question.question,
-          experience_id: experience.id,
-        })
-        .eq('id', question.id)
-        .select()
-        .single();
+      if (question.id) {
+        const { data: questionData, error: questionError } = await supabase
+          .from('beer_master_questions')
+          .update({
+            question: question.question,
+            experience_id: experience.id,
+          })
+          .eq('id', question.id)
+          .select()
+          .single();
 
-      if (!questionData) {
-        return;
-      }
-
-      if (questionError) {
-        throw questionError;
-      }
-
-      question.answers.forEach(async (answer) => {
-        const { data: answerData, error: answerError } = await supabase
-          .from('beer_master_answers')
-          .upsert({
-            answer: answer.answer,
-            is_correct: answer.is_correct,
-            question_id: questionData.id,
-            id: answer.id,
-          });
-
-        if (answerError) {
-          console.error(answerError);
-          throw answerError;
+        if (!questionData) {
+          return;
         }
-      });
+
+        if (questionError) {
+          throw questionError;
+        }
+
+        question.answers.forEach(async (answer) => {
+          const { data: answerData, error: answerError } = await supabase
+            .from('beer_master_answers')
+            .upsert({
+              answer: answer.answer,
+              is_correct: answer.is_correct,
+              question_id: questionData.id,
+              id: answer.id,
+            });
+
+          if (answerError) {
+            console.error(answerError);
+            throw answerError;
+          }
+        });
+      }
     });
 
     queryClient.invalidateQueries({
@@ -191,6 +215,13 @@ export default function UpdateBeerMasterExperienceModal({
             <legend className="text-2xl">
               {t('questions_and_answers_experience')}
             </legend>
+
+            <SelectInput
+              form={form}
+              label={'product_id'}
+              labelText={t('product')}
+              options={listProducts}
+            />
 
             <UpdBeerMasterSection form={form} />
           </fieldset>
