@@ -88,10 +88,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
         <tbody>
           {filteredItemsByProductsName.map((product, index) => {
             return (
-              <tr
-                key={product.id}
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
+              <tr key={product.id} className="">
                 <>
                   <th
                     scope="row"

@@ -205,10 +205,7 @@ export default function ProducerList({ producers }: Props) {
         <tbody>
           {sortedItems.map((producer) => {
             return (
-              <tr
-                key={producer.user_id}
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
+              <tr key={producer.user_id} className="">
                 <th
                   scope="row"
                   className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"

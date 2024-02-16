@@ -423,10 +423,7 @@ export default function CityDistribution({ cities }: Props) {
                           const globalIndex = startIndex + index;
 
                           return (
-                            <tr
-                              key={city.name + currentPage}
-                              className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                            >
+                            <tr key={city.name + currentPage} className="">
                               <>
                                 <CityRow
                                   city={city}

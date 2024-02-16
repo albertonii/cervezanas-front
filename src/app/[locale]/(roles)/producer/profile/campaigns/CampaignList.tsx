@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { ComponentProps, useMemo, useState } from "react";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
-import { ICampaign } from "../../../../../../lib/types";
-import Spinner from "../../../../components/common/Spinner";
-import { EditButton } from "../../../../components/common/EditButton";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import InputSearch from "../../../../components/common/InputSearch";
-import useFetchCampaignsByOwnerAndPagination from "../../../../../../hooks/useFetchCampaignsByOwnerAndPagination";
-import { formatDateString } from "../../../../../../utils/formatDate";
+import Image from 'next/image';
+import Link from 'next/link';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { ComponentProps, useMemo, useState } from 'react';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICampaign } from '../../../../../../lib/types';
+import Spinner from '../../../../components/common/Spinner';
+import { EditButton } from '../../../../components/common/EditButton';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import InputSearch from '../../../../components/common/InputSearch';
+import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
+import { formatDateString } from '../../../../../../utils/formatDate';
 
 interface Props {
   handleEditShowModal: ComponentProps<any>;
@@ -34,7 +34,7 @@ export function CampaignList({
   const t = useTranslations();
   const locale = useLocale();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 10;
 
@@ -45,19 +45,19 @@ export function CampaignList({
   } = useFetchCampaignsByOwnerAndPagination(
     user?.id,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   const counter = campaigns?.filter((campaign) => !campaign).length ?? 0;
 
   const COLUMNS = [
-    { header: t("campaign_type_header") },
-    { header: t("name_header") },
-    { header: t("start_date_header") },
-    { header: t("end_date_header") },
-    { header: t("status") },
-    { header: t("is_public") },
-    { header: t("action_header") },
+    { header: t('campaign_type_header') },
+    { header: t('name_header') },
+    { header: t('start_date_header') },
+    { header: t('end_date_header') },
+    { header: t('status') },
+    { header: t('is_public') },
+    { header: t('action_header') },
   ];
 
   const handleEditClick = (campaign: ICampaign) => {
@@ -84,7 +84,7 @@ export function CampaignList({
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_campaigns")}
+            {t('error_fetching_campaigns')}
           </p>
         </div>
       )}
@@ -96,7 +96,7 @@ export function CampaignList({
       {!isError && !isLoading && campaigns?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_campaigns")}
+            {t('no_campaigns')}
           </p>
         </div>
       ) : (
@@ -104,7 +104,7 @@ export function CampaignList({
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_campaigns"}
+            searchPlaceholder={'search_campaigns'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -124,10 +124,7 @@ export function CampaignList({
               {campaigns &&
                 filteredItems.map((campaign) => {
                   return (
-                    <tr
-                      key={campaign.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    <tr key={campaign.id} className="">
                       <>
                         <th
                           scope="row"
@@ -162,7 +159,7 @@ export function CampaignList({
                         <td className="px-6 py-4">{t(campaign.status)}</td>
 
                         <td className="px-6 py-4">
-                          {campaign.is_public ? t("yes") : t("no")}
+                          {campaign.is_public ? t('yes') : t('no')}
                         </td>
 
                         <td className="px-6 py-4">

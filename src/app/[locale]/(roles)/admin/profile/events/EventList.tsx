@@ -194,10 +194,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
             <tbody>
               {sortedItems.map((e: IEvent) => {
                 return (
-                  <tr
-                    key={e.id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
+                  <tr key={e.id} className="">
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                       <Link href={`/events/${e.id}`} locale={locale}>
                         {e.name}

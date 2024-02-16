@@ -124,10 +124,7 @@ export default function CPMProduct({
   };
 
   return (
-    <tr
-      key={pack.product_id}
-      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
+    <tr key={pack.product_id} className="">
       <td className="space-x-2 px-6 py-4">
         <DisplayImageProduct
           imgSrc={

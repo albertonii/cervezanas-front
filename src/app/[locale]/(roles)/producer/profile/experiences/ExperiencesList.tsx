@@ -166,10 +166,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             <tbody>
               {sortedItems.map((e: IExperience) => {
                 return (
-                  <tr
-                    key={e.id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
+                  <tr key={e.id} className="">
                     <th
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"

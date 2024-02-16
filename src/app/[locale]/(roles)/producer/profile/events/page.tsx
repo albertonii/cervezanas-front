@@ -1,10 +1,10 @@
-import Events from "./Events";
+import Events from './Events';
+import readUserSession from '../../../../../../lib/actions';
+import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { VIEWS } from "../../../../../../constants";
-import createServerClient from "../../../../../../utils/supabaseServer";
 import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
-import readUserSession from "../../../../../../lib/actions";
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();

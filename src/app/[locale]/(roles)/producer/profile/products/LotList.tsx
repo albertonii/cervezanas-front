@@ -1,15 +1,15 @@
-import Image from "next/image";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchLotsByOwnerAndPagination from "../../../../../../hooks/useFetchLotsByOwner";
-import React, { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../../../Auth/useAuth";
-import { IProductLot } from "../../../../../../lib/types";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { EditButton } from "../../../../components/common/EditButton";
-import Spinner from "../../../../components/common/Spinner";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import InputSearch from "../../../../components/common/InputSearch";
+import Image from 'next/image';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchLotsByOwnerAndPagination from '../../../../../../hooks/useFetchLotsByOwner';
+import React, { useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../../Auth/useAuth';
+import { IProductLot } from '../../../../../../lib/types';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { EditButton } from '../../../../components/common/EditButton';
+import Spinner from '../../../../components/common/Spinner';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface Props {
   handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
@@ -30,7 +30,7 @@ export function LotList({
   if (!user) return null;
   const t = useTranslations();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 10;
 
@@ -43,12 +43,12 @@ export function LotList({
   const counter = lots?.length ?? 0;
 
   const COLUMNS = [
-    { header: t("product_type_header") },
-    { header: t("lot_number_header") },
-    { header: t("quantity_header") },
-    { header: t("manufacture_date_header") },
-    { header: t("expiration_date_header") },
-    { header: t("action_header") },
+    { header: t('product_type_header') },
+    { header: t('lot_number_header') },
+    { header: t('quantity_header') },
+    { header: t('manufacture_date_header') },
+    { header: t('expiration_date_header') },
+    { header: t('action_header') },
   ];
 
   const handleClickEdit = (lot: IProductLot) => {
@@ -75,7 +75,7 @@ export function LotList({
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_lots")}
+            {t('error_fetching_lots')}
           </p>
         </div>
       )}
@@ -87,7 +87,7 @@ export function LotList({
       {!isLoading && !isError && lots?.length === 0 ? (
         <div className="my-[10vh] flex items-center justify-center">
           <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t("no_lots")}
+            {t('no_lots')}
           </p>
         </div>
       ) : (
@@ -95,7 +95,7 @@ export function LotList({
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_lots"}
+            searchPlaceholder={'search_lots'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -115,10 +115,7 @@ export function LotList({
               {lots &&
                 filteredItems.map((lot) => {
                   return (
-                    <tr
-                      key={lot.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    <tr key={lot.id} className="">
                       <th
                         scope="row"
                         className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
@@ -129,7 +126,7 @@ export function LotList({
                           className="h-8 w-8 rounded-full"
                           alt="Beer Type"
                           src="/icons/beer-240.png"
-                          loader={() => "/icons/beer-240.png"}
+                          loader={() => '/icons/beer-240.png'}
                         />
                       </th>
 

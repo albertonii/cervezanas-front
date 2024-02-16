@@ -164,10 +164,7 @@ export function ProductsArchiveList({
               {products &&
                 filteredItems.map((product) => {
                   return (
-                    <tr
-                      key={product.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    <tr key={product.id} className="">
                       {product.is_archived && (
                         <>
                           <th

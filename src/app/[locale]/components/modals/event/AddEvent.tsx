@@ -1,7 +1,8 @@
 'use client';
 
-import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventForm';
 import dynamic from 'next/dynamic';
+import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventForm';
+import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile } from '../../../../../lib/types';
@@ -12,7 +13,6 @@ import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
-import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
@@ -193,7 +193,11 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
           <legend className="text-2xl">{t('experiences')}</legend>
 
-          <ExperienceForm form={form} />
+          <ExperienceForm
+            form={form}
+            cpsMobile={cpsMobile}
+            cpsFixed={cpsFixed}
+          />
         </fieldset>
       </form>
     </ModalWithForm>

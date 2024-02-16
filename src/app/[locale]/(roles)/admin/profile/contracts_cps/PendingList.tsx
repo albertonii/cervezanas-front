@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
 import {
   faCancel,
   faCheck,
   faFileArrowDown,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import { IconButton } from "../../../../components/common/IconButton";
-import { generateDownloadableLink } from "../../../../../../utils/utils";
-import { IConsumptionPoints } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
-import dynamic from "next/dynamic";
+} from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import { IconButton } from '../../../../components/common/IconButton';
+import { generateDownloadableLink } from '../../../../../../utils/utils';
+import { IConsumptionPoints } from '../../../../../../lib/types';
+import InputSearch from '../../../../components/common/InputSearch';
+import dynamic from 'next/dynamic';
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 
 const DynamicModal = dynamic(
-  () => import("../../../../components/modals/Modal"),
+  () => import('../../../../components/modals/Modal'),
   {
     loading: () => <p>Loading...</p>,
     ssr: false,
-  }
+  },
 );
 
 interface Props {
@@ -44,14 +44,14 @@ interface Props {
 export default function ListPendingCP({ submittedCPs }: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const { user, supabase } = useAuth();
 
   const [submittedList, setSubmittedList] = useState(submittedCPs);
 
-  const acceptColor = { filled: "#90470b", unfilled: "grey" };
-  const rejectColor = { filled: "red", unfilled: "grey" };
+  const acceptColor = { filled: '#90470b', unfilled: 'grey' };
+  const rejectColor = { filled: 'red', unfilled: 'grey' };
 
   const [isAcceptModal, setIsAcceptModal] = useState(false);
   const [isRejectModal, setIsRejectModal] = useState(false);
@@ -94,7 +94,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
   const handleCoverLetterClick = async (cp: IConsumptionPoints) => {
     await supabase.storage
-      .from("public/documents")
+      .from('public/documents')
       .download(`cover_letter/${cp.users.id}_${cp.cover_letter_name}`)
       .then((blob: any) => {
         generateDownloadableLink(blob, cp.cover_letter_name);
@@ -103,7 +103,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
   const handleCVClick = async (cp: IConsumptionPoints) => {
     await supabase.storage
-      .from("public/documents")
+      .from('public/documents')
       .download(`cv/${cp.users.id}_${cp.cv_name}`)
       .then((blob: any) => {
         generateDownloadableLink(blob, cp.cv_name);
@@ -120,14 +120,14 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     setSelectedCP(cp);
 
     await supabase
-      .from("consumption_points")
+      .from('consumption_points')
       .update({ cp_organizer_status: 2 })
-      .eq("id", cp.id)
+      .eq('id', cp.id)
       .then(async () => {
         await supabase
-          .from("users")
+          .from('users')
           .update({ cp_organizer_status: 1 })
-          .eq("id", cp.users.id);
+          .eq('id', cp.users.id);
       });
   };
 
@@ -135,17 +135,17 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     return (
       <div className="my-[10vh] flex items-center justify-center">
         <p className="text-2xl text-gray-500 dark:text-gray-400">
-          {t("no_pending_cp")}
+          {t('no_pending_cp')}
         </p>
       </div>
     );
   }
   const sendNotification = async (message: string) => {
     // Notify user that has been assigned as organizer
-    const { error } = await supabase.from("notifications").insert({
+    const { error } = await supabase.from('notifications').insert({
       message: `${message}`,
       user_id: submittedCPs[0].users.id,
-      link: "/profile?a=consumption_points",
+      link: '/profile?a=consumption_points',
       source: user?.id, // User that has created the consumption point
     });
 
@@ -158,14 +158,14 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     if (!selectedCP) return;
 
     supabase
-      .from("consumption_points")
+      .from('consumption_points')
       .update({ cp_organizer_status: status })
-      .eq("id", selectedCP.id)
+      .eq('id', selectedCP.id)
       .then(async () => {
         await supabase
-          .from("users")
+          .from('users')
           .update({ cp_organizer_status: status })
-          .eq("id", selectedCP.users.id);
+          .eq('id', selectedCP.users.id);
       });
   };
 
@@ -173,22 +173,22 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     <section className="relative overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg ">
       {selectedCP && isAcceptModal && (
         <DynamicModal
-          title={t("accept")}
+          title={t('accept')}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
             handleUpdateStatus(1);
             removeFromSubmittedList(selectedCP.id);
             setIsAcceptModal(false);
-            sendNotification("Your consumption point has been accepted");
+            sendNotification('Your consumption point has been accepted');
           }}
           handlerClose={() => setIsAcceptModal(false)}
           showModal={isAcceptModal}
           setShowModal={setIsAcceptModal}
-          description={"accept_cp_description_modal"}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
+          description={'accept_cp_description_modal'}
+          classIcon={''}
+          classContainer={''}
+          btnTitle={t('accept')}
         >
           <></>
         </DynamicModal>
@@ -196,7 +196,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
       {selectedCP && isRejectModal && (
         <DynamicModal
-          title={t("reject")}
+          title={t('reject')}
           icon={faCheck}
           color={acceptColor}
           handler={async () => {
@@ -207,10 +207,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
           handlerClose={() => setIsRejectModal(false)}
           showModal={isRejectModal}
           setShowModal={setIsRejectModal}
-          description={t("reject_cp_description_modal")}
-          classIcon={""}
-          classContainer={""}
-          btnTitle={t("accept")}
+          description={t('reject_cp_description_modal')}
+          classIcon={''}
+          classContainer={''}
+          btnTitle={t('accept')}
         >
           <></>
         </DynamicModal>
@@ -219,7 +219,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_products"}
+        searchPlaceholder={'search_products'}
       />
 
       <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -236,7 +236,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 handleChangeSort(SortBy.USERNAME);
               }}
             >
-              {t("username_header")}
+              {t('username_header')}
             </th>
 
             <th
@@ -246,19 +246,19 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 handleChangeSort(SortBy.CREATED_DATE);
               }}
             >
-              {t("created_date_header")}
+              {t('created_date_header')}
             </th>
 
             <th scope="col" className="px-6 py-3">
-              {t("cover_letter_header")}
+              {t('cover_letter_header')}
             </th>
 
             <th scope="col" className="px-6 py-3 ">
-              {t("cv_header")}
+              {t('cv_header')}
             </th>
 
             <th scope="col" className="px-6 py-3 ">
-              {t("action_header")}
+              {t('action_header')}
             </th>
           </tr>
         </thead>
@@ -266,18 +266,15 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         <tbody>
           {sortedItems.map((cp) => {
             return (
-              <tr
-                key={cp.id}
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
+              <tr key={cp.id} className="">
                 <th
                   scope="row"
                   className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                 >
                   <FontAwesomeIcon
                     icon={faUser}
-                    style={{ color: "#fdc300" }}
-                    title={"check_warning"}
+                    style={{ color: '#fdc300' }}
+                    title={'check_warning'}
                     width={80}
                     height={80}
                   />
@@ -295,11 +292,11 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
-                      color: "",
+                      color: '',
                       width: 30,
                       height: 30,
                     }}
-                    title={"download file"}
+                    title={'download file'}
                     onClick={() => handleCoverLetterClick(cp)}
                   />
                 </td>
@@ -308,11 +305,11 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                   <FontAwesomeIcon
                     icon={faFileArrowDown}
                     style={{
-                      color: "",
+                      color: '',
                       width: 30,
                       height: 30,
                     }}
-                    title={"download file"}
+                    title={'download file'}
                     onClick={() => handleCVClick(cp)}
                   />
                 </td>
@@ -323,20 +320,20 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                     onClick={() => handleApproveClick(cp)}
                     color={acceptColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                      'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                     }
-                    classIcon={""}
-                    title={t("accept")}
+                    classIcon={''}
+                    title={t('accept')}
                   />
                   <IconButton
                     icon={faCancel}
                     onClick={() => handleRejectClick(cp)}
                     color={rejectColor}
                     classContainer={
-                      "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 "
+                      'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                     }
-                    classIcon={""}
-                    title={t("reject")}
+                    classIcon={''}
+                    title={t('reject')}
                   />
                 </td>
               </tr>

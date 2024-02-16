@@ -328,10 +328,7 @@ export default function ProvinceDistribution({
                         const globalIndex = startIndex + index;
 
                         return (
-                          <tr
-                            key={province.name + currentPage}
-                            className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                          >
+                          <tr key={province.name + currentPage} className="">
                             <ProvinceRow
                               province={province}
                               globalIndex={globalIndex}

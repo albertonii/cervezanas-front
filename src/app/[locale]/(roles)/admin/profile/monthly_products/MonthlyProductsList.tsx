@@ -149,10 +149,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
             {filteredItems &&
               filteredItems.map((product) => {
                 return (
-                  <tr
-                    key={product.product_id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
+                  <tr key={product.product_id} className="">
                     <th
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"

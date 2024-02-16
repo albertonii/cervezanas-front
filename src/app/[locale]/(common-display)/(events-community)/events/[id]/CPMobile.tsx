@@ -15,10 +15,7 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
   const locale = useLocale();
 
   return (
-    <tr
-      key={cp.id}
-      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
+    <tr key={cp.id} className="">
       <td className=" hidden space-x-2 px-6 py-4 sm:block">
         <Image
           src={cp.logo_url ?? COMMON.PROFILE_IMG}

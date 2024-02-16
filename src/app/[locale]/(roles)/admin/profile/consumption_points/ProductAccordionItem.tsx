@@ -14,7 +14,11 @@ interface Props {
   productItems?: string[];
 }
 
-const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
+const ProductAccordionItem: React.FC<Props> = ({
+  product,
+  form,
+  productItems,
+}) => {
   const t = useTranslations();
   const { register } = form;
 
@@ -145,4 +149,4 @@ const AccordionItem: React.FC<Props> = ({ product, form, productItems }) => {
   );
 };
 
-export default AccordionItem;
+export default ProductAccordionItem;

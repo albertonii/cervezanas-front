@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { IEventOrder } from "../../../../../../lib/types";
-import { IconButton } from "../../../../components/common/IconButton";
-import Spinner from "../../../../components/common/Spinner";
-import { encodeBase64 } from "../../../../../../utils/utils";
-import { formatCurrency } from "../../../../../../utils/formatCurrency";
-import InputSearch from "../../../../components/common/InputSearch";
+import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useAuth } from '../../../../Auth/useAuth';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { IEventOrder } from '../../../../../../lib/types';
+import { IconButton } from '../../../../components/common/IconButton';
+import Spinner from '../../../../components/common/Spinner';
+import { encodeBase64 } from '../../../../../../utils/utils';
+import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface Props {
   eventOrders: IEventOrder[];
@@ -29,7 +29,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   const t = useTranslations();
 
   const [orders, setOrders] = useState<IEventOrder[]>(os);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = os.length;
@@ -40,7 +40,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
   const { isError, isLoading, refetch } = useFetchEventOrders(
     user.id,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   useEffect(() => {
@@ -51,23 +51,23 @@ export function EventOrderList({ eventOrders: os }: Props) {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: t("order_number_header") },
-    { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("status_header") },
-    { header: t("action_header") },
+    { header: t('order_number_header') },
+    { header: t('name_header') },
+    { header: t('price_header') },
+    { header: t('status_header') },
+    { header: t('action_header') },
   ];
 
   const handleClickView = (order: IEventOrder) => {
     const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number })
+      JSON.stringify({ Ds_Order: order.order_number }),
     );
 
     // Get current url
     const currentUrl = window.location.href;
 
     router.push(
-      `${currentUrl}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`
+      `${currentUrl}/checkout/event/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
     );
   };
 
@@ -83,7 +83,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_event_orders")}
+            {t('error_fetching_event_orders')}
           </p>
         </div>
       )}
@@ -94,14 +94,14 @@ export function EventOrderList({ eventOrders: os }: Props) {
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
         <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_orders")}</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('no_orders')}</p>
         </div>
       ) : (
         <>
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_order"}
+            searchPlaceholder={'search_order'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -121,14 +121,11 @@ export function EventOrderList({ eventOrders: os }: Props) {
               {orders &&
                 filteredItemsByStatus.map((order) => {
                   return (
-                    <tr
-                      key={order.id}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    <tr key={order.id} className="">
                       <td className="px-6 py-4">{order.order_number}</td>
 
                       <td className="px-6 py-4">
-                        {order.users?.username ?? " - "}
+                        {order.users?.username ?? ' - '}
                       </td>
 
                       <td className="px-6 py-4">
@@ -141,7 +138,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
                         <IconButton
                           onClick={() => handleClickView(order)}
                           icon={faEye}
-                          title={""}
+                          title={''}
                         />
                       </td>
                     </tr>
@@ -151,7 +148,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
               {!orders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
-                    {t("no_orders")}
+                    {t('no_orders')}
                   </td>
                 </tr>
               )}

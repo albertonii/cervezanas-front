@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { IUserReport } from "../../../../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import React, { useEffect, useMemo, useState } from "react";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import InputSearch from "../../../../components/common/InputSearch";
-import { IconButton } from "../../../../components/common/IconButton";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
+import Link from 'next/link';
+import { IUserReport } from '../../../../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import React, { useEffect, useMemo, useState } from 'react';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import InputSearch from '../../../../components/common/InputSearch';
+import { IconButton } from '../../../../components/common/IconButton';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
 
 enum SortBy {
-  NONE = "none",
-  CREATED_DATE = "created_date",
-  TITLE = "title",
+  NONE = 'none',
+  CREATED_DATE = 'created_date',
+  TITLE = 'title',
 }
 
 interface Props {
@@ -25,14 +25,14 @@ export default function EventList({ reports: rs }: Props) {
   const locale = useLocale();
 
   const counter = rs.length;
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
 
   const [reports, setReports] = useState<IUserReport[]>(rs ?? []);
 
-  const viewColor = { filled: "#90470b", unfilled: "grey" };
+  const viewColor = { filled: '#90470b', unfilled: 'grey' };
 
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
 
@@ -71,7 +71,7 @@ export default function EventList({ reports: rs }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_by_name"}
+        searchPlaceholder={'search_by_name'}
       />
 
       <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -84,7 +84,7 @@ export default function EventList({ reports: rs }: Props) {
                 handleChangeSort(SortBy.TITLE);
               }}
             >
-              {t("title_header")}
+              {t('title_header')}
             </th>
 
             <th
@@ -94,19 +94,19 @@ export default function EventList({ reports: rs }: Props) {
                 handleChangeSort(SortBy.CREATED_DATE);
               }}
             >
-              {t("created_date_header")}
+              {t('created_date_header')}
             </th>
 
             <th scope="col" className="hover px-6 py-3">
-              {t("description_header")}
+              {t('description_header')}
             </th>
 
             <th scope="col" className="hover px-6 py-3">
-              {t("status_header")}
+              {t('status_header')}
             </th>
 
             <th scope="col" className="px-6 py-3 ">
-              {t("action_header")}
+              {t('action_header')}
             </th>
           </tr>
         </thead>
@@ -114,10 +114,7 @@ export default function EventList({ reports: rs }: Props) {
         <tbody>
           {sortedItems.map((userReport: IUserReport) => {
             return (
-              <tr
-                key={userReport.id}
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
+              <tr key={userReport.id} className="">
                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                   <Link
                     href={`/admin/profile/reports/${userReport.id}`}
@@ -137,10 +134,10 @@ export default function EventList({ reports: rs }: Props) {
 
                 <td
                   className={`${
-                    userReport.is_resolved && "font-semibold text-beer-gold"
+                    userReport.is_resolved && 'font-semibold text-beer-gold'
                   } cursor-pointer truncate px-6 py-4`}
                 >
-                  {userReport.is_resolved ? t("resolved") : t("pending")}
+                  {userReport.is_resolved ? t('resolved') : t('pending')}
                 </td>
 
                 <td className="flex items-center justify-center px-6 py-4">
@@ -152,10 +149,10 @@ export default function EventList({ reports: rs }: Props) {
                       icon={faEye}
                       color={viewColor}
                       classContainer={
-                        "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                       }
-                      classIcon={""}
-                      title={t("view_report")}
+                      classIcon={''}
+                      title={t('view_report')}
                     />
                   </Link>
                 </td>

@@ -1,8 +1,8 @@
-import AccordionItem from "./AccordionItem";
-import React from "react";
-import { IProduct } from "../../../../../../lib/types";
-import Spinner from "../../../../components/common/Spinner";
-import { UseFormReturn } from "react-hook-form";
+import React from 'react';
+import { IProduct } from '../../../../../../lib/types';
+import Spinner from '../../../../components/common/Spinner';
+import { UseFormReturn } from 'react-hook-form';
+import ProductAccordionItem from './ProductAccordionItem';
 
 interface Props {
   products: IProduct[];
@@ -24,20 +24,21 @@ const ProductAccordion: React.FC<Props> = ({
   }
 
   return (
-    <div className="w-full" id={`accordion-collapse`} data-accordion="collapse">
+    <section
+      className="w-full"
+      id={`accordion-collapse`}
+      data-accordion="collapse"
+    >
       {products.map((product) => (
-        <div
-          key={product.id}
-          className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-        >
-          <AccordionItem
+        <div key={product.id} className="">
+          <ProductAccordionItem
             product={product}
             form={form}
             productItems={productItems}
           />
         </div>
       ))}
-    </div>
+    </section>
   );
 };
 

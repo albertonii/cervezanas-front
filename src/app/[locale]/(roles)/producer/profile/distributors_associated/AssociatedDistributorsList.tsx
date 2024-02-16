@@ -195,7 +195,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                 return (
                   <tr
                     key={contract.distributor_id + '-' + contract.producer_id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className=""
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link

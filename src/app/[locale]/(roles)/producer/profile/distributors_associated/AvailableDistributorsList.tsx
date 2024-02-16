@@ -188,10 +188,7 @@ export default function AvailableDistributorsList({
             <tbody>
               {filteredItems.map((distributor: IDistributorUser) => {
                 return (
-                  <tr
-                    key={distributor.user_id}
-                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
+                  <tr key={distributor.user_id} className="">
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
                         href={`/d-info/${distributor.user_id}`}

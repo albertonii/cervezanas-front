@@ -258,10 +258,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                     const globalIndex = startIndex + index;
 
                     return (
-                      <tr
-                        key={country.name + currentPage}
-                        className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                      >
+                      <tr key={country.name + currentPage} className="">
                         <CountryRow
                           country={country}
                           globalIndex={globalIndex}
