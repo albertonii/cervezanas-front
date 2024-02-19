@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { ICampaign } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { useQuery } from 'react-query';
+import { ICampaign } from '../lib/types';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchCampaignsByOwner = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<any>
+  supabase: SupabaseClient<any>,
 ) => {
   const { data, error } = await supabase
-    .from("campaigns")
+    .from('campaigns')
     .select(
       `
           *
         `,
       {
-        count: "exact",
-      }
+        count: 'exact',
+      },
     )
-    .eq("owner_id", ownerId)
+    .eq('owner_id', ownerId)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -35,12 +35,12 @@ const fetchCampaignsByOwner = async (
 const useFetchCampaignsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["campaignList", ownerId, currentPage, resultsPerPage],
+    queryKey: ['campaignList', ownerId, currentPage, resultsPerPage],
     queryFn: () =>
       fetchCampaignsByOwner(ownerId, currentPage, resultsPerPage, supabase),
     enabled: true,

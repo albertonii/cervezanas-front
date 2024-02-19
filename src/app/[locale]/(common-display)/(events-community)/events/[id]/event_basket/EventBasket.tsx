@@ -24,7 +24,7 @@ import {
   IProductPack,
   IProductPackEventCartItem,
 } from '../../../../../../../lib/types';
-import { useAuth } from '../../../../../Auth/useAuth';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import useEventCartStore from '../../../../../../store/eventCartStore';
 
 interface Props {

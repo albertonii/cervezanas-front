@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { IBusinessOrder } from "../lib/types";
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { IBusinessOrder } from '../lib/types';
 
 const fetchBusinessOrdersByProducerId = async (
   producerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: any
+  supabase: any,
 ) => {
   const { data, error } = await supabase
-    .from("business_orders")
+    .from('business_orders')
     .select(
       `
         *,
         orders (*)
-      `
+      `,
     )
-    .eq("producer_id", producerId)
+    .eq('producer_id', producerId)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -31,18 +31,18 @@ const fetchBusinessOrdersByProducerId = async (
 const useFetchBusinessOrdersByProducerId = (
   producerId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["business_orders_by_producer_id"],
+    queryKey: ['business_orders_by_producer_id'],
     queryFn: () =>
       fetchBusinessOrdersByProducerId(
         producerId,
         currentPage,
         resultsPerPage,
-        supabase
+        supabase,
       ),
     enabled: false,
     refetchOnWindowFocus: false,

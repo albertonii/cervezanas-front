@@ -1,8 +1,8 @@
-import React, { ComponentProps } from "react";
-import { useTranslations } from "next-intl";
-import { useMutation, useQueryClient } from "react-query";
-import { useAuth } from "../../Auth/useAuth";
-import DeleteModal from "./DeleteModal";
+import React, { ComponentProps } from 'react';
+import { useTranslations } from 'next-intl';
+import { useMutation, useQueryClient } from 'react-query';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import DeleteModal from './DeleteModal';
 
 interface Props {
   selectedEventId: string;
@@ -26,17 +26,17 @@ export default function DeleteEventModal({
     if (!selectedEventId) return;
 
     const { error } = await supabase
-      .from("events")
+      .from('events')
       .delete()
-      .eq("id", selectedEventId);
+      .eq('id', selectedEventId);
     if (error) throw error;
   };
 
   const deleteEventsMutation = useMutation({
-    mutationKey: ["deleteEvents"],
+    mutationKey: ['deleteEvents'],
     mutationFn: handleRemoveCP,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ['events'] });
       handleDeleteModal(false);
     },
     onError: (error) => {
@@ -54,13 +54,13 @@ export default function DeleteEventModal({
 
   return (
     <DeleteModal
-      title={t("delete")}
+      title={t('delete')}
       handler={() => {
         onSubmitDelete();
       }}
       handlerClose={() => handleDeleteModal(false)}
-      description={t("delete_event_description_modal")}
-      btnTitle={t("accept")}
+      description={t('delete_event_description_modal')}
+      btnTitle={t('accept')}
       showModal={isDeleteModal}
       setShowModal={handleDeleteModal}
     />

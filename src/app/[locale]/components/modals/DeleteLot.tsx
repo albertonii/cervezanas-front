@@ -1,7 +1,7 @@
-import React, { ComponentProps } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { useAuth } from "../../Auth/useAuth";
-import Modal from "./Modal";
+import React, { ComponentProps } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import Modal from './Modal';
 
 interface Props {
   productLotId: string;
@@ -19,9 +19,9 @@ export function DeleteLot({
 
   const handleDelete = async () => {
     const { data, error } = await supabase
-      .from("product_lots")
+      .from('product_lots')
       .delete()
-      .eq("id", productLotId);
+      .eq('id', productLotId);
 
     if (error) throw error;
 
@@ -31,10 +31,10 @@ export function DeleteLot({
   };
 
   const deleteLotMutation = useMutation({
-    mutationKey: ["deleteProduct"],
+    mutationKey: ['deleteProduct'],
     mutationFn: handleDelete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productLotList"] });
+      queryClient.invalidateQueries({ queryKey: ['productLotList'] });
     },
   });
 
@@ -51,15 +51,15 @@ export function DeleteLot({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleDeleteShowModal}
-      title={"modal_delete_lot_title"}
-      btnTitle={"delete"}
-      description={"modal_delete_lot_description"}
+      title={'modal_delete_lot_title'}
+      btnTitle={'delete'}
+      description={'modal_delete_lot_description'}
       handler={() => {
         handleSubmitDelete();
       }}
       handlerClose={() => handleDeleteShowModal(false)}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <></>
     </Modal>

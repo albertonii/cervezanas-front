@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { IProduct } from '../lib/types';
-import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProducts = async (
@@ -27,7 +27,10 @@ const fetchProducts = async (
         count: 'exact',
       },
     )
-    .range((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage - 1)
+    .range(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage - 1,
+    );
 
   if (error) throw error;
 

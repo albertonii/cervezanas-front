@@ -3,21 +3,20 @@
 import useSWR from 'swr';
 import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Database } from '../../../lib/schema';
-import { ROUTE_SIGNIN } from '../../../config';
-import { EVENTS, VIEWS } from '../../../constants';
-import { IUserProfile } from '../../../lib/types';
+import { Database } from '../../../../lib/schema';
+import { ROUTE_SIGNIN } from '../../../../config';
+import { EVENTS, VIEWS } from '../../../../constants';
+import { IUserProfile } from '../../../../lib/types';
 import { useLocale, useTranslations } from 'next-intl';
-import { useMessage } from '../components/message/useMessage';
-import { createBrowserClient } from '../../../utils/supabaseBrowser';
+import { useMessage } from '../../components/message/useMessage';
+import { createBrowserClient } from '../../../../utils/supabaseBrowser';
 import {
   AuthResponse,
   Provider,
   Session,
   SupabaseClient,
 } from '@supabase/supabase-js';
-import { ROLE_ENUM } from '../../../lib/enums';
-// import { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { ROLE_ENUM } from '../../../../lib/enums';
 
 enum PROVIDER_TYPE {
   GOOGLE = 'google',

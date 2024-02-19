@@ -4,7 +4,7 @@ import React, { ComponentProps, useState } from 'react';
 import Modal from './Modal';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { isValidObject, normalizeFileName } from '../../../../utils/utils';
 import { DisplayInputError } from '../common/DisplayInputError';
 

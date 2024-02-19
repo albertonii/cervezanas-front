@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useState } from "react";
-import { Rate } from "./Rate";
-import { z, ZodType } from "zod";
-import { Button } from "../common/Button";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { IOrderItem, IReview } from "../../../../lib/types";
-import { useMessage } from "../message/useMessage";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { SuccessfulReviewModal } from "../modals/SuccessfulReview";
-import InputTextarea from "../common/InputTextarea";
+import React, { ComponentProps, useState } from 'react';
+import { Rate } from './Rate';
+import { z, ZodType } from 'zod';
+import { Button } from '../common/Button';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { IOrderItem, IReview } from '../../../../lib/types';
+import { useMessage } from '../message/useMessage';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
+import { SuccessfulReviewModal } from '../modals/SuccessfulReview';
+import InputTextarea from '../common/InputTextarea';
 
 type FormValues = {
   aroma: number;
@@ -25,14 +25,14 @@ type FormValues = {
 };
 
 const schema: ZodType<FormValues> = z.object({
-  aroma: z.number().min(1, { message: "Required" }).max(5),
-  appearance: z.number().min(1, { message: "Required" }).max(5),
-  taste: z.number().min(1, { message: "Required" }).max(5),
-  mouthfeel: z.number().min(1, { message: "Required" }).max(5),
-  bitterness: z.number().min(1, { message: "Required" }).max(5),
-  overall: z.number().min(1, { message: "Required" }).max(5),
-  comment: z.string().min(1, { message: "Required" }).max(500, {
-    message: "The comment is too long, max length are 500 characters",
+  aroma: z.number().min(1, { message: 'Required' }).max(5),
+  appearance: z.number().min(1, { message: 'Required' }).max(5),
+  taste: z.number().min(1, { message: 'Required' }).max(5),
+  mouthfeel: z.number().min(1, { message: 'Required' }).max(5),
+  bitterness: z.number().min(1, { message: 'Required' }).max(5),
+  overall: z.number().min(1, { message: 'Required' }).max(5),
+  comment: z.string().min(1, { message: 'Required' }).max(500, {
+    message: 'The comment is too long, max length are 500 characters',
   }),
 });
 
@@ -52,7 +52,7 @@ export function NewProductReview({
   handleSetIsReviewed,
 }: Props) {
   const t = useTranslations();
-  const successMessage = t("successful_product_review_creation");
+  const successMessage = t('successful_product_review_creation');
   const { supabase } = useAuth();
   const queryClient = useQueryClient();
 
@@ -71,7 +71,7 @@ export function NewProductReview({
   const { handleMessage } = useMessage();
 
   const form = useForm<FormValues>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       aroma: aromaRate,
@@ -92,10 +92,10 @@ export function NewProductReview({
     const pPackId = orderItem.product_pack_id;
     const bOrderId = orderItem.business_order_id;
 
-    if (!productId || !pPackId || !bOrderId) throw new Error("Missing data");
+    if (!productId || !pPackId || !bOrderId) throw new Error('Missing data');
 
     const { data, error: reviewError } = await supabase
-      .from("reviews")
+      .from('reviews')
       .insert({
         aroma: aromaRate,
         appearance: appearanceRate,
@@ -109,7 +109,7 @@ export function NewProductReview({
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
-      .select("*")
+      .select('*')
       .single();
 
     if (reviewError) {
@@ -119,17 +119,17 @@ export function NewProductReview({
 
     // Update order item is_reviewed status
     const { error: updateOrderItemError } = await supabase
-      .from("order_items")
+      .from('order_items')
       .update({ is_reviewed: true })
-      .eq("product_pack_id", pPackId)
-      .eq("business_order_id", bOrderId);
+      .eq('product_pack_id', pPackId)
+      .eq('business_order_id', bOrderId);
 
     if (updateOrderItemError) {
       console.error(updateOrderItemError);
       throw updateOrderItemError;
     }
 
-    if (!data) throw new Error("No data");
+    if (!data) throw new Error('No data');
 
     const review = data as IReview;
 
@@ -158,24 +158,24 @@ export function NewProductReview({
       ]);
 
     handleMessage({
-      type: "success",
+      type: 'success',
       message: successMessage,
     });
   };
 
   const handleInsertReviewMutation = useMutation({
-    mutationKey: ["insertReview"],
+    mutationKey: ['insertReview'],
     mutationFn: handleInsertReview,
     onMutate: () => {
       setLoading(true);
       setReviewModal(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviewList"] });
+      queryClient.invalidateQueries({ queryKey: ['reviewList'] });
     },
     onError: (error: Error) => {
       handleMessage({
-        type: "error",
+        type: 'error',
         message: error.message,
       });
     },
@@ -185,18 +185,18 @@ export function NewProductReview({
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (
-    formValues: FormValues
+    formValues: FormValues,
   ) => {
     try {
       handleInsertReviewMutation.mutate(formValues);
     } catch (error) {
-      console.error("error", error);
+      console.error('error', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
 
   return (
     <>
@@ -204,7 +204,7 @@ export function NewProductReview({
         <div className="grid grid-cols-1 space-y-2 md:grid-cols-2 lg:grid-cols-3">
           {/* Stars  */}
           <div className="w-full text-xl ">
-            <label htmlFor="aroma">{t("aroma")}</label>
+            <label htmlFor="aroma">{t('aroma')}</label>
 
             <Rate
               rating={aromaRate}
@@ -216,7 +216,7 @@ export function NewProductReview({
           </div>
 
           <div className="w-full text-xl">
-            <label htmlFor="appearance">{t("appearance")}</label>
+            <label htmlFor="appearance">{t('appearance')}</label>
             <Rate
               rating={appearanceRate}
               onRating={(rate) => setAppearanceRate(rate)}
@@ -227,7 +227,7 @@ export function NewProductReview({
           </div>
 
           <div className="w-full text-xl">
-            <label htmlFor="taste">{t("taste")}</label>
+            <label htmlFor="taste">{t('taste')}</label>
             <Rate
               rating={tasteRate}
               onRating={(rate) => setTasteRate(rate)}
@@ -238,7 +238,7 @@ export function NewProductReview({
           </div>
 
           <div className="w-full text-xl">
-            <label htmlFor="mouthfeel">{t("mouthfeel")}</label>
+            <label htmlFor="mouthfeel">{t('mouthfeel')}</label>
             <Rate
               rating={mouthfeelRate}
               onRating={(rate) => setMouthfeelRate(rate)}
@@ -249,7 +249,7 @@ export function NewProductReview({
           </div>
 
           <div className="w-full text-xl">
-            <label htmlFor="bitterness">{t("bitterness")}</label>
+            <label htmlFor="bitterness">{t('bitterness')}</label>
             <Rate
               rating={bitternessRate}
               onRating={(rate) => setBitternessRate(rate)}
@@ -260,7 +260,7 @@ export function NewProductReview({
           </div>
 
           <div className="w-full text-xl">
-            <label htmlFor="overall">{t("overall")}</label>
+            <label htmlFor="overall">{t('overall')}</label>
             <Rate
               rating={overallRate}
               onRating={(rate) => setOverallRate(rate)}
@@ -274,7 +274,7 @@ export function NewProductReview({
         {/* Comment  */}
         <InputTextarea
           form={form}
-          label={"comment"}
+          label={'comment'}
           registerOptions={{
             required: true,
           }}
@@ -286,23 +286,23 @@ export function NewProductReview({
             btnType="submit"
             disabled={loading}
             isActive={false}
-            class={""}
-            title={""}
+            class={''}
+            title={''}
             medium
             primary
           >
-            {loading ? t("loading") : t("rate")}
+            {loading ? t('loading') : t('rate')}
           </Button>
 
           <Button
-            class={"ml-2"}
+            class={'ml-2'}
             onClick={() => handleShowReviewOnClick(false)}
             disabled={loading}
             isActive={false}
-            title={""}
+            title={''}
             medium
           >
-            {t("cancel")}
+            {t('cancel')}
           </Button>
         </div>
       </form>

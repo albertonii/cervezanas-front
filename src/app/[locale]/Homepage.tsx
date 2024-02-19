@@ -2,7 +2,7 @@
 
 import React from 'react';
 import MonthlyBeers from './homepage/MonthlyBeers';
-import { useAuth } from './Auth/useAuth';
+import { useAuth } from './(auth)/Context/useAuth';
 import { TopBeers } from './homepage/TopBeers';
 import { Homeheader } from './homepage/Homeheader';
 import { Highlights } from './homepage/Highlights';

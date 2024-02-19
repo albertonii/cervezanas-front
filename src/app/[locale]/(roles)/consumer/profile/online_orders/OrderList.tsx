@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import OTableData from "./OTableData";
-import useFetchOrders from "../../../../../../hooks/useFetchOrders";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import InputSearch from "../../../../components/common/InputSearch";
-import dynamic from "next/dynamic";
+import OTableData from './OTableData';
+import useFetchOrders from '../../../../../../hooks/useFetchOrders';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IOrder } from '../../../../../../lib/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import InputSearch from '../../../../components/common/InputSearch';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../../components/common/Spinner"),
+  () => import('../../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 interface ColumnsProps {
@@ -30,7 +30,7 @@ export function OrderList() {
   const t = useTranslations();
 
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
@@ -38,7 +38,7 @@ export function OrderList() {
   const { isError, isLoading, refetch } = useFetchOrders(
     user.id,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   useEffect(() => {
@@ -50,12 +50,12 @@ export function OrderList() {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: t("order_number_header") },
-    { header: t("price_header") },
-    { header: t("status_header") },
-    { header: t("tracking_number_header") },
-    { header: t("date_header") },
-    { header: t("action_header") },
+    { header: t('order_number_header') },
+    { header: t('price_header') },
+    { header: t('status_header') },
+    { header: t('tracking_number_header') },
+    { header: t('date_header') },
+    { header: t('action_header') },
   ];
 
   const filteredItemsByStatus = useMemo(() => {
@@ -73,7 +73,7 @@ export function OrderList() {
       {isError && (
         <span className="flex items-center justify-center">
           <h2 className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_online_orders")}
+            {t('error_fetching_online_orders')}
           </h2>
         </span>
       )}
@@ -84,14 +84,14 @@ export function OrderList() {
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
         <p className="flex items-center justify-center">
-          <h3 className="text-gray-500 dark:text-gray-400">{t("no_orders")}</h3>
+          <h3 className="text-gray-500 dark:text-gray-400">{t('no_orders')}</h3>
         </p>
       ) : (
         <>
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_order"}
+            searchPlaceholder={'search_order'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -115,7 +115,7 @@ export function OrderList() {
               {!orders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
-                    {t("no_orders")}
+                    {t('no_orders')}
                   </td>
                 </tr>
               )}

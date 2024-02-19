@@ -9,7 +9,7 @@ import { z, ZodType } from 'zod';
 import { useLocale } from 'next-intl';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../../components/common/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -396,7 +396,6 @@ export default function SignIn() {
           width={1024}
           height={768}
           src={'/assets/profile_signin.jpg'}
-          loader={() => '/assets/profile_signin.jpg'}
         />
       </figure>
     </section>

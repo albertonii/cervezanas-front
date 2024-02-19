@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Rate } from "./Rate";
-import { OwnerInfo } from "../OwnerInfo";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { IReview } from "../../../../lib/types";
-import { DeleteButton } from "../common/DeleteButton";
-import { formatDateString } from "../../../../utils/formatDate";
+import React, { useState } from 'react';
+import { Rate } from './Rate';
+import { OwnerInfo } from '../OwnerInfo';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { IReview } from '../../../../lib/types';
+import { DeleteButton } from '../common/DeleteButton';
+import { formatDateString } from '../../../../utils/formatDate';
 
 interface Props {
   review: IReview;
@@ -20,12 +20,12 @@ export function IndividualReview({ review, handleSetReviews }: Props) {
 
   const [readMore, setReadMore] = useState(false);
 
-  const starColor = { filled: "#fdc300", unfilled: "#a87a12" };
+  const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
 
   const handleDeleteReview = async (reviewId: string) => {
     try {
       const { error } = await supabase
-        .from("reviews")
+        .from('reviews')
         .delete()
         .match({ id: reviewId });
 
@@ -46,7 +46,7 @@ export function IndividualReview({ review, handleSetReviews }: Props) {
       // }
 
       handleSetReviews((prev) =>
-        prev.filter((review) => review.id !== reviewId)
+        prev.filter((review) => review.id !== reviewId),
       );
     } catch (error) {
       console.error(error);
@@ -85,13 +85,13 @@ export function IndividualReview({ review, handleSetReviews }: Props) {
 
       <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
         <p>
-          {t("reviewed_on")} {formatDateString(review.created_at)}
+          {t('reviewed_on')} {formatDateString(review.created_at)}
         </p>
       </footer>
 
       <p
         className={`mb-2 font-light text-gray-500 dark:text-gray-400 ${
-          readMore ? "line-clamp-none" : "line-clamp-3"
+          readMore ? 'line-clamp-none' : 'line-clamp-3'
         }`}
       >
         {review.comment}

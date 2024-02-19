@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import Spinner from '../components/common/Spinner';
+import Spinner from '../../components/common/Spinner';
 import { useTranslations } from 'next-intl';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { SignUpWithPasswordCredentials } from './AuthContext';
+import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../components/message/useMessage';
-import { useAuth } from './useAuth';
-import { Button } from '../components/common/Button';
-import { ROLE_ENUM, ROLE_OPTIONS } from '../../../lib/enums';
-import InputLabel from '../components/common/InputLabel';
-import SelectInput from '../components/common/SelectInput';
+import { useMessage } from '../../components/message/useMessage';
+import { useAuth } from '../Context/useAuth';
+import { Button } from '../../components/common/Button';
+import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
+import InputLabel from '../../components/common/InputLabel';
+import SelectInput from '../../components/common/SelectInput';
 import Link from 'next/link';
-import { SupabaseProps } from '../../../constants';
-import Modal from '../components/modals/Modal';
-import ProducerDisclaimerModal from '../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
-import DistributorDisclaimerModal from '../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
+import { SupabaseProps } from '../../../../constants';
+import Modal from '../../components/modals/Modal';
+import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
+import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 
 interface FormData {
   access_level: string;

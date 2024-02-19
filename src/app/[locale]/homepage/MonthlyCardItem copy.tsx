@@ -13,7 +13,7 @@ import { IconButton } from '../components/common/IconButton';
 import { formatCurrency } from '../../../utils/formatCurrency';
 import { AddCardButton } from '../components/common/AddCartButton';
 import { useShoppingCart } from '../../context/ShoppingCartContext';
-import { useAuth } from '../Auth/useAuth';
+import { useAuth } from '../(auth)/Context/useAuth';
 
 interface Props {
   mProduct: IMonthlyProduct;

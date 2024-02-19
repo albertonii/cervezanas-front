@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import React, { ComponentProps } from "react";
-import { z, ZodType } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { IProductLot } from "../../../../lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format_options } from "../../../../lib/beerEnum";
-import { useMutation, useQueryClient } from "react-query";
-import InputLabel from "../common/InputLabel";
-import SelectInput from "../common/SelectInput";
-import InputTextarea from "../common/InputTextarea";
-import { formatDateDefaultInput } from "../../../../utils/formatDate";
+import dynamic from 'next/dynamic';
+import React, { ComponentProps } from 'react';
+import { z, ZodType } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { IProductLot } from '../../../../lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format_options } from '../../../../lib/beerEnum';
+import { useMutation, useQueryClient } from 'react-query';
+import InputLabel from '../common/InputLabel';
+import SelectInput from '../common/SelectInput';
+import InputTextarea from '../common/InputTextarea';
+import { formatDateDefaultInput } from '../../../../utils/formatDate';
 
-const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
 type ModalUpdLotFormData = {
   lot_name: string;
@@ -30,18 +30,18 @@ type ModalUpdLotFormData = {
 };
 
 const schema: ZodType<ModalUpdLotFormData> = z.object({
-  lot_number: z.string().min(1, { message: "errors.input_min_1" }),
-  lot_name: z.string().nonempty({ message: "errors.input_required" }),
-  quantity: z.number().positive({ message: "errors.input_required" }),
-  limit_notification: z.number().positive({ message: "errors.input_required" }),
+  lot_number: z.string().min(1, { message: 'errors.input_min_1' }),
+  lot_name: z.string().nonempty({ message: 'errors.input_required' }),
+  quantity: z.number().positive({ message: 'errors.input_required' }),
+  limit_notification: z.number().positive({ message: 'errors.input_required' }),
   recipe: z.string().optional(),
-  expiration_date: z.string().nonempty({ message: "errors.input_required" }),
-  manufacture_date: z.string().nonempty({ message: "errors.input_required" }),
+  expiration_date: z.string().nonempty({ message: 'errors.input_required' }),
+  manufacture_date: z.string().nonempty({ message: 'errors.input_required' }),
   packaging: z.string().transform((value) => {
     const valueNumber = parseInt(value);
     return format_options[valueNumber].label;
   }),
-  product_id: z.string().nonempty({ message: "errors.input_required" }),
+  product_id: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -62,11 +62,11 @@ export function UpdateLot({
   const queryClient = useQueryClient();
 
   const packagingNum = format_options.find(
-    (option) => option.label === productLot.packaging
+    (option) => option.label === productLot.packaging,
   )?.value;
 
   const form = useForm<ModalUpdLotFormData>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       lot_number: productLot.lot_number,
@@ -96,7 +96,7 @@ export function UpdateLot({
 
     if (productLot) {
       const { error } = await supabase
-        .from("product_lots")
+        .from('product_lots')
         .update({
           quantity,
           lot_number,
@@ -108,7 +108,7 @@ export function UpdateLot({
           owner_id: user?.id,
           packaging,
         })
-        .eq("id", productLot.id);
+        .eq('id', productLot.id);
 
       if (error) throw error;
     }
@@ -117,15 +117,15 @@ export function UpdateLot({
   };
 
   const updateLotMutation = useMutation({
-    mutationKey: ["updateLot"],
+    mutationKey: ['updateLot'],
     mutationFn: handleLotUpdate,
     onSuccess: () => {
-      queryClient.invalidateQueries("productLotList");
+      queryClient.invalidateQueries('productLotList');
     },
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalUpdLotFormData
+    formValues: ModalUpdLotFormData,
   ) => {
     try {
       updateLotMutation.mutate(formValues);
@@ -139,13 +139,13 @@ export function UpdateLot({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleEditShowModal}
-      title={"config_lot"}
-      btnTitle={"edit_lot"}
-      description={"modal_product_description"}
+      title={'config_lot'}
+      btnTitle={'edit_lot'}
+      description={'modal_product_description'}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => handleEditShowModal(false)}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
       form={form}
     >
       <form>
@@ -155,20 +155,20 @@ export function UpdateLot({
             <div className="flex w-full flex-row space-x-3 ">
               <InputLabel
                 form={form}
-                label={"lot_name"}
+                label={'lot_name'}
                 registerOptions={{
                   required: true,
                 }}
-                placeholder={t("lot_name")}
+                placeholder={t('lot_name')}
               />
 
               <InputLabel
                 form={form}
-                label={"lot_number"}
+                label={'lot_number'}
                 registerOptions={{
                   required: true,
                 }}
-                placeholder={t("lot_number")}
+                placeholder={t('lot_number')}
               />
             </div>
 
@@ -176,24 +176,24 @@ export function UpdateLot({
             <div className="flex w-full flex-row space-x-3 ">
               <InputLabel
                 form={form}
-                label={"quantity"}
+                label={'quantity'}
                 registerOptions={{
                   required: true,
                   valueAsNumber: true,
                   min: 0,
                 }}
-                placeholder={t("quantity")}
+                placeholder={t('quantity')}
               />
 
               <InputLabel
                 form={form}
-                label={"limit_notification"}
+                label={'limit_notification'}
                 registerOptions={{
                   required: true,
                   valueAsNumber: true,
                   min: 0,
                 }}
-                placeholder={t("limit_notification")}
+                placeholder={t('limit_notification')}
               />
             </div>
 
@@ -201,22 +201,22 @@ export function UpdateLot({
             <div className="flex w-full flex-row space-x-3 ">
               <InputLabel
                 form={form}
-                label={"manufacture_date"}
+                label={'manufacture_date'}
                 registerOptions={{
                   required: true,
                 }}
-                placeholder={t("manufacture_date")}
-                inputType={"date"}
+                placeholder={t('manufacture_date')}
+                inputType={'date'}
               />
 
               <InputLabel
                 form={form}
-                label={"expiration_date"}
+                label={'expiration_date'}
                 registerOptions={{
                   required: true,
                 }}
-                placeholder={t("expiration_date")}
-                inputType={"date"}
+                placeholder={t('expiration_date')}
+                inputType={'date'}
               />
             </div>
 
@@ -224,7 +224,7 @@ export function UpdateLot({
             <SelectInput
               form={form}
               options={format_options}
-              label={"packaging"}
+              label={'packaging'}
               registerOptions={{
                 required: true,
               }}
@@ -233,11 +233,11 @@ export function UpdateLot({
 
             <InputTextarea
               form={form}
-              label={"recipe"}
+              label={'recipe'}
               registerOptions={{
                 required: true,
               }}
-              placeholder={t("beer_recipe")}
+              placeholder={t('beer_recipe')}
             />
 
             {/* Separator  */}
@@ -252,11 +252,11 @@ export function UpdateLot({
                   htmlFor="lot"
                   className="text-sm text-gray-600 md:text-lg"
                 >
-                  {t("lot_attached_to_product")}
+                  {t('lot_attached_to_product')}
                 </label>
 
                 <p className="text-md font-semibold md:text-2xl">
-                  {productLot.products?.name}{" "}
+                  {productLot.products?.name}{' '}
                 </p>
               </div>
             </div>

@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { INotification } from "../../../../lib/types";
-import { formatDateString } from "../../../../utils/formatDate";
+import React, { useState } from 'react';
+import { INotification } from '../../../../lib/types';
+import { formatDateString } from '../../../../utils/formatDate';
 import {
   faChevronCircleDown,
   faEnvelope,
   faEnvelopeOpen,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "../../Auth/useAuth";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../../(auth)/Context/useAuth';
 
 interface Props {
   notification: INotification;
@@ -26,16 +26,16 @@ export default function NotificationTableData({ notification, key }: Props) {
 
   const updateIsRead = async () => {
     const { data, error } = await supabase
-      .from("notifications")
+      .from('notifications')
       .update({ read: true })
-      .eq("id", notification.id)
+      .eq('id', notification.id)
       .select(
         `
         *,
         source_user:users!notifications_user_id_fkey (
           username
         )
-        `
+        `,
       )
       .single();
     if (error) throw error;
@@ -61,7 +61,7 @@ export default function NotificationTableData({ notification, key }: Props) {
             <span className="inline-flex rounded-full bg-green-100 px-2 py-2 text-xs font-semibold leading-5 text-green-800">
               <FontAwesomeIcon
                 icon={faEnvelopeOpen}
-                title={""}
+                title={''}
                 width={40}
                 height={40}
                 className={`h-4`}
@@ -71,7 +71,7 @@ export default function NotificationTableData({ notification, key }: Props) {
             <span className="inline-flex rounded-full bg-red-100 p-2 px-2 text-xs font-semibold leading-5 text-red-800">
               <FontAwesomeIcon
                 icon={faEnvelope}
-                title={""}
+                title={''}
                 width={40}
                 height={40}
                 className={`h-4`}
@@ -93,17 +93,17 @@ export default function NotificationTableData({ notification, key }: Props) {
         <td className="item-center flex justify-center px-6 py-4">
           <div
             className={`${
-              showAccordion ? "bg-gray-100 text-beer-draft" : "text-beer-gold"
+              showAccordion ? 'bg-gray-100 text-beer-draft' : 'text-beer-gold'
             } flex  justify-between px-6 py-4 text-lg `}
           >
             <div className="flex items-center justify-center space-x-2">
               <FontAwesomeIcon
                 icon={faChevronCircleDown}
-                style={{ color: showAccordion ? "#90470b" : "#EE9900" }}
-                title={"chevron_circle_down"}
+                style={{ color: showAccordion ? '#90470b' : '#EE9900' }}
+                title={'chevron_circle_down'}
                 width={20}
                 height={20}
-                className={`${showAccordion && "rotate-180"}`}
+                className={`${showAccordion && 'rotate-180'}`}
               />
             </div>
           </div>
@@ -113,8 +113,8 @@ export default function NotificationTableData({ notification, key }: Props) {
       <tr
         className={`${
           showAccordion
-            ? "border-b bg-bear-alvine dark:border-gray-700 dark:bg-gray-800"
-            : "hidden"
+            ? 'border-b bg-bear-alvine dark:border-gray-700 dark:bg-gray-800'
+            : 'hidden'
         }`}
       >
         <td

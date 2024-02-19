@@ -12,7 +12,7 @@ import {
   ICPMProductsEditCPFixedModal,
   IUser,
 } from '../../../../../../lib/types';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import Modal from '../../../../components/modals/Modal';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -257,7 +257,6 @@ export default function EditCPFixedModal({
       }
 
       queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
-
     }
   };
 

@@ -5,7 +5,7 @@ import RejectContractModal from './RejectContractModal';
 import ApproveContractModal from './ApproveContractModal';
 import useFetchDistributionContractsByDistributorId from '../../../../../../hooks/useFetchDistributionContractsByDistributorId';
 import React, { useMemo, useState } from 'react';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IconButton } from '../../../../components/common/IconButton';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IDistributionContract } from '../../../../../../lib/types';

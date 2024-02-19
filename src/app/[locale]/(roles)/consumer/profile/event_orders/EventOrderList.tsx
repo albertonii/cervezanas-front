@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import EOTableData from "./EOTableData";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import useFetchEventOrders from "../../../../../../hooks/useFetchEventOrders";
-import React, { useEffect, useMemo, useState } from "react";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useTranslations } from "next-intl";
-import { IEventOrder } from "../../../../../../lib/types";
-import InputSearch from "../../../../components/common/InputSearch";
-import dynamic from "next/dynamic";
+import EOTableData from './EOTableData';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useTranslations } from 'next-intl';
+import { IEventOrder } from '../../../../../../lib/types';
+import InputSearch from '../../../../components/common/InputSearch';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../../components/common/Spinner"),
+  () => import('../../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 interface ColumnsProps {
@@ -30,7 +30,7 @@ export function EventOrderList() {
   const t = useTranslations();
 
   const [orders, setOrders] = useState<IEventOrder[]>([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
@@ -38,7 +38,7 @@ export function EventOrderList() {
   const { isError, isLoading, refetch } = useFetchEventOrders(
     user.id,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   useEffect(() => {
@@ -50,12 +50,12 @@ export function EventOrderList() {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: t("order_number_header") },
-    { header: t("name_header") },
-    { header: t("price_header") },
-    { header: t("status_header") },
-    { header: t("date_header") },
-    { header: t("action_header") },
+    { header: t('order_number_header') },
+    { header: t('name_header') },
+    { header: t('price_header') },
+    { header: t('status_header') },
+    { header: t('date_header') },
+    { header: t('action_header') },
   ];
 
   const filteredItemsByStatus = useMemo(() => {
@@ -73,7 +73,7 @@ export function EventOrderList() {
       {isError && (
         <div className="flex items-center justify-center">
           <span className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_event_orders")}
+            {t('error_fetching_event_orders')}
           </span>
         </div>
       )}
@@ -85,7 +85,7 @@ export function EventOrderList() {
       {!isError && !isLoading && orders && orders.length === 0 ? (
         <p className="flex items-center justify-center">
           <span className="text-gray-500 dark:text-gray-400">
-            {t("no_orders")}
+            {t('no_orders')}
           </span>
         </p>
       ) : (
@@ -93,7 +93,7 @@ export function EventOrderList() {
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_order"}
+            searchPlaceholder={'search_order'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -118,7 +118,7 @@ export function EventOrderList() {
               {!orders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
-                    {t("no_orders")}
+                    {t('no_orders')}
                   </td>
                 </tr>
               )}

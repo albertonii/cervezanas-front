@@ -3,7 +3,7 @@
 import LinkDistributor from './LinkDistributor';
 import AssociatedDistributorsList from './AssociatedDistributorsList';
 import React from 'react';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 
 export default function Distributors() {

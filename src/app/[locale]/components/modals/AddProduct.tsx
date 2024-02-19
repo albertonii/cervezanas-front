@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import React, { useState } from 'react';
+import { z, ZodType } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   aroma_options,
   color_options,
@@ -13,112 +13,112 @@ import {
   fermentation_options,
   origin_options,
   product_type_options,
-} from "../../../../lib/beerEnum";
-import { AwardsSection } from "./AwardsSection";
-import { MultimediaSection } from "./MultimediaSection";
+} from '../../../../lib/beerEnum';
+import { AwardsSection } from './AwardsSection';
+import { MultimediaSection } from './MultimediaSection';
 import {
   IProductInventory,
   IModalAddProductPack,
   ModalAddProductAwardFormData,
   ModalAddProductFormData,
-} from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
-import { v4 as uuidv4 } from "uuid";
-import { ProductSummary } from "./ProductSummary";
+} from '../../../../lib/types';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { v4 as uuidv4 } from 'uuid';
+import { ProductSummary } from './ProductSummary';
 import {
   generateFileNameExtension,
   isFileEmpty,
   isNotEmptyArray,
   isValidObject,
-} from "../../../../utils/utils";
-import { useMutation, useQueryClient } from "react-query";
-import { ProductStepper } from "./ProductStepper";
-import { ProductInfoSection } from "./ProductInfoSection";
-import { useAppContext } from "../../../context/AppContext";
-import dynamic from "next/dynamic";
+} from '../../../../utils/utils';
+import { useMutation, useQueryClient } from 'react-query';
+import { ProductStepper } from './ProductStepper';
+import { ProductInfoSection } from './ProductInfoSection';
+import { useAppContext } from '../../../context/AppContext';
+import dynamic from 'next/dynamic';
 
-const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
-  name: z.string().min(2, { message: "errors.min_2_characters" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  name: z.string().min(2, { message: 'errors.min_2_characters' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
   description: z
     .string()
-    .min(2, { message: "errors.min_2_characters" })
+    .min(2, { message: 'errors.min_2_characters' })
     .max(2500, {
-      message: "errors.error_2500_max_length",
+      message: 'errors.error_2500_max_length',
     }),
-  price: z.number().min(0, { message: "errors.input_min_0" }),
-  fermentation: z.number().min(0, { message: "errors.input_min_0" }).max(100, {
-    message: "errors.input_max_5",
+  price: z.number().min(0, { message: 'errors.input_min_0' }),
+  fermentation: z.number().min(0, { message: 'errors.input_min_0' }).max(100, {
+    message: 'errors.input_max_5',
   }),
-  color: z.number().min(0, { message: "errors.input_min_0" }),
-  intensity: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "Required",
+  color: z.number().min(0, { message: 'errors.input_min_0' }),
+  intensity: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'Required',
   }),
-  aroma: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  aroma: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
-  family: z.number().min(0, { message: "errors.input_min_0" }).max(30, {
-    message: "errors.error_30_max_length",
+  family: z.number().min(0, { message: 'errors.input_min_0' }).max(30, {
+    message: 'errors.error_30_max_length',
   }),
-  origin: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  origin: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
-  era: z.number().min(0, { message: "errors.input_min_0" }).max(5, {
-    message: "errors.input_min_5",
+  era: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
+    message: 'errors.input_min_5',
   }),
   is_gluten: z.coerce.boolean(),
-  type: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "Required",
+  type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'Required',
   }),
   awards: z.array(
     z.object({
-      name: z.string().min(2, { message: "errors.input_min_2" }).max(150, {
-        message: "errors.input_max_150",
+      name: z.string().min(2, { message: 'errors.input_min_2' }).max(150, {
+        message: 'errors.input_max_150',
       }),
       description: z
         .string()
-        .min(2, { message: "errors.input_min_2" })
+        .min(2, { message: 'errors.input_min_2' })
         .max(500, {
-          message: "errors.input_max_500",
+          message: 'errors.input_max_500',
         }),
       year: z
         .number()
-        .min(1900, { message: "errors.input_min_1900" })
+        .min(1900, { message: 'errors.input_min_1900' })
         .max(2030, {
-          message: "errors.input_max_2030",
+          message: 'errors.input_max_2030',
         }),
       img_url: z.instanceof(FileList).optional(),
-    })
+    }),
   ),
   p_principal: z.instanceof(FileList).optional(),
   p_back: z.instanceof(FileList).optional(),
   p_extra_1: z.instanceof(FileList).optional(),
   p_extra_2: z.instanceof(FileList).optional(),
   is_public: z.boolean(),
-  volume: z.number().min(0, { message: "errors.input_min_0" }),
-  weight: z.number().min(0, { message: "errors.input_min_0" }),
-  format: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  volume: z.number().min(0, { message: 'errors.input_min_0' }),
+  weight: z.number().min(0, { message: 'errors.input_min_0' }),
+  format: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
-  stock_quantity: z.number().min(0, { message: "errors.input_min_0" }),
+  stock_quantity: z.number().min(0, { message: 'errors.input_min_0' }),
   stock_limit_notification: z
     .number()
-    .min(0, { message: "errors.input_required" }),
+    .min(0, { message: 'errors.input_required' }),
   packs: z.array(
     z.object({
-      quantity: z.number().min(0, { message: "errors.input_min_0" }),
-      price: z.number().min(0, { message: "errors.input_min_0" }),
-      name: z.string().min(2, { message: "errors.input_min_2" }).max(100, {
-        message: "errors.error_100_number_max_length",
+      quantity: z.number().min(0, { message: 'errors.input_min_0' }),
+      price: z.number().min(0, { message: 'errors.input_min_0' }),
+      name: z.string().min(2, { message: 'errors.input_min_2' }).max(100, {
+        message: 'errors.error_100_number_max_length',
       }),
       img_url: z.instanceof(FileList).optional(),
-    })
+    }),
   ),
-  category: z.string().min(2, { message: "errors.input_min_2" }).max(50, {
-    message: "errors.error_50_number_max_length",
+  category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    message: 'errors.error_50_number_max_length',
   }),
 });
 
@@ -140,11 +140,11 @@ export function AddProduct() {
   };
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       awards: [],
-      type: "beer",
+      type: 'beer',
       is_gluten: false,
     },
   });
@@ -192,7 +192,7 @@ export function AddProduct() {
     // Product
     // TODO: AÑADIR -> Nº ARTÍCULO, Nº VARIANTE, Nº ALEATORIO
     const { data: productData, error: productError } = await supabase
-      .from("products")
+      .from('products')
       .insert({
         name,
         description,
@@ -212,33 +212,33 @@ export function AddProduct() {
     // Multimedia
     const randomUUID = generateUUID();
 
-    let p_principal_url = "";
-    let p_back_url = "";
-    let p_extra_1_url = "";
-    let p_extra_2_url = "";
-    let p_extra_3_url = "";
+    let p_principal_url = '';
+    let p_back_url = '';
+    let p_extra_1_url = '';
+    let p_extra_2_url = '';
+    let p_extra_3_url = '';
 
     if (p_principal && !isFileEmpty(p_principal[0])) {
       const fileName = `articles/${productId}/p_principal/${randomUUID}`;
       // .../articles/1/p_principal/uuid.jpg
       p_principal_url = encodeURIComponent(
-        `${fileName}${generateFileNameExtension(p_principal[0].name)}`
+        `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
       );
 
       const { error: pPrincipalError } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(
           `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
           p_principal[0],
           {
             contentType: p_principal[0].type,
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
-          }
+          },
         );
       if (pPrincipalError) throw pPrincipalError;
 
-      removeImage("p_principal");
+      removeImage('p_principal');
     }
 
     if (p_back && !isFileEmpty(p_back[0])) {
@@ -247,22 +247,22 @@ export function AddProduct() {
       p_back_url =
         p_back &&
         encodeURIComponent(
-          `${fileName}${generateFileNameExtension(p_back[0].name)}`
+          `${fileName}${generateFileNameExtension(p_back[0].name)}`,
         );
 
       const { error: pBackError } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(
           `${fileName}${generateFileNameExtension(p_back[0].name)}`,
           p_back[0],
           {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
-          }
+          },
         );
       if (pBackError) throw pBackError;
 
-      removeImage("p_back");
+      removeImage('p_back');
     }
 
     if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
@@ -271,22 +271,22 @@ export function AddProduct() {
       p_extra_1_url =
         p_extra_1 &&
         encodeURIComponent(
-          `${fileName}${generateFileNameExtension(p_extra_1[0].name)}`
+          `${fileName}${generateFileNameExtension(p_extra_1[0].name)}`,
         );
 
       const { error: pExtra1Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(
           `${fileName}${generateFileNameExtension(p_extra_1[0].name)}`,
           p_extra_1[0],
           {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
-          }
+          },
         );
       if (pExtra1Error) throw pExtra1Error;
 
-      removeImage("p_extra_1");
+      removeImage('p_extra_1');
     }
 
     if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
@@ -295,22 +295,22 @@ export function AddProduct() {
       p_extra_2_url =
         p_extra_2 &&
         encodeURIComponent(
-          `${fileName}${generateFileNameExtension(p_extra_2[0].name)}`
+          `${fileName}${generateFileNameExtension(p_extra_2[0].name)}`,
         );
 
       const { error: pExtra2Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(
           `${fileName}${generateFileNameExtension(p_extra_2[0].name)}`,
           p_extra_2[0],
           {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
-          }
+          },
         );
       if (pExtra2Error) throw pExtra2Error;
 
-      removeImage("p_extra_2");
+      removeImage('p_extra_2');
     }
 
     if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
@@ -321,29 +321,29 @@ export function AddProduct() {
         `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
 
       const { error: pExtra3Error } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(
           `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`,
           p_extra_3[0],
           {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
-          }
+          },
         );
       if (pExtra3Error) throw pExtra3Error;
 
-      removeImage("p_extra_3");
+      removeImage('p_extra_3');
     }
 
     const { error: multError } = await supabase
-      .from("product_multimedia")
+      .from('product_multimedia')
       .insert({
         product_id: productId,
-        p_principal: p_principal_url ?? "",
-        p_back: p_back_url ?? "",
-        p_extra_1: p_extra_1_url ?? "",
-        p_extra_2: p_extra_2_url ?? "",
-        p_extra_3: p_extra_3_url ?? "",
+        p_principal: p_principal_url ?? '',
+        p_back: p_back_url ?? '',
+        p_extra_1: p_extra_1_url ?? '',
+        p_extra_2: p_extra_2_url ?? '',
+        p_extra_3: p_extra_3_url ?? '',
       });
 
     if (multError) throw multError;
@@ -353,7 +353,7 @@ export function AddProduct() {
     // Beer type
     if (product_type_options[0].label === productData[0].type) {
       const { data: beerData, error: beerError } = await supabase
-        .from("beers")
+        .from('beers')
         .insert({
           intensity,
           fermentation: fermentation_options[fermentation].label,
@@ -367,7 +367,7 @@ export function AddProduct() {
           format,
           product_id: productId,
         })
-        .select("*")
+        .select('*')
         .single();
 
       if (beerError) throw beerError;
@@ -386,7 +386,7 @@ export function AddProduct() {
       // productData[0].product_inventory = stock;
 
       const { error: stockError } = await supabase
-        .from("product_inventory")
+        .from('product_inventory')
         .insert(stock);
       if (stockError) throw stockError;
 
@@ -395,11 +395,11 @@ export function AddProduct() {
         packs.map(async (pack: IModalAddProductPack, index: number) => {
           const filename = `packs/${productId}/${randomUUID}_${index}`;
           const pack_url = encodeURIComponent(
-            `${filename}${generateFileNameExtension(pack.name)}`
+            `${filename}${generateFileNameExtension(pack.name)}`,
           );
 
           const { error: packsError } = await supabase
-            .from("product_packs")
+            .from('product_packs')
             .insert({
               product_id: productId,
               quantity: pack.quantity,
@@ -413,15 +413,15 @@ export function AddProduct() {
 
           if (pack.img_url) {
             const { error: storagePacksError } = await supabase.storage
-              .from("products")
+              .from('products')
               .upload(
                 `${filename}${generateFileNameExtension(pack.name)}`,
                 pack.img_url[0],
                 {
                   contentType: pack.img_url[0].type,
-                  cacheControl: "3600",
+                  cacheControl: '3600',
                   upsert: false,
-                }
+                },
               );
 
             if (storagePacksError) throw storagePacksError;
@@ -438,11 +438,13 @@ export function AddProduct() {
             if (award && !isFileEmpty(award.img_url)) {
               const filename = `awards/${productId}/${randomUUID}_${index}`;
               const award_url = encodeURIComponent(
-                `${filename}${generateFileNameExtension(award.img_url[0].name)}`
+                `${filename}${generateFileNameExtension(
+                  award.img_url[0].name,
+                )}`,
               );
 
               const { error: awardsError } = await supabase
-                .from("awards")
+                .from('awards')
                 .insert({
                   product_id: productId,
                   name: award.name,
@@ -454,23 +456,23 @@ export function AddProduct() {
               if (awardsError) throw awardsError;
 
               const { error: storageAwardsError } = await supabase.storage
-                .from("products")
+                .from('products')
                 .upload(
                   `${filename}${generateFileNameExtension(
-                    award.img_url[0].name
+                    award.img_url[0].name,
                   )}`,
                   award.img_url[0],
                   {
                     contentType: award.img_url[0].type,
-                    cacheControl: "3600",
+                    cacheControl: '3600',
                     upsert: false,
-                  }
+                  },
                 );
               if (storageAwardsError) throw storageAwardsError;
 
               removeImage(`awards.${index}.img_url`);
             }
-          }
+          },
         );
       }
 
@@ -483,13 +485,13 @@ export function AddProduct() {
   };
 
   const insertProductMutation = useMutation({
-    mutationKey: ["insertProduct"],
+    mutationKey: ['insertProduct'],
     mutationFn: handleInsertProduct,
     onMutate: () => {
       setIsSubmitting(true);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      queryClient.invalidateQueries({ queryKey: ['productList'] });
       setShowModal(false);
       setIsSubmitting(false);
     },
@@ -500,7 +502,7 @@ export function AddProduct() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddProductFormData
+    formValues: ModalAddProductFormData,
   ) => {
     try {
       insertProductMutation.mutate(formValues);
@@ -514,11 +516,11 @@ export function AddProduct() {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={"add_product"}
-      btnTitle={"add_product"}
-      description={""}
-      classIcon={""}
-      classContainer={""}
+      title={'add_product'}
+      btnTitle={'add_product'}
+      description={''}
+      classIcon={''}
+      classContainer={''}
       handler={handleSubmit(onSubmit)}
       handlerClose={() => {
         setActiveStep(0);
@@ -535,7 +537,7 @@ export function AddProduct() {
           >
             <>
               <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                {t("modal_product_description")}
+                {t('modal_product_description')}
               </p>
 
               {activeStep === 0 ? (

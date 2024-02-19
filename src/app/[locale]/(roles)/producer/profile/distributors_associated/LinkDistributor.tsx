@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { DistributionStatus } from '../../../../../../lib/enums';
 import { useMessage } from '../../../../components/message/useMessage';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 
 type FormData = {

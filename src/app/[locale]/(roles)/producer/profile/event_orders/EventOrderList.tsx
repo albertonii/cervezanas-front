@@ -3,7 +3,7 @@
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { faEye } from '@fortawesome/free-solid-svg-icons';

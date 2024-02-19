@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { ICPM_events } from "../lib/types.d";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../lib/schema";
+import { useQuery } from 'react-query';
+import { ICPM_events } from '../lib/types.d';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '../lib/schema';
 
 const fetchCPSMobileByEventId = async (
   eventId: string,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   if (!eventId) return [];
 
   const { data, error } = await supabase
-    .from("cpm_events")
+    .from('cpm_events')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("event_id", eventId)
+    .eq('event_id', eventId)
     .select();
 
   if (error) throw error;
@@ -31,7 +31,7 @@ const useFetchCPSMobileByEventsId = (eventId: string) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["cpm_events"],
+    queryKey: ['cpm_events'],
     queryFn: () => fetchCPSMobileByEventId(eventId, supabase),
     enabled: false,
     refetchOnWindowFocus: false,

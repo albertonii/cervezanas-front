@@ -11,7 +11,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { CheckoutItem } from './CheckoutItem';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';

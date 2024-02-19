@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import useFetchProductsByOwner from "../../../../hooks/useFetchProductsByOwner";
-import React, { useState } from "react";
-import { z, ZodType } from "zod";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "react-query";
-import { format_options } from "../../../../lib/beerEnum";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { SearchCheckboxProductsList } from "../common/SearchCheckboxProductsList";
-import dynamic from "next/dynamic";
-import InputLabel from "../common/InputLabel";
-import SelectInput from "../common/SelectInput";
-import InputTextarea from "../common/InputTextarea";
+import useFetchProductsByOwner from '../../../../hooks/useFetchProductsByOwner';
+import React, { useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from 'react-query';
+import { format_options } from '../../../../lib/beerEnum';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { SearchCheckboxProductsList } from '../common/SearchCheckboxProductsList';
+import dynamic from 'next/dynamic';
+import InputLabel from '../common/InputLabel';
+import SelectInput from '../common/SelectInput';
+import InputTextarea from '../common/InputTextarea';
 
-const ModalWithForm = dynamic(() => import("./ModalWithForm"), { ssr: false });
+const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
 type ModalAddLotFormData = {
   quantity: number;
@@ -30,10 +30,10 @@ type ModalAddLotFormData = {
 };
 
 const schema: ZodType<ModalAddLotFormData> = z.object({
-  lot_number: z.string().min(1, { message: "errors.input_min_1" }),
-  lot_name: z.string().nonempty({ message: "errors.input_required" }),
-  quantity: z.number().positive({ message: "errors.input_required" }),
-  limit_notification: z.number().positive({ message: "errors.input_required" }),
+  lot_number: z.string().min(1, { message: 'errors.input_min_1' }),
+  lot_name: z.string().nonempty({ message: 'errors.input_required' }),
+  quantity: z.number().positive({ message: 'errors.input_required' }),
+  limit_notification: z.number().positive({ message: 'errors.input_required' }),
   recipe: z.string().optional(),
   expiration_date: z.date(),
   manufacture_date: z.date(),
@@ -41,7 +41,7 @@ const schema: ZodType<ModalAddLotFormData> = z.object({
     const valueNumber = parseInt(value);
     return format_options[valueNumber].label;
   }),
-  product_id: z.string().nonempty({ message: "errors.input_required" }),
+  product_id: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -55,25 +55,22 @@ export function AddLot() {
   const { data: products } = useFetchProductsByOwner(user?.id);
 
   const form = useForm<ModalAddLotFormData>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
-      lot_number: "",
-      lot_name: "",
-      product_id: "",
+      lot_number: '',
+      lot_name: '',
+      product_id: '',
       quantity: 100,
       limit_notification: 10,
-      recipe: "",
+      recipe: '',
       expiration_date: new Date(),
       manufacture_date: new Date(),
-      packaging: t(format_options[0].label) ?? "",
+      packaging: t(format_options[0].label) ?? '',
     },
   });
 
-  const {
-    handleSubmit,
-    reset,
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const queryClient = useQueryClient();
 
@@ -95,7 +92,7 @@ export function AddLot() {
 
     const userId = user?.id;
 
-    const { error } = await supabase.from("product_lots").insert({
+    const { error } = await supabase.from('product_lots').insert({
       quantity,
       lot_number,
       lot_name,
@@ -112,10 +109,10 @@ export function AddLot() {
   };
 
   const insertProductLotMutation = useMutation({
-    mutationKey: ["insertProductLot"],
+    mutationKey: ['insertProductLot'],
     mutationFn: handleInsertLot,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productLotList"] });
+      queryClient.invalidateQueries({ queryKey: ['productLotList'] });
     },
     onError: (error: any) => {
       console.error(error);
@@ -123,7 +120,7 @@ export function AddLot() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddLotFormData
+    formValues: ModalAddLotFormData,
   ) => {
     try {
       insertProductLotMutation.mutate(formValues);
@@ -139,12 +136,12 @@ export function AddLot() {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={"config_lot"}
-      btnTitle={"add_lot"}
-      description={"modal_product_description"}
+      title={'config_lot'}
+      btnTitle={'add_lot'}
+      description={'modal_product_description'}
       handler={handleSubmit(onSubmit)}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
       form={form}
     >
       <form>
@@ -153,20 +150,20 @@ export function AddLot() {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"lot_name"}
+              label={'lot_name'}
               registerOptions={{
                 required: true,
               }}
-              placeholder={t("lot_name")}
+              placeholder={t('lot_name')}
             />
 
             <InputLabel
               form={form}
-              label={"lot_number"}
+              label={'lot_number'}
               registerOptions={{
                 required: true,
               }}
-              placeholder={t("lot_number")}
+              placeholder={t('lot_number')}
             />
           </div>
 
@@ -174,24 +171,24 @@ export function AddLot() {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"quantity"}
+              label={'quantity'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
                 min: 0,
               }}
-              placeholder={t("quantity")}
+              placeholder={t('quantity')}
             />
 
             <InputLabel
               form={form}
-              label={"limit_notification"}
+              label={'limit_notification'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
                 min: 0,
               }}
-              placeholder={t("limit_notification")}
+              placeholder={t('limit_notification')}
             />
           </div>
 
@@ -199,24 +196,24 @@ export function AddLot() {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"manufacture_date"}
+              label={'manufacture_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
               }}
-              placeholder={t("manufacture_date")}
-              inputType={"date"}
+              placeholder={t('manufacture_date')}
+              inputType={'date'}
             />
 
             <InputLabel
               form={form}
-              label={"expiration_date"}
+              label={'expiration_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
               }}
-              placeholder={t("expiration_date")}
-              inputType={"date"}
+              placeholder={t('expiration_date')}
+              inputType={'date'}
             />
           </div>
 
@@ -224,7 +221,7 @@ export function AddLot() {
           <SelectInput
             form={form}
             options={format_options}
-            label={"packaging"}
+            label={'packaging'}
             registerOptions={{
               required: true,
             }}
@@ -232,11 +229,11 @@ export function AddLot() {
 
           <InputTextarea
             form={form}
-            label={"recipe"}
+            label={'recipe'}
             registerOptions={{
               required: true,
             }}
-            placeholder={t("beer_recipe")}
+            placeholder={t('beer_recipe')}
           />
 
           <SearchCheckboxProductsList products={products ?? []} form={form} />

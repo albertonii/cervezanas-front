@@ -3,7 +3,7 @@
 import { IEvent } from '../lib/types';
 import { useQuery } from 'react-query';
 import { Database } from '../lib/schema';
-import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchEvents = async (

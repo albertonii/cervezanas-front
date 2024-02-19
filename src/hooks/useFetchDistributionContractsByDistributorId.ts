@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { SupabaseClient } from "@supabase/supabase-js";
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { Database } from "../lib/schema";
-import { IDistributionContract } from "../lib/types.d";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { Database } from '../lib/schema';
+import { IDistributionContract } from '../lib/types.d';
 
 const fetchDistributionContracts = async (
   distributorId: string,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   const { data, error } = await supabase
-    .from("distribution_contracts")
+    .from('distribution_contracts')
     .select(
       `
         producer_id,
@@ -31,9 +31,9 @@ const fetchDistributionContracts = async (
             *
           )
         )
-      `
+      `,
     )
-    .eq("distributor_id", distributorId);
+    .eq('distributor_id', distributorId);
 
   /*
     ,
@@ -47,12 +47,12 @@ const fetchDistributionContracts = async (
 };
 
 const useFetchDistributionContractsByDistributorId = (
-  distributorId: string
+  distributorId: string,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["distributionContract"],
+    queryKey: ['distributionContract'],
     queryFn: () => fetchDistributionContracts(distributorId, supabase),
     enabled: true,
     refetchOnWindowFocus: false,

@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { IBusinessOrder } from "../lib/types";
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { IBusinessOrder } from '../lib/types';
 
 const fetchBusinessOrders = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: any
+  supabase: any,
 ) => {
   const { data, error } = await supabase
-    .from("business_orders")
+    .from('business_orders')
     .select(
       `
         *,
         orders (*),
         order_items (*)
-      `
+      `,
     )
-    .eq("producer_id", ownerId)
+    .eq('producer_id', ownerId)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -32,12 +32,12 @@ const fetchBusinessOrders = async (
 const useFetchBusinessOrders = (
   ownerId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["business_orders"],
+    queryKey: ['business_orders'],
     queryFn: () =>
       fetchBusinessOrders(ownerId, currentPage, resultsPerPage, supabase),
     enabled: false,

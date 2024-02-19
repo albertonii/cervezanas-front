@@ -28,7 +28,7 @@ import {
   ModalUpdateProductFormData,
 } from '../../../../lib/types';
 import { uuid } from 'uuidv4';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { ProductStepper } from './ProductStepper';
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateAwardsSection } from './UpdateAwardsSection';

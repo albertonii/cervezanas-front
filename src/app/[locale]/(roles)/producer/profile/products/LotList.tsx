@@ -3,7 +3,7 @@ import PaginationFooter from '../../../../components/common/PaginationFooter';
 import useFetchLotsByOwnerAndPagination from '../../../../../../hooks/useFetchLotsByOwner';
 import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProductLot } from '../../../../../../lib/types';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { EditButton } from '../../../../components/common/EditButton';

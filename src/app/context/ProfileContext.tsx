@@ -2,7 +2,7 @@
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { useAuth } from '../[locale]/Auth/useAuth';
+import { useAuth } from '../[locale]/(auth)/Context/useAuth';
 import { SupabaseProps } from '../../constants';
 import { getPublicFileUrl } from '../../utils/utils';
 

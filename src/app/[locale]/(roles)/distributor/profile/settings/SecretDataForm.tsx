@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { z, ZodType } from "zod";
-import React, { useState } from "react";
-import { useMutation } from "react-query";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../../../Auth/useAuth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "../../../../components/common/Button";
-import Spinner from "../../../../components/common/Spinner";
-import { useMessage } from "../../../../components/message/useMessage";
-import InputLabel from "../../../../components/common/InputLabel";
+import { z, ZodType } from 'zod';
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '../../../../components/common/Button';
+import Spinner from '../../../../components/common/Spinner';
+import { useMessage } from '../../../../components/message/useMessage';
+import InputLabel from '../../../../components/common/InputLabel';
 
 type FormData = {
   old_password: string;
@@ -20,12 +20,12 @@ type FormData = {
 
 const schema: ZodType<FormData> = z
   .object({
-    old_password: z.string().min(8, { message: "Required" }),
-    new_password: z.string().min(8, { message: "Required" }),
-    confirm_password: z.string().min(8, { message: "Required" }),
+    old_password: z.string().min(8, { message: 'Required' }),
+    new_password: z.string().min(8, { message: 'Required' }),
+    confirm_password: z.string().min(8, { message: 'Required' }),
   })
   .refine((data) => data.new_password === data.confirm_password, {
-    path: ["confirm_password"],
+    path: ['confirm_password'],
     message: "Password don't match",
   });
 
@@ -40,12 +40,12 @@ export function SecretDataForm() {
   const { handleMessage } = useMessage();
 
   const form = useForm<FormData>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
-      old_password: "",
-      new_password: "",
-      confirm_password: "",
+      old_password: '',
+      new_password: '',
+      confirm_password: '',
     },
   });
 
@@ -62,15 +62,15 @@ export function SecretDataForm() {
     if (error) throw error;
 
     handleMessage({
-      type: "success",
-      message: "password_updated",
+      type: 'success',
+      message: 'password_updated',
     });
 
     reset();
   };
 
   const handleUpdatePasswordMutation = useMutation({
-    mutationKey: "updatePasswordDistributor",
+    mutationKey: 'updatePasswordDistributor',
     mutationFn: handleUpdatePassword,
     onMutate: () => {
       setLoading(true);
@@ -80,7 +80,7 @@ export function SecretDataForm() {
     },
     onError: (error: Error) => {
       handleMessage({
-        type: "error",
+        type: 'error',
         message: error.message,
       });
     },
@@ -90,7 +90,7 @@ export function SecretDataForm() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (
-    formValues: FormData
+    formValues: FormData,
   ) => {
     try {
       handleUpdatePasswordMutation.mutate(formValues);
@@ -105,14 +105,14 @@ export function SecretDataForm() {
       className="mb-4 space-y-3 bg-white px-6 py-4"
     >
       <div id="password" className="text-2xl">
-        {t("password")}
+        {t('password')}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <InputLabel
           form={form}
-          label={"old_password"}
-          labelText={t("actual_password")}
+          label={'old_password'}
+          labelText={t('actual_password')}
           registerOptions={{
             required: true,
           }}
@@ -122,7 +122,7 @@ export function SecretDataForm() {
 
         <InputLabel
           form={form}
-          label={"new_password"}
+          label={'new_password'}
           registerOptions={{
             required: true,
           }}
@@ -132,7 +132,7 @@ export function SecretDataForm() {
 
         <InputLabel
           form={form}
-          label={"confirm_password"}
+          label={'confirm_password'}
           registerOptions={{
             required: true,
           }}
@@ -141,11 +141,11 @@ export function SecretDataForm() {
         />
 
         {loading && (
-          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+          <Spinner color="beer-blonde" size={'xLarge'} absolute center />
         )}
 
-        <Button primary medium btnType={"submit"} disabled={loading}>
-          {t("save")}
+        <Button primary medium btnType={'submit'} disabled={loading}>
+          {t('save')}
         </Button>
       </form>
     </section>

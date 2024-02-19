@@ -1,6 +1,6 @@
 import InputLabel from '../../common/InputLabel';
 import BeerMasterAnswers from './AddBeerMasterAnswers';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {

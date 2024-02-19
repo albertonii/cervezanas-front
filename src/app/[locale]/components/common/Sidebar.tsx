@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useAuth } from "../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
-import { Button } from "../../components/common/Button";
-import { useAppContext } from "../../../context/AppContext";
-import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { generateLink } from "../../../../utils/utils";
-import useDeviceDetection from "../../../../hooks/useDeviceDetection";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import Link from 'next/link';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { Button } from '../../components/common/Button';
+import { useAppContext } from '../../../context/AppContext';
+import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { generateLink } from '../../../../utils/utils';
+import useDeviceDetection from '../../../../hooks/useDeviceDetection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   sidebarLinks: { name: string; icon: string; option: string }[];
@@ -43,22 +43,22 @@ export function Sidebar({ sidebarLinks }: Props) {
       setOpen(false);
     };
 
-    if (event.key === "Escape") handleClose();
+    if (event.key === 'Escape') handleClose();
   }, []);
 
   useEffect(() => {
     if (open) {
-      document.addEventListener("keydown", handleKeyPress);
+      document.addEventListener('keydown', handleKeyPress);
 
       return () => {
-        document.removeEventListener("keydown", handleKeyPress);
+        document.removeEventListener('keydown', handleKeyPress);
       };
     }
   }, [handleKeyPress, open]);
 
   return (
     <>
-      {device === "Mobile" && (
+      {device === 'Mobile' && (
         <>
           <Button
             data-drawer-target="default-sidebar"
@@ -73,8 +73,8 @@ export function Sidebar({ sidebarLinks }: Props) {
             {open ? (
               <FontAwesomeIcon
                 icon={faCircleChevronLeft}
-                style={{ color: "#432a14" }}
-                title={"chevron_circle_down"}
+                style={{ color: '#432a14' }}
+                title={'chevron_circle_down'}
                 width={20}
                 height={20}
                 className={`absolute bottom-0 right-0 h-full`}
@@ -82,8 +82,8 @@ export function Sidebar({ sidebarLinks }: Props) {
             ) : (
               <FontAwesomeIcon
                 icon={faCircleChevronLeft}
-                style={{ color: "#432a14" }}
-                title={"chevron_circle_down"}
+                style={{ color: '#432a14' }}
+                title={'chevron_circle_down'}
                 width={20}
                 height={20}
                 className={`absolute bottom-0 right-0 h-full rotate-180`}
@@ -106,8 +106,8 @@ export function Sidebar({ sidebarLinks }: Props) {
         {open ? (
           <FontAwesomeIcon
             icon={faCircleChevronLeft}
-            style={{ color: "#432a14" }}
-            title={"chevron_circle_down"}
+            style={{ color: '#432a14' }}
+            title={'chevron_circle_down'}
             width={20}
             height={20}
             className={`absolute bottom-0 right-0 h-full`}
@@ -115,8 +115,8 @@ export function Sidebar({ sidebarLinks }: Props) {
         ) : (
           <FontAwesomeIcon
             icon={faCircleChevronLeft}
-            style={{ color: "#432a14" }}
-            title={"chevron_circle_down"}
+            style={{ color: '#432a14' }}
+            title={'chevron_circle_down'}
             width={20}
             height={20}
             className={`absolute bottom-0 right-0 h-full rotate-180`}
@@ -128,7 +128,7 @@ export function Sidebar({ sidebarLinks }: Props) {
         <aside
           className={`
         ${
-          open ? "translate-x-0" : "-translate-x-[100%] lg:translate-x-0"
+          open ? 'translate-x-0' : '-translate-x-[100%] lg:translate-x-0'
         } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
         `}
           aria-label="Sidebar"
@@ -145,8 +145,8 @@ export function Sidebar({ sidebarLinks }: Props) {
                 flex items-center uppercase rounded-lg text-sm font-normal text-gray-600 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
                 ${
                   sidebar === link.option
-                    ? "bg-beer-softBlonde text-gray-700"
-                    : "text-gray-600"
+                    ? 'bg-beer-softBlonde text-gray-700'
+                    : 'text-gray-600'
                 } `}
                   key={link.name}
                 >

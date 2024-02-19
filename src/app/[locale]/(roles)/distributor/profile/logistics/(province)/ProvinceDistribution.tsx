@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { Country, ICountry, IState } from 'country-state-city';
 import { Button } from '../../../../../components/common/Button';
-import { useAuth } from '../../../../../Auth/useAuth';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import {
   filterSearchInputQuery,
   slicePaginationResults,

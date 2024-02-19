@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { IOrder } from "../../../../../../lib/types";
-import Spinner from "../../../../components/common/Spinner";
-import { useAuth } from "../../../../Auth/useAuth";
-import OProducerTableData from "./OProducerTableData";
-import InputSearch from "../../../../components/common/InputSearch";
-import useFetchOrdersByProducerId from "../../../../../../hooks/useFetchOrdersByProducerId";
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IOrder } from '../../../../../../lib/types';
+import Spinner from '../../../../components/common/Spinner';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import OProducerTableData from './OProducerTableData';
+import InputSearch from '../../../../components/common/InputSearch';
+import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 
 interface Props {
   orders: IOrder[];
@@ -25,7 +25,7 @@ export function BusinessOrderList({ orders: os }: Props) {
   const t = useTranslations();
 
   const [orders, setOrders] = useState<IOrder[]>(os);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = os.length;
@@ -34,7 +34,7 @@ export function BusinessOrderList({ orders: os }: Props) {
   const { isError, isLoading, refetch } = useFetchOrdersByProducerId(
     user.id,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   useEffect(() => {
@@ -45,14 +45,14 @@ export function BusinessOrderList({ orders: os }: Props) {
   }, [currentPage]);
 
   const COLUMNS = [
-    { header: t("order_number_header") },
-    { header: t("client_name_header") },
-    { header: t("products_quantity_header") },
-    { header: t("price_header") },
-    { header: t("status_header") },
-    { header: t("tracking_number_header") },
-    { header: t("date_header") },
-    { header: t("action_header") },
+    { header: t('order_number_header') },
+    { header: t('client_name_header') },
+    { header: t('products_quantity_header') },
+    { header: t('price_header') },
+    { header: t('status_header') },
+    { header: t('tracking_number_header') },
+    { header: t('date_header') },
+    { header: t('action_header') },
   ];
 
   const filteredItemsByStatus = useMemo(() => {
@@ -67,7 +67,7 @@ export function BusinessOrderList({ orders: os }: Props) {
       {isError && (
         <p className="flex items-center justify-center">
           <h2 className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_online_orders")}
+            {t('error_fetching_online_orders')}
           </h2>
         </p>
       )}
@@ -78,14 +78,14 @@ export function BusinessOrderList({ orders: os }: Props) {
 
       {!isError && !isLoading && orders && orders.length === 0 ? (
         <p className="flex items-center justify-center">
-          <h3 className="text-gray-500 dark:text-gray-400">{t("no_orders")}</h3>
+          <h3 className="text-gray-500 dark:text-gray-400">{t('no_orders')}</h3>
         </p>
       ) : (
         <>
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_by_name"}
+            searchPlaceholder={'search_by_name'}
           />
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -108,7 +108,7 @@ export function BusinessOrderList({ orders: os }: Props) {
               {!orders && (
                 <tr>
                   <td colSpan={6} className="py-4 text-center">
-                    {t("no_orders")}
+                    {t('no_orders')}
                   </td>
                 </tr>
               )}

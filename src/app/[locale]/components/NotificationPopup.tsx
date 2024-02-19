@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import useOnClickOutside from "../../../hooks/useOnOutsideClickDOM";
-import React, { ComponentProps, useRef } from "react";
-import { useAuth } from "../Auth/useAuth";
-import { useRouter } from "next/navigation";
-import { INotification } from "../../../lib/types";
-import { useLocale, useTranslations } from "next-intl";
-import { getTimeElapsed } from "../../../utils/formatDate";
+import Image from 'next/image';
+import useOnClickOutside from '../../../hooks/useOnOutsideClickDOM';
+import React, { ComponentProps, useRef } from 'react';
+import { useAuth } from '../(auth)/Context/useAuth';
+import { useRouter } from 'next/navigation';
+import { INotification } from '../../../lib/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { getTimeElapsed } from '../../../utils/formatDate';
 
 interface Props {
   open: boolean;
@@ -30,9 +30,9 @@ export function NotificationPopup({ open, setOpen, notifications }: Props) {
     if (!notification) return;
 
     supabase
-      .from("notifications")
+      .from('notifications')
       .update({ read: true })
-      .eq("id", notification.id)
+      .eq('id', notification.id)
       .then(() => {
         router.push(`/${locale}${notification.link}`);
       });
@@ -49,11 +49,11 @@ export function NotificationPopup({ open, setOpen, notifications }: Props) {
       <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
         <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
           <div className="bg-beer-softFoam p-4">
-            <h3 className="text-2xl font-bold">{t("notifications")}</h3>
+            <h3 className="text-2xl font-bold">{t('notifications')}</h3>
           </div>
           <div className="divide-y divide-gray-200">
             {notifications.length === 0 ? (
-              <div className="p-4 text-gray-500">{t("no_notifications")}</div>
+              <div className="p-4 text-gray-500">{t('no_notifications')}</div>
             ) : (
               notifications.map((notification) => (
                 <div
@@ -66,8 +66,8 @@ export function NotificationPopup({ open, setOpen, notifications }: Props) {
                       <Image
                         width={36}
                         height={36}
-                        src={"/icons/watch-icon.png"}
-                        loader={() => "/icons/watch-icon.png"}
+                        src={'/icons/watch-icon.png'}
+                        loader={() => '/icons/watch-icon.png'}
                         alt="read notification"
                         className="rounded-full"
                       />

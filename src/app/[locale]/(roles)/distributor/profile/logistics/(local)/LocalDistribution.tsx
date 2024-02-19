@@ -1,18 +1,18 @@
-import PCRanges from "./PCRanges";
-import Label from "../../../../../components/Label";
-import enLocale from "i18n-iso-countries/langs/en.json";
-import esLocale from "i18n-iso-countries/langs/es.json";
-import countries from "i18n-iso-countries";
-import React, { useEffect, useState } from "react";
-import { CountryDropdown } from "react-country-region-selector";
-import { useTranslations } from "next-intl";
-import { Button } from "../../../../../components/common/Button";
-import { IconButton } from "../../../../../components/common/IconButton";
-import { useFieldArray, useForm } from "react-hook-form";
-import { ILocal, IPCRangesProps } from "../../../../../../../lib/types";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useMutation, useQueryClient } from "react-query";
-import { useAuth } from "../../../../../Auth/useAuth";
+import PCRanges from './PCRanges';
+import Label from '../../../../../components/Label';
+import enLocale from 'i18n-iso-countries/langs/en.json';
+import esLocale from 'i18n-iso-countries/langs/es.json';
+import countries from 'i18n-iso-countries';
+import React, { useEffect, useState } from 'react';
+import { CountryDropdown } from 'react-country-region-selector';
+import { useTranslations } from 'next-intl';
+import { Button } from '../../../../../components/common/Button';
+import { IconButton } from '../../../../../components/common/IconButton';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { ILocal, IPCRangesProps } from '../../../../../../../lib/types';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useMutation, useQueryClient } from 'react-query';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 
 interface FormData {
   country: string;
@@ -27,13 +27,13 @@ export default function LocalDistribution({
   localDistribution: locals,
 }: LocalDistributionProps) {
   const t = useTranslations();
-  const [countryOption, setCountryOption] = useState<any>("ES");
+  const [countryOption, setCountryOption] = useState<any>('ES');
   const queryClient = useQueryClient();
 
   const { supabase } = useAuth();
 
   const [displayCountry, setDisplayCountry] = useState(
-    esLocale.countries["ES"]
+    esLocale.countries['ES'],
   );
 
   const defaultRanges = locals.map((local) => {
@@ -56,7 +56,7 @@ export default function LocalDistribution({
   });
 
   const { fields, append, remove } = useFieldArray({
-    name: "ranges",
+    name: 'ranges',
     control,
   });
 
@@ -66,10 +66,10 @@ export default function LocalDistribution({
   }, []);
 
   useEffect(() => {
-    const displayCountry = countries.getName(countryOption, "es", {
-      select: "official",
+    const displayCountry = countries.getName(countryOption, 'es', {
+      select: 'official',
     });
-    if (!displayCountry) return setDisplayCountry("Select a country");
+    if (!displayCountry) return setDisplayCountry('Select a country');
     setDisplayCountry(displayCountry);
   }, [countryOption]);
 
@@ -82,9 +82,9 @@ export default function LocalDistribution({
 
     // Delete all ranges in local distribution
     const { error: errorDelete } = await supabase
-      .from("local_distribution")
+      .from('local_distribution')
       .delete()
-      .eq("coverage_area_id", "5804f470-2710-4ee4-93f5-51940f5a004a");
+      .eq('coverage_area_id', '5804f470-2710-4ee4-93f5-51940f5a004a');
 
     if (errorDelete) {
       console.error(errorDelete);
@@ -93,21 +93,21 @@ export default function LocalDistribution({
     // Insert new ranges
     ranges.map(async (range) => {
       const local = {
-        coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
+        coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
         country: country,
         from: range.from,
         to: range.to,
       };
 
       const { error: errorLocal } = await supabase
-        .from("local_distribution")
+        .from('local_distribution')
         .insert({
-          coverage_area_id: "5804f470-2710-4ee4-93f5-51940f5a004a",
+          coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
           country: country,
           from: range.from,
           to: range.to,
         })
-        .eq("from", range.from);
+        .eq('from', range.from);
 
       if (errorLocal) {
         console.error(errorLocal);
@@ -116,17 +116,17 @@ export default function LocalDistribution({
   };
 
   const updateLocalDistributionMutation = useMutation({
-    mutationKey: "updateLocalDistribution",
+    mutationKey: 'updateLocalDistribution',
     mutationFn: handleUpdateLocalDistribution,
     onMutate: () => {
-      console.info("onMutate");
+      console.info('onMutate');
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["distribution"] });
-      console.info("onSuccess");
+      queryClient.invalidateQueries({ queryKey: ['distribution'] });
+      console.info('onSuccess');
     },
     onError: () => {
-      console.error("onError");
+      console.error('onError');
     },
   });
 
@@ -142,7 +142,7 @@ export default function LocalDistribution({
     <section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Button btnType="submit" class="" primary medium>
-          {t("save")}
+          {t('save')}
         </Button>
 
         {/* Country  */}
@@ -156,7 +156,7 @@ export default function LocalDistribution({
               onChange={(val) => handleSelectCountry(val)}
               valueType="short"
               labelType="full"
-              priorityOptions={["ES"]}
+              priorityOptions={['ES']}
             />
           </Label>
         </div>
@@ -182,7 +182,7 @@ export default function LocalDistribution({
                       box
                       onClick={() => remove(index)}
                       icon={faTrash}
-                      title={"Delete"}
+                      title={'Delete'}
                     />
                   </div>
                 );
@@ -195,7 +195,7 @@ export default function LocalDistribution({
                 medium
                 onClick={() => append({ from: 35000, to: 35999 })}
               >
-                {t("add_range")}
+                {t('add_range')}
               </Button>
             </div>
           </div>

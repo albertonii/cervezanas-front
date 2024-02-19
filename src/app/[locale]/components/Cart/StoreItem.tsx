@@ -14,7 +14,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { IProduct, IProductPack } from '../../../../lib/types';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };

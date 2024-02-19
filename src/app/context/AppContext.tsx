@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { createContext, useEffect, useState } from "react";
-import { useContext } from "react";
-import { SupabaseProps } from "../../constants";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { ICustomizeSettings, IProduct, IRefProductLot } from "../../lib/types";
-import { useAuth } from "../[locale]/Auth/useAuth";
+import React, { createContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { SupabaseProps } from '../../constants';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { ICustomizeSettings, IProduct, IRefProductLot } from '../../lib/types';
+import { useAuth } from '../[locale]/(auth)/Context/useAuth';
 
 // Definir el tipo de datos para el objeto de imágenes
 type ImageDataRecord = {
@@ -35,13 +35,13 @@ type AppContextType = {
 };
 
 const AppContext = createContext<AppContextType>({
-  filters: { category: "all", minPrice: 0 },
+  filters: { category: 'all', minPrice: 0 },
   setFilters: () => void {},
-  bgImg: "",
+  bgImg: '',
   setBgImg: () => void {},
-  profileImg: "",
+  profileImg: '',
   setProfileImg: () => void {},
-  sidebar: "",
+  sidebar: '',
   changeSidebarActive: () => void {},
   openNotification: false,
   setOpenNotification: () => void {},
@@ -50,11 +50,11 @@ const AppContext = createContext<AppContextType>({
   lots: [],
   setLots: () => void {},
   customizeSettings: {
-    id: "",
-    created_at: "",
+    id: '',
+    created_at: '',
     colors: [],
     family_styles: [],
-    owner_id: "",
+    owner_id: '',
   },
   setCustomizeSettings: () => void {},
   imageData: {},
@@ -71,17 +71,17 @@ export function AppContextProvider(props: Props) {
   const { user, provider, isLoggedIn } = useAuth();
 
   const [filters, setFilters] = useState({
-    category: "all",
+    category: 'all',
     minPrice: 0,
   });
 
   const [customizeSettings, setCustomizeSettings] =
     useState<ICustomizeSettings>({
-      id: "",
-      created_at: "",
+      id: '',
+      created_at: '',
       colors: [],
       family_styles: [],
-      owner_id: "",
+      owner_id: '',
     });
 
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -94,11 +94,11 @@ export function AppContextProvider(props: Props) {
   const fullCustomUrl = `${SupabaseProps.BASE_AVATARS_URL}${customUrl}`;
   // const fullProfilePhotoUrl = `${SupabaseProps.BASE_AVATARS_URL}${profilePhotoUrl}`;
 
-  const [bgImg, setBgImg] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [bgImg, setBgImg] = useState('');
+  const [profileImg, setProfileImg] = useState('');
   const [sidebar, setSidebar] = useLocalStorage<string>(
-    "sidebar-option",
-    "settings"
+    'sidebar-option',
+    'settings',
   );
 
   useEffect(() => {
@@ -123,8 +123,6 @@ export function AppContextProvider(props: Props) {
       setBgImg(decodeUriCustomImg);
     }
   }, [user]);
-
-  if (!isLoggedIn) return <>{props.children}</>;
 
   const addImage = (key: string, image: File) => {
     setImageData({ ...imageData, [key]: image });
@@ -161,6 +159,8 @@ export function AppContextProvider(props: Props) {
     removeImage,
   };
 
+  if (!isLoggedIn) return <>{props.children}</>;
+
   return (
     <AppContext.Provider value={value} {...props}>
       {props.children}
@@ -171,7 +171,7 @@ export function AppContextProvider(props: Props) {
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("useAppContext must be used within a AppContextProvider.");
+    throw new Error('useAppContext must be used within a AppContextProvider.');
   }
 
   return context;

@@ -6,7 +6,7 @@ import { SupabaseProps } from '../../../../../constants';
 import { ProductGallery } from '../../../components/ProductGallery';
 import { ICarouselItem, IProduct } from '../../../../../lib/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 

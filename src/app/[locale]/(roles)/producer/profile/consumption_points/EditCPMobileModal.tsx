@@ -12,7 +12,7 @@ import {
   ICPMProductsEditCPMobileModal,
   IUser,
 } from '../../../../../../lib/types';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { GeocodeResult } from 'use-places-autocomplete';
 import Modal from '../../../../components/modals/Modal';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

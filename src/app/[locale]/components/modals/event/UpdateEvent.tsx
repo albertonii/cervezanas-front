@@ -4,7 +4,7 @@ import React, { ComponentProps, useEffect } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import {
   ICPFixed,

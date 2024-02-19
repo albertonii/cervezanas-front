@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { IProfile } from "../../../../../../lib/types";
-import { SupabaseProps } from "../../../../../../constants";
-import { isValidObject } from "../../../../../../utils/utils";
-import { Button } from "../../../../components/common/Button";
-import { FilePreviewAndHide } from "../../../../components/common/FilePreviewAndHide";
-import Spinner from "../../../../components/common/Spinner";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useAppContext } from "../../../../../context/AppContext";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { IProfile } from '../../../../../../lib/types';
+import { SupabaseProps } from '../../../../../../constants';
+import { isValidObject } from '../../../../../../utils/utils';
+import { Button } from '../../../../components/common/Button';
+import { FilePreviewAndHide } from '../../../../components/common/FilePreviewAndHide';
+import Spinner from '../../../../components/common/Spinner';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useAppContext } from '../../../../../context/AppContext';
 
 type FormValues = {
   bg_url: any;
@@ -36,9 +36,9 @@ export function CustomizeProfileForm({ profile }: Props) {
 
   const form = useForm({
     defaultValues: {
-      bg_url: SupabaseProps.CUSTOM_BG_URL + profile?.id ?? "",
-      avatar_url: SupabaseProps.BASE_AVATARS_URL + profile?.id ?? "",
-      profile_photo_url: SupabaseProps.PROFILE_PHOTO_URL + profile?.id ?? "",
+      bg_url: SupabaseProps.CUSTOM_BG_URL + profile?.id ?? '',
+      avatar_url: SupabaseProps.BASE_AVATARS_URL + profile?.id ?? '',
+      profile_photo_url: SupabaseProps.PROFILE_PHOTO_URL + profile?.id ?? '',
     },
   });
 
@@ -59,11 +59,11 @@ export function CustomizeProfileForm({ profile }: Props) {
         // TODO: Actualizar aquí la URL de APP CONTEXT de Custom IMG y Profile IMG para que pueda estar sincronizado.
 
         const encodeUriCustomImg = encodeURIComponent(
-          `${SupabaseProps.CUSTOM_BG_URL}${profile?.id}`
+          `${SupabaseProps.CUSTOM_BG_URL}${profile?.id}`,
         );
 
         const { error: errorDelete } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .remove([encodeUriCustomImg]);
 
         if (errorDelete) {
@@ -72,10 +72,10 @@ export function CustomizeProfileForm({ profile }: Props) {
         }
 
         const { error: storageError } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .upload(encodeUriCustomImg, bg_url, {
             upsert: true,
-            cacheControl: "0",
+            cacheControl: '0',
           });
 
         if (storageError) {
@@ -91,11 +91,11 @@ export function CustomizeProfileForm({ profile }: Props) {
       if (profile_photo_url.size > 0) {
         // const encodeUriProfileImg = encodeURIComponent(`${profileUrl}${profile?.id}`);
         const encodeUriProfileImg = encodeURIComponent(
-          `${SupabaseProps.PROFILE_PHOTO_URL}${profile?.id}`
+          `${SupabaseProps.PROFILE_PHOTO_URL}${profile?.id}`,
         );
 
         const { error: errorDelete } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .remove([encodeUriProfileImg]);
 
         if (errorDelete) {
@@ -104,10 +104,10 @@ export function CustomizeProfileForm({ profile }: Props) {
         }
 
         const { error: storageError } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .upload(encodeUriProfileImg, profile_photo_url, {
             upsert: true,
-            cacheControl: "0",
+            cacheControl: '0',
           });
 
         if (storageError) {
@@ -134,20 +134,20 @@ export function CustomizeProfileForm({ profile }: Props) {
   return (
     <section className="container mb-4 space-y-3 bg-white px-6 py-4">
       <h2 id="account-data" className="text-2xl">
-        {t("profile_custom")}
+        {t('profile_custom')}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
         <div className="flex flex-row items-end space-x-3">
           <div className="w-full">
             <label htmlFor="bg_img" className="text-sm text-gray-600">
-              {t("profile_custom_bg_img")}
+              {t('profile_custom_bg_img')}
             </label>
 
             <FilePreviewAndHide
               storagePath="avatars"
               form={form}
-              registerName={"bg_url"}
+              registerName={'bg_url'}
             />
           </div>
 
@@ -156,23 +156,23 @@ export function CustomizeProfileForm({ profile }: Props) {
               htmlFor="profile_photo_img"
               className="text-sm text-gray-600"
             >
-              {t("profile_custom_profile_photo_img")}
+              {t('profile_custom_profile_photo_img')}
             </label>
 
             <FilePreviewAndHide
               storagePath="avatars"
               form={form}
-              registerName={"profile_photo_url"}
+              registerName={'profile_photo_url'}
             />
           </div>
         </div>
 
         {loading && (
-          <Spinner color="beer-blonde" size={"xLarge"} absolute center />
+          <Spinner color="beer-blonde" size={'xLarge'} absolute center />
         )}
 
-        <Button primary medium btnType={"submit"} disabled={loading}>
-          {t("save")}
+        <Button primary medium btnType={'submit'} disabled={loading}>
+          {t('save')}
         </Button>
       </form>
     </section>

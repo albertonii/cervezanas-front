@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { useTranslations } from "next-intl";
-import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useMutation, useQueryClient } from "react-query";
-import ModalWithForm from "../../../../components/modals/ModalWithForm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import InputLabel from "../../../../components/common/InputLabel";
-import InputTextarea from "../../../../components/common/InputTextarea";
-import { SearchCheckboxCPMobiles } from "../../../../components/common/SearchCheckboxCPMobiles";
-import { SearchCheckboxCPFixeds } from "../../../../components/common/SearchCheckboxCPFixed";
+import React, { useState } from 'react';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { useTranslations } from 'next-intl';
+import { ICPFixed, ICPMobile } from '../../../../../../lib/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useMutation, useQueryClient } from 'react-query';
+import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z, ZodType } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
+import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
 
 export type ModalAddEventFormData = {
   name: string;
@@ -26,10 +26,10 @@ export type ModalAddEventFormData = {
 };
 
 const schema: ZodType<ModalAddEventFormData> = z.object({
-  name: z.string().nonempty({ message: "errors.input_required" }),
-  description: z.string().nonempty({ message: "errors.input_required" }),
-  start_date: z.string().nonempty({ message: "errors.input_required" }),
-  end_date: z.string().nonempty({ message: "errors.input_required" }),
+  name: z.string().nonempty({ message: 'errors.input_required' }),
+  description: z.string().nonempty({ message: 'errors.input_required' }),
+  start_date: z.string().nonempty({ message: 'errors.input_required' }),
+  end_date: z.string().nonempty({ message: 'errors.input_required' }),
   logo_url: z.string().optional(),
   promotional_url: z.string().optional(),
   cps_mobile: z.any(),
@@ -51,7 +51,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   const queryClient = useQueryClient();
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
   });
 
@@ -62,7 +62,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
     // Create event
     const { data: event, error: eventError } = await supabase
-      .from("events")
+      .from('events')
       .insert({
         name,
         description,
@@ -89,7 +89,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
     // Loop trough all the selected CPs and insert them into the event
     cpsMFiltered.map(async (cp) => {
-      const { error: cpError } = await supabase.from("cpm_events").insert({
+      const { error: cpError } = await supabase.from('cpm_events').insert({
         cp_id: cp.cp_id,
         event_id: eventId,
         is_active: false,
@@ -104,10 +104,10 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   };
 
   const insertEventMutation = useMutation({
-    mutationKey: "insertEvent",
+    mutationKey: 'insertEvent',
     mutationFn: handleInsertEvent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ['events'] });
       setShowModal(false);
     },
     onError: (error) => {
@@ -116,7 +116,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddEventFormData
+    formValues: ModalAddEventFormData,
   ) => {
     try {
       insertEventMutation.mutate(formValues);
@@ -130,25 +130,25 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       showBtn={true}
       showModal={showModal}
       setShowModal={setShowModal}
-      title={"add_new_event"}
-      btnTitle={"new_event"}
-      description={""}
+      title={'add_new_event'}
+      btnTitle={'new_event'}
+      description={''}
       icon={faAdd}
-      btnSize={"large"}
-      classIcon={"w-6 h-6"}
-      classContainer={""}
+      btnSize={'large'}
+      classIcon={'w-6 h-6'}
+      classContainer={''}
       handler={handleSubmit(onSubmit)}
       form={form}
     >
       <form>
         {/* Event Information  */}
         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t("events_info")}</legend>
+          <legend className="m-2 text-2xl">{t('events_info')}</legend>
 
           {/* Event name  */}
           <InputLabel
             form={form}
-            label={"name"}
+            label={'name'}
             registerOptions={{
               required: true,
             }}
@@ -157,7 +157,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
           {/* Event description  */}
           <InputTextarea
             form={form}
-            label={"description"}
+            label={'description'}
             registerOptions={{
               required: true,
             }}
@@ -168,7 +168,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
           <div className="flex flex-row space-x-2">
             <InputLabel
               form={form}
-              label={"start_date"}
+              label={'start_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
@@ -178,7 +178,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
             <InputLabel
               form={form}
-              label={"end_date"}
+              label={'end_date'}
               registerOptions={{
                 required: true,
                 valueAsDate: true,
@@ -190,7 +190,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         {/* Logo and publicitary img */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("event_advertising")}</legend>
+          <legend className="text-2xl">{t('event_advertising')}</legend>
 
           {/* Logo */}
 
@@ -199,14 +199,14 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         {/* List of Mobil Consumption Points  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_mobile_associated")}</legend>
+          <legend className="text-2xl">{t('cp_mobile_associated')}</legend>
 
           <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
         </fieldset>
 
         {/* List of Fixed Consumption Points  */}
         <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t("cp_fixed_associated")}</legend>
+          <legend className="text-2xl">{t('cp_fixed_associated')}</legend>
 
           <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
         </fieldset>

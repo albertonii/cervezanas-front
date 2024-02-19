@@ -1,8 +1,8 @@
-import React, { ComponentProps } from "react";
-import { useTranslations } from "next-intl";
-import { useMutation, useQueryClient } from "react-query";
-import Modal from "../../../../components/modals/Modal";
-import { useAuth } from "../../../../Auth/useAuth";
+import React, { ComponentProps } from 'react';
+import { useTranslations } from 'next-intl';
+import { useMutation, useQueryClient } from 'react-query';
+import Modal from '../../../../components/modals/Modal';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 interface Props {
   distributor_id: string;
@@ -24,19 +24,19 @@ export default function CancelContractModal({
     if (!distributor_id || !producer_id) return;
 
     const { error } = await supabase
-      .from("distribution_contracts")
-      .update({ status: "cancelled" })
-      .eq("distributor_id", distributor_id)
-      .eq("producer_id", producer_id);
+      .from('distribution_contracts')
+      .update({ status: 'cancelled' })
+      .eq('distributor_id', distributor_id)
+      .eq('producer_id', producer_id);
 
     if (error) throw error;
   };
 
   const cancelContractMutation = useMutation({
-    mutationKey: ["cancelContract"],
+    mutationKey: ['cancelContract'],
     mutationFn: handleRemoveContract,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["distributionContract"] });
+      queryClient.invalidateQueries({ queryKey: ['distributionContract'] });
       handleCancelModal(false);
     },
     onError: (error) => {
@@ -54,17 +54,17 @@ export default function CancelContractModal({
 
   return (
     <Modal
-      title={t("cancel")}
+      title={t('cancel')}
       handler={() => {
         onSubmitCancel();
       }}
-      description={t("cancel_contract_description_modal")}
-      btnTitle={t("accept")}
+      description={t('cancel_contract_description_modal')}
+      btnTitle={t('accept')}
       showModal={true}
       setShowModal={() => void 0}
       handlerClose={handleCancelModal}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <></>
     </Modal>

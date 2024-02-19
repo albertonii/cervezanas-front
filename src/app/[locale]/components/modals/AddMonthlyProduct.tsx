@@ -8,7 +8,7 @@ import { IProduct } from '../../../../lib/types';
 import { category_options } from '../../../../lib/productEnum';
 import { DisplayInputError } from '../common/DisplayInputError';
 import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import InputSearch from '../common/InputSearch';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

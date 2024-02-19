@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import React, { ChangeEvent, ComponentProps, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
-import { ICampaign, ICampaignItem } from "../../../../../../lib/types";
-import { useAuth } from "../../../../Auth/useAuth";
-import { Button } from "../../../../components/common/Button";
-import { DeleteButton } from "../../../../components/common/DeleteButton";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
-import { useMessage } from "../../../../components/message/useMessage";
-import InputTextarea from "../../../../components/common/InputTextarea";
-import InputLabel from "../../../../components/common/InputLabel";
+import React, { ChangeEvent, ComponentProps, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { ICampaign, ICampaignItem } from '../../../../../../lib/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { Button } from '../../../../components/common/Button';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { useMessage } from '../../../../components/message/useMessage';
+import InputTextarea from '../../../../components/common/InputTextarea';
+import InputLabel from '../../../../components/common/InputLabel';
 
 enum CampaignStatus {
-  uninitialized = "uninitialized",
-  active = "active",
-  finished = "finished",
-  cancelled = "cancelled",
-  paused = "paused",
+  uninitialized = 'uninitialized',
+  active = 'active',
+  finished = 'finished',
+  cancelled = 'cancelled',
+  paused = 'paused',
 }
 
 enum SocialCauseExample {
-  cleanOcean = "Clean Ocean",
-  beersInPeace = "Beers in Peace",
+  cleanOcean = 'Clean Ocean',
+  beersInPeace = 'Beers in Peace',
 }
 
 type Props = {
@@ -52,15 +52,15 @@ export function CampaignForm({
   const { register, getValues } = form;
 
   const [campaignStatus, setCampaignStatus] = useState(
-    field.status ?? CampaignStatus.uninitialized
+    field.status ?? CampaignStatus.uninitialized,
   );
 
   const api_handleSaveCampaign = async (index: number) => {
-    const campaign = getValues("campaigns")[index];
+    const campaign = getValues('campaigns')[index];
 
-    if (campaign.id === "" || campaign.id === undefined) {
+    if (campaign.id === '' || campaign.id === undefined) {
       const { data, error: campaignError } = await supabase
-        .from("campaigns")
+        .from('campaigns')
         .insert({
           name: campaign.name,
           description: campaign.description,
@@ -68,7 +68,7 @@ export function CampaignForm({
           is_public: campaign.is_public,
           start_date: campaign.start_date,
           end_date: campaign.end_date,
-          owner_id: user?.id ?? "",
+          owner_id: user?.id ?? '',
           slogan: campaign.slogan,
           goal: campaign.goal,
           status: campaign.status,
@@ -84,7 +84,7 @@ export function CampaignForm({
       }
     } else {
       const { data, error: campaignError } = await supabase
-        .from("campaigns")
+        .from('campaigns')
         .update({
           name: campaign.name,
           description: campaign.description,
@@ -92,12 +92,12 @@ export function CampaignForm({
           is_public: campaign.is_public,
           start_date: campaign.start_date,
           end_date: campaign.end_date,
-          owner_id: user?.id ?? "",
+          owner_id: user?.id ?? '',
           slogan: campaign.slogan,
           goal: campaign.goal,
           status: campaign.status,
         })
-        .eq("id", campaign.id);
+        .eq('id', campaign.id);
 
       if (campaignError) throw campaignError;
       if (!data) return;
@@ -109,22 +109,22 @@ export function CampaignForm({
       }
     }
 
-    const products = getValues("products");
+    const products = getValues('products');
 
     if (products === undefined) return;
 
     products.map(async (item: ICampaignItem) => {
       if (!item.product_id) {
         const { error: orderItemError } = await supabase
-          .from("campaign_item")
+          .from('campaign_item')
           .delete()
-          .eq("campaign_id", campaign.id);
+          .eq('campaign_id', campaign.id);
 
         if (orderItemError) throw orderItemError;
-      } else if (typeof item.product_id === "string") {
+      } else if (typeof item.product_id === 'string') {
         products?.map(async (item: ICampaignItem) => {
           const { error: orderItemError } = await supabase
-            .from("campaign_item")
+            .from('campaign_item')
             .upsert({
               campaign_id: campaign.id,
               product_id: item.product_id,
@@ -137,8 +137,8 @@ export function CampaignForm({
     });
 
     handleMessage({
-      type: "success",
-      message: `${t("campaign_added_successfully")} , ${campaign.name}`,
+      type: 'success',
+      message: `${t('campaign_added_successfully')} , ${campaign.name}`,
     });
   };
 
@@ -159,27 +159,27 @@ export function CampaignForm({
           <div className="flex flex-row items-center space-x-2">
             <p className="text-md font-semibold text-gray-600">
               {campaignStatus === CampaignStatus.active
-                ? t("active").toUpperCase()
+                ? t('active').toUpperCase()
                 : campaignStatus === CampaignStatus.paused
-                ? t("paused").toUpperCase()
+                ? t('paused').toUpperCase()
                 : campaignStatus === CampaignStatus.cancelled
-                ? t("cancelled").toUpperCase()
+                ? t('cancelled').toUpperCase()
                 : campaignStatus === CampaignStatus.finished
-                ? t("finished").toUpperCase()
-                : t("uninitialized").toUpperCase()}
+                ? t('finished').toUpperCase()
+                : t('uninitialized').toUpperCase()}
             </p>
 
             <div
               className={`h-4 w-4 rounded-full  ${
                 campaignStatus === CampaignStatus.active
-                  ? "bg-green-500"
+                  ? 'bg-green-500'
                   : campaignStatus === CampaignStatus.paused
-                  ? "bg-yellow-500"
+                  ? 'bg-yellow-500'
                   : campaignStatus === CampaignStatus.cancelled
-                  ? "bg-red-500"
+                  ? 'bg-red-500'
                   : campaignStatus === CampaignStatus.finished
-                  ? "bg-gray-500"
-                  : "bg-gray-500"
+                  ? 'bg-gray-500'
+                  : 'bg-gray-500'
               }`}
             ></div>
           </div>
@@ -192,7 +192,7 @@ export function CampaignForm({
               htmlFor={`${index}-campaign_is_public`}
               className="mr-2 text-sm text-gray-600"
             >
-              {t("is_public_campaign")}
+              {t('is_public_campaign')}
             </label>
 
             <select
@@ -201,15 +201,15 @@ export function CampaignForm({
               className="relative block w-20 appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               {...register(`campaigns.${index}.is_public` as const)}
             >
-              <option key={0} value={"false"}>
-                {t("no")}
+              <option key={0} value={'false'}>
+                {t('no')}
               </option>
-              <option key={1} value={"true"}>
-                {t("yes")}
+              <option key={1} value={'true'}>
+                {t('yes')}
               </option>
             </select>
 
-            {`errors.campaigns.${index}.is_public?.type` === "required" && (
+            {`errors.campaigns.${index}.is_public?.type` === 'required' && (
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
@@ -220,7 +220,7 @@ export function CampaignForm({
               htmlFor={`${index}-campaign_status`}
               className="mr-2 text-sm text-gray-600"
             >
-              {t("status")}
+              {t('status')}
             </label>
 
             <select
@@ -235,11 +235,11 @@ export function CampaignForm({
                   <option key={index} value={option.toString()}>
                     {option.toString().toUpperCase()}
                   </option>
-                )
+                ),
               )}
             </select>
 
-            {`errors.campaigns.${index}.status.type` === "required" && (
+            {`errors.campaigns.${index}.status.type` === 'required' && (
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
@@ -251,7 +251,7 @@ export function CampaignForm({
             htmlFor={`${index}-campaign_img_url`}
             className="mr-2 text-sm text-gray-600"
           >
-            {t("img_url")}
+            {t('img_url')}
           </label>
 
           <input
@@ -262,7 +262,7 @@ export function CampaignForm({
               required: true,
             })}
           />
-          {`errors.campaigns.${index}.img_url.type` === "required" && (
+          {`errors.campaigns.${index}.img_url.type` === 'required' && (
             <DisplayInputError message="errors.input_required" />
           )}
         </div>
@@ -271,7 +271,7 @@ export function CampaignForm({
         <InputLabel
           form={form}
           label={`campaigns.${index}.name`}
-          labelText={t("name")}
+          labelText={t('name')}
           registerOptions={{
             required: true,
             maxLength: 30,
@@ -282,7 +282,7 @@ export function CampaignForm({
         <InputTextarea
           form={form}
           label={`campaigns.${index}.description`}
-          labelText={t("description")}
+          labelText={t('description')}
           registerOptions={{
             required: true,
             maxLength: 200,
@@ -295,7 +295,7 @@ export function CampaignForm({
             htmlFor={`${index}-campaign_slogan`}
             className="mr-2 text-sm text-gray-600"
           >
-            {t("slogan")}
+            {t('slogan')}
           </label>
 
           <textarea
@@ -306,10 +306,10 @@ export function CampaignForm({
               maxLength: 200,
             })}
           />
-          {`errors.campaigns.${index}.slogan.type` === "required" && (
+          {`errors.campaigns.${index}.slogan.type` === 'required' && (
             <DisplayInputError message="errors.input_required" />
           )}
-          {`errors.campaigns.${index}.slogan.type` === "maxLength" && (
+          {`errors.campaigns.${index}.slogan.type` === 'maxLength' && (
             <DisplayInputError message="errors.error_200_max_length" />
           )}
         </div>
@@ -320,7 +320,7 @@ export function CampaignForm({
             htmlFor={`${index}-campaign_goal`}
             className="mr-2 text-sm text-gray-600"
           >
-            {t("goal")}
+            {t('goal')}
           </label>
 
           <textarea
@@ -331,10 +331,10 @@ export function CampaignForm({
               maxLength: 200,
             })}
           />
-          {`errors.campaigns.${index}.goal.type` === "required" && (
+          {`errors.campaigns.${index}.goal.type` === 'required' && (
             <DisplayInputError message="errors.input_required" />
           )}
-          {`errors.campaigns.${index}.goal.type` === "maxLength" && (
+          {`errors.campaigns.${index}.goal.type` === 'maxLength' && (
             <DisplayInputError message="errors.error_200_max_length" />
           )}
         </div>
@@ -346,16 +346,16 @@ export function CampaignForm({
               htmlFor={`${index}-campaign_start_date`}
               className="mr-2 text-sm text-gray-600"
             >
-              {t("start_date")}
+              {t('start_date')}
             </label>
 
             <input
-              type={"date"}
+              type={'date'}
               className="rounded-md border border-gray-300"
               defaultValue={field.start_date.toString()}
               {...register(`campaigns.${index}.start_date` as const)}
             />
-            {`errors.campaigns.${index}.start_date.type` === "required" && (
+            {`errors.campaigns.${index}.start_date.type` === 'required' && (
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
@@ -366,16 +366,16 @@ export function CampaignForm({
               htmlFor={`${index}-campaign_end_date`}
               className="mr-2 text-sm text-gray-600"
             >
-              {t("end_date")}
+              {t('end_date')}
             </label>
 
             <input
-              type={"date"}
+              type={'date'}
               className="rounded-md border border-gray-300"
               defaultValue={field.end_date.toString()}
               {...register(`campaigns.${index}.end_date` as const)}
             />
-            {`errors.awards.${index}.end_date.type` === "required" && (
+            {`errors.awards.${index}.end_date.type` === 'required' && (
               <DisplayInputError message="errors.input_required" />
             )}
           </div>
@@ -389,11 +389,11 @@ export function CampaignForm({
         {/* Social Cause */}
         <div className="space-y flex w-full flex-col ">
           <p className="mb-0-4 text-lg">
-            {t("does_the_campaign_belong_to_a_social_cause")}
+            {t('does_the_campaign_belong_to_a_social_cause')}
           </p>
 
           <label className="mb-2 inline-flex items-center">
-            {t("social_cause")}
+            {t('social_cause')}
           </label>
 
           <select
@@ -419,7 +419,7 @@ export function CampaignForm({
             htmlFor={`${index}-campaign_discount`}
             className="mr-2 text-sm text-gray-600"
           >
-            {t("campaign_discount")} (%)
+            {t('campaign_discount')} (%)
           </label>
 
           <input
@@ -444,7 +444,7 @@ export function CampaignForm({
             primary
             onClick={() => handleShowProductsInCampaignModal(true, index)}
           >
-            {t("configure_products_in_campaign")}
+            {t('configure_products_in_campaign')}
           </Button>
         </div>
 
@@ -455,7 +455,7 @@ export function CampaignForm({
             primary
             onClick={() => api_handleSaveCampaign(index)}
           >
-            {t("save_form_campaign")}
+            {t('save_form_campaign')}
           </Button>
 
           <DeleteButton onClick={() => handleDeleteShowModal(true, index)} />

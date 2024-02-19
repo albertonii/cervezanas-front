@@ -11,7 +11,7 @@ import {
   SupabaseProps,
 } from '../../../../../../../constants';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
-import { useAuth } from '../../../../../Auth/useAuth';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 
 interface Props {
   eventOrderItem: IEventOrderItem;

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '../../../../../../constants';
 import { IMonthlyProduct, IProduct } from '../../../../../../lib/types';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';
 import { EditButton } from '../../../../components/common/EditButton';

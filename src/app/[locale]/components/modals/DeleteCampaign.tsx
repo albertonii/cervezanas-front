@@ -1,8 +1,8 @@
-import React, { ComponentProps } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { ICampaign } from "../../../../lib/types";
-import { useAuth } from "../../Auth/useAuth";
-import Modal from "./Modal";
+import React, { ComponentProps } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { ICampaign } from '../../../../lib/types';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import Modal from './Modal';
 
 interface Props {
   campaign: ICampaign;
@@ -22,9 +22,9 @@ export function DeleteCampaign({
     if (!campaign) return;
 
     const { error } = await supabase
-      .from("campaigns")
+      .from('campaigns')
       .delete()
-      .eq("id", campaign.id);
+      .eq('id', campaign.id);
 
     if (error) throw error;
 
@@ -32,10 +32,10 @@ export function DeleteCampaign({
   };
 
   const deleteCampaignMutation = useMutation({
-    mutationKey: ["deleteCampaign"],
+    mutationKey: ['deleteCampaign'],
     mutationFn: handleDeleteCampaign,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["campaignList"] });
+      queryClient.invalidateQueries({ queryKey: ['campaignList'] });
     },
     onError: (error) => {
       console.error(error);
@@ -55,15 +55,15 @@ export function DeleteCampaign({
       showBtn={false}
       showModal={showModal}
       setShowModal={handleDeleteShowModal}
-      title={"modal_delete_campaign_title"}
-      btnTitle={"delete"}
-      description={"modal_delete_campaign_description"}
+      title={'modal_delete_campaign_title'}
+      btnTitle={'delete'}
+      description={'modal_delete_campaign_description'}
       handler={() => {
         onSubmitDelete();
       }}
       handlerClose={() => handleDeleteShowModal(false)}
-      classIcon={""}
-      classContainer={""}
+      classIcon={''}
+      classContainer={''}
     >
       <></>
     </Modal>

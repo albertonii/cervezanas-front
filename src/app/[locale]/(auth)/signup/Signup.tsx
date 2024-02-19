@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../../Auth/useAuth";
-import { VIEWS } from "../../../../constants";
-import { SignUpForm } from "../../Auth/SignUpForm";
-import { useLocale, useTranslations } from "next-intl";
-import dynamic from "next/dynamic";
+import Link from 'next/link';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../Context/useAuth';
+import { VIEWS } from '../../../../constants';
+import { SignUpForm } from './SignUpForm';
+import { useLocale, useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../components/common/Spinner"),
+  () => import('../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 export default function Signup() {
@@ -38,7 +38,7 @@ export default function Signup() {
   }, [user]);
 
   if (!isPageLoad) {
-    return <DynamicSpinner color="beer-blonde" size={"fullScreen"} absolute />;
+    return <DynamicSpinner color="beer-blonde" size={'fullScreen'} absolute />;
   }
 
   return (
@@ -48,21 +48,21 @@ export default function Signup() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <span>
             <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-              {t("create_account")}
+              {t('create_account')}
             </h2>
           </span>
 
           <SignUpForm />
 
           <p className="my-2 flex w-full justify-start text-sm text-gray-700">
-            {t("already_account")}
+            {t('already_account')}
             <Link
               className="cursor-pointer font-bold"
               href={VIEWS.SIGN_IN}
               locale={locale}
             >
               <span className="mx-1 text-beer-darkGold hover:underline">
-                {t("access_account")}
+                {t('access_account')}
               </span>
             </Link>
           </p>
@@ -77,7 +77,7 @@ export default function Signup() {
           sizes="(max-width: 1024px) 100vw, 1024px"
           width={1024}
           height={768}
-          src={"/assets/profile_signup.jpg"}
+          src={'/assets/profile_signup.jpg'}
         />
       </div>
     </section>

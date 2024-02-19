@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
-import { ChipCard } from "../../../../components/common/ChipCard";
-import { toLowerCase } from "../../../../../../utils/formatWords";
-import { useAuth } from "../../../../Auth/useAuth";
-import { useAppContext } from "../../../../../context/AppContext";
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ChipCard } from '../../../../components/common/ChipCard';
+import { toLowerCase } from '../../../../../../utils/formatWords';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useAppContext } from '../../../../../context/AppContext';
 
 export function CustomizeSettings() {
   const t = useTranslations();
@@ -17,7 +17,7 @@ export function CustomizeSettings() {
   const familyStylesInputRef = useRef<HTMLInputElement>(null);
   const [colors, setColors] = useState<string[]>(customizeSettings.colors);
   const [familyStyles, setFamilyStyles] = useState<string[]>(
-    customizeSettings.family_styles
+    customizeSettings.family_styles,
   );
 
   useEffect(() => {
@@ -32,15 +32,15 @@ export function CustomizeSettings() {
           color.length < 40
         ) {
           setColors((prevColors) => [...prevColors, color]);
-          colorInputRef.current.value = "";
+          colorInputRef.current.value = '';
 
           // Add new color to DDBB
           await supabase
-            .from("customize_settings")
+            .from('customize_settings')
             .update({
               colors: [...colors, color],
             })
-            .eq("id", customizeSettings.id);
+            .eq('id', customizeSettings.id);
 
           setCustomizeSettings({
             ...customizeSettings,
@@ -62,15 +62,15 @@ export function CustomizeSettings() {
           famStyle.length < 40
         ) {
           setFamilyStyles((prevFamStyle) => [...prevFamStyle, famStyle]);
-          familyStylesInputRef.current.value = "";
+          familyStylesInputRef.current.value = '';
 
           // Add new family style to DDBB
           await supabase
-            .from("customize_settings")
+            .from('customize_settings')
             .update({
               family_styles: [...familyStyles, famStyle],
             })
-            .eq("id", customizeSettings.id);
+            .eq('id', customizeSettings.id);
 
           setCustomizeSettings({
             ...customizeSettings,
@@ -81,25 +81,25 @@ export function CustomizeSettings() {
     };
 
     const listenerColor = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === "NumpadEnter") {
+      if (event.key === 'Enter' || event.key === 'NumpadEnter') {
         addColor();
         event.preventDefault();
       }
     };
 
     const listenerFamilyStyle = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === "NumpadEnter") {
+      if (event.key === 'Enter' || event.key === 'NumpadEnter') {
         addFamilyStyle();
         event.preventDefault();
       }
     };
 
-    document.addEventListener("keydown", listenerColor);
-    document.addEventListener("keydown", listenerFamilyStyle);
+    document.addEventListener('keydown', listenerColor);
+    document.addEventListener('keydown', listenerFamilyStyle);
 
     return () => {
-      document.removeEventListener("keydown", listenerColor);
-      document.removeEventListener("keydown", listenerFamilyStyle);
+      document.removeEventListener('keydown', listenerColor);
+      document.removeEventListener('keydown', listenerFamilyStyle);
     };
   }, [colors, customizeSettings.id, familyStyles, setCustomizeSettings]);
 
@@ -112,11 +112,11 @@ export function CustomizeSettings() {
 
     // Remove color from DDBB
     await supabase
-      .from("customize_settings")
+      .from('customize_settings')
       .update({
         colors: filteredColors,
       })
-      .eq("id", customizeSettings.id);
+      .eq('id', customizeSettings.id);
 
     setCustomizeSettings({
       ...customizeSettings,
@@ -133,13 +133,13 @@ export function CustomizeSettings() {
 
     // Remove family style from DDBB
     await supabase
-      .from("customize_settings")
+      .from('customize_settings')
       .update({
         family_styles: familyStyles.filter((p) => {
           return p !== famStyle;
         }),
       })
-      .eq("id", customizeSettings.id);
+      .eq('id', customizeSettings.id);
 
     setCustomizeSettings({
       ...customizeSettings,
@@ -157,7 +157,7 @@ export function CustomizeSettings() {
           {t('products_customize_settings')}
         </span>
       </p>
-      
+
       <div className="flex flex-col space-y-4">
         {/* Text description to Customize colors available for a new beer product. */}
         <h3 className="text-md my-4 text-gray-500 dark:text-gray-400">

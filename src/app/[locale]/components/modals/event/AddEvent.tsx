@@ -6,7 +6,7 @@ import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceF
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile } from '../../../../../lib/types';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';

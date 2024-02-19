@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '../../../components/common/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

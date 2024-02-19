@@ -8,7 +8,7 @@ import {
   IProduct,
   IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { string, z, ZodType } from 'zod';

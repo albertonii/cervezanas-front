@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { getGeocode } from 'use-places-autocomplete';
 import { IUser } from '../../../../../../lib/types';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { cleanObject, isValidObject } from '../../../../../../utils/utils';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

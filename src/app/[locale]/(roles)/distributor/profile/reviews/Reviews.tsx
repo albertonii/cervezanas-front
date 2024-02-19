@@ -8,7 +8,7 @@ import { IReview } from '../../../../../../lib/types';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { Rate } from '../../../../components/reviews/Rate';
 import { formatDateString } from '../../../../../../utils/formatDate';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 // TODO: Hacer vista de las reviews recibidas por los consumidores o productores
 

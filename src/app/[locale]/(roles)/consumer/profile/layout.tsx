@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '../../../../../constants';

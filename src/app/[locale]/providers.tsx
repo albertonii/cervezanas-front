@@ -4,7 +4,7 @@ import React from 'react';
 import ReactQueryWrapper from './ReactQueryWrapper';
 import { NextIntlClientProvider } from 'next-intl';
 import { EventCartProvider } from '../context/EventCartContext';
-import { AuthContextProvider } from './Auth/AuthContext';
+import { AuthContextProvider } from './(auth)/Context/AuthContext';
 import { MessageProvider } from './components/message/MessageContext';
 import { AppContextProvider } from '../context/AppContext';
 import { ShoppingCartProvider } from '../context/ShoppingCartContext';

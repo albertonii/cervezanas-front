@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { IUserReport } from '../../../../../../../lib/types';
 import { downloadFile } from '../../../../../../../utils/utils';
-import { useAuth } from '../../../../../Auth/useAuth';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { Button } from '../../../../../components/common/Button';
 import { useMessage } from '../../../../../components/message/useMessage';
 
@@ -24,7 +24,11 @@ export default function ReportDetails({ report }: Props) {
 
   useEffect(() => {
     const getFile = async () => {
-      const file = await downloadFile(supabase, 'reports', `reports/${report.file}`);
+      const file = await downloadFile(
+        supabase,
+        'reports',
+        `reports/${report.file}`,
+      );
       setFile(file);
     };
 

@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { IDistributorUser } from "../lib/types.d";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { useQuery } from 'react-query';
+import { IDistributorUser } from '../lib/types.d';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchDistributorById = async (
   supabase: SupabaseClient<any>,
-  distributorId: string
+  distributorId: string,
 ) => {
   const { data, error } = await supabase
-    .from("users")
+    .from('users')
     .select(
       `
         *,
@@ -26,9 +26,9 @@ const fetchDistributorById = async (
           province,address_1, 
           address_2,
           town)
-      `
+      `,
     )
-    .eq("id", distributorId);
+    .eq('id', distributorId);
 
   if (error) throw error;
 
@@ -39,7 +39,7 @@ const useFetchDistributorById = (distributorId: string) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["distributorById", distributorId],
+    queryKey: ['distributorById', distributorId],
     queryFn: () => fetchDistributorById(supabase, distributorId),
     enabled: true,
     refetchOnWindowFocus: false,

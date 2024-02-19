@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from './Auth/useAuth';
+import { useAuth } from './(auth)/Context/useAuth';
 import React, { useRef, useState } from 'react';
 import { generateLink } from '../../utils/utils';
 import { useLocale, useTranslations } from 'next-intl';

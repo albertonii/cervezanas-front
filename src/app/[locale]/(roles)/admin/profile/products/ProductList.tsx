@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProduct } from '../../../../../../lib/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';

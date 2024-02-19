@@ -5,7 +5,7 @@ import {
   IProductPack,
   ModalUpdateProductFormData,
 } from '../../../../lib/types';
-import { useAuth } from '../../Auth/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { DeleteButton } from '../common/DeleteButton';
 import { Button } from '../common/Button';

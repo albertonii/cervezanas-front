@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React from "react";
-import { z, ZodType } from "zod";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../Auth/useAuth";
-import { Button } from "../../components/common/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import InputLabel from "../../components/common/InputLabel";
+import Image from 'next/image';
+import React from 'react';
+import { z, ZodType } from 'zod';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../Context/useAuth';
+import { Button } from '../../components/common/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InputLabel from '../../components/common/InputLabel';
 
 type FormData = {
   password: string;
@@ -21,13 +21,13 @@ const schema: ZodType<FormData> = z
   .object({
     password: z
       .string()
-      .min(8, { message: "Password must be atleast 8 characters" }),
+      .min(8, { message: 'Password must be atleast 8 characters' }),
     confirm_password: z
       .string()
-      .min(8, { message: "Password must be atleast 8 characters" }),
+      .min(8, { message: 'Password must be atleast 8 characters' }),
   })
   .refine((data) => data.password === data.confirm_password, {
-    path: ["confirm_password"],
+    path: ['confirm_password'],
     message: "Password don't match",
   });
 
@@ -56,7 +56,7 @@ export default function ResetPassword() {
     <section className="w-full lg:grid lg:grid-cols-2">
       <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
         <h1 className="text-3xl font-extrabold text-gray-900">
-          {t("update_password")}
+          {t('update_password')}
         </h1>
 
         <form
@@ -68,7 +68,7 @@ export default function ResetPassword() {
           <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
             <InputLabel
               form={form}
-              label={"password"}
+              label={'password'}
               registerOptions={{
                 required: true,
               }}
@@ -78,7 +78,7 @@ export default function ResetPassword() {
 
             <InputLabel
               form={form}
-              label={"confirm_password"}
+              label={'confirm_password'}
               registerOptions={{
                 required: true,
               }}
@@ -88,22 +88,22 @@ export default function ResetPassword() {
           </section>
 
           <Button
-            title={"reset_password"}
+            title={'reset_password'}
             btnType="submit"
             class={
-              "group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 "
+              'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
             }
             fullSize
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <FontAwesomeIcon
                 icon={faLock}
-                style={{ color: "bear-dark" }}
-                title={"Lock"}
+                style={{ color: 'bear-dark' }}
+                title={'Lock'}
                 className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
               />
             </span>
-            {t("confirm_password")}
+            {t('confirm_password')}
           </Button>
         </form>
       </article>
@@ -116,7 +116,7 @@ export default function ResetPassword() {
           sizes="(max-width: 1024px) 100vw, 1024px"
           width={1024}
           height={768}
-          src={"/assets/profile_signup.jpg"}
+          src={'/assets/profile_signup.jpg'}
         />
       </div>
     </section>

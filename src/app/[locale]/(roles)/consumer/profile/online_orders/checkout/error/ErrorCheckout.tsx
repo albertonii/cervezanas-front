@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../../../../Auth/useAuth";
-import { useLocale, useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../../../constants";
-import { IOrder, IOrderItem } from "../../../../../../../../lib/types";
-import { formatDateString } from "../../../../../../../../utils/formatDate";
-import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
+import Link from 'next/link';
+import DisplayImageProduct from '../../../../../../components/common/DisplayImageProduct';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../../../../../(auth)/Context/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { SupabaseProps } from '../../../../../../../../constants';
+import { IOrder, IOrderItem } from '../../../../../../../../lib/types';
+import { formatDateString } from '../../../../../../../../utils/formatDate';
+import { formatCurrency } from '../../../../../../../../utils/formatCurrency';
 
 interface Props {
   isError?: boolean;
@@ -62,23 +62,23 @@ export default function ErrorCheckout({ order, isError }: Props) {
             <div className="flex flex-col">
               <div className="flex sm:items-baseline sm:space-x-4">
                 <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
-                  {t("order_number")} #{order.order_number}
+                  {t('order_number')} #{order.order_number}
                 </h1>
               </div>
 
               {/* Order Status  */}
               <div className="right-0 col-span-12 pr-12 md:col-span-4 md:mt-2 ">
                 <span className="text-lg font-medium text-beer-dark sm:text-xl">
-                  {t("order_status")}:
+                  {t('order_status')}:
                   <span className="ml-2 text-beer-draft">
-                    {t(order.status)}{" "}
+                    {t(order.status)}{' '}
                   </span>
                 </span>
               </div>
             </div>
 
             <p className="text-sm text-gray-600">
-              {t("status_order_placed")}{" "}
+              {t('status_order_placed')}{' '}
               <time dateTime="2021-03-22" className="font-medium text-gray-900">
                 {formatDateString(order.issue_date.toString())}
               </time>
@@ -93,7 +93,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
           {/* <!-- Products --> */}
           <div className="mt-6">
-            <h2 className="sr-only">{t("products_purchased")}</h2>
+            <h2 className="sr-only">{t('products_purchased')}</h2>
 
             <div className="space-y-8">
               {orderItems &&
@@ -116,7 +116,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                 decodeURIComponent(item.product_packs.img_url)
                               }
                               class={
-                                "h-full w-full rounded-2xl object-contain hover:cursor-pointer"
+                                'h-full w-full rounded-2xl object-contain hover:cursor-pointer'
                               }
                             />
                           </figure>
@@ -133,14 +133,14 @@ export default function ErrorCheckout({ order, isError }: Props) {
                             </Link>
                           </h3>
                           <p className="mt-2 text-sm font-medium text-gray-900">
-                            {t("price")} -{" "}
+                            {t('price')} -{' '}
                             {formatCurrency(item.product_packs.price)}
                           </p>
                           <p className="mt-2 text-sm font-medium text-gray-900">
-                            {t("quantity")} -
+                            {t('quantity')} -
                           </p>
                           <p className="mt-3 text-sm text-gray-500">
-                            {t("description")} -{" "}
+                            {t('description')} -{' '}
                             {item.product_packs.products?.description}
                           </p>
                         </div>
@@ -149,18 +149,18 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         {order.shipping_info && (
                           <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
                             <dt className="font-medium text-gray-900">
-                              {t("shipping_address")}
+                              {t('shipping_address')}
                             </dt>
 
                             <dd className="mt-3 text-gray-500">
                               <span className="block">
-                                {order.shipping_info.name}{" "}
+                                {order.shipping_info.name}{' '}
                                 {order.shipping_info.lastname}
                               </span>
                               <span className="block">
-                                {order.shipping_info.address},{" "}
+                                {order.shipping_info.address},{' '}
                                 {order.shipping_info.city},
-                                {order.shipping_info.state},{" "}
+                                {order.shipping_info.state},{' '}
                                 {order.shipping_info.zipcode},
                                 {order.shipping_info.country}
                               </span>
@@ -185,7 +185,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                     <div className="border-t border-gray-200">
                       <h4 className="sr-only">Status</h4>
                       <p className="flex justify-between text-sm font-medium text-gray-900">
-                        {t("status")}: {t("user_cancelled")}
+                        {t('status')}: {t('user_cancelled')}
                         <time dateTime="2021-03-24">
                           {formatDateString(order.issue_date.toString())}
                         </time>
@@ -196,7 +196,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         </div>
                         <div className="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
                           <div className="text-beer-draft">
-                            {t("user_cancelled")}
+                            {t('user_cancelled')}
                           </div>
                         </div>
                       </div>
@@ -210,14 +210,14 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
           {/* <!-- Billing --> */}
           <div className="mt-16">
-            <h2 className="sr-only">{t("billing_summary")}</h2>
+            <h2 className="sr-only">{t('billing_summary')}</h2>
 
             <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
               {order.billing_info && (
                 <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                   <address>
                     <dt className="font-medium text-gray-900">
-                      {t("billing_address")}
+                      {t('billing_address')}
                     </dt>
                     <dd className="mt-3 text-gray-500">
                       <span className="block">
@@ -230,10 +230,10 @@ export default function ErrorCheckout({ order, isError }: Props) {
                       </span>
                     </dd>
                   </address>
-                  
+
                   <div>
                     <dt className="font-medium text-gray-900">
-                      {t("payment_information")}
+                      {t('payment_information')}
                     </dt>
                     <div className="mt-3">
                       <dd className="-ml-4 -mt-4 flex flex-wrap">
@@ -261,10 +261,10 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         </div>
                         <div className="ml-4 mt-4">
                           <p className="text-gray-900">
-                            {t("ending_with")} 4242
+                            {t('ending_with')} 4242
                           </p>
                           <p className="text-gray-600">
-                            {t("expires_at")} 02 / 24
+                            {t('expires_at')} 02 / 24
                           </p>
                         </div>
                       </dd>
@@ -275,27 +275,27 @@ export default function ErrorCheckout({ order, isError }: Props) {
 
               <dl className="mt-8 divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
                 <div className="flex items-center justify-between pb-4">
-                  <dt className="text-gray-600">{t("subtotal")}</dt>
+                  <dt className="text-gray-600">{t('subtotal')}</dt>
                   <dd className="font-medium text-gray-900">
                     {formatCurrency(order.subtotal)}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between pb-4">
-                  <dt className="text-gray-600">{t("discount")}</dt>
+                  <dt className="text-gray-600">{t('discount')}</dt>
                   <dd className="font-medium text-gray-900">
-                    {t("discount_code")} {order.discount_code} {" - "}{" "}
+                    {t('discount_code')} {order.discount_code} {' - '}{' '}
                     {formatCurrency(order.discount)}
                   </dd>
                 </div>
 
                 <div className="flex items-center justify-between py-4">
-                  <dt className="text-gray-600">{t("tax")}</dt>
+                  <dt className="text-gray-600">{t('tax')}</dt>
                   <dd className="font-medium text-gray-900">
                     {formatCurrency(order.tax)}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between pt-4">
-                  <dt className="font-medium text-gray-900">{t("total")}</dt>
+                  <dt className="font-medium text-gray-900">{t('total')}</dt>
                   <dd className="font-medium text-beer-draft">
                     {formatCurrency(order.total)}
                   </dd>

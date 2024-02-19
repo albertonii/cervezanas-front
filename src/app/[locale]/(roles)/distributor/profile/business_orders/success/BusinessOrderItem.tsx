@@ -1,17 +1,17 @@
-import Link from "next/link";
-import React from "react";
-import { useLocale, useTranslations } from "next-intl";
+import Link from 'next/link';
+import React from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   DISTRIBUTOR_ONLINE_ORDER_STATUS,
   SupabaseProps,
-} from "../../../../../../../constants";
-import { IBusinessOrder, IOrderItem } from "../../../../../../../lib/types";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import { StatusTimeline } from "../../../../../components/StatusTimeline";
-import { useAuth } from "../../../../../Auth/useAuth";
-import { useQueryClient } from "react-query";
-import { useMessage } from "../../../../../components/message/useMessage";
+} from '../../../../../../../constants';
+import { IBusinessOrder, IOrderItem } from '../../../../../../../lib/types';
+import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import { StatusTimeline } from '../../../../../components/StatusTimeline';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { useQueryClient } from 'react-query';
+import { useMessage } from '../../../../../components/message/useMessage';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -32,8 +32,8 @@ export default function BusinessOrderItem({
   const queryClient = useQueryClient();
   const { handleMessage } = useMessage();
 
-  const submitSuccessMessage = t("messages.updated_successfully");
-  const submitErrorMessage = t("messages.updated_error");
+  const submitSuccessMessage = t('messages.updated_successfully');
+  const submitErrorMessage = t('messages.updated_error');
 
   const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
 
@@ -51,23 +51,23 @@ export default function BusinessOrderItem({
   // Update the status of the business_order
   const onClickOrderStatus = async (status: string) => {
     const { error } = await supabase
-      .from("business_orders")
+      .from('business_orders')
       .update({ status })
-      .eq("id", bOrder.id)
+      .eq('id', bOrder.id)
       .select();
 
     if (error) {
       handleMessage({
-        type: "error",
+        type: 'error',
         message: submitErrorMessage,
       });
       throw error;
     }
 
-    queryClient.invalidateQueries({ queryKey: ["distribution"] });
+    queryClient.invalidateQueries({ queryKey: ['distribution'] });
 
     handleMessage({
-      type: "success",
+      type: 'success',
       message: submitSuccessMessage,
     });
   };
@@ -106,7 +106,7 @@ export default function BusinessOrderItem({
         </option>
       </select>
 
-      <StatusTimeline status={bOrderStatus} orderType={"distributor_online"} />
+      <StatusTimeline status={bOrderStatus} orderType={'distributor_online'} />
 
       <section className="grid grid-cols-1 gap-x-2 space-y-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-4">
         {/* Display the product information for this pack  */}
@@ -117,13 +117,13 @@ export default function BusinessOrderItem({
                 href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
                 locale={locale}
               >
-                {t("name")}:{" "}
+                {t('name')}:{' '}
                 {bOrder.order_items[0].product_packs?.products?.name}
               </Link>
             </h3>
 
             <span className="space-y-1">
-              <p className="text-sm text-gray-500">{t("description")}</p>
+              <p className="text-sm text-gray-500">{t('description')}</p>
               <p className="truncate">
                 {bOrder.order_items[0].product_packs?.products?.description}
               </p>
@@ -138,7 +138,7 @@ export default function BusinessOrderItem({
             <fieldset
               className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-4 lg:space-x-2 lg:p-6"
               key={
-                orderItem.business_order_id + "-" + orderItem.product_pack_id
+                orderItem.business_order_id + '-' + orderItem.product_pack_id
               }
             >
               <legend className="text-lg">
@@ -150,7 +150,7 @@ export default function BusinessOrderItem({
                   <DisplayImageProduct
                     width={120}
                     height={120}
-                    alt={""}
+                    alt={''}
                     imgSrc={`${
                       BASE_PRODUCTS_URL +
                       decodeURIComponent(orderItem.product_packs.img_url)
@@ -164,7 +164,7 @@ export default function BusinessOrderItem({
                 <div className="w-full">
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("product_price")}
+                      {t('product_price')}
                     </p>
                     <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
                       {formatCurrency(orderItem.product_packs.price)}
@@ -173,19 +173,19 @@ export default function BusinessOrderItem({
 
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("quantity_in_pack")}
+                      {t('quantity_in_pack')}
                     </p>
                     <p className="truncate">
-                      {orderItem.product_packs.quantity} {t("units")}
+                      {orderItem.product_packs.quantity} {t('units')}
                     </p>
                   </span>
 
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("quantity_bought")}
+                      {t('quantity_bought')}
                     </p>
                     <p className="truncate">
-                      {orderItem.quantity} {t("packs")}
+                      {orderItem.quantity} {t('packs')}
                     </p>
                   </span>
                 </div>
@@ -193,11 +193,11 @@ export default function BusinessOrderItem({
                 <div className="w-full self-center">
                   <span className="space-y-1 text-center">
                     <p className="text-base text-gray-500 md:text-xl">
-                      {t("total")}
+                      {t('total')}
                     </p>
                     <p className="truncate text-base font-semibold md:text-2xl">
                       {formatCurrency(
-                        orderItem.quantity * orderItem.product_packs.price
+                        orderItem.quantity * orderItem.product_packs.price,
                       )}
                     </p>
                   </span>

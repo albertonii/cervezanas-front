@@ -1,13 +1,11 @@
 'use client';
 
 import ModalWithForm from '../ModalWithForm';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import {
-  IAddModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types';
-import { useAuth } from '../../../Auth/useAuth';
+import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';

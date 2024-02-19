@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { IProductLot } from "../lib/types";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../lib/schema";
+import { useQuery } from 'react-query';
+import { IProductLot } from '../lib/types';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '../lib/schema';
 
 const fetchLotsByOwner = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
 ) => {
   const { data, error } = await supabase
-    .from("product_lots")
+    .from('product_lots')
     .select(
       `
         id,
@@ -31,13 +31,13 @@ const fetchLotsByOwner = async (
         products (id, name)
       `,
       {
-        count: "exact",
-      }
+        count: 'exact',
+      },
     )
-    .eq("owner_id", ownerId)
+    .eq('owner_id', ownerId)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -48,11 +48,11 @@ const fetchLotsByOwner = async (
 const useFetchLotsByOwnerAndPagination = (
   ownerId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
   return useQuery({
-    queryKey: ["productLotList", ownerId, currentPage, resultsPerPage],
+    queryKey: ['productLotList', ownerId, currentPage, resultsPerPage],
     queryFn: () =>
       fetchLotsByOwner(ownerId, currentPage, resultsPerPage, supabase),
     enabled: true,

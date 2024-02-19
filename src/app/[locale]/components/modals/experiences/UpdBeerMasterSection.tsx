@@ -12,7 +12,7 @@ import { Button } from '../../common/Button';
 import SelectInput from '../../common/SelectInput';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../../Auth/useAuth';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',

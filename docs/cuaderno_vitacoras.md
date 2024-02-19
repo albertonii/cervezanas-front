@@ -541,7 +541,8 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 
 ### 17 de febrero
 
-- [ ] Sign in Google
+- [x] Sign in Google
+- [ ] Error (a veces) al iniciar sesión con un usuario. Lanza error "Rendered more hooks than during the previous render". Hay que localizar el componente que está generando el conflicto. Puede que sea un useCallback
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit

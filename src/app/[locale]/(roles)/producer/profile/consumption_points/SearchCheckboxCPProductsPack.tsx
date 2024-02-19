@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import ProductAccordion from "./ProductAccordion";
-import React, { useEffect, useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useAuth } from "../../../../Auth/useAuth";
-import Spinner from "../../../../components/common/Spinner";
-import { IProduct } from "../../../../../../lib/types";
-import useFetchProductsByOwnerAndPagination from "../../../../../../hooks/useFetchProductsByOwnerAndPagination";
-import InputSearch from "../../../../components/common/InputSearch";
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import ProductAccordion from './ProductAccordion';
+import React, { useEffect, useMemo, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import Spinner from '../../../../components/common/Spinner';
+import { IProduct } from '../../../../../../lib/types';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface Props {
   form: UseFormReturn<any, any>;
@@ -19,7 +19,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
   const { user } = useAuth();
   const [products, setProducts] = useState<IProduct[]>([]);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const fixedCount = products.length;
   const resultsPerPage = 10;
@@ -28,7 +28,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
     user?.id,
     currentPage,
     resultsPerPage,
-    false
+    false,
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
       <InputSearch
         query={query}
         setQuery={setQuery}
-        searchPlaceholder={"search_by_name"}
+        searchPlaceholder={'search_by_name'}
       />
 
       <ProductAccordion

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { ComponentProps, useMemo, useState } from 'react';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { ICampaign } from '../../../../../../lib/types';
 import Spinner from '../../../../components/common/Spinner';

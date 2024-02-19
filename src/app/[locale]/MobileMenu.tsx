@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
-import { useAuth } from './Auth/useAuth';
+import { useAuth } from './(auth)/Context/useAuth';
 import { useRef, useState } from 'react';
 import { ROUTE_SIGNIN } from '../../config';
 import { useTranslations } from 'next-intl';

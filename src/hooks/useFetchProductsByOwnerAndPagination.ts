@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { IProduct } from '../lib/types';
-import { useAuth } from '../app/[locale]/Auth/useAuth';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProductsByOwner = async (

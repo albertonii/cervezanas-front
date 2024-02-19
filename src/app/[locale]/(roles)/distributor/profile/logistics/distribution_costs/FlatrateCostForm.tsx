@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "../../../../../components/common/Button";
-import { z, ZodType } from "zod";
+import { useTranslations } from 'next-intl';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '../../../../../components/common/Button';
+import { z, ZodType } from 'zod';
 import {
   FlatrateCostFormData,
   IFlatrateCost,
-} from "../../../../../../../lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "react-query";
-import { useMessage } from "../../../../../components/message/useMessage";
-import Error from "next/error";
-import { useAuth } from "../../../../../Auth/useAuth";
-import InputLabel from "../../../../../components/common/InputLabel";
+} from '../../../../../../../lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'react-query';
+import { useMessage } from '../../../../../components/message/useMessage';
+import Error from 'next/error';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import InputLabel from '../../../../../components/common/InputLabel';
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
   local_distribution_cost: z.number().min(0),
@@ -38,12 +38,12 @@ interface Props {
 const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
   const t = useTranslations();
   const { handleMessage } = useMessage();
-  const submitSuccessMessage = t("messages.updated_successfully");
-  const submitErrorMessage = t("messages.submit_error");
+  const submitSuccessMessage = t('messages.updated_successfully');
+  const submitErrorMessage = t('messages.submit_error');
   const { supabase } = useAuth();
 
   const form = useForm<ValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
@@ -80,27 +80,27 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
       distribution_costs_id: distributionCostId,
     };
 
-    const { error } = await supabase.from("flatrate_cost").upsert(flatrateCost);
+    const { error } = await supabase.from('flatrate_cost').upsert(flatrateCost);
 
     if (error) {
       handleMessage({
-        type: "error",
+        type: 'error',
         message: submitErrorMessage,
       });
       throw error;
     }
 
     handleMessage({
-      type: "success",
+      type: 'success',
       message: submitSuccessMessage,
     });
   };
 
   const handleUpdateFlatrateCostMutation = useMutation({
-    mutationKey: "updateFlatrateCost",
+    mutationKey: 'updateFlatrateCost',
     mutationFn: handleUpdateFlatrateCost,
     onSuccess: () => {
-      console.info("Flatrate cost updated successfully");
+      console.info('Flatrate cost updated successfully');
     },
     onError: (error: Error) => {
       console.error(error);
@@ -108,7 +108,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: FlatrateCostFormData
+    formValues: FlatrateCostFormData,
   ) => {
     try {
       handleUpdateFlatrateCostMutation.mutate(formValues);
@@ -130,77 +130,77 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
           primary
           medium
         >
-          {t("save")}
+          {t('save')}
         </Button>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            {t("local_distribution_cost")}
+            {t('local_distribution_cost')}
           </legend>
 
           <InputLabel
             form={form}
-            label={"local_distribution_cost"}
-            labelText={`${t("local_distribution_cost")} (€) `}
+            label={'local_distribution_cost'}
+            labelText={`${t('local_distribution_cost')} (€) `}
             registerOptions={{
               required: true,
               valueAsNumber: true,
             }}
-            placeholder={"0"}
+            placeholder={'0'}
             inputType="number"
           />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            {t("national_distribution_cost")}
+            {t('national_distribution_cost')}
           </legend>
 
           <InputLabel
             form={form}
-            label={"national_distribution_cost"}
-            labelText={`${t("national_distribution_cost")} (€) `}
+            label={'national_distribution_cost'}
+            labelText={`${t('national_distribution_cost')} (€) `}
             registerOptions={{
               required: true,
               valueAsNumber: true,
             }}
-            placeholder={"0"}
+            placeholder={'0'}
             inputType="number"
           />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            {t("europe_distribution_cost") + " (€)"}
+            {t('europe_distribution_cost') + ' (€)'}
           </legend>
 
           <InputLabel
             form={form}
-            label={"europe_distribution_cost"}
-            labelText={`${t("europe_distribution_cost")} (€) `}
+            label={'europe_distribution_cost'}
+            labelText={`${t('europe_distribution_cost')} (€) `}
             registerOptions={{
               required: true,
               valueAsNumber: true,
             }}
-            placeholder={"0"}
+            placeholder={'0'}
             inputType="number"
           />
         </fieldset>
 
         <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
           <legend className=" text-gray-600">
-            {t("international_distribution_cost") + " (€)"}
+            {t('international_distribution_cost') + ' (€)'}
           </legend>
 
           <InputLabel
             form={form}
-            label={"international_distribution_cost"}
-            labelText={`${t("international_distribution_cost")} (€) `}
+            label={'international_distribution_cost'}
+            labelText={`${t('international_distribution_cost')} (€) `}
             registerOptions={{
               required: true,
               valueAsNumber: true,
             }}
-            placeholder={"0"}
+            placeholder={'0'}
             inputType="number"
           />
         </fieldset>

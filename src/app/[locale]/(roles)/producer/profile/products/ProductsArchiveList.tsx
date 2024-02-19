@@ -5,7 +5,7 @@ import Image from 'next/image';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProduct } from '../../../../../../lib/types';
 import Spinner from '../../../../components/common/Spinner';
 import { useAppContext } from '../../../../../context/AppContext';

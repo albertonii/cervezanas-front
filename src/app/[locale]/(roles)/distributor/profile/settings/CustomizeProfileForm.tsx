@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { SupabaseProps } from '../../../../../../constants';
 import { isValidObject } from '../../../../../../utils/utils';
 import { Button } from '../../../../components/common/Button';

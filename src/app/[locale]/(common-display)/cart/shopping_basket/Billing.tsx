@@ -1,15 +1,15 @@
-import { useTranslations } from "next-intl";
-import { useAuth } from "../../../Auth/useAuth";
-import AddressRadioInput from "./AddressRadioInput";
-import React, { ComponentProps, useState } from "react";
-import { NewBillingAddress } from "./NewBillingAddress";
-import { useMutation, useQueryClient } from "react-query";
-import { IBillingAddress } from "../../../../../lib/types";
-import { SubmitHandler, UseFormReturn } from "react-hook-form";
-import { useMessage } from "../../../components/message/useMessage";
-import { DeleteAddress } from "../../../components/modals/DeleteAddress";
-import { DisplayInputError } from "../../../components/common/DisplayInputError";
-import { FormBillingData, ValidationSchemaShipping } from "./ShoppingBasket";
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../(auth)/Context/useAuth';
+import AddressRadioInput from './AddressRadioInput';
+import React, { ComponentProps, useState } from 'react';
+import { NewBillingAddress } from './NewBillingAddress';
+import { useMutation, useQueryClient } from 'react-query';
+import { IBillingAddress } from '../../../../../lib/types';
+import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { useMessage } from '../../../components/message/useMessage';
+import { DeleteAddress } from '../../../components/modals/DeleteAddress';
+import { DisplayInputError } from '../../../components/common/DisplayInputError';
+import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
 
 interface Props {
   selectedBillingAddress: string;
@@ -41,23 +41,23 @@ export default function Billing({
     const billingAddressId = selectedBillingAddress;
 
     const { error: billingAddressError } = await supabase
-      .from("billing_info")
+      .from('billing_info')
       .delete()
-      .eq("id", billingAddressId);
+      .eq('id', billingAddressId);
 
     if (billingAddressError) throw billingAddressError;
 
     handleMessage({
-      type: "success",
-      message: "billing_address_removed_successfully",
+      type: 'success',
+      message: 'billing_address_removed_successfully',
     });
   };
 
   const deleteBillingAddress = useMutation({
-    mutationKey: ["deleteBillingAddress"],
+    mutationKey: ['deleteBillingAddress'],
     mutationFn: handleRemoveBillingAddress,
     onSuccess: () => {
-      queryClient.invalidateQueries("billingAddresses");
+      queryClient.invalidateQueries('billingAddresses');
     },
     onError: (error: any) => {
       console.error(error);
@@ -65,7 +65,7 @@ export default function Billing({
   });
 
   const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
-    data: any
+    data: any,
   ) => {
     try {
       deleteBillingAddress.mutate(data);
@@ -77,12 +77,12 @@ export default function Billing({
   return (
     <>
       <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-        {t("billing_info")}{" "}
+        {t('billing_info')}{' '}
       </h3>
 
       <span className="flex w-full flex-col items-start justify-start space-y-4">
         <label htmlFor="billing" className="text-sm font-medium text-gray-500">
-          {t("billing")}
+          {t('billing')}
         </label>
       </span>
 
@@ -95,7 +95,7 @@ export default function Billing({
                 <AddressRadioInput
                   register={register}
                   address={address}
-                  addressNameId={"billing"}
+                  addressNameId={'billing'}
                   setShowDeleteModal={setShowDeleteModal}
                 />
               </li>

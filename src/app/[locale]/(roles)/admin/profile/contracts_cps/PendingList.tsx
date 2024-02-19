@@ -8,7 +8,7 @@ import {
   faFileArrowDown,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../../../../Auth/useAuth';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDateString } from '../../../../../../utils/formatDate';

@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/Auth/useAuth";
-import { IOrder } from "../lib/types";
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { IOrder } from '../lib/types';
 
 const fetchOrders = async (
   ownerId: string,
   currentPage: number,
   resultsPerPage: number,
-  supabase: any
+  supabase: any,
 ) => {
   const { data, error } = await supabase
-    .from("orders")
+    .from('orders')
     .select(
       `
       *,
@@ -26,12 +26,12 @@ const fetchOrders = async (
           )
         )
       )
-    `
+    `,
     )
-    .eq("owner_id", ownerId)
+    .eq('owner_id', ownerId)
     .range(
       (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1
+      currentPage * resultsPerPage - 1,
     );
 
   if (error) throw error;
@@ -41,12 +41,12 @@ const fetchOrders = async (
 const useFetchOrders = (
   ownerId: string,
   currentPage: number,
-  resultsPerPage: number
+  resultsPerPage: number,
 ) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["orders"],
+    queryKey: ['orders'],
     queryFn: () => fetchOrders(ownerId, currentPage, resultsPerPage, supabase),
     enabled: false,
     refetchOnWindowFocus: false,

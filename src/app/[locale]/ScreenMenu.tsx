@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from './Auth/useAuth';
+import { useAuth } from './(auth)/Context/useAuth';
 import { COMMON } from '../../constants';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

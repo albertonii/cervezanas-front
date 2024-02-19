@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useAuth } from "../../Auth/useAuth";
+import React, { useEffect } from 'react';
+import { useAuth } from '../Context/useAuth';
 
 export default function Signout() {
   const { signOut } = useAuth();

@@ -7,7 +7,7 @@ import { SupabaseProps } from '../../../constants';
 import { IMonthlyProduct } from '../../../lib/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../Auth/useAuth';
+import { useAuth } from '../(auth)/Context/useAuth';
 import { MonthlyProductCategory } from '../../../lib/productEnum';
 import { IconButton } from '../components/common/IconButton';
 import { Button } from '../components/common/Button';
