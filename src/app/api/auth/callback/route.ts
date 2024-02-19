@@ -8,24 +8,19 @@ import createServerClient from '../../../../utils/supabaseServer';
  * @returns
  */
 export async function GET(request: NextRequest, response: NextResponse) {
-  console.log(request);
-  console.log(response);
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-  const next = searchParams.get('next') ?? '/';
+  const next = searchParams.get('next') ?? '/'; // if "next" is in param, use it as the redirect URL
 
   if (code) {
     const supabase = await createServerClient();
-
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+
     if (!error) {
-      console.error(error);
-      // return NextResponse.redirect(requestUrl.origin);
       return NextResponse.redirect(`${origin}${next}`);
     }
   }
 
   // return the user to an error page with instructions
-  // return NextResponse.redirect(requestUrl.origin);
   return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }

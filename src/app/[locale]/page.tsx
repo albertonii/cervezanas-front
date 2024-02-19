@@ -10,11 +10,7 @@ export const metadata = {
 export default async function Home() {
   const monthlyProducts = await getMonthlyProducts();
 
-  return (
-    <>
-      <Homepage monthlyProducts={monthlyProducts} />
-    </>
-  );
+  return <Homepage monthlyProducts={monthlyProducts} />;
 }
 
 async function getMonthlyProducts() {

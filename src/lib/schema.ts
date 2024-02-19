@@ -1224,7 +1224,7 @@ export interface Database {
           {
             foreignKeyName: "events_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1488,23 +1488,20 @@ export interface Database {
       }
       gamification: {
         Row: {
-          created_at: string
           score: number | null
           user_id: string
         }
         Insert: {
-          created_at?: string
           score?: number | null
           user_id: string
         }
         Update: {
-          created_at?: string
           score?: number | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "gamification_user_id_fkey"
+            foreignKeyName: "public_gamification_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
@@ -2353,9 +2350,9 @@ export interface Database {
           created_at: string | null
           email: string | null
           id: string
-          is_provider: boolean | null
           lastname: string | null
           name: string | null
+          provider: string | null
           role: string | null
           updated_at: string | null
           username: string | null
@@ -2368,9 +2365,9 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id: string
-          is_provider?: boolean | null
           lastname?: string | null
           name?: string | null
+          provider?: string | null
           role?: string | null
           updated_at?: string | null
           username?: string | null
@@ -2383,14 +2380,22 @@ export interface Database {
           created_at?: string | null
           email?: string | null
           id?: string
-          is_provider?: boolean | null
           lastname?: string | null
           name?: string | null
+          provider?: string | null
           role?: string | null
           updated_at?: string | null
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_users_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       visit_cp: {
         Row: {

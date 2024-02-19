@@ -1224,7 +1224,7 @@ export interface IUserTable {
   updated_at: string;
   birthdate: string;
   cp_organizer_status: number;
-  is_provider: boolean;
+  provider: string;
   distributor_user?: IDistributorUser;
 }
 
@@ -1236,7 +1236,7 @@ export interface IUserProfile {
   lastname: string;
   role: string;
   updated_at: string;
-  is_provider: boolean;
+  provider: string;
   created_at: string;
   cp_organizer_status: number;
   birthdate: string;
@@ -1404,11 +1404,9 @@ export interface IUserReport {
 }
 
 export interface IGamification {
-  id: string;
-  created_at: string;
   score: number;
   user_id: string;
-  users?: IUserTable;
+  users?: IUserProfile;
 }
 
 export interface IExperience {

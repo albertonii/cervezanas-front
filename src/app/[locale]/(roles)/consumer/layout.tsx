@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
-import React from "react";
-import { VIEWS } from "../../../../constants";
-import readUserSession from "../../../../lib/actions";
-import { ROLE_ENUM } from "../../../../lib/enums";
-import { IUser } from "../../../../lib/types";
+import { redirect } from 'next/navigation';
+import React from 'react';
+import { VIEWS } from '../../../../constants';
+import readUserSession from '../../../../lib/actions';
+import { ROLE_ENUM } from '../../../../lib/enums';
+import { IUser } from '../../../../lib/types';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -41,5 +41,6 @@ async function checkAuthorizatedUser() {
 
 async function checkAuthorizatedUserByRole(user: IUser) {
   const role = user.user_metadata.access_level;
-  return role === ROLE_ENUM.Cervezano;
+  const isFromProvider = user.app_metadata.provider === 'google';
+  return role === ROLE_ENUM.Cervezano || isFromProvider;
 }

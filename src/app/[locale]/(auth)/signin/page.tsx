@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
-import readUserSession from "../../../../lib/actions";
-import SignIn from "./SignIn";
+import { redirect } from 'next/navigation';
+import readUserSession from '../../../../lib/actions';
+import SignIn from './SignIn';
 
 export default async function SignInPage() {
   const {
@@ -8,12 +8,8 @@ export default async function SignInPage() {
   } = await readUserSession();
 
   if (session) {
-    redirect("/es");
+    redirect('/es');
   }
 
-  return (
-    <>
-      <SignIn />
-    </>
-  );
+  return <SignIn />;
 }

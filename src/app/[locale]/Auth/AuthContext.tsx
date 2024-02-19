@@ -44,7 +44,6 @@ export type SignUpWithPasswordCredentials = {
 export interface AuthSession {
   initial: boolean;
   user: any;
-  error: any;
   isLoading: boolean;
   signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
   signIn: (email: string, password: string) => void;
@@ -63,7 +62,6 @@ const supabaseClient = createBrowserClient();
 export const AuthContext = createContext<AuthSession>({
   initial: true,
   user: null,
-  error: null,
   role: null,
   isLoading: false,
   signUp: async () => null,
@@ -103,24 +101,25 @@ export const AuthContextProvider = ({
   }, []);
 
   const getUser = async () => {
-    if (!serverSession) return null;
+    if (!serverSession) return undefined;
 
     const { data: user, error } = await supabase
       .from('users')
       .select(
         `
           *,
-          gamification!gamification_user_id_fkey (
+          gamification (
             *
           )
         `,
       )
       .eq('id', serverSession.user.id)
+
       .single();
 
     if (error) {
       console.error(error);
-      return null;
+      return undefined;
     }
 
     return user as IUserProfile;
@@ -128,7 +127,6 @@ export const AuthContextProvider = ({
 
   const {
     data: user,
-    error,
     isLoading,
     mutate,
   } = useSWR(serverSession ? 'profile-context' : null, getUser);
@@ -177,6 +175,59 @@ export const AuthContextProvider = ({
         if (event === 'SIGNED_OUT') {
           window.localStorage.removeItem('oauth_provider_token');
           window.localStorage.removeItem('oauth_provider_refresh_token');
+        }
+
+        if (
+          (currentSession && currentSession.provider_refresh_token) ||
+          (currentSession && currentSession.provider_token)
+        ) {
+          // Check if the user is logged in with a provider
+          if (
+            currentSession?.user?.app_metadata?.provider?.includes(
+              PROVIDER_TYPE.GOOGLE,
+            )
+          ) {
+            const currUser = await getUser();
+
+            if (currUser === undefined) {
+              // Insert user in the database
+              const { error } = await supabase.from('users').insert({
+                id: currentSession.user.id,
+                name: currentSession.user.user_metadata?.name,
+                lastname: currentSession.user.user_metadata?.full_name,
+                email: currentSession.user.email,
+                username: currentSession.user.email,
+                role: ROLE_ENUM.Cervezano,
+                avatar_url: currentSession.user.user_metadata?.avatar_url,
+                bg_url: currentSession.user.user_metadata?.picture,
+                provider: PROVIDER_TYPE.GOOGLE,
+              });
+
+              if (error) {
+                console.error(error);
+                return;
+              }
+
+              // Send user role consumer to the server
+              await supabase.rpc('set_claim', {
+                uid: currentSession.user.id,
+                claim: 'access_level',
+                value: ROLE_ENUM.Cervezano,
+              });
+
+              // Add new row in gamification table
+              const { error: gamificationError } = await supabase
+                .from('gamification')
+                .insert({
+                  user_id: currentSession.user.id,
+                  score: 0,
+                });
+
+              if (gamificationError) {
+                console.error(gamificationError);
+              }
+            }
+          }
         }
 
         if (
@@ -357,18 +408,23 @@ export const AuthContextProvider = ({
       email_verified: false,
     };
 
-    // Si acceden con Google, por defecto son consumidores
-    // Google does not send out a refresh token by default, so you will need to pass
-    // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
-    await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/api/auth/callback`,
-        queryParams: {
-          access_type: 'offline',
+    try {
+      // Si acceden con Google, por defecto son consumidores
+      // Google does not send out a refresh token by default, so you will need to pass
+      // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
+      await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/api/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
     // user = res.user;
     // if (user?.user_metadata && user.user_metadata?.access_level) {
@@ -442,7 +498,6 @@ export const AuthContextProvider = ({
     return {
       initial,
       user,
-      error,
       role,
       isLoading,
       mutate,
@@ -459,7 +514,6 @@ export const AuthContextProvider = ({
   }, [
     initial,
     user,
-    error,
     role,
     isLoading,
     mutate,

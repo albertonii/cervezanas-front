@@ -532,11 +532,16 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 
 ### 16 de febrero
 
-Reunión 16 de febrero - Joan Fiol -> BBF
+- [x] Reunión 16 de febrero - Joan Fiol -> BBF
+- [ ] Sign in Google
+- [ ] Añadir experiencia Cervezanas a un PC en un evento
+- [x] Añadir un precio de inscripción a la experiencia
+- [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+
+### 17 de febrero
 
 - [ ] Sign in Google
-
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
-- [ ] Añadir un precio de inscripción a la experiencia
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit

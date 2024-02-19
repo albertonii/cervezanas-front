@@ -14,8 +14,6 @@ interface Props {
 export function CPAccepted({ cps }: Props) {
   const [menuOption, setMenuOption] = useState<string>('cp_fixed');
 
-  console.log(cps);
-
   const renderSwitch = () => {
     switch (menuOption) {
       case 'cp_fixed':
