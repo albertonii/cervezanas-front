@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { Button } from "./Button";
-import { faChevronCircleRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { memo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Button } from './Button';
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
   counter: number;
   resultsPerPage: number;
@@ -10,7 +10,7 @@ interface Props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function PaginationFooter({
+const PaginationFooter = memo(function PaginationFooter({
   counter,
   currentPage,
   resultsPerPage,
@@ -47,7 +47,7 @@ export default function PaginationFooter({
     }
   };
 
-  const renderPaginationButtons = () => (
+  return (
     <footer className="max-1/2 lg:max-w-3/4 my-4 flex items-center justify-center gap-4 py-4">
       <Button
         onClick={() => handlePrevPage()}
@@ -58,8 +58,8 @@ export default function PaginationFooter({
       >
         <FontAwesomeIcon
           icon={faChevronCircleRight}
-          style={{ color: "#432a14" }}
-          title={"chevron_circle_left"}
+          style={{ color: '#432a14' }}
+          title={'chevron_circle_left'}
           width={20}
           height={20}
           className={`rotate-180`}
@@ -67,7 +67,7 @@ export default function PaginationFooter({
       </Button>
 
       <p className="text-lg text-gray-400 dark:text-gray-400">
-        {t("pagination_footer_nums", {
+        {t('pagination_footer_nums', {
           from: currentPage,
           to: lastElementPage,
           total: counter,
@@ -83,8 +83,8 @@ export default function PaginationFooter({
       >
         <FontAwesomeIcon
           icon={faChevronCircleRight}
-          style={{ color: "#432a14" }}
-          title={"chevron_circle_right"}
+          style={{ color: '#432a14' }}
+          title={'chevron_circle_right'}
           width={30}
           height={30}
           className={``}
@@ -92,6 +92,6 @@ export default function PaginationFooter({
       </Button>
     </footer>
   );
+});
 
-  return <>{renderPaginationButtons()}</>;
-}
+export default PaginationFooter;

@@ -65,11 +65,6 @@ export default function layout({ children }: LayoutProps) {
       icon: 'shopping-cart',
       option: 'event_orders',
     },
-    // {
-    //   name: t("reviews"),
-    //   icon: "review",
-    //   option: "reviews",
-    // },
     {
       name: t('notifications'),
       icon: 'bell',

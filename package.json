@@ -18,7 +18,7 @@
     "test:watch": "jest --watchAll",
     "test:vitest": "vitest",
     "dev:local-network": "npx next dev -H 172.19.0.1 -p 5000",
-    "analyse": "ANALYZE=true pnpm run build"
+    "analyze": "ANALYZE=true pnpm run build"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.2.32",

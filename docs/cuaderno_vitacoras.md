@@ -1,6 +1,5 @@
 # Listado de tareas:
 
-- Arreglar restabler contraseña
 - En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - Sistema para automatizar el stock de un producto (pack)
 - Comprobar qué sucede al acceder a eventos en producción.
@@ -549,9 +548,10 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 
 ### 20 de febrero
 
-- [x] Error (a veces) al iniciar sesión con un usuario. Lanza error "Rendered more hooks than during the previous render". Hay que localizar el componente que está generando el conflicto. 
-El error era debido a que en AppContext se estaba renderizando un if baśandose en la variable isLoggedIn y renderizando otro elemento de carga.
+- [x] Error (a veces) al iniciar sesión con un usuario. Lanza error "Rendered more hooks than during the previous render". Hay que localizar el componente que está generando el conflicto.
+      El error era debido a que en AppContext se estaba renderizando un if baśandose en la variable isLoggedIn y renderizando otro elemento de carga.
 
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+- [ ] Arreglar restablecer contraseña

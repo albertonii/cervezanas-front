@@ -1,39 +1,37 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import useFetchCPFixed from "../../../../../../hooks/useFetchCPFixed";
-import EditCPFixedModal from "./EditCPFixedModal";
-import DeleteCPFixedModal from "./DeleteCPFixedModal";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed } from "../../../../../../lib/types";
-import { IconButton } from "../../../../components/common/IconButton";
-import Spinner from "../../../../components/common/Spinner";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import InputSearch from "../../../../components/common/InputSearch";
+import Link from 'next/link';
+import EditCPFixedModal from './EditCPFixedModal';
+import DeleteCPFixedModal from './DeleteCPFixedModal';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import InputSearch from '../../../../components/common/InputSearch';
+import React, { useMemo, useState } from 'react';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed } from '../../../../../../lib/types';
+import { IconButton } from '../../../../components/common/IconButton';
+import { formatDateString } from '../../../../../../utils/formatDate';
 
 interface Props {
   cpsFixed: ICPFixed[];
 }
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 
 export function ListCPFixed({ cpsFixed }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = 10;
@@ -41,8 +39,8 @@ export function ListCPFixed({ cpsFixed }: Props) {
 
   const [cpFixed, setCPFixed] = useState<ICPFixed[]>(cpsFixed);
 
-  const editColor = { filled: "#90470b", unfilled: "grey" };
-  const deleteColor = { filled: "#90470b", unfilled: "grey" };
+  const editColor = { filled: '#90470b', unfilled: 'grey' };
+  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
   const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -129,7 +127,7 @@ export function ListCPFixed({ cpsFixed }: Props) {
           <InputSearch
             query={query}
             setQuery={setQuery}
-            searchPlaceholder={"search_by_name"}
+            searchPlaceholder={'search_by_name'}
           />
         </div>
 
@@ -143,7 +141,7 @@ export function ListCPFixed({ cpsFixed }: Props) {
                   handleChangeSort(SortBy.NAME);
                 }}
               >
-                {t("name_header")}
+                {t('name_header')}
               </th>
 
               <th
@@ -153,11 +151,11 @@ export function ListCPFixed({ cpsFixed }: Props) {
                   handleChangeSort(SortBy.CREATED_DATE);
                 }}
               >
-                {t("created_date_header")}
+                {t('created_date_header')}
               </th>
 
               <th scope="col" className="px-6 py-3 ">
-                {t("action_header")}
+                {t('action_header')}
               </th>
             </tr>
           </thead>
@@ -171,7 +169,7 @@ export function ListCPFixed({ cpsFixed }: Props) {
                 >
                   <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                     <Link
-                      target={"_blank"}
+                      target={'_blank'}
                       href={`/consumption_points/fixed?id=${cp.id}`}
                       locale={locale}
                     >
@@ -191,10 +189,10 @@ export function ListCPFixed({ cpsFixed }: Props) {
                       }}
                       color={editColor}
                       classContainer={
-                        "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                       }
-                      classIcon={""}
-                      title={t("edit")}
+                      classIcon={''}
+                      title={t('edit')}
                     />
 
                     <IconButton
@@ -204,10 +202,10 @@ export function ListCPFixed({ cpsFixed }: Props) {
                       }}
                       color={deleteColor}
                       classContainer={
-                        "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                       }
-                      classIcon={""}
-                      title={t("delete")}
+                      classIcon={''}
+                      title={t('delete')}
                     />
                   </td>
                 </tr>

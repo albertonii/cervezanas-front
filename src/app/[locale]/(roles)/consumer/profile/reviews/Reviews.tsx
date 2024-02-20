@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import ReviewData from "./ReviewData";
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
-import { IReview } from "../../../../../../lib/types";
+import ReviewData from './ReviewData';
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IReview } from '../../../../../../lib/types';
 
 interface Props {
   reviews: IReview[];
@@ -21,7 +21,7 @@ export function Reviews({ reviews: r }: Props) {
   return (
     <section className="px-4 py-6 " aria-label="Reviews">
       <span className="flex flex-col space-y-4">
-        <h1 className="text-5xl">{t("reviews")}</h1>
+        <h1 className="text-5xl">{t('reviews')}</h1>
       </span>
 
       {reviews &&

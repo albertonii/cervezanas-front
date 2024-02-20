@@ -36,7 +36,7 @@ export function Products() {
             id="title"
             className="text-5xl uppercase font-semibold text-white"
           >
-            {t('reviews')}
+            {t('products')}
           </span>
         </p>
 

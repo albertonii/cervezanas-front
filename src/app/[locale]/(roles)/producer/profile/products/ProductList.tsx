@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
-import React, { ComponentProps, useMemo, useState } from 'react';
+import React, { ComponentProps, memo, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types';
@@ -234,8 +234,41 @@ export function ProductList({
               setCurrentPage={setCurrentPage}
             />
           </div>
+          {/* 
+          <Footer
+            counter={counter}
+            resultsPerPage={resultsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          /> */}
         </>
       )}
     </section>
   );
 }
+
+// interface FooterProps {
+//   counter: number;
+//   resultsPerPage: number;
+//   currentPage: number;
+//   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+// }
+
+// const Footer = memo(function Footer({
+//   counter,
+//   resultsPerPage,
+//   currentPage,
+//   setCurrentPage,
+// }: FooterProps) {
+//   return (
+//     <div className="my-4 flex items-center justify-around">
+//       {/* Prev and Next button for pagination  */}
+//       <PaginationFooter
+//         counter={counter}
+//         resultsPerPage={resultsPerPage}
+//         currentPage={currentPage}
+//         setCurrentPage={setCurrentPage}
+//       />
+//     </div>
+//   );
+// });
