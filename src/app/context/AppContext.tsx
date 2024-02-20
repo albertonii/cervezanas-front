@@ -68,7 +68,7 @@ interface Props {
 }
 
 export function AppContextProvider(props: Props) {
-  const { user, provider, isLoggedIn } = useAuth();
+  const { user, provider } = useAuth();
 
   const [filters, setFilters] = useState({
     category: 'all',
@@ -158,8 +158,6 @@ export function AppContextProvider(props: Props) {
     addImage,
     removeImage,
   };
-
-  if (!isLoggedIn) return <>{props.children}</>;
 
   return (
     <AppContext.Provider value={value} {...props}>
