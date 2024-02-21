@@ -2,18 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from './components/common/Button';
+import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 import { useLocale } from 'next-intl';
-import { useAuth } from './(auth)/Context/useAuth';
 import { useRef, useState } from 'react';
 import { ROUTE_SIGNIN } from '../../config';
 import { useTranslations } from 'next-intl';
-import { Button } from './components/common/Button';
+import { INotification } from '../../lib/types';
+import { useAuth } from './(auth)/Context/useAuth';
+import { useAppContext } from '../context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { NotificationPopup } from './components/NotificationPopup';
-import { useAppContext } from '../context/AppContext';
-import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 import { useShoppingCart } from '../context/ShoppingCartContext';
-import { INotification } from '../../lib/types';
 
 interface Props {
   notifications: INotification[];

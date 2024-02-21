@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Label from "../../../../components/Label";
-import InputForm from "../../../../components/InputForm";
-import React from "react";
-import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { Button } from "../../../../components/common/Button";
-import { DisplayInputError } from "../../../../components/common/DisplayInputError";
+import Label from '../../../../components/Label';
+import InputForm from '../../../../components/InputForm';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
+import Button from '../../../../components/common/Button';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 
 interface FormData {
   id: string;
@@ -85,7 +85,7 @@ export default function OriginInfo() {
     <form>
       <fieldset className="w-full space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
         <legend className="text-2xl font-medium text-beer-dark">
-          {t("origin_location")}
+          {t('origin_location')}
         </legend>
 
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
@@ -200,7 +200,7 @@ export default function OriginInfo() {
         </div>
 
         <Button btnType="submit" class="" primary medium>
-          {t("save")}
+          {t('save')}
         </Button>
       </fieldset>
     </form>

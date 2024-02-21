@@ -14,10 +14,8 @@ export default async function ProductsPage() {
 async function getProductsData() {
   const supabase = createServerClient();
 
-//   // Check if we have a session
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession();
+ // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+  const session = await readUserSession();
 
 //   if (!session)
 //     return {
@@ -40,7 +38,7 @@ async function getProductsData() {
         product_packs (*)
       `
     )
-    .eq("owner_id", session.user.id);
+    .eq("owner_id", session.id);
 
 //   if (productsError) throw productsError;
 

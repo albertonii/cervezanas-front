@@ -10,7 +10,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../(auth)/Context/useAuth';
 import { MonthlyProductCategory } from '../../../lib/productEnum';
 import { IconButton } from '../components/common/IconButton';
-import { Button } from '../components/common/Button';
+import Button from '../components/common/Button';
 import useFetchProductLikes from '../../../hooks/useFetchProductLikes';
 
 interface Props {

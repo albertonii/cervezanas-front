@@ -8,7 +8,7 @@ import {
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { DeleteButton } from '../common/DeleteButton';
-import { Button } from '../common/Button';
+import Button from '../common/Button';
 import { pack_type_options } from '../../../../lib/beerEnum';
 import { SupabaseProps } from '../../../../constants';
 import InputLabel from '../common/InputLabel';

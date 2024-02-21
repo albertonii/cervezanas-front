@@ -6,7 +6,7 @@ import countries from 'i18n-iso-countries';
 import React, { useEffect, useState } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
 import { useTranslations } from 'next-intl';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { IconButton } from '../../../../../components/common/IconButton';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { ILocal, IPCRangesProps } from '../../../../../../../lib/types';

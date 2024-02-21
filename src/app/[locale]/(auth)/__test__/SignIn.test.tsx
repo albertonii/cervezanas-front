@@ -1,16 +1,14 @@
-import { NextIntlClientProvider } from "next-intl";
-import { AppContextProvider } from "../../../context/AppContext";
-import createServerClient from "../../../../utils/supabaseServer";
-import { AuthContextProvider } from "../Context/AuthContext";
-import ReactQueryWrapper from "../../ReactQueryWrapper";
-import SignIn from "../signin/SignIn";
+import { NextIntlClientProvider } from 'next-intl';
+import { AppContextProvider } from '../../../context/AppContext';
+import createServerClient from '../../../../utils/supabaseServer';
+import { AuthContextProvider } from '../Context/AuthContext';
+import ReactQueryWrapper from '../../ReactQueryWrapper';
+import SignIn from '../signin/SignIn';
 
-describe("Signin", () => {
-  it("should render the signin page", async () => {
+describe('Signin', () => {
+  it('should render the signin page', async () => {
     // const supabase = createServerClient();
-    // const {
-    //   data: { session },
-    // } = await supabase.auth.getSession();
+    //     const session = await readUserSession();
     // render(
     //   <NextIntlClientProvider
     //     locale={"es"}

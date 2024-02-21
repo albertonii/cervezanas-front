@@ -1,9 +1,9 @@
-import { IEventOrder } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { EventOrders } from "./EventOrders";
-import readUserSession from "../../../../../../lib/actions";
+import { IEventOrder } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { EventOrders } from './EventOrders';
+import readUserSession from '../../../../../../lib/actions';
 
 export default async function OrdersPage() {
   const eventOrdersData = await getEventOrdersData();
@@ -19,25 +19,23 @@ export default async function OrdersPage() {
 async function getEventOrdersData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: eventOrdersData, error: eventOrdersError } = await supabase
-    .from("event_orders")
+    .from('event_orders')
     .select(
       `
         *,
         users!event_orders_customer_id_fkey (
           *
         )
-      `
+      `,
     )
-    .eq("customer_id", session.user.id);
+    .eq('customer_id', session.id);
   if (eventOrdersError) throw eventOrdersError;
 
   return eventOrdersData as IEventOrder[];

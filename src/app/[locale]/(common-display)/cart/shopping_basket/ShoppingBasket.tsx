@@ -15,7 +15,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
-import { Button } from '../../../components/common/Button';
+import Button from '../../../components/common/Button';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

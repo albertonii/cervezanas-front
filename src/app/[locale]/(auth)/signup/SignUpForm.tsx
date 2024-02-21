@@ -10,7 +10,7 @@ import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useMessage } from '../../components/message/useMessage';
 import { useAuth } from '../Context/useAuth';
-import { Button } from '../../components/common/Button';
+import Button from '../../components/common/Button';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import InputLabel from '../../components/common/InputLabel';
 import SelectInput from '../../components/common/SelectInput';

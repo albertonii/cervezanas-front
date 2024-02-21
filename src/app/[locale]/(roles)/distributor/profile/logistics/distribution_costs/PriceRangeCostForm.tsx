@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "../../../../../components/common/Button";
-import { useFieldArray } from "react-hook-form";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { DisplayInputError } from "../../../../../components/common/DisplayInputError";
-import PriceRangeRow from "./PriceRangeRow";
-import { PriceRangeCostFormData } from "../../../../../../../lib/types";
+import { useTranslations } from 'next-intl';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import Button from '../../../../../components/common/Button';
+import { useFieldArray } from 'react-hook-form';
+import { z, ZodType } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
+import PriceRangeRow from './PriceRangeRow';
+import { PriceRangeCostFormData } from '../../../../../../../lib/types';
 
 const rangeObjectSchema = z
   .object({
-    lower: z.number().min(0, { message: "errors.input_min_0" }),
-    upper: z.number().min(0, { message: "errors.input_min_0" }),
-    shippingCost: z.number().min(0, { message: "errors.input_min_0" }),
+    lower: z.number().min(0, { message: 'errors.input_min_0' }),
+    upper: z.number().min(0, { message: 'errors.input_min_0' }),
+    shippingCost: z.number().min(0, { message: 'errors.input_min_0' }),
   })
   .refine((data) => data.lower < data.upper, {
-    message: "errors.lower_greater_than_upper",
-    path: ["upper"],
+    message: 'errors.lower_greater_than_upper',
+    path: ['upper'],
   });
 
 const schema: ZodType<PriceRangeCostFormData> = z.object({
@@ -29,7 +29,7 @@ const schema: ZodType<PriceRangeCostFormData> = z.object({
         lower: number;
         upper: number;
         shippingCost: number;
-      }[]
+      }[],
     ) => {
       // Validar que cada rango esté correctamente definido
       for (let i = 0; i < ranges.length; i++) {
@@ -43,8 +43,8 @@ const schema: ZodType<PriceRangeCostFormData> = z.object({
       return true;
     },
     {
-      message: "Cada rango debe ser válido y escalonado correctamente",
-    }
+      message: 'Cada rango debe ser válido y escalonado correctamente',
+    },
   ),
 });
 
@@ -55,11 +55,11 @@ const PriceRangeCostForm: React.FC = () => {
   const t = useTranslations();
 
   const [priceRanges, setPriceRanges] = React.useState<
-    PriceRangeCostFormData["distribution_range_cost"]
+    PriceRangeCostFormData['distribution_range_cost']
   >([]);
 
   const form = useForm<PriceRangeCostFormValidationSchema>({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: zodResolver(schema),
     defaultValues: {
       distribution_range_cost: [],
@@ -73,13 +73,13 @@ const PriceRangeCostForm: React.FC = () => {
   } = form;
 
   const { fields, append, remove } = useFieldArray({
-    name: "distribution_range_cost",
+    name: 'distribution_range_cost',
     control,
   });
 
   const handleInputLowerChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const newRanges = [...priceRanges];
     newRanges[index] = {
@@ -91,7 +91,7 @@ const PriceRangeCostForm: React.FC = () => {
 
   const handleInputUpperChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const newRanges = [...priceRanges];
     newRanges[index] = {
@@ -103,7 +103,7 @@ const PriceRangeCostForm: React.FC = () => {
 
   const handleInputCostChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const newRanges = [...priceRanges];
     newRanges[index] = {
@@ -114,7 +114,7 @@ const PriceRangeCostForm: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<PriceRangeCostFormValidationSchema> = (
-    formValues: PriceRangeCostFormData
+    formValues: PriceRangeCostFormData,
   ) => {
     // console.log(formValues);
   };
@@ -139,7 +139,7 @@ const PriceRangeCostForm: React.FC = () => {
           primary
           medium
         >
-          {t("save")}
+          {t('save')}
         </Button>
 
         {
@@ -164,7 +164,7 @@ const PriceRangeCostForm: React.FC = () => {
           </div>
         ))}
 
-        <Button onClick={addPriceRange} btnType={"button"} accent small>
+        <Button onClick={addPriceRange} btnType={'button'} accent small>
           Añadir Franja de Precio
         </Button>
       </form>

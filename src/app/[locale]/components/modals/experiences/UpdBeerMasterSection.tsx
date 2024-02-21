@@ -8,7 +8,7 @@ import {
   IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
 import { DeleteButton } from '../../common/DeleteButton';
-import { Button } from '../../common/Button';
+import Button from '../../common/Button';
 import SelectInput from '../../common/SelectInput';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useEffect, useState } from 'react';

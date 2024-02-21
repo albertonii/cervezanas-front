@@ -3,9 +3,7 @@ import readUserSession from '../../../../lib/actions';
 import SignIn from './SignIn';
 
 export default async function SignInPage() {
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (session) {
     redirect('/es');

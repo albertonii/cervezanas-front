@@ -6,7 +6,7 @@ import Decimal from 'decimal.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { CustomLoading } from '../../../../../components/common/CustomLoading';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import {

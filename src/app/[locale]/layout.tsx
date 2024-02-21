@@ -1,16 +1,14 @@
 import '../../styles/globals.css';
 
-import Providers from './providers';
-import Loading from './loading';
-import classNames from 'classnames';
-import readUserSession from '../../lib/actions';
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { MessageList } from './components/message/MessageList';
 import Header from './Header';
+import classNames from 'classnames';
+import Providers from './providers';
 import Footer from './components/Footer';
+import readUserSession from '../../lib/actions';
 import createServerClient from '../../utils/supabaseServer';
+import { notFound } from 'next/navigation';
 import { INotification } from '../../lib/types';
+import { MessageList } from './components/message/MessageList';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -26,9 +24,10 @@ export default async function AppLocaleLayout({
   children,
   params: { locale },
 }: LayoutProps) {
+  const supabase = await createServerClient();
   const {
     data: { session },
-  } = await readUserSession();
+  } = await supabase.auth.getSession();
 
   let messages;
   try {
@@ -46,42 +45,40 @@ export default async function AppLocaleLayout({
   };
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Providers session={session} messages={messages} locale={locale}>
-        <section className="relative flex flex-col bg-beer-foam">
-          <Header
-            notifications={notifications ?? []}
-            i18nLocaleArray={i18n.locales}
-          />
-          <section
-            className={classNames(
-              'relative mx-auto min-h-0 w-full overflow-auto',
-              // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
-            )}
-          >
-            {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
-          </section>
-
-          <main
-            className={classNames(
-              'relative mx-auto min-h-screen w-full transform pt-20 transition lg:container',
-            )}
-          >
-            <MessageList />
-            {children}
-          </main>
-          <Footer />
+    <Providers session={session} messages={messages} locale={locale}>
+      <section className="relative flex flex-col bg-beer-foam">
+        <Header
+          notifications={notifications ?? []}
+          i18nLocaleArray={i18n.locales}
+        />
+        <section
+          className={classNames(
+            'relative mx-auto min-h-0 w-full overflow-auto',
+            // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+          )}
+        >
+          {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
         </section>
-      </Providers>
-    </Suspense>
+
+        <main
+          className={classNames(
+            'relative mx-auto min-h-screen w-full transform pt-20 transition lg:container',
+          )}
+        >
+          <MessageList />
+          {children}
+        </main>
+        <Footer />
+      </section>
+    </Providers>
   );
 }
 
 const getNotifications = async () => {
   const supabase = await createServerClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+
+  // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+  const session = await readUserSession();
 
   if (!session) return;
 
@@ -93,7 +90,7 @@ const getNotifications = async () => {
     `,
     )
     .eq('read', false)
-    .eq('user_id', session.user.id);
+    .eq('user_id', session.id);
 
   if (notificationsError) throw notificationsError;
   return notifications as INotification[];

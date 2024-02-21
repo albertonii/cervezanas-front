@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { ICountry } from 'country-state-city/lib/interface';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import InputSearch from '../../../../../components/common/InputSearch';
 import { filterSearchInputQuery } from '../../../../../../../utils/utils';
 

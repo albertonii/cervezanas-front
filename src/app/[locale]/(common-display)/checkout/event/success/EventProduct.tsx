@@ -11,7 +11,7 @@ import {
 import { StatusTimeline } from '../../../../components/StatusTimeline';
 import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { Button } from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button';
 
 interface Props {
   eventOrderItem: IEventOrderItem;

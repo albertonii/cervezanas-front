@@ -2,25 +2,28 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from './(auth)/Context/useAuth';
+import Button from './components/common/Button';
+import PuntoCervezanasFlag from './PuntoCervezanasFlag';
+import { memo, useEffect, useState } from 'react';
 import { COMMON } from '../../constants';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { ROUTE_SIGNIN } from '../../config';
-import { Button } from './components/common/Button';
+import { INotification } from '../../lib/types';
+import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '../context/ShoppingCartContext';
-import { INotification } from '../../lib/types';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import PuntoCervezanasFlag from './PuntoCervezanasFlag';
 
 interface Props {
   notifications: INotification[];
   i18nLocaleArray: string[];
 }
 
-export default function ScreenMenu({ notifications, i18nLocaleArray }: Props) {
+const ScreenMenu = memo(function ScreenMenu({
+  notifications,
+  i18nLocaleArray,
+}: Props) {
   const { user, role } = useAuth();
   const locale = useLocale();
   const t = useTranslations();
@@ -272,4 +275,6 @@ export default function ScreenMenu({ notifications, i18nLocaleArray }: Props) {
       </nav>
     </section>
   );
-}
+});
+
+export default ScreenMenu;

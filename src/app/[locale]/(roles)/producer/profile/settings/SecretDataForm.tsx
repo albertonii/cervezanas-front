@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button';
 import Spinner from '../../../../components/common/Spinner';
 import { useMessage } from '../../../../components/message/useMessage';
 import { useMutation } from 'react-query';

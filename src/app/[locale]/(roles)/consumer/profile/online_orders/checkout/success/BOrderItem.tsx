@@ -1,11 +1,11 @@
-import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
-import { SupabaseProps } from "../../../../../../../../constants";
-import { IBusinessOrder, IOrderItem } from "../../../../../../../../lib/types";
-import { formatCurrency } from "../../../../../../../../utils/formatCurrency";
-import { Button } from "../../../../../../components/common/Button";
-import DisplayImageProduct from "../../../../../../components/common/DisplayImageProduct";
-import ProductReview from "../../../../../../components/reviews/ProductReview";
+import { useTranslations } from 'next-intl';
+import React, { useEffect, useState } from 'react';
+import { SupabaseProps } from '../../../../../../../../constants';
+import { IBusinessOrder, IOrderItem } from '../../../../../../../../lib/types';
+import { formatCurrency } from '../../../../../../../../utils/formatCurrency';
+import Button from '../../../../../../components/common/Button';
+import DisplayImageProduct from '../../../../../../components/common/DisplayImageProduct';
+import ProductReview from '../../../../../../components/reviews/ProductReview';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -22,7 +22,7 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
 
   useEffect(() => {
     const isReviewedRes =
-      isReviewed || bOrder.status !== "delivered" ? true : false;
+      isReviewed || bOrder.status !== 'delivered' ? true : false;
     setIsReviewed(isReviewedRes);
   }, [isReviewed]);
 
@@ -38,7 +38,7 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
     <>
       <article
         className="grid justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
-        key={orderItem.business_order_id + "-" + orderItem.product_pack_id}
+        key={orderItem.business_order_id + '-' + orderItem.product_pack_id}
       >
         {orderItem.product_packs && (
           <>
@@ -55,7 +55,7 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
                 <DisplayImageProduct
                   width={120}
                   height={120}
-                  alt={""}
+                  alt={''}
                   imgSrc={`${
                     BASE_PRODUCTS_URL +
                     decodeURIComponent(orderItem.product_packs.img_url)
@@ -71,17 +71,17 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
               </p>
 
               <span className="text-sm text-gray-900">
-                <p>{t("quantity_in_pack")}:</p>
+                <p>{t('quantity_in_pack')}:</p>
 
                 <p className="font-medium">
-                  {orderItem.product_packs.quantity} {t("units")}
+                  {orderItem.product_packs.quantity} {t('units')}
                 </p>
               </span>
 
               <span className="text-sm text-gray-900">
-                <p>{t("quantity_bought")}:</p>
+                <p>{t('quantity_bought')}:</p>
                 <p className="font-medium">
-                  {orderItem.quantity} {t("packs")}
+                  {orderItem.quantity} {t('packs')}
                 </p>
               </span>
             </div>
@@ -93,11 +93,11 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
       <section className="col-span-12 mt-6">
         <div className="mt-3 space-y-3 text-beer-dark">
           {orderItem.is_reviewed && (
-            <span>{t("product_already_reviewed_condition")}</span>
+            <span>{t('product_already_reviewed_condition')}</span>
           )}
 
-          {bOrder.status !== "delivered" && (
-            <span>{t("write_review_condition")}</span>
+          {bOrder.status !== 'delivered' && (
+            <span>{t('write_review_condition')}</span>
           )}
 
           <Button
@@ -108,14 +108,14 @@ export default function BOrderItem({ bOrder, orderItem }: Props) {
             onClick={() => {
               if (
                 !orderItem.is_reviewed &&
-                bOrder.status === "delivered" &&
+                bOrder.status === 'delivered' &&
                 orderItem.product_packs?.product_id
               ) {
                 handleShowReviewOnClick(true);
               }
             }}
           >
-            {t("make_review_product_button")}
+            {t('make_review_product_button')}
           </Button>
         </div>
 

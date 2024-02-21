@@ -1,13 +1,11 @@
-import { redirect } from "next/navigation";
-import readUserSession from "../../../../lib/actions";
+import { redirect } from 'next/navigation';
+import readUserSession from '../../../../lib/actions';
 
 export default async function Unauthenticated() {
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (session) {
-    redirect("/");
+    redirect('/');
   }
 
   return (

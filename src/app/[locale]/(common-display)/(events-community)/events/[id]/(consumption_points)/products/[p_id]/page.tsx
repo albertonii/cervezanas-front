@@ -2,6 +2,7 @@ import { VIEWS } from '../../../../../../../../../constants';
 import { redirect } from 'next/navigation';
 import { IProduct } from '../../../../../../../../../lib/types';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../../../../lib/actions';
 
 export default async function ProductId({ params }: any) {
   const { id } = params;
@@ -25,9 +26,7 @@ async function getProductData(cpId: string) {
   const supabase = await createServerClient();
 
   // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -52,9 +51,7 @@ async function getMarketplaceData() {
   const supabase = await createServerClient();
 
   // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

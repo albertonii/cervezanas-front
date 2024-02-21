@@ -12,9 +12,7 @@ export default async function OrdersPage() {
 }
 
 async function getDistributionCost() {
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -44,7 +42,7 @@ async function getDistributionCost() {
           )
         `,
       )
-      .eq('distributor_id', session.user.id)
+      .eq('distributor_id', session.id)
       .single();
 
   if (distributionCostsError) {

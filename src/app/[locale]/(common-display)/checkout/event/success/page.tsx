@@ -5,6 +5,7 @@ import { decodeBase64 } from '../../../../../../utils/utils';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { VIEWS } from '../../../../../../constants';
 import { IEventOrder } from '../../../../../../lib/types';
+import readUserSession from '../../../../../../lib/actions';
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -70,9 +71,7 @@ async function getSuccessData(searchParams: any) {
 
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

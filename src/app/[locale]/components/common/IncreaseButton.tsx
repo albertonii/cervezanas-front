@@ -1,5 +1,5 @@
-import React from "react";
-import { Button } from "./Button";
+import React from 'react';
+import Button from './Button';
 
 interface Props {
   onClick?: () => void;
@@ -7,7 +7,7 @@ interface Props {
 
 export function IncreaseButton({ onClick }: Props) {
   return (
-    <Button box accent onClick={onClick} class={"py-2"}>
+    <Button box accent onClick={onClick} class={'py-2'}>
       +
     </Button>
   );

@@ -1199,6 +1199,7 @@ export interface IUser {
   user_metadata: UserMetadata;
   email_change_sent_at?: string;
   new_email?: string;
+  new_phone?: string;
   invited_at?: string;
   action_link?: string;
   created_at: string;
@@ -1208,7 +1209,8 @@ export interface IUser {
   username: string;
   avatar_url: string;
   cp_organizer_status: number;
-  consumption_points: IConsumptionPoints;
+  factors?: Factor[];
+  consumption_points?: IConsumptionPoints;
 }
 
 export interface IUserTable {

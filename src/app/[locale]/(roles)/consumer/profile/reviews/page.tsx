@@ -1,8 +1,9 @@
-import { IReview } from "../../../../../../lib/types";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { Reviews } from "./Reviews";
-import createServerClient from "../../../../../../utils/supabaseServer";
+import { IReview } from '../../../../../../lib/types';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { Reviews } from './Reviews';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../lib/actions';
 
 export default async function ReviewsPage() {
   const reviewsData = await getReviewsData();
@@ -20,16 +21,14 @@ export default async function ReviewsPage() {
 async function getReviewsData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: reviewsData, error: reviewsError } = await supabase
-    .from("reviews")
+    .from('reviews')
     .select(
       `
         *,
@@ -44,9 +43,9 @@ async function getReviewsData() {
           username,
           avatar_url
         )
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.id);
 
   if (reviewsError) throw reviewsError;
 

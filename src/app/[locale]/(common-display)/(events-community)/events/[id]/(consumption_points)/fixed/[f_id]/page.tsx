@@ -20,9 +20,7 @@ export default async function CPFixedPage({ params }: any) {
 async function getCPFixed(cpId: string) {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

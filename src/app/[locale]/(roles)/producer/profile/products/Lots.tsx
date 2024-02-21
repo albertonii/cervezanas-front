@@ -30,7 +30,7 @@ export function Lots() {
 
   return (
     <section className="px-4 py-6 " aria-label="Lots">
-      <div className="flex flex-col space-y-4">
+      <header className="flex flex-col space-y-4">
         <p className="flex justify-between py-4" id="header">
           <span
             id="title"
@@ -43,7 +43,7 @@ export function Lots() {
         <div className="w-40">
           <AddLot />
         </div>
-      </div>
+      </header>
 
       <LotList
         handleEditShowModal={handleEditShowModal}

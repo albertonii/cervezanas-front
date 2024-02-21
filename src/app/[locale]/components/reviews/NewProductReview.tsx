@@ -3,7 +3,7 @@
 import React, { ComponentProps, useState } from 'react';
 import { Rate } from './Rate';
 import { z, ZodType } from 'zod';
-import { Button } from '../common/Button';
+import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { IOrderItem, IReview } from '../../../../lib/types';

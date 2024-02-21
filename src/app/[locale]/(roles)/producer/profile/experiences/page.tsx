@@ -24,9 +24,7 @@ export default async function EventsPage() {
 async function getExperiencesData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -45,7 +43,7 @@ async function getExperiencesData() {
         )
       `,
     )
-    .eq('producer_id', session.user.id);
+    .eq('producer_id', session.id);
 
   if (error) throw error;
 
@@ -55,9 +53,7 @@ async function getExperiencesData() {
 async function getExperiencesCounter() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -66,7 +62,7 @@ async function getExperiencesCounter() {
   const { count, error } = await supabase
     .from('experiences')
     .select('id', { count: 'exact' }) // Selecciona solo una columna y habilita el conteo
-    .eq('producer_id', session.user.id);
+    .eq('producer_id', session.id);
 
   if (error) throw error;
 

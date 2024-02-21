@@ -550,6 +550,7 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 
 - [x] Error (a veces) al iniciar sesión con un usuario. Lanza error "Rendered more hooks than during the previous render". Hay que localizar el componente que está generando el conflicto.
       El error era debido a que en AppContext se estaba renderizando un if baśandose en la variable isLoggedIn y renderizando otro elemento de carga.
+- [x] Problemas con re-renderizados al abrir un modal -> El Footer Pagination se volvía a renderizar.
 
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.

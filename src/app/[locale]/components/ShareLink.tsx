@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
-import React from "react";
-import { Button } from "./common/Button";
+import { useTranslations } from 'next-intl';
+import React from 'react';
+import Button from './common/Button';
 
 interface Props {
   link: string;
@@ -13,61 +13,61 @@ export default function ShareLink({ link }: Props) {
     try {
       navigator.clipboard.writeText(link);
     } catch (error) {
-      console.error("Error copying to clipboard:", error);
+      console.error('Error copying to clipboard:', error);
     }
   };
 
   const shareToWhatsapp = () => {
     const shareText =
-      "¡Hola! Te comparto este link para que puedas comprar en Cervezanas:";
+      '¡Hola! Te comparto este link para que puedas comprar en Cervezanas:';
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
-      shareText
+      shareText,
     )}%20${encodeURIComponent(link)}`;
 
     try {
       // Detectar si el dispositivo es móvil o escritorio
       const isMobile =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
+          navigator.userAgent,
         );
       if (isMobile) {
         // Redirigir a la aplicación de WhatsApp en dispositivos móviles
         window.location.href = `whatsapp://send?text=${encodeURIComponent(
-          shareText
+          shareText,
         )}%20${encodeURIComponent(link)}`;
       } else {
         // Redirigir a WhatsApp Web en escritorio
-        window.open(whatsappUrl, "_blank");
+        window.open(whatsappUrl, '_blank');
       }
     } catch (error) {
-      console.error("Error sharing to WhatsApp:", error);
+      console.error('Error sharing to WhatsApp:', error);
     }
   };
 
   const shareToTelegram = () => {
     const shareText =
-      "¡Hola! Te comparto este link para que puedas comprar en Cervezanas:";
+      '¡Hola! Te comparto este link para que puedas comprar en Cervezanas:';
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
-      link
+      link,
     )}&text=${encodeURIComponent(shareText)}`;
 
     try {
       // Detectar si el dispositivo es móvil o escritorio
       const isMobile =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
+          navigator.userAgent,
         );
       if (isMobile) {
         // Redirigir a la aplicación de Telegram en dispositivos móviles
         window.location.href = `tg://msg_url?url=${encodeURIComponent(
-          link
+          link,
         )}&text=${encodeURIComponent(shareText)}`;
       } else {
         // Redirigir a Telegram Web en escritorio
-        window.open(telegramUrl, "_blank");
+        window.open(telegramUrl, '_blank');
       }
     } catch (error) {
-      console.error("Error sharing to Telegram:", error);
+      console.error('Error sharing to Telegram:', error);
     }
   };
 
@@ -134,7 +134,7 @@ export default function ShareLink({ link }: Props) {
           onClick={copyToClipboard}
           class="focus:bg-black-200"
         >
-          {t("copy")}
+          {t('copy')}
         </Button>
       </div>
     </section>

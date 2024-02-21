@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from './Button';
+import Button from './Button';
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {

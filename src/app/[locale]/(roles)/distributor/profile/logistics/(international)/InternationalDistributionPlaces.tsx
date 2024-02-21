@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ICountry } from 'country-state-city/lib/interface';
 import { filterSearchInputQuery } from '../../../../../../../utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';

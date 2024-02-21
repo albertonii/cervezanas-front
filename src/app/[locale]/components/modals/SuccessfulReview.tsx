@@ -1,11 +1,11 @@
-import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
-import Link from "next/link";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "../common/Button";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocale, useTranslations } from "next-intl";
-import PortalModal from "./PortalModal";
+import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
+import Link from 'next/link';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Button from '../common/Button';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocale, useTranslations } from 'next-intl';
+import PortalModal from './PortalModal';
 
 interface Props {
   isVisible: boolean;
@@ -33,16 +33,16 @@ export function SuccessfulReviewModal(props: Props) {
 
   // handle what happens on key press
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") handleShowModal(false);
+    if (event.key === 'Escape') handleShowModal(false);
   }, []);
 
   useEffect(() => {
     if (showModal) {
       // attach the event listener if the modal is shown
-      document.addEventListener("keydown", handleKeyPress);
+      document.addEventListener('keydown', handleKeyPress);
       // remove the event listener
       return () => {
-        document.removeEventListener("keydown", handleKeyPress);
+        document.removeEventListener('keydown', handleKeyPress);
       };
     }
   }, [handleKeyPress, showModal]);
@@ -62,7 +62,7 @@ export function SuccessfulReviewModal(props: Props) {
                 {/*header*/}
                 <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
                   <p className="text-xl font-semibold">
-                    {t("successful_product_review_title")}
+                    {t('successful_product_review_title')}
                   </p>
 
                   <button
@@ -75,9 +75,9 @@ export function SuccessfulReviewModal(props: Props) {
                         // onMouseEnter={() => setHoverColor("filled")}
                         // onMouseLeave={() => setHoverColor("unfilled")}
                         icon={faXmark}
-                        style={{ color: "beer-dark" }}
+                        style={{ color: 'beer-dark' }}
                         onClick={() => handleShowModal(false)}
-                        title={"Close Modal"}
+                        title={'Close Modal'}
                       />
                     </span>
                   </button>
@@ -125,7 +125,7 @@ export function SuccessfulReviewModal(props: Props) {
                     medium
                     onClick={() => handleShowModal(false)}
                   >
-                    {t("close")}
+                    {t('close')}
                   </Button>
                 </footer>
               </div>

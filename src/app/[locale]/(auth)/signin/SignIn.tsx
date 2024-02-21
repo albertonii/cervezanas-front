@@ -11,7 +11,7 @@ import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../../components/common/Button';
+import Button from '../../components/common/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

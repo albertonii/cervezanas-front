@@ -23,9 +23,7 @@ async function getInvoiceData(slug: any) {
   const supabase = await createServerClient();
 
   // Check if we have a session
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);

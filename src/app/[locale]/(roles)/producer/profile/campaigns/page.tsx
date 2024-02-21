@@ -23,9 +23,7 @@ export default async function CampaignPage() {
 async function getCampaignData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -37,7 +35,7 @@ async function getCampaignData() {
         *
       `,
     )
-    .eq('owner_id', session.user.id);
+    .eq('owner_id', session.id);
 
   if (campaignsError) throw campaignsError;
 
@@ -47,9 +45,7 @@ async function getCampaignData() {
 async function getProductsData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -67,7 +63,7 @@ async function getProductsData() {
         product_packs (*)
       `,
     )
-    .eq('owner_id', session.user.id);
+    .eq('owner_id', session.id);
 
   if (productsError) throw productsError;
 

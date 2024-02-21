@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from 'react';
 
 interface ButtonProps {
   onClick?: () => void;
@@ -23,11 +23,11 @@ interface ButtonProps {
   isLoading?: boolean;
 }
 
-export function Button({
+const Button = memo(function PaginationFooter({
   onClick,
   isActive = false,
   children,
-  class: className = "",
+  class: className = '',
   box,
   danger = false,
   small = false,
@@ -38,37 +38,37 @@ export function Button({
   disabled = false,
   primary = false,
   accent = false,
-  btnType = "",
+  btnType = '',
   form, // If set to empty string, the button will not be a submit button
   fullSize = false,
   isLoading = false,
 }: ButtonProps) {
-  const hoverColor = isActive ? "filled" : "unfilled";
+  const hoverColor = isActive ? 'filled' : 'unfilled';
 
   const getSizeClass = () => {
-    if (small) return "text-md px-4";
-    if (medium) return "px-4 text-base";
-    if (large) return "px-5 text-lg";
-    if (xLarge) return "px-6 text-xl";
-    if (xxLarge) return "px-6 text-2xl";
-    return "";
+    if (small) return 'text-md px-4';
+    if (medium) return 'px-4 text-base';
+    if (large) return 'px-5 text-lg';
+    if (xLarge) return 'px-6 text-xl';
+    if (xxLarge) return 'px-6 text-2xl';
+    return '';
   };
 
   const getColorClass = () => {
     if (primary)
-      return "border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde";
+      return 'border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde';
     if (accent)
-      return "border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam";
-    if (danger) return "bg-red-500 hover:bg-red-600";
-    return "shrink-0 hover:bg-beer-softBlonde";
+      return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
+    if (danger) return 'bg-red-500 hover:bg-red-600';
+    return 'shrink-0 hover:bg-beer-softBlonde';
   };
 
   const getButtonType = () => {
     switch (btnType) {
-      case "submit":
-        return "submit";
+      case 'submit':
+        return 'submit';
       default:
-        return "button";
+        return 'button';
     }
   };
 
@@ -84,21 +84,21 @@ export function Button({
         justify-center rounded border-2 border-beer-blonde py-1 transition duration-100 ease-in focus:outline-none focus:ring focus:ring-beer-softFoam
         ${getSizeClass()}
         ${getColorClass()}
-        ${box ? "h-auto w-10" : ""}
-        ${disabled ? "cursor-not-allowed opacity-50" : ""}
-        ${fullSize ? "w-full" : ""}
+        ${box ? 'h-auto w-10' : ''}
+        ${disabled ? 'cursor-not-allowed opacity-50' : ''}
+        ${fullSize ? 'w-full' : ''}
         ${
           isLoading &&
-          "border-2 border-beer-foam bg-beer-softFoam text-beer-dark"
+          'border-2 border-beer-foam bg-beer-softFoam text-beer-dark'
         } 
         ${className} 
       `}
     >
       <span
         className={` 
-        ${danger ? "font-semibold text-beer-foam" : ""} 
-        ${primary ? "font-semibold text-beer-dark" : "text-beer-dark"}}
-        ${accent ? "text-beer-dark hover:text-beer-dark" : ""}
+        ${danger ? 'font-semibold text-beer-foam' : ''} 
+        ${primary ? 'font-semibold text-beer-dark' : 'text-beer-dark'}}
+        ${accent ? 'text-beer-dark hover:text-beer-dark' : ''}
         ${getSizeClass()}
 
 
@@ -108,4 +108,6 @@ export function Button({
       </span>
     </button>
   );
-}
+});
+
+export default Button;

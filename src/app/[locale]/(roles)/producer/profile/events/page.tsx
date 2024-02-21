@@ -1,10 +1,10 @@
 import Events from './Events';
 import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { VIEWS } from "../../../../../../constants";
-import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { VIEWS } from '../../../../../../constants';
+import { ICPFixed, ICPMobile } from '../../../../../../lib/types';
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();
@@ -30,23 +30,21 @@ export default async function EventsPage() {
 async function getCPMobileData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: cps, error: cpError } = await supabase
-    .from("consumption_points")
+    .from('consumption_points')
     .select(
       `
         *,
         cp_mobile (*)
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.id);
 
   if (cpError) throw cpError;
 
@@ -56,23 +54,21 @@ async function getCPMobileData() {
 async function getCPFixedData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: cps, error: cpError } = await supabase
-    .from("consumption_points")
+    .from('consumption_points')
     .select(
       `
         *,
         cp_fixed (*)
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.id);
 
   if (cpError) throw cpError;
 
@@ -82,18 +78,16 @@ async function getCPFixedData() {
 async function getEventsCounter() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { count, error } = await supabase
-    .from("events")
-    .select("id", { count: "exact" }) // Selecciona solo una columna y habilita el conteo
-    .eq("owner_id", session.user.id);
+    .from('events')
+    .select('id', { count: 'exact' }) // Selecciona solo una columna y habilita el conteo
+    .eq('owner_id', session.id);
 
   if (error) throw error;
 

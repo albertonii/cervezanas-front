@@ -1,9 +1,9 @@
+import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { VIEWS } from '../../../../constants';
 import readUserSession from '../../../../lib/actions';
 import { ROLE_ENUM } from '../../../../lib/enums';
-import { IUser } from '../../../../lib/types';
 import createServerClient from '../../../../utils/supabaseServer';
 
 type LayoutProps = {
@@ -27,22 +27,18 @@ export default async function layout({ children }: LayoutProps) {
 }
 
 async function checkAuthorizatedUser() {
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session: User | null = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const user = session.user as IUser;
-
-  const isRoleProducer = await checkAuthorizatedUserByRole(user);
-  const isAuthorized = await checkAuthorizedProducerByAdmin(user.id);
+  const isRoleProducer = await checkAuthorizatedUserByRole(session);
+  const isAuthorized = await checkAuthorizedProducerByAdmin(session.id);
   return isRoleProducer && isAuthorized;
 }
 
-async function checkAuthorizatedUserByRole(user: IUser) {
+async function checkAuthorizatedUserByRole(user: User) {
   const role = user.user_metadata.access_level;
   return role === ROLE_ENUM.Productor;
 }

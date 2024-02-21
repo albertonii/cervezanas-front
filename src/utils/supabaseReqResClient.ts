@@ -7,6 +7,7 @@ import {
 import { getCookie, setCookie } from 'cookies-next';
 import { Database } from '../lib/schema';
 
+// Since Server Components can't write cookies, you need middleware to refresh expired Auth tokens and store them.
 export function createSupabaseReqResClient(
   req: NextRequest,
   res: NextResponse,

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { IUserReport } from '../../../../../../../lib/types';
 import { downloadFile } from '../../../../../../../utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { useMessage } from '../../../../../components/message/useMessage';
 
 interface Props {

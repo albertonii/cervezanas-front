@@ -11,6 +11,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useMessage } from '../../components/message/useMessage';
 import { createBrowserClient } from '../../../../utils/supabaseBrowser';
 import {
+  AuthChangeEvent,
   AuthResponse,
   Provider,
   Session,
@@ -133,9 +134,7 @@ export const AuthContextProvider = ({
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
     async function getActiveSession() {
-      const {
-        data: { session: activeSession },
-      } = await supabase.auth.getSession();
+      const { data: activeSession } = await supabase.auth.getUser();
 
       // If the user login with the provider the role is going to be consumer
       if (
@@ -151,12 +150,13 @@ export const AuthContextProvider = ({
       // Set role for the user and load different layouts
       setRole(activeSession?.user?.user_metadata?.access_level);
     }
+
     getActiveSession();
 
     const {
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange(
-      async (event: any, currentSession: any) => {
+      async (event: AuthChangeEvent, currentSession: any) => {
         if (currentSession && currentSession.provider_token) {
           window.localStorage.setItem(
             'oauth_provider_token',
@@ -170,6 +170,20 @@ export const AuthContextProvider = ({
             currentSession.provider_refresh_token,
           );
         }
+
+        // if (session && session.provider_token) {
+        //   window.localStorage.setItem(
+        //     'oauth_provider_token',
+        //     session.provider_token,
+        //   );
+        // }
+
+        // if (session && session.provider_refresh_token) {
+        //   window.localStorage.setItem(
+        //     'oauth_provider_refresh_token',
+        //     session.provider_refresh_token,
+        //   );
+        // }
 
         if (event === 'SIGNED_OUT') {
           window.localStorage.removeItem('oauth_provider_token');
@@ -232,7 +246,7 @@ export const AuthContextProvider = ({
         if (
           !serverSession ||
           !currentSession ||
-          currentSession?.access_token !== serverSession?.access_token
+          currentSession.access_token !== serverSession?.access_token
         ) {
           // trigger a router refresh whenever the current session changes
           router.refresh();
@@ -264,7 +278,7 @@ export const AuthContextProvider = ({
     return () => {
       authListener?.unsubscribe();
     };
-  }, [supabase, serverSession, router]);
+  }, [serverSession, supabase, router]);
 
   const signUp = async (payload: SignUpWithPasswordCredentials) => {
     try {

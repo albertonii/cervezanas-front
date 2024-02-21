@@ -1,4 +1,4 @@
-import { Button } from '../common/Button';
+import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { IAward } from '../../../../lib/types';

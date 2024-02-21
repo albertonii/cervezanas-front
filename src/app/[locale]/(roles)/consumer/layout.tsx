@@ -1,3 +1,4 @@
+import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { VIEWS } from '../../../../constants';
@@ -25,21 +26,17 @@ export default async function layout({ children }: LayoutProps) {
 }
 
 async function checkAuthorizatedUser() {
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session: User | null = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  const user = session.user as IUser;
-
-  const isRoleConsumer = await checkAuthorizatedUserByRole(user);
+  const isRoleConsumer = await checkAuthorizatedUserByRole(session);
   return isRoleConsumer;
 }
 
-async function checkAuthorizatedUserByRole(user: IUser) {
+async function checkAuthorizatedUserByRole(user: User) {
   const role = user.user_metadata.access_level;
   const isFromProvider = user.app_metadata.provider === 'google';
   return role === ROLE_ENUM.Cervezano || isFromProvider;

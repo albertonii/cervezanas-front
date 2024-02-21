@@ -1,11 +1,11 @@
-import ErrorCheckout from "./ErrorCheckout";
-import React from "react";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../../../constants";
-import { IOrder } from "../../../../../../../../lib/types";
-import { decodeBase64 } from "../../../../../../../../utils/utils";
-import createServerClient from "../../../../../../../../utils/supabaseServer";
-import readUserSession from "../../../../../../../../lib/actions";
+import ErrorCheckout from './ErrorCheckout';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../../../constants';
+import { IOrder } from '../../../../../../../../lib/types';
+import { decodeBase64 } from '../../../../../../../../utils/utils';
+import createServerClient from '../../../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../../../lib/actions';
 
 export async function generateMetadata({ searchParams }: any) {
   try {
@@ -17,23 +17,23 @@ export async function generateMetadata({ searchParams }: any) {
 
     if (!Ds_MerchantParameters) {
       return {
-        title: "Not found",
-        description: "The page you are looking for does not exists",
+        title: 'Not found',
+        description: 'The page you are looking for does not exists',
       };
     }
 
     return {
       title: {
-        default: "Error page for checkout",
+        default: 'Error page for checkout',
         template: `%s | Cervezanas`,
       },
       description:
-        "Error page for checkout reached by code sent from Checkout Order",
+        'Error page for checkout reached by code sent from Checkout Order',
     };
   } catch (error) {
     return {
-      title: "Not found",
-      description: "The page you are looking for does not exists",
+      title: 'Not found',
+      description: 'The page you are looking for does not exists',
     };
   }
 }
@@ -57,26 +57,24 @@ async function getCheckoutErrorData(searchParams: any) {
   };
 
   const { Ds_Order: orderId, Ds_Response } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters)
+    decodeBase64(Ds_MerchantParameters),
   );
 
   const supabase = await createServerClient();
 
   // Check if we have a session
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
-  if (Ds_Response === "9915") {
+  if (Ds_Response === '9915') {
     // Update order status to user_cancelled
     const { error: statusError } = await supabase
-      .from("orders")
-      .update({ status: "user_cancelled" })
-      .eq("order_number", orderId);
+      .from('orders')
+      .update({ status: 'user_cancelled' })
+      .eq('order_number', orderId);
 
     if (statusError) {
       console.error(statusError.message);
@@ -84,7 +82,7 @@ async function getCheckoutErrorData(searchParams: any) {
   }
 
   const { data: orderData, error: orderError } = await supabase
-    .from("orders")
+    .from('orders')
     .select(
       `
       *,
@@ -131,9 +129,9 @@ async function getCheckoutErrorData(searchParams: any) {
           product_packs (*)
         )
       )
-    `
+    `,
     )
-    .eq("order_number", orderId)
+    .eq('order_number', orderId)
     .single();
 
   if (orderError) {

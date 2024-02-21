@@ -16,10 +16,8 @@ export default async function CheckoutPage() {
 // async function getCheckout() {
 //   const supabase = await createServerClient();
 
-//   // Check if we have a session
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession();
+// Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+// const session = await readUserSession();
 
 //   if (!session) {
 //     redirect(VIEWS.SIGN_IN);
@@ -28,7 +26,7 @@ export default async function CheckoutPage() {
 //   const { data: userData, error: usersError } = await supabase
 //     .from("users")
 //     .select(`*, shipping_info(*), billing_info(*)`)
-//     .eq("id", session.user.id);
+//     .eq("id", session.id);
 
 //   if (usersError) throw usersError;
 

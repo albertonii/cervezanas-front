@@ -1,8 +1,9 @@
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { ILike } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { LikesHistory } from "./LikesHistory";
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import readUserSession from '../../../../../../lib/actions';
+import { ILike } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { LikesHistory } from './LikesHistory';
 
 export default async function LikesPage() {
   const { likes } = await getLikesData();
@@ -18,23 +19,20 @@ export default async function LikesPage() {
 async function getLikesData() {
   const supabase = await createServerClient();
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: likesData, error: likesError } = await supabase
-    .from("likes")
+    .from('likes')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("owner_id", session.user.id);
+    .eq('owner_id', session.id);
 
   if (likesError) throw likesError;
 

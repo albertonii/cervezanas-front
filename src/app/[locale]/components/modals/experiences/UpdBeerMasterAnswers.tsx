@@ -6,7 +6,7 @@ import {
 } from '../../../../../lib/types';
 import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
-import { Button } from '../../common/Button';
+import Button from '../../common/Button';
 import { useTranslations } from 'next-intl';
 
 interface Props {

@@ -5,7 +5,6 @@ import type { NextRequest } from 'next/server';
 import { match as matchLocale } from '@formatjs/intl-localematcher';
 import { isPrivateSectionIncluded } from './utils/middleware/functions';
 import { createSupabaseReqResClient } from './utils/supabaseReqResClient';
-// import createMiddleware from 'next-intl/middleware';
 
 const locales = ['en', 'es'];
 
@@ -53,12 +52,10 @@ export async function middleware(req: NextRequest) {
       throw new Error('Missing env variables');
     }
 
+    // Since Server Components can't write cookies, you need middleware to refresh expired Auth tokens and store them.
     const supabase = createSupabaseReqResClient(req, res);
 
-    // This will update our cookie with the user session so we can know in protected routes if user is logged in
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const { data: session } = await supabase.auth.getSession();
 
     if (!session) {
       url.pathname = `${ROUTE_SIGNIN}`;

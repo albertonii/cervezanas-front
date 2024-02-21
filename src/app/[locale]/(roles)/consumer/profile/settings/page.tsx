@@ -1,9 +1,10 @@
-import Profile from "./Profile";
-import { IUserTable } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import { redirect } from "next/navigation";
-import { VIEWS } from "../../../../../../constants";
-import { Suspense } from "react";
+import Profile from './Profile';
+import { IUserTable } from '../../../../../../lib/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { VIEWS } from '../../../../../../constants';
+import { Suspense } from 'react';
+import readUserSession from '../../../../../../lib/actions';
 
 export default async function ProfilePage() {
   const { profile } = await getProfileData();
@@ -19,16 +20,15 @@ export default async function ProfilePage() {
 async function getProfileData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
   }
 
   const { data: profileData, error: profileError } = await supabase
-    .from("users")
+    .from('users')
     .select(
       `
         *,
@@ -36,9 +36,9 @@ async function getProfileData() {
         campaigns (*),
         customize_settings (*),
         profile_location (*)
-      `
+      `,
     )
-    .eq("id", session.user.id)
+    .eq('id', session.id)
     .single();
 
   if (profileError) throw profileError;

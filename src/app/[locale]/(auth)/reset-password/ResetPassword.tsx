@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
-import { Button } from '../../components/common/Button';
+import Button from '../../components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InputLabel from '../../components/common/InputLabel';
 

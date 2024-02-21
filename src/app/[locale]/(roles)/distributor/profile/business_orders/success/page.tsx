@@ -56,9 +56,7 @@ async function getSuccessData(searchParams: any) {
 
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -104,7 +102,7 @@ async function getSuccessData(searchParams: any) {
     `,
     )
     .eq('order_number', orderNumber)
-    .eq('business_orders.distributor_id', session.user.id)
+    .eq('business_orders.distributor_id', session.id)
     .single();
 
   if (!orderData)

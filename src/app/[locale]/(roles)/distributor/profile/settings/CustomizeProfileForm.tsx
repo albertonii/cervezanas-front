@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { SupabaseProps } from '../../../../../../constants';
 import { isValidObject } from '../../../../../../utils/utils';
-import { Button } from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button';
 import Spinner from '../../../../components/common/Spinner';
 import { IDistributorUser } from '../../../../../../lib/types';
 import { useAppContext } from '../../../../../context/AppContext';

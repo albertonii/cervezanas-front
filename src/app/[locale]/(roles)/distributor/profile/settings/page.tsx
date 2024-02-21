@@ -19,9 +19,7 @@ export default async function ProfilePage() {
 async function getProfileData() {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -41,7 +39,7 @@ async function getProfileData() {
         users (name, lastname, email)
       `,
     )
-    .eq('user', session.user.id)
+    .eq('user', session.id)
     .single();
 
   if (profileError) throw profileError;

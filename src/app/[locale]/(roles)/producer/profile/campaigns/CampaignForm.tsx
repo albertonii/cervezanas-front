@@ -5,7 +5,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { ICampaign, ICampaignItem } from '../../../../../../lib/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { Button } from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 import { useMessage } from '../../../../components/message/useMessage';

@@ -1,18 +1,18 @@
-import useOnClickOutside from "../../../../hooks/useOnOutsideClickDOM";
+import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, {
   ComponentProps,
   useCallback,
   useEffect,
   useRef,
   useState,
-} from "react";
-import { faXmark, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslations } from "next-intl";
-import { Button } from "../common/Button";
-import { IconButton } from "../common/IconButton";
-import Spinner from "../common/Spinner";
-import PortalModal from "./PortalModal";
+} from 'react';
+import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslations } from 'next-intl';
+import Button from '../common/Button';
+import { IconButton } from '../common/IconButton';
+import Spinner from '../common/Spinner';
+import PortalModal from './PortalModal';
 
 interface Props {
   showBtn?: boolean;
@@ -25,7 +25,7 @@ interface Props {
   classIcon: string;
   classContainer: string;
   color?: { filled: string; unfilled: string };
-  btnSize?: "small" | "medium" | "large" | "xLarge" | "xxLarge";
+  btnSize?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
   setShowModal: (b: boolean) => void;
   showFooter?: boolean;
   btnCancelTitle?: string;
@@ -109,9 +109,9 @@ export default function Modal(props: Props) {
         if (handlerClose) handlerClose();
       };
 
-      if (event.key === "Escape") handleClose();
+      if (event.key === 'Escape') handleClose();
     },
-    [handlerClose]
+    [handlerClose],
   );
 
   useEffect(() => {
@@ -121,10 +121,10 @@ export default function Modal(props: Props) {
   useEffect(() => {
     if (showModal) {
       // attach the event listener if the modal is shown
-      document.addEventListener("keydown", handleKeyPress);
+      document.addEventListener('keydown', handleKeyPress);
       // remove the event listener
       return () => {
-        document.removeEventListener("keydown", handleKeyPress);
+        document.removeEventListener('keydown', handleKeyPress);
       };
     }
   }, [handleKeyPress, showModal]);
@@ -164,8 +164,8 @@ export default function Modal(props: Props) {
           <section
             className={`${
               isLoading
-                ? "overflow-hidden overscroll-none"
-                : "overflow-y-auto overflow-x-hidden"
+                ? 'overflow-hidden overscroll-none'
+                : 'overflow-y-auto overflow-x-hidden'
             } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none`}
           >
             {/* The modal  */}
@@ -188,9 +188,9 @@ export default function Modal(props: Props) {
                     <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
                       <FontAwesomeIcon
                         icon={faXmark}
-                        style={{ color: "beer-dark" }}
+                        style={{ color: 'beer-dark' }}
                         onClick={() => handleClose()}
-                        title={"Close Modal"}
+                        title={'Close Modal'}
                       />
                     </span>
                   </button>
@@ -238,7 +238,7 @@ export default function Modal(props: Props) {
                         medium
                         onClick={handleClose}
                       >
-                        {t("close")}
+                        {t('close')}
                       </Button>
                     )}
                   </footer>
@@ -260,7 +260,7 @@ export default function Modal(props: Props) {
               <figure
                 className={`${
                   isLoading &&
-                  "absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75"
+                  'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
                 }`}
               ></figure>
             </div>

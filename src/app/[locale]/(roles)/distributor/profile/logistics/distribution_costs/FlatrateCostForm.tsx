@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { z, ZodType } from 'zod';
 import {
   FlatrateCostFormData,

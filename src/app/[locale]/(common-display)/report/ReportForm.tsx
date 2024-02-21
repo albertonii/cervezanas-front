@@ -8,7 +8,7 @@ import InputLabel from '../../components/common/InputLabel';
 import { useTranslations } from 'next-intl';
 import InputTextarea from '../../components/common/InputTextarea';
 import { DisplayInputError } from '../../components/common/DisplayInputError';
-import { Button } from '../../components/common/Button';
+import Button from '../../components/common/Button';
 
 interface ReportFormData {
   title: string;

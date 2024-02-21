@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { Country, ICountry, IState } from 'country-state-city';
-import { Button } from '../../../../../components/common/Button';
+import Button from '../../../../../components/common/Button';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import {
   filterSearchInputQuery,

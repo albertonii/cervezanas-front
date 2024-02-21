@@ -25,9 +25,7 @@ export default async function BarmanProductPage({ params }: any) {
 async function getEventOrderItemData(eventOrderItemId: string) {
   const supabase = await createServerClient();
 
-  const {
-    data: { session },
-  } = await readUserSession();
+  const session = await readUserSession();
 
   if (!session) {
     redirect(VIEWS.SIGN_IN);
@@ -56,7 +54,7 @@ async function getEventOrderItemData(eventOrderItemId: string) {
 
   const eventOrderItem = eventOrderItemData as IEventOrderItem;
 
-  if (eventOrderItem.product_packs?.products?.owner_id !== session.user.id) {
+  if (eventOrderItem.product_packs?.products?.owner_id !== session.id) {
     return null;
   }
 

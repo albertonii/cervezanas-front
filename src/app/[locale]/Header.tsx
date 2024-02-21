@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import useDeviceDetection from '../../hooks/useDeviceDetection';
-import { INotification } from '../../lib/types';
-import { useAuth } from './(auth)/Context/useAuth';
 import MobileMenu from './MobileMenu';
 import ScreenMenu from './ScreenMenu';
+import useDeviceDetection from '../../hooks/useDeviceDetection';
+import { useEffect, useState } from 'react';
+import { INotification } from '../../lib/types';
+import { useAuth } from './(auth)/Context/useAuth';
 
 interface Props {
   notifications: INotification[];

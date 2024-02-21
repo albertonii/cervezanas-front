@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { Button } from '../../../components/common/Button';
+import Button from '../../../components/common/Button';
 import { IEvent } from '../../../../../lib/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../utils/formatDate';
