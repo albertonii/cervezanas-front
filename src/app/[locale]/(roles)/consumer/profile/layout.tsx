@@ -184,7 +184,7 @@ export default async function layout({ children }: LayoutProps) {
                   {user?.username}
                 </p>
                 <p className="text-lg font-semibold text-white">
-                  {user.gamification?.score} XP
+                  {user?.gamification?.score} XP
                 </p>
               </section>
             </section>

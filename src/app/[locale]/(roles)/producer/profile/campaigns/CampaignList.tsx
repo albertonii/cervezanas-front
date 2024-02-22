@@ -80,7 +80,7 @@ export function CampaignList({
   }, [campaigns, query]);
 
   return (
-    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
@@ -107,7 +107,7 @@ export function CampaignList({
             searchPlaceholder={'search_campaigns'}
           />
 
-          <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
+          <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 {COLUMNS.map((column: ColumnsProps, index: number) => {

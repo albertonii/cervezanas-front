@@ -107,7 +107,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   };
 
   return (
-    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isEditModal && selectedExperience && (
         <UpdateBeerMasterExperienceModal
           selectedExperience={selectedExperience}

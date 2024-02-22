@@ -119,7 +119,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
   };
 
   return (
-    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isDeleteModal &&
         selectedContract &&
         selectedContract.distributor_user && (

@@ -88,7 +88,7 @@ export function ListCPFixed({ cpsFixed }: Props) {
   };
 
   return (
-    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
       {isEditModal && selectedCP && (
         <EditCPFixedModal

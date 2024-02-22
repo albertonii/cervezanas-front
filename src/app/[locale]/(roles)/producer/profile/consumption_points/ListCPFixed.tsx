@@ -103,7 +103,7 @@ export function ListCPFixed({ cpsId }: Props) {
   };
 
   return (
-    <section className="relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
       {isEditModal && selectedCP && (
         <EditCPFixedModal
@@ -124,7 +124,7 @@ export function ListCPFixed({ cpsId }: Props) {
       {isError && (
         <div className="flex items-center justify-center">
           <p className="text-gray-500 dark:text-gray-400">
-            {t("error_fetching_cp_fixed")}
+            {t('error_fetching_cp_fixed')}
           </p>
         </div>
       )}
@@ -135,7 +135,7 @@ export function ListCPFixed({ cpsId }: Props) {
 
       {!isError && !isLoading && cpFixed.length === 0 ? (
         <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t("no_cp_fixed")}</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('no_cp_fixed')}</p>
         </div>
       ) : (
         <>
@@ -159,7 +159,7 @@ export function ListCPFixed({ cpsId }: Props) {
             <InputSearch
               query={query}
               setQuery={setQuery}
-              searchPlaceholder={"search_by_name"}
+              searchPlaceholder={'search_by_name'}
             />
           </div>
 
@@ -173,7 +173,7 @@ export function ListCPFixed({ cpsId }: Props) {
                     handleChangeSort(SortBy.NAME);
                   }}
                 >
-                  {t("name_header")}
+                  {t('name_header')}
                 </th>
 
                 <th
@@ -183,11 +183,11 @@ export function ListCPFixed({ cpsId }: Props) {
                     handleChangeSort(SortBy.CREATED_DATE);
                   }}
                 >
-                  {t("created_date_header")}
+                  {t('created_date_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
+                  {t('action_header')}
                 </th>
               </tr>
             </thead>
@@ -201,7 +201,7 @@ export function ListCPFixed({ cpsId }: Props) {
                   >
                     <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                       <Link
-                        target={"_blank"}
+                        target={'_blank'}
                         href={`/consumption_points/fixed?id=${cp.id}`}
                         locale={locale}
                       >
@@ -221,10 +221,10 @@ export function ListCPFixed({ cpsId }: Props) {
                         }}
                         color={editColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={""}
-                        title={t("edit")}
+                        classIcon={''}
+                        title={t('edit')}
                       />
 
                       <IconButton
@@ -234,10 +234,10 @@ export function ListCPFixed({ cpsId }: Props) {
                         }}
                         color={deleteColor}
                         classContainer={
-                          "hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full "
+                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={""}
-                        title={t("delete")}
+                        classIcon={''}
+                        title={t('delete')}
                       />
                     </td>
                   </tr>

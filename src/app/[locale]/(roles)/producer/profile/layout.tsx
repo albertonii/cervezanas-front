@@ -1,15 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '../../../components/common/Sidebar';
+import { useAppContext } from '../../../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '../../../../../constants';
-import { useAppContext } from '../../../../context/AppContext';
-import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -203,7 +203,7 @@ export default function layout({ children }: LayoutProps) {
                   {user?.username}
                 </p>
                 <p className="text-lg font-semibold text-white">
-                  {user.gamification?.score} XP
+                  {user?.gamification?.score} XP
                 </p>
               </section>
             </section>
