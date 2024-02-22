@@ -1445,8 +1445,10 @@ export interface IBeerMasterQuestion {
   id: string;
   question: string;
   experience_id: string;
-  beer_master_participation?: IExperienceParticipation;
+  product_id: string;
   answers: IBeerMasterAnswer[];
+  beer_master_participation?: IExperienceParticipation;
+  products?: IProduct;
 }
 
 export interface IBeerMasterAnswer {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ComponentProps, useState } from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -274,7 +274,13 @@ export function UpdateProduct({
     },
   });
 
-  const { handleSubmit, reset, getValues } = form;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
+
+  useEffect(() => console.log(errors), [errors]);
 
   const queryClient = useQueryClient();
 

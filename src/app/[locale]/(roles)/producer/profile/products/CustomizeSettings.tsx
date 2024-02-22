@@ -158,7 +158,10 @@ export function CustomizeSettings() {
         </span>
       </p>
 
-      <div className="flex flex-col space-y-4">
+      <div
+        className="flex flex-col space-y-4 bg-beer-foam"
+        aria-label="custom-panel"
+      >
         {/* Text description to Customize colors available for a new beer product. */}
         <h3 className="text-md my-4 text-gray-500 dark:text-gray-400">
           {t('products_customize_settings_description')}

@@ -8,6 +8,8 @@ import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../(auth)/Context/useAuth';
+import { useQueryClient } from 'react-query';
 
 interface Props {
   form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
@@ -22,7 +24,11 @@ export default function UpdBeerMasterAnswers({
 }: Props) {
   const t = useTranslations();
 
-  const { control } = form;
+  const { supabase } = useAuth();
+
+  const { control, getValues } = form;
+
+  const queryClient = useQueryClient();
 
   const { fields, append, remove } = useFieldArray({
     name: `questions.${questionIndex}.answers`,
@@ -31,6 +37,31 @@ export default function UpdBeerMasterAnswers({
 
   const handleAddAnswer = () => {
     append({ answer: '', is_correct: false, question_id: questionId });
+  };
+
+  const handleRemoveAnswer = async (answerIndex: number) => {
+    remove(answerIndex); // We need this here so if we add field we can remove it even if it's not saved in the database
+
+    const deleteAnswerId = getValues(
+      `questions.${questionIndex}.answers.${answerIndex}.id`,
+    );
+
+    if (!deleteAnswerId) return;
+
+    const { error } = await supabase
+      .from('beer_master_answers')
+      .delete()
+      .eq('id', deleteAnswerId);
+
+    if (error) {
+      console.log('error', error);
+      return;
+    }
+    // Update the answers in the form
+    const updatedAnswers = getValues(`questions.${questionIndex}.answers`);
+    form.setValue(`questions.${questionIndex}.answers`, updatedAnswers);
+
+    queryClient.invalidateQueries('experiences');
   };
 
   return (
@@ -58,7 +89,7 @@ export default function UpdBeerMasterAnswers({
           </div>
 
           <div className="justify-center items-center">
-            <DeleteButton onClick={() => remove(index)} />
+            <DeleteButton onClick={() => handleRemoveAnswer(index)} />
           </div>
         </section>
       ))}

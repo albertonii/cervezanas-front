@@ -15,8 +15,6 @@ import { string, z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { UpdBeerMasterSection } from './UpdBeerMasterSection';
 import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
-import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
-import SelectInput from '../../common/SelectInput';
 
 const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
   z.object({
@@ -69,23 +67,6 @@ export default function UpdateBeerMasterExperienceModal({
 
   const queryClient = useQueryClient();
 
-  const { data } = useFetchProductsByOwner(user?.id);
-
-  const [listProducts, setListProducts] = useState<
-    { label: string; value: any }[]
-  >([]);
-
-  useEffect(() => {
-    if (data) {
-      setListProducts(
-        data?.map((product: IProduct) => ({
-          label: product.name,
-          value: product.id,
-        })),
-      );
-    }
-  }, [data]);
-
   const form = useForm<ValidationSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(schemaBeerMaster),
@@ -133,6 +114,7 @@ export default function UpdateBeerMasterExperienceModal({
           .update({
             question: question.question,
             experience_id: experience.id,
+            product_id: question.product_id,
           })
           .eq('id', question.id)
           .select()
@@ -147,13 +129,17 @@ export default function UpdateBeerMasterExperienceModal({
         }
 
         question.answers.forEach(async (answer) => {
-          const { data: answerData, error: answerError } = await supabase
+          const { error: answerError } = await supabase
             .from('beer_master_answers')
             .upsert({
               answer: answer.answer,
               is_correct: answer.is_correct,
               question_id: questionData.id,
               id: answer.id,
+            })
+            .then((res) => {
+              queryClient.invalidateQueries('experiences');
+              return res;
             });
 
           if (answerError) {
@@ -162,10 +148,6 @@ export default function UpdateBeerMasterExperienceModal({
           }
         });
       }
-    });
-
-    queryClient.invalidateQueries({
-      queryKey: ['experiences'],
     });
 
     handleEditModal(false);
@@ -215,13 +197,6 @@ export default function UpdateBeerMasterExperienceModal({
             <legend className="text-2xl">
               {t('questions_and_answers_experience')}
             </legend>
-
-            <SelectInput
-              form={form}
-              label={'product_id'}
-              labelText={t('product')}
-              options={listProducts}
-            />
 
             <UpdBeerMasterSection form={form} />
           </fieldset>

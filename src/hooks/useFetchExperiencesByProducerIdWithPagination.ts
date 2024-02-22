@@ -23,7 +23,13 @@ const fetchExperiencesByProducerId = async (
           id,
           question,
           experience_id,
-          answers: beer_master_answers (*)
+          product_id,
+          answers: beer_master_answers (
+            id,
+            answer,
+            question_id,
+            is_correct
+          )
         )
       `,
       {

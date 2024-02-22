@@ -556,3 +556,12 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Arreglar restablecer contraseña
+
+### 22 de febrero
+- [ ] Añadir experiencia Cervezanas a un PC en un evento
+- [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+
+Estamos peleando con el update de Experiencias y Cervezas con Q&A 
+
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+- [ ] Arreglar restablecer contraseña

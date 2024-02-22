@@ -23,11 +23,12 @@ interface Props {
   setIsBeerMasterExperience: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddExperienceBasicForm({
+export default function UpdExperienceBasicForm({
   form,
   setIsBeerMasterExperience,
 }: Props) {
   const t = useTranslations();
+
 
   const selectOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;

@@ -14,7 +14,6 @@ import { IExperience } from '../../../../../../lib/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import { useQueryClient } from 'react-query';
 
 enum SortBy {
   NONE = 'none',
@@ -38,8 +37,10 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
 
   const resultsPerPage = 10;
 
-  const { data, isError, isLoading, refetch, isStale } =
-    useFetchExperiencesByProducerId(currentPage, resultsPerPage);
+  const { data, isError, isLoading, refetch } = useFetchExperiencesByProducerId(
+    currentPage,
+    resultsPerPage,
+  );
 
   const [experiences, setExperiences] = useState<IExperience[]>(es ?? []);
 
@@ -89,6 +90,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   }, [filteredItems, sorting]);
 
   const handleEditClick = async (e: IExperience) => {
+    console.log('EXPERIENCE', e);
     setIsEditModal(true);
     setSelectedExperience(e);
   };

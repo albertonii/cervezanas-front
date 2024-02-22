@@ -39,6 +39,7 @@ async function getExperiencesData() {
           id,
           question,
           experience_id,
+          product_id,
           answers: beer_master_answers (*)
         )
       `,

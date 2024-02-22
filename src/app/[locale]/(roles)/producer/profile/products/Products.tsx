@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IProduct } from '../../../../../../lib/types';
 import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
@@ -28,6 +28,10 @@ export function Products() {
     setProductModal(product);
   };
 
+  useEffect(() => {
+    console.log('product Modal', productModal);
+  }, [productModal]);
+
   return (
     <section className="px-4 py-6" aria-label="Products">
       <header className="flex flex-col space-y-4">
@@ -51,7 +55,7 @@ export function Products() {
         handleProductModal={handleProductModal}
       />
 
-      {isEditShowModal && productModal != null && (
+      {isEditShowModal && productModal && (
         <UpdateProduct
           product={productModal}
           showModal={isEditShowModal}
