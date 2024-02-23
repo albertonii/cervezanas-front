@@ -11,19 +11,20 @@ import createServerClient from '../../../../../../../../../utils/supabaseServer'
 
 export default async function CPMobilePage({ params }: any) {
   const { id: eventId, m_id: cpId } = params;
-  const eventExperienceData = getEventExperience(eventId, cpId);
-  const [eventExperience] = await Promise.all([eventExperienceData]);
+  const cpMobileData = getCPMobile(cpId);
+  const eventExperiencesData = getEventExperience(eventId, cpId);
+  const [eventExperiences, cpMobile] = await Promise.all([
+    eventExperiencesData,
+    cpMobileData,
+  ]);
 
-  const cpMobile = eventExperience.cp_mobile as ICPMobile;
-  const cpFixed = eventExperience.cp_fixed;
-  const experience = eventExperience.experiences as IExperience;
 
   return (
     <>
       <InfoCPMobile
         cpMobile={cpMobile}
         eventId={eventId}
-        experience={experience}
+        eventExperiences={eventExperiences}
       />
     </>
   );
@@ -88,43 +89,14 @@ async function getEventExperience(eventId: string, cpId: string) {
           cp_fixed_id,
           experience_id,
           experiences!public_event_experiences_experience_id_fkey (
-            *,
-            bm_questions:beer_master_questions!public_beer_master_question_experience_id_fkey (
-              *,
-              answers:beer_master_answers (*)
-            )
-          ),
-          cp_mobile!public_event_experiences_cp_mobile_id_fkey (
-            *,
-            cpm_products!cpm_products_cp_id_fkey (
-              *,
-              cp_id,
-              product_pack_id,
-              product_packs!cpm_products_product_pack_id_fkey (
-                *,
-                products!product_packs_product_id_fkey (
-                  id,
-                  name,
-                  description,
-                  type,
-                  product_multimedia!product_multimedia_product_id_fkey (p_principal)
-                )
-              )
-            )
-          ),
-           cp_fixed!public_event_experiences_cp_fixed_id_fkey (
-            *
-          ),
-          events!public_event_experiences_event_id_fkey (
             *
           )
         `,
     )
     .eq('cp_mobile_id', cpId)
-    .eq('event_id', eventId)
-    .single();
+    .eq('event_id', eventId);
 
   if (eventExperienceError) console.error(eventExperienceError);
 
-  return eventExperience as IEventExperience;
+  return eventExperience as IEventExperience[];
 }

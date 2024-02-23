@@ -3,17 +3,25 @@
 import CPDetails from './CPDetails';
 import ProductList from './ProductList';
 import React from 'react';
-import { ICPMobile, IExperience } from '../../../../../../../../../lib/types';
+import {
+  ICPMobile,
+  IEventExperience,
+} from '../../../../../../../../../lib/types';
 import { useTranslations } from 'next-intl';
-import Experiences from './Experiences';
+import Experiences from './EventExperiences';
+import EventExperiences from './EventExperiences';
 
 interface Props {
   cpMobile: ICPMobile;
   eventId: string;
-  experience: IExperience;
+  eventExperiences: IEventExperience[];
 }
 
-export default function InfoCPMobile({ cpMobile, experience, eventId }: Props) {
+export default function InfoCPMobile({
+  cpMobile,
+  eventExperiences,
+  eventId,
+}: Props) {
   const t = useTranslations();
 
   return (
@@ -33,10 +41,11 @@ export default function InfoCPMobile({ cpMobile, experience, eventId }: Props) {
         <CPDetails cpMobile={cpMobile} />
       </section>
 
+      {/* Event Experiences  */}
       <section>
         <h2 className="text-2xl font-bold mt-8">{t('experiences')}</h2>
 
-        <Experiences experience={experience}/>
+        <EventExperiences eventExperiences={eventExperiences} />
       </section>
 
       {/* Products linked to this Mobile Consumption Point */}

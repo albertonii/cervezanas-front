@@ -801,6 +801,7 @@
     },
     "reviews": {
       "header": "Opiniones de nuestros Cervezanos y Cervezanas"
-    }
+    },
+    "beer_master": "Maestro cervecero"
   }
 }

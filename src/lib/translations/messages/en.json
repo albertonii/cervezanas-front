@@ -745,5 +745,6 @@
   "authorized": "Authorized",
   "tooltips": {
     "role_description": "The user role determines the permissions the user has on the platform. For the roles of producer and distributor, the user must accept an active contract. The platform is in charge of validating the contract and giving access to the user."
-  }
+  },
+  "beer_master": "Beer Master"
 }

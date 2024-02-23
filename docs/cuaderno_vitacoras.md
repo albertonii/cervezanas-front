@@ -582,9 +582,22 @@ Estamos peleando con el update de Experiencias y Cervezas con Q&A
   9. [ ] Error al obtener experiencias (a veces)
   10. [x] Display input errors para los formulario de creación y actualización
 
-- [ ] Experiencia Cervezanas a un PC en un evento
-  1. Añadir experiencia a un nuevo evento
-  2. Actualizar las experiencias en un evento existente
-  3. Mostrar mensajes de error en formulario
+- [x] Experiencia Cervezanas a un PC en un evento
+
+  1. [x] Añadir experiencia a un nuevo evento
+  2. [x] Actualizar las experiencias en un evento existente
+  3. [x] Mostrar mensajes de error en formulario
 
 - [ ] Visualizar el juego de maestro cervecero en el PC
+  1. [x] Mostrar preguntas y respuestas en PUNTO de CONSUMO
+  2. [ ] Cards para preguntas y respuestas
+  3. [ ] Loop a través de las preguntas en el juego
+  4. [ ] Al final mostrar cerveza en juego
+  5. [ ] Mostrar puntuación
+
+--- Reunión Mariano, Miguel, Gustavo, Alberto
+
+Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo.
+Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+
+Habilitar formulario para feedbacks/reporte de errores
