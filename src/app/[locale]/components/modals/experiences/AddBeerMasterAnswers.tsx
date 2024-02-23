@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IAddModalExperienceBeerMasterFormData,
@@ -36,8 +36,26 @@ export default function AddBeerMasterAnswers({
     control,
   });
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
   const handleAddAnswer = () => {
     append(emptyAnswer);
+  };
+
+  /**
+   * - If the answer is saved in the database, we remove it from the database
+   * - If the answer is not saved in the database, we remove it from the form
+   * @param answerIndex
+   * @returns
+   */
+  const handleRemoveAnswer = async (answerId: string) => {
+    // Encuentra el índice basado en el id para eliminar
+    const indexToRemove = fields.findIndex((item) => item.id === answerId);
+
+    if (indexToRemove > -1) {
+      remove(indexToRemove);
+    }
   };
 
   return (
@@ -66,7 +84,7 @@ export default function AddBeerMasterAnswers({
             </div>
 
             <div className="justify-center items-center">
-              <DeleteButton onClick={() => remove(index)} />
+              <DeleteButton onClick={() => handleRemoveAnswer(field.id)} />
             </div>
           </section>
 

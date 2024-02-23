@@ -135,6 +135,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
 
   return (
     <section id="Question" className="space-y-4">
+      {/* Select input for the product */}
       <div className="w-full">
         <label htmlFor={'product_id'} className="flex text-sm text-gray-600">
           {t('product')}

@@ -573,10 +573,10 @@ Estamos peleando con el update de Experiencias y Cervezas con Q&A
   1. [x] Añadir Experiencia
   2. [x] Añadir Cerveza a la experiencia
   3. [x] Añadir preguntas y respuestas a la experiencia
-  4. [ ] Actualizar Experiencia
-  5. [ ] Actualizar Cerveza de la experiencia
-  6. [ ] Actualizar preguntas y respuestas de la experiencia
-  7. [ ] Eliminar Experiencia
-  8. [ ] Eliminar Cerveza de la experiencia -> Eliminar preguntas y respuestas de la experiencia
+  4. [x] Actualizar Experiencia
+  5. [x] Actualizar Cerveza de la experiencia
+  6. [x] Actualizar preguntas y respuestas de la experiencia
+  7. [x] Eliminar Experiencia
+  8. [x] Eliminar preguntas y respuestas de la experiencia
   9. [ ] Error al obtener experiencias (a veces)
-  10. [ ] Display input errors para los formulario de creación y actualización
+  10. [x] Display input errors para los formulario de creación y actualización

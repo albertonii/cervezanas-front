@@ -15,12 +15,6 @@ import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwne
 import { useEffect, useState } from 'react';
 import { DisplayInputError } from '../../common/DisplayInputError';
 
-const emptyQuestion: IAddBeerMasterQuestionFormData = {
-  question: '',
-  answers: [],
-  product_id: '',
-};
-
 interface Props {
   form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
 }
@@ -36,9 +30,19 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
 
   const { data } = useFetchProductsByOwner(user?.id);
 
+  const [productInputValue, setProductInputValue] = useState<{
+    label: string;
+    value: any;
+  }>();
+
   const [listProducts, setListProducts] = useState<
     { label: string; value: any }[]
   >([]);
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'questions',
+    control,
+  });
 
   useEffect(() => {
     if (data) {
@@ -51,27 +55,61 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
     }
   }, [data]);
 
-  const { fields, append, remove } = useFieldArray({
-    name: 'questions',
-    control,
-  });
+  useEffect(() => {
+    if (listProducts.length > 0) {
+      setProductInputValue(listProducts[0].value);
+    }
+  }, [listProducts]);
 
   const handleRemoveQuestion = (index: number) => {
     remove(index);
   };
 
   const handleAddQuestion = () => {
+    const emptyQuestion: IAddBeerMasterQuestionFormData = {
+      question: '',
+      answers: [],
+      product_id: listProducts[0].value,
+    };
+
     append(emptyQuestion);
+  };
+
+  /**
+   * All the questions will have the same product_id, so we can set it to all of them
+   * @param product_id
+   */
+  const handleSelectProduct = (product_id: string) => {
+    fields.forEach((field, index) => {
+      form.setValue(`questions.${index}.product_id`, product_id);
+    });
   };
 
   return (
     <section id="Question" className="space-y-4">
-      <SelectInput
-        form={form}
-        label={'product_id'}
-        labelText={t('product')}
-        options={listProducts}
-      />
+      {/* Select input for the product */}
+      <div className="w-full">
+        <label htmlFor={'product_id'} className="flex text-sm text-gray-600">
+          {t('product')}
+        </label>
+
+        <select
+          id={'product'}
+          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+          onChange={(e) => handleSelectProduct(e.target.value)}
+        >
+          {listProducts.length > 0 &&
+            listProducts.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                selected={productInputValue?.value === option.value}
+              >
+                {t(option.label)}
+              </option>
+            ))}
+        </select>
+      </div>
 
       {fields.map((field, index) => (
         <fieldset
