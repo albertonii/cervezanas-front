@@ -1,5 +1,5 @@
 import InputLabel from '../../common/InputLabel';
-import BeerMasterAnswers from './AddBeerMasterAnswers';
+import AddBeerMasterAnswers from './AddBeerMasterAnswers';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
@@ -13,6 +13,7 @@ import Button from '../../common/Button';
 import SelectInput from '../../common/SelectInput';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useEffect, useState } from 'react';
+import { DisplayInputError } from '../../common/DisplayInputError';
 
 const emptyQuestion: IAddBeerMasterQuestionFormData = {
   question: '',
@@ -24,9 +25,12 @@ interface Props {
   form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
 }
 
-export const BeerMasterSection = ({ form }: Props) => {
+export const AddBeerMasterQuestions = ({ form }: Props) => {
   const t = useTranslations();
-  const { control } = form;
+  const {
+    control,
+    formState: { errors },
+  } = form;
 
   const { user } = useAuth();
 
@@ -90,8 +94,17 @@ export const BeerMasterSection = ({ form }: Props) => {
             </div>
           </div>
 
+          {/* Error input displaying */}
+          {errors.questions &&
+            errors.questions[index] &&
+            errors.questions[index]?.question && (
+              <DisplayInputError
+                message={errors.questions[index]?.question!.message}
+              />
+            )}
+
           {/* Multiple inputs that are the possible answers to the question */}
-          <BeerMasterAnswers form={form} index={index} />
+          <AddBeerMasterAnswers form={form} index={index} />
         </fieldset>
       ))}
 

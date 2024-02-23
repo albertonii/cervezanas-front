@@ -5,7 +5,6 @@ import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   IExperience,
-  IProduct,
   IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
@@ -13,7 +12,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { string, z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { UpdBeerMasterSection } from './UpdBeerMasterSection';
+import { UpdBeerMasterQuestions } from './UpdBeerMasterQuestions';
 import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
 
 const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
@@ -26,7 +25,7 @@ const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
     price: z.number().min(0),
     questions: z.array(
       z.object({
-        id: z.string().nonempty({ message: 'errors.input_required' }),
+        id: z.string().optional(),
         experience_id: z
           .string()
           .nonempty({ message: 'errors.input_required' }),
@@ -60,7 +59,7 @@ export default function UpdateBeerMasterExperienceModal({
   handleEditModal,
 }: Props) {
   const t = useTranslations();
-  const { supabase, user } = useAuth();
+  const { supabase } = useAuth();
 
   const [isBeerMasterExperience, setIsBeerMasterExperience] =
     useState<boolean>(true);
@@ -81,10 +80,19 @@ export default function UpdateBeerMasterExperienceModal({
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleUpdateBeerMasterExperience = async (form: ValidationSchema) => {
     const { name, description, type, questions } = form;
+    console.log(questions);
 
     // Update experience
     const { data: experience, error: experienceError } = await supabase
@@ -108,8 +116,11 @@ export default function UpdateBeerMasterExperienceModal({
 
     // Update questions and answers
     questions.forEach(async (question) => {
+      console.log(question);
+
+      // Update question if it exists
       if (question.id) {
-        const { data: questionData, error: questionError } = await supabase
+        const { error: questionError } = await supabase
           .from('beer_master_questions')
           .update({
             question: question.question,
@@ -117,7 +128,40 @@ export default function UpdateBeerMasterExperienceModal({
             product_id: question.product_id,
           })
           .eq('id', question.id)
-          .select()
+          .select('id')
+          .single();
+
+        if (questionError) {
+          throw questionError;
+        }
+
+        question.answers.forEach(async (answer) => {
+          const { error: answerError } = await supabase
+            .from('beer_master_answers')
+            .upsert({
+              answer: answer.answer,
+              is_correct: answer.is_correct,
+              question_id: question.id,
+              id: answer.id,
+            });
+
+          if (answerError) {
+            console.error(answerError);
+            throw answerError;
+          }
+        });
+      }
+
+      // Insert question if it doesn't exist
+      if (!question.id) {
+        const { data: questionData, error: questionError } = await supabase
+          .from('beer_master_questions')
+          .insert({
+            question: question.question,
+            experience_id: experience.id,
+            product_id: question.product_id,
+          })
+          .select('id')
           .single();
 
         if (!questionData) {
@@ -131,15 +175,10 @@ export default function UpdateBeerMasterExperienceModal({
         question.answers.forEach(async (answer) => {
           const { error: answerError } = await supabase
             .from('beer_master_answers')
-            .upsert({
+            .insert({
               answer: answer.answer,
               is_correct: answer.is_correct,
               question_id: questionData.id,
-              id: answer.id,
-            })
-            .then((res) => {
-              queryClient.invalidateQueries('experiences');
-              return res;
             });
 
           if (answerError) {
@@ -152,6 +191,9 @@ export default function UpdateBeerMasterExperienceModal({
 
     handleEditModal(false);
     reset();
+    setTimeout(() => {
+      queryClient.invalidateQueries('experiences');
+    }, 300);
   };
 
   const updateExperienceMutation = useMutation({
@@ -198,7 +240,10 @@ export default function UpdateBeerMasterExperienceModal({
               {t('questions_and_answers_experience')}
             </legend>
 
-            <UpdBeerMasterSection form={form} />
+            <UpdBeerMasterQuestions
+              form={form}
+              experienceId={selectedExperience.id}
+            />
           </fieldset>
         )}
       </form>

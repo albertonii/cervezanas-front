@@ -1,15 +1,13 @@
 import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import {
-  IUpdBeerMasterAnswerFormData,
-  IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types';
+import { IUpdModalExperienceBeerMasterFormData } from '../../../../../lib/types';
 import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
+import { DisplayInputError } from '../../common/DisplayInputError';
 
 interface Props {
   form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
@@ -26,7 +24,11 @@ export default function UpdBeerMasterAnswers({
 
   const { supabase } = useAuth();
 
-  const { control, getValues } = form;
+  const {
+    control,
+    getValues,
+    formState: { errors },
+  } = form;
 
   const queryClient = useQueryClient();
 
@@ -39,59 +41,91 @@ export default function UpdBeerMasterAnswers({
     append({ answer: '', is_correct: false, question_id: questionId });
   };
 
-  const handleRemoveAnswer = async (answerIndex: number) => {
-    remove(answerIndex); // We need this here so if we add field we can remove it even if it's not saved in the database
+  /**
+   * - If the answer is saved in the database, we remove it from the database
+   * - If the answer is not saved in the database, we remove it from the form
+   * @param answerIndex
+   * @returns
+   */
+  const handleRemoveAnswer = async (answerId: string) => {
+    if (answerId) {
+      const { error } = await supabase
+        .from('beer_master_answers')
+        .delete()
+        .eq('id', answerId);
 
-    const deleteAnswerId = getValues(
-      `questions.${questionIndex}.answers.${answerIndex}.id`,
+      if (error) {
+        console.log('error', error);
+        return;
+      }
+    }
+
+    // Encuentra el índice basado en el id para eliminar
+    const currentValues = getValues(`questions.${questionIndex}.answers`);
+    const indexToRemove = currentValues.findIndex(
+      (item) => item.id === answerId,
     );
 
-    if (!deleteAnswerId) return;
 
-    const { error } = await supabase
-      .from('beer_master_answers')
-      .delete()
-      .eq('id', deleteAnswerId);
-
-    if (error) {
-      console.log('error', error);
-      return;
+    if (indexToRemove > -1) {
+      remove(indexToRemove);
+      setTimeout(() => {
+        queryClient.invalidateQueries('experiences');
+      }, 300);
     }
-    // Update the answers in the form
-    const updatedAnswers = getValues(`questions.${questionIndex}.answers`);
-    form.setValue(`questions.${questionIndex}.answers`, updatedAnswers);
-
-    queryClient.invalidateQueries('experiences');
   };
 
   return (
     <>
       {fields.map((field, index) => (
-        <section
-          key={field.id}
-          className="grid grid-cols-12 space-x-2 items-end"
-        >
-          <InputLabel
-            inputType="checkbox"
-            form={form}
-            label={`questions.${questionIndex}.answers.${index}.is_correct`}
-            labelText={' '}
-          />
-
-          <div className="col-span-10 ">
+        <>
+          <section
+            key={field.id}
+            className="grid grid-cols-12 space-x-2 items-end"
+          >
             <InputLabel
+              inputType="checkbox"
               form={form}
-              label={`questions.${questionIndex}.answers.${index}.answer`}
-              labelText={`${t('answer')} ${index + 1}`}
-              registerOptions={{ required: true }}
-              placeholder="Answer text"
+              label={`questions.${questionIndex}.answers.${index}.is_correct`}
+              labelText={' '}
             />
-          </div>
 
-          <div className="justify-center items-center">
-            <DeleteButton onClick={() => handleRemoveAnswer(index)} />
-          </div>
-        </section>
+            <div className="col-span-10 ">
+              <InputLabel
+                form={form}
+                label={`questions.${questionIndex}.answers.${index}.answer`}
+                labelText={`${t('answer')} ${index + 1}`}
+                registerOptions={{ required: true }}
+                placeholder="Answer text"
+              />
+            </div>
+
+            <div className="justify-center items-center">
+              <DeleteButton
+                onClick={() =>
+                  handleRemoveAnswer(
+                    getValues(
+                      `questions.${questionIndex}.answers.${index}.id`,
+                    ) as string,
+                  )
+                }
+              />
+            </div>
+          </section>
+
+          {/* Error input displaying */}
+          {errors.questions &&
+            errors.questions[questionIndex] &&
+            errors.questions[questionIndex]!.answers &&
+            errors.questions[questionIndex]?.answers?.[index]?.answer! && (
+              <DisplayInputError
+                message={
+                  errors.questions[questionIndex]?.answers?.[index]?.answer!
+                    .message
+                }
+              />
+            )}
+        </>
       ))}
 
       <div className="grid grid-cols-1 space-y-4 space-x-0 sm:space-y-0 sm:grid-cols-2 sm:space-x-4">

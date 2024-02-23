@@ -9,7 +9,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { BeerMasterSection } from './AddBeerMasterSection';
+import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
 import AddExperienceBasicForm, {
   experience_options,
 } from '../../../(roles)/producer/profile/experiences/AddExperienceBasicForm';
@@ -171,7 +171,7 @@ export default function AddBeerMasterExperienceModal() {
               {t('questions_and_answers_experience')}
             </legend>
 
-            <BeerMasterSection form={form} />
+            <AddBeerMasterQuestions form={form} />
           </fieldset>
         )}
       </form>

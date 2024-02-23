@@ -1,5 +1,7 @@
 import InputLabel from '../../common/InputLabel';
 import UpdBeerMasterAnswers from './UpdBeerMasterAnswers';
+import Button from '../../common/Button';
+import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
@@ -7,13 +9,11 @@ import {
   IUpdBeerMasterQuestionFormData,
   IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types';
-import { DeleteButton } from '../../common/DeleteButton';
-import Button from '../../common/Button';
-import SelectInput from '../../common/SelectInput';
-import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
+import { DeleteButton } from '../../common/DeleteButton';
+import { useAuth } from '../../../(auth)/Context/useAuth';
+import { DisplayInputError } from '../../common/DisplayInputError';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',
@@ -28,18 +28,12 @@ export const experience_options: {
   { label: 'blind_tasting', value: ExperienceTypes.blind_tasting },
 ];
 
-const emptyQuestion: IUpdBeerMasterQuestionFormData = {
-  question: '',
-  answers: [],
-  experience_id: '',
-  product_id: '',
-};
-
 interface Props {
   form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
+  experienceId: string;
 }
 
-export const UpdBeerMasterSection = ({ form }: Props) => {
+export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
   const t = useTranslations();
   const { user, supabase } = useAuth();
 
@@ -48,7 +42,11 @@ export const UpdBeerMasterSection = ({ form }: Props) => {
     value: any;
   }>();
 
-  const { control, getValues } = form;
+  const {
+    control,
+    getValues,
+    formState: { errors },
+  } = form;
   const queryClient = useQueryClient();
   const questionId = getValues('id');
 
@@ -89,28 +87,40 @@ export const UpdBeerMasterSection = ({ form }: Props) => {
   });
 
   const handleAddQuestion = () => {
+    const emptyQuestion: IUpdBeerMasterQuestionFormData = {
+      question: '',
+      answers: [],
+      experience_id: experienceId,
+      product_id: productInputValue?.value ?? listProducts[0].value,
+    };
+
     append(emptyQuestion);
   };
 
+  /**
+   * Delete questions and answers from the database
+   * Remove the question from the form
+   * @param index
+   * @returns
+   */
   const handleRemoveQuestion = async (index: number) => {
     const deleteQuestionId = getValues(`questions.${index}.id`);
 
-    if (!deleteQuestionId) return;
+    if (deleteQuestionId) {
+      const { error } = await supabase
+        .from('beer_master_questions')
+        .delete()
+        .eq('id', deleteQuestionId);
 
-    const { error } = await supabase
-      .from('beer_master_questions')
-      .delete()
-      .eq('id', deleteQuestionId);
-
-    if (error) {
-      console.log('error', error);
-    } else {
-      remove(index);
-      // Update the questions list
-      form.setValue('questions', fields);
-
-      queryClient.invalidateQueries('experiences');
+      if (error) {
+        console.log('error', error);
+      }
     }
+
+    remove(index);
+    setTimeout(() => {
+      queryClient.invalidateQueries('experiences');
+    }, 300);
   };
 
   /**
@@ -168,6 +178,15 @@ export const UpdBeerMasterSection = ({ form }: Props) => {
               <DeleteButton onClick={() => handleRemoveQuestion(index)} />
             </div>
           </div>
+
+          {/* Error input displaying */}
+          {errors.questions &&
+            errors.questions[index] &&
+            errors.questions[index]?.question && (
+              <DisplayInputError
+                message={errors.questions[index]?.question!.message}
+              />
+            )}
 
           {/* Multiple inputs that are the possible answers to the question */}
           <UpdBeerMasterAnswers

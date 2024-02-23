@@ -558,10 +558,25 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 - [ ] Arreglar restablecer contraseña
 
 ### 22 de febrero
-- [ ] Añadir experiencia Cervezanas a un PC en un evento
-- [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
 
-Estamos peleando con el update de Experiencias y Cervezas con Q&A 
+- [ ] Añadir experiencia Cervezanas a un PC en un evento
+- [~] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+
+Estamos peleando con el update de Experiencias y Cervezas con Q&A
 
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Arreglar restablecer contraseña
+
+### 23 de febrero
+
+- [~] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+  1. [x] Añadir Experiencia
+  2. [x] Añadir Cerveza a la experiencia
+  3. [x] Añadir preguntas y respuestas a la experiencia
+  4. [ ] Actualizar Experiencia
+  5. [ ] Actualizar Cerveza de la experiencia
+  6. [ ] Actualizar preguntas y respuestas de la experiencia
+  7. [ ] Eliminar Experiencia
+  8. [ ] Eliminar Cerveza de la experiencia -> Eliminar preguntas y respuestas de la experiencia
+  9. [ ] Error al obtener experiencias (a veces)
+  10. [ ] Display input errors para los formulario de creación y actualización

@@ -8,6 +8,7 @@ import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';
 import { useTranslations } from 'next-intl';
+import { DisplayInputError } from '../../common/DisplayInputError';
 
 const emptyAnswer: IAddBeerMasterAnswerFormData = {
   answer: '',
@@ -25,7 +26,10 @@ export default function AddBeerMasterAnswers({
 }: Props) {
   const t = useTranslations();
 
-  const { control } = form;
+  const {
+    control,
+    formState: { errors },
+  } = form;
 
   const { fields, append, remove } = useFieldArray({
     name: `questions.${questionIndex}.answers`,
@@ -39,36 +43,53 @@ export default function AddBeerMasterAnswers({
   return (
     <>
       {fields.map((field, index) => (
-        <section
-          key={field.id}
-          className="grid grid-cols-12 space-x-2 items-end"
-        >
-          <InputLabel
-            inputType="checkbox"
-            form={form}
-            label={`questions.${questionIndex}.answers.${index}.is_correct`}
-            labelText={' '}
-          />
-
-          <div className="col-span-10 ">
+        <>
+          <section
+            key={field.id}
+            className="grid grid-cols-12 space-x-2 items-end"
+          >
             <InputLabel
+              inputType="checkbox"
               form={form}
-              label={`questions.${questionIndex}.answers.${index}.answer`}
-              labelText={`${t('answer')} ${index + 1}`}
-              registerOptions={{ required: true }}
-              placeholder="Answer text"
+              label={`questions.${questionIndex}.answers.${index}.is_correct`}
+              labelText={' '}
             />
-          </div>
 
-          <div className="justify-center items-center">
-            <DeleteButton onClick={() => remove(index)} />
-          </div>
-        </section>
+            <div className="col-span-10 ">
+              <InputLabel
+                form={form}
+                label={`questions.${questionIndex}.answers.${index}.answer`}
+                labelText={`${t('answer')} ${index + 1}`}
+                registerOptions={{ required: true }}
+                placeholder="Answer text"
+              />
+            </div>
+
+            <div className="justify-center items-center">
+              <DeleteButton onClick={() => remove(index)} />
+            </div>
+          </section>
+
+          {/* Error input displaying */}
+          {errors.questions &&
+            errors.questions[questionIndex] &&
+            errors.questions[questionIndex]!.answers &&
+            errors.questions[questionIndex]?.answers?.[index]?.answer! && (
+              <DisplayInputError
+                message={
+                  errors.questions[questionIndex]?.answers?.[index]?.answer!
+                    .message
+                }
+              />
+            )}
+        </>
       ))}
 
-      <Button small onClick={handleAddAnswer}>
-        {t('add_answer')}
-      </Button>
+      <div className="grid grid-cols-1 space-y-4 space-x-0 sm:space-y-0 sm:grid-cols-2 sm:space-x-4">
+        <Button small onClick={handleAddAnswer}>
+          {t('add_answer')}
+        </Button>
+      </div>
     </>
   );
 }
