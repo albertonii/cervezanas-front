@@ -1425,10 +1425,15 @@ export interface IExperience {
 
 export interface IEventExperience {
   id: string;
+  created_at: string;
   event_id: string;
-  cps_mobile: string[];
-  cps_fixed: string[];
+  cp_mobile_id: string;
+  cp_fixed_id: string;
   experience_id: string;
+  cp_mobile?: ICPMobile;
+  cp_fixed?: ICPFixed;
+  experiences?: IExperience;
+  events?: IEvent;
 }
 
 export interface IExperienceParticipation {

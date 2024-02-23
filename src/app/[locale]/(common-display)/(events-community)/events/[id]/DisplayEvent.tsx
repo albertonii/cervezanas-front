@@ -147,8 +147,8 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
           </div>
         ) : (
           <>
-            <h3 className="mb-2 text-xl font-bold">{t('cp_mobile')}</h3>
-            <p className="text-gray-500">{t('no_cp_mobile')}</p>
+            <h3 className="mb-2 text-xl font-bold">{t('cp_fixed')}</h3>
+            <p className="text-gray-500">{t('no_cp_fixed')}</p>
           </>
         )}
       </section>
