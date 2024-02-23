@@ -30,48 +30,39 @@ export function SearchCheckboxExperiencesCPMobiles({
     control,
   });
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
-
   const handleCheckboxChange = (
-    cpId: string,
+    cpMobileId: string,
     index: number,
     isChecked: boolean,
   ) => {
     if (isChecked) {
-      const cpExperience: { cp_mobile_id: string; experience_id: string } = {
-        cp_mobile_id: cpId,
-        experience_id: experienceId,
-      };
-
-      append(cpExperience);
-
-      // setValue(`event_experiences.${index}.cp_mobile_id`, cpId);
-      // setValue(`event_experiences.${index}.experience_id`, experienceId);
+      // const cpExperience: { cp_mobile_id: string; experience_id: string } = {
+      //   cp_mobile_id: cpMobileId,
+      //   experience_id: experienceId,
+      // };
+      // append(cpExperience);
 
       // Verify if the CP is already in the array
-      if (checkedCPsState.some((item) => item.cp_id === cpId)) return;
-
+      if (checkedCPsState.some((item) => item.cp_id === cpMobileId)) return;
       const cp_check: ICPM_events = {
-        cp_id: cpId,
+        cp_id: cpMobileId,
         event_id: selectedEventId ?? '',
         is_active: false,
       };
       setCheckedCPsState([...checkedCPsState, cp_check]);
+
+      setValue(`event_experiences.${index}.cp_mobile_id`, cpMobileId);
+      setValue(`event_experiences.${index}.experience_id`, experienceId);
     } else {
-      remove(index);
+      // remove(index);
+      setCheckedCPsState(
+        checkedCPsState.filter((item) => item.cp_id !== cpMobileId),
+      );
 
-      // setValue(`event_experiences.${index}.cp_mobile_id`, '');
-      // setValue(`event_experiences.${index}.experience_id`, '');
-
-      setCheckedCPsState(checkedCPsState.filter((item) => item.cp_id !== cpId));
+      setValue(`event_experiences.${index}.cp_mobile_id`, '');
+      setValue(`event_experiences.${index}.experience_id`, '');
     }
   };
-
-  // useEffect(() => {
-  //   setValue('cps_mobile', checkedCPsState);
-  // }, [checkedCPsState]);
 
   const filteredItemsByCPName = useMemo(() => {
     if (!cpsMobile) return [];
@@ -93,31 +84,30 @@ export function SearchCheckboxExperiencesCPMobiles({
           className="h-36 overflow-y-auto px-3 pb-3 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="dropdownSearchButton"
         >
-          {filteredItemsByCPName.map((cp: ICPMobile, index: number) => {
+          {filteredItemsByCPName.map((cp_mobile: ICPMobile, index: number) => {
             return (
               <li
-                key={cp.id}
+                key={cp_mobile.id}
                 className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
               >
                 {/* Checkbox Name  */}
                 <input
-                  id={`checkbox-item-${cp.id}`}
+                  id={`checkbox-item-${cp_mobile.id}`}
                   type="checkbox"
-                  {...register(`event_experiences.${index}.cp_mobile_id`)}
                   checked={checkedCPsState?.some(
-                    (cps_event) => cps_event.cp_id === cp.id,
+                    (cps_event) => cps_event.cp_id === cp_mobile.id,
                   )}
                   onChange={(e) =>
-                    handleCheckboxChange(cp.id, index, e.target.checked)
+                    handleCheckboxChange(cp_mobile.id, index, e.target.checked)
                   }
-                  value={cp.id}
+                  value={cp_mobile.id}
                   className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                 />
                 <label
-                  htmlFor={`checkbox-item-${cp.id}`}
+                  htmlFor={`checkbox-item-${cp_mobile.id}`}
                   className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  {cp.cp_name}
+                  {cp_mobile.cp_name}
                 </label>
               </li>
             );

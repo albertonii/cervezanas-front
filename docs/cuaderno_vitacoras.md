@@ -570,6 +570,7 @@ Estamos peleando con el update de Experiencias y Cervezas con Q&A
 ### 23 de febrero
 
 - [~] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
+
   1. [x] Añadir Experiencia
   2. [x] Añadir Cerveza a la experiencia
   3. [x] Añadir preguntas y respuestas a la experiencia
@@ -580,3 +581,10 @@ Estamos peleando con el update de Experiencias y Cervezas con Q&A
   8. [x] Eliminar preguntas y respuestas de la experiencia
   9. [ ] Error al obtener experiencias (a veces)
   10. [x] Display input errors para los formulario de creación y actualización
+
+- [ ] Experiencia Cervezanas a un PC en un evento
+  1. Añadir experiencia a un nuevo evento
+  2. Actualizar las experiencias en un evento existente
+  3. Mostrar mensajes de error en formulario
+
+- [ ] Visualizar el juego de maestro cervecero en el PC

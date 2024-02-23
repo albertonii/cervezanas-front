@@ -28,9 +28,6 @@ export function Products() {
     setProductModal(product);
   };
 
-  useEffect(() => {
-    console.log('product Modal', productModal);
-  }, [productModal]);
 
   return (
     <section className="px-4 py-6" aria-label="Products">

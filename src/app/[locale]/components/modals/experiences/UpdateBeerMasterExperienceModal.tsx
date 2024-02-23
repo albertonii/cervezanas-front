@@ -86,13 +86,8 @@ export default function UpdateBeerMasterExperienceModal({
     formState: { errors },
   } = form;
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const handleUpdateBeerMasterExperience = async (form: ValidationSchema) => {
     const { name, description, type, questions } = form;
-    console.log(questions);
 
     // Update experience
     const { data: experience, error: experienceError } = await supabase
@@ -116,8 +111,6 @@ export default function UpdateBeerMasterExperienceModal({
 
     // Update questions and answers
     questions.forEach(async (question) => {
-      console.log(question);
-
       // Update question if it exists
       if (question.id) {
         const { error: questionError } = await supabase

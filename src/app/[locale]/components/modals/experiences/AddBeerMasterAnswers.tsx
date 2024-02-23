@@ -36,9 +36,6 @@ export default function AddBeerMasterAnswers({
     control,
   });
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
   const handleAddAnswer = () => {
     append(emptyAnswer);
   };

@@ -280,8 +280,6 @@ export function UpdateProduct({
     formState: { errors },
   } = form;
 
-  useEffect(() => console.log(errors), [errors]);
-
   const queryClient = useQueryClient();
 
   const handleUpdateProduct = async (formValues: any) => {

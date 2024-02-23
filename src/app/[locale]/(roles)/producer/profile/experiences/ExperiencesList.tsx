@@ -90,7 +90,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   }, [filteredItems, sorting]);
 
   const handleEditClick = async (e: IExperience) => {
-    console.log('EXPERIENCE', e);
     setIsEditModal(true);
     setSelectedExperience(e);
   };

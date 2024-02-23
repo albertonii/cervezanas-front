@@ -1,8 +1,8 @@
-import { useTranslations } from 'next-intl';
 import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
 import InputLabel from '../../../../components/common/InputLabel';
 import InputTextarea from '../../../../components/common/InputTextarea';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
   form: UseFormReturn<any, any>;

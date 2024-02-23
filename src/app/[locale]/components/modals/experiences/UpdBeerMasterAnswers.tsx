@@ -55,7 +55,7 @@ export default function UpdBeerMasterAnswers({
         .eq('id', answerId);
 
       if (error) {
-        console.log('error', error);
+        console.error('error', error);
         return;
       }
     }
@@ -65,7 +65,6 @@ export default function UpdBeerMasterAnswers({
     const indexToRemove = currentValues.findIndex(
       (item) => item.id === answerId,
     );
-
 
     if (indexToRemove > -1) {
       remove(indexToRemove);

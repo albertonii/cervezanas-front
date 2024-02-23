@@ -113,7 +113,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
         .eq('id', deleteQuestionId);
 
       if (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     }
 

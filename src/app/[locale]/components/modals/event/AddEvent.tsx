@@ -26,7 +26,7 @@ export type ModalAddEventFormData = {
   cps_mobile?: any[];
   cps_fixed?: any[];
   event_experiences?: {
-    experience_id: string;
+    experience_id?: string;
     cp_mobile_id?: string;
     cp_fixed_id?: string;
   }[];
@@ -43,7 +43,7 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
   cps_fixed: z.any(),
   event_experiences: z.array(
     z.object({
-      experience_id: z.string().nonempty({ message: 'errors.input_required' }),
+      experience_id: z.string().optional(),
       cp_mobile_id: z.string().optional(),
       cp_fixed_id: z.string().optional(),
     }),
@@ -81,13 +81,13 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
   } = form;
 
   useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
-  useEffect(() => {
     // HAY ERROR AQUI PQ ESTÁ GENERANDO CP _ ID Vacios para event experiences
     setValue('event_experiences', []);
   }, []);
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const handleInsertEvent = async (form: ValidationSchema) => {
     const {
@@ -99,6 +99,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       cps_fixed,
       event_experiences,
     } = form;
+
+    console.log(event_experiences);
 
     const formatStartDate = new Date(start_date).toISOString();
     const formatEndDate = new Date(end_date).toISOString();
@@ -172,6 +174,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
     if (event_experiences) {
       event_experiences.map(async (experience) => {
+        if (!experience.experience_id) return;
+
         const { error: experienceError } = await supabase
           .from('event_experiences')
           .insert({
@@ -187,10 +191,11 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
       });
     }
 
-    queryClient.invalidateQueries({ queryKey: ['events'] });
-    setShowModal(false);
-
-    reset();
+    setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: ['events'] });
+      setShowModal(false);
+      reset();
+    }, 300);
   };
 
   const insertEventMutation = useMutation({
