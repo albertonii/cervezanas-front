@@ -20,6 +20,7 @@
 - Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
+- Indicar la relación de aspecto de todas las imágenes para reducir layout shift (cls - Cumulative Layout Shift): https://www.youtube.com/watch?v=RhZPNVshYWI
 
 # WIP
 
@@ -601,3 +602,16 @@ Crear página explicativa que llevará el dossier. Al leer el QR del dossier abr
 Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 Habilitar formulario para feedbacks/reporte de errores
+
+
+### 26 de febrero
+
+- [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+
+- [ ] Habilitar formulario para feedbacks/reporte de errores
+
+- [ ] Visualizar el juego de maestro cervecero en el PC
+  2. [ ] Cards para preguntas y respuestas
+  3. [ ] Loop a través de las preguntas en el juego
+  4. [ ] Al final mostrar cerveza en juego
+  5. [ ] Mostrar puntuación

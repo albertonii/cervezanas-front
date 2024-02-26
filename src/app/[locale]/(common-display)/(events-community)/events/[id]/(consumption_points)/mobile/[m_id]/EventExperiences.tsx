@@ -8,7 +8,7 @@ interface Props {
 
 export default function EventExperiences({ eventExperiences }: Props) {
   return (
-    <section className="bg-beer-softFoam p-4 rounded-md shadow-xl">
+    <section className="w-fit sm:max-w-lg max-w-md">
       {eventExperiences.map((experience) => {
         return <EventExperienceDetails eventExperience={experience} />;
       })}

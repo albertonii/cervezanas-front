@@ -7,7 +7,6 @@ import { IEventExperience } from '../../../../../../../../lib/types';
 
 export default async function CPMobilePage({ params }: any) {
   const { ex_id: eventExperienceId } = params;
-  console.log('DENTRO');
   const eventExperienceData = getEventExperience(eventExperienceId);
   const [eventExperience] = await Promise.all([eventExperienceData]);
 

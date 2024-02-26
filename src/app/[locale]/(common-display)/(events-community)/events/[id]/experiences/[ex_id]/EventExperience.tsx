@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Button from '../../../../../../components/common/Button';
 import { useTranslation } from 'react-i18next';
 import { IEventExperience } from '../../../../../../../../lib/types';
@@ -11,7 +13,7 @@ export default function EventExperience({ eventExperience }: Props) {
   const t = useTranslation();
   const { experiences: experience } = eventExperience;
 
-  const [participate, setParticipate] = React.useState(false);
+  const [participate, setParticipate] = useState(false);
 
   const handleOnClickParticipate = () => {
     setParticipate(true);

@@ -16,22 +16,29 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
   const locale = useLocale();
 
   const handleOnClick = () => {
-    console.log(eventExperience.id);
     router.push(
       `/${locale}/events/${eventExperience.event_id}/experiences/${eventExperience?.id}`,
     );
   };
 
   return (
-    <section>
-      <div>Tipo de experiencia: {t(experience?.type)}</div>
+    <section className="relative bg-beer-softFoam p-4 rounded-md shadow-xl space-y-4">
+      <div className="absolute top-2 right-2 font-semibold ">
+        {experience?.price} €
+      </div>
 
-      <div>Nombre: {experience?.name}</div>
-      <div> Descripcioón: {experience?.description}</div>
-      <div> Precio: {experience?.price}</div>
+      <div className="flex justify-between">
+        <div className="font-semibold">{experience?.name}</div>
+        <div>Tipo de experiencia: {t(experience?.type)}</div>
+      </div>
+
+      <div className="flex flex-col">
+        Descripción:
+        <span>{experience?.description}</span>
+      </div>
 
       <Button title={t('participate')} accent small onClick={handleOnClick}>
-        {t('access')}
+        {t('participate')}
       </Button>
     </section>
   );
