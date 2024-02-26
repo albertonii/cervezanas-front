@@ -2,15 +2,14 @@
 
 import React, { useState } from 'react';
 import Button from '../../../../../../components/common/Button';
-import { useTranslation } from 'react-i18next';
 import { IEventExperience } from '../../../../../../../../lib/types';
+import QuizPanel from '../../../../../../components/quiz/QuizPanel';
 
 interface Props {
   eventExperience: IEventExperience;
 }
 
 export default function EventExperience({ eventExperience }: Props) {
-  const t = useTranslation();
   const { experiences: experience } = eventExperience;
 
   const [participate, setParticipate] = useState(false);
@@ -38,40 +37,11 @@ export default function EventExperience({ eventExperience }: Props) {
         Participar
       </Button>
 
-      {participate && (
+      {participate && experience && (
         <section>
           <div>Participante registrado</div>
 
-          <Button
-            class={
-              'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
-            }
-            title={'access'}
-          >
-            Acceder
-          </Button>
-
-          {experience?.bm_questions?.map((question) => {
-            return (
-              <section className="bg-beer-softFoam p-4 shadow-xl rounded-md">
-                <div>{question.question}</div>
-                <div>
-                  {question.answers.map((answer) => {
-                    return (
-                      <div>
-                        <input
-                          type="radio"
-                          name={question.question}
-                          value={answer.answer}
-                        />
-                        <label>{answer.answer}</label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            );
-          })}
+          <QuizPanel experience={experience} />
         </section>
       )}
     </section>

@@ -1446,11 +1446,26 @@ export interface IExperienceParticipation {
   score: number;
 }
 
+export interface IBeerMasterQuestionParticipationFormData {
+  question: string;
+  difficulty: number;
+  experience_id: string;
+  product_id: string;
+  answers: IBeerMasterAnswerParticipationFormData[];
+}
+
+export interface IBeerMasterAnswerParticipationFormData {
+  selected_id: string;
+  answer: string;
+  is_correct: boolean;
+}
+
 export interface IBeerMasterQuestion {
   id: string;
   question: string;
   experience_id: string;
   product_id: string;
+  difficulty: number;
   answers: IBeerMasterAnswer[];
   beer_master_participation?: IExperienceParticipation;
   products?: IProduct;
