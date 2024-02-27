@@ -41,13 +41,6 @@ export function Homeheader() {
           height={300}
           alt="Banner"
         />
-        <Image
-          style={{ aspectRatio: '845/291' }}
-          src="/assets/home/prueba-error-.webp"
-          width={1400}
-          height={300}
-          alt="Banner"
-        />
       </figure>
     </>
   );

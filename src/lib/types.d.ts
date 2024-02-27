@@ -1436,7 +1436,7 @@ export interface IEventExperience {
   events?: IEvent;
 }
 
-export interface IBMExperienceParticipation {
+export interface IExperienceParticipation {
   id: string;
   created_at: string;
   gamification_id: string;
@@ -1444,8 +1444,6 @@ export interface IBMExperienceParticipation {
   cpm_id: string;
   cpf_id: string;
   score: number;
-  is_paid: boolean;
-  is_cash: boolean;
 }
 
 export interface IBeerMasterQuestionParticipationFormData {
@@ -1469,7 +1467,7 @@ export interface IBeerMasterQuestion {
   product_id: string;
   difficulty: number;
   answers: IBeerMasterAnswer[];
-  beer_master_participation?: IBMExperienceParticipation;
+  beer_master_participation?: IExperienceParticipation;
   products?: IProduct;
 }
 
@@ -1484,7 +1482,7 @@ export interface IBeerMasterAnswer {
 export interface IAddBeerMasterQuestionFormData {
   question: string;
   answers: IAddBeerMasterAnswerFormData[];
-  beer_master_participation?: IBMExperienceParticipation;
+  beer_master_participation?: IExperienceParticipation;
   product_id: string;
 }
 export interface IAddBeerMasterAnswerFormData {
