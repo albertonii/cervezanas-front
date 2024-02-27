@@ -603,15 +603,14 @@ Breve explicación de cómo es el juego de maestro cervecero. Información acerc
 
 Habilitar formulario para feedbacks/reporte de errores
 
-
 ### 26 de febrero
 
 - [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 - [ ] Habilitar formulario para feedbacks/reporte de errores
 
-- [ ] Visualizar el juego de maestro cervecero en el PC
-  2. [ ] Cards para preguntas y respuestas
-  3. [ ] Loop a través de las preguntas en el juego
-  4. [ ] Al final mostrar cerveza en juego
-  5. [ ] Mostrar puntuación
+- [~] Visualizar el juego de maestro cervecero en el PC 2. [ ] Cards para preguntas y respuestas 3. [ ] Loop a través de las preguntas en el juego 4. [ ] Al final mostrar cerveza en juego 5. [ ] Mostrar puntuación
+
+### 27 de febrero
+
+- [~] Visualizar el juego de maestro cervecero en el PC 2. [x] Cards para preguntas y respuestas 3. [x] Loop a través de las preguntas en el juego 4. [ ] Al final mostrar cerveza en juego 5. [ ] Mostrar puntuación

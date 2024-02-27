@@ -14,7 +14,7 @@ type QuizFormData = {
 };
 
 const quizSchema: ZodType<QuizFormData> = z.object({
-  question: z.array(
+  question : z.array(
     z.object({
       question: z.string(),
       difficulty: z.number(),

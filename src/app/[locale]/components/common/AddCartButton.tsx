@@ -1,6 +1,6 @@
-import React from "react";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "./IconButton";
+import React from 'react';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from './IconButton';
 
 interface Props {
   onClick?: () => void;
@@ -16,7 +16,7 @@ export function AddCardButton({ onClick }: Props) {
       isActive={false}
       primary
       classSpanChildren="pl-0 pr-1 py-1"
-      title={"Add to cart"}
+      title={'Add to cart'}
     />
   );
 }

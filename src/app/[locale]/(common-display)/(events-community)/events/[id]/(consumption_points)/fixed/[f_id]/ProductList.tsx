@@ -1,5 +1,5 @@
 import React from "react";
-import CPFProduct from "./CPFProduct";
+import CPFProduct from "./CPFProductItem";
 import { useTranslations } from "next-intl";
 import { ICPFixed, ICPMProducts } from "../../../../../../../../../lib/types";
 

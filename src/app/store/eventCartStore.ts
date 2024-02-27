@@ -206,6 +206,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
     },
     getPackQuantity: (eventId, productId, cpId, packId) => {
       const eventItems = get().eventCarts[eventId] || [];
+
       const product = eventItems.find(
         (item) =>
           (item.product_id === productId && item.cpm_id === cpId) ||
@@ -213,11 +214,11 @@ const useEventCartStore = create<EventCartState>((set, get) => {
       );
 
       if (product) {
-        const pack = product.packs.find((p) => p.product_id === packId);
-        if (pack) {
-          return pack.quantity;
-        }
+        console.log('PRODUCT', product);
+        const pack = product.packs.find((p: IProductPack) => p.id === packId);
+        return pack ? pack.quantity : 0;
       }
+
       return 0;
     },
     existEventCart: (eventId) => {

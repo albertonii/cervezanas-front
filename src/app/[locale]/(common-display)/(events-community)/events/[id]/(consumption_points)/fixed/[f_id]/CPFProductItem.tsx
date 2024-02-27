@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import DisplayImageProduct from '../../../../../../../components/common/DisplayImageProduct';
 import MarketCartButtons2 from '../../../../../../../components/common/MarketCartButtons2';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '../../../../../../../../../constants';
 import {
@@ -9,9 +9,9 @@ import {
   IEventProduct,
   IProductPack,
 } from '../../../../../../../../../lib/types';
+import useEventCartStore from '../../../../../../../../store/eventCartStore';
 import { formatCurrency } from '../../../../../../../../../utils/formatCurrency';
 import { AddCardButton } from '../../../../../../../components/common/AddCartButton';
-import useEventCartStore from '../../../../../../../../store/eventCartStore';
 
 interface ProductProps {
   pack: IProductPack;
@@ -20,7 +20,7 @@ interface ProductProps {
   cpFixed: ICPFixed;
 }
 
-export default function CPFProduct({
+export default function CPFProductItem({
   pack,
   cpfId,
   eventId,
@@ -36,13 +36,19 @@ export default function CPFProduct({
     addPackToCart,
     increaseOnePackCartQuantity,
     decreaseOnePackCartQuantity,
+    existEventCart,
+    createNewCart,
   } = useEventCartStore();
 
   const { name, price, product_id, products: product, quantity } = pack;
 
-  const [packQuantity, setPackQuantity] = React.useState(0);
+  const [packQuantity, setPackQuantity] = useState(0);
 
   useEffect(() => {
+    if (!existEventCart(eventId)) {
+      createNewCart(eventId);
+    }
+
     setPackQuantity(
       getPackQuantity(eventId, pack.product_id, cpFixed.id, pack.id),
     );

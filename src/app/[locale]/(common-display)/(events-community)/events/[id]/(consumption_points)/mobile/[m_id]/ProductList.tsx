@@ -1,5 +1,5 @@
 import React from "react";
-import CPMProduct from "./CPMProduct";
+import CPMProduct from "./CPMProductItem";
 import { useTranslations } from "next-intl";
 import { ICPMobile, ICPMProducts } from "../../../../../../../../../lib/types";
 

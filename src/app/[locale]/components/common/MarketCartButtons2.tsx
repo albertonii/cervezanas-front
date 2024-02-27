@@ -1,8 +1,8 @@
-import React from "react";
-import { DeleteButton } from "./DeleteButton";
-import { IconButton } from "./IconButton";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import debounce from "debounce";
+import React from 'react';
+import { DeleteButton } from './DeleteButton';
+import { IconButton } from './IconButton';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import debounce from 'debounce';
 
 interface Props {
   quantity: number;
@@ -13,7 +13,7 @@ interface Props {
   displayDeleteButton?: boolean;
 }
 
-export default function MarketCartButtons({
+export default function MarketCartButtons2({
   quantity,
   item,
   handleIncreaseCartQuantity,
