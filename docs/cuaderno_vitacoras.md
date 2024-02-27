@@ -614,3 +614,6 @@ Habilitar formulario para feedbacks/reporte de errores
 ### 27 de febrero
 
 - [~] Visualizar el juego de maestro cervecero en el PC 2. [x] Cards para preguntas y respuestas 3. [x] Loop a través de las preguntas en el juego 4. [ ] Al final mostrar cerveza en juego 5. [ ] Mostrar puntuación
+
+- Habilitar tiempo real para tabla participate_experience.
+- ERROR get().eventCarts is undefined -> SOLUCIONAR.
