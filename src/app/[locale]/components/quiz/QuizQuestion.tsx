@@ -1,8 +1,11 @@
 import Button from '../common/Button';
 import QuizAnswer from './QuizAnswer';
 import React, { useEffect, useState } from 'react';
-import { IBeerMasterQuestion } from '../../../../lib/types';
 import { UseFormReturn } from 'react-hook-form';
+import {
+  IBeerMasterQuestion,
+  IBMExperienceParticipants,
+} from '../../../../lib/types';
 import { DisplayInputError } from '../common/DisplayInputError';
 
 interface Props {
@@ -11,6 +14,7 @@ interface Props {
   indexQuestion: number;
   setIndexQuestion: (index: number) => void;
   form: UseFormReturn<any, any>;
+  experienceParticipant: IBMExperienceParticipants;
 }
 
 export default function QuizQuestion({
@@ -19,6 +23,7 @@ export default function QuizQuestion({
   indexQuestion,
   setIndexQuestion,
   form,
+  experienceParticipant,
 }: Props) {
   const {
     trigger,
@@ -88,6 +93,7 @@ export default function QuizQuestion({
                   selectIndexAnswer={selectAnswerIndex}
                   questionAnswered={questionAnswered}
                   form={form}
+                  experienceParticipant={experienceParticipant}
                 />
               </div>
             );

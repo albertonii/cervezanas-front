@@ -1,42 +1,58 @@
 import QuizQuestion from './QuizQuestion';
-import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
+import { useMutation } from 'react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  IBeerMasterQuestionParticipationFormData,
+  IBMExperienceParticipants,
+  IBMExperienceUserResponseFormData,
   IExperience,
 } from '../../../../lib/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'react-query';
 
 type QuizFormData = {
-  question: IBeerMasterQuestionParticipationFormData[];
+  // questions: IBeerMasterQuestionParticipationFormData[];
+  answers: IBMExperienceUserResponseFormData[];
 };
 
 const quizSchema: ZodType<QuizFormData> = z.object({
-  question : z.array(
+  answers: z.array(
     z.object({
-      question: z.string(),
-      difficulty: z.number(),
-      experience_id: z.string(),
-      product_id: z.string(),
-      answers: z.array(
-        z.object({
-          selected_id: z
-            .string()
-            .nonempty({ message: 'errors.input_required' }),
-          answer: z.string().nonempty({ message: 'errors.input_required' }),
-          is_correct: z.boolean(),
-        }),
-      ),
+      question_id: z.string().nonempty({ message: 'errors.input_required' }),
+      answer_id: z.string().nonempty({ message: 'errors.input_required' }),
+      participation_id: z
+        .string()
+        .nonempty({ message: 'errors.input_required' }),
+      is_correct: z.boolean(),
     }),
   ),
 });
+
+// const quizSchema: ZodType<QuizFormData> = z.object({
+//   questions: z.array(
+//     z.object({
+//       question: z.string(),
+//       difficulty: z.number(),
+//       experience_id: z.string(),
+//       product_id: z.string(),
+//       answers: z.array(
+//         z.object({
+//           selected_id: z
+//             .string()
+//             .nonempty({ message: 'errors.input_required' }),
+//           answer: z.string().nonempty({ message: 'errors.input_required' }),
+//           is_correct: z.boolean(),
+//         }),
+//       ),
+//     }),
+//   ),
+// });
 
 type QuizValidationSchema = z.infer<typeof quizSchema>;
 
 interface Props {
   experience: IExperience;
+  experienceParticipant: IBMExperienceParticipants;
 }
 
 // Función para barajar las preguntas de cada categoría y también reducirla al número de 5
@@ -45,7 +61,10 @@ interface Props {
 // 	return newArray.slice(0, 5);
 // };
 
-export default function QuizPanel({ experience }: Props) {
+export default function QuizPanel({
+  experience,
+  experienceParticipant,
+}: Props) {
   const [indexQuestion, setIndexQuestion] = useState(0);
   const [filteredQuestions, setFilteredQuestions] = useState(
     experience?.bm_questions ?? [],
@@ -99,6 +118,7 @@ export default function QuizPanel({ experience }: Props) {
                     indexQuestion={index}
                     setIndexQuestion={setIndexQuestion}
                     form={quizForm}
+                    experienceParticipant={experienceParticipant}
                   />
                 </div>
               )
