@@ -149,16 +149,6 @@ export default function QuizPanel({
             </div>
           ))}
 
-          {/* 
-          <QuestionCard
-            currentQuestionIndex={currentQuestionIndex}
-            question={questions[currentQuestionIndex].question}
-            answers={questions[currentQuestionIndex].answers}
-            userAnswer={userAnswers[currentQuestionIndex]}
-            correctAnswer={questions[currentQuestionIndex].correct_answer}
-            onClick={handleOnAnswerClick}
-          /> */}
-
           <div className="flex justify-between mt-16">
             <Button small accent onClick={() => handleChangeQuestion(-1)}>
               {t('back')}

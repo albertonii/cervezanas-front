@@ -51,6 +51,8 @@ export default function results({
         </div>
       ))}
 
+      <p>Respuestas correctas</p>
+
       <ul>
         {questions.map((question, index) => (
           <li key={index} className={``}>
