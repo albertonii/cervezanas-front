@@ -4,16 +4,18 @@ import Button from '../../common/Button';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import {
-  IProduct,
-  IUpdBeerMasterQuestionFormData,
-  IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/types';
+import { IProduct } from '../../../../../lib/types/types';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { DeleteButton } from '../../common/DeleteButton';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { DisplayInputError } from '../../common/DisplayInputError';
+import {
+  Difficulty,
+  IUpdBeerMasterQuestionFormData,
+  IUpdModalExperienceBeerMasterFormData,
+} from '../../../../../lib/types/quiz';
+import SelectInput from '../../common/SelectInput';
 
 enum ExperienceTypes {
   beer_master = 'beer_master',
@@ -47,6 +49,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
     getValues,
     formState: { errors },
   } = form;
+
   const queryClient = useQueryClient();
   const questionId = getValues('id');
 
@@ -88,10 +91,15 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
 
   const handleAddQuestion = () => {
     const emptyQuestion: IUpdBeerMasterQuestionFormData = {
-      question: '',
-      answers: [],
+      question: {
+        category: 'beer',
+        difficulty: Difficulty.MEDIUM,
+        question: '',
+        type: 'multiple',
+        answers: [],
+      },
+      product_id: listProducts[0].value,
       experience_id: experienceId,
-      product_id: productInputValue?.value ?? listProducts[0].value,
     };
 
     append(emptyQuestion);
@@ -108,7 +116,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
 
     if (deleteQuestionId) {
       const { error } = await supabase
-        .from('beer_master_questions')
+        .from('bm_questions')
         .delete()
         .eq('id', deleteQuestionId);
 
@@ -159,40 +167,56 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
         </select>
       </div>
 
-      {fields.map((field, index) => (
+      {fields.map((question, questionIndex) => (
         <fieldset
-          key={field.id}
+          key={question.id}
           className="relative flex-auto space-y-4 pt-6 mt-4 rounded-md border-2 border-dotted border-beer-softBlondeBubble p-4"
         >
-          <div className="flex flex-row items-end">
+          <div className="flex flex-row items-end space-x-4">
             <InputLabel
               form={form}
-              label={`questions.${index}.question`}
-              labelText={`${index + 1} ${t('question')}`}
+              label={`questions.${questionIndex}.question.question`}
+              labelText={`${questionIndex + 1} ${t('question')}`}
               registerOptions={{
                 required: true,
               }}
               placeholder={t('input_questions_question_placeholder')}
             />
 
+            <SelectInput
+              form={form}
+              options={[
+                { label: 'easy', value: 'easy' },
+                { label: 'medium', value: 'medium' },
+                { label: 'hard', value: 'hard' },
+              ]}
+              label={`questions.${questionIndex}.question.difficulty`}
+              labelText={`difficulty`}
+              registerOptions={{
+                required: true,
+              }}
+            />
+
             <div className="ml-4">
-              <DeleteButton onClick={() => handleRemoveQuestion(index)} />
+              <DeleteButton
+                onClick={() => handleRemoveQuestion(questionIndex)}
+              />
             </div>
           </div>
 
           {/* Error input displaying */}
           {errors.questions &&
-            errors.questions[index] &&
-            errors.questions[index]?.question && (
+            errors.questions[questionIndex] &&
+            errors.questions[questionIndex]?.question && (
               <DisplayInputError
-                message={errors.questions[index]?.question!.message}
+                message={errors.questions[questionIndex]?.question!.message}
               />
             )}
 
           {/* Multiple inputs that are the possible answers to the question */}
           <UpdBeerMasterAnswers
             form={form}
-            index={index}
+            questionIndex={questionIndex}
             questionId={questionId}
           />
         </fieldset>

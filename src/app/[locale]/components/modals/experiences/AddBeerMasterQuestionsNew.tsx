@@ -31,10 +31,6 @@ export const AddBeerMasterQuestionsNew = ({ form }: Props) => {
 
   const { data } = useFetchProductsByOwner(user?.id);
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const [productInputValue, setProductInputValue] = useState<{
     label: string;
     value: any;

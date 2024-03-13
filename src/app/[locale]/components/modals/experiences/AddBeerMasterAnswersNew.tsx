@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '../../common/Button';
 import InputLabel from '../../common/InputLabel';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IAddBeerMasterAnswerFormData } from '../../../../../lib/types/types';
+import { AnswerFormData } from '../../../../../lib/types/quiz';
 import { DeleteButton } from '../../common/DeleteButton';
 import { useTranslations } from 'next-intl';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
 
-const emptyAnswer: IAddBeerMasterAnswerFormData = {
+const emptyAnswer: AnswerFormData = {
   answer: '',
   is_correct: false,
 };
@@ -37,10 +37,6 @@ export default function AddBeerMasterAnswersNew({
   const handleAddAnswer = () => {
     append(emptyAnswer);
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   /**
    * - If the answer is saved in the database, we remove it from the database

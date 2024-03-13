@@ -1,6 +1,6 @@
 'use client';
 
-import { IExperience } from '../lib/types/types';
+import { IExperience } from '../lib/types/quiz';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
@@ -19,17 +19,15 @@ const fetchExperiencesByProducerId = async (
     .select(
       `
         *,
-        bm_questions: beer_master_questions (
+        bm_questions (
           id,
           question,
           experience_id,
           product_id,
-          answers: beer_master_answers (
-            id,
-            answer,
-            question_id,
-            is_correct
-          )
+          correct_answer,
+          incorrect_answers,
+          difficulty,
+          type
         )
       `,
       {

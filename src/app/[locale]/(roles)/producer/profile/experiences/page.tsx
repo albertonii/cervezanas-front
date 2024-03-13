@@ -1,10 +1,10 @@
+import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../lib/actions';
+import Experiences from './Experiences';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { VIEWS } from '../../../../../../constants';
-import createServerClient from '../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../lib/actions';
-import { IExperience } from '../../../../../../lib/types/types';
-import Experiences from './Experiences';
+import { IExperience } from '../../../../../../lib/types/quiz';
 
 export default async function EventsPage() {
   const experiencesData = getExperiencesData();
@@ -35,12 +35,15 @@ async function getExperiencesData() {
     .select(
       `
         *,
-        bm_questions: beer_master_questions (
+        bm_questions (
           id,
           question,
           experience_id,
           product_id,
-          answers: beer_master_answers (*)
+          correct_answer,
+          incorrect_answers,
+          difficulty,
+          type
         )
       `,
     )

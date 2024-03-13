@@ -1,23 +1,32 @@
+import Button from '../../common/Button';
+import InputLabel from '../../common/InputLabel';
 import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IUpdModalExperienceBeerMasterFormData } from '../../../../../lib/types/types';
-import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
-import Button from '../../common/Button';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
 import { DisplayInputError } from '../../common/DisplayInputError';
+import {
+  AnswerFormData,
+  IUpdModalExperienceBeerMasterFormData,
+} from '../../../../../lib/types/quiz';
+import { defaultOverrides } from 'next/dist/server/require-hook';
+
+const emptyAnswer: AnswerFormData = {
+  answer: '',
+  is_correct: false,
+};
 
 interface Props {
   form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
-  index: number;
+  questionIndex: number;
   questionId: string;
 }
 
 export default function UpdBeerMasterAnswers({
   form,
-  index: questionIndex,
+  questionIndex,
   questionId,
 }: Props) {
   const t = useTranslations();
@@ -33,12 +42,12 @@ export default function UpdBeerMasterAnswers({
   const queryClient = useQueryClient();
 
   const { fields, append, remove } = useFieldArray({
-    name: `questions.${questionIndex}.answers`,
+    name: `questions.${questionIndex}.question.answers`,
     control,
   });
 
   const handleAddAnswer = () => {
-    append({ answer: '', is_correct: false, question_id: questionId });
+    append(emptyAnswer);
   };
 
   /**
@@ -61,7 +70,9 @@ export default function UpdBeerMasterAnswers({
     }
 
     // Encuentra el índice basado en el id para eliminar
-    const currentValues = getValues(`questions.${questionIndex}.answers`);
+    const currentValues = getValues(
+      `questions.${questionIndex}.question.answers`,
+    );
     const indexToRemove = currentValues.findIndex(
       (item) => item.id === answerId,
     );
@@ -74,6 +85,8 @@ export default function UpdBeerMasterAnswers({
     }
   };
 
+  console.log(fields);
+
   return (
     <>
       {fields.map((field, index) => (
@@ -85,14 +98,14 @@ export default function UpdBeerMasterAnswers({
             <InputLabel
               inputType="checkbox"
               form={form}
-              label={`questions.${questionIndex}.answers.${index}.is_correct`}
+              label={`questions.${questionIndex}.question.answers.${index}.is_correct`}
               labelText={' '}
             />
 
             <div className="col-span-10 ">
               <InputLabel
                 form={form}
-                label={`questions.${questionIndex}.answers.${index}.answer`}
+                label={`questions.${questionIndex}.question.answers.${index}.answer`}
                 labelText={`${t('answer')} ${index + 1}`}
                 registerOptions={{ required: true }}
                 placeholder="Answer text"
@@ -104,7 +117,7 @@ export default function UpdBeerMasterAnswers({
                 onClick={() =>
                   handleRemoveAnswer(
                     getValues(
-                      `questions.${questionIndex}.answers.${index}.id`,
+                      `questions.${questionIndex}.question.answers.${index}.id`,
                     ) as string,
                   )
                 }
@@ -115,11 +128,12 @@ export default function UpdBeerMasterAnswers({
           {/* Error input displaying */}
           {errors.questions &&
             errors.questions[questionIndex] &&
-            errors.questions[questionIndex]!.answers &&
-            errors.questions[questionIndex]?.answers?.[index]?.answer! && (
+            errors.questions[questionIndex]?.question?.answers &&
+            errors.questions[questionIndex]?.question?.answers?.[index]
+              ?.answer && (
               <DisplayInputError
                 message={
-                  errors.questions[questionIndex]?.answers?.[index]?.answer!
+                  errors.questions[questionIndex]?.question?.answers?.[index]!
                     .message
                 }
               />

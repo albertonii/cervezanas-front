@@ -35,7 +35,7 @@ export default function QuizQuestion({
   const [questionAnswered, setQuestionAnswered] = useState(false);
 
   useEffect(() => {
-    console.log(errors);
+    console.log('ERRORS', errors);
   }, [errors]);
 
   const onNextQuestion = () => {

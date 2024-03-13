@@ -7,13 +7,13 @@ import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteBeerMasterExperienceModal';
-import UpdateBeerMasterExperienceModal from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IExperience } from '../../../../../../lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
+import UpdateBeerMasterExperienceModalNew from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModalNew';
+import { IExperience } from '../../../../../../lib/types/quiz';
 
 enum SortBy {
   NONE = 'none',
@@ -110,7 +110,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
   return (
     <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
       {isEditModal && selectedExperience && (
-        <UpdateBeerMasterExperienceModal
+        <UpdateBeerMasterExperienceModalNew
           selectedExperience={selectedExperience}
           isEditModal={isEditModal}
           handleEditModal={handleEditModal}

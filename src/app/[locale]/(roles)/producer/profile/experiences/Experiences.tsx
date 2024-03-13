@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IExperience } from '../../../../../../lib/types/types';
+import { IExperience } from '../../../../../../lib/types/quiz';
 import AddExperience from '../../../../components/modals/experiences/AddBeerMasterExperienceModalNew';
 import ExperienceList from './ExperiencesList';
 

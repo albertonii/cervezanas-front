@@ -214,7 +214,6 @@ const useEventCartStore = create<EventCartState>((set, get) => {
       );
 
       if (product) {
-        console.log('PRODUCT', product);
         const pack = product.packs.find((p: IProductPack) => p.id === packId);
         return pack ? pack.quantity : 0;
       }

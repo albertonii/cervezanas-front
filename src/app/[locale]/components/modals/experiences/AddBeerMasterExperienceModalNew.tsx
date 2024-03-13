@@ -97,6 +97,7 @@ export default function AddBeerMasterExperienceModalNew() {
 
     // Insert questions and answers
     questions.forEach(async (q) => {
+      // Correct answer
       const correctAnswer: string =
         q.question.answers.find((a) => a.is_correct)?.answer || '';
 
