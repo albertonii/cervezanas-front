@@ -18,6 +18,7 @@
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
 - Indicar la relación de aspecto de todas las imágenes para reducir layout shift (cls - Cumulative Layout Shift): https://www.youtube.com/watch?v=RhZPNVshYWI
+- Eliminar los carritos de compra cada cierto tiempo para que no estén desincronizada la información y evitar errores.
 
 # WIP
 
