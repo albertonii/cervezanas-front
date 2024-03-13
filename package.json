@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "dev-turbo": "cross-env NODE_OPTIONS='--inspect' next dev --turbo",
+    "install": "pnpm install",
     "build": "next build",
     "start": "next start ",
     "lint:check": "next lint",

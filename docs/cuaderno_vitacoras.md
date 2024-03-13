@@ -627,13 +627,13 @@ Habilitar formulario para feedbacks/reporte de errores
 
 ---
 
-- [~] Optimizar estructura del juego de maestro cervecero
+- [x] Optimizar estructura del juego de maestro cervecero
 
 1. [x] Nueva estructura de datos
 2. [x] Modal para añadir experiencia con el juego
 3. [x] Modal para editar la experiencia con el juego
 4. [x] Modal para eliminar la experiencia con el juego
-5. [ ] Eliminar el modelo de datos antiguo en BBDD DEV
+5. [x] Eliminar el modelo de datos antiguo en BBDD DEV
 
 - [~] Visualizar el juego de maestro cervecero en el PC
 
@@ -642,4 +642,4 @@ Habilitar formulario para feedbacks/reporte de errores
 3. [x] Al final mostrar cerveza/as en juego
 4. [x] Mostrar puntuación
 5. [ ] Hay veces donde no se muestra el juego una vez que está pagado.
-6. [ ] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
+6. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
