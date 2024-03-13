@@ -1,9 +1,4 @@
-import {
-  ICPFixed,
-  ICPMobile,
-  IEvent,
-  IProducerUser,
-} from './types';
+import { ICPFixed, ICPMobile, IEvent, IProducerUser } from './types';
 
 export enum Difficulty {
   EASY = 'easy',
@@ -108,4 +103,15 @@ export interface IBMExperienceParticipants {
   is_finished: boolean;
   correct_answers: number;
   incorrect_answers: number;
+}
+
+export interface IBMExperienceUserResponse {
+  id?: string;
+  created_at: string;
+  participation_id: string;
+  is_correct: boolean;
+  answer: string;
+  score: number;
+  question_id: string;
+  question?: Question;
 }

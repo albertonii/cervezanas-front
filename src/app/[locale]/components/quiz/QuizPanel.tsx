@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { z, ZodType } from 'zod';
 import { IBMExperienceUserResponseFormData } from '../../../../lib/types/types';
 import {
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import QuestionCard from './QuestionCard';
 import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
 
 type QuizFormData = {
   answers: IBMExperienceUserResponseFormData[];
@@ -34,14 +35,19 @@ interface Props {
   questions: QuestionsState;
   experience: IExperience;
   experienceParticipant: IBMExperienceParticipants;
+  handleIsFinished: ComponentProps<any>;
 }
 
 export default function QuizPanel({
   questions,
   experience,
   experienceParticipant,
+  handleIsFinished,
 }: Props) {
   const t = useTranslations();
+
+  const { supabase } = useAuth();
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [score, setScore] = React.useState(0);
   const [userAnswers, setUserAnswers] = React.useState<Record<number, string>>(
@@ -51,8 +57,6 @@ export default function QuizPanel({
   const totalQuestions = questions.length;
 
   const isQuestionAnswered = userAnswers[currentQuestionIndex] ? true : false;
-
-  const router = useRouter();
 
   const handleOnAnswerClick = (
     answer: string,
@@ -74,12 +78,40 @@ export default function QuizPanel({
     setCurrentQuestionIndex(newQuestionIndex);
   };
 
+  const handleSubmitGame = async () => {
+    // loop through the user answers and
+    // sent the data to the server
+    questions.map(async (question) => {
+      const isCorrect =
+        questions[currentQuestionIndex].correct_answer ===
+        userAnswers[currentQuestionIndex];
+
+      const userAnswer = userAnswers[currentQuestionIndex];
+
+      const { data, error } = await supabase
+        .from('bm_experience_user_responses')
+        .insert({
+          participation_id: experienceParticipant.id,
+          is_correct: isCorrect,
+          answer: userAnswer,
+          score: score,
+          question_id: question.id,
+        });
+
+      if (error) {
+        console.error(error);
+      }
+    });
+
+    handleIsFinished(true);
+  };
+
   return (
     <div className=" text-white text-center bg-beer-softBlondeBubble p-4 rounded-lg shadow-lg border-beer-darkGold border-2">
       <p className="p-8 font-bold text-[20px]">
         {t('score')}: {score}
       </p>
-      <p className="text-beer-draft font-bold pb-2 text-[14px]">
+      <p className="text-beer-draft  font-bold pb-2 text-[14px]">
         {t('question')} {currentQuestionIndex + 1} {t('out_of')}{' '}
         {totalQuestions}
       </p>
@@ -101,7 +133,7 @@ export default function QuizPanel({
           accent
           onClick={
             currentQuestionIndex === totalQuestions - 1
-              ? () => router.push('/')
+              ? () => handleSubmitGame()
               : () => handleChangeQuestion(1)
           }
         >

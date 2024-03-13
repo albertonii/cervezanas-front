@@ -644,3 +644,4 @@ Habilitar formulario para feedbacks/reporte de errores
 3. [ ] Al final mostrar cerveza en juego
 4. [ ] Mostrar puntuación
 5. [ ] Hay veces donde no se muestra el juego una vez que está pagado.
+6. [ ] Si ya ha participado en la experiencia, impedir que se registre de nuevo.

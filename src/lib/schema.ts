@@ -160,55 +160,6 @@ export interface Database {
           }
         ]
       }
-      beer_master_experience_user_response: {
-        Row: {
-          answer_id: string | null
-          created_at: string | null
-          id: string
-          is_correct: boolean | null
-          participation_id: string | null
-          question_id: string | null
-        }
-        Insert: {
-          answer_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_correct?: boolean | null
-          participation_id?: string | null
-          question_id?: string | null
-        }
-        Update: {
-          answer_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_correct?: boolean | null
-          participation_id?: string | null
-          question_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_beer_master_experience_user_response_answer_id_fkey"
-            columns: ["answer_id"]
-            isOneToOne: false
-            referencedRelation: "beer_master_answers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_user_response_participation_id_fk"
-            columns: ["participation_id"]
-            isOneToOne: false
-            referencedRelation: "beer_master_experience_participants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_user_response_question_id_fkey"
-            columns: ["question_id"]
-            isOneToOne: false
-            referencedRelation: "beer_master_questions"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       beer_master_questions: {
         Row: {
           experience_id: string | null
@@ -377,6 +328,51 @@ export interface Database {
             columns: ["owner_id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      bm_experience_user_responses: {
+        Row: {
+          answer: string | null
+          created_at: string | null
+          id: string
+          is_correct: boolean | null
+          participation_id: string | null
+          question_id: string | null
+          score: number | null
+        }
+        Insert: {
+          answer?: string | null
+          created_at?: string | null
+          id?: string
+          is_correct?: boolean | null
+          participation_id?: string | null
+          question_id?: string | null
+          score?: number | null
+        }
+        Update: {
+          answer?: string | null
+          created_at?: string | null
+          id?: string
+          is_correct?: boolean | null
+          participation_id?: string | null
+          question_id?: string | null
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_experience_user_response_participation_id_fk"
+            columns: ["participation_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_experience_participants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_user_response_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_questions"
             referencedColumns: ["id"]
           }
         ]

@@ -103,6 +103,10 @@ export default function EventExperience({ eventExperience }: Props) {
     setIsPaymentValid(isPaymentValid);
   };
 
+  const handleIsFinished = (isFinished: boolean) => {
+    setIsFinished(isFinished);
+  };
+
   return (
     <section className="w-full flex-col flex items-center justify-center space-y-4">
       <div className="border-2 bg-beer-foam p-4">
@@ -130,12 +134,12 @@ export default function EventExperience({ eventExperience }: Props) {
                 <section>
                   {experience && experienceParticipant && (
                     <>
-
                       {questions.length > 0 && (
                         <QuizPanel
                           questions={questions}
                           experience={experience}
                           experienceParticipant={experienceParticipant}
+                          handleIsFinished={handleIsFinished}
                         />
                       )}
                     </>
