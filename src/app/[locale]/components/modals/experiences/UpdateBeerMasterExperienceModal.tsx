@@ -204,7 +204,7 @@ export default function UpdateBeerMasterExperienceModal({
           .map((a) => a.answer);
 
         const { data: questionData, error: questionError } = await supabase
-          .from('beer_master_questions')
+          .from('bm_questions')
           .insert({
             question: q.question.question,
             experience_id: experience.id,

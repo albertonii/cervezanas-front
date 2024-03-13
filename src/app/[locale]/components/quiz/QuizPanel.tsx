@@ -1,16 +1,15 @@
-import QuizQuestion from './QuizQuestion';
-import React, { useState } from 'react';
+import React from 'react';
 import { z, ZodType } from 'zod';
-import { useMutation } from 'react-query';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { IBMExperienceUserResponseFormData } from '../../../../lib/types/types';
 import {
   IBMExperienceParticipants,
   IExperience,
-  Question,
+  QuestionsState,
 } from '../../../../lib/types/quiz';
-import { shuffleArray } from '../../../../utils/utils';
+import { useRouter } from 'next/navigation';
+import QuestionCard from './QuestionCard';
+import Button from '../common/Button';
+import { useTranslations } from 'next-intl';
 
 type QuizFormData = {
   answers: IBMExperienceUserResponseFormData[];
@@ -32,7 +31,7 @@ const quizSchema: ZodType<QuizFormData> = z.object({
 type QuizValidationSchema = z.infer<typeof quizSchema>;
 
 interface Props {
-  questions: Question[];
+  questions: QuestionsState;
   experience: IExperience;
   experienceParticipant: IBMExperienceParticipants;
 }
@@ -42,24 +41,18 @@ export default function QuizPanel({
   experience,
   experienceParticipant,
 }: Props) {
-  console.log(questions);
-  // CREAR UN ESTADO PARA LAS PREGUNTAS Y RESPUESTAS
+  const t = useTranslations();
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [score, setScore] = React.useState(0);
   const [userAnswers, setUserAnswers] = React.useState<Record<number, string>>(
     {},
   );
 
+  const totalQuestions = questions.length;
+
   const isQuestionAnswered = userAnswers[currentQuestionIndex] ? true : false;
 
-  const [indexQuestion, setIndexQuestion] = useState(0);
-  const [filteredQuestions, setFilteredQuestions] = useState(
-    experience?.bm_questions ?? [],
-  );
-
-  const quizForm = useForm<QuizFormData>({
-    resolver: zodResolver(quizSchema),
-  });
+  const router = useRouter();
 
   const handleOnAnswerClick = (
     answer: string,
@@ -75,53 +68,46 @@ export default function QuizPanel({
     setUserAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answer }));
   };
 
-  const handleQuizSubmit = async (form: QuizValidationSchema) => {
-    console.log(form);
-  };
-
-  const handleQuizMutation = useMutation({
-    mutationKey: 'quiz',
-    mutationFn: handleQuizSubmit,
-    onSuccess: () => {
-      console.info('Mutation success');
-    },
-    onError: () => {
-      console.error('Mutation error');
-    },
-  });
-
-  const onSubmitQuiz: SubmitHandler<QuizValidationSchema> = (
-    formValues: QuizFormData,
-  ) => {
-    handleQuizMutation.mutate(formValues);
+  const handleChangeQuestion = (step: number) => {
+    const newQuestionIndex = currentQuestionIndex + step;
+    if (newQuestionIndex < 0 || newQuestionIndex >= totalQuestions) return;
+    setCurrentQuestionIndex(newQuestionIndex);
   };
 
   return (
-    <div
-      className="container flex flex-col items-center justify-center gap-10"
-      // style={{ height: 'calc(100vh - 5rem)' }}
-    >
-      {/* {experience?.bm_questions?.map((question, index) => {
-        return (
-          <>
-            {
-              // Si el índice de la pregunta es igual al índice de la pregunta actual, se muestra la pregunta
-              index === indexQuestion && (
-                <div id={question.id}>
-                  <QuizQuestion
-                    totalQuestion={experience.bm_questions?.length ?? 0}
-                    question={question}
-                    indexQuestion={index}
-                    setIndexQuestion={setIndexQuestion}
-                    form={quizForm}
-                    experienceParticipant={experienceParticipant}
-                  />
-                </div>
-              )
-            }
-          </>
-        );
-      })} */}
+    <div className=" text-white text-center bg-beer-softBlondeBubble p-4 rounded-lg shadow-lg border-beer-darkGold border-2">
+      <p className="p-8 font-bold text-[20px]">
+        {t('score')}: {score}
+      </p>
+      <p className="text-beer-draft font-bold pb-2 text-[14px]">
+        {t('question')} {currentQuestionIndex + 1} {t('out_of')}{' '}
+        {totalQuestions}
+      </p>
+
+      <QuestionCard
+        currentQuestionIndex={currentQuestionIndex}
+        question={questions[currentQuestionIndex].question}
+        answers={questions[currentQuestionIndex].answers}
+        userAnswer={userAnswers[currentQuestionIndex]}
+        correctAnswer={questions[currentQuestionIndex].correct_answer}
+        onClick={handleOnAnswerClick}
+      />
+      <div className="flex justify-between mt-16">
+        <Button small accent onClick={() => handleChangeQuestion(-1)}>
+          {t('back')}
+        </Button>
+        <Button
+          small
+          accent
+          onClick={
+            currentQuestionIndex === totalQuestions - 1
+              ? () => router.push('/')
+              : () => handleChangeQuestion(1)
+          }
+        >
+          {currentQuestionIndex === totalQuestions - 1 ? t('end') : t('next')}
+        </Button>
+      </div>
     </div>
   );
 }

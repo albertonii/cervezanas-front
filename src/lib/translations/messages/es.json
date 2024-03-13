@@ -803,5 +803,7 @@
       "header": "Opiniones de nuestros Cervezanos y Cervezanas"
     },
     "beer_master": "Maestro cervecero"
-  }
+  },
+  "question": "Pregunta",
+  "out_of": "de"
 }

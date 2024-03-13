@@ -14,6 +14,5 @@ export const getBGColor = (
   if (isAnswerCorrect === false && answer === userAnswer)
     return 'bg-[#AC5050] text-white';
 
-  return 'bg-white text-[#9F50AC]';
+  return 'bg-white text-beer-draft';
 };
-

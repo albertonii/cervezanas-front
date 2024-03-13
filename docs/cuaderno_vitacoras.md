@@ -643,3 +643,4 @@ Habilitar formulario para feedbacks/reporte de errores
 2. [x] Loop a través de las preguntas en el juego
 3. [ ] Al final mostrar cerveza en juego
 4. [ ] Mostrar puntuación
+5. [ ] Hay veces donde no se muestra el juego una vez que está pagado.

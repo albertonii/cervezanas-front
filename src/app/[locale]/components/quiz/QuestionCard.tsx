@@ -19,9 +19,9 @@ const QuestionCard: React.FC<Props> = ({
   correctAnswer,
 }) => {
   return (
-    <div>
+    <div className="w-[20vw] sm:w-[30vw]">
       <p
-        className="text-[20px] max-w-[400px]"
+        className="text-[20px] "
         dangerouslySetInnerHTML={{ __html: question }}
       />
       <div className="flex flex-col items-center pt-8">

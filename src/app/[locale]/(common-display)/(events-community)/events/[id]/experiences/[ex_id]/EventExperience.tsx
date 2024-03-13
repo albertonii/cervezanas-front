@@ -1,6 +1,7 @@
 'use client';
 
 import BMPaymentModal from './BMPaymentModal';
+import QuizPanel from '../../../../../../components/quiz/QuizPanel';
 import Button from '../../../../../../components/common/Button';
 import React, { useEffect, useState } from 'react';
 import {
@@ -12,7 +13,6 @@ import {
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../components/message/useMessage';
 import { shuffleArray } from '../../../../../../../../utils/utils';
-import QuizPanelNew from '../../../../../../components/quiz/QuizPanelNew';
 
 interface Props {
   eventExperience: IEventExperience;
@@ -104,11 +104,13 @@ export default function EventExperience({ eventExperience }: Props) {
   };
 
   return (
-    <section>
-      <div> Tipo de experiencia: {experience?.type}</div>
-      <div> Precio para participar: {experience?.price}</div>
-      <div> Nombre: {experience?.name}</div>
-      <div> Descripción: {experience?.description}</div>
+    <section className="w-full flex-col flex items-center justify-center space-y-4">
+      <div className="border-2 bg-beer-foam p-4">
+        <div> Tipo de experiencia: {experience?.type}</div>
+        <div> Precio para participar: {experience?.price}</div>
+        <div> Nombre: {experience?.name}</div>
+        <div> Descripción: {experience?.description}</div>
+      </div>
 
       {/* El usuario puede participar en la experiencia a través del botón de inscripción, debe de realizar el pago.  */}
       {!participate && !alreadyParticipated ? (
@@ -128,10 +130,9 @@ export default function EventExperience({ eventExperience }: Props) {
                 <section>
                   {experience && experienceParticipant && (
                     <>
-                      <div>Participante registrado</div>
 
                       {questions.length > 0 && (
-                        <QuizPanelNew
+                        <QuizPanel
                           questions={questions}
                           experience={experience}
                           experienceParticipant={experienceParticipant}
