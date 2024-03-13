@@ -3,12 +3,13 @@ import readUserSession from '../../../../../../../../lib/actions';
 import EventExperience from './EventExperience';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../../../constants';
-import { IEventExperience } from '../../../../../../../../lib/types/types';
+import { IEventExperience } from '../../../../../../../../lib/types/quiz';
 
 export default async function CPMobilePage({ params }: any) {
   const { ex_id: eventExperienceId } = params;
   const eventExperienceData = getEventExperience(eventExperienceId);
   const [eventExperience] = await Promise.all([eventExperienceData]);
+  
 
   return <EventExperience eventExperience={eventExperience} />;
 }
@@ -34,9 +35,8 @@ async function getEventExperience(eventExperienceId: string) {
           experience_id,
           experiences!public_event_experiences_experience_id_fkey (
             *,
-            bm_questions:beer_master_questions!public_beer_master_question_experience_id_fkey (
-              *,
-              answers:beer_master_answers (*)
+            bm_questions (
+              *
             )
           ),
           cp_mobile!public_event_experiences_cp_mobile_id_fkey (

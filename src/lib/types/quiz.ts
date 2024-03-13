@@ -1,4 +1,9 @@
-import { IBMExperienceParticipants, IProducerUser } from './types';
+import {
+  ICPFixed,
+  ICPMobile,
+  IEvent,
+  IProducerUser,
+} from './types';
 
 export enum Difficulty {
   EASY = 'easy',
@@ -76,3 +81,31 @@ export type IExperience = {
   producer_user?: IProducerUser;
   bm_questions?: Question[];
 };
+
+export interface IEventExperience {
+  id: string;
+  created_at: string;
+  event_id: string;
+  cp_mobile_id: string;
+  cp_fixed_id: string;
+  experience_id: string;
+  cp_mobile?: ICPMobile;
+  cp_fixed?: ICPFixed;
+  experiences?: IExperience;
+  events?: IEvent;
+}
+
+export interface IBMExperienceParticipants {
+  id: string;
+  created_at: string;
+  gamification_id: string;
+  event_id: string;
+  cpm_id: string;
+  cpf_id: string;
+  score: number;
+  is_paid: boolean;
+  is_cash: boolean;
+  is_finished: boolean;
+  correct_answers: number;
+  incorrect_answers: number;
+}

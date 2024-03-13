@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
+import { IBMExperienceParticipants } from '../../../../lib/types/quiz';
 import {
   IBeerMasterAnswer,
   IBeerMasterQuestion,
-  IBMExperienceParticipants,
   IBMExperienceUserResponseFormData,
 } from '../../../../lib/types/types';
 

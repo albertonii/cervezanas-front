@@ -8,9 +8,11 @@ import { IBMExperienceUserResponseFormData } from '../../../../lib/types/types';
 import {
   IBMExperienceParticipants,
   IExperience,
-  Question,
+  QuestionsState,
 } from '../../../../lib/types/quiz';
-import { shuffleArray } from '../../../../utils/utils';
+import { useRouter } from 'next/navigation';
+import QuestionCard from './QuestionCard';
+import Button from '../common/Button';
 
 type QuizFormData = {
   answers: IBMExperienceUserResponseFormData[];
@@ -32,34 +34,28 @@ const quizSchema: ZodType<QuizFormData> = z.object({
 type QuizValidationSchema = z.infer<typeof quizSchema>;
 
 interface Props {
-  questions: Question[];
+  questions: QuestionsState;
   experience: IExperience;
   experienceParticipant: IBMExperienceParticipants;
 }
 
-export default function QuizPanel({
+export default function QuizPanelNew({
   questions,
   experience,
   experienceParticipant,
 }: Props) {
   console.log(questions);
-  // CREAR UN ESTADO PARA LAS PREGUNTAS Y RESPUESTAS
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [score, setScore] = React.useState(0);
   const [userAnswers, setUserAnswers] = React.useState<Record<number, string>>(
     {},
   );
 
+  const totalQuestions = questions.length;
+
   const isQuestionAnswered = userAnswers[currentQuestionIndex] ? true : false;
 
-  const [indexQuestion, setIndexQuestion] = useState(0);
-  const [filteredQuestions, setFilteredQuestions] = useState(
-    experience?.bm_questions ?? [],
-  );
-
-  const quizForm = useForm<QuizFormData>({
-    resolver: zodResolver(quizSchema),
-  });
+  const router = useRouter();
 
   const handleOnAnswerClick = (
     answer: string,
@@ -75,53 +71,38 @@ export default function QuizPanel({
     setUserAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answer }));
   };
 
-  const handleQuizSubmit = async (form: QuizValidationSchema) => {
-    console.log(form);
-  };
-
-  const handleQuizMutation = useMutation({
-    mutationKey: 'quiz',
-    mutationFn: handleQuizSubmit,
-    onSuccess: () => {
-      console.info('Mutation success');
-    },
-    onError: () => {
-      console.error('Mutation error');
-    },
-  });
-
-  const onSubmitQuiz: SubmitHandler<QuizValidationSchema> = (
-    formValues: QuizFormData,
-  ) => {
-    handleQuizMutation.mutate(formValues);
+  const handleChangeQuestion = (step: number) => {
+    const newQuestionIndex = currentQuestionIndex + step;
+    if (newQuestionIndex < 0 || newQuestionIndex >= totalQuestions) return;
+    setCurrentQuestionIndex(newQuestionIndex);
   };
 
   return (
-    <div
-      className="container flex flex-col items-center justify-center gap-10"
-      // style={{ height: 'calc(100vh - 5rem)' }}
-    >
-      {/* {experience?.bm_questions?.map((question, index) => {
-        return (
-          <>
-            {
-              // Si el índice de la pregunta es igual al índice de la pregunta actual, se muestra la pregunta
-              index === indexQuestion && (
-                <div id={question.id}>
-                  <QuizQuestion
-                    totalQuestion={experience.bm_questions?.length ?? 0}
-                    question={question}
-                    indexQuestion={index}
-                    setIndexQuestion={setIndexQuestion}
-                    form={quizForm}
-                    experienceParticipant={experienceParticipant}
-                  />
-                </div>
-              )
-            }
-          </>
-        );
-      })} */}
+    <div className="text-white text-center">
+      <p className="p-8 font-bold text-[20px]">Score: {score}</p>
+      <p className="text-[#9F50AC] font-bold pb-2 text-[14px]">
+        Question {currentQuestionIndex + 1} out of {totalQuestions}
+      </p>
+      <QuestionCard
+        currentQuestionIndex={currentQuestionIndex}
+        question={questions[currentQuestionIndex].question}
+        answers={questions[currentQuestionIndex].answers}
+        userAnswer={userAnswers[currentQuestionIndex]}
+        correctAnswer={questions[currentQuestionIndex].correct_answer}
+        onClick={handleOnAnswerClick}
+      />
+      <div className="flex justify-between mt-16">
+        <Button onClick={() => handleChangeQuestion(-1)}>Prev</Button>
+        <Button
+          onClick={
+            currentQuestionIndex === totalQuestions - 1
+              ? () => router.push('/')
+              : () => handleChangeQuestion(1)
+          }
+        >
+          {currentQuestionIndex === totalQuestions - 1 ? 'End' : 'Next'}
+        </Button>
+      </div>
     </div>
   );
 }

@@ -2,14 +2,17 @@
 
 import BMPaymentModal from './BMPaymentModal';
 import Button from '../../../../../../components/common/Button';
-import QuizPanel from '../../../../../../components/quiz/QuizPanel';
 import React, { useEffect, useState } from 'react';
 import {
   IEventExperience,
   IBMExperienceParticipants,
-} from '../../../../../../../../lib/types/types';
+  Question,
+  QuestionsState,
+} from '../../../../../../../../lib/types/quiz';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../components/message/useMessage';
+import { shuffleArray } from '../../../../../../../../utils/utils';
+import QuizPanelNew from '../../../../../../components/quiz/QuizPanelNew';
 
 interface Props {
   eventExperience: IEventExperience;
@@ -28,18 +31,18 @@ export default function EventExperience({ eventExperience }: Props) {
   const [alreadyParticipated, setAlreadyParticipated] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
-  const handleShowPaymentModal = (show: boolean) => {
-    setShowPaymentModal(show);
-  };
+  const [questions, setQuestions] = useState<QuestionsState>([]);
 
   useEffect(() => {
     const getBMExperienceParticipant = async () => {
+      if (!experience) return;
+
       // Comprobar que no haya participado ya en la experiencia
       const { data, error: errorParticipants } = await supabase
         .from('beer_master_experience_participants')
         .select('*')
         .eq('gamification_id', user?.id)
-        .eq('experience_id', experience?.id);
+        .eq('experience_id', experience.id);
 
       if (errorParticipants) {
         console.error(errorParticipants);
@@ -60,6 +63,26 @@ export default function EventExperience({ eventExperience }: Props) {
       getBMExperienceParticipant();
     }
   }, []);
+
+  useEffect(() => {
+    if (isPaymentValid && !isFinished) {
+      const questions_array = experience?.bm_questions?.map(
+        (question: Question) => ({
+          ...question,
+          answers: shuffleArray([
+            ...question.incorrect_answers,
+            question.correct_answer,
+          ]),
+        }),
+      );
+
+      setQuestions(questions_array ?? []);
+    }
+  }, [isPaymentValid, isFinished]);
+
+  const handleShowPaymentModal = (show: boolean) => {
+    setShowPaymentModal(show);
+  };
 
   const handleOnClickParticipate = async () => {
     if (experienceParticipant?.is_finished) {
@@ -107,10 +130,13 @@ export default function EventExperience({ eventExperience }: Props) {
                     <>
                       <div>Participante registrado</div>
 
-                      <QuizPanel
-                        experience={experience}
-                        experienceParticipant={experienceParticipant}
-                      />
+                      {questions.length > 0 && (
+                        <QuizPanelNew
+                          questions={questions}
+                          experience={experience}
+                          experienceParticipant={experienceParticipant}
+                        />
+                      )}
                     </>
                   )}
                 </section>

@@ -1436,20 +1436,20 @@ export interface IEventExperience {
   events?: IEvent;
 }
 
-export interface IBMExperienceParticipants {
-  id: string;
-  created_at: string;
-  gamification_id: string;
-  event_id: string;
-  cpm_id: string;
-  cpf_id: string;
-  score: number;
-  is_paid: boolean;
-  is_cash: boolean;
-  is_finished: boolean;
-  correct_answers: number;
-  incorrect_answers: number;
-}
+// export interface IBMExperienceParticipants {
+//   id: string;
+//   created_at: string;
+//   gamification_id: string;
+//   event_id: string;
+//   cpm_id: string;
+//   cpf_id: string;
+//   score: number;
+//   is_paid: boolean;
+//   is_cash: boolean;
+//   is_finished: boolean;
+//   correct_answers: number;
+//   incorrect_answers: number;
+// }
 
 export interface IBeerMasterQuestionParticipationFormData {
   question?: string;
@@ -1465,16 +1465,16 @@ export interface IBeerMasterAnswerParticipationFormData {
   is_correct: boolean;
 }
 
-export interface IBeerMasterQuestion {
-  id: string;
-  question: string;
-  experience_id: string;
-  product_id: string;
-  difficulty: number;
-  answers: IBeerMasterAnswer[];
-  beer_master_participation?: IBMExperienceParticipants;
-  products?: IProduct;
-}
+// export interface IBeerMasterQuestion {
+//   id: string;
+//   question: string;
+//   experience_id: string;
+//   product_id: string;
+//   difficulty: number;
+//   answers: IBeerMasterAnswer[];
+//   beer_master_participation?: IBMExperienceParticipants;
+//   products?: IProduct;
+// }
 
 export interface IBeerMasterAnswer {
   id: string;

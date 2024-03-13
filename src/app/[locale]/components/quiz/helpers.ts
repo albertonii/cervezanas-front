@@ -16,3 +16,4 @@ export const getBGColor = (
 
   return 'bg-white text-[#9F50AC]';
 };
+
