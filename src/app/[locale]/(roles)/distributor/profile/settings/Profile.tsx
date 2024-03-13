@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import React, { useEffect, useState } from "react";
-import Spinner from "../../../../components/common/Spinner";
-import { IDistributorUser } from "../../../../../../lib/types";
-import { Account } from "./Account";
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import React, { useEffect, useState } from 'react';
+import Spinner from '../../../../components/common/Spinner';
+import { IDistributorUser } from '../../../../../../lib/types/types';
+import { Account } from './Account';
 
 interface Props {
   profile: IDistributorUser;
@@ -13,7 +13,7 @@ interface Props {
 export default function Profile({ profile }: Props) {
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [menuOption, setMenuOption] = useState<string>("account");
+  const [menuOption, setMenuOption] = useState<string>('account');
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
@@ -25,7 +25,7 @@ export default function Profile({ profile }: Props) {
 
   const renderSwitch = () => {
     switch (menuOption) {
-      case "account":
+      case 'account':
         return <Account profile={profile} />;
     }
   };
@@ -34,11 +34,11 @@ export default function Profile({ profile }: Props) {
     <>
       <HorizontalSections
         handleMenuClick={handleMenuClick}
-        tabs={["account"]}
+        tabs={['account']}
       />
 
       {loading ? (
-        <Spinner color="beer-blonde" size={"medium"} />
+        <Spinner color="beer-blonde" size={'medium'} />
       ) : (
         <>{renderSwitch()}</>
       )}

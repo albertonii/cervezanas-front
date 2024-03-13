@@ -1,5 +1,5 @@
 import Homepage from './Homepage';
-import { IMonthlyProduct } from '../../lib/types';
+import { IMonthlyProduct } from '../../lib/types/types';
 import createServerClient from '../../utils/supabaseServer';
 
 export const metadata = {

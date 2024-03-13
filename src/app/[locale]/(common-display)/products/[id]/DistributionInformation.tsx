@@ -7,7 +7,7 @@ import {
   IDistributorUser,
   IProduct,
   IAddress,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 
 interface Props {
   product: IProduct;

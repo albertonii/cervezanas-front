@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IProducerUser } from '../../../../../../lib/types';
+import { IProducerUser } from '../../../../../../lib/types/types';
 import Button from '../../../../components/common/Button';
 import Spinner from '../../../../components/common/Spinner';
 import { useMessage } from '../../../../components/message/useMessage';

@@ -1,9 +1,12 @@
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
-import React from "react";
-import { IBusinessOrder, IOrderItem } from "../../../../../../../../lib/types";
-import { StatusTimeline } from "../../../../../../components/StatusTimeline";
-import BOrderItem from "./BOrderItem";
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
+import React from 'react';
+import {
+  IBusinessOrder,
+  IOrderItem,
+} from '../../../../../../../../lib/types/types';
+import { StatusTimeline } from '../../../../../../components/StatusTimeline';
+import BOrderItem from './BOrderItem';
 
 interface Props {
   bOrder: IBusinessOrder;
@@ -21,7 +24,7 @@ export default function BusinessOrderDetails({ bOrder }: Props) {
 
   return (
     <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2">
-      <StatusTimeline status={bOrder.status} orderType={"distributor_online"} />
+      <StatusTimeline status={bOrder.status} orderType={'distributor_online'} />
 
       <section className="grid grid-cols-1 space-y-4 text-start sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4">
         {/* Display the product information for this pack  */}
@@ -32,12 +35,12 @@ export default function BusinessOrderDetails({ bOrder }: Props) {
                 href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
                 locale={locale}
               >
-                {t("name")}: {productName}
+                {t('name')}: {productName}
               </Link>
             </h3>
 
             <span className="space-y-1">
-              <p className="text-sm text-gray-500">{t("description")}</p>
+              <p className="text-sm text-gray-500">{t('description')}</p>
               <p className="truncate">{productDescription}</p>
             </span>
           </div>

@@ -1,6 +1,6 @@
-import { UseFormReturn } from "react-hook-form";
-import { FilePreviewImageMultimedia } from "../common/FilePreviewImageMultimedia";
-import { ModalAddProductFormData } from "../../../../lib/types";
+import { UseFormReturn } from 'react-hook-form';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
+import { ModalAddProductFormData } from '../../../../lib/types/types';
 
 export interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;

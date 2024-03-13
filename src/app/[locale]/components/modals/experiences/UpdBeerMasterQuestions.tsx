@@ -8,7 +8,7 @@ import {
   IProduct,
   IUpdBeerMasterQuestionFormData,
   IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { DeleteButton } from '../../common/DeleteButton';

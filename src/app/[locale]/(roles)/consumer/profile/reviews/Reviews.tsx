@@ -3,7 +3,7 @@
 import ReviewData from './ReviewData';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IReview } from '../../../../../../lib/types';
+import { IReview } from '../../../../../../lib/types/types';
 
 interface Props {
   reviews: IReview[];

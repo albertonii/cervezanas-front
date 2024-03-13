@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import Button from '../../../../components/common/Button';
 import Spinner from '../../../../components/common/Spinner';
-import { IProfileLocation } from '../../../../../../lib/types';
+import { IProfileLocation } from '../../../../../../lib/types/types';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 import { isEmpty } from '../../../../../../utils/utils';

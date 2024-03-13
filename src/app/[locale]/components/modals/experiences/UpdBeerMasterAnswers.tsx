@@ -1,6 +1,6 @@
 import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IUpdModalExperienceBeerMasterFormData } from '../../../../../lib/types';
+import { IUpdModalExperienceBeerMasterFormData } from '../../../../../lib/types/types';
 import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';

@@ -1,7 +1,7 @@
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IAward } from '../../../../lib/types';
+import { IAward } from '../../../../lib/types/types';
 import Button from '../common/Button';
 import { DisplayInputError } from '../common/DisplayInputError';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';

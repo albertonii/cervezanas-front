@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IProduct } from '../../../../../../lib/types';
+import { IProduct } from '../../../../../../lib/types/types';
 import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
@@ -27,7 +27,6 @@ export function Products() {
   const handleProductModal = (product: IProduct) => {
     setProductModal(product);
   };
-
 
   return (
     <section className="px-4 py-6" aria-label="Products">

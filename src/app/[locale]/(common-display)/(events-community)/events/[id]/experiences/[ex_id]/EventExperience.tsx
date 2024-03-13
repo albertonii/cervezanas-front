@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import {
   IEventExperience,
   IBMExperienceParticipants,
-} from '../../../../../../../../lib/types';
+} from '../../../../../../../../lib/types/types';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../components/message/useMessage';
 
@@ -51,7 +51,6 @@ export default function EventExperience({ eventExperience }: Props) {
 
         setExperienceParticipant(experienceParticipants[0]);
         setIsFinished(experienceParticipants[0].is_finished);
-        console.log('experienceParticipants', experienceParticipants[0]);
         setIsPaymentValid(experienceParticipants[0].is_paid);
         setAlreadyParticipated(true);
       }

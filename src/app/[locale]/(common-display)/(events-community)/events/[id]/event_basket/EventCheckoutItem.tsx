@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
 import dynamic from 'next/dynamic';
-import { IProductPackEventCartItem } from '../../../../../../../lib/types';
+import { IProductPackEventCartItem } from '../../../../../../../lib/types/types';
 import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
 
 const DynamicSpinner = dynamic(

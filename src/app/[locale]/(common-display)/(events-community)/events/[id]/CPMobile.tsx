@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useLocale } from 'next-intl';
-import { ICPMobile } from '../../../../../../lib/types';
+import { ICPMobile } from '../../../../../../lib/types/types';
 import { COMMON } from '../../../../../../constants';
 import { formatDateString } from '../../../../../../utils/formatDate';
 

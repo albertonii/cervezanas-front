@@ -5,7 +5,7 @@ import {
   ICPMobile,
   IEventExperience,
   IExperience,
-} from '../../../../../../../../../lib/types';
+} from '../../../../../../../../../lib/types/types';
 import readUserSession from '../../../../../../../../../lib/actions';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
 
@@ -17,7 +17,6 @@ export default async function CPMobilePage({ params }: any) {
     eventExperiencesData,
     cpMobileData,
   ]);
-
 
   return (
     <>

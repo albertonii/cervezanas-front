@@ -9,7 +9,7 @@ import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
 import PriceRangeRow from './PriceRangeRow';
-import { PriceRangeCostFormData } from '../../../../../../../lib/types';
+import { PriceRangeCostFormData } from '../../../../../../../lib/types/types';
 
 const rangeObjectSchema = z
   .object({

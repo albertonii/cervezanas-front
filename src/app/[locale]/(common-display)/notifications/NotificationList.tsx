@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { INotification } from "../../../../lib/types";
-import InputSearch from "../../components/common/InputSearch";
-import PaginationFooter from "../../components/common/PaginationFooter";
-import NotificationTableData from "./NotificationTableData";
+import React, { useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { INotification } from '../../../../lib/types/types';
+import InputSearch from '../../components/common/InputSearch';
+import PaginationFooter from '../../components/common/PaginationFooter';
+import NotificationTableData from './NotificationTableData';
 
 interface Props {
   notifications: INotification[];
@@ -18,18 +18,18 @@ interface ColumnsProps {
 export function NotificationList({ notifications }: Props) {
   const t = useTranslations();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = notifications.length;
   const resultsPerPage = 10;
 
   const COLUMNS = [
-    { header: t("is_read") },
-    { header: t("username") },
-    { header: t("link") },
-    { header: t("created_at") },
-    { header: t("action_header") },
+    { header: t('is_read') },
+    { header: t('username') },
+    { header: t('link') },
+    { header: t('created_at') },
+    { header: t('action_header') },
   ];
 
   const filteredItemsByUsername = useMemo(() => {
@@ -47,7 +47,7 @@ export function NotificationList({ notifications }: Props) {
         <InputSearch
           query={query}
           setQuery={setQuery}
-          searchPlaceholder={"search_by_name"}
+          searchPlaceholder={'search_by_name'}
         />
 
         <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
@@ -75,7 +75,7 @@ export function NotificationList({ notifications }: Props) {
             {!notifications && (
               <tr>
                 <td colSpan={6} className="py-4 text-center">
-                  {t("no_notifications")}
+                  {t('no_notifications')}
                 </td>
               </tr>
             )}

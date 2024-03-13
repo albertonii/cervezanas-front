@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IReview } from '../../../../../../lib/types';
+import { IReview } from '../../../../../../lib/types/types';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { Rate } from '../../../../components/reviews/Rate';
 import { formatDateString } from '../../../../../../utils/formatDate';

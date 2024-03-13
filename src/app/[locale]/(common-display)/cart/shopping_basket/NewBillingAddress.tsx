@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { ModalBillingAddressFormData } from '../../../../../lib/types';
+import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
 import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

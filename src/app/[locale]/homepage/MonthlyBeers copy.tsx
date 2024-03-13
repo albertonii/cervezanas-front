@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import MonthlyCardItem from "./MonthlyCardItem";
-import { IMonthlyProduct } from "../../../lib/types";
+import React from 'react';
+import MonthlyCardItem from './MonthlyCardItem';
+import { IMonthlyProduct } from '../../../lib/types/types';
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];

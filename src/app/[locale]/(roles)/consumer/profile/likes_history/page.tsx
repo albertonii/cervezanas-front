@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../constants';
-import { ILike } from '../../../../../../lib/types';
+import { ILike } from '../../../../../../lib/types/types';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../lib/actions';
 import { LikesHistory } from './LikesHistory';

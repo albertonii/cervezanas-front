@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { decodeBase64 } from '../../../../../../utils/utils';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { VIEWS } from '../../../../../../constants';
-import { IEventOrder } from '../../../../../../lib/types';
+import { IEventOrder } from '../../../../../../lib/types/types';
 import readUserSession from '../../../../../../lib/actions';
 
 export async function generateMetadata({ searchParams }: any) {

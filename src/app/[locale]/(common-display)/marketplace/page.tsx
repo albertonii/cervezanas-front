@@ -1,7 +1,7 @@
 import Marketplace from './Marketplace';
 import React from 'react';
 import createServerClient from '../../../../utils/supabaseServer';
-import { IProduct, IProductMultimedia } from '../../../../lib/types';
+import { IProduct, IProductMultimedia } from '../../../../lib/types/types';
 
 export default async function MarketPlacePage() {
   const productsData = getMarketplaceProducts();

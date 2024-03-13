@@ -8,7 +8,7 @@ import InputSearch from '../../../../components/common/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed } from '../../../../../../lib/types';
+import { ICPFixed } from '../../../../../../lib/types/types';
 import { IconButton } from '../../../../components/common/IconButton';
 import { formatDateString } from '../../../../../../utils/formatDate';
 

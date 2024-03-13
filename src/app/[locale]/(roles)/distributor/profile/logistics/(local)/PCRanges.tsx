@@ -1,8 +1,8 @@
-import React from "react";
-import { UseFormRegister } from "react-hook-form";
-import { IPCRangesProps } from "../../../../../../../lib/types";
-import InputForm from "../../../../../components/InputForm";
-import Label from "../../../../../components/Label";
+import React from 'react';
+import { UseFormRegister } from 'react-hook-form';
+import { IPCRangesProps } from '../../../../../../../lib/types/types';
+import InputForm from '../../../../../components/InputForm';
+import Label from '../../../../../components/Label';
 
 interface Props {
   item: IPCRangesProps;
@@ -31,7 +31,7 @@ export default function PCRanges({ item, index, register }: Props) {
           register={register}
           inputName={`ranges.${index}.from`}
           required={true}
-          type={"number"}
+          type={'number'}
           // id={`${index}-from`}
           // defaultValue={item.from}
         />
@@ -42,7 +42,7 @@ export default function PCRanges({ item, index, register }: Props) {
           register={register}
           inputName={`ranges.${index}.to`}
           required={true}
-          type={"number"}
+          type={'number'}
           // id={`${index}-to`}
           // defaultValue={item.to}
         />

@@ -12,7 +12,7 @@ import {
   ICPMobile,
   ICPM_events,
   IEvent,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import { formatDateDefaultInput } from '../../../../../utils/formatDate';
 import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
 import dynamic from 'next/dynamic';

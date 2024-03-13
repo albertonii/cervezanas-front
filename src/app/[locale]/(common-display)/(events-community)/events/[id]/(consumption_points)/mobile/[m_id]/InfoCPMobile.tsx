@@ -6,7 +6,7 @@ import React from 'react';
 import {
   ICPMobile,
   IEventExperience,
-} from '../../../../../../../../../lib/types';
+} from '../../../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import Experiences from './EventExperiences';
 import EventExperiences from './EventExperiences';

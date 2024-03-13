@@ -6,7 +6,7 @@ import {
   IEventProduct,
   IProductPack,
   IProductPackEventCartItem,
-} from '../../lib/types';
+} from '../../lib/types/types';
 
 type EventCartsType = {
   [eventId: string]: IProductPackEventCartItem[];

@@ -4,7 +4,7 @@ import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { VIEWS } from '../../../../../../constants';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types';
+import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();

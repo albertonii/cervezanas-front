@@ -1,12 +1,15 @@
-import Link from "next/link";
-import React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { SupabaseProps } from "../../../../../../../constants";
-import { IBusinessOrder, IOrderItem } from "../../../../../../../lib/types";
-import DisplayImageProduct from "../../../../../components/common/DisplayImageProduct";
-import { formatCurrency } from "../../../../../../../utils/formatCurrency";
-import { StatusTimeline } from "../../../../../components/StatusTimeline";
-import DisplayImageProfile from "../../../../../components/common/DisplayImageProfile";
+import Link from 'next/link';
+import React from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { SupabaseProps } from '../../../../../../../constants';
+import {
+  IBusinessOrder,
+  IOrderItem,
+} from '../../../../../../../lib/types/types';
+import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import { StatusTimeline } from '../../../../../components/StatusTimeline';
+import DisplayImageProfile from '../../../../../components/common/DisplayImageProfile';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -22,7 +25,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
 
   return (
     <section className="relative border-separate space-y-8 rounded-lg border p-2">
-      <StatusTimeline status={bOrder.status} orderType={"distributor_online"} />
+      <StatusTimeline status={bOrder.status} orderType={'distributor_online'} />
 
       <section className="grid grid-cols-1 gap-x-2 space-y-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-4">
         {/* Display the product information for this pack  */}
@@ -33,13 +36,13 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
                 locale={locale}
               >
-                {t("name")}:{" "}
+                {t('name')}:{' '}
                 {bOrder.order_items[0].product_packs?.products?.name}
               </Link>
             </h3>
 
             <span className="space-y-1">
-              <p className="text-sm text-gray-500">{t("description")}</p>
+              <p className="text-sm text-gray-500">{t('description')}</p>
               <p className="truncate">
                 {bOrder.order_items[0].product_packs?.products?.description}
               </p>
@@ -54,7 +57,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
             <fieldset
               className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-4 lg:space-x-2 lg:p-6"
               key={
-                orderItem.business_order_id + "-" + orderItem.product_pack_id
+                orderItem.business_order_id + '-' + orderItem.product_pack_id
               }
             >
               <legend className="text-lg">
@@ -65,7 +68,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 <DisplayImageProduct
                   width={120}
                   height={120}
-                  alt={""}
+                  alt={''}
                   imgSrc={`${
                     BASE_PRODUCTS_URL +
                     decodeURIComponent(orderItem.product_packs.img_url)
@@ -78,7 +81,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 <div className="w-full">
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("product_price")}
+                      {t('product_price')}
                     </p>
                     <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
                       {formatCurrency(orderItem.product_packs.price)}
@@ -87,19 +90,19 @@ export default function BusinessOrderItem({ bOrder }: Props) {
 
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("quantity_in_pack")}
+                      {t('quantity_in_pack')}
                     </p>
                     <p className="truncate">
-                      {orderItem.product_packs.quantity} {t("units")}
+                      {orderItem.product_packs.quantity} {t('units')}
                     </p>
                   </span>
 
                   <span className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      {t("quantity_bought")}
+                      {t('quantity_bought')}
                     </p>
                     <p className="truncate">
-                      {orderItem.quantity} {t("packs")}
+                      {orderItem.quantity} {t('packs')}
                     </p>
                   </span>
                 </div>
@@ -107,11 +110,11 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 <div className="w-full self-center">
                   <span className="space-y-1 text-center">
                     <p className="text-base text-gray-500 md:text-xl">
-                      {t("total")}
+                      {t('total')}
                     </p>
                     <p className="truncate text-base font-semibold md:text-2xl">
                       {formatCurrency(
-                        orderItem.quantity * orderItem.product_packs.price
+                        orderItem.quantity * orderItem.product_packs.price,
                       )}
                     </p>
                   </span>
@@ -124,26 +127,26 @@ export default function BusinessOrderItem({ bOrder }: Props) {
         {/* Distributor information data  */}
         {bOrder.distributor_user && (
           <fieldset className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-2 lg:space-x-2 lg:p-6">
-            <legend className="text-lg">{t("distributor_information")}</legend>
+            <legend className="text-lg">{t('distributor_information')}</legend>
 
             <section className="flex space-x-4">
               <figure className="aspect-w-1  aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
                 <DisplayImageProfile
                   width={100}
                   height={100}
-                  imgSrc={bOrder.distributor_user.users?.avatar_url ?? ""}
-                  class={""}
+                  imgSrc={bOrder.distributor_user.users?.avatar_url ?? ''}
+                  class={''}
                 />
               </figure>
 
               <div className="col-span-2 flex flex-col md:col-span-1">
                 <span className="space-y-1">
-                  <p className="text-sm text-gray-500">{t("username")}</p>
+                  <p className="text-sm text-gray-500">{t('username')}</p>
                   <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
                     <Link
                       href={`/d-info/${bOrder.distributor_id}`}
                       locale={locale}
-                      target={"_blank"}
+                      target={'_blank'}
                     >
                       {bOrder.distributor_user?.users?.username}
                     </Link>
@@ -151,7 +154,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 </span>
 
                 <span className="space-y-1">
-                  <p className="text-sm text-gray-500">{t("fullname")}</p>
+                  <p className="text-sm text-gray-500">{t('fullname')}</p>
                   <p className="truncate">
                     {bOrder.distributor_user?.users?.name}
                   </p>
@@ -161,7 +164,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 </span>
 
                 <span className="space-y-1">
-                  <p className="text-sm text-gray-500">{t("email")}</p>
+                  <p className="text-sm text-gray-500">{t('email')}</p>
                   <p className="truncate">
                     {bOrder.distributor_user?.users?.email}
                   </p>

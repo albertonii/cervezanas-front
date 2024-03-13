@@ -1,17 +1,14 @@
 # Listado de tareas:
 
-- En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - Sistema para automatizar el stock de un producto (pack)
-- Comprobar qué sucede al acceder a eventos en producción.
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - Modificar el precio de un producto asociado a un PC
 - Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Implementar Dark Mode -> Gustavo
 - Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
 - Historial de ventas en un punto de consumo
 - Componente para recuperar contraseña de usuario
-- Comprobar que funcione SMTP para configuración de usuarios
+- [ ] Comprobar que funcione SMTP para configuración de usuarios
 - QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
 - Sistema de stock para controlar las cantidades de cada producto/pack
 - CRUD imágenes en productos
@@ -24,6 +21,10 @@
 
 # WIP
 
+- [ ] Historial de ventas en un punto de consumo
+- [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- [ ] Implementar Dark Mode -> Gustavo
+- [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - Conectar los servicios nuevos de Miguel con la aplicación
 - Cervezanas en Producción
 
@@ -97,6 +98,7 @@ Para el lunes: Objetivos con presentación de Marketing y entusiasta. Demo técn
 - [x] Mandar email a los productores registrados en el evento, seguimiento
 - [x] Hacer que las vistas en profile consumer sean homogéneas
 - [x] Hacer que las vistas en profile distributor sean homogéneas
+- [x] Comprobar qué sucede al acceder a eventos en producción.
 
 ## 29 de noviembre 23
 
@@ -147,7 +149,7 @@ Si tengo una orden de compra de 2 packs de cervezas Jaira donde cada una pesa 3K
 - [x] Visualizar pedido y permitir actualización del estado del pedido para el productor
 - [x] CRUD para indicar coste de distribución por parte del distribuidor
 - [x] Mostrar coste de distribución al consumidor antes de hacer la compra
-- Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
+- [ ] Cuando un usuario realiza su compra, debe de visualizarse todos los productos y todos los packs asociados a ello. Ahora mismo solo se está mostrando el primer producto comprado de la orden de compra.
 
 ---
 
@@ -583,7 +585,7 @@ Estamos peleando con el update de Experiencias y Cervezas con Q&A
   9. [ ] Error al obtener experiencias (a veces)
   10. [x] Display input errors para los formulario de creación y actualización
 
-- [x] Experiencia Cervezanas a un PC en un evento
+- [x] Añadir experiencia Cervezanas a un PC en un evento
 
   1. [x] Añadir experiencia a un nuevo evento
   2. [x] Actualizar las experiencias en un evento existente
@@ -613,4 +615,19 @@ Habilitar formulario para feedbacks/reporte de errores
 
 ### 27 de febrero
 
-- [~] Visualizar el juego de maestro cervecero en el PC 2. [x] Cards para preguntas y respuestas 3. [x] Loop a través de las preguntas en el juego 4. [ ] Al final mostrar cerveza en juego 5. [ ] Mostrar puntuación
+- [~] Visualizar el juego de maestro cervecero en el PC
+
+1. [x] Cards para preguntas y respuestas
+2. [x] Loop a través de las preguntas en el juego
+3. [ ] Al final mostrar cerveza en juego
+4. [ ] Mostrar puntuación
+
+- [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+
+- [ ] Habilitar formulario para feedbacks/reporte de errores
+- [ ] Arreglar restablecer contraseña
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+- [ ] Poner a punto la producción en Supabase
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
+- [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado

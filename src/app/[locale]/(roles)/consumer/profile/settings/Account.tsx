@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IUserTable } from '../../../../../../lib/types';
+import { IUserTable } from '../../../../../../lib/types/types';
 import { BasicDataForm } from './BasicDataForm';
 import { CustomizeProfileForm } from './CustomizeProfileForm';
 import { SecretDataForm } from './SecretDataForm';

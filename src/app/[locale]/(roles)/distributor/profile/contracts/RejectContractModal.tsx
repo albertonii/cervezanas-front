@@ -3,7 +3,7 @@
 import React, { ComponentProps } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
-import { IDistributionContract } from '../../../../../../lib/types';
+import { IDistributionContract } from '../../../../../../lib/types/types';
 import Modal from '../../../../components/modals/Modal';
 import { useMutation, useQueryClient } from 'react-query';
 import { DistributionStatus } from '../../../../../../lib/enums';

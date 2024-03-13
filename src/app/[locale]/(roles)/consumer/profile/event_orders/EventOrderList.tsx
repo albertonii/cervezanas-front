@@ -6,7 +6,7 @@ import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '../../../../../../lib/types';
+import { IEventOrder } from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
 

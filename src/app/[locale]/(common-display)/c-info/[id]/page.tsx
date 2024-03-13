@@ -1,7 +1,7 @@
-import React from "react";
-import createServerClient from "../../../../../utils/supabaseServer";
-import { IUserTable } from "../../../../../lib/types";
-import ConsumerInformation from "./ConsumerInformation";
+import React from 'react';
+import createServerClient from '../../../../../utils/supabaseServer';
+import { IUserTable } from '../../../../../lib/types/types';
+import ConsumerInformation from './ConsumerInformation';
 
 export default async function page({ params }: any) {
   const { id } = params;
@@ -16,13 +16,13 @@ async function getConsumerProfile(consumerId: string) {
   const supabase = await createServerClient();
 
   const { data: consumer, error: consumerError } = await supabase
-    .from("users")
+    .from('users')
     .select(
       `
         *
-      `
+      `,
     )
-    .eq("id", consumerId)
+    .eq('id', consumerId)
     .single();
 
   if (consumerError) throw consumerError;

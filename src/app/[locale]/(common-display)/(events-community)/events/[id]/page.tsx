@@ -1,6 +1,10 @@
 import DisplayEvent from './DisplayEvent';
 import createServerClient from '../../../../../../utils/supabaseServer';
-import { ICPF_events, ICPM_events, IEvent } from '../../../../../../lib/types';
+import {
+  ICPF_events,
+  ICPM_events,
+  IEvent,
+} from '../../../../../../lib/types/types';
 
 export default async function EventPage({ params }: any) {
   const { id } = params;

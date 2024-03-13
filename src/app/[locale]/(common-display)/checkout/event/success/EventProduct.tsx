@@ -3,7 +3,7 @@ import GenerateQR from './GenerateQR';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { IEventOrderItem } from '../../../../../../lib/types';
+import { IEventOrderItem } from '../../../../../../lib/types/types';
 import {
   EVENT_ORDER_ITEM_STATUS,
   SupabaseProps,

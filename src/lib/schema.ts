@@ -76,6 +76,139 @@ export interface Database {
           }
         ]
       }
+      beer_master_experience_participants: {
+        Row: {
+          correct_answers: number | null
+          cpf_id: string | null
+          cpm_id: string | null
+          created_at: string
+          event_id: string | null
+          experience_id: string | null
+          gamification_id: string | null
+          id: string
+          incorrect_answers: number | null
+          is_cash: boolean | null
+          is_finished: boolean | null
+          is_paid: boolean | null
+          score: number | null
+        }
+        Insert: {
+          correct_answers?: number | null
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          is_cash?: boolean | null
+          is_finished?: boolean | null
+          is_paid?: boolean | null
+          score?: number | null
+        }
+        Update: {
+          correct_answers?: number | null
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          is_cash?: boolean | null
+          is_finished?: boolean | null
+          is_paid?: boolean | null
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
+            columns: ["cpf_id"]
+            isOneToOne: false
+            referencedRelation: "cp_fixed"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
+            columns: ["cpm_id"]
+            isOneToOne: false
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_participants_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_participation_gamification_id_fkey"
+            columns: ["gamification_id"]
+            isOneToOne: false
+            referencedRelation: "gamification"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
+      beer_master_experience_user_response: {
+        Row: {
+          answer_id: string | null
+          created_at: string | null
+          id: string
+          is_correct: boolean | null
+          participation_id: string | null
+          question_id: string | null
+        }
+        Insert: {
+          answer_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_correct?: boolean | null
+          participation_id?: string | null
+          question_id?: string | null
+        }
+        Update: {
+          answer_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_correct?: boolean | null
+          participation_id?: string | null
+          question_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_experience_user_response_answer_id_fkey"
+            columns: ["answer_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_answers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_user_response_participation_id_fk"
+            columns: ["participation_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_experience_participants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_user_response_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "beer_master_questions"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       beer_master_questions: {
         Row: {
           experience_id: string | null
@@ -244,6 +377,57 @@ export interface Database {
             columns: ["owner_id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      bm_questions: {
+        Row: {
+          category: string | null
+          correct_answer: string | null
+          difficulty: string | null
+          experience_id: string | null
+          id: string
+          incorrect_answers: string[] | null
+          product_id: string | null
+          question: string | null
+          type: string | null
+        }
+        Insert: {
+          category?: string | null
+          correct_answer?: string | null
+          difficulty?: string | null
+          experience_id?: string | null
+          id?: string
+          incorrect_answers?: string[] | null
+          product_id?: string | null
+          question?: string | null
+          type?: string | null
+        }
+        Update: {
+          category?: string | null
+          correct_answer?: string | null
+          difficulty?: string | null
+          experience_id?: string | null
+          id?: string
+          incorrect_answers?: string[] | null
+          product_id?: string | null
+          question?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_bm_question_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_bm_question_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           }
         ]
@@ -1227,72 +1411,6 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
-        ]
-      }
-      experience_participations: {
-        Row: {
-          cpf_id: string | null
-          cpm_id: string | null
-          created_at: string
-          event_id: string | null
-          gamification_id: string | null
-          id: string
-          score: number | null
-        }
-        Insert: {
-          cpf_id?: string | null
-          cpm_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          gamification_id?: string | null
-          id?: string
-          score?: number | null
-        }
-        Update: {
-          cpf_id?: string | null
-          cpm_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          gamification_id?: string | null
-          id?: string
-          score?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
-            columns: ["cpf_id"]
-            isOneToOne: true
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
-            columns: ["cpm_id"]
-            isOneToOne: true
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: true
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_participation_gamification_id_fkey"
-            columns: ["gamification_id"]
-            isOneToOne: true
-            referencedRelation: "gamification"
-            referencedColumns: ["user_id"]
           }
         ]
       }

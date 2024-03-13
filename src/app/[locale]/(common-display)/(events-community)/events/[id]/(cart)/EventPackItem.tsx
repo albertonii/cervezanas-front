@@ -5,7 +5,7 @@ import { SupabaseProps } from '../../../../../../../constants';
 import {
   IProductPack,
   IProductPackEventCartItem,
-} from '../../../../../../../lib/types';
+} from '../../../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
 import useEventCartStore from '../../../../../../store/eventCartStore';
 

@@ -1,6 +1,6 @@
 import { VIEWS } from '../../../../../../../../../constants';
 import { redirect } from 'next/navigation';
-import { IProduct } from '../../../../../../../../../lib/types';
+import { IProduct } from '../../../../../../../../../lib/types/types';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../../../../lib/actions';
 

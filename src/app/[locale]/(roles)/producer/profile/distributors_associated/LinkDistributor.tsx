@@ -2,7 +2,7 @@ import AvailableDistributorsList from './AvailableDistributorsList';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from '../../../../components/modals/Modal';
-import { IDistributorUser } from '../../../../../../lib/types';
+import { IDistributorUser } from '../../../../../../lib/types/types';
 import { SubmitContract } from './SubmitContract';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

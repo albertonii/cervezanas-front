@@ -6,7 +6,7 @@ import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IconButton } from '../../../../components/common/IconButton';
 import Spinner from '../../../../components/common/Spinner';
-import { IDistributorUser } from '../../../../../../lib/types';
+import { IDistributorUser } from '../../../../../../lib/types/types';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import InputSearch from '../../../../components/common/InputSearch';
 

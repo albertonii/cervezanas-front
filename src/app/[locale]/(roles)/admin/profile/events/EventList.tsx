@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types';
+import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';

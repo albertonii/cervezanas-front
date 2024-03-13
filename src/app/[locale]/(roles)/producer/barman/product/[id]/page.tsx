@@ -1,7 +1,7 @@
 import ManageEventProduct from './ManageEventProduct';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../../constants';
-import { IEventOrderItem } from '../../../../../../../lib/types';
+import { IEventOrderItem } from '../../../../../../../lib/types/types';
 import createServerClient from '../../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../../lib/actions';
 

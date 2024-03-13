@@ -1,7 +1,11 @@
 import Spinner from '../../../../components/common/Spinner';
 import ExperienceAccordionItem from './ExperienceAccordionItem ';
 import React from 'react';
-import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
+import {
+  ICPFixed,
+  ICPMobile,
+  IExperience,
+} from '../../../../../../lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 
 interface Props {

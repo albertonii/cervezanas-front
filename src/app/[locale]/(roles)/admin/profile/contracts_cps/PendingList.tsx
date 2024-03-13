@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
 import { generateDownloadableLink } from '../../../../../../utils/utils';
-import { IConsumptionPoints } from '../../../../../../lib/types';
+import { IConsumptionPoints } from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
 

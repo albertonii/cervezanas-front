@@ -3,7 +3,7 @@ import React, { ComponentProps } from 'react';
 import { Rate } from '../../../../components/reviews/Rate';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { useLocale, useTranslations } from 'next-intl';
-import { IReview } from '../../../../../../lib/types';
+import { IReview } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';

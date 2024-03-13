@@ -4,7 +4,7 @@ import React from 'react';
 import { VIEWS } from '../../../../constants';
 import readUserSession from '../../../../lib/actions';
 import { ROLE_ENUM } from '../../../../lib/enums';
-import { IUser } from '../../../../lib/types';
+import { IUser } from '../../../../lib/types/types';
 
 type LayoutProps = {
   children: React.ReactNode;

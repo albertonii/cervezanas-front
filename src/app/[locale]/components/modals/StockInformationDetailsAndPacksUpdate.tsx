@@ -4,7 +4,7 @@ import React from 'react';
 import {
   IProductPack,
   ModalUpdateProductFormData,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { DeleteButton } from '../common/DeleteButton';

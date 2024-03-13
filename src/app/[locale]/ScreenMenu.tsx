@@ -7,7 +7,7 @@ import PuntoCervezanasFlag from './PuntoCervezanasFlag';
 import { memo, useEffect, useState } from 'react';
 import { COMMON } from '../../constants';
 import { ROUTE_SIGNIN } from '../../config';
-import { INotification } from '../../lib/types';
+import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';

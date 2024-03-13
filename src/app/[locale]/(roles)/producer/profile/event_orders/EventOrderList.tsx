@@ -7,7 +7,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { IEventOrder } from '../../../../../../lib/types';
+import { IEventOrder } from '../../../../../../lib/types/types';
 import { IconButton } from '../../../../components/common/IconButton';
 import Spinner from '../../../../components/common/Spinner';
 import { encodeBase64 } from '../../../../../../utils/utils';

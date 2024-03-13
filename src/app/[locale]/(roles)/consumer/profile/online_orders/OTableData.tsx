@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types';
+import { IOrder } from '../../../../../../lib/types/types';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';
 import { IconButton } from '../../../../components/common/IconButton';

@@ -8,7 +8,7 @@ import React, { useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IconButton } from '../../../../components/common/IconButton';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { IDistributionContract } from '../../../../../../lib/types';
+import { IDistributionContract } from '../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import InputSearch from '../../../../components/common/InputSearch';

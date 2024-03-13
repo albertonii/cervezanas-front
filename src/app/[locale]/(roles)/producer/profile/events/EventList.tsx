@@ -6,7 +6,7 @@ import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwn
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types';
+import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';

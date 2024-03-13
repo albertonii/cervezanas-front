@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IBeerMasterAnswer,
   IBeerMasterQuestion,
   IBMExperienceParticipants,
   IBMExperienceUserResponseFormData,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 
 interface Props {
   question: IBeerMasterQuestion;
@@ -28,12 +28,11 @@ export default function QuizAnswer({
   form,
   experienceParticipant,
 }: Props) {
-  const { control, register, setValue } = form;
+  const { control, register, setValue, getValues, resetField } = form;
 
-  const { fields, append, remove } = useFieldArray({
-    name: 'questions',
-    control,
-  });
+  useEffect(() => {
+    console.log(getValues(`answers`));
+  }, []);
 
   const handleChangeAnswer = (answer: IBeerMasterAnswer) => {
     const answerFormData: IBMExperienceUserResponseFormData = {
@@ -43,8 +42,16 @@ export default function QuizAnswer({
       is_correct: answer.is_correct,
     };
 
-    setValue(`answers.${indexAnswer}`, answerFormData);
+    // setValue(`answers.${indexQuestion}`, answerFormData);
+    resetField(`answers.${indexQuestion}-${indexAnswer}`);
+    setValue(`answers.${indexQuestion}-${indexAnswer}`, answerFormData);
+    // setValue(`answers.${indexAnswer}`, answer);
+    console.log('VALUES!', getValues());
   };
+
+  useEffect(() => {
+    console.log('VALUES!', getValues());
+  }, [getValues]);
 
   return (
     <div className="space-x-2">
@@ -52,9 +59,7 @@ export default function QuizAnswer({
         type="radio"
         name={question.question}
         value={answer.id}
-        // {...register(
-        //   `questions.${indexQuestion}.answers.${indexAnswer}.selected_id`,
-        // )}
+        // {...register(`questions.${indexQuestion}.answers.${indexAnswer}.id`)}
         className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
         onChange={() => handleChangeAnswer(answer)}
       />

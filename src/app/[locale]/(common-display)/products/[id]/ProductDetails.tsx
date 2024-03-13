@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Rate } from '../../../components/reviews/Rate';
 import { SupabaseProps } from '../../../../../constants';
 import { ProductGallery } from '../../../components/ProductGallery';
-import { ICarouselItem, IProduct } from '../../../../../lib/types';
+import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 

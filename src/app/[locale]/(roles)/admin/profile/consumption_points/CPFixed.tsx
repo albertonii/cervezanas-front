@@ -4,7 +4,7 @@ import React from 'react';
 import AddCPFixedModal from './AddCPFixedModal';
 import { useTranslations } from 'next-intl';
 import { ListCPFixed } from './ListCPFixed';
-import { ICPFixed } from '../../../../../../lib/types';
+import { ICPFixed } from '../../../../../../lib/types/types';
 
 interface Props {
   cpsFixed: ICPFixed[];

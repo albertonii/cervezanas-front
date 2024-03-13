@@ -11,7 +11,7 @@ import { SupabaseProps } from '../../../../constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { AddCardButton } from '../common/AddCartButton';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { IProduct, IProductPack } from '../../../../lib/types';
+import { IProduct, IProductPack } from '../../../../lib/types/types';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 import { useAuth } from '../../(auth)/Context/useAuth';

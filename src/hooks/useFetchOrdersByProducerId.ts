@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IOrder } from '../lib/types';
+import { IOrder } from '../lib/types/types';
 
 const fetchOrdersByProducerId = async (
   producerId: string,

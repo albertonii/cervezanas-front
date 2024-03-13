@@ -4,7 +4,7 @@ import React, { ComponentProps, useMemo, useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '../common/IconButton';
-import { IProduct } from '../../../../lib/types';
+import { IProduct } from '../../../../lib/types/types';
 import { category_options } from '../../../../lib/productEnum';
 import { DisplayInputError } from '../common/DisplayInputError';
 import { faHandPointer } from '@fortawesome/free-solid-svg-icons';

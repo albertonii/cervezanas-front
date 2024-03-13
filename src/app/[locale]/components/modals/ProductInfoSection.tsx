@@ -1,7 +1,7 @@
-import SelectInput from "../common/SelectInput";
-import React, { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import SelectInput from '../common/SelectInput';
+import React, { useEffect, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   aroma_options,
   color_options,
@@ -14,17 +14,17 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
-} from "../../../../lib/beerEnum";
+} from '../../../../lib/beerEnum';
 import {
   ICustomizeSettings,
   ModalAddProductFormData,
-} from "../../../../lib/types";
-import { capitalizeFirstLetter } from "../../../../utils/formatWords";
-import { formatCurrency } from "../../../../utils/formatCurrency";
-import { DisplayInputError } from "../common/DisplayInputError";
-import StockInformationDetailsAndPacksAdd from "./StockInformationDetailsAndPacksAdd";
-import InputLabel from "../common/InputLabel";
-import InputTextarea from "../common/InputTextarea";
+} from '../../../../lib/types/types';
+import { capitalizeFirstLetter } from '../../../../utils/formatWords';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import { DisplayInputError } from '../common/DisplayInputError';
+import StockInformationDetailsAndPacksAdd from './StockInformationDetailsAndPacksAdd';
+import InputLabel from '../common/InputLabel';
+import InputTextarea from '../common/InputTextarea';
 
 interface Props {
   form: UseFormReturn<ModalAddProductFormData, any>;
@@ -47,7 +47,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   const [colorOptions, setColorOptions] = useState(color_options);
   const [famStyleOptions, setFamStyleOptions] = useState(family_options);
   const [formatOptions, setFormatOptions] = useState<string>(
-    format_options[0].label
+    format_options[0].label,
   );
 
   useEffect(() => {
@@ -75,21 +75,21 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
   // Function that switch between merchandising and beer when select option is clicked
   const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value.toLowerCase();
-    if (category === "beer") {
+    if (category === 'beer') {
       setIsBeer(true);
       setIsMerchandising(false);
-    } else if (category === "merchandising") {
+    } else if (category === 'merchandising') {
       setIsBeer(false);
       setIsMerchandising(true);
     }
 
-    setValue("category", category);
+    setValue('category', category);
   };
 
   const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setVolume(parseInt(e.target.value));
-    setValue("volume", parseInt(e.target.value));
-    trigger("volume");
+    setValue('volume', parseInt(e.target.value));
+    trigger('volume');
   };
 
   return (
@@ -105,7 +105,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               id="is_public"
               type="checkbox"
               className="peer sr-only"
-              {...register("is_public", {
+              {...register('is_public', {
                 required: true,
               })}
               defaultChecked={true}
@@ -114,23 +114,23 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
             <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-              {t("is_public")}
+              {t('is_public')}
             </span>
           </label>
 
           <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-            {t("is_public_description")}
+            {t('is_public_description')}
           </span>
         </div>
 
         <div className="w-full pt-6">
           <label htmlFor="product_type" className="text-sm text-gray-600">
-            {t("product_type")}
+            {t('product_type')}
           </label>
 
           <select
             id="product_type"
-            {...register("type")}
+            {...register('type')}
             onChange={handleProductType}
             defaultValue={product_type_options[0].value}
             className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -148,13 +148,13 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
       {isBeer && (
         <div className="relative flex-auto space-y-4 pt-6">
           <p className="text-slate-500 my-4 text-xl leading-relaxed">
-            {t("modal_product_add_details_title")}
+            {t('modal_product_add_details_title')}
           </p>
 
           {/* Name & Campaign  */}
           <InputLabel
             form={form}
-            label={"name"}
+            label={'name'}
             registerOptions={{
               required: true,
             }}
@@ -162,11 +162,11 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
           {/* Description  */}
           <div>
-            <p className="text-sm text-gray-600">{t("product_description")}</p>
+            <p className="text-sm text-gray-600">{t('product_description')}</p>
 
             <InputTextarea
               form={form}
-              label={"description"}
+              label={'description'}
               registerOptions={{
                 required: true,
               }}
@@ -178,7 +178,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"intensity"}
+              label={'intensity'}
               registerOptions={{
                 required: true,
                 min: 0,
@@ -186,14 +186,14 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 valueAsNumber: true,
               }}
               inputType="number"
-              infoTooltip={t("intensity_tooltip")}
+              infoTooltip={t('intensity_tooltip')}
             />
 
             <SelectInput
               form={form}
-              labelTooltip={"fermentation_tooltip"}
+              labelTooltip={'fermentation_tooltip'}
               options={fermentation_options}
-              label={"fermentation"}
+              label={'fermentation'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -205,9 +205,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"color_tooltip"}
+              labelTooltip={'color_tooltip'}
               options={color_options}
-              label={"color"}
+              label={'color'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -216,9 +216,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
             <SelectInput
               form={form}
-              labelTooltip={"origin_tooltip"}
+              labelTooltip={'origin_tooltip'}
               options={origin_options}
-              label={"origin"}
+              label={'origin'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -230,9 +230,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"family_tooltip"}
+              labelTooltip={'family_tooltip'}
               options={family_options}
-              label={"family"}
+              label={'family'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -274,9 +274,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
             <SelectInput
               form={form}
-              labelTooltip={"era_tooltip"}
+              labelTooltip={'era_tooltip'}
               options={era_options}
-              label={"era"}
+              label={'era'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -288,9 +288,9 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"aroma_tooltip"}
+              labelTooltip={'aroma_tooltip'}
               options={aroma_options}
-              label={"aroma"}
+              label={'aroma'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -302,21 +302,21 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="is_gluten" className="text-sm text-gray-600">
-                {t("is_gluten")}
+                {t('is_gluten')}
               </label>
 
               <select
                 id="is_gluten"
-                {...register("is_gluten", {
+                {...register('is_gluten', {
                   required: true,
                 })}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
-                <option key={0} value={"false"}>
-                  {t("no")}
+                <option key={0} value={'false'}>
+                  {t('no')}
                 </option>
-                <option key={1} value={"true"}>
-                  {t("yes")}
+                <option key={1} value={'true'}>
+                  {t('yes')}
                 </option>
               </select>
 
@@ -330,12 +330,12 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="format" className="text-sm text-gray-600">
-                {t("format")}
+                {t('format')}
               </label>
 
               <select
                 id="format"
-                {...register("format", {
+                {...register('format', {
                   value: formatOptions,
                 })}
                 onChange={handleChange}
@@ -355,7 +355,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
             <div className="space-y w-full">
               <label htmlFor="volume" className="text-sm text-gray-600">
-                {t("volume_label")}
+                {t('volume_label')}
               </label>
 
               <select
@@ -370,7 +370,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 }}
                 value={volume}
               >
-                {formatOptions === "can" ? (
+                {formatOptions === 'can' ? (
                   <>
                     {volume_can_type_options.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -378,7 +378,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                       </option>
                     ))}
                   </>
-                ) : formatOptions === "bottle" ? (
+                ) : formatOptions === 'bottle' ? (
                   <>
                     {volume_bottle_type_options.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -406,8 +406,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             <div className="flex w-full flex-row space-x-3 ">
               <InputLabel
                 form={form}
-                label={"weight"}
-                labelText={t("weight") + " (gr)"}
+                label={'weight'}
+                labelText={t('weight') + ' (gr)'}
                 registerOptions={{
                   required: true,
                   min: 0,
@@ -422,8 +422,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"price"}
-              labelText={`${t("pvpr")} (€)`}
+              label={'price'}
+              labelText={`${t('pvpr')} (€)`}
               registerOptions={{
                 required: true,
                 min: 0,
@@ -431,7 +431,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
               }}
               inputType="number"
               placeholder={formatCurrency(2.5)}
-              infoTooltip={"pvpr_tooltip"}
+              infoTooltip={'pvpr_tooltip'}
             />
           </div>
 

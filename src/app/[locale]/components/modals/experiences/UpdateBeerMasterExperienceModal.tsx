@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import {
   IExperience,
   IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';

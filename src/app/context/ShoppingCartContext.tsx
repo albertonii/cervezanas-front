@@ -3,7 +3,11 @@
 import { createContext, useContext, useState } from 'react';
 import { ShoppingCart } from '../[locale]/components/Cart/ShoppingCart';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { IProductPackCartItem, IProduct, IProductPack } from '../../lib/types';
+import {
+  IProductPackCartItem,
+  IProduct,
+  IProductPack,
+} from '../../lib/types/types';
 
 type ShoppingCartContextType = {
   items: IProductPackCartItem[];

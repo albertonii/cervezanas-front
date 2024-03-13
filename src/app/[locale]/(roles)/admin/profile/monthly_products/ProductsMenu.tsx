@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { IMonthlyProduct, IProduct } from "../../../../../../lib/types";
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import MonthlyProductsList from "./MonthlyProductsList";
+import React, { useEffect, useState } from 'react';
+import { IMonthlyProduct, IProduct } from '../../../../../../lib/types/types';
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import MonthlyProductsList from './MonthlyProductsList';
 
 interface Props {
   products: IProduct[];
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function ProductsMenu({ products, mProducts }: Props) {
-  const [menuOption, setMenuOption] = useState<string>("monthly_products");
+  const [menuOption, setMenuOption] = useState<string>('monthly_products');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function ProductsMenu({ products, mProducts }: Props) {
     if (isLoading) return <div>Loading...</div>;
 
     switch (menuOption) {
-      case "monthly_products":
+      case 'monthly_products':
         return (
           <MonthlyProductsList mProducts={mProducts} products={products} />
         );
@@ -128,7 +128,7 @@ export default function ProductsMenu({ products, mProducts }: Props) {
     <>
       <HorizontalSections
         handleMenuClick={handleMenuClick}
-        tabs={["monthly_products"]}
+        tabs={['monthly_products']}
       />
 
       {renderSwitch()}

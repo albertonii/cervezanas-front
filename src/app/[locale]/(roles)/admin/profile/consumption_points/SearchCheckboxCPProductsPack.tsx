@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import Spinner from '../../../../components/common/Spinner';
-import { IProduct } from '../../../../../../lib/types';
+import { IProduct } from '../../../../../../lib/types/types';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import InputSearch from '../../../../components/common/InputSearch';
 

@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import { ModalAddCampaignFormData } from '../../../../../../lib/types';
+import { ModalAddCampaignFormData } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import SelectInput from '../../../../components/common/SelectInput';
 import { SupabaseProps } from '../../../../../../constants';

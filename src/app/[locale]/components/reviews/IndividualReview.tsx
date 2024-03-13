@@ -5,7 +5,7 @@ import { Rate } from './Rate';
 import { OwnerInfo } from '../OwnerInfo';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { IReview } from '../../../../lib/types';
+import { IReview } from '../../../../lib/types/types';
 import { DeleteButton } from '../common/DeleteButton';
 import { formatDateString } from '../../../../utils/formatDate';
 

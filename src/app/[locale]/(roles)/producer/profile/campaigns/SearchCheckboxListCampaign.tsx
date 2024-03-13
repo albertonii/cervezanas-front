@@ -5,7 +5,7 @@ import {
   ICampaign,
   ICampaignItem,
   IProduct,
-} from '../../../../../../lib/types';
+} from '../../../../../../lib/types/types';
 import Modal from '../../../../components/modals/Modal';
 import InputSearch from '../../../../components/common/InputSearch';
 

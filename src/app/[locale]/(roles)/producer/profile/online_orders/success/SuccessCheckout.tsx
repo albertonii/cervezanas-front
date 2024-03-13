@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IBusinessOrder, IOrder } from '../../../../../../../lib/types';
+import { IBusinessOrder, IOrder } from '../../../../../../../lib/types/types';
 import { formatDateString } from '../../../../../../../utils/formatDate';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
 import BusinessOrderItem from './BusinessOrderItem';

@@ -1,6 +1,6 @@
-import Events from "./Events";
-import { IEvent } from "../../../../../lib/types";
-import createServerClient from "../../../../../utils/supabaseServer";
+import Events from './Events';
+import { IEvent } from '../../../../../lib/types/types';
+import createServerClient from '../../../../../utils/supabaseServer';
 
 export default async function EventsPage() {
   const eventsData = getEvents();
@@ -31,11 +31,11 @@ export default async function EventsPage() {
 
 async function getEvents() {
   const supabase = await createServerClient();
-  const { data: event, error } = await supabase.from("events").select(
+  const { data: event, error } = await supabase.from('events').select(
     `
       *,
       users (*)
-    `
+    `,
   );
   if (error) console.error(error);
   return event as IEvent[];

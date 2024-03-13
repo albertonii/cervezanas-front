@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { IEvent } from '../../../../../lib/types';
+import { IEvent } from '../../../../../lib/types/types';
 import EventCard from './EventCard';
 
 interface Props {

@@ -4,7 +4,7 @@ import BusinessOrderDetails from './BusinessOrderDetails';
 import Spinner from '../../../../../../components/common/Spinner';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import { IOrder } from '../../../../../../../../lib/types';
+import { IOrder } from '../../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import { ONLINE_ORDER_STATUS } from '../../../../../../../../constants';
 import { formatDateString } from '../../../../../../../../utils/formatDate';

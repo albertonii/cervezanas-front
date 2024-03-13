@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import React, { ComponentProps } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import Button from '../../../components/common/Button';
-import { IBillingAddress, IAddress } from '../../../../../lib/types';
+import { IBillingAddress, IAddress } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 
 interface Props {

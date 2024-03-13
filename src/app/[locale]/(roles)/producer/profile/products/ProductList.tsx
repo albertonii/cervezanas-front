@@ -6,7 +6,7 @@ import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { ComponentProps, memo, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { IProduct } from '../../../../../../lib/types';
+import { IProduct } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import { EditButton } from '../../../../components/common/EditButton';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';

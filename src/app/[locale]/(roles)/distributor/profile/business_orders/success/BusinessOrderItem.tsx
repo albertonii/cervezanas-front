@@ -5,7 +5,10 @@ import {
   DISTRIBUTOR_ONLINE_ORDER_STATUS,
   SupabaseProps,
 } from '../../../../../../../constants';
-import { IBusinessOrder, IOrderItem } from '../../../../../../../lib/types';
+import {
+  IBusinessOrder,
+  IOrderItem,
+} from '../../../../../../../lib/types/types';
 import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
 import { StatusTimeline } from '../../../../../components/StatusTimeline';

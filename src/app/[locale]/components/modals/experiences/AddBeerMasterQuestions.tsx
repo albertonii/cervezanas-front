@@ -7,7 +7,7 @@ import {
   IAddModalExperienceBeerMasterFormData,
   IAddBeerMasterQuestionFormData,
   IProduct,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';
 import SelectInput from '../../common/SelectInput';

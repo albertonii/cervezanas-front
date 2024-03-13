@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '../../../../../constants';
-import { IOrder, IOrderItem } from '../../../../../lib/types';
+import { IOrder, IOrderItem } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { formatDateString } from '../../../../../utils/formatDate';
 import { useAuth } from '../../../(auth)/Context/useAuth';

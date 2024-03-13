@@ -2,7 +2,11 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPF_events, ICPM_events, IEvent } from '../../../../../../lib/types';
+import {
+  ICPF_events,
+  ICPM_events,
+  IEvent,
+} from '../../../../../../lib/types/types';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import CPMobile from './CPMobile';
 import CPFixed from './CPFixed';

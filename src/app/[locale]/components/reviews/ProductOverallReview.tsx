@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useTranslations } from "next-intl";
-import { IReview } from "../../../../lib/types";
-import { ReviewQualification } from "../../../../lib/beerEnum";
+import React, { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
+import { IReview } from '../../../../lib/types/types';
+import { ReviewQualification } from '../../../../lib/beerEnum';
 
 interface Props {
   reviews: IReview[];
@@ -20,7 +20,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
   const [bitterness, setBitterness] = React.useState(0);
   const [overall, setOverall] = React.useState(0);
   const [qualification, setQualification] = React.useState(
-    ReviewQualification.not_qualified
+    ReviewQualification.not_qualified,
   );
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
           mouthfeel: 0,
           bitterness: 0,
           overall: 0,
-        }
+        },
       );
 
     aroma = aroma / reviews.length;
@@ -87,7 +87,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
   }
 
   const getPercentage = (number: number) => {
-    if (isNaN(number)) return "0%";
+    if (isNaN(number)) return '0%';
     const percentage = (number / 5) * 100;
     return `${percentage}%`;
   };
@@ -103,15 +103,15 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
             <p
               className={`ml-2 font-medium text-gray-900 dark:text-white ${
                 qualification == ReviewQualification.superb && !emptyReviews
-                  ? "animate-bounce bg-gradient-to-r from-beer-dark to-beer-blonde bg-clip-text text-2xl text-transparent"
-                  : ""
+                  ? 'animate-bounce bg-gradient-to-r from-beer-dark to-beer-blonde bg-clip-text text-2xl text-transparent'
+                  : ''
               }`}
             >
-              {!emptyReviews ? t(qualification) : t("not_qualified")}
+              {!emptyReviews ? t(qualification) : t('not_qualified')}
             </p>
             <span className="mx-2 h-1 w-1 rounded-full bg-gray-900 dark:bg-gray-500"></span>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              {reviews.length} {t("reviews")}
+              {reviews.length} {t('reviews')}
             </p>
 
             {!emptyReviews && (
@@ -119,7 +119,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                 href="#"
                 className="ml-auto text-sm font-medium text-beer-dark hover:underline dark:text-blue-500"
               >
-                {t("read_all_reviews")}
+                {t('read_all_reviews')}
               </a>
             )}
           </div>
@@ -128,7 +128,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
             <div>
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {t("aroma")}
+                  {t('aroma')}
                 </dt>
                 <dd className="mb-3 flex items-center">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
@@ -146,7 +146,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
               </dl>
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {t("appearance")}
+                  {t('appearance')}
                 </dt>
                 <dd className="mb-3 flex items-center">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
@@ -164,7 +164,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
               </dl>
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {t("taste")}
+                  {t('taste')}
                 </dt>
                 <dd className="mb-3 flex items-center">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
@@ -184,7 +184,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
             <div>
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {t("mouthfeel")}
+                  {t('mouthfeel')}
                 </dt>
                 <dd className="mb-3 flex items-center">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
@@ -203,7 +203,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
 
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {t("bitterness")}
+                  {t('bitterness')}
                 </dt>
                 <dd className="mb-3 flex items-center">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
@@ -222,7 +222,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
 
               <dl>
                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 ">
-                  {t("overall")}
+                  {t('overall')}
                 </dt>
                 <dd className="flex items-center ">
                   <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700 ">

@@ -1,8 +1,8 @@
-import MinimizedCart from "./MinimizedCart";
-import MaxifiedCart from "./MaxifiedCart";
-import React, { useEffect, useState } from "react";
-import { IProductPackEventCartItem } from "../../../../../../../lib/types";
-import useEventCartStore from "../../../../../../store/eventCartStore";
+import MinimizedCart from './MinimizedCart';
+import MaxifiedCart from './MaxifiedCart';
+import React, { useEffect, useState } from 'react';
+import { IProductPackEventCartItem } from '../../../../../../../lib/types/types';
+import useEventCartStore from '../../../../../../store/eventCartStore';
 
 interface Props {
   eventId: string;

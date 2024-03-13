@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React from 'react';
-import { INotification } from '../../../lib/types';
+import { INotification } from '../../../lib/types/types';
 import { useAppContext } from '../../context/AppContext';
 import Button from './common/Button';
 import { NotificationPopup } from './NotificationPopup';

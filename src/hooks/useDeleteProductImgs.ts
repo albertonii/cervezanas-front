@@ -3,7 +3,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { Database } from '../lib/schema';
-import { IProduct } from '../lib/types.d';
+import { IProduct } from '../lib/types/types';
 
 const deleteProductImgs = async (
   product: IProduct,

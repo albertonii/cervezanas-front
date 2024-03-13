@@ -2,7 +2,7 @@ import createServerClient from '../../../../../../utils/supabaseServer';
 import { Reviews } from './Reviews';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../constants';
-import { IReview } from '../../../../../../lib/types';
+import { IReview } from '../../../../../../lib/types/types';
 import readUserSession from '../../../../../../lib/actions';
 
 export default async function ReviewsPage() {

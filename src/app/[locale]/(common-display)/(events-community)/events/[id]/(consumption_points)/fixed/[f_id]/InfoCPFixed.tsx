@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import CPDetails from "./CPDetails";
-import ProductList from "./ProductList";
-import React from "react";
-import { ICPFixed } from "../../../../../../../../../lib/types";
+import CPDetails from './CPDetails';
+import ProductList from './ProductList';
+import React from 'react';
+import { ICPFixed } from '../../../../../../../../../lib/types/types';
 
 interface Props {
   cpFixed: ICPFixed;
@@ -16,10 +16,10 @@ export default function InfoCPFixed({ cpFixed, eventId }: Props) {
       <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
         <span
           className={`text-lg font-medium text-white ${
-            cpFixed.status === "active" ? "text-green-500" : "text-red-500"
+            cpFixed.status === 'active' ? 'text-green-500' : 'text-red-500'
           }`}
         >
-          {cpFixed.status === "active" ? "Active" : "Inactive"}
+          {cpFixed.status === 'active' ? 'Active' : 'Inactive'}
         </span>
       </section>
 

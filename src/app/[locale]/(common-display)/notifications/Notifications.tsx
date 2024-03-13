@@ -1,6 +1,6 @@
-import React from "react";
-import { INotification } from "../../../../lib/types";
-import { NotificationList } from "./NotificationList";
+import React from 'react';
+import { INotification } from '../../../../lib/types/types';
+import { NotificationList } from './NotificationList';
 
 interface Props {
   notifications: INotification[];

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { getGeocode } from 'use-places-autocomplete';
-import { IUser } from '../../../../../../lib/types';
+import { IUser } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { cleanObject, isValidObject } from '../../../../../../utils/utils';
 import Modal from '../../../../components/modals/Modal';

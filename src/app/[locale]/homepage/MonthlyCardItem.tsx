@@ -4,7 +4,7 @@ import Link from 'next/link';
 import DisplayImageProduct from '../components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '../../../constants';
-import { IMonthlyProduct } from '../../../lib/types';
+import { IMonthlyProduct } from '../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../(auth)/Context/useAuth';

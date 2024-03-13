@@ -8,10 +8,9 @@ import {
   IBMExperienceParticipants,
   IBMExperienceUserResponseFormData,
   IExperience,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 
 type QuizFormData = {
-  // questions: IBeerMasterQuestionParticipationFormData[];
   answers: IBMExperienceUserResponseFormData[];
 };
 
@@ -27,26 +26,6 @@ const quizSchema: ZodType<QuizFormData> = z.object({
     }),
   ),
 });
-
-// const quizSchema: ZodType<QuizFormData> = z.object({
-//   questions: z.array(
-//     z.object({
-//       question: z.string(),
-//       difficulty: z.number(),
-//       experience_id: z.string(),
-//       product_id: z.string(),
-//       answers: z.array(
-//         z.object({
-//           selected_id: z
-//             .string()
-//             .nonempty({ message: 'errors.input_required' }),
-//           answer: z.string().nonempty({ message: 'errors.input_required' }),
-//           is_correct: z.boolean(),
-//         }),
-//       ),
-//     }),
-//   ),
-// });
 
 type QuizValidationSchema = z.infer<typeof quizSchema>;
 
@@ -65,6 +44,8 @@ export default function QuizPanel({
   experience,
   experienceParticipant,
 }: Props) {
+  // CREAR UN ESTADO PARA LAS PREGUNTAS Y RESPUESTAS
+
   const [indexQuestion, setIndexQuestion] = useState(0);
   const [filteredQuestions, setFilteredQuestions] = useState(
     experience?.bm_questions ?? [],

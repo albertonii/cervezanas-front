@@ -1,6 +1,6 @@
 import AccordionItem from './AccordionItem';
 import React from 'react';
-import { IProduct } from '../../../../../../lib/types';
+import { IProduct } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import { UseFormReturn } from 'react-hook-form';
 

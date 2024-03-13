@@ -6,7 +6,7 @@ import CoverageAreas from './coverage_areas/CoverageAreas';
 import DistributionCost from './distribution_costs/DistributionCost';
 import HorizontalMenuLogistics from './HorizontalMenuLogistics';
 import { DistributionOption } from '../../../../../../lib/enums';
-import { IDistributionCost } from '../../../../../../lib/types';
+import { IDistributionCost } from '../../../../../../lib/types/types';
 
 interface Props {
   // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];

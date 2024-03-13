@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   IConsumptionPoints,
   ICPFixed,
   ICPMobile,
-} from "../../../../../../lib/types";
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import { CPMobile } from "./CPMobile";
-import { CPFixed } from "./CPFixed";
+} from '../../../../../../lib/types/types';
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import { CPMobile } from './CPMobile';
+import { CPFixed } from './CPFixed';
 
 interface Props {
   cps: IConsumptionPoints[];
@@ -19,7 +19,7 @@ export function ConsumptionPoints({ cps }: Props) {
   const [cpsFixed, setCPsFixed] = useState<ICPFixed[]>([]);
   const [cpsMobile, setCPsMobile] = useState<ICPMobile[]>([]);
 
-  const [menuOption, setMenuOption] = useState<string>("cp_fixed");
+  const [menuOption, setMenuOption] = useState<string>('cp_fixed');
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -61,9 +61,9 @@ export function ConsumptionPoints({ cps }: Props) {
     if (isLoading) return <div>Loading...</div>;
 
     switch (menuOption) {
-      case "cp_fixed":
+      case 'cp_fixed':
         return <CPFixed cpsFixed={cpsFixed} />;
-      case "cp_mobile":
+      case 'cp_mobile':
         return <CPMobile cpsMobile={cpsMobile} />;
     }
   };
@@ -76,7 +76,7 @@ export function ConsumptionPoints({ cps }: Props) {
     <>
       <HorizontalSections
         handleMenuClick={handleMenuClick}
-        tabs={["cp_fixed", "cp_mobile"]}
+        tabs={['cp_fixed', 'cp_mobile']}
       />
 
       {renderSwitch()}

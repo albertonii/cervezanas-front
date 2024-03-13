@@ -3,7 +3,7 @@
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types';
+import { IOrder } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import InputSearch from '../../../../components/common/InputSearch';

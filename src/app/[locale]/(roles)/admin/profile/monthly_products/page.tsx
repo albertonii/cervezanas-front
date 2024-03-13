@@ -1,4 +1,4 @@
-import { IMonthlyProduct, IProduct } from '../../../../../../lib/types';
+import { IMonthlyProduct, IProduct } from '../../../../../../lib/types/types';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import ProductsMenu from './ProductsMenu';
 

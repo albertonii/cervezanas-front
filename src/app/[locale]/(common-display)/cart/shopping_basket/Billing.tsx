@@ -4,7 +4,7 @@ import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { NewBillingAddress } from './NewBillingAddress';
 import { useMutation, useQueryClient } from 'react-query';
-import { IBillingAddress } from '../../../../../lib/types';
+import { IBillingAddress } from '../../../../../lib/types/types';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../../components/message/useMessage';
 import { DeleteAddress } from '../../../components/modals/DeleteAddress';

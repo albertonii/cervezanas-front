@@ -5,10 +5,10 @@ import {
 } from '@supabase/supabase-js';
 import { CssComponent } from '@stitches/core/types/styled-component';
 import { Provider, SupabaseClient } from '@supabase/supabase-js';
-import { ThemeVariables } from '../../common/theming';
+import { ThemeVariables } from '../../../common/theming';
 import { Session } from '@supabase/gotrue-js/src/lib/types.d';
-import { Type as ProductType } from './productEnum';
-import { Fermentation } from './beerEnum';
+import { Type as ProductType } from '../productEnum';
+import { Fermentation } from '../beerEnum';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -1490,6 +1490,7 @@ export interface IAddBeerMasterQuestionFormData {
   beer_master_participation?: IBMExperienceParticipants;
   product_id: string;
 }
+
 export interface IAddBeerMasterAnswerFormData {
   answer: string;
   is_correct: boolean;

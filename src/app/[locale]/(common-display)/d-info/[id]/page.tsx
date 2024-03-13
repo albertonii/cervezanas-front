@@ -1,7 +1,7 @@
 import React from 'react';
 import DistributorInformation from './DistributorInformation';
 import createServerClient from '../../../../../utils/supabaseServer';
-import { IDistributorUser } from '../../../../../lib/types';
+import { IDistributorUser } from '../../../../../lib/types/types';
 
 export default async function page({ params }: any) {
   const { id } = params;

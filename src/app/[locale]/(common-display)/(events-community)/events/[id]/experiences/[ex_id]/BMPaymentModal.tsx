@@ -4,7 +4,7 @@ import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import {
   IEventExperience,
   IExperience,
-} from '../../../../../../../../lib/types';
+} from '../../../../../../../../lib/types/types';
 import Modal from '../../../../../../components/modals/Modal';
 
 interface Props {

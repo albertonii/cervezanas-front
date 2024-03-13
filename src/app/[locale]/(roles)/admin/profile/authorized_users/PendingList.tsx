@@ -18,7 +18,7 @@ import {
   IConsumptionPoints,
   IDistributorUser,
   IProducerUser,
-} from '../../../../../../lib/types';
+} from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
 import DistributorList from './DistributorList';

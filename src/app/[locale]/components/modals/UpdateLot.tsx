@@ -6,7 +6,7 @@ import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { IProductLot } from '../../../../lib/types';
+import { IProductLot } from '../../../../lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format_options } from '../../../../lib/beerEnum';
 import { useMutation, useQueryClient } from 'react-query';

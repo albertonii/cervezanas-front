@@ -1,19 +1,19 @@
-import { Appearance } from "../../src/lib/types.d";
-import { CLASS_NAMES, PREPENDED_CLASS_NAMES } from "./../../src/constants";
+import { Appearance } from '../../src/lib/types/types';
+import { CLASS_NAMES, PREPENDED_CLASS_NAMES } from './../../src/constants';
 
 export function generateClassNames(
   /**
    * name of css class name variable
    */
   classNameKey:
-    | "button"
-    | "container"
-    | "anchor"
-    | "divider"
-    | "label"
-    | "input"
-    | "loader"
-    | "message",
+    | 'button'
+    | 'container'
+    | 'anchor'
+    | 'divider'
+    | 'label'
+    | 'input'
+    | 'loader'
+    | 'message',
   /**
    * stiches CSS output
    */
@@ -21,7 +21,7 @@ export function generateClassNames(
   /**
    * appearance variables
    */
-  appearance?: Appearance
+  appearance?: Appearance,
 ) {
   const classNames = [];
 
@@ -29,8 +29,8 @@ export function generateClassNames(
 
   classNames.push(
     appearance?.prependedClassName
-      ? appearance?.prependedClassName + "_" + className
-      : PREPENDED_CLASS_NAMES + "_" + className
+      ? appearance?.prependedClassName + '_' + className
+      : PREPENDED_CLASS_NAMES + '_' + className,
   );
 
   if (appearance?.className?.[classNameKey]) {

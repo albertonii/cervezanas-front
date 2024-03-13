@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React from "react";
-import { useTranslations } from "next-intl";
-import { COMMON } from "../../../constants";
-import { IUser } from "../../../lib/types";
+import Image from 'next/image';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { COMMON } from '../../../constants';
+import { IUser } from '../../../lib/types/types';
 
 interface Props {
   user?: IUser;
@@ -31,7 +31,7 @@ export function OwnerInfo({ user }: Props) {
                 dateTime="2014-08-16 19:00"
                 className="block text-sm text-gray-500 dark:text-gray-400"
               >
-                {t("joined_on")} {user.created_at}
+                {t('joined_on')} {user.created_at}
               </time>
             </p>
           </div>

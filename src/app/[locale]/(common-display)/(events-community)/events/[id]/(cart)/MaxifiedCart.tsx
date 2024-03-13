@@ -4,7 +4,7 @@ import EmptyCart from '../../../../cart/shopping_basket/EmptyCart';
 import React, { useEffect, useState } from 'react';
 import Button from '../../../../../components/common/Button';
 import { useLocale, useTranslations } from 'next-intl';
-import { IProductPackEventCartItem } from '../../../../../../../lib/types';
+import { IProductPackEventCartItem } from '../../../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
 
 interface Props {

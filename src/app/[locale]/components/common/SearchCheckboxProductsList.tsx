@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
-import { IProduct } from '../../../../lib/types';
+import { IProduct } from '../../../../lib/types/types';
 import InputSearch from './InputSearch';
 
 interface Props {

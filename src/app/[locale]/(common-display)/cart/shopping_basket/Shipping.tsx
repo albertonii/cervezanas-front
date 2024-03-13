@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { IAddress } from '../../../../../lib/types';
+import { IAddress } from '../../../../../lib/types/types';
 import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Database } from '../../../../lib/schema';
 import { ROUTE_SIGNIN } from '../../../../config';
 import { EVENTS, VIEWS } from '../../../../constants';
-import { IUserProfile } from '../../../../lib/types';
+import { IUserProfile } from '../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useMessage } from '../../components/message/useMessage';
 import { createBrowserClient } from '../../../../utils/supabaseBrowser';

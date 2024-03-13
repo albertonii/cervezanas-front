@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '../../../../../constants';
-import { IBusinessOrder, IOrderItem } from '../../../../../lib/types';
+import { IBusinessOrder, IOrderItem } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import Button from '../../../components/common/Button';
 import DisplayImageProduct from '../../../components/common/DisplayImageProduct';

@@ -3,7 +3,11 @@ import InputSearch from '../../../../components/common/InputSearch';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
 import React, { useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPFixed, ICPMobile, IExperience } from '../../../../../../lib/types';
+import {
+  ICPFixed,
+  ICPMobile,
+  IExperience,
+} from '../../../../../../lib/types/types';
 
 interface Props {
   cpsMobile: ICPMobile[];

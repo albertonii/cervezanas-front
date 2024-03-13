@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { VIEWS } from '../../../../../../constants';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../lib/actions';
-import { IExperience } from '../../../../../../lib/types';
+import { IExperience } from '../../../../../../lib/types/types';
 import Experiences from './Experiences';
 
 export default async function EventsPage() {

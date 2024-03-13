@@ -1,7 +1,7 @@
 import InfoCPFixed from './InfoCPFixed';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../../../../constants';
-import { ICPFixed } from '../../../../../../../../../lib/types';
+import { ICPFixed } from '../../../../../../../../../lib/types/types';
 import readUserSession from '../../../../../../../../../lib/actions';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
 

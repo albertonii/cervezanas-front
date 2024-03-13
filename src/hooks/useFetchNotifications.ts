@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { INotification } from '../lib/types';
+import { INotification } from '../lib/types/types';
 
 const fetchNotifications = async (ownerId: string, supabase: any) => {
   const { data, error } = await supabase

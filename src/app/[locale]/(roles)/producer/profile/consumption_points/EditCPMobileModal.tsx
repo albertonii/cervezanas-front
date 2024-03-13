@@ -11,7 +11,7 @@ import {
   ICPMobile,
   ICPMProductsEditCPMobileModal,
   IUser,
-} from '../../../../../../lib/types';
+} from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { GeocodeResult } from 'use-places-autocomplete';
 import Modal from '../../../../components/modals/Modal';

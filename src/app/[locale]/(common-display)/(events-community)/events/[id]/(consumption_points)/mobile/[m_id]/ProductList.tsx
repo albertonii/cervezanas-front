@@ -1,7 +1,10 @@
-import React from "react";
-import CPMProduct from "./CPMProductItem";
-import { useTranslations } from "next-intl";
-import { ICPMobile, ICPMProducts } from "../../../../../../../../../lib/types";
+import React from 'react';
+import CPMProduct from './CPMProductItem';
+import { useTranslations } from 'next-intl';
+import {
+  ICPMobile,
+  ICPMProducts,
+} from '../../../../../../../../../lib/types/types';
 
 interface Props {
   cpMobile: ICPMobile;
@@ -16,41 +19,41 @@ export default function ProductList({ cpMobile, eventId }: Props) {
     <>
       {cpm_products && cpm_products.length > 0 ? (
         <section className="overflow-x-auto">
-          <h3 className="mb-2 text-xl font-bold"> {t("products")}</h3>
+          <h3 className="mb-2 text-xl font-bold"> {t('products')}</h3>
 
           <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 ">
-                  {t("img")}
+                  {t('img')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("name_header")}
+                  {t('name_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("pack_name_header")}
+                  {t('pack_name_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("quantity_in_pack_header")}
+                  {t('quantity_in_pack_header')}
                 </th>
 
                 <th scope="col" className="hidden px-6 py-3 md:block">
-                  {t("description_header")}
+                  {t('description_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("price_header")}
+                  {t('price_header')}
                 </th>
 
                 <th scope="col" className="hidden px-6 py-3 md:block">
-                  {t("type_header")}
+                  {t('type_header')}
                 </th>
 
                 <th scope="col" className="px-6 py-3 ">
-                  {t("action_header")}
+                  {t('action_header')}
                 </th>
               </tr>
             </thead>
@@ -74,8 +77,8 @@ export default function ProductList({ cpMobile, eventId }: Props) {
         </section>
       ) : (
         <>
-          <h3 className="mb-2 text-xl font-bold">{t("products")}</h3>
-          <p className="text-gray-500">{t("no_products")}</p>
+          <h3 className="mb-2 text-xl font-bold">{t('products')}</h3>
+          <p className="text-gray-500">{t('no_products')}</p>
         </>
       )}
     </>

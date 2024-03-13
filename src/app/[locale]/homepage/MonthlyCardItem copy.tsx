@@ -6,7 +6,7 @@ import DisplayImageProduct from '../components/common/DisplayImageProduct';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SupabaseProps } from '../../../constants';
-import { IMonthlyProduct } from '../../../lib/types';
+import { IMonthlyProduct } from '../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../components/common/IconButton';

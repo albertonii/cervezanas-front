@@ -4,7 +4,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { Database } from '../lib/schema';
-import { IDistributionContract } from '../lib/types.d';
+import { IDistributionContract } from '../lib/types/types';
 
 const fetchDistributionContracts = async (
   distributorId: string,

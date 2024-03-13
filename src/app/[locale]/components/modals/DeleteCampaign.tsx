@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { ICampaign } from '../../../../lib/types';
+import { ICampaign } from '../../../../lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import Modal from './Modal';
 

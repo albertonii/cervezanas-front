@@ -1,8 +1,8 @@
-import Image from "next/image";
-import React from "react";
-import { IMonthlyProduct } from "../../../lib/types";
-import MonthlyBeers from "./MonthlyBeers";
-import MonthlyCardItem from "./MonthlyCardItem";
+import Image from 'next/image';
+import React from 'react';
+import { IMonthlyProduct } from '../../../lib/types/types';
+import MonthlyBeers from './MonthlyBeers';
+import MonthlyCardItem from './MonthlyCardItem';
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];
@@ -22,7 +22,7 @@ export function Hero({ monthlyProducts }: Props) {
             bg-no-repeat sm:block"
             ></div>
             <div className="">
-              EL LUGAR DE ENCUENTRO PARA LOS AMANTES DE LA{" "}
+              EL LUGAR DE ENCUENTRO PARA LOS AMANTES DE LA{' '}
               <div className="text-3xl text-cerv-titlehigh lg:text-5xl">
                 CERVEZA ARTESANA
               </div>
@@ -56,7 +56,7 @@ export function Hero({ monthlyProducts }: Props) {
               y la cerveza. Queremos que conozcas los experimentos cerveceros
               más locos, aquellas joyas escondidas y fabricadas con mimo para
               ti. Somos el puente entre aquellos fabricantes de cerveza
-              artesanal aún por descubrir y tú.{" "}
+              artesanal aún por descubrir y tú.{' '}
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ export function Hero({ monthlyProducts }: Props) {
               Desde Cervezanas estamos activamente en búsqueda del siguiente
               aroma, descubriendo esa joya que has creado y aún no ha salido al
               mundo. ¿Quieres formar parte de esta comunidad de maestros
-              cerveceros?{" "}
+              cerveceros?{' '}
             </div>
           </div>
         </div>
@@ -281,7 +281,7 @@ export function Hero({ monthlyProducts }: Props) {
         {/*  Productor */}
         <div className="m-auto block sm:flex">
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {" "}
+            {' '}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-1.webp"
@@ -335,7 +335,7 @@ export function Hero({ monthlyProducts }: Props) {
             </div>
           </div>
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {" "}
+            {' '}
             <img
               className="m-auto mb-6 p-0 sm:p-16"
               src="/assets/home/com-2.webp"
@@ -345,7 +345,7 @@ export function Hero({ monthlyProducts }: Props) {
         {/*  Distribuidores */}
         <div className="m-auto block sm:flex">
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {" "}
+            {' '}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-3.webp"
@@ -399,7 +399,7 @@ export function Hero({ monthlyProducts }: Props) {
             </div>
           </div>
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {" "}
+            {' '}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-4.webp"
@@ -436,7 +436,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{" "}
+              erat volutpat.{' '}
             </div>
           </div>
         </div>
@@ -446,7 +446,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
               María Schneider
-            </div>{" "}
+            </div>{' '}
             <div className="text-center text-beer-softFoam sm:text-left">
               Productor Cervezano
             </div>
@@ -463,7 +463,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{" "}
+              erat volutpat.{' '}
             </div>
           </div>
         </div>
@@ -490,7 +490,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{" "}
+              erat volutpat.{' '}
             </div>
           </div>
         </div>

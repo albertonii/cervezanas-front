@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import SelectInput from "../common/SelectInput";
-import React, { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import SelectInput from '../common/SelectInput';
+import React, { useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import {
   aroma_options,
   color_options,
@@ -16,12 +16,12 @@ import {
   volume_can_type_options,
   volume_draft_type_options,
   volume_bottle_type_options,
-} from "../../../../lib/beerEnum";
-import { ModalUpdateProductFormData } from "../../../../lib/types";
-import { DisplayInputError } from "../common/DisplayInputError";
-import StockInformationDetailsAndPacksUpdate from "./StockInformationDetailsAndPacksUpdate";
-import InputLabel from "../common/InputLabel";
-import InputTextarea from "../common/InputTextarea";
+} from '../../../../lib/beerEnum';
+import { ModalUpdateProductFormData } from '../../../../lib/types/types';
+import { DisplayInputError } from '../common/DisplayInputError';
+import StockInformationDetailsAndPacksUpdate from './StockInformationDetailsAndPacksUpdate';
+import InputLabel from '../common/InputLabel';
+import InputTextarea from '../common/InputTextarea';
 
 interface Props {
   form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -37,7 +37,7 @@ export function UpdateProductInfoSection({ form }: Props) {
   } = form;
 
   const [formatOptions, setFormatOptions] = useState<string>(
-    format_options[0].label
+    format_options[0].label,
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,32 +57,32 @@ export function UpdateProductInfoSection({ form }: Props) {
               id="is_public"
               type="checkbox"
               className="peer sr-only"
-              {...register("is_public", {
+              {...register('is_public', {
                 required: true,
               })}
-              defaultChecked={getValues("is_public")}
+              defaultChecked={getValues('is_public')}
             />
 
             <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
             <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-              {t("is_public")}
+              {t('is_public')}
             </span>
           </label>
 
           <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-            {t("is_public_description")}
+            {t('is_public_description')}
           </span>
         </div>
 
         <div className="w-full pt-6">
           <label htmlFor="product_type" className="text-sm text-gray-600">
-            {t("product_type")}
+            {t('product_type')}
           </label>
 
           <select
             id="product_type"
-            defaultValue={getValues("type") ?? "BEER"}
+            defaultValue={getValues('type') ?? 'BEER'}
             className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-gray-200 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
             disabled
           >
@@ -96,17 +96,17 @@ export function UpdateProductInfoSection({ form }: Props) {
       </section>
 
       {/* Beer type */}
-      {getValues("type") === "BEER" && (
+      {getValues('type') === 'BEER' && (
         <section className="relative flex-auto space-y-4 pt-6">
           <p className="text-slate-500 my-4 text-xl leading-relaxed">
-            {t("modal_product_add_details_title")}
+            {t('modal_product_add_details_title')}
           </p>
 
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"name"}
-              labelText={t("product_name")}
+              label={'name'}
+              labelText={t('product_name')}
               registerOptions={{
                 required: true,
               }}
@@ -136,8 +136,8 @@ export function UpdateProductInfoSection({ form }: Props) {
           {/* Description  */}
           <InputTextarea
             form={form}
-            label={"description"}
-            labelText={t("product_description")}
+            label={'description'}
+            labelText={t('product_description')}
             registerOptions={{
               required: true,
             }}
@@ -147,8 +147,8 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <InputLabel
               form={form}
-              label={"intensity"}
-              labelText={`${t("intensity")} (%)`}
+              label={'intensity'}
+              labelText={`${t('intensity')} (%)`}
               registerOptions={{
                 required: true,
                 min: 0,
@@ -156,15 +156,15 @@ export function UpdateProductInfoSection({ form }: Props) {
                 valueAsNumber: true,
               }}
               placeholder="4.7"
-              infoTooltip={t("intensity_tooltip")}
+              infoTooltip={t('intensity_tooltip')}
               inputType="number"
             />
 
             <SelectInput
               form={form}
-              labelTooltip={"fermentation_tooltip"}
+              labelTooltip={'fermentation_tooltip'}
               options={fermentation_options}
-              label={"fermentation"}
+              label={'fermentation'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -175,9 +175,9 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"color_tooltip"}
+              labelTooltip={'color_tooltip'}
               options={color_options}
-              label={"color"}
+              label={'color'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -186,9 +186,9 @@ export function UpdateProductInfoSection({ form }: Props) {
 
             <SelectInput
               form={form}
-              labelTooltip={"origin_tooltip"}
+              labelTooltip={'origin_tooltip'}
               options={origin_options}
-              label={"origin"}
+              label={'origin'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -199,9 +199,9 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"family_tooltip"}
+              labelTooltip={'family_tooltip'}
               options={family_options}
-              label={"family"}
+              label={'family'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -210,9 +210,9 @@ export function UpdateProductInfoSection({ form }: Props) {
 
             <SelectInput
               form={form}
-              labelTooltip={"era_tooltip"}
+              labelTooltip={'era_tooltip'}
               options={era_options}
-              label={"era"}
+              label={'era'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -223,9 +223,9 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <SelectInput
               form={form}
-              labelTooltip={"aroma_tooltip"}
+              labelTooltip={'aroma_tooltip'}
               options={aroma_options}
-              label={"aroma"}
+              label={'aroma'}
               registerOptions={{
                 required: true,
                 valueAsNumber: true,
@@ -237,21 +237,21 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="is_gluten" className="text-sm text-gray-600">
-                {t("is_gluten")}
+                {t('is_gluten')}
               </label>
 
               <select
                 id="is_gluten"
-                {...register("is_gluten", {
+                {...register('is_gluten', {
                   required: true,
                 })}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
-                <option key={0} value={"false"}>
-                  {t("no")}
+                <option key={0} value={'false'}>
+                  {t('no')}
                 </option>
-                <option key={1} value={"true"}>
-                  {t("yes")}
+                <option key={1} value={'true'}>
+                  {t('yes')}
                 </option>
               </select>
 
@@ -265,13 +265,13 @@ export function UpdateProductInfoSection({ form }: Props) {
           <div className="flex w-full flex-row space-x-3 ">
             <div className="w-full ">
               <label htmlFor="format" className="text-sm text-gray-600">
-                {t("format")}
+                {t('format')}
               </label>
 
               <select
                 id="format"
-                {...register("format", {
-                  value: getValues("format"),
+                {...register('format', {
+                  value: getValues('format'),
                 })}
                 onChange={handleChange}
                 className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
@@ -290,14 +290,14 @@ export function UpdateProductInfoSection({ form }: Props) {
 
             <div className="space-y w-full">
               <label htmlFor="volume" className="text-sm text-gray-600">
-                {t("volume_label")}
+                {t('volume_label')}
               </label>
 
               <select
                 {...register(`volume`)}
                 className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
               >
-                {formatOptions === "can" ? (
+                {formatOptions === 'can' ? (
                   <>
                     {volume_can_type_options.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -305,7 +305,7 @@ export function UpdateProductInfoSection({ form }: Props) {
                       </option>
                     ))}
                   </>
-                ) : formatOptions === "bottle" ? (
+                ) : formatOptions === 'bottle' ? (
                   <>
                     {volume_bottle_type_options.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -332,9 +332,9 @@ export function UpdateProductInfoSection({ form }: Props) {
             {/* Product Weight  */}
             <InputLabel
               form={form}
-              label={"weight"}
-              labelText={`${t("weight")} (gr)`}
-              placeholder={"0"}
+              label={'weight'}
+              labelText={`${t('weight')} (gr)`}
+              placeholder={'0'}
               registerOptions={{
                 required: true,
                 min: 0,
@@ -347,17 +347,17 @@ export function UpdateProductInfoSection({ form }: Props) {
           {/* PVPR  */}
           <InputLabel
             form={form}
-            label={"price"}
-            labelText={`${t("pvpr")} (€)`}
+            label={'price'}
+            labelText={`${t('pvpr')} (€)`}
             placeholder="4.7"
             registerOptions={{
-              value: getValues("price"),
+              value: getValues('price'),
               required: true,
               min: 0,
               valueAsNumber: true,
             }}
             inputType="number"
-            infoTooltip={"pvpr_tooltip"}
+            infoTooltip={'pvpr_tooltip'}
           />
 
           {/* Stock information and Packs */}
@@ -366,7 +366,7 @@ export function UpdateProductInfoSection({ form }: Props) {
       )}
 
       {/* Merchandising type */}
-      {getValues("type") === "MERCHANDISING" && <> </>}
+      {getValues('type') === 'MERCHANDISING' && <> </>}
     </>
   );
 }

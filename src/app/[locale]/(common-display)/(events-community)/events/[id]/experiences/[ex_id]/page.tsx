@@ -3,7 +3,7 @@ import readUserSession from '../../../../../../../../lib/actions';
 import EventExperience from './EventExperience';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '../../../../../../../../constants';
-import { IEventExperience } from '../../../../../../../../lib/types';
+import { IEventExperience } from '../../../../../../../../lib/types/types';
 
 export default async function CPMobilePage({ params }: any) {
   const { ex_id: eventExperienceId } = params;

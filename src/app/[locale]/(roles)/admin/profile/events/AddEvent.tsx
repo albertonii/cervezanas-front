@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types';
+import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';

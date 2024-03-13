@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '../../../../../../../../constants';
-import { IOrder, IOrderItem } from '../../../../../../../../lib/types';
+import { IOrder, IOrderItem } from '../../../../../../../../lib/types/types';
 import { formatDateString } from '../../../../../../../../utils/formatDate';
 import { formatCurrency } from '../../../../../../../../utils/formatCurrency';
 

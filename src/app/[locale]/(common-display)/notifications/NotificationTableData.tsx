@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { INotification } from '../../../../lib/types';
+import { INotification } from '../../../../lib/types/types';
 import { formatDateString } from '../../../../utils/formatDate';
 import {
   faChevronCircleDown,

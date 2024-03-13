@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { IUserReport } from '../../../../../../../lib/types';
+import { IUserReport } from '../../../../../../../lib/types/types';
 import { downloadFile } from '../../../../../../../utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import Button from '../../../../../components/common/Button';

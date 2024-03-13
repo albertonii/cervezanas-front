@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { IUser } from "../lib/types";
-import { useQuery } from "react-query";
-import { useAuth } from "../app/[locale]/(auth)/Context/useAuth";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { IUser } from '../lib/types/types';
+import { useQuery } from 'react-query';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProfileContext = async (
   supabase: SupabaseClient<any>,
-  userId?: string
+  userId?: string,
 ) => {
   const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", userId)
+    .from('users')
+    .select('*')
+    .eq('id', userId)
     .single();
 
   if (error) throw error;
@@ -23,7 +23,7 @@ const useFetchProfileContext = (userId?: string) => {
   const { supabase } = useAuth();
 
   return useQuery({
-    queryKey: ["profile-context"],
+    queryKey: ['profile-context'],
     queryFn: () => fetchProfileContext(supabase, userId),
     enabled: true,
     refetchOnWindowFocus: false,

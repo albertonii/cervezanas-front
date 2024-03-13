@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Carousel } from "./common/Carousel";
-import { IconButton } from "./common/IconButton";
-import { ImageModal } from "./modals/ImageModal";
-import { ICarouselItem } from "../../../lib/types";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import DisplayImageProduct from "./common/DisplayImageProduct";
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Carousel } from './common/Carousel';
+import { IconButton } from './common/IconButton';
+import { ImageModal } from './modals/ImageModal';
+import { ICarouselItem } from '../../../lib/types/types';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import DisplayImageProduct from './common/DisplayImageProduct';
 
 interface Props {
   gallery: ICarouselItem[];
@@ -22,12 +22,12 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
   const [main, setMain] = useState(gallery[0]);
   const [showModal, setShowModal] = useState(false);
 
-  const heartColor = { filled: "#fdc300", unfilled: "grey" };
+  const heartColor = { filled: '#fdc300', unfilled: 'grey' };
 
   useEffect(() => {
     if (gallery.length === 0) return;
     gallery[galleryIndex].imageUrl = decodeURIComponent(
-      gallery[galleryIndex].imageUrl
+      gallery[galleryIndex].imageUrl,
     );
 
     setMain(gallery[galleryIndex]);
@@ -52,10 +52,10 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                 isActive={isLike}
                 color={heartColor}
                 classContainer={
-                  "hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0"
+                  'hover:bg-beer-foam transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                 }
-                classIcon={""}
-                title={t("add_to_favs")}
+                classIcon={''}
+                title={t('add_to_favs')}
               ></IconButton>
             </figure>
 
@@ -92,7 +92,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
             imgSrc={main.imageUrl}
             width={500}
             height={500}
-            alt={"Product main image"}
+            alt={'Product main image'}
             class="rounded-md lg:max-h-[600px] lg:max-w-[800px]"
             objectFit="contain"
           />

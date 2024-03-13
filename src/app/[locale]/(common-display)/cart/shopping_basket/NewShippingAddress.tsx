@@ -6,7 +6,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
   IAddressForm,
   ModalShippingAddressFormData,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import ModalWithForm from '../../../components/modals/ModalWithForm';

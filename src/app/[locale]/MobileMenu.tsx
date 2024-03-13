@@ -8,7 +8,7 @@ import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
 import { ROUTE_SIGNIN } from '../../config';
 import { useTranslations } from 'next-intl';
-import { INotification } from '../../lib/types';
+import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useAppContext } from '../context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';

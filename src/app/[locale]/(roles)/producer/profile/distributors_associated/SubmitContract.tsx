@@ -4,7 +4,7 @@ import React from 'react';
 import CollaborationAgreement from './CollaborationAgreement';
 import CollaborationDetails from './CollaborationDetails';
 import ValidateContract from './ValidateContract';
-import { IDistributorUser } from '../../../../../../lib/types';
+import { IDistributorUser } from '../../../../../../lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 
 interface Props {

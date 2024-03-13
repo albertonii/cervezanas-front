@@ -3,7 +3,7 @@ import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
   IAddModalExperienceBeerMasterFormData,
   IAddBeerMasterAnswerFormData,
-} from '../../../../../lib/types';
+} from '../../../../../lib/types/types';
 import InputLabel from '../../common/InputLabel';
 import { DeleteButton } from '../../common/DeleteButton';
 import Button from '../../common/Button';

@@ -1,9 +1,9 @@
 import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IAward } from '../../../../lib/types';
+import { IAward } from '../../../../lib/types/types';
 import { DeleteButton } from '../common/DeleteButton';
-import { ModalAddProductFormData } from '../../../../lib/types';
+import { ModalAddProductFormData } from '../../../../lib/types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { DisplayInputError } from '../common/DisplayInputError';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';

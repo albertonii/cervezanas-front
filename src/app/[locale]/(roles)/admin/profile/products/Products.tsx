@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
-import { IProduct } from '../../../../../../lib/types';
+import { IProduct } from '../../../../../../lib/types/types';
 import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProduct } from '../../../../components/modals/UpdateProduct';

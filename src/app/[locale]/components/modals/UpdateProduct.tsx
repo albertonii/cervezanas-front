@@ -26,7 +26,7 @@ import {
   IAward,
   IProductPack,
   ModalUpdateProductFormData,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 import { uuid } from 'uuidv4';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { ProductStepper } from './ProductStepper';

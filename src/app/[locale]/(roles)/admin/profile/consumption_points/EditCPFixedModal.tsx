@@ -11,7 +11,7 @@ import {
   ICPFixed,
   ICPMProductsEditCPFixedModal,
   IUser,
-} from '../../../../../../lib/types';
+} from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import Modal from '../../../../components/modals/Modal';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';

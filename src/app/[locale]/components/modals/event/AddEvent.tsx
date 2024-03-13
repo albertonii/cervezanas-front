@@ -5,7 +5,7 @@ import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventF
 import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../lib/types';
+import { ICPFixed, ICPMobile } from '../../../../../lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import React, { useEffect, useState } from "react";
-import Spinner from "../../../../components/common/Spinner";
-import { IProducerUser } from "../../../../../../lib/types";
-import { Account } from "./Account";
-import { Details } from "./Details";
-import { Values } from "./Values";
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import React, { useEffect, useState } from 'react';
+import Spinner from '../../../../components/common/Spinner';
+import { IProducerUser } from '../../../../../../lib/types/types';
+import { Account } from './Account';
+import { Details } from './Details';
+import { Values } from './Values';
 
 interface Props {
   profile: IProducerUser;
@@ -14,7 +14,7 @@ interface Props {
 
 export default function Profile({ profile }: Props) {
   const [loading, setLoading] = useState<boolean>(true);
-  const [menuOption, setMenuOption] = useState<string>("account");
+  const [menuOption, setMenuOption] = useState<string>('account');
 
   const handleMenuClick = (opt: string): void => {
     setMenuOption(opt);
@@ -26,11 +26,11 @@ export default function Profile({ profile }: Props) {
 
   const renderSwitch = () => {
     switch (menuOption) {
-      case "account":
+      case 'account':
         return <Account profile={profile} />;
-      case "details":
+      case 'details':
         return <Details />;
-      case "values":
+      case 'values':
         return <Values />;
     }
   };
@@ -39,11 +39,11 @@ export default function Profile({ profile }: Props) {
     <>
       <HorizontalSections
         handleMenuClick={handleMenuClick}
-        tabs={["account", "details", "values"]}
+        tabs={['account', 'details', 'values']}
       />
 
       {loading ? (
-        <Spinner color="beer-blonde" size={"medium"} />
+        <Spinner color="beer-blonde" size={'medium'} />
       ) : (
         <>{renderSwitch()}</>
       )}

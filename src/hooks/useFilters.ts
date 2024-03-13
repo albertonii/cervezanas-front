@@ -1,5 +1,5 @@
-import { useAppContext } from "../app/context/AppContext";
-import { IProduct } from "../lib/types.d";
+import { useAppContext } from '../app/context/AppContext';
+import { IProduct } from '../lib/types/types';
 
 export default function useFilters() {
   const { filters, setFilters } = useAppContext();
@@ -8,7 +8,7 @@ export default function useFilters() {
     return products.filter((product) => {
       return (
         product.price >= filters.minPrice &&
-        (filters.category === "all" || product.category === filters.category)
+        (filters.category === 'all' || product.category === filters.category)
       );
     });
   };

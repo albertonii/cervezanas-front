@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import useFetchCPFixed from "../../../../../../hooks/useFetchCPFixed";
-import EditCPFixedModal from "./EditCPFixedModal";
-import DeleteCPFixedModal from "./DeleteCPFixedModal";
-import PaginationFooter from "../../../../components/common/PaginationFooter";
-import React, { useEffect, useMemo, useState } from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useLocale, useTranslations } from "next-intl";
-import { ICPFixed } from "../../../../../../lib/types";
-import { IconButton } from "../../../../components/common/IconButton";
-import Spinner from "../../../../components/common/Spinner";
-import { formatDateString } from "../../../../../../utils/formatDate";
-import InputSearch from "../../../../components/common/InputSearch";
+import Link from 'next/link';
+import useFetchCPFixed from '../../../../../../hooks/useFetchCPFixed';
+import EditCPFixedModal from './EditCPFixedModal';
+import DeleteCPFixedModal from './DeleteCPFixedModal';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed } from '../../../../../../lib/types/types';
+import { IconButton } from '../../../../components/common/IconButton';
+import Spinner from '../../../../components/common/Spinner';
+import { formatDateString } from '../../../../../../utils/formatDate';
+import InputSearch from '../../../../components/common/InputSearch';
 
 interface Props {
   cpsId: string;
 }
 
 enum SortBy {
-  NONE = "none",
-  USERNAME = "username",
-  NAME = "name",
-  LAST = "last",
-  COUNTRY = "country",
-  CREATED_DATE = "created_date",
-  START_DATE = "start_date",
-  END_DATE = "end_date",
+  NONE = 'none',
+  USERNAME = 'username',
+  NAME = 'name',
+  LAST = 'last',
+  COUNTRY = 'country',
+  CREATED_DATE = 'created_date',
+  START_DATE = 'start_date',
+  END_DATE = 'end_date',
 }
 
 export function ListCPFixed({ cpsId }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const counter = 10;
@@ -42,13 +42,13 @@ export function ListCPFixed({ cpsId }: Props) {
   const { data, isError, isLoading, refetch } = useFetchCPFixed(
     cpsId,
     currentPage,
-    resultsPerPage
+    resultsPerPage,
   );
 
   const [cpFixed, setCPFixed] = useState<ICPFixed[]>(data ?? []);
 
-  const editColor = { filled: "#90470b", unfilled: "grey" };
-  const deleteColor = { filled: "#90470b", unfilled: "grey" };
+  const editColor = { filled: '#90470b', unfilled: 'grey' };
+  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
   const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);

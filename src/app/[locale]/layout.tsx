@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import readUserSession from '../../lib/actions';
 import createServerClient from '../../utils/supabaseServer';
 import { notFound } from 'next/navigation';
-import { INotification } from '../../lib/types';
+import { INotification } from '../../lib/types/types';
 import { MessageList } from './components/message/MessageList';
 
 type LayoutProps = {

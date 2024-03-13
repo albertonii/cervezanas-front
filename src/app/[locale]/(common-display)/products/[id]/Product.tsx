@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import ProductDetails from "./ProductDetails";
-import React, { useEffect, useRef, useState } from "react";
-import { IProduct, IReview } from "../../../../../lib/types";
-import { ProductReviews } from "../../../components/reviews/ProductReviews";
-import { ProductOverallReview } from "../../../components/reviews/ProductOverallReview";
-import dynamic from "next/dynamic";
+import ProductDetails from './ProductDetails';
+import React, { useEffect, useRef, useState } from 'react';
+import { IProduct, IReview } from '../../../../../lib/types/types';
+import { ProductReviews } from '../../../components/reviews/ProductReviews';
+import { ProductOverallReview } from '../../../components/reviews/ProductOverallReview';
+import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import("../../../components/common/Spinner"),
+  () => import('../../../components/common/Spinner'),
   {
     ssr: false,
-  }
+  },
 );
 
 interface Props {
@@ -23,7 +23,7 @@ export default function Product({ product }: Props) {
 
   const [emptyReviews, setEmptyReviews] = useState(false);
   const [productReviews, setProductReviews] = useState<IReview[]>(
-    product.reviews ?? []
+    product.reviews ?? [],
   );
 
   const reviewRef = useRef<any>();
@@ -33,7 +33,7 @@ export default function Product({ product }: Props) {
   }, [product]);
 
   useEffect(() => {
-    if (productReviews[0]?.id === "0" || !productReviews?.length) {
+    if (productReviews[0]?.id === '0' || !productReviews?.length) {
       setEmptyReviews(true);
     }
   }, [productReviews]);
@@ -43,7 +43,7 @@ export default function Product({ product }: Props) {
     setEmptyReviews(!value.length);
   };
 
-  if (loading) return <DynamicSpinner color={"beer-blonde"} size="medium" />;
+  if (loading) return <DynamicSpinner color={'beer-blonde'} size="medium" />;
 
   return (
     <section className="relative grid w-full grid-cols-12 items-center gap-y-8 overflow-hidden bg-white pb-8 pt-14 sm:pt-8 lg:grid-cols-12 lg:px-6">

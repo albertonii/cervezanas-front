@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useLocale } from 'next-intl';
 import { COMMON } from '../../../../../../constants';
-import { ICPFixed } from '../../../../../../lib/types';
+import { ICPFixed } from '../../../../../../lib/types/types';
 import { formatDateString } from '../../../../../../utils/formatDate';
 
 interface CPFixedProps {

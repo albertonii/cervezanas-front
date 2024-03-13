@@ -1,6 +1,6 @@
-import { ICPFixed, ICPMobile } from "../../../../../../lib/types";
-import createServerClient from "../../../../../../utils/supabaseServer";
-import Events from "./Events";
+import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import createServerClient from '../../../../../../utils/supabaseServer';
+import Events from './Events';
 
 export default async function EventsPage() {
   const cpsMobileData = getCPMobileData();
@@ -21,12 +21,12 @@ async function getCPMobileData() {
   const supabase = await createServerClient();
 
   const { data: cps, error: cpError } = await supabase
-    .from("consumption_points")
+    .from('consumption_points')
     .select(
       `
         *,
         cp_mobile (*)
-      `
+      `,
     );
 
   if (cpError) throw cpError;
@@ -38,12 +38,12 @@ async function getCPFixedData() {
   const supabase = await createServerClient();
 
   const { data: cps, error: cpError } = await supabase
-    .from("consumption_points")
+    .from('consumption_points')
     .select(
       `
         *,
         cp_fixed (*)
-      `
+      `,
     );
 
   if (cpError) throw cpError;
@@ -55,8 +55,8 @@ async function getEventsCounter() {
   const supabase = await createServerClient();
 
   const { count, error } = await supabase
-    .from("events")
-    .select("id", { count: "exact" }); // Selecciona solo una columna y habilita el conteo
+    .from('events')
+    .select('id', { count: 'exact' }); // Selecciona solo una columna y habilita el conteo
 
   if (error) throw error;
 

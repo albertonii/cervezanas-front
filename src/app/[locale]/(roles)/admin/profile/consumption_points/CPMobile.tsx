@@ -4,7 +4,7 @@ import AddCPMobileModal from './AddCPMobileModal';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ListCPMobile } from './ListCPMobile';
-import { ICPMobile } from '../../../../../../lib/types';
+import { ICPMobile } from '../../../../../../lib/types/types';
 
 interface Props {
   cpsMobile: ICPMobile[];

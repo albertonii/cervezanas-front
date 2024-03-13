@@ -6,7 +6,7 @@ import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICampaign } from '../../../../../../lib/types';
+import { ICampaign } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import { EditButton } from '../../../../components/common/EditButton';
 import { DeleteButton } from '../../../../components/common/DeleteButton';

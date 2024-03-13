@@ -8,7 +8,7 @@ import { z, ZodType } from 'zod';
 import {
   FlatrateCostFormData,
   IFlatrateCost,
-} from '../../../../../../../lib/types';
+} from '../../../../../../../lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
 import { useMessage } from '../../../../../components/message/useMessage';

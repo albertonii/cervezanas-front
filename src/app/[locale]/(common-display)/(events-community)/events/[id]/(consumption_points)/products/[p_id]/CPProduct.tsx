@@ -23,7 +23,7 @@ import {
   IProduct,
   IProductPack,
   IReview,
-} from '../../../../../../../../../lib/types';
+} from '../../../../../../../../../lib/types/types';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(

@@ -21,7 +21,7 @@ import {
   IModalAddProductPack,
   ModalAddProductAwardFormData,
   ModalAddProductFormData,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductSummary } from './ProductSummary';

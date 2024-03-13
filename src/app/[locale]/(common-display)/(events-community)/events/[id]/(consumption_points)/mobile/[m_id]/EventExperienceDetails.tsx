@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../../../../../../components/common/Button';
 import { useRouter } from 'next/navigation';
-import { IEventExperience } from '../../../../../../../../../lib/types';
+import { IEventExperience } from '../../../../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 
 interface Props {

@@ -2,7 +2,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '../../../../../../constants';
-import { IMonthlyProduct, IProduct } from '../../../../../../lib/types';
+import { IMonthlyProduct, IProduct } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import DisplayImageProduct from '../../../../components/common/DisplayImageProduct';

@@ -1,27 +1,31 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import {
   Combobox,
   ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
+} from '@reach/combobox';
+import '@reach/combobox/styles.css';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from "use-places-autocomplete";
-import { useTranslations } from "next-intl";
-import { IConsumptionPoints, ICPFixed, ICPMobile } from "../../../lib/types";
-import { formatDateString } from "../../../utils/formatDate";
+} from 'use-places-autocomplete';
+import { useTranslations } from 'next-intl';
+import {
+  IConsumptionPoints,
+  ICPFixed,
+  ICPMobile,
+} from '../../../lib/types/types';
+import { formatDateString } from '../../../utils/formatDate';
 
 const containerStyle = {
-  width: "100%",
-  height: "70vh",
-  borderRadius: "5px",
+  width: '100%',
+  height: '70vh',
+  borderRadius: '5px',
 };
 
 interface Props {
@@ -40,8 +44,8 @@ const getCurrentPosition = async () => {
 
 export default function BMGoogleMap({ cps }: Props) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
+    libraries: ['places'],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -58,10 +62,10 @@ function Map({ cps }: Props) {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
             <p class="text-md">Fecha inicio: ${formatDateString(
-              fixed.start_date
+              fixed.start_date,
             )}</p>
             <p class="text-md">Fecha fin: ${formatDateString(
-              fixed.end_date
+              fixed.end_date,
             )}</p>
           </div>
 
@@ -69,7 +73,7 @@ function Map({ cps }: Props) {
           <p class="text-sm">${fixed.cp_description}</p>
           <p class="text-sm">Dirección: ${fixed.address}</p>
           <p class="text-sm">¿Necesario reserva?: ${
-            fixed.is_booking_required ? t("yes") : t("no")
+            fixed.is_booking_required ? t('yes') : t('no')
           }</p>
          
 
@@ -97,15 +101,15 @@ function Map({ cps }: Props) {
 
   const onMarkerMobileClick = (
     marker: google.maps.Marker,
-    mobile: ICPMobile
+    mobile: ICPMobile,
   ) => {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
             <p class="text-md">Fecha inicio: ${formatDateString(
-              mobile.start_date
+              mobile.start_date,
             )}</p>
             <p class="text-md">Fecha fin: ${formatDateString(
-              mobile.end_date
+              mobile.end_date,
             )}</p>
           </div>
 
@@ -113,7 +117,7 @@ function Map({ cps }: Props) {
           <p class="text-sm">${mobile.cp_description}</p>
           <p class="text-sm">Dirección: ${mobile.address}</p>
           <p class="text-sm">¿Necesario reserva?: ${
-            mobile.is_booking_required ? t("yes") : t("no")
+            mobile.is_booking_required ? t('yes') : t('no')
           }</p>
          
 
@@ -162,10 +166,10 @@ function Map({ cps }: Props) {
             position: { lat, lng },
             map: map,
             title: fixed.cp_name,
-            icon: "/icons/fixed_place_48.png",
+            icon: '/icons/fixed_place_48.png',
             clickable: true,
           });
-          marker.addListener("click", () => onMarkerFixClick(marker, fixed));
+          marker.addListener('click', () => onMarkerFixClick(marker, fixed));
           marker.setMap(map);
         });
 
@@ -177,12 +181,12 @@ function Map({ cps }: Props) {
             position: { lat, lng },
             map: map,
             title: mobile.cp_name,
-            icon: "/icons/mobile_place_48.png",
+            icon: '/icons/mobile_place_48.png',
             clickable: true,
           });
 
-          marker.addListener("click", () =>
-            onMarkerMobileClick(marker, mobile)
+          marker.addListener('click', () =>
+            onMarkerMobileClick(marker, mobile),
           );
           marker.setMap(map);
         });
@@ -252,12 +256,12 @@ const AutocompletePlaces = ({ setSelected, map }: PlacesProps) => {
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
         className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        placeholder={t("search_an_address")}
+        placeholder={t('search_an_address')}
       />
 
       <ComboboxPopover portal={false} className="absolute z-50 max-w-[404px]">
         <ComboboxList>
-          {status === "OK" &&
+          {status === 'OK' &&
             data.map(({ place_id, description }) => (
               <ComboboxOption key={place_id} value={description} />
             ))}

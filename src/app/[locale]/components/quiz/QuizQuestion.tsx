@@ -5,7 +5,7 @@ import { UseFormReturn } from 'react-hook-form';
 import {
   IBeerMasterQuestion,
   IBMExperienceParticipants,
-} from '../../../../lib/types';
+} from '../../../../lib/types/types';
 import { DisplayInputError } from '../common/DisplayInputError';
 
 interface Props {
@@ -71,7 +71,7 @@ export default function QuizQuestion({
           </div>
         </div>
 
-        {errors['question'] && (
+        {errors['answers'] && (
           <DisplayInputError message={'errors.input_required'} />
         )}
 

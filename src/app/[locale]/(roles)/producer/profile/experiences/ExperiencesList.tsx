@@ -10,7 +10,7 @@ import DeleteExperienceModal from '../../../../components/modals/experiences/Del
 import UpdateBeerMasterExperienceModal from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IExperience } from '../../../../../../lib/types';
+import { IExperience } from '../../../../../../lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';

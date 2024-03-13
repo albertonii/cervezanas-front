@@ -10,7 +10,7 @@ import { MonthlyBeersDesign } from './homepage/MonthlyBeersDesign';
 import { Community } from './homepage/Community';
 import { Reviews } from './homepage/Reviews';
 import { History } from './homepage/History';
-import { IMonthlyProduct } from '../../lib/types';
+import { IMonthlyProduct } from '../../lib/types/types';
 
 interface Props {
   monthlyProducts: IMonthlyProduct[];

@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { ICPMobile } from "../../../../../../../../../lib/types";
-import { formatDateString } from "../../../../../../../../../utils/formatDate";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ICPMobile } from '../../../../../../../../../lib/types/types';
+import { formatDateString } from '../../../../../../../../../utils/formatDate';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 interface Props {
   cpMobile: ICPMobile;
@@ -24,24 +24,24 @@ export default function CPDetails({ cpMobile }: Props) {
         <div className="mb-4">
           {/* Start and End date */}
           <span className="text-gray-500">
-            {t("start_date")}: {formatDateString(cpMobile.start_date)}
+            {t('start_date')}: {formatDateString(cpMobile.start_date)}
           </span>
           <span className="ml-4 text-gray-500">
-            {t("end_date")}: {formatDateString(cpMobile.end_date)}
+            {t('end_date')}: {formatDateString(cpMobile.end_date)}
           </span>
         </div>
 
         {/* Organizer information */}
         <footer className="mb-4">
           <span className="text-gray-500">
-            {t("organizer")}: {cpMobile.organizer_name}{" "}
+            {t('organizer')}: {cpMobile.organizer_name}{' '}
             {cpMobile.organizer_lastname}
           </span>
           <span className="ml-4 text-gray-500">
-            {t("email")}: {cpMobile.organizer_email}
+            {t('email')}: {cpMobile.organizer_email}
           </span>
           <span className="ml-4 text-gray-500">
-            {t("phone")}: {cpMobile.organizer_phone}
+            {t('phone')}: {cpMobile.organizer_phone}
           </span>
         </footer>
       </article>
@@ -58,8 +58,8 @@ interface GoogleMapLocationProps {
 
 const GoogleMapLocation = ({ cp }: GoogleMapLocationProps) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
+    libraries: ['places'],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -67,9 +67,9 @@ const GoogleMapLocation = ({ cp }: GoogleMapLocationProps) => {
 };
 
 const containerStyle = {
-  width: "100%",
-  height: "40vh",
-  borderRadius: "5px",
+  width: '100%',
+  height: '40vh',
+  borderRadius: '5px',
 };
 
 interface MapsProps {
@@ -85,10 +85,10 @@ function Map({ cp }: MapsProps) {
     const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
             <p class="text-md">Fecha inicio: ${formatDateString(
-              mobile.start_date
+              mobile.start_date,
             )}</p>
             <p class="text-md">Fecha fin: ${formatDateString(
-              mobile.end_date
+              mobile.end_date,
             )}</p>
           </div>
 
@@ -96,7 +96,7 @@ function Map({ cp }: MapsProps) {
           <p class="text-sm">${mobile.cp_description}</p>
           <p class="text-sm">Dirección: ${mobile.address}</p>
           <p class="text-sm">¿Necesario reserva?: ${
-            mobile.is_booking_required ? t("yes") : t("no")
+            mobile.is_booking_required ? t('yes') : t('no')
           }</p>
          
 
@@ -131,11 +131,11 @@ function Map({ cp }: MapsProps) {
         position: { lat, lng },
         map: map,
         title: cp.cp_name,
-        icon: "/icons/mobile_place_48.png",
+        icon: '/icons/mobile_place_48.png',
         clickable: true,
       });
 
-      marker.addListener("click", () => onMarkerFixClick(marker, cp));
+      marker.addListener('click', () => onMarkerFixClick(marker, cp));
       marker.setMap(map);
       map.setCenter({ lat, lng });
     }

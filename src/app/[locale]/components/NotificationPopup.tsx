@@ -5,7 +5,7 @@ import useOnClickOutside from '../../../hooks/useOnOutsideClickDOM';
 import React, { ComponentProps, useRef } from 'react';
 import { useAuth } from '../(auth)/Context/useAuth';
 import { useRouter } from 'next/navigation';
-import { INotification } from '../../../lib/types';
+import { INotification } from '../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { getTimeElapsed } from '../../../utils/formatDate';
 

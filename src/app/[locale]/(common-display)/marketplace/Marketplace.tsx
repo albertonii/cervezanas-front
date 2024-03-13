@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import useFilters from "../../../../hooks/useFilters";
-import React from "react";
-import { StoreItem } from "../../components/Cart/StoreItem";
-import { IProduct } from "../../../../lib/types";
-import { Filters } from "../../components/Filters";
-import { MarketplaceHeader } from "../../components/MarketplaceHeader";
+import useFilters from '../../../../hooks/useFilters';
+import React from 'react';
+import { StoreItem } from '../../components/Cart/StoreItem';
+import { IProduct } from '../../../../lib/types/types';
+import { Filters } from '../../components/Filters';
+import { MarketplaceHeader } from '../../components/MarketplaceHeader';
 
 interface Props {
   products: IProduct[];

@@ -1,5 +1,5 @@
 import Product from './Product';
-import { IProduct } from '../../../../../lib/types';
+import { IProduct } from '../../../../../lib/types/types';
 import createServerClient from '../../../../../utils/supabaseServer';
 
 export default async function ProductPage({ params }: any) {

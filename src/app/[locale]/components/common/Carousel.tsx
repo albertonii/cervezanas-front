@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect, ComponentProps } from "react";
-import { CarouselItem } from "./CarouselItem";
-import { ICarouselItem } from "../../../../lib/types";
+import { useState, useEffect, ComponentProps } from 'react';
+import { CarouselItem } from './CarouselItem';
+import { ICarouselItem } from '../../../../lib/types/types';
 
 interface Props {
   gallery: ICarouselItem[];
@@ -26,12 +26,12 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
     }
   };
 
-  const isDisabled = (direction: "prev" | "next") => {
-    if (direction === "prev") {
+  const isDisabled = (direction: 'prev' | 'next') => {
+    if (direction === 'prev') {
       return currentIndex <= 0;
     }
 
-    if (direction === "next") {
+    if (direction === 'next') {
       return currentIndex >= gallery.length - 1;
     }
 
@@ -39,7 +39,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
   };
 
   useEffect(() => {
-    const carousel = document.getElementById("carousel");
+    const carousel = document.getElementById('carousel');
     if (carousel) {
       carousel.scrollLeft = carousel.offsetWidth * currentIndex;
     }
@@ -57,7 +57,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
           <button
             onClick={movePrev}
             className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-beer-gold hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
-            disabled={isDisabled("prev")}
+            disabled={isDisabled('prev')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
           <button
             onClick={moveNext}
             className="z-10 m-0 h-full w-10 p-0 text-center text-white opacity-75 transition-all duration-300 ease-in-out hover:bg-beer-gold hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-25"
-            disabled={isDisabled("next")}
+            disabled={isDisabled('next')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
                 <div
                   key={resource.title + index}
                   className={`relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer  ${
-                    currentIndex === index ? "scale-100" : "opacity-75"
+                    currentIndex === index ? 'scale-100' : 'opacity-75'
                   }`}
                   onClick={() => {
                     handleClick(index);

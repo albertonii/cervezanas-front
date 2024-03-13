@@ -1,7 +1,10 @@
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
-import { IProductPack, ModalAddProductFormData } from '../../../../lib/types';
+import {
+  IProductPack,
+  ModalAddProductFormData,
+} from '../../../../lib/types/types';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { DeleteButton } from '../common/DeleteButton';
 import Button from '../common/Button';

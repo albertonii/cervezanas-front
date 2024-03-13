@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import { IDistributorUser } from '../../../../../../lib/types';
+import { IDistributorUser } from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
 

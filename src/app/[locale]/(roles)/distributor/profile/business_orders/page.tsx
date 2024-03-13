@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { BusinessOrders } from './BusinessOrders';
 import { VIEWS } from '../../../../../../constants';
 import readUserSession from '../../../../../../lib/actions';
-import { IOrder } from '../../../../../../lib/types';
+import { IOrder } from '../../../../../../lib/types/types';
 import createServerClient from '../../../../../../utils/supabaseServer';
 
 export default async function BusinessOrdersPage() {

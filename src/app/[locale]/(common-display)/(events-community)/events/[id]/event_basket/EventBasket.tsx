@@ -23,7 +23,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import {
   IProductPack,
   IProductPackEventCartItem,
-} from '../../../../../../../lib/types';
+} from '../../../../../../../lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import useEventCartStore from '../../../../../../store/eventCartStore';
 

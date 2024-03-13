@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { IUserReport } from '../../../../../../lib/types';
+import { IUserReport } from '../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';

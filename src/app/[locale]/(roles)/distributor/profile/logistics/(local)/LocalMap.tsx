@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import React, { ComponentProps, useEffect, useMemo, useState } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import {
   Combobox,
   ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
+} from '@reach/combobox';
+import '@reach/combobox/styles.css';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from "use-places-autocomplete";
-import { useTranslations } from "next-intl";
-import { ILocal } from "../../../../../../../lib/types";
+} from 'use-places-autocomplete';
+import { useTranslations } from 'next-intl';
+import { ILocal } from '../../../../../../../lib/types/types';
 
 const containerStyle = {
-  width: "100%",
-  height: "70vh",
-  borderRadius: "5px",
+  width: '100%',
+  height: '70vh',
+  borderRadius: '5px',
 };
 
 const getCurrentPosition = async () => {
@@ -39,8 +39,8 @@ interface Props {
 
 export default function LocalMap({ locals }: Props) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
+    libraries: ['places'],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -82,14 +82,14 @@ function Map({ locals }: MapProps) {
   const [selected, setSelected] = useState(null);
 
   const featureLayer: google.maps.FeatureLayer = map!.getFeatureLayer(
-    google.maps.FeatureType.LOCALITY
+    google.maps.FeatureType.LOCALITY,
   );
 
   const featureStyleOptions: google.maps.FeatureStyleOptions = {
-    strokeColor: "#810FCB",
+    strokeColor: '#810FCB',
     strokeOpacity: 1.0,
     strokeWeight: 3.0,
-    fillColor: "#810FCB",
+    fillColor: '#810FCB',
     fillOpacity: 0.5,
   };
 
@@ -168,13 +168,13 @@ PlacesProps) => {
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
         disabled={!ready}
-          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        placeholder={t("search_an_address")}
+        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+        placeholder={t('search_an_address')}
       />
 
       <ComboboxPopover portal={false} className="absolute z-50 max-w-[404px]">
         <ComboboxList>
-          {status === "OK" &&
+          {status === 'OK' &&
             data.map(({ place_id, description }) => (
               <ComboboxOption key={place_id} value={description} />
             ))}
