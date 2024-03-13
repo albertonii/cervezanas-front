@@ -9,7 +9,6 @@ export default async function CPMobilePage({ params }: any) {
   const { ex_id: eventExperienceId } = params;
   const eventExperienceData = getEventExperience(eventExperienceId);
   const [eventExperience] = await Promise.all([eventExperienceData]);
-  
 
   return <EventExperience eventExperience={eventExperience} />;
 }
@@ -36,7 +35,11 @@ async function getEventExperience(eventExperienceId: string) {
           experiences!public_event_experiences_experience_id_fkey (
             *,
             bm_questions (
-              *
+              *,
+              products (
+                id,
+                name
+              )
             )
           ),
           cp_mobile!public_event_experiences_cp_mobile_id_fkey (

@@ -8,7 +8,6 @@ type Props = {
   userAnswer: string | undefined;
   correctAnswer: string;
   onClick: (answer: string, currentQuestionIndex: number) => void;
-  
 };
 
 const QuestionCard: React.FC<Props> = ({

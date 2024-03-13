@@ -1,4 +1,4 @@
-import { ICPFixed, ICPMobile, IEvent, IProducerUser } from './types';
+import { ICPFixed, ICPMobile, IEvent, IProducerUser, IProduct } from './types';
 
 export enum Difficulty {
   EASY = 'easy',
@@ -16,6 +16,7 @@ export type Question = {
   type: string;
   experience_id?: string;
   product_id?: string;
+  products?: IProduct;
 };
 
 export type QuestionFormData = {
