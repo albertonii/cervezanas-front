@@ -5,85 +5,86 @@ import MonthlyBeers from './MonthlyBeers';
 import MonthlyCardItem from './MonthlyCardItem';
 
 interface Props {
-  monthlyProducts: IMonthlyProduct[];
+    monthlyProducts: IMonthlyProduct[];
 }
 
 export function Hero({ monthlyProducts }: Props) {
-  return (
-    <>
-      {/*  bloque 1 */}
-      <div className="relative m-auto flex h-[220px] max-w-screen-2xl justify-center overflow-hidden border-gray-400 bg-cerv-cream p-4">
-        <div className="flex w-full max-w-screen-2xl justify-center border-8 border-double pt-1">
-          <div className="relative left-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graf1.webp')] bg-cover bg-right bg-no-repeat opacity-10 sm:block"></div>
+    return (
+        <>
+            {/*  bloque 1 */}
+            <div className="relative m-auto flex h-[220px] max-w-screen-2xl justify-center overflow-hidden border-gray-400 bg-cerv-cream p-4">
+                <div className="flex w-full max-w-screen-2xl justify-center border-8 border-double pt-1">
+                    <div className="relative left-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graf1.webp')] bg-cover bg-right bg-no-repeat opacity-10 sm:block"></div>
 
-          <div className=" block w-full justify-center pt-7 text-center text-2xl font-bold sm:inline-flex lg:text-4xl">
-            <div
-              className="z-index-1 relative -left-12 -top-7 hidden h-[170px]  w-[170px] bg-[url('/assets/logo.svg')] bg-contain
+                    <div className=" block w-full justify-center pt-7 text-center text-2xl font-bold sm:inline-flex lg:text-4xl">
+                        <div
+                            className="z-index-1 relative -left-12 -top-7 hidden h-[170px]  w-[170px] bg-[url('/assets/logo.svg')] bg-contain
             bg-no-repeat sm:block"
-            ></div>
-            <div className="">
-              EL LUGAR DE ENCUENTRO PARA LOS AMANTES DE LA{' '}
-              <div className="text-3xl text-cerv-titlehigh lg:text-5xl">
-                CERVEZA ARTESANA
-              </div>
+                        ></div>
+                        <div className="">
+                            EL LUGAR DE ENCUENTRO PARA LOS AMANTES DE LA{' '}
+                            <div className="text-3xl text-cerv-titlehigh lg:text-5xl">
+                                CERVEZA ARTESANA
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative right-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graF2.webp')] bg-cover bg-no-repeat  opacity-10 sm:block"></div>
+                </div>
             </div>
-          </div>
-          <div className="relative right-0  hidden h-[180px] w-[180px] bg-[url('/assets/rec-graF2.webp')] bg-cover bg-no-repeat  opacity-10 sm:block"></div>
-        </div>
-      </div>
-      {/*  bloque 2 */}
-      <div className="relative -top-12 m-auto w-full max-w-screen-2xl">
-        <img src="/assets/home/home-fakebanner.webp"></img>
-      </div>
-      {/*  bloque 3 */}
-      <div className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream p-5 sm:block md:flex lg:flex">
-        <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex lg:w-1/2">
-          <div className="h-[350px] bg-[url('/assets/home/home-img-1.webp')] bg-center bg-no-repeat sm:bg-contain md:w-full lg:h-full lg:w-1/2 lg:bg-cover"></div>
-          <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
-            <div className="m-auto text-center">
-              <img
-                className="m-auto"
-                src="/assets/home/detalle.svg"
-                width="80"
-              ></img>
+            {/*  bloque 2 */}
+            <div className="relative -top-12 m-auto w-full max-w-screen-2xl">
+                <img src="/assets/home/home-fakebanner.webp"></img>
             </div>
-            <div className="pt-3 text-center text-2xl font-bold leading-6 text-cerv-titlehigh">
-              Un punto de encuentro
+            {/*  bloque 3 */}
+            <div className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream p-5 sm:block md:flex lg:flex">
+                <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex lg:w-1/2">
+                    <div className="h-[350px] bg-[url('/assets/home/home-img-1.webp')] bg-center bg-no-repeat sm:bg-contain md:w-full lg:h-full lg:w-1/2 lg:bg-cover"></div>
+                    <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
+                        <div className="m-auto text-center">
+                            <img
+                                className="m-auto"
+                                src="/assets/home/detalle.svg"
+                                width="80"
+                            ></img>
+                        </div>
+                        <div className="pt-3 text-center text-2xl font-bold leading-6 text-cerv-titlehigh">
+                            Un punto de encuentro
+                        </div>
+                        <div className="pt-3 text-justify leading-5">
+                            La buena cerveza crea al artesano así como esta
+                            comunidad a Cervezanas. Creamos experiencias únicas
+                            para amantes de la música y la cerveza. Queremos que
+                            conozcas los experimentos cerveceros más locos,
+                            aquellas joyas escondidas y fabricadas con mimo para
+                            ti. Somos el puente entre aquellos fabricantes de
+                            cerveza artesanal aún por descubrir y tú.{' '}
+                        </div>
+                    </div>
+                </div>
+                <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex  lg:w-1/2">
+                    <div className="h-[350px] bg-[url('/assets/home/home-img-2.webp')] bg-center bg-no-repeat sm:bg-contain  md:w-full lg:h-full lg:w-1/2   lg:bg-cover "></div>
+                    <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
+                        <div className="m-auto text-center">
+                            <img
+                                className="m-auto"
+                                src="/assets/home/detalle.svg"
+                                width="80"
+                            ></img>
+                        </div>
+                        <div className="pt-3 text-center text-2xl font-bold leading-6 text-cerv-titlehigh">
+                            ¿Eres maestro cervecero o tienes tu propia receta?
+                        </div>
+                        <div className="pt-3 text-justify leading-5">
+                            Desde Cervezanas estamos activamente en búsqueda del
+                            siguiente aroma, descubriendo esa joya que has
+                            creado y aún no ha salido al mundo. ¿Quieres formar
+                            parte de esta comunidad de maestros cerveceros?{' '}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="pt-3 text-justify leading-5">
-              La buena cerveza crea al artesano así como esta comunidad a
-              Cervezanas. Creamos experiencias únicas para amantes de la música
-              y la cerveza. Queremos que conozcas los experimentos cerveceros
-              más locos, aquellas joyas escondidas y fabricadas con mimo para
-              ti. Somos el puente entre aquellos fabricantes de cerveza
-              artesanal aún por descubrir y tú.{' '}
-            </div>
-          </div>
-        </div>
-        <div className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex  lg:w-1/2">
-          <div className="h-[350px] bg-[url('/assets/home/home-img-2.webp')] bg-center bg-no-repeat sm:bg-contain  md:w-full lg:h-full lg:w-1/2   lg:bg-cover "></div>
-          <div className="p-8 sm:p-12 md:w-full md:p-8 lg:w-1/2 lg:p-5 xl:p-8">
-            <div className="m-auto text-center">
-              <img
-                className="m-auto"
-                src="/assets/home/detalle.svg"
-                width="80"
-              ></img>
-            </div>
-            <div className="pt-3 text-center text-2xl font-bold leading-6 text-cerv-titlehigh">
-              ¿Eres maestro cervecero o tienes tu propia receta?
-            </div>
-            <div className="pt-3 text-justify leading-5">
-              Desde Cervezanas estamos activamente en búsqueda del siguiente
-              aroma, descubriendo esa joya que has creado y aún no ha salido al
-              mundo. ¿Quieres formar parte de esta comunidad de maestros
-              cerveceros?{' '}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/*  bloque 4 */}
-      <MonthlyBeers monthlyProducts={monthlyProducts} />
+            {/*  bloque 4 */}
+            <MonthlyBeers monthlyProducts={monthlyProducts} />
 
       {/*  bloque 5 */}
       <div className="relative m-auto w-full max-w-screen-2xl justify-center bg-[url('/assets/home/fondo-marcas.webp')] bg-cover bg-no-repeat p-8 pb-20">
@@ -281,7 +282,7 @@ export function Hero({ monthlyProducts }: Props) {
         {/*  Productor */}
         <div className="m-auto block sm:flex">
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {' '}
+            {" "}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-1.webp"
@@ -335,7 +336,7 @@ export function Hero({ monthlyProducts }: Props) {
             </div>
           </div>
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {' '}
+            {" "}
             <img
               className="m-auto mb-6 p-0 sm:p-16"
               src="/assets/home/com-2.webp"
@@ -345,7 +346,7 @@ export function Hero({ monthlyProducts }: Props) {
         {/*  Distribuidores */}
         <div className="m-auto block sm:flex">
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {' '}
+            {" "}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-3.webp"
@@ -399,7 +400,7 @@ export function Hero({ monthlyProducts }: Props) {
             </div>
           </div>
           <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
-            {' '}
+            {" "}
             <img
               className="m-auto p-0 sm:p-16"
               src="/assets/home/com-4.webp"
@@ -436,7 +437,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{' '}
+              erat volutpat.{" "}
             </div>
           </div>
         </div>
@@ -446,7 +447,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-xs">01/01/2023</div>
             <div className="text-center text-xl sm:text-left">
               María Schneider
-            </div>{' '}
+            </div>{" "}
             <div className="text-center text-beer-softFoam sm:text-left">
               Productor Cervezano
             </div>
@@ -463,7 +464,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{' '}
+              erat volutpat.{" "}
             </div>
           </div>
         </div>
@@ -490,7 +491,7 @@ export function Hero({ monthlyProducts }: Props) {
             <div className="text-white">
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.{' '}
+              erat volutpat.{" "}
             </div>
           </div>
         </div>

@@ -6,25 +6,28 @@ import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
 
 interface Props {
-  profile: IProducerUser;
+    profile: IProducerUser;
 }
 
 export function Account({ profile }: Props) {
-  if (!profile) return <></>;
+    if (!profile) return <></>;
 
-  const t = useTranslations();
+    const t = useTranslations();
 
-  return (
-    <section className="px-4 py-6" id="account-container">
-      <p className="flex justify-between py-4" id="header">
-        <h2 id="title" className="text-5xl uppercase font-semibold text-white">
-          {t('profile_title_my_data')}
-        </h2>
-      </p>
+    return (
+        <section className="px-4 py-6" id="account-container">
+            <p className="flex justify-between py-4" id="header">
+                <h2
+                    id="title"
+                    className="text-5xl font-semibold text-beer-blonde"
+                >
+                    {t('profile_title_my_data')}
+                </h2>
+            </p>
 
-      <BasicDataForm profile={profile} />
-      <SecretDataForm />
-      {/* <LocationForm profile_location={profile.profile_location} /> */}
-    </section>
-  );
+            <BasicDataForm profile={profile} />
+            <SecretDataForm />
+            {/* <LocationForm profile_location={profile.profile_location} /> */}
+        </section>
+    );
 }

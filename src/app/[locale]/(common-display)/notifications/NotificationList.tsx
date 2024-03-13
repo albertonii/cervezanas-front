@@ -42,7 +42,7 @@ export function NotificationList({ notifications }: Props) {
   }, [notifications, query]);
 
   return (
-    <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+    <section className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
       <>
         <InputSearch
           query={query}

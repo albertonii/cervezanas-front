@@ -16,235 +16,265 @@ import InputSearch from '../../../../components/common/InputSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 
 interface Props {
-  handleEditShowModal: ComponentProps<any>;
-  handleDeleteShowModal: ComponentProps<any>;
-  handleProductModal: ComponentProps<any>;
+    handleEditShowModal: ComponentProps<any>;
+    handleDeleteShowModal: ComponentProps<any>;
+    handleProductModal: ComponentProps<any>;
 }
 
 interface ColumnsProps {
-  header: string;
+    header: string;
 }
 
 export function ProductList({
-  handleEditShowModal,
-  handleDeleteShowModal,
-  handleProductModal,
+    handleEditShowModal,
+    handleDeleteShowModal,
+    handleProductModal,
 }: Props) {
-  const { supabase } = useAuth();
-  const { user } = useAuth();
-  if (!user) return null;
+    const { supabase } = useAuth();
+    const { user } = useAuth();
+    if (!user) return null;
 
-  const t = useTranslations();
-  const locale = useLocale();
+    const t = useTranslations();
+    const locale = useLocale();
 
-  const [query, setQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 10;
+    const [query, setQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const resultsPerPage = 10;
 
-  const {
-    data: ps,
-    isError,
-    isLoading,
-  } = useFetchProductsByOwnerAndPagination(
-    user?.id,
-    currentPage,
-    resultsPerPage,
-    false,
-  );
+    const {
+        data: ps,
+        isError,
+        isLoading,
+    } = useFetchProductsByOwnerAndPagination(
+        user?.id,
+        currentPage,
+        resultsPerPage,
+        false,
+    );
 
-  const products = ps?.filter((product) => !product.is_archived);
+    const products = ps?.filter((product) => !product.is_archived);
 
-  const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
+    const counter = ps?.filter((product) => !product.is_archived).length ?? 0;
 
-  const COLUMNS = [
-    { header: t('product_type_header') },
-    { header: t('name_header') },
-    { header: t('price_header') },
-    { header: t('stock_header') },
-    { header: t('lot_header') },
-    { header: t('public_header') },
-    { header: t('action_header') },
-  ];
+    const COLUMNS = [
+        { header: t('product_type_header') },
+        { header: t('name_header') },
+        { header: t('price_header') },
+        { header: t('stock_header') },
+        { header: t('lot_header') },
+        { header: t('public_header') },
+        { header: t('action_header') },
+    ];
 
-  const handleEditClick = (product: IProduct) => {
-    handleEditShowModal(true);
-    handleDeleteShowModal(false);
-    handleProductModal(product);
-  };
-
-  const handleArchive = async (product: any) => {
-    // Update product state to archived and isPublic to false
-    // Update product
-    const updatedProduct = {
-      ...product,
-      is_archived: true,
-      is_public: false,
+    const handleEditClick = (product: IProduct) => {
+        handleEditShowModal(true);
+        handleDeleteShowModal(false);
+        handleProductModal(product);
     };
 
-    // Delete the objets that doesn't exists in supabase table but just in the state
-    delete updatedProduct.beers;
-    delete updatedProduct.likes;
-    delete updatedProduct.product_inventory;
-    delete updatedProduct.product_lots;
-    delete updatedProduct.product_multimedia;
+    const handleArchive = async (product: any) => {
+        // Update product state to archived and isPublic to false
+        // Update product
+        const updatedProduct = {
+            ...product,
+            is_archived: true,
+            is_public: false,
+        };
 
-    // Send product to supabase database
-    const { error } = await supabase
-      .from('products')
-      .update(updatedProduct)
-      .eq('id', product.id)
-      .select();
+        // Delete the objets that doesn't exists in supabase table but just in the state
+        delete updatedProduct.beers;
+        delete updatedProduct.likes;
+        delete updatedProduct.product_inventory;
+        delete updatedProduct.product_lots;
+        delete updatedProduct.product_multimedia;
 
-    if (error) throw error;
-  };
+        // Send product to supabase database
+        const { error } = await supabase
+            .from('products')
+            .update(updatedProduct)
+            .eq('id', product.id)
+            .select();
 
-  const handleDeleteClick = (product: IProduct) => {
-    handleEditShowModal(false);
-    handleDeleteShowModal(true);
-    handleProductModal(product);
-  };
+        if (error) throw error;
+    };
 
-  const filteredItems = useMemo<any[]>(() => {
-    if (!products) return [];
-    return products.filter((product) => {
-      return product.name?.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [products, query]);
+    const handleDeleteClick = (product: IProduct) => {
+        handleEditShowModal(false);
+        handleDeleteShowModal(true);
+        handleProductModal(product);
+    };
 
-  return (
-    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
-      {isError && (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            {t('error_fetching_products')}
-          </p>
-        </div>
-      )}
+    const filteredItems = useMemo<any[]>(() => {
+        if (!products) return [];
+        return products.filter((product) => {
+            return product.name?.toLowerCase().includes(query.toLowerCase());
+        });
+    }, [products, query]);
 
-      {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
-      )}
+    return (
+        <section className="mt-2 mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
+            {isError && (
+                <div className="flex items-center justify-center">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {t('error_fetching_products')}
+                    </p>
+                </div>
+            )}
 
-      {!isError && !isLoading && products?.length === 0 ? (
-        <div className="my-[10vh] flex items-center justify-center">
-          <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t('no_products')}
-          </p>
-        </div>
-      ) : (
-        <>
-          <InputSearch
-            query={query}
-            setQuery={setQuery}
-            searchPlaceholder={'search_products'}
-          />
+            {isLoading && (
+                <Spinner color="beer-blonde" size="xLarge" absolute center />
+            )}
 
-          <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {COLUMNS.map((column: ColumnsProps, index: number) => {
-                  return (
-                    <th key={index} scope="col" className="px-6 py-3">
-                      {column.header}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
+            {!isError && !isLoading && products?.length === 0 ? (
+                <div className="my-[10vh] flex items-center justify-center">
+                    <p className="text-2xl text-gray-500 dark:text-gray-400">
+                        {t('no_products')}
+                    </p>
+                </div>
+            ) : (
+                <>
+                    <InputSearch
+                        query={query}
+                        setQuery={setQuery}
+                        searchPlaceholder={'search_products'}
+                    />
 
-            <tbody>
-              {products &&
-                filteredItems.map((product) => {
-                  return (
-                    <tr key={product.id} className="">
-                      <>
-                        <th
-                          scope="row"
-                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                        >
-                          <Image
-                            width={128}
-                            height={128}
-                            className="h-8 w-8 rounded-full"
-                            src="/icons/beer-240.png"
-                            loader={() => '/icons/beer-240.png'}
-                            alt="Beer Type"
-                          />
-                        </th>
+                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
+                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                {COLUMNS.map(
+                                    (column: ColumnsProps, index: number) => {
+                                        return (
+                                            <th
+                                                key={index}
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
+                                                {column.header}
+                                            </th>
+                                        );
+                                    },
+                                )}
+                            </tr>
+                        </thead>
 
-                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                          <Link
-                            href={`/products/${product.id}`}
-                            locale={locale}
-                          >
-                            {product.name}
-                          </Link>
-                        </td>
+                        <tbody>
+                            {products &&
+                                filteredItems.map((product) => {
+                                    return (
+                                        <tr key={product.id} className="">
+                                            <>
+                                                <th
+                                                    scope="row"
+                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                >
+                                                    <Image
+                                                        width={128}
+                                                        height={128}
+                                                        className="h-8 w-8 rounded-full"
+                                                        src="/icons/beer-240.png"
+                                                        loader={() =>
+                                                            '/icons/beer-240.png'
+                                                        }
+                                                        alt="Beer Type"
+                                                    />
+                                                </th>
 
-                        <td className="px-6 py-4">
-                          {formatCurrency(product.price)}
-                        </td>
+                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                    <Link
+                                                        href={`/products/${product.id}`}
+                                                        locale={locale}
+                                                    >
+                                                        {product.name}
+                                                    </Link>
+                                                </td>
 
-                        <td className="px-6 py-4">
-                          {product.product_inventory &&
-                          product.product_inventory?.quantity
-                            ? product.product_inventory.quantity
-                            : '-'}
-                        </td>
+                                                <td className="px-6 py-4">
+                                                    {formatCurrency(
+                                                        product.price,
+                                                    )}
+                                                </td>
 
-                        <td className="px-6 py-4">
-                          {product.product_lots &&
-                          product.product_lots[0]?.lot_id
-                            ? product.product_lots[0]?.lot_id
-                            : '-'}
-                        </td>
+                                                <td className="px-6 py-4">
+                                                    {product.product_inventory &&
+                                                    product.product_inventory
+                                                        ?.quantity
+                                                        ? product
+                                                              .product_inventory
+                                                              .quantity
+                                                        : '-'}
+                                                </td>
 
-                        <td className="px-6 py-4">
-                          {product.is_public ? t('yes') : t('no')}
-                        </td>
+                                                <td className="px-6 py-4">
+                                                    {product.product_lots &&
+                                                    product.product_lots[0]
+                                                        ?.lot_id
+                                                        ? product
+                                                              .product_lots[0]
+                                                              ?.lot_id
+                                                        : '-'}
+                                                </td>
 
-                        <td className="px-6 py-4">
-                          <div className="flex space-x-1">
-                            <EditButton
-                              onClick={() => handleEditClick(product)}
-                            />
+                                                <td className="px-6 py-4">
+                                                    {product.is_public
+                                                        ? t('yes')
+                                                        : t('no')}
+                                                </td>
 
-                            <DeleteButton
-                              onClick={() => handleDeleteClick(product)}
-                            />
+                                                <td className="px-6 py-4">
+                                                    <div className="flex space-x-1">
+                                                        <EditButton
+                                                            onClick={() =>
+                                                                handleEditClick(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
 
-                            <ArchiveButton
-                              onClick={() => handleArchive(product)}
-                            />
-                          </div>
-                        </td>
-                      </>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                                                        <DeleteButton
+                                                            onClick={() =>
+                                                                handleDeleteClick(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
 
-          {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
-            <PaginationFooter
-              counter={counter}
-              resultsPerPage={resultsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
-          {/* 
+                                                        <ArchiveButton
+                                                            onClick={() =>
+                                                                handleArchive(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </>
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>
+
+                    {/* Prev and Next button for pagination  */}
+                    <div className="my-4 flex items-center justify-around">
+                        <PaginationFooter
+                            counter={counter}
+                            resultsPerPage={resultsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </div>
+                    {/* 
           <Footer
             counter={counter}
             resultsPerPage={resultsPerPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           /> */}
-        </>
-      )}
-    </section>
-  );
+                </>
+            )}
+        </section>
+    );
 }
 
 // interface FooterProps {
