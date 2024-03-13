@@ -4,15 +4,24 @@ import ModalWithForm from '../ModalWithForm';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
 import AddExperienceBasicForm, {
   experience_options,
 } from '../../../(roles)/producer/profile/experiences/AddExperienceBasicForm';
+import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
+import {
+  Difficulty,
+  IAddModalExperienceBeerMasterFormData,
+} from '../../../../../lib/types/quiz';
+
+const difficulties = z.union([
+  z.literal(Difficulty.EASY),
+  z.literal(Difficulty.MEDIUM),
+  z.literal(Difficulty.HARD),
+]);
 
 const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
   z.object({
@@ -23,13 +32,18 @@ const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
     questions: z.array(
       z.object({
         product_id: z.string().nonempty({ message: 'errors.input_required' }),
-        question: z.string().nonempty({ message: 'errors.input_required' }),
-        answers: z.array(
-          z.object({
-            answer: z.string().nonempty({ message: 'errors.input_required' }),
-            is_correct: z.boolean(),
-          }),
-        ),
+        question: z.object({
+          category: z.string().nonempty({ message: 'errors.input_required' }),
+          difficulty: difficulties,
+          question: z.string().nonempty({ message: 'errors.input_required' }),
+          type: z.string().nonempty({ message: 'errors.input_required' }),
+          answers: z.array(
+            z.object({
+              answer: z.string().nonempty({ message: 'errors.input_required' }),
+              is_correct: z.boolean(),
+            }),
+          ),
+        }),
       }),
     ),
   });
@@ -82,13 +96,27 @@ export default function AddBeerMasterExperienceModal() {
     }
 
     // Insert questions and answers
-    questions.forEach(async (question) => {
+    questions.forEach(async (q) => {
+      // Correct answer
+      const correctAnswer: string =
+        q.question.answers.find((a) => a.is_correct)?.answer || '';
+
+      // Array list with incorrect answers
+      const incorrectAnswers: string[] = q.question.answers
+        .filter((a) => !a.is_correct)
+        .map((a) => a.answer);
+
       const { data: questionData, error: questionError } = await supabase
-        .from('beer_master_questions')
+        .from('bm_questions')
         .insert({
-          question: question.question,
+          question: q.question.question,
           experience_id: experience.id,
-          product_id: question.product_id,
+          product_id: q.product_id,
+          correct_answer: correctAnswer,
+          incorrect_answers: incorrectAnswers,
+          difficulty: q.question.difficulty,
+          category: q.question.category,
+          type: q.question.type,
         })
         .select()
         .single();
@@ -100,24 +128,6 @@ export default function AddBeerMasterExperienceModal() {
       if (questionError) {
         throw questionError;
       }
-
-      question.answers.forEach(async (answer) => {
-        const { data: answerData, error: answerError } = await supabase
-          .from('beer_master_answers')
-          .insert({
-            answer: answer.answer,
-            is_correct: answer.is_correct,
-            question_id: questionData.id,
-          });
-
-        if (!answerData) {
-          return;
-        }
-
-        if (answerError) {
-          throw answerError;
-        }
-      });
     });
 
     reset();

@@ -1,19 +1,20 @@
 import InputLabel from '../../common/InputLabel';
-import AddBeerMasterAnswers from './AddBeerMasterAnswers';
+import Button from '../../common/Button';
+import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
+import SelectInput from '../../common/SelectInput';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
+import { IProduct } from '../../../../../lib/types/types';
+import { DeleteButton } from '../../common/DeleteButton';
+import { useEffect, useState } from 'react';
+import { DisplayInputError } from '../../common/DisplayInputError';
 import {
   IAddModalExperienceBeerMasterFormData,
   IAddBeerMasterQuestionFormData,
-  IProduct,
-} from '../../../../../lib/types/types';
-import { DeleteButton } from '../../common/DeleteButton';
-import Button from '../../common/Button';
-import SelectInput from '../../common/SelectInput';
-import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
-import { useEffect, useState } from 'react';
-import { DisplayInputError } from '../../common/DisplayInputError';
+  Difficulty,
+} from '../../../../../lib/types/quiz';
+import AddBeerMasterAnswersNew from './AddBeerMasterAnswers';
 
 interface Props {
   form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
@@ -67,8 +68,13 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
 
   const handleAddQuestion = () => {
     const emptyQuestion: IAddBeerMasterQuestionFormData = {
-      question: '',
-      answers: [],
+      question: {
+        category: 'beer',
+        difficulty: Difficulty.MEDIUM,
+        question: '',
+        type: 'multiple',
+        answers: [],
+      },
       product_id: listProducts[0].value,
     };
 
@@ -111,38 +117,50 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
         </select>
       </div>
 
-      {fields.map((field, index) => (
+      {fields.map((question, questionIndex) => (
         <fieldset
-          key={field.id}
+          key={question.id}
           className="relative flex-auto space-y-4 pt-6 mt-4 rounded-md border-2 border-dotted border-beer-softBlondeBubble p-4"
         >
-          <div className="flex flex-row items-end">
+          <div className="flex flex-row items-end space-x-4">
             <InputLabel
               form={form}
-              label={`questions.${index}.question`}
-              labelText={`${index + 1} ${t('question')}`}
+              label={`questions.${questionIndex}.question.question`}
+              labelText={`${questionIndex + 1} ${t('question')}`}
               registerOptions={{
                 required: true,
               }}
               placeholder={t('input_questions_question_placeholder')}
             />
 
-            <div className="ml-4">
-              <DeleteButton onClick={() => handleRemoveQuestion(index)} />
-            </div>
+            <SelectInput
+              form={form}
+              options={[
+                { label: 'easy', value: 'easy' },
+                { label: 'medium', value: 'medium' },
+                { label: 'hard', value: 'hard' },
+              ]}
+              label={`questions.${questionIndex}.question.difficulty`}
+              labelText={`difficulty`}
+              registerOptions={{
+                required: true,
+              }}
+            />
+
+            <DeleteButton onClick={() => handleRemoveQuestion(questionIndex)} />
           </div>
 
           {/* Error input displaying */}
           {errors.questions &&
-            errors.questions[index] &&
-            errors.questions[index]?.question && (
+            errors.questions[questionIndex] &&
+            errors.questions[questionIndex]?.question && (
               <DisplayInputError
-                message={errors.questions[index]?.question!.message}
+                message={errors.questions[questionIndex]?.question!.message}
               />
             )}
 
           {/* Multiple inputs that are the possible answers to the question */}
-          <AddBeerMasterAnswers form={form} index={index} />
+          <AddBeerMasterAnswersNew form={form} questionIndex={questionIndex} />
         </fieldset>
       ))}
 

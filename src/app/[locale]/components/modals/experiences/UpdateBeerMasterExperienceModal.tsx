@@ -1,19 +1,27 @@
 'use client';
 
 import ModalWithForm from '../ModalWithForm';
+import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-  IExperience,
-  IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { string, z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { UpdBeerMasterQuestions } from './UpdBeerMasterQuestions';
-import UpdExperienceBasicForm from '../../../(roles)/producer/profile/experiences/UpdExperienceBasicForm';
+import {
+  Difficulty,
+  IExperience,
+  IUpdModalExperienceBeerMasterFormData,
+} from '../../../../../lib/types/quiz';
+import { shuffleArray } from '../../../../../utils/utils';
+
+const difficulties = z.union([
+  z.literal(Difficulty.EASY),
+  z.literal(Difficulty.MEDIUM),
+  z.literal(Difficulty.HARD),
+]);
 
 const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
   z.object({
@@ -29,17 +37,18 @@ const schemaBeerMaster: ZodType<IUpdModalExperienceBeerMasterFormData> =
         experience_id: z
           .string()
           .nonempty({ message: 'errors.input_required' }),
-        question: z.string().nonempty({ message: 'errors.input_required' }),
-        answers: z.array(
-          z.object({
-            id: z.string().optional(),
-            answer: z.string().nonempty({ message: 'errors.input_required' }),
-            is_correct: z.boolean(),
-            question_id: z
-              .string()
-              .nonempty({ message: 'errors.input_required' }),
-          }),
-        ),
+        question: z.object({
+          category: z.string().optional(),
+          difficulty: difficulties,
+          question: z.string().nonempty({ message: 'errors.input_required' }),
+          type: z.string().nonempty({ message: 'errors.input_required' }),
+          answers: z.array(
+            z.object({
+              answer: z.string().nonempty({ message: 'errors.input_required' }),
+              is_correct: z.boolean(),
+            }),
+          ),
+        }),
         product_id: z.string().nonempty({ message: 'errors.input_required' }),
       }),
     ),
@@ -66,6 +75,26 @@ export default function UpdateBeerMasterExperienceModal({
 
   const queryClient = useQueryClient();
 
+  const bmQuestions = selectedExperience.bm_questions?.map((q) => {
+    return {
+      id: q.id,
+      experience_id: q.experience_id,
+      product_id: q.product_id,
+      question: {
+        category: q.category,
+        difficulty: q.difficulty,
+        question: q.question,
+        type: q.type,
+        answers: [q.correct_answer, ...q.incorrect_answers].map((a) => {
+          return {
+            answer: a,
+            is_correct: a === q.correct_answer,
+          };
+        }),
+      },
+    };
+  });
+
   const form = useForm<ValidationSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(schemaBeerMaster),
@@ -76,7 +105,7 @@ export default function UpdateBeerMasterExperienceModal({
       type: selectedExperience.type,
       price: selectedExperience.price,
       producer_id: selectedExperience.producer_id,
-      questions: selectedExperience.bm_questions,
+      questions: bmQuestions,
     },
   });
 
@@ -86,6 +115,9 @@ export default function UpdateBeerMasterExperienceModal({
     formState: { errors },
   } = form;
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
   const handleUpdateBeerMasterExperience = async (form: ValidationSchema) => {
     const { name, description, type, questions } = form;
 
@@ -110,17 +142,32 @@ export default function UpdateBeerMasterExperienceModal({
     }
 
     // Update questions and answers
-    questions.forEach(async (question) => {
+    questions.forEach(async (q) => {
       // Update question if it exists
-      if (question.id) {
+      if (q.id) {
+        // Correct answer
+        const correctAnswer: string =
+          q.question.answers.find((a) => a.is_correct)?.answer || '';
+
+        // Array list with incorrect answers
+        const incorrectAnswers: string[] = q.question.answers
+          .filter((a) => !a.is_correct)
+          .map((a) => a.answer);
+
         const { error: questionError } = await supabase
-          .from('beer_master_questions')
+          .from('bm_questions')
           .update({
-            question: question.question,
+            id: q.id,
+            question: q.question.question,
             experience_id: experience.id,
-            product_id: question.product_id,
+            product_id: q.product_id,
+            correct_answer: correctAnswer,
+            incorrect_answers: incorrectAnswers,
+            difficulty: q.question.difficulty,
+            category: q.question.category,
+            type: q.question.type,
           })
-          .eq('id', question.id)
+          .eq('id', q.id)
           .select('id')
           .single();
 
@@ -128,31 +175,45 @@ export default function UpdateBeerMasterExperienceModal({
           throw questionError;
         }
 
-        question.answers.forEach(async (answer) => {
-          const { error: answerError } = await supabase
-            .from('beer_master_answers')
-            .upsert({
-              answer: answer.answer,
-              is_correct: answer.is_correct,
-              question_id: question.id,
-              id: answer.id,
-            });
+        // question.answers.forEach(async (answer) => {
+        //   const { error: answerError } = await supabase
+        //     .from('beer_master_answers')
+        //     .upsert({
+        //       answer: answer.answer,
+        //       is_correct: answer.is_correct,
+        //       question_id: question.id,
+        //       id: answer.id,
+        //     });
 
-          if (answerError) {
-            console.error(answerError);
-            throw answerError;
-          }
-        });
+        //   if (answerError) {
+        //     console.error(answerError);
+        //     throw answerError;
+        //   }
+        // });
       }
 
       // Insert question if it doesn't exist
-      if (!question.id) {
+      if (!q.id) {
+        // Correct answer
+        const correctAnswer: string =
+          q.question.answers.find((a) => a.is_correct)?.answer || '';
+
+        // Array list with incorrect answers
+        const incorrectAnswers: string[] = q.question.answers
+          .filter((a) => !a.is_correct)
+          .map((a) => a.answer);
+
         const { data: questionData, error: questionError } = await supabase
           .from('beer_master_questions')
           .insert({
-            question: question.question,
+            question: q.question.question,
             experience_id: experience.id,
-            product_id: question.product_id,
+            product_id: q.product_id,
+            correct_answer: correctAnswer,
+            incorrect_answers: incorrectAnswers,
+            difficulty: q.question.difficulty,
+            category: q.question.category,
+            type: q.question.type,
           })
           .select('id')
           .single();
@@ -165,20 +226,20 @@ export default function UpdateBeerMasterExperienceModal({
           throw questionError;
         }
 
-        question.answers.forEach(async (answer) => {
-          const { error: answerError } = await supabase
-            .from('beer_master_answers')
-            .insert({
-              answer: answer.answer,
-              is_correct: answer.is_correct,
-              question_id: questionData.id,
-            });
+        // question.answers.forEach(async (answer) => {
+        //   const { error: answerError } = await supabase
+        //     .from('beer_master_answers')
+        //     .insert({
+        //       answer: answer.answer,
+        //       is_correct: answer.is_correct,
+        //       question_id: questionData.id,
+        //     });
 
-          if (answerError) {
-            console.error(answerError);
-            throw answerError;
-          }
-        });
+        //   if (answerError) {
+        //     console.error(answerError);
+        //     throw answerError;
+        //   }
+        // });
       }
     });
 

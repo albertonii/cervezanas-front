@@ -12,7 +12,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import UpdateBeerMasterExperienceModalNew from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModalNew';
+import UpdateBeerMasterExperienceModalNew from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import { IExperience } from '../../../../../../lib/types/quiz';
 
 enum SortBy {
