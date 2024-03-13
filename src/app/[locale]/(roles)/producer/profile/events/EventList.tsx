@@ -16,231 +16,242 @@ import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
 import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
 
 enum SortBy {
-  NONE = 'none',
-  USERNAME = 'username',
-  NAME = 'name',
-  LAST = 'last',
-  COUNTRY = 'country',
-  CREATED_DATE = 'created_date',
-  START_DATE = 'start_date',
-  END_DATE = 'end_date',
+    NONE = 'none',
+    USERNAME = 'username',
+    NAME = 'name',
+    LAST = 'last',
+    COUNTRY = 'country',
+    CREATED_DATE = 'created_date',
+    START_DATE = 'start_date',
+    END_DATE = 'end_date',
 }
 interface ColumnsProps {
-  header: string;
+    header: string;
 }
 
 interface Props {
-  counter: number;
-  cpsMobile: ICPMobile[];
-  cpsFixed: ICPFixed[];
+    counter: number;
+    cpsMobile: ICPMobile[];
+    cpsFixed: ICPFixed[];
 }
 
 export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
-  const t = useTranslations();
-  const locale = useLocale();
-  const [query, setQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+    const t = useTranslations();
+    const locale = useLocale();
+    const [query, setQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
-  const resultsPerPage = 10;
+    const resultsPerPage = 10;
 
-  const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
-    currentPage,
-    resultsPerPage,
-  );
+    const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
+        currentPage,
+        resultsPerPage,
+    );
 
-  const [events, setEvents] = useState<IEvent[]>(data ?? []);
+    const [events, setEvents] = useState<IEvent[]>(data ?? []);
 
-  const editColor = { filled: '#90470b', unfilled: 'grey' };
-  const deleteColor = { filled: '#90470b', unfilled: 'grey' };
+    const editColor = { filled: '#90470b', unfilled: 'grey' };
+    const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
-  const [isEditModal, setIsEditModal] = useState(false);
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
+    const [isEditModal, setIsEditModal] = useState(false);
+    const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-  const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-  const [selectedEvent, setSelectedEvent] = useState<IEvent>();
+    const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
+    const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
-  const COLUMNS = [
-    { header: t('event_type_header') },
-    { header: t('name_header') },
-    { header: t('created_date_header') },
-    { header: t('action_header') },
-  ];
+    const COLUMNS = [
+        { header: t('event_type_header') },
+        { header: t('name_header') },
+        { header: t('created_date_header') },
+        { header: t('action_header') },
+    ];
 
-  useEffect(() => {
-    refetch().then((res: any) => {
-      const events = res.data as any;
-      setEvents(events);
-    });
-  }, [currentPage]);
+    useEffect(() => {
+        refetch().then((res: any) => {
+            const events = res.data as any;
+            setEvents(events);
+        });
+    }, [currentPage]);
 
-  const filteredItems = useMemo<IEvent[]>(() => {
-    if (!data) return [];
-    return data.filter((event) => {
-      return event.name.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [data, events, query]);
+    const filteredItems = useMemo<IEvent[]>(() => {
+        if (!data) return [];
+        return data.filter((event) => {
+            return event.name.toLowerCase().includes(query.toLowerCase());
+        });
+    }, [data, events, query]);
 
-  const sortedItems = useMemo(() => {
-    if (sorting === SortBy.NONE) return filteredItems;
+    const sortedItems = useMemo(() => {
+        if (sorting === SortBy.NONE) return filteredItems;
 
-    const compareProperties: Record<string, (event: IEvent) => any> = {
-      [SortBy.NAME]: (e) => e.name,
-      [SortBy.CREATED_DATE]: (e) => e.created_at,
-      [SortBy.START_DATE]: (e) => e.start_date,
+        const compareProperties: Record<string, (event: IEvent) => any> = {
+            [SortBy.NAME]: (e) => e.name,
+            [SortBy.CREATED_DATE]: (e) => e.created_at,
+            [SortBy.START_DATE]: (e) => e.start_date,
+        };
+
+        return filteredItems.toSorted((a, b) => {
+            const extractProperty = compareProperties[sorting];
+            return extractProperty(a).localeCompare(extractProperty(b));
+        });
+    }, [filteredItems, sorting]);
+
+    const handleEditClick = async (e: IEvent) => {
+        setIsEditModal(true);
+        setSelectedEvent(e);
     };
 
-    return filteredItems.toSorted((a, b) => {
-      const extractProperty = compareProperties[sorting];
-      return extractProperty(a).localeCompare(extractProperty(b));
-    });
-  }, [filteredItems, sorting]);
+    const handleDeleteClick = async (e: IEvent) => {
+        setIsDeleteModal(true);
+        setSelectedEvent(e);
+    };
 
-  const handleEditClick = async (e: IEvent) => {
-    setIsEditModal(true);
-    setSelectedEvent(e);
-  };
+    const handleEditModal = (isEdit: boolean) => {
+        setIsEditModal(isEdit);
+    };
 
-  const handleDeleteClick = async (e: IEvent) => {
-    setIsDeleteModal(true);
-    setSelectedEvent(e);
-  };
+    const handlDeleteModal = (isDelete: boolean) => {
+        setIsDeleteModal(isDelete);
+    };
 
-  const handleEditModal = (isEdit: boolean) => {
-    setIsEditModal(isEdit);
-  };
+    return (
+        <section className="mt-2 mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
+            {isEditModal && selectedEvent && (
+                <UpdateEventModal
+                    selectedEvent={selectedEvent}
+                    isEditModal={isEditModal}
+                    handleEditModal={handleEditModal}
+                    cpsMobile={cpsMobile}
+                    cpsFixed={cpsFixed}
+                />
+            )}
 
-  const handlDeleteModal = (isDelete: boolean) => {
-    setIsDeleteModal(isDelete);
-  };
+            {isDeleteModal && selectedEvent && (
+                <DeleteEventModal
+                    selectedEventId={selectedEvent.id}
+                    isDeleteModal={isDeleteModal}
+                    handleDeleteModal={handlDeleteModal}
+                />
+            )}
 
-  return (
-    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
-      {isEditModal && selectedEvent && (
-        <UpdateEventModal
-          selectedEvent={selectedEvent}
-          isEditModal={isEditModal}
-          handleEditModal={handleEditModal}
-          cpsMobile={cpsMobile}
-          cpsFixed={cpsFixed}
-        />
-      )}
+            {isError && (
+                <div className="flex items-center justify-center">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {t('error_fetching_events')}
+                    </p>
+                </div>
+            )}
 
-      {isDeleteModal && selectedEvent && (
-        <DeleteEventModal
-          selectedEventId={selectedEvent.id}
-          isDeleteModal={isDeleteModal}
-          handleDeleteModal={handlDeleteModal}
-        />
-      )}
+            {isLoading && (
+                <Spinner color="beer-blonde" size="xLarge" absolute center />
+            )}
 
-      {isError && (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            {t('error_fetching_events')}
-          </p>
-        </div>
-      )}
+            {!isError && !isLoading && events.length === 0 ? (
+                <div className="flex h-40 items-center justify-center">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {t('no_events')}
+                    </p>
+                </div>
+            ) : (
+                <>
+                    <InputSearch
+                        query={query}
+                        setQuery={setQuery}
+                        searchPlaceholder={'search_by_name'}
+                    />
 
-      {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
-      )}
+                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
+                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                {COLUMNS.map(
+                                    (column: ColumnsProps, index: number) => {
+                                        return (
+                                            <th
+                                                key={index}
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
+                                                {column.header}
+                                            </th>
+                                        );
+                                    },
+                                )}
+                            </tr>
+                        </thead>
 
-      {!isError && !isLoading && events.length === 0 ? (
-        <div className="flex h-40 items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">{t('no_events')}</p>
-        </div>
-      ) : (
-        <>
-          <InputSearch
-            query={query}
-            setQuery={setQuery}
-            searchPlaceholder={'search_by_name'}
-          />
+                        <tbody>
+                            {sortedItems.map((e: IEvent) => {
+                                return (
+                                    <tr key={e.id} className="">
+                                        <th
+                                            scope="row"
+                                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                        >
+                                            <Image
+                                                width={128}
+                                                height={128}
+                                                className="h-8 w-8 rounded-full"
+                                                src="/icons/people-line-solid.svg"
+                                                alt="Beer Type"
+                                            />
+                                        </th>
 
-          <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {COLUMNS.map((column: ColumnsProps, index: number) => {
-                  return (
-                    <th key={index} scope="col" className="px-6 py-3">
-                      {column.header}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
+                                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                            <Link
+                                                href={`/events/${e.id}`}
+                                                locale={locale}
+                                            >
+                                                {e.name}
+                                            </Link>
+                                        </td>
 
-            <tbody>
-              {sortedItems.map((e: IEvent) => {
-                return (
-                  <tr key={e.id} className="">
-                    <th
-                      scope="row"
-                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                    >
-                      <Image
-                        width={128}
-                        height={128}
-                        className="h-8 w-8 rounded-full"
-                        src="/icons/people-line-solid.svg"
-                        alt="Beer Type"
-                      />
-                    </th>
+                                        <td className="px-6 py-4">
+                                            {formatDateString(e.created_at)}
+                                        </td>
 
-                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                      <Link href={`/events/${e.id}`} locale={locale}>
-                        {e.name}
-                      </Link>
-                    </td>
+                                        <td className="flex items-center justify-center px-6 py-4">
+                                            <IconButton
+                                                icon={faEdit}
+                                                onClick={() => {
+                                                    handleEditClick(e);
+                                                }}
+                                                color={editColor}
+                                                classContainer={
+                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
+                                                }
+                                                classIcon={''}
+                                                title={t('edit')}
+                                            />
 
-                    <td className="px-6 py-4">
-                      {formatDateString(e.created_at)}
-                    </td>
+                                            <IconButton
+                                                icon={faTrash}
+                                                onClick={() => {
+                                                    handleDeleteClick(e);
+                                                }}
+                                                color={deleteColor}
+                                                classContainer={
+                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
+                                                }
+                                                classIcon={''}
+                                                title={t('delete')}
+                                            />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
 
-                    <td className="flex items-center justify-center px-6 py-4">
-                      <IconButton
-                        icon={faEdit}
-                        onClick={() => {
-                          handleEditClick(e);
-                        }}
-                        color={editColor}
-                        classContainer={
-                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
-                        }
-                        classIcon={''}
-                        title={t('edit')}
-                      />
-
-                      <IconButton
-                        icon={faTrash}
-                        onClick={() => {
-                          handleDeleteClick(e);
-                        }}
-                        color={deleteColor}
-                        classContainer={
-                          'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                        }
-                        classIcon={''}
-                        title={t('delete')}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
-            <PaginationFooter
-              counter={counter}
-              resultsPerPage={resultsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
-        </>
-      )}
-    </section>
-  );
+                    {/* Prev and Next button for pagination  */}
+                    <div className="my-4 flex items-center justify-around">
+                        <PaginationFooter
+                            counter={counter}
+                            resultsPerPage={resultsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </div>
+                </>
+            )}
+        </section>
+    );
 }

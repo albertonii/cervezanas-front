@@ -5,24 +5,26 @@ import { IOrder } from '../../../../../../lib/types';
 import { BusinessOrderList } from './BusinessOrderList';
 
 interface Props {
-  orders: IOrder[];
+    orders: IOrder[];
 }
 
 export function Orders({ orders }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  return (
-    <section className="px-4 py-6" aria-label="Orders">
-      <p className="flex justify-between py-4" id="header">
-        <span
-          id="title"
-          className="text-5xl uppercase font-semibold text-white"
-        >
-          {t('marketplace_orders')}
-        </span>
-      </p>
+    return (
+        <section className="px-4 py-6" aria-label="Orders">
+            <p className="flex justify-between py-4" id="header">
+                <span
+                    id="title"
+                    className="text-5xl font-semibold text-beer-blonde"
+                >
+                    {t('marketplace_orders')}
+                </span>
+            </p>
 
-      {orders && orders.length > 0 && <BusinessOrderList orders={orders} />}
-    </section>
-  );
+            {orders && orders.length > 0 && (
+                <BusinessOrderList orders={orders} />
+            )}
+        </section>
+    );
 }

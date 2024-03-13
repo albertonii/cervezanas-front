@@ -5,7 +5,7 @@ import React from 'react';
 export function Highlights() {
     const t = useTranslations();
     return (
-        <section className="relative -top-12 m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream p-5 sm:block md:flex lg:flex">
+        <section className="relative top-0 m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream p-5 sm:block md:flex lg:flex">
             {/*  bloque 3 */}
             <article className="sm:w-full md:block md:w-1/2 md:px-3 lg:flex lg:w-1/2">
                 <figure className="h-[350px] bg-[url('/assets/home/home-img-1.webp')] bg-center bg-no-repeat sm:bg-contain md:w-full lg:h-full lg:w-1/2 lg:bg-cover"></figure>
