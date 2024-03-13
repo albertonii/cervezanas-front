@@ -615,7 +615,6 @@ Habilitar formulario para feedbacks/reporte de errores
 
 ### 27 de febrero
 
-
 - [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 - [ ] Habilitar formulario para feedbacks/reporte de errores
@@ -636,12 +635,11 @@ Habilitar formulario para feedbacks/reporte de errores
 4. [x] Modal para eliminar la experiencia con el juego
 5. [ ] Eliminar el modelo de datos antiguo en BBDD DEV
 
-
 - [~] Visualizar el juego de maestro cervecero en el PC
 
 1. [x] Cards para preguntas y respuestas
 2. [x] Loop a través de las preguntas en el juego
-3. [ ] Al final mostrar cerveza en juego
-4. [ ] Mostrar puntuación
+3. [x] Al final mostrar cerveza/as en juego
+4. [x] Mostrar puntuación
 5. [ ] Hay veces donde no se muestra el juego una vez que está pagado.
 6. [ ] Si ya ha participado en la experiencia, impedir que se registre de nuevo.

@@ -39,7 +39,7 @@ export default function EventExperience({ eventExperience }: Props) {
 
       // Comprobar que no haya participado ya en la experiencia
       const { data, error: errorParticipants } = await supabase
-        .from('beer_master_experience_participants')
+        .from('bm_experience_participants')
         .select('*')
         .eq('gamification_id', user?.id)
         .eq('experience_id', experience.id);

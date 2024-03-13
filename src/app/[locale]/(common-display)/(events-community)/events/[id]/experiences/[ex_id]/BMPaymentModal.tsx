@@ -28,7 +28,7 @@ export default function BMPaymentModal({
   const handleOnClickParticipate = async () => {
     // Crear un nuevo registro en la tabla beer_master_experience_participants
     const { data, error } = await supabase
-      .from('beer_master_experience_participants')
+      .from('bm_experience_participants')
       .insert([
         {
           gamification_id: user?.id,

@@ -47,155 +47,6 @@ export interface Database {
           }
         ]
       }
-      beer_master_answers: {
-        Row: {
-          answer: string | null
-          id: string
-          is_correct: boolean | null
-          question_id: string | null
-        }
-        Insert: {
-          answer?: string | null
-          id?: string
-          is_correct?: boolean | null
-          question_id?: string | null
-        }
-        Update: {
-          answer?: string | null
-          id?: string
-          is_correct?: boolean | null
-          question_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_beer_master_response_question_id_fkey"
-            columns: ["question_id"]
-            isOneToOne: false
-            referencedRelation: "beer_master_questions"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      beer_master_experience_participants: {
-        Row: {
-          correct_answers: number | null
-          cpf_id: string | null
-          cpm_id: string | null
-          created_at: string
-          event_id: string | null
-          experience_id: string | null
-          gamification_id: string | null
-          id: string
-          incorrect_answers: number | null
-          is_cash: boolean | null
-          is_finished: boolean | null
-          is_paid: boolean | null
-          score: number | null
-        }
-        Insert: {
-          correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          experience_id?: string | null
-          gamification_id?: string | null
-          id?: string
-          incorrect_answers?: number | null
-          is_cash?: boolean | null
-          is_finished?: boolean | null
-          is_paid?: boolean | null
-          score?: number | null
-        }
-        Update: {
-          correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          experience_id?: string | null
-          gamification_id?: string | null
-          id?: string
-          incorrect_answers?: number | null
-          is_cash?: boolean | null
-          is_finished?: boolean | null
-          is_paid?: boolean | null
-          score?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
-            columns: ["cpf_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
-            columns: ["cpm_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_participants_experience_id_fkey"
-            columns: ["experience_id"]
-            isOneToOne: false
-            referencedRelation: "experiences"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_participation_gamification_id_fkey"
-            columns: ["gamification_id"]
-            isOneToOne: false
-            referencedRelation: "gamification"
-            referencedColumns: ["user_id"]
-          }
-        ]
-      }
-      beer_master_questions: {
-        Row: {
-          experience_id: string | null
-          id: string
-          product_id: string | null
-          question: string | null
-        }
-        Insert: {
-          experience_id?: string | null
-          id?: string
-          product_id?: string | null
-          question?: string | null
-        }
-        Update: {
-          experience_id?: string | null
-          id?: string
-          product_id?: string | null
-          question?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_beer_master_question_experience_id_fkey"
-            columns: ["experience_id"]
-            isOneToOne: false
-            referencedRelation: "experiences"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_questions_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       beers: {
         Row: {
           aroma: string | null
@@ -332,6 +183,90 @@ export interface Database {
           }
         ]
       }
+      bm_experience_participants: {
+        Row: {
+          correct_answers: number | null
+          cpf_id: string | null
+          cpm_id: string | null
+          created_at: string
+          event_id: string | null
+          experience_id: string | null
+          gamification_id: string | null
+          id: string
+          incorrect_answers: number | null
+          is_cash: boolean | null
+          is_finished: boolean | null
+          is_paid: boolean | null
+          score: number | null
+        }
+        Insert: {
+          correct_answers?: number | null
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          is_cash?: boolean | null
+          is_finished?: boolean | null
+          is_paid?: boolean | null
+          score?: number | null
+        }
+        Update: {
+          correct_answers?: number | null
+          cpf_id?: string | null
+          cpm_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          experience_id?: string | null
+          gamification_id?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          is_cash?: boolean | null
+          is_finished?: boolean | null
+          is_paid?: boolean | null
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
+            columns: ["cpf_id"]
+            isOneToOne: false
+            referencedRelation: "cp_fixed"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
+            columns: ["cpm_id"]
+            isOneToOne: false
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_experience_participants_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_master_participation_gamification_id_fkey"
+            columns: ["gamification_id"]
+            isOneToOne: false
+            referencedRelation: "gamification"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       bm_experience_user_responses: {
         Row: {
           answer: string | null
@@ -365,14 +300,14 @@ export interface Database {
             foreignKeyName: "public_beer_master_experience_user_response_participation_id_fk"
             columns: ["participation_id"]
             isOneToOne: false
-            referencedRelation: "beer_master_experience_participants"
+            referencedRelation: "bm_experience_participants"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "public_beer_master_experience_user_response_question_id_fkey"
+            foreignKeyName: "public_bm_experience_user_responses_question_id_fkey"
             columns: ["question_id"]
             isOneToOne: false
-            referencedRelation: "beer_master_questions"
+            referencedRelation: "bm_questions"
             referencedColumns: ["id"]
           }
         ]
