@@ -15,13 +15,11 @@ export default async function CPMobilePage({ params }: any) {
     ]);
 
     return (
-        <>
-            <InfoCPMobile
-                cpMobile={cpMobile}
-                eventId={eventId}
-                eventExperiences={eventExperiences}
-            />
-        </>
+        <InfoCPMobile
+            cpMobile={cpMobile}
+            eventId={eventId}
+            eventExperiences={eventExperiences}
+        />
     );
 }
 

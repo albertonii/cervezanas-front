@@ -6,26 +6,27 @@ import { VIEWS } from '../../../../../../../../constants';
 import { IEventExperience } from '../../../../../../../../lib/types/quiz';
 
 export default async function CPMobilePage({ params }: any) {
-  const { ex_id: eventExperienceId } = params;
-  const eventExperienceData = getEventExperience(eventExperienceId);
-  const [eventExperience] = await Promise.all([eventExperienceData]);
+    const { ex_id: eventExperienceId } = params;
+    const eventExperienceData = getEventExperience(eventExperienceId);
+    const [eventExperience] = await Promise.all([eventExperienceData]);
 
-  return <EventExperience eventExperience={eventExperience} />;
+    return <EventExperience eventExperience={eventExperience} />;
 }
 
 async function getEventExperience(eventExperienceId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect(VIEWS.SIGN_IN);
+    }
 
-  const { data: eventExperience, error: eventExperienceError } = await supabase
-    .from('event_experiences')
-    .select(
-      ` 
+    const { data: eventExperience, error: eventExperienceError } =
+        await supabase
+            .from('event_experiences')
+            .select(
+                ` 
           id,
           created_at,
           event_id,
@@ -67,11 +68,11 @@ async function getEventExperience(eventExperienceId: string) {
             *
           )
         `,
-    )
-    .eq('id', eventExperienceId)
-    .single();
+            )
+            .eq('id', eventExperienceId)
+            .single();
 
-  if (eventExperienceError) console.error(eventExperienceError);
+    if (eventExperienceError) console.error(eventExperienceError);
 
-  return eventExperience as IEventExperience;
+    return eventExperience as IEventExperience;
 }

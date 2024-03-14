@@ -418,7 +418,7 @@ export function EventCartProvider({ children }: Props) {
     };
 
     const value = {
-        eventCarts: eventCarts.eventCarts,
+        eventCarts: eventCarts?.eventCarts ?? {},
         clearCart,
         getItemQuantity,
         getPackQuantity,

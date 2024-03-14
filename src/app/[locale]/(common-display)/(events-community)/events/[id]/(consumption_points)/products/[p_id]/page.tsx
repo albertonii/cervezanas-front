@@ -1,76 +1,59 @@
-import { VIEWS } from '../../../../../../../../../constants';
-import { redirect } from 'next/navigation';
 import { IProduct } from '../../../../../../../../../lib/types/types';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../../../../lib/actions';
 
 export default async function ProductId({ params }: any) {
-  const { id } = params;
+    const { id } = params;
 
-  const productData = await getProductData(id);
-  const marketplaceProductsData = await getMarketplaceData();
-  const [product, marketplaceProducts] = await Promise.all([
-    productData,
-    marketplaceProductsData,
-  ]);
+    const productData = await getProductData(id);
+    const marketplaceProductsData = await getMarketplaceData();
+    const [product, marketplaceProducts] = await Promise.all([
+        productData,
+        marketplaceProductsData,
+    ]);
 
-  return (
-    <>
-      {/* <Product product={product} marketplaceProducts={marketplaceProducts} /> */}
-    </>
-  );
+    return (
+        <>
+            {/* <Product product={product} marketplaceProducts={marketplaceProducts} /> */}
+        </>
+    );
 }
 
 async function getProductData(cpId: string) {
-  // Create authenticated Supabase Client
-  const supabase = await createServerClient();
+    // Create authenticated Supabase Client
+    const supabase = await createServerClient();
 
-  // Check if we have a session
-  const session = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: cpmProducts, error: productError } = await supabase
-    .from('cpm_products')
-    .select(
-      `*,
+    const { data: cpmProducts, error: productError } = await supabase
+        .from('cpm_products')
+        .select(
+            `*,
       product_pack_id (*),
       cp_id (*)
       `,
-    )
-    .eq('cp_id', cpId);
+        )
+        .eq('cp_id', cpId);
 
-  if (productError) throw productError;
-  return cpmProducts as any[];
+    if (productError) throw productError;
+    return cpmProducts as any[];
 }
 
 async function getMarketplaceData() {
-  // Create authenticated Supabase Client
-  const supabase = await createServerClient();
+    // Create authenticated Supabase Client
+    const supabase = await createServerClient();
 
-  // Check if we have a session
-  const session = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: productsData, error: productsError } = await supabase
-    .from('products')
-    .select(
-      `
+    const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select(
+            `
         id,
         price,
         product_multimedia (
           p_principal
         )
       `,
-    )
-    .eq('is_public', true);
+        )
+        .eq('is_public', true);
 
-  if (productsError) throw productsError;
+    if (productsError) throw productsError;
 
-  return productsData as IProduct[];
+    return productsData as IProduct[];
 }
