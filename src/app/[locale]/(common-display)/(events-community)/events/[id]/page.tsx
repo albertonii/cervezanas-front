@@ -22,10 +22,8 @@ export default async function EventPage({ params }: any) {
     return (
         <DisplayEvent
             event={event}
-            cpmEvents={[]}
-            cpfEvents={[]}
-            // cpmEvents={cpmEvents}
-            // cpfEvents={cpfEvents}
+            cpmEvents={cpmEvents}
+            cpfEvents={cpfEvents}
         />
     );
 }
