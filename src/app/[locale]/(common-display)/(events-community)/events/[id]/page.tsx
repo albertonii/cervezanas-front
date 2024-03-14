@@ -81,6 +81,5 @@ async function getEvent(eventId: string) {
 
     if (error) console.error(error);
 
-    console.log(event);
     return event as IEvent;
 }

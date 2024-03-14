@@ -2,7 +2,7 @@
 
 import CPMobile from './CPMobile';
 import CPFixed from './CPFixed';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     ICPF_events,
     ICPM_events,
@@ -10,6 +10,7 @@ import {
 } from '../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../../utils/formatDate';
+import useEventCartStore from '../../../../../store/eventCartStore';
 
 interface Props {
     event: IEvent;
@@ -19,6 +20,14 @@ interface Props {
 
 export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
     const t = useTranslations();
+
+    const { existEventCart, createNewCart } = useEventCartStore();
+
+    useEffect(() => {
+        if (!existEventCart(event.id)) {
+            createNewCart(event.id);
+        }
+    }, []);
 
     return (
         <div className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px]">

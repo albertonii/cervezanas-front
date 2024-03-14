@@ -32,7 +32,6 @@ export default function EventExperience({ eventExperience }: Props) {
     const router = useRouter();
     const locale = useLocale();
 
-    console.log(eventExperience);
 
     const [experienceParticipant, setExperienceParticipant] =
         useState<IBMExperienceParticipants>();

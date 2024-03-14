@@ -1,35 +1,26 @@
 import InfoCPFixed from './InfoCPFixed';
-import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../../../constants';
 import { ICPFixed } from '../../../../../../../../../lib/types/types';
-import readUserSession from '../../../../../../../../../lib/actions';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
 
 export default async function CPFixedPage({ params }: any) {
-  const { id: eventId, f_id } = params;
-  const cpFixedData = getCPFixed(f_id);
-  const [cpFixed] = await Promise.all([cpFixedData]);
+    const { id: eventId, f_id } = params;
+    const cpFixedData = getCPFixed(f_id);
+    const [cpFixed] = await Promise.all([cpFixedData]);
 
-  return (
-    <>
-      <InfoCPFixed cpFixed={cpFixed} eventId={eventId} />
-    </>
-  );
+    return (
+        <>
+            <InfoCPFixed cpFixed={cpFixed} eventId={eventId} />
+        </>
+    );
 }
 
 async function getCPFixed(cpId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: cpFixed, error: cpFixedError } = await supabase
-    .from('cp_fixed')
-    .select(
-      `
+    const { data: cpFixed, error: cpFixedError } = await supabase
+        .from('cp_fixed')
+        .select(
+            `
         *,
         cpf_products!cpf_products_cp_id_fkey (
           *,
@@ -44,11 +35,11 @@ async function getCPFixed(cpId: string) {
           )
         )
       `,
-    )
-    .eq('id', cpId)
-    .single();
+        )
+        .eq('id', cpId)
+        .single();
 
-  if (cpFixedError) console.error(cpFixedError);
+    if (cpFixedError) console.error(cpFixedError);
 
-  return cpFixed as ICPFixed;
+    return cpFixed as ICPFixed;
 }

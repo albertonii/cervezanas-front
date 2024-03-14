@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -15,7 +15,7 @@ export default async function RootLayout({ children }: LayoutProps) {
         <html lang={'es'} style={{ overflow: 'auto' }}>
             <body>
                 {children}
-                <Analytics />
+                {/* <Analytics /> */}
             </body>
         </html>
     );
