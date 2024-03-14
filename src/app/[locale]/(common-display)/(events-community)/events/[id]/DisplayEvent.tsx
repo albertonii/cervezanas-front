@@ -22,7 +22,8 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
 
     return (
         <section className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px]">
-            <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
+            PROBANDO QUE PASA AKI
+            {/* <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
                         event.status === 'active'
@@ -35,21 +36,19 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
             </div>
 
             {/* Display all the information inside the Mobile Consumption Point */}
-            <h1 className="mb-2 text-4xl font-bold text-beer-blonde">
+            {/* <h1 className="mb-2 text-4xl font-bold text-beer-blonde">
                 {event.name}
             </h1>
             <h2 className="mb-4 text-lg text-gray-500">{event.description}</h2>
 
             <div className="mb-4">
-                {/* Start and End date */}
                 <span className="text-xl font-semibold italic text-black">
                     {t('start_date')}: {formatDateString(event.start_date)}
                 </span>
                 <span className="ml-4 text-xl font-semibold italic text-black">
                     {t('end_date')}: {formatDateString(event.end_date)}
                 </span>
-            </div>
-
+            </div>  */}
             {/* Organizer information */}
             {/* <div className="mb-4">
         <span className="text-gray-500">
@@ -62,7 +61,6 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
           Phone: {event.organizer_phone}
         </span>
       </div> */}
-
             {/* Products linked to this Mobile Consumption Point */}
             {/* <section className="mt-8">
                 {cpmEvents.length > 0 ? (
@@ -118,7 +116,6 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
                     </>
                 )}
             </section> */}
-
             {/* Products linked to this Fixed Consumption Point */}
             {/* <section className="mt-8">
                 {cpfEvents.length > 0 ? (
