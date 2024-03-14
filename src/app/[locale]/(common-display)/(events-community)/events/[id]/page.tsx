@@ -19,13 +19,15 @@ export default async function EventPage({ params }: any) {
         cpFixedsData,
     ]);
 
-    return (
-        <DisplayEvent
-            event={event}
-            cpmEvents={cpmEvents}
-            cpfEvents={cpfEvents}
-        />
-    );
+    return <h1>Que ta pasando aki</h1>;
+
+    // return (
+    //     <DisplayEvent
+    //         event={event}
+    //         cpmEvents={cpmEvents}
+    //         cpfEvents={cpfEvents}
+    //     />
+    // );
 }
 
 async function getCPMobilesFromEvent(eventId: string) {
@@ -81,5 +83,6 @@ async function getEvent(eventId: string) {
 
     if (error) console.error(error);
 
+    console.log(event);
     return event as IEvent;
 }
