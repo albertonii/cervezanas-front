@@ -29,7 +29,10 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
             return;
         }
 
-        if (user.role !== ROLE_ENUM.Cervezano) {
+        if (
+            user.role === ROLE_ENUM.Productor ||
+            user.role === ROLE_ENUM.Distributor
+        ) {
             handleMessage({
                 type: 'info',
                 message: 'must_be_user_role_consumer_to_participate',
