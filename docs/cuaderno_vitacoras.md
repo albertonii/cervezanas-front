@@ -646,8 +646,7 @@ Habilitar formulario para feedbacks/reporte de errores
 
 ### 14 de marzo
 
-- [WIP] Vista para confirmar pago de la experiencia
-- [ ] Crear página explicativa que se accede desde el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+- [x] Crear página explicativa que se accede desde el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 - [x] Hay veces que no se carga el listado de experiencias en Productor: Error debido a que se hace la llamada Fetch en el listado de experimentos antes de que se haya podido carga el user ID con el que se buscará el listado.
 - [x] Añadir precio a la experiencia
@@ -663,3 +662,12 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Error con carrito de eventos -> Se estaba creando un estado vacío, por lo que daba error. Ahora comprueba cada vez que se acceda que exista un carrito de compra para ese evento.
 - [ ] Mostrar vista de detalles del producto que se existen en el evento -> Punto de Consumo.
 - [x] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados
+- [ ] Después de realizar el juego de Maestro Cervecero, crear el recuento de puntos para ese evento.
+- [ ] Crear tabla de descuentos obtenidos por el usuario en el evento
+- [ ] Añadir los contratos que deben aceptar los productores y distribuidores al registrarse en la aplicación
+
+- [ ] Lógica para participar en una experiencia
+  1. [WIP] Vista para confirmar pago de la experiencia
+  2. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
+  3. [x] Si ya ha participado en la experiencia, mostrar mensaje de que ya ha participado.
+  4. [x] Solo pueden participar usuarios consumidores en la experiencia.

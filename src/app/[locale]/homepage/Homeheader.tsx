@@ -1,9 +1,16 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export function Homeheader() {
     const t = useTranslations();
+    const router = useRouter();
+
+    const handleOnClickMaestroCervecero = () => {
+        router.push('/maestro-cervecero');
+    };
+
     return (
         <>
             {/*  bloque 1 */}
@@ -33,7 +40,10 @@ export function Homeheader() {
                 </div>
             </section>
             {/*  bloque 2 */}
-            <figure className="relative top-0 m-auto w-full max-w-screen-2xl">
+            <figure
+                className="relative top-0 m-auto w-full max-w-screen-2xl hover:cursor-pointer"
+                onClick={handleOnClickMaestroCervecero}
+            >
                 <Image
                     style={{ aspectRatio: '845/235' }}
                     src="/assets/home/home-banner-mc.webp"
