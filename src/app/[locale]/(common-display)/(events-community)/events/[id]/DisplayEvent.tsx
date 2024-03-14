@@ -64,7 +64,7 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
       </div> */}
 
             {/* Products linked to this Mobile Consumption Point */}
-            <section className="mt-8">
+            {/* <section className="mt-8">
                 {cpmEvents.length > 0 ? (
                     <div className="overflow-x-auto">
                         <h3 className="mb-2 text-xl font-bold">
@@ -117,10 +117,10 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
                         <p className="text-gray-500">{t('no_cp_mobile')}</p>
                     </>
                 )}
-            </section>
+            </section> */}
 
             {/* Products linked to this Fixed Consumption Point */}
-            <section className="mt-8">
+            {/* <section className="mt-8">
                 {cpfEvents.length > 0 ? (
                     <div className="overflow-x-auto">
                         <h3 className="mb-2 text-xl font-bold">
@@ -170,7 +170,7 @@ export default function DisplayEvent({ event, cpmEvents, cpfEvents }: Props) {
                         <p className="text-gray-500">{t('no_cp_fixed')}</p>
                     </>
                 )}
-            </section>
+            </section> */}
         </section>
     );
 }
