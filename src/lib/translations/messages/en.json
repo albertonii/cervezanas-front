@@ -750,5 +750,10 @@
     "beer_master": "Beer Master",
 
     "question": "Question",
-    "out_of": "out of"
+    "out_of": "out of",
+    "producer_disclaimer_read_and_accepantance": "I have read and accept the producer disclaimer",
+    "distributor_disclaimer_read_and_accepantance": "I have read and accept the distributor disclaimer",
+    "click_here_to_download": "Click here to download",
+    "producer_read_disclaimer": "Producer Disclaimer Agreement",
+    "distributor_read_disclaimer": "Distributor Disclaimer Agreement"
 }

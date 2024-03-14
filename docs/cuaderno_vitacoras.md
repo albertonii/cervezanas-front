@@ -672,6 +672,7 @@ Habilitar formulario para feedbacks/reporte de errores
   2. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
   3. [x] Si ya ha participado en la experiencia, mostrar mensaje de que ya ha participado.
   4. [x] Solo pueden participar usuarios consumidores en la experiencia.
-  5. [ ] Generar un código QR cuando se registre el usuario en la experiencia. Ese código QR es el que mostrará al PC para que pueda participar en la experiencia. El PC debe de escanear el código QR para que el usuario pueda participar en la experiencia y validar el pago.
+  5. [x] Generar un código QR cuando se registre el usuario en la experiencia. Ese código QR es el que mostrará al PC para que pueda participar en la experiencia. El PC debe de escanear el código QR para que el usuario pueda participar en la experiencia y validar el pago.
   6. [ ] Listado de experiencias en un evento las cuales el productor puede administrar. Por ejemplo, para el Maestro Cervecero, se indica el registro, la persona que lo ha hecho y el estado del registro (pagado, no pagado, etc).
   7. [ ] Notificar al PC cuando un usuario se ha registrado en una experiencia.
+  8. [x] Vista de administración para el productor donde pueda ver los registros de los usuarios en las experiencias.
