@@ -12,6 +12,8 @@ import {
 } from '../../../../../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../../../../../utils/formatCurrency';
 import { AddCardButton } from '../../../../../../../components/common/AddCartButton';
+import { useMessage } from '../../../../../../../components/message/useMessage';
+import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 
 interface ProductProps {
     pack: IProductPack;
@@ -28,6 +30,8 @@ export default function CPMProductItem({
 }: ProductProps) {
     const t = useTranslations();
     const locale = useLocale();
+    const { isLoggedIn } = useAuth();
+    const { handleMessage } = useMessage();
 
     const {
         eventCarts,
@@ -55,6 +59,14 @@ export default function CPMProductItem({
     }, [eventCarts]);
 
     const handleAddToCart = () => {
+        if (!isLoggedIn) {
+            handleMessage({
+                type: 'info',
+                message: 'must_be_logged_in_add_store',
+            });
+            return;
+        }
+
         if (!pack) {
             return;
         }

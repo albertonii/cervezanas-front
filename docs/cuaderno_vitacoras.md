@@ -660,6 +660,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- [ ] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados
 - [x] Error con carrito de eventos -> Se estaba creando un estado vacío, por lo que daba error. Ahora comprueba cada vez que se acceda que exista un carrito de compra para ese evento.
 - [ ] Mostrar vista de detalles del producto que se existen en el evento -> Punto de Consumo.
+- [ ] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados

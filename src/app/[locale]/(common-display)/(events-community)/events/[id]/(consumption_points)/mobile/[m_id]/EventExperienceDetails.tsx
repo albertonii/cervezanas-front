@@ -3,6 +3,8 @@ import Button from '../../../../../../../components/common/Button';
 import { useRouter } from 'next/navigation';
 import { IEventExperience } from '../../../../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
+import { useMessage } from '../../../../../../../components/message/useMessage';
 
 interface Props {
   eventExperience: IEventExperience;
@@ -14,8 +16,18 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
 
   const router = useRouter();
   const locale = useLocale();
+  const { isLoggedIn} = useAuth();
+  const {handleMessage} = useMessage()
 
   const handleOnClick = () => {
+      if (!isLoggedIn) {
+          handleMessage({
+              type: 'info',
+              message: 'must_be_logged_in_add_store',
+          });
+          return;
+      }
+
     router.push(
       `/${locale}/events/${eventExperience.event_id}/experiences/${eventExperience?.id}`,
     );
