@@ -2,9 +2,9 @@ import {
     ICPFixed,
     ICPMobile,
     IEvent,
+    IGamification,
     IProducerUser,
     IProduct,
-    IUserTable,
 } from './types';
 
 export enum Difficulty {
@@ -111,7 +111,7 @@ export interface IBMExperienceParticipants {
     is_finished: boolean;
     correct_answers: number;
     incorrect_answers: number;
-    users?: IUserTable[];
+    gamification?: IGamification[];
 }
 
 export interface IBMExperienceUserResponse {
