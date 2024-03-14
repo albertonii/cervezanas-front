@@ -109,16 +109,34 @@ export default function QuizPanel({
                 console.error(error);
             }
 
-            const { error: expParticipantsError } = await supabase
-                .from('bm_experience_participants')
-                .update({
-                    is_finished: true,
-                })
-                .eq('gamification_id', user?.id)
-                .eq('experience_id', experience.id);
+            if (experienceParticipant.cpm_id) {
+                const { error: expParticipantsError } = await supabase
+                    .from('bm_experience_participants')
+                    .update({
+                        is_finished: true,
+                    })
+                    .eq('gamification_id', user?.id)
+                    .eq('experience_id', experience.id)
+                    .eq('event_id', experienceParticipant.event_id)
+                    .eq('cpm_id', experienceParticipant.cpm_id);
 
-            if (expParticipantsError) {
-                console.error(expParticipantsError);
+                if (expParticipantsError) {
+                    console.error(expParticipantsError);
+                }
+            } else if (experienceParticipant.cpf_id) {
+                const { error: expParticipantsError } = await supabase
+                    .from('bm_experience_participants')
+                    .update({
+                        is_finished: true,
+                    })
+                    .eq('gamification_id', user?.id)
+                    .eq('experience_id', experience.id)
+                    .eq('event_id', experienceParticipant.event_id)
+                    .eq('cpf_id', experienceParticipant.cpf_id);
+
+                if (expParticipantsError) {
+                    console.error(expParticipantsError);
+                }
             }
         });
 

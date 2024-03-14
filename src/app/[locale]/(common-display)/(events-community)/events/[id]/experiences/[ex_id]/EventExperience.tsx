@@ -49,28 +49,54 @@ export default function EventExperience({ eventExperience }: Props) {
             if (!user) return;
 
             // Comprobar que no haya participado ya en la experiencia
-            const { data, error: errorParticipants } = await supabase
-                .from('bm_experience_participants')
-                .select('*')
-                .eq('gamification_id', user?.id)
-                .eq('event_id', eventExperience.event_id)
-                .eq('cpm_id', eventExperience.cp_mobile_id)
-                .eq('experience_id', experience.id);
+            if (eventExperience.cp_mobile_id) {
+                const { data, error: errorParticipants } = await supabase
+                    .from('bm_experience_participants')
+                    .select('*')
+                    .eq('gamification_id', user?.id)
+                    .eq('event_id', eventExperience.event_id)
+                    .eq('cpm_id', eventExperience.cp_mobile_id)
+                    .eq('experience_id', experience.id);
 
-            if (errorParticipants) {
-                console.error(errorParticipants);
-                return;
-            }
+                if (errorParticipants) {
+                    console.error(errorParticipants);
+                    return;
+                }
 
-            if (data.length > 0) {
-                setIsRegistered(true);
+                if (data.length > 0) {
+                    setIsRegistered(true);
 
-                const experienceParticipants =
-                    data[0] as IBMExperienceParticipants;
+                    const experienceParticipants =
+                        data[0] as IBMExperienceParticipants;
 
-                setExperienceParticipant(experienceParticipants);
-                setIsFinished(experienceParticipants.is_finished);
-                setIsPaymentValid(experienceParticipants.is_paid);
+                    setExperienceParticipant(experienceParticipants);
+                    setIsFinished(experienceParticipants.is_finished);
+                    setIsPaymentValid(experienceParticipants.is_paid);
+                }
+            } else if (eventExperience.cp_fixed_id) {
+                const { data, error: errorParticipants } = await supabase
+                    .from('bm_experience_participants')
+                    .select('*')
+                    .eq('gamification_id', user?.id)
+                    .eq('event_id', eventExperience.event_id)
+                    .eq('cpf_id', eventExperience.cp_fixed_id)
+                    .eq('experience_id', experience.id);
+
+                if (errorParticipants) {
+                    console.error(errorParticipants);
+                    return;
+                }
+
+                if (data.length > 0) {
+                    setIsRegistered(true);
+
+                    const experienceParticipants =
+                        data[0] as IBMExperienceParticipants;
+
+                    setExperienceParticipant(experienceParticipants);
+                    setIsFinished(experienceParticipants.is_finished);
+                    setIsPaymentValid(experienceParticipants.is_paid);
+                }
             }
         };
 

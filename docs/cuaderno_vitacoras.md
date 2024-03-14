@@ -648,8 +648,8 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [x] Hay veces que no se carga el listado de experiencias en Productor: Error debido a que se hace la llamada Fetch en el listado de experimentos antes de que se haya podido carga el user ID con el que se buscará el listado.
 - [ ] Vista para confirmar pago de la experiencia
-- [ ] Añadir precio a la experiencia
-- [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+- [x] Añadir precio a la experiencia
+- [ ] Crear página explicativa que se accede desde el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 - [ ] Breadcrumb para poder volver al apartado del evento donde esté la experiencia
 - [x] Botón para volver al evento
 - [ ] Habilitar formulario para feedbacks/reporte de errores
