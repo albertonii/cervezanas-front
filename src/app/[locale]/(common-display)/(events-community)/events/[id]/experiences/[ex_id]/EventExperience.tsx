@@ -13,6 +13,13 @@ import {
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../components/message/useMessage';
 import { shuffleArray } from '../../../../../../../../utils/utils';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import {
+    ROUTE_CP_FIXED,
+    ROUTE_CP_MOBILE,
+    ROUTE_EVENTS,
+} from '../../../../../../../../config';
 
 interface Props {
     eventExperience: IEventExperience;
@@ -22,10 +29,13 @@ export default function EventExperience({ eventExperience }: Props) {
     const { experiences: experience } = eventExperience;
     const { supabase, user } = useAuth();
     const { handleMessage } = useMessage();
+    const router = useRouter();
+    const locale = useLocale();
+
+    console.log(eventExperience);
 
     const [experienceParticipant, setExperienceParticipant] =
         useState<IBMExperienceParticipants>();
-    const [participate, setParticipate] = useState(false);
     const [isPaymentValid, setIsPaymentValid] = useState(false);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
@@ -43,6 +53,8 @@ export default function EventExperience({ eventExperience }: Props) {
                 .from('bm_experience_participants')
                 .select('*')
                 .eq('gamification_id', user?.id)
+                .eq('event_id', eventExperience.event_id)
+                .eq('cpm_id', eventExperience.cp_mobile_id)
                 .eq('experience_id', experience.id);
 
             if (errorParticipants) {
@@ -96,9 +108,7 @@ export default function EventExperience({ eventExperience }: Props) {
         }
     };
 
-    const handleParticipate = (participate: boolean) => {
-        setParticipate(participate);
-    };
+    const handleParticipate = (participate: boolean) => {};
 
     const handleIsPaymentValid = (isPaymentValid: boolean) => {
         setIsPaymentValid(isPaymentValid);
@@ -108,9 +118,34 @@ export default function EventExperience({ eventExperience }: Props) {
         setIsFinished(isFinished);
     };
 
+    const handleOnClickEventComeBack = () => {
+        const cpMobileId = eventExperience.cp_mobile_id;
+        const cpFixedId = eventExperience.cp_fixed_id;
+
+        if (!cpMobileId && !cpFixedId)
+            return router.push(`/${locale}${ROUTE_EVENTS}`);
+
+        cpMobileId
+            ? router.push(
+                  `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP_MOBILE}/${cpMobileId}`,
+              )
+            : router.push(
+                  `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP_FIXED}/${cpFixedId}`,
+              );
+    };
+
     return (
-        <section className="w-full flex-col flex items-center justify-center space-y-4">
-            <div className="border-2 bg-beer-foam p-4">
+        <section className="w-full flex-col flex items-center justify-center space-y-4 ">
+            <Button
+                title={'participate'}
+                primary
+                small
+                onClick={handleOnClickEventComeBack}
+            >
+                Volver al evento
+            </Button>
+
+            <div className="border-2 rounded-sm p-4 w-full sm:w-[400px] flex flex-col justify-center items-center space-y-2 bg-beer-softFoam">
                 <div> Tipo de experiencia: {experience?.type}</div>
                 <div> Precio para participar: {experience?.price}</div>
                 <div> Nombre: {experience?.name}</div>

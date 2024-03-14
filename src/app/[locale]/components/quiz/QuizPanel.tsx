@@ -126,7 +126,7 @@ export default function QuizPanel({
     };
 
     return (
-        <section className=" text-white text-center bg-beer-softBlondeBubble p-4 rounded-lg shadow-lg border-beer-darkGold border-2">
+        <section className="w-full sm:w-[400px] text-white text-center bg-beer-softBlondeBubble p-4 rounded-lg shadow-lg border-beer-darkGold border-2">
             {isShowResults ? (
                 <QuizResults
                     questions={questions}

@@ -613,7 +613,7 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [~] Visualizar el juego de maestro cervecero en el PC 2. [ ] Cards para preguntas y respuestas 3. [ ] Loop a través de las preguntas en el juego 4. [ ] Al final mostrar cerveza en juego 5. [ ] Mostrar puntuación
 
-### 27 de febrero
+### 13 de marzo
 
 - [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
@@ -635,11 +635,25 @@ Habilitar formulario para feedbacks/reporte de errores
 4. [x] Modal para eliminar la experiencia con el juego
 5. [x] Eliminar el modelo de datos antiguo en BBDD DEV
 
-- [~] Visualizar el juego de maestro cervecero en el PC
+- [x] Visualizar el juego de maestro cervecero en el PC
 
 1. [x] Cards para preguntas y respuestas
 2. [x] Loop a través de las preguntas en el juego
 3. [x] Al final mostrar cerveza/as en juego
 4. [x] Mostrar puntuación
-5. [ ] Hay veces donde no se muestra el juego una vez que está pagado.
+5. [x] Hay veces donde no se muestra el juego una vez que está pagado.
 6. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
+
+### 14 de marzo
+
+- [ ] Añadir precio a la experiencia
+- [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
+- [ ] Breadcrumb para poder volver al apartado del evento donde esté la experiencia
+- [x] Botón para volver al evento
+- [ ] Habilitar formulario para feedbacks/reporte de errores
+- [ ] Arreglar restablecer contraseña
+- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
+- [ ] Poner a punto la producción en Supabase
+- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
+- [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado

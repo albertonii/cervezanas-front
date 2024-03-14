@@ -1,11 +1,11 @@
-import { useTranslations } from 'next-intl';
+import Modal from '../../../../../../components/modals/Modal';
 import React, { ComponentProps } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import {
     IEventExperience,
     IExperience,
 } from '../../../../../../../../lib/types/types';
-import Modal from '../../../../../../components/modals/Modal';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     handleParticipate: ComponentProps<any>;
