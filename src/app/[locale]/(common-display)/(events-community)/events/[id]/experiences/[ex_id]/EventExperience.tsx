@@ -20,6 +20,7 @@ import {
     ROUTE_CP_MOBILE,
     ROUTE_EVENTS,
 } from '../../../../../../../../config';
+import ParticipationQRCode from './ParticipationQRCode';
 
 interface Props {
     eventExperience: IEventExperience;
@@ -32,13 +33,15 @@ export default function EventExperience({ eventExperience }: Props) {
     const router = useRouter();
     const locale = useLocale();
 
-
     const [experienceParticipant, setExperienceParticipant] =
         useState<IBMExperienceParticipants>();
     const [isPaymentValid, setIsPaymentValid] = useState(false);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
     const [isRegistered, setIsRegistered] = useState(false);
+
+    const [bmExperienceParticipantId, setBMExperienceParticipantId] =
+        useState<string>();
 
     const [questions, setQuestions] = useState<QuestionsState>([]);
 
@@ -71,6 +74,8 @@ export default function EventExperience({ eventExperience }: Props) {
                     setExperienceParticipant(experienceParticipants);
                     setIsFinished(experienceParticipants.is_finished);
                     setIsPaymentValid(experienceParticipants.is_paid);
+
+                    setBMExperienceParticipantId(experienceParticipants.id);
                 }
             } else if (eventExperience.cp_fixed_id) {
                 const { data, error: errorParticipants } = await supabase
@@ -95,6 +100,8 @@ export default function EventExperience({ eventExperience }: Props) {
                     setExperienceParticipant(experienceParticipants);
                     setIsFinished(experienceParticipants.is_finished);
                     setIsPaymentValid(experienceParticipants.is_paid);
+
+                    setBMExperienceParticipantId(experienceParticipants.id);
                 }
             }
         };
@@ -189,21 +196,27 @@ export default function EventExperience({ eventExperience }: Props) {
                 </Button>
             )}
 
-            {isRegistered && !isPaymentValid && (
-                <div>
-                    <p>
-                        El Punto de Consumo donde participas obtendrá una
-                        notificación de tu inscripción. El pago de la
-                        inscripción se realizará físicamente en el mismo Punto
-                        de Consumo seleccionado y así podrás comenzar a
-                        participar en la experiencia.
-                    </p>
+            {isRegistered && !isPaymentValid && bmExperienceParticipantId && (
+                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4">
+                    <div>
+                        <h2>
+                            Muestra el código QR para confirmar el pago de la
+                            experiencia.{' '}
+                        </h2>
+                        <p>
+                            El pago de la inscripción se realizará físicamente
+                            en el mismo Punto de Consumo.
+                        </p>
+                        <p>
+                            El Punto de Consumo debe de validar el pago de la
+                            inscripción y a partir de ese momento podrás
+                            comenzar a participar en la experiencia.
+                        </p>
 
-                    <p>
-                        El Punto de Consumo debe de validar el pago de la
-                        inscripción y a partir de ese momento podrás comenzar a
-                        participar en la experiencia.
-                    </p>
+                        <ParticipationQRCode
+                            experienceParticipantId={bmExperienceParticipantId}
+                        />
+                    </div>
                 </div>
             )}
 

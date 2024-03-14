@@ -1405,8 +1405,8 @@ export interface IUserReport {
 }
 
 export interface IGamification {
-    score: number;
     user_id: string;
+    score: number;
     users?: IUserProfile;
 }
 

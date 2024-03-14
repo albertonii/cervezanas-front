@@ -103,6 +103,7 @@ export interface IBMExperienceParticipants {
     created_at: string;
     gamification_id: string;
     event_id: string;
+    experience_id: string;
     cpm_id: string;
     cpf_id: string;
     score: number;
@@ -111,7 +112,10 @@ export interface IBMExperienceParticipants {
     is_finished: boolean;
     correct_answers: number;
     incorrect_answers: number;
-    gamification?: IGamification[];
+    gamification?: IGamification;
+    events?: IEvent;
+    cp_mobile?: ICPMobile;
+    cp_fixed?: ICPFixed;
 }
 
 export interface IBMExperienceUserResponse {
