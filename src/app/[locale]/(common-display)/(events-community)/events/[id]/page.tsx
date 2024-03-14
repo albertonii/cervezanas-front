@@ -1,83 +1,87 @@
 import DisplayEvent from './DisplayEvent';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import {
-  ICPF_events,
-  ICPM_events,
-  IEvent,
+    ICPF_events,
+    ICPM_events,
+    IEvent,
 } from '../../../../../../lib/types/types';
 
 export default async function EventPage({ params }: any) {
-  const { id } = params;
+    const { id } = params;
 
-  const eventData = getEvent(id);
-  const cpMobilesData = getCPMobilesFromEvent(id);
-  const cpFixedsData = getCPFixedsFromEvent(id);
+    const eventData = getEvent(id);
+    const cpMobilesData = getCPMobilesFromEvent(id);
+    const cpFixedsData = getCPFixedsFromEvent(id);
 
-  const [event, cpmEvents, cpfEvents] = await Promise.all([
-    eventData,
-    cpMobilesData,
-    cpFixedsData,
-  ]);
+    const [event, cpmEvents, cpfEvents] = await Promise.all([
+        eventData,
+        cpMobilesData,
+        cpFixedsData,
+    ]);
 
-  return (
-    <>
-      <DisplayEvent event={event} cpmEvents={cpmEvents} cpfEvents={cpfEvents} />
-    </>
-  );
+    return (
+        <DisplayEvent
+            event={event}
+            cpmEvents={[]}
+            cpfEvents={[]}
+            // cpmEvents={cpmEvents}
+            // cpfEvents={cpfEvents}
+        />
+    );
 }
 
 async function getCPMobilesFromEvent(eventId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: event, error } = await supabase
-    .from('cpm_events')
-    .select(
-      `
-        *,
-        cp_mobile (*),
-        events (*)
-      `,
-    )
-    .eq('event_id', eventId);
+    const { data: event, error } = await supabase
+        .from('cpm_events')
+        .select(
+            `
+            *,
+            cp_mobile (*),
+            events (*)
+          `,
+        )
+        .eq('event_id', eventId);
 
-  if (error) console.error(error);
+    if (error) console.error(error);
 
-  return event as ICPM_events[];
+    return event as ICPM_events[];
 }
 
 async function getCPFixedsFromEvent(eventId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: event, error } = await supabase
-    .from('cpf_events')
-    .select(
-      `
-        *,
-        cp_fixed (*),
-        events (*)
-      `,
-    )
-    .eq('event_id', eventId);
+    const { data: event, error } = await supabase
+        .from('cpf_events')
+        .select(
+            `
+            *,
+            cp_fixed (*),
+            events (*)
+          `,
+        )
+        .eq('event_id', eventId);
 
-  if (error) console.error(error);
+    if (error) console.error(error);
 
-  return event as ICPF_events[];
+    return event as ICPF_events[];
 }
 
 async function getEvent(eventId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: event, error } = await supabase
-    .from('events')
-    .select(
-      `
-        *
-      `,
-    )
-    .eq('id', eventId)
-    .single();
+    const { data: event, error } = await supabase
+        .from('events')
+        .select(
+            `
+            *
+          `,
+        )
+        .eq('id', eventId)
+        .single();
 
-  if (error) console.error(error);
+    if (error) console.error(error);
 
-  return event as IEvent;
+    return event as IEvent;
 }
