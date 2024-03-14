@@ -8,9 +8,14 @@ import {
     IProductPackEventCartItem,
 } from '../../lib/types/types';
 
-type EventCartsType = {
+interface EventCartsType {
     [eventId: string]: IProductPackEventCartItem[];
-};
+}
+
+interface EventCartState {
+    eventCarts: EventCartsType;
+    isOpen: boolean;
+}
 
 type EventCartContextType = {
     eventCarts: EventCartsType;
@@ -74,13 +79,16 @@ interface Props {
 export function EventCartProvider({ children }: Props) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const [eventCarts, setEventCarts] = useLocalStorage<EventCartsType>(
+    const [eventCarts, setEventCarts] = useLocalStorage<EventCartState>(
         'event-carts',
-        {},
+        {
+            eventCarts: {},
+            isOpen: false,
+        },
     );
 
     const getCartByEvent = (eventId: string) => {
-        return eventCarts[eventId] || [];
+        return eventCarts.eventCarts[eventId] || [];
     };
 
     const createNewCart = (eventId: string) => {
@@ -93,7 +101,7 @@ export function EventCartProvider({ children }: Props) {
     };
 
     const existEventCart = (eventId: string) => {
-        return !!eventCarts[eventId];
+        return !!eventCarts.eventCarts[eventId];
     };
 
     const clearCart = (eventId: string) => {
@@ -147,7 +155,7 @@ export function EventCartProvider({ children }: Props) {
         product: IEventProduct,
         pack: IProductPack,
     ) => {
-        const cart = eventCarts[eventId];
+        const cart = eventCarts.eventCarts[eventId];
 
         // Buscamos el producto en el carrito
         const productFind = cart.find((item) => {
@@ -398,8 +406,8 @@ export function EventCartProvider({ children }: Props) {
 
     const getCartQuantity = (eventId: string) => {
         let quantity = 0;
-        if (eventCarts[eventId].length === 0) return quantity;
-        eventCarts[eventId].map((item) => {
+        if (eventCarts.eventCarts[eventId].length === 0) return quantity;
+        eventCarts.eventCarts[eventId].map((item) => {
             quantity += item.packs.reduce(
                 (acc, pack) => acc + pack.quantity,
                 0,
@@ -410,7 +418,7 @@ export function EventCartProvider({ children }: Props) {
     };
 
     const value = {
-        eventCarts,
+        eventCarts: eventCarts.eventCarts,
         clearCart,
         getItemQuantity,
         getPackQuantity,
