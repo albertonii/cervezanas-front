@@ -48,7 +48,8 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
     return (
         <section className="relative bg-beer-softFoam p-4 rounded-md shadow-xl space-y-4">
             <div className="absolute top-2 right-2 font-semibold ">
-                {experience?.price} €
+                Realizar pago en local
+                {/* {experience?.price} € */}
             </div>
 
             <div className="flex justify-between flex-col">

@@ -1,12 +1,12 @@
 'use client';
 
+import Button from '../../../../../components/common/Button';
+import Spinner from '../../../../../components/common/Spinner';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '../../../../../../../lib/types/quiz';
-import Button from '../../../../../components/common/Button';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../components/message/useMessage';
-import Spinner from '../../../../../components/common/Spinner';
 
 interface Props {
     experienceParticipant: IBMExperienceParticipants;

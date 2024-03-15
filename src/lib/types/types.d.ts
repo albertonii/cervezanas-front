@@ -349,7 +349,7 @@ export interface IEvent {
     promotional_url: string;
     status: string;
     // geoArgs: GeocodeResult[];
-    geoArgs: any[]
+    geoArgs: any[];
     address: string;
     owner_id: string;
     cp_mobile: ICPMobile[];
@@ -424,6 +424,7 @@ export interface ICPFProducts {
     stock_consumed: number;
     cp_id: string;
     product_pack_id: string;
+    is_active: boolean;
     product_packs?: IProductPack;
     cp_fixed?: ICPFixed;
 }
@@ -435,6 +436,7 @@ export interface ICPMProducts {
     stock_consumed: number;
     cp_id: string;
     product_pack_id: string;
+    is_active: boolean;
     product_packs?: IProductPack;
     cp_mobile?: ICPMobile;
 }
