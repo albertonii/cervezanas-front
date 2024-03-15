@@ -50,8 +50,6 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
         .eq('id', experienceParticipantId)
         .single();
 
-    console.log(data, 'data');
-
     if (eventOrderItemError) throw eventOrderItemError;
 
     return data as IBMExperienceParticipants;

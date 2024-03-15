@@ -3,6 +3,7 @@ import {
     UserIdentity,
     UserMetadata,
 } from '@supabase/supabase-js';
+import { GeoArgs, GeocodeResult } from 'use-places-autocomplete';
 import { CssComponent } from '@stitches/core/types/styled-component';
 import { Provider, SupabaseClient } from '@supabase/supabase-js';
 import { ThemeVariables } from '../../../common/theming';
@@ -347,7 +348,8 @@ export interface IEvent {
     logo_url: string;
     promotional_url: string;
     status: string;
-    geoArgs: GeocodeResult[];
+    // geoArgs: GeocodeResult[];
+    geoArgs: any[]
     address: string;
     owner_id: string;
     cp_mobile: ICPMobile[];
@@ -386,7 +388,8 @@ export interface ICPFixed {
     cp_id: string;
     is_internal_organizer: boolean;
     cpf_products?: ICPFProducts[];
-    geoArgs: GeocodeResult[];
+    // geoArgs: GeocodeResult[];
+    geoArgs: any[];
     consumption_points?: IConsumptionPoints;
 }
 
@@ -407,7 +410,8 @@ export interface ICPMobile {
     logo_url: string;
     maximum_capacity: number;
     is_booking_required: boolean;
-    geoArgs: GeoArgs[];
+    // geoArgs: GeoArgs[];
+    geoArgs: any[];
     is_internal_organizer: boolean;
     cpm_products?: ICPMProducts[];
     consumption_points?: IConsumptionPoints;
