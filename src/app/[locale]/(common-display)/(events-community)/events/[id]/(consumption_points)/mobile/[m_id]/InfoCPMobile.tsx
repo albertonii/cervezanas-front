@@ -22,6 +22,7 @@ export default function InfoCPMobile({
     eventId,
 }: Props) {
     const t = useTranslations();
+    const experiencesCounter = eventExperiences.length;
 
     return (
         <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
@@ -43,8 +44,15 @@ export default function InfoCPMobile({
             </section>
 
             {/* Event Experiences  */}
-            <section>
+            <section className="space-y-4">
                 <h2 className="text-2xl font-bold mt-8">{t('experiences')}</h2>
+
+                <p>
+                    <span className="text-xl">
+                        Este Punto de Consumo ofrece {experiencesCounter} en las
+                        que puedes participar
+                    </span>
+                </p>
 
                 <EventExperiences eventExperiences={eventExperiences} />
             </section>

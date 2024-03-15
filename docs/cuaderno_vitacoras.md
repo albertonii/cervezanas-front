@@ -699,7 +699,7 @@ Habilitar formulario para feedbacks/reporte de errores
   6. [ ] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
   7. [ ] Indicar número de experiencias en el Punto de Consumo
   8. [ ] Configurar un EVENTO por Administrador de Cervezanas para que puedan los productores asociar sus productos a las experiencias.
-  9. [ ] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
-  10. [ ] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
+  9. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
+  10. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
 
 - Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
