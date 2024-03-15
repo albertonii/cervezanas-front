@@ -702,5 +702,12 @@ Habilitar formulario para feedbacks/reporte de errores
   9. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
   10. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
 
-- [ ] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
-- [ ] Error al modificar un producto en el productor
+- [ ] Evento Cervezanas
+  1. [ ] Crear un evento con la cuenta de Administrador de Cervezanas
+  2. [ ] Listado de todos los Puntos de Consumo que se pueden añadir al evento. Como es el administrador tendrá acceso a todos los PC existentes
+  3. [ ] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
+  4. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: notificar al productor de ello
+  5. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: visualizar en el apartado de eventos acerca de ello.
+
+
+- [x] Error al modificar un producto en el productor

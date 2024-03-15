@@ -7,44 +7,45 @@ import { CPMobile } from './CPMobile';
 import { IConsumptionPoints } from '../../../../../../lib/types/types';
 
 interface Props {
-  cps: IConsumptionPoints;
+    cps: IConsumptionPoints;
 }
 
 // Consumption Point status is in pending for validation by the admin of the platform
 export function CPAccepted({ cps }: Props) {
-  const [menuOption, setMenuOption] = useState<string>('cp_fixed');
+    const [menuOption, setMenuOption] = useState<string>('cp_mobile');
 
-  const renderSwitch = () => {
-    switch (menuOption) {
-      case 'cp_fixed':
-        return <CPFixed cpsId={cps.id} />;
-      case 'cp_mobile':
-        return <CPMobile cpsId={cps.id} />;
-    }
-  };
+    const renderSwitch = () => {
+        switch (menuOption) {
+            case 'cp_fixed':
+                return <CPFixed cpsId={cps.id} />;
+            case 'cp_mobile':
+                return <CPMobile cpsId={cps.id} />;
+        }
+    };
 
-  const handleMenuClick = (opt: string): void => {
-    setMenuOption(opt);
-  };
+    const handleMenuClick = (opt: string): void => {
+        setMenuOption(opt);
+    };
 
-  return (
-    <>
-      <h2 className="text-3xl">¡Petición aceptada!</h2>
+    return (
+        <>
+            <h2 className="text-3xl">¡Petición aceptada!</h2>
 
-      <p>
-        <h3 className="max-w-3xl text-lg">
-          El equipo de cervezanas ha recibido tu solicitud para participar como
-          punto de consumo certificado y has sido admitido. Ahora podrás usar
-          los paneles de control para gestionar tu punto de consumo.
-        </h3>
-      </p>
+            <p>
+                <h3 className="max-w-3xl text-lg">
+                    El equipo de cervezanas ha recibido tu solicitud para
+                    participar como punto de consumo certificado y has sido
+                    admitido. Ahora podrás usar los paneles de control para
+                    gestionar tu punto de consumo.
+                </h3>
+            </p>
 
-      <HorizontalSections
-        handleMenuClick={handleMenuClick}
-        tabs={['cp_fixed', 'cp_mobile']}
-      />
+            <HorizontalSections
+                handleMenuClick={handleMenuClick}
+                tabs={['cp_mobile', 'cp_fixed']}
+            />
 
-      {renderSwitch()}
-    </>
-  );
+            {renderSwitch()}
+        </>
+    );
 }
