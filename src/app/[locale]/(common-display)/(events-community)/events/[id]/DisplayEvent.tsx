@@ -81,14 +81,14 @@ export default function DisplayEvent({
             </div>
 
             <div className=" m-4 rounded-md bg-beer-softBlonde px-4 text-lg text-center space-y-4 py-4">
-                <h1 className="font-semibold">
+                <h1 className="font-semibold text-2xl">
                     ¡Encuentra las {BMExperiencesCount} Experiencias de Maestro
                     Cervecero!
                 </h1>
 
                 {isLoggedIn ? (
                     <>
-                        <p className=" text-2xl">
+                        <p className="text-md">
                             Experiencias registradas:{' '}
                             <span className="font-semibold">
                                 {BMExperienceParticipantCount}/
@@ -97,7 +97,7 @@ export default function DisplayEvent({
                         </p>
 
                         <p>
-                            <span>
+                            <span className="text-lg">
                                 Puntos obtenidos:{' '}
                                 <b className="font-semi">
                                     {BMExperienceParticipantTotalScore}
@@ -105,30 +105,28 @@ export default function DisplayEvent({
                             </span>
                         </p>
 
-                        <p className=" text-2xl">
-                            Recompensas :{' '}
-                            <span className="font-semibold">
-                                {BMExperienceParticipantCount === 1 && (
-                                    <span>
+                        <p className="text-lg flex flex-col">
+                            {BMExperienceParticipantCount >= 1 && (
+                                <>
+                                    <span>Recompensas: </span>
+                                    <span className="font-semibold">
                                         Descuento de 10% en tu siguiente compra
                                         ONLINE en Cervezanas
                                     </span>
-                                )}
-
-                                {BMExperienceParticipantCount === 4 && (
-                                    <p>
-                                        <h2 className="font-semibold">
-                                            ¡ENHORABUENA!
-                                        </h2>
-                                        <span>
-                                            Has entrado en el sorteo Cervezanas
-                                            de 2 entradas para en directo el
-                                            concierto de AC/DC ... y de muchos
-                                            otros premios
-                                        </span>
-                                    </p>
-                                )}
-                            </span>
+                                </>
+                            )}
+                            {BMExperienceParticipantCount >= 4 && (
+                                <p>
+                                    <h2 className="font-semibold">
+                                        ¡ENHORABUENA!
+                                    </h2>
+                                    <span>
+                                        Has entrado en el sorteo Cervezanas de 2
+                                        entradas para en directo el concierto de
+                                        AC/DC ... y de muchos otros premios
+                                    </span>
+                                </p>
+                            )}
                         </p>
                     </>
                 ) : (

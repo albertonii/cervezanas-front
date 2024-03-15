@@ -689,15 +689,17 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
 - [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
 
-- [ ] Experiencia Completa de Maestro Cervecero
-  1. [ ] Mostrar el número de experiencias que hay en un evento
-  2. [ ] Mostrar el número de experiencias que ha realizado un usuario
-  3. [ ] Sumar los resultados obtenidos en cada experiencia
+- [WIP] Experiencia Completa de Maestro Cervecero
+
+  1. [x] Mostrar el número de experiencias que hay en un evento
+  2. [x] Mostrar el número de experiencias que ha realizado un usuario
+  3. [x] Sumar los resultados obtenidos en cada experiencia
   4. [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
   5. [ ] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
   6. [ ] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
   7. [ ] Indicar número de experiencias en el Punto de Consumo
   8. [ ] Configurar un EVENTO por Administrador de Cervezanas para que puedan los productores asociar sus productos a las experiencias.
-
+  9. [ ] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
+  10. [ ] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
 
 - Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
