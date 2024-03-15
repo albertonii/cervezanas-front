@@ -16,201 +16,212 @@ import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchChe
 import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
 
 export type ModalAddEventFormData = {
-  name: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  logo_url?: string;
-  promotional_url?: string;
-  cps_mobile?: any[];
+    name: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    logo_url?: string;
+    promotional_url?: string;
+    cps_mobile?: any[];
 };
 
 const schema: ZodType<ModalAddEventFormData> = z.object({
-  name: z.string().nonempty({ message: 'errors.input_required' }),
-  description: z.string().nonempty({ message: 'errors.input_required' }),
-  start_date: z.string().nonempty({ message: 'errors.input_required' }),
-  end_date: z.string().nonempty({ message: 'errors.input_required' }),
-  logo_url: z.string().optional(),
-  promotional_url: z.string().optional(),
-  cps_mobile: z.any(),
+    name: z.string().nonempty({ message: 'errors.input_required' }),
+    description: z.string().nonempty({ message: 'errors.input_required' }),
+    start_date: z.string().nonempty({ message: 'errors.input_required' }),
+    end_date: z.string().nonempty({ message: 'errors.input_required' }),
+    logo_url: z.string().optional(),
+    promotional_url: z.string().optional(),
+    cps_mobile: z.any(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-  cpsMobile: ICPMobile[];
-  cpsFixed: ICPFixed[];
+    cpsMobile: ICPMobile[];
+    cpsFixed: ICPFixed[];
 }
 
 export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
-  const t = useTranslations();
-  const { user, supabase } = useAuth();
+    const t = useTranslations();
+    const { user, supabase } = useAuth();
 
-  const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  const form = useForm<ValidationSchema>({
-    mode: 'onSubmit',
-    resolver: zodResolver(schema),
-  });
-
-  const { handleSubmit, reset } = form;
-
-  const handleInsertEvent = async (form: ValidationSchema) => {
-    const { name, description, start_date, end_date, cps_mobile } = form;
-
-    // Create event
-    const { data: event, error: eventError } = await supabase
-      .from('events')
-      .insert({
-        name,
-        description,
-        start_date,
-        end_date,
-        owner_id: user?.id,
-      })
-      .select();
-
-    if (eventError) {
-      throw eventError;
-    }
-    if (!cps_mobile) {
-      return;
-    }
-    if (!event) {
-      return;
-    }
-
-    const { id: eventId } = event[0];
-
-    // Get CP checked from the list
-    const cpsMFiltered = cps_mobile.filter((cp) => cp.cp_id);
-
-    // Loop trough all the selected CPs and insert them into the event
-    cpsMFiltered.map(async (cp) => {
-      const { error: cpError } = await supabase.from('cpm_events').insert({
-        cp_id: cp.cp_id,
-        event_id: eventId,
-        is_active: false,
-      });
-
-      if (cpError) {
-        throw cpError;
-      }
+    const form = useForm<ValidationSchema>({
+        mode: 'onSubmit',
+        resolver: zodResolver(schema),
     });
 
-    reset();
-  };
+    const { handleSubmit, reset } = form;
 
-  const insertEventMutation = useMutation({
-    mutationKey: 'insertEvent',
-    mutationFn: handleInsertEvent,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['events'] });
-      setShowModal(false);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+    const handleInsertEvent = async (form: ValidationSchema) => {
+        const { name, description, start_date, end_date, cps_mobile } = form;
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddEventFormData,
-  ) => {
-    try {
-      insertEventMutation.mutate(formValues);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        // Create event
+        const { data: event, error: eventError } = await supabase
+            .from('events')
+            .insert({
+                name,
+                description,
+                start_date,
+                end_date,
+                owner_id: user?.id,
+            })
+            .select();
 
-  return (
-    <ModalWithForm
-      showBtn={true}
-      showModal={showModal}
-      setShowModal={setShowModal}
-      title={'add_new_event'}
-      btnTitle={'new_event'}
-      description={''}
-      icon={faAdd}
-      btnSize={'large'}
-      classIcon={'w-6 h-6'}
-      classContainer={''}
-      handler={handleSubmit(onSubmit)}
-      form={form}
-    >
-      <form>
-        {/* Event Information  */}
-        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="m-2 text-2xl">{t('events_info')}</legend>
+        if (eventError) {
+            throw eventError;
+        }
+        if (!cps_mobile) {
+            return;
+        }
+        if (!event) {
+            return;
+        }
 
-          {/* Event name  */}
-          <InputLabel
+        const { id: eventId } = event[0];
+
+        // Get CP checked from the list
+        const cpsMFiltered = cps_mobile.filter((cp) => cp.cp_id);
+
+        // Loop trough all the selected CPs and insert them into the event
+        cpsMFiltered.map(async (cp) => {
+            const { error: cpError } = await supabase
+                .from('cpm_events')
+                .insert({
+                    cp_id: cp.cp_id,
+                    event_id: eventId,
+                    is_active: false,
+                });
+
+            if (cpError) {
+                throw cpError;
+            }
+        });
+
+        reset();
+    };
+
+    const insertEventMutation = useMutation({
+        mutationKey: 'insertEvent',
+        mutationFn: handleInsertEvent,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['events'] });
+            setShowModal(false);
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
+
+    const onSubmit: SubmitHandler<ValidationSchema> = (
+        formValues: ModalAddEventFormData,
+    ) => {
+        try {
+            insertEventMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return (
+        <ModalWithForm
+            showBtn={true}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            title={'add_new_event'}
+            btnTitle={'new_event'}
+            description={''}
+            icon={faAdd}
+            btnSize={'large'}
+            classIcon={'w-6 h-6'}
+            classContainer={''}
+            handler={handleSubmit(onSubmit)}
             form={form}
-            label={'name'}
-            registerOptions={{
-              required: true,
-            }}
-          />
+        >
+            <form>
+                {/* Event Information  */}
+                <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                    <legend className="m-2 text-2xl">{t('events_info')}</legend>
 
-          {/* Event description  */}
-          <InputTextarea
-            form={form}
-            label={'description'}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
-          />
+                    {/* Event name  */}
+                    <InputLabel
+                        form={form}
+                        label={'name'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
 
-          {/* Start date and end date  */}
-          <div className="flex flex-row space-x-2">
-            <InputLabel
-              form={form}
-              label={'start_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              inputType="date"
-            />
+                    {/* Event description  */}
+                    <InputTextarea
+                        form={form}
+                        label={'description'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Bienvenido al BBF, el festival de cerveza artesanal más grande de Barcelona. Te esperamos el 14, 15 y 16 de mayo en el Deportivo Lomas Altas. ¡No te lo pierdas!"
+                    />
 
-            <InputLabel
-              form={form}
-              label={'end_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              inputType="date"
-            />
-          </div>
-        </fieldset>
+                    {/* Start date and end date  */}
+                    <div className="flex flex-row space-x-2">
+                        <InputLabel
+                            form={form}
+                            label={'start_date'}
+                            registerOptions={{
+                                required: true,
+                                valueAsDate: true,
+                            }}
+                            inputType="date"
+                        />
 
-        {/* Logo and publicitary img */}
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('event_advertising')}</legend>
+                        <InputLabel
+                            form={form}
+                            label={'end_date'}
+                            registerOptions={{
+                                required: true,
+                                valueAsDate: true,
+                            }}
+                            inputType="date"
+                        />
+                    </div>
+                </fieldset>
 
-          {/* Logo */}
+                {/* Logo and publicitary img */}
+                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                    <legend className="text-2xl">
+                        {t('event_advertising')}
+                    </legend>
 
-          {/* AD Img  */}
-        </fieldset>
+                    {/* Logo */}
 
-        {/* List of Mobil Consumption Points  */}
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('cp_mobile_associated')}</legend>
+                    {/* AD Img  */}
+                </fieldset>
 
-          <SearchCheckboxCPMobiles cpsMobile={cpsMobile} form={form} />
-        </fieldset>
+                {/* List of Mobil Consumption Points  */}
+                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                    <legend className="text-2xl">
+                        {t('cp_mobile_associated')}
+                    </legend>
 
-        {/* List of Fixed Consumption Points  */}
-        <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-          <legend className="text-2xl">{t('cp_fixed_associated')}</legend>
+                    <SearchCheckboxCPMobiles
+                        cpsMobile={cpsMobile}
+                        form={form}
+                    />
+                </fieldset>
 
-          <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
-        </fieldset>
-      </form>
-    </ModalWithForm>
-  );
+                {/* List of Fixed Consumption Points  */}
+                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                    <legend className="text-2xl">
+                        {t('cp_fixed_associated')}
+                    </legend>
+
+                    <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
+                </fieldset>
+            </form>
+        </ModalWithForm>
+    );
 }

@@ -689,25 +689,25 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
 - [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
 
-- [WIP] Experiencia Completa de Maestro Cervecero
+- [x] Experiencia Completa de Maestro Cervecero
 
   1. [x] Mostrar el número de experiencias que hay en un evento
   2. [x] Mostrar el número de experiencias que ha realizado un usuario
   3. [x] Sumar los resultados obtenidos en cada experiencia
-  4. [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios. Como tendremos el registro de la gente que ha participado, podremos saber si ha participado en 4 experiencias y por lo tanto, incluirlos en un sorteo.
-  5. [ ] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
-  6. [ ] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
+  4. [~] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios. Como tendremos el registro de la gente que ha participado, podremos saber si ha participado en 4 experiencias y por lo tanto, incluirlos en un sorteo.
+  5. [~] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
+  6. [FUTURO] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
   7. [x] Indicar número de experiencias en el Punto de Consumo
-  8. [ ] Configurar un EVENTO por Administrador de Cervezanas para que puedan los productores asociar sus productos a las experiencias.
-  9. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
-  10. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
+  8. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
+  9. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
 
-- [ ] Evento Cervezanas
+- [WIP] Evento Cervezanas con usuario ADMINISTRADOR
+
   1. [ ] Crear un evento con la cuenta de Administrador de Cervezanas
   2. [ ] Listado de todos los Puntos de Consumo que se pueden añadir al evento. Como es el administrador tendrá acceso a todos los PC existentes
   3. [ ] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
   4. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: notificar al productor de ello
   5. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: visualizar en el apartado de eventos acerca de ello.
-
+  6. [ ] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.
 
 - [x] Error al modificar un producto en el productor

@@ -1,30 +1,42 @@
 'use client';
 
+import EventList from './EventList';
+import AddEvent from './AddEvent';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import EventList from './EventList';
 import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
 
 interface Props {
-  cpsMobile: ICPMobile[];
-  cpsFixed: ICPFixed[];
-  counter: number;
+    cpsMobile: ICPMobile[];
+    cpsFixed: ICPFixed[];
+    counter: number;
 }
 
 export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  return (
-    <div className="px-6 py-4">
-      <section className="mt-4 flex flex-col space-y-4">
-        <h2 className="text-2xl">{t('events_list')}</h2>
+    return (
+        <section className="px-4 py-6" aria-label="Events">
+            <header className="flex flex-col space-y-4">
+                <p className="flex justify-between py-4" id="header">
+                    <span
+                        id="title"
+                        className="text-5xl font-semibold text-beer-blonde"
+                    >
+                        {t('events')}
+                    </span>
+                </p>
 
-        <EventList
-          counter={counter}
-          cpsMobile={cpsMobile}
-          cpsFixed={cpsFixed}
-        />
-      </section>
-    </div>
-  );
+                <div className="w-40">
+                    <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
+                </div>
+            </header>
+
+            <EventList
+                counter={counter}
+                cpsMobile={cpsMobile}
+                cpsFixed={cpsFixed}
+            />
+        </section>
+    );
 }
