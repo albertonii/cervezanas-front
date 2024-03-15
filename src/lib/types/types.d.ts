@@ -355,6 +355,7 @@ export interface IEvent {
     cp_mobile: ICPMobile[];
     cp_fixed: ICPFixed[];
     users: IUserTable;
+    is_activated: boolean
 }
 
 export interface IConsumptionPoints {

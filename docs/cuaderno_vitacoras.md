@@ -703,9 +703,9 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [WIP] Evento Cervezanas con usuario ADMINISTRADOR
 
-  1. [ ] Crear un evento con la cuenta de Administrador de Cervezanas
-  2. [ ] Listado de todos los Puntos de Consumo que se pueden añadir al evento. Como es el administrador tendrá acceso a todos los PC existentes
-  3. [ ] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
+  1. [x] Crear un evento con la cuenta de Administrador de Cervezanas
+  2. [x] Listado de todos los Puntos de Consumo que se pueden añadir al evento. Como es el administrador tendrá acceso a todos los PC existentes
+  3. [x] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
   4. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: notificar al productor de ello
   5. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: visualizar en el apartado de eventos acerca de ello.
   6. [ ] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.

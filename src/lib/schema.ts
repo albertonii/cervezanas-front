@@ -1306,6 +1306,7 @@ export interface Database {
           end_date: string | null
           geoArgs: Json | null
           id: string
+          is_activated: boolean | null
           logo_url: string | null
           name: string | null
           owner_id: string | null
@@ -1320,6 +1321,7 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -1334,6 +1336,7 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
