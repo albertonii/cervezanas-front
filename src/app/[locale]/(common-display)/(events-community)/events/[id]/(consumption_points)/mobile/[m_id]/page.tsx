@@ -1,47 +1,35 @@
 import InfoCPMobile from './InfoCPMobile';
-import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../../../constants';
 import {
-  ICPMobile,
-  IEventExperience,
-  IExperience,
+    ICPMobile,
+    IEventExperience,
 } from '../../../../../../../../../lib/types/types';
-import readUserSession from '../../../../../../../../../lib/actions';
 import createServerClient from '../../../../../../../../../utils/supabaseServer';
 
 export default async function CPMobilePage({ params }: any) {
-  const { id: eventId, m_id: cpId } = params;
-  const cpMobileData = getCPMobile(cpId);
-  const eventExperiencesData = getEventExperience(eventId, cpId);
-  const [eventExperiences, cpMobile] = await Promise.all([
-    eventExperiencesData,
-    cpMobileData,
-  ]);
+    const { id: eventId, m_id: cpId } = params;
+    const cpMobileData = getCPMobile(cpId);
+    const eventExperiencesData = getEventExperience(eventId, cpId);
+    const [eventExperiences, cpMobile] = await Promise.all([
+        eventExperiencesData,
+        cpMobileData,
+    ]);
 
-  return (
-    <>
-      <InfoCPMobile
-        cpMobile={cpMobile}
-        eventId={eventId}
-        eventExperiences={eventExperiences}
-      />
-    </>
-  );
+    return (
+        <InfoCPMobile
+            cpMobile={cpMobile}
+            eventId={eventId}
+            eventExperiences={eventExperiences}
+        />
+    );
 }
 
 async function getCPMobile(cpId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: cpsMobile, error: cpMobileError } = await supabase
-    .from('cp_mobile')
-    .select(
-      ` 
+    const { data: cpsMobile, error: cpMobileError } = await supabase
+        .from('cp_mobile')
+        .select(
+            ` 
         *,
         cpm_products!cpm_products_cp_id_fkey (
           *,
@@ -59,28 +47,23 @@ async function getCPMobile(cpId: string) {
           )
         )
       `,
-    )
-    .eq('id', cpId)
-    .single();
+        )
+        .eq('id', cpId)
+        .single();
 
-  if (cpMobileError) console.error(cpMobileError);
+    if (cpMobileError) console.error(cpMobileError);
 
-  return cpsMobile as ICPMobile;
+    return cpsMobile as ICPMobile;
 }
 
 async function getEventExperience(eventId: string, cpId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
-
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-
-  const { data: eventExperience, error: eventExperienceError } = await supabase
-    .from('event_experiences')
-    .select(
-      ` 
+    const { data: eventExperience, error: eventExperienceError } =
+        await supabase
+            .from('event_experiences')
+            .select(
+                ` 
           id,
           created_at,
           event_id,
@@ -91,11 +74,11 @@ async function getEventExperience(eventId: string, cpId: string) {
             *
           )
         `,
-    )
-    .eq('cp_mobile_id', cpId)
-    .eq('event_id', eventId);
+            )
+            .eq('cp_mobile_id', cpId)
+            .eq('event_id', eventId);
 
-  if (eventExperienceError) console.error(eventExperienceError);
+    if (eventExperienceError) console.error(eventExperienceError);
 
-  return eventExperience as IEventExperience[];
+    return eventExperience as IEventExperience[];
 }

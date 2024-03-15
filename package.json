@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "dev-turbo": "cross-env NODE_OPTIONS='--inspect' next dev --turbo",
+    "install": "pnpm install",
     "build": "next build",
     "start": "next start ",
     "lint:check": "next lint",
@@ -35,6 +36,7 @@
     "@tailwindcss/forms": "0.5.2",
     "@tailwindcss/line-clamp": "0.4.4",
     "@types/negotiator": "0.6.1",
+    "@vercel/analytics": "^1.2.2",
     "accept-language": "3.0.18",
     "classnames": "2.3.2",
     "encoding": "0.1.13",

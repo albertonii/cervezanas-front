@@ -14,6 +14,7 @@ import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
 import UpdateBeerMasterExperienceModalNew from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
 import { IExperience } from '../../../../../../lib/types/quiz';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 enum SortBy {
     NONE = 'none',
@@ -32,6 +33,7 @@ interface Props {
 export default function ExperienceList({ counter, experiences: es }: Props) {
     const t = useTranslations();
     const locale = useLocale();
+    const { isLoggedIn } = useAuth();
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -59,11 +61,13 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     ];
 
     useEffect(() => {
-        refetch().then((res: any) => {
-            const experiences = res.data as IExperience[];
-            setExperiences(experiences);
-        });
-    }, [currentPage, data]);
+        if (isLoggedIn) {
+            refetch().then((res: any) => {
+                const experiences = res.data as IExperience[];
+                setExperiences(experiences);
+            });
+        }
+    }, [currentPage, data, isLoggedIn]);
 
     const filteredItems = useMemo<IExperience[]>(() => {
         if (!data) return [];

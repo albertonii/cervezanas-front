@@ -5,61 +5,63 @@ import { Question, QuestionsState } from '../../../../lib/types/quiz';
 import { getProduct } from './helpers';
 
 interface Props {
-  questions: QuestionsState;
-  productQuestionMap: { [key: string]: Question[] };
-  userAnswers: Record<number, string>;
+    questions: QuestionsState;
+    productQuestionMap: { [key: string]: Question[] };
+    userAnswers: Record<number, string>;
 }
 
 export default function results({
-  questions,
-  productQuestionMap,
-  userAnswers,
+    questions,
+    productQuestionMap,
+    userAnswers,
 }: Props) {
-  const locale = useLocale();
+    const locale = useLocale();
 
-  // Count total correct answers
-  const totalCorrectAnswers = questions.reduce((acc, question, index) => {
-    const userAnswer: string = userAnswers[index];
-    if (userAnswer === question.correct_answer) {
-      return acc + 1;
-    }
+    // Count total correct answers
+    const totalCorrectAnswers = questions.reduce((acc, question, index) => {
+        const userAnswer: string = userAnswers[index];
+        if (userAnswer === question.correct_answer) {
+            return acc + 1;
+        }
 
-    return acc;
-  }, 0);
+        return acc;
+    }, 0);
 
-  return (
-    <div className="w-[20vw] sm:w-[30vw]">
-      <h1 className="font-semibold text-xl">Results</h1>
+    return (
+        <div className="w-full">
+            <h1 className="font-semibold text-xl">Results</h1>
 
-      <p>
-        You got {totalCorrectAnswers} out of {questions.length} correct
-      </p>
+            <p>
+                You got {totalCorrectAnswers} out of {questions.length} correct
+            </p>
 
-      {Object.keys(productQuestionMap).map((productId, index) => (
-        <div key={productId}>
-          <p>Product nº {index + 1} is:</p>
+            {Object.keys(productQuestionMap).map((productId, index) => (
+                <div key={productId}>
+                    <p>Product nº {index + 1} is:</p>
 
-          <h2 className="cursor-pointer font-semibold text-beer-draft hover:text-beer-darkGold">
-            <Link
-              target={'_blank'}
-              href={`/products/${getProduct(questions, productId)?.id}`}
-              locale={locale}
-            >
-              {getProduct(questions, productId)?.name}
-            </Link>
-          </h2>
+                    <h2 className="cursor-pointer font-semibold text-beer-draft hover:text-beer-darkGold">
+                        <Link
+                            target={'_blank'}
+                            href={`/products/${
+                                getProduct(questions, productId)?.id
+                            }`}
+                            locale={locale}
+                        >
+                            {getProduct(questions, productId)?.name}
+                        </Link>
+                    </h2>
+                </div>
+            ))}
+
+            <p>Respuestas correctas</p>
+
+            <ul>
+                {questions.map((question, index) => (
+                    <li key={index} className={``}>
+                        {question.question} - {question.correct_answer}
+                    </li>
+                ))}
+            </ul>
         </div>
-      ))}
-
-      <p>Respuestas correctas</p>
-
-      <ul>
-        {questions.map((question, index) => (
-          <li key={index} className={``}>
-            {question.question} - {question.correct_answer}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    );
 }

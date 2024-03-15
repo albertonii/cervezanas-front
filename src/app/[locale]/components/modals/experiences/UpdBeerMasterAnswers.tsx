@@ -85,7 +85,6 @@ export default function UpdBeerMasterAnswers({
     }
   };
 
-  console.log(fields);
 
   return (
     <>

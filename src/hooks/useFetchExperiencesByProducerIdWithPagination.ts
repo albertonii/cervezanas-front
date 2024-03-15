@@ -7,17 +7,17 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../lib/schema';
 
 const fetchExperiencesByProducerId = async (
-  ownerId: string,
-  currentPage: number,
-  resultsPerPage: number,
-  supabase: SupabaseClient<Database>,
+    ownerId: string,
+    currentPage: number,
+    resultsPerPage: number,
+    supabase: SupabaseClient<Database>,
 ) => {
-  if (!ownerId) return [];
+    if (!ownerId) return [];
 
-  const { data, error } = await supabase
-    .from('experiences')
-    .select(
-      `
+    const { data, error } = await supabase
+        .from('experiences')
+        .select(
+            `
         *,
         bm_questions (
           id,
@@ -30,38 +30,38 @@ const fetchExperiencesByProducerId = async (
           type
         )
       `,
-      {
-        count: 'exact',
-      },
-    )
-    .eq('producer_id', ownerId)
-    .range(
-      (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1,
-    );
+            {
+                count: 'exact',
+            },
+        )
+        .eq('producer_id', ownerId)
+        .range(
+            (currentPage - 1) * resultsPerPage,
+            currentPage * resultsPerPage - 1,
+        );
 
-  if (error) throw error;
-  return data as IExperience[];
+    if (error) throw error;
+    return data as IExperience[];
 };
 
 const useFetchExperiencesByProducerIdWithPagination = (
-  currentPage: number,
-  resultsPerPage: number,
+    currentPage: number,
+    resultsPerPage: number,
 ) => {
-  const { user, supabase } = useAuth();
+    const { user, supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['experiences'],
-    queryFn: () =>
-      fetchExperiencesByProducerId(
-        user?.id,
-        currentPage,
-        resultsPerPage,
-        supabase,
-      ),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['experiences'],
+        queryFn: () =>
+            fetchExperiencesByProducerId(
+                user?.id,
+                currentPage,
+                resultsPerPage,
+                supabase,
+            ),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchExperiencesByProducerIdWithPagination;

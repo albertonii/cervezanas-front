@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IExperience } from '../../../../../../lib/types/quiz';
-import AddExperience from '../../../../components/modals/experiences/AddBeerMasterExperienceModal';
+import AddBeerMasterExperienceModal from '../../../../components/modals/experiences/AddBeerMasterExperienceModal';
 import ExperienceList from './ExperiencesList';
 
 interface Props {
@@ -27,7 +27,7 @@ export default function Experiences({ experiences, counter }: Props) {
                 </p>
 
                 <div className="w-40">
-                    <AddExperience />
+                    <AddBeerMasterExperienceModal />
                 </div>
             </header>
 

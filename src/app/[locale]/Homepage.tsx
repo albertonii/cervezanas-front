@@ -24,9 +24,7 @@ export default function Homepage({ monthlyProducts }: Props) {
     }
 
     return (
-        <div className="h-full ">
-            <QRCode value={'localhost:3000'} className="" size={150} />
-
+        <section className="h-full ">
             <Homeheader />
             <Highlights />
             <TopBeers />
@@ -35,6 +33,6 @@ export default function Homepage({ monthlyProducts }: Props) {
             <Community />
             <Reviews />
             <MonthlyBeers monthlyProducts={monthlyProducts} />
-        </div>
+        </section>
     );
 }
