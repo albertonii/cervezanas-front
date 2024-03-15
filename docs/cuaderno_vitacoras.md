@@ -708,7 +708,7 @@ Habilitar formulario para feedbacks/reporte de errores
   3. [x] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
   4. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: notificar al productor de ello
   5. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: visualizar en el apartado de eventos acerca de ello.
-  6. [ ] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.
+  6. [x] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.
 
 - [x] Error al modificar un producto en el productor
 
