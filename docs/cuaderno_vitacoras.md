@@ -45,6 +45,8 @@
 - Editar una campaña
 - Vincular productos a la campaña
 - Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
+- [ ] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
+- [ ] Popup Modal con SignIn
 
 # Tareas realizadas
 
@@ -679,10 +681,8 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
 - [x] Quitar los productos que se van a vender en el evento, debido a que el propio stand se encargará de ello.
-- [ ] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
 - [ ] Poner a punto la producción en Supabase
 - [ ] Que esté todo ok con TPV Santander
-- [ ] Popup Modal con SignIn
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
@@ -694,12 +694,13 @@ Habilitar formulario para feedbacks/reporte de errores
   1. [x] Mostrar el número de experiencias que hay en un evento
   2. [x] Mostrar el número de experiencias que ha realizado un usuario
   3. [x] Sumar los resultados obtenidos en cada experiencia
-  4. [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
+  4. [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios. Como tendremos el registro de la gente que ha participado, podremos saber si ha participado en 4 experiencias y por lo tanto, incluirlos en un sorteo.
   5. [ ] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
   6. [ ] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
-  7. [ ] Indicar número de experiencias en el Punto de Consumo
+  7. [x] Indicar número de experiencias en el Punto de Consumo
   8. [ ] Configurar un EVENTO por Administrador de Cervezanas para que puedan los productores asociar sus productos a las experiencias.
   9. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
   10. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
 
-- Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
+- [ ] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
+- [ ] Error al modificar un producto en el productor
