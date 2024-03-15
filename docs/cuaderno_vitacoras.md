@@ -675,14 +675,29 @@ Habilitar formulario para feedbacks/reporte de errores
   6. [ ] Listado de experiencias en un evento las cuales el productor puede administrar. Por ejemplo, para el Maestro Cervecero, se indica el registro, la persona que lo ha hecho y el estado del registro (pagado, no pagado, etc).
   7. [ ] Notificar al PC cuando un usuario se ha registrado en una experiencia.
 
+### 15 de marzo
+
+- [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
+- [x] Quitar los productos que se van a vender en el evento, debido a que el propio stand se encargará de ello.
+- [ ] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
 - [ ] Poner a punto la producción en Supabase
 - [ ] Que esté todo ok con TPV Santander
 - [ ] Popup Modal con SignIn
-- [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
-- [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
-- [x] Quitar los productos que se van a vender en el evento, debido a que el propio stand se encargará de ello.
-- [ ] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
+- [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
 - [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
+
+- [ ] Experiencia Completa de Maestro Cervecero
+  1. [ ] Mostrar el número de experiencias que hay en un evento
+  2. [ ] Mostrar el número de experiencias que ha realizado un usuario
+  3. [ ] Sumar los resultados obtenidos en cada experiencia
+  4. [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
+  5. [ ] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
+  6. [ ] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
+  7. [ ] Indicar número de experiencias en el Punto de Consumo
+  8. [ ] Configurar un EVENTO por Administrador de Cervezanas para que puedan los productores asociar sus productos a las experiencias.
+
+
+- Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
