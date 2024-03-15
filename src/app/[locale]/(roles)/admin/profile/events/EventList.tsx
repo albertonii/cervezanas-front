@@ -1,18 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import React, { useEffect, useMemo, useState } from 'react';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import dynamic from 'next/dynamic';
 import InputSearch from '../../../../components/common/InputSearch';
 import useFetchEvents from '../../../../../../hooks/useFetchEvents';
-import { IconButton } from '../../../../components/common/IconButton';
-import { formatDateString } from '../../../../../../utils/formatDate';
 import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import DeleteCEventModal from '../../../../components/modals/DeleteEventModal';
-import dynamic from 'next/dynamic';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
+import EventItems from './EventItems';
 
 const DynamicSpinner = dynamic(
     () => import('../../../../components/common/Spinner'),
@@ -40,7 +38,6 @@ interface Props {
 
 export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     const t = useTranslations();
-    const locale = useLocale();
 
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,9 +50,6 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     );
 
     const [events, setEvents] = useState<IEvent[]>(data ?? []);
-
-    const editColor = { filled: '#90470b', unfilled: 'grey' };
-    const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -199,53 +193,16 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                         </thead>
 
                         <tbody>
-                            {sortedItems.map((e: IEvent) => {
+                            {sortedItems.map((event: IEvent) => {
                                 return (
-                                    <tr key={e.id} className="">
-                                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                            <Link
-                                                href={`/events/${e.id}`}
-                                                locale={locale}
-                                            >
-                                                {e.name}
-                                            </Link>
-                                        </td>
-
-                                        <td className="px-6 py-4">
-                                            {formatDateString(e.created_at)}
-                                        </td>
-
-                                        <td className="cursor-pointer px-6 py-4"></td>
-
-                                        <td className="cursor-pointer px-6 py-4"></td>
-
-                                        <td className="flex items-center justify-center px-6 py-4">
-                                            <IconButton
-                                                icon={faEdit}
-                                                onClick={() => {
-                                                    handleEditClick(e);
-                                                }}
-                                                color={editColor}
-                                                classContainer={
-                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
-                                                }
-                                                classIcon={''}
-                                                title={t('edit')}
-                                            />
-
-                                            <IconButton
-                                                icon={faTrash}
-                                                onClick={() => {
-                                                    handleDeleteClick(e);
-                                                }}
-                                                color={deleteColor}
-                                                classContainer={
-                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                }
-                                                classIcon={''}
-                                                title={t('delete')}
-                                            />
-                                        </td>
+                                    <tr key={event.id} className="">
+                                        <EventItems
+                                            event={event}
+                                            handleEditClick={handleEditClick}
+                                            handleDeleteClick={
+                                                handleDeleteClick
+                                            }
+                                        />
                                     </tr>
                                 );
                             })}

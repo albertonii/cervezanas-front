@@ -1307,6 +1307,7 @@ export interface Database {
           geoArgs: Json | null
           id: string
           is_activated: boolean | null
+          is_cervezanas_event: boolean | null
           logo_url: string | null
           name: string | null
           owner_id: string | null
@@ -1322,6 +1323,7 @@ export interface Database {
           geoArgs?: Json | null
           id?: string
           is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -1337,6 +1339,7 @@ export interface Database {
           geoArgs?: Json | null
           id?: string
           is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null

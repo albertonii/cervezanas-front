@@ -111,6 +111,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             .from('events')
             .insert({
                 is_activated,
+                is_cervezanas_event: true,
                 name,
                 description,
                 start_date: formatStartDate,
