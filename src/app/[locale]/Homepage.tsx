@@ -11,6 +11,7 @@ import { Community } from './homepage/Community';
 import { Reviews } from './homepage/Reviews';
 import { History } from './homepage/History';
 import { IMonthlyProduct } from '../../lib/types/types';
+import QRCode from 'react-qr-code';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];
