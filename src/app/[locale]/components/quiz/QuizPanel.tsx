@@ -109,11 +109,20 @@ export default function QuizPanel({
                 console.error(error);
             }
 
+            const correctAnswers = score;
+            const incorrectAnswers = questions.length - score;
+
+            // Each correct answer is 50 points
+            const points = correctAnswers * 50;
+
             if (experienceParticipant.cpm_id) {
                 const { error: expParticipantsError } = await supabase
                     .from('bm_experience_participants')
                     .update({
                         is_finished: true,
+                        correct_answers: correctAnswers,
+                        incorrect_answers: incorrectAnswers,
+                        score: points,
                     })
                     .eq('gamification_id', user?.id)
                     .eq('experience_id', experience.id)
@@ -128,6 +137,9 @@ export default function QuizPanel({
                     .from('bm_experience_participants')
                     .update({
                         is_finished: true,
+                        correct_answers: correctAnswers,
+                        incorrect_answers: incorrectAnswers,
+                        score: points,
                     })
                     .eq('gamification_id', user?.id)
                     .eq('experience_id', experience.id)

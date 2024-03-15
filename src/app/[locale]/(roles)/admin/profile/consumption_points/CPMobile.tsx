@@ -7,15 +7,15 @@ import { ListCPMobile } from './ListCPMobile';
 import { ICPMobile } from '../../../../../../lib/types/types';
 
 interface Props {
-  cpsMobile: ICPMobile[];
+    cpsMobile: ICPMobile[];
 }
 
 export function CPMobile({ cpsMobile }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  return (
-    <section className="px-4 py-6" aria-label="Products">
-      <header className="flex flex-col space-y-4">
+    return (
+        <section className="px-4 py-6" aria-label="Products">
+            {/* <header className="flex flex-col space-y-4">
         <p className="flex justify-between py-4" id="header">
           <span
             id="title"
@@ -24,9 +24,9 @@ export function CPMobile({ cpsMobile }: Props) {
             {t('cp_mobile_list')}
           </span>
         </p>
-      </header>
+      </header> */}
 
-      <ListCPMobile cpsMobile={cpsMobile} />
-    </section>
-  );
+            <ListCPMobile cpsMobile={cpsMobile} />
+        </section>
+    );
 }

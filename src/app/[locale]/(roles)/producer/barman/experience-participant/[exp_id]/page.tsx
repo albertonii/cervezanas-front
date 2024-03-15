@@ -39,10 +39,7 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
                 gamification (
                     *,
                     users (
-                        username,
-                        name,
-                        lastname,
-                        email                        
+                        *                      
                     )
                 )
             `,

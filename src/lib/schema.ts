@@ -763,6 +763,7 @@ export interface Database {
           cp_id: string | null
           created_at: string | null
           id: string
+          is_active: boolean | null
           product_pack_id: string | null
           stock: number | null
           stock_consumed: number | null
@@ -771,6 +772,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -779,6 +781,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -838,6 +841,7 @@ export interface Database {
           cp_id: string | null
           created_at: string | null
           id: string
+          is_active: boolean | null
           product_pack_id: string | null
           stock: number | null
           stock_consumed: number | null
@@ -846,6 +850,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -854,6 +859,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -1300,6 +1306,8 @@ export interface Database {
           end_date: string | null
           geoArgs: Json | null
           id: string
+          is_activated: boolean | null
+          is_cervezanas_event: boolean | null
           logo_url: string | null
           name: string | null
           owner_id: string | null
@@ -1314,6 +1322,8 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -1328,6 +1338,8 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -2442,48 +2454,6 @@ export interface Database {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      visit_cp: {
-        Row: {
-          consumer_id: string
-          created_at: string
-          datetime_visit: string | null
-          id: string
-          product_id: string
-          score: number | null
-        }
-        Insert: {
-          consumer_id?: string
-          created_at?: string
-          datetime_visit?: string | null
-          id?: string
-          product_id?: string
-          score?: number | null
-        }
-        Update: {
-          consumer_id?: string
-          created_at?: string
-          datetime_visit?: string | null
-          id?: string
-          product_id?: string
-          score?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_visit_cp_consumer_id_fkey"
-            columns: ["consumer_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_visit_cp_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
             referencedColumns: ["id"]
           }
         ]
