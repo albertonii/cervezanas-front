@@ -677,3 +677,4 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [ ] Poner a punto la producción en Supabase
 - [ ] Que esté todo ok con TPV Santander
+- [ ] Popup Modal con SignIn
