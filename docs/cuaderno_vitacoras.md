@@ -618,7 +618,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 - [ ] Habilitar formulario para feedbacks/reporte de errores
-- [ ] Arreglar restablecer contraseña
+- [ ] Arreglar restablecer contraseña -> Se está enviando el código para poder restablecer la contraseña. Hacer los redireccionamientos oportunos para poder trabajar en pre y producción.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Poner a punto la producción en Supabase
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
@@ -653,26 +653,26 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Breadcrumb para poder volver al apartado del evento donde esté la experiencia
 - [x] Botón para volver al evento
 - [ ] Habilitar formulario para feedbacks/reporte de errores
-- [ ] Arreglar restablecer contraseña
-- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
-- [ ] Poner a punto la producción en Supabase
+- [ ] Arreglar restablecer contraseña -> Se está enviando el código para poder restablecer la contraseña. Hacer los redireccionamientos oportunos para poder trabajar en pre y producción.- [x] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - [x] Error con carrito de eventos -> Se estaba creando un estado vacío, por lo que daba error. Ahora comprueba cada vez que se acceda que exista un carrito de compra para ese evento.
-- [ ] Mostrar vista de detalles del producto que se existen en el evento -> Punto de Consumo.
+- [ ] Mostrar vista de detalles del producto que existen en el evento -> Punto de Consumo.
 - [x] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados
 - [ ] Después de realizar el juego de Maestro Cervecero, crear el recuento de puntos para ese evento.
 - [ ] Crear tabla de descuentos obtenidos por el usuario en el evento
-- [ ] Añadir los contratos que deben aceptar los productores y distribuidores al registrarse en la aplicación
+- [x] Añadir los contratos que deben aceptar los productores y distribuidores al registrarse en la aplicación
 - [ ] Eliminar elementos del carrito en el evento
 
-- [ ] Lógica para participar en una experiencia
-  1. [WIP] Vista para confirmar pago de la experiencia
+- [WIP] Lógica para participar en una experiencia
+
+  1. [x] Vista de administración para el productor donde pueda ver los registros de los usuarios en las experiencias.
   2. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
   3. [x] Si ya ha participado en la experiencia, mostrar mensaje de que ya ha participado.
   4. [x] Solo pueden participar usuarios consumidores en la experiencia.
   5. [x] Generar un código QR cuando se registre el usuario en la experiencia. Ese código QR es el que mostrará al PC para que pueda participar en la experiencia. El PC debe de escanear el código QR para que el usuario pueda participar en la experiencia y validar el pago.
   6. [ ] Listado de experiencias en un evento las cuales el productor puede administrar. Por ejemplo, para el Maestro Cervecero, se indica el registro, la persona que lo ha hecho y el estado del registro (pagado, no pagado, etc).
   7. [ ] Notificar al PC cuando un usuario se ha registrado en una experiencia.
-  8. [x] Vista de administración para el productor donde pueda ver los registros de los usuarios en las experiencias.
+
+- [ ] Poner a punto la producción en Supabase
