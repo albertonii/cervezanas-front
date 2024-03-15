@@ -125,7 +125,7 @@ export default function ManageExperienceParticipation({
                             </span>
 
                             <Button primary small onClick={handlePaidBtn}>
-                                {isPaid ? t('charge_experience') : t('refund')}
+                                {isPaid ? t('refund') : t('charge_experience')}
                             </Button>
                         </div>
 
@@ -149,8 +149,8 @@ export default function ManageExperienceParticipation({
 
                             <Button primary small onClick={handleFinishedBtn}>
                                 {isFinished
-                                    ? t('mark_as_finished')
-                                    : t('mark_as_unfinished')}
+                                    ? t('mark_as_unfinished')
+                                    : t('mark_as_finished')}
                             </Button>
                         </div>
                     </div>
