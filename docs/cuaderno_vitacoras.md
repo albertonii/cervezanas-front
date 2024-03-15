@@ -676,3 +676,4 @@ Habilitar formulario para feedbacks/reporte de errores
   7. [ ] Notificar al PC cuando un usuario se ha registrado en una experiencia.
 
 - [ ] Poner a punto la producción en Supabase
+- [ ] Que esté todo ok con TPV Santander
