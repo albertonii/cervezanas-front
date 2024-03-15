@@ -4,7 +4,6 @@ import React, { ComponentProps, useEffect } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import {
     ICPFixed,
@@ -12,15 +11,16 @@ import {
     ICPMobile,
     ICPM_events,
     IEvent,
-} from '../../../../../lib/types/types';
-import { formatDateDefaultInput } from '../../../../../utils/formatDate';
-import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
-import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
-import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';
-import ModalWithForm from '../ModalWithForm';
+} from '../../../../../../lib/types/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import useFetchCPSMobileByEventsId from '../../../../../../hooks/useFetchCPsMobileByEventId';
+import useFetchCPSFixedByEventsId from '../../../../../../hooks/useFetchCPsFixedByEventId';
+import { formatDateDefaultInput } from '../../../../../../utils/formatDate';
+import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
+import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
 
 interface FormData {
     is_activated: boolean;
@@ -249,14 +249,14 @@ export default function UpdateEventModal({
                                     className="relative inline-flex cursor-pointer items-center"
                                     htmlFor="is_activated"
                                 >
-                                    <input
+                                    {/* <input
                                         id="is_activated"
                                         type="checkbox"
                                         className="peer sr-only"
                                         {...register('is_activated', {
                                             required: true,
                                         })}
-                                    />
+                                    /> */}
 
                                     <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 

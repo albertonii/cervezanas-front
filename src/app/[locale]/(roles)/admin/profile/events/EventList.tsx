@@ -1,16 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import InputSearch from '../../../../components/common/InputSearch';
 import useFetchEvents from '../../../../../../hooks/useFetchEvents';
-import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
+import EventItems from './EventItems';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import DeleteCEventModal from '../../../../components/modals/DeleteEventModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
-import EventItems from './EventItems';
+import UpdateEventModal from './UpdateEvent';
 
 const DynamicSpinner = dynamic(
     () => import('../../../../components/common/Spinner'),

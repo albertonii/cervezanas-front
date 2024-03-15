@@ -711,3 +711,5 @@ Habilitar formulario para feedbacks/reporte de errores
   6. [ ] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.
 
 - [x] Error al modificar un producto en el productor
+
+- [FUTURE] Añadir botón de autorización/desautorización en UpdateEvent
