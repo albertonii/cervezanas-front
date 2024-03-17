@@ -41,6 +41,8 @@ import {
     isValidObject,
 } from '../../../../utils/utils';
 import ModalWithForm from './ModalWithForm';
+import { ProductSummary } from './ProductSummary';
+import { UpdateProductSummary } from './UpdateProductSummary';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -634,19 +636,13 @@ export function UpdateProduct({
                         </p>
 
                         {activeStep === 0 ? (
-                            <>
-                                <UpdateProductInfoSection form={form} />
-                            </>
+                            <UpdateProductInfoSection form={form} />
                         ) : activeStep === 1 ? (
-                            <>
-                                <UpdateMultimediaSection form={form} />
-                            </>
+                            <UpdateMultimediaSection form={form} />
                         ) : activeStep === 2 ? (
-                            <>
-                                <UpdateAwardsSection form={form} />
-                            </>
+                            <UpdateAwardsSection form={form} />
                         ) : (
-                            <></>
+                            <UpdateProductSummary form={form} />
                         )}
                     </>
                 </ProductStepper>

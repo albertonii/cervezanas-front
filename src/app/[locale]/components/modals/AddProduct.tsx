@@ -559,7 +559,6 @@ export function AddProduct() {
             form={form}
         >
             <form>
-                <>
                     <ProductStepper
                         activeStep={activeStep}
                         handleSetActiveStep={handleSetActiveStep}
@@ -584,7 +583,6 @@ export function AddProduct() {
                             )}
                         </>
                     </ProductStepper>
-                </>
             </form>
         </ModalWithForm>
     );
