@@ -727,13 +727,6 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [x] Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
 - Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
-- Testing
-
-  1. Crear producto
-  2. Crear evento
-  3. Crear punto de consumo
-  4. Crear experiencia
-  5. Vincular experiencia con punto de consumo y evento
 
 - [x] Problemas con la autorización de usuarios en el apartado para administradores:
       ⨯ Error: Unable to find `next-intl` locale because the middleware didn't run on this request. See https://next-intl-docs.vercel.app/docs/routing/middleware#unable-to-find-locale
@@ -742,12 +735,23 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Hay veces que no se cargan los listados para eventos -> PRODUCER
 
 - [WIP] Eventos Cervezanas
+
   1. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
-  2. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, visualizar en el apartado de eventos acerca de ello.
+  2. [x] Si se crea un evento Cervezanas y se añaden PCs a través del ADMINISTRADOR, visualizar en el apartado de eventos del productor acerca de ello.
   3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
   4. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas
-  5. [ ] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
-  6. [ ] Añadir accesos directos a productor para acceder a la configuración de experiencias en PC
+  5. [x] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
+  6. [ ] Añadir accesos directos en el menú desplegable en "cuenta" a productor para acceder a la configuración de experiencias en PC
   7. [ ] Breadcrumb en PC para poder volver al evento
   8. [ ] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
   9. [ ] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
+
+- [WIP] Testing
+
+  1. [ ] Crear producto
+  2. [ ] Realizar compra del producto online
+  3. [ ] Ver orden de pedido
+  4. [ ] Crear evento
+  5. [ ] Crear punto de consumo
+  6. [ ] Crear experiencia
+  7. [ ] Vincular experiencia con punto de consumo y evento
